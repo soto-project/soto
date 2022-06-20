@@ -22,12 +22,12 @@ import SotoCore
 extension APIGateway {
     // MARK: Async API Calls
 
-    /// Create an ApiKey resource.  AWS CLI
+    /// Create an ApiKey resource.
     public func createApiKey(_ input: CreateApiKeyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ApiKey {
         return try await self.client.execute(operation: "CreateApiKey", path: "/apikeys", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Adds a new Authorizer resource to an existing RestApi resource. AWS CLI
+    /// Adds a new Authorizer resource to an existing RestApi resource.
     public func createAuthorizer(_ input: CreateAuthorizerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> Authorizer {
         return try await self.client.execute(operation: "CreateAuthorizer", path: "/restapis/{restapi_id}/authorizers", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -42,10 +42,12 @@ extension APIGateway {
         return try await self.client.execute(operation: "CreateDeployment", path: "/restapis/{restapi_id}/deployments", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates a documentation part.
     public func createDocumentationPart(_ input: CreateDocumentationPartRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DocumentationPart {
         return try await self.client.execute(operation: "CreateDocumentationPart", path: "/restapis/{restapi_id}/documentation/parts", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates a documentation version
     public func createDocumentationVersion(_ input: CreateDocumentationVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DocumentationVersion {
         return try await self.client.execute(operation: "CreateDocumentationVersion", path: "/restapis/{restapi_id}/documentation/versions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -60,7 +62,7 @@ extension APIGateway {
         return try await self.client.execute(operation: "CreateModel", path: "/restapis/{restapi_id}/models", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a ReqeustValidator of a given RestApi.
+    /// Creates a RequestValidator of a given RestApi.
     public func createRequestValidator(_ input: CreateRequestValidatorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> RequestValidator {
         return try await self.client.execute(operation: "CreateRequestValidator", path: "/restapis/{restapi_id}/requestvalidators", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -100,7 +102,7 @@ extension APIGateway {
         return try await self.client.execute(operation: "DeleteApiKey", path: "/apikeys/{api_Key}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes an existing Authorizer resource. AWS CLI
+    /// Deletes an existing Authorizer resource.
     public func deleteAuthorizer(_ input: DeleteAuthorizerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "DeleteAuthorizer", path: "/restapis/{restapi_id}/authorizers/{authorizer_id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -120,10 +122,12 @@ extension APIGateway {
         return try await self.client.execute(operation: "DeleteDeployment", path: "/restapis/{restapi_id}/deployments/{deployment_id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Deletes a documentation part
     public func deleteDocumentationPart(_ input: DeleteDocumentationPartRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "DeleteDocumentationPart", path: "/restapis/{restapi_id}/documentation/parts/{part_id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Deletes a documentation version.
     public func deleteDocumentationVersion(_ input: DeleteDocumentationVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "DeleteDocumentationVersion", path: "/restapis/{restapi_id}/documentation/versions/{doc_version}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -228,12 +232,12 @@ extension APIGateway {
         return try await self.client.execute(operation: "GetApiKeys", path: "/apikeys", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describe an existing Authorizer resource. AWS CLI
+    /// Describe an existing Authorizer resource.
     public func getAuthorizer(_ input: GetAuthorizerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> Authorizer {
         return try await self.client.execute(operation: "GetAuthorizer", path: "/restapis/{restapi_id}/authorizers/{authorizer_id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describe an existing Authorizers resource. AWS CLI
+    /// Describe an existing Authorizers resource.
     public func getAuthorizers(_ input: GetAuthorizersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> Authorizers {
         return try await self.client.execute(operation: "GetAuthorizers", path: "/restapis/{restapi_id}/authorizers", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -268,18 +272,22 @@ extension APIGateway {
         return try await self.client.execute(operation: "GetDeployments", path: "/restapis/{restapi_id}/deployments", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Gets a documentation part.
     public func getDocumentationPart(_ input: GetDocumentationPartRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DocumentationPart {
         return try await self.client.execute(operation: "GetDocumentationPart", path: "/restapis/{restapi_id}/documentation/parts/{part_id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Gets documentation parts.
     public func getDocumentationParts(_ input: GetDocumentationPartsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DocumentationParts {
         return try await self.client.execute(operation: "GetDocumentationParts", path: "/restapis/{restapi_id}/documentation/parts", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Gets a documentation version.
     public func getDocumentationVersion(_ input: GetDocumentationVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DocumentationVersion {
         return try await self.client.execute(operation: "GetDocumentationVersion", path: "/restapis/{restapi_id}/documentation/versions/{doc_version}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Gets documentation versions.
     public func getDocumentationVersions(_ input: GetDocumentationVersionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DocumentationVersions {
         return try await self.client.execute(operation: "GetDocumentationVersions", path: "/restapis/{restapi_id}/documentation/versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -379,10 +387,12 @@ extension APIGateway {
         return try await self.client.execute(operation: "GetSdk", path: "/restapis/{restapi_id}/stages/{stage_name}/sdks/{sdk_type}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Gets an SDK type.
     public func getSdkType(_ input: GetSdkTypeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> SdkType {
         return try await self.client.execute(operation: "GetSdkType", path: "/sdktypes/{sdktype_id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Gets SDK types
     public func getSdkTypes(_ input: GetSdkTypesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> SdkTypes {
         return try await self.client.execute(operation: "GetSdkTypes", path: "/sdktypes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -442,6 +452,7 @@ extension APIGateway {
         return try await self.client.execute(operation: "ImportApiKeys", path: "/apikeys?mode=import", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Imports documentation parts
     public func importDocumentationParts(_ input: ImportDocumentationPartsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DocumentationPartIds {
         return try await self.client.execute(operation: "ImportDocumentationParts", path: "/restapis/{restapi_id}/documentation/parts", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -486,12 +497,12 @@ extension APIGateway {
         return try await self.client.execute(operation: "TagResource", path: "/tags/{resource_arn}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Simulate the execution of an Authorizer in your RestApi with headers, parameters, and an incoming request body.  Use Lambda Function as Authorizer Use Cognito User Pool as Authorizer
+    /// Simulate the execution of an Authorizer in your RestApi with headers, parameters, and an incoming request body.
     public func testInvokeAuthorizer(_ input: TestInvokeAuthorizerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> TestInvokeAuthorizerResponse {
         return try await self.client.execute(operation: "TestInvokeAuthorizer", path: "/restapis/{restapi_id}/authorizers/{authorizer_id}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Simulate the execution of a Method in your RestApi with headers, parameters, and an incoming request body.
+    /// Simulate the invocation of a Method in your RestApi with headers, parameters, and an incoming request body.
     public func testInvokeMethod(_ input: TestInvokeMethodRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> TestInvokeMethodResponse {
         return try await self.client.execute(operation: "TestInvokeMethod", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -511,7 +522,7 @@ extension APIGateway {
         return try await self.client.execute(operation: "UpdateApiKey", path: "/apikeys/{api_Key}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates an existing Authorizer resource. AWS CLI
+    /// Updates an existing Authorizer resource.
     public func updateAuthorizer(_ input: UpdateAuthorizerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> Authorizer {
         return try await self.client.execute(operation: "UpdateAuthorizer", path: "/restapis/{restapi_id}/authorizers/{authorizer_id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -531,10 +542,12 @@ extension APIGateway {
         return try await self.client.execute(operation: "UpdateDeployment", path: "/restapis/{restapi_id}/deployments/{deployment_id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Updates a documentation part.
     public func updateDocumentationPart(_ input: UpdateDocumentationPartRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DocumentationPart {
         return try await self.client.execute(operation: "UpdateDocumentationPart", path: "/restapis/{restapi_id}/documentation/parts/{part_id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Updates a documentation version.
     public func updateDocumentationVersion(_ input: UpdateDocumentationVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DocumentationVersion {
         return try await self.client.execute(operation: "UpdateDocumentationVersion", path: "/restapis/{restapi_id}/documentation/versions/{doc_version}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

@@ -44,6 +44,28 @@ extension Connect {
         )
     }
 
+    ///  Gets the real-time active user data from the specified Amazon Connect instance.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func getCurrentUserDataPaginator(
+        _ input: GetCurrentUserDataRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<GetCurrentUserDataRequest, GetCurrentUserDataResponse> {
+        return .init(
+            input: input,
+            command: getCurrentUserData,
+            inputKey: \GetCurrentUserDataRequest.nextToken,
+            outputKey: \GetCurrentUserDataResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Gets historical metric data from the specified Amazon Connect instance. For a description of each historical metric, see Historical Metrics Definitions in the Amazon Connect Administrator Guide.
     /// Return PaginatorSequence for operation.
     ///
@@ -611,6 +633,28 @@ extension Connect {
             command: listSecurityProfiles,
             inputKey: \ListSecurityProfilesRequest.nextToken,
             outputKey: \ListSecurityProfilesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Lists task templates for the specified Amazon Connect instance.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listTaskTemplatesPaginator(
+        _ input: ListTaskTemplatesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListTaskTemplatesRequest, ListTaskTemplatesResponse> {
+        return .init(
+            input: input,
+            command: listTaskTemplates,
+            inputKey: \ListTaskTemplatesRequest.nextToken,
+            outputKey: \ListTaskTemplatesResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

@@ -2760,14 +2760,14 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.accessToken, name: "accessToken", parent: name, max: 2048)
+            try self.validate(self.accessToken, name: "accessToken", parent: name, max: 4096)
             try self.validate(self.accessToken, name: "accessToken", parent: name, pattern: "\\S+")
             try self.validate(self.clientId, name: "clientId", parent: name, max: 512)
             try self.validate(self.clientId, name: "clientId", parent: name, pattern: "\\S+")
             try self.validate(self.clientSecret, name: "clientSecret", parent: name, max: 512)
             try self.validate(self.clientSecret, name: "clientSecret", parent: name, pattern: "\\S+")
             try self.oAuthRequest?.validate(name: "\(name).oAuthRequest")
-            try self.validate(self.refreshToken, name: "refreshToken", parent: name, max: 1024)
+            try self.validate(self.refreshToken, name: "refreshToken", parent: name, max: 2048)
             try self.validate(self.refreshToken, name: "refreshToken", parent: name, pattern: "\\S+")
         }
 
@@ -2829,10 +2829,10 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.accessToken, name: "accessToken", parent: name, max: 2048)
+            try self.validate(self.accessToken, name: "accessToken", parent: name, max: 4096)
             try self.validate(self.accessToken, name: "accessToken", parent: name, pattern: "\\S+")
             try self.oAuthRequest?.validate(name: "\(name).oAuthRequest")
-            try self.validate(self.refreshToken, name: "refreshToken", parent: name, max: 1024)
+            try self.validate(self.refreshToken, name: "refreshToken", parent: name, max: 2048)
             try self.validate(self.refreshToken, name: "refreshToken", parent: name, pattern: "\\S+")
         }
 
@@ -3178,7 +3178,7 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.accessToken, name: "accessToken", parent: name, max: 2048)
+            try self.validate(self.accessToken, name: "accessToken", parent: name, max: 4096)
             try self.validate(self.accessToken, name: "accessToken", parent: name, pattern: "\\S+")
             try self.validate(self.clientId, name: "clientId", parent: name, max: 512)
             try self.validate(self.clientId, name: "clientId", parent: name, pattern: "\\S+")
@@ -3277,14 +3277,14 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.accessToken, name: "accessToken", parent: name, max: 2048)
+            try self.validate(self.accessToken, name: "accessToken", parent: name, max: 4096)
             try self.validate(self.accessToken, name: "accessToken", parent: name, pattern: "\\S+")
             try self.validate(self.clientId, name: "clientId", parent: name, max: 512)
             try self.validate(self.clientId, name: "clientId", parent: name, pattern: "\\S+")
             try self.validate(self.clientSecret, name: "clientSecret", parent: name, max: 512)
             try self.validate(self.clientSecret, name: "clientSecret", parent: name, pattern: "\\S+")
             try self.oAuthRequest?.validate(name: "\(name).oAuthRequest")
-            try self.validate(self.refreshToken, name: "refreshToken", parent: name, max: 1024)
+            try self.validate(self.refreshToken, name: "refreshToken", parent: name, max: 2048)
             try self.validate(self.refreshToken, name: "refreshToken", parent: name, pattern: "\\S+")
         }
 
@@ -3417,14 +3417,14 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.accessToken, name: "accessToken", parent: name, max: 2048)
+            try self.validate(self.accessToken, name: "accessToken", parent: name, max: 4096)
             try self.validate(self.accessToken, name: "accessToken", parent: name, pattern: "\\S+")
             try self.validate(self.clientId, name: "clientId", parent: name, max: 512)
             try self.validate(self.clientId, name: "clientId", parent: name, pattern: "\\S+")
             try self.validate(self.clientSecret, name: "clientSecret", parent: name, max: 512)
             try self.validate(self.clientSecret, name: "clientSecret", parent: name, pattern: "\\S+")
             try self.oAuthRequest?.validate(name: "\(name).oAuthRequest")
-            try self.validate(self.refreshToken, name: "refreshToken", parent: name, max: 1024)
+            try self.validate(self.refreshToken, name: "refreshToken", parent: name, max: 2048)
             try self.validate(self.refreshToken, name: "refreshToken", parent: name, pattern: "\\S+")
         }
 
@@ -3722,17 +3722,21 @@ extension Appflow {
         public let fileType: FileType?
         ///  Determines the prefix that Amazon AppFlow applies to the folder name in the Amazon S3 bucket. You can name folders according to the flow frequency and date.
         public let prefixConfig: PrefixConfig?
+        /// If your file output format is Parquet, use this parameter to set whether Amazon AppFlow preserves the data types in your source data when it writes the output to Amazon S3.     true: Amazon AppFlow preserves the data types when it writes to Amazon S3. For example, an integer or 1 in your source data is still an integer in your output.    false: Amazon AppFlow converts all of the source data into strings when it writes to Amazon S3. For example, an integer of 1 in your source data becomes the string "1" in the output.
+        public let preserveSourceDataTyping: Bool?
 
-        public init(aggregationConfig: AggregationConfig? = nil, fileType: FileType? = nil, prefixConfig: PrefixConfig? = nil) {
+        public init(aggregationConfig: AggregationConfig? = nil, fileType: FileType? = nil, prefixConfig: PrefixConfig? = nil, preserveSourceDataTyping: Bool? = nil) {
             self.aggregationConfig = aggregationConfig
             self.fileType = fileType
             self.prefixConfig = prefixConfig
+            self.preserveSourceDataTyping = preserveSourceDataTyping
         }
 
         private enum CodingKeys: String, CodingKey {
             case aggregationConfig
             case fileType
             case prefixConfig
+            case preserveSourceDataTyping
         }
     }
 
@@ -3918,13 +3922,13 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.accessToken, name: "accessToken", parent: name, max: 2048)
+            try self.validate(self.accessToken, name: "accessToken", parent: name, max: 4096)
             try self.validate(self.accessToken, name: "accessToken", parent: name, pattern: "\\S+")
             try self.validate(self.clientCredentialsArn, name: "clientCredentialsArn", parent: name, max: 2048)
             try self.validate(self.clientCredentialsArn, name: "clientCredentialsArn", parent: name, min: 20)
             try self.validate(self.clientCredentialsArn, name: "clientCredentialsArn", parent: name, pattern: "arn:aws:secretsmanager:.*:[0-9]+:.*")
             try self.oAuthRequest?.validate(name: "\(name).oAuthRequest")
-            try self.validate(self.refreshToken, name: "refreshToken", parent: name, max: 1024)
+            try self.validate(self.refreshToken, name: "refreshToken", parent: name, max: 2048)
             try self.validate(self.refreshToken, name: "refreshToken", parent: name, pattern: "\\S+")
         }
 
@@ -4038,20 +4042,23 @@ extension Appflow {
         public let dataPullMode: DataPullMode?
         ///  Specifies the date range for the records to import from the connector in the first flow run.
         public let firstExecutionFrom: Date?
-        ///  Specifies the scheduled end time for a schedule-triggered flow.
+        /// Defines how many times a scheduled flow fails consecutively before Amazon AppFlow deactivates it.
+        public let flowErrorDeactivationThreshold: Int?
+        /// The time at which the scheduled flow ends. The time is formatted as a timestamp that follows the ISO 8601 standard, such as 2022-04-27T13:00:00-07:00.
         public let scheduleEndTime: Date?
         ///  The scheduling expression that determines the rate at which the schedule will run, for example rate(5minutes).
         public let scheduleExpression: String
         ///  Specifies the optional offset that is added to the time interval for a schedule-triggered flow.
         public let scheduleOffset: Int64?
-        ///  Specifies the scheduled start time for a schedule-triggered flow.
+        /// The time at which the scheduled flow starts. The time is formatted as a timestamp that follows the ISO 8601 standard, such as 2022-04-26T13:00:00-07:00.
         public let scheduleStartTime: Date?
-        ///  Specifies the time zone used when referring to the date and time of a scheduled-triggered flow, such as America/New_York.
+        /// Specifies the time zone used when referring to the dates and times of a scheduled flow, such as America/New_York. This time zone is only a descriptive label. It doesn't affect how Amazon AppFlow interprets the timestamps that you specify to schedule the flow. If you want to schedule a flow by using times in a particular time zone, indicate the time zone as a UTC offset in your timestamps. For example, the UTC offsets for the America/New_York timezone are -04:00 EDT and -05:00 EST.
         public let timezone: String?
 
-        public init(dataPullMode: DataPullMode? = nil, firstExecutionFrom: Date? = nil, scheduleEndTime: Date? = nil, scheduleExpression: String, scheduleOffset: Int64? = nil, scheduleStartTime: Date? = nil, timezone: String? = nil) {
+        public init(dataPullMode: DataPullMode? = nil, firstExecutionFrom: Date? = nil, flowErrorDeactivationThreshold: Int? = nil, scheduleEndTime: Date? = nil, scheduleExpression: String, scheduleOffset: Int64? = nil, scheduleStartTime: Date? = nil, timezone: String? = nil) {
             self.dataPullMode = dataPullMode
             self.firstExecutionFrom = firstExecutionFrom
+            self.flowErrorDeactivationThreshold = flowErrorDeactivationThreshold
             self.scheduleEndTime = scheduleEndTime
             self.scheduleExpression = scheduleExpression
             self.scheduleOffset = scheduleOffset
@@ -4060,6 +4067,8 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.flowErrorDeactivationThreshold, name: "flowErrorDeactivationThreshold", parent: name, max: 100)
+            try self.validate(self.flowErrorDeactivationThreshold, name: "flowErrorDeactivationThreshold", parent: name, min: 1)
             try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, max: 256)
             try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, pattern: ".*")
             try self.validate(self.scheduleOffset, name: "scheduleOffset", parent: name, max: 36000)
@@ -4071,6 +4080,7 @@ extension Appflow {
         private enum CodingKeys: String, CodingKey {
             case dataPullMode
             case firstExecutionFrom
+            case flowErrorDeactivationThreshold
             case scheduleEndTime
             case scheduleExpression
             case scheduleOffset
@@ -4205,7 +4215,7 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.accessToken, name: "accessToken", parent: name, max: 2048)
+            try self.validate(self.accessToken, name: "accessToken", parent: name, max: 4096)
             try self.validate(self.accessToken, name: "accessToken", parent: name, pattern: "\\S+")
             try self.validate(self.clientId, name: "clientId", parent: name, max: 512)
             try self.validate(self.clientId, name: "clientId", parent: name, pattern: "\\S+")
@@ -5133,7 +5143,7 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.accessToken, name: "accessToken", parent: name, max: 2048)
+            try self.validate(self.accessToken, name: "accessToken", parent: name, max: 4096)
             try self.validate(self.accessToken, name: "accessToken", parent: name, pattern: "\\S+")
             try self.validate(self.clientId, name: "clientId", parent: name, max: 512)
             try self.validate(self.clientId, name: "clientId", parent: name, pattern: "\\S+")

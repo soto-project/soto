@@ -20,8 +20,10 @@ import SotoCore
 public struct DatabaseMigrationServiceErrorType: AWSErrorType {
     enum Code: String {
         case accessDeniedFault = "AccessDeniedFault"
+        case collectorNotFoundFault = "CollectorNotFoundFault"
         case insufficientResourceCapacityFault = "InsufficientResourceCapacityFault"
         case invalidCertificateFault = "InvalidCertificateFault"
+        case invalidOperationFault = "InvalidOperationFault"
         case invalidResourceStateFault = "InvalidResourceStateFault"
         case invalidSubnet = "InvalidSubnet"
         case kMSAccessDeniedFault = "KMSAccessDeniedFault"
@@ -64,10 +66,14 @@ public struct DatabaseMigrationServiceErrorType: AWSErrorType {
 
     /// DMS was denied access to the endpoint. Check that the role is correctly configured.
     public static var accessDeniedFault: Self { .init(.accessDeniedFault) }
+    /// The specified collector doesn't exist.
+    public static var collectorNotFoundFault: Self { .init(.collectorNotFoundFault) }
     /// There are not enough resources allocated to the database migration.
     public static var insufficientResourceCapacityFault: Self { .init(.insufficientResourceCapacityFault) }
     /// The certificate was not valid.
     public static var invalidCertificateFault: Self { .init(.invalidCertificateFault) }
+    /// The action or operation requested isn't valid.
+    public static var invalidOperationFault: Self { .init(.invalidOperationFault) }
     /// The resource is in a state that prevents it from being used for database migration.
     public static var invalidResourceStateFault: Self { .init(.invalidResourceStateFault) }
     /// The subnet provided is invalid.

@@ -250,6 +250,27 @@ extension AppRegistry {
         }
     }
 
+    public struct AttributeGroupDetails: AWSDecodableShape {
+        /// The Amazon resource name (ARN) that specifies the attribute group.
+        public let arn: String?
+        /// The unique identifier of the attribute group.
+        public let id: String?
+        /// The name of the attribute group.
+        public let name: String?
+
+        public init(arn: String? = nil, id: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.id = id
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn
+            case id
+            case name
+        }
+    }
+
     public struct AttributeGroupSummary: AWSDecodableShape {
         /// The Amazon resource name (ARN) that specifies the attribute group across services.
         public let arn: String?
@@ -897,6 +918,57 @@ extension AppRegistry {
         private enum CodingKeys: String, CodingKey {
             case nextToken
             case resources
+        }
+    }
+
+    public struct ListAttributeGroupsForApplicationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "application", location: .uri(locationName: "application")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        ]
+
+        /// The name or ID of the application.
+        public let application: String
+        /// The upper bound of the number of results to return. The value cannot exceed 25. If you omit this parameter, it defaults to 25. This value is optional.
+        public let maxResults: Int?
+        /// This token retrieves the next page of results after a previous API call.
+        public let nextToken: String?
+
+        public init(application: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.application = application
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.application, name: "application", parent: name, max: 256)
+            try self.validate(self.application, name: "application", parent: name, min: 1)
+            try self.validate(self.application, name: "application", parent: name, pattern: "[-.\\w]+")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[A-Za-z0-9+/=]+")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAttributeGroupsForApplicationResponse: AWSDecodableShape {
+        ///  The details related to a specific AttributeGroup.
+        public let attributeGroupsDetails: [AttributeGroupDetails]?
+        /// The token to use to get the next page of results after a previous API call.
+        public let nextToken: String?
+
+        public init(attributeGroupsDetails: [AttributeGroupDetails]? = nil, nextToken: String? = nil) {
+            self.attributeGroupsDetails = attributeGroupsDetails
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeGroupsDetails
+            case nextToken
         }
     }
 

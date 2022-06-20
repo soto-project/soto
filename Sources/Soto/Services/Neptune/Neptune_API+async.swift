@@ -97,6 +97,11 @@ extension Neptune {
         return try await self.client.execute(operation: "CreateEventSubscription", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates a Neptune global database spread across multiple Amazon Regions. The global database contains a single primary cluster with read-write capability, and read-only secondary clusters that receive data from the primary cluster through high-speed replication performed by the Neptune storage subsystem. You can create a global database that is initially empty, and then add a primary cluster and secondary clusters to it, or you can specify an existing Neptune cluster during the create operation to become the primary cluster of the global database.
+    public func createGlobalCluster(_ input: CreateGlobalClusterMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateGlobalClusterResult {
+        return try await self.client.execute(operation: "CreateGlobalCluster", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// The DeleteDBCluster action deletes a previously provisioned DB cluster. When you delete a DB cluster, all automated backups for that DB cluster are deleted and can't be recovered. Manual DB cluster snapshots of the specified DB cluster are not deleted. Note that the DB Cluster cannot be deleted if deletion protection is enabled. To delete it, you must first set its DeletionProtection field to False.
     public func deleteDBCluster(_ input: DeleteDBClusterMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteDBClusterResult {
         return try await self.client.execute(operation: "DeleteDBCluster", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -135,6 +140,11 @@ extension Neptune {
     /// Deletes an event notification subscription.
     public func deleteEventSubscription(_ input: DeleteEventSubscriptionMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteEventSubscriptionResult {
         return try await self.client.execute(operation: "DeleteEventSubscription", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes a global database. The primary and all secondary clusters must already be detached or deleted first.
+    public func deleteGlobalCluster(_ input: DeleteGlobalClusterMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteGlobalClusterResult {
+        return try await self.client.execute(operation: "DeleteGlobalCluster", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns information about endpoints for an Amazon Neptune DB cluster.  This operation can also return information for Amazon RDS clusters and Amazon DocDB clusters.
@@ -217,6 +227,11 @@ extension Neptune {
         return try await self.client.execute(operation: "DescribeEvents", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Returns information about Neptune global database clusters. This API supports pagination.
+    public func describeGlobalClusters(_ input: DescribeGlobalClustersMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GlobalClustersMessage {
+        return try await self.client.execute(operation: "DescribeGlobalClusters", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns a list of orderable DB instance options for the specified engine.
     public func describeOrderableDBInstanceOptions(_ input: DescribeOrderableDBInstanceOptionsMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> OrderableDBInstanceOptionsMessage {
         return try await self.client.execute(operation: "DescribeOrderableDBInstanceOptions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -235,6 +250,11 @@ extension Neptune {
     /// Forces a failover for a DB cluster. A failover for a DB cluster promotes one of the Read Replicas (read-only instances) in the DB cluster to be the primary instance (the cluster writer). Amazon Neptune will automatically fail over to a Read Replica, if one exists, when the primary instance fails. You can force a failover when you want to simulate a failure of a primary instance for testing. Because each instance in a DB cluster has its own endpoint address, you will need to clean up and re-establish any existing connections that use those endpoint addresses when the failover is complete.
     public func failoverDBCluster(_ input: FailoverDBClusterMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> FailoverDBClusterResult {
         return try await self.client.execute(operation: "FailoverDBCluster", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Initiates the failover process for a Neptune global database. A failover for a Neptune global database promotes one of secondary read-only DB clusters to be the primary DB cluster and demotes the primary DB cluster to being a secondary (read-only) DB cluster. In other words, the role of the current primary DB cluster and the selected target secondary DB cluster are switched. The selected secondary DB cluster assumes full read/write capabilities for the Neptune global database.  This action applies only to Neptune global databases. This action is only intended for use on healthy Neptune global databases with healthy Neptune DB clusters and no region-wide outages, to test disaster recovery scenarios or to reconfigure the global database topology.
+    public func failoverGlobalCluster(_ input: FailoverGlobalClusterMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> FailoverGlobalClusterResult {
+        return try await self.client.execute(operation: "FailoverGlobalCluster", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists all tags on an Amazon Neptune resource.
@@ -282,6 +302,11 @@ extension Neptune {
         return try await self.client.execute(operation: "ModifyEventSubscription", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Modify a setting for an Amazon Neptune global cluster. You can change one or more database configuration parameters by specifying these parameters and their new values in the request.
+    public func modifyGlobalCluster(_ input: ModifyGlobalClusterMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ModifyGlobalClusterResult {
+        return try await self.client.execute(operation: "ModifyGlobalCluster", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Not supported.
     public func promoteReadReplicaDBCluster(_ input: PromoteReadReplicaDBClusterMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PromoteReadReplicaDBClusterResult {
         return try await self.client.execute(operation: "PromoteReadReplicaDBCluster", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -290,6 +315,11 @@ extension Neptune {
     /// You might need to reboot your DB instance, usually for maintenance reasons. For example, if you make certain modifications, or if you change the DB parameter group associated with the DB instance, you must reboot the instance for the changes to take effect. Rebooting a DB instance restarts the database engine service. Rebooting a DB instance results in a momentary outage, during which the DB instance status is set to rebooting.
     public func rebootDBInstance(_ input: RebootDBInstanceMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> RebootDBInstanceResult {
         return try await self.client.execute(operation: "RebootDBInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Detaches a Neptune DB cluster from a Neptune global database. A secondary cluster becomes a normal standalone cluster with read-write capability instead of being read-only, and no longer receives data from a the primary cluster.
+    public func removeFromGlobalCluster(_ input: RemoveFromGlobalClusterMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> RemoveFromGlobalClusterResult {
+        return try await self.client.execute(operation: "RemoveFromGlobalCluster", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Disassociates an Identity and Access Management (IAM) role from a DB cluster.

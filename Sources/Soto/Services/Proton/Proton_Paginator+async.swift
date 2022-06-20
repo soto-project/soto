@@ -22,6 +22,72 @@ import SotoCore
 
 @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 extension Proton {
+    ///  Get a list of component Infrastructure as Code (IaC) outputs. For more information about components, see Proton components in the Proton Administrator Guide.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listComponentOutputsPaginator(
+        _ input: ListComponentOutputsInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListComponentOutputsInput, ListComponentOutputsOutput> {
+        return .init(
+            input: input,
+            command: listComponentOutputs,
+            inputKey: \ListComponentOutputsInput.nextToken,
+            outputKey: \ListComponentOutputsOutput.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  List provisioned resources for a component with details. For more information about components, see Proton components in the Proton Administrator Guide.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listComponentProvisionedResourcesPaginator(
+        _ input: ListComponentProvisionedResourcesInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListComponentProvisionedResourcesInput, ListComponentProvisionedResourcesOutput> {
+        return .init(
+            input: input,
+            command: listComponentProvisionedResources,
+            inputKey: \ListComponentProvisionedResourcesInput.nextToken,
+            outputKey: \ListComponentProvisionedResourcesOutput.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  List components with summary data. You can filter the result list by environment, service, or a single service instance. For more information about components, see Proton components in the Proton Administrator Guide.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listComponentsPaginator(
+        _ input: ListComponentsInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListComponentsInput, ListComponentsOutput> {
+        return .init(
+            input: input,
+            command: listComponents,
+            inputKey: \ListComponentsInput.nextToken,
+            outputKey: \ListComponentsOutput.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  View a list of environment account connections. For more information, see Environment account connections in the Proton Administrator guide.
     /// Return PaginatorSequence for operation.
     ///
@@ -198,7 +264,7 @@ extension Proton {
         )
     }
 
-    ///  View a list service instance infrastructure as code outputs with detail data.
+    ///  Get a list service of instance Infrastructure as Code (IaC) outputs.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -242,7 +308,7 @@ extension Proton {
         )
     }
 
-    ///  List service instances with summaries of detail data.
+    ///  List service instances with summary data.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -264,7 +330,7 @@ extension Proton {
         )
     }
 
-    ///  View a list service pipeline infrastructure as code outputs with detail.
+    ///  Get a list of service pipeline Infrastructure as Code (IaC) outputs.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

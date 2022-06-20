@@ -658,7 +658,7 @@ extension SecretsManager {
     }
 
     public struct PutResourcePolicyRequest: AWSEncodableShape {
-        /// Specifies whether to block resource-based policies that allow broad access to the secret. By default, Secrets Manager blocks policies that allow broad access, for example those that use a wildcard for the principal.
+        /// Specifies whether to block resource-based policies that allow broad access to the secret, for example those that use a wildcard for the principal.
         public let blockPublicPolicy: Bool?
         /// A JSON-formatted string for an Amazon Web Services resource-based policy. For example policies, see Permissions policy examples.
         public let resourcePolicy: String

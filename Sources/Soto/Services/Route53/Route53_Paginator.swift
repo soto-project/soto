@@ -19,6 +19,165 @@ import SotoCore
 // MARK: Paginators
 
 extension Route53 {
+    ///  Returns a paginated list of location objects and their CIDR blocks.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listCidrBlocksPaginator<Result>(
+        _ input: ListCidrBlocksRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListCidrBlocksResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listCidrBlocks,
+            inputKey: \ListCidrBlocksRequest.nextToken,
+            outputKey: \ListCidrBlocksResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listCidrBlocksPaginator(
+        _ input: ListCidrBlocksRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListCidrBlocksResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listCidrBlocks,
+            inputKey: \ListCidrBlocksRequest.nextToken,
+            outputKey: \ListCidrBlocksResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Returns a paginated list of CIDR collections in the Amazon Web Services account (metadata only).
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listCidrCollectionsPaginator<Result>(
+        _ input: ListCidrCollectionsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListCidrCollectionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listCidrCollections,
+            inputKey: \ListCidrCollectionsRequest.nextToken,
+            outputKey: \ListCidrCollectionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listCidrCollectionsPaginator(
+        _ input: ListCidrCollectionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListCidrCollectionsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listCidrCollections,
+            inputKey: \ListCidrCollectionsRequest.nextToken,
+            outputKey: \ListCidrCollectionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Returns a paginated list of CIDR locations for the given collection (metadata only, does not include CIDR blocks).
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listCidrLocationsPaginator<Result>(
+        _ input: ListCidrLocationsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListCidrLocationsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listCidrLocations,
+            inputKey: \ListCidrLocationsRequest.nextToken,
+            outputKey: \ListCidrLocationsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listCidrLocationsPaginator(
+        _ input: ListCidrLocationsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListCidrLocationsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listCidrLocations,
+            inputKey: \ListCidrLocationsRequest.nextToken,
+            outputKey: \ListCidrLocationsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Retrieve a list of the health checks that are associated with the current Amazon Web Services account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -228,6 +387,36 @@ extension Route53 {
             outputKey: \ListResourceRecordSetsResponse.nextRecordName,
             on: eventLoop,
             onPage: onPage
+        )
+    }
+}
+
+extension Route53.ListCidrBlocksRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Route53.ListCidrBlocksRequest {
+        return .init(
+            collectionId: self.collectionId,
+            locationName: self.locationName,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Route53.ListCidrCollectionsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Route53.ListCidrCollectionsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Route53.ListCidrLocationsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Route53.ListCidrLocationsRequest {
+        return .init(
+            collectionId: self.collectionId,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

@@ -366,7 +366,7 @@ extension AuditManager {
         public let evidenceByTypeComplianceCheckCount: Int?
         ///  The total number of issues that were reported directly from Security Hub, Config, or both.
         public let evidenceByTypeComplianceCheckIssuesCount: Int?
-        ///  The number of evidence that falls under the configuration data category. This evidence is collected from configuration snapshots of other Amazon Web Services services such as Amazon EC2, Amazon S3, or IAM.
+        ///  The number of evidence that falls under the configuration data category. This evidence is collected from configuration snapshots of other Amazon Web Services such as Amazon EC2, Amazon S3, or IAM.
         public let evidenceByTypeConfigurationDataCount: Int?
         ///  The number of evidence that falls under the manual category. This evidence is imported manually.
         public let evidenceByTypeManualCount: Int?
@@ -3798,11 +3798,11 @@ extension AuditManager {
 
     public struct Role: AWSEncodableShape & AWSDecodableShape {
         ///  The Amazon Resource Name (ARN) of the IAM role.
-        public let roleArn: String?
+        public let roleArn: String
         ///  The type of customer persona.   In CreateAssessment, roleType can only be PROCESS_OWNER.  In UpdateSettings, roleType can only be PROCESS_OWNER. In BatchCreateDelegationByAssessment, roleType can only be RESOURCE_OWNER.
-        public let roleType: RoleType?
+        public let roleType: RoleType
 
-        public init(roleArn: String? = nil, roleType: RoleType? = nil) {
+        public init(roleArn: String, roleType: RoleType) {
             self.roleArn = roleArn
             self.roleType = roleType
         }

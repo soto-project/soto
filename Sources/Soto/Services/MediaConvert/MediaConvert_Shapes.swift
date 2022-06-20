@@ -212,6 +212,14 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
+    public enum AudioDurationCorrection: String, CustomStringConvertible, Codable {
+        case auto = "AUTO"
+        case disabled = "DISABLED"
+        case frame = "FRAME"
+        case track = "TRACK"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AudioLanguageCodeControl: String, CustomStringConvertible, Codable {
         case followInput = "FOLLOW_INPUT"
         case useConfigured = "USE_CONFIGURED"
@@ -2487,6 +2495,12 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
+    public enum RequiredFlag: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ReservationPlanStatus: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
         case expired = "EXPIRED"
@@ -2497,6 +2511,14 @@ extension MediaConvert {
         case none = "NONE"
         case passthrough = "PASSTHROUGH"
         case respond = "RESPOND"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RuleType: String, CustomStringConvertible, Codable {
+        case allowedRenditions = "ALLOWED_RENDITIONS"
+        case forceIncludeRenditions = "FORCE_INCLUDE_RENDITIONS"
+        case minBottomRenditionSize = "MIN_BOTTOM_RENDITION_SIZE"
+        case minTopRenditionSize = "MIN_TOP_RENDITION_SIZE"
         public var description: String { return self.rawValue }
     }
 
@@ -3067,6 +3089,34 @@ extension MediaConvert {
         }
     }
 
+    public struct AllowedRenditionSize: AWSEncodableShape & AWSDecodableShape {
+        /// Use Height to define the video resolution height, in pixels, for this rule.
+        public let height: Int?
+        /// Set to ENABLED to force a rendition to be included.
+        public let required: RequiredFlag?
+        /// Use Width to define the video resolution width, in pixels, for this rule.
+        public let width: Int?
+
+        public init(height: Int? = nil, required: RequiredFlag? = nil, width: Int? = nil) {
+            self.height = height
+            self.required = required
+            self.width = width
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.height, name: "height", parent: name, max: 8192)
+            try self.validate(self.height, name: "height", parent: name, min: 32)
+            try self.validate(self.width, name: "width", parent: name, max: 8192)
+            try self.validate(self.width, name: "width", parent: name, min: 32)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case height
+            case required
+            case width
+        }
+    }
+
     public struct AncillarySourceSettings: AWSEncodableShape & AWSDecodableShape {
         /// Specify whether this set of input captions appears in your outputs in both 608 and 708 format. If you choose Upconvert (UPCONVERT), MediaConvert includes the captions data in two ways: it passes the 608 data through using the 608 compatibility bytes fields of the 708 wrapper, and it also translates the 608 data into 708.
         public let convert608To708: AncillaryConvert608To708?
@@ -3291,6 +3341,8 @@ extension MediaConvert {
     }
 
     public struct AudioSelector: AWSEncodableShape & AWSDecodableShape {
+        /// Apply audio timing corrections to help synchronize audio and video in your output. To apply timing corrections, your input must meet the following requirements: * Container: MP4, or MOV, with an accurate time-to-sample (STTS) table. * Audio track: AAC. Choose from the following audio timing correction settings: * Disabled (Default): Apply no correction. * Auto: Recommended for most inputs. MediaConvert analyzes the audio timing in your input and determines which correction setting to use, if needed. * Track: Adjust the duration of each audio frame by a constant amount to align the audio track length with STTS duration. Track-level correction does not affect pitch, and is recommended for tonal audio content such as music. * Frame: Adjust the duration of each audio frame by a variable amount to align audio frames with STTS timestamps. No corrections are made to already-aligned frames. Frame-level correction may affect the pitch of corrected frames, and is recommended for atonal audio content such as speech or percussion.
+        public let audioDurationCorrection: AudioDurationCorrection?
         /// Selects a specific language code from within an audio source, using the ISO 639-2 or ISO 639-3 three-letter language code
         public let customLanguageCode: String?
         /// Enable this setting on one audio selector to set it as the default for the job. The service uses this default for outputs where it can't find the specified input audio. If you don't set a default, those outputs have no audio.
@@ -3314,7 +3366,8 @@ extension MediaConvert {
         /// Identify a track from the input audio to include in this selector by entering the track index number. To include several tracks in a single audio selector, specify multiple tracks as follows. Using the console, enter a comma-separated list. For examle, type "1,2,3" to include tracks 1 through 3. Specifying directly in your JSON job file, provide the track numbers in an array. For example, "tracks": [1,2,3].
         public let tracks: [Int]?
 
-        public init(customLanguageCode: String? = nil, defaultSelection: AudioDefaultSelection? = nil, externalAudioFileInput: String? = nil, hlsRenditionGroupSettings: HlsRenditionGroupSettings? = nil, languageCode: LanguageCode? = nil, offset: Int? = nil, pids: [Int]? = nil, programSelection: Int? = nil, remixSettings: RemixSettings? = nil, selectorType: AudioSelectorType? = nil, tracks: [Int]? = nil) {
+        public init(audioDurationCorrection: AudioDurationCorrection? = nil, customLanguageCode: String? = nil, defaultSelection: AudioDefaultSelection? = nil, externalAudioFileInput: String? = nil, hlsRenditionGroupSettings: HlsRenditionGroupSettings? = nil, languageCode: LanguageCode? = nil, offset: Int? = nil, pids: [Int]? = nil, programSelection: Int? = nil, remixSettings: RemixSettings? = nil, selectorType: AudioSelectorType? = nil, tracks: [Int]? = nil) {
+            self.audioDurationCorrection = audioDurationCorrection
             self.customLanguageCode = customLanguageCode
             self.defaultSelection = defaultSelection
             self.externalAudioFileInput = externalAudioFileInput
@@ -3349,6 +3402,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case audioDurationCorrection
             case customLanguageCode
             case defaultSelection
             case externalAudioFileInput
@@ -3382,6 +3436,46 @@ extension MediaConvert {
         }
     }
 
+    public struct AutomatedAbrRule: AWSEncodableShape & AWSDecodableShape {
+        /// When customer adds the allowed renditions rule for auto ABR ladder, they are required to add at leat one rendition to allowedRenditions list
+        public let allowedRenditions: [AllowedRenditionSize]?
+        /// When customer adds the force include renditions rule for auto ABR ladder, they are required to add at leat one rendition to forceIncludeRenditions list
+        public let forceIncludeRenditions: [ForceIncludeRenditionSize]?
+        /// Use Min bottom rendition size to specify a minimum size for the lowest resolution in your ABR stack. * The lowest resolution in your ABR stack will be equal to or greater than the value that you enter. For example: If you specify 640x360 the lowest resolution in your ABR stack will be equal to or greater than to 640x360. * If you specify a Min top rendition size rule, the value that you specify for Min bottom rendition size must be less than, or equal to, Min top rendition size.
+        public let minBottomRenditionSize: MinBottomRenditionSize?
+        /// Use Min top rendition size to specify a minimum size for the highest resolution in your ABR stack. * The highest resolution in your ABR stack will be equal to or greater than the value that you enter. For example: If you specify 1280x720 the highest resolution in your ABR stack will be equal to or greater than 1280x720. * If you specify a value for Max resolution, the value that you specify for Min top rendition size must be less than, or equal to, Max resolution.
+        public let minTopRenditionSize: MinTopRenditionSize?
+        /// Use Min top rendition size to specify a minimum size for the highest resolution in your ABR stack. * The highest resolution in your ABR stack will be equal to or greater than the value that you enter. For example: If you specify 1280x720 the highest resolution in your ABR stack will be equal to or greater than 1280x720. * If you specify a value for Max resolution, the value that you specify for Min top rendition size must be less than, or equal to, Max resolution. Use Min bottom rendition size to specify a minimum size for the lowest resolution in your ABR stack. * The lowest resolution in your ABR stack will be equal to or greater than the value that you enter. For example: If you specify 640x360 the lowest resolution in your ABR stack will be equal to or greater than to 640x360. * If you specify a Min top rendition size rule, the value that you specify for Min bottom rendition size must be less than, or equal to, Min top rendition size. Use Force include renditions to specify one or more resolutions to include your ABR stack. * (Recommended) To optimize automated ABR, specify as few resolutions as possible. * (Required) The number of resolutions that you specify must be equal to, or less than, the Max renditions setting. * If you specify a Min top rendition size rule, specify at least one resolution that is equal to, or greater than, Min top rendition size. * If you specify a Min bottom rendition size rule, only specify resolutions that are equal to, or greater than, Min bottom rendition size. * If you specify a Force include renditions rule, do not specify a separate rule for Allowed renditions. * Note: The ABR stack may include other resolutions that you do not specify here, depending on the Max renditions setting. Use Allowed renditions to specify a list of possible resolutions in your ABR stack. * (Required) The number of resolutions that you specify must be equal to, or greater than, the Max renditions setting. * MediaConvert will create an ABR stack exclusively from the list of resolutions that you specify. * Some resolutions in the Allowed renditions list may not be included, however you can force a resolution to be included by setting Required to ENABLED. * You must specify at least one resolution that is greater than or equal to any resolutions that you specify in Min top rendition size or Min bottom rendition size. * If you specify Allowed renditions, you must not specify a separate rule for Force include renditions.
+        public let type: RuleType?
+
+        public init(allowedRenditions: [AllowedRenditionSize]? = nil, forceIncludeRenditions: [ForceIncludeRenditionSize]? = nil, minBottomRenditionSize: MinBottomRenditionSize? = nil, minTopRenditionSize: MinTopRenditionSize? = nil, type: RuleType? = nil) {
+            self.allowedRenditions = allowedRenditions
+            self.forceIncludeRenditions = forceIncludeRenditions
+            self.minBottomRenditionSize = minBottomRenditionSize
+            self.minTopRenditionSize = minTopRenditionSize
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.allowedRenditions?.forEach {
+                try $0.validate(name: "\(name).allowedRenditions[]")
+            }
+            try self.forceIncludeRenditions?.forEach {
+                try $0.validate(name: "\(name).forceIncludeRenditions[]")
+            }
+            try self.minBottomRenditionSize?.validate(name: "\(name).minBottomRenditionSize")
+            try self.minTopRenditionSize?.validate(name: "\(name).minTopRenditionSize")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowedRenditions
+            case forceIncludeRenditions
+            case minBottomRenditionSize
+            case minTopRenditionSize
+            case type
+        }
+    }
+
     public struct AutomatedAbrSettings: AWSEncodableShape & AWSDecodableShape {
         /// Optional. The maximum target bit rate used in your automated ABR stack. Use this value to set an upper limit on the bandwidth consumed by the highest-quality rendition. This is the rendition that is delivered to viewers with the fastest internet connections. If you don't specify a value, MediaConvert uses 8,000,000 (8 mb/s) by default.
         public let maxAbrBitrate: Int?
@@ -3389,11 +3483,14 @@ extension MediaConvert {
         public let maxRenditions: Int?
         /// Optional. The minimum target bitrate used in your automated ABR stack. Use this value to set a lower limit on the bitrate of video delivered to viewers with slow internet connections. If you don't specify a value, MediaConvert uses 600,000 (600 kb/s) by default.
         public let minAbrBitrate: Int?
+        /// Optional. Use Automated ABR rules to specify restrictions for the rendition sizes MediaConvert will create in your ABR stack. You can use these rules if your ABR workflow has specific rendition size requirements, but you still want MediaConvert to optimize for video quality and overall file size.
+        public let rules: [AutomatedAbrRule]?
 
-        public init(maxAbrBitrate: Int? = nil, maxRenditions: Int? = nil, minAbrBitrate: Int? = nil) {
+        public init(maxAbrBitrate: Int? = nil, maxRenditions: Int? = nil, minAbrBitrate: Int? = nil, rules: [AutomatedAbrRule]? = nil) {
             self.maxAbrBitrate = maxAbrBitrate
             self.maxRenditions = maxRenditions
             self.minAbrBitrate = minAbrBitrate
+            self.rules = rules
         }
 
         public func validate(name: String) throws {
@@ -3403,12 +3500,16 @@ extension MediaConvert {
             try self.validate(self.maxRenditions, name: "maxRenditions", parent: name, min: 3)
             try self.validate(self.minAbrBitrate, name: "minAbrBitrate", parent: name, max: 100_000_000)
             try self.validate(self.minAbrBitrate, name: "minAbrBitrate", parent: name, min: 100_000)
+            try self.rules?.forEach {
+                try $0.validate(name: "\(name).rules[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case maxAbrBitrate
             case maxRenditions
             case minAbrBitrate
+            case rules
         }
     }
 
@@ -4236,7 +4337,7 @@ extension MediaConvert {
         public let descriptiveVideoServiceFlag: CmfcDescriptiveVideoServiceFlag?
         /// Choose Include (INCLUDE) to have MediaConvert generate an HLS child manifest that lists only the I-frames for this rendition, in addition to your regular manifest for this rendition. You might use this manifest as part of a workflow that creates preview functions for your video. MediaConvert adds both the I-frame only child manifest and the regular child manifest to the parent manifest. When you don't need the I-frame only child manifest, keep the default value Exclude (EXCLUDE).
         public let iFrameOnlyManifest: CmfcIFrameOnlyManifest?
-        /// Applies to CMAF outputs. Use this setting to specify whether the service inserts the KLV metadata from the input in this output.
+        /// To include key-length-value metadata in this output: Set KLV metadata insertion to Passthrough. MediaConvert reads KLV metadata present in your input and writes each instance to a separate event message box in the output, according to MISB ST1910.1. To exclude this KLV metadata: Set KLV metadata insertion to None or leave blank.
         public let klvMetadata: CmfcKlvMetadata?
         /// Use this setting only when you specify SCTE-35 markers from ESAM. Choose INSERT to put SCTE-35 markers in this output at the insertion points that you specify in an ESAM XML document. Provide the document in the setting SCC XML (sccXml).
         public let scte35Esam: CmfcScte35Esam?
@@ -4970,9 +5071,9 @@ extension MediaConvert {
         public let l6Metadata: DolbyVisionLevel6Metadata?
         /// Use Dolby Vision Mode to choose how the service will handle Dolby Vision MaxCLL and MaxFALL properies.
         public let l6Mode: DolbyVisionLevel6Mode?
-        /// Required when you set Dolby Vision Profile (Profile) to Profile 8.1 (PROFILE_8_1). When you set Content mapping (Mapping) to None (HDR10_NOMAP), content mapping is not applied to the HDR10-compatible signal. Depending on the source peak nit level, clipping might occur on HDR devices without Dolby Vision. When you set Content mapping to Static (HDR10_1000), the transcoder creates a 1,000 nits peak HDR10-compatible signal by applying static content mapping to the source. This mode is speed-optimized for PQ10 sources with metadata that is created from analysis. For graded Dolby Vision content, be aware that creative intent might not be guaranteed with extreme 1,000 nits trims.
+        /// Required when you set Dolby Vision Profile to Profile 8.1. When you set Content mapping to None, content mapping is not applied to the HDR10-compatible signal. Depending on the source peak nit level, clipping might occur on HDR devices without Dolby Vision. When you set Content mapping to HDR10 1000, the transcoder creates a 1,000 nits peak HDR10-compatible signal by applying static content mapping to the source. This mode is speed-optimized for PQ10 sources with metadata that is created from analysis. For graded Dolby Vision content, be aware that creative intent might not be guaranteed with extreme 1,000 nits trims.
         public let mapping: DolbyVisionMapping?
-        /// Required when you use Dolby Vision (DolbyVision) processing. Set Profile (DolbyVisionProfile) to Profile 5 (Profile_5) to only include frame-interleaved Dolby Vision metadata in your output. Set Profile to Profile 8.1 (Profile_8_1) to include both frame-interleaved Dolby Vision metadata and HDR10 metadata in your output.
+        /// Required when you use Dolby Vision processing. Set Profile to Profile 5 to only include frame-interleaved Dolby Vision metadata in your output. Set Profile to Profile 8.1 to include both frame-interleaved Dolby Vision metadata and HDR10 metadata in your output.
         public let profile: DolbyVisionProfile?
 
         public init(l6Metadata: DolbyVisionLevel6Metadata? = nil, l6Mode: DolbyVisionLevel6Mode? = nil, mapping: DolbyVisionMapping? = nil, profile: DolbyVisionProfile? = nil) {
@@ -5676,6 +5777,30 @@ extension MediaConvert {
             case sourceFile
             case timeDelta
             case timeDeltaUnits
+        }
+    }
+
+    public struct ForceIncludeRenditionSize: AWSEncodableShape & AWSDecodableShape {
+        /// Use Height to define the video resolution height, in pixels, for this rule.
+        public let height: Int?
+        /// Use Width to define the video resolution width, in pixels, for this rule.
+        public let width: Int?
+
+        public init(height: Int? = nil, width: Int? = nil) {
+            self.height = height
+            self.width = width
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.height, name: "height", parent: name, max: 8192)
+            try self.validate(self.height, name: "height", parent: name, min: 32)
+            try self.validate(self.width, name: "width", parent: name, max: 8192)
+            try self.validate(self.width, name: "width", parent: name, min: 32)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case height
+            case width
         }
     }
 
@@ -6838,7 +6963,7 @@ extension MediaConvert {
     }
 
     public struct ImscDestinationSettings: AWSEncodableShape & AWSDecodableShape {
-        /// Set Accessibility subtitles (Accessibility) to Enabled (ENABLED) if the ISMC or WebVTT captions track is intended to provide accessibility for people who are deaf or hard of hearing. When you enable this feature, MediaConvert adds the following attributes under EXT-X-MEDIA in the HLS or CMAF manifest for this track: CHARACTERISTICS="public.accessibility.describes-spoken-dialog,public.accessibility.describes-music-and-sound" and AUTOSELECT="YES". Keep the default value, Disabled (DISABLED), if the captions track is not intended to provide such accessibility. MediaConvert will not add the above attributes.
+        /// Set Accessibility subtitles to Enabled if the ISMC or WebVTT captions track is intended to provide accessibility for people who are deaf or hard of hearing. When you enable this feature, MediaConvert adds the following attributes under EXT-X-MEDIA in the HLS or CMAF manifest for this track: CHARACTERISTICS="public.accessibility.describes-spoken-dialog,public.accessibility.describes-music-and-sound" and AUTOSELECT="YES". Keep the default value, Disabled, if the captions track is not intended to provide such accessibility. MediaConvert will not add the above attributes.
         public let accessibility: ImscAccessibilitySubs?
         /// Keep this setting enabled to have MediaConvert use the font style and position information from the captions source in the output. This option is available only when your input captions are IMSC, SMPTE-TT, or TTML. Disable this setting for simplified output captions.
         public let stylePassthrough: ImscStylePassthrough?
@@ -6895,7 +7020,7 @@ extension MediaConvert {
         public let timecodeSource: InputTimecodeSource?
         /// Specify the timecode that you want the service to use for this input's initial frame. To use this setting, you must set the Timecode source setting, located under the input settings (InputTimecodeSource), to Specified start (SPECIFIEDSTART). For more information about timecodes, see https://docs.aws.amazon.com/console/mediaconvert/timecode.
         public let timecodeStart: String?
-        /// Use this setting if you do not have a video input or if you want to add black video frames before, or after, other inputs. When you include Video generator, MediaConvert creates a video input with black frames and without an audio track. You can specify a value for Video generator, or you can specify an Input file, but you cannot specify both.
+        /// When you include Video generator, MediaConvert creates a video input with black frames. Use this setting if you do not have a video input or if you want to add black video frames before, or after, other inputs. You can specify Video generator, or you can specify an Input file, but you cannot specify both. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/video-generator.html
         public let videoGenerator: InputVideoGenerator?
         /// Input video selectors contain the video settings for the input. Each of your inputs can have up to one video selector.
         public let videoSelector: VideoSelector?
@@ -7967,7 +8092,7 @@ extension MediaConvert {
         public let forceTsVideoEbpOrder: M2tsForceTsVideoEbpOrder?
         /// The length, in seconds, of each fragment. Only used with EBP markers.
         public let fragmentTime: Double?
-        /// Applies to MPEG-TS outputs. Use this setting to specify whether the service inserts the KLV metadata from the input in this output.
+        /// To include key-length-value metadata in this output: Set KLV metadata insertion to Passthrough. MediaConvert reads KLV metadata present in your input and passes it through to the output transport stream. To exclude this KLV metadata: Set KLV metadata insertion to None or leave blank.
         public let klvMetadata: M2tsKlvMetadata?
         /// Specify the maximum time, in milliseconds, between Program Clock References (PCRs) inserted into the transport stream.
         public let maxPcrInterval: Int?
@@ -8005,7 +8130,7 @@ extension MediaConvert {
         public let segmentationStyle: M2tsSegmentationStyle?
         /// Specify the length, in seconds, of each segment. Required unless markers is set to _none_.
         public let segmentationTime: Double?
-        /// Specify the packet identifier (PID) for timed metadata in this output. Default is 502.
+        /// Packet Identifier (PID) of the ID3 metadata stream in the transport stream.
         public let timedMetadataPid: Int?
         /// Specify the ID for the transport stream itself in the program map table for this output. Transport stream IDs and program map tables are parts of MPEG-2 transport stream containers, used for organizing data.
         public let transportStreamId: Int?
@@ -8258,6 +8383,54 @@ extension MediaConvert {
         }
     }
 
+    public struct MinBottomRenditionSize: AWSEncodableShape & AWSDecodableShape {
+        /// Use Height to define the video resolution height, in pixels, for this rule.
+        public let height: Int?
+        /// Use Width to define the video resolution width, in pixels, for this rule.
+        public let width: Int?
+
+        public init(height: Int? = nil, width: Int? = nil) {
+            self.height = height
+            self.width = width
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.height, name: "height", parent: name, max: 8192)
+            try self.validate(self.height, name: "height", parent: name, min: 32)
+            try self.validate(self.width, name: "width", parent: name, max: 8192)
+            try self.validate(self.width, name: "width", parent: name, min: 32)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case height
+            case width
+        }
+    }
+
+    public struct MinTopRenditionSize: AWSEncodableShape & AWSDecodableShape {
+        /// Use Height to define the video resolution height, in pixels, for this rule.
+        public let height: Int?
+        /// Use Width to define the video resolution width, in pixels, for this rule.
+        public let width: Int?
+
+        public init(height: Int? = nil, width: Int? = nil) {
+            self.height = height
+            self.width = width
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.height, name: "height", parent: name, max: 8192)
+            try self.validate(self.height, name: "height", parent: name, min: 32)
+            try self.validate(self.width, name: "width", parent: name, max: 8192)
+            try self.validate(self.width, name: "width", parent: name, min: 32)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case height
+            case width
+        }
+    }
+
     public struct MotionImageInserter: AWSEncodableShape & AWSDecodableShape {
         /// If your motion graphic asset is a .mov file, keep this setting unspecified. If your motion graphic asset is a series of .png files, specify the frame rate of the overlay in frames per second, as a fraction. For example, specify 24 fps as 24/1. Make sure that the number of images in your series matches the frame rate and your intended overlay duration. For example, if you want a 30-second overlay at 30 fps, you should have 900 .png images. This overlay frame rate doesn't need to match the frame rate of the underlying video.
         public let framerate: MotionImageInsertionFramerate?
@@ -8493,7 +8666,7 @@ extension MediaConvert {
         public let audioDuration: MpdAudioDuration?
         /// Use this setting only in DASH output groups that include sidecar TTML or IMSC captions.  You specify sidecar captions in a separate output from your audio and video. Choose Raw (RAW) for captions in a single XML file in a raw container. Choose Fragmented MPEG-4 (FRAGMENTED_MP4) for captions in XML format contained within fragmented MP4 files. This set of fragmented MP4 files is separate from your video and audio fragmented MP4 files.
         public let captionContainerType: MpdCaptionContainerType?
-        /// Applies to DASH ISO outputs. Use this setting to specify whether the service inserts the KLV metadata from the input in this output.
+        /// To include key-length-value metadata in this output: Set KLV metadata insertion to Passthrough. MediaConvert reads KLV metadata present in your input and writes each instance to a separate event message box in the output, according to MISB ST1910.1. To exclude this KLV metadata: Set KLV metadata insertion to None or leave blank.
         public let klvMetadata: MpdKlvMetadata?
         /// Use this setting only when you specify SCTE-35 markers from ESAM. Choose INSERT to put SCTE-35 markers in this output at the insertion points that you specify in an ESAM XML document. Provide the document in the setting SCC XML (sccXml).
         public let scte35Esam: MpdScte35Esam?
@@ -10851,7 +11024,7 @@ extension MediaConvert {
     }
 
     public struct WebvttDestinationSettings: AWSEncodableShape & AWSDecodableShape {
-        /// Set Accessibility subtitles (Accessibility) to Enabled (ENABLED) if the ISMC or WebVTT captions track is intended to provide accessibility for people who are deaf or hard of hearing. When you enable this feature, MediaConvert adds the following attributes under EXT-X-MEDIA in the HLS or CMAF manifest for this track: CHARACTERISTICS="public.accessibility.describes-spoken-dialog,public.accessibility.describes-music-and-sound" and AUTOSELECT="YES". Keep the default value, Disabled (DISABLED), if the captions track is not intended to provide such accessibility. MediaConvert will not add the above attributes.
+        /// Set Accessibility subtitles to Enabled if the ISMC or WebVTT captions track is intended to provide accessibility for people who are deaf or hard of hearing. When you enable this feature, MediaConvert adds the following attributes under EXT-X-MEDIA in the HLS or CMAF manifest for this track: CHARACTERISTICS="public.accessibility.describes-spoken-dialog,public.accessibility.describes-music-and-sound" and AUTOSELECT="YES". Keep the default value, Disabled, if the captions track is not intended to provide such accessibility. MediaConvert will not add the above attributes.
         public let accessibility: WebvttAccessibilitySubs?
         /// To use the available style, color, and position information from your input captions: Set Style passthrough (stylePassthrough) to Enabled (ENABLED). MediaConvert uses default settings when style and position information is missing from your input captions. To recreate the input captions exactly: Set Style passthrough to Strict (STRICT). MediaConvert automatically applies timing adjustments, including adjustments for frame rate conversion, ad avails, and input clipping. Your input captions format must be WebVTT. To ignore the style and position information from your input captions and use simplified output captions: Set Style passthrough to Disabled (DISABLED), or leave blank.
         public let stylePassthrough: WebvttStylePassthrough?

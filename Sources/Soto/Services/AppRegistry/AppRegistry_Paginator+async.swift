@@ -109,6 +109,28 @@ extension AppRegistry {
             on: eventLoop
         )
     }
+
+    ///  Lists the details of all attribute groups associated with a specific application. The results display in pages.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listAttributeGroupsForApplicationPaginator(
+        _ input: ListAttributeGroupsForApplicationRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListAttributeGroupsForApplicationRequest, ListAttributeGroupsForApplicationResponse> {
+        return .init(
+            input: input,
+            command: listAttributeGroupsForApplication,
+            inputKey: \ListAttributeGroupsForApplicationRequest.nextToken,
+            outputKey: \ListAttributeGroupsForApplicationResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
 }
 
 #endif // compiler(>=5.5) && canImport(_Concurrency)

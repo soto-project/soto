@@ -424,12 +424,15 @@ extension QuickSight {
         public let edition: Edition?
         /// The main notification email for your Amazon QuickSight subscription.
         public let notificationEmail: String?
+        /// A boolean that indicates whether or not public sharing is enabled on an Amazon QuickSight account. For more information about enabling public sharing, see UpdatePublicSharingSettings.
+        public let publicSharingEnabled: Bool?
 
-        public init(accountName: String? = nil, defaultNamespace: String? = nil, edition: Edition? = nil, notificationEmail: String? = nil) {
+        public init(accountName: String? = nil, defaultNamespace: String? = nil, edition: Edition? = nil, notificationEmail: String? = nil, publicSharingEnabled: Bool? = nil) {
             self.accountName = accountName
             self.defaultNamespace = defaultNamespace
             self.edition = edition
             self.notificationEmail = notificationEmail
+            self.publicSharingEnabled = publicSharingEnabled
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -437,6 +440,7 @@ extension QuickSight {
             case defaultNamespace = "DefaultNamespace"
             case edition = "Edition"
             case notificationEmail = "NotificationEmail"
+            case publicSharingEnabled = "PublicSharingEnabled"
         }
     }
 
@@ -6013,7 +6017,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId"))
         ]
 
-        /// The Amazon Resource Names for the Amazon QuickSight resources that the user is authorized to access during the lifetime of the session. If you choose Dashboard embedding experience, pass the list of dashboard ARNs in the account that you want the user to be able to view.
+        /// The Amazon Resource Names for the Amazon QuickSight resources that the user is authorized to access during the lifetime of the session. If you choose Dashboard embedding experience, pass the list of dashboard ARNs in the account that you want the user to be able to view. Currently, you can pass up to 25 dashboard ARNs in each API call.
         public let authorizedResourceArns: [String]
         /// The ID for the Amazon Web Services account that contains the dashboard that you're embedding.
         public let awsAccountId: String
@@ -11600,6 +11604,53 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case awsAccountId = "AwsAccountId"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct UpdatePublicSharingSettingsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId"))
+        ]
+
+        /// The Amazon Web Services account ID associated with your Amazon QuickSight subscription.
+        public let awsAccountId: String
+        /// A boolean that indicates whether or not public sharing is enabled on a Amazon QuickSight account.
+        public let publicSharingEnabled: Bool?
+
+        public init(awsAccountId: String, publicSharingEnabled: Bool? = nil) {
+            self.awsAccountId = awsAccountId
+            self.publicSharingEnabled = publicSharingEnabled
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case publicSharingEnabled = "PublicSharingEnabled"
+        }
+    }
+
+    public struct UpdatePublicSharingSettingsResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(requestId: String? = nil, status: Int? = nil) {
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
             case requestId = "RequestId"
             case status = "Status"
         }

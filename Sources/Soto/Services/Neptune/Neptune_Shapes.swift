@@ -440,6 +440,8 @@ extension Neptune {
         public let engine: String
         /// The version number of the database engine to use for the new DB cluster. Example: 1.0.2.1
         public let engineVersion: String?
+        /// The ID of the Neptune global database to which this new DB cluster should be added.
+        public let globalClusterIdentifier: String?
         /// The Amazon KMS key identifier for an encrypted DB cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a DB cluster with the same Amazon account that owns the KMS encryption key used to encrypt the new DB cluster, then you can use the KMS key alias instead of the ARN for the KMS encryption key. If an encryption key is not specified in KmsKeyId:   If ReplicationSourceIdentifier identifies an encrypted source, then Amazon Neptune will use the encryption key used to encrypt the source. Otherwise, Amazon Neptune will use your default encryption key.   If the StorageEncrypted parameter is true and ReplicationSourceIdentifier is not specified, then Amazon Neptune will use your default encryption key.   Amazon KMS creates the default encryption key for your Amazon account. Your Amazon account has a different default encryption key for each Amazon Region. If you create a Read Replica of an encrypted DB cluster in another Amazon Region, you must set KmsKeyId to a KMS key ID that is valid in the destination Amazon Region. This key is used to encrypt the Read Replica in that Amazon Region.
         public let kmsKeyId: String?
         /// Not supported by Neptune.
@@ -467,7 +469,7 @@ extension Neptune {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
-        public init(availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, databaseName: String? = nil, dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String, engineVersion: String? = nil, kmsKeyId: String? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, optionGroupName: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, preSignedUrl: String? = nil, replicationSourceIdentifier: String? = nil, storageEncrypted: Bool? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, databaseName: String? = nil, dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String, engineVersion: String? = nil, globalClusterIdentifier: String? = nil, kmsKeyId: String? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, optionGroupName: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, preSignedUrl: String? = nil, replicationSourceIdentifier: String? = nil, storageEncrypted: Bool? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.availabilityZones = availabilityZones
             self.backupRetentionPeriod = backupRetentionPeriod
             self.characterSetName = characterSetName
@@ -481,6 +483,7 @@ extension Neptune {
             self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
             self.engine = engine
             self.engineVersion = engineVersion
+            self.globalClusterIdentifier = globalClusterIdentifier
             self.kmsKeyId = kmsKeyId
             self.masterUsername = masterUsername
             self.masterUserPassword = masterUserPassword
@@ -493,6 +496,12 @@ extension Neptune {
             self.storageEncrypted = storageEncrypted
             self.tags = tags
             self.vpcSecurityGroupIds = vpcSecurityGroupIds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, max: 255)
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, min: 1)
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, pattern: "[A-Za-z][0-9A-Za-z-:._]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -509,6 +518,7 @@ extension Neptune {
             case enableIAMDatabaseAuthentication = "EnableIAMDatabaseAuthentication"
             case engine = "Engine"
             case engineVersion = "EngineVersion"
+            case globalClusterIdentifier = "GlobalClusterIdentifier"
             case kmsKeyId = "KmsKeyId"
             case masterUsername = "MasterUsername"
             case masterUserPassword = "MasterUserPassword"
@@ -944,6 +954,57 @@ extension Neptune {
 
         private enum CodingKeys: String, CodingKey {
             case eventSubscription = "EventSubscription"
+        }
+    }
+
+    public struct CreateGlobalClusterMessage: AWSEncodableShape {
+        /// The deletion protection setting for the new global database. The global database can't be deleted when deletion protection is enabled.
+        public let deletionProtection: Bool?
+        /// The name of the database engine to be used in the global database. Valid values: neptune
+        public let engine: String?
+        /// The Neptune engine version to be used by the global database. Valid values: 1.2.0.0 or above.
+        public let engineVersion: String?
+        /// The cluster identifier of the new global database cluster.
+        public let globalClusterIdentifier: String
+        /// (Optional) The Amazon Resource Name (ARN) of an existing Neptune DB cluster to use as the primary cluster of the new global database.
+        public let sourceDBClusterIdentifier: String?
+        /// The storage encryption setting for the new global database cluster.
+        public let storageEncrypted: Bool?
+
+        public init(deletionProtection: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, globalClusterIdentifier: String, sourceDBClusterIdentifier: String? = nil, storageEncrypted: Bool? = nil) {
+            self.deletionProtection = deletionProtection
+            self.engine = engine
+            self.engineVersion = engineVersion
+            self.globalClusterIdentifier = globalClusterIdentifier
+            self.sourceDBClusterIdentifier = sourceDBClusterIdentifier
+            self.storageEncrypted = storageEncrypted
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, max: 255)
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, min: 1)
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, pattern: "[A-Za-z][0-9A-Za-z-:._]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deletionProtection = "DeletionProtection"
+            case engine = "Engine"
+            case engineVersion = "EngineVersion"
+            case globalClusterIdentifier = "GlobalClusterIdentifier"
+            case sourceDBClusterIdentifier = "SourceDBClusterIdentifier"
+            case storageEncrypted = "StorageEncrypted"
+        }
+    }
+
+    public struct CreateGlobalClusterResult: AWSDecodableShape {
+        public let globalCluster: GlobalCluster?
+
+        public init(globalCluster: GlobalCluster? = nil) {
+            self.globalCluster = globalCluster
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case globalCluster = "GlobalCluster"
         }
     }
 
@@ -1540,6 +1601,8 @@ extension Neptune {
         /// A list of the time zones supported by this engine for the Timezone parameter of the CreateDBInstance action.
         @OptionalCustomCoding<ArrayCoder<_SupportedTimezonesEncoding, Timezone>>
         public var supportedTimezones: [Timezone]?
+        /// A value that indicates whether you can use Aurora global databases with a specific DB engine version.
+        public let supportsGlobalDatabases: Bool?
         /// A value that indicates whether the engine version supports exporting the log types specified by ExportableLogTypes to CloudWatch Logs.
         public let supportsLogExportsToCloudwatchLogs: Bool?
         /// Indicates whether the database engine version supports read replicas.
@@ -1548,7 +1611,7 @@ extension Neptune {
         @OptionalCustomCoding<ArrayCoder<_ValidUpgradeTargetEncoding, UpgradeTarget>>
         public var validUpgradeTarget: [UpgradeTarget]?
 
-        public init(dBEngineDescription: String? = nil, dBEngineVersionDescription: String? = nil, dBParameterGroupFamily: String? = nil, defaultCharacterSet: CharacterSet? = nil, engine: String? = nil, engineVersion: String? = nil, exportableLogTypes: [String]? = nil, supportedCharacterSets: [CharacterSet]? = nil, supportedTimezones: [Timezone]? = nil, supportsLogExportsToCloudwatchLogs: Bool? = nil, supportsReadReplica: Bool? = nil, validUpgradeTarget: [UpgradeTarget]? = nil) {
+        public init(dBEngineDescription: String? = nil, dBEngineVersionDescription: String? = nil, dBParameterGroupFamily: String? = nil, defaultCharacterSet: CharacterSet? = nil, engine: String? = nil, engineVersion: String? = nil, exportableLogTypes: [String]? = nil, supportedCharacterSets: [CharacterSet]? = nil, supportedTimezones: [Timezone]? = nil, supportsGlobalDatabases: Bool? = nil, supportsLogExportsToCloudwatchLogs: Bool? = nil, supportsReadReplica: Bool? = nil, validUpgradeTarget: [UpgradeTarget]? = nil) {
             self.dBEngineDescription = dBEngineDescription
             self.dBEngineVersionDescription = dBEngineVersionDescription
             self.dBParameterGroupFamily = dBParameterGroupFamily
@@ -1558,6 +1621,7 @@ extension Neptune {
             self.exportableLogTypes = exportableLogTypes
             self.supportedCharacterSets = supportedCharacterSets
             self.supportedTimezones = supportedTimezones
+            self.supportsGlobalDatabases = supportsGlobalDatabases
             self.supportsLogExportsToCloudwatchLogs = supportsLogExportsToCloudwatchLogs
             self.supportsReadReplica = supportsReadReplica
             self.validUpgradeTarget = validUpgradeTarget
@@ -1573,6 +1637,7 @@ extension Neptune {
             case exportableLogTypes = "ExportableLogTypes"
             case supportedCharacterSets = "SupportedCharacterSets"
             case supportedTimezones = "SupportedTimezones"
+            case supportsGlobalDatabases = "SupportsGlobalDatabases"
             case supportsLogExportsToCloudwatchLogs = "SupportsLogExportsToCloudwatchLogs"
             case supportsReadReplica = "SupportsReadReplica"
             case validUpgradeTarget = "ValidUpgradeTarget"
@@ -2266,6 +2331,37 @@ extension Neptune {
         }
     }
 
+    public struct DeleteGlobalClusterMessage: AWSEncodableShape {
+        /// The cluster identifier of the global database cluster being deleted.
+        public let globalClusterIdentifier: String
+
+        public init(globalClusterIdentifier: String) {
+            self.globalClusterIdentifier = globalClusterIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, max: 255)
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, min: 1)
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, pattern: "[A-Za-z][0-9A-Za-z-:._]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case globalClusterIdentifier = "GlobalClusterIdentifier"
+        }
+    }
+
+    public struct DeleteGlobalClusterResult: AWSDecodableShape {
+        public let globalCluster: GlobalCluster?
+
+        public init(globalCluster: GlobalCluster? = nil) {
+            self.globalCluster = globalCluster
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case globalCluster = "GlobalCluster"
+        }
+    }
+
     public struct DescribeDBClusterEndpointsMessage: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
@@ -2797,6 +2893,33 @@ extension Neptune {
         }
     }
 
+    public struct DescribeGlobalClustersMessage: AWSEncodableShape {
+        /// The user-supplied DB cluster identifier. If this parameter is specified, only information about the specified DB cluster is returned. This parameter is not case-sensitive. Constraints: If supplied, must match an existing DB cluster identifier.
+        public let globalClusterIdentifier: String?
+        /// (Optional) A pagination token returned by a previous call to DescribeGlobalClusters. If this parameter is specified, the response will only include records beyond the marker, up to the number specified by MaxRecords.
+        public let marker: String?
+        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination marker token is included in the response that you can use to retrieve the remaining results. Default: 100  Constraints: Minimum 20, maximum 100.
+        public let maxRecords: Int?
+
+        public init(globalClusterIdentifier: String? = nil, marker: String? = nil, maxRecords: Int? = nil) {
+            self.globalClusterIdentifier = globalClusterIdentifier
+            self.marker = marker
+            self.maxRecords = maxRecords
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, max: 255)
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, min: 1)
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, pattern: "[A-Za-z][0-9A-Za-z-:._]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case globalClusterIdentifier = "GlobalClusterIdentifier"
+            case marker = "Marker"
+            case maxRecords = "MaxRecords"
+        }
+    }
+
     public struct DescribeOrderableDBInstanceOptionsMessage: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
@@ -3176,6 +3299,41 @@ extension Neptune {
         }
     }
 
+    public struct FailoverGlobalClusterMessage: AWSEncodableShape {
+        /// Identifier of the Neptune global database that should be failed over. The identifier is the unique key assigned by the user when the Neptune global database was created. In other words, it's the name of the global database that you want to fail over. Constraints: Must match the identifier of an existing Neptune global database.
+        public let globalClusterIdentifier: String
+        /// The Amazon Resource Name (ARN) of the secondary Neptune DB cluster that you want to promote to primary for the global database.
+        public let targetDbClusterIdentifier: String
+
+        public init(globalClusterIdentifier: String, targetDbClusterIdentifier: String) {
+            self.globalClusterIdentifier = globalClusterIdentifier
+            self.targetDbClusterIdentifier = targetDbClusterIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, max: 255)
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, min: 1)
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, pattern: "[A-Za-z][0-9A-Za-z-:._]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case globalClusterIdentifier = "GlobalClusterIdentifier"
+            case targetDbClusterIdentifier = "TargetDbClusterIdentifier"
+        }
+    }
+
+    public struct FailoverGlobalClusterResult: AWSDecodableShape {
+        public let globalCluster: GlobalCluster?
+
+        public init(globalCluster: GlobalCluster? = nil) {
+            self.globalCluster = globalCluster
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case globalCluster = "GlobalCluster"
+        }
+    }
+
     public struct Filter: AWSEncodableShape {
         public struct _ValuesEncoding: ArrayCoderProperties { public static let member = "Value" }
 
@@ -3193,6 +3351,96 @@ extension Neptune {
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case values = "Values"
+        }
+    }
+
+    public struct GlobalCluster: AWSDecodableShape {
+        public struct _GlobalClusterMembersEncoding: ArrayCoderProperties { public static let member = "GlobalClusterMember" }
+
+        /// The deletion protection setting for the global database.
+        public let deletionProtection: Bool?
+        /// The Neptune database engine used by the global database ("neptune").
+        public let engine: String?
+        /// The Neptune engine version used by the global database.
+        public let engineVersion: String?
+        /// The Amazon Resource Name (ARN) for the global database.
+        public let globalClusterArn: String?
+        /// Contains a user-supplied global database cluster identifier. This identifier is the unique key that identifies a global database.
+        public let globalClusterIdentifier: String?
+        /// A list of cluster ARNs and instance ARNs for all the DB clusters that are part of the global database.
+        @OptionalCustomCoding<ArrayCoder<_GlobalClusterMembersEncoding, GlobalClusterMember>>
+        public var globalClusterMembers: [GlobalClusterMember]?
+        /// An immutable identifier for the global database that is unique within in all regions. This identifier is found in CloudTrail log entries whenever the KMS key for the DB cluster is accessed.
+        public let globalClusterResourceId: String?
+        /// Specifies the current state of this global database.
+        public let status: String?
+        /// The storage encryption setting for the global database.
+        public let storageEncrypted: Bool?
+
+        public init(deletionProtection: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, globalClusterArn: String? = nil, globalClusterIdentifier: String? = nil, globalClusterMembers: [GlobalClusterMember]? = nil, globalClusterResourceId: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil) {
+            self.deletionProtection = deletionProtection
+            self.engine = engine
+            self.engineVersion = engineVersion
+            self.globalClusterArn = globalClusterArn
+            self.globalClusterIdentifier = globalClusterIdentifier
+            self.globalClusterMembers = globalClusterMembers
+            self.globalClusterResourceId = globalClusterResourceId
+            self.status = status
+            self.storageEncrypted = storageEncrypted
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deletionProtection = "DeletionProtection"
+            case engine = "Engine"
+            case engineVersion = "EngineVersion"
+            case globalClusterArn = "GlobalClusterArn"
+            case globalClusterIdentifier = "GlobalClusterIdentifier"
+            case globalClusterMembers = "GlobalClusterMembers"
+            case globalClusterResourceId = "GlobalClusterResourceId"
+            case status = "Status"
+            case storageEncrypted = "StorageEncrypted"
+        }
+    }
+
+    public struct GlobalClusterMember: AWSDecodableShape {
+        ///  The Amazon Resource Name (ARN) for each Neptune cluster.
+        public let dBClusterArn: String?
+        ///  Specifies whether the Neptune cluster is the primary cluster (that is, has read-write capability) for the Neptune global database with which it is associated.
+        public let isWriter: Bool?
+        ///  The Amazon Resource Name (ARN) for each read-only secondary cluster associated with the Neptune global database.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var readers: [String]?
+
+        public init(dBClusterArn: String? = nil, isWriter: Bool? = nil, readers: [String]? = nil) {
+            self.dBClusterArn = dBClusterArn
+            self.isWriter = isWriter
+            self.readers = readers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBClusterArn = "DBClusterArn"
+            case isWriter = "IsWriter"
+            case readers = "Readers"
+        }
+    }
+
+    public struct GlobalClustersMessage: AWSDecodableShape {
+        public struct _GlobalClustersEncoding: ArrayCoderProperties { public static let member = "GlobalClusterMember" }
+
+        /// The list of global clusters and instances returned by this request.
+        @OptionalCustomCoding<ArrayCoder<_GlobalClustersEncoding, GlobalCluster>>
+        public var globalClusters: [GlobalCluster]?
+        /// A pagination token. If this parameter is returned in the response, more records are available, which can be retrieved by one or more additional calls to DescribeGlobalClusters.
+        public let marker: String?
+
+        public init(globalClusters: [GlobalCluster]? = nil, marker: String? = nil) {
+            self.globalClusters = globalClusters
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case globalClusters = "GlobalClusters"
+            case marker = "Marker"
         }
     }
 
@@ -3722,6 +3970,56 @@ extension Neptune {
         }
     }
 
+    public struct ModifyGlobalClusterMessage: AWSEncodableShape {
+        /// A value that indicates whether major version upgrades are allowed. Constraints: You must allow major version upgrades if you specify a value for the EngineVersion parameter that is a different major version than the DB cluster's current version. If you upgrade the major version of a global database, the cluster and DB instance parameter groups are set to the default parameter groups for the new version, so you will need to apply any custom parameter groups after completing the upgrade.
+        public let allowMajorVersionUpgrade: Bool?
+        /// Indicates whether the global database has deletion protection enabled. The global database cannot be deleted when deletion protection is enabled.
+        public let deletionProtection: Bool?
+        /// The version number of the database engine to which you want to upgrade. Changing this parameter will result in an outage. The change is applied during the next maintenance window unless ApplyImmediately is enabled. To list all of the available Neptune engine versions, use the following command:
+        public let engineVersion: String?
+        /// The DB cluster identifier for the global cluster being modified. This parameter is not case-sensitive. Constraints: Must match the identifier of an existing global database cluster.
+        public let globalClusterIdentifier: String
+        /// A new cluster identifier to assign to the global database. This value is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   The first character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens   Example: my-cluster2
+        public let newGlobalClusterIdentifier: String?
+
+        public init(allowMajorVersionUpgrade: Bool? = nil, deletionProtection: Bool? = nil, engineVersion: String? = nil, globalClusterIdentifier: String, newGlobalClusterIdentifier: String? = nil) {
+            self.allowMajorVersionUpgrade = allowMajorVersionUpgrade
+            self.deletionProtection = deletionProtection
+            self.engineVersion = engineVersion
+            self.globalClusterIdentifier = globalClusterIdentifier
+            self.newGlobalClusterIdentifier = newGlobalClusterIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, max: 255)
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, min: 1)
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, pattern: "[A-Za-z][0-9A-Za-z-:._]*")
+            try self.validate(self.newGlobalClusterIdentifier, name: "newGlobalClusterIdentifier", parent: name, max: 255)
+            try self.validate(self.newGlobalClusterIdentifier, name: "newGlobalClusterIdentifier", parent: name, min: 1)
+            try self.validate(self.newGlobalClusterIdentifier, name: "newGlobalClusterIdentifier", parent: name, pattern: "[A-Za-z][0-9A-Za-z-:._]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowMajorVersionUpgrade = "AllowMajorVersionUpgrade"
+            case deletionProtection = "DeletionProtection"
+            case engineVersion = "EngineVersion"
+            case globalClusterIdentifier = "GlobalClusterIdentifier"
+            case newGlobalClusterIdentifier = "NewGlobalClusterIdentifier"
+        }
+    }
+
+    public struct ModifyGlobalClusterResult: AWSDecodableShape {
+        public let globalCluster: GlobalCluster?
+
+        public init(globalCluster: GlobalCluster? = nil) {
+            self.globalCluster = globalCluster
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case globalCluster = "GlobalCluster"
+        }
+    }
+
     public struct OptionGroupMembership: AWSDecodableShape {
         /// Not supported by Neptune.
         public let optionGroupName: String?
@@ -3773,6 +4071,8 @@ extension Neptune {
         public let storageType: String?
         /// Indicates whether a DB instance supports Enhanced Monitoring at intervals from 1 to 60 seconds.
         public let supportsEnhancedMonitoring: Bool?
+        /// A value that indicates whether you can use Neptune global databases with a specific combination of other DB engine attributes.
+        public let supportsGlobalDatabases: Bool?
         /// Indicates whether a DB instance supports IAM database authentication.
         public let supportsIAMDatabaseAuthentication: Bool?
         /// Indicates whether a DB instance supports provisioned IOPS.
@@ -3784,7 +4084,7 @@ extension Neptune {
         /// Indicates whether a DB instance is in a VPC.
         public let vpc: Bool?
 
-        public init(availabilityZones: [AvailabilityZone]? = nil, dBInstanceClass: String? = nil, engine: String? = nil, engineVersion: String? = nil, licenseModel: String? = nil, maxIopsPerDbInstance: Int? = nil, maxIopsPerGib: Double? = nil, maxStorageSize: Int? = nil, minIopsPerDbInstance: Int? = nil, minIopsPerGib: Double? = nil, minStorageSize: Int? = nil, multiAZCapable: Bool? = nil, readReplicaCapable: Bool? = nil, storageType: String? = nil, supportsEnhancedMonitoring: Bool? = nil, supportsIAMDatabaseAuthentication: Bool? = nil, supportsIops: Bool? = nil, supportsPerformanceInsights: Bool? = nil, supportsStorageEncryption: Bool? = nil, vpc: Bool? = nil) {
+        public init(availabilityZones: [AvailabilityZone]? = nil, dBInstanceClass: String? = nil, engine: String? = nil, engineVersion: String? = nil, licenseModel: String? = nil, maxIopsPerDbInstance: Int? = nil, maxIopsPerGib: Double? = nil, maxStorageSize: Int? = nil, minIopsPerDbInstance: Int? = nil, minIopsPerGib: Double? = nil, minStorageSize: Int? = nil, multiAZCapable: Bool? = nil, readReplicaCapable: Bool? = nil, storageType: String? = nil, supportsEnhancedMonitoring: Bool? = nil, supportsGlobalDatabases: Bool? = nil, supportsIAMDatabaseAuthentication: Bool? = nil, supportsIops: Bool? = nil, supportsPerformanceInsights: Bool? = nil, supportsStorageEncryption: Bool? = nil, vpc: Bool? = nil) {
             self.availabilityZones = availabilityZones
             self.dBInstanceClass = dBInstanceClass
             self.engine = engine
@@ -3800,6 +4100,7 @@ extension Neptune {
             self.readReplicaCapable = readReplicaCapable
             self.storageType = storageType
             self.supportsEnhancedMonitoring = supportsEnhancedMonitoring
+            self.supportsGlobalDatabases = supportsGlobalDatabases
             self.supportsIAMDatabaseAuthentication = supportsIAMDatabaseAuthentication
             self.supportsIops = supportsIops
             self.supportsPerformanceInsights = supportsPerformanceInsights
@@ -3823,6 +4124,7 @@ extension Neptune {
             case readReplicaCapable = "ReadReplicaCapable"
             case storageType = "StorageType"
             case supportsEnhancedMonitoring = "SupportsEnhancedMonitoring"
+            case supportsGlobalDatabases = "SupportsGlobalDatabases"
             case supportsIAMDatabaseAuthentication = "SupportsIAMDatabaseAuthentication"
             case supportsIops = "SupportsIops"
             case supportsPerformanceInsights = "SupportsPerformanceInsights"
@@ -4109,6 +4411,41 @@ extension Neptune {
 
         private enum CodingKeys: String, CodingKey {
             case dBInstance = "DBInstance"
+        }
+    }
+
+    public struct RemoveFromGlobalClusterMessage: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) identifying the cluster to be detached from the Neptune global database cluster.
+        public let dbClusterIdentifier: String
+        /// The identifier of the Neptune global database from which to detach the specified Neptune DB cluster.
+        public let globalClusterIdentifier: String
+
+        public init(dbClusterIdentifier: String, globalClusterIdentifier: String) {
+            self.dbClusterIdentifier = dbClusterIdentifier
+            self.globalClusterIdentifier = globalClusterIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, max: 255)
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, min: 1)
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, pattern: "[A-Za-z][0-9A-Za-z-:._]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dbClusterIdentifier = "DbClusterIdentifier"
+            case globalClusterIdentifier = "GlobalClusterIdentifier"
+        }
+    }
+
+    public struct RemoveFromGlobalClusterResult: AWSDecodableShape {
+        public let globalCluster: GlobalCluster?
+
+        public init(globalCluster: GlobalCluster? = nil) {
+            self.globalCluster = globalCluster
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case globalCluster = "GlobalCluster"
         }
     }
 
@@ -4560,13 +4897,16 @@ extension Neptune {
         public let engineVersion: String?
         /// A value that indicates whether a database engine is upgraded to a major version.
         public let isMajorVersionUpgrade: Bool?
+        /// A value that indicates whether you can use Neptune global databases with the target engine version.
+        public let supportsGlobalDatabases: Bool?
 
-        public init(autoUpgrade: Bool? = nil, description: String? = nil, engine: String? = nil, engineVersion: String? = nil, isMajorVersionUpgrade: Bool? = nil) {
+        public init(autoUpgrade: Bool? = nil, description: String? = nil, engine: String? = nil, engineVersion: String? = nil, isMajorVersionUpgrade: Bool? = nil, supportsGlobalDatabases: Bool? = nil) {
             self.autoUpgrade = autoUpgrade
             self.description = description
             self.engine = engine
             self.engineVersion = engineVersion
             self.isMajorVersionUpgrade = isMajorVersionUpgrade
+            self.supportsGlobalDatabases = supportsGlobalDatabases
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4575,6 +4915,7 @@ extension Neptune {
             case engine = "Engine"
             case engineVersion = "EngineVersion"
             case isMajorVersionUpgrade = "IsMajorVersionUpgrade"
+            case supportsGlobalDatabases = "SupportsGlobalDatabases"
         }
     }
 

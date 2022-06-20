@@ -18,7 +18,7 @@
 
 /// Service object for interacting with AWS NetworkManager service.
 ///
-/// Transit Gateway Network Manager (Network Manager) enables you to create a global network, in which you can monitor your Amazon Web Services and on-premises networks that are built around transit gateways.
+/// Amazon Web Services enables you to centrally manage your Amazon Web Services Cloud WAN core network and your Transit Gateway network across Amazon Web Services accounts, Regions, and on-premises locations.
 public struct NetworkManager: AWSService {
     // MARK: Member variables
 
@@ -72,7 +72,7 @@ public struct NetworkManager: AWSService {
         return self.client.execute(operation: "AssociateConnectPeer", path: "/global-networks/{globalNetworkId}/connect-peer-associations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Associates a customer gateway with a device and optionally, with a link. If you specify a link, it must be associated with the specified device.  You can only associate customer gateways that are connected to a VPN attachment on a transit gateway. The transit gateway must be registered in your global network. When you register a transit gateway, customer gateways that are connected to the transit gateway are automatically included in the global network. To list customer gateways that are connected to a transit gateway, use the DescribeVpnConnections EC2 API and filter by transit-gateway-id. You cannot associate a customer gateway with more than one device and link.
+    /// Associates a customer gateway with a device and optionally, with a link. If you specify a link, it must be associated with the specified device.  You can only associate customer gateways that are connected to a VPN attachment on a transit gateway or core network registered in your global network. When you register a transit gateway or core network, customer gateways that are connected to the transit gateway are automatically included in the global network. To list customer gateways that are connected to a transit gateway, use the DescribeVpnConnections EC2 API and filter by transit-gateway-id. You cannot associate a customer gateway with more than one device and link.
     public func associateCustomerGateway(_ input: AssociateCustomerGatewayRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateCustomerGatewayResponse> {
         return self.client.execute(operation: "AssociateCustomerGateway", path: "/global-networks/{globalNetworkId}/customer-gateway-associations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -92,7 +92,7 @@ public struct NetworkManager: AWSService {
         return self.client.execute(operation: "CreateConnectAttachment", path: "/connect-attachments", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a core network connect peer for a specified core network connect attachment between a core network and an appliance. The peer address and transit gateway address must be the same IP address family (IPv4 or IPv6).
+    /// Creates a core network Connect peer for a specified core network connect attachment between a core network and an appliance. The peer address and transit gateway address must be the same IP address family (IPv4 or IPv6).
     public func createConnectPeer(_ input: CreateConnectPeerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateConnectPeerResponse> {
         return self.client.execute(operation: "CreateConnectPeer", path: "/connect-peers", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -127,7 +127,7 @@ public struct NetworkManager: AWSService {
         return self.client.execute(operation: "CreateSite", path: "/global-networks/{globalNetworkId}/sites", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a site-to-site VPN attachment on an edge location of a core network.
+    /// Creates an Amazon Web Services site-to-site VPN attachment on an edge location of a core network.
     public func createSiteToSiteVpnAttachment(_ input: CreateSiteToSiteVpnAttachmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateSiteToSiteVpnAttachmentResponse> {
         return self.client.execute(operation: "CreateSiteToSiteVpnAttachment", path: "/site-to-site-vpn-attachments", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -167,7 +167,7 @@ public struct NetworkManager: AWSService {
         return self.client.execute(operation: "DeleteDevice", path: "/global-networks/{globalNetworkId}/devices/{deviceId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes an existing global network. You must first delete all global network objects (devices, links, and sites) and deregister all transit gateways.
+    /// Deletes an existing global network. You must first delete all global network objects (devices, links, and sites), deregister all transit gateways, and delete any core networks.
     public func deleteGlobalNetwork(_ input: DeleteGlobalNetworkRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteGlobalNetworkResponse> {
         return self.client.execute(operation: "DeleteGlobalNetwork", path: "/global-networks/{globalNetworkId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -242,7 +242,7 @@ public struct NetworkManager: AWSService {
         return self.client.execute(operation: "GetConnections", path: "/global-networks/{globalNetworkId}/connections", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns information about a core network. By default it returns the LIVE policy.
+    /// Returns information about the LIVE policy for a core network.
     public func getCoreNetwork(_ input: GetCoreNetworkRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCoreNetworkResponse> {
         return self.client.execute(operation: "GetCoreNetwork", path: "/core-networks/{coreNetworkId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -357,6 +357,10 @@ public struct NetworkManager: AWSService {
         return self.client.execute(operation: "ListCoreNetworks", path: "/core-networks", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    public func listOrganizationServiceAccessStatus(_ input: ListOrganizationServiceAccessStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListOrganizationServiceAccessStatusResponse> {
+        return self.client.execute(operation: "ListOrganizationServiceAccessStatus", path: "/organizations/service-access", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Lists the tags for a specified resource.
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
         return self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -385,6 +389,10 @@ public struct NetworkManager: AWSService {
     /// Restores a previous policy version as a new, immutable version of a core network policy. A subsequent change set is created showing the differences between the LIVE policy and restored policy.
     public func restoreCoreNetworkPolicyVersion(_ input: RestoreCoreNetworkPolicyVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RestoreCoreNetworkPolicyVersionResponse> {
         return self.client.execute(operation: "RestoreCoreNetworkPolicyVersion", path: "/core-networks/{coreNetworkId}/core-network-policy-versions/{policyVersionId}/restore", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    public func startOrganizationServiceAccessUpdate(_ input: StartOrganizationServiceAccessUpdateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartOrganizationServiceAccessUpdateResponse> {
+        return self.client.execute(operation: "StartOrganizationServiceAccessUpdate", path: "/organizations/service-access", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Starts analyzing the routing path between the specified source and destination. For more information, see Route Analyzer.

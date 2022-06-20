@@ -22,6 +22,7 @@ public struct AuditManagerErrorType: AWSErrorType {
         case accessDeniedException = "AccessDeniedException"
         case internalServerException = "InternalServerException"
         case resourceNotFoundException = "ResourceNotFoundException"
+        case throttlingException = "ThrottlingException"
         case validationException = "ValidationException"
     }
 
@@ -49,6 +50,8 @@ public struct AuditManagerErrorType: AWSErrorType {
     public static var internalServerException: Self { .init(.internalServerException) }
     ///  The resource that's specified in the request can't be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// The request was denied due to request throttling.
+    public static var throttlingException: Self { .init(.throttlingException) }
     ///  The request has invalid or missing parameters.
     public static var validationException: Self { .init(.validationException) }
 }

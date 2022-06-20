@@ -248,9 +248,10 @@ extension NetworkManager {
         public func validate(name: String) throws {
             try self.validate(self.subnetArn, name: "subnetArn", parent: name, max: 500)
             try self.validate(self.subnetArn, name: "subnetArn", parent: name, min: 0)
-            try self.validate(self.subnetArn, name: "subnetArn", parent: name, pattern: "^arn:[^:]{1,63}:ec2:[^:]{0,63}:[^:]{0,63}:subnet\\/subnet-[0-9a-f]{8,17}$")
+            try self.validate(self.subnetArn, name: "subnetArn", parent: name, pattern: "^arn:[^:]{1,63}:ec2:[^:]{0,63}:[^:]{0,63}:subnet\\/subnet-[0-9a-f]{8,17}$|^$")
             try self.validate(self.zone, name: "zone", parent: name, max: 256)
             try self.validate(self.zone, name: "zone", parent: name, min: 0)
+            try self.validate(self.zone, name: "zone", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -293,6 +294,21 @@ extension NetworkManager {
         }
     }
 
+    public struct AccountStatus: AWSDecodableShape {
+        public let accountId: String?
+        public let sLRDeploymentStatus: String?
+
+        public init(accountId: String? = nil, sLRDeploymentStatus: String? = nil) {
+            self.accountId = accountId
+            self.sLRDeploymentStatus = sLRDeploymentStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case sLRDeploymentStatus = "SLRDeploymentStatus"
+        }
+    }
+
     public struct AssociateConnectPeerRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId"))
@@ -320,10 +336,13 @@ extension NetworkManager {
             try self.validate(self.connectPeerId, name: "connectPeerId", parent: name, pattern: "^connect-peer-([0-9a-f]{8,17})$")
             try self.validate(self.deviceId, name: "deviceId", parent: name, max: 50)
             try self.validate(self.deviceId, name: "deviceId", parent: name, min: 0)
+            try self.validate(self.deviceId, name: "deviceId", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.linkId, name: "linkId", parent: name, max: 50)
             try self.validate(self.linkId, name: "linkId", parent: name, min: 0)
+            try self.validate(self.linkId, name: "linkId", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -370,12 +389,16 @@ extension NetworkManager {
         public func validate(name: String) throws {
             try self.validate(self.customerGatewayArn, name: "customerGatewayArn", parent: name, max: 500)
             try self.validate(self.customerGatewayArn, name: "customerGatewayArn", parent: name, min: 0)
+            try self.validate(self.customerGatewayArn, name: "customerGatewayArn", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.deviceId, name: "deviceId", parent: name, max: 50)
             try self.validate(self.deviceId, name: "deviceId", parent: name, min: 0)
+            try self.validate(self.deviceId, name: "deviceId", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.linkId, name: "linkId", parent: name, max: 50)
             try self.validate(self.linkId, name: "linkId", parent: name, min: 0)
+            try self.validate(self.linkId, name: "linkId", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -419,10 +442,13 @@ extension NetworkManager {
         public func validate(name: String) throws {
             try self.validate(self.deviceId, name: "deviceId", parent: name, max: 50)
             try self.validate(self.deviceId, name: "deviceId", parent: name, min: 0)
+            try self.validate(self.deviceId, name: "deviceId", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.linkId, name: "linkId", parent: name, max: 50)
             try self.validate(self.linkId, name: "linkId", parent: name, min: 0)
+            try self.validate(self.linkId, name: "linkId", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -468,12 +494,16 @@ extension NetworkManager {
         public func validate(name: String) throws {
             try self.validate(self.deviceId, name: "deviceId", parent: name, max: 50)
             try self.validate(self.deviceId, name: "deviceId", parent: name, min: 0)
+            try self.validate(self.deviceId, name: "deviceId", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.linkId, name: "linkId", parent: name, max: 50)
             try self.validate(self.linkId, name: "linkId", parent: name, min: 0)
+            try self.validate(self.linkId, name: "linkId", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.transitGatewayConnectPeerArn, name: "transitGatewayConnectPeerArn", parent: name, max: 500)
             try self.validate(self.transitGatewayConnectPeerArn, name: "transitGatewayConnectPeerArn", parent: name, min: 0)
+            try self.validate(self.transitGatewayConnectPeerArn, name: "transitGatewayConnectPeerArn", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1128,8 +1158,10 @@ extension NetworkManager {
             try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, pattern: "^core-network-([0-9a-f]{8,17})$")
             try self.validate(self.edgeLocation, name: "edgeLocation", parent: name, max: 63)
             try self.validate(self.edgeLocation, name: "edgeLocation", parent: name, min: 1)
+            try self.validate(self.edgeLocation, name: "edgeLocation", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.segmentName, name: "segmentName", parent: name, max: 256)
             try self.validate(self.segmentName, name: "segmentName", parent: name, min: 0)
+            try self.validate(self.segmentName, name: "segmentName", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1202,11 +1234,16 @@ extension NetworkManager {
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 0)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, max: 50)
             try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, min: 0)
             try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, pattern: "^core-network-([0-9a-f]{8,17})$")
             try self.validate(self.edgeLocation, name: "edgeLocation", parent: name, max: 63)
             try self.validate(self.edgeLocation, name: "edgeLocation", parent: name, min: 1)
+            try self.validate(self.edgeLocation, name: "edgeLocation", parent: name, pattern: "[\\s\\S]*")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
             try self.validate(self.transportAttachmentId, name: "transportAttachmentId", parent: name, max: 50)
             try self.validate(self.transportAttachmentId, name: "transportAttachmentId", parent: name, min: 0)
             try self.validate(self.transportAttachmentId, name: "transportAttachmentId", parent: name, pattern: "^attachment-([0-9a-f]{8,17})$")
@@ -1264,17 +1301,24 @@ extension NetworkManager {
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 0)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.connectAttachmentId, name: "connectAttachmentId", parent: name, max: 50)
             try self.validate(self.connectAttachmentId, name: "connectAttachmentId", parent: name, min: 0)
             try self.validate(self.connectAttachmentId, name: "connectAttachmentId", parent: name, pattern: "^attachment-([0-9a-f]{8,17})$")
             try self.validate(self.coreNetworkAddress, name: "coreNetworkAddress", parent: name, max: 50)
             try self.validate(self.coreNetworkAddress, name: "coreNetworkAddress", parent: name, min: 1)
+            try self.validate(self.coreNetworkAddress, name: "coreNetworkAddress", parent: name, pattern: "[\\s\\S]*")
             try self.insideCidrBlocks.forEach {
                 try validate($0, name: "insideCidrBlocks[]", parent: name, max: 256)
                 try validate($0, name: "insideCidrBlocks[]", parent: name, min: 0)
+                try validate($0, name: "insideCidrBlocks[]", parent: name, pattern: "[\\s\\S]*")
             }
             try self.validate(self.peerAddress, name: "peerAddress", parent: name, max: 50)
             try self.validate(self.peerAddress, name: "peerAddress", parent: name, min: 1)
+            try self.validate(self.peerAddress, name: "peerAddress", parent: name, pattern: "[\\s\\S]*")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1334,16 +1378,25 @@ extension NetworkManager {
         public func validate(name: String) throws {
             try self.validate(self.connectedDeviceId, name: "connectedDeviceId", parent: name, max: 50)
             try self.validate(self.connectedDeviceId, name: "connectedDeviceId", parent: name, min: 0)
+            try self.validate(self.connectedDeviceId, name: "connectedDeviceId", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.connectedLinkId, name: "connectedLinkId", parent: name, max: 50)
             try self.validate(self.connectedLinkId, name: "connectedLinkId", parent: name, min: 0)
+            try self.validate(self.connectedLinkId, name: "connectedLinkId", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.validate(self.description, name: "description", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.deviceId, name: "deviceId", parent: name, max: 50)
             try self.validate(self.deviceId, name: "deviceId", parent: name, min: 0)
+            try self.validate(self.deviceId, name: "deviceId", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.linkId, name: "linkId", parent: name, max: 50)
             try self.validate(self.linkId, name: "linkId", parent: name, min: 0)
+            try self.validate(self.linkId, name: "linkId", parent: name, pattern: "[\\s\\S]*")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1392,10 +1445,19 @@ extension NetworkManager {
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 0)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.validate(self.description, name: "description", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, pattern: "[\\s\\S]*")
+            try self.validate(self.policyDocument, name: "policyDocument", parent: name, max: 10_000_000)
+            try self.validate(self.policyDocument, name: "policyDocument", parent: name, min: 0)
+            try self.validate(self.policyDocument, name: "policyDocument", parent: name, pattern: "[\\s\\S]*")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1463,19 +1525,29 @@ extension NetworkManager {
             try self.aWSLocation?.validate(name: "\(name).aWSLocation")
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.validate(self.description, name: "description", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, pattern: "[\\s\\S]*")
             try self.location?.validate(name: "\(name).location")
             try self.validate(self.model, name: "model", parent: name, max: 256)
             try self.validate(self.model, name: "model", parent: name, min: 0)
+            try self.validate(self.model, name: "model", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.serialNumber, name: "serialNumber", parent: name, max: 256)
             try self.validate(self.serialNumber, name: "serialNumber", parent: name, min: 0)
+            try self.validate(self.serialNumber, name: "serialNumber", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.siteId, name: "siteId", parent: name, max: 50)
             try self.validate(self.siteId, name: "siteId", parent: name, min: 0)
+            try self.validate(self.siteId, name: "siteId", parent: name, pattern: "[\\s\\S]*")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
             try self.validate(self.type, name: "type", parent: name, max: 256)
             try self.validate(self.type, name: "type", parent: name, min: 0)
+            try self.validate(self.type, name: "type", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.vendor, name: "vendor", parent: name, max: 256)
             try self.validate(self.vendor, name: "vendor", parent: name, min: 0)
+            try self.validate(self.vendor, name: "vendor", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1518,6 +1590,10 @@ extension NetworkManager {
         public func validate(name: String) throws {
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.validate(self.description, name: "description", parent: name, pattern: "[\\s\\S]*")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1572,14 +1648,22 @@ extension NetworkManager {
         public func validate(name: String) throws {
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.validate(self.description, name: "description", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.provider, name: "provider", parent: name, max: 256)
             try self.validate(self.provider, name: "provider", parent: name, min: 0)
+            try self.validate(self.provider, name: "provider", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.siteId, name: "siteId", parent: name, max: 50)
             try self.validate(self.siteId, name: "siteId", parent: name, min: 0)
+            try self.validate(self.siteId, name: "siteId", parent: name, pattern: "[\\s\\S]*")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
             try self.validate(self.type, name: "type", parent: name, max: 256)
             try self.validate(self.type, name: "type", parent: name, min: 0)
+            try self.validate(self.type, name: "type", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1629,9 +1713,14 @@ extension NetworkManager {
         public func validate(name: String) throws {
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.validate(self.description, name: "description", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, pattern: "[\\s\\S]*")
             try self.location?.validate(name: "\(name).location")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1674,9 +1763,13 @@ extension NetworkManager {
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 0)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, max: 50)
             try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, min: 0)
             try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, pattern: "^core-network-([0-9a-f]{8,17})$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
             try self.validate(self.vpnConnectionArn, name: "vpnConnectionArn", parent: name, max: 500)
             try self.validate(self.vpnConnectionArn, name: "vpnConnectionArn", parent: name, min: 0)
             try self.validate(self.vpnConnectionArn, name: "vpnConnectionArn", parent: name, pattern: "^arn:[^:]{1,63}:ec2:[^:]{0,63}:[^:]{0,63}:vpn-connection\\/vpn-[0-9a-f]{8,17}$")
@@ -1729,13 +1822,17 @@ extension NetworkManager {
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 0)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, max: 50)
             try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, min: 0)
             try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, pattern: "^core-network-([0-9a-f]{8,17})$")
             try self.subnetArns.forEach {
                 try validate($0, name: "subnetArns[]", parent: name, max: 500)
                 try validate($0, name: "subnetArns[]", parent: name, min: 0)
-                try validate($0, name: "subnetArns[]", parent: name, pattern: "^arn:[^:]{1,63}:ec2:[^:]{0,63}:[^:]{0,63}:subnet\\/subnet-[0-9a-f]{8,17}$")
+                try validate($0, name: "subnetArns[]", parent: name, pattern: "^arn:[^:]{1,63}:ec2:[^:]{0,63}:[^:]{0,63}:subnet\\/subnet-[0-9a-f]{8,17}$|^$")
+            }
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
             }
             try self.validate(self.vpcArn, name: "vpcArn", parent: name, max: 500)
             try self.validate(self.vpcArn, name: "vpcArn", parent: name, min: 0)
@@ -1881,8 +1978,10 @@ extension NetworkManager {
         public func validate(name: String) throws {
             try self.validate(self.connectionId, name: "connectionId", parent: name, max: 50)
             try self.validate(self.connectionId, name: "connectionId", parent: name, min: 0)
+            try self.validate(self.connectionId, name: "connectionId", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1992,8 +2091,10 @@ extension NetworkManager {
         public func validate(name: String) throws {
             try self.validate(self.deviceId, name: "deviceId", parent: name, max: 50)
             try self.validate(self.deviceId, name: "deviceId", parent: name, min: 0)
+            try self.validate(self.deviceId, name: "deviceId", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2027,6 +2128,7 @@ extension NetworkManager {
         public func validate(name: String) throws {
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2064,8 +2166,10 @@ extension NetworkManager {
         public func validate(name: String) throws {
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.linkId, name: "linkId", parent: name, max: 50)
             try self.validate(self.linkId, name: "linkId", parent: name, min: 0)
+            try self.validate(self.linkId, name: "linkId", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2099,6 +2203,7 @@ extension NetworkManager {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1500)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 0)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2127,8 +2232,10 @@ extension NetworkManager {
         public func validate(name: String) throws {
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.siteId, name: "siteId", parent: name, max: 50)
             try self.validate(self.siteId, name: "siteId", parent: name, min: 0)
+            try self.validate(self.siteId, name: "siteId", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2166,8 +2273,10 @@ extension NetworkManager {
         public func validate(name: String) throws {
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.transitGatewayArn, name: "transitGatewayArn", parent: name, max: 500)
             try self.validate(self.transitGatewayArn, name: "transitGatewayArn", parent: name, min: 0)
+            try self.validate(self.transitGatewayArn, name: "transitGatewayArn", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2210,11 +2319,13 @@ extension NetworkManager {
             try self.globalNetworkIds?.forEach {
                 try validate($0, name: "globalNetworkIds[]", parent: name, max: 50)
                 try validate($0, name: "globalNetworkIds[]", parent: name, min: 0)
+                try validate($0, name: "globalNetworkIds[]", parent: name, pattern: "[\\s\\S]*")
             }
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2324,6 +2435,7 @@ extension NetworkManager {
             try self.validate(self.connectPeerId, name: "connectPeerId", parent: name, pattern: "^connect-peer-([0-9a-f]{8,17})$")
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2361,8 +2473,10 @@ extension NetworkManager {
         public func validate(name: String) throws {
             try self.validate(self.customerGatewayArn, name: "customerGatewayArn", parent: name, max: 500)
             try self.validate(self.customerGatewayArn, name: "customerGatewayArn", parent: name, min: 0)
+            try self.validate(self.customerGatewayArn, name: "customerGatewayArn", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2404,10 +2518,13 @@ extension NetworkManager {
         public func validate(name: String) throws {
             try self.validate(self.deviceId, name: "deviceId", parent: name, max: 50)
             try self.validate(self.deviceId, name: "deviceId", parent: name, min: 0)
+            try self.validate(self.deviceId, name: "deviceId", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.linkId, name: "linkId", parent: name, max: 50)
             try self.validate(self.linkId, name: "linkId", parent: name, min: 0)
+            try self.validate(self.linkId, name: "linkId", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2445,8 +2562,10 @@ extension NetworkManager {
         public func validate(name: String) throws {
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.transitGatewayConnectPeerArn, name: "transitGatewayConnectPeerArn", parent: name, max: 500)
             try self.validate(self.transitGatewayConnectPeerArn, name: "transitGatewayConnectPeerArn", parent: name, min: 0)
+            try self.validate(self.transitGatewayConnectPeerArn, name: "transitGatewayConnectPeerArn", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2560,10 +2679,12 @@ extension NetworkManager {
             }
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2652,15 +2773,19 @@ extension NetworkManager {
             try self.connectionIds?.forEach {
                 try validate($0, name: "connectionIds[]", parent: name, max: 50)
                 try validate($0, name: "connectionIds[]", parent: name, min: 0)
+                try validate($0, name: "connectionIds[]", parent: name, pattern: "[\\s\\S]*")
             }
             try self.validate(self.deviceId, name: "deviceId", parent: name, max: 50)
             try self.validate(self.deviceId, name: "deviceId", parent: name, min: 0)
+            try self.validate(self.deviceId, name: "deviceId", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2715,6 +2840,7 @@ extension NetworkManager {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2841,13 +2967,16 @@ extension NetworkManager {
             try self.customerGatewayArns?.forEach {
                 try validate($0, name: "customerGatewayArns[]", parent: name, max: 500)
                 try validate($0, name: "customerGatewayArns[]", parent: name, min: 0)
+                try validate($0, name: "customerGatewayArns[]", parent: name, pattern: "[\\s\\S]*")
             }
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2902,15 +3031,19 @@ extension NetworkManager {
             try self.deviceIds?.forEach {
                 try validate($0, name: "deviceIds[]", parent: name, max: 50)
                 try validate($0, name: "deviceIds[]", parent: name, min: 0)
+                try validate($0, name: "deviceIds[]", parent: name, pattern: "[\\s\\S]*")
             }
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.siteId, name: "siteId", parent: name, max: 50)
             try self.validate(self.siteId, name: "siteId", parent: name, min: 0)
+            try self.validate(self.siteId, name: "siteId", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2964,14 +3097,18 @@ extension NetworkManager {
         public func validate(name: String) throws {
             try self.validate(self.deviceId, name: "deviceId", parent: name, max: 50)
             try self.validate(self.deviceId, name: "deviceId", parent: name, min: 0)
+            try self.validate(self.deviceId, name: "deviceId", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.linkId, name: "linkId", parent: name, max: 50)
             try self.validate(self.linkId, name: "linkId", parent: name, min: 0)
+            try self.validate(self.linkId, name: "linkId", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3033,20 +3170,26 @@ extension NetworkManager {
         public func validate(name: String) throws {
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, pattern: "[\\s\\S]*")
             try self.linkIds?.forEach {
                 try validate($0, name: "linkIds[]", parent: name, max: 50)
                 try validate($0, name: "linkIds[]", parent: name, min: 0)
+                try validate($0, name: "linkIds[]", parent: name, pattern: "[\\s\\S]*")
             }
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.provider, name: "provider", parent: name, max: 256)
             try self.validate(self.provider, name: "provider", parent: name, min: 0)
+            try self.validate(self.provider, name: "provider", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.siteId, name: "siteId", parent: name, max: 50)
             try self.validate(self.siteId, name: "siteId", parent: name, min: 0)
+            try self.validate(self.siteId, name: "siteId", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.type, name: "type", parent: name, max: 256)
             try self.validate(self.type, name: "type", parent: name, min: 0)
+            try self.validate(self.type, name: "type", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3096,12 +3239,15 @@ extension NetworkManager {
         public func validate(name: String) throws {
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.resourceType, name: "resourceType", parent: name, max: 256)
             try self.validate(self.resourceType, name: "resourceType", parent: name, min: 0)
+            try self.validate(self.resourceType, name: "resourceType", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3171,23 +3317,30 @@ extension NetworkManager {
         public func validate(name: String) throws {
             try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.awsRegion, name: "awsRegion", parent: name, max: 63)
             try self.validate(self.awsRegion, name: "awsRegion", parent: name, min: 1)
+            try self.validate(self.awsRegion, name: "awsRegion", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, max: 50)
             try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, min: 0)
             try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, pattern: "^core-network-([0-9a-f]{8,17})$")
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.registeredGatewayArn, name: "registeredGatewayArn", parent: name, max: 1500)
             try self.validate(self.registeredGatewayArn, name: "registeredGatewayArn", parent: name, min: 0)
+            try self.validate(self.registeredGatewayArn, name: "registeredGatewayArn", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1500)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 0)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.resourceType, name: "resourceType", parent: name, max: 256)
             try self.validate(self.resourceType, name: "resourceType", parent: name, min: 0)
+            try self.validate(self.resourceType, name: "resourceType", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3257,23 +3410,30 @@ extension NetworkManager {
         public func validate(name: String) throws {
             try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.awsRegion, name: "awsRegion", parent: name, max: 63)
             try self.validate(self.awsRegion, name: "awsRegion", parent: name, min: 1)
+            try self.validate(self.awsRegion, name: "awsRegion", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, max: 50)
             try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, min: 0)
             try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, pattern: "^core-network-([0-9a-f]{8,17})$")
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.registeredGatewayArn, name: "registeredGatewayArn", parent: name, max: 1500)
             try self.validate(self.registeredGatewayArn, name: "registeredGatewayArn", parent: name, min: 0)
+            try self.validate(self.registeredGatewayArn, name: "registeredGatewayArn", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1500)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 0)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.resourceType, name: "resourceType", parent: name, max: 256)
             try self.validate(self.resourceType, name: "resourceType", parent: name, min: 0)
+            try self.validate(self.resourceType, name: "resourceType", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3343,25 +3503,31 @@ extension NetworkManager {
             try self.exactCidrMatches?.forEach {
                 try validate($0, name: "exactCidrMatches[]", parent: name, max: 256)
                 try validate($0, name: "exactCidrMatches[]", parent: name, min: 0)
+                try validate($0, name: "exactCidrMatches[]", parent: name, pattern: "[\\s\\S]*")
             }
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, pattern: "[\\s\\S]*")
             try self.longestPrefixMatches?.forEach {
                 try validate($0, name: "longestPrefixMatches[]", parent: name, max: 256)
                 try validate($0, name: "longestPrefixMatches[]", parent: name, min: 0)
+                try validate($0, name: "longestPrefixMatches[]", parent: name, pattern: "[\\s\\S]*")
             }
             try self.prefixListIds?.forEach {
                 try validate($0, name: "prefixListIds[]", parent: name, max: 256)
                 try validate($0, name: "prefixListIds[]", parent: name, min: 0)
+                try validate($0, name: "prefixListIds[]", parent: name, pattern: "[\\s\\S]*")
             }
             try self.routeTableIdentifier.validate(name: "\(name).routeTableIdentifier")
             try self.subnetOfMatches?.forEach {
                 try validate($0, name: "subnetOfMatches[]", parent: name, max: 256)
                 try validate($0, name: "subnetOfMatches[]", parent: name, min: 0)
+                try validate($0, name: "subnetOfMatches[]", parent: name, pattern: "[\\s\\S]*")
             }
             try self.supernetOfMatches?.forEach {
                 try validate($0, name: "supernetOfMatches[]", parent: name, max: 256)
                 try validate($0, name: "supernetOfMatches[]", parent: name, min: 0)
+                try validate($0, name: "supernetOfMatches[]", parent: name, pattern: "[\\s\\S]*")
             }
         }
 
@@ -3454,23 +3620,30 @@ extension NetworkManager {
         public func validate(name: String) throws {
             try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.awsRegion, name: "awsRegion", parent: name, max: 63)
             try self.validate(self.awsRegion, name: "awsRegion", parent: name, min: 1)
+            try self.validate(self.awsRegion, name: "awsRegion", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, max: 50)
             try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, min: 0)
             try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, pattern: "^core-network-([0-9a-f]{8,17})$")
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.registeredGatewayArn, name: "registeredGatewayArn", parent: name, max: 1500)
             try self.validate(self.registeredGatewayArn, name: "registeredGatewayArn", parent: name, min: 0)
+            try self.validate(self.registeredGatewayArn, name: "registeredGatewayArn", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1500)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 0)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.resourceType, name: "resourceType", parent: name, max: 256)
             try self.validate(self.resourceType, name: "resourceType", parent: name, min: 0)
+            try self.validate(self.resourceType, name: "resourceType", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3508,6 +3681,7 @@ extension NetworkManager {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1500)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 0)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3545,8 +3719,10 @@ extension NetworkManager {
         public func validate(name: String) throws {
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.routeAnalysisId, name: "routeAnalysisId", parent: name, max: 256)
             try self.validate(self.routeAnalysisId, name: "routeAnalysisId", parent: name, min: 0)
+            try self.validate(self.routeAnalysisId, name: "routeAnalysisId", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3626,13 +3802,16 @@ extension NetworkManager {
         public func validate(name: String) throws {
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\s\\S]*")
             try self.siteIds?.forEach {
                 try validate($0, name: "siteIds[]", parent: name, max: 50)
                 try validate($0, name: "siteIds[]", parent: name, min: 0)
+                try validate($0, name: "siteIds[]", parent: name, pattern: "[\\s\\S]*")
             }
         }
 
@@ -3683,13 +3862,16 @@ extension NetworkManager {
         public func validate(name: String) throws {
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\s\\S]*")
             try self.transitGatewayConnectPeerArns?.forEach {
                 try validate($0, name: "transitGatewayConnectPeerArns[]", parent: name, max: 500)
                 try validate($0, name: "transitGatewayConnectPeerArns[]", parent: name, min: 0)
+                try validate($0, name: "transitGatewayConnectPeerArns[]", parent: name, pattern: "[\\s\\S]*")
             }
         }
 
@@ -3740,13 +3922,16 @@ extension NetworkManager {
         public func validate(name: String) throws {
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\s\\S]*")
             try self.transitGatewayArns?.forEach {
                 try validate($0, name: "transitGatewayArns[]", parent: name, max: 500)
                 try validate($0, name: "transitGatewayArns[]", parent: name, min: 0)
+                try validate($0, name: "transitGatewayArns[]", parent: name, pattern: "[\\s\\S]*")
             }
         }
 
@@ -3953,10 +4138,12 @@ extension NetworkManager {
             try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, pattern: "^core-network-([0-9a-f]{8,17})$")
             try self.validate(self.edgeLocation, name: "edgeLocation", parent: name, max: 63)
             try self.validate(self.edgeLocation, name: "edgeLocation", parent: name, min: 1)
+            try self.validate(self.edgeLocation, name: "edgeLocation", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4014,6 +4201,7 @@ extension NetworkManager {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4064,6 +4252,7 @@ extension NetworkManager {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4107,6 +4296,7 @@ extension NetworkManager {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4129,6 +4319,46 @@ extension NetworkManager {
         }
     }
 
+    public struct ListOrganizationServiceAccessStatusRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        ]
+
+        public let maxResults: Int?
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\s\\S]*")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListOrganizationServiceAccessStatusResponse: AWSDecodableShape {
+        public let nextToken: String?
+        public let organizationStatus: OrganizationStatus?
+
+        public init(nextToken: String? = nil, organizationStatus: OrganizationStatus? = nil) {
+            self.nextToken = nextToken
+            self.organizationStatus = organizationStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case organizationStatus = "OrganizationStatus"
+        }
+    }
+
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
@@ -4144,6 +4374,7 @@ extension NetworkManager {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1500)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 0)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4179,10 +4410,13 @@ extension NetworkManager {
         public func validate(name: String) throws {
             try self.validate(self.address, name: "address", parent: name, max: 256)
             try self.validate(self.address, name: "address", parent: name, min: 0)
+            try self.validate(self.address, name: "address", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.latitude, name: "latitude", parent: name, max: 256)
             try self.validate(self.latitude, name: "latitude", parent: name, min: 0)
+            try self.validate(self.latitude, name: "latitude", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.longitude, name: "longitude", parent: name, max: 256)
             try self.validate(self.longitude, name: "longitude", parent: name, min: 0)
+            try self.validate(self.longitude, name: "longitude", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4402,6 +4636,27 @@ extension NetworkManager {
         }
     }
 
+    public struct OrganizationStatus: AWSDecodableShape {
+        public let accountStatusList: [AccountStatus]?
+        public let organizationAwsServiceAccessStatus: String?
+        public let organizationId: String?
+        public let sLRDeploymentStatus: String?
+
+        public init(accountStatusList: [AccountStatus]? = nil, organizationAwsServiceAccessStatus: String? = nil, organizationId: String? = nil, sLRDeploymentStatus: String? = nil) {
+            self.accountStatusList = accountStatusList
+            self.organizationAwsServiceAccessStatus = organizationAwsServiceAccessStatus
+            self.organizationId = organizationId
+            self.sLRDeploymentStatus = sLRDeploymentStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountStatusList = "AccountStatusList"
+            case organizationAwsServiceAccessStatus = "OrganizationAwsServiceAccessStatus"
+            case organizationId = "OrganizationId"
+            case sLRDeploymentStatus = "SLRDeploymentStatus"
+        }
+    }
+
     public struct PathComponent: AWSDecodableShape {
         /// The destination CIDR block in the route table.
         public let destinationCidrBlock: String?
@@ -4471,11 +4726,16 @@ extension NetworkManager {
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 0)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, max: 50)
             try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, min: 0)
             try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, pattern: "^core-network-([0-9a-f]{8,17})$")
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.validate(self.description, name: "description", parent: name, pattern: "[\\s\\S]*")
+            try self.validate(self.policyDocument, name: "policyDocument", parent: name, max: 10_000_000)
+            try self.validate(self.policyDocument, name: "policyDocument", parent: name, min: 0)
+            try self.validate(self.policyDocument, name: "policyDocument", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4515,8 +4775,12 @@ extension NetworkManager {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.policyDocument, name: "policyDocument", parent: name, max: 10_000_000)
+            try self.validate(self.policyDocument, name: "policyDocument", parent: name, min: 0)
+            try self.validate(self.policyDocument, name: "policyDocument", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1500)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 0)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4546,8 +4810,10 @@ extension NetworkManager {
         public func validate(name: String) throws {
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.transitGatewayArn, name: "transitGatewayArn", parent: name, max: 500)
             try self.validate(self.transitGatewayArn, name: "transitGatewayArn", parent: name, min: 0)
+            try self.validate(self.transitGatewayArn, name: "transitGatewayArn", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4766,8 +5032,10 @@ extension NetworkManager {
         public func validate(name: String) throws {
             try self.validate(self.ipAddress, name: "ipAddress", parent: name, max: 50)
             try self.validate(self.ipAddress, name: "ipAddress", parent: name, min: 1)
+            try self.validate(self.ipAddress, name: "ipAddress", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.transitGatewayAttachmentArn, name: "transitGatewayAttachmentArn", parent: name, max: 500)
             try self.validate(self.transitGatewayAttachmentArn, name: "transitGatewayAttachmentArn", parent: name, min: 0)
+            try self.validate(self.transitGatewayAttachmentArn, name: "transitGatewayAttachmentArn", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4808,6 +5076,7 @@ extension NetworkManager {
             try self.coreNetworkSegmentEdge?.validate(name: "\(name).coreNetworkSegmentEdge")
             try self.validate(self.transitGatewayRouteTableArn, name: "transitGatewayRouteTableArn", parent: name, max: 500)
             try self.validate(self.transitGatewayRouteTableArn, name: "transitGatewayRouteTableArn", parent: name, min: 0)
+            try self.validate(self.transitGatewayRouteTableArn, name: "transitGatewayRouteTableArn", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4874,6 +5143,35 @@ extension NetworkManager {
         }
     }
 
+    public struct StartOrganizationServiceAccessUpdateRequest: AWSEncodableShape {
+        public let action: String
+
+        public init(action: String) {
+            self.action = action
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.action, name: "action", parent: name, max: 50)
+            try self.validate(self.action, name: "action", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+        }
+    }
+
+    public struct StartOrganizationServiceAccessUpdateResponse: AWSDecodableShape {
+        public let organizationStatus: OrganizationStatus?
+
+        public init(organizationStatus: OrganizationStatus? = nil) {
+            self.organizationStatus = organizationStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case organizationStatus = "OrganizationStatus"
+        }
+    }
+
     public struct StartRouteAnalysisRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId"))
@@ -4902,6 +5200,7 @@ extension NetworkManager {
             try self.destination.validate(name: "\(name).destination")
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, pattern: "[\\s\\S]*")
             try self.source.validate(name: "\(name).source")
         }
 
@@ -4937,6 +5236,15 @@ extension NetworkManager {
             self.value = value
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 10_000_000)
+            try self.validate(self.key, name: "key", parent: name, min: 0)
+            try self.validate(self.key, name: "key", parent: name, pattern: "[\\s\\S]*")
+            try self.validate(self.value, name: "value", parent: name, max: 10_000_000)
+            try self.validate(self.value, name: "value", parent: name, min: 0)
+            try self.validate(self.value, name: "value", parent: name, pattern: "[\\s\\S]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
             case value = "Value"
@@ -4961,6 +5269,10 @@ extension NetworkManager {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1500)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 0)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "[\\s\\S]*")
+            try self.tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5058,6 +5370,12 @@ extension NetworkManager {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1500)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 0)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "[\\s\\S]*")
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 10_000_000)
+                try validate($0, name: "tagKeys[]", parent: name, min: 0)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "[\\s\\S]*")
+            }
         }
 
         private enum CodingKeys: CodingKey {}
@@ -5095,14 +5413,19 @@ extension NetworkManager {
         public func validate(name: String) throws {
             try self.validate(self.connectedLinkId, name: "connectedLinkId", parent: name, max: 50)
             try self.validate(self.connectedLinkId, name: "connectedLinkId", parent: name, min: 0)
+            try self.validate(self.connectedLinkId, name: "connectedLinkId", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.connectionId, name: "connectionId", parent: name, max: 50)
             try self.validate(self.connectionId, name: "connectionId", parent: name, min: 0)
+            try self.validate(self.connectionId, name: "connectionId", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.validate(self.description, name: "description", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.linkId, name: "linkId", parent: name, max: 50)
             try self.validate(self.linkId, name: "linkId", parent: name, min: 0)
+            try self.validate(self.linkId, name: "linkId", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5146,6 +5469,7 @@ extension NetworkManager {
             try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, pattern: "^core-network-([0-9a-f]{8,17})$")
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.validate(self.description, name: "description", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5209,21 +5533,29 @@ extension NetworkManager {
             try self.aWSLocation?.validate(name: "\(name).aWSLocation")
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.validate(self.description, name: "description", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.deviceId, name: "deviceId", parent: name, max: 50)
             try self.validate(self.deviceId, name: "deviceId", parent: name, min: 0)
+            try self.validate(self.deviceId, name: "deviceId", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, pattern: "[\\s\\S]*")
             try self.location?.validate(name: "\(name).location")
             try self.validate(self.model, name: "model", parent: name, max: 256)
             try self.validate(self.model, name: "model", parent: name, min: 0)
+            try self.validate(self.model, name: "model", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.serialNumber, name: "serialNumber", parent: name, max: 256)
             try self.validate(self.serialNumber, name: "serialNumber", parent: name, min: 0)
+            try self.validate(self.serialNumber, name: "serialNumber", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.siteId, name: "siteId", parent: name, max: 50)
             try self.validate(self.siteId, name: "siteId", parent: name, min: 0)
+            try self.validate(self.siteId, name: "siteId", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.type, name: "type", parent: name, max: 256)
             try self.validate(self.type, name: "type", parent: name, min: 0)
+            try self.validate(self.type, name: "type", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.vendor, name: "vendor", parent: name, max: 256)
             try self.validate(self.vendor, name: "vendor", parent: name, min: 0)
+            try self.validate(self.vendor, name: "vendor", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5269,8 +5601,10 @@ extension NetworkManager {
         public func validate(name: String) throws {
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.validate(self.description, name: "description", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5322,14 +5656,19 @@ extension NetworkManager {
         public func validate(name: String) throws {
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.validate(self.description, name: "description", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.linkId, name: "linkId", parent: name, max: 50)
             try self.validate(self.linkId, name: "linkId", parent: name, min: 0)
+            try self.validate(self.linkId, name: "linkId", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.provider, name: "provider", parent: name, max: 256)
             try self.validate(self.provider, name: "provider", parent: name, min: 0)
+            try self.validate(self.provider, name: "provider", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.type, name: "type", parent: name, max: 256)
             try self.validate(self.type, name: "type", parent: name, min: 0)
+            try self.validate(self.type, name: "type", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5375,14 +5714,18 @@ extension NetworkManager {
         public func validate(name: String) throws {
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, pattern: "[\\s\\S]*")
             try self.metadata.forEach {
                 try validate($0.key, name: "metadata.key", parent: name, max: 256)
                 try validate($0.key, name: "metadata.key", parent: name, min: 0)
+                try validate($0.key, name: "metadata.key", parent: name, pattern: "[\\s\\S]*")
                 try validate($0.value, name: "metadata[\"\($0.key)\"]", parent: name, max: 256)
                 try validate($0.value, name: "metadata[\"\($0.key)\"]", parent: name, min: 0)
+                try validate($0.value, name: "metadata[\"\($0.key)\"]", parent: name, pattern: "[\\s\\S]*")
             }
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1500)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 0)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5432,11 +5775,14 @@ extension NetworkManager {
         public func validate(name: String) throws {
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.validate(self.description, name: "description", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, pattern: "[\\s\\S]*")
             try self.location?.validate(name: "\(name).location")
             try self.validate(self.siteId, name: "siteId", parent: name, max: 50)
             try self.validate(self.siteId, name: "siteId", parent: name, min: 0)
+            try self.validate(self.siteId, name: "siteId", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5483,7 +5829,7 @@ extension NetworkManager {
             try self.addSubnetArns?.forEach {
                 try validate($0, name: "addSubnetArns[]", parent: name, max: 500)
                 try validate($0, name: "addSubnetArns[]", parent: name, min: 0)
-                try validate($0, name: "addSubnetArns[]", parent: name, pattern: "^arn:[^:]{1,63}:ec2:[^:]{0,63}:[^:]{0,63}:subnet\\/subnet-[0-9a-f]{8,17}$")
+                try validate($0, name: "addSubnetArns[]", parent: name, pattern: "^arn:[^:]{1,63}:ec2:[^:]{0,63}:[^:]{0,63}:subnet\\/subnet-[0-9a-f]{8,17}$|^$")
             }
             try self.validate(self.attachmentId, name: "attachmentId", parent: name, max: 50)
             try self.validate(self.attachmentId, name: "attachmentId", parent: name, min: 0)
@@ -5491,7 +5837,7 @@ extension NetworkManager {
             try self.removeSubnetArns?.forEach {
                 try validate($0, name: "removeSubnetArns[]", parent: name, max: 500)
                 try validate($0, name: "removeSubnetArns[]", parent: name, min: 0)
-                try validate($0, name: "removeSubnetArns[]", parent: name, pattern: "^arn:[^:]{1,63}:ec2:[^:]{0,63}:[^:]{0,63}:subnet\\/subnet-[0-9a-f]{8,17}$")
+                try validate($0, name: "removeSubnetArns[]", parent: name, pattern: "^arn:[^:]{1,63}:ec2:[^:]{0,63}:[^:]{0,63}:subnet\\/subnet-[0-9a-f]{8,17}$|^$")
             }
         }
 

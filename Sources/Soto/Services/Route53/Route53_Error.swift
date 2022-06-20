@@ -19,6 +19,10 @@ import SotoCore
 /// Error enum for Route53
 public struct Route53ErrorType: AWSErrorType {
     enum Code: String {
+        case cidrBlockInUseException = "CidrBlockInUseException"
+        case cidrCollectionAlreadyExistsException = "CidrCollectionAlreadyExistsException"
+        case cidrCollectionInUseException = "CidrCollectionInUseException"
+        case cidrCollectionVersionMismatchException = "CidrCollectionVersionMismatchException"
         case concurrentModification = "ConcurrentModification"
         case conflictingDomainExists = "ConflictingDomainExists"
         case conflictingTypes = "ConflictingTypes"
@@ -56,6 +60,8 @@ public struct Route53ErrorType: AWSErrorType {
         case lastVPCAssociation = "LastVPCAssociation"
         case limitsExceeded = "LimitsExceeded"
         case noSuchChange = "NoSuchChange"
+        case noSuchCidrCollectionException = "NoSuchCidrCollectionException"
+        case noSuchCidrLocationException = "NoSuchCidrLocationException"
         case noSuchCloudWatchLogsLogGroup = "NoSuchCloudWatchLogsLogGroup"
         case noSuchDelegationSet = "NoSuchDelegationSet"
         case noSuchGeoLocation = "NoSuchGeoLocation"
@@ -102,6 +108,14 @@ public struct Route53ErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// This CIDR block is already in use.
+    public static var cidrBlockInUseException: Self { .init(.cidrBlockInUseException) }
+    /// A CIDR collection with this name and a different caller reference already exists in this account.
+    public static var cidrCollectionAlreadyExistsException: Self { .init(.cidrCollectionAlreadyExistsException) }
+    /// This CIDR collection is in use, and isn't empty.
+    public static var cidrCollectionInUseException: Self { .init(.cidrCollectionInUseException) }
+    /// The CIDR collection version you provided, doesn't match the one in the ListCidrCollections operation.
+    public static var cidrCollectionVersionMismatchException: Self { .init(.cidrCollectionVersionMismatchException) }
     /// Another user submitted a request to create, update, or delete the object at the same time that you did. Retry the request.
     public static var concurrentModification: Self { .init(.concurrentModification) }
     /// The cause of this error depends on the operation that you're performing:    Create a public hosted zone: Two hosted zones that have the same name or that have a parent/child relationship (example.com and test.example.com) can't have any common name servers. You tried to create a hosted zone that has the same name as an existing hosted zone or that's the parent or child of an existing hosted zone, and you specified a delegation set that shares one or more name servers with the existing hosted zone. For more information, see CreateReusableDelegationSet.    Create a private hosted zone: A hosted zone with the specified name already exists and is already associated with the Amazon VPC that you specified.    Associate VPCs with a private hosted zone: The VPC that you specified is already associated with another hosted zone that has the same name.
@@ -172,10 +186,14 @@ public struct Route53ErrorType: AWSErrorType {
     public static var keySigningKeyWithActiveStatusNotFound: Self { .init(.keySigningKeyWithActiveStatusNotFound) }
     /// The VPC that you're trying to disassociate from the private hosted zone is the last VPC that is associated with the hosted zone. Amazon Route 53 doesn't support disassociating the last VPC from a hosted zone.
     public static var lastVPCAssociation: Self { .init(.lastVPCAssociation) }
-    /// This operation can't be completed either because the current account has reached the limit on reusable delegation sets that it can create or because you've reached the limit on the number of Amazon VPCs that you can associate with a private hosted zone. To get the current limit on the number of reusable delegation sets, see GetAccountLimit. To get the current limit on the number of Amazon VPCs that you can associate with a private hosted zone, see GetHostedZoneLimit. To request a higher limit, create a case with the Amazon Web Services Support Center.
+    /// This operation can't be completed because the current account has reached the limit on the resource you are trying to create. To request a higher limit, create a case with the Amazon Web Services Support Center.
     public static var limitsExceeded: Self { .init(.limitsExceeded) }
     /// A change with the specified change ID does not exist.
     public static var noSuchChange: Self { .init(.noSuchChange) }
+    /// The CIDR collection you specified, doesn't exist.
+    public static var noSuchCidrCollectionException: Self { .init(.noSuchCidrCollectionException) }
+    /// The CIDR collection location doesn't match any locations in your account.
+    public static var noSuchCidrLocationException: Self { .init(.noSuchCidrLocationException) }
     /// There is no CloudWatch Logs log group with the specified ARN.
     public static var noSuchCloudWatchLogsLogGroup: Self { .init(.noSuchCloudWatchLogsLogGroup) }
     /// A reusable delegation set with the specified ID does not exist.

@@ -42,6 +42,12 @@ extension Route53 {
         public var description: String { return self.rawValue }
     }
 
+    public enum CidrCollectionChangeAction: String, CustomStringConvertible, Codable {
+        case deleteIfExists = "DELETE_IF_EXISTS"
+        case put = "PUT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CloudWatchRegion: String, CustomStringConvertible, Codable {
         case afSouth1 = "af-south-1"
         case apEast1 = "ap-east-1"
@@ -427,6 +433,55 @@ extension Route53 {
         }
     }
 
+    public struct ChangeCidrCollectionRequest: AWSEncodableShape {
+        public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "CidrCollectionId"))
+        ]
+
+        ///  Information about changes to a CIDR collection.
+        @CustomCoding<StandardArrayCoder>
+        public var changes: [CidrCollectionChange]
+        /// A sequential counter that Amazon Route 53 sets to 1 when you create a collection and increments it by 1 each time you update the collection. We recommend that you use ListCidrCollection to get the current value of CollectionVersion for the collection that you want to update, and then include that value with the change request. This prevents Route 53 from overwriting an intervening update:    If the value in the request matches the value of CollectionVersion in the collection, Route 53 updates the collection.   If the value of CollectionVersion in the collection is greater than the value in the request, the collection was changed after you got the version number. Route 53 does not update the collection, and it returns a CidrCollectionVersionMismatch error.
+        public let collectionVersion: Int64?
+        /// The UUID of the CIDR collection to update.
+        public let id: String
+
+        public init(changes: [CidrCollectionChange], collectionVersion: Int64? = nil, id: String) {
+            self.changes = changes
+            self.collectionVersion = collectionVersion
+            self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try self.changes.forEach {
+                try $0.validate(name: "\(name).changes[]")
+            }
+            try self.validate(self.changes, name: "changes", parent: name, max: 1000)
+            try self.validate(self.changes, name: "changes", parent: name, min: 1)
+            try self.validate(self.collectionVersion, name: "collectionVersion", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case changes = "Changes"
+            case collectionVersion = "CollectionVersion"
+        }
+    }
+
+    public struct ChangeCidrCollectionResponse: AWSDecodableShape {
+        /// The ID that is returned by ChangeCidrCollection. You can use it as input to GetChange to see if a CIDR collection change has propagated or not.
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+        }
+    }
+
     public struct ChangeInfo: AWSDecodableShape {
         /// A comment you can provide.
         public let comment: String?
@@ -542,6 +597,109 @@ extension Route53 {
         public init() {}
     }
 
+    public struct CidrBlockSummary: AWSDecodableShape {
+        /// Value for the CIDR block.
+        public let cidrBlock: String?
+        /// The location name of the CIDR block.
+        public let locationName: String?
+
+        public init(cidrBlock: String? = nil, locationName: String? = nil) {
+            self.cidrBlock = cidrBlock
+            self.locationName = locationName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cidrBlock = "CidrBlock"
+            case locationName = "LocationName"
+        }
+    }
+
+    public struct CidrCollection: AWSDecodableShape {
+        /// The ARN of the collection. Can be used to reference the collection in IAM policy or in another Amazon Web Services account.
+        public let arn: String?
+        /// The unique ID of the CIDR collection.
+        public let id: String?
+        /// The name of a CIDR collection.
+        public let name: String?
+        /// A sequential counter that Route 53 sets to 1 when you create a CIDR collection and increments by 1 each time you update settings for the CIDR collection.
+        public let version: Int64?
+
+        public init(arn: String? = nil, id: String? = nil, name: String? = nil, version: Int64? = nil) {
+            self.arn = arn
+            self.id = id
+            self.name = name
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case id = "Id"
+            case name = "Name"
+            case version = "Version"
+        }
+    }
+
+    public struct CidrCollectionChange: AWSEncodableShape {
+        public struct _CidrListEncoding: ArrayCoderProperties { public static let member = "Cidr" }
+
+        /// CIDR collection change action.
+        public let action: CidrCollectionChangeAction
+        /// List of CIDR blocks.
+        @CustomCoding<ArrayCoder<_CidrListEncoding, String>>
+        public var cidrList: [String]
+        /// Name of the location that is associated with the CIDR collection.
+        public let locationName: String
+
+        public init(action: CidrCollectionChangeAction, cidrList: [String], locationName: String) {
+            self.action = action
+            self.cidrList = cidrList
+            self.locationName = locationName
+        }
+
+        public func validate(name: String) throws {
+            try self.cidrList.forEach {
+                try validate($0, name: "cidrList[]", parent: name, max: 50)
+                try validate($0, name: "cidrList[]", parent: name, min: 1)
+                try validate($0, name: "cidrList[]", parent: name, pattern: ".*\\S.*")
+            }
+            try self.validate(self.cidrList, name: "cidrList", parent: name, max: 1000)
+            try self.validate(self.cidrList, name: "cidrList", parent: name, min: 1)
+            try self.validate(self.locationName, name: "locationName", parent: name, max: 16)
+            try self.validate(self.locationName, name: "locationName", parent: name, min: 1)
+            try self.validate(self.locationName, name: "locationName", parent: name, pattern: "[0-9A-Za-z_\\-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case cidrList = "CidrList"
+            case locationName = "LocationName"
+        }
+    }
+
+    public struct CidrRoutingConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The CIDR collection ID.
+        public let collectionId: String
+        /// The CIDR collection location name.
+        public let locationName: String
+
+        public init(collectionId: String, locationName: String) {
+            self.collectionId = collectionId
+            self.locationName = locationName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.collectionId, name: "collectionId", parent: name, pattern: "[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}")
+            try self.validate(self.locationName, name: "locationName", parent: name, max: 16)
+            try self.validate(self.locationName, name: "locationName", parent: name, min: 1)
+            try self.validate(self.locationName, name: "locationName", parent: name, pattern: "[0-9A-Za-z_\\-\\*]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collectionId = "CollectionId"
+            case locationName = "LocationName"
+        }
+    }
+
     public struct CloudWatchAlarmConfiguration: AWSDecodableShape {
         public struct _DimensionsEncoding: ArrayCoderProperties { public static let member = "Dimension" }
 
@@ -583,6 +741,80 @@ extension Route53 {
             case period = "Period"
             case statistic = "Statistic"
             case threshold = "Threshold"
+        }
+    }
+
+    public struct CollectionSummary: AWSDecodableShape {
+        /// The ARN of the collection summary. Can be used to reference the collection in IAM policy or cross-account.
+        public let arn: String?
+        /// Unique ID for the CIDR collection.
+        public let id: String?
+        /// The name of a CIDR collection.
+        public let name: String?
+        /// A sequential counter that Route 53 sets to 1 when you create a CIDR collection and increments by 1 each time you update settings for the CIDR collection.
+        public let version: Int64?
+
+        public init(arn: String? = nil, id: String? = nil, name: String? = nil, version: Int64? = nil) {
+            self.arn = arn
+            self.id = id
+            self.name = name
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case id = "Id"
+            case name = "Name"
+            case version = "Version"
+        }
+    }
+
+    public struct CreateCidrCollectionRequest: AWSEncodableShape {
+        public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
+
+        /// A client-specific token that allows requests to be securely retried so that the intended outcome will only occur once, retries receive a similar response, and there are no additional edge cases to handle.
+        public let callerReference: String
+        /// A unique identifier for the account that can be used to reference the collection from other API calls.
+        public let name: String
+
+        public init(callerReference: String, name: String) {
+            self.callerReference = callerReference
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.callerReference, name: "callerReference", parent: name, max: 64)
+            try self.validate(self.callerReference, name: "callerReference", parent: name, min: 1)
+            try self.validate(self.callerReference, name: "callerReference", parent: name, pattern: "\\p{ASCII}+")
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "[0-9A-Za-z_\\-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case callerReference = "CallerReference"
+            case name = "Name"
+        }
+    }
+
+    public struct CreateCidrCollectionResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "location", location: .header(locationName: "Location"))
+        ]
+
+        /// A complex type that contains information about the CIDR collection.
+        public let collection: CidrCollection?
+        /// A unique URL that represents the location for the CIDR collection.
+        public let location: String?
+
+        public init(collection: CidrCollection? = nil, location: String? = nil) {
+            self.collection = collection
+            self.location = location
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collection = "Collection"
+            case location = "Location"
         }
     }
 
@@ -637,11 +869,11 @@ extension Route53 {
 
         /// A unique string that identifies the request and that allows failed CreateHostedZone requests to be retried without the risk of executing the operation twice. You must use a unique CallerReference string every time you submit a CreateHostedZone request. CallerReference can be any unique string, for example, a date/time stamp.
         public let callerReference: String
-        /// If you want to associate a reusable delegation set with this hosted zone, the ID that Amazon Route 53 assigned to the reusable delegation set when you created it. For more information about reusable delegation sets, see CreateReusableDelegationSet.
+        /// If you want to associate a reusable delegation set with this hosted zone, the ID that Amazon Route 53 assigned to the reusable delegation set when you created it. For more information about reusable delegation sets, see CreateReusableDelegationSet.
         public let delegationSetId: String?
         /// (Optional) A complex type that contains the following optional values:   For public and private hosted zones, an optional comment   For private hosted zones, an optional PrivateZone element   If you don't specify a comment or the PrivateZone element, omit HostedZoneConfig and the other elements.
         public let hostedZoneConfig: HostedZoneConfig?
-        /// The name of the domain. Specify a fully qualified domain name, for example, www.example.com. The trailing dot is optional; Amazon Route 53 assumes that the domain name is fully qualified. This means that Route 53 treats www.example.com (without a trailing dot) and www.example.com. (with a trailing dot) as identical. If you're creating a public hosted zone, this is the name you have registered with your DNS registrar. If your domain name is registered with a registrar other than Route 53, change the name servers for your domain to the set of NameServers that CreateHostedZone returns in DelegationSet.
+        /// The name of the domain. Specify a fully qualified domain name, for example, www.example.com. The trailing dot is optional; Amazon Route 53 assumes that the domain name is fully qualified. This means that Route 53 treats www.example.com (without a trailing dot) and www.example.com. (with a trailing dot) as identical. If you're creating a public hosted zone, this is the name you have registered with your DNS registrar. If your domain name is registered with a registrar other than Route 53, change the name servers for your domain to the set of NameServers that CreateHostedZone returns in DelegationSet.
         public let name: String
         /// (Private hosted zones only) A complex type that contains information about the Amazon VPC that you're associating with this hosted zone. You can specify only one Amazon VPC when you create a private hosted zone. If you are associating a VPC with a hosted zone with this request, the paramaters VPCId and VPCRegion are also required. To associate additional Amazon VPCs with the hosted zone, use AssociateVPCWithHostedZone after you create a hosted zone.
         public let vpc: VPC?
@@ -1147,6 +1379,29 @@ extension Route53 {
         }
     }
 
+    public struct DeleteCidrCollectionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "CidrCollectionId"))
+        ]
+
+        /// The UUID of the collection to delete.
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, pattern: "[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteCidrCollectionResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteHealthCheckRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "healthCheckId", location: .uri(locationName: "HealthCheckId"))
@@ -1600,7 +1855,8 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.id, name: "id", parent: name, max: 32)
+            try self.validate(self.id, name: "id", parent: name, max: 6500)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2493,6 +2749,146 @@ extension Route53 {
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case servicePrincipal = "ServicePrincipal"
+        }
+    }
+
+    public struct ListCidrBlocksRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "collectionId", location: .uri(locationName: "CidrCollectionId")),
+            AWSMemberEncoding(label: "locationName", location: .querystring(locationName: "location")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxresults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nexttoken"))
+        ]
+
+        /// The UUID of the CIDR collection.
+        public let collectionId: String
+        /// The name of the CIDR collection location.
+        public let locationName: String?
+        /// Maximum number of results you want returned.
+        public let maxResults: String?
+        /// An opaque pagination token to indicate where the service is to begin enumerating results.
+        public let nextToken: String?
+
+        public init(collectionId: String, locationName: String? = nil, maxResults: String? = nil, nextToken: String? = nil) {
+            self.collectionId = collectionId
+            self.locationName = locationName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.collectionId, name: "collectionId", parent: name, pattern: "[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}")
+            try self.validate(self.locationName, name: "locationName", parent: name, max: 16)
+            try self.validate(self.locationName, name: "locationName", parent: name, min: 1)
+            try self.validate(self.locationName, name: "locationName", parent: name, pattern: "[0-9A-Za-z_\\-]+")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListCidrBlocksResponse: AWSDecodableShape {
+        /// A complex type that contains information about the CIDR blocks.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var cidrBlocks: [CidrBlockSummary]?
+        /// An opaque pagination token to indicate where the service is to begin enumerating results.  If no value is provided, the listing of results starts from the beginning.
+        public let nextToken: String?
+
+        public init(cidrBlocks: [CidrBlockSummary]? = nil, nextToken: String? = nil) {
+            self.cidrBlocks = cidrBlocks
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cidrBlocks = "CidrBlocks"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListCidrCollectionsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxresults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nexttoken"))
+        ]
+
+        /// The maximum number of CIDR collections to return in the response.
+        public let maxResults: String?
+        /// An opaque pagination token to indicate where the service is to begin enumerating results. If no value is provided, the listing of results starts from the beginning.
+        public let nextToken: String?
+
+        public init(maxResults: String? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListCidrCollectionsResponse: AWSDecodableShape {
+        /// A complex type with information about the CIDR collection.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var cidrCollections: [CollectionSummary]?
+        /// An opaque pagination token to indicate where the service is to begin enumerating results. If no value is provided, the listing of results starts from the beginning.
+        public let nextToken: String?
+
+        public init(cidrCollections: [CollectionSummary]? = nil, nextToken: String? = nil) {
+            self.cidrCollections = cidrCollections
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cidrCollections = "CidrCollections"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListCidrLocationsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "collectionId", location: .uri(locationName: "CidrCollectionId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxresults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nexttoken"))
+        ]
+
+        /// The CIDR collection ID.
+        public let collectionId: String
+        /// The maximum number of CIDR collection locations to return in the response.
+        public let maxResults: String?
+        /// An opaque pagination token to indicate where the service is to begin enumerating results. If no value is provided, the listing of results starts from the beginning.
+        public let nextToken: String?
+
+        public init(collectionId: String, maxResults: String? = nil, nextToken: String? = nil) {
+            self.collectionId = collectionId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.collectionId, name: "collectionId", parent: name, pattern: "[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListCidrLocationsResponse: AWSDecodableShape {
+        /// A complex type that contains information about the list of CIDR locations.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var cidrLocations: [LocationSummary]?
+        /// An opaque pagination token to indicate where the service is to begin enumerating results. If no value is provided, the listing of results starts from the beginning.
+        public let nextToken: String?
+
+        public init(cidrLocations: [LocationSummary]? = nil, nextToken: String? = nil) {
+            self.cidrLocations = cidrLocations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cidrLocations = "CidrLocations"
+            case nextToken = "NextToken"
         }
     }
 
@@ -3440,6 +3836,19 @@ extension Route53 {
         }
     }
 
+    public struct LocationSummary: AWSDecodableShape {
+        /// A string that specifies a location name.
+        public let locationName: String?
+
+        public init(locationName: String? = nil) {
+            self.locationName = locationName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case locationName = "LocationName"
+        }
+    }
+
     public struct QueryLoggingConfig: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the CloudWatch Logs log group that Amazon Route 53 is publishing logs to.
         public let cloudWatchLogsLogGroupArn: String
@@ -3483,6 +3892,7 @@ extension Route53 {
 
         ///  Alias resource record sets only: Information about the Amazon Web Services resource, such as a CloudFront distribution or an Amazon S3 bucket, that you want to route traffic to.  If you're creating resource records sets for a private hosted zone, note the following:   You can't create an alias resource record set in a private hosted zone to route traffic to a CloudFront distribution.   Creating geolocation alias resource record sets or latency alias resource record sets in a private hosted zone is unsupported.   For information about creating failover resource record sets in a private hosted zone, see Configuring Failover in a Private Hosted Zone in the Amazon Route 53 Developer Guide.
         public let aliasTarget: AliasTarget?
+        public let cidrRoutingConfig: CidrRoutingConfig?
         ///  Failover resource record sets only: To configure failover, you add the Failover element to two resource record sets. For one resource record set, you specify PRIMARY as the value for Failover; for the other resource record set, you specify SECONDARY. In addition, you include the HealthCheckId element and specify the health check that you want Amazon Route 53 to perform for each resource record set. Except where noted, the following failover behaviors assume that you have included the HealthCheckId element in both resource record sets:   When the primary resource record set is healthy, Route 53 responds to DNS queries with the applicable value from the primary resource record set regardless of the health of the secondary resource record set.   When the primary resource record set is unhealthy and the secondary resource record set is healthy, Route 53 responds to DNS queries with the applicable value from the secondary resource record set.   When the secondary resource record set is unhealthy, Route 53 responds to DNS queries with the applicable value from the primary resource record set regardless of the health of the primary resource record set.   If you omit the HealthCheckId element for the secondary resource record set, and if the primary resource record set is unhealthy, Route 53 always responds to DNS queries with the applicable value from the secondary resource record set. This is true regardless of the health of the associated endpoint.   You can't create non-failover resource record sets that have the same values for the Name and Type elements as failover resource record sets. For failover alias resource record sets, you must also include the EvaluateTargetHealth element and set the value to true. For more information about configuring failover for Route 53, see the following topics in the Amazon Route 53 Developer Guide:     Route 53 Health Checks and DNS Failover     Configuring Failover in a Private Hosted Zone
         public let failover: ResourceRecordSetFailover?
         ///  Geolocation resource record sets only: A complex type that lets you control how Amazon Route 53 responds to DNS queries based on the geographic origin of the query. For example, if you want all queries from Africa to be routed to a web server with an IP address of 192.0.2.111, create a resource record set with a Type of A and a ContinentCode of AF.  Although creating geolocation and geolocation alias resource record sets in a private hosted zone is allowed, it's not supported.  If you create separate resource record sets for overlapping geographic regions (for example, one resource record set for a continent and one for a country on the same continent), priority goes to the smallest geographic region. This allows you to route most queries for a continent to one resource and to route queries for a country on that continent to a different resource. You can't create two geolocation resource record sets that specify the same geographic location. The value * in the CountryCode element matches all geographic locations that aren't specified in other geolocation resource record sets that have the same values for the Name and Type elements.  Geolocation works by mapping IP addresses to locations. However, some IP addresses aren't mapped to geographic locations, so even if you create geolocation resource record sets that cover all seven continents, Route 53 will receive some DNS queries from locations that it can't identify. We recommend that you create a resource record set for which the value of CountryCode is *. Two groups of queries are routed to the resource that you specify in this record: queries that come from locations for which you haven't created geolocation resource record sets and queries from IP addresses that aren't mapped to a location. If you don't create a * resource record set, Route 53 returns a "no answer" response for queries from those locations.  You can't create non-geolocation resource record sets that have the same values for the Name and Type elements as geolocation resource record sets.
@@ -3509,8 +3919,9 @@ extension Route53 {
         ///  Weighted resource record sets only: Among resource record sets that have the same combination of DNS name and type, a value that determines the proportion of DNS queries that Amazon Route 53 responds to using the current resource record set. Route 53 calculates the sum of the weights for the resource record sets that have the same combination of DNS name and type. Route 53 then responds to queries based on the ratio of a resource's weight to the total. Note the following:   You must specify a value for the Weight element for every weighted resource record set.   You can only specify one ResourceRecord per weighted resource record set.   You can't create latency, failover, or geolocation resource record sets that have the same values for the Name and Type elements as weighted resource record sets.   You can create a maximum of 100 weighted resource record sets that have the same values for the Name and Type elements.   For weighted (but not weighted alias) resource record sets, if you set Weight to 0 for a resource record set, Route 53 never responds to queries with the applicable value for that resource record set. However, if you set Weight to 0 for all resource record sets that have the same combination of DNS name and type, traffic is routed to all resources with equal probability. The effect of setting Weight to 0 is different when you associate health checks with weighted resource record sets. For more information, see Options for Configuring Route 53 Active-Active and Active-Passive Failover in the Amazon Route 53 Developer Guide.
         public let weight: Int64?
 
-        public init(aliasTarget: AliasTarget? = nil, failover: ResourceRecordSetFailover? = nil, geoLocation: GeoLocation? = nil, healthCheckId: String? = nil, multiValueAnswer: Bool? = nil, name: String, region: ResourceRecordSetRegion? = nil, resourceRecords: [ResourceRecord]? = nil, setIdentifier: String? = nil, trafficPolicyInstanceId: String? = nil, ttl: Int64? = nil, type: RRType, weight: Int64? = nil) {
+        public init(aliasTarget: AliasTarget? = nil, cidrRoutingConfig: CidrRoutingConfig? = nil, failover: ResourceRecordSetFailover? = nil, geoLocation: GeoLocation? = nil, healthCheckId: String? = nil, multiValueAnswer: Bool? = nil, name: String, region: ResourceRecordSetRegion? = nil, resourceRecords: [ResourceRecord]? = nil, setIdentifier: String? = nil, trafficPolicyInstanceId: String? = nil, ttl: Int64? = nil, type: RRType, weight: Int64? = nil) {
             self.aliasTarget = aliasTarget
+            self.cidrRoutingConfig = cidrRoutingConfig
             self.failover = failover
             self.geoLocation = geoLocation
             self.healthCheckId = healthCheckId
@@ -3527,6 +3938,7 @@ extension Route53 {
 
         public func validate(name: String) throws {
             try self.aliasTarget?.validate(name: "\(name).aliasTarget")
+            try self.cidrRoutingConfig?.validate(name: "\(name).cidrRoutingConfig")
             try self.geoLocation?.validate(name: "\(name).geoLocation")
             try self.validate(self.healthCheckId, name: "healthCheckId", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, max: 1024)
@@ -3546,6 +3958,7 @@ extension Route53 {
 
         private enum CodingKeys: String, CodingKey {
             case aliasTarget = "AliasTarget"
+            case cidrRoutingConfig = "CidrRoutingConfig"
             case failover = "Failover"
             case geoLocation = "GeoLocation"
             case healthCheckId = "HealthCheckId"

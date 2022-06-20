@@ -66,7 +66,7 @@ extension DynamoDBStreams {
         public let bool: Bool?
         /// An attribute of type Binary Set. For example:  "BS": ["U3Vubnk=", "UmFpbnk=", "U25vd3k="]
         public let bs: [Data]?
-        /// An attribute of type List. For example:  "L": [ {"S": "Cookies"} , {"S": "Coffee"}, {"N", "3.14159"}]
+        /// An attribute of type List. For example:  "L": [ {"S": "Cookies"} , {"S": "Coffee"}, {"N": "3.14159"}]
         public let l: [AttributeValue]?
         /// An attribute of type Map. For example:  "M": {"Name": {"S": "Joe"}, "Age": {"N": "35"}}
         public let m: [String: AttributeValue]?

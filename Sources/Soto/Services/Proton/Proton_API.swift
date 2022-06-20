@@ -68,6 +68,11 @@ public struct Proton: AWSService {
         return self.client.execute(operation: "AcceptEnvironmentAccountConnection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Attempts to cancel a component deployment (for a component that is in the IN_PROGRESS deployment status). For more information about components, see Proton components in the Proton Administrator Guide.
+    public func cancelComponentDeployment(_ input: CancelComponentDeploymentInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CancelComponentDeploymentOutput> {
+        return self.client.execute(operation: "CancelComponentDeployment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Attempts to cancel an environment deployment on an UpdateEnvironment action, if the deployment is IN_PROGRESS. For more information, see Update an environment in the Proton Administrator guide. The following list includes potential cancellation scenarios.   If the cancellation attempt succeeds, the resulting deployment state is CANCELLED.   If the cancellation attempt fails, the resulting deployment state is FAILED.   If the current UpdateEnvironment action succeeds before the cancellation attempt starts, the resulting deployment state is SUCCEEDED and the cancellation attempt has no effect.
     public func cancelEnvironmentDeployment(_ input: CancelEnvironmentDeploymentInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CancelEnvironmentDeploymentOutput> {
         return self.client.execute(operation: "CancelEnvironmentDeployment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -81,6 +86,11 @@ public struct Proton: AWSService {
     /// Attempts to cancel a service pipeline deployment on an UpdateServicePipeline action, if the deployment is IN_PROGRESS. For more information, see Update a service pipeline in the Proton Administrator guide or the Proton User guide. The following list includes potential cancellation scenarios.   If the cancellation attempt succeeds, the resulting deployment state is CANCELLED.   If the cancellation attempt fails, the resulting deployment state is FAILED.   If the current UpdateServicePipeline action succeeds before the cancellation attempt starts, the resulting deployment state is SUCCEEDED and the cancellation attempt has no effect.
     public func cancelServicePipelineDeployment(_ input: CancelServicePipelineDeploymentInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CancelServicePipelineDeploymentOutput> {
         return self.client.execute(operation: "CancelServicePipelineDeployment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Create an Proton component. A component is an infrastructure extension for a service instance. For more information about components, see Proton components in the Proton Administrator Guide.
+    public func createComponent(_ input: CreateComponentInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateComponentOutput> {
+        return self.client.execute(operation: "CreateComponent", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deploy a new environment. An Proton environment is created from an environment template that defines infrastructure and resources that can be shared across services.  You can provision environments using the following methods:    Amazon Web Services-managed provisioning: Proton makes direct calls to provision your resources.   Self-managed provisioning: Proton makes pull requests on your repository to provide compiled infrastructure as code (IaC) files that your IaC engine uses to provision resources.   For more information, see Environments and Provisioning methods in the Proton Administrator Guide.
@@ -128,6 +138,11 @@ public struct Proton: AWSService {
         return self.client.execute(operation: "CreateTemplateSyncConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Delete an Proton component resource. For more information about components, see Proton components in the Proton Administrator Guide.
+    public func deleteComponent(_ input: DeleteComponentInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteComponentOutput> {
+        return self.client.execute(operation: "DeleteComponent", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Delete an environment.
     public func deleteEnvironment(_ input: DeleteEnvironmentInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteEnvironmentOutput> {
         return self.client.execute(operation: "DeleteEnvironment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -153,7 +168,7 @@ public struct Proton: AWSService {
         return self.client.execute(operation: "DeleteRepository", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Delete a service.
+    /// Delete a service, with its instances and pipeline.  You can't delete a service if it has any service instances that have components attached to them. For more information about components, see Proton components in the Proton Administrator Guide.
     public func deleteService(_ input: DeleteServiceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteServiceOutput> {
         return self.client.execute(operation: "DeleteService", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -178,22 +193,27 @@ public struct Proton: AWSService {
         return self.client.execute(operation: "GetAccountSettings", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Get detail data for an environment.
+    /// Get detailed data for a component. For more information about components, see Proton components in the Proton Administrator Guide.
+    public func getComponent(_ input: GetComponentInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetComponentOutput> {
+        return self.client.execute(operation: "GetComponent", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Get detailed data for an environment.
     public func getEnvironment(_ input: GetEnvironmentInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetEnvironmentOutput> {
         return self.client.execute(operation: "GetEnvironment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// In an environment account, view the detail data for an environment account connection. For more information, see Environment account connections in the Proton Administrator guide.
+    /// In an environment account, get the detailed data for an environment account connection. For more information, see Environment account connections in the Proton Administrator guide.
     public func getEnvironmentAccountConnection(_ input: GetEnvironmentAccountConnectionInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetEnvironmentAccountConnectionOutput> {
         return self.client.execute(operation: "GetEnvironmentAccountConnection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Get detail data for an environment template.
+    /// Get detailed data for an environment template.
     public func getEnvironmentTemplate(_ input: GetEnvironmentTemplateInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetEnvironmentTemplateOutput> {
         return self.client.execute(operation: "GetEnvironmentTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// View detail data for a major or minor version of an environment template.
+    /// Get detailed data for a major or minor version of an environment template.
     public func getEnvironmentTemplateVersion(_ input: GetEnvironmentTemplateVersionInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetEnvironmentTemplateVersionOutput> {
         return self.client.execute(operation: "GetEnvironmentTemplateVersion", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -208,22 +228,22 @@ public struct Proton: AWSService {
         return self.client.execute(operation: "GetRepositorySyncStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Get detail data for a service.
+    /// Get detailed data for a service.
     public func getService(_ input: GetServiceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetServiceOutput> {
         return self.client.execute(operation: "GetService", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Get detail data for a service instance. A service instance is an instantiation of service template and it runs in a specific environment.
+    /// Get detailed data for a service instance. A service instance is an instantiation of service template and it runs in a specific environment.
     public func getServiceInstance(_ input: GetServiceInstanceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetServiceInstanceOutput> {
         return self.client.execute(operation: "GetServiceInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Get detail data for a service template.
+    /// Get detailed data for a service template.
     public func getServiceTemplate(_ input: GetServiceTemplateInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetServiceTemplateOutput> {
         return self.client.execute(operation: "GetServiceTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// View detail data for a major or minor version of a service template.
+    /// Get detailed data for a major or minor version of a service template.
     public func getServiceTemplateVersion(_ input: GetServiceTemplateVersionInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetServiceTemplateVersionOutput> {
         return self.client.execute(operation: "GetServiceTemplateVersion", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -236,6 +256,21 @@ public struct Proton: AWSService {
     /// Get the status of a template sync.
     public func getTemplateSyncStatus(_ input: GetTemplateSyncStatusInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetTemplateSyncStatusOutput> {
         return self.client.execute(operation: "GetTemplateSyncStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Get a list of component Infrastructure as Code (IaC) outputs. For more information about components, see Proton components in the Proton Administrator Guide.
+    public func listComponentOutputs(_ input: ListComponentOutputsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListComponentOutputsOutput> {
+        return self.client.execute(operation: "ListComponentOutputs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// List provisioned resources for a component with details. For more information about components, see Proton components in the Proton Administrator Guide.
+    public func listComponentProvisionedResources(_ input: ListComponentProvisionedResourcesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListComponentProvisionedResourcesOutput> {
+        return self.client.execute(operation: "ListComponentProvisionedResources", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// List components with summary data. You can filter the result list by environment, service, or a single service instance. For more information about components, see Proton components in the Proton Administrator Guide.
+    public func listComponents(_ input: ListComponentsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListComponentsOutput> {
+        return self.client.execute(operation: "ListComponents", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// View a list of environment account connections. For more information, see Environment account connections in the Proton Administrator guide.
@@ -278,7 +313,7 @@ public struct Proton: AWSService {
         return self.client.execute(operation: "ListRepositorySyncDefinitions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// View a list service instance infrastructure as code outputs with detail data.
+    /// Get a list service of instance Infrastructure as Code (IaC) outputs.
     public func listServiceInstanceOutputs(_ input: ListServiceInstanceOutputsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListServiceInstanceOutputsOutput> {
         return self.client.execute(operation: "ListServiceInstanceOutputs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -288,12 +323,12 @@ public struct Proton: AWSService {
         return self.client.execute(operation: "ListServiceInstanceProvisionedResources", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// List service instances with summaries of detail data.
+    /// List service instances with summary data.
     public func listServiceInstances(_ input: ListServiceInstancesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListServiceInstancesOutput> {
         return self.client.execute(operation: "ListServiceInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// View a list service pipeline infrastructure as code outputs with detail.
+    /// Get a list of service pipeline Infrastructure as Code (IaC) outputs.
     public func listServicePipelineOutputs(_ input: ListServicePipelineOutputsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListServicePipelineOutputsOutput> {
         return self.client.execute(operation: "ListServicePipelineOutputs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -348,6 +383,11 @@ public struct Proton: AWSService {
         return self.client.execute(operation: "UpdateAccountSettings", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Update a component. There are a few modes for updating a component. The deploymentType field defines the mode.  You can't update a component while its deployment status, or the deployment status of a service instance attached to it, is IN_PROGRESS.  For more information about components, see Proton components in the Proton Administrator Guide.
+    public func updateComponent(_ input: UpdateComponentInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateComponentOutput> {
+        return self.client.execute(operation: "UpdateComponent", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Update an environment. If the environment is associated with an environment account connection, don't update or include the protonServiceRoleArn and provisioningRepository parameter to update or connect to an environment account connection. You can only update to a new environment account connection if that connection was created in the same environment account that the current environment account connection was created in. The account connection must also be associated with the current environment. If the environment isn't associated with an environment account connection, don't update or include the environmentAccountConnectionId parameter. You can't update or connect the environment to an environment account connection if it isn't already associated with an environment connection. You can update either the environmentAccountConnectionId or protonServiceRoleArn parameter and value. You can’t update both. If the environment was configured for Amazon Web Services-managed provisioning, omit the provisioningRepository parameter. If the environment was configured for self-managed provisioning, specify the provisioningRepository parameter and omit the protonServiceRoleArn and environmentAccountConnectionId parameters. For more information, see Environments and Provisioning methods in the Proton Administrator Guide. There are four modes for updating an environment. The deploymentType field defines the mode.     NONE  In this mode, a deployment doesn't occur. Only the requested metadata parameters are updated.     CURRENT_VERSION  In this mode, the environment is deployed and updated with the new spec that you provide. Only requested parameters are updated. Don’t include minor or major version parameters when you use this deployment-type.     MINOR_VERSION  In this mode, the environment is deployed and updated with the published, recommended (latest) minor version of the current major version in use, by default. You can also specify a different minor version of the current major version in use.     MAJOR_VERSION  In this mode, the environment is deployed and updated with the published, recommended (latest) major and minor version of the current template, by default. You can also specify a different major version that's higher than the major version in use and a minor version.
     public func updateEnvironment(_ input: UpdateEnvironmentInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateEnvironmentOutput> {
         return self.client.execute(operation: "UpdateEnvironment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -368,12 +408,12 @@ public struct Proton: AWSService {
         return self.client.execute(operation: "UpdateEnvironmentTemplateVersion", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Edit a service description or use a spec to add and delete service instances.  Existing service instances and the service pipeline can't be edited using this API. They can only be deleted.  Use the description parameter to modify the description. Edit the spec parameter to add or delete instances.
+    /// Edit a service description or use a spec to add and delete service instances.  Existing service instances and the service pipeline can't be edited using this API. They can only be deleted.  Use the description parameter to modify the description. Edit the spec parameter to add or delete instances.  You can't delete a service instance (remove it from the spec) if it has an attached component. For more information about components, see Proton components in the Proton Administrator Guide.
     public func updateService(_ input: UpdateServiceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateServiceOutput> {
         return self.client.execute(operation: "UpdateService", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Update a service instance. There are four modes for updating a service instance. The deploymentType field defines the mode.     NONE  In this mode, a deployment doesn't occur. Only the requested metadata parameters are updated.     CURRENT_VERSION  In this mode, the service instance is deployed and updated with the new spec that you provide. Only requested parameters are updated. Don’t include minor or major version parameters when you use this deployment-type.     MINOR_VERSION  In this mode, the service instance is deployed and updated with the published, recommended (latest) minor version of the current major version in use, by default. You can also specify a different minor version of the current major version in use.     MAJOR_VERSION  In this mode, the service instance is deployed and updated with the published, recommended (latest) major and minor version of the current template, by default. You can also specify a different major version that's higher than the major version in use and a minor version.
+    /// Update a service instance. There are a few modes for updating a service instance. The deploymentType field defines the mode.  You can't update a service instance while its deployment status, or the deployment status of a component attached to it, is IN_PROGRESS. For more information about components, see Proton components in the Proton Administrator Guide.
     public func updateServiceInstance(_ input: UpdateServiceInstanceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateServiceInstanceOutput> {
         return self.client.execute(operation: "UpdateServiceInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

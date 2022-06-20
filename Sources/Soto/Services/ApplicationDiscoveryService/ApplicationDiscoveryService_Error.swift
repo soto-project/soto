@@ -48,7 +48,7 @@ public struct ApplicationDiscoveryServiceErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// The AWS user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
     public static var authorizationErrorException: Self { .init(.authorizationErrorException) }
     public static var conflictErrorException: Self { .init(.conflictErrorException) }
     /// The home region is not set. Set the home region to continue.

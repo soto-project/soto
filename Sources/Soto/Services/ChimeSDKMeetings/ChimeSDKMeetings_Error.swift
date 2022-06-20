@@ -20,6 +20,7 @@ import SotoCore
 public struct ChimeSDKMeetingsErrorType: AWSErrorType {
     enum Code: String {
         case badRequestException = "BadRequestException"
+        case conflictException = "ConflictException"
         case forbiddenException = "ForbiddenException"
         case limitExceededException = "LimitExceededException"
         case notFoundException = "NotFoundException"
@@ -50,17 +51,19 @@ public struct ChimeSDKMeetingsErrorType: AWSErrorType {
 
     /// The input parameters don't match the service's restrictions.
     public static var badRequestException: Self { .init(.badRequestException) }
+    /// Multiple instances of the same request have been made simultaneously.
+    public static var conflictException: Self { .init(.conflictException) }
     /// The client is permanently forbidden from making the request.
     public static var forbiddenException: Self { .init(.forbiddenException) }
     /// The request exceeds the resource limit.
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// One or more of the resources in the request does not exist in the system.
     public static var notFoundException: Self { .init(.notFoundException) }
-    /// The service encountered an unexpected error.
+    /// The service is currently unavailable.
     public static var serviceFailureException: Self { .init(.serviceFailureException) }
     /// The service is currently unavailable.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
-    /// The number of customer requests exceeds the request rate limit.
+    /// The number of requests exceeds the limit.
     public static var throttlingException: Self { .init(.throttlingException) }
     /// The user isn't authorized to request a resource.
     public static var unauthorizedException: Self { .init(.unauthorizedException) }

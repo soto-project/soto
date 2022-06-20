@@ -22,6 +22,11 @@ import SotoCore
 extension Drs {
     // MARK: Async API Calls
 
+    /// Create an extended source server in the target Account based on the source server in staging account.
+    public func createExtendedSourceServer(_ input: CreateExtendedSourceServerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateExtendedSourceServerResponse {
+        return try await self.client.execute(operation: "CreateExtendedSourceServer", path: "/CreateExtendedSourceServer", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates a new ReplicationConfigurationTemplate.
     public func createReplicationConfigurationTemplate(_ input: CreateReplicationConfigurationTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ReplicationConfigurationTemplate {
         return try await self.client.execute(operation: "CreateReplicationConfigurationTemplate", path: "/CreateReplicationConfigurationTemplate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -105,6 +110,16 @@ extension Drs {
     /// Initialize Elastic Disaster Recovery.
     public func initializeService(_ input: InitializeServiceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> InitializeServiceResponse {
         return try await self.client.execute(operation: "InitializeService", path: "/InitializeService", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns a list of source servers on a staging account that are extensible, which means that: a. The source server is not already extended into this Account. b. The source server on the Account we’re reading from is not an extension of another source server.
+    public func listExtensibleSourceServers(_ input: ListExtensibleSourceServersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListExtensibleSourceServersResponse {
+        return try await self.client.execute(operation: "ListExtensibleSourceServers", path: "/ListExtensibleSourceServers", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns an array of staging accounts for existing extended source servers.
+    public func listStagingAccounts(_ input: ListStagingAccountsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListStagingAccountsResponse {
+        return try await self.client.execute(operation: "ListStagingAccounts", path: "/ListStagingAccounts", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// List all tags for your Elastic Disaster Recovery resources.

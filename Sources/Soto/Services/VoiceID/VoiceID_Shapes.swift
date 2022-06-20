@@ -24,6 +24,7 @@ extension VoiceID {
         case accept = "ACCEPT"
         case notEnoughSpeech = "NOT_ENOUGH_SPEECH"
         case reject = "REJECT"
+        case speakerExpired = "SPEAKER_EXPIRED"
         case speakerIdNotProvided = "SPEAKER_ID_NOT_PROVIDED"
         case speakerNotEnrolled = "SPEAKER_NOT_ENROLLED"
         case speakerOptedOut = "SPEAKER_OPTED_OUT"
@@ -73,6 +74,13 @@ extension VoiceID {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case submitted = "SUBMITTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ServerSideEncryptionUpdateStatus: String, CustomStringConvertible, Codable {
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
@@ -163,7 +171,7 @@ extension VoiceID {
         public let description: String?
         /// The name of the domain.
         public let name: String
-        /// The configuration, containing the KMS Key Identifier, to be used by Voice ID for the server-side encryption of your data. Refer to  Amazon Connect VoiceID encryption at rest for more details on how the KMS Key is used.
+        /// The configuration, containing the KMS key identifier, to be used by Voice ID for the server-side encryption of your data. Refer to  Amazon Connect Voice ID encryption at rest for more details on how the KMS key is used.
         public let serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration
         /// A list of tags you want added to the domain.
         public let tags: [Tag]?
@@ -488,12 +496,14 @@ extension VoiceID {
         public let domainStatus: DomainStatus?
         /// The client-provided name for the domain.
         public let name: String?
-        /// The server-side encryption configuration containing the KMS Key Identifier you want Voice ID to use to encrypt your data.
+        /// The server-side encryption configuration containing the KMS key identifier you want Voice ID to use to encrypt your data.
         public let serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration?
+        /// Details about the most recent server-side encryption configuration update. When the server-side encryption configuration is changed, dependency on the old KMS key is removed through an asynchronous process. When this update is complete, the domain's data can only be accessed using the new KMS key.
+        public let serverSideEncryptionUpdateDetails: ServerSideEncryptionUpdateDetails?
         /// The timestamp showing the domain's last update.
         public let updatedAt: Date?
 
-        public init(arn: String? = nil, createdAt: Date? = nil, description: String? = nil, domainId: String? = nil, domainStatus: DomainStatus? = nil, name: String? = nil, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, updatedAt: Date? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, description: String? = nil, domainId: String? = nil, domainStatus: DomainStatus? = nil, name: String? = nil, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, serverSideEncryptionUpdateDetails: ServerSideEncryptionUpdateDetails? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.description = description
@@ -501,6 +511,7 @@ extension VoiceID {
             self.domainStatus = domainStatus
             self.name = name
             self.serverSideEncryptionConfiguration = serverSideEncryptionConfiguration
+            self.serverSideEncryptionUpdateDetails = serverSideEncryptionUpdateDetails
             self.updatedAt = updatedAt
         }
 
@@ -512,6 +523,7 @@ extension VoiceID {
             case domainStatus = "DomainStatus"
             case name = "Name"
             case serverSideEncryptionConfiguration = "ServerSideEncryptionConfiguration"
+            case serverSideEncryptionUpdateDetails = "ServerSideEncryptionUpdateDetails"
             case updatedAt = "UpdatedAt"
         }
     }
@@ -529,12 +541,14 @@ extension VoiceID {
         public let domainStatus: DomainStatus?
         /// The client-provided name for the domain.
         public let name: String?
-        /// The server-side encryption configuration containing the KMS Key Identifier you want Voice ID to use to encrypt your data..
+        /// The server-side encryption configuration containing the KMS key identifier you want Voice ID to use to encrypt your data.
         public let serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration?
+        /// Details about the most recent server-side encryption configuration update. When the server-side encryption configuration is changed, dependency on the old KMS key is removed through an asynchronous process. When this update is complete, the domain’s data can only be accessed using the new KMS key.
+        public let serverSideEncryptionUpdateDetails: ServerSideEncryptionUpdateDetails?
         /// The timestamp showing the domain's last update.
         public let updatedAt: Date?
 
-        public init(arn: String? = nil, createdAt: Date? = nil, description: String? = nil, domainId: String? = nil, domainStatus: DomainStatus? = nil, name: String? = nil, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, updatedAt: Date? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, description: String? = nil, domainId: String? = nil, domainStatus: DomainStatus? = nil, name: String? = nil, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, serverSideEncryptionUpdateDetails: ServerSideEncryptionUpdateDetails? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.description = description
@@ -542,6 +556,7 @@ extension VoiceID {
             self.domainStatus = domainStatus
             self.name = name
             self.serverSideEncryptionConfiguration = serverSideEncryptionConfiguration
+            self.serverSideEncryptionUpdateDetails = serverSideEncryptionUpdateDetails
             self.updatedAt = updatedAt
         }
 
@@ -553,6 +568,7 @@ extension VoiceID {
             case domainStatus = "DomainStatus"
             case name = "Name"
             case serverSideEncryptionConfiguration = "ServerSideEncryptionConfiguration"
+            case serverSideEncryptionUpdateDetails = "ServerSideEncryptionUpdateDetails"
             case updatedAt = "UpdatedAt"
         }
     }
@@ -637,7 +653,7 @@ extension VoiceID {
         public let sessionId: String?
         /// The client-provided name of the session.
         public let sessionName: String?
-        /// The current status of audio streaming for this session. This field is useful to infer next steps when the Authentication or Fraud Detection results are empty or the decision is NOT_ENOUGH_SPEECH. In this situation, if the StreamingStatus is ONGOING/PENDING_CONFIGURATION, it can mean that the client should call the API again later, once Voice ID has enough audio to produce a result. If the decision remains NOT_ENOUGH_SPEECH even after StreamingStatus is ENDED, it means that the previously streamed session did not have enough speech to perform evaluation, and a new streaming session is needed to try again.
+        /// The current status of audio streaming for this session. This field is useful to infer next steps when the Authentication or Fraud Detection results are empty or the decision is NOT_ENOUGH_SPEECH. In this situation, if the StreamingStatus is ONGOING/PENDING_CONFIGURATION, it can mean that the client should call the API again later, after Voice ID has enough audio to produce a result. If the decision remains NOT_ENOUGH_SPEECH even after StreamingStatus is ENDED, it means that the previously streamed session did not have enough speech to perform evaluation, and a new streaming session is needed to try again.
         public let streamingStatus: StreamingStatus?
 
         public init(authenticationResult: AuthenticationResult? = nil, domainId: String? = nil, fraudDetectionResult: FraudDetectionResult? = nil, sessionId: String? = nil, sessionName: String? = nil, streamingStatus: StreamingStatus? = nil) {
@@ -775,13 +791,13 @@ extension VoiceID {
         public let inputDataConfig: InputDataConfig?
         /// The service-generated identifier for the fraudster registration job.
         public let jobId: String?
-        /// The client-provied name for the fraudster registration job.
+        /// The client-provided name for the fraudster registration job.
         public let jobName: String?
         /// Shows the completed percentage of registration requests listed in the input file.
         public let jobProgress: JobProgress?
         /// The current status of the fraudster registration job.
         public let jobStatus: FraudsterRegistrationJobStatus?
-        /// The output data config containing the S3 location where you want Voice ID to write your job output file; you must also include a KMS Key ID in order to encrypt the file.
+        /// The output data config containing the S3 location where you want Voice ID to write your job output file; you must also include a KMS key iD in order to encrypt the file.
         public let outputDataConfig: OutputDataConfig?
         /// The registration config containing details such as the action to take when a duplicate fraudster is detected, and the similarity threshold to use for detecting a duplicate fraudster.
         public let registrationConfig: RegistrationConfig?
@@ -1178,7 +1194,7 @@ extension VoiceID {
     public struct OutputDataConfig: AWSEncodableShape & AWSDecodableShape {
         /// the identifier of the KMS key you want Voice ID to use to encrypt the output file of the fraudster registration job.
         public let kmsKeyId: String?
-        /// The S3 path of the folder to which Voice ID writes the job output file, which has a *.out extension. For example, if the input file name is input-file.json and the output folder path is s3://output-bucket/output-folder, the full output file path is s3://output-bucket/output-folder/job-Id/input-file.json.out.
+        /// The S3 path of the folder where Voice ID writes the job output file. It has a *.out extension. For example, if the input file name is input-file.json and the output folder path is s3://output-bucket/output-folder, the full output file path is s3://output-bucket/output-folder/job-Id/input-file.json.out.
         public let s3Uri: String
 
         public init(kmsKeyId: String? = nil, s3Uri: String) {
@@ -1223,7 +1239,7 @@ extension VoiceID {
     }
 
     public struct ServerSideEncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The identifier of the KMS Key you want Voice ID to use to encrypt your data.
+        /// The identifier of the KMS key you want Voice ID to use to encrypt your data.
         public let kmsKeyId: String
 
         public init(kmsKeyId: String) {
@@ -1240,6 +1256,27 @@ extension VoiceID {
         }
     }
 
+    public struct ServerSideEncryptionUpdateDetails: AWSDecodableShape {
+        /// Message explaining the current UpdateStatus. When the UpdateStatus is FAILED, this message explains the cause of the failure.
+        public let message: String?
+        /// The previous KMS key ID the domain was encrypted with, before ServerSideEncryptionConfiguration was updated to a new KMS key ID.
+        public let oldKmsKeyId: String?
+        /// Status of the server-side encryption update. During an update, if there is an issue with the domain's current or old KMS key ID, such as an inaccessible or disabled key, then the status is FAILED. In order to resolve this, the key needs to be made accessible, and then an UpdateDomain call with the existing server-side encryption configuration will re-attempt this update process.
+        public let updateStatus: ServerSideEncryptionUpdateStatus?
+
+        public init(message: String? = nil, oldKmsKeyId: String? = nil, updateStatus: ServerSideEncryptionUpdateStatus? = nil) {
+            self.message = message
+            self.oldKmsKeyId = oldKmsKeyId
+            self.updateStatus = updateStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case oldKmsKeyId = "OldKmsKeyId"
+            case updateStatus = "UpdateStatus"
+        }
+    }
+
     public struct Speaker: AWSDecodableShape {
         /// A timestamp showing when the speaker is created.
         public let createdAt: Date?
@@ -1249,16 +1286,19 @@ extension VoiceID {
         public let domainId: String?
         /// The service-generated identifier for the speaker.
         public let generatedSpeakerId: String?
+        /// The timestamp when the speaker was last accessed for enrollment, re-enrollment or a successful authentication. This timestamp is accurate to one hour.
+        public let lastAccessedAt: Date?
         /// The current status of the speaker.
         public let status: SpeakerStatus?
         /// A timestamp showing the speaker's last update.
         public let updatedAt: Date?
 
-        public init(createdAt: Date? = nil, customerSpeakerId: String? = nil, domainId: String? = nil, generatedSpeakerId: String? = nil, status: SpeakerStatus? = nil, updatedAt: Date? = nil) {
+        public init(createdAt: Date? = nil, customerSpeakerId: String? = nil, domainId: String? = nil, generatedSpeakerId: String? = nil, lastAccessedAt: Date? = nil, status: SpeakerStatus? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.customerSpeakerId = customerSpeakerId
             self.domainId = domainId
             self.generatedSpeakerId = generatedSpeakerId
+            self.lastAccessedAt = lastAccessedAt
             self.status = status
             self.updatedAt = updatedAt
         }
@@ -1268,6 +1308,7 @@ extension VoiceID {
             case customerSpeakerId = "CustomerSpeakerId"
             case domainId = "DomainId"
             case generatedSpeakerId = "GeneratedSpeakerId"
+            case lastAccessedAt = "LastAccessedAt"
             case status = "Status"
             case updatedAt = "UpdatedAt"
         }
@@ -1296,7 +1337,7 @@ extension VoiceID {
         public let jobProgress: JobProgress?
         /// The current status of the speaker enrollment job.
         public let jobStatus: SpeakerEnrollmentJobStatus?
-        /// The output data config containing the S3 location where Voice ID writes the job output file; you must also include a KMS Key ID to encrypt the file.
+        /// The output data config containing the S3 location where Voice ID writes the job output file; you must also include a KMS key ID to encrypt the file.
         public let outputDataConfig: OutputDataConfig?
 
         public init(createdAt: Date? = nil, dataAccessRoleArn: String? = nil, domainId: String? = nil, endedAt: Date? = nil, enrollmentConfig: EnrollmentConfig? = nil, failureDetails: FailureDetails? = nil, inputDataConfig: InputDataConfig? = nil, jobId: String? = nil, jobName: String? = nil, jobProgress: JobProgress? = nil, jobStatus: SpeakerEnrollmentJobStatus? = nil, outputDataConfig: OutputDataConfig? = nil) {
@@ -1380,16 +1421,19 @@ extension VoiceID {
         public let domainId: String?
         /// The service-generated identifier for the speaker.
         public let generatedSpeakerId: String?
+        /// The timestamp when the speaker was last accessed for enrollment, re-enrollment or a successful authentication. This timestamp is accurate to one hour.
+        public let lastAccessedAt: Date?
         /// The current status of the speaker.
         public let status: SpeakerStatus?
         /// A timestamp showing the speaker's last update.
         public let updatedAt: Date?
 
-        public init(createdAt: Date? = nil, customerSpeakerId: String? = nil, domainId: String? = nil, generatedSpeakerId: String? = nil, status: SpeakerStatus? = nil, updatedAt: Date? = nil) {
+        public init(createdAt: Date? = nil, customerSpeakerId: String? = nil, domainId: String? = nil, generatedSpeakerId: String? = nil, lastAccessedAt: Date? = nil, status: SpeakerStatus? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.customerSpeakerId = customerSpeakerId
             self.domainId = domainId
             self.generatedSpeakerId = generatedSpeakerId
+            self.lastAccessedAt = lastAccessedAt
             self.status = status
             self.updatedAt = updatedAt
         }
@@ -1399,6 +1443,7 @@ extension VoiceID {
             case customerSpeakerId = "CustomerSpeakerId"
             case domainId = "DomainId"
             case generatedSpeakerId = "GeneratedSpeakerId"
+            case lastAccessedAt = "LastAccessedAt"
             case status = "Status"
             case updatedAt = "UpdatedAt"
         }
@@ -1415,7 +1460,7 @@ extension VoiceID {
         public let inputDataConfig: InputDataConfig
         /// The name of the new fraudster registration job.
         public let jobName: String?
-        /// The output data config containing the S3 location where Voice ID writes the job output file; you must also include a KMS Key ID to encrypt the file.
+        /// The output data config containing the S3 location where Voice ID writes the job output file; you must also include a KMS key ID to encrypt the file.
         public let outputDataConfig: OutputDataConfig
         /// The registration config containing details such as the action to take when a duplicate fraudster is detected, and the similarity threshold to use for detecting a duplicate fraudster.
         public let registrationConfig: RegistrationConfig?
@@ -1479,13 +1524,13 @@ extension VoiceID {
         public let dataAccessRoleArn: String
         /// The identifier of the domain that contains the speaker enrollment job and in which the speakers are enrolled.
         public let domainId: String
-        /// The enrollment config that contains details such as the action to take when a speaker is already enrolled in the Voice ID system or when a speaker is identified as a fraudster.
+        /// The enrollment config that contains details such as the action to take when a speaker is already enrolled in Voice ID or when a speaker is identified as a fraudster.
         public let enrollmentConfig: EnrollmentConfig?
         /// The input data config containing the S3 location for the input manifest file that contains the list of speaker enrollment requests.
         public let inputDataConfig: InputDataConfig
         /// A name for your speaker enrollment job.
         public let jobName: String?
-        /// The output data config containing the S3 location where Voice ID writes the job output file; you must also include a KMS Key ID to encrypt the file.
+        /// The output data config containing the S3 location where Voice ID writes the job output file; you must also include a KMS key ID to encrypt the file.
         public let outputDataConfig: OutputDataConfig
 
         public init(clientToken: String? = StartSpeakerEnrollmentJobRequest.idempotencyToken(), dataAccessRoleArn: String, domainId: String, enrollmentConfig: EnrollmentConfig? = nil, inputDataConfig: InputDataConfig, jobName: String? = nil, outputDataConfig: OutputDataConfig) {
@@ -1639,7 +1684,7 @@ extension VoiceID {
         public let domainId: String
         /// The name of the domain.
         public let name: String
-        /// The configuration, containing the KMS Key Identifier, to be used by Voice ID for the server-side encryption of your data. Note that all the existing data in the domain are still encrypted using the existing key, only the data added to domain after updating the key is encrypted using the new key.
+        /// The configuration, containing the KMS key identifier, to be used by Voice ID for the server-side encryption of your data. Note that all the existing data in the domain are still encrypted using the existing key, only the data added to domain after updating the key is encrypted using the new key.
         public let serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration
 
         public init(description: String? = nil, domainId: String, name: String, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration) {

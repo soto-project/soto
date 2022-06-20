@@ -18,7 +18,7 @@
 
 /// Service object for interacting with AWS GuardDuty service.
 ///
-/// Amazon GuardDuty is a continuous security monitoring service that analyzes and processes the following data sources: VPC Flow Logs, Amazon Web Services CloudTrail event logs, and DNS logs. It uses threat intelligence feeds (such as lists of malicious IPs and domains) and machine learning to identify unexpected, potentially unauthorized, and malicious activity within your Amazon Web Services environment. This can include issues like escalations of privileges, uses of exposed credentials, or communication with malicious IPs, URLs, or domains. For example, GuardDuty can detect compromised EC2 instances that serve malware or mine bitcoin.  GuardDuty also monitors Amazon Web Services account access behavior for signs of compromise. Some examples of this are unauthorized infrastructure deployments such as EC2 instances deployed in a Region that has never been used, or unusual API calls like a password policy change to reduce password strength.  GuardDuty informs you of the status of your Amazon Web Services environment by producing security findings that you can view in the GuardDuty console or through Amazon CloudWatch events. For more information, see the  Amazon GuardDuty User Guide .
+/// Amazon GuardDuty is a continuous security monitoring service that analyzes and processes the following data sources: VPC Flow Logs, AWS CloudTrail management event logs, CloudTrail S3 data event logs, EKS audit logs, and DNS logs. It uses threat intelligence feeds (such as lists of malicious IPs and domains) and machine learning to identify unexpected, potentially unauthorized, and malicious activity within your Amazon Web Services environment. This can include issues like escalations of privileges, uses of exposed credentials, or communication with malicious IPs, URLs, or domains. For example, GuardDuty can detect compromised EC2 instances that serve malware or mine bitcoin.  GuardDuty also monitors Amazon Web Services account access behavior for signs of compromise. Some examples of this are unauthorized infrastructure deployments such as EC2 instances deployed in a Region that has never been used, or unusual API calls like a password policy change to reduce password strength.  GuardDuty informs you of the status of your Amazon Web Services environment by producing security findings that you can view in the GuardDuty console or through Amazon CloudWatch events. For more information, see the  Amazon GuardDuty User Guide .
 public struct GuardDuty: AWSService {
     // MARK: Member variables
 
@@ -62,7 +62,13 @@ public struct GuardDuty: AWSService {
 
     // MARK: API Calls
 
+    /// Accepts the invitation to be a member account and get monitored by a GuardDuty administrator account that sent the invitation.
+    public func acceptAdministratorInvitation(_ input: AcceptAdministratorInvitationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AcceptAdministratorInvitationResponse> {
+        return self.client.execute(operation: "AcceptAdministratorInvitation", path: "/detector/{detectorId}/administrator", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Accepts the invitation to be monitored by a GuardDuty administrator account.
+    @available(*, deprecated, message: "This operation is deprecated, use AcceptAdministratorInvitation instead")
     public func acceptInvitation(_ input: AcceptInvitationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AcceptInvitationResponse> {
         return self.client.execute(operation: "AcceptInvitation", path: "/detector/{detectorId}/master", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -163,11 +169,17 @@ public struct GuardDuty: AWSService {
     }
 
     /// Disassociates the current GuardDuty member account from its administrator account.
+    public func disassociateFromAdministratorAccount(_ input: DisassociateFromAdministratorAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateFromAdministratorAccountResponse> {
+        return self.client.execute(operation: "DisassociateFromAdministratorAccount", path: "/detector/{detectorId}/administrator/disassociate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Disassociates the current GuardDuty member account from its administrator account.
+    @available(*, deprecated, message: "This operation is deprecated, use DisassociateFromAdministratorAccount instead")
     public func disassociateFromMasterAccount(_ input: DisassociateFromMasterAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateFromMasterAccountResponse> {
         return self.client.execute(operation: "DisassociateFromMasterAccount", path: "/detector/{detectorId}/master/disassociate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Disassociates GuardDuty member accounts (to the current GuardDuty administrator account) specified by the account IDs. Member accounts added through Invitation get deleted from the current GuardDuty administrator account after 30 days of disassociation.
+    /// Disassociates GuardDuty member accounts (to the current GuardDuty administrator account) specified by the account IDs.
     public func disassociateMembers(_ input: DisassociateMembersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateMembersResponse> {
         return self.client.execute(operation: "DisassociateMembers", path: "/detector/{detectorId}/member/disassociate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -175,6 +187,11 @@ public struct GuardDuty: AWSService {
     /// Enables an Amazon Web Services account within the organization as the GuardDuty delegated administrator.
     public func enableOrganizationAdminAccount(_ input: EnableOrganizationAdminAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<EnableOrganizationAdminAccountResponse> {
         return self.client.execute(operation: "EnableOrganizationAdminAccount", path: "/admin/enable", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Provides the details for the GuardDuty administrator account associated with the current GuardDuty member account.
+    public func getAdministratorAccount(_ input: GetAdministratorAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAdministratorAccountResponse> {
+        return self.client.execute(operation: "GetAdministratorAccount", path: "/detector/{detectorId}/administrator", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Retrieves an Amazon GuardDuty detector specified by the detectorId.
@@ -208,6 +225,7 @@ public struct GuardDuty: AWSService {
     }
 
     /// Provides the details for the GuardDuty administrator account associated with the current GuardDuty member account.
+    @available(*, deprecated, message: "This operation is deprecated, use GetAdministratorAccount instead")
     public func getMasterAccount(_ input: GetMasterAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMasterAccountResponse> {
         return self.client.execute(operation: "GetMasterAccount", path: "/detector/{detectorId}/master", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -222,12 +240,17 @@ public struct GuardDuty: AWSService {
         return self.client.execute(operation: "GetMembers", path: "/detector/{detectorId}/member/get", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Provides the number of days left for each data source used in the free trial period.
+    public func getRemainingFreeTrialDays(_ input: GetRemainingFreeTrialDaysRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRemainingFreeTrialDaysResponse> {
+        return self.client.execute(operation: "GetRemainingFreeTrialDays", path: "/detector/{detectorId}/freeTrial/daysRemaining", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Retrieves the ThreatIntelSet that is specified by the ThreatIntelSet ID.
     public func getThreatIntelSet(_ input: GetThreatIntelSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetThreatIntelSetResponse> {
         return self.client.execute(operation: "GetThreatIntelSet", path: "/detector/{detectorId}/threatintelset/{threatIntelSetId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists Amazon GuardDuty usage statistics over the last 30 days for the specified detector ID. For newly enabled detectors or data sources the cost returned will include only the usage so far under 30 days, this may differ from the cost metrics in the console, which projects usage over 30 days to provide a monthly cost estimate. For more information see Understanding How Usage Costs are Calculated.
+    /// Lists Amazon GuardDuty usage statistics over the last 30 days for the specified detector ID. For newly enabled detectors or data sources, the cost returned will include only the usage so far under 30 days. This may differ from the cost metrics in the console, which project usage over 30 days to provide a monthly cost estimate. For more information, see Understanding How Usage Costs are Calculated.
     public func getUsageStatistics(_ input: GetUsageStatisticsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetUsageStatisticsResponse> {
         return self.client.execute(operation: "GetUsageStatistics", path: "/detector/{detectorId}/usage/statistics", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

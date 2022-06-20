@@ -249,6 +249,75 @@ extension BackupGateway {
         }
     }
 
+    public struct GatewayDetails: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region.
+        public let gatewayArn: String?
+        /// The display name of the gateway.
+        public let gatewayDisplayName: String?
+        /// The type of the gateway type.
+        public let gatewayType: GatewayType?
+        /// The hypervisor ID of the gateway.
+        public let hypervisorId: String?
+        /// Details showing the last time Backup gateway communicated with the cloud, in Unix format and UTC time.
+        public let lastSeenTime: Date?
+        /// Details showing the next update availability time of the gateway.
+        public let nextUpdateAvailabilityTime: Date?
+        /// The DNS name for the virtual private cloud (VPC) endpoint the gateway uses to connect to the cloud for backup gateway.
+        public let vpcEndpoint: String?
+
+        public init(gatewayArn: String? = nil, gatewayDisplayName: String? = nil, gatewayType: GatewayType? = nil, hypervisorId: String? = nil, lastSeenTime: Date? = nil, nextUpdateAvailabilityTime: Date? = nil, vpcEndpoint: String? = nil) {
+            self.gatewayArn = gatewayArn
+            self.gatewayDisplayName = gatewayDisplayName
+            self.gatewayType = gatewayType
+            self.hypervisorId = hypervisorId
+            self.lastSeenTime = lastSeenTime
+            self.nextUpdateAvailabilityTime = nextUpdateAvailabilityTime
+            self.vpcEndpoint = vpcEndpoint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayArn = "GatewayArn"
+            case gatewayDisplayName = "GatewayDisplayName"
+            case gatewayType = "GatewayType"
+            case hypervisorId = "HypervisorId"
+            case lastSeenTime = "LastSeenTime"
+            case nextUpdateAvailabilityTime = "NextUpdateAvailabilityTime"
+            case vpcEndpoint = "VpcEndpoint"
+        }
+    }
+
+    public struct GetGatewayInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the gateway.
+        public let gatewayArn: String
+
+        public init(gatewayArn: String) {
+            self.gatewayArn = gatewayArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.gatewayArn, name: "gatewayArn", parent: name, max: 500)
+            try self.validate(self.gatewayArn, name: "gatewayArn", parent: name, min: 50)
+            try self.validate(self.gatewayArn, name: "gatewayArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):backup-gateway(:[a-zA-Z-0-9]+){3}\\/[a-zA-Z-0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayArn = "GatewayArn"
+        }
+    }
+
+    public struct GetGatewayOutput: AWSDecodableShape {
+        /// By providing the ARN (Amazon Resource Name), this API returns the gateway.
+        public let gateway: GatewayDetails?
+
+        public init(gateway: GatewayDetails? = nil) {
+            self.gateway = gateway
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gateway = "Gateway"
+        }
+    }
+
     public struct Hypervisor: AWSDecodableShape {
         /// The server host of the hypervisor. This can be either an IP address or a fully-qualified domain name (FQDN).
         public let host: String?
@@ -563,7 +632,7 @@ extension BackupGateway {
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
         /// The key part of a tag's key-value pair. The key can't start with aws:.
         public let key: String
-        /// The key part of a value's key-value pair.
+        /// The value part of a tag's key-value pair.
         public let value: String
 
         public init(key: String, value: String) {
@@ -749,19 +818,54 @@ extension BackupGateway {
         }
     }
 
+    public struct UpdateGatewaySoftwareNowInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the gateway to be updated.
+        public let gatewayArn: String
+
+        public init(gatewayArn: String) {
+            self.gatewayArn = gatewayArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.gatewayArn, name: "gatewayArn", parent: name, max: 500)
+            try self.validate(self.gatewayArn, name: "gatewayArn", parent: name, min: 50)
+            try self.validate(self.gatewayArn, name: "gatewayArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):backup-gateway(:[a-zA-Z-0-9]+){3}\\/[a-zA-Z-0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayArn = "GatewayArn"
+        }
+    }
+
+    public struct UpdateGatewaySoftwareNowOutput: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the gateway you updated.
+        public let gatewayArn: String?
+
+        public init(gatewayArn: String? = nil) {
+            self.gatewayArn = gatewayArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayArn = "GatewayArn"
+        }
+    }
+
     public struct UpdateHypervisorInput: AWSEncodableShape {
         /// The updated host of the hypervisor. This can be either an IP address or a fully-qualified domain name (FQDN).
         public let host: String?
         /// The Amazon Resource Name (ARN) of the hypervisor to update.
         public let hypervisorArn: String
+        /// The updated name for the hypervisor
+        public let name: String?
         /// The updated password for the hypervisor.
         public let password: String?
         /// The updated username for the hypervisor.
         public let username: String?
 
-        public init(host: String? = nil, hypervisorArn: String, password: String? = nil, username: String? = nil) {
+        public init(host: String? = nil, hypervisorArn: String, name: String? = nil, password: String? = nil, username: String? = nil) {
             self.host = host
             self.hypervisorArn = hypervisorArn
+            self.name = name
             self.password = password
             self.username = username
         }
@@ -773,6 +877,9 @@ extension BackupGateway {
             try self.validate(self.hypervisorArn, name: "hypervisorArn", parent: name, max: 500)
             try self.validate(self.hypervisorArn, name: "hypervisorArn", parent: name, min: 50)
             try self.validate(self.hypervisorArn, name: "hypervisorArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):backup-gateway(:[a-zA-Z-0-9]+){3}\\/[a-zA-Z-0-9]+$")
+            try self.validate(self.name, name: "name", parent: name, max: 100)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-]*$")
             try self.validate(self.password, name: "password", parent: name, max: 100)
             try self.validate(self.password, name: "password", parent: name, min: 1)
             try self.validate(self.password, name: "password", parent: name, pattern: "^[ -~]+$")
@@ -784,6 +891,7 @@ extension BackupGateway {
         private enum CodingKeys: String, CodingKey {
             case host = "Host"
             case hypervisorArn = "HypervisorArn"
+            case name = "Name"
             case password = "Password"
             case username = "Username"
         }
@@ -813,7 +921,7 @@ extension BackupGateway {
         public let name: String?
         /// The path of the virtual machine.
         public let path: String?
-        /// The Amazon Resource Name (ARN) of the virtual machine.
+        /// The Amazon Resource Name (ARN) of the virtual machine. For example, arn:aws:backup-gateway:us-west-1:0000000000000:vm/vm-0000ABCDEFGIJKL.
         public let resourceArn: String?
 
         public init(hostName: String? = nil, hypervisorId: String? = nil, lastBackupDate: Date? = nil, name: String? = nil, path: String? = nil, resourceArn: String? = nil) {

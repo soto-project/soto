@@ -202,6 +202,15 @@ extension ApplicationDiscoveryService {
             self.configurationIds = configurationIds
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.applicationConfigurationId, name: "applicationConfigurationId", parent: name, max: 200)
+            try self.validate(self.applicationConfigurationId, name: "applicationConfigurationId", parent: name, pattern: "\\S+")
+            try self.configurationIds.forEach {
+                try validate($0, name: "configurationIds[]", parent: name, max: 200)
+                try validate($0, name: "configurationIds[]", parent: name, pattern: "\\S*")
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case applicationConfigurationId
             case configurationIds
@@ -242,6 +251,10 @@ extension ApplicationDiscoveryService {
         }
 
         public func validate(name: String) throws {
+            try self.importTaskIds.forEach {
+                try validate($0, name: "importTaskIds[]", parent: name, max: 200)
+                try validate($0, name: "importTaskIds[]", parent: name, pattern: "\\S*")
+            }
             try self.validate(self.importTaskIds, name: "importTaskIds", parent: name, max: 10)
             try self.validate(self.importTaskIds, name: "importTaskIds", parent: name, min: 1)
         }
@@ -306,7 +319,7 @@ extension ApplicationDiscoveryService {
         public let startTime: Date?
         /// Describes the status of the export. Can be one of the following values:   START_IN_PROGRESS - setting up resources to start continuous export.   START_FAILED - an error occurred setting up continuous export. To recover, call start-continuous-export again.   ACTIVE - data is being exported to the customer bucket.   ERROR - an error occurred during export. To fix the issue, call stop-continuous-export and start-continuous-export.   STOP_IN_PROGRESS - stopping the export.   STOP_FAILED - an error occurred stopping the export. To recover, call stop-continuous-export again.   INACTIVE - the continuous export has been stopped. Data is no longer being exported to the customer bucket.
         public let status: ContinuousExportStatus?
-        /// Contains information about any errors that have occurred. This data type can have the following values:   ACCESS_DENIED - You don’t have permission to start Data Exploration in Amazon Athena. Contact your AWS administrator for help. For more information, see Setting Up AWS Application Discovery Service in the Application Discovery Service User Guide.   DELIVERY_STREAM_LIMIT_FAILURE - You reached the limit for Amazon Kinesis Data Firehose delivery streams. Reduce the number of streams or request a limit increase and try again. For more information, see Kinesis Data Streams Limits in the Amazon Kinesis Data Streams Developer Guide.   FIREHOSE_ROLE_MISSING - The Data Exploration feature is in an error state because your IAM User is missing the AWSApplicationDiscoveryServiceFirehose role. Turn on Data Exploration in Amazon Athena and try again. For more information, see Step 3: Provide Application Discovery Service Access to Non-Administrator Users by Attaching Policies in the Application Discovery Service User Guide.   FIREHOSE_STREAM_DOES_NOT_EXIST - The Data Exploration feature is in an error state because your IAM User is missing one or more of the Kinesis data delivery streams.   INTERNAL_FAILURE - The Data Exploration feature is in an error state because of an internal failure. Try again later. If this problem persists, contact AWS Support.   S3_BUCKET_LIMIT_FAILURE - You reached the limit for Amazon S3 buckets. Reduce the number of Amazon S3 buckets or request a limit increase and try again. For more information, see Bucket Restrictions and Limitations in the Amazon Simple Storage Service Developer Guide.   S3_NOT_SIGNED_UP - Your account is not signed up for the Amazon S3 service. You must sign up before you can use Amazon S3. You can sign up at the following URL: https://aws.amazon.com/s3.
+        /// Contains information about any errors that have occurred. This data type can have the following values:   ACCESS_DENIED - You don’t have permission to start Data Exploration in Amazon Athena. Contact your Amazon Web Services administrator for help. For more information, see Setting Up Amazon Web Services Application Discovery Service in the Application Discovery Service User Guide.   DELIVERY_STREAM_LIMIT_FAILURE - You reached the limit for Amazon Kinesis Data Firehose delivery streams. Reduce the number of streams or request a limit increase and try again. For more information, see Kinesis Data Streams Limits in the Amazon Kinesis Data Streams Developer Guide.   FIREHOSE_ROLE_MISSING - The Data Exploration feature is in an error state because your IAM User is missing the AWSApplicationDiscoveryServiceFirehose role. Turn on Data Exploration in Amazon Athena and try again. For more information, see Step 3: Provide Application Discovery Service Access to Non-Administrator Users by Attaching Policies in the Application Discovery Service User Guide.   FIREHOSE_STREAM_DOES_NOT_EXIST - The Data Exploration feature is in an error state because your IAM User is missing one or more of the Kinesis data delivery streams.   INTERNAL_FAILURE - The Data Exploration feature is in an error state because of an internal failure. Try again later. If this problem persists, contact Amazon Web Services Support.   LAKE_FORMATION_ACCESS_DENIED - You don't have sufficient lake formation permissions to start continuous export. For more information, see  Upgrading Amazon Web Services Glue Data Permissions to the Amazon Web Services Lake Formation Model  in the Amazon Web Services Lake Formation Developer Guide.  You can use one of the following two ways to resolve this issue.   If you don’t want to use the Lake Formation permission model, you can change the default Data Catalog settings to use only Amazon Web Services Identity and Access Management (IAM) access control for new databases. For more information, see Change Data Catalog Settings in the Lake Formation Developer Guide.   You can give the service-linked IAM roles AWSServiceRoleForApplicationDiscoveryServiceContinuousExport and AWSApplicationDiscoveryServiceFirehose the required Lake Formation permissions. For more information, see  Granting Database Permissions in the Lake Formation Developer Guide.    AWSServiceRoleForApplicationDiscoveryServiceContinuousExport - Grant database creator permissions, which gives the role database creation ability and implicit permissions for any created tables. For more information, see  Implicit Lake Formation Permissions  in the Lake Formation Developer Guide.   AWSApplicationDiscoveryServiceFirehose - Grant describe permissions for all tables in the database.       S3_BUCKET_LIMIT_FAILURE - You reached the limit for Amazon S3 buckets. Reduce the number of S3 buckets or request a limit increase and try again. For more information, see Bucket Restrictions and Limitations in the Amazon Simple Storage Service Developer Guide.   S3_NOT_SIGNED_UP - Your account is not signed up for the Amazon S3 service. You must sign up before you can use Amazon S3. You can sign up at the following URL: https://aws.amazon.com/s3.
         public let statusDetail: String?
         /// The timestamp that represents when this continuous export was stopped.
         public let stopTime: Date?
@@ -345,6 +358,13 @@ extension ApplicationDiscoveryService {
             self.name = name
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1000)
+            try self.validate(self.description, name: "description", parent: name, pattern: "(^$|[\\s\\S]*\\S[\\s\\S]*)")
+            try self.validate(self.name, name: "name", parent: name, max: 127)
+            try self.validate(self.name, name: "name", parent: name, pattern: "[\\s\\S]*\\S[\\s\\S]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case description
             case name
@@ -373,6 +393,13 @@ extension ApplicationDiscoveryService {
         public init(configurationIds: [String], tags: [Tag]) {
             self.configurationIds = configurationIds
             self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.configurationIds.forEach {
+                try validate($0, name: "configurationIds[]", parent: name, max: 200)
+                try validate($0, name: "configurationIds[]", parent: name, pattern: "\\S*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -459,12 +486,56 @@ extension ApplicationDiscoveryService {
         }
     }
 
+    public struct CustomerMeCollectorInfo: AWSDecodableShape {
+        ///  The number of active Migration Evaluator collectors.
+        public let activeMeCollectors: Int
+        ///  The number of deny-listed Migration Evaluator collectors.
+        public let denyListedMeCollectors: Int
+        ///  The number of healthy Migration Evaluator collectors.
+        public let healthyMeCollectors: Int
+        ///  The number of Migration Evaluator collectors with SHUTDOWN status.
+        public let shutdownMeCollectors: Int
+        ///  The total number of Migration Evaluator collectors.
+        public let totalMeCollectors: Int
+        ///  The number of unhealthy Migration Evaluator collectors.
+        public let unhealthyMeCollectors: Int
+        ///  The number of unknown Migration Evaluator collectors.
+        public let unknownMeCollectors: Int
+
+        public init(activeMeCollectors: Int, denyListedMeCollectors: Int, healthyMeCollectors: Int, shutdownMeCollectors: Int, totalMeCollectors: Int, unhealthyMeCollectors: Int, unknownMeCollectors: Int) {
+            self.activeMeCollectors = activeMeCollectors
+            self.denyListedMeCollectors = denyListedMeCollectors
+            self.healthyMeCollectors = healthyMeCollectors
+            self.shutdownMeCollectors = shutdownMeCollectors
+            self.totalMeCollectors = totalMeCollectors
+            self.unhealthyMeCollectors = unhealthyMeCollectors
+            self.unknownMeCollectors = unknownMeCollectors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activeMeCollectors
+            case denyListedMeCollectors
+            case healthyMeCollectors
+            case shutdownMeCollectors
+            case totalMeCollectors
+            case unhealthyMeCollectors
+            case unknownMeCollectors
+        }
+    }
+
     public struct DeleteApplicationsRequest: AWSEncodableShape {
         /// Configuration ID of an application to be deleted.
         public let configurationIds: [String]
 
         public init(configurationIds: [String]) {
             self.configurationIds = configurationIds
+        }
+
+        public func validate(name: String) throws {
+            try self.configurationIds.forEach {
+                try validate($0, name: "configurationIds[]", parent: name, max: 200)
+                try validate($0, name: "configurationIds[]", parent: name, pattern: "\\S+")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -487,6 +558,13 @@ extension ApplicationDiscoveryService {
             self.tags = tags
         }
 
+        public func validate(name: String) throws {
+            try self.configurationIds.forEach {
+                try validate($0, name: "configurationIds[]", parent: name, max: 200)
+                try validate($0, name: "configurationIds[]", parent: name, pattern: "\\S*")
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case configurationIds
             case tags
@@ -498,7 +576,7 @@ extension ApplicationDiscoveryService {
     }
 
     public struct DescribeAgentsRequest: AWSEncodableShape {
-        /// The agent or the Connector IDs for which you want information. If you specify no IDs, the system returns information about all agents/Connectors associated with your AWS user account.
+        /// The agent or the Connector IDs for which you want information. If you specify no IDs, the system returns information about all agents/Connectors associated with your Amazon Web Services user account.
         public let agentIds: [String]?
         /// You can filter the request using various logical operators and a key-value format. For example:   {"key": "collectionStatus", "value": "STARTED"}
         public let filters: [Filter]?
@@ -512,6 +590,17 @@ extension ApplicationDiscoveryService {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.agentIds?.forEach {
+                try validate($0, name: "agentIds[]", parent: name, max: 20)
+                try validate($0, name: "agentIds[]", parent: name, min: 10)
+                try validate($0, name: "agentIds[]", parent: name, pattern: "\\S+")
+            }
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -547,6 +636,13 @@ extension ApplicationDiscoveryService {
             self.configurationIds = configurationIds
         }
 
+        public func validate(name: String) throws {
+            try self.configurationIds.forEach {
+                try validate($0, name: "configurationIds[]", parent: name, max: 200)
+                try validate($0, name: "configurationIds[]", parent: name, pattern: "\\S*")
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case configurationIds
         }
@@ -580,6 +676,10 @@ extension ApplicationDiscoveryService {
         }
 
         public func validate(name: String) throws {
+            try self.exportIds?.forEach {
+                try validate($0, name: "exportIds[]", parent: name, max: 200)
+                try validate($0, name: "exportIds[]", parent: name, pattern: "\\S*")
+            }
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -622,6 +722,13 @@ extension ApplicationDiscoveryService {
             self.nextToken = nextToken
         }
 
+        public func validate(name: String) throws {
+            try self.exportIds?.forEach {
+                try validate($0, name: "exportIds[]", parent: name, max: 200)
+                try validate($0, name: "exportIds[]", parent: name, pattern: "\\S*")
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case exportIds
             case maxResults
@@ -660,6 +767,16 @@ extension ApplicationDiscoveryService {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.exportIds?.forEach {
+                try validate($0, name: "exportIds[]", parent: name, max: 200)
+                try validate($0, name: "exportIds[]", parent: name, pattern: "\\S*")
+            }
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -747,6 +864,12 @@ extension ApplicationDiscoveryService {
             self.nextToken = nextToken
         }
 
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case filters
             case maxResults
@@ -782,6 +905,15 @@ extension ApplicationDiscoveryService {
             self.configurationIds = configurationIds
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.applicationConfigurationId, name: "applicationConfigurationId", parent: name, max: 200)
+            try self.validate(self.applicationConfigurationId, name: "applicationConfigurationId", parent: name, pattern: "\\S+")
+            try self.configurationIds.forEach {
+                try validate($0, name: "configurationIds[]", parent: name, max: 200)
+                try validate($0, name: "configurationIds[]", parent: name, pattern: "\\S*")
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case applicationConfigurationId
             case configurationIds
@@ -808,15 +940,26 @@ extension ApplicationDiscoveryService {
     public struct ExportFilter: AWSEncodableShape {
         /// Supported condition: EQUALS
         public let condition: String
-        /// A single ExportFilter name. Supported filters: agentId.
+        /// A single ExportFilter name. Supported filters: agentIds.
         public let name: String
-        /// A single agentId for a Discovery Agent. An agentId can be found using the DescribeAgents action. Typically an ADS agentId is in the form o-0123456789abcdef0.
+        /// A single agent ID for a Discovery Agent. An agent ID can be found using the DescribeAgents action. Typically an ADS agent ID is in the form o-0123456789abcdef0.
         public let values: [String]
 
         public init(condition: String, name: String, values: [String]) {
             self.condition = condition
             self.name = name
             self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.condition, name: "condition", parent: name, max: 200)
+            try self.validate(self.condition, name: "condition", parent: name, pattern: "\\S+")
+            try self.validate(self.name, name: "name", parent: name, max: 1000)
+            try self.validate(self.name, name: "name", parent: name, pattern: "[\\s\\S]*\\S[\\s\\S]*")
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, max: 1000)
+                try validate($0, name: "values[]", parent: name, pattern: "(^$|[\\s\\S]*\\S[\\s\\S]*)")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -881,6 +1024,17 @@ extension ApplicationDiscoveryService {
             self.values = values
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.condition, name: "condition", parent: name, max: 200)
+            try self.validate(self.condition, name: "condition", parent: name, pattern: "\\S+")
+            try self.validate(self.name, name: "name", parent: name, max: 10000)
+            try self.validate(self.name, name: "name", parent: name, pattern: "[\\s\\S]*")
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, max: 1000)
+                try validate($0, name: "values[]", parent: name, pattern: "(^$|[\\s\\S]*\\S[\\s\\S]*)")
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case condition
             case name
@@ -899,6 +1053,8 @@ extension ApplicationDiscoveryService {
         public let applications: Int64?
         /// Details about discovered connectors, including connector status and health.
         public let connectorSummary: CustomerConnectorInfo?
+        ///  Details about Migration Evaluator collectors, including collector status and health.
+        public let meCollectorSummary: CustomerMeCollectorInfo?
         /// The number of servers discovered.
         public let servers: Int64?
         /// The number of servers mapped to applications.
@@ -906,10 +1062,11 @@ extension ApplicationDiscoveryService {
         /// The number of servers mapped to tags.
         public let serversMappedtoTags: Int64?
 
-        public init(agentSummary: CustomerAgentInfo? = nil, applications: Int64? = nil, connectorSummary: CustomerConnectorInfo? = nil, servers: Int64? = nil, serversMappedToApplications: Int64? = nil, serversMappedtoTags: Int64? = nil) {
+        public init(agentSummary: CustomerAgentInfo? = nil, applications: Int64? = nil, connectorSummary: CustomerConnectorInfo? = nil, meCollectorSummary: CustomerMeCollectorInfo? = nil, servers: Int64? = nil, serversMappedToApplications: Int64? = nil, serversMappedtoTags: Int64? = nil) {
             self.agentSummary = agentSummary
             self.applications = applications
             self.connectorSummary = connectorSummary
+            self.meCollectorSummary = meCollectorSummary
             self.servers = servers
             self.serversMappedToApplications = serversMappedToApplications
             self.serversMappedtoTags = serversMappedtoTags
@@ -919,6 +1076,7 @@ extension ApplicationDiscoveryService {
             case agentSummary
             case applications
             case connectorSummary
+            case meCollectorSummary
             case servers
             case serversMappedToApplications
             case serversMappedtoTags
@@ -940,7 +1098,7 @@ extension ApplicationDiscoveryService {
         public let importDeletedTime: Date?
         /// The time that the import task request was made, presented in the Unix time stamp format.
         public let importRequestTime: Date?
-        /// The unique ID for a specific import task. These IDs aren't globally unique, but they are unique within an AWS account.
+        /// The unique ID for a specific import task. These IDs aren't globally unique, but they are unique within an Amazon Web Services account.
         public let importTaskId: String?
         /// The URL for your import file that you've uploaded to Amazon S3.
         public let importUrl: String?
@@ -1015,13 +1173,13 @@ extension ApplicationDiscoveryService {
     public struct ListConfigurationsRequest: AWSEncodableShape {
         /// A valid configuration identified by Application Discovery Service.
         public let configurationType: ConfigurationItemType
-        /// You can filter the request using various logical operators and a key-value format. For example:   {"key": "serverType", "value": "webServer"}  For a complete list of filter options and guidance about using them with this action, see Using the ListConfigurations Action in the AWS Application Discovery Service User Guide.
+        /// You can filter the request using various logical operators and a key-value format. For example:   {"key": "serverType", "value": "webServer"}  For a complete list of filter options and guidance about using them with this action, see Using the ListConfigurations Action in the Amazon Web Services Application Discovery Service User Guide.
         public let filters: [Filter]?
         /// The total number of items to return. The maximum value is 100.
         public let maxResults: Int?
         /// Token to retrieve the next set of results. For example, if a previous call to ListConfigurations returned 100 items, but you set ListConfigurationsRequest$maxResults to 10, you received a set of 10 results along with a token. Use that token in this query to get the next set of 10.
         public let nextToken: String?
-        /// Certain filter criteria return output that can be sorted in ascending or descending order. For a list of output characteristics for each filter, see Using the ListConfigurations Action in the AWS Application Discovery Service User Guide.
+        /// Certain filter criteria return output that can be sorted in ascending or descending order. For a list of output characteristics for each filter, see Using the ListConfigurations Action in the Amazon Web Services Application Discovery Service User Guide.
         public let orderBy: [OrderByElement]?
 
         public init(configurationType: ConfigurationItemType, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, orderBy: [OrderByElement]? = nil) {
@@ -1030,6 +1188,15 @@ extension ApplicationDiscoveryService {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.orderBy = orderBy
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.orderBy?.forEach {
+                try $0.validate(name: "\(name).orderBy[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1076,6 +1243,17 @@ extension ApplicationDiscoveryService {
             self.neighborConfigurationIds = neighborConfigurationIds
             self.nextToken = nextToken
             self.portInformationNeeded = portInformationNeeded
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.configurationId, name: "configurationId", parent: name, max: 200)
+            try self.validate(self.configurationId, name: "configurationId", parent: name, pattern: "\\S*")
+            try self.neighborConfigurationIds?.forEach {
+                try validate($0, name: "neighborConfigurationIds[]", parent: name, max: 200)
+                try validate($0, name: "neighborConfigurationIds[]", parent: name, pattern: "\\S*")
+            }
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 10000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1148,6 +1326,11 @@ extension ApplicationDiscoveryService {
             self.sortOrder = sortOrder
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.fieldName, name: "fieldName", parent: name, max: 1000)
+            try self.validate(self.fieldName, name: "fieldName", parent: name, pattern: "[\\s\\S]*\\S[\\s\\S]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case fieldName
             case sortOrder
@@ -1188,11 +1371,19 @@ extension ApplicationDiscoveryService {
     }
 
     public struct StartDataCollectionByAgentIdsRequest: AWSEncodableShape {
-        /// The IDs of the agents or connectors from which to start collecting data. If you send a request to an agent/connector ID that you do not have permission to contact, according to your AWS account, the service does not throw an exception. Instead, it returns the error in the Description field. If you send a request to multiple agents/connectors and you do not have permission to contact some of those agents/connectors, the system does not throw an exception. Instead, the system shows Failed in the Description field.
+        /// The IDs of the agents or connectors from which to start collecting data. If you send a request to an agent/connector ID that you do not have permission to contact, according to your Amazon Web Services account, the service does not throw an exception. Instead, it returns the error in the Description field. If you send a request to multiple agents/connectors and you do not have permission to contact some of those agents/connectors, the system does not throw an exception. Instead, the system shows Failed in the Description field.
         public let agentIds: [String]
 
         public init(agentIds: [String]) {
             self.agentIds = agentIds
+        }
+
+        public func validate(name: String) throws {
+            try self.agentIds.forEach {
+                try validate($0, name: "agentIds[]", parent: name, max: 20)
+                try validate($0, name: "agentIds[]", parent: name, min: 10)
+                try validate($0, name: "agentIds[]", parent: name, pattern: "\\S+")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1230,6 +1421,12 @@ extension ApplicationDiscoveryService {
             self.startTime = startTime
         }
 
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case endTime
             case exportDataFormat
@@ -1254,7 +1451,7 @@ extension ApplicationDiscoveryService {
     public struct StartImportTaskRequest: AWSEncodableShape {
         /// Optional. A unique token that you can provide to prevent the same import request from occurring more than once. If you don't provide a token, a token is automatically generated. Sending more than one StartImportTask request with the same client request token will return information about the original import task with that client request token.
         public let clientRequestToken: String?
-        /// The URL for your import file that you've uploaded to Amazon S3.  If you're using the AWS CLI, this URL is structured as follows: s3://BucketName/ImportFileName.CSV
+        /// The URL for your import file that you've uploaded to Amazon S3.  If you're using the Amazon Web Services CLI, this URL is structured as follows: s3://BucketName/ImportFileName.CSV
         public let importUrl: String
         /// A descriptive name for this request. You can use this name to filter future requests related to this import task, such as identifying applications and servers that were included in this import task. We recommend that you use a meaningful name for each import task.
         public let name: String
@@ -1270,8 +1467,10 @@ extension ApplicationDiscoveryService {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.importUrl, name: "importUrl", parent: name, max: 4000)
             try self.validate(self.importUrl, name: "importUrl", parent: name, min: 1)
+            try self.validate(self.importUrl, name: "importUrl", parent: name, pattern: "\\S+:\\/\\/\\S+\\/[\\s\\S]*\\S[\\s\\S]*")
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "[\\s\\S]*\\S[\\s\\S]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1302,6 +1501,11 @@ extension ApplicationDiscoveryService {
             self.exportId = exportId
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.exportId, name: "exportId", parent: name, max: 200)
+            try self.validate(self.exportId, name: "exportId", parent: name, pattern: "\\S*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case exportId
         }
@@ -1330,6 +1534,14 @@ extension ApplicationDiscoveryService {
 
         public init(agentIds: [String]) {
             self.agentIds = agentIds
+        }
+
+        public func validate(name: String) throws {
+            try self.agentIds.forEach {
+                try validate($0, name: "agentIds[]", parent: name, max: 20)
+                try validate($0, name: "agentIds[]", parent: name, min: 10)
+                try validate($0, name: "agentIds[]", parent: name, pattern: "\\S+")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1378,6 +1590,15 @@ extension ApplicationDiscoveryService {
             self.values = values
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 1000)
+            try self.validate(self.name, name: "name", parent: name, pattern: "[\\s\\S]*\\S[\\s\\S]*")
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, max: 1000)
+                try validate($0, name: "values[]", parent: name, pattern: "(^$|[\\s\\S]*\\S[\\s\\S]*)")
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case name
             case values
@@ -1396,6 +1617,15 @@ extension ApplicationDiscoveryService {
             self.configurationId = configurationId
             self.description = description
             self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.configurationId, name: "configurationId", parent: name, max: 200)
+            try self.validate(self.configurationId, name: "configurationId", parent: name, pattern: "\\S+")
+            try self.validate(self.description, name: "description", parent: name, max: 1000)
+            try self.validate(self.description, name: "description", parent: name, pattern: "(^$|[\\s\\S]*\\S[\\s\\S]*)")
+            try self.validate(self.name, name: "name", parent: name, max: 127)
+            try self.validate(self.name, name: "name", parent: name, pattern: "[\\s\\S]*\\S[\\s\\S]*")
         }
 
         private enum CodingKeys: String, CodingKey {

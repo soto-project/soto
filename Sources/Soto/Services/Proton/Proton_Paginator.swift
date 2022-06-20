@@ -19,6 +19,165 @@ import SotoCore
 // MARK: Paginators
 
 extension Proton {
+    ///  Get a list of component Infrastructure as Code (IaC) outputs. For more information about components, see Proton components in the Proton Administrator Guide.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listComponentOutputsPaginator<Result>(
+        _ input: ListComponentOutputsInput,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListComponentOutputsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listComponentOutputs,
+            inputKey: \ListComponentOutputsInput.nextToken,
+            outputKey: \ListComponentOutputsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listComponentOutputsPaginator(
+        _ input: ListComponentOutputsInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListComponentOutputsOutput, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listComponentOutputs,
+            inputKey: \ListComponentOutputsInput.nextToken,
+            outputKey: \ListComponentOutputsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  List provisioned resources for a component with details. For more information about components, see Proton components in the Proton Administrator Guide.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listComponentProvisionedResourcesPaginator<Result>(
+        _ input: ListComponentProvisionedResourcesInput,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListComponentProvisionedResourcesOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listComponentProvisionedResources,
+            inputKey: \ListComponentProvisionedResourcesInput.nextToken,
+            outputKey: \ListComponentProvisionedResourcesOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listComponentProvisionedResourcesPaginator(
+        _ input: ListComponentProvisionedResourcesInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListComponentProvisionedResourcesOutput, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listComponentProvisionedResources,
+            inputKey: \ListComponentProvisionedResourcesInput.nextToken,
+            outputKey: \ListComponentProvisionedResourcesOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  List components with summary data. You can filter the result list by environment, service, or a single service instance. For more information about components, see Proton components in the Proton Administrator Guide.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listComponentsPaginator<Result>(
+        _ input: ListComponentsInput,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListComponentsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listComponents,
+            inputKey: \ListComponentsInput.nextToken,
+            outputKey: \ListComponentsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listComponentsPaginator(
+        _ input: ListComponentsInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListComponentsOutput, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listComponents,
+            inputKey: \ListComponentsInput.nextToken,
+            outputKey: \ListComponentsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  View a list of environment account connections. For more information, see Environment account connections in the Proton Administrator guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -443,7 +602,7 @@ extension Proton {
         )
     }
 
-    ///  View a list service instance infrastructure as code outputs with detail data.
+    ///  Get a list service of instance Infrastructure as Code (IaC) outputs.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -549,7 +708,7 @@ extension Proton {
         )
     }
 
-    ///  List service instances with summaries of detail data.
+    ///  List service instances with summary data.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -602,7 +761,7 @@ extension Proton {
         )
     }
 
-    ///  View a list service pipeline infrastructure as code outputs with detail.
+    ///  Get a list of service pipeline Infrastructure as Code (IaC) outputs.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -917,6 +1076,36 @@ extension Proton {
             outputKey: \ListTagsForResourceOutput.nextToken,
             on: eventLoop,
             onPage: onPage
+        )
+    }
+}
+
+extension Proton.ListComponentOutputsInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Proton.ListComponentOutputsInput {
+        return .init(
+            componentName: self.componentName,
+            nextToken: token
+        )
+    }
+}
+
+extension Proton.ListComponentProvisionedResourcesInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Proton.ListComponentProvisionedResourcesInput {
+        return .init(
+            componentName: self.componentName,
+            nextToken: token
+        )
+    }
+}
+
+extension Proton.ListComponentsInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Proton.ListComponentsInput {
+        return .init(
+            environmentName: self.environmentName,
+            maxResults: self.maxResults,
+            nextToken: token,
+            serviceInstanceName: self.serviceInstanceName,
+            serviceName: self.serviceName
         )
     }
 }

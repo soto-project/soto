@@ -22,6 +22,11 @@ import SotoCore
 extension FinSpaceData {
     // MARK: Async API Calls
 
+    /// Adds a user account to a permission group to grant permissions for actions a user can perform in FinSpace.
+    public func associateUserToPermissionGroup(_ input: AssociateUserToPermissionGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AssociateUserToPermissionGroupResponse {
+        return try await self.client.execute(operation: "AssociateUserToPermissionGroup", path: "/permission-group/{permissionGroupId}/users/{userId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates a new Changeset in a FinSpace Dataset.
     public func createChangeset(_ input: CreateChangesetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateChangesetResponse {
         return try await self.client.execute(operation: "CreateChangeset", path: "/datasets/{datasetId}/changesetsv2", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -62,6 +67,11 @@ extension FinSpaceData {
         return try await self.client.execute(operation: "DisableUser", path: "/user/{userId}/disable", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Removes a user account from a permission group.
+    public func disassociateUserFromPermissionGroup(_ input: DisassociateUserFromPermissionGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DisassociateUserFromPermissionGroupResponse {
+        return try await self.client.execute(operation: "DisassociateUserFromPermissionGroup", path: "/permission-group/{permissionGroupId}/users/{userId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     ///  Allows the specified user to access the FinSpace web application and API.
     public func enableUser(_ input: EnableUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> EnableUserResponse {
         return try await self.client.execute(operation: "EnableUser", path: "/user/{userId}/enable", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -80,6 +90,11 @@ extension FinSpaceData {
     /// Returns information about a Dataset.
     public func getDataset(_ input: GetDatasetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetDatasetResponse {
         return try await self.client.execute(operation: "GetDataset", path: "/datasetsv2/{datasetId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves the details of a specific permission group.
+    public func getPermissionGroup(_ input: GetPermissionGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetPermissionGroupResponse {
+        return try await self.client.execute(operation: "GetPermissionGroup", path: "/permission-group/{permissionGroupId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Request programmatic credentials to use with FinSpace SDK.
@@ -117,9 +132,19 @@ extension FinSpaceData {
         return try await self.client.execute(operation: "ListPermissionGroups", path: "/permission-group", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Lists all the permission groups that are associated with a specific user account.
+    public func listPermissionGroupsByUser(_ input: ListPermissionGroupsByUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListPermissionGroupsByUserResponse {
+        return try await self.client.execute(operation: "ListPermissionGroupsByUser", path: "/user/{userId}/permission-groups", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Lists all available user accounts in FinSpace.
     public func listUsers(_ input: ListUsersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListUsersResponse {
         return try await self.client.execute(operation: "ListUsers", path: "/user", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists details of all the users in a specific permission group.
+    public func listUsersByPermissionGroup(_ input: ListUsersByPermissionGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListUsersByPermissionGroupResponse {
+        return try await self.client.execute(operation: "ListUsersByPermissionGroup", path: "/permission-group/{permissionGroupId}/users", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Resets the password for a specified user ID and generates a temporary one. Only a superuser can reset password for other users. Resetting the password immediately invalidates the previous password associated with the user.

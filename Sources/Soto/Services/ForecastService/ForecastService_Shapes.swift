@@ -42,6 +42,17 @@ extension ForecastService {
         public var description: String { return self.rawValue }
     }
 
+    public enum DayOfWeek: String, CustomStringConvertible, Codable {
+        case friday = "FRIDAY"
+        case monday = "MONDAY"
+        case saturday = "SATURDAY"
+        case sunday = "SUNDAY"
+        case thursday = "THURSDAY"
+        case tuesday = "TUESDAY"
+        case wednesday = "WEDNESDAY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Domain: String, CustomStringConvertible, Codable {
         case custom = "CUSTOM"
         case ec2Capacity = "EC2_CAPACITY"
@@ -67,6 +78,22 @@ extension ForecastService {
     public enum FilterConditionString: String, CustomStringConvertible, Codable {
         case `is` = "IS"
         case isNot = "IS_NOT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Month: String, CustomStringConvertible, Codable {
+        case april = "APRIL"
+        case august = "AUGUST"
+        case december = "DECEMBER"
+        case february = "FEBRUARY"
+        case january = "JANUARY"
+        case july = "JULY"
+        case june = "JUNE"
+        case march = "MARCH"
+        case may = "MAY"
+        case november = "NOVEMBER"
+        case october = "OCTOBER"
+        case september = "SEPTEMBER"
         public var description: String { return self.rawValue }
     }
 
@@ -108,7 +135,7 @@ extension ForecastService {
     // MARK: Shapes
 
     public struct AdditionalDataset: AWSEncodableShape & AWSDecodableShape {
-        ///  Weather Index  To enable the Weather Index, do not specify a value for Configuration.  Holidays  To enable Holidays, set CountryCode to one of the following two-letter country codes:   "AL" - ALBANIA   "AR" - ARGENTINA   "AT" - AUSTRIA   "AU" - AUSTRALIA   "BA" - BOSNIA HERZEGOVINA   "BE" - BELGIUM   "BG" - BULGARIA   "BO" - BOLIVIA   "BR" - BRAZIL   "BY" - BELARUS   "CA" - CANADA   "CL" - CHILE   "CO" - COLOMBIA   "CR" - COSTA RICA   "HR" - CROATIA   "CZ" - CZECH REPUBLIC   "DK" - DENMARK   "EC" - ECUADOR   "EE" - ESTONIA   "ET" - ETHIOPIA   "FI" - FINLAND   "FR" - FRANCE   "DE" - GERMANY   "GR" - GREECE   "HU" - HUNGARY   "IS" - ICELAND   "IN" - INDIA   "IE" - IRELAND   "IT" - ITALY   "JP" - JAPAN   "KZ" - KAZAKHSTAN   "KR" - KOREA   "LV" - LATVIA   "LI" - LIECHTENSTEIN   "LT" - LITHUANIA   "LU" - LUXEMBOURG   "MK" - MACEDONIA   "MT" - MALTA   "MX" - MEXICO   "MD" - MOLDOVA   "ME" - MONTENEGRO   "NL" - NETHERLANDS   "NZ" - NEW ZEALAND   "NI" - NICARAGUA   "NG" - NIGERIA   "NO" - NORWAY   "PA" - PANAMA   "PY" - PARAGUAY   "PE" - PERU   "PL" - POLAND   "PT" - PORTUGAL   "RO" - ROMANIA   "RU" - RUSSIA   "RS" - SERBIA   "SK" - SLOVAKIA   "SI" - SLOVENIA   "ZA" - SOUTH AFRICA   "ES" - SPAIN   "SE" - SWEDEN   "CH" - SWITZERLAND   "UA" - UKRAINE   "AE" - UNITED ARAB EMIRATES   "US" - UNITED STATES   "UK" - UNITED KINGDOM   "UY" - URUGUAY   "VE" - VENEZUELA
+        ///  Weather Index  To enable the Weather Index, do not specify a value for Configuration.  Holidays   Holidays  To enable Holidays, set CountryCode to one of the following two-letter country codes:   "AL" - ALBANIA   "AR" - ARGENTINA   "AT" - AUSTRIA   "AU" - AUSTRALIA   "BA" - BOSNIA HERZEGOVINA   "BE" - BELGIUM   "BG" - BULGARIA   "BO" - BOLIVIA   "BR" - BRAZIL   "BY" - BELARUS   "CA" - CANADA   "CL" - CHILE   "CO" - COLOMBIA   "CR" - COSTA RICA   "HR" - CROATIA   "CZ" - CZECH REPUBLIC   "DK" - DENMARK   "EC" - ECUADOR   "EE" - ESTONIA   "ET" - ETHIOPIA   "FI" - FINLAND   "FR" - FRANCE   "DE" - GERMANY   "GR" - GREECE   "HU" - HUNGARY   "IS" - ICELAND   "IN" - INDIA   "IE" - IRELAND   "IT" - ITALY   "JP" - JAPAN   "KZ" - KAZAKHSTAN   "KR" - KOREA   "LV" - LATVIA   "LI" - LIECHTENSTEIN   "LT" - LITHUANIA   "LU" - LUXEMBOURG   "MK" - MACEDONIA   "MT" - MALTA   "MX" - MEXICO   "MD" - MOLDOVA   "ME" - MONTENEGRO   "NL" - NETHERLANDS   "NZ" - NEW ZEALAND   "NI" - NICARAGUA   "NG" - NIGERIA   "NO" - NORWAY   "PA" - PANAMA   "PY" - PARAGUAY   "PE" - PERU   "PL" - POLAND   "PT" - PORTUGAL   "RO" - ROMANIA   "RU" - RUSSIA   "RS" - SERBIA   "SK" - SLOVAKIA   "SI" - SLOVENIA   "ZA" - SOUTH AFRICA   "ES" - SPAIN   "SE" - SWEDEN   "CH" - SWITZERLAND   "UA" - UKRAINE   "AE" - UNITED ARAB EMIRATES   "US" - UNITED STATES   "UK" - UNITED KINGDOM   "UY" - URUGUAY   "VE" - VENEZUELA
         public let configuration: [String: [String]]?
         /// The name of the additional dataset. Valid names: "holiday" and "weather".
         public let name: String
@@ -164,6 +191,36 @@ extension ForecastService {
         private enum CodingKeys: String, CodingKey {
             case attributeName = "AttributeName"
             case transformations = "Transformations"
+        }
+    }
+
+    public struct Baseline: AWSDecodableShape {
+        /// The initial accuracy metrics for the predictor you are monitoring. Use these metrics as a baseline for comparison purposes as you use your predictor and the metrics change.
+        public let predictorBaseline: PredictorBaseline?
+
+        public init(predictorBaseline: PredictorBaseline? = nil) {
+            self.predictorBaseline = predictorBaseline
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case predictorBaseline = "PredictorBaseline"
+        }
+    }
+
+    public struct BaselineMetric: AWSDecodableShape {
+        /// The name of the metric.
+        public let name: String?
+        /// The value for the metric.
+        public let value: Double?
+
+        public init(name: String? = nil, value: Double? = nil) {
+            self.name = name
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case value = "Value"
         }
     }
 
@@ -237,10 +294,12 @@ extension ForecastService {
         public let forecastDimensions: [String]?
         /// The frequency of predictions in a forecast. Valid intervals are Y (Year), M (Month), W (Week), D (Day), H (Hour), 30min (30 minutes), 15min (15 minutes), 10min (10 minutes), 5min (5 minutes), and 1min (1 minute). For example, "Y" indicates every year and "5min" indicates every five minutes. The frequency must be greater than or equal to the TARGET_TIME_SERIES dataset frequency. When a RELATED_TIME_SERIES dataset is provided, the frequency must be equal to the RELATED_TIME_SERIES dataset frequency.
         public let forecastFrequency: String?
-        /// The number of time-steps that the model predicts. The forecast horizon is also called the prediction length.
+        /// The number of time-steps that the model predicts. The forecast horizon is also called the prediction length. The maximum forecast horizon is the lesser of 500 time-steps or 1/4 of the TARGET_TIME_SERIES dataset length. If you are retraining an existing AutoPredictor, then the maximum forecast horizon is the lesser of 500 time-steps or 1/3 of the TARGET_TIME_SERIES dataset length. If you are upgrading to an AutoPredictor or retraining an existing AutoPredictor, you cannot update the forecast horizon parameter. You can meet this requirement by providing longer time-series in the dataset.
         public let forecastHorizon: Int?
         /// The forecast types used to train a predictor. You can specify up to five forecast types. Forecast types can be quantiles from 0.01 to 0.99, by increments of 0.01 or higher. You can also specify the mean forecast with mean.
         public let forecastTypes: [String]?
+        /// The configuration details for predictor monitoring. Provide a name for the monitor resource to enable predictor monitoring. Predictor monitoring allows you to see how your predictor's performance changes over time. For more information, see Predictor Monitoring.
+        public let monitorConfig: MonitorConfig?
         /// The accuracy metric used to optimize the predictor.
         public let optimizationMetric: OptimizationMetric?
         /// A unique name for the predictor
@@ -249,8 +308,10 @@ extension ForecastService {
         public let referencePredictorArn: String?
         /// Optional metadata to help you categorize and organize your predictors. Each tag consists of a key and an optional value, both of which you define. Tag keys and values are case sensitive. The following restrictions apply to tags:   For each resource, each tag key must be unique and each tag key must have one value.   Maximum number of tags per resource: 50.   Maximum key length: 128 Unicode characters in UTF-8.   Maximum value length: 256 Unicode characters in UTF-8.   Accepted characters: all letters and numbers, spaces representable in UTF-8, and + - = . _ : / @. If your tagging schema is used across other services and resources, the character restrictions of those services also apply.    Key prefixes cannot include any upper or lowercase combination of aws: or AWS:. Values can have this prefix. If a tag value has aws as its prefix but the key does not, Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit. You cannot edit or delete tag keys with this prefix.
         public let tags: [Tag]?
+        /// The time boundary Forecast uses to align and aggregate any data that doesn't align with your forecast frequency. Provide the unit of time and the time boundary as a key value pair. For more information on specifying a time boundary, see Specifying a Time Boundary. If you don't provide a time boundary, Forecast uses a set of Default Time Boundaries.
+        public let timeAlignmentBoundary: TimeAlignmentBoundary?
 
-        public init(dataConfig: DataConfig? = nil, encryptionConfig: EncryptionConfig? = nil, explainPredictor: Bool? = nil, forecastDimensions: [String]? = nil, forecastFrequency: String? = nil, forecastHorizon: Int? = nil, forecastTypes: [String]? = nil, optimizationMetric: OptimizationMetric? = nil, predictorName: String, referencePredictorArn: String? = nil, tags: [Tag]? = nil) {
+        public init(dataConfig: DataConfig? = nil, encryptionConfig: EncryptionConfig? = nil, explainPredictor: Bool? = nil, forecastDimensions: [String]? = nil, forecastFrequency: String? = nil, forecastHorizon: Int? = nil, forecastTypes: [String]? = nil, monitorConfig: MonitorConfig? = nil, optimizationMetric: OptimizationMetric? = nil, predictorName: String, referencePredictorArn: String? = nil, tags: [Tag]? = nil, timeAlignmentBoundary: TimeAlignmentBoundary? = nil) {
             self.dataConfig = dataConfig
             self.encryptionConfig = encryptionConfig
             self.explainPredictor = explainPredictor
@@ -258,10 +319,12 @@ extension ForecastService {
             self.forecastFrequency = forecastFrequency
             self.forecastHorizon = forecastHorizon
             self.forecastTypes = forecastTypes
+            self.monitorConfig = monitorConfig
             self.optimizationMetric = optimizationMetric
             self.predictorName = predictorName
             self.referencePredictorArn = referencePredictorArn
             self.tags = tags
+            self.timeAlignmentBoundary = timeAlignmentBoundary
         }
 
         public func validate(name: String) throws {
@@ -284,6 +347,7 @@ extension ForecastService {
             }
             try self.validate(self.forecastTypes, name: "forecastTypes", parent: name, max: 20)
             try self.validate(self.forecastTypes, name: "forecastTypes", parent: name, min: 1)
+            try self.monitorConfig?.validate(name: "\(name).monitorConfig")
             try self.validate(self.predictorName, name: "predictorName", parent: name, max: 63)
             try self.validate(self.predictorName, name: "predictorName", parent: name, min: 1)
             try self.validate(self.predictorName, name: "predictorName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*")
@@ -294,6 +358,7 @@ extension ForecastService {
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
+            try self.timeAlignmentBoundary?.validate(name: "\(name).timeAlignmentBoundary")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -304,10 +369,12 @@ extension ForecastService {
             case forecastFrequency = "ForecastFrequency"
             case forecastHorizon = "ForecastHorizon"
             case forecastTypes = "ForecastTypes"
+            case monitorConfig = "MonitorConfig"
             case optimizationMetric = "OptimizationMetric"
             case predictorName = "PredictorName"
             case referencePredictorArn = "ReferencePredictorArn"
             case tags = "Tags"
+            case timeAlignmentBoundary = "TimeAlignmentBoundary"
         }
     }
 
@@ -329,7 +396,7 @@ extension ForecastService {
         public let datasetArns: [String]?
         /// A name for the dataset group.
         public let datasetGroupName: String
-        /// The domain associated with the dataset group. When you add a dataset to a dataset group, this value and the value specified for the Domain parameter of the CreateDataset operation must match. The Domain and DatasetType that you choose determine the fields that must be present in training data that you import to a dataset. For example, if you choose the RETAIL domain and TARGET_TIME_SERIES as the DatasetType, Amazon Forecast requires that item_id, timestamp, and demand fields are present in your data. For more information, see howitworks-datasets-groups.
+        /// The domain associated with the dataset group. When you add a dataset to a dataset group, this value and the value specified for the Domain parameter of the CreateDataset operation must match. The Domain and DatasetType that you choose determine the fields that must be present in training data that you import to a dataset. For example, if you choose the RETAIL domain and TARGET_TIME_SERIES as the DatasetType, Amazon Forecast requires that item_id, timestamp, and demand fields are present in your data. For more information, see Dataset groups.
         public let domain: Domain
         /// The optional metadata that you apply to the dataset group to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
         public let tags: [Tag]?
@@ -384,6 +451,8 @@ extension ForecastService {
         public let datasetImportJobName: String
         /// The location of the training data to import and an AWS Identity and Access Management (IAM) role that Amazon Forecast can assume to access the data. The training data must be stored in an Amazon S3 bucket. If encryption is used, DataSource must include an AWS Key Management Service (KMS) key and the IAM role must allow Amazon Forecast permission to access the key. The KMS key and IAM role must match those specified in the EncryptionConfig parameter of the CreateDataset operation.
         public let dataSource: DataSource
+        /// The format of the imported data, CSV or PARQUET. The default value is CSV.
+        public let format: String?
         /// The format of the geolocation attribute. The geolocation attribute can be formatted in one of two ways:    LAT_LONG - the latitude and longitude in decimal format (Example: 47.61_-122.33).    CC_POSTALCODE (US Only) - the country code (US), followed by the 5-digit ZIP code (Example: US_98121).
         public let geolocationFormat: String?
         /// The optional metadata that you apply to the dataset import job to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
@@ -395,10 +464,11 @@ extension ForecastService {
         /// Automatically derive time zone information from the geolocation attribute. This option is ideal for datasets that contain timestamps in multiple time zones and those timestamps are expressed in local time.
         public let useGeolocationForTimeZone: Bool?
 
-        public init(datasetArn: String, datasetImportJobName: String, dataSource: DataSource, geolocationFormat: String? = nil, tags: [Tag]? = nil, timestampFormat: String? = nil, timeZone: String? = nil, useGeolocationForTimeZone: Bool? = nil) {
+        public init(datasetArn: String, datasetImportJobName: String, dataSource: DataSource, format: String? = nil, geolocationFormat: String? = nil, tags: [Tag]? = nil, timestampFormat: String? = nil, timeZone: String? = nil, useGeolocationForTimeZone: Bool? = nil) {
             self.datasetArn = datasetArn
             self.datasetImportJobName = datasetImportJobName
             self.dataSource = dataSource
+            self.format = format
             self.geolocationFormat = geolocationFormat
             self.tags = tags
             self.timestampFormat = timestampFormat
@@ -413,6 +483,8 @@ extension ForecastService {
             try self.validate(self.datasetImportJobName, name: "datasetImportJobName", parent: name, min: 1)
             try self.validate(self.datasetImportJobName, name: "datasetImportJobName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*")
             try self.dataSource.validate(name: "\(name).dataSource")
+            try self.validate(self.format, name: "format", parent: name, max: 7)
+            try self.validate(self.format, name: "format", parent: name, pattern: "^CSV|PARQUET$")
             try self.validate(self.geolocationFormat, name: "geolocationFormat", parent: name, max: 256)
             try self.validate(self.geolocationFormat, name: "geolocationFormat", parent: name, pattern: "^[a-zA-Z0-9_]+$")
             try self.tags?.forEach {
@@ -430,6 +502,7 @@ extension ForecastService {
             case datasetArn = "DatasetArn"
             case datasetImportJobName = "DatasetImportJobName"
             case dataSource = "DataSource"
+            case format = "Format"
             case geolocationFormat = "GeolocationFormat"
             case tags = "Tags"
             case timestampFormat = "TimestampFormat"
@@ -458,11 +531,11 @@ extension ForecastService {
         public let datasetName: String
         /// The dataset type. Valid values depend on the chosen Domain.
         public let datasetType: DatasetType
-        /// The domain associated with the dataset. When you add a dataset to a dataset group, this value and the value specified for the Domain parameter of the CreateDatasetGroup operation must match. The Domain and DatasetType that you choose determine the fields that must be present in the training data that you import to the dataset. For example, if you choose the RETAIL domain and TARGET_TIME_SERIES as the DatasetType, Amazon Forecast requires item_id, timestamp, and demand fields to be present in your data. For more information, see howitworks-datasets-groups.
+        /// The domain associated with the dataset. When you add a dataset to a dataset group, this value and the value specified for the Domain parameter of the CreateDatasetGroup operation must match. The Domain and DatasetType that you choose determine the fields that must be present in the training data that you import to the dataset. For example, if you choose the RETAIL domain and TARGET_TIME_SERIES as the DatasetType, Amazon Forecast requires item_id, timestamp, and demand fields to be present in your data. For more information, see Importing datasets.
         public let domain: Domain
         /// An AWS Key Management Service (KMS) key and the AWS Identity and Access Management (IAM) role that Amazon Forecast can assume to access the key.
         public let encryptionConfig: EncryptionConfig?
-        /// The schema for the dataset. The schema attributes and their order must match the fields in your data. The dataset Domain and DatasetType that you choose determine the minimum required fields in your training data. For information about the required fields for a specific dataset domain and type, see howitworks-domains-ds-types.
+        /// The schema for the dataset. The schema attributes and their order must match the fields in your data. The dataset Domain and DatasetType that you choose determine the minimum required fields in your training data. For information about the required fields for a specific dataset domain and type, see Dataset Domains and Dataset Types.
         public let schema: Schema
         /// The optional metadata that you apply to the dataset to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
         public let tags: [Tag]?
@@ -523,13 +596,16 @@ extension ForecastService {
         public let explainabilityArn: String
         /// A unique name for the Explainability export.
         public let explainabilityExportName: String
+        /// The format of the exported data, CSV or PARQUET.
+        public let format: String?
         /// Optional metadata to help you categorize and organize your resources. Each tag consists of a key and an optional value, both of which you define. Tag keys and values are case sensitive. The following restrictions apply to tags:   For each resource, each tag key must be unique and each tag key must have one value.   Maximum number of tags per resource: 50.   Maximum key length: 128 Unicode characters in UTF-8.   Maximum value length: 256 Unicode characters in UTF-8.   Accepted characters: all letters and numbers, spaces representable in UTF-8, and + - = . _ : / @. If your tagging schema is used across other services and resources, the character restrictions of those services also apply.    Key prefixes cannot include any upper or lowercase combination of aws: or AWS:. Values can have this prefix. If a tag value has aws as its prefix but the key does not, Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit. You cannot edit or delete tag keys with this prefix.
         public let tags: [Tag]?
 
-        public init(destination: DataDestination, explainabilityArn: String, explainabilityExportName: String, tags: [Tag]? = nil) {
+        public init(destination: DataDestination, explainabilityArn: String, explainabilityExportName: String, format: String? = nil, tags: [Tag]? = nil) {
             self.destination = destination
             self.explainabilityArn = explainabilityArn
             self.explainabilityExportName = explainabilityExportName
+            self.format = format
             self.tags = tags
         }
 
@@ -540,6 +616,8 @@ extension ForecastService {
             try self.validate(self.explainabilityExportName, name: "explainabilityExportName", parent: name, max: 63)
             try self.validate(self.explainabilityExportName, name: "explainabilityExportName", parent: name, min: 1)
             try self.validate(self.explainabilityExportName, name: "explainabilityExportName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*")
+            try self.validate(self.format, name: "format", parent: name, max: 7)
+            try self.validate(self.format, name: "format", parent: name, pattern: "^CSV|PARQUET$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -551,6 +629,7 @@ extension ForecastService {
             case destination = "Destination"
             case explainabilityArn = "ExplainabilityArn"
             case explainabilityExportName = "ExplainabilityExportName"
+            case format = "Format"
             case tags = "Tags"
         }
     }
@@ -570,7 +649,7 @@ extension ForecastService {
 
     public struct CreateExplainabilityRequest: AWSEncodableShape {
         public let dataSource: DataSource?
-        /// Create an Expainability visualization that is viewable within the AWS console.
+        /// Create an Explainability visualization that is viewable within the AWS console.
         public let enableVisualization: Bool?
         /// If TimePointGranularity is set to SPECIFIC, define the last time point for the Explainability. Use the following timestamp format: yyyy-MM-ddTHH:mm:ss (example: 2015-01-01T20:00:00)
         public let endDateTime: String?
@@ -650,13 +729,16 @@ extension ForecastService {
         public let forecastArn: String
         /// The name for the forecast export job.
         public let forecastExportJobName: String
+        /// The format of the exported data, CSV or PARQUET. The default value is CSV.
+        public let format: String?
         /// The optional metadata that you apply to the forecast export job to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
         public let tags: [Tag]?
 
-        public init(destination: DataDestination, forecastArn: String, forecastExportJobName: String, tags: [Tag]? = nil) {
+        public init(destination: DataDestination, forecastArn: String, forecastExportJobName: String, format: String? = nil, tags: [Tag]? = nil) {
             self.destination = destination
             self.forecastArn = forecastArn
             self.forecastExportJobName = forecastExportJobName
+            self.format = format
             self.tags = tags
         }
 
@@ -667,6 +749,8 @@ extension ForecastService {
             try self.validate(self.forecastExportJobName, name: "forecastExportJobName", parent: name, max: 63)
             try self.validate(self.forecastExportJobName, name: "forecastExportJobName", parent: name, min: 1)
             try self.validate(self.forecastExportJobName, name: "forecastExportJobName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*")
+            try self.validate(self.format, name: "format", parent: name, max: 7)
+            try self.validate(self.format, name: "format", parent: name, pattern: "^CSV|PARQUET$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -678,6 +762,7 @@ extension ForecastService {
             case destination = "Destination"
             case forecastArn = "ForecastArn"
             case forecastExportJobName = "ForecastExportJobName"
+            case format = "Format"
             case tags = "Tags"
         }
     }
@@ -698,18 +783,21 @@ extension ForecastService {
     public struct CreateForecastRequest: AWSEncodableShape {
         /// A name for the forecast.
         public let forecastName: String
-        /// The quantiles at which probabilistic forecasts are generated. You can currently specify up to 5 quantiles per forecast. Accepted values include 0.01 to 0.99 (increments of .01 only) and mean. The mean forecast is different from the median (0.50) when the distribution is not symmetric (for example, Beta and Negative Binomial). The default value is ["0.1", "0.5", "0.9"].
+        /// The quantiles at which probabilistic forecasts are generated. You can currently specify up to 5 quantiles per forecast. Accepted values include 0.01 to 0.99 (increments of .01 only) and mean. The mean forecast is different from the median (0.50) when the distribution is not symmetric (for example, Beta and Negative Binomial).  The default quantiles are the quantiles you specified during predictor creation. If you didn't specify quantiles, the default values are ["0.1", "0.5", "0.9"].
         public let forecastTypes: [String]?
         /// The Amazon Resource Name (ARN) of the predictor to use to generate the forecast.
         public let predictorArn: String
         /// The optional metadata that you apply to the forecast to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
         public let tags: [Tag]?
+        /// Defines the set of time series that are used to create the forecasts in a TimeSeriesIdentifiers object. The TimeSeriesIdentifiers object needs the following information:    DataSource     Format     Schema
+        public let timeSeriesSelector: TimeSeriesSelector?
 
-        public init(forecastName: String, forecastTypes: [String]? = nil, predictorArn: String, tags: [Tag]? = nil) {
+        public init(forecastName: String, forecastTypes: [String]? = nil, predictorArn: String, tags: [Tag]? = nil, timeSeriesSelector: TimeSeriesSelector? = nil) {
             self.forecastName = forecastName
             self.forecastTypes = forecastTypes
             self.predictorArn = predictorArn
             self.tags = tags
+            self.timeSeriesSelector = timeSeriesSelector
         }
 
         public func validate(name: String) throws {
@@ -730,6 +818,7 @@ extension ForecastService {
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
+            try self.timeSeriesSelector?.validate(name: "\(name).timeSeriesSelector")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -737,6 +826,7 @@ extension ForecastService {
             case forecastTypes = "ForecastTypes"
             case predictorArn = "PredictorArn"
             case tags = "Tags"
+            case timeSeriesSelector = "TimeSeriesSelector"
         }
     }
 
@@ -753,8 +843,57 @@ extension ForecastService {
         }
     }
 
+    public struct CreateMonitorRequest: AWSEncodableShape {
+        /// The name of the monitor resource.
+        public let monitorName: String
+        /// The Amazon Resource Name (ARN) of the predictor to monitor.
+        public let resourceArn: String
+        /// A list of tags to apply to the monitor resource.
+        public let tags: [Tag]?
+
+        public init(monitorName: String, resourceArn: String, tags: [Tag]? = nil) {
+            self.monitorName = monitorName
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.monitorName, name: "monitorName", parent: name, max: 63)
+            try self.validate(self.monitorName, name: "monitorName", parent: name, min: 1)
+            try self.validate(self.monitorName, name: "monitorName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case monitorName = "MonitorName"
+            case resourceArn = "ResourceArn"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateMonitorResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the monitor resource.
+        public let monitorArn: String?
+
+        public init(monitorArn: String? = nil) {
+            self.monitorArn = monitorArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case monitorArn = "MonitorArn"
+        }
+    }
+
     public struct CreatePredictorBacktestExportJobRequest: AWSEncodableShape {
         public let destination: DataDestination
+        /// The format of the exported data, CSV or PARQUET. The default value is CSV.
+        public let format: String?
         /// The Amazon Resource Name (ARN) of the predictor that you want to export.
         public let predictorArn: String
         /// The name for the backtest export job.
@@ -762,8 +901,9 @@ extension ForecastService {
         /// Optional metadata to help you categorize and organize your backtests. Each tag consists of a key and an optional value, both of which you define. Tag keys and values are case sensitive. The following restrictions apply to tags:   For each resource, each tag key must be unique and each tag key must have one value.   Maximum number of tags per resource: 50.   Maximum key length: 128 Unicode characters in UTF-8.   Maximum value length: 256 Unicode characters in UTF-8.   Accepted characters: all letters and numbers, spaces representable in UTF-8, and + - = . _ : / @. If your tagging schema is used across other services and resources, the character restrictions of those services also apply.    Key prefixes cannot include any upper or lowercase combination of aws: or AWS:. Values can have this prefix. If a tag value has aws as its prefix but the key does not, Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit. You cannot edit or delete tag keys with this prefix.
         public let tags: [Tag]?
 
-        public init(destination: DataDestination, predictorArn: String, predictorBacktestExportJobName: String, tags: [Tag]? = nil) {
+        public init(destination: DataDestination, format: String? = nil, predictorArn: String, predictorBacktestExportJobName: String, tags: [Tag]? = nil) {
             self.destination = destination
+            self.format = format
             self.predictorArn = predictorArn
             self.predictorBacktestExportJobName = predictorBacktestExportJobName
             self.tags = tags
@@ -771,6 +911,8 @@ extension ForecastService {
 
         public func validate(name: String) throws {
             try self.destination.validate(name: "\(name).destination")
+            try self.validate(self.format, name: "format", parent: name, max: 7)
+            try self.validate(self.format, name: "format", parent: name, pattern: "^CSV|PARQUET$")
             try self.validate(self.predictorArn, name: "predictorArn", parent: name, max: 256)
             try self.validate(self.predictorArn, name: "predictorArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
             try self.validate(self.predictorBacktestExportJobName, name: "predictorBacktestExportJobName", parent: name, max: 63)
@@ -785,6 +927,7 @@ extension ForecastService {
 
         private enum CodingKeys: String, CodingKey {
             case destination = "Destination"
+            case format = "Format"
             case predictorArn = "PredictorArn"
             case predictorBacktestExportJobName = "PredictorBacktestExportJobName"
             case tags = "Tags"
@@ -1207,6 +1350,24 @@ extension ForecastService {
         }
     }
 
+    public struct DeleteMonitorRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the monitor resource to delete.
+        public let monitorArn: String
+
+        public init(monitorArn: String) {
+            self.monitorArn = monitorArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.monitorArn, name: "monitorArn", parent: name, max: 256)
+            try self.validate(self.monitorArn, name: "monitorArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case monitorArn = "MonitorArn"
+        }
+    }
+
     public struct DeletePredictorBacktestExportJobRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the predictor backtest export job to delete.
         public let predictorBacktestExportJobArn: String
@@ -1303,6 +1464,8 @@ extension ForecastService {
         public let lastModificationTime: Date?
         /// In the event of an error, a message detailing the cause of the error.
         public let message: String?
+        /// A object with the Amazon Resource Name (ARN) and status of the monitor resource.
+        public let monitorInfo: MonitorInfo?
         /// The accuracy metric used to optimize the predictor.
         public let optimizationMetric: OptimizationMetric?
         /// The Amazon Resource Name (ARN) of the predictor
@@ -1313,8 +1476,10 @@ extension ForecastService {
         public let referencePredictorSummary: ReferencePredictorSummary?
         /// The status of the predictor. States include:     ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     CREATE_STOPPING, CREATE_STOPPED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED
         public let status: String?
+        /// The time boundary Forecast uses when aggregating data.
+        public let timeAlignmentBoundary: TimeAlignmentBoundary?
 
-        public init(creationTime: Date? = nil, dataConfig: DataConfig? = nil, datasetImportJobArns: [String]? = nil, encryptionConfig: EncryptionConfig? = nil, estimatedTimeRemainingInMinutes: Int64? = nil, explainabilityInfo: ExplainabilityInfo? = nil, forecastDimensions: [String]? = nil, forecastFrequency: String? = nil, forecastHorizon: Int? = nil, forecastTypes: [String]? = nil, lastModificationTime: Date? = nil, message: String? = nil, optimizationMetric: OptimizationMetric? = nil, predictorArn: String? = nil, predictorName: String? = nil, referencePredictorSummary: ReferencePredictorSummary? = nil, status: String? = nil) {
+        public init(creationTime: Date? = nil, dataConfig: DataConfig? = nil, datasetImportJobArns: [String]? = nil, encryptionConfig: EncryptionConfig? = nil, estimatedTimeRemainingInMinutes: Int64? = nil, explainabilityInfo: ExplainabilityInfo? = nil, forecastDimensions: [String]? = nil, forecastFrequency: String? = nil, forecastHorizon: Int? = nil, forecastTypes: [String]? = nil, lastModificationTime: Date? = nil, message: String? = nil, monitorInfo: MonitorInfo? = nil, optimizationMetric: OptimizationMetric? = nil, predictorArn: String? = nil, predictorName: String? = nil, referencePredictorSummary: ReferencePredictorSummary? = nil, status: String? = nil, timeAlignmentBoundary: TimeAlignmentBoundary? = nil) {
             self.creationTime = creationTime
             self.dataConfig = dataConfig
             self.datasetImportJobArns = datasetImportJobArns
@@ -1327,11 +1492,13 @@ extension ForecastService {
             self.forecastTypes = forecastTypes
             self.lastModificationTime = lastModificationTime
             self.message = message
+            self.monitorInfo = monitorInfo
             self.optimizationMetric = optimizationMetric
             self.predictorArn = predictorArn
             self.predictorName = predictorName
             self.referencePredictorSummary = referencePredictorSummary
             self.status = status
+            self.timeAlignmentBoundary = timeAlignmentBoundary
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1347,11 +1514,13 @@ extension ForecastService {
             case forecastTypes = "ForecastTypes"
             case lastModificationTime = "LastModificationTime"
             case message = "Message"
+            case monitorInfo = "MonitorInfo"
             case optimizationMetric = "OptimizationMetric"
             case predictorArn = "PredictorArn"
             case predictorName = "PredictorName"
             case referencePredictorSummary = "ReferencePredictorSummary"
             case status = "Status"
+            case timeAlignmentBoundary = "TimeAlignmentBoundary"
         }
     }
 
@@ -1445,6 +1614,8 @@ extension ForecastService {
         public let estimatedTimeRemainingInMinutes: Int64?
         /// Statistical information about each field in the input data.
         public let fieldStatistics: [String: Statistics]?
+        /// The format of the imported data, CSV or PARQUET.
+        public let format: String?
         /// The format of the geolocation attribute. Valid Values:"LAT_LONG" and "CC_POSTALCODE".
         public let geolocationFormat: String?
         /// The last time the resource was modified. The timestamp depends on the status of the job:    CREATE_PENDING - The CreationTime.    CREATE_IN_PROGRESS - The current timestamp.    CREATE_STOPPING - The current timestamp.    CREATE_STOPPED - When the job stopped.    ACTIVE or CREATE_FAILED - When the job finished or failed.
@@ -1460,7 +1631,7 @@ extension ForecastService {
         /// Whether TimeZone is automatically derived from the geolocation attribute.
         public let useGeolocationForTimeZone: Bool?
 
-        public init(creationTime: Date? = nil, datasetArn: String? = nil, datasetImportJobArn: String? = nil, datasetImportJobName: String? = nil, dataSize: Double? = nil, dataSource: DataSource? = nil, estimatedTimeRemainingInMinutes: Int64? = nil, fieldStatistics: [String: Statistics]? = nil, geolocationFormat: String? = nil, lastModificationTime: Date? = nil, message: String? = nil, status: String? = nil, timestampFormat: String? = nil, timeZone: String? = nil, useGeolocationForTimeZone: Bool? = nil) {
+        public init(creationTime: Date? = nil, datasetArn: String? = nil, datasetImportJobArn: String? = nil, datasetImportJobName: String? = nil, dataSize: Double? = nil, dataSource: DataSource? = nil, estimatedTimeRemainingInMinutes: Int64? = nil, fieldStatistics: [String: Statistics]? = nil, format: String? = nil, geolocationFormat: String? = nil, lastModificationTime: Date? = nil, message: String? = nil, status: String? = nil, timestampFormat: String? = nil, timeZone: String? = nil, useGeolocationForTimeZone: Bool? = nil) {
             self.creationTime = creationTime
             self.datasetArn = datasetArn
             self.datasetImportJobArn = datasetImportJobArn
@@ -1469,6 +1640,7 @@ extension ForecastService {
             self.dataSource = dataSource
             self.estimatedTimeRemainingInMinutes = estimatedTimeRemainingInMinutes
             self.fieldStatistics = fieldStatistics
+            self.format = format
             self.geolocationFormat = geolocationFormat
             self.lastModificationTime = lastModificationTime
             self.message = message
@@ -1487,6 +1659,7 @@ extension ForecastService {
             case dataSource = "DataSource"
             case estimatedTimeRemainingInMinutes = "EstimatedTimeRemainingInMinutes"
             case fieldStatistics = "FieldStatistics"
+            case format = "Format"
             case geolocationFormat = "GeolocationFormat"
             case lastModificationTime = "LastModificationTime"
             case message = "Message"
@@ -1586,12 +1759,14 @@ extension ForecastService {
         /// When the Explainability export was created.
         public let creationTime: Date?
         public let destination: DataDestination?
-        /// The Amazon Resource Name (ARN) of the Explainability.
+        /// The Amazon Resource Name (ARN) of the Explainability export.
         public let explainabilityArn: String?
         /// The Amazon Resource Name (ARN) of the Explainability export.
         public let explainabilityExportArn: String?
         /// The name of the Explainability export.
         public let explainabilityExportName: String?
+        /// The format of the exported data, CSV or PARQUET.
+        public let format: String?
         /// The last time the resource was modified. The timestamp depends on the status of the job:    CREATE_PENDING - The CreationTime.    CREATE_IN_PROGRESS - The current timestamp.    CREATE_STOPPING - The current timestamp.    CREATE_STOPPED - When the job stopped.    ACTIVE or CREATE_FAILED - When the job finished or failed.
         public let lastModificationTime: Date?
         /// Information about any errors that occurred during the export.
@@ -1599,12 +1774,13 @@ extension ForecastService {
         /// The status of the Explainability export. States include:     ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     CREATE_STOPPING, CREATE_STOPPED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED
         public let status: String?
 
-        public init(creationTime: Date? = nil, destination: DataDestination? = nil, explainabilityArn: String? = nil, explainabilityExportArn: String? = nil, explainabilityExportName: String? = nil, lastModificationTime: Date? = nil, message: String? = nil, status: String? = nil) {
+        public init(creationTime: Date? = nil, destination: DataDestination? = nil, explainabilityArn: String? = nil, explainabilityExportArn: String? = nil, explainabilityExportName: String? = nil, format: String? = nil, lastModificationTime: Date? = nil, message: String? = nil, status: String? = nil) {
             self.creationTime = creationTime
             self.destination = destination
             self.explainabilityArn = explainabilityArn
             self.explainabilityExportArn = explainabilityExportArn
             self.explainabilityExportName = explainabilityExportName
+            self.format = format
             self.lastModificationTime = lastModificationTime
             self.message = message
             self.status = status
@@ -1616,6 +1792,7 @@ extension ForecastService {
             case explainabilityArn = "ExplainabilityArn"
             case explainabilityExportArn = "ExplainabilityExportArn"
             case explainabilityExportName = "ExplainabilityExportName"
+            case format = "Format"
             case lastModificationTime = "LastModificationTime"
             case message = "Message"
             case status = "Status"
@@ -1732,6 +1909,8 @@ extension ForecastService {
         public let forecastExportJobArn: String?
         /// The name of the forecast export job.
         public let forecastExportJobName: String?
+        /// The format of the exported data, CSV or PARQUET.
+        public let format: String?
         /// The last time the resource was modified. The timestamp depends on the status of the job:    CREATE_PENDING - The CreationTime.    CREATE_IN_PROGRESS - The current timestamp.    CREATE_STOPPING - The current timestamp.    CREATE_STOPPED - When the job stopped.    ACTIVE or CREATE_FAILED - When the job finished or failed.
         public let lastModificationTime: Date?
         /// If an error occurred, an informational message about the error.
@@ -1739,12 +1918,13 @@ extension ForecastService {
         /// The status of the forecast export job. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     CREATE_STOPPING, CREATE_STOPPED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     The Status of the forecast export job must be ACTIVE before you can access the forecast in your S3 bucket.
         public let status: String?
 
-        public init(creationTime: Date? = nil, destination: DataDestination? = nil, forecastArn: String? = nil, forecastExportJobArn: String? = nil, forecastExportJobName: String? = nil, lastModificationTime: Date? = nil, message: String? = nil, status: String? = nil) {
+        public init(creationTime: Date? = nil, destination: DataDestination? = nil, forecastArn: String? = nil, forecastExportJobArn: String? = nil, forecastExportJobName: String? = nil, format: String? = nil, lastModificationTime: Date? = nil, message: String? = nil, status: String? = nil) {
             self.creationTime = creationTime
             self.destination = destination
             self.forecastArn = forecastArn
             self.forecastExportJobArn = forecastExportJobArn
             self.forecastExportJobName = forecastExportJobName
+            self.format = format
             self.lastModificationTime = lastModificationTime
             self.message = message
             self.status = status
@@ -1756,6 +1936,7 @@ extension ForecastService {
             case forecastArn = "ForecastArn"
             case forecastExportJobArn = "ForecastExportJobArn"
             case forecastExportJobName = "ForecastExportJobName"
+            case format = "Format"
             case lastModificationTime = "LastModificationTime"
             case message = "Message"
             case status = "Status"
@@ -1801,8 +1982,10 @@ extension ForecastService {
         public let predictorArn: String?
         /// The status of the forecast. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     CREATE_STOPPING, CREATE_STOPPED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     The Status of the forecast must be ACTIVE before you can query or export the forecast.
         public let status: String?
+        /// The time series to include in the forecast.
+        public let timeSeriesSelector: TimeSeriesSelector?
 
-        public init(creationTime: Date? = nil, datasetGroupArn: String? = nil, estimatedTimeRemainingInMinutes: Int64? = nil, forecastArn: String? = nil, forecastName: String? = nil, forecastTypes: [String]? = nil, lastModificationTime: Date? = nil, message: String? = nil, predictorArn: String? = nil, status: String? = nil) {
+        public init(creationTime: Date? = nil, datasetGroupArn: String? = nil, estimatedTimeRemainingInMinutes: Int64? = nil, forecastArn: String? = nil, forecastName: String? = nil, forecastTypes: [String]? = nil, lastModificationTime: Date? = nil, message: String? = nil, predictorArn: String? = nil, status: String? = nil, timeSeriesSelector: TimeSeriesSelector? = nil) {
             self.creationTime = creationTime
             self.datasetGroupArn = datasetGroupArn
             self.estimatedTimeRemainingInMinutes = estimatedTimeRemainingInMinutes
@@ -1813,6 +1996,7 @@ extension ForecastService {
             self.message = message
             self.predictorArn = predictorArn
             self.status = status
+            self.timeSeriesSelector = timeSeriesSelector
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1825,6 +2009,78 @@ extension ForecastService {
             case lastModificationTime = "LastModificationTime"
             case message = "Message"
             case predictorArn = "PredictorArn"
+            case status = "Status"
+            case timeSeriesSelector = "TimeSeriesSelector"
+        }
+    }
+
+    public struct DescribeMonitorRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the monitor resource to describe.
+        public let monitorArn: String
+
+        public init(monitorArn: String) {
+            self.monitorArn = monitorArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.monitorArn, name: "monitorArn", parent: name, max: 256)
+            try self.validate(self.monitorArn, name: "monitorArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case monitorArn = "MonitorArn"
+        }
+    }
+
+    public struct DescribeMonitorResponse: AWSDecodableShape {
+        /// Metrics you can use as a baseline for comparison purposes. Use these values you interpret monitoring results for an auto predictor.
+        public let baseline: Baseline?
+        /// The timestamp for when the monitor resource was created.
+        public let creationTime: Date?
+        /// The estimated number of minutes remaining before the monitor resource finishes its current evaluation.
+        public let estimatedEvaluationTimeRemainingInMinutes: Int64?
+        /// The state of the monitor's latest evaluation.
+        public let lastEvaluationState: String?
+        /// The timestamp of the latest evaluation completed by the monitor.
+        public let lastEvaluationTime: Date?
+        /// The timestamp of the latest modification to the monitor.
+        public let lastModificationTime: Date?
+        /// An error message, if any, for the monitor.
+        public let message: String?
+        /// The Amazon Resource Name (ARN) of the monitor resource described.
+        public let monitorArn: String?
+        /// The name of the monitor.
+        public let monitorName: String?
+        /// The Amazon Resource Name (ARN) of the auto predictor being monitored.
+        public let resourceArn: String?
+        /// The status of the monitor resource.
+        public let status: String?
+
+        public init(baseline: Baseline? = nil, creationTime: Date? = nil, estimatedEvaluationTimeRemainingInMinutes: Int64? = nil, lastEvaluationState: String? = nil, lastEvaluationTime: Date? = nil, lastModificationTime: Date? = nil, message: String? = nil, monitorArn: String? = nil, monitorName: String? = nil, resourceArn: String? = nil, status: String? = nil) {
+            self.baseline = baseline
+            self.creationTime = creationTime
+            self.estimatedEvaluationTimeRemainingInMinutes = estimatedEvaluationTimeRemainingInMinutes
+            self.lastEvaluationState = lastEvaluationState
+            self.lastEvaluationTime = lastEvaluationTime
+            self.lastModificationTime = lastModificationTime
+            self.message = message
+            self.monitorArn = monitorArn
+            self.monitorName = monitorName
+            self.resourceArn = resourceArn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case baseline = "Baseline"
+            case creationTime = "CreationTime"
+            case estimatedEvaluationTimeRemainingInMinutes = "EstimatedEvaluationTimeRemainingInMinutes"
+            case lastEvaluationState = "LastEvaluationState"
+            case lastEvaluationTime = "LastEvaluationTime"
+            case lastModificationTime = "LastModificationTime"
+            case message = "Message"
+            case monitorArn = "MonitorArn"
+            case monitorName = "MonitorName"
+            case resourceArn = "ResourceArn"
             case status = "Status"
         }
     }
@@ -1851,6 +2107,8 @@ extension ForecastService {
         /// When the predictor backtest export job was created.
         public let creationTime: Date?
         public let destination: DataDestination?
+        /// The format of the exported data, CSV or PARQUET.
+        public let format: String?
         /// The last time the resource was modified. The timestamp depends on the status of the job:    CREATE_PENDING - The CreationTime.    CREATE_IN_PROGRESS - The current timestamp.    CREATE_STOPPING - The current timestamp.    CREATE_STOPPED - When the job stopped.    ACTIVE or CREATE_FAILED - When the job finished or failed.
         public let lastModificationTime: Date?
         /// Information about any errors that may have occurred during the backtest export.
@@ -1864,9 +2122,10 @@ extension ForecastService {
         /// The status of the predictor backtest export job. States include:     ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     CREATE_STOPPING, CREATE_STOPPED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED
         public let status: String?
 
-        public init(creationTime: Date? = nil, destination: DataDestination? = nil, lastModificationTime: Date? = nil, message: String? = nil, predictorArn: String? = nil, predictorBacktestExportJobArn: String? = nil, predictorBacktestExportJobName: String? = nil, status: String? = nil) {
+        public init(creationTime: Date? = nil, destination: DataDestination? = nil, format: String? = nil, lastModificationTime: Date? = nil, message: String? = nil, predictorArn: String? = nil, predictorBacktestExportJobArn: String? = nil, predictorBacktestExportJobName: String? = nil, status: String? = nil) {
             self.creationTime = creationTime
             self.destination = destination
+            self.format = format
             self.lastModificationTime = lastModificationTime
             self.message = message
             self.predictorArn = predictorArn
@@ -1878,6 +2137,7 @@ extension ForecastService {
         private enum CodingKeys: String, CodingKey {
             case creationTime = "CreationTime"
             case destination = "Destination"
+            case format = "Format"
             case lastModificationTime = "LastModificationTime"
             case message = "Message"
             case predictorArn = "PredictorArn"
@@ -2100,7 +2360,7 @@ extension ForecastService {
     public struct ExplainabilityConfig: AWSEncodableShape & AWSDecodableShape {
         /// To create an Explainability for all time points in your forecast horizon, use ALL. To create an Explainability for specific time points in your forecast horizon, use SPECIFIC. Specify time points with the StartDateTime and EndDateTime parameters within the CreateExplainability operation.
         public let timePointGranularity: TimePointGranularity
-        /// To create an Explainability for all time series in your datasets, use ALL. To create an Explainability for specific time series in your datasets, use SPECIFIC. Specify time series by uploading a CSV file to an Amazon S3 bucket and set the location within the DataDestination data type.
+        /// To create an Explainability for all time series in your datasets, use ALL. To create an Explainability for specific time series in your datasets, use SPECIFIC. Specify time series by uploading a CSV or Parquet file to an Amazon S3 bucket and set the location within the DataDestination data type.
         public let timeSeriesGranularity: TimeSeriesGranularity
 
         public init(timePointGranularity: TimePointGranularity, timeSeriesGranularity: TimeSeriesGranularity) {
@@ -2858,6 +3118,110 @@ extension ForecastService {
         }
     }
 
+    public struct ListMonitorEvaluationsRequest: AWSEncodableShape {
+        /// An array of filters. For each filter, provide a condition and a match statement. The condition is either IS or IS_NOT, which specifies whether to include or exclude the resources that match the statement from the list. The match statement consists of a key and a value.  Filter properties     Condition - The condition to apply. Valid values are IS and IS_NOT.    Key - The name of the parameter to filter on. The only valid value is EvaluationState.    Value - The value to match. Valid values are only SUCCESS or FAILURE.   For example, to list only successful monitor evaluations, you would specify:  "Filters": [ { "Condition": "IS", "Key": "EvaluationState", "Value": "SUCCESS" } ]
+        public let filters: [Filter]?
+        /// The maximum number of monitoring results to return.
+        public let maxResults: Int?
+        /// The Amazon Resource Name (ARN) of the monitor resource to get results from.
+        public let monitorArn: String
+        /// If the result of the previous request was truncated, the response includes a NextToken. To retrieve the next set of results, use the token in the next request. Tokens expire after 24 hours.
+        public let nextToken: String?
+
+        public init(filters: [Filter]? = nil, maxResults: Int? = nil, monitorArn: String, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.monitorArn = monitorArn
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.monitorArn, name: "monitorArn", parent: name, max: 256)
+            try self.validate(self.monitorArn, name: "monitorArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 3000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case monitorArn = "MonitorArn"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListMonitorEvaluationsResponse: AWSDecodableShape {
+        /// If the response is truncated, Amazon Forecast returns this token. To retrieve the next set of results, use the token in the next request. Tokens expire after 24 hours.
+        public let nextToken: String?
+        /// The monitoring results and predictor events collected by the monitor resource during different windows of time. For information about monitoring see Viewing Monitoring Results. For more information about retrieving monitoring results see Viewing Monitoring Results.
+        public let predictorMonitorEvaluations: [PredictorMonitorEvaluation]?
+
+        public init(nextToken: String? = nil, predictorMonitorEvaluations: [PredictorMonitorEvaluation]? = nil) {
+            self.nextToken = nextToken
+            self.predictorMonitorEvaluations = predictorMonitorEvaluations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case predictorMonitorEvaluations = "PredictorMonitorEvaluations"
+        }
+    }
+
+    public struct ListMonitorsRequest: AWSEncodableShape {
+        /// An array of filters. For each filter, provide a condition and a match statement. The condition is either IS or IS_NOT, which specifies whether to include or exclude the resources that match the statement from the list. The match statement consists of a key and a value.  Filter properties     Condition - The condition to apply. Valid values are IS and IS_NOT.    Key - The name of the parameter to filter on. The only valid value is Status.    Value - The value to match.   For example, to list all monitors who's status is ACTIVE, you would specify:  "Filters": [ { "Condition": "IS", "Key": "Status", "Value": "ACTIVE" } ]
+        public let filters: [Filter]?
+        /// The maximum number of monitors to include in the response.
+        public let maxResults: Int?
+        /// If the result of the previous request was truncated, the response includes a NextToken. To retrieve the next set of results, use the token in the next request. Tokens expire after 24 hours.
+        public let nextToken: String?
+
+        public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 3000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListMonitorsResponse: AWSDecodableShape {
+        /// An array of objects that summarize each monitor's properties.
+        public let monitors: [MonitorSummary]?
+        /// If the response is truncated, Amazon Forecast returns this token. To retrieve the next set of results, use the token in the next request.
+        public let nextToken: String?
+
+        public init(monitors: [MonitorSummary]? = nil, nextToken: String? = nil) {
+            self.monitors = monitors
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case monitors = "Monitors"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListPredictorBacktestExportJobsRequest: AWSEncodableShape {
         /// An array of filters. For each filter, provide a condition and a match statement. The condition is either IS or IS_NOT, which specifies whether to include or exclude the predictor backtest export jobs that match the statement from the list. The match statement consists of a key and a value.  Filter properties     Condition - The condition to apply. Valid values are IS and IS_NOT. To include the predictor backtest export jobs that match the statement, specify IS. To exclude matching predictor backtest export jobs, specify IS_NOT.    Key - The name of the parameter to filter on. Valid values are PredictorArn and Status.    Value - The value to match.
         public let filters: [Filter]?
@@ -2987,6 +3351,23 @@ extension ForecastService {
         }
     }
 
+    public struct MetricResult: AWSDecodableShape {
+        /// The name of the metric.
+        public let metricName: String?
+        /// The value for the metric.
+        public let metricValue: Double?
+
+        public init(metricName: String? = nil, metricValue: Double? = nil) {
+            self.metricName = metricName
+            self.metricValue = metricValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricName = "MetricName"
+            case metricValue = "MetricValue"
+        }
+    }
+
     public struct Metrics: AWSDecodableShape {
         /// The average value of all weighted quantile losses.
         public let averageWeightedQuantileLoss: Double?
@@ -3005,6 +3386,96 @@ extension ForecastService {
             case averageWeightedQuantileLoss = "AverageWeightedQuantileLoss"
             case errorMetrics = "ErrorMetrics"
             case weightedQuantileLosses = "WeightedQuantileLosses"
+        }
+    }
+
+    public struct MonitorConfig: AWSEncodableShape {
+        /// The name of the monitor resource.
+        public let monitorName: String
+
+        public init(monitorName: String) {
+            self.monitorName = monitorName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.monitorName, name: "monitorName", parent: name, max: 63)
+            try self.validate(self.monitorName, name: "monitorName", parent: name, min: 1)
+            try self.validate(self.monitorName, name: "monitorName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case monitorName = "MonitorName"
+        }
+    }
+
+    public struct MonitorDataSource: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the dataset import job used to import the data that initiated the monitor evaluation.
+        public let datasetImportJobArn: String?
+        /// The Amazon Resource Name (ARN) of the forecast the monitor used during the evaluation.
+        public let forecastArn: String?
+        /// The Amazon Resource Name (ARN) of the predictor resource you are monitoring.
+        public let predictorArn: String?
+
+        public init(datasetImportJobArn: String? = nil, forecastArn: String? = nil, predictorArn: String? = nil) {
+            self.datasetImportJobArn = datasetImportJobArn
+            self.forecastArn = forecastArn
+            self.predictorArn = predictorArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetImportJobArn = "DatasetImportJobArn"
+            case forecastArn = "ForecastArn"
+            case predictorArn = "PredictorArn"
+        }
+    }
+
+    public struct MonitorInfo: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the monitor resource.
+        public let monitorArn: String?
+        /// The status of the monitor. States include:    ACTIVE     ACTIVE_STOPPING, ACTIVE_STOPPED     UPDATE_IN_PROGRESS     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED
+        public let status: String?
+
+        public init(monitorArn: String? = nil, status: String? = nil) {
+            self.monitorArn = monitorArn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case monitorArn = "MonitorArn"
+            case status = "Status"
+        }
+    }
+
+    public struct MonitorSummary: AWSDecodableShape {
+        /// When the monitor resource was created.
+        public let creationTime: Date?
+        /// The last time the monitor resource was modified. The timestamp depends on the status of the job:    CREATE_PENDING - The CreationTime.    CREATE_IN_PROGRESS - The current timestamp.    STOPPED - When the resource stopped.    ACTIVE or CREATE_FAILED - When the monitor creation finished or failed.
+        public let lastModificationTime: Date?
+        /// The Amazon Resource Name (ARN) of the monitor resource.
+        public let monitorArn: String?
+        /// The name of the monitor resource.
+        public let monitorName: String?
+        /// The Amazon Resource Name (ARN) of the predictor being monitored.
+        public let resourceArn: String?
+        /// The status of the monitor. States include:    ACTIVE     ACTIVE_STOPPING, ACTIVE_STOPPED     UPDATE_IN_PROGRESS     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED
+        public let status: String?
+
+        public init(creationTime: Date? = nil, lastModificationTime: Date? = nil, monitorArn: String? = nil, monitorName: String? = nil, resourceArn: String? = nil, status: String? = nil) {
+            self.creationTime = creationTime
+            self.lastModificationTime = lastModificationTime
+            self.monitorArn = monitorArn
+            self.monitorName = monitorName
+            self.resourceArn = resourceArn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case lastModificationTime = "LastModificationTime"
+            case monitorArn = "MonitorArn"
+            case monitorName = "MonitorName"
+            case resourceArn = "ResourceArn"
+            case status = "Status"
         }
     }
 
@@ -3083,6 +3554,36 @@ extension ForecastService {
         }
     }
 
+    public struct PredictorBaseline: AWSDecodableShape {
+        /// The initial accuracy metrics for the predictor. Use these metrics as a baseline for comparison purposes as you use your predictor and the metrics change.
+        public let baselineMetrics: [BaselineMetric]?
+
+        public init(baselineMetrics: [BaselineMetric]? = nil) {
+            self.baselineMetrics = baselineMetrics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case baselineMetrics = "BaselineMetrics"
+        }
+    }
+
+    public struct PredictorEvent: AWSDecodableShape {
+        /// The timestamp for when the event occurred.
+        public let datetime: Date?
+        /// The type of event. For example, Retrain. A retraining event denotes the timepoint when a predictor was retrained. Any monitor results from before the Datetime are from the previous predictor. Any new metrics are for the newly retrained predictor.
+        public let detail: String?
+
+        public init(datetime: Date? = nil, detail: String? = nil) {
+            self.datetime = datetime
+            self.detail = detail
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datetime = "Datetime"
+            case detail = "Detail"
+        }
+    }
+
     public struct PredictorExecution: AWSDecodableShape {
         /// The ARN of the algorithm used to test the predictor.
         public let algorithmArn: String?
@@ -3110,6 +3611,59 @@ extension ForecastService {
 
         private enum CodingKeys: String, CodingKey {
             case predictorExecutions = "PredictorExecutions"
+        }
+    }
+
+    public struct PredictorMonitorEvaluation: AWSDecodableShape {
+        /// The status of the monitor evaluation. The state can be SUCCESS or FAILURE.
+        public let evaluationState: String?
+        /// The timestamp that indicates when the monitor evaluation was started.
+        public let evaluationTime: Date?
+        /// Information about any errors that may have occurred during the monitor evaluation.
+        public let message: String?
+        /// A list of metrics Forecast calculated when monitoring a predictor. You can compare the value for each metric in the list to the metric's value in the Baseline to see how your predictor's performance is changing.
+        public let metricResults: [MetricResult]?
+        /// The Amazon Resource Name (ARN) of the monitor resource.
+        public let monitorArn: String?
+        /// The source of the data the monitor resource used during the evaluation.
+        public let monitorDataSource: MonitorDataSource?
+        /// The number of items considered during the evaluation.
+        public let numItemsEvaluated: Int64?
+        /// Provides details about a predictor event, such as a retraining.
+        public let predictorEvent: PredictorEvent?
+        /// The Amazon Resource Name (ARN) of the resource to monitor.
+        public let resourceArn: String?
+        /// The timestamp that indicates the end of the window that is used for monitor evaluation.
+        public let windowEndDatetime: Date?
+        /// The timestamp that indicates the start of the window that is used for monitor evaluation.
+        public let windowStartDatetime: Date?
+
+        public init(evaluationState: String? = nil, evaluationTime: Date? = nil, message: String? = nil, metricResults: [MetricResult]? = nil, monitorArn: String? = nil, monitorDataSource: MonitorDataSource? = nil, numItemsEvaluated: Int64? = nil, predictorEvent: PredictorEvent? = nil, resourceArn: String? = nil, windowEndDatetime: Date? = nil, windowStartDatetime: Date? = nil) {
+            self.evaluationState = evaluationState
+            self.evaluationTime = evaluationTime
+            self.message = message
+            self.metricResults = metricResults
+            self.monitorArn = monitorArn
+            self.monitorDataSource = monitorDataSource
+            self.numItemsEvaluated = numItemsEvaluated
+            self.predictorEvent = predictorEvent
+            self.resourceArn = resourceArn
+            self.windowEndDatetime = windowEndDatetime
+            self.windowStartDatetime = windowStartDatetime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case evaluationState = "EvaluationState"
+            case evaluationTime = "EvaluationTime"
+            case message = "Message"
+            case metricResults = "MetricResults"
+            case monitorArn = "MonitorArn"
+            case monitorDataSource = "MonitorDataSource"
+            case numItemsEvaluated = "NumItemsEvaluated"
+            case predictorEvent = "PredictorEvent"
+            case resourceArn = "ResourceArn"
+            case windowEndDatetime = "WindowEndDatetime"
+            case windowStartDatetime = "WindowStartDatetime"
         }
     }
 
@@ -3175,6 +3729,24 @@ extension ForecastService {
         }
     }
 
+    public struct ResumeResourceRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the monitor resource to resume.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+        }
+    }
+
     public struct S3Config: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of an AWS Key Management Service (KMS) key.
         public let kMSKeyArn: String?
@@ -3230,7 +3802,7 @@ extension ForecastService {
     public struct SchemaAttribute: AWSEncodableShape & AWSDecodableShape {
         /// The name of the dataset field.
         public let attributeName: String?
-        /// The data type of the field.
+        /// The data type of the field. For a related time series dataset, other than date, item_id, and forecast dimensions attributes, all attributes should be of numerical type (integer/float).
         public let attributeType: AttributeType?
 
         public init(attributeName: String? = nil, attributeType: AttributeType? = nil) {
@@ -3429,6 +4001,81 @@ extension ForecastService {
             case status = "Status"
             case testWindowEnd = "TestWindowEnd"
             case testWindowStart = "TestWindowStart"
+        }
+    }
+
+    public struct TimeAlignmentBoundary: AWSEncodableShape & AWSDecodableShape {
+        /// The day of the month to use for time alignment during aggregation.
+        public let dayOfMonth: Int?
+        /// The day of week to use for time alignment during aggregation. The day must be in uppercase.
+        public let dayOfWeek: DayOfWeek?
+        /// The hour of day to use for time alignment during aggregation.
+        public let hour: Int?
+        /// The month to use for time alignment during aggregation. The month must be in uppercase.
+        public let month: Month?
+
+        public init(dayOfMonth: Int? = nil, dayOfWeek: DayOfWeek? = nil, hour: Int? = nil, month: Month? = nil) {
+            self.dayOfMonth = dayOfMonth
+            self.dayOfWeek = dayOfWeek
+            self.hour = hour
+            self.month = month
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dayOfMonth, name: "dayOfMonth", parent: name, max: 28)
+            try self.validate(self.dayOfMonth, name: "dayOfMonth", parent: name, min: 1)
+            try self.validate(self.hour, name: "hour", parent: name, max: 23)
+            try self.validate(self.hour, name: "hour", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dayOfMonth = "DayOfMonth"
+            case dayOfWeek = "DayOfWeek"
+            case hour = "Hour"
+            case month = "Month"
+        }
+    }
+
+    public struct TimeSeriesIdentifiers: AWSEncodableShape & AWSDecodableShape {
+        public let dataSource: DataSource?
+        /// The format of the data, either CSV or PARQUET.
+        public let format: String?
+        public let schema: Schema?
+
+        public init(dataSource: DataSource? = nil, format: String? = nil, schema: Schema? = nil) {
+            self.dataSource = dataSource
+            self.format = format
+            self.schema = schema
+        }
+
+        public func validate(name: String) throws {
+            try self.dataSource?.validate(name: "\(name).dataSource")
+            try self.validate(self.format, name: "format", parent: name, max: 7)
+            try self.validate(self.format, name: "format", parent: name, pattern: "^CSV|PARQUET$")
+            try self.schema?.validate(name: "\(name).schema")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSource = "DataSource"
+            case format = "Format"
+            case schema = "Schema"
+        }
+    }
+
+    public struct TimeSeriesSelector: AWSEncodableShape & AWSDecodableShape {
+        /// Details about the import file that contains the time series for which you want to create forecasts.
+        public let timeSeriesIdentifiers: TimeSeriesIdentifiers?
+
+        public init(timeSeriesIdentifiers: TimeSeriesIdentifiers? = nil) {
+            self.timeSeriesIdentifiers = timeSeriesIdentifiers
+        }
+
+        public func validate(name: String) throws {
+            try self.timeSeriesIdentifiers?.validate(name: "\(name).timeSeriesIdentifiers")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case timeSeriesIdentifiers = "TimeSeriesIdentifiers"
         }
     }
 

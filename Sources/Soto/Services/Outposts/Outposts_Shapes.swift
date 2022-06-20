@@ -371,6 +371,39 @@ extension Outposts {
         }
     }
 
+    public struct ConnectionDetails: AWSDecodableShape {
+        ///  The allowed IP addresses.
+        public let allowedIps: [String]?
+        ///  The public key of the client.
+        public let clientPublicKey: String?
+        ///  The client tunnel address.
+        public let clientTunnelAddress: String?
+        ///  The endpoint for the server.
+        public let serverEndpoint: String?
+        ///  The public key of the server.
+        public let serverPublicKey: String?
+        ///  The server tunnel address.
+        public let serverTunnelAddress: String?
+
+        public init(allowedIps: [String]? = nil, clientPublicKey: String? = nil, clientTunnelAddress: String? = nil, serverEndpoint: String? = nil, serverPublicKey: String? = nil, serverTunnelAddress: String? = nil) {
+            self.allowedIps = allowedIps
+            self.clientPublicKey = clientPublicKey
+            self.clientTunnelAddress = clientTunnelAddress
+            self.serverEndpoint = serverEndpoint
+            self.serverPublicKey = serverPublicKey
+            self.serverTunnelAddress = serverTunnelAddress
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowedIps = "AllowedIps"
+            case clientPublicKey = "ClientPublicKey"
+            case clientTunnelAddress = "ClientTunnelAddress"
+            case serverEndpoint = "ServerEndpoint"
+            case serverPublicKey = "ServerPublicKey"
+            case serverTunnelAddress = "ServerTunnelAddress"
+        }
+    }
+
     public struct CreateOrderInput: AWSEncodableShape {
         /// The line items that make up the order.
         public let lineItems: [LineItemRequest]
@@ -660,6 +693,44 @@ extension Outposts {
 
         private enum CodingKeys: String, CodingKey {
             case catalogItem = "CatalogItem"
+        }
+    }
+
+    public struct GetConnectionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "connectionId", location: .uri(locationName: "ConnectionId"))
+        ]
+
+        ///  The ID of the connection you request.
+        public let connectionId: String
+
+        public init(connectionId: String) {
+            self.connectionId = connectionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.connectionId, name: "connectionId", parent: name, max: 255)
+            try self.validate(self.connectionId, name: "connectionId", parent: name, min: 1)
+            try self.validate(self.connectionId, name: "connectionId", parent: name, pattern: "^([\\w-]+)$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetConnectionResponse: AWSDecodableShape {
+        ///  Information about a connection.
+        public let connectionDetails: ConnectionDetails?
+        ///  The ID of the connection you receive.
+        public let connectionId: String?
+
+        public init(connectionDetails: ConnectionDetails? = nil, connectionId: String? = nil) {
+            self.connectionDetails = connectionDetails
+            self.connectionId = connectionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionDetails = "ConnectionDetails"
+            case connectionId = "ConnectionId"
         }
     }
 
@@ -1471,6 +1542,62 @@ extension Outposts {
             case siteArn = "SiteArn"
             case siteId = "SiteId"
             case tags = "Tags"
+        }
+    }
+
+    public struct StartConnectionRequest: AWSEncodableShape {
+        ///  The ID of the Outpost server.
+        public let assetId: String
+        ///  The public key of the client.
+        public let clientPublicKey: String
+        ///  The serial number of the dongle.
+        public let deviceSerialNumber: String
+        ///  The device index of the network interface on the Outpost server.
+        public let networkInterfaceDeviceIndex: Int
+
+        public init(assetId: String, clientPublicKey: String, deviceSerialNumber: String, networkInterfaceDeviceIndex: Int) {
+            self.assetId = assetId
+            self.clientPublicKey = clientPublicKey
+            self.deviceSerialNumber = deviceSerialNumber
+            self.networkInterfaceDeviceIndex = networkInterfaceDeviceIndex
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assetId, name: "assetId", parent: name, max: 100)
+            try self.validate(self.assetId, name: "assetId", parent: name, min: 1)
+            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^(\\w+)$")
+            try self.validate(self.clientPublicKey, name: "clientPublicKey", parent: name, max: 44)
+            try self.validate(self.clientPublicKey, name: "clientPublicKey", parent: name, min: 44)
+            try self.validate(self.clientPublicKey, name: "clientPublicKey", parent: name, pattern: "^[a-zA-Z0-9/+]{43}=$")
+            try self.validate(self.deviceSerialNumber, name: "deviceSerialNumber", parent: name, max: 100)
+            try self.validate(self.deviceSerialNumber, name: "deviceSerialNumber", parent: name, min: 1)
+            try self.validate(self.deviceSerialNumber, name: "deviceSerialNumber", parent: name, pattern: "^(\\w+)$")
+            try self.validate(self.networkInterfaceDeviceIndex, name: "networkInterfaceDeviceIndex", parent: name, max: 1)
+            try self.validate(self.networkInterfaceDeviceIndex, name: "networkInterfaceDeviceIndex", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetId = "AssetId"
+            case clientPublicKey = "ClientPublicKey"
+            case deviceSerialNumber = "DeviceSerialNumber"
+            case networkInterfaceDeviceIndex = "NetworkInterfaceDeviceIndex"
+        }
+    }
+
+    public struct StartConnectionResponse: AWSDecodableShape {
+        ///  The ID of the connection.
+        public let connectionId: String?
+        ///  The underlay IP address.
+        public let underlayIpAddress: String?
+
+        public init(connectionId: String? = nil, underlayIpAddress: String? = nil) {
+            self.connectionId = connectionId
+            self.underlayIpAddress = underlayIpAddress
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionId = "ConnectionId"
+            case underlayIpAddress = "UnderlayIpAddress"
         }
     }
 

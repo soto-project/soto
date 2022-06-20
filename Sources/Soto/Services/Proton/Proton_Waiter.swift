@@ -28,6 +28,54 @@ extension Proton {
     ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
     ///   - logger: Logger for logging output
     ///   - eventLoop: EventLoop to run waiter code on
+    public func waitUntilComponentDeleted(
+        _ input: GetComponentInput,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSErrorCodeMatcher("ResourceNotFoundException")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("component.deploymentStatus", expected: "DELETE_FAILED")),
+            ],
+            minDelayTime: .seconds(5),
+            command: getComponent
+        )
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
+    public func waitUntilComponentDeployed(
+        _ input: GetComponentInput,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("component.deploymentStatus", expected: "SUCCEEDED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("component.deploymentStatus", expected: "FAILED")),
+            ],
+            minDelayTime: .seconds(5),
+            command: getComponent
+        )
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilEnvironmentDeployed(
         _ input: GetEnvironmentInput,
         maxWaitTime: TimeAmount? = nil,

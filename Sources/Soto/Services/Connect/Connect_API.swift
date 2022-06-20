@@ -167,6 +167,11 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "CreateSecurityProfile", path: "/security-profiles/{InstanceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates a new task template in the specified Amazon Connect instance.
+    public func createTaskTemplate(_ input: CreateTaskTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateTaskTemplateResponse> {
+        return self.client.execute(operation: "CreateTaskTemplate", path: "/instance/{InstanceId}/task/template", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates a use case for an integration association.
     public func createUseCase(_ input: CreateUseCaseRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateUseCaseResponse> {
         return self.client.execute(operation: "CreateUseCase", path: "/instance/{InstanceId}/integration-associations/{IntegrationAssociationId}/use-cases", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -220,6 +225,11 @@ public struct Connect: AWSService {
     /// This API is in preview release for Amazon Connect and is subject to change. Deletes a security profile.
     @discardableResult public func deleteSecurityProfile(_ input: DeleteSecurityProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteSecurityProfile", path: "/security-profiles/{InstanceId}/{SecurityProfileId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes the task template.
+    public func deleteTaskTemplate(_ input: DeleteTaskTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteTaskTemplateResponse> {
+        return self.client.execute(operation: "DeleteTaskTemplate", path: "/instance/{InstanceId}/task/template/{TaskTemplateId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes a use case from an integration association.
@@ -382,6 +392,11 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "GetCurrentMetricData", path: "/metrics/current/{InstanceId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Gets the real-time active user data from the specified Amazon Connect instance.
+    public func getCurrentUserData(_ input: GetCurrentUserDataRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCurrentUserDataResponse> {
+        return self.client.execute(operation: "GetCurrentUserData", path: "/metrics/userdata/{InstanceId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Retrieves a token for federation.  This API doesn't support root users. If you try to invoke GetFederationToken with root credentials, an error message similar to the following one appears:   Provided identity: Principal: .... User: .... cannot be used for federation with Amazon Connect
     public func getFederationToken(_ input: GetFederationTokenRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetFederationTokenResponse> {
         return self.client.execute(operation: "GetFederationToken", path: "/user/federate/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -390,6 +405,11 @@ public struct Connect: AWSService {
     /// Gets historical metric data from the specified Amazon Connect instance. For a description of each historical metric, see Historical Metrics Definitions in the Amazon Connect Administrator Guide.
     public func getMetricData(_ input: GetMetricDataRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMetricDataResponse> {
         return self.client.execute(operation: "GetMetricData", path: "/metrics/historical/{InstanceId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets details about a specific task template in the specified Amazon Connect instance.
+    public func getTaskTemplate(_ input: GetTaskTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetTaskTemplateResponse> {
+        return self.client.execute(operation: "GetTaskTemplate", path: "/instance/{InstanceId}/task/template/{TaskTemplateId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Lists agent statuses.
@@ -522,6 +542,11 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Lists task templates for the specified Amazon Connect instance.
+    public func listTaskTemplates(_ input: ListTaskTemplatesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTaskTemplatesResponse> {
+        return self.client.execute(operation: "ListTaskTemplates", path: "/instance/{InstanceId}/task/template", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Lists the use cases for the integration association.
     public func listUseCases(_ input: ListUseCasesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListUseCasesResponse> {
         return self.client.execute(operation: "ListUseCases", path: "/instance/{InstanceId}/integration-associations/{IntegrationAssociationId}/use-cases", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -612,9 +637,14 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "SuspendContactRecording", path: "/contact/suspend-recording", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Adds the specified tags to the specified resource. The supported resource types are users, routing profiles, queues, quick connects, contact flows, agent status, hours of operation, and phone number. For sample policies that use tags, see Amazon Connect Identity-Based Policy Examples in the Amazon Connect Administrator Guide.
+    /// Adds the specified tags to the specified resource. The supported resource types are users, routing profiles, queues, quick connects, contact flows, agent status, hours of operation, phone number, security profiles, and task templates. For sample policies that use tags, see Amazon Connect Identity-Based Policy Examples in the Amazon Connect Administrator Guide.
     @discardableResult public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Transfers contacts from one agent or queue to another agent or queue at any point after a contact is created. You can transfer a contact to another queue by providing the contact flow which orchestrates the contact to the destination queue. This gives you more control over contact handling and helps you adhere to the service level agreement (SLA) guaranteed to your customers. Note the following requirements:   Transfer is supported for only TASK contacts.   Do not use both QueueId and UserId in the same call.   The following contact flow types are supported: Inbound contact flow, Transfer to agent flow, and Transfer to queue flow.   The TransferContact API can be called only on active contacts.   A contact cannot be transferred more than 11 times.
+    public func transferContact(_ input: TransferContactRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TransferContactResponse> {
+        return self.client.execute(operation: "TransferContact", path: "/contact/transfer", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Removes the specified tags from the specified resource.
@@ -745,6 +775,11 @@ public struct Connect: AWSService {
     /// This API is in preview release for Amazon Connect and is subject to change. Updates a security profile.
     @discardableResult public func updateSecurityProfile(_ input: UpdateSecurityProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "UpdateSecurityProfile", path: "/security-profiles/{InstanceId}/{SecurityProfileId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates details about a specific task template in the specified Amazon Connect instance. This operation does not support partial updates. Instead it does a full update of template content.
+    public func updateTaskTemplate(_ input: UpdateTaskTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateTaskTemplateResponse> {
+        return self.client.execute(operation: "UpdateTaskTemplate", path: "/instance/{InstanceId}/task/template/{TaskTemplateId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Assigns the specified hierarchy group to the specified user.

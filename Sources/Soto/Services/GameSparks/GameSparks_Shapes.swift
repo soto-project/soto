@@ -55,6 +55,13 @@ extension GameSparks {
         public var description: String { return self.rawValue }
     }
 
+    public enum ResultCode: String, CustomStringConvertible, Codable {
+        case invalidRoleFailure = "INVALID_ROLE_FAILURE"
+        case success = "SUCCESS"
+        case unspecifiedFailure = "UNSPECIFIED_FAILURE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum StageState: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
         case deleting = "DELETING"
@@ -309,6 +316,23 @@ extension GameSparks {
 
     public struct DeleteStageResult: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct DeploymentResult: AWSDecodableShape {
+        /// Details about the deployment result.
+        public let message: String?
+        /// The type of deployment result.
+        public let resultCode: ResultCode?
+
+        public init(message: String? = nil, resultCode: ResultCode? = nil) {
+            self.message = message
+            self.resultCode = resultCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resultCode = "ResultCode"
+        }
     }
 
     public struct DisconnectPlayerRequest: AWSEncodableShape {
@@ -1575,6 +1599,8 @@ extension GameSparks {
         public let deploymentAction: DeploymentAction?
         /// The identifier of the deployment.
         public let deploymentId: String?
+        /// The result of the deployment.
+        public let deploymentResult: DeploymentResult?
         /// The state of the deployment.
         public let deploymentState: DeploymentState?
         /// The timestamp of when the deployment was last updated.
@@ -1583,10 +1609,11 @@ extension GameSparks {
         /// The identifier of the snapshot associated with the stage deployment.
         public let snapshotId: String?
 
-        public init(created: Date? = nil, deploymentAction: DeploymentAction? = nil, deploymentId: String? = nil, deploymentState: DeploymentState? = nil, lastUpdated: Date? = nil, snapshotId: String? = nil) {
+        public init(created: Date? = nil, deploymentAction: DeploymentAction? = nil, deploymentId: String? = nil, deploymentResult: DeploymentResult? = nil, deploymentState: DeploymentState? = nil, lastUpdated: Date? = nil, snapshotId: String? = nil) {
             self.created = created
             self.deploymentAction = deploymentAction
             self.deploymentId = deploymentId
+            self.deploymentResult = deploymentResult
             self.deploymentState = deploymentState
             self.lastUpdated = lastUpdated
             self.snapshotId = snapshotId
@@ -1596,6 +1623,7 @@ extension GameSparks {
             case created = "Created"
             case deploymentAction = "DeploymentAction"
             case deploymentId = "DeploymentId"
+            case deploymentResult = "DeploymentResult"
             case deploymentState = "DeploymentState"
             case lastUpdated = "LastUpdated"
             case snapshotId = "SnapshotId"
@@ -1607,6 +1635,8 @@ extension GameSparks {
         public let deploymentAction: DeploymentAction?
         /// The identifier of the deployment.
         public let deploymentId: String?
+        /// The result of the deployment.
+        public let deploymentResult: DeploymentResult?
         /// The state of the deployment.
         public let deploymentState: DeploymentState?
         /// The timestamp of when the deployment was last updated.
@@ -1615,9 +1645,10 @@ extension GameSparks {
         /// The identifier of the snapshot associated with the stage deployment.
         public let snapshotId: String?
 
-        public init(deploymentAction: DeploymentAction? = nil, deploymentId: String? = nil, deploymentState: DeploymentState? = nil, lastUpdated: Date? = nil, snapshotId: String? = nil) {
+        public init(deploymentAction: DeploymentAction? = nil, deploymentId: String? = nil, deploymentResult: DeploymentResult? = nil, deploymentState: DeploymentState? = nil, lastUpdated: Date? = nil, snapshotId: String? = nil) {
             self.deploymentAction = deploymentAction
             self.deploymentId = deploymentId
+            self.deploymentResult = deploymentResult
             self.deploymentState = deploymentState
             self.lastUpdated = lastUpdated
             self.snapshotId = snapshotId
@@ -1626,6 +1657,7 @@ extension GameSparks {
         private enum CodingKeys: String, CodingKey {
             case deploymentAction = "DeploymentAction"
             case deploymentId = "DeploymentId"
+            case deploymentResult = "DeploymentResult"
             case deploymentState = "DeploymentState"
             case lastUpdated = "LastUpdated"
             case snapshotId = "SnapshotId"

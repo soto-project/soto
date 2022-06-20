@@ -192,6 +192,11 @@ public struct LookoutMetrics: AWSService {
         return self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Make changes to an existing alert.
+    public func updateAlert(_ input: UpdateAlertRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateAlertResponse> {
+        return self.client.execute(operation: "UpdateAlert", path: "/UpdateAlert", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Updates a detector. After activation, you can only change a detector's ingestion delay and description.
     public func updateAnomalyDetector(_ input: UpdateAnomalyDetectorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateAnomalyDetectorResponse> {
         return self.client.execute(operation: "UpdateAnomalyDetector", path: "/UpdateAnomalyDetector", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

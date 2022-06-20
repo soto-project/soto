@@ -822,6 +822,7 @@ extension EC2 {
 
     public enum InstanceAttributeName: String, CustomStringConvertible, Codable {
         case blockdevicemapping = "blockDeviceMapping"
+        case disableapistop = "disableApiStop"
         case disableapitermination = "disableApiTermination"
         case ebsoptimized = "ebsOptimized"
         case enasupport = "enaSupport"
@@ -1043,6 +1044,14 @@ extension EC2 {
         public static var c6iLarge: Self { .init(rawValue: "c6i.large") }
         public static var c6iMetal: Self { .init(rawValue: "c6i.metal") }
         public static var c6iXlarge: Self { .init(rawValue: "c6i.xlarge") }
+        public static var c7g12Xlarge: Self { .init(rawValue: "c7g.12xlarge") }
+        public static var c7g16Xlarge: Self { .init(rawValue: "c7g.16xlarge") }
+        public static var c7g2Xlarge: Self { .init(rawValue: "c7g.2xlarge") }
+        public static var c7g4Xlarge: Self { .init(rawValue: "c7g.4xlarge") }
+        public static var c7g8Xlarge: Self { .init(rawValue: "c7g.8xlarge") }
+        public static var c7gLarge: Self { .init(rawValue: "c7g.large") }
+        public static var c7gMedium: Self { .init(rawValue: "c7g.medium") }
+        public static var c7gXlarge: Self { .init(rawValue: "c7g.xlarge") }
         public static var cc14Xlarge: Self { .init(rawValue: "cc1.4xlarge") }
         public static var cc28Xlarge: Self { .init(rawValue: "cc2.8xlarge") }
         public static var cg14Xlarge: Self { .init(rawValue: "cg1.4xlarge") }
@@ -1129,6 +1138,7 @@ extension EC2 {
         public static var i4i4Xlarge: Self { .init(rawValue: "i4i.4xlarge") }
         public static var i4i8Xlarge: Self { .init(rawValue: "i4i.8xlarge") }
         public static var i4iLarge: Self { .init(rawValue: "i4i.large") }
+        public static var i4iMetal: Self { .init(rawValue: "i4i.metal") }
         public static var i4iXlarge: Self { .init(rawValue: "i4i.xlarge") }
         public static var im4gn16Xlarge: Self { .init(rawValue: "im4gn.16xlarge") }
         public static var im4gn2Xlarge: Self { .init(rawValue: "im4gn.2xlarge") }
@@ -1431,12 +1441,14 @@ extension EC2 {
         public static var x2idn16Xlarge: Self { .init(rawValue: "x2idn.16xlarge") }
         public static var x2idn24Xlarge: Self { .init(rawValue: "x2idn.24xlarge") }
         public static var x2idn32Xlarge: Self { .init(rawValue: "x2idn.32xlarge") }
+        public static var x2idnMetal: Self { .init(rawValue: "x2idn.metal") }
         public static var x2iedn16Xlarge: Self { .init(rawValue: "x2iedn.16xlarge") }
         public static var x2iedn24Xlarge: Self { .init(rawValue: "x2iedn.24xlarge") }
         public static var x2iedn2Xlarge: Self { .init(rawValue: "x2iedn.2xlarge") }
         public static var x2iedn32Xlarge: Self { .init(rawValue: "x2iedn.32xlarge") }
         public static var x2iedn4Xlarge: Self { .init(rawValue: "x2iedn.4xlarge") }
         public static var x2iedn8Xlarge: Self { .init(rawValue: "x2iedn.8xlarge") }
+        public static var x2iednMetal: Self { .init(rawValue: "x2iedn.metal") }
         public static var x2iednXlarge: Self { .init(rawValue: "x2iedn.xlarge") }
         public static var x2iezn12Xlarge: Self { .init(rawValue: "x2iezn.12xlarge") }
         public static var x2iezn2Xlarge: Self { .init(rawValue: "x2iezn.2xlarge") }
@@ -8203,7 +8215,7 @@ extension EC2 {
     public struct CreateLaunchTemplateRequest: AWSEncodableShape {
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request. For more information, see Ensuring Idempotency. Constraint: Maximum 128 ASCII characters.
+        /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request. For more information, see Ensuring idempotency. Constraint: Maximum 128 ASCII characters.
         public let clientToken: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -8263,7 +8275,7 @@ extension EC2 {
     }
 
     public struct CreateLaunchTemplateVersionRequest: AWSEncodableShape {
-        /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request. For more information, see Ensuring Idempotency. Constraint: Maximum 128 ASCII characters.
+        /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request. For more information, see Ensuring idempotency. Constraint: Maximum 128 ASCII characters.
         public let clientToken: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -27360,6 +27372,8 @@ extension EC2 {
         /// The block device mapping of the instance.
         @OptionalCustomCoding<ArrayCoder<_BlockDeviceMappingsEncoding, InstanceBlockDeviceMapping>>
         public var blockDeviceMappings: [InstanceBlockDeviceMapping]?
+        /// To enable the instance for Amazon Web Services Stop Protection, set this parameter to true; otherwise, set it to false.
+        public let disableApiStop: AttributeBooleanValue?
         /// If the value is true, you can't terminate the instance through the Amazon EC2 console, CLI, or API; otherwise, you can.
         public let disableApiTermination: AttributeBooleanValue?
         /// Indicates whether the instance is optimized for Amazon EBS I/O.
@@ -27393,8 +27407,9 @@ extension EC2 {
         /// The user data.
         public let userData: AttributeValue?
 
-        public init(blockDeviceMappings: [InstanceBlockDeviceMapping]? = nil, disableApiTermination: AttributeBooleanValue? = nil, ebsOptimized: AttributeBooleanValue? = nil, enaSupport: AttributeBooleanValue? = nil, enclaveOptions: EnclaveOptions? = nil, groups: [GroupIdentifier]? = nil, instanceId: String? = nil, instanceInitiatedShutdownBehavior: AttributeValue? = nil, instanceType: AttributeValue? = nil, kernelId: AttributeValue? = nil, productCodes: [ProductCode]? = nil, ramdiskId: AttributeValue? = nil, rootDeviceName: AttributeValue? = nil, sourceDestCheck: AttributeBooleanValue? = nil, sriovNetSupport: AttributeValue? = nil, userData: AttributeValue? = nil) {
+        public init(blockDeviceMappings: [InstanceBlockDeviceMapping]? = nil, disableApiStop: AttributeBooleanValue? = nil, disableApiTermination: AttributeBooleanValue? = nil, ebsOptimized: AttributeBooleanValue? = nil, enaSupport: AttributeBooleanValue? = nil, enclaveOptions: EnclaveOptions? = nil, groups: [GroupIdentifier]? = nil, instanceId: String? = nil, instanceInitiatedShutdownBehavior: AttributeValue? = nil, instanceType: AttributeValue? = nil, kernelId: AttributeValue? = nil, productCodes: [ProductCode]? = nil, ramdiskId: AttributeValue? = nil, rootDeviceName: AttributeValue? = nil, sourceDestCheck: AttributeBooleanValue? = nil, sriovNetSupport: AttributeValue? = nil, userData: AttributeValue? = nil) {
             self.blockDeviceMappings = blockDeviceMappings
+            self.disableApiStop = disableApiStop
             self.disableApiTermination = disableApiTermination
             self.ebsOptimized = ebsOptimized
             self.enaSupport = enaSupport
@@ -27414,6 +27429,7 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case blockDeviceMappings = "blockDeviceMapping"
+            case disableApiStop
             case disableApiTermination
             case ebsOptimized
             case enaSupport
@@ -32162,6 +32178,8 @@ extension EC2 {
         /// Modifies the DeleteOnTermination attribute for volumes that are currently attached. The volume must be owned by the caller. If no value is specified for DeleteOnTermination, the default is true and the volume is deleted when the instance is terminated. To add instance store volumes to an Amazon EBS-backed instance, you must add them when you launch the instance. For more information, see Update the block device mapping when launching an instance in the Amazon EC2 User Guide.
         @OptionalCustomCoding<ArrayCoder<_BlockDeviceMappingsEncoding, InstanceBlockDeviceMappingSpecification>>
         public var blockDeviceMappings: [InstanceBlockDeviceMappingSpecification]?
+        /// Indicates whether an instance is enabled for stop protection. For more information, see Stop Protection.
+        public let disableApiStop: AttributeBooleanValue?
         /// If the value is true, you can't terminate the instance using the Amazon EC2 console, CLI, or API; otherwise, you can. You cannot use this parameter for Spot Instances.
         public let disableApiTermination: AttributeBooleanValue?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -32192,9 +32210,10 @@ extension EC2 {
         /// A new value for the attribute. Use only with the kernel, ramdisk, userData, disableApiTermination, or instanceInitiatedShutdownBehavior attribute.
         public let value: String?
 
-        public init(attribute: InstanceAttributeName? = nil, blockDeviceMappings: [InstanceBlockDeviceMappingSpecification]? = nil, disableApiTermination: AttributeBooleanValue? = nil, dryRun: Bool? = nil, ebsOptimized: AttributeBooleanValue? = nil, enaSupport: AttributeBooleanValue? = nil, groups: [String]? = nil, instanceId: String, instanceInitiatedShutdownBehavior: AttributeValue? = nil, instanceType: AttributeValue? = nil, kernel: AttributeValue? = nil, ramdisk: AttributeValue? = nil, sourceDestCheck: AttributeBooleanValue? = nil, sriovNetSupport: AttributeValue? = nil, userData: BlobAttributeValue? = nil, value: String? = nil) {
+        public init(attribute: InstanceAttributeName? = nil, blockDeviceMappings: [InstanceBlockDeviceMappingSpecification]? = nil, disableApiStop: AttributeBooleanValue? = nil, disableApiTermination: AttributeBooleanValue? = nil, dryRun: Bool? = nil, ebsOptimized: AttributeBooleanValue? = nil, enaSupport: AttributeBooleanValue? = nil, groups: [String]? = nil, instanceId: String, instanceInitiatedShutdownBehavior: AttributeValue? = nil, instanceType: AttributeValue? = nil, kernel: AttributeValue? = nil, ramdisk: AttributeValue? = nil, sourceDestCheck: AttributeBooleanValue? = nil, sriovNetSupport: AttributeValue? = nil, userData: BlobAttributeValue? = nil, value: String? = nil) {
             self.attribute = attribute
             self.blockDeviceMappings = blockDeviceMappings
+            self.disableApiStop = disableApiStop
             self.disableApiTermination = disableApiTermination
             self.dryRun = dryRun
             self.ebsOptimized = ebsOptimized
@@ -32214,6 +32233,7 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case attribute
             case blockDeviceMappings = "blockDeviceMapping"
+            case disableApiStop = "DisableApiStop"
             case disableApiTermination
             case dryRun
             case ebsOptimized
@@ -32750,7 +32770,7 @@ extension EC2 {
     }
 
     public struct ModifyLaunchTemplateRequest: AWSEncodableShape {
-        /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request. For more information, see Ensuring Idempotency. Constraint: Maximum 128 ASCII characters.
+        /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request. For more information, see Ensuring idempotency. Constraint: Maximum 128 ASCII characters.
         public let clientToken: String?
         /// The version number of the launch template to set as the default version.
         public let defaultVersion: String?
@@ -37752,6 +37772,8 @@ extension EC2 {
         public let cpuOptions: LaunchTemplateCpuOptionsRequest?
         /// The credit option for CPU usage of the instance. Valid for T2, T3, or T3a instances only.
         public let creditSpecification: CreditSpecificationRequest?
+        /// Indicates whether to enable the instance for stop protection. For more information, see Stop Protection.
+        public let disableApiStop: Bool?
         /// If you set this parameter to true, you can't terminate the instance using the Amazon EC2 console, CLI, or API; otherwise, you can. To change this attribute after launch, use ModifyInstanceAttribute. Alternatively, if you set InstanceInitiatedShutdownBehavior to terminate, you can terminate the instance by running the shutdown command from the instance.
         public let disableApiTermination: Bool?
         /// Indicates whether the instance is optimized for Amazon EBS I/O. This optimization provides dedicated throughput to Amazon EBS and an optimized configuration stack to provide optimal Amazon EBS I/O performance. This optimization isn't available with all instance types. Additional usage charges apply when using an EBS-optimized instance.
@@ -37776,9 +37798,9 @@ extension EC2 {
         public let instanceMarketOptions: LaunchTemplateInstanceMarketOptionsRequest?
         /// The attributes for the instance types. When you specify instance attributes, Amazon EC2 will identify instance types with these attributes. If you specify InstanceRequirements, you can't specify InstanceTypes.
         public let instanceRequirements: InstanceRequirementsRequest?
-        /// The instance type. For more information, see Instance Types in the Amazon Elastic Compute Cloud User Guide. If you specify InstanceTypes, you can't specify InstanceRequirements.
+        /// The instance type. For more information, see Instance types in the Amazon Elastic Compute Cloud User Guide. If you specify InstanceTypes, you can't specify InstanceRequirements.
         public let instanceType: InstanceType?
-        /// The ID of the kernel.  We recommend that you use PV-GRUB instead of kernels and RAM disks. For more information, see User Provided Kernels in the Amazon Elastic Compute Cloud User Guide.
+        /// The ID of the kernel.  We recommend that you use PV-GRUB instead of kernels and RAM disks. For more information, see User provided kernels in the Amazon Elastic Compute Cloud User Guide.
         public let kernelId: String?
         /// The name of the key pair. You can create a key pair using CreateKeyPair or ImportKeyPair.  If you do not specify a key pair, you can't connect to the instance unless you choose an AMI that is configured to allow users another way to log in.
         public let keyName: String?
@@ -37798,7 +37820,7 @@ extension EC2 {
         public let placement: LaunchTemplatePlacementRequest?
         /// The options for the instance hostname. The default values are inherited from the subnet.
         public let privateDnsNameOptions: LaunchTemplatePrivateDnsNameOptionsRequest?
-        /// The ID of the RAM disk.  We recommend that you use PV-GRUB instead of kernels and RAM disks. For more information, see User Provided Kernels in the Amazon Elastic Compute Cloud User Guide.
+        /// The ID of the RAM disk.  We recommend that you use PV-GRUB instead of kernels and RAM disks. For more information, see User provided kernels in the Amazon Elastic Compute Cloud User Guide.
         public let ramDiskId: String?
         /// One or more security group IDs. You can create a security group using CreateSecurityGroup. You cannot specify both a security group ID and security name in the same request.
         @OptionalCustomCoding<ArrayCoder<_SecurityGroupIdsEncoding, String>>
@@ -37809,14 +37831,15 @@ extension EC2 {
         /// The tags to apply to the resources during launch. You can only tag instances and volumes on launch. The specified tags are applied to all instances or volumes that are created during launch. To tag a resource after it has been created, see CreateTags.
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, LaunchTemplateTagSpecificationRequest>>
         public var tagSpecifications: [LaunchTemplateTagSpecificationRequest]?
-        /// The user data to make available to the instance. You must provide base64-encoded text. User data is limited to 16 KB. For more information, see Running Commands on Your Linux Instance at Launch (Linux) or Adding User Data (Windows). If you are creating the launch template for use with Batch, the user data must be provided in the  MIME multi-part archive format. For more information, see Amazon EC2 user data in launch templates in the Batch User Guide.
+        /// The user data to make available to the instance. You must provide base64-encoded text. User data is limited to 16 KB. For more information, see Run commands on your Linux instance at launch (Linux) or Work with instance user data (Windows) in the Amazon Elastic Compute Cloud User Guide. If you are creating the launch template for use with Batch, the user data must be provided in the  MIME multi-part archive format. For more information, see Amazon EC2 user data in launch templates in the Batch User Guide.
         public let userData: String?
 
-        public init(blockDeviceMappings: [LaunchTemplateBlockDeviceMappingRequest]? = nil, capacityReservationSpecification: LaunchTemplateCapacityReservationSpecificationRequest? = nil, cpuOptions: LaunchTemplateCpuOptionsRequest? = nil, creditSpecification: CreditSpecificationRequest? = nil, disableApiTermination: Bool? = nil, ebsOptimized: Bool? = nil, elasticGpuSpecifications: [ElasticGpuSpecification]? = nil, elasticInferenceAccelerators: [LaunchTemplateElasticInferenceAccelerator]? = nil, enclaveOptions: LaunchTemplateEnclaveOptionsRequest? = nil, hibernationOptions: LaunchTemplateHibernationOptionsRequest? = nil, iamInstanceProfile: LaunchTemplateIamInstanceProfileSpecificationRequest? = nil, imageId: String? = nil, instanceInitiatedShutdownBehavior: ShutdownBehavior? = nil, instanceMarketOptions: LaunchTemplateInstanceMarketOptionsRequest? = nil, instanceRequirements: InstanceRequirementsRequest? = nil, instanceType: InstanceType? = nil, kernelId: String? = nil, keyName: String? = nil, licenseSpecifications: [LaunchTemplateLicenseConfigurationRequest]? = nil, maintenanceOptions: LaunchTemplateInstanceMaintenanceOptionsRequest? = nil, metadataOptions: LaunchTemplateInstanceMetadataOptionsRequest? = nil, monitoring: LaunchTemplatesMonitoringRequest? = nil, networkInterfaces: [LaunchTemplateInstanceNetworkInterfaceSpecificationRequest]? = nil, placement: LaunchTemplatePlacementRequest? = nil, privateDnsNameOptions: LaunchTemplatePrivateDnsNameOptionsRequest? = nil, ramDiskId: String? = nil, securityGroupIds: [String]? = nil, securityGroups: [String]? = nil, tagSpecifications: [LaunchTemplateTagSpecificationRequest]? = nil, userData: String? = nil) {
+        public init(blockDeviceMappings: [LaunchTemplateBlockDeviceMappingRequest]? = nil, capacityReservationSpecification: LaunchTemplateCapacityReservationSpecificationRequest? = nil, cpuOptions: LaunchTemplateCpuOptionsRequest? = nil, creditSpecification: CreditSpecificationRequest? = nil, disableApiStop: Bool? = nil, disableApiTermination: Bool? = nil, ebsOptimized: Bool? = nil, elasticGpuSpecifications: [ElasticGpuSpecification]? = nil, elasticInferenceAccelerators: [LaunchTemplateElasticInferenceAccelerator]? = nil, enclaveOptions: LaunchTemplateEnclaveOptionsRequest? = nil, hibernationOptions: LaunchTemplateHibernationOptionsRequest? = nil, iamInstanceProfile: LaunchTemplateIamInstanceProfileSpecificationRequest? = nil, imageId: String? = nil, instanceInitiatedShutdownBehavior: ShutdownBehavior? = nil, instanceMarketOptions: LaunchTemplateInstanceMarketOptionsRequest? = nil, instanceRequirements: InstanceRequirementsRequest? = nil, instanceType: InstanceType? = nil, kernelId: String? = nil, keyName: String? = nil, licenseSpecifications: [LaunchTemplateLicenseConfigurationRequest]? = nil, maintenanceOptions: LaunchTemplateInstanceMaintenanceOptionsRequest? = nil, metadataOptions: LaunchTemplateInstanceMetadataOptionsRequest? = nil, monitoring: LaunchTemplatesMonitoringRequest? = nil, networkInterfaces: [LaunchTemplateInstanceNetworkInterfaceSpecificationRequest]? = nil, placement: LaunchTemplatePlacementRequest? = nil, privateDnsNameOptions: LaunchTemplatePrivateDnsNameOptionsRequest? = nil, ramDiskId: String? = nil, securityGroupIds: [String]? = nil, securityGroups: [String]? = nil, tagSpecifications: [LaunchTemplateTagSpecificationRequest]? = nil, userData: String? = nil) {
             self.blockDeviceMappings = blockDeviceMappings
             self.capacityReservationSpecification = capacityReservationSpecification
             self.cpuOptions = cpuOptions
             self.creditSpecification = creditSpecification
+            self.disableApiStop = disableApiStop
             self.disableApiTermination = disableApiTermination
             self.ebsOptimized = ebsOptimized
             self.elasticGpuSpecifications = elasticGpuSpecifications
@@ -37857,6 +37880,7 @@ extension EC2 {
             case capacityReservationSpecification = "CapacityReservationSpecification"
             case cpuOptions = "CpuOptions"
             case creditSpecification = "CreditSpecification"
+            case disableApiStop = "DisableApiStop"
             case disableApiTermination = "DisableApiTermination"
             case ebsOptimized = "EbsOptimized"
             case elasticGpuSpecifications = "ElasticGpuSpecification"
@@ -38797,6 +38821,8 @@ extension EC2 {
         public let cpuOptions: LaunchTemplateCpuOptions?
         /// The credit option for CPU usage of the instance.
         public let creditSpecification: CreditSpecification?
+        /// Indicates whether the instance is enabled for stop protection. For more information, see Stop Protection.
+        public let disableApiStop: Bool?
         /// If set to true, indicates that the instance cannot be terminated using the Amazon EC2 console, command line tool, or API.
         public let disableApiTermination: Bool?
         /// Indicates whether the instance is optimized for Amazon EBS I/O.
@@ -38857,11 +38883,12 @@ extension EC2 {
         /// The user data for the instance.
         public let userData: String?
 
-        public init(blockDeviceMappings: [LaunchTemplateBlockDeviceMapping]? = nil, capacityReservationSpecification: LaunchTemplateCapacityReservationSpecificationResponse? = nil, cpuOptions: LaunchTemplateCpuOptions? = nil, creditSpecification: CreditSpecification? = nil, disableApiTermination: Bool? = nil, ebsOptimized: Bool? = nil, elasticGpuSpecifications: [ElasticGpuSpecificationResponse]? = nil, elasticInferenceAccelerators: [LaunchTemplateElasticInferenceAcceleratorResponse]? = nil, enclaveOptions: LaunchTemplateEnclaveOptions? = nil, hibernationOptions: LaunchTemplateHibernationOptions? = nil, iamInstanceProfile: LaunchTemplateIamInstanceProfileSpecification? = nil, imageId: String? = nil, instanceInitiatedShutdownBehavior: ShutdownBehavior? = nil, instanceMarketOptions: LaunchTemplateInstanceMarketOptions? = nil, instanceRequirements: InstanceRequirements? = nil, instanceType: InstanceType? = nil, kernelId: String? = nil, keyName: String? = nil, licenseSpecifications: [LaunchTemplateLicenseConfiguration]? = nil, maintenanceOptions: LaunchTemplateInstanceMaintenanceOptions? = nil, metadataOptions: LaunchTemplateInstanceMetadataOptions? = nil, monitoring: LaunchTemplatesMonitoring? = nil, networkInterfaces: [LaunchTemplateInstanceNetworkInterfaceSpecification]? = nil, placement: LaunchTemplatePlacement? = nil, privateDnsNameOptions: LaunchTemplatePrivateDnsNameOptions? = nil, ramDiskId: String? = nil, securityGroupIds: [String]? = nil, securityGroups: [String]? = nil, tagSpecifications: [LaunchTemplateTagSpecification]? = nil, userData: String? = nil) {
+        public init(blockDeviceMappings: [LaunchTemplateBlockDeviceMapping]? = nil, capacityReservationSpecification: LaunchTemplateCapacityReservationSpecificationResponse? = nil, cpuOptions: LaunchTemplateCpuOptions? = nil, creditSpecification: CreditSpecification? = nil, disableApiStop: Bool? = nil, disableApiTermination: Bool? = nil, ebsOptimized: Bool? = nil, elasticGpuSpecifications: [ElasticGpuSpecificationResponse]? = nil, elasticInferenceAccelerators: [LaunchTemplateElasticInferenceAcceleratorResponse]? = nil, enclaveOptions: LaunchTemplateEnclaveOptions? = nil, hibernationOptions: LaunchTemplateHibernationOptions? = nil, iamInstanceProfile: LaunchTemplateIamInstanceProfileSpecification? = nil, imageId: String? = nil, instanceInitiatedShutdownBehavior: ShutdownBehavior? = nil, instanceMarketOptions: LaunchTemplateInstanceMarketOptions? = nil, instanceRequirements: InstanceRequirements? = nil, instanceType: InstanceType? = nil, kernelId: String? = nil, keyName: String? = nil, licenseSpecifications: [LaunchTemplateLicenseConfiguration]? = nil, maintenanceOptions: LaunchTemplateInstanceMaintenanceOptions? = nil, metadataOptions: LaunchTemplateInstanceMetadataOptions? = nil, monitoring: LaunchTemplatesMonitoring? = nil, networkInterfaces: [LaunchTemplateInstanceNetworkInterfaceSpecification]? = nil, placement: LaunchTemplatePlacement? = nil, privateDnsNameOptions: LaunchTemplatePrivateDnsNameOptions? = nil, ramDiskId: String? = nil, securityGroupIds: [String]? = nil, securityGroups: [String]? = nil, tagSpecifications: [LaunchTemplateTagSpecification]? = nil, userData: String? = nil) {
             self.blockDeviceMappings = blockDeviceMappings
             self.capacityReservationSpecification = capacityReservationSpecification
             self.cpuOptions = cpuOptions
             self.creditSpecification = creditSpecification
+            self.disableApiStop = disableApiStop
             self.disableApiTermination = disableApiTermination
             self.ebsOptimized = ebsOptimized
             self.elasticGpuSpecifications = elasticGpuSpecifications
@@ -38895,6 +38922,7 @@ extension EC2 {
             case capacityReservationSpecification
             case cpuOptions
             case creditSpecification
+            case disableApiStop
             case disableApiTermination
             case ebsOptimized
             case elasticGpuSpecifications = "elasticGpuSpecificationSet"
@@ -39542,6 +39570,8 @@ extension EC2 {
         public let cpuOptions: CpuOptionsRequest?
         /// The credit option for CPU usage of the burstable performance instance. Valid values are standard and unlimited. To change this attribute after launch, use  ModifyInstanceCreditSpecification. For more information, see Burstable performance instances in the Amazon EC2 User Guide. Default: standard (T2 instances) or unlimited (T3/T3a instances) For T3 instances with host tenancy, only standard is supported.
         public let creditSpecification: CreditSpecificationRequest?
+        /// Indicates whether an instance is enabled for stop protection. For more information, see Stop Protection.
+        public let disableApiStop: Bool?
         /// If you set this parameter to true, you can't terminate the instance using the Amazon EC2 console, CLI, or API; otherwise, you can. To change this attribute after launch, use ModifyInstanceAttribute. Alternatively, if you set InstanceInitiatedShutdownBehavior to terminate, you can terminate the instance by running the shutdown command from the instance. Default: false
         public let disableApiTermination: Bool?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -39617,13 +39647,14 @@ extension EC2 {
         /// The user data script to make available to the instance. For more information, see Run commands on your Linux instance at launch and Run commands on your Windows instance at launch. If you are using a command line tool, base64-encoding is performed for you, and you can load the text from a file. Otherwise, you must provide base64-encoded text. User data is limited to 16 KB.
         public let userData: String?
 
-        public init(additionalInfo: String? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, capacityReservationSpecification: CapacityReservationSpecification? = nil, clientToken: String? = RunInstancesRequest.idempotencyToken(), cpuOptions: CpuOptionsRequest? = nil, creditSpecification: CreditSpecificationRequest? = nil, disableApiTermination: Bool? = nil, dryRun: Bool? = nil, ebsOptimized: Bool? = nil, elasticGpuSpecification: [ElasticGpuSpecification]? = nil, elasticInferenceAccelerators: [ElasticInferenceAccelerator]? = nil, enclaveOptions: EnclaveOptionsRequest? = nil, hibernationOptions: HibernationOptionsRequest? = nil, iamInstanceProfile: IamInstanceProfileSpecification? = nil, imageId: String? = nil, instanceInitiatedShutdownBehavior: ShutdownBehavior? = nil, instanceMarketOptions: InstanceMarketOptionsRequest? = nil, instanceType: InstanceType? = nil, ipv6AddressCount: Int? = nil, ipv6Addresses: [InstanceIpv6Address]? = nil, kernelId: String? = nil, keyName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, licenseSpecifications: [LicenseConfigurationRequest]? = nil, maintenanceOptions: InstanceMaintenanceOptionsRequest? = nil, maxCount: Int, metadataOptions: InstanceMetadataOptionsRequest? = nil, minCount: Int, monitoring: RunInstancesMonitoringEnabled? = nil, networkInterfaces: [InstanceNetworkInterfaceSpecification]? = nil, placement: Placement? = nil, privateDnsNameOptions: PrivateDnsNameOptionsRequest? = nil, privateIpAddress: String? = nil, ramdiskId: String? = nil, securityGroupIds: [String]? = nil, securityGroups: [String]? = nil, subnetId: String? = nil, tagSpecifications: [TagSpecification]? = nil, userData: String? = nil) {
+        public init(additionalInfo: String? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, capacityReservationSpecification: CapacityReservationSpecification? = nil, clientToken: String? = RunInstancesRequest.idempotencyToken(), cpuOptions: CpuOptionsRequest? = nil, creditSpecification: CreditSpecificationRequest? = nil, disableApiStop: Bool? = nil, disableApiTermination: Bool? = nil, dryRun: Bool? = nil, ebsOptimized: Bool? = nil, elasticGpuSpecification: [ElasticGpuSpecification]? = nil, elasticInferenceAccelerators: [ElasticInferenceAccelerator]? = nil, enclaveOptions: EnclaveOptionsRequest? = nil, hibernationOptions: HibernationOptionsRequest? = nil, iamInstanceProfile: IamInstanceProfileSpecification? = nil, imageId: String? = nil, instanceInitiatedShutdownBehavior: ShutdownBehavior? = nil, instanceMarketOptions: InstanceMarketOptionsRequest? = nil, instanceType: InstanceType? = nil, ipv6AddressCount: Int? = nil, ipv6Addresses: [InstanceIpv6Address]? = nil, kernelId: String? = nil, keyName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, licenseSpecifications: [LicenseConfigurationRequest]? = nil, maintenanceOptions: InstanceMaintenanceOptionsRequest? = nil, maxCount: Int, metadataOptions: InstanceMetadataOptionsRequest? = nil, minCount: Int, monitoring: RunInstancesMonitoringEnabled? = nil, networkInterfaces: [InstanceNetworkInterfaceSpecification]? = nil, placement: Placement? = nil, privateDnsNameOptions: PrivateDnsNameOptionsRequest? = nil, privateIpAddress: String? = nil, ramdiskId: String? = nil, securityGroupIds: [String]? = nil, securityGroups: [String]? = nil, subnetId: String? = nil, tagSpecifications: [TagSpecification]? = nil, userData: String? = nil) {
             self.additionalInfo = additionalInfo
             self.blockDeviceMappings = blockDeviceMappings
             self.capacityReservationSpecification = capacityReservationSpecification
             self.clientToken = clientToken
             self.cpuOptions = cpuOptions
             self.creditSpecification = creditSpecification
+            self.disableApiStop = disableApiStop
             self.disableApiTermination = disableApiTermination
             self.dryRun = dryRun
             self.ebsOptimized = ebsOptimized
@@ -39672,6 +39703,7 @@ extension EC2 {
             case clientToken
             case cpuOptions = "CpuOptions"
             case creditSpecification = "CreditSpecification"
+            case disableApiStop = "DisableApiStop"
             case disableApiTermination
             case dryRun
             case ebsOptimized
@@ -44761,9 +44793,9 @@ extension EC2 {
     }
 
     public struct ValidationError: AWSDecodableShape {
-        /// The error code that indicates why the parameter or parameter combination is not valid. For more information about error codes, see Error Codes.
+        /// The error code that indicates why the parameter or parameter combination is not valid. For more information about error codes, see Error codes.
         public let code: String?
-        /// The error message that describes why the parameter or parameter combination is not valid. For more information about error messages, see Error Codes.
+        /// The error message that describes why the parameter or parameter combination is not valid. For more information about error messages, see Error codes.
         public let message: String?
 
         public init(code: String? = nil, message: String? = nil) {

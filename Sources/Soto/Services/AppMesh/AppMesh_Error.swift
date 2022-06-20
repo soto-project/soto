@@ -57,7 +57,7 @@ public struct AppMeshErrorType: AWSErrorType {
     public static var forbiddenException: Self { .init(.forbiddenException) }
     /// The request processing has failed because of an unknown error, exception, or failure.
     public static var internalServerErrorException: Self { .init(.internalServerErrorException) }
-    /// You have exceeded a service limit for your account. For more information, see Service Limits in the AWS App Mesh User Guide.
+    /// You have exceeded a service limit for your account. For more information, see Service Limits in the App Mesh User Guide.
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// The specified resource doesn't exist. Check your request syntax and try again.
     public static var notFoundException: Self { .init(.notFoundException) }

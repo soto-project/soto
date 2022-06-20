@@ -62,7 +62,7 @@ public struct CloudWatchLogsErrorType: AWSErrorType {
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// The query string is not valid. Details about this error are displayed in a QueryCompileError object. For more information, see QueryCompileError. For more information about valid query syntax, see CloudWatch Logs Insights Query Syntax.
     public static var malformedQueryException: Self { .init(.malformedQueryException) }
-    /// Multiple requests to update the same resource were in conflict.
+    /// Multiple concurrent requests to update the same resource were in conflict.
     public static var operationAbortedException: Self { .init(.operationAbortedException) }
     /// The specified resource already exists.
     public static var resourceAlreadyExistsException: Self { .init(.resourceAlreadyExistsException) }

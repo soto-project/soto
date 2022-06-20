@@ -443,6 +443,271 @@ extension DatabaseMigrationService {
         )
     }
 
+    ///  Returns a list of the Fleet Advisor collectors in your account.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeFleetAdvisorCollectorsPaginator<Result>(
+        _ input: DescribeFleetAdvisorCollectorsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeFleetAdvisorCollectorsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeFleetAdvisorCollectors,
+            inputKey: \DescribeFleetAdvisorCollectorsRequest.nextToken,
+            outputKey: \DescribeFleetAdvisorCollectorsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeFleetAdvisorCollectorsPaginator(
+        _ input: DescribeFleetAdvisorCollectorsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeFleetAdvisorCollectorsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeFleetAdvisorCollectors,
+            inputKey: \DescribeFleetAdvisorCollectorsRequest.nextToken,
+            outputKey: \DescribeFleetAdvisorCollectorsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Returns a list of Fleet Advisor databases in your account.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeFleetAdvisorDatabasesPaginator<Result>(
+        _ input: DescribeFleetAdvisorDatabasesRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeFleetAdvisorDatabasesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeFleetAdvisorDatabases,
+            inputKey: \DescribeFleetAdvisorDatabasesRequest.nextToken,
+            outputKey: \DescribeFleetAdvisorDatabasesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeFleetAdvisorDatabasesPaginator(
+        _ input: DescribeFleetAdvisorDatabasesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeFleetAdvisorDatabasesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeFleetAdvisorDatabases,
+            inputKey: \DescribeFleetAdvisorDatabasesRequest.nextToken,
+            outputKey: \DescribeFleetAdvisorDatabasesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Provides descriptions of large-scale assessment (LSA) analyses produced by your Fleet Advisor collectors.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeFleetAdvisorLsaAnalysisPaginator<Result>(
+        _ input: DescribeFleetAdvisorLsaAnalysisRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeFleetAdvisorLsaAnalysisResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeFleetAdvisorLsaAnalysis,
+            inputKey: \DescribeFleetAdvisorLsaAnalysisRequest.nextToken,
+            outputKey: \DescribeFleetAdvisorLsaAnalysisResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeFleetAdvisorLsaAnalysisPaginator(
+        _ input: DescribeFleetAdvisorLsaAnalysisRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeFleetAdvisorLsaAnalysisResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeFleetAdvisorLsaAnalysis,
+            inputKey: \DescribeFleetAdvisorLsaAnalysisRequest.nextToken,
+            outputKey: \DescribeFleetAdvisorLsaAnalysisResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Provides descriptions of the schemas discovered by your Fleet Advisor collectors.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeFleetAdvisorSchemaObjectSummaryPaginator<Result>(
+        _ input: DescribeFleetAdvisorSchemaObjectSummaryRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeFleetAdvisorSchemaObjectSummaryResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeFleetAdvisorSchemaObjectSummary,
+            inputKey: \DescribeFleetAdvisorSchemaObjectSummaryRequest.nextToken,
+            outputKey: \DescribeFleetAdvisorSchemaObjectSummaryResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeFleetAdvisorSchemaObjectSummaryPaginator(
+        _ input: DescribeFleetAdvisorSchemaObjectSummaryRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeFleetAdvisorSchemaObjectSummaryResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeFleetAdvisorSchemaObjectSummary,
+            inputKey: \DescribeFleetAdvisorSchemaObjectSummaryRequest.nextToken,
+            outputKey: \DescribeFleetAdvisorSchemaObjectSummaryResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Returns a list of schemas detected by Fleet Advisor Collectors in your account.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeFleetAdvisorSchemasPaginator<Result>(
+        _ input: DescribeFleetAdvisorSchemasRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeFleetAdvisorSchemasResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeFleetAdvisorSchemas,
+            inputKey: \DescribeFleetAdvisorSchemasRequest.nextToken,
+            outputKey: \DescribeFleetAdvisorSchemasResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeFleetAdvisorSchemasPaginator(
+        _ input: DescribeFleetAdvisorSchemasRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeFleetAdvisorSchemasResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeFleetAdvisorSchemas,
+            inputKey: \DescribeFleetAdvisorSchemasRequest.nextToken,
+            outputKey: \DescribeFleetAdvisorSchemasResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Returns information about the replication instance types that can be created in the specified region.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -1114,6 +1379,55 @@ extension DatabaseMigrationService.DescribeEventsMessage: AWSPaginateToken {
             sourceIdentifier: self.sourceIdentifier,
             sourceType: self.sourceType,
             startTime: self.startTime
+        )
+    }
+}
+
+extension DatabaseMigrationService.DescribeFleetAdvisorCollectorsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeFleetAdvisorCollectorsRequest {
+        return .init(
+            filters: self.filters,
+            maxRecords: self.maxRecords,
+            nextToken: token
+        )
+    }
+}
+
+extension DatabaseMigrationService.DescribeFleetAdvisorDatabasesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeFleetAdvisorDatabasesRequest {
+        return .init(
+            filters: self.filters,
+            maxRecords: self.maxRecords,
+            nextToken: token
+        )
+    }
+}
+
+extension DatabaseMigrationService.DescribeFleetAdvisorLsaAnalysisRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeFleetAdvisorLsaAnalysisRequest {
+        return .init(
+            maxRecords: self.maxRecords,
+            nextToken: token
+        )
+    }
+}
+
+extension DatabaseMigrationService.DescribeFleetAdvisorSchemaObjectSummaryRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeFleetAdvisorSchemaObjectSummaryRequest {
+        return .init(
+            filters: self.filters,
+            maxRecords: self.maxRecords,
+            nextToken: token
+        )
+    }
+}
+
+extension DatabaseMigrationService.DescribeFleetAdvisorSchemasRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeFleetAdvisorSchemasRequest {
+        return .init(
+            filters: self.filters,
+            maxRecords: self.maxRecords,
+            nextToken: token
         )
     }
 }

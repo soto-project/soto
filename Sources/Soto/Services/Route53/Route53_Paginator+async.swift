@@ -22,6 +22,72 @@ import SotoCore
 
 @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 extension Route53 {
+    ///  Returns a paginated list of location objects and their CIDR blocks.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listCidrBlocksPaginator(
+        _ input: ListCidrBlocksRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListCidrBlocksRequest, ListCidrBlocksResponse> {
+        return .init(
+            input: input,
+            command: listCidrBlocks,
+            inputKey: \ListCidrBlocksRequest.nextToken,
+            outputKey: \ListCidrBlocksResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Returns a paginated list of CIDR collections in the Amazon Web Services account (metadata only).
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listCidrCollectionsPaginator(
+        _ input: ListCidrCollectionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListCidrCollectionsRequest, ListCidrCollectionsResponse> {
+        return .init(
+            input: input,
+            command: listCidrCollections,
+            inputKey: \ListCidrCollectionsRequest.nextToken,
+            outputKey: \ListCidrCollectionsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Returns a paginated list of CIDR locations for the given collection (metadata only, does not include CIDR blocks).
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listCidrLocationsPaginator(
+        _ input: ListCidrLocationsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListCidrLocationsRequest, ListCidrLocationsResponse> {
+        return .init(
+            input: input,
+            command: listCidrLocations,
+            inputKey: \ListCidrLocationsRequest.nextToken,
+            outputKey: \ListCidrLocationsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Retrieve a list of the health checks that are associated with the current Amazon Web Services account.
     /// Return PaginatorSequence for operation.
     ///

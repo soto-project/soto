@@ -88,7 +88,7 @@ extension CognitoIdentityProvider {
         )
     }
 
-    ///  Lists information about all identity providers for a user pool.
+    ///  Lists information about all IdPs for a user pool.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

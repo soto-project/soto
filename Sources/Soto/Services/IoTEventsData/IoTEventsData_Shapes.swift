@@ -270,6 +270,60 @@ extension IoTEventsData {
         }
     }
 
+    public struct BatchDeleteDetectorErrorEntry: AWSDecodableShape {
+        /// The error code.
+        public let errorCode: ErrorCode?
+        /// A message that describes the error.
+        public let errorMessage: String?
+        /// The ID of the message that caused the error. (See the value of the "messageId" in the detectors object of the DeleteDetectorRequest.)
+        public let messageId: String?
+
+        public init(errorCode: ErrorCode? = nil, errorMessage: String? = nil, messageId: String? = nil) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.messageId = messageId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode
+            case errorMessage
+            case messageId
+        }
+    }
+
+    public struct BatchDeleteDetectorRequest: AWSEncodableShape {
+        /// The list of one or more detectors to be deleted.
+        public let detectors: [DeleteDetectorRequest]
+
+        public init(detectors: [DeleteDetectorRequest]) {
+            self.detectors = detectors
+        }
+
+        public func validate(name: String) throws {
+            try self.detectors.forEach {
+                try $0.validate(name: "\(name).detectors[]")
+            }
+            try self.validate(self.detectors, name: "detectors", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case detectors
+        }
+    }
+
+    public struct BatchDeleteDetectorResponse: AWSDecodableShape {
+        /// A list of errors associated with the request, or an empty array ([]) if there are no errors. Each error entry contains a messageId that helps you identify the entry that failed.
+        public let batchDeleteDetectorErrorEntries: [BatchDeleteDetectorErrorEntry]?
+
+        public init(batchDeleteDetectorErrorEntries: [BatchDeleteDetectorErrorEntry]? = nil) {
+            self.batchDeleteDetectorErrorEntries = batchDeleteDetectorErrorEntries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case batchDeleteDetectorErrorEntries
+        }
+    }
+
     public struct BatchDisableAlarmRequest: AWSEncodableShape {
         /// The list of disable action requests. You can specify up to 10 requests per operation.
         public let disableActionRequests: [DisableAlarmActionRequest]
@@ -540,6 +594,39 @@ extension IoTEventsData {
             case enableActionConfiguration
             case resetActionConfiguration
             case snoozeActionConfiguration
+        }
+    }
+
+    public struct DeleteDetectorRequest: AWSEncodableShape {
+        /// The name of the detector model that was used to create the detector instance.
+        public let detectorModelName: String
+        /// The value of the key used to identify the detector.
+        public let keyValue: String?
+        /// The ID to assign to the DeleteDetectorRequest. Each "messageId" must be unique within each batch sent.
+        public let messageId: String
+
+        public init(detectorModelName: String, keyValue: String? = nil, messageId: String) {
+            self.detectorModelName = detectorModelName
+            self.keyValue = keyValue
+            self.messageId = messageId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.detectorModelName, name: "detectorModelName", parent: name, max: 128)
+            try self.validate(self.detectorModelName, name: "detectorModelName", parent: name, min: 1)
+            try self.validate(self.detectorModelName, name: "detectorModelName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.keyValue, name: "keyValue", parent: name, max: 128)
+            try self.validate(self.keyValue, name: "keyValue", parent: name, min: 1)
+            try self.validate(self.keyValue, name: "keyValue", parent: name, pattern: "^[a-zA-Z0-9\\-_:]+$")
+            try self.validate(self.messageId, name: "messageId", parent: name, max: 64)
+            try self.validate(self.messageId, name: "messageId", parent: name, min: 1)
+            try self.validate(self.messageId, name: "messageId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case detectorModelName
+            case keyValue
+            case messageId
         }
     }
 

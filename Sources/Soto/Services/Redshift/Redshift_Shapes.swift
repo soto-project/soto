@@ -974,6 +974,31 @@ extension Redshift {
         }
     }
 
+    public struct ClusterExtendedCredentials: AWSDecodableShape {
+        /// A temporary password that you provide when you connect to a database.
+        public let dbPassword: String?
+        /// A database user name that you provide when you connect to a database. The database user is mapped 1:1 to the source IAM identity.
+        public let dbUser: String?
+        /// The time (UTC) when the temporary password expires. After this timestamp, a log in with the temporary password fails.
+        public let expiration: Date?
+        /// Reserved for future use.
+        public let nextRefreshTime: Date?
+
+        public init(dbPassword: String? = nil, dbUser: String? = nil, expiration: Date? = nil, nextRefreshTime: Date? = nil) {
+            self.dbPassword = dbPassword
+            self.dbUser = dbUser
+            self.expiration = expiration
+            self.nextRefreshTime = nextRefreshTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dbPassword = "DbPassword"
+            case dbUser = "DbUser"
+            case expiration = "Expiration"
+            case nextRefreshTime = "NextRefreshTime"
+        }
+    }
+
     public struct ClusterIamRole: AWSDecodableShape {
         /// A value that describes the status of the IAM role's association with an Amazon Redshift cluster. The following are possible statuses and descriptions.    in-sync: The role is available for use by the cluster.    adding: The role is in the process of being associated with the cluster.    removing: The role is in the process of being disassociated with the cluster.
         public let applyStatus: String?
@@ -4789,7 +4814,7 @@ extension Redshift {
 
         /// Create a database user with the name specified for the user named in DbUser if one does not exist.
         public let autoCreate: Bool?
-        /// The unique identifier of the cluster that contains the database for which your are requesting credentials. This parameter is case sensitive.
+        /// The unique identifier of the cluster that contains the database for which you are requesting credentials. This parameter is case sensitive.
         public let clusterIdentifier: String
         /// A list of the names of existing database groups that the user named in DbUser will join for the current session, in addition to any group memberships for an existing user. If not specified, a new user is added only to PUBLIC. Database group name constraints   Must be 1 to 64 alphanumeric characters or hyphens   Must contain only lowercase letters, numbers, underscore, plus sign, period (dot), at symbol (@), or hyphen.   First character must be a letter.   Must not contain a colon ( : ) or slash ( / ).    Cannot be a reserved word. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide.
         @OptionalCustomCoding<ArrayCoder<_DbGroupsEncoding, String>>
@@ -4825,6 +4850,32 @@ extension Redshift {
             case dbGroups = "DbGroups"
             case dbName = "DbName"
             case dbUser = "DbUser"
+            case durationSeconds = "DurationSeconds"
+        }
+    }
+
+    public struct GetClusterCredentialsWithIAMMessage: AWSEncodableShape {
+        /// The unique identifier of the cluster that contains the database for which you are requesting credentials.
+        public let clusterIdentifier: String
+        /// The name of the database for which you are requesting credentials. If the database name is specified, the IAM policy must allow access to the resource dbname for the specified database name. If the database name is not specified, access to all databases is allowed.
+        public let dbName: String?
+        /// The number of seconds until the returned temporary password expires. Range: 900-3600. Default: 900.
+        public let durationSeconds: Int?
+
+        public init(clusterIdentifier: String, dbName: String? = nil, durationSeconds: Int? = nil) {
+            self.clusterIdentifier = clusterIdentifier
+            self.dbName = dbName
+            self.durationSeconds = durationSeconds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, max: 2_147_483_647)
+            try self.validate(self.dbName, name: "dbName", parent: name, max: 2_147_483_647)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterIdentifier = "ClusterIdentifier"
+            case dbName = "DbName"
             case durationSeconds = "DurationSeconds"
         }
     }

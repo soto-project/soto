@@ -18,7 +18,7 @@
 
 /// Service object for interacting with AWS TranscribeService service.
 ///
-/// Operations and objects for transcribing speech to text.
+/// Amazon Transcribe offers three main types of batch transcription: Standard, Medical, and Call Analytics.    Standard transcriptions are the most common option. Refer to for details.    Medical transcriptions are tailored to medical professionals and incorporate medical terms. A common use case for this service is transcribing doctor-patient dialogue into after-visit notes. Refer to for details.    Call Analytics transcriptions are designed for use with call center audio on two different channels; if you're looking for insight into customer service calls, use this option. Refer to for details.
 public struct TranscribeService: AWSService {
     // MARK: Member variables
 
@@ -64,197 +64,197 @@ public struct TranscribeService: AWSService {
 
     // MARK: API Calls
 
-    /// Creates a call analytics category. Amazon Transcribe applies the conditions specified by your call analytics categories to your call analytics jobs. For each analytics category, you must create between 1 and 20 rules. For example, you can create a 'greeting' category with a rule that flags calls in which your agent does not use a specified phrase (for example: "Please note this call may be recorded.") in the first 15 seconds of the call. When you start a call analytics job, Amazon Transcribe applies all your existing call analytics categories to that job.
+    /// Creates a new Call Analytics category. All categories are automatically applied to your Call Analytics jobs. Note that in order to apply your categories to your jobs, you must create them before submitting your job request, as categories cannot be applied retroactively. Call Analytics categories are composed of rules. For each category, you must create between 1 and 20 rules. Rules can include these parameters: , , , and . To update an existing category, see . To learn more about:   Call Analytics categories, see Creating categories    Using rules, see Rule criteria and refer to the data type   Call Analytics, see Analyzing call center audio with Call Analytics
     public func createCallAnalyticsCategory(_ input: CreateCallAnalyticsCategoryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateCallAnalyticsCategoryResponse> {
         return self.client.execute(operation: "CreateCallAnalyticsCategory", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a new custom language model. When creating a new language model, you must specify if you want a Wideband (audio sample rates over 16,000 Hz) or Narrowband (audio sample rates under 16,000 Hz) base model. You then include the S3 URI location of your training and tuning files, the language for the model, a unique name, and any tags you want associated with your model.
+    /// Creates a new custom language model. When creating a new language model, you must specify:   If you want a Wideband (audio sample rates over 16,000 Hz) or Narrowband (audio sample rates under 16,000 Hz) base model   The location of your training and tuning files (this must be an Amazon S3 URI)   The language of your model   A unique name for your model   For more information, see Custom language models.
     public func createLanguageModel(_ input: CreateLanguageModelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateLanguageModelResponse> {
         return self.client.execute(operation: "CreateLanguageModel", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a new custom medical vocabulary. When creating a new medical vocabulary, you must upload a text file that contains your new entries, phrases, and terms into an S3 bucket. Note that this differs from , where you can include a list of terms within your request using the Phrases flag, as CreateMedicalVocabulary does not support the Phrases flag. For more information on creating a custom vocabulary text file, see Creating a custom vocabulary.
+    /// Creates a new custom medical vocabulary. Prior to creating a new medical vocabulary, you must first upload a text file that contains your new entries, phrases, and terms into an Amazon S3 bucket. Note that this differs from , where you can include a list of terms within your request using the Phrases flag; CreateMedicalVocabulary does not support the Phrases flag. Each language has a character set that contains all allowed characters for that specific language. If you use unsupported characters, your vocabulary request fails. Refer to Character Sets for Custom Vocabularies to get the character set for your language. For more information, see Creating a custom vocabulary.
     public func createMedicalVocabulary(_ input: CreateMedicalVocabularyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateMedicalVocabularyResponse> {
         return self.client.execute(operation: "CreateMedicalVocabulary", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a new custom vocabulary. When creating a new medical vocabulary, you can either upload a text file that contains your new entries, phrases, and terms into an S3 bucket or include a list of terms directly in your request using the Phrases flag. For more information on creating a custom vocabulary, see Creating a custom vocabulary.
+    /// Creates a new custom vocabulary. When creating a new vocabulary, you can either upload a text file that contains your new entries, phrases, and terms into an Amazon S3 bucket and include the URI in your request, or you can include a list of terms directly in your request using the Phrases flag. Each language has a character set that contains all allowed characters for that specific language. If you use unsupported characters, your vocabulary request fails. Refer to Character Sets for Custom Vocabularies to get the character set for your language. For more information, see Creating a custom vocabulary.
     public func createVocabulary(_ input: CreateVocabularyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateVocabularyResponse> {
         return self.client.execute(operation: "CreateVocabulary", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a new vocabulary filter that you can use to filter words from your transcription output. For example, you can use this operation to remove profanity from your transcript.
+    /// Creates a new custom vocabulary filter. You can use vocabulary filters to mask, delete, or flag specific words from your transcript. Vocabulary filters are commonly used to mask profanity in transcripts. Each language has a character set that contains all allowed characters for that specific language. If you use unsupported characters, your vocabulary filter request fails. Refer to Character Sets for Custom Vocabularies to get the character set for your language. For more information, see Using vocabulary filtering with unwanted words.
     public func createVocabularyFilter(_ input: CreateVocabularyFilterRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateVocabularyFilterResponse> {
         return self.client.execute(operation: "CreateVocabularyFilter", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes a call analytics category. To use this operation, specify the name of the category you want to delete using CategoryName.
+    /// Deletes a Call Analytics category. To use this operation, specify the name of the category you want to delete using CategoryName. Category names are case sensitive.
     public func deleteCallAnalyticsCategory(_ input: DeleteCallAnalyticsCategoryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteCallAnalyticsCategoryResponse> {
         return self.client.execute(operation: "DeleteCallAnalyticsCategory", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes a call analytics job. To use this operation, specify the name of the job you want to delete using CallAnalyticsJobName.
+    /// Deletes a Call Analytics job. To use this operation, specify the name of the job you want to delete using CallAnalyticsJobName. Job names are case sensitive.
     public func deleteCallAnalyticsJob(_ input: DeleteCallAnalyticsJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteCallAnalyticsJobResponse> {
         return self.client.execute(operation: "DeleteCallAnalyticsJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes a custom language model. To use this operation, specify the name of the language model you want to delete using ModelName.
+    /// Deletes a custom language model. To use this operation, specify the name of the language model you want to delete using ModelName. Language model names are case sensitive.
     @discardableResult public func deleteLanguageModel(_ input: DeleteLanguageModelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteLanguageModel", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes a medical transcription job, along with any related information. To use this operation, specify the name of the job you want to delete using MedicalTranscriptionJobName.
+    /// Deletes a medical transcription job. To use this operation, specify the name of the job you want to delete using MedicalTranscriptionJobName. Job names are case sensitive.
     @discardableResult public func deleteMedicalTranscriptionJob(_ input: DeleteMedicalTranscriptionJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteMedicalTranscriptionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes a custom medical vocabulary. To use this operation, specify the name of the vocabulary you want to delete using VocabularyName.
+    /// Deletes a custom medical vocabulary. To use this operation, specify the name of the vocabulary you want to delete using VocabularyName. Vocabulary names are case sensitive.
     @discardableResult public func deleteMedicalVocabulary(_ input: DeleteMedicalVocabularyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteMedicalVocabulary", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes a transcription job, along with any related information. To use this operation, specify the name of the job you want to delete using TranscriptionJobName.
+    /// Deletes a transcription job. To use this operation, specify the name of the job you want to delete using TranscriptionJobName. Job names are case sensitive.
     @discardableResult public func deleteTranscriptionJob(_ input: DeleteTranscriptionJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteTranscriptionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes a custom vocabulary. To use this operation, specify the name of the vocabulary you want to delete using VocabularyName.
+    /// Deletes a custom vocabulary. To use this operation, specify the name of the vocabulary you want to delete using VocabularyName. Vocabulary names are case sensitive.
     @discardableResult public func deleteVocabulary(_ input: DeleteVocabularyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteVocabulary", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes a vocabulary filter. To use this operation, specify the name of the vocabulary filter you want to delete using VocabularyFilterName.
+    /// Deletes a vocabulary filter. To use this operation, specify the name of the vocabulary filter you want to delete using VocabularyFilterName. Vocabulary filter names are case sensitive.
     @discardableResult public func deleteVocabularyFilter(_ input: DeleteVocabularyFilterRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteVocabularyFilter", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Provides information about a specific custom language model in your Amazon Web Services account. This operation also shows if the base language model you used to create your custom language model has been updated. If Amazon Transcribe has updated the base model, you can create a new custom language model using the updated base model. If you tried to create a new custom language model and the request wasn't successful, you can use this operation to help identify the reason.
+    /// Provides information about the specified custom language model. This operation also shows if the base language model you used to create your custom language model has been updated. If Amazon Transcribe has updated the base model, you can create a new custom language model using the updated base model. If you tried to create a new custom language model and the request wasn't successful, you can use DescribeLanguageModel to help identify the reason for this failure. To get a list of your custom language models, use the operation.
     public func describeLanguageModel(_ input: DescribeLanguageModelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeLanguageModelResponse> {
         return self.client.execute(operation: "DescribeLanguageModel", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves information about a call analytics category.
+    /// Provides information about the specified Call Analytics category. To get a list of your Call Analytics categories, use the operation.
     public func getCallAnalyticsCategory(_ input: GetCallAnalyticsCategoryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCallAnalyticsCategoryResponse> {
         return self.client.execute(operation: "GetCallAnalyticsCategory", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves information about a call analytics job. To view the job's status, refer to the CallAnalyticsJobStatus field. If the status is COMPLETED, the job is finished. You can then find your transcript at the URI specified in the TranscriptFileUri field. If you enabled personally identifiable information (PII) redaction, the redacted transcript appears in the RedactedTranscriptFileUri field.
+    /// Provides information about the specified Call Analytics job. To view the job's status, refer to CallAnalyticsJobStatus. If the status is COMPLETED, the job is finished. You can find your completed transcript at the URI specified in TranscriptFileUri. If the status is FAILED, FailureReason provides details on why your transcription job failed. If you enabled personally identifiable information (PII) redaction, the redacted transcript appears at the location specified in RedactedTranscriptFileUri. If you chose to redact the audio in your media file, you can find your redacted media file at the location specified in RedactedMediaFileUri. To get a list of your Call Analytics jobs, use the operation.
     public func getCallAnalyticsJob(_ input: GetCallAnalyticsJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCallAnalyticsJobResponse> {
         return self.client.execute(operation: "GetCallAnalyticsJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves information about a medical transcription job. To view the job's status, refer to the TranscriptionJobStatus field. If the status is COMPLETED, the job is finished. You can then find your transcript at the URI specified in the TranscriptFileUri field.
+    /// Provides information about the specified medical transcription job. To view the status of the specified medical transcription job, check the TranscriptionJobStatus field. If the status is COMPLETED, the job is finished and you can find the results at the location specified in TranscriptFileUri. If the status is FAILED, FailureReason provides details on why your transcription job failed. To get a list of your medical transcription jobs, use the operation.
     public func getMedicalTranscriptionJob(_ input: GetMedicalTranscriptionJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMedicalTranscriptionJobResponse> {
         return self.client.execute(operation: "GetMedicalTranscriptionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves information about a medical vocabulary.
+    /// Provides information about the specified custom medical vocabulary. To view the status of the specified medical vocabulary, check the VocabularyState field. If the status is READY, your vocabulary is available to use. If the status is FAILED, FailureReason provides details on why your vocabulary failed. To get a list of your custom medical vocabularies, use the operation.
     public func getMedicalVocabulary(_ input: GetMedicalVocabularyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMedicalVocabularyResponse> {
         return self.client.execute(operation: "GetMedicalVocabulary", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns information about a transcription job. To see the status of the job, check the TranscriptionJobStatus field. If the status is COMPLETED, the job is finished and you can find the results at the location specified in the TranscriptFileUri field. If you enable content redaction, the redacted transcript appears in RedactedTranscriptFileUri.
+    /// Provides information about the specified transcription job. To view the status of the specified transcription job, check the TranscriptionJobStatus field. If the status is COMPLETED, the job is finished and you can find the results at the location specified in TranscriptFileUri. If the status is FAILED, FailureReason provides details on why your transcription job failed. If you enabled content redaction, the redacted transcript can be found at the location specified in RedactedTranscriptFileUri. To get a list of your transcription jobs, use the operation.
     public func getTranscriptionJob(_ input: GetTranscriptionJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetTranscriptionJobResponse> {
         return self.client.execute(operation: "GetTranscriptionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets information about a vocabulary.
+    /// Provides information about the specified custom vocabulary. To view the status of the specified vocabulary, check the VocabularyState field. If the status is READY, your vocabulary is available to use. If the status is FAILED, FailureReason provides details on why your vocabulary failed. To get a list of your custom vocabularies, use the operation.
     public func getVocabulary(_ input: GetVocabularyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetVocabularyResponse> {
         return self.client.execute(operation: "GetVocabulary", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns information about a vocabulary filter.
+    /// Provides information about the specified custom vocabulary filter. To view the status of the specified vocabulary filter, check the VocabularyState field. If the status is READY, your vocabulary is available to use. If the status is FAILED, FailureReason provides details on why your vocabulary filter failed. To get a list of your custom vocabulary filters, use the operation.
     public func getVocabularyFilter(_ input: GetVocabularyFilterRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetVocabularyFilterResponse> {
         return self.client.execute(operation: "GetVocabularyFilter", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Provides more information about the call analytics categories that you've created. You can use the information in this list to find a specific category. You can then use the operation to get more information about it.
+    /// Provides a list of Call Analytics categories, including all rules that make up each category. To get detailed information about a specific Call Analytics category, use the operation.
     public func listCallAnalyticsCategories(_ input: ListCallAnalyticsCategoriesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListCallAnalyticsCategoriesResponse> {
         return self.client.execute(operation: "ListCallAnalyticsCategories", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// List call analytics jobs with a specified status or substring that matches their names.
+    /// Provides a list of Call Analytics jobs that match the specified criteria. If no criteria are specified, all Call Analytics jobs are returned. To get detailed information about a specific Call Analytics job, use the operation.
     public func listCallAnalyticsJobs(_ input: ListCallAnalyticsJobsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListCallAnalyticsJobsResponse> {
         return self.client.execute(operation: "ListCallAnalyticsJobs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Provides more information about the custom language models you've created. You can use the information in this list to find a specific custom language model. You can then use the operation to get more information about it.
+    /// Provides a list of custom language models that match the specified criteria. If no criteria are specified, all language models are returned. To get detailed information about a specific custom language model, use the operation.
     public func listLanguageModels(_ input: ListLanguageModelsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListLanguageModelsResponse> {
         return self.client.execute(operation: "ListLanguageModels", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists medical transcription jobs with a specified status or substring that matches their names.
+    /// Provides a list of medical transcription jobs that match the specified criteria. If no criteria are specified, all medical transcription jobs are returned. To get detailed information about a specific medical transcription job, use the operation.
     public func listMedicalTranscriptionJobs(_ input: ListMedicalTranscriptionJobsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListMedicalTranscriptionJobsResponse> {
         return self.client.execute(operation: "ListMedicalTranscriptionJobs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns a list of vocabularies that match the specified criteria. If you don't enter a value in any of the request parameters, returns the entire list of vocabularies.
+    /// Provides a list of custom medical vocabularies that match the specified criteria. If no criteria are specified, all custom medical vocabularies are returned. To get detailed information about a specific custom medical vocabulary, use the operation.
     public func listMedicalVocabularies(_ input: ListMedicalVocabulariesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListMedicalVocabulariesResponse> {
         return self.client.execute(operation: "ListMedicalVocabularies", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists all tags associated with a given transcription job, vocabulary, or resource.
+    /// Lists all tags associated with the specified transcription job, vocabulary, model, or resource. To learn more about using tags with Amazon Transcribe, refer to Tagging resources.
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
         return self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists transcription jobs with the specified status.
+    /// Provides a list of transcription jobs that match the specified criteria. If no criteria are specified, all transcription jobs are returned. To get detailed information about a specific transcription job, use the operation.
     public func listTranscriptionJobs(_ input: ListTranscriptionJobsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTranscriptionJobsResponse> {
         return self.client.execute(operation: "ListTranscriptionJobs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns a list of vocabularies that match the specified criteria. If no criteria are specified, returns the entire list of vocabularies.
+    /// Provides a list of custom vocabularies that match the specified criteria. If no criteria are specified, all custom vocabularies are returned. To get detailed information about a specific custom vocabulary, use the operation.
     public func listVocabularies(_ input: ListVocabulariesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListVocabulariesResponse> {
         return self.client.execute(operation: "ListVocabularies", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets information about vocabulary filters.
+    /// Provides a list of custom vocabulary filters that match the specified criteria. If no criteria are specified, all custom vocabularies are returned. To get detailed information about a specific custom vocabulary filter, use the operation.
     public func listVocabularyFilters(_ input: ListVocabularyFiltersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListVocabularyFiltersResponse> {
         return self.client.execute(operation: "ListVocabularyFilters", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Starts an asynchronous analytics job that not only transcribes the audio recording of a caller and agent, but also returns additional insights. These insights include how quickly or loudly the caller or agent was speaking. To retrieve additional insights with your analytics jobs, create categories. A category is a way to classify analytics jobs based on attributes, such as a customer's sentiment or a particular phrase being used during the call. For more information, see the operation.
+    /// Transcribes the audio from a customer service call and applies any additional Request Parameters you choose to include in your request. In addition to many of the standard transcription features, Call Analytics provides you with call characteristics, call summarization, speaker sentiment, and optional redaction of your text transcript and your audio file. You can also apply custom categories to flag specified conditions. To learn more about these features and insights, refer to Analyzing call center audio with Call Analytics. If you want to apply categories to your Call Analytics job, you must create them before submitting your job request. Categories cannot be retroactively applied to a job. To create a new category, use the operation. To learn more about Call Analytics categories, see Creating categories. To make a StartCallAnalyticsJob request, you must first upload your media file into an Amazon S3 bucket; you can then specify the Amazon S3 location of the file using the Media parameter. You must include the following parameters in your StartCallAnalyticsJob request:    region: The Amazon Web Services Region where you are making your request. For a list of Amazon Web Services Regions supported with Amazon Transcribe, refer to Amazon Transcribe endpoints and quotas.    CallAnalyticsJobName: A custom name you create for your transcription job that is unique within your Amazon Web Services account.    DataAccessRoleArn: The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files.    Media (MediaFileUri or RedactedMediaFileUri): The Amazon S3 location of your media file.    With Call Analytics, you can redact the audio contained in your media file by including RedactedMediaFileUri, instead of MediaFileUri, to specify the location of your input audio. If you choose to redact your audio, you can find your redacted media at the location specified in the RedactedMediaFileUri field of your response.
     public func startCallAnalyticsJob(_ input: StartCallAnalyticsJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartCallAnalyticsJobResponse> {
         return self.client.execute(operation: "StartCallAnalyticsJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Starts a batch job to transcribe medical speech to text.
+    /// Transcribes the audio from a medical dictation or conversation and applies any additional Request Parameters you choose to include in your request. In addition to many of the standard transcription features, Amazon Transcribe Medical provides you with a robust medical vocabulary and, optionally, content identification, which adds flags to personal health information (PHI). To learn more about these features, refer to How Amazon Transcribe Medical works. To make a StartMedicalTranscriptionJob request, you must first upload your media file into an Amazon S3 bucket; you can then specify the S3 location of the file using the Media parameter. You must include the following parameters in your StartMedicalTranscriptionJob request:    region: The Amazon Web Services Region where you are making your request. For a list of Amazon Web Services Regions supported with Amazon Transcribe, refer to Amazon Transcribe endpoints and quotas.    MedicalTranscriptionJobName: A custom name you create for your transcription job that is unique within your Amazon Web Services account.    Media (MediaFileUri): The Amazon S3 location of your media file.    LanguageCode: This must be en-US.    OutputBucketName: The Amazon S3 bucket where you want your transcript stored. If you want your output stored in a sub-folder of this bucket, you must also include OutputKey.    Specialty: This must be PRIMARYCARE.    Type: Choose whether your audio is a conversation or a dictation.
     public func startMedicalTranscriptionJob(_ input: StartMedicalTranscriptionJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartMedicalTranscriptionJobResponse> {
         return self.client.execute(operation: "StartMedicalTranscriptionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Starts an asynchronous job to transcribe speech to text.
+    /// Transcribes the audio from a media file and applies any additional Request Parameters you choose to include in your request. To make a StartTranscriptionJob request, you must first upload your media file into an Amazon S3 bucket; you can then specify the Amazon S3 location of the file using the Media parameter. You must include the following parameters in your StartTranscriptionJob request:    region: The Amazon Web Services Region where you are making your request. For a list of Amazon Web Services Regions supported with Amazon Transcribe, refer to Amazon Transcribe endpoints and quotas.    TranscriptionJobName: A custom name you create for your transcription job that is unique within your Amazon Web Services account.    Media (MediaFileUri): The Amazon S3 location of your media file.   One of LanguageCode, IdentifyLanguage, or IdentifyMultipleLanguages: If you know the language of your media file, specify it using the LanguageCode parameter; you can find all valid language codes in the Supported languages table. If you don't know the languages spoken in your media, use either IdentifyLanguage or IdentifyMultipleLanguages and let Amazon Transcribe identify the languages for you.
     public func startTranscriptionJob(_ input: StartTranscriptionJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartTranscriptionJobResponse> {
         return self.client.execute(operation: "StartTranscriptionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Tags an Amazon Transcribe resource with the given list of tags.
+    /// Adds one or more custom tags, each in the form of a key:value pair, to the specified resource. To learn more about using tags with Amazon Transcribe, refer to Tagging resources.
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
         return self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Removes specified tags from a specified Amazon Transcribe resource.
+    /// Removes the specified tags from the specified Amazon Transcribe resource. If you include UntagResource in your request, you must also include ResourceArn and TagKeys.
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
         return self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates the call analytics category with new values. The UpdateCallAnalyticsCategory operation overwrites all of the existing information with the values that you provide in the request.
+    /// Updates the specified Call Analytics category with new rules. Note that the UpdateCallAnalyticsCategory operation overwrites all existing rules contained in the specified category. You cannot append additional rules onto an existing category. To create a new category, see .
     public func updateCallAnalyticsCategory(_ input: UpdateCallAnalyticsCategoryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateCallAnalyticsCategoryResponse> {
         return self.client.execute(operation: "UpdateCallAnalyticsCategory", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates a vocabulary with new values that you provide in a different text file from the one you used to create the vocabulary. The UpdateMedicalVocabulary operation overwrites all of the existing information with the values that you provide in the request.
+    /// Updates an existing custom medical vocabulary with new values. This operation overwrites all existing information with your new values; you cannot append new terms onto an existing vocabulary.
     public func updateMedicalVocabulary(_ input: UpdateMedicalVocabularyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateMedicalVocabularyResponse> {
         return self.client.execute(operation: "UpdateMedicalVocabulary", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates an existing vocabulary with new values. The UpdateVocabulary operation overwrites all of the existing information with the values that you provide in the request.
+    /// Updates an existing custom vocabulary with new values. This operation overwrites all existing information with your new values; you cannot append new terms onto an existing vocabulary.
     public func updateVocabulary(_ input: UpdateVocabularyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateVocabularyResponse> {
         return self.client.execute(operation: "UpdateVocabulary", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates a vocabulary filter with a new list of filtered words.
+    /// Updates an existing custom vocabulary filter with a new list of words. The new list you provide overwrites all previous entries; you cannot append new terms onto an existing vocabulary filter.
     public func updateVocabularyFilter(_ input: UpdateVocabularyFilterRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateVocabularyFilterResponse> {
         return self.client.execute(operation: "UpdateVocabularyFilter", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

@@ -169,13 +169,21 @@ extension Comprehend {
         case awsSecretKey = "AWS_SECRET_KEY"
         case bankAccountNumber = "BANK_ACCOUNT_NUMBER"
         case bankRouting = "BANK_ROUTING"
+        case caHealthNumber = "CA_HEALTH_NUMBER"
+        case caSocialInsuranceNumber = "CA_SOCIAL_INSURANCE_NUMBER"
         case creditDebitCvv = "CREDIT_DEBIT_CVV"
         case creditDebitExpiry = "CREDIT_DEBIT_EXPIRY"
         case creditDebitNumber = "CREDIT_DEBIT_NUMBER"
         case dateTime = "DATE_TIME"
         case driverId = "DRIVER_ID"
         case email = "EMAIL"
+        case inAadhaar = "IN_AADHAAR"
+        case inNrega = "IN_NREGA"
+        case inPermanentAccountNumber = "IN_PERMANENT_ACCOUNT_NUMBER"
+        case inVoterNumber = "IN_VOTER_NUMBER"
+        case internationalBankAccountNumber = "INTERNATIONAL_BANK_ACCOUNT_NUMBER"
         case ipAddress = "IP_ADDRESS"
+        case licensePlate = "LICENSE_PLATE"
         case macAddress = "MAC_ADDRESS"
         case name = "NAME"
         case passportNumber = "PASSPORT_NUMBER"
@@ -183,8 +191,14 @@ extension Comprehend {
         case phone = "PHONE"
         case pin = "PIN"
         case ssn = "SSN"
+        case swiftCode = "SWIFT_CODE"
+        case ukNationalHealthServiceNumber = "UK_NATIONAL_HEALTH_SERVICE_NUMBER"
+        case ukNationalInsuranceNumber = "UK_NATIONAL_INSURANCE_NUMBER"
+        case ukUniqueTaxpayerReferenceNumber = "UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER"
         case url = "URL"
+        case usIndividualTaxIdentificationNumber = "US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER"
         case username = "USERNAME"
+        case vehicleIdentificationNumber = "VEHICLE_IDENTIFICATION_NUMBER"
         public var description: String { return self.rawValue }
     }
 
@@ -290,6 +304,7 @@ extension Comprehend {
             try self.textList.forEach {
                 try validate($0, name: "textList[]", parent: name, min: 1)
             }
+            try self.validate(self.textList, name: "textList", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -346,6 +361,7 @@ extension Comprehend {
             try self.textList.forEach {
                 try validate($0, name: "textList[]", parent: name, min: 1)
             }
+            try self.validate(self.textList, name: "textList", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -391,7 +407,7 @@ extension Comprehend {
     public struct BatchDetectKeyPhrasesRequest: AWSEncodableShape {
         /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend. All documents must be in the same language.
         public let languageCode: LanguageCode
-        /// A list containing the text of the input documents. The list can contain a maximum of 25 documents. Each document must contain fewer that 5,000 bytes of UTF-8 encoded characters.
+        /// A list containing the text of the input documents. The list can contain a maximum of 25 documents. Each document must contain fewer than 5,000 bytes of UTF-8 encoded characters.
         public let textList: [String]
 
         public init(languageCode: LanguageCode, textList: [String]) {
@@ -403,6 +419,7 @@ extension Comprehend {
             try self.textList.forEach {
                 try validate($0, name: "textList[]", parent: name, min: 1)
             }
+            try self.validate(self.textList, name: "textList", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -464,6 +481,7 @@ extension Comprehend {
             try self.textList.forEach {
                 try validate($0, name: "textList[]", parent: name, min: 1)
             }
+            try self.validate(self.textList, name: "textList", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -521,6 +539,7 @@ extension Comprehend {
             try self.textList.forEach {
                 try validate($0, name: "textList[]", parent: name, min: 1)
             }
+            try self.validate(self.textList, name: "textList", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -634,7 +653,7 @@ extension Comprehend {
     }
 
     public struct ClassifyDocumentRequest: AWSEncodableShape {
-        /// The Amazon Resource Number (ARN) of the endpoint.
+        /// The Amazon Resource Number (ARN) of the endpoint. For information about endpoints, see Managing endpoints.
         public let endpointArn: String
         /// The document text to be analyzed.
         public let text: String
@@ -674,7 +693,7 @@ extension Comprehend {
     }
 
     public struct ContainsPiiEntitiesRequest: AWSEncodableShape {
-        /// The language of the input documents.
+        /// The language of the input documents. Currently, English is the only valid language.
         public let languageCode: LanguageCode
         /// Creates a new document classification request to analyze a single document in real-time, returning personally identifiable information (PII) entity labels.
         public let text: String
@@ -1509,7 +1528,7 @@ extension Comprehend {
     }
 
     public struct DetectEntitiesRequest: AWSEncodableShape {
-        /// The Amazon Resource Name of an endpoint that is associated with a custom entity recognition model. Provide an endpoint if you want to detect entities by using your own custom model instead of the default model that is used by Amazon Comprehend. If you specify an endpoint, Amazon Comprehend uses the language of your custom model, and it ignores any language code that you provide in your request.
+        /// The Amazon Resource Name of an endpoint that is associated with a custom entity recognition model. Provide an endpoint if you want to detect entities by using your own custom model instead of the default model that is used by Amazon Comprehend. If you specify an endpoint, Amazon Comprehend uses the language of your custom model, and it ignores any language code that you provide in your request. For information about endpoints, see Managing endpoints.
         public let endpointArn: String?
         /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend. All documents must be in the same language. If your request includes the endpoint for a custom entity recognition model, Amazon Comprehend uses the language of your custom model, and it ignores any language code that you specify here.
         public let languageCode: LanguageCode?
@@ -1583,7 +1602,7 @@ extension Comprehend {
     }
 
     public struct DetectPiiEntitiesRequest: AWSEncodableShape {
-        /// The language of the input documents.
+        /// The language of the input documents. Currently, English is the only valid language.
         public let languageCode: LanguageCode
         /// A UTF-8 text string. Each string must contain fewer that 5,000 bytes of UTF-8 encoded characters.
         public let text: String
@@ -4484,7 +4503,7 @@ extension Comprehend {
         public let inputDataConfig: InputDataConfig
         /// The identifier of the job.
         public let jobName: String?
-        /// The language of the input documents.
+        /// The language of the input documents. Currently, English is the only valid language.
         public let languageCode: LanguageCode
         /// Specifies whether the output provides the locations (offsets) of PII entities or a file in which PII entities are redacted.
         public let mode: PiiEntitiesDetectionMode
@@ -4653,7 +4672,7 @@ extension Comprehend {
         public let inputDataConfig: InputDataConfig
         /// The identifier of the job.
         public let jobName: String?
-        /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend. All documents must be in the same language.
+        /// The language of the input documents. Currently, English is the only valid language.
         public let languageCode: LanguageCode
         /// Specifies where to send the output files.
         public let outputDataConfig: OutputDataConfig

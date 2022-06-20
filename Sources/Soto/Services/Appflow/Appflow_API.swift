@@ -62,7 +62,7 @@ public struct Appflow: AWSService {
 
     // MARK: API Calls
 
-    ///  Creates a new connector profile associated with your Amazon Web Services account. There is a soft quota of 100 connector profiles per Amazon Web Services account. If you need more connector profiles than this quota allows, you can submit a request to the Amazon AppFlow team through the Amazon AppFlow support channel.
+    ///  Creates a new connector profile associated with your Amazon Web Services account. There is a soft quota of 100 connector profiles per Amazon Web Services account. If you need more connector profiles than this quota allows, you can submit a request to the Amazon AppFlow team through the Amazon AppFlow support channel. In each connector profile that you create, you can provide the credentials and properties for only one connector.
     public func createConnectorProfile(_ input: CreateConnectorProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateConnectorProfileResponse> {
         return self.client.execute(operation: "CreateConnectorProfile", path: "/create-connector-profile", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -87,7 +87,7 @@ public struct Appflow: AWSService {
         return self.client.execute(operation: "DescribeConnector", path: "/describe-connector", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Provides details regarding the entity used with the connector, with a description of the data model for each entity.
+    ///  Provides details regarding the entity used with the connector, with a description of the data model for each field in that entity.
     public func describeConnectorEntity(_ input: DescribeConnectorEntityRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeConnectorEntityResponse> {
         return self.client.execute(operation: "DescribeConnectorEntity", path: "/describe-connector-entity", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

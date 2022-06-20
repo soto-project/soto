@@ -88,6 +88,50 @@ extension ForecastService {
         )
     }
 
+    ///  Returns a list of Explainability resources created using the CreateExplainability operation. This operation returns a summary for each Explainability. You can filter the list using an array of Filter objects. To retrieve the complete set of properties for a particular Explainability resource, use the ARN with the DescribeExplainability operation.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listExplainabilitiesPaginator(
+        _ input: ListExplainabilitiesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListExplainabilitiesRequest, ListExplainabilitiesResponse> {
+        return .init(
+            input: input,
+            command: listExplainabilities,
+            inputKey: \ListExplainabilitiesRequest.nextToken,
+            outputKey: \ListExplainabilitiesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Returns a list of Explainability exports created using the CreateExplainabilityExport operation. This operation returns a summary for each Explainability export. You can filter the list using an array of Filter objects. To retrieve the complete set of properties for a particular Explainability export, use the ARN with the DescribeExplainability operation.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listExplainabilityExportsPaginator(
+        _ input: ListExplainabilityExportsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListExplainabilityExportsRequest, ListExplainabilityExportsResponse> {
+        return .init(
+            input: input,
+            command: listExplainabilityExports,
+            inputKey: \ListExplainabilityExportsRequest.nextToken,
+            outputKey: \ListExplainabilityExportsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Returns a list of forecast export jobs created using the CreateForecastExportJob operation. For each forecast export job, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). To retrieve the complete set of properties, use the ARN with the DescribeForecastExportJob operation. You can filter the list using an array of Filter objects.
     /// Return PaginatorSequence for operation.
     ///
@@ -127,6 +171,50 @@ extension ForecastService {
             command: listForecasts,
             inputKey: \ListForecastsRequest.nextToken,
             outputKey: \ListForecastsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Returns a list of the monitoring evaluation results and predictor events collected by the monitor resource during different windows of time. For information about monitoring see predictor-monitoring. For more information about retrieving monitoring results see Viewing Monitoring Results.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listMonitorEvaluationsPaginator(
+        _ input: ListMonitorEvaluationsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListMonitorEvaluationsRequest, ListMonitorEvaluationsResponse> {
+        return .init(
+            input: input,
+            command: listMonitorEvaluations,
+            inputKey: \ListMonitorEvaluationsRequest.nextToken,
+            outputKey: \ListMonitorEvaluationsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Returns a list of monitors created with the CreateMonitor operation and CreateAutoPredictor operation. For each monitor resource, this operation returns of a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve a complete set of properties of a monitor resource by specify the monitor's ARN in the DescribeMonitor operation.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listMonitorsPaginator(
+        _ input: ListMonitorsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListMonitorsRequest, ListMonitorsResponse> {
+        return .init(
+            input: input,
+            command: listMonitors,
+            inputKey: \ListMonitorsRequest.nextToken,
+            outputKey: \ListMonitorsResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

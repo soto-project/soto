@@ -2193,7 +2193,7 @@ extension FraudDetector {
         public let eventId: String
         ///  The event type associated with the detector specified for the prediction.
         public let eventTypeName: String
-        ///  The timestamp that defines when the prediction was generated.
+        ///  The timestamp that defines when the prediction was generated. The timestamp must be specified using ISO 8601 standard in UTC. We recommend calling ListEventPredictions first, and using the predictionTimestamp value in the response to provide an accurate prediction timestamp value.
         public let predictionTimestamp: String
 
         public init(detectorId: String, detectorVersionId: String, eventId: String, eventTypeName: String, predictionTimestamp: String) {

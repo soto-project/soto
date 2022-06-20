@@ -68,6 +68,11 @@ public struct ChimeSDKMeetings: AWSService {
         return self.client.execute(operation: "BatchCreateAttendee", path: "/meetings/{MeetingId}/attendees?operation=batch-create", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Updates AttendeeCapabilities except the capabilities listed in an ExcludedAttendeeIds table.
+    @discardableResult public func batchUpdateAttendeeCapabilitiesExcept(_ input: BatchUpdateAttendeeCapabilitiesExceptRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "BatchUpdateAttendeeCapabilitiesExcept", path: "/meetings/{MeetingId}/attendees/capabilities?operation=batch-update-except", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     ///  Creates a new attendee for an active Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
     public func createAttendee(_ input: CreateAttendeeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAttendeeResponse> {
         return self.client.execute(operation: "CreateAttendee", path: "/meetings/{MeetingId}/attendees", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -116,6 +121,11 @@ public struct ChimeSDKMeetings: AWSService {
     /// Stops transcription for the specified meetingId.
     @discardableResult public func stopMeetingTranscription(_ input: StopMeetingTranscriptionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "StopMeetingTranscription", path: "/meetings/{MeetingId}/transcription?operation=stop", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// The capabilties that you want to update.
+    public func updateAttendeeCapabilities(_ input: UpdateAttendeeCapabilitiesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateAttendeeCapabilitiesResponse> {
+        return self.client.execute(operation: "UpdateAttendeeCapabilities", path: "/meetings/{MeetingId}/attendees/{AttendeeId}/capabilities", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 }
 

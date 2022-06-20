@@ -32,6 +32,7 @@ public struct ConnectErrorType: AWSErrorType {
         case invalidRequestException = "InvalidRequestException"
         case limitExceededException = "LimitExceededException"
         case outboundContactNotPermittedException = "OutboundContactNotPermittedException"
+        case propertyValidationException = "PropertyValidationException"
         case resourceConflictException = "ResourceConflictException"
         case resourceInUseException = "ResourceInUseException"
         case resourceNotFoundException = "ResourceNotFoundException"
@@ -84,6 +85,7 @@ public struct ConnectErrorType: AWSErrorType {
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// The contact is not permitted.
     public static var outboundContactNotPermittedException: Self { .init(.outboundContactNotPermittedException) }
+    public static var propertyValidationException: Self { .init(.propertyValidationException) }
     /// A resource already has that name.
     public static var resourceConflictException: Self { .init(.resourceConflictException) }
     /// That resource is already in use. Please try another.
