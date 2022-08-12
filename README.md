@@ -54,6 +54,7 @@ Soto works on Linux, macOS and iOS. It requires v2.0 of [Swift NIO](https://gith
 
 | Version | Swift | MacOS | iOS    | Linux              | Vapor  |
 |---------|-------|-------|--------|--------------------|--------|
+| 6.x     | 5.4 - | ✓     | 12.0 - | Ubuntu 18.04-22.04 | 4.0    |
 | 5.x     | 5.2 - | ✓     | 12.0 - | Ubuntu 18.04-20.04 | 4.0    |
 | 4.x     | 5.0 - | ✓     | 12.0 - | Ubuntu 18.04-20.04 | 4.0    |
 
