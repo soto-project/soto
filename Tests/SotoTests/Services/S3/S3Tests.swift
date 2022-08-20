@@ -140,7 +140,9 @@ class S3Tests: XCTestCase {
         XCTAssertNoThrow(try response.wait())
     }
 
-    func testPutGetObjectWithSpecialName() {
+    func testPutGetObjectWithSpecialName() throws {
+        // local stack gets this wrong
+        try XCTSkipIf(TestEnvironment.isUsingLocalstack)
         let name = TestEnvironment.generateResourceName()
         let filename = "test $filé+!@£$%2F%^&*()_=-[]{}\\|';:\",./?><~`.txt"
         let contents = "testing S3.PutObject and S3.GetObject"
