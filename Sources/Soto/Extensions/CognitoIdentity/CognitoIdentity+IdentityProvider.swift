@@ -12,13 +12,8 @@
 //
 //===----------------------------------------------------------------------===//
 
-#if compiler(>=5.6)
-@preconcurrency import Logging
-@preconcurrency import NIOCore
-#else
 import Logging
 import NIOCore
-#endif
 import SotoCore
 
 /// Protocol providing a Cognito Identity id and tokens
