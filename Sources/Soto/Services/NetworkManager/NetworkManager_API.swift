@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -133,6 +133,16 @@ public struct NetworkManager: AWSService {
         return self.client.execute(operation: "CreateSiteToSiteVpnAttachment", path: "/site-to-site-vpn-attachments", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates a transit gateway peering connection.
+    public func createTransitGatewayPeering(_ input: CreateTransitGatewayPeeringRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateTransitGatewayPeeringResponse> {
+        return self.client.execute(operation: "CreateTransitGatewayPeering", path: "/transit-gateway-peerings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a transit gateway route table attachment.
+    public func createTransitGatewayRouteTableAttachment(_ input: CreateTransitGatewayRouteTableAttachmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateTransitGatewayRouteTableAttachmentResponse> {
+        return self.client.execute(operation: "CreateTransitGatewayRouteTableAttachment", path: "/transit-gateway-route-table-attachments", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates a VPC attachment on an edge location of a core network.
     public func createVpcAttachment(_ input: CreateVpcAttachmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateVpcAttachmentResponse> {
         return self.client.execute(operation: "CreateVpcAttachment", path: "/vpc-attachments", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -176,6 +186,11 @@ public struct NetworkManager: AWSService {
     /// Deletes an existing link. You must first disassociate the link from any devices and customer gateways.
     public func deleteLink(_ input: DeleteLinkRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteLinkResponse> {
         return self.client.execute(operation: "DeleteLink", path: "/global-networks/{GlobalNetworkId}/links/{LinkId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes an existing peering connection.
+    public func deletePeering(_ input: DeletePeeringRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeletePeeringResponse> {
+        return self.client.execute(operation: "DeletePeering", path: "/peerings/{PeeringId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes a resource policy for the specified resource. This revokes the access of the principals specified in the resource policy.
@@ -248,12 +263,17 @@ public struct NetworkManager: AWSService {
         return self.client.execute(operation: "GetCoreNetwork", path: "/core-networks/{CoreNetworkId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Returns information about a core network change event.
+    public func getCoreNetworkChangeEvents(_ input: GetCoreNetworkChangeEventsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCoreNetworkChangeEventsResponse> {
+        return self.client.execute(operation: "GetCoreNetworkChangeEvents", path: "/core-networks/{CoreNetworkId}/core-network-change-events/{PolicyVersionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns a change set between the LIVE core network policy and a submitted policy.
     public func getCoreNetworkChangeSet(_ input: GetCoreNetworkChangeSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCoreNetworkChangeSetResponse> {
         return self.client.execute(operation: "GetCoreNetworkChangeSet", path: "/core-networks/{CoreNetworkId}/core-network-change-sets/{PolicyVersionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets details about a core network policy. You can get details about your current live policy or any previous policy version.
+    /// Returns details about a core network policy. You can get details about your current live policy or any previous policy version.
     public func getCoreNetworkPolicy(_ input: GetCoreNetworkPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCoreNetworkPolicyResponse> {
         return self.client.execute(operation: "GetCoreNetworkPolicy", path: "/core-networks/{CoreNetworkId}/core-network-policy", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -328,9 +348,19 @@ public struct NetworkManager: AWSService {
         return self.client.execute(operation: "GetTransitGatewayConnectPeerAssociations", path: "/global-networks/{GlobalNetworkId}/transit-gateway-connect-peer-associations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Returns information about a transit gateway peer.
+    public func getTransitGatewayPeering(_ input: GetTransitGatewayPeeringRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetTransitGatewayPeeringResponse> {
+        return self.client.execute(operation: "GetTransitGatewayPeering", path: "/transit-gateway-peerings/{PeeringId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Gets information about the transit gateway registrations in a specified global network.
     public func getTransitGatewayRegistrations(_ input: GetTransitGatewayRegistrationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetTransitGatewayRegistrationsResponse> {
         return self.client.execute(operation: "GetTransitGatewayRegistrations", path: "/global-networks/{GlobalNetworkId}/transit-gateway-registrations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns information about a transit gateway route table attachment.
+    public func getTransitGatewayRouteTableAttachment(_ input: GetTransitGatewayRouteTableAttachmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetTransitGatewayRouteTableAttachmentResponse> {
+        return self.client.execute(operation: "GetTransitGatewayRouteTableAttachment", path: "/transit-gateway-route-table-attachments/{AttachmentId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns information about a VPC attachment.
@@ -358,8 +388,14 @@ public struct NetworkManager: AWSService {
         return self.client.execute(operation: "ListCoreNetworks", path: "/core-networks", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Gets the status of the Service Linked Role (SLR) deployment for the accounts in a given Amazon Web Services Organization.
     public func listOrganizationServiceAccessStatus(_ input: ListOrganizationServiceAccessStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListOrganizationServiceAccessStatusResponse> {
         return self.client.execute(operation: "ListOrganizationServiceAccessStatus", path: "/organizations/service-access", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists the peerings for a core network.
+    public func listPeerings(_ input: ListPeeringsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPeeringsResponse> {
+        return self.client.execute(operation: "ListPeerings", path: "/peerings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists the tags for a specified resource.
@@ -392,6 +428,7 @@ public struct NetworkManager: AWSService {
         return self.client.execute(operation: "RestoreCoreNetworkPolicyVersion", path: "/core-networks/{CoreNetworkId}/core-network-policy-versions/{PolicyVersionId}/restore", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Enables for the Network Manager service for an Amazon Web Services Organization. This can only be called by a management account within the organization.
     public func startOrganizationServiceAccessUpdate(_ input: StartOrganizationServiceAccessUpdateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartOrganizationServiceAccessUpdateResponse> {
         return self.client.execute(operation: "StartOrganizationServiceAccessUpdate", path: "/organizations/service-access", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

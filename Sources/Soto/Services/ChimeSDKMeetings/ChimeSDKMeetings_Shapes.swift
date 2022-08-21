@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -134,7 +134,7 @@ extension ChimeSDKMeetings {
     public struct Attendee: AWSDecodableShape {
         /// The Amazon Chime SDK attendee ID.
         public let attendeeId: String?
-        /// The capabilities (audio, video, or content) assigned to an attendee.
+        /// The capabilities assigned to an attendee: audio, video, or content.  You use the capabilities with a set of values that control what the capabilities can do, such as SendReceive data. For more information about those values, see  .   When using capabilities, be aware of these corner cases:   You can't set content capabilities to SendReceive or Receive unless you also set video capabilities to SendReceive  or Receive. If you don't set the video capability to receive, the response will contain an HTTP 400 Bad Request status code. However, you can set your video capability  to receive and you set your content capability to not receive.                       When you change an audio capability from None or Receive to Send or SendReceive ,  and if the attendee left their microphone unmuted, audio will flow from the attendee to the other meeting participants.   When you change a video or content capability from None or Receive to Send or SendReceive ,  and if the attendee turned on their video or content streams, remote attendess can receive those streams, but only after media renegotiation between the client and the Amazon Chime back-end server.
         public let capabilities: AttendeeCapabilities?
         /// The Amazon Chime SDK external user ID. An idempotency token. Links the attendee to an identity managed by a builder application.
         public let externalUserId: String?
@@ -312,7 +312,7 @@ extension ChimeSDKMeetings {
             AWSMemberEncoding(label: "meetingId", location: .uri("MeetingId"))
         ]
 
-        /// The capabilities (audio, video, or content) that you want to grant an attendee. If you don't specify capabilities, all users have send and receive capabilities on  all media channels by default.
+        /// The capabilities (audio, video, or content) that you want to grant an attendee. If you don't specify capabilities, all users have send and receive capabilities on  all media channels by default.   You use the capabilities with a set of values that control what the capabilities can do, such as SendReceive data. For more information about those values, see  .   When using capabilities, be aware of these corner cases:   You can't set content capabilities to SendReceive or Receive unless you also set video capabilities to SendReceive  or Receive. If you don't set the video capability to receive, the response will contain an HTTP 400 Bad Request status code. However, you can set your video capability  to receive and you set your content capability to not receive.                       When you change an audio capability from None or Receive to Send or SendReceive ,  and if the attendee left their microphone unmuted, audio will flow from the attendee to the other meeting participants.   When you change a video or content capability from None or Receive to Send or SendReceive ,  and if the attendee turned on their video or content streams, remote attendess can receive those streams, but only after media renegotiation between the client and the Amazon Chime back-end server.
         public let capabilities: AttendeeCapabilities?
         /// The Amazon Chime SDK external user ID. An idempotency token. Links the attendee to an identity managed by a builder application.
         public let externalUserId: String
@@ -387,8 +387,12 @@ extension ChimeSDKMeetings {
         public let notificationsConfiguration: NotificationsConfiguration?
         /// When specified, replicates the media from the primary meeting to the new meeting.
         public let primaryMeetingId: String?
+        /// Applies one or more tags to an Amazon Chime SDK meeting. Note the following:               Not all resources have tags. For a list of services with resources that support tagging using this operation, see  Services that support the Resource Groups Tagging API. If the resource  doesn't yet support this operation, the resource's service might support tagging using its own API operations. For more information, refer to the documentation for that service.   Each resource can have up to 50 tags. For other limits, see Tag Naming and Usage Conventions in the  AWS General Reference.   You can only tag resources that are located in the specified AWS Region for the AWS account.   To add tags to a resource, you need the necessary permissions for the service that the resource belongs to as well as permissions for adding tags. For more information, see the  documentation for each service.    Do not store personally identifiable information (PII) or other confidential or sensitive information in tags. We use tags to provide you with billing and administration services. Tags are not intended to be  used for private or sensitive data.   Minimum permissions   In addition to the tag:TagResources permission required by this operation, you must also have the tagging permission defined by the service that created the resource. For example,  to tag a ChimeSDKMeetings instance  using the TagResources operation, you must have both of the following permissions:   tag:TagResources    ChimeSDKMeetings:CreateTags    Some services might have specific requirements for tagging some resources. For example, to tag an Amazon S3 bucket, you must also have the s3:GetBucketTagging permission.  If the expected minimum permissions don't work, check the documentation for that service's tagging APIs for more information.
+        public let tags: [Tag]?
+        /// A consistent and opaque identifier, created and maintained by the builder to represent a segment of their users.
+        public let tenantIds: [String]?
 
-        public init(clientRequestToken: String = CreateMeetingRequest.idempotencyToken(), externalMeetingId: String, mediaRegion: String, meetingFeatures: MeetingFeaturesConfiguration? = nil, meetingHostId: String? = nil, notificationsConfiguration: NotificationsConfiguration? = nil, primaryMeetingId: String? = nil) {
+        public init(clientRequestToken: String = CreateMeetingRequest.idempotencyToken(), externalMeetingId: String, mediaRegion: String, meetingFeatures: MeetingFeaturesConfiguration? = nil, meetingHostId: String? = nil, notificationsConfiguration: NotificationsConfiguration? = nil, primaryMeetingId: String? = nil, tags: [Tag]? = nil, tenantIds: [String]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.externalMeetingId = externalMeetingId
             self.mediaRegion = mediaRegion
@@ -396,6 +400,8 @@ extension ChimeSDKMeetings {
             self.meetingHostId = meetingHostId
             self.notificationsConfiguration = notificationsConfiguration
             self.primaryMeetingId = primaryMeetingId
+            self.tags = tags
+            self.tenantIds = tenantIds
         }
 
         public func validate(name: String) throws {
@@ -411,6 +417,17 @@ extension ChimeSDKMeetings {
             try self.notificationsConfiguration?.validate(name: "\(name).notificationsConfiguration")
             try self.validate(self.primaryMeetingId, name: "primaryMeetingId", parent: name, max: 64)
             try self.validate(self.primaryMeetingId, name: "primaryMeetingId", parent: name, min: 2)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.tenantIds?.forEach {
+                try validate($0, name: "tenantIds[]", parent: name, max: 256)
+                try validate($0, name: "tenantIds[]", parent: name, min: 2)
+                try validate($0, name: "tenantIds[]", parent: name, pattern: "^(?!.*?(.)\\1{3})[-_!@#$a-zA-Z0-9]*$")
+            }
+            try self.validate(self.tenantIds, name: "tenantIds", parent: name, max: 5)
+            try self.validate(self.tenantIds, name: "tenantIds", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -421,6 +438,8 @@ extension ChimeSDKMeetings {
             case meetingHostId = "MeetingHostId"
             case notificationsConfiguration = "NotificationsConfiguration"
             case primaryMeetingId = "PrimaryMeetingId"
+            case tags = "Tags"
+            case tenantIds = "TenantIds"
         }
     }
 
@@ -454,8 +473,12 @@ extension ChimeSDKMeetings {
         public let notificationsConfiguration: NotificationsConfiguration?
         /// When specified, replicates the media from the primary meeting to the new meeting.
         public let primaryMeetingId: String?
+        /// The tags in the request.
+        public let tags: [Tag]?
+        /// A consistent and opaque identifier, created and maintained by the builder to represent a segment of their users.
+        public let tenantIds: [String]?
 
-        public init(attendees: [CreateAttendeeRequestItem], clientRequestToken: String = CreateMeetingWithAttendeesRequest.idempotencyToken(), externalMeetingId: String, mediaRegion: String, meetingFeatures: MeetingFeaturesConfiguration? = nil, meetingHostId: String? = nil, notificationsConfiguration: NotificationsConfiguration? = nil, primaryMeetingId: String? = nil) {
+        public init(attendees: [CreateAttendeeRequestItem], clientRequestToken: String = CreateMeetingWithAttendeesRequest.idempotencyToken(), externalMeetingId: String, mediaRegion: String, meetingFeatures: MeetingFeaturesConfiguration? = nil, meetingHostId: String? = nil, notificationsConfiguration: NotificationsConfiguration? = nil, primaryMeetingId: String? = nil, tags: [Tag]? = nil, tenantIds: [String]? = nil) {
             self.attendees = attendees
             self.clientRequestToken = clientRequestToken
             self.externalMeetingId = externalMeetingId
@@ -464,6 +487,8 @@ extension ChimeSDKMeetings {
             self.meetingHostId = meetingHostId
             self.notificationsConfiguration = notificationsConfiguration
             self.primaryMeetingId = primaryMeetingId
+            self.tags = tags
+            self.tenantIds = tenantIds
         }
 
         public func validate(name: String) throws {
@@ -484,6 +509,17 @@ extension ChimeSDKMeetings {
             try self.notificationsConfiguration?.validate(name: "\(name).notificationsConfiguration")
             try self.validate(self.primaryMeetingId, name: "primaryMeetingId", parent: name, max: 64)
             try self.validate(self.primaryMeetingId, name: "primaryMeetingId", parent: name, min: 2)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.tenantIds?.forEach {
+                try validate($0, name: "tenantIds[]", parent: name, max: 256)
+                try validate($0, name: "tenantIds[]", parent: name, min: 2)
+                try validate($0, name: "tenantIds[]", parent: name, pattern: "^(?!.*?(.)\\1{3})[-_!@#$a-zA-Z0-9]*$")
+            }
+            try self.validate(self.tenantIds, name: "tenantIds", parent: name, max: 5)
+            try self.validate(self.tenantIds, name: "tenantIds", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -495,6 +531,8 @@ extension ChimeSDKMeetings {
             case meetingHostId = "MeetingHostId"
             case notificationsConfiguration = "NotificationsConfiguration"
             case primaryMeetingId = "PrimaryMeetingId"
+            case tags = "Tags"
+            case tenantIds = "TenantIds"
         }
     }
 
@@ -794,6 +832,40 @@ extension ChimeSDKMeetings {
         }
     }
 
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceARN", location: .querystring("arn"))
+        ]
+
+        /// The ARN of the resource.
+        public let resourceARN: String
+
+        public init(resourceARN: String) {
+            self.resourceARN = resourceARN
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
+        /// The tags requested for the specified resource.
+        public let tags: [Tag]?
+
+        public init(tags: [Tag]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+        }
+    }
+
     public struct MediaPlacement: AWSDecodableShape {
         /// The audio fallback URL.
         public let audioFallbackUrl: String?
@@ -842,6 +914,8 @@ extension ChimeSDKMeetings {
         public let mediaPlacement: MediaPlacement?
         /// The Region in which you create the meeting. Available values: af-south-1, ap-northeast-1,  ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2, ca-central-1,  eu-central-1, eu-north-1, eu-south-1, eu-west-1, eu-west-2, eu-west-3, sa-east-1, us-east-1, us-east-2, us-west-1, us-west-2. Available values in AWS GovCloud (US) Regions: us-gov-east-1, us-gov-west-1.
         public let mediaRegion: String?
+        /// The ARN of the meeting.
+        public let meetingArn: String?
         /// The features available to a meeting, such as Amazon Voice Focus.
         public let meetingFeatures: MeetingFeaturesConfiguration?
         /// Reserved.
@@ -850,25 +924,31 @@ extension ChimeSDKMeetings {
         public let meetingId: String?
         /// When specified, replicates the media from the primary meeting to this meeting.
         public let primaryMeetingId: String?
+        /// Array of strings.
+        public let tenantIds: [String]?
 
-        public init(externalMeetingId: String? = nil, mediaPlacement: MediaPlacement? = nil, mediaRegion: String? = nil, meetingFeatures: MeetingFeaturesConfiguration? = nil, meetingHostId: String? = nil, meetingId: String? = nil, primaryMeetingId: String? = nil) {
+        public init(externalMeetingId: String? = nil, mediaPlacement: MediaPlacement? = nil, mediaRegion: String? = nil, meetingArn: String? = nil, meetingFeatures: MeetingFeaturesConfiguration? = nil, meetingHostId: String? = nil, meetingId: String? = nil, primaryMeetingId: String? = nil, tenantIds: [String]? = nil) {
             self.externalMeetingId = externalMeetingId
             self.mediaPlacement = mediaPlacement
             self.mediaRegion = mediaRegion
+            self.meetingArn = meetingArn
             self.meetingFeatures = meetingFeatures
             self.meetingHostId = meetingHostId
             self.meetingId = meetingId
             self.primaryMeetingId = primaryMeetingId
+            self.tenantIds = tenantIds
         }
 
         private enum CodingKeys: String, CodingKey {
             case externalMeetingId = "ExternalMeetingId"
             case mediaPlacement = "MediaPlacement"
             case mediaRegion = "MediaRegion"
+            case meetingArn = "MeetingArn"
             case meetingFeatures = "MeetingFeatures"
             case meetingHostId = "MeetingHostId"
             case meetingId = "MeetingId"
             case primaryMeetingId = "PrimaryMeetingId"
+            case tenantIds = "TenantIds"
         }
     }
 
@@ -962,6 +1042,62 @@ extension ChimeSDKMeetings {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
+        /// The tag's key.
+        public let key: String
+        /// The tag's value.
+        public let value: String
+
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 128)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.key, name: "key", parent: name, pattern: "^[a-zA-Z+-=._:/]+$")
+            try self.validate(self.value, name: "value", parent: name, max: 256)
+            try self.validate(self.value, name: "value", parent: name, pattern: "^[\\s\\w+-=\\.:/@]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct TagResourceRequest: AWSEncodableShape {
+        /// The ARN of the resource.
+        public let resourceARN: String
+        /// Lists the requested tags.
+        public let tags: [Tag]
+
+        public init(resourceARN: String, tags: [Tag]) {
+            self.resourceARN = resourceARN
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:")
+            try self.tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tags = "Tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct TranscriptionConfiguration: AWSEncodableShape {
         /// The transcription configuration settings passed to Amazon Transcribe Medical.
         public let engineTranscribeMedicalSettings: EngineTranscribeMedicalSettings?
@@ -982,6 +1118,39 @@ extension ChimeSDKMeetings {
             case engineTranscribeMedicalSettings = "EngineTranscribeMedicalSettings"
             case engineTranscribeSettings = "EngineTranscribeSettings"
         }
+    }
+
+    public struct UntagResourceRequest: AWSEncodableShape {
+        /// The ARN of the resource that you're removing tags from.
+        public let resourceARN: String
+        /// The tag keys being removed from the resources.
+        public let tagKeys: [String]
+
+        public init(resourceARN: String, tagKeys: [String]) {
+            self.resourceARN = resourceARN
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:")
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^[a-zA-Z+-=._:/]+$")
+            }
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct UpdateAttendeeCapabilitiesRequest: AWSEncodableShape {
@@ -1014,6 +1183,7 @@ extension ChimeSDKMeetings {
     }
 
     public struct UpdateAttendeeCapabilitiesResponse: AWSDecodableShape {
+        /// The updated attendee data.
         public let attendee: Attendee?
 
         public init(attendee: Attendee? = nil) {

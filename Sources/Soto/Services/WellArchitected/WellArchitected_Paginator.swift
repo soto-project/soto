@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -594,7 +594,8 @@ extension WellArchitected.ListLensSharesInput: AWSPaginateToken {
             lensAlias: self.lensAlias,
             maxResults: self.maxResults,
             nextToken: token,
-            sharedWithPrefix: self.sharedWithPrefix
+            sharedWithPrefix: self.sharedWithPrefix,
+            status: self.status
         )
     }
 }
@@ -649,6 +650,7 @@ extension WellArchitected.ListWorkloadSharesInput: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             sharedWithPrefix: self.sharedWithPrefix,
+            status: self.status,
             workloadId: self.workloadId
         )
     }

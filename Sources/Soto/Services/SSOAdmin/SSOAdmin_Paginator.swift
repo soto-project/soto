@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -20,7 +20,7 @@ import SotoCore
 // MARK: Paginators
 
 extension SSOAdmin {
-    ///  Lists the status of the Amazon Web Services account assignment creation requests for a specified SSO instance.
+    ///  Lists the status of the Amazon Web Services account assignment creation requests for a specified Amazon Web Services SSO instance.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -73,7 +73,7 @@ extension SSOAdmin {
         )
     }
 
-    ///  Lists the status of the Amazon Web Services account assignment deletion requests for a specified SSO instance.
+    ///  Lists the status of the Amazon Web Services account assignment deletion requests for a specified Amazon Web Services SSO instance.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -232,7 +232,60 @@ extension SSOAdmin {
         )
     }
 
-    ///  Lists the SSO instances that the caller has access to.
+    ///  Lists all customer managed policies attached to a specified PermissionSet.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listCustomerManagedPolicyReferencesInPermissionSetPaginator<Result>(
+        _ input: ListCustomerManagedPolicyReferencesInPermissionSetRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListCustomerManagedPolicyReferencesInPermissionSetResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listCustomerManagedPolicyReferencesInPermissionSet,
+            inputKey: \ListCustomerManagedPolicyReferencesInPermissionSetRequest.nextToken,
+            outputKey: \ListCustomerManagedPolicyReferencesInPermissionSetResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listCustomerManagedPolicyReferencesInPermissionSetPaginator(
+        _ input: ListCustomerManagedPolicyReferencesInPermissionSetRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListCustomerManagedPolicyReferencesInPermissionSetResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listCustomerManagedPolicyReferencesInPermissionSet,
+            inputKey: \ListCustomerManagedPolicyReferencesInPermissionSetRequest.nextToken,
+            outputKey: \ListCustomerManagedPolicyReferencesInPermissionSetResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Lists the Amazon Web Services SSO instances that the caller has access to.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -285,7 +338,7 @@ extension SSOAdmin {
         )
     }
 
-    ///  Lists the IAM managed policy that is attached to a specified permission set.
+    ///  Lists the Amazon Web Services managed policy that is attached to a specified permission set.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -338,7 +391,7 @@ extension SSOAdmin {
         )
     }
 
-    ///  Lists the status of the permission set provisioning requests for a specified SSO instance.
+    ///  Lists the status of the permission set provisioning requests for a specified Amazon Web Services SSO instance.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -391,7 +444,7 @@ extension SSOAdmin {
         )
     }
 
-    ///  Lists the PermissionSets in an SSO instance.
+    ///  Lists the PermissionSets in an Amazon Web Services SSO instance.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -597,6 +650,17 @@ extension SSOAdmin.ListAccountsForProvisionedPermissionSetRequest: AWSPaginateTo
     }
 }
 
+extension SSOAdmin.ListCustomerManagedPolicyReferencesInPermissionSetRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SSOAdmin.ListCustomerManagedPolicyReferencesInPermissionSetRequest {
+        return .init(
+            instanceArn: self.instanceArn,
+            maxResults: self.maxResults,
+            nextToken: token,
+            permissionSetArn: self.permissionSetArn
+        )
+    }
+}
+
 extension SSOAdmin.ListInstancesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SSOAdmin.ListInstancesRequest {
         return .init(
@@ -628,16 +692,6 @@ extension SSOAdmin.ListPermissionSetProvisioningStatusRequest: AWSPaginateToken 
     }
 }
 
-extension SSOAdmin.ListPermissionSetsRequest: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> SSOAdmin.ListPermissionSetsRequest {
-        return .init(
-            instanceArn: self.instanceArn,
-            maxResults: self.maxResults,
-            nextToken: token
-        )
-    }
-}
-
 extension SSOAdmin.ListPermissionSetsProvisionedToAccountRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SSOAdmin.ListPermissionSetsProvisionedToAccountRequest {
         return .init(
@@ -646,6 +700,16 @@ extension SSOAdmin.ListPermissionSetsProvisionedToAccountRequest: AWSPaginateTok
             maxResults: self.maxResults,
             nextToken: token,
             provisioningStatus: self.provisioningStatus
+        )
+    }
+}
+
+extension SSOAdmin.ListPermissionSetsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SSOAdmin.ListPermissionSetsRequest {
+        return .init(
+            instanceArn: self.instanceArn,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

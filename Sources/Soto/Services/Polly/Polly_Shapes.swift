@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -105,6 +105,7 @@ extension Polly {
         case amy = "Amy"
         case aria = "Aria"
         case arlet = "Arlet"
+        case arthur = "Arthur"
         case astrid = "Astrid"
         case ayanda = "Ayanda"
         case bianca = "Bianca"
@@ -116,6 +117,7 @@ extension Polly {
         case chantal = "Chantal"
         case conchita = "Conchita"
         case cristiano = "Cristiano"
+        case daniel = "Daniel"
         case dora = "Dora"
         case emma = "Emma"
         case enrique = "Enrique"
@@ -134,11 +136,13 @@ extension Polly {
         case joanna = "Joanna"
         case joey = "Joey"
         case justin = "Justin"
+        case kajal = "Kajal"
         case karl = "Karl"
         case kendra = "Kendra"
         case kevin = "Kevin"
         case kimberly = "Kimberly"
         case lea = "Lea"
+        case liam = "Liam"
         case liv = "Liv"
         case lotte = "Lotte"
         case lucia = "Lucia"
@@ -155,6 +159,7 @@ extension Polly {
         case naja = "Naja"
         case nicole = "Nicole"
         case olivia = "Olivia"
+        case pedro = "Pedro"
         case penelope = "Penelope"
         case raveena = "Raveena"
         case ricardo = "Ricardo"

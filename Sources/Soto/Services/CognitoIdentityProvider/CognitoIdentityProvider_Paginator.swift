@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -569,6 +569,17 @@ extension CognitoIdentityProvider.ListUserPoolsRequest: AWSPaginateToken {
     }
 }
 
+extension CognitoIdentityProvider.ListUsersInGroupRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> CognitoIdentityProvider.ListUsersInGroupRequest {
+        return .init(
+            groupName: self.groupName,
+            limit: self.limit,
+            nextToken: token,
+            userPoolId: self.userPoolId
+        )
+    }
+}
+
 extension CognitoIdentityProvider.ListUsersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CognitoIdentityProvider.ListUsersRequest {
         return .init(
@@ -576,17 +587,6 @@ extension CognitoIdentityProvider.ListUsersRequest: AWSPaginateToken {
             filter: self.filter,
             limit: self.limit,
             paginationToken: token,
-            userPoolId: self.userPoolId
-        )
-    }
-}
-
-extension CognitoIdentityProvider.ListUsersInGroupRequest: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> CognitoIdentityProvider.ListUsersInGroupRequest {
-        return .init(
-            groupName: self.groupName,
-            limit: self.limit,
-            nextToken: token,
             userPoolId: self.userPoolId
         )
     }

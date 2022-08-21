@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -95,10 +95,22 @@ extension Wisdom {
         public var description: String { return self.rawValue }
     }
 
+    public enum Relevance: String, CustomStringConvertible, Codable, _SotoSendable {
+        case helpful = "HELPFUL"
+        case notHelpful = "NOT_HELPFUL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RelevanceLevel: String, CustomStringConvertible, Codable, _SotoSendable {
         case high = "HIGH"
         case low = "LOW"
         case medium = "MEDIUM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TargetType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case recommendation = "RECOMMENDATION"
+        case result = "RESULT"
         public var description: String { return self.rawValue }
     }
 
@@ -924,6 +936,19 @@ extension Wisdom {
         }
     }
 
+    public struct FeedbackData: AWSEncodableShape & AWSDecodableShape {
+        /// The relevance of the target this feedback is for.
+        public let relevance: Relevance
+
+        public init(relevance: Relevance) {
+            self.relevance = relevance
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case relevance
+        }
+    }
+
     public struct Filter: AWSEncodableShape {
         /// The field on which to filter.
         public let field: FilterField
@@ -1629,6 +1654,67 @@ extension Wisdom {
         private enum CodingKeys: String, CodingKey {
             case errors
             case recommendationIds
+        }
+    }
+
+    public struct PutFeedbackRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "assistantId", location: .uri("assistantId"))
+        ]
+
+        /// The identifier of the Wisdom assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        public let assistantId: String
+        /// The feedback.
+        public let feedback: FeedbackData
+        /// The identifier of a recommendation. or The identifier of the result data.
+        public let targetId: String
+        /// The type of the targetId for which The feedback. is targeted.
+        public let targetType: TargetType
+
+        public init(assistantId: String, feedback: FeedbackData, targetId: String, targetType: TargetType) {
+            self.assistantId = assistantId
+            self.feedback = feedback
+            self.targetId = targetId
+            self.targetType = targetType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assistantId, name: "assistantId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case feedback
+            case targetId
+            case targetType
+        }
+    }
+
+    public struct PutFeedbackResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Wisdom assistant.
+        public let assistantArn: String
+        /// The identifier of the Wisdom assistant.
+        public let assistantId: String
+        /// The feedback.
+        public let feedback: FeedbackData
+        /// The identifier of a recommendation. or The identifier of the result data.
+        public let targetId: String
+        /// The type of the targetId for which The feedback. is targeted.
+        public let targetType: TargetType
+
+        public init(assistantArn: String, assistantId: String, feedback: FeedbackData, targetId: String, targetType: TargetType) {
+            self.assistantArn = assistantArn
+            self.assistantId = assistantId
+            self.feedback = feedback
+            self.targetId = targetId
+            self.targetType = targetType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assistantArn
+            case assistantId
+            case feedback
+            case targetId
+            case targetType
         }
     }
 

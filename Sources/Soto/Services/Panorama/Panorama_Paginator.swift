@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -529,19 +529,19 @@ extension Panorama.ListApplicationInstancesRequest: AWSPaginateToken {
     }
 }
 
-extension Panorama.ListDevicesRequest: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> Panorama.ListDevicesRequest {
+extension Panorama.ListDevicesJobsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Panorama.ListDevicesJobsRequest {
         return .init(
+            deviceId: self.deviceId,
             maxResults: self.maxResults,
             nextToken: token
         )
     }
 }
 
-extension Panorama.ListDevicesJobsRequest: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> Panorama.ListDevicesJobsRequest {
+extension Panorama.ListDevicesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Panorama.ListDevicesRequest {
         return .init(
-            deviceId: self.deviceId,
             maxResults: self.maxResults,
             nextToken: token
         )

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -396,7 +396,7 @@ extension ElastiCache {
         ///
         /// 					                 T3 node types:
         /// 					                   cache.t3.micro,  						cache.t3.small, 						cache.t3.medium  								 						 				              T2 node types:
-        /// 					                   cache.t2.micro,  						cache.t2.small, 						cache.t2.medium  						 						 						 						 						          Previous generation: (not recommended)
+        /// 					                   cache.t2.micro,  						cache.t2.small, 						cache.t2.medium  						 						 						 						 						          Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)
         /// 						                T1 node types:
         /// 					                   cache.t1.micro
         ///
@@ -409,7 +409,7 @@ extension ElastiCache {
         /// 						                M3 node types: 						              cache.m3.medium, 						cache.m3.large,  						cache.m3.xlarge, 						cache.m3.2xlarge
         ///
         /// 						                Compute optimized:
-        /// 				             Previous generation: (not recommended)
+        /// 				             Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)
         /// 			                   C1 node types:
         /// 			                     cache.c1.xlarge      Memory optimized with data tiering:
         /// 		               Current generation:
@@ -462,7 +462,7 @@ extension ElastiCache {
         /// 						                For region availability, see Supported Node Types
         /// 					                 R5 node types: 					               cache.r5.large, 					   cache.r5.xlarge, 					   cache.r5.2xlarge, 					   cache.r5.4xlarge, 					   cache.r5.12xlarge, 					   cache.r5.24xlarge
         /// 						 					             R4 node types: 					               cache.r4.large, 					   cache.r4.xlarge, 					   cache.r4.2xlarge, 					   cache.r4.4xlarge, 					   cache.r4.8xlarge, 					   cache.r4.16xlarge
-        ///   					    					    					    					    					    					    					           Previous generation: (not recommended)  M2 node types:						 					               cache.m2.xlarge,  						cache.m2.2xlarge, 						cache.m2.4xlarge  						 						            R3 node types: 					               cache.r3.large,  						cache.r3.xlarge, 						cache.r3.2xlarge,   						cache.r3.4xlarge, 						cache.r3.8xlarge
+        ///   					    					    					    					    					    					    					           Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)  M2 node types:						 					               cache.m2.xlarge,  						cache.m2.2xlarge, 						cache.m2.4xlarge  						 						            R3 node types: 					               cache.r3.large,  						cache.r3.xlarge, 						cache.r3.2xlarge,   						cache.r3.4xlarge, 						cache.r3.8xlarge
         ///
         /// 		        Additional node type info
         /// 		         All current generation instance types are created in Amazon VPC by default.   Redis append-only files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is not supported on T1 instances.   Redis configuration variables appendonly and
@@ -1200,7 +1200,7 @@ extension ElastiCache {
         ///
         /// 					                 T3 node types:
         /// 					                   cache.t3.micro,  						cache.t3.small, 						cache.t3.medium  								 						 				              T2 node types:
-        /// 					                   cache.t2.micro,  						cache.t2.small, 						cache.t2.medium  						 						 						 						 						          Previous generation: (not recommended)
+        /// 					                   cache.t2.micro,  						cache.t2.small, 						cache.t2.medium  						 						 						 						 						          Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)
         /// 						                T1 node types:
         /// 					                   cache.t1.micro
         ///
@@ -1213,7 +1213,7 @@ extension ElastiCache {
         /// 						                M3 node types: 						              cache.m3.medium, 						cache.m3.large,  						cache.m3.xlarge, 						cache.m3.2xlarge
         ///
         /// 						                Compute optimized:
-        /// 				             Previous generation: (not recommended)
+        /// 				             Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)
         /// 			                   C1 node types:
         /// 			                     cache.c1.xlarge      Memory optimized:
         /// 				             Current generation:
@@ -1243,7 +1243,7 @@ extension ElastiCache {
         /// 						                For region availability, see Supported Node Types
         /// 					                 R5 node types: 					               cache.r5.large, 					   cache.r5.xlarge, 					   cache.r5.2xlarge, 					   cache.r5.4xlarge, 					   cache.r5.12xlarge, 					   cache.r5.24xlarge
         /// 						 					             R4 node types: 					               cache.r4.large, 					   cache.r4.xlarge, 					   cache.r4.2xlarge, 					   cache.r4.4xlarge, 					   cache.r4.8xlarge, 					   cache.r4.16xlarge
-        ///   					    					    					    					    					    					    					           Previous generation: (not recommended)  M2 node types:						 					               cache.m2.xlarge,  						cache.m2.2xlarge, 						cache.m2.4xlarge  						 						            R3 node types: 					               cache.r3.large,  						cache.r3.xlarge, 						cache.r3.2xlarge,   						cache.r3.4xlarge, 						cache.r3.8xlarge
+        ///   					    					    					    					    					    					    					           Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)  M2 node types:						 					               cache.m2.xlarge,  						cache.m2.2xlarge, 						cache.m2.4xlarge  						 						            R3 node types: 					               cache.r3.large,  						cache.r3.xlarge, 						cache.r3.2xlarge,   						cache.r3.4xlarge, 						cache.r3.8xlarge
         ///
         /// 		        Additional node type info
         /// 		         All current generation instance types are created in Amazon VPC by default.   Redis append-only files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is not supported on T1 instances.   Redis configuration variables appendonly and
@@ -1580,7 +1580,7 @@ extension ElastiCache {
         ///
         /// 					                 T3 node types:
         /// 					                   cache.t3.micro,  						cache.t3.small, 						cache.t3.medium  								 						 				              T2 node types:
-        /// 					                   cache.t2.micro,  						cache.t2.small, 						cache.t2.medium  						 						 						 						 						          Previous generation: (not recommended)
+        /// 					                   cache.t2.micro,  						cache.t2.small, 						cache.t2.medium  						 						 						 						 						          Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)
         /// 						                T1 node types:
         /// 					                   cache.t1.micro
         ///
@@ -1593,7 +1593,7 @@ extension ElastiCache {
         /// 						                M3 node types: 						              cache.m3.medium, 						cache.m3.large,  						cache.m3.xlarge, 						cache.m3.2xlarge
         ///
         /// 						                Compute optimized:
-        /// 				             Previous generation: (not recommended)
+        /// 				             Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)
         /// 			                   C1 node types:
         /// 			                     cache.c1.xlarge      Memory optimized with data tiering:
         /// 		               Current generation:
@@ -1648,7 +1648,7 @@ extension ElastiCache {
         /// 						                For region availability, see Supported Node Types
         /// 					                 R5 node types: 					               cache.r5.large, 					   cache.r5.xlarge, 					   cache.r5.2xlarge, 					   cache.r5.4xlarge, 					   cache.r5.12xlarge, 					   cache.r5.24xlarge
         /// 						 					             R4 node types: 					               cache.r4.large, 					   cache.r4.xlarge, 					   cache.r4.2xlarge, 					   cache.r4.4xlarge, 					   cache.r4.8xlarge, 					   cache.r4.16xlarge
-        ///   					    					    					    					    					    					    					           Previous generation: (not recommended)  M2 node types:						 					               cache.m2.xlarge,  						cache.m2.2xlarge, 						cache.m2.4xlarge  						 						            R3 node types: 					               cache.r3.large,  						cache.r3.xlarge, 						cache.r3.2xlarge,   						cache.r3.4xlarge, 						cache.r3.8xlarge
+        ///   					    					    					    					    					    					    					           Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)  M2 node types:						 					               cache.m2.xlarge,  						cache.m2.2xlarge, 						cache.m2.4xlarge  						 						            R3 node types: 					               cache.r3.large,  						cache.r3.xlarge, 						cache.r3.2xlarge,   						cache.r3.4xlarge, 						cache.r3.8xlarge
         ///
         /// 		        Additional node type info
         /// 		         All current generation instance types are created in Amazon VPC by default.   Redis append-only files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is not supported on T1 instances.   Redis configuration variables appendonly and
@@ -2583,7 +2583,7 @@ extension ElastiCache {
         ///
         /// 					                 T3 node types:
         /// 					                   cache.t3.micro,  						cache.t3.small, 						cache.t3.medium  								 						 				              T2 node types:
-        /// 					                   cache.t2.micro,  						cache.t2.small, 						cache.t2.medium  						 						 						 						 						          Previous generation: (not recommended)
+        /// 					                   cache.t2.micro,  						cache.t2.small, 						cache.t2.medium  						 						 						 						 						          Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)
         /// 						                T1 node types:
         /// 					                   cache.t1.micro
         ///
@@ -2596,7 +2596,7 @@ extension ElastiCache {
         /// 						                M3 node types: 						              cache.m3.medium, 						cache.m3.large,  						cache.m3.xlarge, 						cache.m3.2xlarge
         ///
         /// 						                Compute optimized:
-        /// 				             Previous generation: (not recommended)
+        /// 				             Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)
         /// 			                   C1 node types:
         /// 			                     cache.c1.xlarge      Memory optimized with data tiering:
         /// 		               Current generation:
@@ -2650,7 +2650,7 @@ extension ElastiCache {
         /// 						                For region availability, see Supported Node Types
         /// 					                 R5 node types: 					               cache.r5.large, 					   cache.r5.xlarge, 					   cache.r5.2xlarge, 					   cache.r5.4xlarge, 					   cache.r5.12xlarge, 					   cache.r5.24xlarge
         /// 						 					             R4 node types: 					               cache.r4.large, 					   cache.r4.xlarge, 					   cache.r4.2xlarge, 					   cache.r4.4xlarge, 					   cache.r4.8xlarge, 					   cache.r4.16xlarge
-        ///   					    					    					    					    					    					    					           Previous generation: (not recommended)  M2 node types:						 					               cache.m2.xlarge,  						cache.m2.2xlarge, 						cache.m2.4xlarge  						 						            R3 node types: 					               cache.r3.large,  						cache.r3.xlarge, 						cache.r3.2xlarge,   						cache.r3.4xlarge, 						cache.r3.8xlarge
+        ///   					    					    					    					    					    					    					           Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)  M2 node types:						 					               cache.m2.xlarge,  						cache.m2.2xlarge, 						cache.m2.4xlarge  						 						            R3 node types: 					               cache.r3.large,  						cache.r3.xlarge, 						cache.r3.2xlarge,   						cache.r3.4xlarge, 						cache.r3.8xlarge
         ///
         /// 		        Additional node type info
         /// 		         All current generation instance types are created in Amazon VPC by default.   Redis append-only files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is not supported on T1 instances.   Redis configuration variables appendonly and
@@ -2732,7 +2732,7 @@ extension ElastiCache {
         ///
         /// 					                 T3 node types:
         /// 					                   cache.t3.micro,  						cache.t3.small, 						cache.t3.medium  								 						 				              T2 node types:
-        /// 					                   cache.t2.micro,  						cache.t2.small, 						cache.t2.medium  						 						 						 						 						          Previous generation: (not recommended)
+        /// 					                   cache.t2.micro,  						cache.t2.small, 						cache.t2.medium  						 						 						 						 						          Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)
         /// 						                T1 node types:
         /// 					                   cache.t1.micro
         ///
@@ -2745,7 +2745,7 @@ extension ElastiCache {
         /// 						                M3 node types: 						              cache.m3.medium, 						cache.m3.large,  						cache.m3.xlarge, 						cache.m3.2xlarge
         ///
         /// 						                Compute optimized:
-        /// 				             Previous generation: (not recommended)
+        /// 				             Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)
         /// 			                   C1 node types:
         /// 			                     cache.c1.xlarge      Memory optimized with data tiering:
         /// 		               Current generation:
@@ -2798,7 +2798,7 @@ extension ElastiCache {
         /// 						                For region availability, see Supported Node Types
         /// 					                 R5 node types: 					               cache.r5.large, 					   cache.r5.xlarge, 					   cache.r5.2xlarge, 					   cache.r5.4xlarge, 					   cache.r5.12xlarge, 					   cache.r5.24xlarge
         /// 						 					             R4 node types: 					               cache.r4.large, 					   cache.r4.xlarge, 					   cache.r4.2xlarge, 					   cache.r4.4xlarge, 					   cache.r4.8xlarge, 					   cache.r4.16xlarge
-        ///   					    					    					    					    					    					    					           Previous generation: (not recommended)  M2 node types:						 					               cache.m2.xlarge,  						cache.m2.2xlarge, 						cache.m2.4xlarge  						 						            R3 node types: 					               cache.r3.large,  						cache.r3.xlarge, 						cache.r3.2xlarge,   						cache.r3.4xlarge, 						cache.r3.8xlarge
+        ///   					    					    					    					    					    					    					           Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)  M2 node types:						 					               cache.m2.xlarge,  						cache.m2.2xlarge, 						cache.m2.4xlarge  						 						            R3 node types: 					               cache.r3.large,  						cache.r3.xlarge, 						cache.r3.2xlarge,   						cache.r3.4xlarge, 						cache.r3.8xlarge
         ///
         /// 		        Additional node type info
         /// 		         All current generation instance types are created in Amazon VPC by default.   Redis append-only files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is not supported on T1 instances.   Redis configuration variables appendonly and
@@ -4728,6 +4728,8 @@ extension ElastiCache {
         public let authTokenLastModifiedDate: Date?
         /// Indicates the status of automatic failover for this Redis replication group.
         public let automaticFailover: AutomaticFailoverStatus?
+        ///  If you are running Redis engine version 6.0 or later, set this parameter to yes if you want to opt-in to the next auto minor version upgrade campaign. This parameter is disabled for previous versions.
+        public let autoMinorVersionUpgrade: Bool?
         /// The name of the compute and memory capacity node type for each node in the replication group.
         public let cacheNodeType: String?
         /// A flag indicating whether or not this replication group is cluster enabled;  i.e., whether its data can be partitioned across multiple shards (API/CLI: node groups). Valid values: true | false
@@ -4776,12 +4778,13 @@ extension ElastiCache {
         @OptionalCustomCoding<StandardArrayCoder>
         public var userGroupIds: [String]?
 
-        public init(arn: String? = nil, atRestEncryptionEnabled: Bool? = nil, authTokenEnabled: Bool? = nil, authTokenLastModifiedDate: Date? = nil, automaticFailover: AutomaticFailoverStatus? = nil, cacheNodeType: String? = nil, clusterEnabled: Bool? = nil, configurationEndpoint: Endpoint? = nil, dataTiering: DataTieringStatus? = nil, description: String? = nil, globalReplicationGroupInfo: GlobalReplicationGroupInfo? = nil, kmsKeyId: String? = nil, logDeliveryConfigurations: [LogDeliveryConfiguration]? = nil, memberClusters: [String]? = nil, memberClustersOutpostArns: [String]? = nil, multiAZ: MultiAZStatus? = nil, nodeGroups: [NodeGroup]? = nil, pendingModifiedValues: ReplicationGroupPendingModifiedValues? = nil, replicationGroupCreateTime: Date? = nil, replicationGroupId: String? = nil, snapshotRetentionLimit: Int? = nil, snapshottingClusterId: String? = nil, snapshotWindow: String? = nil, status: String? = nil, transitEncryptionEnabled: Bool? = nil, userGroupIds: [String]? = nil) {
+        public init(arn: String? = nil, atRestEncryptionEnabled: Bool? = nil, authTokenEnabled: Bool? = nil, authTokenLastModifiedDate: Date? = nil, automaticFailover: AutomaticFailoverStatus? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheNodeType: String? = nil, clusterEnabled: Bool? = nil, configurationEndpoint: Endpoint? = nil, dataTiering: DataTieringStatus? = nil, description: String? = nil, globalReplicationGroupInfo: GlobalReplicationGroupInfo? = nil, kmsKeyId: String? = nil, logDeliveryConfigurations: [LogDeliveryConfiguration]? = nil, memberClusters: [String]? = nil, memberClustersOutpostArns: [String]? = nil, multiAZ: MultiAZStatus? = nil, nodeGroups: [NodeGroup]? = nil, pendingModifiedValues: ReplicationGroupPendingModifiedValues? = nil, replicationGroupCreateTime: Date? = nil, replicationGroupId: String? = nil, snapshotRetentionLimit: Int? = nil, snapshottingClusterId: String? = nil, snapshotWindow: String? = nil, status: String? = nil, transitEncryptionEnabled: Bool? = nil, userGroupIds: [String]? = nil) {
             self.arn = arn
             self.atRestEncryptionEnabled = atRestEncryptionEnabled
             self.authTokenEnabled = authTokenEnabled
             self.authTokenLastModifiedDate = authTokenLastModifiedDate
             self.automaticFailover = automaticFailover
+            self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.cacheNodeType = cacheNodeType
             self.clusterEnabled = clusterEnabled
             self.configurationEndpoint = configurationEndpoint
@@ -4811,6 +4814,7 @@ extension ElastiCache {
             case authTokenEnabled = "AuthTokenEnabled"
             case authTokenLastModifiedDate = "AuthTokenLastModifiedDate"
             case automaticFailover = "AutomaticFailover"
+            case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
             case cacheNodeType = "CacheNodeType"
             case clusterEnabled = "ClusterEnabled"
             case configurationEndpoint = "ConfigurationEndpoint"
@@ -4926,7 +4930,7 @@ extension ElastiCache {
         /// 					        cache.t4g.medium
         /// 					                	            					             T3 node types:
         /// 					                   cache.t3.micro,  						cache.t3.small, 						cache.t3.medium  								 						 				              T2 node types:
-        /// 					                   cache.t2.micro,  						cache.t2.small, 						cache.t2.medium  						 						 						 						 						          Previous generation: (not recommended)
+        /// 					                   cache.t2.micro,  						cache.t2.small, 						cache.t2.medium  						 						 						 						 						          Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)
         /// 						                T1 node types:
         /// 					                   cache.t1.micro
         ///
@@ -4939,7 +4943,7 @@ extension ElastiCache {
         /// 						                M3 node types: 						              cache.m3.medium, 						cache.m3.large,  						cache.m3.xlarge, 						cache.m3.2xlarge
         ///
         /// 						                Compute optimized:
-        /// 				             Previous generation: (not recommended)
+        /// 				             Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)
         /// 			                   C1 node types:
         /// 			                     cache.c1.xlarge      Memory optimized with data tiering:
         /// 		               Current generation:
@@ -4991,7 +4995,7 @@ extension ElastiCache {
         /// 						                For region availability, see Supported Node Types
         /// 					                 R5 node types: 					               cache.r5.large, 					   cache.r5.xlarge, 					   cache.r5.2xlarge, 					   cache.r5.4xlarge, 					   cache.r5.12xlarge, 					   cache.r5.24xlarge
         /// 						 					             R4 node types: 					               cache.r4.large, 					   cache.r4.xlarge, 					   cache.r4.2xlarge, 					   cache.r4.4xlarge, 					   cache.r4.8xlarge, 					   cache.r4.16xlarge
-        ///   					    					    					    					    					    					    					           Previous generation: (not recommended)  M2 node types:						 					               cache.m2.xlarge,  						cache.m2.2xlarge, 						cache.m2.4xlarge  						 						            R3 node types: 					               cache.r3.large,  						cache.r3.xlarge, 						cache.r3.2xlarge,   						cache.r3.4xlarge, 						cache.r3.8xlarge
+        ///   					    					    					    					    					    					    					           Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)  M2 node types:						 					               cache.m2.xlarge,  						cache.m2.2xlarge, 						cache.m2.4xlarge  						 						            R3 node types: 					               cache.r3.large,  						cache.r3.xlarge, 						cache.r3.2xlarge,   						cache.r3.4xlarge, 						cache.r3.8xlarge
         ///
         /// 		        Additional node type info
         /// 		         All current generation instance types are created in Amazon VPC by default.   Redis append-only files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is not supported on T1 instances.   Redis configuration variables appendonly and
@@ -5111,7 +5115,7 @@ extension ElastiCache {
         ///
         /// 					                 T3 node types:
         /// 					                   cache.t3.micro,  						cache.t3.small, 						cache.t3.medium  								 						 				              T2 node types:
-        /// 					                   cache.t2.micro,  						cache.t2.small, 						cache.t2.medium  						 						 						 						 						          Previous generation: (not recommended)
+        /// 					                   cache.t2.micro,  						cache.t2.small, 						cache.t2.medium  						 						 						 						 						          Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)
         /// 						                T1 node types:
         /// 					                   cache.t1.micro
         ///
@@ -5124,7 +5128,7 @@ extension ElastiCache {
         /// 						                M3 node types: 						              cache.m3.medium, 						cache.m3.large,  						cache.m3.xlarge, 						cache.m3.2xlarge
         ///
         /// 						                Compute optimized:
-        /// 				             Previous generation: (not recommended)
+        /// 				             Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)
         /// 			                   C1 node types:
         /// 			                     cache.c1.xlarge      Memory optimized with data tiering:
         /// 		               Current generation:
@@ -5178,7 +5182,7 @@ extension ElastiCache {
         /// 						                For region availability, see Supported Node Types
         /// 					                 R5 node types: 					               cache.r5.large, 					   cache.r5.xlarge, 					   cache.r5.2xlarge, 					   cache.r5.4xlarge, 					   cache.r5.12xlarge, 					   cache.r5.24xlarge
         /// 						 					             R4 node types: 					               cache.r4.large, 					   cache.r4.xlarge, 					   cache.r4.2xlarge, 					   cache.r4.4xlarge, 					   cache.r4.8xlarge, 					   cache.r4.16xlarge
-        ///   					    					    					    					    					    					    					           Previous generation: (not recommended)  M2 node types:						 					               cache.m2.xlarge,  						cache.m2.2xlarge, 						cache.m2.4xlarge  						 						            R3 node types: 					               cache.r3.large,  						cache.r3.xlarge, 						cache.r3.2xlarge,   						cache.r3.4xlarge, 						cache.r3.8xlarge
+        ///   					    					    					    					    					    					    					           Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)  M2 node types:						 					               cache.m2.xlarge,  						cache.m2.2xlarge, 						cache.m2.4xlarge  						 						            R3 node types: 					               cache.r3.large,  						cache.r3.xlarge, 						cache.r3.2xlarge,   						cache.r3.4xlarge, 						cache.r3.8xlarge
         ///
         /// 		        Additional node type info
         /// 		         All current generation instance types are created in Amazon VPC by default.   Redis append-only files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is not supported on T1 instances.   Redis configuration variables appendonly and
@@ -5497,7 +5501,7 @@ extension ElastiCache {
         ///
         /// 					                 T3 node types:
         /// 					                   cache.t3.micro,  						cache.t3.small, 						cache.t3.medium  								 						 				              T2 node types:
-        /// 					                   cache.t2.micro,  						cache.t2.small, 						cache.t2.medium  						 						 						 						 						          Previous generation: (not recommended)
+        /// 					                   cache.t2.micro,  						cache.t2.small, 						cache.t2.medium  						 						 						 						 						          Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)
         /// 						                T1 node types:
         /// 					                   cache.t1.micro
         ///
@@ -5510,7 +5514,7 @@ extension ElastiCache {
         /// 						                M3 node types: 						              cache.m3.medium, 						cache.m3.large,  						cache.m3.xlarge, 						cache.m3.2xlarge
         ///
         /// 						                Compute optimized:
-        /// 				             Previous generation: (not recommended)
+        /// 				             Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)
         /// 			                   C1 node types:
         /// 			                     cache.c1.xlarge      Memory optimized with data tiering:
         /// 		               Current generation:
@@ -5571,7 +5575,7 @@ extension ElastiCache {
         /// 						                For region availability, see Supported Node Types
         /// 					                 R5 node types: 					               cache.r5.large, 					   cache.r5.xlarge, 					   cache.r5.2xlarge, 					   cache.r5.4xlarge, 					   cache.r5.12xlarge, 					   cache.r5.24xlarge
         /// 						 					             R4 node types: 					               cache.r4.large, 					   cache.r4.xlarge, 					   cache.r4.2xlarge, 					   cache.r4.4xlarge, 					   cache.r4.8xlarge, 					   cache.r4.16xlarge
-        ///   					    					    					    					    					    					    					           Previous generation: (not recommended)  M2 node types:						 					               cache.m2.xlarge,  						cache.m2.2xlarge, 						cache.m2.4xlarge  						 						            R3 node types: 					               cache.r3.large,  						cache.r3.xlarge, 						cache.r3.2xlarge,   						cache.r3.4xlarge, 						cache.r3.8xlarge
+        ///   					    					    					    					    					    					    					           Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.)  M2 node types:						 					               cache.m2.xlarge,  						cache.m2.2xlarge, 						cache.m2.4xlarge  						 						            R3 node types: 					               cache.r3.large,  						cache.r3.xlarge, 						cache.r3.2xlarge,   						cache.r3.4xlarge, 						cache.r3.8xlarge
         ///
         /// 		        Additional node type info
         /// 		         All current generation instance types are created in Amazon VPC by default.   Redis append-only files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is not supported on T1 instances.   Redis configuration variables appendonly and

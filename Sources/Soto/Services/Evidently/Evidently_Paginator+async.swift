@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -106,6 +106,50 @@ extension Evidently {
             command: listProjects,
             inputKey: \ListProjectsRequest.nextToken,
             outputKey: \ListProjectsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Use this operation to find which experiments or launches are using a specified segment.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listSegmentReferencesPaginator(
+        _ input: ListSegmentReferencesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListSegmentReferencesRequest, ListSegmentReferencesResponse> {
+        return .init(
+            input: input,
+            command: listSegmentReferences,
+            inputKey: \ListSegmentReferencesRequest.nextToken,
+            outputKey: \ListSegmentReferencesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Returns a list of audience segments that you have created in your account in this Region.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listSegmentsPaginator(
+        _ input: ListSegmentsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListSegmentsRequest, ListSegmentsResponse> {
+        return .init(
+            input: input,
+            command: listSegments,
+            inputKey: \ListSegmentsRequest.nextToken,
+            outputKey: \ListSegmentsResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

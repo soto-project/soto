@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -492,6 +492,8 @@ extension DocDB {
         public let autoMinorVersionUpgrade: Bool?
         /// The Amazon EC2 Availability Zone that the instance is created in.  Default: A random, system-chosen Availability Zone in the endpoint's Amazon Web Services Region. Example: us-east-1d
         public let availabilityZone: String?
+        /// A value that indicates whether to copy tags from the DB instance to snapshots of the DB instance. By default, tags are not copied.
+        public let copyTagsToSnapshot: Bool?
         /// The identifier of the cluster that the instance will belong to.
         public let dbClusterIdentifier: String
         /// The compute and memory capacity of the instance; for example, db.r5.large.
@@ -512,9 +514,10 @@ extension DocDB {
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
-        public init(autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, dbClusterIdentifier: String, dbInstanceClass: String, dbInstanceIdentifier: String, enablePerformanceInsights: Bool? = nil, engine: String, performanceInsightsKMSKeyId: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int? = nil, tags: [Tag]? = nil) {
+        public init(autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, copyTagsToSnapshot: Bool? = nil, dbClusterIdentifier: String, dbInstanceClass: String, dbInstanceIdentifier: String, enablePerformanceInsights: Bool? = nil, engine: String, performanceInsightsKMSKeyId: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int? = nil, tags: [Tag]? = nil) {
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
+            self.copyTagsToSnapshot = copyTagsToSnapshot
             self.dbClusterIdentifier = dbClusterIdentifier
             self.dbInstanceClass = dbInstanceClass
             self.dbInstanceIdentifier = dbInstanceIdentifier
@@ -529,6 +532,7 @@ extension DocDB {
         private enum CodingKeys: String, CodingKey {
             case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
             case availabilityZone = "AvailabilityZone"
+            case copyTagsToSnapshot = "CopyTagsToSnapshot"
             case dbClusterIdentifier = "DBClusterIdentifier"
             case dbInstanceClass = "DBInstanceClass"
             case dbInstanceIdentifier = "DBInstanceIdentifier"
@@ -721,6 +725,8 @@ extension DocDB {
         public var availabilityZones: [String]?
         /// Specifies the number of days for which automatic snapshots are retained.
         public let backupRetentionPeriod: Int?
+        /// Identifies the clone group to which the DB cluster is associated.
+        public let cloneGroupId: String?
         /// Specifies the time when the cluster was created, in Universal Coordinated Time (UTC).
         public let clusterCreateTime: Date?
         /// The Amazon Resource Name (ARN) for the cluster.
@@ -782,10 +788,11 @@ extension DocDB {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupsEncoding, VpcSecurityGroupMembership>>
         public var vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
-        public init(associatedRoles: [DBClusterRole]? = nil, availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, clusterCreateTime: Date? = nil, dbClusterArn: String? = nil, dbClusterIdentifier: String? = nil, dbClusterMembers: [DBClusterMember]? = nil, dbClusterParameterGroup: String? = nil, dbClusterResourceId: String? = nil, dbSubnetGroup: String? = nil, deletionProtection: Bool? = nil, earliestRestorableTime: Date? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: String? = nil, engine: String? = nil, engineVersion: String? = nil, hostedZoneId: String? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, masterUsername: String? = nil, multiAZ: Bool? = nil, percentProgress: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, readerEndpoint: String? = nil, readReplicaIdentifiers: [String]? = nil, replicationSourceIdentifier: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(associatedRoles: [DBClusterRole]? = nil, availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, cloneGroupId: String? = nil, clusterCreateTime: Date? = nil, dbClusterArn: String? = nil, dbClusterIdentifier: String? = nil, dbClusterMembers: [DBClusterMember]? = nil, dbClusterParameterGroup: String? = nil, dbClusterResourceId: String? = nil, dbSubnetGroup: String? = nil, deletionProtection: Bool? = nil, earliestRestorableTime: Date? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: String? = nil, engine: String? = nil, engineVersion: String? = nil, hostedZoneId: String? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, masterUsername: String? = nil, multiAZ: Bool? = nil, percentProgress: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, readerEndpoint: String? = nil, readReplicaIdentifiers: [String]? = nil, replicationSourceIdentifier: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.associatedRoles = associatedRoles
             self.availabilityZones = availabilityZones
             self.backupRetentionPeriod = backupRetentionPeriod
+            self.cloneGroupId = cloneGroupId
             self.clusterCreateTime = clusterCreateTime
             self.dbClusterArn = dbClusterArn
             self.dbClusterIdentifier = dbClusterIdentifier
@@ -820,6 +827,7 @@ extension DocDB {
             case associatedRoles = "AssociatedRoles"
             case availabilityZones = "AvailabilityZones"
             case backupRetentionPeriod = "BackupRetentionPeriod"
+            case cloneGroupId = "CloneGroupId"
             case clusterCreateTime = "ClusterCreateTime"
             case dbClusterArn = "DBClusterArn"
             case dbClusterIdentifier = "DBClusterIdentifier"
@@ -1208,6 +1216,8 @@ extension DocDB {
         public let backupRetentionPeriod: Int?
         /// The identifier of the CA certificate for this DB instance.
         public let caCertificateIdentifier: String?
+        /// A value that indicates whether to copy tags from the DB instance to snapshots of the DB instance. By default, tags are not copied.
+        public let copyTagsToSnapshot: Bool?
         /// Contains the name of the cluster that the instance is a member of if the  instance is a member of a cluster.
         public let dbClusterIdentifier: String?
         /// The Amazon Resource Name (ARN) for the instance.
@@ -1256,11 +1266,12 @@ extension DocDB {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupsEncoding, VpcSecurityGroupMembership>>
         public var vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
-        public init(autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, caCertificateIdentifier: String? = nil, dbClusterIdentifier: String? = nil, dbInstanceArn: String? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String? = nil, dbInstanceStatus: String? = nil, dbiResourceId: String? = nil, dbSubnetGroup: DBSubnetGroup? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: Endpoint? = nil, engine: String? = nil, engineVersion: String? = nil, instanceCreateTime: Date? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, pendingModifiedValues: PendingModifiedValues? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, statusInfos: [DBInstanceStatusInfo]? = nil, storageEncrypted: Bool? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, caCertificateIdentifier: String? = nil, copyTagsToSnapshot: Bool? = nil, dbClusterIdentifier: String? = nil, dbInstanceArn: String? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String? = nil, dbInstanceStatus: String? = nil, dbiResourceId: String? = nil, dbSubnetGroup: DBSubnetGroup? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: Endpoint? = nil, engine: String? = nil, engineVersion: String? = nil, instanceCreateTime: Date? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, pendingModifiedValues: PendingModifiedValues? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, statusInfos: [DBInstanceStatusInfo]? = nil, storageEncrypted: Bool? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
             self.backupRetentionPeriod = backupRetentionPeriod
             self.caCertificateIdentifier = caCertificateIdentifier
+            self.copyTagsToSnapshot = copyTagsToSnapshot
             self.dbClusterIdentifier = dbClusterIdentifier
             self.dbInstanceArn = dbInstanceArn
             self.dbInstanceClass = dbInstanceClass
@@ -1290,6 +1301,7 @@ extension DocDB {
             case availabilityZone = "AvailabilityZone"
             case backupRetentionPeriod = "BackupRetentionPeriod"
             case caCertificateIdentifier = "CACertificateIdentifier"
+            case copyTagsToSnapshot = "CopyTagsToSnapshot"
             case dbClusterIdentifier = "DBClusterIdentifier"
             case dbInstanceArn = "DBInstanceArn"
             case dbInstanceClass = "DBInstanceClass"
@@ -2631,6 +2643,8 @@ extension DocDB {
         public let autoMinorVersionUpgrade: Bool?
         /// Indicates the certificate that needs to be associated with the instance.
         public let caCertificateIdentifier: String?
+        /// A value that indicates whether to copy all tags from the DB instance to snapshots of the DB instance. By default, tags are not copied.
+        public let copyTagsToSnapshot: Bool?
         /// The new compute and memory capacity of the instance; for example, db.r5.large. Not all instance classes are available in all Amazon Web Services Regions.  If you modify the instance class, an outage occurs during the change. The change is applied during the next maintenance window, unless ApplyImmediately is specified as true for this request.  Default: Uses existing setting.
         public let dbInstanceClass: String?
         /// The instance identifier. This value is stored as a lowercase string. Constraints:   Must match the identifier of an existing DBInstance.
@@ -2646,10 +2660,11 @@ extension DocDB {
         /// A value that specifies the order in which an Amazon DocumentDB replica is promoted to the primary instance after a failure of the existing primary instance. Default: 1 Valid values: 0-15
         public let promotionTier: Int?
 
-        public init(applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, caCertificateIdentifier: String? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String, enablePerformanceInsights: Bool? = nil, newDBInstanceIdentifier: String? = nil, performanceInsightsKMSKeyId: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int? = nil) {
+        public init(applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, caCertificateIdentifier: String? = nil, copyTagsToSnapshot: Bool? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String, enablePerformanceInsights: Bool? = nil, newDBInstanceIdentifier: String? = nil, performanceInsightsKMSKeyId: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int? = nil) {
             self.applyImmediately = applyImmediately
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.caCertificateIdentifier = caCertificateIdentifier
+            self.copyTagsToSnapshot = copyTagsToSnapshot
             self.dbInstanceClass = dbInstanceClass
             self.dbInstanceIdentifier = dbInstanceIdentifier
             self.enablePerformanceInsights = enablePerformanceInsights
@@ -2663,6 +2678,7 @@ extension DocDB {
             case applyImmediately = "ApplyImmediately"
             case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
             case caCertificateIdentifier = "CACertificateIdentifier"
+            case copyTagsToSnapshot = "CopyTagsToSnapshot"
             case dbInstanceClass = "DBInstanceClass"
             case dbInstanceIdentifier = "DBInstanceIdentifier"
             case enablePerformanceInsights = "EnablePerformanceInsights"
@@ -3308,6 +3324,8 @@ extension DocDB {
         public let port: Int?
         /// The date and time to restore the cluster to. Valid values: A time in Universal Coordinated Time (UTC) format. Constraints:   Must be before the latest restorable time for the instance.   Must be specified if the UseLatestRestorableTime parameter is not provided.   Cannot be specified if the UseLatestRestorableTime parameter is true.   Cannot be specified if the RestoreType parameter is copy-on-write.   Example: 2015-03-07T23:45:00Z
         public let restoreToTime: Date?
+        /// The type of restore to be performed. You can specify one of the following values:    full-copy - The new DB cluster is restored as a full copy of the source DB cluster.    copy-on-write - The new DB cluster is restored as a clone of the source DB cluster.   Constraints: You can't specify copy-on-write if the engine version of the source DB cluster is earlier than 1.11. If you don't specify a RestoreType value, then the new DB cluster is restored as a full copy of the source DB cluster.
+        public let restoreType: String?
         /// The identifier of the source cluster from which to restore. Constraints:   Must match the identifier of an existing DBCluster.
         public let sourceDBClusterIdentifier: String
         /// The tags to be assigned to the restored cluster.
@@ -3319,7 +3337,7 @@ extension DocDB {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
-        public init(dbClusterIdentifier: String, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, kmsKeyId: String? = nil, port: Int? = nil, restoreToTime: Date? = nil, sourceDBClusterIdentifier: String, tags: [Tag]? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(dbClusterIdentifier: String, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, kmsKeyId: String? = nil, port: Int? = nil, restoreToTime: Date? = nil, restoreType: String? = nil, sourceDBClusterIdentifier: String, tags: [Tag]? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.dbClusterIdentifier = dbClusterIdentifier
             self.dbSubnetGroupName = dbSubnetGroupName
             self.deletionProtection = deletionProtection
@@ -3327,6 +3345,7 @@ extension DocDB {
             self.kmsKeyId = kmsKeyId
             self.port = port
             self.restoreToTime = restoreToTime
+            self.restoreType = restoreType
             self.sourceDBClusterIdentifier = sourceDBClusterIdentifier
             self.tags = tags
             self.useLatestRestorableTime = useLatestRestorableTime
@@ -3341,6 +3360,7 @@ extension DocDB {
             case kmsKeyId = "KmsKeyId"
             case port = "Port"
             case restoreToTime = "RestoreToTime"
+            case restoreType = "RestoreType"
             case sourceDBClusterIdentifier = "SourceDBClusterIdentifier"
             case tags = "Tags"
             case useLatestRestorableTime = "UseLatestRestorableTime"

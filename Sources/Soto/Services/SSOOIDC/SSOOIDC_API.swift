@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -19,7 +19,8 @@
 
 /// Service object for interacting with AWS SSOOIDC service.
 ///
-/// AWS Single Sign-On (SSO) OpenID Connect (OIDC) is a web service that enables a client (such as AWS CLI or a native application) to register with AWS SSO. The service also enables the client to fetch the user’s access token upon successful authentication and authorization with AWS SSO. This service conforms with the OAuth 2.0 based implementation of the device authorization grant standard (https://tools.ietf.org/html/rfc8628).  For general information about AWS SSO, see What is AWS Single Sign-On? in the AWS SSO User Guide.  This API reference guide describes the AWS SSO OIDC operations that you can call programatically and includes detailed information on data types and errors.   AWS provides SDKs that consist of libraries and sample code for various programming languages and platforms such as Java, Ruby, .Net, iOS, and Android. The SDKs provide a convenient way to create programmatic access to AWS SSO and other AWS services. For more information about the AWS SDKs, including how to download and install them, see Tools for Amazon Web Services.
+/// Amazon Web Services Single Sign On OpenID Connect (OIDC) is a web service that enables a client (such as Amazon Web Services CLI or a native application) to register with Amazon Web Services SSO. The service also enables the client to fetch the user’s access token upon successful authentication and authorization with Amazon Web Services SSO.  Although Amazon Web Services Single Sign-On was renamed, the sso and identitystore API namespaces will continue to retain their original name for backward compatibility purposes. For more information, see Amazon Web Services SSO rename.   Considerations for Using This Guide  Before you begin using this guide, we recommend that you first review the following important information about how the Amazon Web Services SSO OIDC service works.   The Amazon Web Services SSO OIDC service currently implements only the portions of the OAuth 2.0 Device Authorization Grant standard (https://tools.ietf.org/html/rfc8628) that are necessary to enable single sign-on authentication with the AWS CLI. Support for other OIDC flows frequently needed for native applications, such as Authorization Code Flow (+ PKCE), will be addressed in future releases.   The service emits only OIDC access tokens, such that obtaining a new token (For example, token refresh) requires explicit user re-authentication.   The access tokens provided by this service grant access to all AWS account entitlements assigned to an Amazon Web Services SSO user, not just a particular application.   The documentation in this guide does not describe the mechanism to convert the access token into AWS Auth (“sigv4”) credentials for use with IAM-protected AWS service endpoints. For more information, see GetRoleCredentials in the Amazon Web Services SSO Portal API Reference Guide.
+///  For general information about Amazon Web Services SSO, see What is Amazon Web Services SSO? in the Amazon Web Services SSO User Guide.
 public struct SSOOIDC: AWSService {
     // MARK: Member variables
 
@@ -55,7 +56,7 @@ public struct SSOOIDC: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2019-06-10",
             endpoint: endpoint,
-            serviceEndpoints: ["ap-northeast-1": "oidc.ap-northeast-1.amazonaws.com", "ap-northeast-2": "oidc.ap-northeast-2.amazonaws.com", "ap-northeast-3": "oidc.ap-northeast-3.amazonaws.com", "ap-south-1": "oidc.ap-south-1.amazonaws.com", "ap-southeast-1": "oidc.ap-southeast-1.amazonaws.com", "ap-southeast-2": "oidc.ap-southeast-2.amazonaws.com", "ca-central-1": "oidc.ca-central-1.amazonaws.com", "eu-central-1": "oidc.eu-central-1.amazonaws.com", "eu-north-1": "oidc.eu-north-1.amazonaws.com", "eu-west-1": "oidc.eu-west-1.amazonaws.com", "eu-west-2": "oidc.eu-west-2.amazonaws.com", "eu-west-3": "oidc.eu-west-3.amazonaws.com", "sa-east-1": "oidc.sa-east-1.amazonaws.com", "us-east-1": "oidc.us-east-1.amazonaws.com", "us-east-2": "oidc.us-east-2.amazonaws.com", "us-gov-east-1": "oidc.us-gov-east-1.amazonaws.com", "us-gov-west-1": "oidc.us-gov-west-1.amazonaws.com", "us-west-2": "oidc.us-west-2.amazonaws.com"],
+            serviceEndpoints: ["ap-east-1": "oidc.ap-east-1.amazonaws.com", "ap-northeast-1": "oidc.ap-northeast-1.amazonaws.com", "ap-northeast-2": "oidc.ap-northeast-2.amazonaws.com", "ap-northeast-3": "oidc.ap-northeast-3.amazonaws.com", "ap-south-1": "oidc.ap-south-1.amazonaws.com", "ap-southeast-1": "oidc.ap-southeast-1.amazonaws.com", "ap-southeast-2": "oidc.ap-southeast-2.amazonaws.com", "ca-central-1": "oidc.ca-central-1.amazonaws.com", "eu-central-1": "oidc.eu-central-1.amazonaws.com", "eu-north-1": "oidc.eu-north-1.amazonaws.com", "eu-south-1": "oidc.eu-south-1.amazonaws.com", "eu-west-1": "oidc.eu-west-1.amazonaws.com", "eu-west-2": "oidc.eu-west-2.amazonaws.com", "eu-west-3": "oidc.eu-west-3.amazonaws.com", "me-south-1": "oidc.me-south-1.amazonaws.com", "sa-east-1": "oidc.sa-east-1.amazonaws.com", "us-east-1": "oidc.us-east-1.amazonaws.com", "us-east-2": "oidc.us-east-2.amazonaws.com", "us-gov-east-1": "oidc.us-gov-east-1.amazonaws.com", "us-gov-west-1": "oidc.us-gov-west-1.amazonaws.com", "us-west-2": "oidc.us-west-2.amazonaws.com"],
             errorType: SSOOIDCErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
@@ -65,12 +66,12 @@ public struct SSOOIDC: AWSService {
 
     // MARK: API Calls
 
-    /// Creates and returns an access token for the authorized client. The access token issued will be used to fetch short-term credentials for the assigned roles in the AWS account.
+    /// Creates and returns an access token for the authorized client. The access token issued will be used to fetch short-term credentials for the assigned roles in the Amazon Web Services account.
     public func createToken(_ input: CreateTokenRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateTokenResponse> {
         return self.client.execute(operation: "CreateToken", path: "/token", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Registers a client with AWS SSO. This allows clients to initiate device authorization. The output should be persisted for reuse through many authentication requests.
+    /// Registers a client with Amazon Web Services SSO. This allows clients to initiate device authorization. The output should be persisted for reuse through many authentication requests.
     public func registerClient(_ input: RegisterClientRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RegisterClientResponse> {
         return self.client.execute(operation: "RegisterClient", path: "/client/register", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

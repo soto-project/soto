@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -114,6 +114,18 @@ extension IoTSiteWise {
         public var description: String { return self.rawValue }
     }
 
+    public enum ColumnName: String, CustomStringConvertible, Codable, _SotoSendable {
+        case alias = "ALIAS"
+        case assetId = "ASSET_ID"
+        case dataType = "DATA_TYPE"
+        case propertyId = "PROPERTY_ID"
+        case quality = "QUALITY"
+        case timestampNanoOffset = "TIMESTAMP_NANO_OFFSET"
+        case timestampSeconds = "TIMESTAMP_SECONDS"
+        case value = "VALUE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ComputeLocation: String, CustomStringConvertible, Codable, _SotoSendable {
         case cloud = "CLOUD"
         case edge = "EDGE"
@@ -169,9 +181,30 @@ extension IoTSiteWise {
         public var description: String { return self.rawValue }
     }
 
+    public enum JobStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case cancelled = "CANCELLED"
+        case completed = "COMPLETED"
+        case completedWithFailures = "COMPLETED_WITH_FAILURES"
+        case failed = "FAILED"
+        case pending = "PENDING"
+        case running = "RUNNING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ListAssetsFilter: String, CustomStringConvertible, Codable, _SotoSendable {
         case all = "ALL"
         case topLevel = "TOP_LEVEL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ListBulkImportJobsFilter: String, CustomStringConvertible, Codable, _SotoSendable {
+        case all = "ALL"
+        case cancelled = "CANCELLED"
+        case completed = "COMPLETED"
+        case completedWithFailures = "COMPLETED_WITH_FAILURES"
+        case failed = "FAILED"
+        case pending = "PENDING"
+        case running = "RUNNING"
         public var description: String { return self.rawValue }
     }
 
@@ -2037,6 +2070,69 @@ extension IoTSiteWise {
         }
     }
 
+    public struct CreateBulkImportJobRequest: AWSEncodableShape {
+        /// The Amazon S3 destination where errors associated with the job creation request are saved.
+        public let errorReportLocation: ErrorReportLocation
+        /// The files in the specified Amazon S3 bucket that contain your data.
+        public let files: [File]
+        /// Contains the configuration information of a job, such as the file format used to save data in Amazon S3.
+        public let jobConfiguration: JobConfiguration
+        /// The unique name that helps identify the job request.
+        public let jobName: String
+        /// The ARN of the IAM role that allows IoT SiteWise to read Amazon S3 data.
+        public let jobRoleArn: String
+
+        public init(errorReportLocation: ErrorReportLocation, files: [File], jobConfiguration: JobConfiguration, jobName: String, jobRoleArn: String) {
+            self.errorReportLocation = errorReportLocation
+            self.files = files
+            self.jobConfiguration = jobConfiguration
+            self.jobName = jobName
+            self.jobRoleArn = jobRoleArn
+        }
+
+        public func validate(name: String) throws {
+            try self.errorReportLocation.validate(name: "\(name).errorReportLocation")
+            try self.files.forEach {
+                try $0.validate(name: "\(name).files[]")
+            }
+            try self.validate(self.jobName, name: "jobName", parent: name, max: 256)
+            try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
+            try self.validate(self.jobName, name: "jobName", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
+            try self.validate(self.jobRoleArn, name: "jobRoleArn", parent: name, max: 1600)
+            try self.validate(self.jobRoleArn, name: "jobRoleArn", parent: name, min: 1)
+            try self.validate(self.jobRoleArn, name: "jobRoleArn", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorReportLocation
+            case files
+            case jobConfiguration
+            case jobName
+            case jobRoleArn
+        }
+    }
+
+    public struct CreateBulkImportJobResponse: AWSDecodableShape {
+        /// The ID of the job.
+        public let jobId: String
+        /// The unique name that helps identify the job request.
+        public let jobName: String
+        /// The status of the bulk import job can be one of following values.    PENDING – IoT SiteWise is waiting for the current bulk import job to finish.    CANCELLED – The bulk import job has been canceled.    RUNNING – IoT SiteWise is processing your request to import your data from Amazon S3.    COMPLETED – IoT SiteWise successfully completed your request to import data from Amazon S3.    FAILED – IoT SiteWise couldn't process your request to import data from Amazon S3.  You can use logs saved in the specified error report location in Amazon S3 to troubleshoot issues.    COMPLETED_WITH_FAILURES – IoT SiteWise completed your request to import data from Amazon S3 with errors. You can use logs saved in the specified error report location in Amazon S3 to troubleshoot issues.
+        public let jobStatus: JobStatus
+
+        public init(jobId: String, jobName: String, jobStatus: JobStatus) {
+            self.jobId = jobId
+            self.jobName = jobName
+            self.jobStatus = jobStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId
+            case jobName
+            case jobStatus
+        }
+    }
+
     public struct CreateDashboardRequest: AWSEncodableShape {
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
@@ -2336,6 +2432,19 @@ extension IoTSiteWise {
         private enum CodingKeys: String, CodingKey {
             case projectArn
             case projectId
+        }
+    }
+
+    public struct Csv: AWSEncodableShape & AWSDecodableShape {
+        /// The column names specified in the .csv file.
+        public let columnNames: [ColumnName]?
+
+        public init(columnNames: [ColumnName]? = nil) {
+            self.columnNames = columnNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnNames
         }
     }
 
@@ -2932,6 +3041,72 @@ extension IoTSiteWise {
             case assetName
             case assetProperties
             case assetStatus
+        }
+    }
+
+    public struct DescribeBulkImportJobRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "jobId", location: .uri("jobId"))
+        ]
+
+        /// The ID of the job.
+        public let jobId: String
+
+        public init(jobId: String) {
+            self.jobId = jobId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobId, name: "jobId", parent: name, max: 36)
+            try self.validate(self.jobId, name: "jobId", parent: name, min: 36)
+            try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeBulkImportJobResponse: AWSDecodableShape {
+        /// The Amazon S3 destination where errors associated with the job creation request are saved.
+        public let errorReportLocation: ErrorReportLocation
+        /// The files in the specified Amazon S3 bucket that contain your data.
+        public let files: [File]
+        /// Contains the configuration information of a job, such as the file format used to save data in Amazon S3.
+        public let jobConfiguration: JobConfiguration
+        /// The date the job was created, in Unix epoch TIME.
+        public let jobCreationDate: Date
+        /// The ID of the job.
+        public let jobId: String
+        /// The date the job was last updated, in Unix epoch time.
+        public let jobLastUpdateDate: Date
+        /// The unique name that helps identify the job request.
+        public let jobName: String
+        /// The ARN of the IAM role that allows IoT SiteWise to read Amazon S3 data.
+        public let jobRoleArn: String
+        /// The status of the bulk import job can be one of following values.    PENDING – IoT SiteWise is waiting for the current bulk import job to finish.    CANCELLED – The bulk import job has been canceled.    RUNNING – IoT SiteWise is processing your request to import your data from Amazon S3.    COMPLETED – IoT SiteWise successfully completed your request to import data from Amazon S3.    FAILED – IoT SiteWise couldn't process your request to import data from Amazon S3.  You can use logs saved in the specified error report location in Amazon S3 to troubleshoot issues.    COMPLETED_WITH_FAILURES – IoT SiteWise completed your request to import data from Amazon S3 with errors. You can use logs saved in the specified error report location in Amazon S3 to troubleshoot issues.
+        public let jobStatus: JobStatus
+
+        public init(errorReportLocation: ErrorReportLocation, files: [File], jobConfiguration: JobConfiguration, jobCreationDate: Date, jobId: String, jobLastUpdateDate: Date, jobName: String, jobRoleArn: String, jobStatus: JobStatus) {
+            self.errorReportLocation = errorReportLocation
+            self.files = files
+            self.jobConfiguration = jobConfiguration
+            self.jobCreationDate = jobCreationDate
+            self.jobId = jobId
+            self.jobLastUpdateDate = jobLastUpdateDate
+            self.jobName = jobName
+            self.jobRoleArn = jobRoleArn
+            self.jobStatus = jobStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorReportLocation
+            case files
+            case jobConfiguration
+            case jobCreationDate
+            case jobId
+            case jobLastUpdateDate
+            case jobName
+            case jobRoleArn
+            case jobStatus
         }
     }
 
@@ -3532,6 +3707,28 @@ extension IoTSiteWise {
         }
     }
 
+    public struct ErrorReportLocation: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the Amazon S3 bucket to which errors associated with the bulk import job are sent.
+        public let bucket: String
+        /// Amazon S3 uses the prefix as a folder name to organize data in the bucket.  Each Amazon S3 object has a key that is its unique identifier in the bucket.  Each object in a bucket has exactly one key. The prefix must end with a forward slash (/).  For more information, see Organizing objects using prefixes  in the Amazon Simple Storage Service User Guide.
+        public let prefix: String
+
+        public init(bucket: String, prefix: String) {
+            self.bucket = bucket
+            self.prefix = prefix
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucket, name: "bucket", parent: name, max: 63)
+            try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket
+            case prefix
+        }
+    }
+
     public struct ExpressionVariable: AWSEncodableShape & AWSDecodableShape {
         /// The friendly name of the variable to be used in the expression.
         public let name: String
@@ -3553,6 +3750,45 @@ extension IoTSiteWise {
         private enum CodingKeys: String, CodingKey {
             case name
             case value
+        }
+    }
+
+    public struct File: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the Amazon S3 bucket from which data is imported.
+        public let bucket: String
+        /// The key of the Amazon S3 object that contains your data. Each object has a key that is a unique identifier. Each object has exactly one key.
+        public let key: String
+        /// The version ID to identify a specific version of the Amazon S3 object that contains your data.
+        public let versionId: String?
+
+        public init(bucket: String, key: String, versionId: String? = nil) {
+            self.bucket = bucket
+            self.key = key
+            self.versionId = versionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucket, name: "bucket", parent: name, max: 63)
+            try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket
+            case key
+            case versionId
+        }
+    }
+
+    public struct FileFormat: AWSEncodableShape & AWSDecodableShape {
+        /// The .csv file format.
+        public let csv: Csv?
+
+        public init(csv: Csv? = nil) {
+            self.csv = csv
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case csv
         }
     }
 
@@ -4179,6 +4415,40 @@ extension IoTSiteWise {
         }
     }
 
+    public struct JobConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The file format of the data in Amazon S3.
+        public let fileFormat: FileFormat
+
+        public init(fileFormat: FileFormat) {
+            self.fileFormat = fileFormat
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileFormat
+        }
+    }
+
+    public struct JobSummary: AWSDecodableShape {
+        /// The ID of the job.
+        public let id: String
+        /// The unique name that helps identify the job request.
+        public let name: String
+        /// The status of the bulk import job can be one of following values.    PENDING – IoT SiteWise is waiting for the current bulk import job to finish.    CANCELLED – The bulk import job has been canceled.    RUNNING – IoT SiteWise is processing your request to import your data from Amazon S3.    COMPLETED – IoT SiteWise successfully completed your request to import data from Amazon S3.    FAILED – IoT SiteWise couldn't process your request to import data from Amazon S3.  You can use logs saved in the specified error report location in Amazon S3 to troubleshoot issues.    COMPLETED_WITH_FAILURES – IoT SiteWise completed your request to import data from Amazon S3 with errors. You can use logs saved in the specified error report location in Amazon S3 to troubleshoot issues.
+        public let status: JobStatus
+
+        public init(id: String, name: String, status: JobStatus) {
+            self.id = id
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id
+            case name
+            case status
+        }
+    }
+
     public struct ListAccessPoliciesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "iamArn", location: .querystring("iamArn")),
@@ -4464,6 +4734,54 @@ extension IoTSiteWise {
 
         private enum CodingKeys: String, CodingKey {
             case assetSummaries
+            case nextToken
+        }
+    }
+
+    public struct ListBulkImportJobsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "filter", location: .querystring("filter")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
+        ]
+
+        /// You can use a filter to select the bulk import jobs that you want to retrieve.
+        public let filter: ListBulkImportJobsFilter?
+        /// The maximum number of results to return for each paginated request.
+        public let maxResults: Int?
+        /// The token to be used for the next set of paginated results.
+        public let nextToken: String?
+
+        public init(filter: ListBulkImportJobsFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filter = filter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+/=]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListBulkImportJobsResponse: AWSDecodableShape {
+        /// One or more job summaries to list.
+        public let jobSummaries: [JobSummary]
+        /// The token for the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+
+        public init(jobSummaries: [JobSummary], nextToken: String? = nil) {
+            self.jobSummaries = jobSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobSummaries
             case nextToken
         }
     }

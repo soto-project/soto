@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -71,6 +71,34 @@ extension CloudWatch {
             command: describeAlarms,
             inputKey: \DescribeAlarmsInput.nextToken,
             outputKey: \DescribeAlarmsOutput.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Lists the anomaly detection models that you have created in your account.
+    ///  			For single metric anomaly detectors,
+    ///  			you can list all of the models in your account or filter the results
+    ///  			to only the models that are related to a certain namespace, metric name, or metric dimension.
+    ///  			For metric math anomaly detectors,
+    ///  			you can list them by adding METRIC_MATH to the AnomalyDetectorTypes array.
+    ///  			This will return all metric math anomaly detectors in your account.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeAnomalyDetectorsPaginator(
+        _ input: DescribeAnomalyDetectorsInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeAnomalyDetectorsInput, DescribeAnomalyDetectorsOutput> {
+        return .init(
+            input: input,
+            command: describeAnomalyDetectors,
+            inputKey: \DescribeAnomalyDetectorsInput.nextToken,
+            outputKey: \DescribeAnomalyDetectorsOutput.nextToken,
             logger: logger,
             on: eventLoop
         )
@@ -184,6 +212,33 @@ extension CloudWatch {
             command: listDashboards,
             inputKey: \ListDashboardsInput.nextToken,
             outputKey: \ListDashboardsOutput.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  			Returns a list
+    ///  			that contains the number
+    ///  			of managed Contributor Insights rules
+    ///  			in your account.
+    ///
+    ///
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listManagedInsightRulesPaginator(
+        _ input: ListManagedInsightRulesInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListManagedInsightRulesInput, ListManagedInsightRulesOutput> {
+        return .init(
+            input: input,
+            command: listManagedInsightRules,
+            inputKey: \ListManagedInsightRulesInput.nextToken,
+            outputKey: \ListManagedInsightRulesOutput.nextToken,
             logger: logger,
             on: eventLoop
         )

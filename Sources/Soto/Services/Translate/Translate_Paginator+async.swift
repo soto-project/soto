@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -23,6 +23,28 @@ import SotoCore
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Translate {
+    ///  Provides a list of languages (RFC-5646 codes and names) that Amazon Translate supports.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listLanguagesPaginator(
+        _ input: ListLanguagesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListLanguagesRequest, ListLanguagesResponse> {
+        return .init(
+            input: input,
+            command: listLanguages,
+            inputKey: \ListLanguagesRequest.nextToken,
+            outputKey: \ListLanguagesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Provides a list of your parallel data resources in Amazon Translate.
     /// Return PaginatorSequence for operation.
     ///

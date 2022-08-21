@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -245,6 +245,7 @@ extension Drs {
     }
 
     public enum ReplicationConfigurationDefaultLargeStagingDiskType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case auto = "AUTO"
         case gp2 = "GP2"
         case gp3 = "GP3"
         case st1 = "ST1"
@@ -609,7 +610,7 @@ extension Drs {
     }
 
     public struct DeleteRecoveryInstanceRequest: AWSEncodableShape {
-        /// RThe ID of the Recovery Instance to be deleted.
+        /// The ID of the Recovery Instance to be deleted.
         public let recoveryInstanceID: String
 
         public init(recoveryInstanceID: String) {
@@ -2060,15 +2061,18 @@ extension Drs {
         public let iops: Int64?
         /// Whether to boot from this disk or not.
         public let isBootDisk: Bool?
+        /// The Staging Disk EBS volume type to be used during replication when stagingDiskType is set to Auto. This is a read-only field.
+        public let optimizedStagingDiskType: ReplicationConfigurationReplicatedDiskStagingDiskType?
         /// The Staging Disk EBS volume type to be used during replication.
         public let stagingDiskType: ReplicationConfigurationReplicatedDiskStagingDiskType?
         /// The throughput to use for the EBS volume in MiB/s. This parameter is valid only for gp3 volumes.
         public let throughput: Int64?
 
-        public init(deviceName: String? = nil, iops: Int64? = nil, isBootDisk: Bool? = nil, stagingDiskType: ReplicationConfigurationReplicatedDiskStagingDiskType? = nil, throughput: Int64? = nil) {
+        public init(deviceName: String? = nil, iops: Int64? = nil, isBootDisk: Bool? = nil, optimizedStagingDiskType: ReplicationConfigurationReplicatedDiskStagingDiskType? = nil, stagingDiskType: ReplicationConfigurationReplicatedDiskStagingDiskType? = nil, throughput: Int64? = nil) {
             self.deviceName = deviceName
             self.iops = iops
             self.isBootDisk = isBootDisk
+            self.optimizedStagingDiskType = optimizedStagingDiskType
             self.stagingDiskType = stagingDiskType
             self.throughput = throughput
         }
@@ -2083,6 +2087,7 @@ extension Drs {
             case deviceName
             case iops
             case isBootDisk
+            case optimizedStagingDiskType
             case stagingDiskType
             case throughput
         }

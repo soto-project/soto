@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -89,6 +89,28 @@ extension Athena {
         )
     }
 
+    ///  Returns a list of engine versions that are available to choose from, including the Auto option.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listEngineVersionsPaginator(
+        _ input: ListEngineVersionsInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListEngineVersionsInput, ListEngineVersionsOutput> {
+        return .init(
+            input: input,
+            command: listEngineVersions,
+            inputKey: \ListEngineVersionsInput.nextToken,
+            outputKey: \ListEngineVersionsOutput.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Provides a list of available query IDs only for queries saved in the specified workgroup. Requires that you have access to the specified workgroup. If a workgroup is not specified, lists the saved queries for the primary workgroup. For code samples using the Amazon Web Services SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
     /// Return PaginatorSequence for operation.
     ///
@@ -111,7 +133,7 @@ extension Athena {
         )
     }
 
-    ///  Lists the prepared statements in the specfied workgroup.
+    ///  Lists the prepared statements in the specified workgroup.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

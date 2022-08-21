@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -526,6 +526,12 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum DynamicRoutingValue: String, CustomStringConvertible, Codable, _SotoSendable {
+        case disable
+        case enable
+        public var description: String { return self.rawValue }
+    }
+
     public enum EbsEncryptionSupport: String, CustomStringConvertible, Codable, _SotoSendable {
         case supported
         case unsupported
@@ -715,6 +721,8 @@ extension EC2 {
     public enum FlowLogsResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
         case networkInterface = "NetworkInterface"
         case subnet = "Subnet"
+        case transitGateway = "TransitGateway"
+        case transitGatewayAttachment = "TransitGatewayAttachment"
         case vpc = "VPC"
         public var description: String { return self.rawValue }
     }
@@ -1277,6 +1285,7 @@ extension EC2 {
         public static var m6iMetal: Self { .init(rawValue: "m6i.metal") }
         public static var m6iXlarge: Self { .init(rawValue: "m6i.xlarge") }
         public static var mac1Metal: Self { .init(rawValue: "mac1.metal") }
+        public static var mac2Metal: Self { .init(rawValue: "mac2.metal") }
         public static var p216Xlarge: Self { .init(rawValue: "p2.16xlarge") }
         public static var p28Xlarge: Self { .init(rawValue: "p2.8xlarge") }
         public static var p2Xlarge: Self { .init(rawValue: "p2.xlarge") }
@@ -2040,6 +2049,7 @@ extension EC2 {
 
     public enum ResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
         case capacityReservation = "capacity-reservation"
+        case capacityReservationFleet = "capacity-reservation-fleet"
         case carrierGateway = "carrier-gateway"
         case clientVpnEndpoint = "client-vpn-endpoint"
         case customerGateway = "customer-gateway"
@@ -2092,16 +2102,20 @@ extension EC2 {
         case subnet
         case subnetCidrReservation = "subnet-cidr-reservation"
         case trafficMirrorFilter = "traffic-mirror-filter"
+        case trafficMirrorFilterRule = "traffic-mirror-filter-rule"
         case trafficMirrorSession = "traffic-mirror-session"
         case trafficMirrorTarget = "traffic-mirror-target"
         case transitGateway = "transit-gateway"
         case transitGatewayAttachment = "transit-gateway-attachment"
         case transitGatewayConnectPeer = "transit-gateway-connect-peer"
         case transitGatewayMulticastDomain = "transit-gateway-multicast-domain"
+        case transitGatewayPolicyTable = "transit-gateway-policy-table"
         case transitGatewayRouteTable = "transit-gateway-route-table"
+        case transitGatewayRouteTableAnnouncement = "transit-gateway-route-table-announcement"
         case volume
         case vpc
         case vpcEndpoint = "vpc-endpoint"
+        case vpcEndpointConnectionDeviceType = "vpc-endpoint-connection-device-type"
         case vpcEndpointService = "vpc-endpoint-service"
         case vpcFlowLog = "vpc-flow-log"
         case vpcPeeringConnection = "vpc-peering-connection"
@@ -2220,6 +2234,12 @@ extension EC2 {
     public enum SpotInstanceType: String, CustomStringConvertible, Codable, _SotoSendable {
         case oneTime = "one-time"
         case persistent
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SpreadLevel: String, CustomStringConvertible, Codable, _SotoSendable {
+        case host
+        case rack
         public var description: String { return self.rawValue }
     }
 
@@ -2449,6 +2469,14 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum TransitGatewayPolicyTableState: String, CustomStringConvertible, Codable, _SotoSendable {
+        case available
+        case deleted
+        case deleting
+        case pending
+        public var description: String { return self.rawValue }
+    }
+
     public enum TransitGatewayPrefixListReferenceState: String, CustomStringConvertible, Codable, _SotoSendable {
         case available
         case deleting
@@ -2470,6 +2498,22 @@ extension EC2 {
         case blackhole
         case deleted
         case deleting
+        case pending
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TransitGatewayRouteTableAnnouncementDirection: String, CustomStringConvertible, Codable, _SotoSendable {
+        case incoming
+        case outgoing
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TransitGatewayRouteTableAnnouncementState: String, CustomStringConvertible, Codable, _SotoSendable {
+        case available
+        case deleted
+        case deleting
+        case failed
+        case failing
         case pending
         public var description: String { return self.rawValue }
     }
@@ -4263,6 +4307,40 @@ extension EC2 {
         }
     }
 
+    public struct AssociateTransitGatewayPolicyTableRequest: AWSEncodableShape {
+        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the transit gateway attachment to associate with the policy table.
+        public let transitGatewayAttachmentId: String
+        /// The ID of the transit gateway policy table to associate with the transit gateway attachment.
+        public let transitGatewayPolicyTableId: String
+
+        public init(dryRun: Bool? = nil, transitGatewayAttachmentId: String, transitGatewayPolicyTableId: String) {
+            self.dryRun = dryRun
+            self.transitGatewayAttachmentId = transitGatewayAttachmentId
+            self.transitGatewayPolicyTableId = transitGatewayPolicyTableId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case transitGatewayAttachmentId = "TransitGatewayAttachmentId"
+            case transitGatewayPolicyTableId = "TransitGatewayPolicyTableId"
+        }
+    }
+
+    public struct AssociateTransitGatewayPolicyTableResult: AWSDecodableShape {
+        /// Describes the association of a transit gateway and a transit gateway policy table.
+        public let association: TransitGatewayPolicyTableAssociation?
+
+        public init(association: TransitGatewayPolicyTableAssociation? = nil) {
+            self.association = association
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case association
+        }
+    }
+
     public struct AssociateTransitGatewayRouteTableRequest: AWSEncodableShape {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -5628,8 +5706,7 @@ extension EC2 {
         /// 			types:
         /// 		          unlimited - The Capacity Reservation remains active until you explicitly cancel it.    limited - The Capacity Reservation expires automatically at a specified date and time.
         public let endDateType: EndDateType?
-        /// Indicates whether the Capacity Reservation supports instances with temporary, block-level
-        /// 			storage.
+        ///  Deprecated.
         public let ephemeralStorage: Bool?
         /// Indicates the type of instance launches that the Capacity Reservation accepts. The options
         /// 			include:
@@ -6665,6 +6742,49 @@ extension EC2 {
         }
     }
 
+    public struct CloudWatchLogOptions: AWSDecodableShape {
+        /// Status of VPN tunnel logging feature. Default value is False. Valid values: True | False
+        public let logEnabled: Bool?
+        /// The Amazon Resource Name (ARN) of the CloudWatch log group to send logs to.
+        public let logGroupArn: String?
+        /// Configured log format. Default format is json. Valid values: json | text
+        public let logOutputFormat: String?
+
+        public init(logEnabled: Bool? = nil, logGroupArn: String? = nil, logOutputFormat: String? = nil) {
+            self.logEnabled = logEnabled
+            self.logGroupArn = logGroupArn
+            self.logOutputFormat = logOutputFormat
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logEnabled
+            case logGroupArn
+            case logOutputFormat
+        }
+    }
+
+    public struct CloudWatchLogOptionsSpecification: AWSEncodableShape {
+        /// Enable or disable VPN tunnel logging feature. Default value is False. Valid values: True | False
+        public let logEnabled: Bool?
+        /// The Amazon Resource Name (ARN) of the CloudWatch log group to send logs to.
+        public let logGroupArn: String?
+        /// Set log format. Default format is json.
+        /// 	        Valid values: json | text
+        public let logOutputFormat: String?
+
+        public init(logEnabled: Bool? = nil, logGroupArn: String? = nil, logOutputFormat: String? = nil) {
+            self.logEnabled = logEnabled
+            self.logGroupArn = logGroupArn
+            self.logOutputFormat = logOutputFormat
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logEnabled = "LogEnabled"
+            case logGroupArn = "LogGroupArn"
+            case logOutputFormat = "LogOutputFormat"
+        }
+    }
+
     public struct CoipAddressUsage: AWSDecodableShape {
         /// The allocation ID of the address.
         public let allocationId: String?
@@ -7279,8 +7399,7 @@ extension EC2 {
         /// 					provide an EndDate value if the EndDateType value is
         /// 						limited.
         public let endDateType: EndDateType?
-        /// Indicates whether the Capacity Reservation supports instances with temporary, block-level
-        /// 			storage.
+        ///  Deprecated.
         public let ephemeralStorage: Bool?
         /// The number of instances for which to reserve capacity.
         /// 	  	     Valid range: 1 - 1000
@@ -7595,7 +7714,9 @@ extension EC2 {
         public let deviceName: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// The Internet-routable IP address for the customer gateway's outside interface. The address must be static.
+        ///  IPv4 address for the customer gateway device's outside interface. The address must be static.
+        public let ipAddress: String?
+        ///  This member has been deprecated. The Internet-routable IP address for the customer gateway's outside interface. The address must be static.
         public let publicIp: String?
         /// The tags to apply to the customer gateway.
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
@@ -7603,11 +7724,12 @@ extension EC2 {
         /// The type of VPN connection that this customer gateway supports (ipsec.1).
         public let type: GatewayType
 
-        public init(bgpAsn: Int, certificateArn: String? = nil, deviceName: String? = nil, dryRun: Bool? = nil, publicIp: String? = nil, tagSpecifications: [TagSpecification]? = nil, type: GatewayType) {
+        public init(bgpAsn: Int, certificateArn: String? = nil, deviceName: String? = nil, dryRun: Bool? = nil, ipAddress: String? = nil, publicIp: String? = nil, tagSpecifications: [TagSpecification]? = nil, type: GatewayType) {
             self.bgpAsn = bgpAsn
             self.certificateArn = certificateArn
             self.deviceName = deviceName
             self.dryRun = dryRun
+            self.ipAddress = ipAddress
             self.publicIp = publicIp
             self.tagSpecifications = tagSpecifications
             self.type = type
@@ -7618,7 +7740,8 @@ extension EC2 {
             case certificateArn = "CertificateArn"
             case deviceName = "DeviceName"
             case dryRun
-            case publicIp = "IpAddress"
+            case ipAddress = "IpAddress"
+            case publicIp = "PublicIp"
             case tagSpecifications = "TagSpecification"
             case type = "Type"
         }
@@ -7975,9 +8098,9 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
         /// The type of traffic to log. You can log traffic that the resource accepts or rejects, or all traffic.
-        public let trafficType: TrafficType
+        public let trafficType: TrafficType?
 
-        public init(clientToken: String? = nil, deliverLogsPermissionArn: String? = nil, destinationOptions: DestinationOptionsRequest? = nil, dryRun: Bool? = nil, logDestination: String? = nil, logDestinationType: LogDestinationType? = nil, logFormat: String? = nil, logGroupName: String? = nil, maxAggregationInterval: Int? = nil, resourceIds: [String], resourceType: FlowLogsResourceType, tagSpecifications: [TagSpecification]? = nil, trafficType: TrafficType) {
+        public init(clientToken: String? = nil, deliverLogsPermissionArn: String? = nil, destinationOptions: DestinationOptionsRequest? = nil, dryRun: Bool? = nil, logDestination: String? = nil, logDestinationType: LogDestinationType? = nil, logFormat: String? = nil, logGroupName: String? = nil, maxAggregationInterval: Int? = nil, resourceIds: [String], resourceType: FlowLogsResourceType, tagSpecifications: [TagSpecification]? = nil, trafficType: TrafficType? = nil) {
             self.clientToken = clientToken
             self.deliverLogsPermissionArn = deliverLogsPermissionArn
             self.destinationOptions = destinationOptions
@@ -8523,7 +8646,7 @@ extension EC2 {
         public let launchTemplateData: RequestLaunchTemplateData
         /// A name for the launch template.
         public let launchTemplateName: String
-        /// The tags to apply to the launch template during creation.
+        /// The tags to apply to the launch template on creation. To tag the launch template, the resource type must be launch-template.  To specify the tags for the resources that are created when an instance is launched, you must use the TagSpecifications parameter in the  launch template data structure.
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
         /// A description for the first version of the launch template.
@@ -8580,9 +8703,9 @@ extension EC2 {
         public let dryRun: Bool?
         /// The information for the launch template.
         public let launchTemplateData: RequestLaunchTemplateData
-        /// The ID of the launch template. You must specify either the launch template ID or launch template name in the request.
+        /// The ID of the launch template. You must specify either the LaunchTemplateId or the LaunchTemplateName, but not both.
         public let launchTemplateId: String?
-        /// The name of the launch template. You must specify either the launch template ID or launch template name in the request.
+        /// The name of the launch template. You must specify the LaunchTemplateName or the LaunchTemplateId, but not both.
         public let launchTemplateName: String?
         /// The version number of the launch template version on which to base the new version. The new version inherits the same launch parameters as the source version, except for parameters that you specify in LaunchTemplateData. Snapshots applied to the block device mapping are ignored when creating a new version unless they are explicitly included.
         public let sourceVersion: String?
@@ -9200,16 +9323,19 @@ extension EC2 {
         public let groupName: String?
         /// The number of partitions. Valid only when Strategy is set to partition.
         public let partitionCount: Int?
+        /// Determines how placement groups spread instances.    Host – You can use host only with Outpost placement groups.   Rack – No usage restrictions.
+        public let spreadLevel: SpreadLevel?
         /// The placement strategy.
         public let strategy: PlacementStrategy?
         /// The tags to apply to the new placement group.
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
-        public init(dryRun: Bool? = nil, groupName: String? = nil, partitionCount: Int? = nil, strategy: PlacementStrategy? = nil, tagSpecifications: [TagSpecification]? = nil) {
+        public init(dryRun: Bool? = nil, groupName: String? = nil, partitionCount: Int? = nil, spreadLevel: SpreadLevel? = nil, strategy: PlacementStrategy? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.dryRun = dryRun
             self.groupName = groupName
             self.partitionCount = partitionCount
+            self.spreadLevel = spreadLevel
             self.strategy = strategy
             self.tagSpecifications = tagSpecifications
         }
@@ -9218,6 +9344,7 @@ extension EC2 {
             case dryRun
             case groupName
             case partitionCount = "PartitionCount"
+            case spreadLevel = "SpreadLevel"
             case strategy
             case tagSpecifications = "TagSpecification"
         }
@@ -10302,6 +10429,8 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
+        /// Requests a transit gateway peering attachment.
+        public let options: CreateTransitGatewayPeeringAttachmentRequestOptions?
         /// The ID of the Amazon Web Services account that owns the peer transit gateway.
         public let peerAccountId: String
         /// The Region where the peer transit gateway is located.
@@ -10314,8 +10443,9 @@ extension EC2 {
         /// The ID of the transit gateway.
         public let transitGatewayId: String
 
-        public init(dryRun: Bool? = nil, peerAccountId: String, peerRegion: String, peerTransitGatewayId: String, tagSpecifications: [TagSpecification]? = nil, transitGatewayId: String) {
+        public init(dryRun: Bool? = nil, options: CreateTransitGatewayPeeringAttachmentRequestOptions? = nil, peerAccountId: String, peerRegion: String, peerTransitGatewayId: String, tagSpecifications: [TagSpecification]? = nil, transitGatewayId: String) {
             self.dryRun = dryRun
+            self.options = options
             self.peerAccountId = peerAccountId
             self.peerRegion = peerRegion
             self.peerTransitGatewayId = peerTransitGatewayId
@@ -10325,11 +10455,25 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case dryRun = "DryRun"
+            case options = "Options"
             case peerAccountId = "PeerAccountId"
             case peerRegion = "PeerRegion"
             case peerTransitGatewayId = "PeerTransitGatewayId"
             case tagSpecifications = "TagSpecification"
             case transitGatewayId = "TransitGatewayId"
+        }
+    }
+
+    public struct CreateTransitGatewayPeeringAttachmentRequestOptions: AWSEncodableShape {
+        /// Indicates whether dynamic routing is enabled or disabled.
+        public let dynamicRouting: DynamicRoutingValue?
+
+        public init(dynamicRouting: DynamicRoutingValue? = nil) {
+            self.dynamicRouting = dynamicRouting
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dynamicRouting = "DynamicRouting"
         }
     }
 
@@ -10343,6 +10487,43 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case transitGatewayPeeringAttachment
+        }
+    }
+
+    public struct CreateTransitGatewayPolicyTableRequest: AWSEncodableShape {
+        public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The tags specification for the transit gateway policy table created during the request.
+        @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
+        public var tagSpecifications: [TagSpecification]?
+        /// The ID of the transit gateway used for the policy table.
+        public let transitGatewayId: String
+
+        public init(dryRun: Bool? = nil, tagSpecifications: [TagSpecification]? = nil, transitGatewayId: String) {
+            self.dryRun = dryRun
+            self.tagSpecifications = tagSpecifications
+            self.transitGatewayId = transitGatewayId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case tagSpecifications = "TagSpecifications"
+            case transitGatewayId = "TransitGatewayId"
+        }
+    }
+
+    public struct CreateTransitGatewayPolicyTableResult: AWSDecodableShape {
+        /// Describes the created transit gateway policy table.
+        public let transitGatewayPolicyTable: TransitGatewayPolicyTable?
+
+        public init(transitGatewayPolicyTable: TransitGatewayPolicyTable? = nil) {
+            self.transitGatewayPolicyTable = transitGatewayPolicyTable
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transitGatewayPolicyTable
         }
     }
 
@@ -10468,6 +10649,47 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case route
+        }
+    }
+
+    public struct CreateTransitGatewayRouteTableAnnouncementRequest: AWSEncodableShape {
+        public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the peering attachment.
+        public let peeringAttachmentId: String
+        /// The tags specifications applied to the transit gateway route table announcement.
+        @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
+        public var tagSpecifications: [TagSpecification]?
+        /// The ID of the transit gateway route table.
+        public let transitGatewayRouteTableId: String
+
+        public init(dryRun: Bool? = nil, peeringAttachmentId: String, tagSpecifications: [TagSpecification]? = nil, transitGatewayRouteTableId: String) {
+            self.dryRun = dryRun
+            self.peeringAttachmentId = peeringAttachmentId
+            self.tagSpecifications = tagSpecifications
+            self.transitGatewayRouteTableId = transitGatewayRouteTableId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case peeringAttachmentId = "PeeringAttachmentId"
+            case tagSpecifications = "TagSpecification"
+            case transitGatewayRouteTableId = "TransitGatewayRouteTableId"
+        }
+    }
+
+    public struct CreateTransitGatewayRouteTableAnnouncementResult: AWSDecodableShape {
+        /// Provides details about the transit gateway route table announcement.
+        public let transitGatewayRouteTableAnnouncement: TransitGatewayRouteTableAnnouncement?
+
+        public init(transitGatewayRouteTableAnnouncement: TransitGatewayRouteTableAnnouncement? = nil) {
+            self.transitGatewayRouteTableAnnouncement = transitGatewayRouteTableAnnouncement
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transitGatewayRouteTableAnnouncement
         }
     }
 
@@ -11133,7 +11355,7 @@ extension EC2 {
     }
 
     public struct CreditSpecification: AWSDecodableShape {
-        /// The credit option for CPU usage of a T2, T3, or T3a instance. Valid values are standard and unlimited.
+        /// The credit option for CPU usage of a T instance. Valid values: standard | unlimited
         public let cpuCredits: String?
 
         public init(cpuCredits: String? = nil) {
@@ -11146,7 +11368,7 @@ extension EC2 {
     }
 
     public struct CreditSpecificationRequest: AWSEncodableShape {
-        /// The credit option for CPU usage of a T2, T3, or T3a instance. Valid values are standard and unlimited.
+        /// The credit option for CPU usage of a T instance. Valid values: standard | unlimited
         public let cpuCredits: String
 
         public init(cpuCredits: String) {
@@ -11169,7 +11391,7 @@ extension EC2 {
         public let customerGatewayId: String?
         /// The name of customer gateway device.
         public let deviceName: String?
-        /// The Internet-routable IP address of the customer gateway's outside interface.
+        /// The IP address of the customer gateway device's outside interface.
         public let ipAddress: String?
         /// The current state of the customer gateway (pending | available | deleting | deleted).
         public let state: String?
@@ -11698,9 +11920,9 @@ extension EC2 {
     public struct DeleteLaunchTemplateRequest: AWSEncodableShape {
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// The ID of the launch template. You must specify either the launch template ID or launch template name in the request.
+        /// The ID of the launch template. You must specify either the LaunchTemplateId or the LaunchTemplateName, but not both.
         public let launchTemplateId: String?
-        /// The name of the launch template. You must specify either the launch template ID or launch template name in the request.
+        /// The name of the launch template. You must specify either the LaunchTemplateName or the LaunchTemplateId, but not both.
         public let launchTemplateName: String?
 
         public init(dryRun: Bool? = nil, launchTemplateId: String? = nil, launchTemplateName: String? = nil) {
@@ -11740,9 +11962,9 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// The ID of the launch template. You must specify either the launch template ID or launch template name in the request.
+        /// The ID of the launch template. You must specify either the LaunchTemplateId or the LaunchTemplateName, but not both.
         public let launchTemplateId: String?
-        /// The name of the launch template. You must specify either the launch template ID or launch template name in the request.
+        /// The name of the launch template. You must specify either the LaunchTemplateName or the LaunchTemplateId, but not both.
         public let launchTemplateName: String?
         /// The version numbers of one or more launch template versions to delete.
         @CustomCoding<ArrayCoder<_VersionsEncoding, String>>
@@ -12697,6 +12919,36 @@ extension EC2 {
         }
     }
 
+    public struct DeleteTransitGatewayPolicyTableRequest: AWSEncodableShape {
+        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The transit gateway policy table to delete.
+        public let transitGatewayPolicyTableId: String
+
+        public init(dryRun: Bool? = nil, transitGatewayPolicyTableId: String) {
+            self.dryRun = dryRun
+            self.transitGatewayPolicyTableId = transitGatewayPolicyTableId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case transitGatewayPolicyTableId = "TransitGatewayPolicyTableId"
+        }
+    }
+
+    public struct DeleteTransitGatewayPolicyTableResult: AWSDecodableShape {
+        /// Provides details about the deleted transit gateway policy table.
+        public let transitGatewayPolicyTable: TransitGatewayPolicyTable?
+
+        public init(transitGatewayPolicyTable: TransitGatewayPolicyTable? = nil) {
+            self.transitGatewayPolicyTable = transitGatewayPolicyTable
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transitGatewayPolicyTable
+        }
+    }
+
     public struct DeleteTransitGatewayPrefixListReferenceRequest: AWSEncodableShape {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -12792,6 +13044,36 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case route
+        }
+    }
+
+    public struct DeleteTransitGatewayRouteTableAnnouncementRequest: AWSEncodableShape {
+        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The transit gateway route table ID that's being deleted.
+        public let transitGatewayRouteTableAnnouncementId: String
+
+        public init(dryRun: Bool? = nil, transitGatewayRouteTableAnnouncementId: String) {
+            self.dryRun = dryRun
+            self.transitGatewayRouteTableAnnouncementId = transitGatewayRouteTableAnnouncementId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case transitGatewayRouteTableAnnouncementId = "TransitGatewayRouteTableAnnouncementId"
+        }
+    }
+
+    public struct DeleteTransitGatewayRouteTableAnnouncementResult: AWSDecodableShape {
+        /// Provides details about a deleted transit gateway route table.
+        public let transitGatewayRouteTableAnnouncement: TransitGatewayRouteTableAnnouncement?
+
+        public init(transitGatewayRouteTableAnnouncement: TransitGatewayRouteTableAnnouncement? = nil) {
+            self.transitGatewayRouteTableAnnouncement = transitGatewayRouteTableAnnouncement
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transitGatewayRouteTableAnnouncement
         }
     }
 
@@ -14337,7 +14619,7 @@ extension EC2 {
         public var customerGatewayIds: [String]?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// One or more filters.    bgp-asn - The customer gateway's Border Gateway Protocol (BGP) Autonomous System Number (ASN).    customer-gateway-id - The ID of the customer gateway.    ip-address - The IP address of the customer gateway's Internet-routable external interface.    state - The state of the customer gateway (pending | available | deleting | deleted).    type - The type of customer gateway. Currently, the only supported type is ipsec.1.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.     tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.
+        /// One or more filters.    bgp-asn - The customer gateway's Border Gateway Protocol (BGP) Autonomous System Number (ASN).    customer-gateway-id - The ID of the customer gateway.    ip-address - The IP address of the customer gateway device's external interface.    state - The state of the customer gateway (pending | available | deleting | deleted).    type - The type of customer gateway. Currently, the only supported type is ipsec.1.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.     tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
 
@@ -16502,9 +16784,9 @@ extension EC2 {
         /// One or more filters.    create-time - The time the launch template version was created.    ebs-optimized - A boolean that indicates whether the instance is optimized for Amazon EBS I/O.    http-endpoint - Indicates whether the HTTP metadata endpoint on your instances is enabled (enabled | disabled).    http-protocol-ipv4 - Indicates whether the IPv4 endpoint for the instance metadata service is enabled (enabled | disabled).    host-resource-group-arn - The ARN of the host resource group in which to launch the instances.    http-tokens - The state of token usage for your instance metadata requests (optional | required).    iam-instance-profile - The ARN of the IAM instance profile.    image-id - The ID of the AMI.    instance-type - The instance type.    is-default-version - A boolean that indicates whether the launch template version is the default version.    kernel-id - The kernel ID.    license-configuration-arn - The ARN of the license configuration.    network-card-index - The index of the network card.    ram-disk-id - The RAM disk ID.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
-        /// The ID of the launch template. To describe one or more versions of a specified launch template, you must specify either the launch template ID or the launch template name in the request. To describe all the latest or default launch template versions in your account, you must omit this parameter.
+        /// The ID of the launch template. To describe one or more versions of a specified launch template, you must specify either the LaunchTemplateId or the LaunchTemplateName, but not both. To describe all the latest or default launch template versions in your account, you must omit this parameter.
         public let launchTemplateId: String?
-        /// The name of the launch template. To describe one or more versions of a specified launch template, you must specify either the launch template ID or the launch template name in the request. To describe all the latest or default launch template versions in your account, you must omit this parameter.
+        /// The name of the launch template. To describe one or more versions of a specified launch template, you must specify either the LaunchTemplateName or the LaunchTemplateId, but not both. To describe all the latest or default launch template versions in your account, you must omit this parameter.
         public let launchTemplateName: String?
         /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value. This value can be between 1 and 200.
         public let maxResults: Int?
@@ -16514,7 +16796,7 @@ extension EC2 {
         public let minVersion: String?
         /// The token to request the next page of results.
         public let nextToken: String?
-        /// One or more versions of the launch template. Valid values depend on whether you are describing a specified launch template (by ID or name) or all launch templates in your account. To describe one or more versions of a specified launch template, valid values are $Latest, $Default, and numbers. To describe all launch templates in your account that are defined as the latest version, the valid value is $Latest. To describe all launch templates in your account that are defined as the default version, the valid value is $Default. You can specify $Latest and $Default in the same call. You cannot specify numbers.
+        /// One or more versions of the launch template. Valid values depend on whether you are describing a specified launch template (by ID or name) or all launch templates in your account. To describe one or more versions of a specified launch template, valid values are $Latest, $Default, and numbers. To describe all launch templates in your account that are defined as the latest version, the valid value is $Latest. To describe all launch templates in your account that are defined as the default version, the valid value is $Default. You can specify $Latest and $Default in the same request. You cannot specify numbers.
         @OptionalCustomCoding<ArrayCoder<_VersionsEncoding, String>>
         public var versions: [String]?
 
@@ -17212,6 +17494,9 @@ extension EC2 {
         ///
         /// 		              entry.rule-action - Allows or denies the matching traffic (allow | deny).
         ///
+        /// 		             entry.egress - A Boolean that indicates the type of rule. Specify true
+        /// 		                for egress rules, or false for ingress rules.
+        ///
         /// 		              entry.rule-number - The number of an entry (in other words, rule) in the set of ACL entries.
         ///
         /// 		              network-acl-id - The ID of the network ACL.
@@ -17803,7 +18088,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// The filters.    group-name - The name of the placement group.    group-arn - The Amazon Resource Name (ARN) of the placement group.    state - The state of the placement group (pending | available | deleting | deleted).    strategy - The strategy of the placement group (cluster | spread | partition).    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources that have a tag with a specific key, regardless of the tag value.
+        /// The filters.    group-name - The name of the placement group.    group-arn - The Amazon Resource Name (ARN) of the placement group.    spread-level - The spread level for the placement group (host | rack).     state - The state of the placement group (pending | available | deleting | deleted).    strategy - The strategy of the placement group (cluster | spread | partition).    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources that have a tag with a specific key, regardless of the tag value.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The IDs of the placement groups.
@@ -19923,6 +20208,126 @@ extension EC2 {
         }
     }
 
+    public struct DescribeTransitGatewayPolicyTablesRequest: AWSEncodableShape {
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _TransitGatewayPolicyTableIdsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The filters associated with the transit gateway policy table.
+        @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
+        /// The maximum number of results to return with a single call.
+        /// 	To retrieve the remaining results, make another call with the returned nextToken value.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// The IDs of the transit gateway policy tables.
+        @OptionalCustomCoding<ArrayCoder<_TransitGatewayPolicyTableIdsEncoding, String>>
+        public var transitGatewayPolicyTableIds: [String]?
+
+        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, transitGatewayPolicyTableIds: [String]? = nil) {
+            self.dryRun = dryRun
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.transitGatewayPolicyTableIds = transitGatewayPolicyTableIds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case filters = "Filter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case transitGatewayPolicyTableIds = "TransitGatewayPolicyTableIds"
+        }
+    }
+
+    public struct DescribeTransitGatewayPolicyTablesResult: AWSDecodableShape {
+        public struct _TransitGatewayPolicyTablesEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// Describes the transit gateway policy tables.
+        @OptionalCustomCoding<ArrayCoder<_TransitGatewayPolicyTablesEncoding, TransitGatewayPolicyTable>>
+        public var transitGatewayPolicyTables: [TransitGatewayPolicyTable]?
+
+        public init(nextToken: String? = nil, transitGatewayPolicyTables: [TransitGatewayPolicyTable]? = nil) {
+            self.nextToken = nextToken
+            self.transitGatewayPolicyTables = transitGatewayPolicyTables
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken
+            case transitGatewayPolicyTables
+        }
+    }
+
+    public struct DescribeTransitGatewayRouteTableAnnouncementsRequest: AWSEncodableShape {
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _TransitGatewayRouteTableAnnouncementIdsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The filters associated with the transit gateway policy table.
+        @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
+        /// The maximum number of results to return with a single call.
+        /// 	To retrieve the remaining results, make another call with the returned nextToken value.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// The IDs of the transit gateway route tables that are being advertised.
+        @OptionalCustomCoding<ArrayCoder<_TransitGatewayRouteTableAnnouncementIdsEncoding, String>>
+        public var transitGatewayRouteTableAnnouncementIds: [String]?
+
+        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, transitGatewayRouteTableAnnouncementIds: [String]? = nil) {
+            self.dryRun = dryRun
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.transitGatewayRouteTableAnnouncementIds = transitGatewayRouteTableAnnouncementIds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case filters = "Filter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case transitGatewayRouteTableAnnouncementIds = "TransitGatewayRouteTableAnnouncementIds"
+        }
+    }
+
+    public struct DescribeTransitGatewayRouteTableAnnouncementsResult: AWSDecodableShape {
+        public struct _TransitGatewayRouteTableAnnouncementsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// Describes the transit gateway route table announcement.
+        @OptionalCustomCoding<ArrayCoder<_TransitGatewayRouteTableAnnouncementsEncoding, TransitGatewayRouteTableAnnouncement>>
+        public var transitGatewayRouteTableAnnouncements: [TransitGatewayRouteTableAnnouncement]?
+
+        public init(nextToken: String? = nil, transitGatewayRouteTableAnnouncements: [TransitGatewayRouteTableAnnouncement]? = nil) {
+            self.nextToken = nextToken
+            self.transitGatewayRouteTableAnnouncements = transitGatewayRouteTableAnnouncements
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken
+            case transitGatewayRouteTableAnnouncements
+        }
+    }
+
     public struct DescribeTransitGatewayRouteTablesRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
         public struct _TransitGatewayRouteTableIdsEncoding: ArrayCoderProperties { public static let member = "item" }
@@ -21662,19 +22067,23 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the attachment.
-        public let transitGatewayAttachmentId: String
+        public let transitGatewayAttachmentId: String?
+        /// The ID of the route table announcement.
+        public let transitGatewayRouteTableAnnouncementId: String?
         /// The ID of the propagation route table.
         public let transitGatewayRouteTableId: String
 
-        public init(dryRun: Bool? = nil, transitGatewayAttachmentId: String, transitGatewayRouteTableId: String) {
+        public init(dryRun: Bool? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayRouteTableAnnouncementId: String? = nil, transitGatewayRouteTableId: String) {
             self.dryRun = dryRun
             self.transitGatewayAttachmentId = transitGatewayAttachmentId
+            self.transitGatewayRouteTableAnnouncementId = transitGatewayRouteTableAnnouncementId
             self.transitGatewayRouteTableId = transitGatewayRouteTableId
         }
 
         private enum CodingKeys: String, CodingKey {
             case dryRun = "DryRun"
             case transitGatewayAttachmentId = "TransitGatewayAttachmentId"
+            case transitGatewayRouteTableAnnouncementId = "TransitGatewayRouteTableAnnouncementId"
             case transitGatewayRouteTableId = "TransitGatewayRouteTableId"
         }
     }
@@ -22014,6 +22423,40 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case associations
+        }
+    }
+
+    public struct DisassociateTransitGatewayPolicyTableRequest: AWSEncodableShape {
+        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the transit gateway attachment to disassociate from the policy table.
+        public let transitGatewayAttachmentId: String
+        /// The ID of the disassociated policy table.
+        public let transitGatewayPolicyTableId: String
+
+        public init(dryRun: Bool? = nil, transitGatewayAttachmentId: String, transitGatewayPolicyTableId: String) {
+            self.dryRun = dryRun
+            self.transitGatewayAttachmentId = transitGatewayAttachmentId
+            self.transitGatewayPolicyTableId = transitGatewayPolicyTableId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case transitGatewayAttachmentId = "TransitGatewayAttachmentId"
+            case transitGatewayPolicyTableId = "TransitGatewayPolicyTableId"
+        }
+    }
+
+    public struct DisassociateTransitGatewayPolicyTableResult: AWSDecodableShape {
+        /// Returns details about the transit gateway policy table disassociation.
+        public let association: TransitGatewayPolicyTableAssociation?
+
+        public init(association: TransitGatewayPolicyTableAssociation? = nil) {
+            self.association = association
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case association
         }
     }
 
@@ -22995,19 +23438,23 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the attachment.
-        public let transitGatewayAttachmentId: String
+        public let transitGatewayAttachmentId: String?
+        /// The ID of the transit gateway route table announcement.
+        public let transitGatewayRouteTableAnnouncementId: String?
         /// The ID of the propagation route table.
         public let transitGatewayRouteTableId: String
 
-        public init(dryRun: Bool? = nil, transitGatewayAttachmentId: String, transitGatewayRouteTableId: String) {
+        public init(dryRun: Bool? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayRouteTableAnnouncementId: String? = nil, transitGatewayRouteTableId: String) {
             self.dryRun = dryRun
             self.transitGatewayAttachmentId = transitGatewayAttachmentId
+            self.transitGatewayRouteTableAnnouncementId = transitGatewayRouteTableAnnouncementId
             self.transitGatewayRouteTableId = transitGatewayRouteTableId
         }
 
         private enum CodingKeys: String, CodingKey {
             case dryRun = "DryRun"
             case transitGatewayAttachmentId = "TransitGatewayAttachmentId"
+            case transitGatewayRouteTableAnnouncementId = "TransitGatewayRouteTableAnnouncementId"
             case transitGatewayRouteTableId = "TransitGatewayRouteTableId"
         }
     }
@@ -23148,10 +23595,7 @@ extension EC2 {
     public struct EventInformation: AWSDecodableShape {
         /// The description of the event.
         public let eventDescription: String?
-        /// The event.   error events:    iamFleetRoleInvalid - The EC2 Fleet or Spot Fleet does not have the required permissions either to launch or terminate an instance.    allLaunchSpecsTemporarilyBlacklisted - None of the configurations are valid, and several attempts to launch instances have failed. For more information, see the description of the event.    spotInstanceCountLimitExceeded - You've reached the limit on the number of Spot Instances that you can launch.    spotFleetRequestConfigurationInvalid - The configuration is not valid. For more information, see the description of the event.
-        ///   fleetRequestChange events:    active - The EC2 Fleet or Spot Fleet request has been validated and Amazon EC2 is attempting to maintain the target number of running instances.    cancelled - The EC2 Fleet or Spot Fleet request is canceled and has no running instances. The EC2 Fleet or Spot Fleet will be deleted two days after its instances are terminated.    cancelled_running - The EC2 Fleet or Spot Fleet request is canceled and does not launch additional instances. Its existing instances continue to run until they are interrupted or terminated. The request remains in this state until all instances are interrupted or terminated.    cancelled_terminating - The EC2 Fleet or Spot Fleet request is canceled and its instances are terminating. The request remains in this state until all instances are terminated.    expired - The EC2 Fleet or Spot Fleet request has expired. If the request was created with TerminateInstancesWithExpiration set, a subsequent terminated event indicates that the instances are terminated.    modify_in_progress - The EC2 Fleet or Spot Fleet request is being modified. The request remains in this state until the modification is fully processed.    modify_succeeded - The EC2 Fleet or Spot Fleet request was modified.    submitted - The EC2 Fleet or Spot Fleet request is being evaluated and Amazon EC2 is preparing to launch the target number of instances.    progress - The EC2 Fleet or Spot Fleet request is in the process of being fulfilled.
-        ///   instanceChange events:    launched - A new instance was launched.    terminated - An instance was terminated by the user.    termination_notified - An instance termination notification was sent when a Spot Instance was terminated by Amazon EC2 during scale-down, when the target capacity of the fleet was modified down, for example, from a target capacity of 4 to a target capacity of 3.
-        ///   Information events:    fleetProgressHalted - The price in every launch specification is not valid because it is below the Spot price (all the launch specifications have produced launchSpecUnusable events). A launch specification might become valid if the Spot price changes.    launchSpecTemporarilyBlacklisted - The configuration is not valid and several attempts to launch instances have failed. For more information, see the description of the event.    launchSpecUnusable - The price in a launch specification is not valid because it is below the Spot price.    registerWithLoadBalancersFailed - An attempt to register instances with load balancers failed. For more information, see the description of the event.
+        /// The event.   error events:    iamFleetRoleInvalid - The EC2 Fleet or Spot Fleet does not have the required permissions either to launch or terminate an instance.    allLaunchSpecsTemporarilyBlacklisted - None of the configurations are valid, and several attempts to launch instances have failed. For more information, see the description of the event.    spotInstanceCountLimitExceeded - You've reached the limit on the number of Spot Instances that you can launch.    spotFleetRequestConfigurationInvalid - The configuration is not valid. For more information, see the description of the event.     fleetRequestChange events:    active - The EC2 Fleet or Spot Fleet request has been validated and Amazon EC2 is attempting to maintain the target number of running instances.    deleted (EC2 Fleet) / cancelled (Spot Fleet) - The EC2 Fleet is deleted or the Spot Fleet request is canceled and has no running instances. The EC2 Fleet or Spot Fleet will be deleted two days after its instances are terminated.    deleted_running (EC2 Fleet) / cancelled_running (Spot Fleet) - The EC2 Fleet is deleted or the Spot Fleet request is canceled and does not launch additional instances. Its existing instances continue to run until they are interrupted or terminated. The request remains in this state until all instances are interrupted or terminated.    deleted_terminating (EC2 Fleet) / cancelled_terminating (Spot Fleet) - The EC2 Fleet is deleted or the Spot Fleet request is canceled and its instances are terminating. The request remains in this state until all instances are terminated.    expired - The EC2 Fleet or Spot Fleet request has expired. If the request was created with TerminateInstancesWithExpiration set, a subsequent terminated event indicates that the instances are terminated.    modify_in_progress - The EC2 Fleet or Spot Fleet request is being modified. The request remains in this state until the modification is fully processed.    modify_succeeded - The EC2 Fleet or Spot Fleet request was modified.    submitted - The EC2 Fleet or Spot Fleet request is being evaluated and Amazon EC2 is preparing to launch the target number of instances.    progress - The EC2 Fleet or Spot Fleet request is in the process of being fulfilled.     instanceChange events:    launched - A new instance was launched.    terminated - An instance was terminated by the user.    termination_notified - An instance termination notification was sent when a Spot Instance was terminated by Amazon EC2 during scale-down, when the target capacity of the fleet was modified down, for example, from a target capacity of 4 to a target capacity of 3.     Information events:    fleetProgressHalted - The price in every launch specification is not valid because it is below the Spot price (all the launch specifications have produced launchSpecUnusable events). A launch specification might become valid if the Spot price changes.    launchSpecTemporarilyBlacklisted - The configuration is not valid and several attempts to launch instances have failed. For more information, see the description of the event.    launchSpecUnusable - The price in a launch specification is not valid because it is below the Spot price.    registerWithLoadBalancersFailed - An attempt to register instances with load balancers failed. For more information, see the description of the event.
         public let eventSubType: String?
         /// The ID of the instance. This information is available only for instanceChange events.
         public let instanceId: String?
@@ -23468,7 +23912,7 @@ extension EC2 {
         public let imageId: String
         /// The name of the role that grants VM Import/Export permission to export images to your Amazon S3 bucket. If this parameter is not specified, the default role is named 'vmimport'.
         public let roleName: String?
-        /// Information about the destination Amazon S3 bucket. The bucket must exist and grant WRITE and READ_ACP permissions to the Amazon Web Services account vm-import-export@amazon.com.
+        /// The Amazon S3 bucket for the destination image. The destination bucket must exist.
         public let s3ExportLocation: ExportTaskS3LocationRequest
         /// The tags to apply to the export image task during creation.
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
@@ -23672,7 +24116,7 @@ extension EC2 {
         public let containerFormat: ContainerFormat?
         /// The format for the exported image.
         public let diskImageFormat: DiskImageFormat?
-        /// The Amazon S3 bucket for the destination image. The destination bucket must exist and grant WRITE and READ_ACP permissions to the Amazon Web Services account vm-import-export@amazon.com.
+        /// The Amazon S3 bucket for the destination image. The destination bucket must exist and have an access control list (ACL) attached that specifies the Region-specific canonical account ID for the Grantee. For more information about the ACL to your S3 bucket, see Prerequisites in the VM Import/Export User Guide.
         public let s3Bucket: String?
         /// The encryption key for your S3 bucket.
         public let s3Key: String?
@@ -23697,7 +24141,7 @@ extension EC2 {
         public let containerFormat: ContainerFormat?
         /// The format for the exported image.
         public let diskImageFormat: DiskImageFormat?
-        /// The Amazon S3 bucket for the destination image. The destination bucket must exist and grant WRITE and READ_ACP permissions to the Amazon Web Services account vm-import-export@amazon.com.
+        /// The Amazon S3 bucket for the destination image. The destination bucket must exist and have an access control list (ACL) attached that specifies the Region-specific canonical account ID for the Grantee. For more information about the ACL to your S3 bucket, see Prerequisites in the VM Import/Export User Guide.
         public let s3Bucket: String?
         /// The image is written to a single object in the Amazon S3 bucket at the S3 key s3prefix + exportTaskId + '.' + diskImageFormat.
         public let s3Prefix: String?
@@ -24129,7 +24573,7 @@ extension EC2 {
         public let instanceRequirements: InstanceRequirements?
         /// The instance type.  If you specify InstanceTypes, you can't specify InstanceRequirements.
         public let instanceType: InstanceType?
-        /// The maximum price per unit hour that you are willing to pay for a Spot Instance.
+        /// The maximum price per unit hour that you are willing to pay for a Spot Instance. We do not recommend using this parameter because it can lead to increased interruptions. If you do not specify this parameter, you will pay the current Spot price.   If you specify a maximum price, your instances will be interrupted more frequently than if you do not specify this parameter.
         public let maxPrice: String?
         /// The location where the instance launched, if applicable.
         public let placement: PlacementResponse?
@@ -24170,7 +24614,7 @@ extension EC2 {
         public let instanceRequirements: InstanceRequirementsRequest?
         /// The instance type.  If you specify InstanceTypes, you can't specify InstanceRequirements.
         public let instanceType: InstanceType?
-        /// The maximum price per unit hour that you are willing to pay for a Spot Instance.
+        /// The maximum price per unit hour that you are willing to pay for a Spot Instance. We do not recommend using this parameter because it can lead to increased interruptions. If you do not specify this parameter, you will pay the current Spot price.   If you specify a maximum price, your instances will be interrupted more frequently than if you do not specify this parameter.
         public let maxPrice: String?
         /// The location where the instance launched, if applicable.
         public let placement: Placement?
@@ -24209,9 +24653,9 @@ extension EC2 {
     }
 
     public struct FleetLaunchTemplateSpecification: AWSEncodableShape & AWSDecodableShape {
-        /// The ID of the launch template. If you specify the template ID, you can't specify the template name.
+        /// The ID of the launch template. You must specify the LaunchTemplateId or the LaunchTemplateName, but not both.
         public let launchTemplateId: String?
-        /// The name of the launch template. If you specify the template name, you can't specify the template ID.
+        /// The name of the launch template. You must specify the LaunchTemplateName or the LaunchTemplateId, but not both.
         public let launchTemplateName: String?
         /// The launch template version number, $Latest, or $Default. You must specify a value, otherwise the request fails. If the value is $Latest, Amazon EC2 uses the latest version of the launch template. If the value is $Default, Amazon EC2 uses the default version of the launch template.
         public let version: String?
@@ -24236,9 +24680,9 @@ extension EC2 {
     }
 
     public struct FleetLaunchTemplateSpecificationRequest: AWSEncodableShape {
-        /// The ID of the launch template. If you specify the template ID, you can't specify the template name.
+        /// The ID of the launch template. You must specify the LaunchTemplateId or the LaunchTemplateName, but not both.
         public let launchTemplateId: String?
-        /// The name of the launch template. If you specify the template name, you can't specify the template ID.
+        /// The name of the launch template. You must specify the LaunchTemplateName or the LaunchTemplateId, but not both.
         public let launchTemplateName: String?
         /// The launch template version number, $Latest, or $Default. You must specify a value, otherwise the request fails. If the value is $Latest, Amazon EC2 uses the latest version of the launch template. If the value is $Default, Amazon EC2 uses the default version of the launch template.
         public let version: String?
@@ -26037,7 +26481,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// One or more filters. The possible values are:    resource-id - The ID of the resource.    resource-type - The type of resource. The valid value is: vpc.     state - The state of the subnet association. Valid values are associated | associating | disassociated | disassociating.    subnet-id - The ID of the subnet.    transit-gateway-attachment-id - The id of the transit gateway attachment.
+        /// One or more filters. The possible values are:    resource-id - The ID of the resource.    resource-type - The type of resource. The valid value is: vpc.    state - The state of the subnet association. Valid values are associated | associating | disassociated | disassociating.    subnet-id - The ID of the subnet.    transit-gateway-attachment-id - The id of the transit gateway attachment.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The maximum number of results to return with a single call.
@@ -26087,6 +26531,118 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case multicastDomainAssociations
             case nextToken
+        }
+    }
+
+    public struct GetTransitGatewayPolicyTableAssociationsRequest: AWSEncodableShape {
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+
+        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The filters associated with the transit gateway policy table.
+        @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
+        /// The maximum number of results to return with a single call.
+        /// 	To retrieve the remaining results, make another call with the returned nextToken value.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// The ID of the transit gateway policy table.
+        public let transitGatewayPolicyTableId: String
+
+        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, transitGatewayPolicyTableId: String) {
+            self.dryRun = dryRun
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.transitGatewayPolicyTableId = transitGatewayPolicyTableId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case filters = "Filter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case transitGatewayPolicyTableId = "TransitGatewayPolicyTableId"
+        }
+    }
+
+    public struct GetTransitGatewayPolicyTableAssociationsResult: AWSDecodableShape {
+        public struct _AssociationsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Returns details about the transit gateway policy table association.
+        @OptionalCustomCoding<ArrayCoder<_AssociationsEncoding, TransitGatewayPolicyTableAssociation>>
+        public var associations: [TransitGatewayPolicyTableAssociation]?
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        public init(associations: [TransitGatewayPolicyTableAssociation]? = nil, nextToken: String? = nil) {
+            self.associations = associations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associations
+            case nextToken
+        }
+    }
+
+    public struct GetTransitGatewayPolicyTableEntriesRequest: AWSEncodableShape {
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+
+        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The filters associated with the transit gateway policy table.
+        @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
+        /// The maximum number of results to return with a single call.
+        /// 	To retrieve the remaining results, make another call with the returned nextToken value.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// The ID of the transit gateway policy table.
+        public let transitGatewayPolicyTableId: String
+
+        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, transitGatewayPolicyTableId: String) {
+            self.dryRun = dryRun
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.transitGatewayPolicyTableId = transitGatewayPolicyTableId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case filters = "Filter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case transitGatewayPolicyTableId = "TransitGatewayPolicyTableId"
+        }
+    }
+
+    public struct GetTransitGatewayPolicyTableEntriesResult: AWSDecodableShape {
+        public struct _TransitGatewayPolicyTableEntriesEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The entries for the transit gateway policy table.
+        @OptionalCustomCoding<ArrayCoder<_TransitGatewayPolicyTableEntriesEncoding, TransitGatewayPolicyTableEntry>>
+        public var transitGatewayPolicyTableEntries: [TransitGatewayPolicyTableEntry]?
+
+        public init(transitGatewayPolicyTableEntries: [TransitGatewayPolicyTableEntry]? = nil) {
+            self.transitGatewayPolicyTableEntries = transitGatewayPolicyTableEntries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transitGatewayPolicyTableEntries
         }
     }
 
@@ -27015,7 +27571,7 @@ extension EC2 {
         public let imageId: String?
         /// The kernel ID.
         public let kernelId: AttributeValue?
-        /// The date and time, in ISO 8601 date-time format, when the AMI was last used to launch an EC2 instance. When the AMI is used, there is a 24-hour delay before that usage is reported.   lastLaunchedTime data is available starting April 2017.
+        /// The date and time, in ISO 8601 date-time format, when the AMI was last used to launch an EC2 instance. When the AMI is used to launch an instance, there is a 24-hour delay before that usage is reported.   lastLaunchedTime data is available starting April 2017.
         public let lastLaunchedTime: AttributeValue?
         /// The launch permissions.
         @OptionalCustomCoding<ArrayCoder<_LaunchPermissionsEncoding, LaunchPermission>>
@@ -28277,7 +28833,7 @@ extension EC2 {
     }
 
     public struct InstanceCreditSpecification: AWSDecodableShape {
-        /// The credit option for CPU usage of the instance. Valid values are standard and unlimited.
+        /// The credit option for CPU usage of the instance. Valid values: standard | unlimited
         public let cpuCredits: String?
         /// The ID of the instance.
         public let instanceId: String?
@@ -28294,7 +28850,7 @@ extension EC2 {
     }
 
     public struct InstanceCreditSpecificationRequest: AWSEncodableShape {
-        /// The credit option for CPU usage of the instance. Valid values are standard and unlimited. T3 instances with host tenancy do not support the unlimited CPU credit option.
+        /// The credit option for CPU usage of the instance. Valid values: standard | unlimited  T3 instances with host tenancy do not support the unlimited CPU credit option.
         public let cpuCredits: String?
         /// The ID of the instance.
         public let instanceId: String?
@@ -28880,7 +29436,7 @@ extension EC2 {
         public struct _Ipv6PrefixesEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _PrivateIpAddressesEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// Indicates whether to assign a carrier IP address to the network interface. You can only assign a carrier IP address to a network interface that is in a subnet in a Wavelength Zone.  For more information about carrier IP addresses, see Carrier IP addresses in the Amazon Web Services Wavelength Developer Guide.
+        /// Indicates whether to assign a carrier IP address to the network interface. You can only assign a carrier IP address to a network interface that is in a subnet in a Wavelength Zone. For more information about carrier IP addresses, see Carrier IP address in the Amazon Web Services Wavelength Developer Guide.
         public let associateCarrierIpAddress: Bool?
         /// Indicates whether to assign a public IPv4 address to an instance you launch in a VPC. The public IP address can only be assigned to a network interface for eth0, and can only be assigned to a new network interface, not an existing one. You cannot specify more than one network interface in the request. If launching into a default subnet, the default value is true.
         public let associatePublicIpAddress: Bool?
@@ -29034,7 +29590,7 @@ extension EC2 {
         public var instanceGenerations: [InstanceGeneration]?
         /// Indicates whether instance types with instance store volumes are included, excluded, or required. For more information, Amazon EC2 instance store in the Amazon EC2 User Guide.   To include instance types with instance store volumes, specify included.   To require only instance types with instance store volumes, specify required.   To exclude instance types with instance store volumes, specify excluded.   Default: included
         public let localStorage: LocalStorage?
-        /// The type of local storage that is required.   For instance types with hard disk drive (HDD) storage, specify hdd.   For instance types with solid state drive (SDD) storage, specify sdd.   Default: hdd and sdd
+        /// The type of local storage that is required.   For instance types with hard disk drive (HDD) storage, specify hdd.   For instance types with solid state drive (SSD) storage, specify ssd.   Default: hdd and ssd
         @OptionalCustomCoding<ArrayCoder<_LocalStorageTypesEncoding, LocalStorageType>>
         public var localStorageTypes: [LocalStorageType]?
         /// The minimum and maximum amount of memory per vCPU, in GiB. Default: No minimum or maximum limits
@@ -29043,11 +29599,11 @@ extension EC2 {
         public let memoryMiB: MemoryMiB?
         /// The minimum and maximum number of network interfaces. Default: No minimum or maximum limits
         public let networkInterfaceCount: NetworkInterfaceCount?
-        /// The price protection threshold for On-Demand Instances. This is the maximum you’ll pay for an On-Demand Instance, expressed as a percentage above the cheapest M, C, or R instance type with your specified attributes. When Amazon EC2 selects instance types with your attributes, it excludes instance types priced above your threshold. The parameter accepts an integer, which Amazon EC2 interprets as a percentage. To turn off price protection, specify a high value, such as 999999. This parameter is not supported for GetSpotPlacementScores and GetInstanceTypesFromInstanceRequirements.  If you set TargetCapacityUnitType to vcpu or memory-mib, the price protection threshold is applied based on the per-vCPU or per-memory price instead of the per-instance price.  Default: 20
+        /// The price protection threshold for On-Demand Instances. This is the maximum you’ll pay for an On-Demand Instance, expressed as a percentage above the least expensive current generation M, C, or R instance type with your specified attributes. When Amazon EC2 selects instance types with your attributes, it excludes instance types priced above your threshold. The parameter accepts an integer, which Amazon EC2 interprets as a percentage. To turn off price protection, specify a high value, such as 999999. This parameter is not supported for GetSpotPlacementScores and GetInstanceTypesFromInstanceRequirements.  If you set TargetCapacityUnitType to vcpu or memory-mib, the price protection threshold is applied based on the per-vCPU or per-memory price instead of the per-instance price.  Default: 20
         public let onDemandMaxPricePercentageOverLowestPrice: Int?
         /// Indicates whether instance types must support hibernation for On-Demand Instances. This parameter is not supported for GetSpotPlacementScores. Default: false
         public let requireHibernateSupport: Bool?
-        /// The price protection threshold for Spot Instances. This is the maximum you’ll pay for a Spot Instance, expressed as a percentage above the cheapest M, C, or R instance type with your specified attributes. When Amazon EC2 selects instance types with your attributes, it excludes instance types priced above your threshold. The parameter accepts an integer, which Amazon EC2 interprets as a percentage. To turn off price protection, specify a high value, such as 999999. This parameter is not supported for GetSpotPlacementScores and GetInstanceTypesFromInstanceRequirements.  If you set TargetCapacityUnitType to vcpu or memory-mib, the price protection threshold is applied based on the per-vCPU or per-memory price instead of the per-instance price.  Default: 100
+        /// The price protection threshold for Spot Instances. This is the maximum you’ll pay for a Spot Instance, expressed as a percentage above the least expensive current generation M, C, or R instance type with your specified attributes. When Amazon EC2 selects instance types with your attributes, it excludes instance types priced above your threshold. The parameter accepts an integer, which Amazon EC2 interprets as a percentage. To turn off price protection, specify a high value, such as 999999. This parameter is not supported for GetSpotPlacementScores and GetInstanceTypesFromInstanceRequirements.  If you set TargetCapacityUnitType to vcpu or memory-mib, the price protection threshold is applied based on the per-vCPU or per-memory price instead of the per-instance price.  Default: 100
         public let spotMaxPricePercentageOverLowestPrice: Int?
         /// The minimum and maximum amount of total local storage, in GB. Default: No minimum or maximum limits
         public let totalLocalStorageGB: TotalLocalStorageGB?
@@ -29151,7 +29707,7 @@ extension EC2 {
         public var instanceGenerations: [InstanceGeneration]?
         /// Indicates whether instance types with instance store volumes are included, excluded, or required. For more information, Amazon EC2 instance store in the Amazon EC2 User Guide.   To include instance types with instance store volumes, specify included.   To require only instance types with instance store volumes, specify required.   To exclude instance types with instance store volumes, specify excluded.   Default: included
         public let localStorage: LocalStorage?
-        /// The type of local storage that is required.   For instance types with hard disk drive (HDD) storage, specify hdd.   For instance types with solid state drive (SDD) storage, specify sdd.   Default: hdd and sdd
+        /// The type of local storage that is required.   For instance types with hard disk drive (HDD) storage, specify hdd.   For instance types with solid state drive (SSD) storage, specify ssd.   Default: hdd and ssd
         @OptionalCustomCoding<ArrayCoder<_LocalStorageTypesEncoding, LocalStorageType>>
         public var localStorageTypes: [LocalStorageType]?
         /// The minimum and maximum amount of memory per vCPU, in GiB. Default: No minimum or maximum limits
@@ -29160,11 +29716,11 @@ extension EC2 {
         public let memoryMiB: MemoryMiBRequest
         /// The minimum and maximum number of network interfaces. Default: No minimum or maximum limits
         public let networkInterfaceCount: NetworkInterfaceCountRequest?
-        /// The price protection threshold for On-Demand Instances. This is the maximum you’ll pay for an On-Demand Instance, expressed as a percentage above the cheapest M, C, or R instance type with your specified attributes. When Amazon EC2 selects instance types with your attributes, it excludes instance types priced above your threshold. The parameter accepts an integer, which Amazon EC2 interprets as a percentage. To turn off price protection, specify a high value, such as 999999. This parameter is not supported for GetSpotPlacementScores and GetInstanceTypesFromInstanceRequirements.  If you set TargetCapacityUnitType to vcpu or memory-mib, the price protection threshold is applied based on the per-vCPU or per-memory price instead of the per-instance price.  Default: 20
+        /// The price protection threshold for On-Demand Instances. This is the maximum you’ll pay for an On-Demand Instance, expressed as a percentage above the least expensive current generation M, C, or R instance type with your specified attributes. When Amazon EC2 selects instance types with your attributes, it excludes instance types priced above your threshold. The parameter accepts an integer, which Amazon EC2 interprets as a percentage. To turn off price protection, specify a high value, such as 999999. This parameter is not supported for GetSpotPlacementScores and GetInstanceTypesFromInstanceRequirements.  If you set TargetCapacityUnitType to vcpu or memory-mib, the price protection threshold is applied based on the per-vCPU or per-memory price instead of the per-instance price.  Default: 20
         public let onDemandMaxPricePercentageOverLowestPrice: Int?
         /// Indicates whether instance types must support hibernation for On-Demand Instances. This parameter is not supported for GetSpotPlacementScores. Default: false
         public let requireHibernateSupport: Bool?
-        /// The price protection threshold for Spot Instance. This is the maximum you’ll pay for an Spot Instance, expressed as a percentage above the cheapest M, C, or R instance type with your specified attributes. When Amazon EC2 selects instance types with your attributes, it excludes instance types priced above your threshold. The parameter accepts an integer, which Amazon EC2 interprets as a percentage. To turn off price protection, specify a high value, such as 999999. This parameter is not supported for GetSpotPlacementScores and GetInstanceTypesFromInstanceRequirements.  If you set TargetCapacityUnitType to vcpu or memory-mib, the price protection threshold is applied based on the per-vCPU or per-memory price instead of the per-instance price.  Default: 100
+        /// The price protection threshold for Spot Instance. This is the maximum you’ll pay for an Spot Instance, expressed as a percentage above the least expensive current generation M, C, or R instance type with your specified attributes. When Amazon EC2 selects instance types with your attributes, it excludes instance types priced above your threshold. The parameter accepts an integer, which Amazon EC2 interprets as a percentage. To turn off price protection, specify a high value, such as 999999. This parameter is not supported for GetSpotPlacementScores and GetInstanceTypesFromInstanceRequirements.  If you set TargetCapacityUnitType to vcpu or memory-mib, the price protection threshold is applied based on the per-vCPU or per-memory price instead of the per-instance price.  Default: 100
         public let spotMaxPricePercentageOverLowestPrice: Int?
         /// The minimum and maximum amount of total local storage, in GB. Default: No minimum or maximum limits
         public let totalLocalStorageGB: TotalLocalStorageGBRequest?
@@ -29262,18 +29818,24 @@ extension EC2 {
     }
 
     public struct InstanceSpecification: AWSEncodableShape {
+        public struct _ExcludeDataVolumeIdsEncoding: ArrayCoderProperties { public static let member = "VolumeId" }
+
         /// Excludes the root volume from being snapshotted.
         public let excludeBootVolume: Bool?
+        @OptionalCustomCoding<ArrayCoder<_ExcludeDataVolumeIdsEncoding, String>>
+        public var excludeDataVolumeIds: [String]?
         /// The instance to specify which volumes should be snapshotted.
         public let instanceId: String?
 
-        public init(excludeBootVolume: Bool? = nil, instanceId: String? = nil) {
+        public init(excludeBootVolume: Bool? = nil, excludeDataVolumeIds: [String]? = nil, instanceId: String? = nil) {
             self.excludeBootVolume = excludeBootVolume
+            self.excludeDataVolumeIds = excludeDataVolumeIds
             self.instanceId = instanceId
         }
 
         private enum CodingKeys: String, CodingKey {
             case excludeBootVolume = "ExcludeBootVolume"
+            case excludeDataVolumeIds = "ExcludeDataVolumeId"
             case instanceId = "InstanceId"
         }
     }
@@ -30107,7 +30669,7 @@ extension EC2 {
         public let ipamPoolId: String?
         /// The scope ID for an IPAM resource.
         public let ipamScopeId: String?
-        /// The IP address space in the IPAM pool that is allocated to this resource. To convert the decimal to a percentage, multiply the decimal by 100.
+        /// The percentage of IP address space in use. To convert the decimal to a percentage, multiply the decimal by 100. Note the following:   For a resources that are VPCs, this is the percentage of IP address space in the VPC that's taken up by subnet CIDRs.    For resources that are subnets, if the subnet has an IPv4 CIDR provisioned to it, this is the percentage of IPv4 address space in the subnet that's in use. If the subnet has an IPv6 CIDR provisioned to it, the percentage of IPv6 address space in use is not represented. The percentage of IPv6 address space in use cannot currently be calculated.    For resources that are public IPv4 pools, this is the percentage of IP address space in the pool that's been allocated to Elastic IP addresses (EIPs).
         public let ipUsage: Double?
         /// The management state of the resource. For more information about management states, see Monitor CIDR usage by resource in the Amazon VPC IPAM User Guide.
         public let managementState: IpamManagementState?
@@ -31113,7 +31675,7 @@ extension EC2 {
         public let httpEndpoint: LaunchTemplateInstanceMetadataEndpointState?
         /// Enables or disables the IPv6 endpoint for the instance metadata service. Default: disabled
         public let httpProtocolIpv6: LaunchTemplateInstanceMetadataProtocolIpv6?
-        /// The desired HTTP PUT response hop limit for instance metadata requests. The larger the number, the further instance metadata requests can travel. Default: 1 Possible values: Integers from 1 to 64
+        /// The desired HTTP PUT response hop limit for instance metadata requests. The larger the number, the further instance metadata requests can travel. Default: 1  Possible values: Integers from 1 to 64
         public let httpPutResponseHopLimit: Int?
         /// The state of token usage for your instance metadata requests. If the parameter is not specified in the request, the default state is optional. If the state is optional, you can choose to retrieve instance metadata with or without a signed token header on your request. If you retrieve the IAM role credentials without a token, the version 1.0 role credentials are returned. If you retrieve the IAM role credentials using a valid signed token, the version 2.0 role credentials are returned. If the state is required, you must send a signed token header with any instance metadata retrieval requests. In this state, retrieving the IAM role credentials always returns the version 2.0 credentials; the version 1.0 credentials are not available.
         public let httpTokens: LaunchTemplateHttpTokensState?
@@ -31364,7 +31926,7 @@ extension EC2 {
         public let instanceType: InstanceType?
         /// The priority for the launch template override. The highest priority is launched first. If OnDemandAllocationStrategy is set to prioritized, Spot Fleet uses priority to determine which launch template override to use first in fulfilling On-Demand capacity. If the Spot AllocationStrategy is set to capacityOptimizedPrioritized, Spot Fleet uses priority on a best-effort basis to determine which launch template override to use in fulfilling Spot capacity, but optimizes for capacity first. Valid values are whole numbers starting at 0. The lower the number, the higher the priority. If no number is set, the launch template override has the lowest priority. You can set the same priority for different launch template overrides.
         public let priority: Double?
-        /// The maximum price per unit hour that you are willing to pay for a Spot Instance.
+        /// The maximum price per unit hour that you are willing to pay for a Spot Instance. We do not recommend using this parameter because it can lead to  increased interruptions. If you do not specify this parameter, you will pay the current Spot price.  If you specify a maximum price, your instances will be interrupted more frequently than if you do not specify this parameter.
         public let spotPrice: String?
         /// The ID of the subnet in which to launch the instances.
         public let subnetId: String?
@@ -31521,11 +32083,11 @@ extension EC2 {
     }
 
     public struct LaunchTemplateSpecification: AWSEncodableShape {
-        /// The ID of the launch template.
+        /// The ID of the launch template. You must specify the LaunchTemplateId or the LaunchTemplateName, but not both.
         public let launchTemplateId: String?
-        /// The name of the launch template.
+        /// The name of the launch template. You must specify the LaunchTemplateName or the LaunchTemplateId, but not both.
         public let launchTemplateName: String?
-        /// The version number of the launch template. Default: The default version for the launch template.
+        /// The launch template version number, $Latest, or $Default. If the value is $Latest, Amazon EC2 uses the latest version of the launch template. If the value is $Default, Amazon EC2 uses the default version of the launch template. Default: The default version of the launch template.
         public let version: String?
 
         public init(launchTemplateId: String? = nil, launchTemplateName: String? = nil, version: String? = nil) {
@@ -31546,7 +32108,7 @@ extension EC2 {
         public let blockDurationMinutes: Int?
         /// The behavior when a Spot Instance is interrupted.
         public let instanceInterruptionBehavior: InstanceInterruptionBehavior?
-        /// The maximum hourly price you're willing to pay for the Spot Instances.
+        /// The maximum hourly price you're willing to pay for the Spot Instances. We do not recommend  using this parameter because it can lead to increased interruptions. If you do not specify this parameter, you will pay the current Spot price.  If you specify a maximum price, your Spot Instances will be interrupted more frequently than if you do not specify this parameter.
         public let maxPrice: String?
         /// The Spot Instance request type.
         public let spotInstanceType: SpotInstanceType?
@@ -31571,15 +32133,15 @@ extension EC2 {
     }
 
     public struct LaunchTemplateSpotMarketOptionsRequest: AWSEncodableShape {
-        /// The required duration for the Spot Instances (also known as Spot blocks), in minutes. This value must be a multiple of 60 (60, 120, 180, 240, 300, or 360).
+        /// Deprecated.
         public let blockDurationMinutes: Int?
         /// The behavior when a Spot Instance is interrupted. The default is terminate.
         public let instanceInterruptionBehavior: InstanceInterruptionBehavior?
-        /// The maximum hourly price you're willing to pay for the Spot Instances.
+        /// The maximum hourly price you're willing to pay for the Spot Instances. We do not recommend  using this parameter because it can lead to increased interruptions. If you do not specify this parameter, you will pay the current Spot price.  If you specify a maximum price, your Spot Instances will be interrupted more frequently than if you do not specify this parameter.
         public let maxPrice: String?
         /// The Spot Instance request type.
         public let spotInstanceType: SpotInstanceType?
-        /// The end date of the request. For a one-time request, the request remains active until all instances launch, the request is canceled, or this date is reached. If the request is persistent, it remains active until it is canceled or this date and time is reached. The default end date is 7 days from the current date.
+        /// The end date of the request, in UTC format (YYYY-MM-DDTHH:MM:SSZ). Supported only for persistent requests.   For a persistent request, the request remains active until the ValidUntil  date and time is reached. Otherwise, the request remains active until you cancel it.   For a one-time request, ValidUntil is not supported. The request remains active until  all instances launch or you cancel the request.   Default: 7 days from the current date
         public let validUntil: Date?
 
         public init(blockDurationMinutes: Int? = nil, instanceInterruptionBehavior: InstanceInterruptionBehavior? = nil, maxPrice: String? = nil, spotInstanceType: SpotInstanceType? = nil, validUntil: Date? = nil) {
@@ -31602,7 +32164,7 @@ extension EC2 {
     public struct LaunchTemplateTagSpecification: AWSDecodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// The type of resource.
+        /// The type of resource to tag.
         public let resourceType: ResourceType?
         /// The tags for the resource.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
@@ -31622,7 +32184,7 @@ extension EC2 {
     public struct LaunchTemplateTagSpecificationRequest: AWSEncodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// The type of resource to tag. Currently, the resource types that support tagging on creation are instance, volume, elastic-gpu, network-interface, and spot-instances-request. To tag a resource after it has been created, see CreateTags.
+        /// The type of resource to tag.  The Valid Values are all the resource types that can be tagged. However, when creating  a launch template, you can specify tags for the following resource types only: instance | volume | elastic-gpu | network-interface | spot-instances-request  To tag a resource after it has been created, see CreateTags.
         public let resourceType: ResourceType?
         /// The tags to apply to the resource.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
@@ -33584,9 +34146,9 @@ extension EC2 {
         public let defaultVersion: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// The ID of the launch template. You must specify either the launch template ID or launch template name in the request.
+        /// The ID of the launch template. You must specify either the LaunchTemplateId or the LaunchTemplateName, but not both.
         public let launchTemplateId: String?
-        /// The name of the launch template. You must specify either the launch template ID or launch template name in the request.
+        /// The name of the launch template. You must specify either the LaunchTemplateName or the LaunchTemplateId, but not both.
         public let launchTemplateName: String?
 
         public init(clientToken: String? = nil, defaultVersion: String? = nil, dryRun: Bool? = nil, launchTemplateId: String? = nil, launchTemplateName: String? = nil) {
@@ -34204,6 +34766,8 @@ extension EC2 {
         /// Adds IPv4 or IPv6 CIDR blocks for the transit gateway. Must be a size /24 CIDR block or larger for IPv4, or a size /64 CIDR block or larger for IPv6.
         @OptionalCustomCoding<ArrayCoder<_AddTransitGatewayCidrBlocksEncoding, String>>
         public var addTransitGatewayCidrBlocks: [String]?
+        /// A private Autonomous System Number (ASN) for the Amazon side of a BGP session.  The range is 64512 to 65534 for 16-bit ASNs and 4200000000 to 4294967294 for 32-bit ASNs.
+        public let amazonSideAsn: Int64?
         /// The ID of the default association route table.
         public let associationDefaultRouteTableId: String?
         /// Enable or disable automatic acceptance of attachment requests.
@@ -34222,8 +34786,9 @@ extension EC2 {
         /// Enable or disable Equal Cost Multipath Protocol support.
         public let vpnEcmpSupport: VpnEcmpSupportValue?
 
-        public init(addTransitGatewayCidrBlocks: [String]? = nil, associationDefaultRouteTableId: String? = nil, autoAcceptSharedAttachments: AutoAcceptSharedAttachmentsValue? = nil, defaultRouteTableAssociation: DefaultRouteTableAssociationValue? = nil, defaultRouteTablePropagation: DefaultRouteTablePropagationValue? = nil, dnsSupport: DnsSupportValue? = nil, propagationDefaultRouteTableId: String? = nil, removeTransitGatewayCidrBlocks: [String]? = nil, vpnEcmpSupport: VpnEcmpSupportValue? = nil) {
+        public init(addTransitGatewayCidrBlocks: [String]? = nil, amazonSideAsn: Int64? = nil, associationDefaultRouteTableId: String? = nil, autoAcceptSharedAttachments: AutoAcceptSharedAttachmentsValue? = nil, defaultRouteTableAssociation: DefaultRouteTableAssociationValue? = nil, defaultRouteTablePropagation: DefaultRouteTablePropagationValue? = nil, dnsSupport: DnsSupportValue? = nil, propagationDefaultRouteTableId: String? = nil, removeTransitGatewayCidrBlocks: [String]? = nil, vpnEcmpSupport: VpnEcmpSupportValue? = nil) {
             self.addTransitGatewayCidrBlocks = addTransitGatewayCidrBlocks
+            self.amazonSideAsn = amazonSideAsn
             self.associationDefaultRouteTableId = associationDefaultRouteTableId
             self.autoAcceptSharedAttachments = autoAcceptSharedAttachments
             self.defaultRouteTableAssociation = defaultRouteTableAssociation
@@ -34236,6 +34801,7 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case addTransitGatewayCidrBlocks = "AddTransitGatewayCidrBlocks"
+            case amazonSideAsn = "AmazonSideAsn"
             case associationDefaultRouteTableId = "AssociationDefaultRouteTableId"
             case autoAcceptSharedAttachments = "AutoAcceptSharedAttachments"
             case defaultRouteTableAssociation = "DefaultRouteTableAssociation"
@@ -35030,6 +35596,8 @@ extension EC2 {
         /// The IKE versions that are permitted for the VPN tunnel. Valid values: ikev1 | ikev2
         @OptionalCustomCoding<ArrayCoder<_IKEVersionsEncoding, IKEVersionsRequestListValue>>
         public var ikeVersions: [IKEVersionsRequestListValue]?
+        /// Options for logging VPN tunnel activity.
+        public let logOptions: VpnTunnelLogOptionsSpecification?
         /// One or more Diffie-Hellman group numbers that are permitted for the VPN tunnel for phase 1 IKE negotiations. Valid values: 2 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24
         @OptionalCustomCoding<ArrayCoder<_Phase1DHGroupNumbersEncoding, Phase1DHGroupNumbersRequestListValue>>
         public var phase1DHGroupNumbers: [Phase1DHGroupNumbersRequestListValue]?
@@ -35067,10 +35635,11 @@ extension EC2 {
         /// The range of inside IPv6 addresses for the tunnel. Any specified CIDR blocks must be unique across all VPN connections that use the same transit gateway. Constraints: A size /126 CIDR block from the local fd00::/8 range.
         public let tunnelInsideIpv6Cidr: String?
 
-        public init(dpdTimeoutAction: String? = nil, dpdTimeoutSeconds: Int? = nil, ikeVersions: [IKEVersionsRequestListValue]? = nil, phase1DHGroupNumbers: [Phase1DHGroupNumbersRequestListValue]? = nil, phase1EncryptionAlgorithms: [Phase1EncryptionAlgorithmsRequestListValue]? = nil, phase1IntegrityAlgorithms: [Phase1IntegrityAlgorithmsRequestListValue]? = nil, phase1LifetimeSeconds: Int? = nil, phase2DHGroupNumbers: [Phase2DHGroupNumbersRequestListValue]? = nil, phase2EncryptionAlgorithms: [Phase2EncryptionAlgorithmsRequestListValue]? = nil, phase2IntegrityAlgorithms: [Phase2IntegrityAlgorithmsRequestListValue]? = nil, phase2LifetimeSeconds: Int? = nil, preSharedKey: String? = nil, rekeyFuzzPercentage: Int? = nil, rekeyMarginTimeSeconds: Int? = nil, replayWindowSize: Int? = nil, startupAction: String? = nil, tunnelInsideCidr: String? = nil, tunnelInsideIpv6Cidr: String? = nil) {
+        public init(dpdTimeoutAction: String? = nil, dpdTimeoutSeconds: Int? = nil, ikeVersions: [IKEVersionsRequestListValue]? = nil, logOptions: VpnTunnelLogOptionsSpecification? = nil, phase1DHGroupNumbers: [Phase1DHGroupNumbersRequestListValue]? = nil, phase1EncryptionAlgorithms: [Phase1EncryptionAlgorithmsRequestListValue]? = nil, phase1IntegrityAlgorithms: [Phase1IntegrityAlgorithmsRequestListValue]? = nil, phase1LifetimeSeconds: Int? = nil, phase2DHGroupNumbers: [Phase2DHGroupNumbersRequestListValue]? = nil, phase2EncryptionAlgorithms: [Phase2EncryptionAlgorithmsRequestListValue]? = nil, phase2IntegrityAlgorithms: [Phase2IntegrityAlgorithmsRequestListValue]? = nil, phase2LifetimeSeconds: Int? = nil, preSharedKey: String? = nil, rekeyFuzzPercentage: Int? = nil, rekeyMarginTimeSeconds: Int? = nil, replayWindowSize: Int? = nil, startupAction: String? = nil, tunnelInsideCidr: String? = nil, tunnelInsideIpv6Cidr: String? = nil) {
             self.dpdTimeoutAction = dpdTimeoutAction
             self.dpdTimeoutSeconds = dpdTimeoutSeconds
             self.ikeVersions = ikeVersions
+            self.logOptions = logOptions
             self.phase1DHGroupNumbers = phase1DHGroupNumbers
             self.phase1EncryptionAlgorithms = phase1EncryptionAlgorithms
             self.phase1IntegrityAlgorithms = phase1IntegrityAlgorithms
@@ -35092,6 +35661,7 @@ extension EC2 {
             case dpdTimeoutAction = "DPDTimeoutAction"
             case dpdTimeoutSeconds = "DPDTimeoutSeconds"
             case ikeVersions = "IKEVersion"
+            case logOptions = "LogOptions"
             case phase1DHGroupNumbers = "Phase1DHGroupNumber"
             case phase1EncryptionAlgorithms = "Phase1EncryptionAlgorithm"
             case phase1IntegrityAlgorithms = "Phase1IntegrityAlgorithm"
@@ -36326,6 +36896,7 @@ extension EC2 {
         public let sourceVpc: AnalysisComponent?
         /// The subnet.
         public let subnet: AnalysisComponent?
+        /// The transit gateway.
         public let transitGateway: AnalysisComponent?
         /// The route in a transit gateway route table.
         public let transitGatewayRouteTableRoute: TransitGatewayRouteTableRoute?
@@ -36488,6 +37059,8 @@ extension EC2 {
     }
 
     public struct PeeringTgwInfo: AWSDecodableShape {
+        /// The ID of the core network where the transit gateway peer is located.
+        public let coreNetworkId: String?
         /// The ID of the Amazon Web Services account that owns the transit gateway.
         public let ownerId: String?
         /// The Region of the transit gateway.
@@ -36495,13 +37068,15 @@ extension EC2 {
         /// The ID of the transit gateway.
         public let transitGatewayId: String?
 
-        public init(ownerId: String? = nil, region: String? = nil, transitGatewayId: String? = nil) {
+        public init(coreNetworkId: String? = nil, ownerId: String? = nil, region: String? = nil, transitGatewayId: String? = nil) {
+            self.coreNetworkId = coreNetworkId
             self.ownerId = ownerId
             self.region = region
             self.transitGatewayId = transitGatewayId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case coreNetworkId
             case ownerId
             case region
             case transitGatewayId
@@ -36679,8 +37254,7 @@ extension EC2 {
         public let partitionNumber: Int?
         /// Reserved for future use. This parameter is not supported by CreateFleet.
         public let spreadDomain: String?
-        /// The tenancy of the instance (if the instance is running in a VPC). An instance with a tenancy of dedicated runs on single-tenant hardware. The host tenancy is not supported for the ImportInstance command. This parameter is not supported by CreateFleet.
-        ///  T3 instances that use the unlimited CPU credit option do not support host tenancy.
+        /// The tenancy of the instance (if the instance is running in a VPC). An instance with a tenancy of dedicated runs on single-tenant hardware. The host tenancy is not supported for the ImportInstance command. This parameter is not supported by CreateFleet. T3 instances that use the unlimited CPU credit option do not support host tenancy.
         public let tenancy: Tenancy?
 
         public init(affinity: String? = nil, availabilityZone: String? = nil, groupName: String? = nil, hostId: String? = nil, hostResourceGroupArn: String? = nil, partitionNumber: Int? = nil, spreadDomain: String? = nil, tenancy: Tenancy? = nil) {
@@ -36717,6 +37291,8 @@ extension EC2 {
         public let groupName: String?
         /// The number of partitions. Valid only if strategy is set to partition.
         public let partitionCount: Int?
+        ///  The spread level for the placement group. Only Outpost placement groups can be spread across hosts.
+        public let spreadLevel: SpreadLevel?
         /// The state of the placement group.
         public let state: PlacementGroupState?
         /// The placement strategy.
@@ -36725,11 +37301,12 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
-        public init(groupArn: String? = nil, groupId: String? = nil, groupName: String? = nil, partitionCount: Int? = nil, state: PlacementGroupState? = nil, strategy: PlacementStrategy? = nil, tags: [Tag]? = nil) {
+        public init(groupArn: String? = nil, groupId: String? = nil, groupName: String? = nil, partitionCount: Int? = nil, spreadLevel: SpreadLevel? = nil, state: PlacementGroupState? = nil, strategy: PlacementStrategy? = nil, tags: [Tag]? = nil) {
             self.groupArn = groupArn
             self.groupId = groupId
             self.groupName = groupName
             self.partitionCount = partitionCount
+            self.spreadLevel = spreadLevel
             self.state = state
             self.strategy = strategy
             self.tags = tags
@@ -36740,6 +37317,7 @@ extension EC2 {
             case groupId
             case groupName
             case partitionCount
+            case spreadLevel
             case state
             case strategy
             case tags = "tagSet"
@@ -38599,7 +39177,7 @@ extension EC2 {
         public let capacityReservationSpecification: LaunchTemplateCapacityReservationSpecificationRequest?
         /// The CPU options for the instance. For more information, see Optimizing CPU Options in the Amazon Elastic Compute Cloud User Guide.
         public let cpuOptions: LaunchTemplateCpuOptionsRequest?
-        /// The credit option for CPU usage of the instance. Valid for T2, T3, or T3a instances only.
+        /// The credit option for CPU usage of the instance. Valid only for T instances.
         public let creditSpecification: CreditSpecificationRequest?
         /// Indicates whether to enable the instance for stop protection. For more information, see Stop Protection.
         public let disableApiStop: Bool?
@@ -38654,10 +39232,10 @@ extension EC2 {
         /// One or more security group IDs. You can create a security group using CreateSecurityGroup. You cannot specify both a security group ID and security name in the same request.
         @OptionalCustomCoding<ArrayCoder<_SecurityGroupIdsEncoding, String>>
         public var securityGroupIds: [String]?
-        /// [EC2-Classic, default VPC] One or more security group names. For a nondefault VPC, you must use security group IDs instead. You cannot specify both a security group ID and security name in the same request.
+        /// One or more security group names. For a nondefault VPC, you must use security group IDs instead. You cannot specify both a security group ID and security name in the same request.
         @OptionalCustomCoding<ArrayCoder<_SecurityGroupsEncoding, String>>
         public var securityGroups: [String]?
-        /// The tags to apply to the resources during launch. You can only tag instances and volumes on launch. The specified tags are applied to all instances or volumes that are created during launch. To tag a resource after it has been created, see CreateTags.
+        /// The tags to apply to the resources that are created during instance launch. You can specify tags for the following resources only:   Instances   Volumes   Elastic graphics   Spot Instance requests   Network interfaces   To tag a resource after it has been created, see CreateTags.  To tag the launch template itself, you must use the  TagSpecification parameter.
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, LaunchTemplateTagSpecificationRequest>>
         public var tagSpecifications: [LaunchTemplateTagSpecificationRequest]?
         /// The user data to make available to the instance. You must provide base64-encoded text. User data is limited to 16 KB. For more information, see Run commands on your Linux instance at launch (Linux) or Work with instance user data (Windows) in the Amazon Elastic Compute Cloud User Guide.
@@ -38793,7 +39371,7 @@ extension EC2 {
         public let launchGroup: String?
         /// The launch specification.
         public let launchSpecification: RequestSpotLaunchSpecification?
-        /// The maximum price per hour that you are willing to pay for a Spot Instance. The default is the On-Demand price.
+        /// The maximum price per unit hour that you are willing to pay for a Spot Instance. We do not recommend  using this parameter because it can lead to increased interruptions. If you do not specify this parameter, you will pay the current Spot price.  If you specify a maximum price, your instances will be interrupted more frequently than if you do not specify this parameter.
         public let spotPrice: String?
         /// The key-value pair for tagging the Spot Instance request on creation. The value for ResourceType must be spot-instances-request, otherwise the Spot Instance request fails. To tag the Spot Instance request after it has been created, see CreateTags.
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
@@ -39730,7 +40308,7 @@ extension EC2 {
         /// The security group names.
         @OptionalCustomCoding<ArrayCoder<_SecurityGroupsEncoding, String>>
         public var securityGroups: [String]?
-        /// The tags.
+        /// The tags that are applied to the resources that are created during instance launch.
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, LaunchTemplateTagSpecification>>
         public var tagSpecifications: [LaunchTemplateTagSpecification]?
         /// The user data for the instance.
@@ -40426,10 +41004,9 @@ extension EC2 {
         public let clientToken: String?
         /// The CPU options for the instance. For more information, see Optimize CPU options in the Amazon EC2 User Guide.
         public let cpuOptions: CpuOptionsRequest?
-        /// The credit option for CPU usage of the burstable performance instance. Valid values are standard and unlimited. To change this attribute after launch, use  ModifyInstanceCreditSpecification. For more information, see Burstable performance instances in the Amazon EC2 User Guide. Default: standard (T2 instances) or unlimited (T3/T3a instances)
-        ///  For T3 instances with host tenancy, only standard is supported.
+        /// The credit option for CPU usage of the burstable performance instance. Valid values are standard and unlimited. To change this attribute after launch, use  ModifyInstanceCreditSpecification. For more information, see Burstable performance instances in the Amazon EC2 User Guide. Default: standard (T2 instances) or unlimited (T3/T3a/T4g instances) For T3 instances with host tenancy, only standard is supported.
         public let creditSpecification: CreditSpecificationRequest?
-        /// Indicates whether an instance is enabled for stop protection. For more information, see Stop Protection.
+        /// Indicates whether an instance is enabled for stop protection. For more information, see Stop protection.
         public let disableApiStop: Bool?
         /// If you set this parameter to true, you can't terminate the instance using the Amazon EC2 console, CLI, or API; otherwise, you can. To change this attribute after launch, use ModifyInstanceAttribute. Alternatively, if you set InstanceInitiatedShutdownBehavior to terminate, you can terminate the instance by running the shutdown command from the instance. Default: false
         public let disableApiTermination: Bool?
@@ -40500,7 +41077,7 @@ extension EC2 {
         public var securityGroups: [String]?
         /// [EC2-VPC] The ID of the subnet to launch the instance into. If you specify a network interface, you must specify any subnets as part of the network interface.
         public let subnetId: String?
-        /// The tags to apply to the resources during launch. You can only tag instances and volumes on launch. The specified tags are applied to all instances or volumes that are created during launch. To tag a resource after it has been created, see CreateTags.
+        /// The tags to apply to the resources that are created during instance launch. You can specify tags for the following resources only:   Instances   Volumes   Elastic graphics   Spot Instance requests   Network interfaces   To tag a resource after it has been created, see CreateTags.
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
         /// The user data script to make available to the instance. For more information, see Run commands on your Linux instance at launch and Run commands on your Windows instance at launch. If you are using a command line tool, base64-encoding is performed for you, and you can load the text from a file. Otherwise, you must provide base64-encoded text. User data is limited to 16 KB.
@@ -41676,7 +42253,7 @@ extension EC2 {
         public let privateDnsNameVerificationState: DnsNameState?
         /// The ID of the endpoint service.
         public let serviceId: String?
-        /// The Amazon Resource Name (ARN) of the service.
+        /// The name of the service.
         public let serviceName: String?
         /// The type of service.
         @OptionalCustomCoding<ArrayCoder<_ServiceTypeEncoding, ServiceTypeDetail>>
@@ -42209,7 +42786,7 @@ extension EC2 {
         /// One or more security groups. When requesting instances in a VPC, you must specify the IDs of the security groups. When requesting instances in EC2-Classic, you can specify the names or the IDs of the security groups.
         @OptionalCustomCoding<ArrayCoder<_SecurityGroupsEncoding, GroupIdentifier>>
         public var securityGroups: [GroupIdentifier]?
-        /// The maximum price per unit hour that you are willing to pay for a Spot Instance.  If this value is not specified, the default is the Spot price specified for the fleet. To determine the Spot price per unit hour, divide the Spot price by the value of WeightedCapacity.
+        /// The maximum price per unit hour that you are willing to pay for a Spot Instance. We do not recommend using this parameter because it can lead to  increased interruptions. If you do not specify this parameter, you will pay the current Spot price.  If you specify a maximum price, your instances will be interrupted more frequently than if you do not specify this parameter.
         public let spotPrice: String?
         /// The IDs of the subnets in which to launch the instances. To specify multiple subnets, separate them using commas; for example, "subnet-1234abcdeexample1, subnet-0987cdef6example2".
         public let subnetId: String?
@@ -42362,7 +42939,7 @@ extension EC2 {
         public let spotMaintenanceStrategies: SpotMaintenanceStrategies?
         /// The maximum amount per hour for Spot Instances that you're willing to pay. You can use the spotdMaxTotalPrice parameter, the onDemandMaxTotalPrice parameter, or both parameters to ensure that your fleet cost does not exceed your budget. If you set a maximum price per hour for the On-Demand Instances and Spot Instances in your request, Spot Fleet will launch instances until it reaches the maximum amount you're willing to pay. When the maximum amount you're willing to pay is reached, the fleet stops launching instances even if it hasn’t met the target capacity.
         public let spotMaxTotalPrice: String?
-        /// The maximum price per unit hour that you are willing to pay for a Spot Instance. The default is the On-Demand price.
+        /// The maximum price per unit hour that you are willing to pay for a Spot Instance. We do not recommend  using this parameter because it can lead to increased interruptions. If you do not specify this parameter, you will pay the current Spot price.  If you specify a maximum price, your instances will be interrupted more frequently than if you do not specify this parameter.
         public let spotPrice: String?
         /// The key-value pair for tagging the Spot Fleet request on creation. The value for ResourceType must be spot-fleet-request, otherwise the Spot Fleet request fails. To tag instances at launch, specify the tags in the launch template (valid only if you use LaunchTemplateConfigs) or in the  SpotFleetTagSpecification (valid only if you use LaunchSpecifications). For information about tagging after launch, see Tagging Your Resources.
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
@@ -42496,7 +43073,7 @@ extension EC2 {
         public let productDescription: RIProductDescription?
         /// The ID of the Spot Instance request.
         public let spotInstanceRequestId: String?
-        /// The maximum price per hour that you are willing to pay for a Spot Instance.
+        /// The maximum price per unit hour that you are willing to pay for a Spot Instance. We do not recommend  using this parameter because it can lead to increased interruptions. If you do not specify this parameter, you will pay the current Spot price.  If you specify a maximum price, your instances will be interrupted more frequently than if you do not specify this parameter.
         public let spotPrice: String?
         /// The state of the Spot Instance request. Spot request status information helps track your Spot Instance requests. For more information, see Spot request status in the Amazon EC2 User Guide for Linux Instances.
         public let state: SpotInstanceState?
@@ -42613,7 +43190,7 @@ extension EC2 {
         public let blockDurationMinutes: Int?
         /// The behavior when a Spot Instance is interrupted. The default is terminate.
         public let instanceInterruptionBehavior: InstanceInterruptionBehavior?
-        /// The maximum hourly price you're willing to pay for the Spot Instances. The default is the On-Demand price.
+        /// The maximum hourly price that you're willing to pay for a Spot Instance. We do not recommend  using this parameter because it can lead to increased interruptions. If you do not specify this parameter, you will pay the current Spot price.  If you specify a maximum price, your Spot Instances will be interrupted more frequently than if you do not specify this parameter.
         public let maxPrice: String?
         /// The Spot Instance request type. For RunInstances, persistent Spot Instance requests are only supported when the instance interruption behavior is either hibernate or stop.
         public let spotInstanceType: SpotInstanceType?
@@ -42646,7 +43223,7 @@ extension EC2 {
         public let instancePoolsToUseCount: Int?
         /// The strategies for managing your workloads on your Spot Instances that will be interrupted. Currently only the capacity rebalance strategy is available.
         public let maintenanceStrategies: FleetSpotMaintenanceStrategies?
-        /// The maximum amount per hour for Spot Instances that you're willing to pay.
+        /// The maximum amount per hour for Spot Instances that you're willing to pay. We do not recommend using this parameter because it can lead to increased interruptions. If you do not specify this parameter, you will pay the current Spot price.  If you specify a maximum price, your Spot Instances will be interrupted more frequently than if you do not specify this parameter.
         public let maxTotalPrice: String?
         /// The minimum target capacity for Spot Instances in the fleet. If the minimum target capacity is not reached, the fleet launches no instances. Supported only for fleets of type instant. At least one of the following must be specified: SingleAvailabilityZone | SingleInstanceType
         public let minTargetCapacity: Int?
@@ -42687,7 +43264,7 @@ extension EC2 {
         public let instancePoolsToUseCount: Int?
         /// The strategies for managing your Spot Instances that are at an elevated risk of being interrupted.
         public let maintenanceStrategies: FleetSpotMaintenanceStrategiesRequest?
-        /// The maximum amount per hour for Spot Instances that you're willing to pay.
+        /// The maximum amount per hour for Spot Instances that you're willing to pay. We do not recommend using this parameter because it can lead to increased interruptions. If you do not specify this parameter, you will pay the current Spot price.  If you specify a maximum price, your Spot Instances will be interrupted more frequently than if you do not specify this parameter.
         public let maxTotalPrice: String?
         /// The minimum target capacity for Spot Instances in the fleet. If the minimum target capacity is not reached, the fleet launches no instances. Supported only for fleets of type instant. At least one of the following must be specified: SingleAvailabilityZone | SingleInstanceType
         public let minTargetCapacity: Int?
@@ -42768,7 +43345,7 @@ extension EC2 {
         public let instanceType: InstanceType?
         /// A general description of the AMI.
         public let productDescription: RIProductDescription?
-        /// The maximum price per hour that you are willing to pay for a Spot Instance.
+        /// The maximum price per unit hour that you are willing to pay for a Spot Instance. We do not recommend  using this parameter because it can lead to increased interruptions. If you do not specify this parameter, you will pay the current Spot price.  If you specify a maximum price, your instances will be interrupted more frequently than if you do not specify this parameter.
         public let spotPrice: String?
         /// The date and time the request was created, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
         public let timestamp: Date?
@@ -44674,8 +45251,12 @@ extension EC2 {
 
         /// Information about the accepter transit gateway.
         public let accepterTgwInfo: PeeringTgwInfo?
+        /// The ID of the accepter transit gateway attachment.
+        public let accepterTransitGatewayAttachmentId: String?
         /// The time the transit gateway peering attachment was created.
         public let creationTime: Date?
+        /// Details about the transit gateway peering attachment.
+        public let options: TransitGatewayPeeringAttachmentOptions?
         /// Information about the requester transit gateway.
         public let requesterTgwInfo: PeeringTgwInfo?
         /// The state of the transit gateway peering attachment. Note that the initiating state has been deprecated.
@@ -44688,9 +45269,11 @@ extension EC2 {
         /// The ID of the transit gateway peering attachment.
         public let transitGatewayAttachmentId: String?
 
-        public init(accepterTgwInfo: PeeringTgwInfo? = nil, creationTime: Date? = nil, requesterTgwInfo: PeeringTgwInfo? = nil, state: TransitGatewayAttachmentState? = nil, status: PeeringAttachmentStatus? = nil, tags: [Tag]? = nil, transitGatewayAttachmentId: String? = nil) {
+        public init(accepterTgwInfo: PeeringTgwInfo? = nil, accepterTransitGatewayAttachmentId: String? = nil, creationTime: Date? = nil, options: TransitGatewayPeeringAttachmentOptions? = nil, requesterTgwInfo: PeeringTgwInfo? = nil, state: TransitGatewayAttachmentState? = nil, status: PeeringAttachmentStatus? = nil, tags: [Tag]? = nil, transitGatewayAttachmentId: String? = nil) {
             self.accepterTgwInfo = accepterTgwInfo
+            self.accepterTransitGatewayAttachmentId = accepterTransitGatewayAttachmentId
             self.creationTime = creationTime
+            self.options = options
             self.requesterTgwInfo = requesterTgwInfo
             self.state = state
             self.status = status
@@ -44700,12 +45283,159 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case accepterTgwInfo
+            case accepterTransitGatewayAttachmentId
             case creationTime
+            case options
             case requesterTgwInfo
             case state
             case status
             case tags = "tagSet"
             case transitGatewayAttachmentId
+        }
+    }
+
+    public struct TransitGatewayPeeringAttachmentOptions: AWSDecodableShape {
+        /// Describes whether dynamic routing is enabled or disabled for the transit gateway peering attachment.
+        public let dynamicRouting: DynamicRoutingValue?
+
+        public init(dynamicRouting: DynamicRoutingValue? = nil) {
+            self.dynamicRouting = dynamicRouting
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dynamicRouting
+        }
+    }
+
+    public struct TransitGatewayPolicyRule: AWSDecodableShape {
+        /// The destination CIDR block for the transit gateway policy rule.
+        public let destinationCidrBlock: String?
+        /// The port range for the transit gateway policy rule. Currently this is set to * (all).
+        public let destinationPortRange: String?
+        /// The meta data tags used for the transit gateway policy rule.
+        public let metaData: TransitGatewayPolicyRuleMetaData?
+        /// The protocol used by the transit gateway policy rule.
+        public let `protocol`: String?
+        /// The source CIDR block for the transit gateway policy rule.
+        public let sourceCidrBlock: String?
+        /// The port range for the transit gateway policy rule. Currently this is set to * (all).
+        public let sourcePortRange: String?
+
+        public init(destinationCidrBlock: String? = nil, destinationPortRange: String? = nil, metaData: TransitGatewayPolicyRuleMetaData? = nil, protocol: String? = nil, sourceCidrBlock: String? = nil, sourcePortRange: String? = nil) {
+            self.destinationCidrBlock = destinationCidrBlock
+            self.destinationPortRange = destinationPortRange
+            self.metaData = metaData
+            self.`protocol` = `protocol`
+            self.sourceCidrBlock = sourceCidrBlock
+            self.sourcePortRange = sourcePortRange
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationCidrBlock
+            case destinationPortRange
+            case metaData
+            case `protocol`
+            case sourceCidrBlock
+            case sourcePortRange
+        }
+    }
+
+    public struct TransitGatewayPolicyRuleMetaData: AWSDecodableShape {
+        /// The key name for the transit gateway policy rule meta data tag.
+        public let metaDataKey: String?
+        /// The value of the key for the transit gateway policy rule meta data tag.
+        public let metaDataValue: String?
+
+        public init(metaDataKey: String? = nil, metaDataValue: String? = nil) {
+            self.metaDataKey = metaDataKey
+            self.metaDataValue = metaDataValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metaDataKey
+            case metaDataValue
+        }
+    }
+
+    public struct TransitGatewayPolicyTable: AWSDecodableShape {
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The timestamp when the transit gateway policy table was created.
+        public let creationTime: Date?
+        /// The state of the transit gateway policy table
+        public let state: TransitGatewayPolicyTableState?
+        /// he key-value pairs associated with the transit gateway policy table.
+        @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
+        /// The ID of the transit gateway.
+        public let transitGatewayId: String?
+        /// The ID of the transit gateway policy table.
+        public let transitGatewayPolicyTableId: String?
+
+        public init(creationTime: Date? = nil, state: TransitGatewayPolicyTableState? = nil, tags: [Tag]? = nil, transitGatewayId: String? = nil, transitGatewayPolicyTableId: String? = nil) {
+            self.creationTime = creationTime
+            self.state = state
+            self.tags = tags
+            self.transitGatewayId = transitGatewayId
+            self.transitGatewayPolicyTableId = transitGatewayPolicyTableId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime
+            case state
+            case tags = "tagSet"
+            case transitGatewayId
+            case transitGatewayPolicyTableId
+        }
+    }
+
+    public struct TransitGatewayPolicyTableAssociation: AWSDecodableShape {
+        /// The resource ID of the transit gateway attachment.
+        public let resourceId: String?
+        /// The resource type for the transit gateway policy table association.
+        public let resourceType: TransitGatewayAttachmentResourceType?
+        /// The state of the transit gateway policy table association.
+        public let state: TransitGatewayAssociationState?
+        /// The ID of the transit gateway attachment.
+        public let transitGatewayAttachmentId: String?
+        /// The ID of the transit gateway policy table.
+        public let transitGatewayPolicyTableId: String?
+
+        public init(resourceId: String? = nil, resourceType: TransitGatewayAttachmentResourceType? = nil, state: TransitGatewayAssociationState? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayPolicyTableId: String? = nil) {
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+            self.state = state
+            self.transitGatewayAttachmentId = transitGatewayAttachmentId
+            self.transitGatewayPolicyTableId = transitGatewayPolicyTableId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceId
+            case resourceType
+            case state
+            case transitGatewayAttachmentId
+            case transitGatewayPolicyTableId
+        }
+    }
+
+    public struct TransitGatewayPolicyTableEntry: AWSDecodableShape {
+        /// The policy rule associated with the transit gateway policy table.
+        public let policyRule: TransitGatewayPolicyRule?
+        /// The rule number for the transit gateway policy table entry.
+        public let policyRuleNumber: String?
+        /// The ID of the target route table.
+        public let targetRouteTableId: String?
+
+        public init(policyRule: TransitGatewayPolicyRule? = nil, policyRuleNumber: String? = nil, targetRouteTableId: String? = nil) {
+            self.policyRule = policyRule
+            self.policyRuleNumber = policyRuleNumber
+            self.targetRouteTableId = targetRouteTableId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyRule
+            case policyRuleNumber
+            case targetRouteTableId
         }
     }
 
@@ -44772,14 +45502,17 @@ extension EC2 {
         public let state: TransitGatewayPropagationState?
         /// The ID of the attachment.
         public let transitGatewayAttachmentId: String?
+        /// The ID of the transit gateway route table announcement.
+        public let transitGatewayRouteTableAnnouncementId: String?
         /// The ID of the transit gateway route table.
         public let transitGatewayRouteTableId: String?
 
-        public init(resourceId: String? = nil, resourceType: TransitGatewayAttachmentResourceType? = nil, state: TransitGatewayPropagationState? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayRouteTableId: String? = nil) {
+        public init(resourceId: String? = nil, resourceType: TransitGatewayAttachmentResourceType? = nil, state: TransitGatewayPropagationState? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayRouteTableAnnouncementId: String? = nil, transitGatewayRouteTableId: String? = nil) {
             self.resourceId = resourceId
             self.resourceType = resourceType
             self.state = state
             self.transitGatewayAttachmentId = transitGatewayAttachmentId
+            self.transitGatewayRouteTableAnnouncementId = transitGatewayRouteTableAnnouncementId
             self.transitGatewayRouteTableId = transitGatewayRouteTableId
         }
 
@@ -44788,6 +45521,7 @@ extension EC2 {
             case resourceType
             case state
             case transitGatewayAttachmentId
+            case transitGatewayRouteTableAnnouncementId
             case transitGatewayRouteTableId
         }
     }
@@ -44848,14 +45582,17 @@ extension EC2 {
         /// The attachments.
         @OptionalCustomCoding<ArrayCoder<_TransitGatewayAttachmentsEncoding, TransitGatewayRouteAttachment>>
         public var transitGatewayAttachments: [TransitGatewayRouteAttachment]?
+        /// The ID of the transit gateway route table announcement.
+        public let transitGatewayRouteTableAnnouncementId: String?
         /// The route type.
         public let type: TransitGatewayRouteType?
 
-        public init(destinationCidrBlock: String? = nil, prefixListId: String? = nil, state: TransitGatewayRouteState? = nil, transitGatewayAttachments: [TransitGatewayRouteAttachment]? = nil, type: TransitGatewayRouteType? = nil) {
+        public init(destinationCidrBlock: String? = nil, prefixListId: String? = nil, state: TransitGatewayRouteState? = nil, transitGatewayAttachments: [TransitGatewayRouteAttachment]? = nil, transitGatewayRouteTableAnnouncementId: String? = nil, type: TransitGatewayRouteType? = nil) {
             self.destinationCidrBlock = destinationCidrBlock
             self.prefixListId = prefixListId
             self.state = state
             self.transitGatewayAttachments = transitGatewayAttachments
+            self.transitGatewayRouteTableAnnouncementId = transitGatewayRouteTableAnnouncementId
             self.type = type
         }
 
@@ -44864,6 +45601,7 @@ extension EC2 {
             case prefixListId
             case state
             case transitGatewayAttachments
+            case transitGatewayRouteTableAnnouncementId
             case type
         }
     }
@@ -44929,6 +45667,62 @@ extension EC2 {
         }
     }
 
+    public struct TransitGatewayRouteTableAnnouncement: AWSDecodableShape {
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The direction for the route table announcement.
+        public let announcementDirection: TransitGatewayRouteTableAnnouncementDirection?
+        /// The ID of the core network for the transit gateway route table announcement.
+        public let coreNetworkId: String?
+        /// The timestamp when the transit gateway route table announcement was created.
+        public let creationTime: Date?
+        /// The ID of the core network ID for the peer.
+        public let peerCoreNetworkId: String?
+        /// The ID of the peering attachment.
+        public let peeringAttachmentId: String?
+        /// The ID of the peer transit gateway.
+        public let peerTransitGatewayId: String?
+        /// The state of the transit gateway announcement.
+        public let state: TransitGatewayRouteTableAnnouncementState?
+        /// The key-value pairs associated with the route table announcement.
+        @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
+        /// The ID of the transit gateway.
+        public let transitGatewayId: String?
+        /// The ID of the transit gateway route table announcement.
+        public let transitGatewayRouteTableAnnouncementId: String?
+        /// The ID of the transit gateway route table.
+        public let transitGatewayRouteTableId: String?
+
+        public init(announcementDirection: TransitGatewayRouteTableAnnouncementDirection? = nil, coreNetworkId: String? = nil, creationTime: Date? = nil, peerCoreNetworkId: String? = nil, peeringAttachmentId: String? = nil, peerTransitGatewayId: String? = nil, state: TransitGatewayRouteTableAnnouncementState? = nil, tags: [Tag]? = nil, transitGatewayId: String? = nil, transitGatewayRouteTableAnnouncementId: String? = nil, transitGatewayRouteTableId: String? = nil) {
+            self.announcementDirection = announcementDirection
+            self.coreNetworkId = coreNetworkId
+            self.creationTime = creationTime
+            self.peerCoreNetworkId = peerCoreNetworkId
+            self.peeringAttachmentId = peeringAttachmentId
+            self.peerTransitGatewayId = peerTransitGatewayId
+            self.state = state
+            self.tags = tags
+            self.transitGatewayId = transitGatewayId
+            self.transitGatewayRouteTableAnnouncementId = transitGatewayRouteTableAnnouncementId
+            self.transitGatewayRouteTableId = transitGatewayRouteTableId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case announcementDirection
+            case coreNetworkId
+            case creationTime
+            case peerCoreNetworkId
+            case peeringAttachmentId
+            case peerTransitGatewayId
+            case state
+            case tags = "tagSet"
+            case transitGatewayId
+            case transitGatewayRouteTableAnnouncementId
+            case transitGatewayRouteTableId
+        }
+    }
+
     public struct TransitGatewayRouteTableAssociation: AWSDecodableShape {
         /// The ID of the resource.
         public let resourceId: String?
@@ -44963,12 +45757,15 @@ extension EC2 {
         public let state: TransitGatewayPropagationState?
         /// The ID of the attachment.
         public let transitGatewayAttachmentId: String?
+        /// The ID of the transit gateway route table announcement.
+        public let transitGatewayRouteTableAnnouncementId: String?
 
-        public init(resourceId: String? = nil, resourceType: TransitGatewayAttachmentResourceType? = nil, state: TransitGatewayPropagationState? = nil, transitGatewayAttachmentId: String? = nil) {
+        public init(resourceId: String? = nil, resourceType: TransitGatewayAttachmentResourceType? = nil, state: TransitGatewayPropagationState? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayRouteTableAnnouncementId: String? = nil) {
             self.resourceId = resourceId
             self.resourceType = resourceType
             self.state = state
             self.transitGatewayAttachmentId = transitGatewayAttachmentId
+            self.transitGatewayRouteTableAnnouncementId = transitGatewayRouteTableAnnouncementId
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -44976,6 +45773,7 @@ extension EC2 {
             case resourceType
             case state
             case transitGatewayAttachmentId
+            case transitGatewayRouteTableAnnouncementId
         }
     }
 
@@ -45143,6 +45941,8 @@ extension EC2 {
         /// The IKE versions that are permitted for the VPN tunnel.
         @OptionalCustomCoding<ArrayCoder<_IkeVersionsEncoding, IKEVersionsListValue>>
         public var ikeVersions: [IKEVersionsListValue]?
+        /// Options for logging VPN tunnel activity.
+        public let logOptions: VpnTunnelLogOptions?
         /// The external IP address of the VPN tunnel.
         public let outsideIpAddress: String?
         /// The permitted Diffie-Hellman group numbers for the VPN tunnel for phase 1 IKE negotiations.
@@ -45182,10 +45982,11 @@ extension EC2 {
         /// The range of inside IPv6 addresses for the tunnel.
         public let tunnelInsideIpv6Cidr: String?
 
-        public init(dpdTimeoutAction: String? = nil, dpdTimeoutSeconds: Int? = nil, ikeVersions: [IKEVersionsListValue]? = nil, outsideIpAddress: String? = nil, phase1DHGroupNumbers: [Phase1DHGroupNumbersListValue]? = nil, phase1EncryptionAlgorithms: [Phase1EncryptionAlgorithmsListValue]? = nil, phase1IntegrityAlgorithms: [Phase1IntegrityAlgorithmsListValue]? = nil, phase1LifetimeSeconds: Int? = nil, phase2DHGroupNumbers: [Phase2DHGroupNumbersListValue]? = nil, phase2EncryptionAlgorithms: [Phase2EncryptionAlgorithmsListValue]? = nil, phase2IntegrityAlgorithms: [Phase2IntegrityAlgorithmsListValue]? = nil, phase2LifetimeSeconds: Int? = nil, preSharedKey: String? = nil, rekeyFuzzPercentage: Int? = nil, rekeyMarginTimeSeconds: Int? = nil, replayWindowSize: Int? = nil, startupAction: String? = nil, tunnelInsideCidr: String? = nil, tunnelInsideIpv6Cidr: String? = nil) {
+        public init(dpdTimeoutAction: String? = nil, dpdTimeoutSeconds: Int? = nil, ikeVersions: [IKEVersionsListValue]? = nil, logOptions: VpnTunnelLogOptions? = nil, outsideIpAddress: String? = nil, phase1DHGroupNumbers: [Phase1DHGroupNumbersListValue]? = nil, phase1EncryptionAlgorithms: [Phase1EncryptionAlgorithmsListValue]? = nil, phase1IntegrityAlgorithms: [Phase1IntegrityAlgorithmsListValue]? = nil, phase1LifetimeSeconds: Int? = nil, phase2DHGroupNumbers: [Phase2DHGroupNumbersListValue]? = nil, phase2EncryptionAlgorithms: [Phase2EncryptionAlgorithmsListValue]? = nil, phase2IntegrityAlgorithms: [Phase2IntegrityAlgorithmsListValue]? = nil, phase2LifetimeSeconds: Int? = nil, preSharedKey: String? = nil, rekeyFuzzPercentage: Int? = nil, rekeyMarginTimeSeconds: Int? = nil, replayWindowSize: Int? = nil, startupAction: String? = nil, tunnelInsideCidr: String? = nil, tunnelInsideIpv6Cidr: String? = nil) {
             self.dpdTimeoutAction = dpdTimeoutAction
             self.dpdTimeoutSeconds = dpdTimeoutSeconds
             self.ikeVersions = ikeVersions
+            self.logOptions = logOptions
             self.outsideIpAddress = outsideIpAddress
             self.phase1DHGroupNumbers = phase1DHGroupNumbers
             self.phase1EncryptionAlgorithms = phase1EncryptionAlgorithms
@@ -45208,6 +46009,7 @@ extension EC2 {
             case dpdTimeoutAction
             case dpdTimeoutSeconds
             case ikeVersions = "ikeVersionSet"
+            case logOptions
             case outsideIpAddress
             case phase1DHGroupNumbers = "phase1DHGroupNumberSet"
             case phase1EncryptionAlgorithms = "phase1EncryptionAlgorithmSet"
@@ -46623,25 +47425,31 @@ extension EC2 {
         public let localIpv4NetworkCidr: String?
         /// The IPv6 CIDR on the customer gateway (on-premises) side of the VPN connection.
         public let localIpv6NetworkCidr: String?
+        /// The type of IPv4 address assigned to the outside interface of the customer gateway. Valid values: PrivateIpv4 | PublicIpv4  Default: PublicIpv4
+        public let outsideIpAddressType: String?
         /// The IPv4 CIDR on the Amazon Web Services side of the VPN connection.
         public let remoteIpv4NetworkCidr: String?
         /// The IPv6 CIDR on the Amazon Web Services side of the VPN connection.
         public let remoteIpv6NetworkCidr: String?
         /// Indicates whether the VPN connection uses static routes only. Static routes must be used for devices that don't support BGP.
         public let staticRoutesOnly: Bool?
+        /// The transit gateway attachment ID in use for the VPN tunnel.
+        public let transportTransitGatewayAttachmentId: String?
         /// Indicates whether the VPN tunnels process IPv4 or IPv6 traffic.
         public let tunnelInsideIpVersion: TunnelInsideIpVersion?
         /// Indicates the VPN tunnel options.
         @OptionalCustomCoding<ArrayCoder<_TunnelOptionsEncoding, TunnelOption>>
         public var tunnelOptions: [TunnelOption]?
 
-        public init(enableAcceleration: Bool? = nil, localIpv4NetworkCidr: String? = nil, localIpv6NetworkCidr: String? = nil, remoteIpv4NetworkCidr: String? = nil, remoteIpv6NetworkCidr: String? = nil, staticRoutesOnly: Bool? = nil, tunnelInsideIpVersion: TunnelInsideIpVersion? = nil, tunnelOptions: [TunnelOption]? = nil) {
+        public init(enableAcceleration: Bool? = nil, localIpv4NetworkCidr: String? = nil, localIpv6NetworkCidr: String? = nil, outsideIpAddressType: String? = nil, remoteIpv4NetworkCidr: String? = nil, remoteIpv6NetworkCidr: String? = nil, staticRoutesOnly: Bool? = nil, transportTransitGatewayAttachmentId: String? = nil, tunnelInsideIpVersion: TunnelInsideIpVersion? = nil, tunnelOptions: [TunnelOption]? = nil) {
             self.enableAcceleration = enableAcceleration
             self.localIpv4NetworkCidr = localIpv4NetworkCidr
             self.localIpv6NetworkCidr = localIpv6NetworkCidr
+            self.outsideIpAddressType = outsideIpAddressType
             self.remoteIpv4NetworkCidr = remoteIpv4NetworkCidr
             self.remoteIpv6NetworkCidr = remoteIpv6NetworkCidr
             self.staticRoutesOnly = staticRoutesOnly
+            self.transportTransitGatewayAttachmentId = transportTransitGatewayAttachmentId
             self.tunnelInsideIpVersion = tunnelInsideIpVersion
             self.tunnelOptions = tunnelOptions
         }
@@ -46650,9 +47458,11 @@ extension EC2 {
             case enableAcceleration
             case localIpv4NetworkCidr
             case localIpv6NetworkCidr
+            case outsideIpAddressType
             case remoteIpv4NetworkCidr
             case remoteIpv6NetworkCidr
             case staticRoutesOnly
+            case transportTransitGatewayAttachmentId
             case tunnelInsideIpVersion
             case tunnelOptions = "tunnelOptionSet"
         }
@@ -46665,25 +47475,31 @@ extension EC2 {
         public let localIpv4NetworkCidr: String?
         /// The IPv6 CIDR on the customer gateway (on-premises) side of the VPN connection. Default: ::/0
         public let localIpv6NetworkCidr: String?
+        /// The type of IPv4 address assigned to the outside interface of the customer gateway device. Valid values: PrivateIpv4 | PublicIpv4  Default: PublicIpv4
+        public let outsideIpAddressType: String?
         /// The IPv4 CIDR on the Amazon Web Services side of the VPN connection. Default: 0.0.0.0/0
         public let remoteIpv4NetworkCidr: String?
         /// The IPv6 CIDR on the Amazon Web Services side of the VPN connection. Default: ::/0
         public let remoteIpv6NetworkCidr: String?
         /// Indicate whether the VPN connection uses static routes only. If you are creating a VPN connection for a device that does not support BGP, you must specify true. Use CreateVpnConnectionRoute to create a static route. Default: false
         public let staticRoutesOnly: Bool?
+        /// The transit gateway attachment ID to use for the VPN tunnel. Required if OutsideIpAddressType is set to PrivateIpv4.
+        public let transportTransitGatewayAttachmentId: String?
         /// Indicate whether the VPN tunnels process IPv4 or IPv6 traffic. Default: ipv4
         public let tunnelInsideIpVersion: TunnelInsideIpVersion?
         /// The tunnel options for the VPN connection.
         @OptionalCustomCoding<StandardArrayCoder>
         public var tunnelOptions: [VpnTunnelOptionsSpecification]?
 
-        public init(enableAcceleration: Bool? = nil, localIpv4NetworkCidr: String? = nil, localIpv6NetworkCidr: String? = nil, remoteIpv4NetworkCidr: String? = nil, remoteIpv6NetworkCidr: String? = nil, staticRoutesOnly: Bool? = nil, tunnelInsideIpVersion: TunnelInsideIpVersion? = nil, tunnelOptions: [VpnTunnelOptionsSpecification]? = nil) {
+        public init(enableAcceleration: Bool? = nil, localIpv4NetworkCidr: String? = nil, localIpv6NetworkCidr: String? = nil, outsideIpAddressType: String? = nil, remoteIpv4NetworkCidr: String? = nil, remoteIpv6NetworkCidr: String? = nil, staticRoutesOnly: Bool? = nil, transportTransitGatewayAttachmentId: String? = nil, tunnelInsideIpVersion: TunnelInsideIpVersion? = nil, tunnelOptions: [VpnTunnelOptionsSpecification]? = nil) {
             self.enableAcceleration = enableAcceleration
             self.localIpv4NetworkCidr = localIpv4NetworkCidr
             self.localIpv6NetworkCidr = localIpv6NetworkCidr
+            self.outsideIpAddressType = outsideIpAddressType
             self.remoteIpv4NetworkCidr = remoteIpv4NetworkCidr
             self.remoteIpv6NetworkCidr = remoteIpv6NetworkCidr
             self.staticRoutesOnly = staticRoutesOnly
+            self.transportTransitGatewayAttachmentId = transportTransitGatewayAttachmentId
             self.tunnelInsideIpVersion = tunnelInsideIpVersion
             self.tunnelOptions = tunnelOptions
         }
@@ -46692,9 +47508,11 @@ extension EC2 {
             case enableAcceleration = "EnableAcceleration"
             case localIpv4NetworkCidr = "LocalIpv4NetworkCidr"
             case localIpv6NetworkCidr = "LocalIpv6NetworkCidr"
+            case outsideIpAddressType = "OutsideIpAddressType"
             case remoteIpv4NetworkCidr = "RemoteIpv4NetworkCidr"
             case remoteIpv6NetworkCidr = "RemoteIpv6NetworkCidr"
             case staticRoutesOnly
+            case transportTransitGatewayAttachmentId = "TransportTransitGatewayAttachmentId"
             case tunnelInsideIpVersion = "TunnelInsideIpVersion"
             case tunnelOptions = "TunnelOptions"
         }
@@ -46763,6 +47581,32 @@ extension EC2 {
         }
     }
 
+    public struct VpnTunnelLogOptions: AWSDecodableShape {
+        /// Options for sending VPN tunnel logs to CloudWatch.
+        public let cloudWatchLogOptions: CloudWatchLogOptions?
+
+        public init(cloudWatchLogOptions: CloudWatchLogOptions? = nil) {
+            self.cloudWatchLogOptions = cloudWatchLogOptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudWatchLogOptions
+        }
+    }
+
+    public struct VpnTunnelLogOptionsSpecification: AWSEncodableShape {
+        /// Options for sending VPN tunnel logs to CloudWatch.
+        public let cloudWatchLogOptions: CloudWatchLogOptionsSpecification?
+
+        public init(cloudWatchLogOptions: CloudWatchLogOptionsSpecification? = nil) {
+            self.cloudWatchLogOptions = cloudWatchLogOptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudWatchLogOptions = "CloudWatchLogOptions"
+        }
+    }
+
     public struct VpnTunnelOptionsSpecification: AWSEncodableShape {
         public struct _IKEVersionsEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _Phase1DHGroupNumbersEncoding: ArrayCoderProperties { public static let member = "item" }
@@ -46779,6 +47623,8 @@ extension EC2 {
         /// The IKE versions that are permitted for the VPN tunnel. Valid values: ikev1 | ikev2
         @OptionalCustomCoding<ArrayCoder<_IKEVersionsEncoding, IKEVersionsRequestListValue>>
         public var ikeVersions: [IKEVersionsRequestListValue]?
+        /// Options for logging VPN tunnel activity.
+        public let logOptions: VpnTunnelLogOptionsSpecification?
         /// One or more Diffie-Hellman group numbers that are permitted for the VPN tunnel for phase 1 IKE negotiations. Valid values: 2 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24
         @OptionalCustomCoding<ArrayCoder<_Phase1DHGroupNumbersEncoding, Phase1DHGroupNumbersRequestListValue>>
         public var phase1DHGroupNumbers: [Phase1DHGroupNumbersRequestListValue]?
@@ -46816,10 +47662,11 @@ extension EC2 {
         /// The range of inside IPv6 addresses for the tunnel. Any specified CIDR blocks must be unique across all VPN connections that use the same transit gateway. Constraints: A size /126 CIDR block from the local fd00::/8 range.
         public let tunnelInsideIpv6Cidr: String?
 
-        public init(dpdTimeoutAction: String? = nil, dpdTimeoutSeconds: Int? = nil, ikeVersions: [IKEVersionsRequestListValue]? = nil, phase1DHGroupNumbers: [Phase1DHGroupNumbersRequestListValue]? = nil, phase1EncryptionAlgorithms: [Phase1EncryptionAlgorithmsRequestListValue]? = nil, phase1IntegrityAlgorithms: [Phase1IntegrityAlgorithmsRequestListValue]? = nil, phase1LifetimeSeconds: Int? = nil, phase2DHGroupNumbers: [Phase2DHGroupNumbersRequestListValue]? = nil, phase2EncryptionAlgorithms: [Phase2EncryptionAlgorithmsRequestListValue]? = nil, phase2IntegrityAlgorithms: [Phase2IntegrityAlgorithmsRequestListValue]? = nil, phase2LifetimeSeconds: Int? = nil, preSharedKey: String? = nil, rekeyFuzzPercentage: Int? = nil, rekeyMarginTimeSeconds: Int? = nil, replayWindowSize: Int? = nil, startupAction: String? = nil, tunnelInsideCidr: String? = nil, tunnelInsideIpv6Cidr: String? = nil) {
+        public init(dpdTimeoutAction: String? = nil, dpdTimeoutSeconds: Int? = nil, ikeVersions: [IKEVersionsRequestListValue]? = nil, logOptions: VpnTunnelLogOptionsSpecification? = nil, phase1DHGroupNumbers: [Phase1DHGroupNumbersRequestListValue]? = nil, phase1EncryptionAlgorithms: [Phase1EncryptionAlgorithmsRequestListValue]? = nil, phase1IntegrityAlgorithms: [Phase1IntegrityAlgorithmsRequestListValue]? = nil, phase1LifetimeSeconds: Int? = nil, phase2DHGroupNumbers: [Phase2DHGroupNumbersRequestListValue]? = nil, phase2EncryptionAlgorithms: [Phase2EncryptionAlgorithmsRequestListValue]? = nil, phase2IntegrityAlgorithms: [Phase2IntegrityAlgorithmsRequestListValue]? = nil, phase2LifetimeSeconds: Int? = nil, preSharedKey: String? = nil, rekeyFuzzPercentage: Int? = nil, rekeyMarginTimeSeconds: Int? = nil, replayWindowSize: Int? = nil, startupAction: String? = nil, tunnelInsideCidr: String? = nil, tunnelInsideIpv6Cidr: String? = nil) {
             self.dpdTimeoutAction = dpdTimeoutAction
             self.dpdTimeoutSeconds = dpdTimeoutSeconds
             self.ikeVersions = ikeVersions
+            self.logOptions = logOptions
             self.phase1DHGroupNumbers = phase1DHGroupNumbers
             self.phase1EncryptionAlgorithms = phase1EncryptionAlgorithms
             self.phase1IntegrityAlgorithms = phase1IntegrityAlgorithms
@@ -46841,6 +47688,7 @@ extension EC2 {
             case dpdTimeoutAction = "DPDTimeoutAction"
             case dpdTimeoutSeconds = "DPDTimeoutSeconds"
             case ikeVersions = "IKEVersion"
+            case logOptions = "LogOptions"
             case phase1DHGroupNumbers = "Phase1DHGroupNumber"
             case phase1EncryptionAlgorithms = "Phase1EncryptionAlgorithm"
             case phase1IntegrityAlgorithms = "Phase1IntegrityAlgorithm"

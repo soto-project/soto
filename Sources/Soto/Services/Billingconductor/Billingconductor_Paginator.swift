@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -541,17 +541,6 @@ extension Billingconductor.ListCustomLineItemsInput: AWSPaginateToken {
     }
 }
 
-extension Billingconductor.ListPricingPlansInput: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> Billingconductor.ListPricingPlansInput {
-        return .init(
-            billingPeriod: self.billingPeriod,
-            filters: self.filters,
-            maxResults: self.maxResults,
-            nextToken: token
-        )
-    }
-}
-
 extension Billingconductor.ListPricingPlansAssociatedWithPricingRuleInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Billingconductor.ListPricingPlansAssociatedWithPricingRuleInput {
         return .init(
@@ -563,8 +552,8 @@ extension Billingconductor.ListPricingPlansAssociatedWithPricingRuleInput: AWSPa
     }
 }
 
-extension Billingconductor.ListPricingRulesInput: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> Billingconductor.ListPricingRulesInput {
+extension Billingconductor.ListPricingPlansInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Billingconductor.ListPricingPlansInput {
         return .init(
             billingPeriod: self.billingPeriod,
             filters: self.filters,
@@ -581,6 +570,17 @@ extension Billingconductor.ListPricingRulesAssociatedToPricingPlanInput: AWSPagi
             maxResults: self.maxResults,
             nextToken: token,
             pricingPlanArn: self.pricingPlanArn
+        )
+    }
+}
+
+extension Billingconductor.ListPricingRulesInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Billingconductor.ListPricingRulesInput {
+        return .init(
+            billingPeriod: self.billingPeriod,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -1798,6 +1798,7 @@ extension Redshift.DescribeClusterSnapshotsMessage: AWSPaginateToken {
             marker: token,
             maxRecords: self.maxRecords,
             ownerAccount: self.ownerAccount,
+            snapshotArn: self.snapshotArn,
             snapshotIdentifier: self.snapshotIdentifier,
             snapshotType: self.snapshotType,
             sortingEntities: self.sortingEntities,
@@ -1853,16 +1854,6 @@ extension Redshift.DescribeClustersMessage: AWSPaginateToken {
     }
 }
 
-extension Redshift.DescribeDataSharesMessage: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> Redshift.DescribeDataSharesMessage {
-        return .init(
-            dataShareArn: self.dataShareArn,
-            marker: token,
-            maxRecords: self.maxRecords
-        )
-    }
-}
-
 extension Redshift.DescribeDataSharesForConsumerMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Redshift.DescribeDataSharesForConsumerMessage {
         return .init(
@@ -1881,6 +1872,16 @@ extension Redshift.DescribeDataSharesForProducerMessage: AWSPaginateToken {
             maxRecords: self.maxRecords,
             producerArn: self.producerArn,
             status: self.status
+        )
+    }
+}
+
+extension Redshift.DescribeDataSharesMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Redshift.DescribeDataSharesMessage {
+        return .init(
+            dataShareArn: self.dataShareArn,
+            marker: token,
+            maxRecords: self.maxRecords
         )
     }
 }
@@ -1979,6 +1980,7 @@ extension Redshift.DescribeNodeConfigurationOptionsMessage: AWSPaginateToken {
             marker: token,
             maxRecords: self.maxRecords,
             ownerAccount: self.ownerAccount,
+            snapshotArn: self.snapshotArn,
             snapshotIdentifier: self.snapshotIdentifier
         )
     }

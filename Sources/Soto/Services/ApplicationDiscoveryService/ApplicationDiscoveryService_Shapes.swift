@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -448,6 +448,36 @@ extension ApplicationDiscoveryService {
             case totalAgents
             case unhealthyAgents
             case unknownAgents
+        }
+    }
+
+    public struct CustomerAgentlessCollectorInfo: AWSDecodableShape {
+        public let activeAgentlessCollectors: Int
+        public let denyListedAgentlessCollectors: Int
+        public let healthyAgentlessCollectors: Int
+        public let shutdownAgentlessCollectors: Int
+        public let totalAgentlessCollectors: Int
+        public let unhealthyAgentlessCollectors: Int
+        public let unknownAgentlessCollectors: Int
+
+        public init(activeAgentlessCollectors: Int, denyListedAgentlessCollectors: Int, healthyAgentlessCollectors: Int, shutdownAgentlessCollectors: Int, totalAgentlessCollectors: Int, unhealthyAgentlessCollectors: Int, unknownAgentlessCollectors: Int) {
+            self.activeAgentlessCollectors = activeAgentlessCollectors
+            self.denyListedAgentlessCollectors = denyListedAgentlessCollectors
+            self.healthyAgentlessCollectors = healthyAgentlessCollectors
+            self.shutdownAgentlessCollectors = shutdownAgentlessCollectors
+            self.totalAgentlessCollectors = totalAgentlessCollectors
+            self.unhealthyAgentlessCollectors = unhealthyAgentlessCollectors
+            self.unknownAgentlessCollectors = unknownAgentlessCollectors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activeAgentlessCollectors
+            case denyListedAgentlessCollectors
+            case healthyAgentlessCollectors
+            case shutdownAgentlessCollectors
+            case totalAgentlessCollectors
+            case unhealthyAgentlessCollectors
+            case unknownAgentlessCollectors
         }
     }
 
@@ -1049,6 +1079,7 @@ extension ApplicationDiscoveryService {
     }
 
     public struct GetDiscoverySummaryResponse: AWSDecodableShape {
+        public let agentlessCollectorSummary: CustomerAgentlessCollectorInfo?
         /// Details about discovered agents, including agent status and health.
         public let agentSummary: CustomerAgentInfo?
         /// The number of applications discovered.
@@ -1064,7 +1095,8 @@ extension ApplicationDiscoveryService {
         /// The number of servers mapped to tags.
         public let serversMappedtoTags: Int64?
 
-        public init(agentSummary: CustomerAgentInfo? = nil, applications: Int64? = nil, connectorSummary: CustomerConnectorInfo? = nil, meCollectorSummary: CustomerMeCollectorInfo? = nil, servers: Int64? = nil, serversMappedToApplications: Int64? = nil, serversMappedtoTags: Int64? = nil) {
+        public init(agentlessCollectorSummary: CustomerAgentlessCollectorInfo? = nil, agentSummary: CustomerAgentInfo? = nil, applications: Int64? = nil, connectorSummary: CustomerConnectorInfo? = nil, meCollectorSummary: CustomerMeCollectorInfo? = nil, servers: Int64? = nil, serversMappedToApplications: Int64? = nil, serversMappedtoTags: Int64? = nil) {
+            self.agentlessCollectorSummary = agentlessCollectorSummary
             self.agentSummary = agentSummary
             self.applications = applications
             self.connectorSummary = connectorSummary
@@ -1075,6 +1107,7 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case agentlessCollectorSummary
             case agentSummary
             case applications
             case connectorSummary
@@ -1473,7 +1506,7 @@ extension ApplicationDiscoveryService {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.importUrl, name: "importUrl", parent: name, max: 4000)
             try self.validate(self.importUrl, name: "importUrl", parent: name, min: 1)
-            try self.validate(self.importUrl, name: "importUrl", parent: name, pattern: "^\\S+:\\/\\/\\S+\\/[\\s\\S]*\\S[\\s\\S]*$")
+            try self.validate(self.importUrl, name: "importUrl", parent: name, pattern: "^\\S+://\\S+/[\\s\\S]*\\S[\\s\\S]*$")
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\s\\S]*\\S[\\s\\S]*$")

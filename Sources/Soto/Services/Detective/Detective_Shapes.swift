@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -20,6 +20,19 @@ import SotoCore
 
 extension Detective {
     // MARK: Enums
+
+    public enum DatasourcePackage: String, CustomStringConvertible, Codable, _SotoSendable {
+        case detectiveCore = "DETECTIVE_CORE"
+        case eksAudit = "EKS_AUDIT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DatasourcePackageIngestState: String, CustomStringConvertible, Codable, _SotoSendable {
+        case disabled = "DISABLED"
+        case started = "STARTED"
+        case stopped = "STOPPED"
+        public var description: String { return self.rawValue }
+    }
 
     public enum InvitationType: String, CustomStringConvertible, Codable, _SotoSendable {
         case invitation = "INVITATION"
@@ -106,6 +119,89 @@ extension Detective {
             case accountId = "AccountId"
             case delegationTime = "DelegationTime"
             case graphArn = "GraphArn"
+        }
+    }
+
+    public struct BatchGetGraphMemberDatasourcesRequest: AWSEncodableShape {
+        /// The list of Amazon Web Services accounts to get data source package information on.
+        public let accountIds: [String]
+        /// The ARN of the behavior graph.
+        public let graphArn: String
+
+        public init(accountIds: [String], graphArn: String) {
+            self.accountIds = accountIds
+            self.graphArn = graphArn
+        }
+
+        public func validate(name: String) throws {
+            try self.accountIds.forEach {
+                try validate($0, name: "accountIds[]", parent: name, max: 12)
+                try validate($0, name: "accountIds[]", parent: name, min: 12)
+                try validate($0, name: "accountIds[]", parent: name, pattern: "^[0-9]+$")
+            }
+            try self.validate(self.accountIds, name: "accountIds", parent: name, max: 200)
+            try self.validate(self.accountIds, name: "accountIds", parent: name, min: 1)
+            try self.validate(self.graphArn, name: "graphArn", parent: name, pattern: "^arn:aws[-\\w]{0,10}?:detective:[-\\w]{2,20}?:\\d{12}?:graph:[abcdef\\d]{32}?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountIds = "AccountIds"
+            case graphArn = "GraphArn"
+        }
+    }
+
+    public struct BatchGetGraphMemberDatasourcesResponse: AWSDecodableShape {
+        /// Details on the status of data source packages for members of the behavior graph.
+        public let memberDatasources: [MembershipDatasources]?
+        /// Accounts that data source package information could not be retrieved for.
+        public let unprocessedAccounts: [UnprocessedAccount]?
+
+        public init(memberDatasources: [MembershipDatasources]? = nil, unprocessedAccounts: [UnprocessedAccount]? = nil) {
+            self.memberDatasources = memberDatasources
+            self.unprocessedAccounts = unprocessedAccounts
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case memberDatasources = "MemberDatasources"
+            case unprocessedAccounts = "UnprocessedAccounts"
+        }
+    }
+
+    public struct BatchGetMembershipDatasourcesRequest: AWSEncodableShape {
+        /// The ARN of the behavior graph.
+        public let graphArns: [String]
+
+        public init(graphArns: [String]) {
+            self.graphArns = graphArns
+        }
+
+        public func validate(name: String) throws {
+            try self.graphArns.forEach {
+                try validate($0, name: "graphArns[]", parent: name, pattern: "^arn:aws[-\\w]{0,10}?:detective:[-\\w]{2,20}?:\\d{12}?:graph:[abcdef\\d]{32}?$")
+            }
+            try self.validate(self.graphArns, name: "graphArns", parent: name, max: 50)
+            try self.validate(self.graphArns, name: "graphArns", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case graphArns = "GraphArns"
+        }
+    }
+
+    public struct BatchGetMembershipDatasourcesResponse: AWSDecodableShape {
+        /// Details on the data source package history for an member of the behavior graph.
+        public let membershipDatasources: [MembershipDatasources]?
+        /// Graphs that data source package information could not be retrieved for.
+        public let unprocessedGraphs: [UnprocessedGraph]?
+
+        public init(membershipDatasources: [MembershipDatasources]? = nil, unprocessedGraphs: [UnprocessedGraph]? = nil) {
+            self.membershipDatasources = membershipDatasources
+            self.unprocessedGraphs = unprocessedGraphs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case membershipDatasources = "MembershipDatasources"
+            case unprocessedGraphs = "UnprocessedGraphs"
         }
     }
 
@@ -196,6 +292,41 @@ extension Detective {
         private enum CodingKeys: String, CodingKey {
             case members = "Members"
             case unprocessedAccounts = "UnprocessedAccounts"
+        }
+    }
+
+    public struct DatasourcePackageIngestDetail: AWSDecodableShape {
+        /// Details on which data source packages are ingested for a member account.
+        public let datasourcePackageIngestState: DatasourcePackageIngestState?
+        /// The date a data source package was enabled for this account
+        public let lastIngestStateChange: [DatasourcePackageIngestState: TimestampForCollection]?
+
+        public init(datasourcePackageIngestState: DatasourcePackageIngestState? = nil, lastIngestStateChange: [DatasourcePackageIngestState: TimestampForCollection]? = nil) {
+            self.datasourcePackageIngestState = datasourcePackageIngestState
+            self.lastIngestStateChange = lastIngestStateChange
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasourcePackageIngestState = "DatasourcePackageIngestState"
+            case lastIngestStateChange = "LastIngestStateChange"
+        }
+    }
+
+    public struct DatasourcePackageUsageInfo: AWSDecodableShape {
+        /// Total volume of data in bytes per day ingested for a given data source package.
+        public let volumeUsageInBytes: Int64?
+        /// The data and time when the member account data volume was last updated. The value is an ISO8601 formatted string. For example, 2021-08-18T16:35:56.284Z.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var volumeUsageUpdateTime: Date?
+
+        public init(volumeUsageInBytes: Int64? = nil, volumeUsageUpdateTime: Date? = nil) {
+            self.volumeUsageInBytes = volumeUsageInBytes
+            self.volumeUsageUpdateTime = volumeUsageUpdateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case volumeUsageInBytes = "VolumeUsageInBytes"
+            case volumeUsageUpdateTime = "VolumeUsageUpdateTime"
         }
     }
 
@@ -390,6 +521,52 @@ extension Detective {
         }
     }
 
+    public struct ListDatasourcePackagesRequest: AWSEncodableShape {
+        /// The ARN of the behavior graph.
+        public let graphArn: String
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// For requests to get the next page of results, the pagination token that was returned with the previous set of results. The initial request does not include a pagination token.
+        public let nextToken: String?
+
+        public init(graphArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.graphArn = graphArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.graphArn, name: "graphArn", parent: name, pattern: "^arn:aws[-\\w]{0,10}?:detective:[-\\w]{2,20}?:\\d{12}?:graph:[abcdef\\d]{32}?$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 200)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case graphArn = "GraphArn"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListDatasourcePackagesResponse: AWSDecodableShape {
+        /// Details on the data source packages active in the behavior graph.
+        public let datasourcePackages: [DatasourcePackage: DatasourcePackageIngestDetail]?
+        /// For requests to get the next page of results, the pagination token that was returned with the previous set of results. The initial request does not include a pagination token.
+        public let nextToken: String?
+
+        public init(datasourcePackages: [DatasourcePackage: DatasourcePackageIngestDetail]? = nil, nextToken: String? = nil) {
+            self.datasourcePackages = datasourcePackages
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasourcePackages = "DatasourcePackages"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListGraphsRequest: AWSEncodableShape {
         /// The maximum number of graphs to return at a time. The total must be less than the overall limit on the number of results to return, which is currently 200.
         public let maxResults: Int?
@@ -543,7 +720,7 @@ extension Detective {
     }
 
     public struct ListOrganizationAdminAccountsResponse: AWSDecodableShape {
-        /// The list of delegated administrator accounts.
+        /// The list of Detective administrator accounts.
         public let administrators: [Administrator]?
         /// If there are more accounts remaining in the results, then this is the pagination token to use to request the next page of accounts.
         public let nextToken: String?
@@ -596,6 +773,8 @@ extension Detective {
         public let accountId: String?
         /// The Amazon Web Services account identifier of the administrator account for the behavior graph.
         public let administratorId: String?
+        /// The state of a data source package for the behavior graph.
+        public let datasourcePackageIngestStates: [DatasourcePackage: DatasourcePackageIngestState]?
         /// For member accounts with a status of ACCEPTED_BUT_DISABLED, the reason that the member account is not enabled. The reason can have one of the following values:    VOLUME_TOO_HIGH - Indicates that adding the member account would cause the data volume for the behavior graph to be too high.    VOLUME_UNKNOWN - Indicates that Detective is unable to verify the data volume for the member account. This is usually because the member account is not enrolled in Amazon GuardDuty.
         public let disabledReason: MemberDisabledReason?
         /// The Amazon Web Services account root user email address for the member account.
@@ -619,15 +798,18 @@ extension Detective {
         /// The date and time that the member account was last updated. The value is an ISO8601 formatted string. For example, 2021-08-18T16:35:56.284Z.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedTime: Date?
+        /// Details on the volume of usage for each data source package in a behavior graph.
+        public let volumeUsageByDatasourcePackage: [DatasourcePackage: DatasourcePackageUsageInfo]?
         /// The data volume in bytes per day for the member account.
         public let volumeUsageInBytes: Int64?
         /// The data and time when the member account data volume was last updated. The value is an ISO8601 formatted string. For example, 2021-08-18T16:35:56.284Z.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var volumeUsageUpdatedTime: Date?
 
-        public init(accountId: String? = nil, administratorId: String? = nil, disabledReason: MemberDisabledReason? = nil, emailAddress: String? = nil, graphArn: String? = nil, invitationType: InvitationType? = nil, invitedTime: Date? = nil, status: MemberStatus? = nil, updatedTime: Date? = nil, volumeUsageInBytes: Int64? = nil, volumeUsageUpdatedTime: Date? = nil) {
+        public init(accountId: String? = nil, administratorId: String? = nil, datasourcePackageIngestStates: [DatasourcePackage: DatasourcePackageIngestState]? = nil, disabledReason: MemberDisabledReason? = nil, emailAddress: String? = nil, graphArn: String? = nil, invitationType: InvitationType? = nil, invitedTime: Date? = nil, status: MemberStatus? = nil, updatedTime: Date? = nil, volumeUsageByDatasourcePackage: [DatasourcePackage: DatasourcePackageUsageInfo]? = nil) {
             self.accountId = accountId
             self.administratorId = administratorId
+            self.datasourcePackageIngestStates = datasourcePackageIngestStates
             self.disabledReason = disabledReason
             self.emailAddress = emailAddress
             self.graphArn = graphArn
@@ -638,14 +820,16 @@ extension Detective {
             self.percentOfGraphUtilizationUpdatedTime = nil
             self.status = status
             self.updatedTime = updatedTime
-            self.volumeUsageInBytes = volumeUsageInBytes
-            self.volumeUsageUpdatedTime = volumeUsageUpdatedTime
+            self.volumeUsageByDatasourcePackage = volumeUsageByDatasourcePackage
+            self.volumeUsageInBytes = nil
+            self.volumeUsageUpdatedTime = nil
         }
 
-        @available(*, deprecated, message: "Members masterId, percentOfGraphUtilization, percentOfGraphUtilizationUpdatedTime have been deprecated")
-        public init(accountId: String? = nil, administratorId: String? = nil, disabledReason: MemberDisabledReason? = nil, emailAddress: String? = nil, graphArn: String? = nil, invitationType: InvitationType? = nil, invitedTime: Date? = nil, masterId: String? = nil, percentOfGraphUtilization: Double? = nil, percentOfGraphUtilizationUpdatedTime: Date? = nil, status: MemberStatus? = nil, updatedTime: Date? = nil, volumeUsageInBytes: Int64? = nil, volumeUsageUpdatedTime: Date? = nil) {
+        @available(*, deprecated, message: "Members masterId, percentOfGraphUtilization, percentOfGraphUtilizationUpdatedTime, volumeUsageInBytes, volumeUsageUpdatedTime have been deprecated")
+        public init(accountId: String? = nil, administratorId: String? = nil, datasourcePackageIngestStates: [DatasourcePackage: DatasourcePackageIngestState]? = nil, disabledReason: MemberDisabledReason? = nil, emailAddress: String? = nil, graphArn: String? = nil, invitationType: InvitationType? = nil, invitedTime: Date? = nil, masterId: String? = nil, percentOfGraphUtilization: Double? = nil, percentOfGraphUtilizationUpdatedTime: Date? = nil, status: MemberStatus? = nil, updatedTime: Date? = nil, volumeUsageByDatasourcePackage: [DatasourcePackage: DatasourcePackageUsageInfo]? = nil, volumeUsageInBytes: Int64? = nil, volumeUsageUpdatedTime: Date? = nil) {
             self.accountId = accountId
             self.administratorId = administratorId
+            self.datasourcePackageIngestStates = datasourcePackageIngestStates
             self.disabledReason = disabledReason
             self.emailAddress = emailAddress
             self.graphArn = graphArn
@@ -656,6 +840,7 @@ extension Detective {
             self.percentOfGraphUtilizationUpdatedTime = percentOfGraphUtilizationUpdatedTime
             self.status = status
             self.updatedTime = updatedTime
+            self.volumeUsageByDatasourcePackage = volumeUsageByDatasourcePackage
             self.volumeUsageInBytes = volumeUsageInBytes
             self.volumeUsageUpdatedTime = volumeUsageUpdatedTime
         }
@@ -663,6 +848,7 @@ extension Detective {
         private enum CodingKeys: String, CodingKey {
             case accountId = "AccountId"
             case administratorId = "AdministratorId"
+            case datasourcePackageIngestStates = "DatasourcePackageIngestStates"
             case disabledReason = "DisabledReason"
             case emailAddress = "EmailAddress"
             case graphArn = "GraphArn"
@@ -673,8 +859,30 @@ extension Detective {
             case percentOfGraphUtilizationUpdatedTime = "PercentOfGraphUtilizationUpdatedTime"
             case status = "Status"
             case updatedTime = "UpdatedTime"
+            case volumeUsageByDatasourcePackage = "VolumeUsageByDatasourcePackage"
             case volumeUsageInBytes = "VolumeUsageInBytes"
             case volumeUsageUpdatedTime = "VolumeUsageUpdatedTime"
+        }
+    }
+
+    public struct MembershipDatasources: AWSDecodableShape {
+        /// The account identifier of the Amazon Web Services account.
+        public let accountId: String?
+        /// Details on when a data source package was added to a behavior graph.
+        public let datasourcePackageIngestHistory: [DatasourcePackage: [DatasourcePackageIngestState: TimestampForCollection]]?
+        /// The ARN of the organization behavior graph.
+        public let graphArn: String?
+
+        public init(accountId: String? = nil, datasourcePackageIngestHistory: [DatasourcePackage: [DatasourcePackageIngestState: TimestampForCollection]]? = nil, graphArn: String? = nil) {
+            self.accountId = accountId
+            self.datasourcePackageIngestHistory = datasourcePackageIngestHistory
+            self.graphArn = graphArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case datasourcePackageIngestHistory = "DatasourcePackageIngestHistory"
+            case graphArn = "GraphArn"
         }
     }
 
@@ -755,6 +963,20 @@ extension Detective {
         public init() {}
     }
 
+    public struct TimestampForCollection: AWSDecodableShape {
+        /// The data and time when data collection began for a source package. The value is an ISO8601 formatted string. For example, 2021-08-18T16:35:56.284Z.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var timestamp: Date?
+
+        public init(timestamp: Date? = nil) {
+            self.timestamp = timestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case timestamp = "Timestamp"
+        }
+    }
+
     public struct UnprocessedAccount: AWSDecodableShape {
         /// The Amazon Web Services account identifier of the member account that was not processed.
         public let accountId: String?
@@ -768,6 +990,23 @@ extension Detective {
 
         private enum CodingKeys: String, CodingKey {
             case accountId = "AccountId"
+            case reason = "Reason"
+        }
+    }
+
+    public struct UnprocessedGraph: AWSDecodableShape {
+        /// The ARN of the organization behavior graph.
+        public let graphArn: String?
+        /// The reason data source package information could not be processed for a behavior graph.
+        public let reason: String?
+
+        public init(graphArn: String? = nil, reason: String? = nil) {
+            self.graphArn = graphArn
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case graphArn = "GraphArn"
             case reason = "Reason"
         }
     }
@@ -804,6 +1043,29 @@ extension Detective {
 
     public struct UntagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UpdateDatasourcePackagesRequest: AWSEncodableShape {
+        /// The data source package start for the behavior graph.
+        public let datasourcePackages: [DatasourcePackage]
+        /// The ARN of the behavior graph.
+        public let graphArn: String
+
+        public init(datasourcePackages: [DatasourcePackage], graphArn: String) {
+            self.datasourcePackages = datasourcePackages
+            self.graphArn = graphArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.datasourcePackages, name: "datasourcePackages", parent: name, max: 25)
+            try self.validate(self.datasourcePackages, name: "datasourcePackages", parent: name, min: 1)
+            try self.validate(self.graphArn, name: "graphArn", parent: name, pattern: "^arn:aws[-\\w]{0,10}?:detective:[-\\w]{2,20}?:\\d{12}?:graph:[abcdef\\d]{32}?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasourcePackages = "DatasourcePackages"
+            case graphArn = "GraphArn"
+        }
     }
 
     public struct UpdateOrganizationConfigurationRequest: AWSEncodableShape {

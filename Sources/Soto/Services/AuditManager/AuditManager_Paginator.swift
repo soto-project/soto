@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -656,7 +656,7 @@ extension AuditManager {
         )
     }
 
-    ///  Lists the latest analytics data for controls within a specific control domain across all active assessments.   Control insights are listed only if the control belongs to the control domain that was specified and the control collected evidence on the lastUpdated date of controlInsightsMetadata. If neither of these conditions are met, no data is listed for that control.
+    ///  Lists the latest analytics data for controls within a specific control domain across all active assessments.  Control insights are listed only if the control belongs to the control domain that was specified and the control collected evidence on the lastUpdated date of controlInsightsMetadata. If neither of these conditions are met, no data is listed for that control.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -902,22 +902,22 @@ extension AuditManager.GetEvidenceByEvidenceFolderRequest: AWSPaginateToken {
     }
 }
 
-extension AuditManager.GetEvidenceFoldersByAssessmentRequest: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> AuditManager.GetEvidenceFoldersByAssessmentRequest {
-        return .init(
-            assessmentId: self.assessmentId,
-            maxResults: self.maxResults,
-            nextToken: token
-        )
-    }
-}
-
 extension AuditManager.GetEvidenceFoldersByAssessmentControlRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AuditManager.GetEvidenceFoldersByAssessmentControlRequest {
         return .init(
             assessmentId: self.assessmentId,
             controlId: self.controlId,
             controlSetId: self.controlSetId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension AuditManager.GetEvidenceFoldersByAssessmentRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> AuditManager.GetEvidenceFoldersByAssessmentRequest {
+        return .init(
+            assessmentId: self.assessmentId,
             maxResults: self.maxResults,
             nextToken: token
         )
@@ -974,19 +974,19 @@ extension AuditManager.ListAssessmentsRequest: AWSPaginateToken {
     }
 }
 
-extension AuditManager.ListControlDomainInsightsRequest: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> AuditManager.ListControlDomainInsightsRequest {
+extension AuditManager.ListControlDomainInsightsByAssessmentRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> AuditManager.ListControlDomainInsightsByAssessmentRequest {
         return .init(
+            assessmentId: self.assessmentId,
             maxResults: self.maxResults,
             nextToken: token
         )
     }
 }
 
-extension AuditManager.ListControlDomainInsightsByAssessmentRequest: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> AuditManager.ListControlDomainInsightsByAssessmentRequest {
+extension AuditManager.ListControlDomainInsightsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> AuditManager.ListControlDomainInsightsRequest {
         return .init(
-            assessmentId: self.assessmentId,
             maxResults: self.maxResults,
             nextToken: token
         )

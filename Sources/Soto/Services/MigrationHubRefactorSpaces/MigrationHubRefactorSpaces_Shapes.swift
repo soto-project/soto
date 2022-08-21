@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -106,6 +106,7 @@ extension MigrationHubRefactorSpaces {
 
     public enum RouteActivationState: String, CustomStringConvertible, Codable, _SotoSendable {
         case active = "ACTIVE"
+        case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
 
@@ -524,6 +525,8 @@ extension MigrationHubRefactorSpaces {
         public let applicationIdentifier: String
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
+        ///  Configuration for the default route type.
+        public let defaultRoute: DefaultRouteInput?
         /// The ID of the environment in which the route is created.
         public let environmentIdentifier: String
         /// The route type of the route. DEFAULT indicates that all traffic that does not match another route is forwarded to the default route. Applications must have a default route before any other routes can be created. URI_PATH indicates a route that is based on a URI path.
@@ -535,9 +538,10 @@ extension MigrationHubRefactorSpaces {
         /// The configuration for the URI path route type.
         public let uriPathRoute: UriPathRouteInput?
 
-        public init(applicationIdentifier: String, clientToken: String? = CreateRouteRequest.idempotencyToken(), environmentIdentifier: String, routeType: RouteType, serviceIdentifier: String, tags: [String: String]? = nil, uriPathRoute: UriPathRouteInput? = nil) {
+        public init(applicationIdentifier: String, clientToken: String? = CreateRouteRequest.idempotencyToken(), defaultRoute: DefaultRouteInput? = nil, environmentIdentifier: String, routeType: RouteType, serviceIdentifier: String, tags: [String: String]? = nil, uriPathRoute: UriPathRouteInput? = nil) {
             self.applicationIdentifier = applicationIdentifier
             self.clientToken = clientToken
+            self.defaultRoute = defaultRoute
             self.environmentIdentifier = environmentIdentifier
             self.routeType = routeType
             self.serviceIdentifier = serviceIdentifier
@@ -564,6 +568,7 @@ extension MigrationHubRefactorSpaces {
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "ClientToken"
+            case defaultRoute = "DefaultRoute"
             case routeType = "RouteType"
             case serviceIdentifier = "ServiceIdentifier"
             case tags = "Tags"
@@ -592,11 +597,11 @@ extension MigrationHubRefactorSpaces {
         public let routeType: RouteType?
         /// The ID of service in which the route is created. Traffic that matches this route is forwarded to this service.
         public let serviceId: String?
-        /// The current state of the route.
+        /// The current state of the route. Activation state only allows ACTIVE or INACTIVE as user inputs. FAILED is a route state that is system generated.
         public let state: RouteState?
         /// The tags assigned to the created route. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key-value pair.
         public let tags: [String: String]?
-        /// onfiguration for the URI path route type.
+        /// Configuration for the URI path route type.
         public let uriPathRoute: UriPathRouteInput?
 
         public init(applicationId: String? = nil, arn: String? = nil, createdByAccountId: String? = nil, createdTime: Date? = nil, lastUpdatedTime: Date? = nil, ownerAccountId: String? = nil, routeId: String? = nil, routeType: RouteType? = nil, serviceId: String? = nil, state: RouteState? = nil, tags: [String: String]? = nil, uriPathRoute: UriPathRouteInput? = nil) {
@@ -776,6 +781,19 @@ extension MigrationHubRefactorSpaces {
             case tags = "Tags"
             case urlEndpoint = "UrlEndpoint"
             case vpcId = "VpcId"
+        }
+    }
+
+    public struct DefaultRouteInput: AWSEncodableShape {
+        /// If set to ACTIVE, traffic is forwarded to this route’s service after the route is created.
+        public let activationState: RouteActivationState?
+
+        public init(activationState: RouteActivationState? = nil) {
+            self.activationState = activationState
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activationState = "ActivationState"
         }
     }
 
@@ -2135,7 +2153,7 @@ extension MigrationHubRefactorSpaces {
             AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
-        /// The Amazon Resource Name (ARN) of the resource
+        /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
         /// The new or modified tags for the resource.
         public let tags: [String: String]
@@ -2181,8 +2199,83 @@ extension MigrationHubRefactorSpaces {
         public init() {}
     }
 
+    public struct UpdateRouteRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "applicationIdentifier", location: .uri("ApplicationIdentifier")),
+            AWSMemberEncoding(label: "environmentIdentifier", location: .uri("EnvironmentIdentifier")),
+            AWSMemberEncoding(label: "routeIdentifier", location: .uri("RouteIdentifier"))
+        ]
+
+        ///  If set to ACTIVE, traffic is forwarded to this route’s service after the route is updated.
+        public let activationState: RouteActivationState
+        ///  The ID of the application within which the route is being updated.
+        public let applicationIdentifier: String
+        ///  The ID of the environment in which the route is being updated.
+        public let environmentIdentifier: String
+        ///  The unique identifier of the route to update.
+        public let routeIdentifier: String
+
+        public init(activationState: RouteActivationState, applicationIdentifier: String, environmentIdentifier: String, routeIdentifier: String) {
+            self.activationState = activationState
+            self.applicationIdentifier = applicationIdentifier
+            self.environmentIdentifier = environmentIdentifier
+            self.routeIdentifier = routeIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationIdentifier, name: "applicationIdentifier", parent: name, max: 14)
+            try self.validate(self.applicationIdentifier, name: "applicationIdentifier", parent: name, min: 14)
+            try self.validate(self.applicationIdentifier, name: "applicationIdentifier", parent: name, pattern: "^app-[0-9A-Za-z]{10}$")
+            try self.validate(self.environmentIdentifier, name: "environmentIdentifier", parent: name, max: 14)
+            try self.validate(self.environmentIdentifier, name: "environmentIdentifier", parent: name, min: 14)
+            try self.validate(self.environmentIdentifier, name: "environmentIdentifier", parent: name, pattern: "^env-[0-9A-Za-z]{10}$")
+            try self.validate(self.routeIdentifier, name: "routeIdentifier", parent: name, max: 14)
+            try self.validate(self.routeIdentifier, name: "routeIdentifier", parent: name, min: 14)
+            try self.validate(self.routeIdentifier, name: "routeIdentifier", parent: name, pattern: "^rte-[0-9A-Za-z]{10}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activationState = "ActivationState"
+        }
+    }
+
+    public struct UpdateRouteResponse: AWSDecodableShape {
+        ///  The ID of the application in which the route is being updated.
+        public let applicationId: String?
+        ///  The Amazon Resource Name (ARN) of the route. The format for this ARN is
+        /// arn:aws:refactor-spaces:region:account-id:resource-type/resource-id . For more information about ARNs,
+        /// see  Amazon Resource Names (ARNs) in the  Amazon Web Services General Reference.
+        public let arn: String?
+        ///  A timestamp that indicates when the route was last updated.
+        public let lastUpdatedTime: Date?
+        ///  The unique identifier of the route.
+        public let routeId: String?
+        ///  The ID of service in which the route was created. Traffic that matches this route is forwarded to this service.
+        public let serviceId: String?
+        ///  The current state of the route.
+        public let state: RouteState?
+
+        public init(applicationId: String? = nil, arn: String? = nil, lastUpdatedTime: Date? = nil, routeId: String? = nil, serviceId: String? = nil, state: RouteState? = nil) {
+            self.applicationId = applicationId
+            self.arn = arn
+            self.lastUpdatedTime = lastUpdatedTime
+            self.routeId = routeId
+            self.serviceId = serviceId
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "ApplicationId"
+            case arn = "Arn"
+            case lastUpdatedTime = "LastUpdatedTime"
+            case routeId = "RouteId"
+            case serviceId = "ServiceId"
+            case state = "State"
+        }
+    }
+
     public struct UriPathRouteInput: AWSEncodableShape & AWSDecodableShape {
-        /// Indicates whether traffic is forwarded to this route’s service after the route is created.
+        /// If set to ACTIVE, traffic is forwarded to this route’s service after the route is created.
         public let activationState: RouteActivationState
         /// Indicates whether to match all subpaths of the given source path. If this value is false, requests must match the source path exactly before they are forwarded to this route's service.
         public let includeChildPaths: Bool?

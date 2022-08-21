@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -23,7 +23,7 @@ import SotoCore
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension ChimeSDKMediaPipelines {
-    ///  Returns a list of media capture pipelines.
+    ///  Returns a list of media pipelines.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -40,6 +40,28 @@ extension ChimeSDKMediaPipelines {
             command: listMediaCapturePipelines,
             inputKey: \ListMediaCapturePipelinesRequest.nextToken,
             outputKey: \ListMediaCapturePipelinesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Returns a list of media pipelines.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listMediaPipelinesPaginator(
+        _ input: ListMediaPipelinesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListMediaPipelinesRequest, ListMediaPipelinesResponse> {
+        return .init(
+            input: input,
+            command: listMediaPipelines,
+            inputKey: \ListMediaPipelinesRequest.nextToken,
+            outputKey: \ListMediaPipelinesResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

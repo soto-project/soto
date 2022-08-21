@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -1482,6 +1482,17 @@ extension Chime.ListChannelBansRequest: AWSPaginateToken {
     }
 }
 
+extension Chime.ListChannelMembershipsForAppInstanceUserRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Chime.ListChannelMembershipsForAppInstanceUserRequest {
+        return .init(
+            appInstanceUserArn: self.appInstanceUserArn,
+            chimeBearer: self.chimeBearer,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension Chime.ListChannelMembershipsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Chime.ListChannelMembershipsRequest {
         return .init(
@@ -1490,17 +1501,6 @@ extension Chime.ListChannelMembershipsRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             type: self.type
-        )
-    }
-}
-
-extension Chime.ListChannelMembershipsForAppInstanceUserRequest: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> Chime.ListChannelMembershipsForAppInstanceUserRequest {
-        return .init(
-            appInstanceUserArn: self.appInstanceUserArn,
-            chimeBearer: self.chimeBearer,
-            maxResults: self.maxResults,
-            nextToken: token
         )
     }
 }
@@ -1530,6 +1530,17 @@ extension Chime.ListChannelModeratorsRequest: AWSPaginateToken {
     }
 }
 
+extension Chime.ListChannelsModeratedByAppInstanceUserRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Chime.ListChannelsModeratedByAppInstanceUserRequest {
+        return .init(
+            appInstanceUserArn: self.appInstanceUserArn,
+            chimeBearer: self.chimeBearer,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension Chime.ListChannelsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Chime.ListChannelsRequest {
         return .init(
@@ -1538,17 +1549,6 @@ extension Chime.ListChannelsRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             privacy: self.privacy
-        )
-    }
-}
-
-extension Chime.ListChannelsModeratedByAppInstanceUserRequest: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> Chime.ListChannelsModeratedByAppInstanceUserRequest {
-        return .init(
-            appInstanceUserArn: self.appInstanceUserArn,
-            chimeBearer: self.chimeBearer,
-            maxResults: self.maxResults,
-            nextToken: token
         )
     }
 }

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -23,6 +23,48 @@ import SotoCore
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension RDS {
+    public func waitUntilDBClusterAvailable(
+        _ input: DescribeDBClustersMessage,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) async throws {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESAllPathMatcher("dbClusters[].status", expected: "available")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dbClusters[].status", expected: "deleted")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dbClusters[].status", expected: "deleting")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dbClusters[].status", expected: "failed")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dbClusters[].status", expected: "incompatible-restore")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dbClusters[].status", expected: "incompatible-parameters")),
+            ],
+            minDelayTime: .seconds(30),
+            command: describeDBClusters
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func waitUntilDBClusterDeleted(
+        _ input: DescribeDBClustersMessage,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) async throws {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("length(dbClusters) == `0`", expected: "true")),
+                .init(state: .success, matcher: AWSErrorCodeMatcher("DBClusterNotFoundFault")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dbClusters[].status", expected: "creating")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dbClusters[].status", expected: "modifying")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dbClusters[].status", expected: "rebooting")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("dbClusters[].status", expected: "resetting-master-credentials")),
+            ],
+            minDelayTime: .seconds(30),
+            command: describeDBClusters
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
     public func waitUntilDBClusterSnapshotAvailable(
         _ input: DescribeDBClusterSnapshotsMessage,
         maxWaitTime: TimeAmount? = nil,

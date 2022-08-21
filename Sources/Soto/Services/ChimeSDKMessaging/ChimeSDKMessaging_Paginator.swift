@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -503,6 +503,59 @@ extension ChimeSDKMessaging {
         )
     }
 
+    ///  Lists all the SubChannels in an elastic channel when given a channel ID. Available only to the app instance admins and channel moderators of elastic channels.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listSubChannelsPaginator<Result>(
+        _ input: ListSubChannelsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListSubChannelsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listSubChannels,
+            inputKey: \ListSubChannelsRequest.nextToken,
+            outputKey: \ListSubChannelsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listSubChannelsPaginator(
+        _ input: ListSubChannelsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListSubChannelsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listSubChannels,
+            inputKey: \ListSubChannelsRequest.nextToken,
+            outputKey: \ListSubChannelsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Allows an AppInstanceUser to search the channels that they belong to. The AppInstanceUser can search by membership or external ID.  An AppInstanceAdmin can search across all channels within the AppInstance.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -578,18 +631,6 @@ extension ChimeSDKMessaging.ListChannelFlowsRequest: AWSPaginateToken {
     }
 }
 
-extension ChimeSDKMessaging.ListChannelMembershipsRequest: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> ChimeSDKMessaging.ListChannelMembershipsRequest {
-        return .init(
-            channelArn: self.channelArn,
-            chimeBearer: self.chimeBearer,
-            maxResults: self.maxResults,
-            nextToken: token,
-            type: self.type
-        )
-    }
-}
-
 extension ChimeSDKMessaging.ListChannelMembershipsForAppInstanceUserRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ChimeSDKMessaging.ListChannelMembershipsForAppInstanceUserRequest {
         return .init(
@@ -597,6 +638,19 @@ extension ChimeSDKMessaging.ListChannelMembershipsForAppInstanceUserRequest: AWS
             chimeBearer: self.chimeBearer,
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension ChimeSDKMessaging.ListChannelMembershipsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ChimeSDKMessaging.ListChannelMembershipsRequest {
+        return .init(
+            channelArn: self.channelArn,
+            chimeBearer: self.chimeBearer,
+            maxResults: self.maxResults,
+            nextToken: token,
+            subChannelId: self.subChannelId,
+            type: self.type
         )
     }
 }
@@ -610,7 +664,8 @@ extension ChimeSDKMessaging.ListChannelMessagesRequest: AWSPaginateToken {
             nextToken: token,
             notAfter: self.notAfter,
             notBefore: self.notBefore,
-            sortOrder: self.sortOrder
+            sortOrder: self.sortOrder,
+            subChannelId: self.subChannelId
         )
     }
 }
@@ -619,6 +674,27 @@ extension ChimeSDKMessaging.ListChannelModeratorsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ChimeSDKMessaging.ListChannelModeratorsRequest {
         return .init(
             channelArn: self.channelArn,
+            chimeBearer: self.chimeBearer,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension ChimeSDKMessaging.ListChannelsAssociatedWithChannelFlowRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ChimeSDKMessaging.ListChannelsAssociatedWithChannelFlowRequest {
+        return .init(
+            channelFlowArn: self.channelFlowArn,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension ChimeSDKMessaging.ListChannelsModeratedByAppInstanceUserRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ChimeSDKMessaging.ListChannelsModeratedByAppInstanceUserRequest {
+        return .init(
+            appInstanceUserArn: self.appInstanceUserArn,
             chimeBearer: self.chimeBearer,
             maxResults: self.maxResults,
             nextToken: token
@@ -638,20 +714,10 @@ extension ChimeSDKMessaging.ListChannelsRequest: AWSPaginateToken {
     }
 }
 
-extension ChimeSDKMessaging.ListChannelsAssociatedWithChannelFlowRequest: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> ChimeSDKMessaging.ListChannelsAssociatedWithChannelFlowRequest {
+extension ChimeSDKMessaging.ListSubChannelsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ChimeSDKMessaging.ListSubChannelsRequest {
         return .init(
-            channelFlowArn: self.channelFlowArn,
-            maxResults: self.maxResults,
-            nextToken: token
-        )
-    }
-}
-
-extension ChimeSDKMessaging.ListChannelsModeratedByAppInstanceUserRequest: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> ChimeSDKMessaging.ListChannelsModeratedByAppInstanceUserRequest {
-        return .init(
-            appInstanceUserArn: self.appInstanceUserArn,
+            channelArn: self.channelArn,
             chimeBearer: self.chimeBearer,
             maxResults: self.maxResults,
             nextToken: token

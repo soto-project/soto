@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -158,16 +158,9 @@ extension ACMPCA {
         /// Two-digit code that specifies the country in which the certificate subject
         /// 			located.
         public let country: String?
-        /// 		       Contains a sequence of one or more X.500 relative distinguished
-        /// 			names
-        /// 			(RDNs),
-        /// 			each of which consists of an object identifier (OID) and
-        /// 			a
-        /// 			value. For more information, see NIST’s definition of
-        /// 			Object
-        /// 				Identifier
-        /// 				(OID).
-        ///
+        /// 		       Contains a sequence of one or more X.500 relative distinguished names (RDNs), each of
+        /// 			which consists of an object identifier (OID) and a value. For more information, see
+        /// 			NIST’s definition of  Object Identifier (OID).
         ///
         /// 			         Custom attributes cannot be used in combination with standard attributes.
         ///
@@ -509,11 +502,18 @@ extension ACMPCA {
         /// 			each call, PCA recognizes that you are requesting multiple certificate
         /// 			authorities.
         public let idempotencyToken: String?
-        /// Specifies a
-        /// 			cryptographic key management compliance standard used for handling CA keys.
+        /// Specifies a cryptographic key management compliance standard used for handling CA
+        /// 			keys.
         /// 		       Default: FIPS_140_2_LEVEL_3_OR_HIGHER
-        /// 		       Note: FIPS_140_2_LEVEL_3_OR_HIGHER is not supported in Region
-        /// 			ap-northeast-3. When creating a CA in the ap-northeast-3, you must provide
+        /// 		        Note:
+        /// 			         FIPS_140_2_LEVEL_3_OR_HIGHER is not supported in the following
+        /// 			Regions:
+        ///
+        /// 				           ap-northeast-3
+        ///
+        /// 				           ap-southeast-3
+        ///
+        /// 		       When creating a CA in these Regions, you must provide
         /// 				FIPS_140_2_LEVEL_2_OR_HIGHER as the argument for
         /// 				KeyStorageSecurityStandard. Failure to do this results in an
         /// 				InvalidArgsException with the message, "A certificate authority cannot
@@ -710,13 +710,10 @@ extension ACMPCA {
     }
 
     public struct CustomAttribute: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies the object identifier (OID) of the attribute type of
-        /// 			the
-        /// 			relative distinguished name
-        /// 			(RDN).
+        /// Specifies the object identifier (OID) of the attribute type of the relative
+        /// 			distinguished name (RDN).
         public let objectIdentifier: String
-        /// 		       Specifies the attribute value of relative distinguished name
-        /// 			(RDN).
+        /// 		       Specifies the attribute value of relative distinguished name (RDN).
         public let value: String
 
         public init(objectIdentifier: String, value: String) {
@@ -738,19 +735,13 @@ extension ACMPCA {
     }
 
     public struct CustomExtension: AWSEncodableShape {
-        /// 		       Specifies the critical flag of
-        /// 			the
-        /// 			X.509
-        /// 			extension.
+        /// 		       Specifies the critical flag of the X.509 extension.
         public let critical: Bool?
-        /// 		       Specifies the object identifier (OID) of the X.509 extension. For more information,
-        /// 			see the
-        /// 				Global OID reference
-        /// 				database.
+        /// 		       Specifies the object identifier (OID) of the X.509 extension. For more information, see the
+        /// 				Global OID reference database.
         ///
         public let objectIdentifier: String
-        /// 		       Specifies the base64-encoded value of the X.509
-        /// 			extension.
+        /// 		       Specifies the base64-encoded value of the X.509 extension.
         public let value: String
 
         public init(critical: Bool? = nil, objectIdentifier: String, value: String) {
@@ -1010,18 +1001,9 @@ extension ACMPCA {
         /// 			certificate.
         public let certificatePolicies: [PolicyInformation]?
         /// 		       Contains a sequence of one or more X.509 extensions, each of which consists of an
-        /// 			object identifier (OID), a base64-encoded
-        /// 			value,
-        /// 			and the
-        /// 			critical flag.
-        /// 			For
-        /// 			more information, see the Global OID reference
+        /// 			object identifier (OID), a base64-encoded value, and the critical flag. For more
+        /// 			information, see the Global OID reference
         /// 				database.
-        ///
-        ///
-        /// 			         The OID value of a CustomExtension must not
-        /// 				match the OID of a predefined extension.
-        ///
         public let customExtensions: [CustomExtension]?
         /// Specifies additional purposes for which the certified public key may be used other
         /// 			than basic purposes indicated in the KeyUsage extension.

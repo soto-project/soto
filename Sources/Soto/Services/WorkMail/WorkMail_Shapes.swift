@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -24,6 +24,12 @@ extension WorkMail {
     public enum AccessControlRuleEffect: String, CustomStringConvertible, Codable, _SotoSendable {
         case allow = "ALLOW"
         case deny = "DENY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AvailabilityProviderType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case ews = "EWS"
+        case lambda = "LAMBDA"
         public var description: String { return self.rawValue }
     }
 
@@ -223,6 +229,39 @@ extension WorkMail {
         public init() {}
     }
 
+    public struct AvailabilityConfiguration: AWSDecodableShape {
+        /// The date and time at which the availability configuration was created.
+        public let dateCreated: Date?
+        /// The date and time at which the availability configuration was last modified.
+        public let dateModified: Date?
+        /// Displays the domain to which the provider applies.
+        public let domainName: String?
+        /// If ProviderType is EWS, then this field contains RedactedEwsAvailabilityProvider. Otherwise, it is not requried.
+        public let ewsProvider: RedactedEwsAvailabilityProvider?
+        /// If ProviderType is LAMBDA then this field contains LambdaAvailabilityProvider. Otherwise, it is not required.
+        public let lambdaProvider: LambdaAvailabilityProvider?
+        /// Displays the provider type that applies to this domain.
+        public let providerType: AvailabilityProviderType?
+
+        public init(dateCreated: Date? = nil, dateModified: Date? = nil, domainName: String? = nil, ewsProvider: RedactedEwsAvailabilityProvider? = nil, lambdaProvider: LambdaAvailabilityProvider? = nil, providerType: AvailabilityProviderType? = nil) {
+            self.dateCreated = dateCreated
+            self.dateModified = dateModified
+            self.domainName = domainName
+            self.ewsProvider = ewsProvider
+            self.lambdaProvider = lambdaProvider
+            self.providerType = providerType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dateCreated = "DateCreated"
+            case dateModified = "DateModified"
+            case domainName = "DomainName"
+            case ewsProvider = "EwsProvider"
+            case lambdaProvider = "LambdaProvider"
+            case providerType = "ProviderType"
+        }
+    }
+
     public struct BookingOptions: AWSEncodableShape & AWSDecodableShape {
         /// The resource's ability to automatically reply to requests. If disabled, delegates must be associated to the resource.
         public let autoAcceptRequests: Bool?
@@ -314,6 +353,53 @@ extension WorkMail {
     }
 
     public struct CreateAliasResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct CreateAvailabilityConfigurationRequest: AWSEncodableShape {
+        /// An idempotent token that ensures that an API request is executed only once.
+        public let clientToken: String?
+        /// The domain to which the provider applies.
+        public let domainName: String
+        /// Exchange Web Services (EWS) availability provider definition. The request must contain exactly one provider definition, either EwsProvider or LambdaProvider.
+        public let ewsProvider: EwsAvailabilityProvider?
+        /// Lambda availability provider definition. The request must contain exactly one provider definition, either EwsProvider or LambdaProvider.
+        public let lambdaProvider: LambdaAvailabilityProvider?
+        /// The Amazon WorkMail organization for which the AvailabilityConfiguration will be created.
+        public let organizationId: String
+
+        public init(clientToken: String? = CreateAvailabilityConfigurationRequest.idempotencyToken(), domainName: String, ewsProvider: EwsAvailabilityProvider? = nil, lambdaProvider: LambdaAvailabilityProvider? = nil, organizationId: String) {
+            self.clientToken = clientToken
+            self.domainName = domainName
+            self.ewsProvider = ewsProvider
+            self.lambdaProvider = lambdaProvider
+            self.organizationId = organizationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\x21-\\x7e]+$")
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9.-]+\\.[a-zA-Z-]{2,}$")
+            try self.ewsProvider?.validate(name: "\(name).ewsProvider")
+            try self.lambdaProvider?.validate(name: "\(name).lambdaProvider")
+            try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case domainName = "DomainName"
+            case ewsProvider = "EwsProvider"
+            case lambdaProvider = "LambdaProvider"
+            case organizationId = "OrganizationId"
+        }
+    }
+
+    public struct CreateAvailabilityConfigurationResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -739,6 +825,36 @@ extension WorkMail {
     }
 
     public struct DeleteAliasResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteAvailabilityConfigurationRequest: AWSEncodableShape {
+        /// The domain for which the AvailabilityConfiguration will be deleted.
+        public let domainName: String
+        /// The Amazon WorkMail organization for which the AvailabilityConfiguration will be deleted.
+        public let organizationId: String
+
+        public init(domainName: String, organizationId: String) {
+            self.domainName = domainName
+            self.organizationId = organizationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9.-]+\\.[a-zA-Z-]{2,}$")
+            try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
+            case organizationId = "OrganizationId"
+        }
+    }
+
+    public struct DeleteAvailabilityConfigurationResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -1615,6 +1731,36 @@ extension WorkMail {
         }
     }
 
+    public struct EwsAvailabilityProvider: AWSEncodableShape {
+        /// The endpoint of the remote EWS server.
+        public let ewsEndpoint: String
+        /// The password used to authenticate the remote EWS server.
+        public let ewsPassword: String
+        /// The username used to authenticate the remote EWS server.
+        public let ewsUsername: String
+
+        public init(ewsEndpoint: String, ewsPassword: String, ewsUsername: String) {
+            self.ewsEndpoint = ewsEndpoint
+            self.ewsPassword = ewsPassword
+            self.ewsUsername = ewsUsername
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.ewsEndpoint, name: "ewsEndpoint", parent: name, max: 256)
+            try self.validate(self.ewsEndpoint, name: "ewsEndpoint", parent: name, pattern: "^https?://[A-Za-z0-9.-]+(:[0-9]+)?/")
+            try self.validate(self.ewsPassword, name: "ewsPassword", parent: name, max: 256)
+            try self.validate(self.ewsPassword, name: "ewsPassword", parent: name, pattern: "^[\\u0020-\\u00FF]+$")
+            try self.validate(self.ewsUsername, name: "ewsUsername", parent: name, max: 256)
+            try self.validate(self.ewsUsername, name: "ewsUsername", parent: name, pattern: "^[\\u0020-\\u00FF]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ewsEndpoint = "EwsEndpoint"
+            case ewsPassword = "EwsPassword"
+            case ewsUsername = "EwsUsername"
+        }
+    }
+
     public struct FolderConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The action to take on the folder contents at the end of the folder configuration period.
         public let action: RetentionAction
@@ -2001,6 +2147,25 @@ extension WorkMail {
         }
     }
 
+    public struct LambdaAvailabilityProvider: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Lambda that acts as the availability provider.
+        public let lambdaArn: String
+
+        public init(lambdaArn: String) {
+            self.lambdaArn = lambdaArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.lambdaArn, name: "lambdaArn", parent: name, max: 256)
+            try self.validate(self.lambdaArn, name: "lambdaArn", parent: name, min: 49)
+            try self.validate(self.lambdaArn, name: "lambdaArn", parent: name, pattern: "^arn:aws:lambda:[a-z]{2}-[a-z]+-\\d{1}:\\d{12}:function:[a-zA-Z0-9\\-_\\.]+(:(\\$LATEST|[a-zA-Z0-9\\-_]+))?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lambdaArn = "LambdaArn"
+        }
+    }
+
     public struct ListAccessControlRulesRequest: AWSEncodableShape {
         /// The identifier for the organization.
         public let organizationId: String
@@ -2084,6 +2249,55 @@ extension WorkMail {
 
         private enum CodingKeys: String, CodingKey {
             case aliases = "Aliases"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListAvailabilityConfigurationsRequest: AWSEncodableShape {
+        /// The maximum number of results to return in a single call.
+        public let maxResults: Int?
+        /// The token to use to retrieve the next page of results. The first call does not require a token.
+        public let nextToken: String?
+        /// The Amazon WorkMail organization for which the AvailabilityConfiguration's will be listed.
+        public let organizationId: String
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, organizationId: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.organizationId = organizationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\S\\s]*|[a-zA-Z0-9/+=]{1,1024}$")
+            try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case organizationId = "OrganizationId"
+        }
+    }
+
+    public struct ListAvailabilityConfigurationsResponse: AWSDecodableShape {
+        /// The list of AvailabilityConfiguration's that exist for the specified Amazon WorkMail organization.
+        public let availabilityConfigurations: [AvailabilityConfiguration]?
+        /// The token to use to retrieve the next page of results. The value is null when there are no further results to return.
+        public let nextToken: String?
+
+        public init(availabilityConfigurations: [AvailabilityConfiguration]? = nil, nextToken: String? = nil) {
+            self.availabilityConfigurations = availabilityConfigurations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityConfigurations = "AvailabilityConfigurations"
             case nextToken = "NextToken"
         }
     }
@@ -3224,6 +3438,23 @@ extension WorkMail {
         public init() {}
     }
 
+    public struct RedactedEwsAvailabilityProvider: AWSDecodableShape {
+        /// The endpoint of the remote EWS server.
+        public let ewsEndpoint: String?
+        /// The username used to authenticate the remote EWS server.
+        public let ewsUsername: String?
+
+        public init(ewsEndpoint: String? = nil, ewsUsername: String? = nil) {
+            self.ewsEndpoint = ewsEndpoint
+            self.ewsUsername = ewsUsername
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ewsEndpoint = "EwsEndpoint"
+            case ewsUsername = "EwsUsername"
+        }
+    }
+
     public struct RegisterMailDomainRequest: AWSEncodableShape {
         /// Idempotency token used when retrying requests.
         public let clientToken: String?
@@ -3500,6 +3731,57 @@ extension WorkMail {
         public init() {}
     }
 
+    public struct TestAvailabilityConfigurationRequest: AWSEncodableShape {
+        /// The domain to which the provider applies. If this field is provided, a stored availability provider associated to this domain name will be tested.
+        public let domainName: String?
+        public let ewsProvider: EwsAvailabilityProvider?
+        public let lambdaProvider: LambdaAvailabilityProvider?
+        /// The Amazon WorkMail organization where the availability provider will be tested.
+        public let organizationId: String
+
+        public init(domainName: String? = nil, ewsProvider: EwsAvailabilityProvider? = nil, lambdaProvider: LambdaAvailabilityProvider? = nil, organizationId: String) {
+            self.domainName = domainName
+            self.ewsProvider = ewsProvider
+            self.lambdaProvider = lambdaProvider
+            self.organizationId = organizationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9.-]+\\.[a-zA-Z-]{2,}$")
+            try self.ewsProvider?.validate(name: "\(name).ewsProvider")
+            try self.lambdaProvider?.validate(name: "\(name).lambdaProvider")
+            try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
+            case ewsProvider = "EwsProvider"
+            case lambdaProvider = "LambdaProvider"
+            case organizationId = "OrganizationId"
+        }
+    }
+
+    public struct TestAvailabilityConfigurationResponse: AWSDecodableShape {
+        /// String containing the reason for a failed test if TestPassed is false.
+        public let failureReason: String?
+        /// Boolean indicating whether the test passed or failed.
+        public let testPassed: Bool?
+
+        public init(failureReason: String? = nil, testPassed: Bool? = nil) {
+            self.failureReason = failureReason
+            self.testPassed = testPassed
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failureReason = "FailureReason"
+            case testPassed = "TestPassed"
+        }
+    }
+
     public struct UntagResourceRequest: AWSEncodableShape {
         /// The resource ARN.
         public let resourceARN: String
@@ -3528,6 +3810,46 @@ extension WorkMail {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateAvailabilityConfigurationRequest: AWSEncodableShape {
+        /// The domain to which the provider applies the availability configuration.
+        public let domainName: String
+        /// The EWS availability provider definition. The request must contain exactly one provider definition, either EwsProvider or LambdaProvider. The previously stored provider will be overridden by the one provided.
+        public let ewsProvider: EwsAvailabilityProvider?
+        /// The Lambda availability provider definition. The request must contain exactly one provider definition, either EwsProvider or LambdaProvider. The previously stored provider will be overridden by the one provided.
+        public let lambdaProvider: LambdaAvailabilityProvider?
+        /// The Amazon WorkMail organization for which the AvailabilityConfiguration will be updated.
+        public let organizationId: String
+
+        public init(domainName: String, ewsProvider: EwsAvailabilityProvider? = nil, lambdaProvider: LambdaAvailabilityProvider? = nil, organizationId: String) {
+            self.domainName = domainName
+            self.ewsProvider = ewsProvider
+            self.lambdaProvider = lambdaProvider
+            self.organizationId = organizationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9.-]+\\.[a-zA-Z-]{2,}$")
+            try self.ewsProvider?.validate(name: "\(name).ewsProvider")
+            try self.lambdaProvider?.validate(name: "\(name).lambdaProvider")
+            try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
+            case ewsProvider = "EwsProvider"
+            case lambdaProvider = "LambdaProvider"
+            case organizationId = "OrganizationId"
+        }
+    }
+
+    public struct UpdateAvailabilityConfigurationResponse: AWSDecodableShape {
         public init() {}
     }
 

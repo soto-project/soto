@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -492,25 +492,30 @@ extension Redshift {
     public struct AuthorizeSnapshotAccessMessage: AWSEncodableShape {
         /// The identifier of the Amazon Web Services account authorized to restore the specified snapshot. To share a snapshot with Amazon Web Services Support, specify amazon-redshift-support.
         public let accountWithRestoreAccess: String
+        /// The Amazon Resource Name (ARN) of the snapshot to authorize access to.
+        public let snapshotArn: String?
         /// The identifier of the cluster the snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name.
         public let snapshotClusterIdentifier: String?
         /// The identifier of the snapshot the account is authorized to restore.
-        public let snapshotIdentifier: String
+        public let snapshotIdentifier: String?
 
-        public init(accountWithRestoreAccess: String, snapshotClusterIdentifier: String? = nil, snapshotIdentifier: String) {
+        public init(accountWithRestoreAccess: String, snapshotArn: String? = nil, snapshotClusterIdentifier: String? = nil, snapshotIdentifier: String? = nil) {
             self.accountWithRestoreAccess = accountWithRestoreAccess
+            self.snapshotArn = snapshotArn
             self.snapshotClusterIdentifier = snapshotClusterIdentifier
             self.snapshotIdentifier = snapshotIdentifier
         }
 
         public func validate(name: String) throws {
             try self.validate(self.accountWithRestoreAccess, name: "accountWithRestoreAccess", parent: name, max: 2_147_483_647)
+            try self.validate(self.snapshotArn, name: "snapshotArn", parent: name, max: 2_147_483_647)
             try self.validate(self.snapshotClusterIdentifier, name: "snapshotClusterIdentifier", parent: name, max: 2_147_483_647)
             try self.validate(self.snapshotIdentifier, name: "snapshotIdentifier", parent: name, max: 2_147_483_647)
         }
 
         private enum CodingKeys: String, CodingKey {
             case accountWithRestoreAccess = "AccountWithRestoreAccess"
+            case snapshotArn = "SnapshotArn"
             case snapshotClusterIdentifier = "SnapshotClusterIdentifier"
             case snapshotIdentifier = "SnapshotIdentifier"
         }
@@ -1505,7 +1510,7 @@ extension Redshift {
         public let dbName: String?
         /// The Amazon Resource Name (ARN) for the IAM role that was set as default for the cluster when the cluster was created.
         public let defaultIamRoleArn: String?
-        /// The Elastic IP (EIP) address for the cluster. Constraints: The cluster must be provisioned in EC2-VPC and publicly-accessible through an Internet gateway. For more information about provisioning clusters in EC2-VPC, go to Supported Platforms to Launch Your Cluster in the Amazon Redshift Cluster Management Guide.
+        /// The Elastic IP (EIP) address for the cluster. You don't have to specify the EIP for a  publicly accessible cluster with AvailabilityZoneRelocation turned on. Constraints: The cluster must be provisioned in EC2-VPC and publicly-accessible through an Internet gateway. For more information about provisioning clusters in EC2-VPC, go to Supported Platforms to Launch Your Cluster in the Amazon Redshift Cluster Management Guide.
         public let elasticIp: String?
         /// If true, the data in the cluster is encrypted at rest.  Default: false
         public let encrypted: Bool?
@@ -3018,6 +3023,8 @@ extension Redshift {
         public let maxRecords: Int?
         /// The Amazon Web Services account used to create or copy the snapshot. Use this field to filter the results to snapshots owned by a particular account. To describe snapshots you own, either specify your Amazon Web Services account, or do not specify the parameter.
         public let ownerAccount: String?
+        /// The Amazon Resource Name (ARN) of the snapshot associated with the message to describe cluster snapshots.
+        public let snapshotArn: String?
         /// The snapshot identifier of the snapshot about which to return information.
         public let snapshotIdentifier: String?
         /// The type of snapshots for which you are requesting information. By default, snapshots of all types are returned. Valid Values: automated | manual
@@ -3033,13 +3040,14 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_TagValuesEncoding, String>>
         public var tagValues: [String]?
 
-        public init(clusterExists: Bool? = nil, clusterIdentifier: String? = nil, endTime: Date? = nil, marker: String? = nil, maxRecords: Int? = nil, ownerAccount: String? = nil, snapshotIdentifier: String? = nil, snapshotType: String? = nil, sortingEntities: [SnapshotSortingEntity]? = nil, startTime: Date? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
+        public init(clusterExists: Bool? = nil, clusterIdentifier: String? = nil, endTime: Date? = nil, marker: String? = nil, maxRecords: Int? = nil, ownerAccount: String? = nil, snapshotArn: String? = nil, snapshotIdentifier: String? = nil, snapshotType: String? = nil, sortingEntities: [SnapshotSortingEntity]? = nil, startTime: Date? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
             self.clusterExists = clusterExists
             self.clusterIdentifier = clusterIdentifier
             self.endTime = endTime
             self.marker = marker
             self.maxRecords = maxRecords
             self.ownerAccount = ownerAccount
+            self.snapshotArn = snapshotArn
             self.snapshotIdentifier = snapshotIdentifier
             self.snapshotType = snapshotType
             self.sortingEntities = sortingEntities
@@ -3052,6 +3060,7 @@ extension Redshift {
             try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, max: 2_147_483_647)
             try self.validate(self.marker, name: "marker", parent: name, max: 2_147_483_647)
             try self.validate(self.ownerAccount, name: "ownerAccount", parent: name, max: 2_147_483_647)
+            try self.validate(self.snapshotArn, name: "snapshotArn", parent: name, max: 2_147_483_647)
             try self.validate(self.snapshotIdentifier, name: "snapshotIdentifier", parent: name, max: 2_147_483_647)
             try self.validate(self.snapshotType, name: "snapshotType", parent: name, max: 2_147_483_647)
             try self.tagKeys?.forEach {
@@ -3069,6 +3078,7 @@ extension Redshift {
             case marker = "Marker"
             case maxRecords = "MaxRecords"
             case ownerAccount = "OwnerAccount"
+            case snapshotArn = "SnapshotArn"
             case snapshotIdentifier = "SnapshotIdentifier"
             case snapshotType = "SnapshotType"
             case sortingEntities = "SortingEntities"
@@ -3706,16 +3716,19 @@ extension Redshift {
         public let maxRecords: Int?
         /// The Amazon Web Services account used to create or copy the snapshot.  Required if you are restoring a snapshot you do not own,  optional if you own the snapshot.
         public let ownerAccount: String?
+        /// The Amazon Resource Name (ARN) of the snapshot associated with the message to describe node configuration.
+        public let snapshotArn: String?
         /// The identifier of the snapshot to evaluate for possible node configurations.
         public let snapshotIdentifier: String?
 
-        public init(actionType: ActionType, clusterIdentifier: String? = nil, filters: [NodeConfigurationOptionsFilter]? = nil, marker: String? = nil, maxRecords: Int? = nil, ownerAccount: String? = nil, snapshotIdentifier: String? = nil) {
+        public init(actionType: ActionType, clusterIdentifier: String? = nil, filters: [NodeConfigurationOptionsFilter]? = nil, marker: String? = nil, maxRecords: Int? = nil, ownerAccount: String? = nil, snapshotArn: String? = nil, snapshotIdentifier: String? = nil) {
             self.actionType = actionType
             self.clusterIdentifier = clusterIdentifier
             self.filters = filters
             self.marker = marker
             self.maxRecords = maxRecords
             self.ownerAccount = ownerAccount
+            self.snapshotArn = snapshotArn
             self.snapshotIdentifier = snapshotIdentifier
         }
 
@@ -3726,6 +3739,7 @@ extension Redshift {
             }
             try self.validate(self.marker, name: "marker", parent: name, max: 2_147_483_647)
             try self.validate(self.ownerAccount, name: "ownerAccount", parent: name, max: 2_147_483_647)
+            try self.validate(self.snapshotArn, name: "snapshotArn", parent: name, max: 2_147_483_647)
             try self.validate(self.snapshotIdentifier, name: "snapshotIdentifier", parent: name, max: 2_147_483_647)
         }
 
@@ -3736,6 +3750,7 @@ extension Redshift {
             case marker = "Marker"
             case maxRecords = "MaxRecords"
             case ownerAccount = "OwnerAccount"
+            case snapshotArn = "SnapshotArn"
             case snapshotIdentifier = "SnapshotIdentifier"
         }
     }
@@ -6826,7 +6841,7 @@ extension Redshift {
         public let clusterSubnetGroupName: String?
         /// The Amazon Resource Name (ARN) for the IAM role that was set as default for the cluster when the cluster was last modified while it was restored from a snapshot.
         public let defaultIamRoleArn: String?
-        /// The elastic IP (EIP) address for the cluster.
+        /// The elastic IP (EIP) address for the cluster. You don't have to specify the EIP for a  publicly accessible cluster with AvailabilityZoneRelocation turned on.
         public let elasticIp: String?
         /// Enables support for restoring an unencrypted snapshot to a cluster encrypted  with Key Management Service (KMS) and a customer managed key.
         public let encrypted: Bool?
@@ -6859,10 +6874,12 @@ extension Redshift {
         public let publiclyAccessible: Bool?
         /// The identifier of the target reserved node offering.
         public let reservedNodeId: String?
+        /// The Amazon Resource Name (ARN) of the snapshot associated with the message to restore from a cluster.
+        public let snapshotArn: String?
         /// The name of the cluster the source snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name.
         public let snapshotClusterIdentifier: String?
         /// The name of the snapshot from which to create the new cluster. This parameter isn't case sensitive. Example: my-snapshot-id
-        public let snapshotIdentifier: String
+        public let snapshotIdentifier: String?
         /// A unique identifier for the snapshot schedule.
         public let snapshotScheduleIdentifier: String?
         /// The identifier of the target reserved node offering.
@@ -6871,7 +6888,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
-        public init(additionalInfo: String? = nil, allowVersionUpgrade: Bool? = nil, aquaConfigurationStatus: AquaConfigurationStatus? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, availabilityZoneRelocation: Bool? = nil, clusterIdentifier: String, clusterParameterGroupName: String? = nil, clusterSecurityGroups: [String]? = nil, clusterSubnetGroupName: String? = nil, defaultIamRoleArn: String? = nil, elasticIp: String? = nil, encrypted: Bool? = nil, enhancedVpcRouting: Bool? = nil, hsmClientCertificateIdentifier: String? = nil, hsmConfigurationIdentifier: String? = nil, iamRoles: [String]? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, ownerAccount: String? = nil, port: Int? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, reservedNodeId: String? = nil, snapshotClusterIdentifier: String? = nil, snapshotIdentifier: String, snapshotScheduleIdentifier: String? = nil, targetReservedNodeOfferingId: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(additionalInfo: String? = nil, allowVersionUpgrade: Bool? = nil, aquaConfigurationStatus: AquaConfigurationStatus? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, availabilityZoneRelocation: Bool? = nil, clusterIdentifier: String, clusterParameterGroupName: String? = nil, clusterSecurityGroups: [String]? = nil, clusterSubnetGroupName: String? = nil, defaultIamRoleArn: String? = nil, elasticIp: String? = nil, encrypted: Bool? = nil, enhancedVpcRouting: Bool? = nil, hsmClientCertificateIdentifier: String? = nil, hsmConfigurationIdentifier: String? = nil, iamRoles: [String]? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, ownerAccount: String? = nil, port: Int? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, reservedNodeId: String? = nil, snapshotArn: String? = nil, snapshotClusterIdentifier: String? = nil, snapshotIdentifier: String? = nil, snapshotScheduleIdentifier: String? = nil, targetReservedNodeOfferingId: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.additionalInfo = additionalInfo
             self.allowVersionUpgrade = allowVersionUpgrade
             self.aquaConfigurationStatus = aquaConfigurationStatus
@@ -6899,6 +6916,7 @@ extension Redshift {
             self.preferredMaintenanceWindow = preferredMaintenanceWindow
             self.publiclyAccessible = publiclyAccessible
             self.reservedNodeId = reservedNodeId
+            self.snapshotArn = snapshotArn
             self.snapshotClusterIdentifier = snapshotClusterIdentifier
             self.snapshotIdentifier = snapshotIdentifier
             self.snapshotScheduleIdentifier = snapshotScheduleIdentifier
@@ -6928,6 +6946,7 @@ extension Redshift {
             try self.validate(self.ownerAccount, name: "ownerAccount", parent: name, max: 2_147_483_647)
             try self.validate(self.preferredMaintenanceWindow, name: "preferredMaintenanceWindow", parent: name, max: 2_147_483_647)
             try self.validate(self.reservedNodeId, name: "reservedNodeId", parent: name, max: 2_147_483_647)
+            try self.validate(self.snapshotArn, name: "snapshotArn", parent: name, max: 2_147_483_647)
             try self.validate(self.snapshotClusterIdentifier, name: "snapshotClusterIdentifier", parent: name, max: 2_147_483_647)
             try self.validate(self.snapshotIdentifier, name: "snapshotIdentifier", parent: name, max: 2_147_483_647)
             try self.validate(self.snapshotScheduleIdentifier, name: "snapshotScheduleIdentifier", parent: name, max: 2_147_483_647)
@@ -6965,6 +6984,7 @@ extension Redshift {
             case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
             case publiclyAccessible = "PubliclyAccessible"
             case reservedNodeId = "ReservedNodeId"
+            case snapshotArn = "SnapshotArn"
             case snapshotClusterIdentifier = "SnapshotClusterIdentifier"
             case snapshotIdentifier = "SnapshotIdentifier"
             case snapshotScheduleIdentifier = "SnapshotScheduleIdentifier"
@@ -7219,25 +7239,30 @@ extension Redshift {
     public struct RevokeSnapshotAccessMessage: AWSEncodableShape {
         /// The identifier of the Amazon Web Services account that can no longer restore the specified snapshot.
         public let accountWithRestoreAccess: String
+        /// The Amazon Resource Name (ARN) of the snapshot associated with the message to revoke access.
+        public let snapshotArn: String?
         /// The identifier of the cluster the snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name.
         public let snapshotClusterIdentifier: String?
         /// The identifier of the snapshot that the account can no longer access.
-        public let snapshotIdentifier: String
+        public let snapshotIdentifier: String?
 
-        public init(accountWithRestoreAccess: String, snapshotClusterIdentifier: String? = nil, snapshotIdentifier: String) {
+        public init(accountWithRestoreAccess: String, snapshotArn: String? = nil, snapshotClusterIdentifier: String? = nil, snapshotIdentifier: String? = nil) {
             self.accountWithRestoreAccess = accountWithRestoreAccess
+            self.snapshotArn = snapshotArn
             self.snapshotClusterIdentifier = snapshotClusterIdentifier
             self.snapshotIdentifier = snapshotIdentifier
         }
 
         public func validate(name: String) throws {
             try self.validate(self.accountWithRestoreAccess, name: "accountWithRestoreAccess", parent: name, max: 2_147_483_647)
+            try self.validate(self.snapshotArn, name: "snapshotArn", parent: name, max: 2_147_483_647)
             try self.validate(self.snapshotClusterIdentifier, name: "snapshotClusterIdentifier", parent: name, max: 2_147_483_647)
             try self.validate(self.snapshotIdentifier, name: "snapshotIdentifier", parent: name, max: 2_147_483_647)
         }
 
         private enum CodingKeys: String, CodingKey {
             case accountWithRestoreAccess = "AccountWithRestoreAccess"
+            case snapshotArn = "SnapshotArn"
             case snapshotClusterIdentifier = "SnapshotClusterIdentifier"
             case snapshotIdentifier = "SnapshotIdentifier"
         }

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -737,19 +737,6 @@ extension APIGateway.GetRestApisRequest: AWSPaginateToken {
     }
 }
 
-extension APIGateway.GetUsageRequest: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> APIGateway.GetUsageRequest {
-        return .init(
-            endDate: self.endDate,
-            keyId: self.keyId,
-            limit: self.limit,
-            position: token,
-            startDate: self.startDate,
-            usagePlanId: self.usagePlanId
-        )
-    }
-}
-
 extension APIGateway.GetUsagePlanKeysRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> APIGateway.GetUsagePlanKeysRequest {
         return .init(
@@ -767,6 +754,19 @@ extension APIGateway.GetUsagePlansRequest: AWSPaginateToken {
             keyId: self.keyId,
             limit: self.limit,
             position: token
+        )
+    }
+}
+
+extension APIGateway.GetUsageRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> APIGateway.GetUsageRequest {
+        return .init(
+            endDate: self.endDate,
+            keyId: self.keyId,
+            limit: self.limit,
+            position: token,
+            startDate: self.startDate,
+            usagePlanId: self.usagePlanId
         )
     }
 }

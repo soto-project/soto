@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -24,11 +24,11 @@ extension SSO {
     // MARK: Shapes
 
     public struct AccountInfo: AWSDecodableShape {
-        /// The identifier of the AWS account that is assigned to the user.
+        /// The identifier of the Amazon Web Services account that is assigned to the user.
         public let accountId: String?
-        /// The display name of the AWS account that is assigned to the user.
+        /// The display name of the Amazon Web Services account that is assigned to the user.
         public let accountName: String?
-        /// The email address of the AWS account that is assigned to the user.
+        /// The email address of the Amazon Web Services account that is assigned to the user.
         public let emailAddress: String?
 
         public init(accountId: String? = nil, accountName: String? = nil, emailAddress: String? = nil) {
@@ -51,9 +51,9 @@ extension SSO {
             AWSMemberEncoding(label: "roleName", location: .querystring("role_name"))
         ]
 
-        /// The token issued by the CreateToken API call. For more information, see CreateToken in the AWS SSO OIDC API Reference Guide.
+        /// The token issued by the CreateToken API call. For more information, see CreateToken in the Amazon Web Services SSO OIDC API Reference Guide.
         public let accessToken: String
-        /// The identifier for the AWS account that is assigned to the user.
+        /// The identifier for the Amazon Web Services account that is assigned to the user.
         public let accountId: String
         /// The friendly name of the role that is assigned to the user.
         public let roleName: String
@@ -88,9 +88,9 @@ extension SSO {
             AWSMemberEncoding(label: "nextToken", location: .querystring("next_token"))
         ]
 
-        /// The token issued by the CreateToken API call. For more information, see CreateToken in the AWS SSO OIDC API Reference Guide.
+        /// The token issued by the CreateToken API call. For more information, see CreateToken in the Amazon Web Services SSO OIDC API Reference Guide.
         public let accessToken: String
-        /// The identifier for the AWS account that is assigned to the user.
+        /// The identifier for the Amazon Web Services account that is assigned to the user.
         public let accountId: String
         /// The number of items that clients can request per page.
         public let maxResults: Int?
@@ -136,7 +136,7 @@ extension SSO {
             AWSMemberEncoding(label: "nextToken", location: .querystring("next_token"))
         ]
 
-        /// The token issued by the CreateToken API call. For more information, see CreateToken in the AWS SSO OIDC API Reference Guide.
+        /// The token issued by the CreateToken API call. For more information, see CreateToken in the Amazon Web Services SSO OIDC API Reference Guide.
         public let accessToken: String
         /// This is the number of items clients can request per page.
         public let maxResults: Int?
@@ -179,7 +179,7 @@ extension SSO {
             AWSMemberEncoding(label: "accessToken", location: .header("x-amz-sso_bearer_token"))
         ]
 
-        /// The token issued by the CreateToken API call. For more information, see CreateToken in the AWS SSO OIDC API Reference Guide.
+        /// The token issued by the CreateToken API call. For more information, see CreateToken in the Amazon Web Services SSO OIDC API Reference Guide.
         public let accessToken: String
 
         public init(accessToken: String) {
@@ -190,13 +190,13 @@ extension SSO {
     }
 
     public struct RoleCredentials: AWSDecodableShape {
-        /// The identifier used for the temporary security credentials. For more information, see Using Temporary Security Credentials to Request Access to AWS Resources in the AWS IAM User Guide.
+        /// The identifier used for the temporary security credentials. For more information, see Using Temporary Security Credentials to Request Access to Amazon Web Services Resources in the Amazon Web Services IAM User Guide.
         public let accessKeyId: String?
         /// The date on which temporary security credentials expire.
         public let expiration: Int64?
-        /// The key that is used to sign the request. For more information, see Using Temporary Security Credentials to Request Access to AWS Resources in the AWS IAM User Guide.
+        /// The key that is used to sign the request. For more information, see Using Temporary Security Credentials to Request Access to Amazon Web Services Resources in the Amazon Web Services IAM User Guide.
         public let secretAccessKey: String?
-        /// The token used for temporary credentials. For more information, see Using Temporary Security Credentials to Request Access to AWS Resources in the AWS IAM User Guide.
+        /// The token used for temporary credentials. For more information, see Using Temporary Security Credentials to Request Access to Amazon Web Services Resources in the Amazon Web Services IAM User Guide.
         public let sessionToken: String?
 
         public init(accessKeyId: String? = nil, expiration: Int64? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil) {
@@ -215,7 +215,7 @@ extension SSO {
     }
 
     public struct RoleInfo: AWSDecodableShape {
-        /// The identifier of the AWS account assigned to the user.
+        /// The identifier of the Amazon Web Services account assigned to the user.
         public let accountId: String?
         /// The friendly name of the role that is assigned to the user.
         public let roleName: String?

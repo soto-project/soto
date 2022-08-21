@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -103,24 +103,27 @@ extension PersonalizeRuntime {
         public let context: [String: String]?
         /// The ARN of the filter to apply to the returned recommendations. For more information, see Filtering Recommendations. When using this parameter, be sure the filter resource is ACTIVE.
         public let filterArn: String?
-        /// The values to use when filtering recommendations. For each placeholder parameter in your filter expression, provide the parameter name (in matching case) as a key and the filter value(s) as the corresponding value. Separate multiple values for one parameter with a comma.  For filter expressions that use an INCLUDE element to include items, you must provide values for all parameters that are defined in the expression. For filters with expressions that use an EXCLUDE element to exclude items, you can omit the filter-values.In this case, Amazon Personalize doesn't use that portion of the expression to filter recommendations. For more information, see Filtering Recommendations.
+        /// The values to use when filtering recommendations. For each placeholder parameter in your filter expression, provide the parameter name (in matching case) as a key and the filter value(s) as the corresponding value. Separate multiple values for one parameter with a comma.  For filter expressions that use an INCLUDE element to include items, you must provide values for all parameters that are defined in the expression. For filters with expressions that use an EXCLUDE element to exclude items, you can omit the filter-values.In this case, Amazon Personalize doesn't use that portion of the expression to filter recommendations. For more information, see Filtering recommendations and user segments.
         public let filterValues: [String: String]?
         /// The item ID to provide recommendations for. Required for RELATED_ITEMS recipe type.
         public let itemId: String?
         /// The number of results to return. The default is 25. The maximum is 500.
         public let numResults: Int?
+        /// The promotions to apply to the recommendation request.  A promotion defines additional business rules that apply to a configurable subset of recommended items.
+        public let promotions: [Promotion]?
         /// The Amazon Resource Name (ARN) of the recommender to use to get recommendations. Provide a recommender ARN if you created a Domain dataset group with a recommender for a domain use case.
         public let recommenderArn: String?
         /// The user ID to provide recommendations for. Required for USER_PERSONALIZATION recipe type.
         public let userId: String?
 
-        public init(campaignArn: String? = nil, context: [String: String]? = nil, filterArn: String? = nil, filterValues: [String: String]? = nil, itemId: String? = nil, numResults: Int? = nil, recommenderArn: String? = nil, userId: String? = nil) {
+        public init(campaignArn: String? = nil, context: [String: String]? = nil, filterArn: String? = nil, filterValues: [String: String]? = nil, itemId: String? = nil, numResults: Int? = nil, promotions: [Promotion]? = nil, recommenderArn: String? = nil, userId: String? = nil) {
             self.campaignArn = campaignArn
             self.context = context
             self.filterArn = filterArn
             self.filterValues = filterValues
             self.itemId = itemId
             self.numResults = numResults
+            self.promotions = promotions
             self.recommenderArn = recommenderArn
             self.userId = userId
         }
@@ -144,6 +147,10 @@ extension PersonalizeRuntime {
             try self.validate(self.filterValues, name: "filterValues", parent: name, max: 25)
             try self.validate(self.itemId, name: "itemId", parent: name, max: 256)
             try self.validate(self.numResults, name: "numResults", parent: name, min: 0)
+            try self.promotions?.forEach {
+                try $0.validate(name: "\(name).promotions[]")
+            }
+            try self.validate(self.promotions, name: "promotions", parent: name, max: 1)
             try self.validate(self.recommenderArn, name: "recommenderArn", parent: name, max: 256)
             try self.validate(self.recommenderArn, name: "recommenderArn", parent: name, pattern: "^arn:([a-z\\d-]+):personalize:.*:.*:.+$")
             try self.validate(self.userId, name: "userId", parent: name, max: 256)
@@ -156,6 +163,7 @@ extension PersonalizeRuntime {
             case filterValues
             case itemId
             case numResults
+            case promotions
             case recommenderArn
             case userId
         }
@@ -181,17 +189,62 @@ extension PersonalizeRuntime {
     public struct PredictedItem: AWSDecodableShape {
         /// The recommended item ID.
         public let itemId: String?
+        /// The name of the promotion that included the predicted item.
+        public let promotionName: String?
         /// A numeric representation of the model's certainty that the item will be the next user selection. For more information on scoring logic, see how-scores-work.
         public let score: Double?
 
-        public init(itemId: String? = nil, score: Double? = nil) {
+        public init(itemId: String? = nil, promotionName: String? = nil, score: Double? = nil) {
             self.itemId = itemId
+            self.promotionName = promotionName
             self.score = score
         }
 
         private enum CodingKeys: String, CodingKey {
             case itemId
+            case promotionName
             case score
+        }
+    }
+
+    public struct Promotion: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the filter used by the promotion. This filter defines the criteria for promoted items. For more information, see  Promotion filters.
+        public let filterArn: String?
+        /// The values to use when promoting items. For each placeholder parameter in your promotion's filter expression, provide the parameter name (in matching case) as a key and the filter value(s) as the corresponding value. Separate multiple values for one parameter with a comma.   For filter expressions that use an INCLUDE element to include items, you must provide values for all parameters that are defined in the expression. For filters with expressions that use an EXCLUDE element to exclude items, you can omit the filter-values. In this case, Amazon Personalize doesn't use that portion of the expression to filter recommendations. For more information on creating filters, see Filtering recommendations and user segments.
+        public let filterValues: [String: String]?
+        /// The name of the promotion.
+        public let name: String?
+        /// The percentage of recommended items to apply the promotion to.
+        public let percentPromotedItems: Int?
+
+        public init(filterArn: String? = nil, filterValues: [String: String]? = nil, name: String? = nil, percentPromotedItems: Int? = nil) {
+            self.filterArn = filterArn
+            self.filterValues = filterValues
+            self.name = name
+            self.percentPromotedItems = percentPromotedItems
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.filterArn, name: "filterArn", parent: name, max: 256)
+            try self.validate(self.filterArn, name: "filterArn", parent: name, pattern: "^arn:([a-z\\d-]+):personalize:.*:.*:.+$")
+            try self.filterValues?.forEach {
+                try validate($0.key, name: "filterValues.key", parent: name, max: 50)
+                try validate($0.key, name: "filterValues.key", parent: name, pattern: "^[A-Za-z0-9_]+$")
+                try validate($0.value, name: "filterValues[\"\($0.key)\"]", parent: name, max: 1000)
+            }
+            try self.validate(self.filterValues, name: "filterValues", parent: name, max: 25)
+            try self.validate(self.name, name: "name", parent: name, max: 63)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*$")
+            try self.validate(self.percentPromotedItems, name: "percentPromotedItems", parent: name, max: 100)
+            try self.validate(self.percentPromotedItems, name: "percentPromotedItems", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filterArn
+            case filterValues
+            case name
+            case percentPromotedItems
         }
     }
 }

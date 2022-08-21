@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -397,7 +397,7 @@ extension RDS {
         )
     }
 
-    ///  Returns a list of DBSecurityGroup descriptions. If a DBSecurityGroupName is specified, the list will contain only the descriptions of the specified DB security group.
+    ///  Returns a list of DBSecurityGroup descriptions. If a DBSecurityGroupName is specified, the list will contain only the descriptions of the specified DB security group.  EC2-Classic was retired on August 15, 2022. If you haven't migrated from EC2-Classic to a VPC, we recommend that  you migrate as soon as possible. For more information, see Migrate from EC2-Classic to a VPC in the  Amazon EC2 User Guide, the blog EC2-Classic Networking is Retiring –  Here’s How to Prepare, and Moving a DB instance not in a VPC  into a VPC in the Amazon RDS User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -507,7 +507,7 @@ extension RDS {
         )
     }
 
-    ///  Returns events related to DB instances, DB clusters, DB parameter groups, DB security groups, DB snapshots, DB cluster snapshots, and RDS Proxies for the past 14 days.  Events specific to a particular DB instance, DB cluster, DB parameter group, DB security group, DB snapshot, DB cluster snapshot group, or RDS Proxy can be  obtained by providing the name as a parameter.  By default, RDS returns events that were generated in the past hour.
+    ///  Returns events related to DB instances, DB clusters, DB parameter groups, DB security groups, DB snapshots, DB cluster snapshots, and RDS Proxies for the past 14 days.  Events specific to a particular DB instance, DB cluster, DB parameter group, DB security group, DB snapshot, DB cluster snapshot group, or RDS Proxy can be  obtained by providing the name as a parameter. For more information on working with events, see Monitoring Amazon RDS events in the Amazon RDS User Guide and Monitoring  Amazon Aurora events in the Amazon Aurora User Guide.  By default, RDS returns events that were generated in the past hour.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

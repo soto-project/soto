@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -33,6 +33,22 @@ extension Amp {
         /// Definition update failed.
         case updateFailed = "UPDATE_FAILED"
         /// Definition is being updated. Update/Deletion is disallowed until definition is ACTIVE and workspace status is ACTIVE.
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LoggingConfigurationStatusCode: String, CustomStringConvertible, Codable, _SotoSendable {
+        /// Logging configuration has been created/updated. Update/Deletion is disallowed until logging configuration is ACTIVE and workspace status is ACTIVE.
+        case active = "ACTIVE"
+        /// Logging configuration is being created. Update/Deletion is disallowed until logging configuration is ACTIVE and workspace status is ACTIVE.
+        case creating = "CREATING"
+        /// Logging configuration creation failed.
+        case creationFailed = "CREATION_FAILED"
+        /// Logging configuration is being deleting. Update/Deletion is disallowed until logging configuration is ACTIVE and workspace status is ACTIVE.
+        case deleting = "DELETING"
+        /// Logging configuration update failed.
+        case updateFailed = "UPDATE_FAILED"
+        /// Logging configuration is being updated. Update/Deletion is disallowed until logging configuration is ACTIVE and workspace status is ACTIVE.
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
@@ -149,6 +165,53 @@ extension Amp {
         public let status: AlertManagerDefinitionStatus
 
         public init(status: AlertManagerDefinitionStatus) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status
+        }
+    }
+
+    public struct CreateLoggingConfigurationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
+        ]
+
+        /// Optional, unique, case-sensitive, user-provided identifier to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The ARN of the CW log group to which the vended log data will be published.
+        public let logGroupArn: String
+        /// The ID of the workspace to vend logs to.
+        public let workspaceId: String
+
+        public init(clientToken: String? = CreateLoggingConfigurationRequest.idempotencyToken(), logGroupArn: String, workspaceId: String) {
+            self.clientToken = clientToken
+            self.logGroupArn = logGroupArn
+            self.workspaceId = workspaceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[!-~]+")
+            try self.validate(self.logGroupArn, name: "logGroupArn", parent: name, pattern: "^arn:aws[a-z0-9-]*:logs:[a-z0-9-]+:\\d{12}:log-group:[A-Za-z0-9\\.\\-\\_\\#/]{1,512}\\:\\*$")
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken
+            case logGroupArn
+        }
+    }
+
+    public struct CreateLoggingConfigurationResponse: AWSDecodableShape {
+        /// The status of the logging configuration.
+        public let status: LoggingConfigurationStatus
+
+        public init(status: LoggingConfigurationStatus) {
             self.status = status
         }
 
@@ -324,6 +387,34 @@ extension Amp {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DeleteLoggingConfigurationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken")),
+            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
+        ]
+
+        /// Optional, unique, case-sensitive, user-provided identifier to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The ID of the workspace to vend logs to.
+        public let workspaceId: String
+
+        public init(clientToken: String? = DeleteLoggingConfigurationRequest.idempotencyToken(), workspaceId: String) {
+            self.clientToken = clientToken
+            self.workspaceId = workspaceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[!-~]+")
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct DeleteRuleGroupsNamespaceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken")),
@@ -418,6 +509,40 @@ extension Amp {
 
         private enum CodingKeys: String, CodingKey {
             case alertManagerDefinition
+        }
+    }
+
+    public struct DescribeLoggingConfigurationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
+        ]
+
+        /// The ID of the workspace to vend logs to.
+        public let workspaceId: String
+
+        public init(workspaceId: String) {
+            self.workspaceId = workspaceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeLoggingConfigurationResponse: AWSDecodableShape {
+        /// Metadata object containing information about the logging configuration of a workspace.
+        public let loggingConfiguration: LoggingConfigurationMetadata
+
+        public init(loggingConfiguration: LoggingConfigurationMetadata) {
+            self.loggingConfiguration = loggingConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loggingConfiguration
         }
     }
 
@@ -618,6 +743,52 @@ extension Amp {
         private enum CodingKeys: String, CodingKey {
             case nextToken
             case workspaces
+        }
+    }
+
+    public struct LoggingConfigurationMetadata: AWSDecodableShape {
+        /// The time when the logging configuration was created.
+        public let createdAt: Date
+        /// The ARN of the CW log group to which the vended log data will be published.
+        public let logGroupArn: String
+        /// The time when the logging configuration was modified.
+        public let modifiedAt: Date
+        /// The status of the logging configuration.
+        public let status: LoggingConfigurationStatus
+        /// The workspace where the logging configuration exists.
+        public let workspace: String
+
+        public init(createdAt: Date, logGroupArn: String, modifiedAt: Date, status: LoggingConfigurationStatus, workspace: String) {
+            self.createdAt = createdAt
+            self.logGroupArn = logGroupArn
+            self.modifiedAt = modifiedAt
+            self.status = status
+            self.workspace = workspace
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt
+            case logGroupArn
+            case modifiedAt
+            case status
+            case workspace
+        }
+    }
+
+    public struct LoggingConfigurationStatus: AWSDecodableShape {
+        /// Status code of the logging configuration.
+        public let statusCode: LoggingConfigurationStatusCode
+        /// The reason for failure if any.
+        public let statusReason: String?
+
+        public init(statusCode: LoggingConfigurationStatusCode, statusReason: String? = nil) {
+            self.statusCode = statusCode
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case statusCode
+            case statusReason
         }
     }
 
@@ -882,6 +1053,53 @@ extension Amp {
 
     public struct UntagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UpdateLoggingConfigurationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
+        ]
+
+        /// Optional, unique, case-sensitive, user-provided identifier to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The ARN of the CW log group to which the vended log data will be published.
+        public let logGroupArn: String
+        /// The ID of the workspace to vend logs to.
+        public let workspaceId: String
+
+        public init(clientToken: String? = UpdateLoggingConfigurationRequest.idempotencyToken(), logGroupArn: String, workspaceId: String) {
+            self.clientToken = clientToken
+            self.logGroupArn = logGroupArn
+            self.workspaceId = workspaceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[!-~]+")
+            try self.validate(self.logGroupArn, name: "logGroupArn", parent: name, pattern: "^arn:aws[a-z0-9-]*:logs:[a-z0-9-]+:\\d{12}:log-group:[A-Za-z0-9\\.\\-\\_\\#/]{1,512}\\:\\*$")
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken
+            case logGroupArn
+        }
+    }
+
+    public struct UpdateLoggingConfigurationResponse: AWSDecodableShape {
+        /// The status of the logging configuration.
+        public let status: LoggingConfigurationStatus
+
+        public init(status: LoggingConfigurationStatus) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status
+        }
     }
 
     public struct UpdateWorkspaceAliasRequest: AWSEncodableShape {

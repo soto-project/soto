@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -272,7 +272,7 @@ extension CustomerProfiles {
 
         /// The unique name of the domain.
         public let domainName: String
-        /// A searchable identifier of a customer profile.
+        /// A searchable identifier of a customer profile. The predefined keys you can use include: _account, _profileId, _assetId, _caseId, _orderId, _fullName, _phone, _email, _ctrContactId, _marketoLeadId, _salesforceAccountId, _salesforceContactId, _salesforceAssetId, _zendeskUserId, _zendeskExternalId, _zendeskTicketId, _serviceNowSystemId, _serviceNowIncidentId, _segmentUserId, _shopifyCustomerId, _shopifyOrderId.
         public let keyName: String
         /// The unique identifier of a customer profile.
         public let profileId: String
@@ -506,22 +506,28 @@ extension CustomerProfiles {
         public let consolidation: Consolidation?
         /// The flag that enables the auto-merging of duplicate profiles.
         public let enabled: Bool
+        /// A number between 0 and 1 that represents the minimum confidence score required for profiles within a matching group to be merged during the auto-merge process. A higher score means higher similarity required to merge profiles.
+        public let minAllowedConfidenceScoreForMerging: Double?
 
-        public init(conflictResolution: ConflictResolution? = nil, consolidation: Consolidation? = nil, enabled: Bool) {
+        public init(conflictResolution: ConflictResolution? = nil, consolidation: Consolidation? = nil, enabled: Bool, minAllowedConfidenceScoreForMerging: Double? = nil) {
             self.conflictResolution = conflictResolution
             self.consolidation = consolidation
             self.enabled = enabled
+            self.minAllowedConfidenceScoreForMerging = minAllowedConfidenceScoreForMerging
         }
 
         public func validate(name: String) throws {
             try self.conflictResolution?.validate(name: "\(name).conflictResolution")
             try self.consolidation?.validate(name: "\(name).consolidation")
+            try self.validate(self.minAllowedConfidenceScoreForMerging, name: "minAllowedConfidenceScoreForMerging", parent: name, max: 1.0)
+            try self.validate(self.minAllowedConfidenceScoreForMerging, name: "minAllowedConfidenceScoreForMerging", parent: name, min: 0.0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case conflictResolution = "ConflictResolution"
             case consolidation = "Consolidation"
             case enabled = "Enabled"
+            case minAllowedConfidenceScoreForMerging = "MinAllowedConfidenceScoreForMerging"
         }
     }
 
@@ -1481,11 +1487,14 @@ extension CustomerProfiles {
         public let consolidation: Consolidation
         /// The unique name of the domain.
         public let domainName: String
+        /// Minimum confidence score required for profiles within a matching group to be merged during the auto-merge process.
+        public let minAllowedConfidenceScoreForMerging: Double?
 
-        public init(conflictResolution: ConflictResolution, consolidation: Consolidation, domainName: String) {
+        public init(conflictResolution: ConflictResolution, consolidation: Consolidation, domainName: String, minAllowedConfidenceScoreForMerging: Double? = nil) {
             self.conflictResolution = conflictResolution
             self.consolidation = consolidation
             self.domainName = domainName
+            self.minAllowedConfidenceScoreForMerging = minAllowedConfidenceScoreForMerging
         }
 
         public func validate(name: String) throws {
@@ -1494,11 +1503,14 @@ extension CustomerProfiles {
             try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.minAllowedConfidenceScoreForMerging, name: "minAllowedConfidenceScoreForMerging", parent: name, max: 1.0)
+            try self.validate(self.minAllowedConfidenceScoreForMerging, name: "minAllowedConfidenceScoreForMerging", parent: name, min: 0.0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case conflictResolution = "ConflictResolution"
             case consolidation = "Consolidation"
+            case minAllowedConfidenceScoreForMerging = "MinAllowedConfidenceScoreForMerging"
         }
     }
 
@@ -2856,7 +2868,7 @@ extension CustomerProfiles {
     }
 
     public struct MatchItem: AWSDecodableShape {
-        /// A number between 0 and 1 that represents the confidence level of assigning profiles to a matching group. A score of 1 likely indicates an exact match.
+        /// A number between 0 and 1, where a higher score means higher similarity. Examining match confidence scores lets you distinguish between groups of similar records in which the system is highly confident (which you may decide to merge), groups of similar records about which the system is uncertain (which you may decide to have reviewed by a human), and groups of similar records that the system deems to be unlikely (which you may decide to reject). Given confidence scores vary as per the data input, it should not be used an absolute measure of matching quality.
         public let confidenceScore: Double?
         /// The unique identifiers for this group of profiles that match.
         public let matchId: String?
@@ -3345,7 +3357,7 @@ extension CustomerProfiles {
         public let sourceLastUpdatedTimestampFormat: String?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
-        /// A unique identifier for the object template.
+        /// A unique identifier for the object template. For some attributes in the request, the service will use the default value from the object template when TemplateId is present. If these attributes are present in the request, the service may return a BadRequestException.  These attributes include: AllowProfileCreation, SourceLastUpdatedTimestampFormat,  Fields, and Keys. For example, if AllowProfileCreation is set to true when TemplateId is set, the service may return a BadRequestException.
         public let templateId: String?
 
         public init(allowProfileCreation: Bool? = nil, description: String, domainName: String, encryptionKey: String? = nil, expirationDays: Int? = nil, fields: [String: ObjectTypeField]? = nil, keys: [String: [ObjectTypeKey]]? = nil, objectTypeName: String, sourceLastUpdatedTimestampFormat: String? = nil, tags: [String: String]? = nil, templateId: String? = nil) {

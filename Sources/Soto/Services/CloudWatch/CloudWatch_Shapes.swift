@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -20,6 +20,13 @@ import SotoCore
 
 extension CloudWatch {
     // MARK: Enums
+
+    public enum ActionsSuppressedBy: String, CustomStringConvertible, Codable, _SotoSendable {
+        case alarm = "Alarm"
+        case extensionPeriod = "ExtensionPeriod"
+        case waitPeriod = "WaitPeriod"
+        public var description: String { return self.rawValue }
+    }
 
     public enum AlarmType: String, CustomStringConvertible, Codable, _SotoSendable {
         case compositeAlarm = "CompositeAlarm"
@@ -253,6 +260,78 @@ extension CloudWatch {
     public struct CompositeAlarm: AWSDecodableShape {
         /// Indicates whether actions should be executed during any changes to the alarm state.
         public let actionsEnabled: Bool?
+        /// 			When the value is ALARM,
+        /// 			it means
+        /// 			that the actions are suppressed
+        /// 			because the suppressor alarm is
+        /// 			in ALARM
+        /// 			When the value is WaitPeriod,
+        /// 			it means that
+        /// 			the actions are suppressed
+        /// 			because the composite alarm is waiting
+        /// 			for the suppressor alarm
+        /// 			to go
+        /// 			into
+        /// 			into the ALARM state.
+        /// 			The maximum waiting time is as specified
+        /// 			in ActionsSuppressorWaitPeriod.
+        /// 			After this time,
+        /// 			the composite alarm performs its actions.
+        /// 			When the value is ExtensionPeriod,
+        /// 			it means
+        /// 			that the actions are suppressed
+        /// 			because the composite alarm is waiting
+        /// 			after the suppressor alarm went out
+        /// 			of the ALARM state.
+        /// 			The maximum waiting time is as specified
+        /// 			in ActionsSuppressorExtensionPeriod.
+        /// 			After this time,
+        /// 			the composite alarm performs its actions.
+        ///
+        public let actionsSuppressedBy: ActionsSuppressedBy?
+        /// 			Captures the reason for action suppression.
+        ///
+        public let actionsSuppressedReason: String?
+        /// 			Actions will be suppressed
+        /// 			if the suppressor alarm is
+        /// 			in the ALARM state.
+        /// 			ActionsSuppressor can be an AlarmName or an Amazon Resource Name (ARN)
+        /// 			from an existing alarm.
+        ///
+        public let actionsSuppressor: String?
+        /// 			The maximum time
+        /// 			in seconds
+        /// 			that the composite alarm waits
+        /// 			after suppressor alarm goes out
+        /// 			of the ALARM state.
+        /// 			After this time,
+        /// 			the composite alarm performs its actions.
+        ///
+        ///
+        ///
+        /// 				           ExtensionPeriod
+        /// 				is required only
+        /// 				when ActionsSuppressor is specified.
+        ///
+        ///
+        public let actionsSuppressorExtensionPeriod: Int?
+        /// 			The maximum time
+        /// 			in seconds
+        /// 			that the composite alarm waits
+        /// 			for the suppressor alarm
+        /// 			to go
+        /// 			into the ALARM state.
+        /// 			After this time,
+        /// 			the composite alarm performs its actions.
+        ///
+        ///
+        ///
+        /// 				           WaitPeriod
+        /// 				is required only
+        /// 				when ActionsSuppressor is specified.
+        ///
+        ///
+        public let actionsSuppressorWaitPeriod: Int?
         /// The actions to execute when this alarm transitions to the ALARM state from any other state. Each action is specified as an Amazon Resource Name (ARN).
         @OptionalCustomCoding<StandardArrayCoder>
         public var alarmActions: [String]?
@@ -276,13 +355,23 @@ extension CloudWatch {
         public let stateReason: String?
         /// An explanation for the alarm state, in JSON format.
         public let stateReasonData: String?
-        /// The time stamp of the last update to the alarm state.
+        /// 			The timestamp
+        /// 			of the last change
+        /// 			to the alarm's StateValue.
+        ///
+        public let stateTransitionedTimestamp: Date?
+        /// Tracks the timestamp of any state update, even if StateValue doesn't change.
         public let stateUpdatedTimestamp: Date?
         /// The state value for the alarm.
         public let stateValue: StateValue?
 
-        public init(actionsEnabled: Bool? = nil, alarmActions: [String]? = nil, alarmArn: String? = nil, alarmConfigurationUpdatedTimestamp: Date? = nil, alarmDescription: String? = nil, alarmName: String? = nil, alarmRule: String? = nil, insufficientDataActions: [String]? = nil, okActions: [String]? = nil, stateReason: String? = nil, stateReasonData: String? = nil, stateUpdatedTimestamp: Date? = nil, stateValue: StateValue? = nil) {
+        public init(actionsEnabled: Bool? = nil, actionsSuppressedBy: ActionsSuppressedBy? = nil, actionsSuppressedReason: String? = nil, actionsSuppressor: String? = nil, actionsSuppressorExtensionPeriod: Int? = nil, actionsSuppressorWaitPeriod: Int? = nil, alarmActions: [String]? = nil, alarmArn: String? = nil, alarmConfigurationUpdatedTimestamp: Date? = nil, alarmDescription: String? = nil, alarmName: String? = nil, alarmRule: String? = nil, insufficientDataActions: [String]? = nil, okActions: [String]? = nil, stateReason: String? = nil, stateReasonData: String? = nil, stateTransitionedTimestamp: Date? = nil, stateUpdatedTimestamp: Date? = nil, stateValue: StateValue? = nil) {
             self.actionsEnabled = actionsEnabled
+            self.actionsSuppressedBy = actionsSuppressedBy
+            self.actionsSuppressedReason = actionsSuppressedReason
+            self.actionsSuppressor = actionsSuppressor
+            self.actionsSuppressorExtensionPeriod = actionsSuppressorExtensionPeriod
+            self.actionsSuppressorWaitPeriod = actionsSuppressorWaitPeriod
             self.alarmActions = alarmActions
             self.alarmArn = alarmArn
             self.alarmConfigurationUpdatedTimestamp = alarmConfigurationUpdatedTimestamp
@@ -293,12 +382,18 @@ extension CloudWatch {
             self.okActions = okActions
             self.stateReason = stateReason
             self.stateReasonData = stateReasonData
+            self.stateTransitionedTimestamp = stateTransitionedTimestamp
             self.stateUpdatedTimestamp = stateUpdatedTimestamp
             self.stateValue = stateValue
         }
 
         private enum CodingKeys: String, CodingKey {
             case actionsEnabled = "ActionsEnabled"
+            case actionsSuppressedBy = "ActionsSuppressedBy"
+            case actionsSuppressedReason = "ActionsSuppressedReason"
+            case actionsSuppressor = "ActionsSuppressor"
+            case actionsSuppressorExtensionPeriod = "ActionsSuppressorExtensionPeriod"
+            case actionsSuppressorWaitPeriod = "ActionsSuppressorWaitPeriod"
             case alarmActions = "AlarmActions"
             case alarmArn = "AlarmArn"
             case alarmConfigurationUpdatedTimestamp = "AlarmConfigurationUpdatedTimestamp"
@@ -309,6 +404,7 @@ extension CloudWatch {
             case okActions = "OKActions"
             case stateReason = "StateReason"
             case stateReasonData = "StateReasonData"
+            case stateTransitionedTimestamp = "StateTransitionedTimestamp"
             case stateUpdatedTimestamp = "StateUpdatedTimestamp"
             case stateValue = "StateValue"
         }
@@ -473,7 +569,7 @@ extension CloudWatch {
             try self.dimensions?.forEach {
                 try $0.validate(name: "\(name).dimensions[]")
             }
-            try self.validate(self.dimensions, name: "dimensions", parent: name, max: 10)
+            try self.validate(self.dimensions, name: "dimensions", parent: name, max: 30)
             try self.metricMathAnomalyDetector?.validate(name: "\(name).metricMathAnomalyDetector")
             try self.validate(self.metricName, name: "metricName", parent: name, max: 255)
             try self.validate(self.metricName, name: "metricName", parent: name, min: 1)
@@ -679,8 +775,7 @@ extension CloudWatch {
             try self.dimensions?.forEach {
                 try $0.validate(name: "\(name).dimensions[]")
             }
-            try self.validate(self.dimensions, name: "dimensions", parent: name, max: 10)
-            try self.validate(self.extendedStatistic, name: "extendedStatistic", parent: name, pattern: "^p(\\d{1,2}(\\.\\d{0,2})?|100)$")
+            try self.validate(self.dimensions, name: "dimensions", parent: name, max: 30)
             try self.validate(self.metricName, name: "metricName", parent: name, max: 255)
             try self.validate(self.metricName, name: "metricName", parent: name, min: 1)
             try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
@@ -873,7 +968,7 @@ extension CloudWatch {
             try self.dimensions?.forEach {
                 try $0.validate(name: "\(name).dimensions[]")
             }
-            try self.validate(self.dimensions, name: "dimensions", parent: name, max: 10)
+            try self.validate(self.dimensions, name: "dimensions", parent: name, max: 30)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.metricName, name: "metricName", parent: name, max: 255)
             try self.validate(self.metricName, name: "metricName", parent: name, min: 1)
@@ -968,7 +1063,7 @@ extension CloudWatch {
         public func validate(name: String) throws {
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.value, name: "value", parent: name, max: 255)
+            try self.validate(self.value, name: "value", parent: name, max: 1024)
             try self.validate(self.value, name: "value", parent: name, min: 1)
         }
 
@@ -992,7 +1087,7 @@ extension CloudWatch {
         public func validate(name: String) throws {
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.value, name: "value", parent: name, max: 255)
+            try self.validate(self.value, name: "value", parent: name, max: 1024)
             try self.validate(self.value, name: "value", parent: name, min: 1)
         }
 
@@ -1450,10 +1545,7 @@ extension CloudWatch {
             try self.dimensions?.forEach {
                 try $0.validate(name: "\(name).dimensions[]")
             }
-            try self.validate(self.dimensions, name: "dimensions", parent: name, max: 10)
-            try self.extendedStatistics?.forEach {
-                try validate($0, name: "extendedStatistics[]", parent: name, pattern: "^p(\\d{1,2}(\\.\\d{0,2})?|100)$")
-            }
+            try self.validate(self.dimensions, name: "dimensions", parent: name, max: 30)
             try self.validate(self.extendedStatistics, name: "extendedStatistics", parent: name, max: 10)
             try self.validate(self.extendedStatistics, name: "extendedStatistics", parent: name, min: 1)
             try self.validate(self.metricName, name: "metricName", parent: name, max: 255)
@@ -1537,11 +1629,10 @@ extension CloudWatch {
         public let lastUpdateDate: Date?
         /// The name of the metric stream.
         public let name: String?
-        /// The output format for the stream. Valid values are json
-        /// 			and opentelemetry0.7. For more information about metric stream
-        /// 			output formats, see
-        ///
-        /// 				Metric streams output formats.
+        /// The output format for the stream.
+        /// 			Valid values are json and opentelemetry0.7.
+        /// 			For more information about metric stream output formats,
+        /// 			see Metric streams output formats.
         public let outputFormat: MetricStreamOutputFormat?
         /// The ARN of the IAM role that is used by this metric stream.
         public let roleArn: String?
@@ -1647,6 +1738,9 @@ extension CloudWatch {
         /// 			Contributor Insights
         /// 				Rule Syntax.
         public let definition: String
+        /// 			An optional built-in rule that Amazon Web Services manages.
+        ///
+        public let managedRule: Bool?
         /// The name of the rule.
         public let name: String
         /// For rules that you create, this is always {"Name": "CloudWatchLogRule", "Version": 1}. For managed rules,
@@ -1655,8 +1749,9 @@ extension CloudWatch {
         /// Indicates whether the rule is enabled or disabled.
         public let state: String
 
-        public init(definition: String, name: String, schema: String, state: String) {
+        public init(definition: String, managedRule: Bool? = nil, name: String, schema: String, state: String) {
             self.definition = definition
+            self.managedRule = managedRule
             self.name = name
             self.schema = schema
             self.state = state
@@ -1664,6 +1759,7 @@ extension CloudWatch {
 
         private enum CodingKeys: String, CodingKey {
             case definition = "Definition"
+            case managedRule = "ManagedRule"
             case name = "Name"
             case schema = "Schema"
             case state = "State"
@@ -1812,6 +1908,77 @@ extension CloudWatch {
 
         private enum CodingKeys: String, CodingKey {
             case dashboardEntries = "DashboardEntries"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListManagedInsightRulesInput: AWSEncodableShape {
+        /// 			The maximum number
+        /// 			of results
+        /// 			to return
+        /// 			in one operation.
+        /// 			If you omit this parameter,
+        /// 			the default number is used.
+        /// 			The default number is 100.
+        ///
+        public let maxResults: Int?
+        /// 			Include this value
+        /// 			to get
+        /// 			the next set
+        /// 			of rules
+        /// 			if the value was returned
+        /// 			by the previous operation.
+        ///
+        public let nextToken: String?
+        /// 			The ARN
+        /// 			of an Amazon Web Services resource
+        /// 			that has managed Contributor Insights rules.
+        ///
+        public let resourceARN: String
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceARN: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resourceARN = resourceARN
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1024)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case resourceARN = "ResourceARN"
+        }
+    }
+
+    public struct ListManagedInsightRulesOutput: AWSDecodableShape {
+        /// 			The managed rules
+        /// 			that are available
+        /// 			for the specified Amazon Web Services resource.
+        ///
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var managedRules: [ManagedRuleDescription]?
+        /// 			Include this value
+        /// 			to get
+        /// 			the next set
+        /// 			of rules
+        /// 			if the value was returned
+        /// 			by the previous operation.
+        ///
+        public let nextToken: String?
+
+        public init(managedRules: [ManagedRuleDescription]? = nil, nextToken: String? = nil) {
+            self.managedRules = managedRules
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case managedRules = "ManagedRules"
             case nextToken = "NextToken"
         }
     }
@@ -1966,6 +2133,128 @@ extension CloudWatch {
         }
     }
 
+    public struct ManagedRule: AWSEncodableShape {
+        /// 			The ARN
+        /// 			of an Amazon Web Services resource
+        /// 			that has managed Contributor Insights rules.
+        ///
+        public let resourceARN: String
+        /// 			A list
+        /// 			of key-value pairs
+        /// 			that you can associate
+        /// 			with a managed Contributor Insights rule.
+        /// 			You can associate as many as 50 tags
+        /// 			with a rule.
+        /// 			Tags can help you organize and categorize your resources.
+        /// 			You also can use them
+        /// 			to scope user permissions
+        /// 			by granting a user permission
+        /// 			to access or change only the resources
+        /// 			that have certain tag values.
+        /// 			To associate tags
+        /// 			with a rule,
+        /// 			you must have the cloudwatch:TagResource permission
+        /// 			in addition
+        /// 			to the cloudwatch:PutInsightRule permission.
+        /// 			If you are using this operation
+        /// 			to update an existing Contributor Insights rule,
+        /// 			any tags
+        /// 			that you specify
+        /// 			in this parameter are ignored.
+        /// 			To change the tags
+        /// 			of an existing rule,
+        /// 			use TagResource.
+        ///
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var tags: [Tag]?
+        /// 			The template name
+        /// 			for the managed Contributor Insights rule,
+        /// 			as returned
+        /// 			by ListManagedInsightRules.
+        ///
+        public let templateName: String
+
+        public init(resourceARN: String, tags: [Tag]? = nil, templateName: String) {
+            self.resourceARN = resourceARN
+            self.tags = tags
+            self.templateName = templateName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1024)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.templateName, name: "templateName", parent: name, max: 128)
+            try self.validate(self.templateName, name: "templateName", parent: name, min: 1)
+            try self.validate(self.templateName, name: "templateName", parent: name, pattern: "^[0-9A-Za-z][\\-\\.\\_0-9A-Za-z]{0,126}[0-9A-Za-z]$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tags = "Tags"
+            case templateName = "TemplateName"
+        }
+    }
+
+    public struct ManagedRuleDescription: AWSDecodableShape {
+        /// 			If a managed rule is enabled,
+        /// 			this is the ARN
+        /// 			for the related Amazon Web Services resource.
+        ///
+        public let resourceARN: String?
+        /// 			Describes the state
+        /// 			of a managed rule.
+        /// 			If present,
+        /// 			it contains information
+        /// 			about the Contributor Insights rule
+        /// 			that contains information
+        /// 			about the related Amazon Web Services resource.
+        ///
+        public let ruleState: ManagedRuleState?
+        /// 			The template name
+        /// 			for the managed rule.
+        /// 			Used
+        /// 			to enable managed rules using PutManagedInsightRules.
+        ///
+        public let templateName: String?
+
+        public init(resourceARN: String? = nil, ruleState: ManagedRuleState? = nil, templateName: String? = nil) {
+            self.resourceARN = resourceARN
+            self.ruleState = ruleState
+            self.templateName = templateName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case ruleState = "RuleState"
+            case templateName = "TemplateName"
+        }
+    }
+
+    public struct ManagedRuleState: AWSDecodableShape {
+        /// 			The name
+        /// 			of the Contributor Insights rule
+        /// 			that contains data
+        /// 			for the specified Amazon Web Services resource.
+        ///
+        public let ruleName: String
+        /// 			Indicates whether the rule is enabled or disabled.
+        ///
+        public let state: String
+
+        public init(ruleName: String, state: String) {
+            self.ruleName = ruleName
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ruleName = "RuleName"
+            case state = "State"
+        }
+    }
+
     public struct MessageData: AWSDecodableShape {
         /// The error code or status code associated with the message.
         public let code: String?
@@ -2002,7 +2291,7 @@ extension CloudWatch {
             try self.dimensions?.forEach {
                 try $0.validate(name: "\(name).dimensions[]")
             }
-            try self.validate(self.dimensions, name: "dimensions", parent: name, max: 10)
+            try self.validate(self.dimensions, name: "dimensions", parent: name, max: 30)
             try self.validate(self.metricName, name: "metricName", parent: name, max: 255)
             try self.validate(self.metricName, name: "metricName", parent: name, min: 1)
             try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
@@ -2223,7 +2512,7 @@ extension CloudWatch {
         public func validate(name: String) throws {
             try self.validate(self.accountId, name: "accountId", parent: name, max: 255)
             try self.validate(self.accountId, name: "accountId", parent: name, min: 1)
-            try self.validate(self.expression, name: "expression", parent: name, max: 1024)
+            try self.validate(self.expression, name: "expression", parent: name, max: 2048)
             try self.validate(self.expression, name: "expression", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, max: 255)
             try self.validate(self.id, name: "id", parent: name, min: 1)
@@ -2346,7 +2635,7 @@ extension CloudWatch {
             try self.dimensions?.forEach {
                 try $0.validate(name: "\(name).dimensions[]")
             }
-            try self.validate(self.dimensions, name: "dimensions", parent: name, max: 10)
+            try self.validate(self.dimensions, name: "dimensions", parent: name, max: 30)
             try self.validate(self.metricName, name: "metricName", parent: name, max: 255)
             try self.validate(self.metricName, name: "metricName", parent: name, min: 1)
             try self.validate(self.storageResolution, name: "storageResolution", parent: name, min: 1)
@@ -2495,21 +2784,21 @@ extension CloudWatch {
 
     public struct MetricStreamStatisticsConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The list of additional statistics that are to be streamed for the metrics listed
-        /// 		in the IncludeMetrics array in this structure. This list can include as many as 20 statistics.
+        /// 			in the IncludeMetrics array in this structure. This list can include as many as 20 statistics.
         /// 		       If the OutputFormat for the stream is opentelemetry0.7, the only
         /// 			valid values are p?? percentile statistics such as p90, p99 and so on.
         /// 		       If the OutputFormat for the stream is json,
         /// 			the valid values include the abbreviations for all of the statistics listed in
         ///
         /// 				CloudWatch statistics definitions. For example, this includes
-        /// 		tm98,  wm90, PR(:300), and so on.
+        /// 			tm98,  wm90, PR(:300), and so on.
         @CustomCoding<StandardArrayCoder>
         public var additionalStatistics: [String]
         /// An array of metric name and namespace pairs that stream the additional statistics listed
-        /// 		in the value of the AdditionalStatistics parameter. There can be as many as
-        /// 		100 pairs in the array.
+        /// 			in the value of the AdditionalStatistics parameter. There can be as many as
+        /// 			100 pairs in the array.
         /// 		       All metrics that match the combination of metric name and namespace will be streamed
-        /// 		with the additional statistics, no matter their dimensions.
+        /// 			with the additional statistics, no matter their dimensions.
         @CustomCoding<StandardArrayCoder>
         public var includeMetrics: [MetricStreamStatisticsMetric]
 
@@ -2642,7 +2931,7 @@ extension CloudWatch {
             try self.dimensions?.forEach {
                 try $0.validate(name: "\(name).dimensions[]")
             }
-            try self.validate(self.dimensions, name: "dimensions", parent: name, max: 10)
+            try self.validate(self.dimensions, name: "dimensions", parent: name, max: 30)
             try self.metricMathAnomalyDetector?.validate(name: "\(name).metricMathAnomalyDetector")
             try self.validate(self.metricName, name: "metricName", parent: name, max: 255)
             try self.validate(self.metricName, name: "metricName", parent: name, min: 1)
@@ -2673,6 +2962,46 @@ extension CloudWatch {
         /// Indicates whether actions should be executed during any changes to the alarm state of the composite alarm. The default is
         /// 			TRUE.
         public let actionsEnabled: Bool?
+        /// 			Actions will be suppressed
+        /// 			if the suppressor alarm is
+        /// 			in the ALARM state.
+        /// 			ActionsSuppressor can be an AlarmName or an Amazon Resource Name (ARN)
+        /// 			from an existing alarm.
+        ///
+        public let actionsSuppressor: String?
+        /// 			The maximum time
+        /// 			in seconds
+        /// 			that the composite alarm waits
+        /// 			after suppressor alarm goes out
+        /// 			of the ALARM state.
+        /// 			After this time,
+        /// 			the composite alarm performs its actions.
+        ///
+        ///
+        ///
+        /// 				           ExtensionPeriod
+        /// 				is required only
+        /// 				when ActionsSuppressor is specified.
+        ///
+        ///
+        public let actionsSuppressorExtensionPeriod: Int?
+        /// 			The maximum time
+        /// 			in seconds
+        /// 			that the composite alarm waits
+        /// 			for the suppressor alarm
+        /// 			to go
+        /// 			into the ALARM state.
+        /// 			After this time,
+        /// 			the composite alarm performs its actions.
+        ///
+        ///
+        ///
+        /// 				           WaitPeriod
+        /// 				is required only
+        /// 				when ActionsSuppressor is specified.
+        ///
+        ///
+        public let actionsSuppressorWaitPeriod: Int?
         /// The actions to execute when this alarm transitions to the ALARM state from any other state.
         /// 			Each action is specified as an Amazon Resource Name (ARN).
         ///
@@ -2734,8 +3063,11 @@ extension CloudWatch {
         @OptionalCustomCoding<StandardArrayCoder>
         public var tags: [Tag]?
 
-        public init(actionsEnabled: Bool? = nil, alarmActions: [String]? = nil, alarmDescription: String? = nil, alarmName: String, alarmRule: String, insufficientDataActions: [String]? = nil, okActions: [String]? = nil, tags: [Tag]? = nil) {
+        public init(actionsEnabled: Bool? = nil, actionsSuppressor: String? = nil, actionsSuppressorExtensionPeriod: Int? = nil, actionsSuppressorWaitPeriod: Int? = nil, alarmActions: [String]? = nil, alarmDescription: String? = nil, alarmName: String, alarmRule: String, insufficientDataActions: [String]? = nil, okActions: [String]? = nil, tags: [Tag]? = nil) {
             self.actionsEnabled = actionsEnabled
+            self.actionsSuppressor = actionsSuppressor
+            self.actionsSuppressorExtensionPeriod = actionsSuppressorExtensionPeriod
+            self.actionsSuppressorWaitPeriod = actionsSuppressorWaitPeriod
             self.alarmActions = alarmActions
             self.alarmDescription = alarmDescription
             self.alarmName = alarmName
@@ -2746,6 +3078,8 @@ extension CloudWatch {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.actionsSuppressor, name: "actionsSuppressor", parent: name, max: 1600)
+            try self.validate(self.actionsSuppressor, name: "actionsSuppressor", parent: name, min: 1)
             try self.alarmActions?.forEach {
                 try validate($0, name: "alarmActions[]", parent: name, max: 1024)
                 try validate($0, name: "alarmActions[]", parent: name, min: 1)
@@ -2773,6 +3107,9 @@ extension CloudWatch {
 
         private enum CodingKeys: String, CodingKey {
             case actionsEnabled = "ActionsEnabled"
+            case actionsSuppressor = "ActionsSuppressor"
+            case actionsSuppressorExtensionPeriod = "ActionsSuppressorExtensionPeriod"
+            case actionsSuppressorWaitPeriod = "ActionsSuppressorWaitPeriod"
             case alarmActions = "AlarmActions"
             case alarmDescription = "AlarmDescription"
             case alarmName = "AlarmName"
@@ -2878,6 +3215,46 @@ extension CloudWatch {
 
     public struct PutInsightRuleOutput: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct PutManagedInsightRulesInput: AWSEncodableShape {
+        /// 			A list
+        /// 			of ManagedRules
+        /// 			to enable.
+        ///
+        @CustomCoding<StandardArrayCoder>
+        public var managedRules: [ManagedRule]
+
+        public init(managedRules: [ManagedRule]) {
+            self.managedRules = managedRules
+        }
+
+        public func validate(name: String) throws {
+            try self.managedRules.forEach {
+                try $0.validate(name: "\(name).managedRules[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case managedRules = "ManagedRules"
+        }
+    }
+
+    public struct PutManagedInsightRulesOutput: AWSDecodableShape {
+        /// 			An array
+        /// 			that lists the rules
+        /// 			that could not be enabled.
+        ///
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var failures: [PartialFailure]?
+
+        public init(failures: [PartialFailure]? = nil) {
+            self.failures = failures
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failures = "Failures"
+        }
     }
 
     public struct PutMetricAlarmInput: AWSEncodableShape {
@@ -3048,7 +3425,7 @@ extension CloudWatch {
         /// 			works as intended.
         /// 			      However, if the metric is published with multiple types of units and you don't specify a unit, the alarm's
         /// 			behavior is not defined and
-        /// 			it behaves predictably.
+        /// 			it behaves unpredictably.
         /// 		       We recommend omitting Unit so that you don't inadvertently
         /// 			specify an incorrect unit that is not published for this metric. Doing so
         /// 			causes the alarm to be stuck in the INSUFFICIENT DATA state.
@@ -3092,11 +3469,10 @@ extension CloudWatch {
             try self.dimensions?.forEach {
                 try $0.validate(name: "\(name).dimensions[]")
             }
-            try self.validate(self.dimensions, name: "dimensions", parent: name, max: 10)
+            try self.validate(self.dimensions, name: "dimensions", parent: name, max: 30)
             try self.validate(self.evaluateLowSampleCountPercentile, name: "evaluateLowSampleCountPercentile", parent: name, max: 255)
             try self.validate(self.evaluateLowSampleCountPercentile, name: "evaluateLowSampleCountPercentile", parent: name, min: 1)
             try self.validate(self.evaluationPeriods, name: "evaluationPeriods", parent: name, min: 1)
-            try self.validate(self.extendedStatistic, name: "extendedStatistic", parent: name, pattern: "^p(\\d{1,2}(\\.\\d{0,2})?|100)$")
             try self.insufficientDataActions?.forEach {
                 try validate($0, name: "insufficientDataActions[]", parent: name, max: 1024)
                 try validate($0, name: "insufficientDataActions[]", parent: name, min: 1)
@@ -3152,7 +3528,7 @@ extension CloudWatch {
     }
 
     public struct PutMetricDataInput: AWSEncodableShape {
-        /// The data for the metric. The array can include no more than 20 metrics per call.
+        /// The data for the metric. The array can include no more than 1000 metrics per call.
         @CustomCoding<StandardArrayCoder>
         public var metricData: [MetricDatum]
         /// The namespace for the metric data.
@@ -3370,7 +3746,7 @@ extension CloudWatch {
             try self.dimensions?.forEach {
                 try $0.validate(name: "\(name).dimensions[]")
             }
-            try self.validate(self.dimensions, name: "dimensions", parent: name, max: 10)
+            try self.validate(self.dimensions, name: "dimensions", parent: name, max: 30)
             try self.validate(self.metricName, name: "metricName", parent: name, max: 255)
             try self.validate(self.metricName, name: "metricName", parent: name, min: 1)
             try self.validate(self.namespace, name: "namespace", parent: name, max: 255)

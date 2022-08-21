@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -135,6 +135,18 @@ extension DevOpsGuru {
         public var description: String { return self.rawValue }
     }
 
+    public enum LogAnomalyType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case blockFormat = "BLOCK_FORMAT"
+        case format = "FORMAT"
+        case httpCode = "HTTP_CODE"
+        case keyword = "KEYWORD"
+        case keywordToken = "KEYWORD_TOKEN"
+        case newFieldName = "NEW_FIELD_NAME"
+        case numericalNan = "NUMERICAL_NAN"
+        case numericalPoint = "NUMERICAL_POINT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum OptInStatus: String, CustomStringConvertible, Codable, _SotoSendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
@@ -153,6 +165,17 @@ extension DevOpsGuru {
         case awsCloudFormation = "AWS_CLOUD_FORMATION"
         case awsService = "AWS_SERVICE"
         case awsTags = "AWS_TAGS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourcePermission: String, CustomStringConvertible, Codable, _SotoSendable {
+        case fullPermission = "FULL_PERMISSION"
+        case missingPermission = "MISSING_PERMISSION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceTypeFilter: String, CustomStringConvertible, Codable, _SotoSendable {
+        case logGroups = "LOG_GROUPS"
         public var description: String { return self.rawValue }
     }
 
@@ -273,6 +296,40 @@ extension DevOpsGuru {
 
         private enum CodingKeys: String, CodingKey {
             case status = "Status"
+        }
+    }
+
+    public struct AnomalousLogGroup: AWSDecodableShape {
+        /// 			The time the anomalous log events stopped.
+        ///
+        public let impactEndTime: Date?
+        /// 			The time the anomalous log events began. The impact start time indicates the time of the first log anomaly event that occurs.
+        ///
+        public let impactStartTime: Date?
+        /// 			The log anomalies in the log group. Each log anomaly displayed represents a cluster of similar anomalous log events.
+        ///
+        public let logAnomalyShowcases: [LogAnomalyShowcase]?
+        /// 			The name of the CloudWatch log group.
+        ///
+        public let logGroupName: String?
+        /// 			The number of log lines that were scanned for anomalous log events.
+        ///
+        public let numberOfLogLinesScanned: Int?
+
+        public init(impactEndTime: Date? = nil, impactStartTime: Date? = nil, logAnomalyShowcases: [LogAnomalyShowcase]? = nil, logGroupName: String? = nil, numberOfLogLinesScanned: Int? = nil) {
+            self.impactEndTime = impactEndTime
+            self.impactStartTime = impactStartTime
+            self.logAnomalyShowcases = logAnomalyShowcases
+            self.logGroupName = logGroupName
+            self.numberOfLogLinesScanned = numberOfLogLinesScanned
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case impactEndTime = "ImpactEndTime"
+            case impactStartTime = "ImpactStartTime"
+            case logAnomalyShowcases = "LogAnomalyShowcases"
+            case logGroupName = "LogGroupName"
+            case numberOfLogLinesScanned = "NumberOfLogLinesScanned"
         }
     }
 
@@ -1455,6 +1512,63 @@ extension DevOpsGuru {
         }
     }
 
+    public struct ListAnomalousLogGroupsRequest: AWSEncodableShape {
+        /// 			The ID of the insight containing the log groups.
+        ///
+        public let insightId: String
+        /// The maximum number of results to return with a single call.
+        /// 	To retrieve the remaining results, make another call with the returned nextToken value.
+        public let maxResults: Int?
+        /// The pagination token to use to retrieve  the next page of results for this operation. If this value is null, it retrieves the first page.
+        public let nextToken: String?
+
+        public init(insightId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.insightId = insightId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.insightId, name: "insightId", parent: name, max: 100)
+            try self.validate(self.insightId, name: "insightId", parent: name, min: 1)
+            try self.validate(self.insightId, name: "insightId", parent: name, pattern: "^[\\w-]*$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 200)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 36)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 36)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case insightId = "InsightId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListAnomalousLogGroupsResponse: AWSDecodableShape {
+        /// 			The list of Amazon CloudWatch log groups that are related to an insight.
+        ///
+        public let anomalousLogGroups: [AnomalousLogGroup]
+        /// 			The ID of the insight containing the log groups.
+        ///
+        public let insightId: String
+        /// The pagination token to use to retrieve  the next page of results for this operation. If there are no more pages, this value is null.
+        public let nextToken: String?
+
+        public init(anomalousLogGroups: [AnomalousLogGroup], insightId: String, nextToken: String? = nil) {
+            self.anomalousLogGroups = anomalousLogGroups
+            self.insightId = insightId
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anomalousLogGroups = "AnomalousLogGroups"
+            case insightId = "InsightId"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListEventsFilters: AWSEncodableShape {
         ///  The source, AWS_CLOUD_TRAIL or AWS_CODE_DEPLOY, of the
         /// 			events you want returned.
@@ -1683,6 +1797,74 @@ extension DevOpsGuru {
         }
     }
 
+    public struct ListMonitoredResourcesFilters: AWSEncodableShape {
+        /// 			The permission status of a resource.
+        ///
+        public let resourcePermission: ResourcePermission
+        /// 			The type of resource that you wish to retrieve, such as log groups.
+        ///
+        public let resourceTypeFilters: [ResourceTypeFilter]
+
+        public init(resourcePermission: ResourcePermission, resourceTypeFilters: [ResourceTypeFilter]) {
+            self.resourcePermission = resourcePermission
+            self.resourceTypeFilters = resourceTypeFilters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourcePermission = "ResourcePermission"
+            case resourceTypeFilters = "ResourceTypeFilters"
+        }
+    }
+
+    public struct ListMonitoredResourcesRequest: AWSEncodableShape {
+        /// 			Filters to determine which monitored resources you want to retrieve. You can filter by resource type or resource permission status.
+        ///
+        public let filters: ListMonitoredResourcesFilters
+        /// The maximum number of results to return with a single call.
+        /// 	To retrieve the remaining results, make another call with the returned nextToken value.
+        public let maxResults: Int?
+        /// The pagination token to use to retrieve  the next page of results for this operation. If this value is null, it retrieves the first page.
+        public let nextToken: String?
+
+        public init(filters: ListMonitoredResourcesFilters, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 36)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 36)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListMonitoredResourcesResponse: AWSDecodableShape {
+        /// 			Information about the resource that is being monitored, including the name of the resource, the type of resource, and whether or not permission is given to DevOps Guru to access that resource.
+        ///
+        public let monitoredResourceIdentifiers: [MonitoredResourceIdentifier]
+        /// The pagination token to use to retrieve  the next page of results for this operation. If there are no more pages, this value is null.
+        public let nextToken: String?
+
+        public init(monitoredResourceIdentifiers: [MonitoredResourceIdentifier], nextToken: String? = nil) {
+            self.monitoredResourceIdentifiers = monitoredResourceIdentifiers
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case monitoredResourceIdentifiers = "MonitoredResourceIdentifiers"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListNotificationChannelsRequest: AWSEncodableShape {
         /// The pagination token to use to retrieve  the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
@@ -1841,6 +2023,114 @@ extension DevOpsGuru {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case recommendations = "Recommendations"
+        }
+    }
+
+    public struct LogAnomalyClass: AWSDecodableShape {
+        /// 			The explanation for why the log event is considered an anomaly.
+        ///
+        public let explanation: String?
+        /// 			The token where the anomaly was detected. This may refer to an exception or another location, or it may be blank for log anomalies such as format anomalies.
+        ///
+        public let logAnomalyToken: String?
+        /// 			The type of log anomaly that has been detected.
+        ///
+        public let logAnomalyType: LogAnomalyType?
+        /// 			The ID of the log event.
+        ///
+        public let logEventId: String?
+        /// 			The time of the first occurrence of the anomalous log event.
+        ///
+        public let logEventTimestamp: Date?
+        /// 			The name of the Amazon CloudWatch log stream that the anomalous log event belongs to. A log stream is a sequence of log events that share the same source.
+        ///
+        public let logStreamName: String?
+        /// 			The number of log lines where this anomalous log event occurs.
+        ///
+        public let numberOfLogLinesOccurrences: Int?
+
+        public init(explanation: String? = nil, logAnomalyToken: String? = nil, logAnomalyType: LogAnomalyType? = nil, logEventId: String? = nil, logEventTimestamp: Date? = nil, logStreamName: String? = nil, numberOfLogLinesOccurrences: Int? = nil) {
+            self.explanation = explanation
+            self.logAnomalyToken = logAnomalyToken
+            self.logAnomalyType = logAnomalyType
+            self.logEventId = logEventId
+            self.logEventTimestamp = logEventTimestamp
+            self.logStreamName = logStreamName
+            self.numberOfLogLinesOccurrences = numberOfLogLinesOccurrences
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case explanation = "Explanation"
+            case logAnomalyToken = "LogAnomalyToken"
+            case logAnomalyType = "LogAnomalyType"
+            case logEventId = "LogEventId"
+            case logEventTimestamp = "LogEventTimestamp"
+            case logStreamName = "LogStreamName"
+            case numberOfLogLinesOccurrences = "NumberOfLogLinesOccurrences"
+        }
+    }
+
+    public struct LogAnomalyShowcase: AWSDecodableShape {
+        /// 			A list of anomalous log events that may be related.
+        ///
+        public let logAnomalyClasses: [LogAnomalyClass]?
+
+        public init(logAnomalyClasses: [LogAnomalyClass]? = nil) {
+            self.logAnomalyClasses = logAnomalyClasses
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logAnomalyClasses = "LogAnomalyClasses"
+        }
+    }
+
+    public struct LogsAnomalyDetectionIntegration: AWSDecodableShape {
+        /// Specifies if DevOps Guru is configured to perform log anomaly detection on CloudWatch log groups.
+        public let optInStatus: OptInStatus?
+
+        public init(optInStatus: OptInStatus? = nil) {
+            self.optInStatus = optInStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case optInStatus = "OptInStatus"
+        }
+    }
+
+    public struct LogsAnomalyDetectionIntegrationConfig: AWSEncodableShape {
+        /// Specifies if DevOps Guru is configured to perform log anomaly detection on CloudWatch log groups.
+        public let optInStatus: OptInStatus?
+
+        public init(optInStatus: OptInStatus? = nil) {
+            self.optInStatus = optInStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case optInStatus = "OptInStatus"
+        }
+    }
+
+    public struct MonitoredResourceIdentifier: AWSDecodableShape {
+        /// 			The name of the resource being monitored.
+        ///
+        public let monitoredResourceName: String?
+        /// 			The permission status of a resource.
+        ///
+        public let resourcePermission: ResourcePermission?
+        /// 			The type of resource being monitored.
+        ///
+        public let type: String?
+
+        public init(monitoredResourceName: String? = nil, resourcePermission: ResourcePermission? = nil, type: String? = nil) {
+            self.monitoredResourceName = monitoredResourceName
+            self.resourcePermission = resourcePermission
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case monitoredResourceName = "MonitoredResourceName"
+            case resourcePermission = "ResourcePermission"
+            case type = "Type"
         }
     }
 
@@ -3277,15 +3567,20 @@ extension DevOpsGuru {
     }
 
     public struct ServiceIntegrationConfig: AWSDecodableShape {
+        /// 			Information about whether DevOps Guru is configured to perform log anomaly detection on Amazon CloudWatch log groups.
+        ///
+        public let logsAnomalyDetection: LogsAnomalyDetectionIntegration?
         ///  Information about whether DevOps Guru is configured to create an OpsItem in Amazon Web Services Systems Manager
         /// 			OpsCenter for each created insight.
         public let opsCenter: OpsCenterIntegration?
 
-        public init(opsCenter: OpsCenterIntegration? = nil) {
+        public init(logsAnomalyDetection: LogsAnomalyDetectionIntegration? = nil, opsCenter: OpsCenterIntegration? = nil) {
+            self.logsAnomalyDetection = logsAnomalyDetection
             self.opsCenter = opsCenter
         }
 
         private enum CodingKeys: String, CodingKey {
+            case logsAnomalyDetection = "LogsAnomalyDetection"
             case opsCenter = "OpsCenter"
         }
     }
@@ -3651,13 +3946,18 @@ extension DevOpsGuru {
     }
 
     public struct UpdateServiceIntegrationConfig: AWSEncodableShape {
+        /// 			Information about whether DevOps Guru is configured to perform log anomaly detection on Amazon CloudWatch log groups.
+        ///
+        public let logsAnomalyDetection: LogsAnomalyDetectionIntegrationConfig?
         public let opsCenter: OpsCenterIntegrationConfig?
 
-        public init(opsCenter: OpsCenterIntegrationConfig? = nil) {
+        public init(logsAnomalyDetection: LogsAnomalyDetectionIntegrationConfig? = nil, opsCenter: OpsCenterIntegrationConfig? = nil) {
+            self.logsAnomalyDetection = logsAnomalyDetection
             self.opsCenter = opsCenter
         }
 
         private enum CodingKeys: String, CodingKey {
+            case logsAnomalyDetection = "LogsAnomalyDetection"
             case opsCenter = "OpsCenter"
         }
     }

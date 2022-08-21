@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -198,6 +198,21 @@ extension Macie2 {
         return try await self.client.execute(operation: "GetMember", path: "/members/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Retrieves the status and configuration settings for retrieving (revealing) occurrences of sensitive data reported by findings.
+    public func getRevealConfiguration(_ input: GetRevealConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetRevealConfigurationResponse {
+        return try await self.client.execute(operation: "GetRevealConfiguration", path: "/reveal-configuration", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves (reveals) occurrences of sensitive data reported by a finding.
+    public func getSensitiveDataOccurrences(_ input: GetSensitiveDataOccurrencesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetSensitiveDataOccurrencesResponse {
+        return try await self.client.execute(operation: "GetSensitiveDataOccurrences", path: "/findings/{findingId}/reveal", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Checks whether occurrences of sensitive data can be retrieved (revealed) for a finding.
+    public func getSensitiveDataOccurrencesAvailability(_ input: GetSensitiveDataOccurrencesAvailabilityRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetSensitiveDataOccurrencesAvailabilityResponse {
+        return try await self.client.execute(operation: "GetSensitiveDataOccurrencesAvailability", path: "/findings/{findingId}/reveal/availability", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Retrieves (queries) quotas and aggregated usage data for one or more accounts.
     public func getUsageStatistics(_ input: GetUsageStatisticsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetUsageStatisticsResponse {
         return try await self.client.execute(operation: "GetUsageStatistics", path: "/usage/statistics", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -306,6 +321,11 @@ extension Macie2 {
     /// Updates the Amazon Macie configuration settings for an organization in Organizations.
     public func updateOrganizationConfiguration(_ input: UpdateOrganizationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateOrganizationConfigurationResponse {
         return try await self.client.execute(operation: "UpdateOrganizationConfiguration", path: "/admin/configuration", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates the status and configuration settings for retrieving (revealing) occurrences of sensitive data reported by findings.
+    public func updateRevealConfiguration(_ input: UpdateRevealConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateRevealConfigurationResponse {
+        return try await self.client.execute(operation: "UpdateRevealConfiguration", path: "/reveal-configuration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 }
 

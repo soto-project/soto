@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -43,7 +43,7 @@ extension ECS {
     /// 				required resources in other Amazon Web Services services on your behalf. However, if the IAM user
     /// 				that makes the call doesn't have permissions to create the service-linked role, it
     /// 				isn't created. For more information, see Using
-    /// 					Service-Linked Roles for Amazon ECS in the
+    /// 					service-linked roles for Amazon ECS in the
     /// 					Amazon Elastic Container Service Developer Guide.
     ///
     public func createCluster(_ input: CreateClusterRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateClusterResponse {
@@ -57,18 +57,19 @@ extension ECS {
     /// 		       In addition to maintaining the desired count of tasks in your service, you can
     /// 			optionally run your service behind one or more load balancers. The load balancers
     /// 			distribute traffic across the tasks that are associated with the service. For more
-    /// 			information, see Service Load Balancing in the
+    /// 			information, see Service load balancing in the
     /// 				Amazon Elastic Container Service Developer Guide.
     /// 		       Tasks for services that don't use a load balancer are considered healthy if they're in
     /// 			the RUNNING state. Tasks for services that use a load balancer are
-    /// 			considered healthy if they're in the RUNNING state and are reported as healthy by the load balancer.
+    /// 			considered healthy if they're in the RUNNING state and are reported as
+    /// 			healthy by the load balancer.
     /// 		       There are two service scheduler strategies available:
     ///
     /// 				            REPLICA - The replica scheduling strategy places and
     /// 					maintains your desired number of tasks across your cluster. By default, the
     /// 					service scheduler spreads tasks across Availability Zones. You can use task
     /// 					placement strategies and constraints to customize task placement decisions. For
-    /// 					more information, see Service Scheduler Concepts in the
+    /// 					more information, see Service scheduler concepts in the
     /// 						Amazon Elastic Container Service Developer Guide.
     ///
     /// 				            DAEMON - The daemon scheduling strategy deploys exactly one
@@ -77,7 +78,7 @@ extension ECS {
     /// 					evaluates the task placement constraints for running tasks. It also stops tasks
     /// 					that don't meet the placement constraints. When using this strategy, you don't
     /// 					need to specify a desired number of tasks, a task placement strategy, or use
-    /// 					Service Auto Scaling policies. For more information, see Service Scheduler Concepts in the
+    /// 					Service Auto Scaling policies. For more information, see Service scheduler concepts in the
     /// 						Amazon Elastic Container Service Developer Guide.
     ///
     /// 		       You can optionally specify a deployment configuration for your service. The deployment
@@ -120,7 +121,7 @@ extension ECS {
     /// 			currently visible when describing your service.
     /// 		       When creating a service that uses the EXTERNAL deployment controller, you
     /// 			can specify only parameters that aren't controlled at the task set level. The only
-    /// 			required parameter is the service name. You control your services using the CreateTaskSet operation. For more information, see Amazon ECS Deployment Types in the Amazon Elastic Container Service Developer Guide.
+    /// 			required parameter is the service name. You control your services using the CreateTaskSet operation. For more information, see Amazon ECS deployment types in the Amazon Elastic Container Service Developer Guide.
     /// 		       When the service scheduler launches new tasks, it determines task placement in your
     /// 			cluster using the following logic:
     ///
@@ -151,8 +152,8 @@ extension ECS {
 
     /// Create a task set in the specified cluster and service. This is used when a service
     /// 			uses the EXTERNAL deployment controller type. For more information, see
-    /// 				Amazon ECS Deployment
-    /// 				Types in the Amazon Elastic Container Service Developer Guide.
+    /// 				Amazon ECS deployment
+    /// 				types in the Amazon Elastic Container Service Developer Guide.
     public func createTaskSet(_ input: CreateTaskSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateTaskSetResponse {
         return try await self.client.execute(operation: "CreateTaskSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -223,7 +224,7 @@ extension ECS {
     }
 
     /// Deletes a specified task set within a service. This is used when a service uses the
-    /// 				EXTERNAL deployment controller type. For more information, see Amazon ECS Deployment Types in the Amazon Elastic Container Service Developer Guide.
+    /// 				EXTERNAL deployment controller type. For more information, see Amazon ECS deployment types in the Amazon Elastic Container Service Developer Guide.
     public func deleteTaskSet(_ input: DeleteTaskSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteTaskSetResponse {
         return try await self.client.execute(operation: "DeleteTaskSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -307,6 +308,7 @@ extension ECS {
     }
 
     /// Describes a specified task or tasks.
+    /// 		       Currently, stopped tasks appear in the returned results for at least one hour.
     public func describeTasks(_ input: DescribeTasksRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeTasksResponse {
         return try await self.client.execute(operation: "DescribeTasks", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -318,6 +320,10 @@ extension ECS {
     }
 
     /// Runs a command remotely on a container within a task.
+    /// 		       If you use a condition key in your IAM policy to refine the conditions for the policy
+    /// 			statement, for example limit the actions to a specific cluster, you recevie an
+    /// 				AccessDeniedException when there is a mismatch between the condition
+    /// 			key value and the corresponding parameter value.
     public func executeCommand(_ input: ExecuteCommandRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ExecuteCommandResponse {
         return try await self.client.execute(operation: "ExecuteCommand", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -398,9 +404,9 @@ extension ECS {
     /// 				containerInstanceLongArnFormat are specified, the Amazon Resource Name
     /// 			(ARN) and resource ID format of the resource type for a specified IAM user, IAM role, or
     /// 			the root user for an account is affected. The opt-in and opt-out account setting must be
-    /// 			set for each Amazon ECS resource separately. The ARN and resource ID format of a resource is
-    /// 			defined by the opt-in status of the IAM user or role that created the resource. You must
-    /// 			turn on this setting to use Amazon ECS features such as resource tagging.
+    /// 			set for each Amazon ECS resource separately. The ARN and resource ID format of a resource
+    /// 			is defined by the opt-in status of the IAM user or role that created the resource. You
+    /// 			must turn on this setting to use Amazon ECS features such as resource tagging.
     /// 		       When awsvpcTrunking is specified, the elastic network interface (ENI)
     /// 			limit for any new container instances that support the feature is changed. If
     /// 				awsvpcTrunking is enabled, any new container instances that support the
@@ -487,11 +493,11 @@ extension ECS {
     /// 				Amazon Elastic Container Service Developer Guide.
     /// 		       Alternatively, you can use StartTask to use your own scheduler or
     /// 			place tasks manually on specific container instances.
-    /// 		       The Amazon ECS API follows an eventual consistency model. This is because of the distributed
-    /// 			nature of the system supporting the API. This means that the result of an API command
-    /// 			you run that affects your Amazon ECS resources might not be immediately visible to all
-    /// 			subsequent commands you run. Keep this in mind when you carry out an API command that
-    /// 			immediately follows a previous API command.
+    /// 		       The Amazon ECS API follows an eventual consistency model. This is because of the
+    /// 			distributed nature of the system supporting the API. This means that the result of an
+    /// 			API command you run that affects your Amazon ECS resources might not be immediately visible
+    /// 			to all subsequent commands you run. Keep this in mind when you carry out an API command
+    /// 			that immediately follows a previous API command.
     /// 		       To manage eventual consistency, you can do the following:
     ///
     /// 				           Confirm the state of the resource before you run a command to modify it. Run
@@ -652,26 +658,21 @@ extension ECS {
         return try await self.client.execute(operation: "UpdateContainerInstancesState", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// 			         Updating the task placement strategies and constraints on an Amazon ECS service remains
-    /// 				in preview and is a Beta Service as defined by and subject to the Beta Service
-    /// 				Participation Service Terms located at https://aws.amazon.com/service-terms ("Beta Terms"). These Beta Terms
-    /// 				apply to your participation in this preview.
-    ///
-    /// 		       Modifies the parameters of a service.
-    /// 		       For services using the rolling update (ECS) you can update the desired count,
-    /// 			deployment configuration, network configuration, load balancers, service registries,
-    /// 			enable ECS managed tags option, propagate tags option, task placement constraints and
-    /// 			strategies, and task definition. When you update any of these parameters, Amazon ECS starts
-    /// 			new tasks with the new configuration.
-    /// 		       For services using the blue/green (CODE_DEPLOY) deployment controller, only the
-    /// 			desired count, deployment configuration, health check grace period, task placement
-    /// 			constraints and strategies, enable ECS managed tags option, and propagate tags can be
-    /// 			updated using this API. If the network configuration, platform version, task definition,
-    /// 			or load balancer need to be updated, create a new CodeDeploy deployment. For more
+    /// Modifies the parameters of a service.
+    /// 		       For services using the rolling update (ECS) you can update the desired
+    /// 			count, deployment configuration, network configuration, load balancers, service
+    /// 			registries, enable ECS managed tags option, propagate tags option, task placement
+    /// 			constraints and strategies, and task definition. When you update any of these
+    /// 			parameters, Amazon ECS starts new tasks with the new configuration.
+    /// 		       For services using the blue/green (CODE_DEPLOY) deployment controller,
+    /// 			only the desired count, deployment configuration, health check grace period, task
+    /// 			placement constraints and strategies, enable ECS managed tags option, and propagate tags
+    /// 			can be updated using this API. If the network configuration, platform version, task
+    /// 			definition, or load balancer need to be updated, create a new CodeDeploy deployment. For more
     /// 			information, see CreateDeployment in the CodeDeploy API Reference.
-    /// 		       For services using an external deployment controller, you can update only the desired count,
-    /// 			task placement constraints and strategies, health check grace period, enable ECS managed
-    /// 			tags option, and propagate tags option, using this API. If the launch type, load
+    /// 		       For services using an external deployment controller, you can update only the desired
+    /// 			count, task placement constraints and strategies, health check grace period, enable ECS
+    /// 			managed tags option, and propagate tags option, using this API. If the launch type, load
     /// 			balancer, network configuration, platform version, or task definition need to be
     /// 			updated, create a new task set For more information, see CreateTaskSet.
     /// 		       You can add to or subtract from the number of instantiations of a task definition in a
@@ -738,7 +739,6 @@ extension ECS {
     /// 							service.
     ///
     ///
-    ///
     /// 		       When the service scheduler stops running tasks, it attempts to maintain balance across
     /// 			the Availability Zones in your cluster using the following logic:
     ///
@@ -752,15 +752,15 @@ extension ECS {
     /// 					running tasks for this service.
     ///
     ///
-    /// 		          You must have a service-linked role when you update any of the following service properties.
-    /// 			If you specified a custom IAM role when you created the service, Amazon ECS automatically
-    /// 			replaces the roleARN associated with the service with the ARN of your service-linked
-    /// 			role. For more information, see Service-linked
-    /// 				roles in the Amazon Elastic Container Service Developer Guide.
+    /// 			         You must have a service-linked role when you update any of the following service
+    /// 				properties. If you specified a custom IAM role when you created the service, Amazon ECS
+    /// 				automatically replaces the roleARN associated with the service with the ARN of your
+    /// 				service-linked role. For more information, see Service-linked roles in the
+    /// 				Amazon Elastic Container Service Developer Guide.
     ///
-    /// 				               loadBalancers,
+    /// 					              loadBalancers,
     ///
-    /// 				               serviceRegistries
+    /// 					              serviceRegistries
     ///
     ///
     public func updateService(_ input: UpdateServiceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateServiceResponse {

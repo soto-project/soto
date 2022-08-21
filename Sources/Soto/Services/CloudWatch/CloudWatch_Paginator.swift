@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -130,6 +130,65 @@ extension CloudWatch {
             command: describeAlarms,
             inputKey: \DescribeAlarmsInput.nextToken,
             outputKey: \DescribeAlarmsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Lists the anomaly detection models that you have created in your account.
+    ///  			For single metric anomaly detectors,
+    ///  			you can list all of the models in your account or filter the results
+    ///  			to only the models that are related to a certain namespace, metric name, or metric dimension.
+    ///  			For metric math anomaly detectors,
+    ///  			you can list them by adding METRIC_MATH to the AnomalyDetectorTypes array.
+    ///  			This will return all metric math anomaly detectors in your account.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeAnomalyDetectorsPaginator<Result>(
+        _ input: DescribeAnomalyDetectorsInput,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeAnomalyDetectorsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeAnomalyDetectors,
+            inputKey: \DescribeAnomalyDetectorsInput.nextToken,
+            outputKey: \DescribeAnomalyDetectorsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeAnomalyDetectorsPaginator(
+        _ input: DescribeAnomalyDetectorsInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeAnomalyDetectorsOutput, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeAnomalyDetectors,
+            inputKey: \DescribeAnomalyDetectorsInput.nextToken,
+            outputKey: \DescribeAnomalyDetectorsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -341,6 +400,64 @@ extension CloudWatch {
         )
     }
 
+    ///  			Returns a list
+    ///  			that contains the number
+    ///  			of managed Contributor Insights rules
+    ///  			in your account.
+    ///
+    ///
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listManagedInsightRulesPaginator<Result>(
+        _ input: ListManagedInsightRulesInput,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListManagedInsightRulesOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listManagedInsightRules,
+            inputKey: \ListManagedInsightRulesInput.nextToken,
+            outputKey: \ListManagedInsightRulesOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listManagedInsightRulesPaginator(
+        _ input: ListManagedInsightRulesInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListManagedInsightRulesOutput, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listManagedInsightRules,
+            inputKey: \ListManagedInsightRulesInput.nextToken,
+            outputKey: \ListManagedInsightRulesOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Returns a list of metric streams in this account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -490,6 +607,19 @@ extension CloudWatch.DescribeAlarmsInput: AWSPaginateToken {
     }
 }
 
+extension CloudWatch.DescribeAnomalyDetectorsInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> CloudWatch.DescribeAnomalyDetectorsInput {
+        return .init(
+            anomalyDetectorTypes: self.anomalyDetectorTypes,
+            dimensions: self.dimensions,
+            maxResults: self.maxResults,
+            metricName: self.metricName,
+            namespace: self.namespace,
+            nextToken: token
+        )
+    }
+}
+
 extension CloudWatch.DescribeInsightRulesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudWatch.DescribeInsightRulesInput {
         return .init(
@@ -518,6 +648,16 @@ extension CloudWatch.ListDashboardsInput: AWSPaginateToken {
         return .init(
             dashboardNamePrefix: self.dashboardNamePrefix,
             nextToken: token
+        )
+    }
+}
+
+extension CloudWatch.ListManagedInsightRulesInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> CloudWatch.ListManagedInsightRulesInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceARN: self.resourceARN
         )
     }
 }

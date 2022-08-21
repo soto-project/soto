@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -25,9 +25,11 @@ public struct ChimeSDKMeetingsErrorType: AWSErrorType {
         case forbiddenException = "ForbiddenException"
         case limitExceededException = "LimitExceededException"
         case notFoundException = "NotFoundException"
+        case resourceNotFoundException = "ResourceNotFoundException"
         case serviceFailureException = "ServiceFailureException"
         case serviceUnavailableException = "ServiceUnavailableException"
         case throttlingException = "ThrottlingException"
+        case tooManyTagsException = "TooManyTagsException"
         case unauthorizedException = "UnauthorizedException"
         case unprocessableEntityException = "UnprocessableEntityException"
     }
@@ -60,12 +62,16 @@ public struct ChimeSDKMeetingsErrorType: AWSErrorType {
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// One or more of the resources in the request does not exist in the system.
     public static var notFoundException: Self { .init(.notFoundException) }
-    /// The service is currently unavailable.
+    /// The resource that you want to tag couldn't be found.
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// The service encountered an unexpected error.
     public static var serviceFailureException: Self { .init(.serviceFailureException) }
     /// The service is currently unavailable.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
-    /// The number of requests exceeds the limit.
+    /// The number of customer requests exceeds the request rate limit.
     public static var throttlingException: Self { .init(.throttlingException) }
+    /// Too many tags were added to the specified resource.
+    public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
     /// The user isn't authorized to request a resource.
     public static var unauthorizedException: Self { .init(.unauthorizedException) }
     /// The request was well-formed but was unable to be followed due to semantic errors.

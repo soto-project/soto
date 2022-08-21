@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -71,7 +71,7 @@ public struct ShieldErrorType: AWSErrorType {
     public static var limitsExceededException: Self { .init(.limitsExceededException) }
     /// You are trying to update a subscription that has not yet completed the 1-year commitment. You can change the AutoRenew parameter during the last 30 days of your subscription. This exception indicates that you are attempting to change AutoRenew prior to that period.
     public static var lockedSubscriptionException: Self { .init(.lockedSubscriptionException) }
-    /// The ARN of the role that you specifed does not exist.
+    /// The ARN of the role that you specified does not exist.
     public static var noAssociatedRoleException: Self { .init(.noAssociatedRoleException) }
     /// Exception that indicates that the resource state has been modified by another client. Retrieve the resource and then retry your request.
     public static var optimisticLockException: Self { .init(.optimisticLockException) }

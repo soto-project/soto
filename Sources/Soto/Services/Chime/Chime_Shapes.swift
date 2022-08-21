@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -452,6 +452,55 @@ extension Chime {
         private enum CodingKeys: String, CodingKey {
             case disableRemoteControl = "DisableRemoteControl"
             case enableDialOut = "EnableDialOut"
+        }
+    }
+
+    public struct Address: AWSDecodableShape {
+        /// The city of an address.
+        public let city: String?
+        /// The country of an address.
+        public let country: String?
+        /// The postal code of an address.
+        public let postalCode: String?
+        /// The Zip + 4 or postal code + 4 of an address.
+        public let postalCodePlus4: String?
+        /// An address suffix location, such as the S. Unit A in Central Park S. Unit A.
+        public let postDirectional: String?
+        /// An address prefix location, such as the N in N. Third St..
+        public let preDirectional: String?
+        /// The state of an address.
+        public let state: String?
+        /// The address street, such as 8th Avenue.
+        public let streetName: String?
+        /// The numeric portion of an address.
+        public let streetNumber: String?
+        /// The address suffix, such as the N in 8th Avenue N.
+        public let streetSuffix: String?
+
+        public init(city: String? = nil, country: String? = nil, postalCode: String? = nil, postalCodePlus4: String? = nil, postDirectional: String? = nil, preDirectional: String? = nil, state: String? = nil, streetName: String? = nil, streetNumber: String? = nil, streetSuffix: String? = nil) {
+            self.city = city
+            self.country = country
+            self.postalCode = postalCode
+            self.postalCodePlus4 = postalCodePlus4
+            self.postDirectional = postDirectional
+            self.preDirectional = preDirectional
+            self.state = state
+            self.streetName = streetName
+            self.streetNumber = streetNumber
+            self.streetSuffix = streetSuffix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case city
+            case country
+            case postalCode
+            case postalCodePlus4
+            case postDirectional
+            case preDirectional
+            case state
+            case streetName
+            case streetNumber
+            case streetSuffix
         }
     }
 
@@ -1308,6 +1357,43 @@ extension Chime {
 
         private enum CodingKeys: String, CodingKey {
             case cdrBucket = "CdrBucket"
+        }
+    }
+
+    public struct CandidateAddress: AWSDecodableShape {
+        /// The city of a candidate address.
+        public let city: String?
+        /// The country of a candidate address.
+        public let country: String?
+        /// The postal code of a candidate address.
+        public let postalCode: String?
+        /// The Zip + 4 or postal code + 4 of a candidate address.
+        public let postalCodePlus4: String?
+        /// The state of a candidate address.
+        public let state: String?
+        /// The street information of a candidate address
+        public let streetInfo: String?
+        /// The numeric portion of a candidate address.
+        public let streetNumber: String?
+
+        public init(city: String? = nil, country: String? = nil, postalCode: String? = nil, postalCodePlus4: String? = nil, state: String? = nil, streetInfo: String? = nil, streetNumber: String? = nil) {
+            self.city = city
+            self.country = country
+            self.postalCode = postalCode
+            self.postalCodePlus4 = postalCodePlus4
+            self.state = state
+            self.streetInfo = streetInfo
+            self.streetNumber = streetNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case city
+            case country
+            case postalCode
+            case postalCodePlus4
+            case state
+            case streetInfo
+            case streetNumber
         }
     }
 
@@ -7052,9 +7138,9 @@ extension Chime {
     }
 
     public struct LoggingConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Boolean that enables logging of detailed media metrics for Voice Connectors to CloudWatch logs.
+        /// Boolean that enables the logging of Voice Connector metrics to Cloudwatch.
         public let enableMediaMetricLogs: Bool?
-        /// Boolean that enables SIP message logs to CloudWatch logs.
+        /// When true, enables SIP message logs for sending to Amazon CloudWatch Logs.
         public let enableSIPLogs: Bool?
 
         public init(enableMediaMetricLogs: Bool? = nil, enableSIPLogs: Bool? = nil) {
@@ -10296,6 +10382,78 @@ extension Chime {
 
         private enum CodingKeys: String, CodingKey {
             case telephony = "Telephony"
+        }
+    }
+
+    public struct ValidateE911AddressRequest: AWSEncodableShape {
+        /// The AWS account ID.
+        public let awsAccountId: String
+        /// The address city, such as Portland.
+        public let city: String
+        /// The address country, such as US.
+        public let country: String
+        /// The address postal code, such as 04352.
+        public let postalCode: String
+        /// The address state, such as ME.
+        public let state: String
+        /// The address street information, such as 8th Avenue.
+        public let streetInfo: String
+        /// The address street number, such as 200 or 2121.
+        public let streetNumber: String
+
+        public init(awsAccountId: String, city: String, country: String, postalCode: String, state: String, streetInfo: String, streetNumber: String) {
+            self.awsAccountId = awsAccountId
+            self.city = city
+            self.country = country
+            self.postalCode = postalCode
+            self.state = state
+            self.streetInfo = streetInfo
+            self.streetNumber = streetNumber
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "\\S")
+            try self.validate(self.city, name: "city", parent: name, pattern: "\\S")
+            try self.validate(self.country, name: "country", parent: name, pattern: "\\S")
+            try self.validate(self.postalCode, name: "postalCode", parent: name, pattern: "\\S")
+            try self.validate(self.state, name: "state", parent: name, pattern: "\\S")
+            try self.validate(self.streetInfo, name: "streetInfo", parent: name, pattern: "\\S")
+            try self.validate(self.streetNumber, name: "streetNumber", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId = "AwsAccountId"
+            case city = "City"
+            case country = "Country"
+            case postalCode = "PostalCode"
+            case state = "State"
+            case streetInfo = "StreetInfo"
+            case streetNumber = "StreetNumber"
+        }
+    }
+
+    public struct ValidateE911AddressResponse: AWSDecodableShape {
+        /// The validated address.
+        public let address: Address?
+        /// The ID that represents the address.
+        public let addressExternalId: String?
+        /// The list of address suggestions.
+        public let candidateAddressList: [CandidateAddress]?
+        /// Number indicating the result of address validation.  0 means the address was perfect as is and successfully validated. 1 means the address was corrected. 2 means the address sent was  not close enough and was not validated.
+        public let validationResult: Int?
+
+        public init(address: Address? = nil, addressExternalId: String? = nil, candidateAddressList: [CandidateAddress]? = nil, validationResult: Int? = nil) {
+            self.address = address
+            self.addressExternalId = addressExternalId
+            self.candidateAddressList = candidateAddressList
+            self.validationResult = validationResult
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case address = "Address"
+            case addressExternalId = "AddressExternalId"
+            case candidateAddressList = "CandidateAddressList"
+            case validationResult = "ValidationResult"
         }
     }
 

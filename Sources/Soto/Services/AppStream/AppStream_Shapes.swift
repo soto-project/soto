@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -174,6 +174,12 @@ extension AppStream {
         public var description: String { return self.rawValue }
     }
 
+    public enum PreferredProtocol: String, CustomStringConvertible, Codable, _SotoSendable {
+        case tcp = "TCP"
+        case udp = "UDP"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SessionConnectionState: String, CustomStringConvertible, Codable, _SotoSendable {
         case connected = "CONNECTED"
         case notConnected = "NOT_CONNECTED"
@@ -197,6 +203,7 @@ extension AppStream {
         case storageConnectorGoogleDrive = "STORAGE_CONNECTOR_GOOGLE_DRIVE"
         case storageConnectorHomefolders = "STORAGE_CONNECTOR_HOMEFOLDERS"
         case storageConnectorOneDrive = "STORAGE_CONNECTOR_ONE_DRIVE"
+        case streamingExperienceSettings = "STREAMING_EXPERIENCE_SETTINGS"
         case themeName = "THEME_NAME"
         case userSettings = "USER_SETTINGS"
         public var description: String { return self.rawValue }
@@ -1216,12 +1223,14 @@ extension AppStream {
         public let redirectURL: String?
         /// The storage connectors to enable.
         public let storageConnectors: [StorageConnector]?
+        /// The streaming protocol you want your stack to prefer. This can be UDP or TCP. Currently, UDP is only supported in the Windows native client.
+        public let streamingExperienceSettings: StreamingExperienceSettings?
         /// The tags to associate with the stack. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=.   If you do not specify a value, the value is set to an empty string.  Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters:  _ . : / = + \ - @  For more information about tags, see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
         public let tags: [String: String]?
         /// The actions that are enabled or disabled for users during their streaming sessions. By default, these actions are enabled.
         public let userSettings: [UserSetting]?
 
-        public init(accessEndpoints: [AccessEndpoint]? = nil, applicationSettings: ApplicationSettings? = nil, description: String? = nil, displayName: String? = nil, embedHostDomains: [String]? = nil, feedbackURL: String? = nil, name: String, redirectURL: String? = nil, storageConnectors: [StorageConnector]? = nil, tags: [String: String]? = nil, userSettings: [UserSetting]? = nil) {
+        public init(accessEndpoints: [AccessEndpoint]? = nil, applicationSettings: ApplicationSettings? = nil, description: String? = nil, displayName: String? = nil, embedHostDomains: [String]? = nil, feedbackURL: String? = nil, name: String, redirectURL: String? = nil, storageConnectors: [StorageConnector]? = nil, streamingExperienceSettings: StreamingExperienceSettings? = nil, tags: [String: String]? = nil, userSettings: [UserSetting]? = nil) {
             self.accessEndpoints = accessEndpoints
             self.applicationSettings = applicationSettings
             self.description = description
@@ -1231,6 +1240,7 @@ extension AppStream {
             self.name = name
             self.redirectURL = redirectURL
             self.storageConnectors = storageConnectors
+            self.streamingExperienceSettings = streamingExperienceSettings
             self.tags = tags
             self.userSettings = userSettings
         }
@@ -1278,6 +1288,7 @@ extension AppStream {
             case name = "Name"
             case redirectURL = "RedirectURL"
             case storageConnectors = "StorageConnectors"
+            case streamingExperienceSettings = "StreamingExperienceSettings"
             case tags = "Tags"
             case userSettings = "UserSettings"
         }
@@ -3385,10 +3396,12 @@ extension AppStream {
         public let stackErrors: [StackError]?
         /// The storage connectors to enable.
         public let storageConnectors: [StorageConnector]?
+        /// The streaming protocol you want your stack to prefer. This can be UDP or TCP. Currently, UDP is only supported in the Windows native client.
+        public let streamingExperienceSettings: StreamingExperienceSettings?
         /// The actions that are enabled or disabled for users during their streaming sessions. By default these actions are enabled.
         public let userSettings: [UserSetting]?
 
-        public init(accessEndpoints: [AccessEndpoint]? = nil, applicationSettings: ApplicationSettingsResponse? = nil, arn: String? = nil, createdTime: Date? = nil, description: String? = nil, displayName: String? = nil, embedHostDomains: [String]? = nil, feedbackURL: String? = nil, name: String, redirectURL: String? = nil, stackErrors: [StackError]? = nil, storageConnectors: [StorageConnector]? = nil, userSettings: [UserSetting]? = nil) {
+        public init(accessEndpoints: [AccessEndpoint]? = nil, applicationSettings: ApplicationSettingsResponse? = nil, arn: String? = nil, createdTime: Date? = nil, description: String? = nil, displayName: String? = nil, embedHostDomains: [String]? = nil, feedbackURL: String? = nil, name: String, redirectURL: String? = nil, stackErrors: [StackError]? = nil, storageConnectors: [StorageConnector]? = nil, streamingExperienceSettings: StreamingExperienceSettings? = nil, userSettings: [UserSetting]? = nil) {
             self.accessEndpoints = accessEndpoints
             self.applicationSettings = applicationSettings
             self.arn = arn
@@ -3401,6 +3414,7 @@ extension AppStream {
             self.redirectURL = redirectURL
             self.stackErrors = stackErrors
             self.storageConnectors = storageConnectors
+            self.streamingExperienceSettings = streamingExperienceSettings
             self.userSettings = userSettings
         }
 
@@ -3417,6 +3431,7 @@ extension AppStream {
             case redirectURL = "RedirectURL"
             case stackErrors = "StackErrors"
             case storageConnectors = "StorageConnectors"
+            case streamingExperienceSettings = "StreamingExperienceSettings"
             case userSettings = "UserSettings"
         }
     }
@@ -3574,6 +3589,19 @@ extension AppStream {
             case connectorType = "ConnectorType"
             case domains = "Domains"
             case resourceIdentifier = "ResourceIdentifier"
+        }
+    }
+
+    public struct StreamingExperienceSettings: AWSEncodableShape & AWSDecodableShape {
+        /// The preferred protocol that you want to use while streaming your application.
+        public let preferredProtocol: PreferredProtocol?
+
+        public init(preferredProtocol: PreferredProtocol? = nil) {
+            self.preferredProtocol = preferredProtocol
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case preferredProtocol = "PreferredProtocol"
         }
     }
 
@@ -4006,10 +4034,12 @@ extension AppStream {
         public let redirectURL: String?
         /// The storage connectors to enable.
         public let storageConnectors: [StorageConnector]?
+        /// The streaming protocol you want your stack to prefer. This can be UDP or TCP. Currently, UDP is only supported in the Windows native client.
+        public let streamingExperienceSettings: StreamingExperienceSettings?
         /// The actions that are enabled or disabled for users during their streaming sessions. By default, these actions are enabled.
         public let userSettings: [UserSetting]?
 
-        public init(accessEndpoints: [AccessEndpoint]? = nil, applicationSettings: ApplicationSettings? = nil, attributesToDelete: [StackAttribute]? = nil, description: String? = nil, displayName: String? = nil, embedHostDomains: [String]? = nil, feedbackURL: String? = nil, name: String, redirectURL: String? = nil, storageConnectors: [StorageConnector]? = nil, userSettings: [UserSetting]? = nil) {
+        public init(accessEndpoints: [AccessEndpoint]? = nil, applicationSettings: ApplicationSettings? = nil, attributesToDelete: [StackAttribute]? = nil, description: String? = nil, displayName: String? = nil, embedHostDomains: [String]? = nil, feedbackURL: String? = nil, name: String, redirectURL: String? = nil, storageConnectors: [StorageConnector]? = nil, streamingExperienceSettings: StreamingExperienceSettings? = nil, userSettings: [UserSetting]? = nil) {
             self.accessEndpoints = accessEndpoints
             self.applicationSettings = applicationSettings
             self.attributesToDelete = attributesToDelete
@@ -4021,11 +4051,12 @@ extension AppStream {
             self.name = name
             self.redirectURL = redirectURL
             self.storageConnectors = storageConnectors
+            self.streamingExperienceSettings = streamingExperienceSettings
             self.userSettings = userSettings
         }
 
         @available(*, deprecated, message: "Members deleteStorageConnectors have been deprecated")
-        public init(accessEndpoints: [AccessEndpoint]? = nil, applicationSettings: ApplicationSettings? = nil, attributesToDelete: [StackAttribute]? = nil, deleteStorageConnectors: Bool? = nil, description: String? = nil, displayName: String? = nil, embedHostDomains: [String]? = nil, feedbackURL: String? = nil, name: String, redirectURL: String? = nil, storageConnectors: [StorageConnector]? = nil, userSettings: [UserSetting]? = nil) {
+        public init(accessEndpoints: [AccessEndpoint]? = nil, applicationSettings: ApplicationSettings? = nil, attributesToDelete: [StackAttribute]? = nil, deleteStorageConnectors: Bool? = nil, description: String? = nil, displayName: String? = nil, embedHostDomains: [String]? = nil, feedbackURL: String? = nil, name: String, redirectURL: String? = nil, storageConnectors: [StorageConnector]? = nil, streamingExperienceSettings: StreamingExperienceSettings? = nil, userSettings: [UserSetting]? = nil) {
             self.accessEndpoints = accessEndpoints
             self.applicationSettings = applicationSettings
             self.attributesToDelete = attributesToDelete
@@ -4037,6 +4068,7 @@ extension AppStream {
             self.name = name
             self.redirectURL = redirectURL
             self.storageConnectors = storageConnectors
+            self.streamingExperienceSettings = streamingExperienceSettings
             self.userSettings = userSettings
         }
 
@@ -4076,6 +4108,7 @@ extension AppStream {
             case name = "Name"
             case redirectURL = "RedirectURL"
             case storageConnectors = "StorageConnectors"
+            case streamingExperienceSettings = "StreamingExperienceSettings"
             case userSettings = "UserSettings"
         }
     }

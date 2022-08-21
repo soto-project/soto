@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -84,6 +84,28 @@ extension NetworkManager {
             command: getConnections,
             inputKey: \GetConnectionsRequest.nextToken,
             outputKey: \GetConnectionsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Returns information about a core network change event.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func getCoreNetworkChangeEventsPaginator(
+        _ input: GetCoreNetworkChangeEventsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<GetCoreNetworkChangeEventsRequest, GetCoreNetworkChangeEventsResponse> {
+        return .init(
+            input: input,
+            command: getCoreNetworkChangeEvents,
+            inputKey: \GetCoreNetworkChangeEventsRequest.nextToken,
+            outputKey: \GetCoreNetworkChangeEventsResponse.nextToken,
             logger: logger,
             on: eventLoop
         )
@@ -436,6 +458,28 @@ extension NetworkManager {
             command: listCoreNetworks,
             inputKey: \ListCoreNetworksRequest.nextToken,
             outputKey: \ListCoreNetworksResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Lists the peerings for a core network.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listPeeringsPaginator(
+        _ input: ListPeeringsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListPeeringsRequest, ListPeeringsResponse> {
+        return .init(
+            input: input,
+            command: listPeerings,
+            inputKey: \ListPeeringsRequest.nextToken,
+            outputKey: \ListPeeringsResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

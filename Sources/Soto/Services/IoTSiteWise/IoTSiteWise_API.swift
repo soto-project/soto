@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -118,6 +118,11 @@ public struct IoTSiteWise: AWSService {
         return self.client.execute(operation: "CreateAssetModel", path: "/asset-models", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger, on: eventLoop)
     }
 
+    ///  This API operation is in preview release for IoT SiteWise and is subject to change.  We recommend that you use this operation only with test data, and not in production environments.  Defines a job to ingest data to IoT SiteWise from Amazon S3. For more information,  see Create a bulk import job (CLI)  in the Amazon Simple Storage Service User Guide.  You must enable IoT SiteWise to export data to Amazon S3 before you create a bulk import job.  For more information about how to configure storage settings,  see PutStorageConfiguration.
+    public func createBulkImportJob(_ input: CreateBulkImportJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateBulkImportJobResponse> {
+        return self.client.execute(operation: "CreateBulkImportJob", path: "/jobs", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "data.", logger: logger, on: eventLoop)
+    }
+
     /// Creates a dashboard in an IoT SiteWise Monitor project.
     public func createDashboard(_ input: CreateDashboardRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDashboardResponse> {
         return self.client.execute(operation: "CreateDashboard", path: "/dashboards", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "monitor.", logger: logger, on: eventLoop)
@@ -196,6 +201,11 @@ public struct IoTSiteWise: AWSService {
     /// Retrieves information about an asset property.  When you call this operation for an attribute property, this response includes the default attribute value that you define in the asset model. If you update the default value in the model, this operation's response includes the new default value.  This operation doesn't return the value of the asset property. To get the value of an asset property, use GetAssetPropertyValue.
     public func describeAssetProperty(_ input: DescribeAssetPropertyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAssetPropertyResponse> {
         return self.client.execute(operation: "DescribeAssetProperty", path: "/assets/{assetId}/properties/{propertyId}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger, on: eventLoop)
+    }
+
+    ///  This API operation is in preview release for IoT SiteWise and is subject to change.  We recommend that you use this operation only with test data, and not in production environments.  Retrieves information about a bulk import job request. For more information,  see Describe a bulk import job (CLI)  in the Amazon Simple Storage Service User Guide.
+    public func describeBulkImportJob(_ input: DescribeBulkImportJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeBulkImportJobResponse> {
+        return self.client.execute(operation: "DescribeBulkImportJob", path: "/jobs/{jobId}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "data.", logger: logger, on: eventLoop)
     }
 
     /// Retrieves information about a dashboard.
@@ -296,6 +306,11 @@ public struct IoTSiteWise: AWSService {
     /// Retrieves a paginated list of associated assets. You can use this operation to do the following:   List child assets associated to a parent asset by a hierarchy that you specify.   List an asset's parent asset.
     public func listAssociatedAssets(_ input: ListAssociatedAssetsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAssociatedAssetsResponse> {
         return self.client.execute(operation: "ListAssociatedAssets", path: "/assets/{assetId}/hierarchies", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger, on: eventLoop)
+    }
+
+    ///  This API operation is in preview release for IoT SiteWise and is subject to change.  We recommend that you use this operation only with test data, and not in production environments.  Retrieves a paginated list of bulk import job requests. For more information,  see List bulk import jobs (CLI)  in the Amazon Simple Storage Service User Guide.
+    public func listBulkImportJobs(_ input: ListBulkImportJobsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListBulkImportJobsResponse> {
+        return self.client.execute(operation: "ListBulkImportJobs", path: "/jobs", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "data.", logger: logger, on: eventLoop)
     }
 
     /// Retrieves a paginated list of dashboards for an IoT SiteWise Monitor project.

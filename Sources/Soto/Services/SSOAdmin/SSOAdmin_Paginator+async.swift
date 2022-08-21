@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -23,7 +23,7 @@ import SotoCore
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension SSOAdmin {
-    ///  Lists the status of the Amazon Web Services account assignment creation requests for a specified SSO instance.
+    ///  Lists the status of the Amazon Web Services account assignment creation requests for a specified Amazon Web Services SSO instance.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -45,7 +45,7 @@ extension SSOAdmin {
         )
     }
 
-    ///  Lists the status of the Amazon Web Services account assignment deletion requests for a specified SSO instance.
+    ///  Lists the status of the Amazon Web Services account assignment deletion requests for a specified Amazon Web Services SSO instance.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -111,7 +111,29 @@ extension SSOAdmin {
         )
     }
 
-    ///  Lists the SSO instances that the caller has access to.
+    ///  Lists all customer managed policies attached to a specified PermissionSet.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listCustomerManagedPolicyReferencesInPermissionSetPaginator(
+        _ input: ListCustomerManagedPolicyReferencesInPermissionSetRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListCustomerManagedPolicyReferencesInPermissionSetRequest, ListCustomerManagedPolicyReferencesInPermissionSetResponse> {
+        return .init(
+            input: input,
+            command: listCustomerManagedPolicyReferencesInPermissionSet,
+            inputKey: \ListCustomerManagedPolicyReferencesInPermissionSetRequest.nextToken,
+            outputKey: \ListCustomerManagedPolicyReferencesInPermissionSetResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Lists the Amazon Web Services SSO instances that the caller has access to.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -133,7 +155,7 @@ extension SSOAdmin {
         )
     }
 
-    ///  Lists the IAM managed policy that is attached to a specified permission set.
+    ///  Lists the Amazon Web Services managed policy that is attached to a specified permission set.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -155,7 +177,7 @@ extension SSOAdmin {
         )
     }
 
-    ///  Lists the status of the permission set provisioning requests for a specified SSO instance.
+    ///  Lists the status of the permission set provisioning requests for a specified Amazon Web Services SSO instance.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -177,7 +199,7 @@ extension SSOAdmin {
         )
     }
 
-    ///  Lists the PermissionSets in an SSO instance.
+    ///  Lists the PermissionSets in an Amazon Web Services SSO instance.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

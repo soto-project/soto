@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -44,6 +44,13 @@ extension QuickSight {
         case disabled = "DISABLED"
         case draft = "DRAFT"
         case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AuthenticationMethodOption: String, CustomStringConvertible, Codable, _SotoSendable {
+        case activeDirectory = "ACTIVE_DIRECTORY"
+        case iamAndQuicksight = "IAM_AND_QUICKSIGHT"
+        case iamOnly = "IAM_ONLY"
         public var description: String { return self.rawValue }
     }
 
@@ -141,6 +148,7 @@ extension QuickSight {
 
     public enum Edition: String, CustomStringConvertible, Codable, _SotoSendable {
         case enterprise = "ENTERPRISE"
+        case enterpriseAndQ = "ENTERPRISE_AND_Q"
         case standard = "STANDARD"
         public var description: String { return self.rawValue }
     }
@@ -825,6 +833,35 @@ extension QuickSight {
         }
     }
 
+    public struct AccountInfo: AWSDecodableShape {
+        /// The account name that you provided for the Amazon QuickSight subscription in your Amazon Web Services account. You create this name when you sign up for Amazon QuickSight. It's unique over all of Amazon Web Services, and it appears only when users sign in.
+        public let accountName: String?
+        /// The status of your account subscription.
+        public let accountSubscriptionStatus: String?
+        /// The way that your Amazon QuickSight account is authenticated.
+        public let authenticationType: String?
+        /// The edition of your Amazon QuickSight account.
+        public let edition: Edition?
+        /// The email address that will be used for Amazon QuickSight to send notifications regarding your Amazon Web Services account or Amazon QuickSight subscription.
+        public let notificationEmail: String?
+
+        public init(accountName: String? = nil, accountSubscriptionStatus: String? = nil, authenticationType: String? = nil, edition: Edition? = nil, notificationEmail: String? = nil) {
+            self.accountName = accountName
+            self.accountSubscriptionStatus = accountSubscriptionStatus
+            self.authenticationType = authenticationType
+            self.edition = edition
+            self.notificationEmail = notificationEmail
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountName = "AccountName"
+            case accountSubscriptionStatus = "AccountSubscriptionStatus"
+            case authenticationType = "AuthenticationType"
+            case edition = "Edition"
+            case notificationEmail = "NotificationEmail"
+        }
+    }
+
     public struct AccountSettings: AWSDecodableShape {
         /// The "account name" you provided for the Amazon QuickSight subscription in your Amazon Web Services account. You create this name when you sign up for Amazon QuickSight. It is unique in all of Amazon Web Services and it appears only when users sign in.
         public let accountName: String?
@@ -834,7 +871,7 @@ extension QuickSight {
         public let edition: Edition?
         /// The main notification email for your Amazon QuickSight subscription.
         public let notificationEmail: String?
-        /// A boolean that indicates whether or not public sharing is enabled on an Amazon QuickSight account. For more information about enabling public sharing, see UpdatePublicSharingSettings.
+        /// A Boolean value that indicates whether public sharing is turned on for an Amazon QuickSight account. For more information about turning on public sharing, see UpdatePublicSharingSettings.
         public let publicSharingEnabled: Bool?
 
         public init(accountName: String? = nil, defaultNamespace: String? = nil, edition: Edition? = nil, notificationEmail: String? = nil, publicSharingEnabled: Bool? = nil) {
@@ -1547,6 +1584,109 @@ extension QuickSight {
             case awsAccountId = "AwsAccountId"
             case namespace = "Namespace"
             case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct CreateAccountSubscriptionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId"))
+        ]
+
+        /// The name of your Amazon QuickSight account. This name is unique over all of Amazon Web Services, and it appears only when users sign in. You can't change AccountName value after the Amazon QuickSight account is created.
+        public let accountName: String
+        /// The name of your Active Directory. This field is required if ACTIVE_DIRECTORY is the selected authentication method of the new Amazon QuickSight account.
+        public let activeDirectoryName: String?
+        /// The admin group associated with your Active Directory. This field is required if ACTIVE_DIRECTORY is the selected authentication method of the new Amazon QuickSight account. For more information about using Active Directory in Amazon QuickSight, see Using Active Directory with Amazon QuickSight Enterprise Edition in the Amazon QuickSight User Guide.
+        public let adminGroup: [String]?
+        /// The method that you want to use to authenticate your Amazon QuickSight account. Currently, the valid values for this parameter are IAM_AND_QUICKSIGHT, IAM_ONLY, and ACTIVE_DIRECTORY. If you choose ACTIVE_DIRECTORY, provide an ActiveDirectoryName and an AdminGroup associated with your Active Directory.
+        public let authenticationMethod: AuthenticationMethodOption
+        /// The author group associated with your Active Directory. For more information about using Active Directory in Amazon QuickSight, see Using Active Directory with Amazon QuickSight Enterprise Edition in the Amazon QuickSight User Guide.
+        public let authorGroup: [String]?
+        /// The Amazon Web Services account ID of the account that you're using to create your Amazon QuickSight account.
+        public let awsAccountId: String
+        /// A 10-digit phone number for the author of the Amazon QuickSight account to use for future communications. This field is required if ENTERPPRISE_AND_Q is the selected edition of the new Amazon QuickSight account.
+        public let contactNumber: String?
+        /// The ID of the Active Directory that is associated with your Amazon QuickSight account.
+        public let directoryId: String?
+        /// The edition of Amazon QuickSight that you want your account to have. Currently, you can choose from ENTERPRISE or ENTERPRISE_AND_Q. If you choose ENTERPRISE_AND_Q, the following parameters are required:    FirstName     LastName     EmailAddress     ContactNumber
+        public let edition: Edition
+        /// The email address of the author of the Amazon QuickSight account to use for future communications. This field is required if ENTERPPRISE_AND_Q is the selected edition of the new Amazon QuickSight account.
+        public let emailAddress: String?
+        /// The first name of the author of the Amazon QuickSight account to use for future communications. This field is required if ENTERPPRISE_AND_Q is the selected edition of the new Amazon QuickSight account.
+        public let firstName: String?
+        /// The last name of the author of the Amazon QuickSight account to use for future communications. This field is required if ENTERPPRISE_AND_Q is the selected edition of the new Amazon QuickSight account.
+        public let lastName: String?
+        /// The email address that you want Amazon QuickSight to send notifications to regarding your Amazon QuickSight account or Amazon QuickSight subscription.
+        public let notificationEmail: String
+        /// The reader group associated with your Active Direcrtory. For more information about using Active Directory in Amazon QuickSight, see Using Active Directory with Amazon QuickSight Enterprise Edition in the Amazon QuickSight User Guide.
+        public let readerGroup: [String]?
+        /// The realm of the Active Directory that is associated with your Amazon QuickSight account. This field is required if ACTIVE_DIRECTORY is the selected authentication method of the new Amazon QuickSight account.
+        public let realm: String?
+
+        public init(accountName: String, activeDirectoryName: String? = nil, adminGroup: [String]? = nil, authenticationMethod: AuthenticationMethodOption, authorGroup: [String]? = nil, awsAccountId: String, contactNumber: String? = nil, directoryId: String? = nil, edition: Edition, emailAddress: String? = nil, firstName: String? = nil, lastName: String? = nil, notificationEmail: String, readerGroup: [String]? = nil, realm: String? = nil) {
+            self.accountName = accountName
+            self.activeDirectoryName = activeDirectoryName
+            self.adminGroup = adminGroup
+            self.authenticationMethod = authenticationMethod
+            self.authorGroup = authorGroup
+            self.awsAccountId = awsAccountId
+            self.contactNumber = contactNumber
+            self.directoryId = directoryId
+            self.edition = edition
+            self.emailAddress = emailAddress
+            self.firstName = firstName
+            self.lastName = lastName
+            self.notificationEmail = notificationEmail
+            self.readerGroup = readerGroup
+            self.realm = realm
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountName = "AccountName"
+            case activeDirectoryName = "ActiveDirectoryName"
+            case adminGroup = "AdminGroup"
+            case authenticationMethod = "AuthenticationMethod"
+            case authorGroup = "AuthorGroup"
+            case contactNumber = "ContactNumber"
+            case directoryId = "DirectoryId"
+            case edition = "Edition"
+            case emailAddress = "EmailAddress"
+            case firstName = "FirstName"
+            case lastName = "LastName"
+            case notificationEmail = "NotificationEmail"
+            case readerGroup = "ReaderGroup"
+            case realm = "Realm"
+        }
+    }
+
+    public struct CreateAccountSubscriptionResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// A SignupResponse object that returns information about a newly created Amazon QuickSight account.
+        public let signupResponse: SignupResponse?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(requestId: String? = nil, signupResponse: SignupResponse? = nil, status: Int? = nil) {
+            self.requestId = requestId
+            self.signupResponse = signupResponse
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestId = "RequestId"
+            case signupResponse = "SignupResponse"
             case status = "Status"
         }
     }
@@ -4729,7 +4869,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "status", location: .statusCode)
         ]
 
-        /// The Amazon QuickSight settings for this Amazon Web Services account. This information includes the edition of Amazon Amazon QuickSight that you subscribed to (Standard or Enterprise) and the notification email for the Amazon QuickSight subscription. In the QuickSight console, the Amazon QuickSight subscription is sometimes referred to as a QuickSight "account" even though it's technically not an account by itself. Instead, it's a subscription to the Amazon QuickSight service for your Amazon Web Services account. The edition that you subscribe to applies to Amazon QuickSight in every Amazon Web Services Region where you use it.
+        /// The Amazon QuickSight settings for this Amazon Web Services account. This information includes the edition of Amazon Amazon QuickSight that you subscribed to (Standard or Enterprise) and the notification email for the Amazon QuickSight subscription.  In the QuickSight console, the Amazon QuickSight subscription is sometimes referred to as a QuickSight "account" even though it's technically not an account by itself. Instead, it's a subscription to the Amazon QuickSight service for your Amazon Web Services account. The edition that you subscribe to applies to Amazon QuickSight in every Amazon Web Services Region where you use it.
         public let accountSettings: AccountSettings?
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
@@ -4744,6 +4884,52 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case accountSettings = "AccountSettings"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct DescribeAccountSubscriptionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId"))
+        ]
+
+        /// The Amazon Web Services account ID associated with your Amazon QuickSight account.
+        public let awsAccountId: String
+
+        public init(awsAccountId: String) {
+            self.awsAccountId = awsAccountId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeAccountSubscriptionResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// A structure that contains the following elements:   Your Amazon QuickSight account name.   The edition of Amazon QuickSight that your account is using.   The notification email address that is associated with the Amazon QuickSight account.    The authentication type of the Amazon QuickSight account.   The status of the Amazon QuickSight account's subscription.
+        public let accountInfo: AccountInfo?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(accountInfo: AccountInfo? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.accountInfo = accountInfo
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountInfo = "AccountInfo"
             case requestId = "RequestId"
             case status = "Status"
         }
@@ -6377,20 +6563,23 @@ extension QuickSight {
             AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId"))
         ]
 
-        /// The Amazon Resource Names for the Amazon QuickSight resources that the user is authorized to access during the lifetime of the session. If you choose Dashboard embedding experience, pass the list of dashboard ARNs in the account that you want the user to be able to view. Currently, you can pass up to 25 dashboard ARNs in each API call.
+        /// The domains that you want to add to the allow list for access to the generated URL that is then embedded. This optional parameter overrides the static domains that are configured in the Manage QuickSight menu in the Amazon QuickSight console. Instead, it allows only the domains that you include in this parameter. You can list up to three domains or subdomains in each API call. To include all subdomains under a specific domain to the allow list, use *. For example, https://*.sapp.amazon.com includes all subdomains under https://sapp.amazon.com.
+        public let allowedDomains: [String]?
+        /// The Amazon Resource Names (ARNs) for the Amazon QuickSight resources that the user is authorized to access during the lifetime of the session. If you choose Dashboard embedding experience, pass the list of dashboard ARNs in the account that you want the user to be able to view. Currently, you can pass up to 25 dashboard ARNs in each API call.
         public let authorizedResourceArns: [String]
         /// The ID for the Amazon Web Services account that contains the dashboard that you're embedding.
         public let awsAccountId: String
-        /// The configuration of the experience you are embedding.
+        /// The configuration of the experience that you are embedding.
         public let experienceConfiguration: AnonymousUserEmbeddingExperienceConfiguration
         /// The Amazon QuickSight namespace that the anonymous user virtually belongs to. If you are not using an Amazon QuickSight custom namespace, set this to default.
         public let namespace: String
         /// How many minutes the session is valid. The session lifetime must be in [15-600] minutes range.
         public let sessionLifetimeInMinutes: Int64?
-        /// The session tags used for row-level security. Before you use this parameter, make sure that you have configured the relevant datasets using the DataSet$RowLevelPermissionTagConfiguration parameter so that session tags can be used to provide row-level security. These are not the tags used for the Amazon Web Services resource tagging feature. For more information, see Using Row-Level Security (RLS) with Tags.
+        /// The session tags used for row-level security. Before you use this parameter, make sure that you have configured the relevant datasets using the DataSet$RowLevelPermissionTagConfiguration parameter so that session tags can be used to provide row-level security. These are not the tags used for the Amazon Web Services resource tagging feature. For more information, see Using Row-Level Security (RLS) with Tagsin the Amazon QuickSight User Guide.
         public let sessionTags: [SessionTag]?
 
-        public init(authorizedResourceArns: [String], awsAccountId: String, experienceConfiguration: AnonymousUserEmbeddingExperienceConfiguration, namespace: String, sessionLifetimeInMinutes: Int64? = nil, sessionTags: [SessionTag]? = nil) {
+        public init(allowedDomains: [String]? = nil, authorizedResourceArns: [String], awsAccountId: String, experienceConfiguration: AnonymousUserEmbeddingExperienceConfiguration, namespace: String, sessionLifetimeInMinutes: Int64? = nil, sessionTags: [SessionTag]? = nil) {
+            self.allowedDomains = allowedDomains
             self.authorizedResourceArns = authorizedResourceArns
             self.awsAccountId = awsAccountId
             self.experienceConfiguration = experienceConfiguration
@@ -6416,6 +6605,7 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case allowedDomains = "AllowedDomains"
             case authorizedResourceArns = "AuthorizedResourceArns"
             case experienceConfiguration = "ExperienceConfiguration"
             case namespace = "Namespace"
@@ -6454,6 +6644,8 @@ extension QuickSight {
             AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId"))
         ]
 
+        /// The domains that you want to add to the allow list for access to the generated URL that  is then embedded. This optional parameter overrides the static domains that are  configured in the Manage QuickSight menu in the Amazon QuickSight console. Instead, it  allows only the domains that you include in this parameter. You can list up to three  domains or subdomains in each API call. To include all subdomains under a specific domain to the allow list, use *. For example, https://*.sapp.amazon.com includes all subdomains under https://sapp.amazon.com.
+        public let allowedDomains: [String]?
         /// The ID for the Amazon Web Services account that contains the dashboard that you're embedding.
         public let awsAccountId: String
         /// The experience you are embedding. For registered users, you can embed Amazon QuickSight dashboards or the entire Amazon QuickSight console.
@@ -6463,7 +6655,8 @@ extension QuickSight {
         /// The Amazon Resource Name for the registered user.
         public let userArn: String
 
-        public init(awsAccountId: String, experienceConfiguration: RegisteredUserEmbeddingExperienceConfiguration, sessionLifetimeInMinutes: Int64? = nil, userArn: String) {
+        public init(allowedDomains: [String]? = nil, awsAccountId: String, experienceConfiguration: RegisteredUserEmbeddingExperienceConfiguration, sessionLifetimeInMinutes: Int64? = nil, userArn: String) {
+            self.allowedDomains = allowedDomains
             self.awsAccountId = awsAccountId
             self.experienceConfiguration = experienceConfiguration
             self.sessionLifetimeInMinutes = sessionLifetimeInMinutes
@@ -6480,6 +6673,7 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case allowedDomains = "AllowedDomains"
             case experienceConfiguration = "ExperienceConfiguration"
             case sessionLifetimeInMinutes = "SessionLifetimeInMinutes"
             case userArn = "UserArn"
@@ -6557,7 +6751,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "userArn", location: .querystring("user-arn"))
         ]
 
-        /// A list of one or more dashboard IDs that you want to add to a session that includes anonymous users. The IdentityType parameter must be set to ANONYMOUS for this to work, because other identity types authenticate as Amazon QuickSight or IAM users. For example, if you set "--dashboard-id dash_id1 --dashboard-id dash_id2 dash_id3 identity-type ANONYMOUS", the session can access all three dashboards.
+        /// A list of one or more dashboard IDs that you want anonymous users to have tempporary access to. Currently, the IdentityType parameter must be set to ANONYMOUS because other identity types authenticate as Amazon QuickSight or IAM users. For example, if you set "--dashboard-id dash_id1 --dashboard-id dash_id2 dash_id3 identity-type ANONYMOUS", the session can access all three dashboards.
         public let additionalDashboardIds: [String]?
         /// The ID for the Amazon Web Services account that contains the dashboard that you're embedding.
         public let awsAccountId: String
@@ -7828,7 +8022,7 @@ extension QuickSight {
         public let awsAccountId: String
         /// The maximum number of results to return.
         public let maxResults: Int?
-        /// A pagination token that can be used in a subsequent request.
+        /// A unique pagination token that can be used in a subsequent request. You will receive a pagination token in the response body of a previous ListNameSpaces API call if there is more data that can be returned. To receive the data, make another ListNamespaces API call with the returned token to retrieve the next page of data. Each token is valid for 24 hours. If you try to make a ListNamespaces API call with an expired token, you will receive a HTTP 400 InvalidNextTokenException error.
         public let nextToken: String?
 
         public init(awsAccountId: String, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -7855,7 +8049,7 @@ extension QuickSight {
 
         /// The information about the namespaces in this Amazon Web Services account. The response includes  the namespace ARN, name, Amazon Web Services Region, notification email address, creation status, and  identity store.
         public let namespaces: [NamespaceInfoV2]?
-        /// A pagination token that can be used in a subsequent request.
+        /// A unique pagination token that can be used in a subsequent request. Receiving NextToken in your response inticates that there is more data that can be returned. To receive the data, make another ListNamespaces API call with the returned token to retrieve the next page of data. Each token is valid for 24 hours. If you try to make a ListNamespaces API call with an expired token, you will receive a HTTP 400 InvalidNextTokenException error.
         public let nextToken: String?
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
@@ -9081,7 +9275,7 @@ extension QuickSight {
     public struct RegisteredUserEmbeddingExperienceConfiguration: AWSEncodableShape {
         /// The configuration details for providing a dashboard embedding experience.
         public let dashboard: RegisteredUserDashboardEmbeddingConfiguration?
-        /// The configuration details for embedding the Q search bar. For more information about embedding the Q search bar, see Embedding Overview.
+        /// The configuration details for embedding the Q search bar. For more information about embedding the Q search bar, see Embedding Overview in the Amazon QuickSight User Guide.
         public let qSearchBar: RegisteredUserQSearchBarEmbeddingConfiguration?
         /// The configuration details for providing each Amazon QuickSight console embedding experience. This can be used along with custom permissions to restrict access to certain features. For more information, see Customizing Access to the Amazon QuickSight Console in the Amazon QuickSight User Guide. Use  GenerateEmbedUrlForRegisteredUser  where you want to provide an authoring portal that allows users to create data sources, datasets, analyses, and dashboards. The users who accesses an embedded Amazon QuickSight console needs to belong to the author or admin security cohort. If you want to restrict permissions to some of these features, add a custom permissions profile to the user with the  UpdateUser API operation. Use the  RegisterUser API operation to add a new user with a custom permission profile attached. For more information, see the following sections in the Amazon QuickSight User Guide:    Embedding the Full Functionality of the Amazon QuickSight Console for Authenticated Users     Customizing Access to the Amazon QuickSight Console    For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the Amazon QuickSight Developer Portal.
         public let quickSightConsole: RegisteredUserQuickSightConsoleEmbeddingConfiguration?
@@ -9807,6 +10001,31 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case tile = "Tile"
             case tileLayout = "TileLayout"
+        }
+    }
+
+    public struct SignupResponse: AWSDecodableShape {
+        /// The name of your Amazon QuickSight account.
+        public let accountName: String?
+        /// The type of Active Directory that is being used to authenticate the Amazon QuickSight account. Valid values are SIMPLE_AD, AD_CONNECTOR, and MICROSOFT_AD.
+        public let directoryType: String?
+        /// A Boolean that is TRUE if the Amazon QuickSight uses IAM as an authentication method.
+        public let iamUser: Bool?
+        /// The user login name for your Amazon QuickSight account.
+        public let userLoginName: String?
+
+        public init(accountName: String? = nil, directoryType: String? = nil, iamUser: Bool? = nil, userLoginName: String? = nil) {
+            self.accountName = accountName
+            self.directoryType = directoryType
+            self.iamUser = iamUser
+            self.userLoginName = userLoginName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountName
+            case directoryType
+            case iamUser = "IAMUser"
+            case userLoginName
         }
     }
 
@@ -10788,7 +11007,7 @@ extension QuickSight {
 
         /// The ID for the Amazon Web Services account that contains the Amazon QuickSight settings that you want to list.
         public let awsAccountId: String
-        /// The default namespace for this Amazon Web Services account. Currently, the default is default. Identity and Access Management (IAM) users that register for the first time with Amazon QuickSight provide an email that becomes associated with the default namespace.
+        /// The default namespace for this Amazon Web Services account. Currently, the default is default. Identity and Access Management (IAM) users that register for the first time with Amazon QuickSight provide an email address that becomes associated with the default namespace.
         public let defaultNamespace: String
         /// The email address that you want Amazon QuickSight to send notifications to regarding your Amazon Web Services account or Amazon QuickSight subscription.
         public let notificationEmail: String?
@@ -11985,7 +12204,7 @@ extension QuickSight {
 
         /// The Amazon Web Services account ID associated with your Amazon QuickSight subscription.
         public let awsAccountId: String
-        /// A boolean that indicates whether or not public sharing is enabled on a Amazon QuickSight account.
+        /// A Boolean value that indicates whether public sharing is turned on for an Amazon QuickSight account.
         public let publicSharingEnabled: Bool?
 
         public init(awsAccountId: String, publicSharingEnabled: Bool? = nil) {

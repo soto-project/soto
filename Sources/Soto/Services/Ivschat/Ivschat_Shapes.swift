@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -107,7 +107,7 @@ extension Ivschat {
         public let messageReviewHandler: MessageReviewHandler?
         /// Room name. The value does not need to be unique.
         public let name: String?
-        /// Tags to attach to the resource. Array of maps, each of the form string:string (key:value).
+        /// Tags to attach to the resource. Array of maps, each of the form string:string (key:value). See Tagging AWS Resources for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS Chat has no constraints beyond what is documented there.
         public let tags: [String: String]?
 
         public init(maximumMessageLength: Int? = nil, maximumMessageRatePerSecond: Int? = nil, messageReviewHandler: MessageReviewHandler? = nil, name: String? = nil, tags: [String: String]? = nil) {
@@ -429,7 +429,7 @@ extension Ivschat {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
-        /// Tags to attach to the resource. Array of maps, each of the form string:string (key:value).
+        /// Tags attached to the resource, from the request.
         public let tags: [String: String]
 
         public init(tags: [String: String]) {
@@ -475,7 +475,7 @@ extension Ivschat {
         public let messageReviewHandler: MessageReviewHandler?
         /// Room name. The value does not need to be unique.
         public let name: String?
-        /// Tags attached to the resource.
+        /// Tags attached to the resource. See Tagging AWS Resources for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS Chat has no constraints beyond what is documented there.
         public let tags: [String: String]?
         /// Time of the room’s last update. This is an ISO 8601 timestamp; note that this is returned as a string.
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -551,7 +551,7 @@ extension Ivschat {
 
         /// The ARN of the resource to be tagged. The ARN must be URL-encoded.
         public let resourceArn: String
-        /// Array of tags to be added or updated.
+        /// Array of tags to be added or updated. See Tagging AWS Resources for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS Chat has no constraints beyond what is documented there.
         public let tags: [String: String]
 
         public init(resourceArn: String, tags: [String: String]) {
@@ -588,7 +588,7 @@ extension Ivschat {
 
         /// The ARN of the resource to be untagged. The ARN must be URL-encoded.
         public let resourceArn: String
-        /// Array of tags to be removed.
+        /// Array of tags to be removed. See Tagging AWS Resources for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS Chat has no constraints beyond what is documented there.
         public let tagKeys: [String]
 
         public init(resourceArn: String, tagKeys: [String]) {
@@ -619,7 +619,7 @@ extension Ivschat {
         public let identifier: String
         /// The maximum number of characters in a single message. Messages are expected to be UTF-8 encoded and this limit applies specifically to rune/code-point count, not number of bytes. Default: 500.
         public let maximumMessageLength: Int?
-        /// Maximum number of messages per second that can be sent to the room (by all clients).  Default: 10.
+        /// Maximum number of messages per second that can be sent to the room (by all clients). Default: 10.
         public let maximumMessageRatePerSecond: Int?
         /// Configuration information for optional review of messages. Specify an empty uri string to disassociate a message review handler from the specified room.
         public let messageReviewHandler: MessageReviewHandler?

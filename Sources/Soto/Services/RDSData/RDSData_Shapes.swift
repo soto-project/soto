@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -285,9 +285,9 @@ extension RDSData {
         public let resourceArn: String
         /// The name of the database schema.
         public let schema: String?
-        /// The name or ARN of the secret that enables access to the DB cluster.
+        /// The ARN of the secret that enables access to the DB cluster. Enter the database user name and password for the credentials in the secret. For information about creating the secret, see Create a database secret.
         public let secretArn: String
-        /// The SQL statement to run.
+        /// The SQL statement to run. Don't include a semicolon (;) at the end of the SQL statement.
         public let sql: String
         /// The identifier of a transaction that was started by using the BeginTransaction operation. Specify the transaction ID of the transaction that you want to include the SQL statement in. If the SQL statement is not part of a transaction, don't set this parameter.
         public let transactionId: String?
@@ -492,7 +492,7 @@ extension RDSData {
     }
 
     public struct ExecuteSqlRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the secret that enables access to the DB cluster.
+        /// The Amazon Resource Name (ARN) of the secret that enables access to the DB cluster. Enter the database user name and password for the credentials in the secret. For information about creating the secret, see Create a database secret.
         public let awsSecretStoreArn: String
         /// The name of the database.
         public let database: String?
@@ -560,7 +560,7 @@ extension RDSData {
         public let resultSetOptions: ResultSetOptions?
         /// The name of the database schema.  Currently, the schema parameter isn't supported.
         public let schema: String?
-        /// The name or ARN of the secret that enables access to the DB cluster.
+        /// The ARN of the secret that enables access to the DB cluster. Enter the database user name and password for the credentials in the secret. For information about creating the secret, see Create a database secret.
         public let secretArn: String
         /// The SQL statement to run.
         public let sql: String

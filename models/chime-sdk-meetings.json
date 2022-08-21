@@ -29,6 +29,16 @@
         ]
     },
     "shapes": {
+        "com.amazonaws.chimesdkmeetings#AmazonResourceName": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 1011
+                },
+                "smithy.api#pattern": "^arn:"
+            }
+        },
         "com.amazonaws.chimesdkmeetings#Arn": {
             "type": "string",
             "traits": {
@@ -64,7 +74,7 @@
                 "Capabilities": {
                     "target": "com.amazonaws.chimesdkmeetings#AttendeeCapabilities",
                     "traits": {
-                        "smithy.api#documentation": "<p>The capabilities (audio, video, or content) assigned to an attendee.</p>"
+                        "smithy.api#documentation": "<p>The capabilities assigned to an attendee: audio, video, or content.</p>\n        <note>\n            <p>You use the capabilities with a set of values that control what the capabilities can do, such as <code>SendReceive</code> data. For more information about those values, see \n            .</p>\n         </note>\n        \n        <p>When using capabilities, be aware of these corner cases:</p>\n        <ul>\n            <li>\n                <p>You can't set <code>content</code> capabilities to <code>SendReceive</code> or <code>Receive</code> unless you also set <code>video</code> capabilities to <code>SendReceive</code> \n                    or <code>Receive</code>. If you don't set the <code>video</code> capability to receive, the response will contain an HTTP 400 Bad Request status code. However, you can set your <code>video</code> capability \n                    to receive and you set your <code>content</code> capability to not receive.</p>                    \n            </li>\n            <li>\n                <p>When you change an <code>audio</code> capability from <code>None</code> or <code>Receive</code> to <code>Send</code> or <code>SendReceive</code> , \n                    and if the attendee left their microphone unmuted, audio will flow from the attendee to the other meeting participants.</p>\n            </li>\n            <li>\n                <p>When you change a <code>video</code> or <code>content</code> capability from <code>None</code> or <code>Receive</code> to <code>Send</code> or <code>SendReceive</code> , \n                    and if the attendee turned on their video or content streams, remote attendess can receive those streams, but only after media renegotiation between the client and the Amazon Chime back-end server.</p>\n            </li>\n         </ul>"
                     }
                 }
             },
@@ -98,7 +108,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>The media capabilities of an attendee, including audio, video and content. </p>"
+                "smithy.api#documentation": "<p>The media capabilities of an attendee: audio, video, or content. </p>\n        <note>\n            <p>You use the capabilities with a set of values that control what the capabilities can do, such as <code>SendReceive</code> data. For more information about those values, see \n            .</p>\n         </note>\n        \n        <p>When using capabilities, be aware of these corner cases:</p>\n        <ul>\n            <li>\n                <p>You can't set <code>content</code> capabilities to <code>SendReceive</code> or <code>Receive</code> unless you also set <code>video</code> capabilities to <code>SendReceive</code> \n                    or <code>Receive</code>. If you don't set the <code>video</code> capability to receive, the response will contain an HTTP 400 Bad Request status code. However, you can set your <code>video</code> capability \n                    to receive and you set your <code>content</code> capability to not receive.</p>                    \n            </li>\n            <li>\n                <p>When you change an <code>audio</code> capability from <code>None</code> or <code>Receive</code> to <code>Send</code> or <code>SendReceive</code> , \n                    and if the attendee left their microphone unmuted, audio will flow from the attendee to the other meeting participants.</p>\n            </li>\n            <li>\n                <p>When you change a <code>video</code> or <code>content</code> capability from <code>None</code> or <code>Receive</code> to <code>Send</code> or <code>SendReceive</code> , \n                    and if the attendee turned on their video or content streams, remote attendess can receive those streams, but only after media renegotiation between the client and the Amazon Chime back-end server.</p>\n            </li>\n         </ul>"
             }
         },
         "com.amazonaws.chimesdkmeetings#AttendeeIdItem": {
@@ -288,7 +298,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Updates <code>AttendeeCapabilities</code> except the capabilities listed in an <code>ExcludedAttendeeIds</code> table.</p>",
+                "smithy.api#documentation": "<p>Updates <code>AttendeeCapabilities</code> except the capabilities listed in an <code>ExcludedAttendeeIds</code> table.</p>\n        \n        <note>\n            <p>You use the capabilities with a set of values that control what the capabilities can do, such as <code>SendReceive</code> data. For more information about those values, see \n            .</p>\n         </note>\n        \n        <p>When using capabilities, be aware of these corner cases:</p>\n        <ul>\n            <li>\n                <p>You can't set <code>content</code> capabilities to <code>SendReceive</code> or <code>Receive</code> unless you also set <code>video</code> capabilities to <code>SendReceive</code> \n                    or <code>Receive</code>. If you don't set the <code>video</code> capability to receive, the response will contain an HTTP 400 Bad Request status code. However, you can set your <code>video</code> capability \n                    to receive and you set your <code>content</code> capability to not receive.</p>                    \n            </li>\n            <li>\n                <p>When you change an <code>audio</code> capability from <code>None</code> or <code>Receive</code> to <code>Send</code> or <code>SendReceive</code> , \n                    and if the attendee left their microphone unmuted, audio will flow from the attendee to the other meeting participants.</p>\n            </li>\n            <li>\n                <p>When you change a <code>video</code> or <code>content</code> capability from <code>None</code> or <code>Receive</code> to <code>Send</code> or <code>SendReceive</code> , \n                    and if the attendee turned on their video or content streams, remote attendess can receive those streams, but only after media renegotiation between the client and the Amazon Chime back-end server.</p>\n            </li>\n         </ul>",
                 "smithy.api#http": {
                     "method": "PUT",
                     "uri": "/meetings/{MeetingId}/attendees/capabilities?operation=batch-update-except",
@@ -376,10 +386,19 @@
                     "target": "com.amazonaws.chimesdkmeetings#ListAttendees"
                 },
                 {
+                    "target": "com.amazonaws.chimesdkmeetings#ListTagsForResource"
+                },
+                {
                     "target": "com.amazonaws.chimesdkmeetings#StartMeetingTranscription"
                 },
                 {
                     "target": "com.amazonaws.chimesdkmeetings#StopMeetingTranscription"
+                },
+                {
+                    "target": "com.amazonaws.chimesdkmeetings#TagResource"
+                },
+                {
+                    "target": "com.amazonaws.chimesdkmeetings#UntagResource"
                 },
                 {
                     "target": "com.amazonaws.chimesdkmeetings#UpdateAttendeeCapabilities"
@@ -407,7 +426,10 @@
                     "target": "com.amazonaws.chimesdkmeetings#String"
                 },
                 "RequestId": {
-                    "target": "com.amazonaws.chimesdkmeetings#String"
+                    "target": "com.amazonaws.chimesdkmeetings#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ID of the request involved in the conflict.</p>"
+                    }
                 }
             },
             "traits": {
@@ -509,7 +531,7 @@
                 "Capabilities": {
                     "target": "com.amazonaws.chimesdkmeetings#AttendeeCapabilities",
                     "traits": {
-                        "smithy.api#documentation": "<p>The capabilities (<code>audio</code>, <code>video</code>, or <code>content</code>) that you want to grant an attendee. If you don't specify capabilities, all users have send and receive capabilities on \n            all media channels by default.</p>"
+                        "smithy.api#documentation": "<p>The capabilities (<code>audio</code>, <code>video</code>, or <code>content</code>) that you want to grant an attendee. If you don't specify capabilities, all users have send and receive capabilities on \n            all media channels by default.</p>\n        \n        <note>\n            <p>You use the capabilities with a set of values that control what the capabilities can do, such as <code>SendReceive</code> data. For more information about those values, see \n            .</p>\n         </note>\n        \n            <p>When using capabilities, be aware of these corner cases:</p>\n            <ul>\n            <li>\n                    <p>You can't set <code>content</code> capabilities to <code>SendReceive</code> or <code>Receive</code> unless you also set <code>video</code> capabilities to <code>SendReceive</code> \n                    or <code>Receive</code>. If you don't set the <code>video</code> capability to receive, the response will contain an HTTP 400 Bad Request status code. However, you can set your <code>video</code> capability \n                    to receive and you set your <code>content</code> capability to not receive.</p>                    \n                </li>\n            <li>\n                    <p>When you change an <code>audio</code> capability from <code>None</code> or <code>Receive</code> to <code>Send</code> or <code>SendReceive</code> , \n                    and if the attendee left their microphone unmuted, audio will flow from the attendee to the other meeting participants.</p>\n                </li>\n            <li>\n                    <p>When you change a <code>video</code> or <code>content</code> capability from <code>None</code> or <code>Receive</code> to <code>Send</code> or <code>SendReceive</code> , \n                   and if the attendee turned on their video or content streams, remote attendess can receive those streams, but only after media renegotiation between the client and the Amazon Chime back-end server.</p>\n                </li>\n         </ul>"
                     }
                 }
             }
@@ -646,6 +668,18 @@
                     "traits": {
                         "smithy.api#documentation": "<p>When specified, replicates the media from the primary meeting to the new meeting.</p>"
                     }
+                },
+                "TenantIds": {
+                    "target": "com.amazonaws.chimesdkmeetings#TenantIdList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A consistent and opaque identifier, created and maintained by the builder to represent a segment of their users.</p>"
+                    }
+                },
+                "Tags": {
+                    "target": "com.amazonaws.chimesdkmeetings#TagList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Applies one or more tags to an Amazon Chime SDK meeting. Note the following:</p>            \n         <ul>\n            <li>\n               <p>Not all resources have tags. For a list of services with resources that support tagging using this operation, see \n        <a href=\"https://docs.aws.amazon.com/resourcegroupstagging/latest/APIReference/supported-services.html\">Services that support the Resource Groups Tagging API</a>. If the resource \n        doesn't yet support this operation, the resource's service might support tagging using its own API operations. For more information, refer to the documentation for that service.</p>\n            </li>\n            <li>\n               <p>Each resource can have up to 50 tags. For other limits, see <a href=\"https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html#tag-conventions\">Tag Naming and Usage Conventions</a> in the \n       <i>AWS General Reference</i>.</p>\n            </li>\n            <li>\n               <p>You can only tag resources that are located in the specified AWS Region for the AWS account.</p>\n            </li>\n            <li>\n               <p>To add tags to a resource, you need the necessary permissions for the service that the resource belongs to as well as permissions for adding tags. For more information, see the \n        documentation for each service.</p>\n            </li>\n         </ul>   \n            <important>\n            <p>Do not store personally identifiable information (PII) or other confidential or sensitive information in tags. We use tags to provide you with billing and administration services. Tags are not intended to be \n            used for private or sensitive data.</p>\n         </important>  \n            <p>\n            <b>Minimum permissions</b>\n         </p>\n                \n               <p> In addition to the <code>tag:TagResources </code>permission required by this operation, you must also have the tagging permission defined by the service that created the resource. For example, \n                   to tag a <code>ChimeSDKMeetings</code> instance  using the <code>TagResources</code> operation, you must have both of the following permissions:</p>\n                \n                <p>\n            <code>tag:TagResources</code>\n         </p>\n                \n                <p>\n            <code>ChimeSDKMeetings:CreateTags</code>\n         </p>\n                \n                <note>\n            <p>Some services might have specific requirements for tagging some resources. For example, to tag an Amazon S3 bucket, you must also have the <code>s3:GetBucketTagging</code> permission. \n                If the expected minimum permissions don't work, check the documentation for that service's tagging APIs for more information.</p>\n         </note>"
+                    }
                 }
             }
         },
@@ -754,6 +788,18 @@
                     "target": "com.amazonaws.chimesdkmeetings#PrimaryMeetingId",
                     "traits": {
                         "smithy.api#documentation": "<p>When specified, replicates the media from the primary meeting to the new meeting.</p>"
+                    }
+                },
+                "TenantIds": {
+                    "target": "com.amazonaws.chimesdkmeetings#TenantIdList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A consistent and opaque identifier, created and maintained by the builder to represent a segment of their users.</p>"
+                    }
+                },
+                "Tags": {
+                    "target": "com.amazonaws.chimesdkmeetings#TagList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The tags in the request.</p>"
                     }
                 }
             }
@@ -940,7 +986,7 @@
                 "Region": {
                     "target": "com.amazonaws.chimesdkmeetings#TranscribeMedicalRegion",
                     "traits": {
-                        "smithy.api#documentation": "<p>The AWS Region passed to Amazon Transcribe Medical. If you don't specify a Region, Amazon Chime uses the meeting's Region.</p>"
+                        "smithy.api#documentation": "<p>The AWS Region passed to Amazon Transcribe Medical. If you don't specify a Region, Amazon Chime uses the meeting's Region. </p>"
                     }
                 },
                 "ContentIdentificationType": {
@@ -1351,6 +1397,52 @@
                 }
             }
         },
+        "com.amazonaws.chimesdkmeetings#ListTagsForResource": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.chimesdkmeetings#ListTagsForResourceRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.chimesdkmeetings#ListTagsForResourceResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.chimesdkmeetings#ResourceNotFoundException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Returns a list of the tags available for the specified resource.</p>",
+                "smithy.api#http": {
+                    "method": "GET",
+                    "uri": "/tags",
+                    "code": 200
+                }
+            }
+        },
+        "com.amazonaws.chimesdkmeetings#ListTagsForResourceRequest": {
+            "type": "structure",
+            "members": {
+                "ResourceARN": {
+                    "target": "com.amazonaws.chimesdkmeetings#AmazonResourceName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ARN of the resource.</p>",
+                        "smithy.api#httpQuery": "arn",
+                        "smithy.api#required": {}
+                    }
+                }
+            }
+        },
+        "com.amazonaws.chimesdkmeetings#ListTagsForResourceResponse": {
+            "type": "structure",
+            "members": {
+                "Tags": {
+                    "target": "com.amazonaws.chimesdkmeetings#TagList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The tags requested for the specified resource.</p>"
+                    }
+                }
+            }
+        },
         "com.amazonaws.chimesdkmeetings#MediaCapabilities": {
             "type": "string",
             "traits": {
@@ -1483,6 +1575,18 @@
                     "traits": {
                         "smithy.api#documentation": "<p>When specified, replicates the media from the primary meeting to this meeting.</p>"
                     }
+                },
+                "TenantIds": {
+                    "target": "com.amazonaws.chimesdkmeetings#TenantIdList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Array of strings.</p>"
+                    }
+                },
+                "MeetingArn": {
+                    "target": "com.amazonaws.chimesdkmeetings#AmazonResourceName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ARN of the meeting.</p>"
+                    }
                 }
             },
             "traits": {
@@ -1575,6 +1679,34 @@
                 }
             }
         },
+        "com.amazonaws.chimesdkmeetings#ResourceNotFoundException": {
+            "type": "structure",
+            "members": {
+                "Code": {
+                    "target": "com.amazonaws.chimesdkmeetings#String"
+                },
+                "Message": {
+                    "target": "com.amazonaws.chimesdkmeetings#String"
+                },
+                "RequestId": {
+                    "target": "com.amazonaws.chimesdkmeetings#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ID of the resource that couldn't be found.</p>"
+                    }
+                },
+                "ResourceName": {
+                    "target": "com.amazonaws.chimesdkmeetings#AmazonResourceName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the resource that couldn't be found.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The resource that you want to tag couldn't be found.</p>",
+                "smithy.api#error": "client",
+                "smithy.api#httpError": 404
+            }
+        },
         "com.amazonaws.chimesdkmeetings#ResultMax": {
             "type": "integer",
             "traits": {
@@ -1598,11 +1730,14 @@
                     "target": "com.amazonaws.chimesdkmeetings#String"
                 },
                 "RequestId": {
-                    "target": "com.amazonaws.chimesdkmeetings#String"
+                    "target": "com.amazonaws.chimesdkmeetings#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ID of the failed request.</p>"
+                    }
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>The service is currently unavailable.</p>",
+                "smithy.api#documentation": "<p>The service encountered an unexpected error.</p>",
                 "smithy.api#error": "server",
                 "smithy.api#httpError": 500
             }
@@ -1767,6 +1902,145 @@
                 }
             }
         },
+        "com.amazonaws.chimesdkmeetings#Tag": {
+            "type": "structure",
+            "members": {
+                "Key": {
+                    "target": "com.amazonaws.chimesdkmeetings#TagKey",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The tag's key.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "Value": {
+                    "target": "com.amazonaws.chimesdkmeetings#TagValue",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The tag's value.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A key-value pair that you define.</p>"
+            }
+        },
+        "com.amazonaws.chimesdkmeetings#TagKey": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 128
+                },
+                "smithy.api#pattern": "^[a-zA-Z+-=._:/]+$"
+            }
+        },
+        "com.amazonaws.chimesdkmeetings#TagKeyList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.chimesdkmeetings#TagKey"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 50
+                }
+            }
+        },
+        "com.amazonaws.chimesdkmeetings#TagList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.chimesdkmeetings#Tag"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 50
+                }
+            }
+        },
+        "com.amazonaws.chimesdkmeetings#TagResource": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.chimesdkmeetings#TagResourceRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.chimesdkmeetings#TagResourceResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.chimesdkmeetings#BadRequestException"
+                },
+                {
+                    "target": "com.amazonaws.chimesdkmeetings#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.chimesdkmeetings#TooManyTagsException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>The resource that supports tags.</p>",
+                "smithy.api#http": {
+                    "method": "POST",
+                    "uri": "/tags?operation=tag-resource",
+                    "code": 204
+                }
+            }
+        },
+        "com.amazonaws.chimesdkmeetings#TagResourceRequest": {
+            "type": "structure",
+            "members": {
+                "ResourceARN": {
+                    "target": "com.amazonaws.chimesdkmeetings#AmazonResourceName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ARN of the resource.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "Tags": {
+                    "target": "com.amazonaws.chimesdkmeetings#TagList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Lists the requested tags.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            }
+        },
+        "com.amazonaws.chimesdkmeetings#TagResourceResponse": {
+            "type": "structure",
+            "members": {}
+        },
+        "com.amazonaws.chimesdkmeetings#TagValue": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 256
+                },
+                "smithy.api#pattern": "^[\\s\\w+-=\\.:/@]*$"
+            }
+        },
+        "com.amazonaws.chimesdkmeetings#TenantId": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 2,
+                    "max": 256
+                },
+                "smithy.api#pattern": "^(?!.*?(.)\\1{3})[-_!@#$a-zA-Z0-9]*$"
+            }
+        },
+        "com.amazonaws.chimesdkmeetings#TenantIdList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.chimesdkmeetings#TenantId"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 5
+                }
+            }
+        },
         "com.amazonaws.chimesdkmeetings#ThrottlingException": {
             "type": "structure",
             "members": {
@@ -1777,13 +2051,44 @@
                     "target": "com.amazonaws.chimesdkmeetings#String"
                 },
                 "RequestId": {
-                    "target": "com.amazonaws.chimesdkmeetings#String"
+                    "target": "com.amazonaws.chimesdkmeetings#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ID of the request that exceeded the throttling limit.</p>"
+                    }
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>The number of requests exceeds the limit.</p>",
+                "smithy.api#documentation": "<p>The number of customer requests exceeds the request rate limit.</p>",
                 "smithy.api#error": "client",
                 "smithy.api#httpError": 429
+            }
+        },
+        "com.amazonaws.chimesdkmeetings#TooManyTagsException": {
+            "type": "structure",
+            "members": {
+                "Code": {
+                    "target": "com.amazonaws.chimesdkmeetings#String"
+                },
+                "Message": {
+                    "target": "com.amazonaws.chimesdkmeetings#String"
+                },
+                "RequestId": {
+                    "target": "com.amazonaws.chimesdkmeetings#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ID of the request that contains too many tags.</p>"
+                    }
+                },
+                "ResourceName": {
+                    "target": "com.amazonaws.chimesdkmeetings#AmazonResourceName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the resource that received too many tags.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Too many tags were added to the specified resource.</p>",
+                "smithy.api#error": "client",
+                "smithy.api#httpError": 400
             }
         },
         "com.amazonaws.chimesdkmeetings#TranscribeContentIdentificationType": {
@@ -2157,6 +2462,54 @@
                 "smithy.api#httpError": 422
             }
         },
+        "com.amazonaws.chimesdkmeetings#UntagResource": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.chimesdkmeetings#UntagResourceRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.chimesdkmeetings#UntagResourceResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.chimesdkmeetings#BadRequestException"
+                },
+                {
+                    "target": "com.amazonaws.chimesdkmeetings#ResourceNotFoundException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Removes the specified tags from the specified resources. When you specify a tag key, the action removes both that key and its associated value. The operation succeeds even if you \n                attempt to remove tags from a resource that were already removed. Note the following:</p>\n            <ul>\n            <li>\n               <p>To remove tags from a resource, you need the necessary permissions for the service that the resource belongs to as well as permissions for removing tags. For more information, \n                see the documentation for the service whose resource you want to untag.</p>\n            </li>\n            <li>\n               <p>You can only tag resources that are located in the specified AWS Region for the calling AWS account.</p>\n            </li>\n         </ul>\n                \n                <p>\n            <b>Minimum permissions</b>\n         </p>\n                \n                <p>In addition to the <code>tag:UntagResources</code> permission required by this operation, you must also have the remove tags permission defined by the service that created the resource. \n                For example, to remove the tags from an Amazon EC2 instance using the <code>UntagResources</code> operation, you must have both of the following permissions:</p>\n                \n               <p>\n            <code>tag:UntagResource</code>\n         </p> \n                \n                <p>\n            <code>ChimeSDKMeetings:DeleteTags</code>\n         </p>",
+                "smithy.api#http": {
+                    "method": "POST",
+                    "uri": "/tags?operation=untag-resource",
+                    "code": 204
+                }
+            }
+        },
+        "com.amazonaws.chimesdkmeetings#UntagResourceRequest": {
+            "type": "structure",
+            "members": {
+                "ResourceARN": {
+                    "target": "com.amazonaws.chimesdkmeetings#AmazonResourceName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ARN of the resource that you're removing tags from.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "TagKeys": {
+                    "target": "com.amazonaws.chimesdkmeetings#TagKeyList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The tag keys being removed from the resources.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            }
+        },
+        "com.amazonaws.chimesdkmeetings#UntagResourceResponse": {
+            "type": "structure",
+            "members": {}
+        },
         "com.amazonaws.chimesdkmeetings#UpdateAttendeeCapabilities": {
             "type": "operation",
             "input": {
@@ -2186,7 +2539,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>The capabilties that you want to update.</p>",
+                "smithy.api#documentation": "<p>The capabilties that you want to update.</p>\n        <note>\n            <p>You use the capabilities with a set of values that control what the capabilities can do, such as <code>SendReceive</code> data. For more information about those values, see \n            .</p>\n         </note>\n        \n        <p>When using capabilities, be aware of these corner cases:</p>\n        <ul>\n            <li>\n                <p>You can't set <code>content</code> capabilities to <code>SendReceive</code> or <code>Receive</code> unless you also set <code>video</code> capabilities to <code>SendReceive</code> \n                    or <code>Receive</code>. If you don't set the <code>video</code> capability to receive, the response will contain an HTTP 400 Bad Request status code. However, you can set your <code>video</code> capability \n                    to receive and you set your <code>content</code> capability to not receive.</p>                    \n            </li>\n            <li>\n                <p>When you change an <code>audio</code> capability from <code>None</code> or <code>Receive</code> to <code>Send</code> or <code>SendReceive</code> , \n                    and if the attendee left their microphone unmuted, audio will flow from the attendee to the other meeting participants.</p>\n            </li>\n            <li>\n                <p>When you change a <code>video</code> or <code>content</code> capability from <code>None</code> or <code>Receive</code> to <code>Send</code> or <code>SendReceive</code> , \n                    and if the attendee turned on their video or content streams, remote attendess can receive those streams, but only after media renegotiation between the client and the Amazon Chime back-end server.</p>\n            </li>\n         </ul>",
                 "smithy.api#http": {
                     "method": "PUT",
                     "uri": "/meetings/{MeetingId}/attendees/{AttendeeId}/capabilities",
@@ -2226,7 +2579,10 @@
             "type": "structure",
             "members": {
                 "Attendee": {
-                    "target": "com.amazonaws.chimesdkmeetings#Attendee"
+                    "target": "com.amazonaws.chimesdkmeetings#Attendee",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The updated attendee data.</p>"
+                    }
                 }
             }
         }

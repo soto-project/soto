@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -74,6 +74,11 @@ extension CodeArtifact {
         return try await self.client.execute(operation: "DescribeDomain", path: "/v1/domain", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    ///  Returns a  PackageDescription  object that contains information about the requested package.
+    public func describePackage(_ input: DescribePackageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribePackageResult {
+        return try await self.client.execute(operation: "DescribePackage", path: "/v1/package", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     ///  Returns a  PackageVersionDescription  object that contains information about the requested package version.
     public func describePackageVersion(_ input: DescribePackageVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribePackageVersionResult {
         return try await self.client.execute(operation: "DescribePackageVersion", path: "/v1/package/version", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -109,7 +114,7 @@ extension CodeArtifact {
         return try await self.client.execute(operation: "GetPackageVersionAsset", path: "/v1/package/version/asset", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Gets the readme file or descriptive text for a package version.   The returned text might contain formatting. For example, it might contain formatting for Markdown or reStructuredText.
+    ///  Gets the readme file or descriptive text for a package version. For packages that do not contain a readme file, CodeArtifact extracts a description from a metadata file. For example, from the  element in the pom.xml file of a Maven package.   The returned text might contain formatting. For example, it might contain formatting for Markdown or reStructuredText.
     public func getPackageVersionReadme(_ input: GetPackageVersionReadmeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetPackageVersionReadmeResult {
         return try await self.client.execute(operation: "GetPackageVersionReadme", path: "/v1/package/version/readme", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -167,6 +172,11 @@ extension CodeArtifact {
     ///  Sets a resource policy on a domain that specifies permissions to access it.   When you call PutDomainPermissionsPolicy, the resource policy on the domain is ignored when evaluting permissions.  This ensures that the owner of a domain cannot lock themselves out of the domain, which would prevent them from being  able to update the resource policy.
     public func putDomainPermissionsPolicy(_ input: PutDomainPermissionsPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PutDomainPermissionsPolicyResult {
         return try await self.client.execute(operation: "PutDomainPermissionsPolicy", path: "/v1/domain/permissions/policy", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Sets the package origin configuration for a package. The package origin configuration determines how new versions of a package can be added to a repository. You can allow or block direct  publishing of new package versions, or ingestion and retaining of new package versions from an external connection or upstream source.  For more information about package origin controls and configuration, see Editing package origin controls in the CodeArtifact User Guide.  PutPackageOriginConfiguration can be called on a package that doesn't yet exist in the repository. When called  on a package that does not exist, a package is created in the repository with no versions and the requested restrictions are set on the package.  This can be used to preemptively block ingesting or retaining any versions from external connections or upstream repositories, or to block  publishing any versions of the package into the repository before connecting any package managers or publishers to the repository.
+    public func putPackageOriginConfiguration(_ input: PutPackageOriginConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PutPackageOriginConfigurationResult {
+        return try await self.client.execute(operation: "PutPackageOriginConfiguration", path: "/v1/package", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Sets the resource policy on a repository that specifies permissions to access it.   When you call PutRepositoryPermissionsPolicy, the resource policy on the repository is ignored when evaluting permissions.  This ensures that the owner of a repository cannot lock themselves out of the repository, which would prevent them from being  able to update the resource policy.

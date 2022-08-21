@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -941,21 +941,21 @@ extension Organizations.ListAWSServiceAccessForOrganizationRequest: AWSPaginateT
     }
 }
 
-extension Organizations.ListAccountsRequest: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> Organizations.ListAccountsRequest {
-        return .init(
-            maxResults: self.maxResults,
-            nextToken: token
-        )
-    }
-}
-
 extension Organizations.ListAccountsForParentRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Organizations.ListAccountsForParentRequest {
         return .init(
             maxResults: self.maxResults,
             nextToken: token,
             parentId: self.parentId
+        )
+    }
+}
+
+extension Organizations.ListAccountsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Organizations.ListAccountsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }
@@ -1041,16 +1041,6 @@ extension Organizations.ListParentsRequest: AWSPaginateToken {
     }
 }
 
-extension Organizations.ListPoliciesRequest: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> Organizations.ListPoliciesRequest {
-        return .init(
-            filter: self.filter,
-            maxResults: self.maxResults,
-            nextToken: token
-        )
-    }
-}
-
 extension Organizations.ListPoliciesForTargetRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Organizations.ListPoliciesForTargetRequest {
         return .init(
@@ -1058,6 +1048,16 @@ extension Organizations.ListPoliciesForTargetRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             targetId: self.targetId
+        )
+    }
+}
+
+extension Organizations.ListPoliciesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Organizations.ListPoliciesRequest {
+        return .init(
+            filter: self.filter,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

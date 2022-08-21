@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -285,6 +285,112 @@ extension AppConfig {
         )
     }
 
+    ///  Lists all AppConfig extension associations in the account. For more information about extensions and associations, see Working with AppConfig extensions in the AppConfig User Guide.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listExtensionAssociationsPaginator<Result>(
+        _ input: ListExtensionAssociationsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ExtensionAssociations, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listExtensionAssociations,
+            inputKey: \ListExtensionAssociationsRequest.nextToken,
+            outputKey: \ExtensionAssociations.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listExtensionAssociationsPaginator(
+        _ input: ListExtensionAssociationsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ExtensionAssociations, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listExtensionAssociations,
+            inputKey: \ListExtensionAssociationsRequest.nextToken,
+            outputKey: \ExtensionAssociations.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Lists all custom and Amazon Web Services-authored AppConfig extensions in the account. For more information about extensions, see Working with AppConfig extensions in the AppConfig User Guide.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listExtensionsPaginator<Result>(
+        _ input: ListExtensionsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, Extensions, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listExtensions,
+            inputKey: \ListExtensionsRequest.nextToken,
+            outputKey: \Extensions.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listExtensionsPaginator(
+        _ input: ListExtensionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Extensions, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listExtensions,
+            inputKey: \ListExtensionsRequest.nextToken,
+            outputKey: \Extensions.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Lists configurations stored in the AppConfig hosted configuration store by version.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -384,6 +490,28 @@ extension AppConfig.ListEnvironmentsRequest: AWSPaginateToken {
         return .init(
             applicationId: self.applicationId,
             maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension AppConfig.ListExtensionAssociationsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> AppConfig.ListExtensionAssociationsRequest {
+        return .init(
+            extensionIdentifier: self.extensionIdentifier,
+            extensionVersionNumber: self.extensionVersionNumber,
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceIdentifier: self.resourceIdentifier
+        )
+    }
+}
+
+extension AppConfig.ListExtensionsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> AppConfig.ListExtensionsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            name: self.name,
             nextToken: token
         )
     }

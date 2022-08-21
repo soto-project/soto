@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -33,6 +33,25 @@ extension ECS {
             acceptors: [
                 .init(state: .failure, matcher: try! JMESAnyPathMatcher("failures[].reason", expected: "MISSING")),
                 .init(state: .success, matcher: try! JMESAnyPathMatcher("services[].status", expected: "INACTIVE")),
+            ],
+            minDelayTime: .seconds(15),
+            command: describeServices
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func waitUntilServicesStable(
+        _ input: DescribeServicesRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) async throws {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("failures[].reason", expected: "MISSING")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("services[].status", expected: "DRAINING")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("services[].status", expected: "INACTIVE")),
+                .init(state: .success, matcher: try! JMESPathMatcher("length(services[?!(length(deployments) == `1` && runningCount == desiredCount)]) == `0`", expected: "true")),
             ],
             minDelayTime: .seconds(15),
             command: describeServices

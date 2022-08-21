@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -92,7 +92,8 @@ extension SageMakerA2IRuntime {
 
     public struct DescribeHumanLoopResponse: AWSDecodableShape {
         /// The creation time when Amazon Augmented AI created the human loop.
-        public let creationTime: Date
+        @CustomCoding<ISO8601DateCoder>
+        public var creationTime: Date
         /// A failure code that identifies the type of failure. Possible values: ValidationError, Expired, InternalError
         public let failureCode: String?
         /// The reason why a human loop failed. The failure reason is returned when the status of the human loop is Failed.
@@ -180,7 +181,8 @@ extension SageMakerA2IRuntime {
 
     public struct HumanLoopSummary: AWSDecodableShape {
         /// When Amazon Augmented AI created the human loop.
-        public let creationTime: Date?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationTime: Date?
         /// The reason why the human loop failed. A failure reason is returned when the status of the human loop is Failed.
         public let failureReason: String?
         /// The Amazon Resource Name (ARN) of the flow definition used to configure the human loop.
@@ -209,8 +211,8 @@ extension SageMakerA2IRuntime {
 
     public struct ListHumanLoopsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "creationTimeAfter", location: .querystring("CreationTimeAfter")),
-            AWSMemberEncoding(label: "creationTimeBefore", location: .querystring("CreationTimeBefore")),
+            AWSMemberEncoding(label: "_creationTimeAfter", location: .querystring("CreationTimeAfter")),
+            AWSMemberEncoding(label: "_creationTimeBefore", location: .querystring("CreationTimeBefore")),
             AWSMemberEncoding(label: "flowDefinitionArn", location: .querystring("FlowDefinitionArn")),
             AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
             AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
@@ -218,9 +220,11 @@ extension SageMakerA2IRuntime {
         ]
 
         /// (Optional) The timestamp of the date when you want the human loops to begin in ISO 8601 format. For example, 2020-02-24.
-        public let creationTimeAfter: Date?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationTimeAfter: Date?
         /// (Optional) The timestamp of the date before which you want the human loops to begin in ISO 8601 format. For example, 2020-02-24.
-        public let creationTimeBefore: Date?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationTimeBefore: Date?
         /// The Amazon Resource Name (ARN) of a flow definition.
         public let flowDefinitionArn: String
         /// The total number of items to return. If the total number of available items is more than the value specified in MaxResults, then a NextToken is returned in the output. You can use this token to display the next page of results.
@@ -241,7 +245,7 @@ extension SageMakerA2IRuntime {
 
         public func validate(name: String) throws {
             try self.validate(self.flowDefinitionArn, name: "flowDefinitionArn", parent: name, max: 1024)
-            try self.validate(self.flowDefinitionArn, name: "flowDefinitionArn", parent: name, pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:flow-definition/.*")
+            try self.validate(self.flowDefinitionArn, name: "flowDefinitionArn", parent: name, pattern: "^arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:flow-definition/")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
@@ -288,7 +292,7 @@ extension SageMakerA2IRuntime {
         public func validate(name: String) throws {
             try self.dataAttributes?.validate(name: "\(name).dataAttributes")
             try self.validate(self.flowDefinitionArn, name: "flowDefinitionArn", parent: name, max: 1024)
-            try self.validate(self.flowDefinitionArn, name: "flowDefinitionArn", parent: name, pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:flow-definition/.*")
+            try self.validate(self.flowDefinitionArn, name: "flowDefinitionArn", parent: name, pattern: "^arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:flow-definition/")
             try self.humanLoopInput.validate(name: "\(name).humanLoopInput")
             try self.validate(self.humanLoopName, name: "humanLoopName", parent: name, max: 63)
             try self.validate(self.humanLoopName, name: "humanLoopName", parent: name, min: 1)

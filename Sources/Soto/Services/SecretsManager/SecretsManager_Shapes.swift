@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -94,7 +94,7 @@ extension SecretsManager {
         public let description: String?
         /// Specifies whether to overwrite a secret with the same name in the destination Region.
         public let forceOverwriteReplicaSecret: Bool?
-        /// The ARN, key ID, or alias of the KMS key that Secrets Manager uses to encrypt the secret value in the secret. To use a KMS key in a different account, use the key ARN or the alias ARN. If you don't specify this value, then Secrets Manager uses the key aws/secretsmanager.  If that key doesn't yet exist, then Secrets Manager creates it for you automatically the first time it  encrypts the secret value. If the secret is in a different Amazon Web Services account from the credentials calling the API, then  you can't use aws/secretsmanager to encrypt the secret, and you must create  and use a customer managed KMS key.
+        /// The ARN, key ID, or alias of the KMS key that Secrets Manager uses to encrypt the secret value in the secret. An alias is always prefixed by alias/,  for example alias/aws/secretsmanager. For more information, see About aliases. To use a KMS key in a different account, use the key ARN or the alias ARN. If you don't specify this value, then Secrets Manager uses the key aws/secretsmanager.  If that key doesn't yet exist, then Secrets Manager creates it for you automatically the first time it  encrypts the secret value. If the secret is in a different Amazon Web Services account from the credentials calling the API, then  you can't use aws/secretsmanager to encrypt the secret, and you must create  and use a customer managed KMS key.
         public let kmsKeyId: String?
         /// The name of the new secret. The secret name can contain ASCII letters, numbers, and the following characters: /_+=.@-  Do not end your secret name with a hyphen followed by six characters. If you do so, you risk confusion and unexpected results when searching for a secret by partial ARN. Secrets Manager automatically adds a hyphen and six random characters after the secret name at the end of the ARN.
         public let name: String
@@ -282,9 +282,9 @@ extension SecretsManager {
         public let deletedDate: Date?
         /// The description of the secret.
         public let description: String?
-        /// The ARN of the KMS key that Secrets Manager uses to encrypt the secret value. If the secret is encrypted with  the Amazon Web Services managed key aws/secretsmanager, this field is omitted.
+        /// The key ID or alias ARN of the KMS key that Secrets Manager uses to encrypt the secret value.  If the secret is encrypted with the Amazon Web Services managed key aws/secretsmanager,  this field is omitted. Secrets created using the console use an KMS key ID.
         public let kmsKeyId: String?
-        /// The last date that the secret value was retrieved. This value does not include the time. This field is omitted if the secret has never been retrieved.
+        /// The date that the secret was last accessed in the Region. This field is omitted if the secret has never been retrieved in the Region.
         public let lastAccessedDate: Date?
         /// The last date and time that this secret was modified in any way.
         public let lastChangedDate: Date?
@@ -292,7 +292,7 @@ extension SecretsManager {
         public let lastRotatedDate: Date?
         /// The name of the secret.
         public let name: String?
-        /// The name of the service that created this secret.
+        /// The ID of the service that created this secret. For more information, see Secrets managed by other Amazon Web Services services.
         public let owningService: String?
         /// The Region the secret is in. If a secret is replicated to other Regions, the replicas are listed in ReplicationStatus.
         public let primaryRegion: String?
@@ -887,7 +887,7 @@ extension SecretsManager {
     public struct ReplicationStatusType: AWSDecodableShape {
         /// Can be an ARN, Key ID, or Alias.
         public let kmsKeyId: String?
-        /// The date that you last accessed the secret in the Region.
+        /// The date that the secret was last accessed in the Region. This field is omitted if the secret has never been retrieved in the Region.
         public let lastAccessedDate: Date?
         /// The Region where replication occurs.
         public let region: String?
@@ -1050,7 +1050,7 @@ extension SecretsManager {
         public let description: String?
         /// The ARN of the KMS key that Secrets Manager uses to encrypt the secret value. If the secret is encrypted with  the Amazon Web Services managed key aws/secretsmanager, this field is omitted.
         public let kmsKeyId: String?
-        /// The last date that this secret was accessed. This value is truncated to midnight of the date and therefore shows only the date, not the time.
+        /// The date that the secret was last accessed in the Region. This field is omitted if the secret has never been retrieved in the Region.
         public let lastAccessedDate: Date?
         /// The last date and time that this secret was modified in any way.
         public let lastChangedDate: Date?
@@ -1252,7 +1252,7 @@ extension SecretsManager {
         public let clientRequestToken: String?
         /// The description of the secret.
         public let description: String?
-        /// The ARN, key ID, or alias of the KMS key that Secrets Manager  uses to encrypt new secret versions as well as any existing versions the staging labels  AWSCURRENT, AWSPENDING, or AWSPREVIOUS.  For more information about versions and staging labels, see Concepts: Version.  You can only use the Amazon Web Services managed key aws/secretsmanager if you call this operation using credentials from the same Amazon Web Services account that owns the secret. If the secret is in a different account, then you must use a customer managed key and provide the ARN of that KMS key in this field. The user making the call must have permissions to both the secret and the KMS key in their respective accounts.
+        /// The ARN, key ID, or alias of the KMS key that Secrets Manager  uses to encrypt new secret versions as well as any existing versions with the staging labels  AWSCURRENT, AWSPENDING, or AWSPREVIOUS.  For more information about versions and staging labels, see Concepts: Version. A key alias is always prefixed by alias/, for example alias/aws/secretsmanager. For more information, see About aliases. If you set this to an empty string, Secrets Manager uses the Amazon Web Services managed key  aws/secretsmanager. If this key doesn't already exist in your account, then Secrets Manager  creates it for you automatically. All users and roles in the Amazon Web Services account automatically have access  to use aws/secretsmanager. Creating aws/secretsmanager can result in a one-time  significant delay in returning the result.    You can only use the Amazon Web Services managed key aws/secretsmanager if you call this operation using credentials from the same Amazon Web Services account that owns the secret. If the secret is in a different account, then you must use a customer managed key and provide the ARN of that KMS key in this field. The user making the call must have permissions to both the secret and the KMS key in their respective accounts.
         public let kmsKeyId: String?
         /// The binary data to encrypt and store in the new version of the secret. We recommend that you store your binary data in a file and then pass the contents of the file as a parameter.  Either SecretBinary or SecretString must have a value, but not both. You can't access this parameter in the Secrets Manager console.
         public let secretBinary: AWSBase64Data?

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -30,6 +30,7 @@ extension NetworkFirewall {
     }
 
     public enum ConfigurationSyncState: String, CustomStringConvertible, Codable, _SotoSendable {
+        case capacityConstrained = "CAPACITY_CONSTRAINED"
         case inSync = "IN_SYNC"
         case pending = "PENDING"
         public var description: String { return self.rawValue }
@@ -73,6 +74,7 @@ extension NetworkFirewall {
     }
 
     public enum PerObjectSyncStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case capacityConstrained = "CAPACITY_CONSTRAINED"
         case inSync = "IN_SYNC"
         case pending = "PENDING"
         public var description: String { return self.rawValue }
@@ -345,6 +347,40 @@ extension NetworkFirewall {
             case endpointId = "EndpointId"
             case status = "Status"
             case subnetId = "SubnetId"
+        }
+    }
+
+    public struct CIDRSummary: AWSDecodableShape {
+        /// The number of CIDR blocks available for use by the IP set references in a firewall.
+        public let availableCIDRCount: Int?
+        /// The list of the IP set references used by a firewall.
+        public let ipSetReferences: [String: IPSetMetadata]?
+        /// The number of CIDR blocks used by the IP set references in a firewall.
+        public let utilizedCIDRCount: Int?
+
+        public init(availableCIDRCount: Int? = nil, ipSetReferences: [String: IPSetMetadata]? = nil, utilizedCIDRCount: Int? = nil) {
+            self.availableCIDRCount = availableCIDRCount
+            self.ipSetReferences = ipSetReferences
+            self.utilizedCIDRCount = utilizedCIDRCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availableCIDRCount = "AvailableCIDRCount"
+            case ipSetReferences = "IPSetReferences"
+            case utilizedCIDRCount = "UtilizedCIDRCount"
+        }
+    }
+
+    public struct CapacityUsageSummary: AWSDecodableShape {
+        /// Describes the capacity usage of the CIDR blocks used by the IP set references in a firewall.
+        public let cidRs: CIDRSummary?
+
+        public init(cidRs: CIDRSummary? = nil) {
+            self.cidRs = cidRs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cidRs = "CIDRs"
         }
     }
 
@@ -1346,6 +1382,8 @@ extension NetworkFirewall {
     }
 
     public struct FirewallStatus: AWSDecodableShape {
+        /// Describes the capacity usage of the resources contained in a firewall's reference sets. Network Firewall calclulates the capacity usage by taking an aggregated count of all of the resources used by all of the reference sets in a firewall.
+        public let capacityUsageSummary: CapacityUsageSummary?
         /// The configuration sync state for the firewall. This summarizes the sync states reported in the Config settings for all of the Availability Zones where you have configured the firewall.  When you create a firewall or update its configuration, for example by adding a rule group to its firewall policy, Network Firewall distributes the configuration changes to all zones where the firewall is in use. This summary indicates whether the configuration changes have been applied everywhere.  This status must be IN_SYNC for the firewall to be ready for use, but it doesn't indicate that the firewall is ready. The Status setting indicates firewall readiness.
         public let configurationSyncStateSummary: ConfigurationSyncState
         /// The readiness of the configured firewall to handle network traffic across all of the Availability Zones where you've configured it. This setting is READY only when the ConfigurationSyncStateSummary value is IN_SYNC and the Attachment Status values for all of the configured subnets are READY.
@@ -1353,13 +1391,15 @@ extension NetworkFirewall {
         /// The subnets that you've configured for use by the Network Firewall firewall. This contains one array element per Availability Zone where you've configured a subnet. These objects provide details of the information that is summarized in the ConfigurationSyncStateSummary and Status, broken down by zone and configuration object.
         public let syncStates: [String: SyncState]?
 
-        public init(configurationSyncStateSummary: ConfigurationSyncState, status: FirewallStatusValue, syncStates: [String: SyncState]? = nil) {
+        public init(capacityUsageSummary: CapacityUsageSummary? = nil, configurationSyncStateSummary: ConfigurationSyncState, status: FirewallStatusValue, syncStates: [String: SyncState]? = nil) {
+            self.capacityUsageSummary = capacityUsageSummary
             self.configurationSyncStateSummary = configurationSyncStateSummary
             self.status = status
             self.syncStates = syncStates
         }
 
         private enum CodingKeys: String, CodingKey {
+            case capacityUsageSummary = "CapacityUsageSummary"
             case configurationSyncStateSummary = "ConfigurationSyncStateSummary"
             case status = "Status"
             case syncStates = "SyncStates"
@@ -1431,6 +1471,38 @@ extension NetworkFirewall {
 
         private enum CodingKeys: String, CodingKey {
             case definition = "Definition"
+        }
+    }
+
+    public struct IPSetMetadata: AWSDecodableShape {
+        /// Describes the total number of CIDR blocks currently in use by the IP set references in a firewall. To determine how many CIDR blocks are available for you to use in a firewall, you can call AvailableCIDRCount.
+        public let resolvedCIDRCount: Int?
+
+        public init(resolvedCIDRCount: Int? = nil) {
+            self.resolvedCIDRCount = resolvedCIDRCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resolvedCIDRCount = "ResolvedCIDRCount"
+        }
+    }
+
+    public struct IPSetReference: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the resource that you are referencing in your rule group.
+        public let referenceArn: String?
+
+        public init(referenceArn: String? = nil) {
+            self.referenceArn = referenceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.referenceArn, name: "referenceArn", parent: name, max: 256)
+            try self.validate(self.referenceArn, name: "referenceArn", parent: name, min: 1)
+            try self.validate(self.referenceArn, name: "referenceArn", parent: name, pattern: "^arn:aws")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case referenceArn = "ReferenceArn"
         }
     }
 
@@ -1844,6 +1916,28 @@ extension NetworkFirewall {
         public init() {}
     }
 
+    public struct ReferenceSets: AWSEncodableShape & AWSDecodableShape {
+        /// The list of IP set references.
+        public let ipSetReferences: [String: IPSetReference]?
+
+        public init(ipSetReferences: [String: IPSetReference]? = nil) {
+            self.ipSetReferences = ipSetReferences
+        }
+
+        public func validate(name: String) throws {
+            try self.ipSetReferences?.forEach {
+                try validate($0.key, name: "ipSetReferences.key", parent: name, max: 32)
+                try validate($0.key, name: "ipSetReferences.key", parent: name, min: 1)
+                try validate($0.key, name: "ipSetReferences.key", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
+                try $0.value.validate(name: "\(name).ipSetReferences[\"\($0.key)\"]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipSetReferences = "IPSetReferences"
+        }
+    }
+
     public struct RuleDefinition: AWSEncodableShape & AWSDecodableShape {
         /// The actions to take on a packet that matches one of the stateless rule definition's match attributes. You must specify a standard action and you can add custom actions.   Network Firewall only forwards a packet for stateful rule inspection if you specify aws:forward_to_sfe for a rule that the packet matches, or if the packet doesn't match any stateless rule and you specify aws:forward_to_sfe for the StatelessDefaultActions setting for the FirewallPolicy.  For every rule, you must specify exactly one of the following standard actions.     aws:pass - Discontinues all inspection of the packet and permits it to go to its intended destination.    aws:drop - Discontinues all inspection of the packet and blocks it from going to its intended destination.    aws:forward_to_sfe - Discontinues stateless inspection of the packet and forwards it to the stateful rule engine for inspection.    Additionally, you can specify a custom action. To do this, you define a custom action by name and type, then provide the name you've assigned to the action in this Actions setting. For information about the options, see CustomAction.  To provide more than one action in this setting, separate the settings with a comma. For example, if you have a custom PublishMetrics action that you've named MyMetricsAction, then you could specify the standard action aws:pass and the custom action with [“aws:pass”, “MyMetricsAction”].
         public let actions: [String]
@@ -1866,6 +1960,8 @@ extension NetworkFirewall {
     }
 
     public struct RuleGroup: AWSEncodableShape & AWSDecodableShape {
+        /// The list of a rule group's reference sets.
+        public let referenceSets: ReferenceSets?
         /// The stateful rules or stateless rules for the rule group.
         public let rulesSource: RulesSource
         /// Settings that are available for use in the rules in the rule group. You can only use these for stateful rule groups.
@@ -1873,18 +1969,21 @@ extension NetworkFirewall {
         /// Additional options governing how Network Firewall handles stateful rules. The policies where you use your stateful rule group must have stateful rule options settings that are compatible with these settings.
         public let statefulRuleOptions: StatefulRuleOptions?
 
-        public init(rulesSource: RulesSource, ruleVariables: RuleVariables? = nil, statefulRuleOptions: StatefulRuleOptions? = nil) {
+        public init(referenceSets: ReferenceSets? = nil, rulesSource: RulesSource, ruleVariables: RuleVariables? = nil, statefulRuleOptions: StatefulRuleOptions? = nil) {
+            self.referenceSets = referenceSets
             self.rulesSource = rulesSource
             self.ruleVariables = ruleVariables
             self.statefulRuleOptions = statefulRuleOptions
         }
 
         public func validate(name: String) throws {
+            try self.referenceSets?.validate(name: "\(name).referenceSets")
             try self.rulesSource.validate(name: "\(name).rulesSource")
             try self.ruleVariables?.validate(name: "\(name).ruleVariables")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case referenceSets = "ReferenceSets"
             case rulesSource = "RulesSource"
             case ruleVariables = "RuleVariables"
             case statefulRuleOptions = "StatefulRuleOptions"

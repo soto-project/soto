@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -336,6 +336,28 @@ extension Rekognition {
             command: listFaces,
             inputKey: \ListFacesRequest.nextToken,
             outputKey: \ListFacesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Gets a list of the project policies attached to a project. To attach a project policy to a project, call PutProjectPolicy. To remove a project policy from a project, call DeleteProjectPolicy.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listProjectPoliciesPaginator(
+        _ input: ListProjectPoliciesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListProjectPoliciesRequest, ListProjectPoliciesResponse> {
+        return .init(
+            input: input,
+            command: listProjectPolicies,
+            inputKey: \ListProjectPoliciesRequest.nextToken,
+            outputKey: \ListProjectPoliciesResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

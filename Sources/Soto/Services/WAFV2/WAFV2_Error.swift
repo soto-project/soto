@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -58,9 +58,9 @@ public struct WAFV2ErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// WAF couldn’t perform the operation because your resource is being used by another resource or it’s associated with another resource.  For DeleteWebACL, you will only get this exception if the web ACL is still associated with  a regional resource. Deleting a web ACL that is still associated with an Amazon CloudFront distribution won't get this exception.
+    /// WAF couldn’t perform the operation because your resource is being used by another resource or it’s associated with another resource.
     public static var wafAssociatedItemException: Self { .init(.wafAssociatedItemException) }
-    /// The operation failed because you are inspecting the web request body, headers, or cookies without specifying how to handle oversize components.  Rules that inspect the body must either provide an OversizeHandling configuration or they must   be preceded by a SizeConstraintStatement that blocks the body content from being too large.  Rules that inspect the headers or cookies must provide an OversizeHandling configuration.  Provide the handling configuration and retry your operation. Alternately, you can suppress this warning by adding the following tag to the resource that you provide to this operation: Tag (key:WAF:OversizeFieldsHandlingConstraintOptOut, value:true).
+    /// The operation failed because you are inspecting the web request body, headers, or cookies without specifying how to handle oversize components. Rules that inspect the body must either provide an OversizeHandling configuration or they must be preceded by a SizeConstraintStatement that blocks the body content from being too large. Rules that inspect the headers or cookies must provide an OversizeHandling configuration.  Provide the handling configuration and retry your operation. Alternately, you can suppress this warning by adding the following tag to the resource that you provide to this operation: Tag (key:WAF:OversizeFieldsHandlingConstraintOptOut, value:true).
     public static var wafConfigurationWarningException: Self { .init(.wafConfigurationWarningException) }
     /// WAF couldn’t perform the operation because the resource that you tried to save is a duplicate of an existing one.
     public static var wafDuplicateItemException: Self { .init(.wafDuplicateItemException) }
@@ -90,7 +90,7 @@ public struct WAFV2ErrorType: AWSErrorType {
     public static var wafSubscriptionNotFoundException: Self { .init(.wafSubscriptionNotFoundException) }
     /// An error occurred during the tagging operation. Retry your request.
     public static var wafTagOperationException: Self { .init(.wafTagOperationException) }
-    /// WAF couldn’t perform your tagging operation because of an internal error. Retry ybjectNoteWebRequestComponentour request.
+    /// WAF couldn’t perform your tagging operation because of an internal error. Retry your request.
     public static var wafTagOperationInternalErrorException: Self { .init(.wafTagOperationInternalErrorException) }
     /// WAF couldn’t retrieve a resource that you specified for this operation. Verify the resources that you are specifying in your request parameters and then retry the operation.
     public static var wafUnavailableEntityException: Self { .init(.wafUnavailableEntityException) }

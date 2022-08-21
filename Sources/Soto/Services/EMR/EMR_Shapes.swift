@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -452,17 +452,22 @@ extension EMR {
     }
 
     public struct AddJobFlowStepsInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the runtime role for a step on the cluster. The runtime role can be a cross-account IAM role. The runtime role ARN is a combination of account ID, role name, and role type using the following format: arn:partition:service:region:account:resource.  For example, arn:aws:iam::1234567890:role/ReadOnly is a correctly formatted runtime role ARN.
+        public let executionRoleArn: String?
         /// A string that uniquely identifies the job flow. This identifier is returned by RunJobFlow and can also be obtained from ListClusters.
         public let jobFlowId: String
         ///  A list of StepConfig to be executed by the job flow.
         public let steps: [StepConfig]
 
-        public init(jobFlowId: String, steps: [StepConfig]) {
+        public init(executionRoleArn: String? = nil, jobFlowId: String, steps: [StepConfig]) {
+            self.executionRoleArn = executionRoleArn
             self.jobFlowId = jobFlowId
             self.steps = steps
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 2048)
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, min: 20)
             try self.validate(self.jobFlowId, name: "jobFlowId", parent: name, max: 256)
             try self.validate(self.jobFlowId, name: "jobFlowId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             try self.steps.forEach {
@@ -471,6 +476,7 @@ extension EMR {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case executionRoleArn = "ExecutionRoleArn"
             case jobFlowId = "JobFlowId"
             case steps = "Steps"
         }
@@ -1633,7 +1639,7 @@ extension EMR {
     public struct EbsBlockDevice: AWSDecodableShape {
         /// The device name that is exposed to the instance, such as /dev/sdh.
         public let device: String?
-        /// EBS volume specifications such as volume type, IOPS, and size (GiB) that will be requested for the EBS volume attached to an EC2 instance in the cluster.
+        /// EBS volume specifications such as volume type, IOPS, size (GiB) and throughput (MiB/s) that are requested for the EBS volume attached to an EC2 instance in the cluster.
         public let volumeSpecification: VolumeSpecification?
 
         public init(device: String? = nil, volumeSpecification: VolumeSpecification? = nil) {
@@ -1648,14 +1654,18 @@ extension EMR {
     }
 
     public struct EbsBlockDeviceConfig: AWSEncodableShape {
-        /// EBS volume specifications such as volume type, IOPS, and size (GiB) that will be requested for the EBS volume attached to an EC2 instance in the cluster.
+        /// EBS volume specifications such as volume type, IOPS, size (GiB) and throughput (MiB/s) that are requested for the EBS volume attached to an EC2 instance in the cluster.
         public let volumeSpecification: VolumeSpecification
-        /// Number of EBS volumes with a specific volume configuration that will be associated with every instance in the instance group
+        /// Number of EBS volumes with a specific volume configuration that are associated with every instance in the instance group
         public let volumesPerInstance: Int?
 
         public init(volumeSpecification: VolumeSpecification, volumesPerInstance: Int? = nil) {
             self.volumeSpecification = volumeSpecification
             self.volumesPerInstance = volumesPerInstance
+        }
+
+        public func validate(name: String) throws {
+            try self.volumeSpecification.validate(name: "\(name).volumeSpecification")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1673,6 +1683,12 @@ extension EMR {
         public init(ebsBlockDeviceConfigs: [EbsBlockDeviceConfig]? = nil, ebsOptimized: Bool? = nil) {
             self.ebsBlockDeviceConfigs = ebsBlockDeviceConfigs
             self.ebsOptimized = ebsOptimized
+        }
+
+        public func validate(name: String) throws {
+            try self.ebsBlockDeviceConfigs?.forEach {
+                try $0.validate(name: "\(name).ebsBlockDeviceConfigs[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2363,6 +2379,7 @@ extension EMR {
             try self.validate(self.bidPrice, name: "bidPrice", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             try self.validate(self.customAmiId, name: "customAmiId", parent: name, max: 256)
             try self.validate(self.customAmiId, name: "customAmiId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.ebsConfiguration?.validate(name: "\(name).ebsConfiguration")
             try self.validate(self.instanceType, name: "instanceType", parent: name, max: 256)
             try self.validate(self.instanceType, name: "instanceType", parent: name, min: 1)
             try self.validate(self.instanceType, name: "instanceType", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
@@ -2662,6 +2679,7 @@ extension EMR {
             try self.validate(self.bidPriceAsPercentageOfOnDemandPrice, name: "bidPriceAsPercentageOfOnDemandPrice", parent: name, min: 0.0)
             try self.validate(self.customAmiId, name: "customAmiId", parent: name, max: 256)
             try self.validate(self.customAmiId, name: "customAmiId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.ebsConfiguration?.validate(name: "\(name).ebsConfiguration")
             try self.validate(self.instanceType, name: "instanceType", parent: name, max: 256)
             try self.validate(self.instanceType, name: "instanceType", parent: name, min: 1)
             try self.validate(self.instanceType, name: "instanceType", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
@@ -4625,6 +4643,8 @@ extension EMR {
         public let actionOnFailure: ActionOnFailure?
         /// The Hadoop job configuration of the cluster step.
         public let config: HadoopStepConfig?
+        /// The Amazon Resource Name (ARN) of the runtime role for a step on the cluster. The runtime role can be a cross-account IAM role. The runtime role ARN is a combination of account ID, role name, and role type using the following format: arn:partition:service:region:account:resource.  For example, arn:aws:iam::1234567890:role/ReadOnly is a correctly formatted runtime role ARN.
+        public let executionRoleArn: String?
         /// The identifier of the cluster step.
         public let id: String?
         /// The name of the cluster step.
@@ -4632,9 +4652,10 @@ extension EMR {
         /// The current execution status details of the cluster step.
         public let status: StepStatus?
 
-        public init(actionOnFailure: ActionOnFailure? = nil, config: HadoopStepConfig? = nil, id: String? = nil, name: String? = nil, status: StepStatus? = nil) {
+        public init(actionOnFailure: ActionOnFailure? = nil, config: HadoopStepConfig? = nil, executionRoleArn: String? = nil, id: String? = nil, name: String? = nil, status: StepStatus? = nil) {
             self.actionOnFailure = actionOnFailure
             self.config = config
+            self.executionRoleArn = executionRoleArn
             self.id = id
             self.name = name
             self.status = status
@@ -4643,6 +4664,7 @@ extension EMR {
         private enum CodingKeys: String, CodingKey {
             case actionOnFailure = "ActionOnFailure"
             case config = "Config"
+            case executionRoleArn = "ExecutionRoleArn"
             case id = "Id"
             case name = "Name"
             case status = "Status"
@@ -5094,18 +5116,26 @@ extension EMR {
         public let iops: Int?
         /// The volume size, in gibibytes (GiB). This can be a number from 1 - 1024. If the volume type is EBS-optimized, the minimum value is 10.
         public let sizeInGB: Int
+        /// The throughput, in mebibyte per second (MiB/s). This optional parameter can be a number from 125 - 1000 and is valid only for gp3 volumes.
+        public let throughput: Int?
         /// The volume type. Volume types supported are gp2, io1, and standard.
         public let volumeType: String
 
-        public init(iops: Int? = nil, sizeInGB: Int, volumeType: String) {
+        public init(iops: Int? = nil, sizeInGB: Int, throughput: Int? = nil, volumeType: String) {
             self.iops = iops
             self.sizeInGB = sizeInGB
+            self.throughput = throughput
             self.volumeType = volumeType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.throughput, name: "throughput", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case iops = "Iops"
             case sizeInGB = "SizeInGB"
+            case throughput = "Throughput"
             case volumeType = "VolumeType"
         }
     }

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -338,9 +338,9 @@ extension AppSync {
         /// The caching keys for a resolver that has caching activated. Valid values are entries from the $context.arguments, $context.source, and $context.identity maps.
         public let cachingKeys: [String]?
         /// The TTL in seconds for a resolver that has caching activated. Valid values are 1–3,600 seconds.
-        public let ttl: Int64?
+        public let ttl: Int64
 
-        public init(cachingKeys: [String]? = nil, ttl: Int64? = nil) {
+        public init(cachingKeys: [String]? = nil, ttl: Int64) {
             self.cachingKeys = cachingKeys
             self.ttl = ttl
         }
@@ -352,7 +352,7 @@ extension AppSync {
     }
 
     public struct CognitoUserPoolConfig: AWSEncodableShape & AWSDecodableShape {
-        /// A regular expression for validating the incoming Amazon Cognito user pool app client ID.
+        /// A regular expression for validating the incoming Amazon Cognito user pool app client ID. If this value isn't set, no filtering is applied.
         public let appIdClientRegex: String?
         /// The Amazon Web Services Region in which the user pool was created.
         public let awsRegion: String
@@ -1235,6 +1235,62 @@ extension AppSync {
         private enum CodingKeys: String, CodingKey {
             case awsRegion
             case endpoint
+        }
+    }
+
+    public struct ErrorDetail: AWSDecodableShape {
+        /// The error payload.
+        public let message: String?
+
+        public init(message: String? = nil) {
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message
+        }
+    }
+
+    public struct EvaluateMappingTemplateRequest: AWSEncodableShape {
+        /// The map that holds all of the contextual information for your resolver invocation. A context is required for this action.
+        public let context: String
+        /// The mapping template; this can be a request or response template. A template is required for this action.
+        public let template: String
+
+        public init(context: String, template: String) {
+            self.context = context
+            self.template = template
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.context, name: "context", parent: name, max: 28000)
+            try self.validate(self.context, name: "context", parent: name, min: 2)
+            try self.validate(self.context, name: "context", parent: name, pattern: "^[\\s\\S]*$")
+            try self.validate(self.template, name: "template", parent: name, max: 65536)
+            try self.validate(self.template, name: "template", parent: name, min: 2)
+            try self.validate(self.template, name: "template", parent: name, pattern: "^[\\s\\S]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case context
+            case template
+        }
+    }
+
+    public struct EvaluateMappingTemplateResponse: AWSDecodableShape {
+        /// The ErrorDetail object.
+        public let error: ErrorDetail?
+        /// The mapping template; this can be a request or response template.
+        public let evaluationResult: String?
+
+        public init(error: ErrorDetail? = nil, evaluationResult: String? = nil) {
+            self.error = error
+            self.evaluationResult = evaluationResult
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case error
+            case evaluationResult
         }
     }
 
@@ -3036,7 +3092,7 @@ extension AppSync {
     }
 
     public struct UserPoolConfig: AWSEncodableShape & AWSDecodableShape {
-        /// A regular expression for validating the incoming Amazon Cognito user pool app client ID.
+        /// A regular expression for validating the incoming Amazon Cognito user pool app client ID. If this value isn't set, no filtering is applied.
         public let appIdClientRegex: String?
         /// The Amazon Web Services Region in which the user pool was created.
         public let awsRegion: String

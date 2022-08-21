@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -594,6 +594,15 @@ extension Macie2.ListCustomDataIdentifiersRequest: AWSPaginateToken {
     }
 }
 
+extension Macie2.ListFindingsFiltersRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Macie2.ListFindingsFiltersRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension Macie2.ListFindingsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Macie2.ListFindingsRequest {
         return .init(
@@ -601,15 +610,6 @@ extension Macie2.ListFindingsRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             sortCriteria: self.sortCriteria
-        )
-    }
-}
-
-extension Macie2.ListFindingsFiltersRequest: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> Macie2.ListFindingsFiltersRequest {
-        return .init(
-            maxResults: self.maxResults,
-            nextToken: token
         )
     }
 }

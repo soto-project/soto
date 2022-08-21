@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -37,6 +37,7 @@ extension NetworkManager {
     public enum AttachmentType: String, CustomStringConvertible, Codable, _SotoSendable {
         case connect = "CONNECT"
         case siteToSiteVpn = "SITE_TO_SITE_VPN"
+        case transitGatewayRouteTable = "TRANSIT_GATEWAY_ROUTE_TABLE"
         case vpc = "VPC"
         public var description: String { return self.rawValue }
     }
@@ -58,12 +59,24 @@ extension NetworkManager {
         public var description: String { return self.rawValue }
     }
 
+    public enum ChangeStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case complete = "COMPLETE"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case notStarted = "NOT_STARTED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ChangeType: String, CustomStringConvertible, Codable, _SotoSendable {
         case attachmentMapping = "ATTACHMENT_MAPPING"
+        case attachmentPoliciesConfiguration = "ATTACHMENT_POLICIES_CONFIGURATION"
         case attachmentRoutePropagation = "ATTACHMENT_ROUTE_PROPAGATION"
         case attachmentRouteStatic = "ATTACHMENT_ROUTE_STATIC"
+        case coreNetworkConfiguration = "CORE_NETWORK_CONFIGURATION"
         case coreNetworkEdge = "CORE_NETWORK_EDGE"
         case coreNetworkSegment = "CORE_NETWORK_SEGMENT"
+        case segmentsConfiguration = "SEGMENTS_CONFIGURATION"
+        case segmentActionsConfiguration = "SEGMENT_ACTIONS_CONFIGURATION"
         public var description: String { return self.rawValue }
     }
 
@@ -154,6 +167,19 @@ extension NetworkManager {
         case deleting = "DELETING"
         case pending = "PENDING"
         case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PeeringState: String, CustomStringConvertible, Codable, _SotoSendable {
+        case available = "AVAILABLE"
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PeeringType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case transitGateway = "TRANSIT_GATEWAY"
         public var description: String { return self.rawValue }
     }
 
@@ -293,7 +319,9 @@ extension NetworkManager {
     }
 
     public struct AccountStatus: AWSDecodableShape {
+        /// The ID of an account within the Amazon Web Services Organization.
         public let accountId: String?
+        /// The status of SLR deployment for the account.
         public let slrDeploymentStatus: String?
 
         public init(accountId: String? = nil, slrDeploymentStatus: String? = nil) {
@@ -518,7 +546,7 @@ extension NetworkManager {
         public let attachmentType: AttachmentType?
         /// The ARN of a core network.
         public let coreNetworkArn: String?
-        /// A core network ID.
+        /// The ID of a core network.
         public let coreNetworkId: String?
         /// The timestamp when the attachment was created.
         public let createdAt: Date?
@@ -653,7 +681,7 @@ extension NetworkManager {
         public let edgeLocation: String?
         /// The state of the Connect peer.
         public let state: ConnectPeerState?
-        /// The tags associated with the Connect peer.
+        /// The list of key-value tags associated with the Connect peer.
         public let tags: [Tag]?
 
         public init(configuration: ConnectPeerConfiguration? = nil, connectAttachmentId: String? = nil, connectPeerId: String? = nil, coreNetworkId: String? = nil, createdAt: Date? = nil, edgeLocation: String? = nil, state: ConnectPeerState? = nil, tags: [Tag]? = nil) {
@@ -775,7 +803,7 @@ extension NetworkManager {
         public let createdAt: Date?
         /// The Region where the edge is located.
         public let edgeLocation: String?
-        /// The tags associated with a Connect peer summary.
+        /// The list of key-value tags associated with the Connect peer summary.
         public let tags: [Tag]?
 
         public init(connectAttachmentId: String? = nil, connectPeerId: String? = nil, connectPeerState: ConnectPeerState? = nil, coreNetworkId: String? = nil, createdAt: Date? = nil, edgeLocation: String? = nil, tags: [Tag]? = nil) {
@@ -890,7 +918,7 @@ extension NetworkManager {
         public let segments: [CoreNetworkSegment]?
         /// The current state of a core network.
         public let state: CoreNetworkState?
-        /// The tags associated with a core network.
+        /// The list of key-value tags associated with a core network.
         public let tags: [Tag]?
 
         public init(coreNetworkArn: String? = nil, coreNetworkId: String? = nil, createdAt: Date? = nil, description: String? = nil, edges: [CoreNetworkEdge]? = nil, globalNetworkId: String? = nil, segments: [CoreNetworkSegment]? = nil, state: CoreNetworkState? = nil, tags: [Tag]? = nil) {
@@ -923,6 +951,8 @@ extension NetworkManager {
         public let action: ChangeAction?
         /// The resource identifier.
         public let identifier: String?
+        /// Uniquely identifies the path for a change within the changeset. For example, the IdentifierPath for a core network segment change might be "CORE_NETWORK_SEGMENT/us-east-1/devsegment".
+        public let identifierPath: String?
         /// The new value for a core network
         public let newValues: CoreNetworkChangeValues?
         /// The previous values for a core network.
@@ -930,9 +960,10 @@ extension NetworkManager {
         /// The type of change.
         public let type: ChangeType?
 
-        public init(action: ChangeAction? = nil, identifier: String? = nil, newValues: CoreNetworkChangeValues? = nil, previousValues: CoreNetworkChangeValues? = nil, type: ChangeType? = nil) {
+        public init(action: ChangeAction? = nil, identifier: String? = nil, identifierPath: String? = nil, newValues: CoreNetworkChangeValues? = nil, previousValues: CoreNetworkChangeValues? = nil, type: ChangeType? = nil) {
             self.action = action
             self.identifier = identifier
+            self.identifierPath = identifierPath
             self.newValues = newValues
             self.previousValues = previousValues
             self.type = type
@@ -941,9 +972,68 @@ extension NetworkManager {
         private enum CodingKeys: String, CodingKey {
             case action = "Action"
             case identifier = "Identifier"
+            case identifierPath = "IdentifierPath"
             case newValues = "NewValues"
             case previousValues = "PreviousValues"
             case type = "Type"
+        }
+    }
+
+    public struct CoreNetworkChangeEvent: AWSDecodableShape {
+        /// The action taken for the change event.
+        public let action: ChangeAction?
+        /// The timestamp for an event change in status.
+        public let eventTime: Date?
+        /// Uniquely identifies the path for a change within the changeset. For example, the IdentifierPath for a core network segment change might be "CORE_NETWORK_SEGMENT/us-east-1/devsegment".
+        public let identifierPath: String?
+        /// The status of the core network change event.
+        public let status: ChangeStatus?
+        /// Describes the type of change event.
+        public let type: ChangeType?
+        /// Details of the change event.
+        public let values: CoreNetworkChangeEventValues?
+
+        public init(action: ChangeAction? = nil, eventTime: Date? = nil, identifierPath: String? = nil, status: ChangeStatus? = nil, type: ChangeType? = nil, values: CoreNetworkChangeEventValues? = nil) {
+            self.action = action
+            self.eventTime = eventTime
+            self.identifierPath = identifierPath
+            self.status = status
+            self.type = type
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case eventTime = "EventTime"
+            case identifierPath = "IdentifierPath"
+            case status = "Status"
+            case type = "Type"
+            case values = "Values"
+        }
+    }
+
+    public struct CoreNetworkChangeEventValues: AWSDecodableShape {
+        /// The ID of the attachment if the change event is associated with an attachment.
+        public let attachmentId: String?
+        /// For a STATIC_ROUTE event, this is the IP address.
+        public let cidr: String?
+        /// The edge location for the core network change event.
+        public let edgeLocation: String?
+        /// The segment name if the change event is associated with a segment.
+        public let segmentName: String?
+
+        public init(attachmentId: String? = nil, cidr: String? = nil, edgeLocation: String? = nil, segmentName: String? = nil) {
+            self.attachmentId = attachmentId
+            self.cidr = cidr
+            self.edgeLocation = edgeLocation
+            self.segmentName = segmentName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachmentId = "AttachmentId"
+            case cidr = "Cidr"
+            case edgeLocation = "EdgeLocation"
+            case segmentName = "SegmentName"
         }
     }
 
@@ -1743,6 +1833,106 @@ extension NetworkManager {
         }
     }
 
+    public struct CreateTransitGatewayPeeringRequest: AWSEncodableShape {
+        /// The client token associated with the request.
+        public let clientToken: String?
+        /// The ID of a core network.
+        public let coreNetworkId: String
+        /// The list of key-value tags associated with the request.
+        public let tags: [Tag]?
+        /// The ARN of the transit gateway for the peering request.
+        public let transitGatewayArn: String
+
+        public init(clientToken: String? = CreateTransitGatewayPeeringRequest.idempotencyToken(), coreNetworkId: String, tags: [Tag]? = nil, transitGatewayArn: String) {
+            self.clientToken = clientToken
+            self.coreNetworkId = coreNetworkId
+            self.tags = tags
+            self.transitGatewayArn = transitGatewayArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\s\\S]*$")
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, max: 50)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, pattern: "^core-network-([0-9a-f]{8,17})$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.transitGatewayArn, name: "transitGatewayArn", parent: name, max: 500)
+            try self.validate(self.transitGatewayArn, name: "transitGatewayArn", parent: name, pattern: "^[\\s\\S]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case coreNetworkId = "CoreNetworkId"
+            case tags = "Tags"
+            case transitGatewayArn = "TransitGatewayArn"
+        }
+    }
+
+    public struct CreateTransitGatewayPeeringResponse: AWSDecodableShape {
+        /// Returns information about the transit gateway peering connection request.
+        public let transitGatewayPeering: TransitGatewayPeering?
+
+        public init(transitGatewayPeering: TransitGatewayPeering? = nil) {
+            self.transitGatewayPeering = transitGatewayPeering
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transitGatewayPeering = "TransitGatewayPeering"
+        }
+    }
+
+    public struct CreateTransitGatewayRouteTableAttachmentRequest: AWSEncodableShape {
+        /// The client token associated with the request.
+        public let clientToken: String?
+        /// The ID of the peer for the
+        public let peeringId: String
+        /// The list of key-value tags associated with the request.
+        public let tags: [Tag]?
+        /// The ARN of the transit gateway route table for the attachment request.
+        public let transitGatewayRouteTableArn: String
+
+        public init(clientToken: String? = CreateTransitGatewayRouteTableAttachmentRequest.idempotencyToken(), peeringId: String, tags: [Tag]? = nil, transitGatewayRouteTableArn: String) {
+            self.clientToken = clientToken
+            self.peeringId = peeringId
+            self.tags = tags
+            self.transitGatewayRouteTableArn = transitGatewayRouteTableArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\s\\S]*$")
+            try self.validate(self.peeringId, name: "peeringId", parent: name, max: 50)
+            try self.validate(self.peeringId, name: "peeringId", parent: name, pattern: "^peering-([0-9a-f]{8,17})$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.transitGatewayRouteTableArn, name: "transitGatewayRouteTableArn", parent: name, max: 500)
+            try self.validate(self.transitGatewayRouteTableArn, name: "transitGatewayRouteTableArn", parent: name, pattern: "^[\\s\\S]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case peeringId = "PeeringId"
+            case tags = "Tags"
+            case transitGatewayRouteTableArn = "TransitGatewayRouteTableArn"
+        }
+    }
+
+    public struct CreateTransitGatewayRouteTableAttachmentResponse: AWSDecodableShape {
+        /// The route table associated with the create transit gateway route table attachment request.
+        public let transitGatewayRouteTableAttachment: TransitGatewayRouteTableAttachment?
+
+        public init(transitGatewayRouteTableAttachment: TransitGatewayRouteTableAttachment? = nil) {
+            self.transitGatewayRouteTableAttachment = transitGatewayRouteTableAttachment
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transitGatewayRouteTableAttachment = "TransitGatewayRouteTableAttachment"
+        }
+    }
+
     public struct CreateVpcAttachmentRequest: AWSEncodableShape {
         /// The client token associated with the request.
         public let clientToken: String?
@@ -2117,6 +2307,39 @@ extension NetworkManager {
 
         private enum CodingKeys: String, CodingKey {
             case link = "Link"
+        }
+    }
+
+    public struct DeletePeeringRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "peeringId", location: .uri("PeeringId"))
+        ]
+
+        /// The ID of the peering connection to delete.
+        public let peeringId: String
+
+        public init(peeringId: String) {
+            self.peeringId = peeringId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.peeringId, name: "peeringId", parent: name, max: 50)
+            try self.validate(self.peeringId, name: "peeringId", parent: name, pattern: "^peering-([0-9a-f]{8,17})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeletePeeringResponse: AWSDecodableShape {
+        /// Information about a deleted peering connection.
+        public let peering: Peering?
+
+        public init(peering: Peering? = nil) {
+            self.peering = peering
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case peering = "Peering"
         }
     }
 
@@ -2710,6 +2933,59 @@ extension NetworkManager {
 
         private enum CodingKeys: String, CodingKey {
             case connections = "Connections"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetCoreNetworkChangeEventsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "coreNetworkId", location: .uri("CoreNetworkId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "policyVersionId", location: .uri("PolicyVersionId"))
+        ]
+
+        /// The ID of a core network.
+        public let coreNetworkId: String
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// The ID of the policy version.
+        public let policyVersionId: Int
+
+        public init(coreNetworkId: String, maxResults: Int? = nil, nextToken: String? = nil, policyVersionId: Int) {
+            self.coreNetworkId = coreNetworkId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.policyVersionId = policyVersionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, max: 50)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, pattern: "^core-network-([0-9a-f]{8,17})$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\s\\S]*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetCoreNetworkChangeEventsResponse: AWSDecodableShape {
+        /// The response to GetCoreNetworkChangeEventsRequest.
+        public let coreNetworkChangeEvents: [CoreNetworkChangeEvent]?
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        public init(coreNetworkChangeEvents: [CoreNetworkChangeEvent]? = nil, nextToken: String? = nil) {
+            self.coreNetworkChangeEvents = coreNetworkChangeEvents
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case coreNetworkChangeEvents = "CoreNetworkChangeEvents"
             case nextToken = "NextToken"
         }
     }
@@ -3746,6 +4022,39 @@ extension NetworkManager {
         }
     }
 
+    public struct GetTransitGatewayPeeringRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "peeringId", location: .uri("PeeringId"))
+        ]
+
+        /// The ID of the peering request.
+        public let peeringId: String
+
+        public init(peeringId: String) {
+            self.peeringId = peeringId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.peeringId, name: "peeringId", parent: name, max: 50)
+            try self.validate(self.peeringId, name: "peeringId", parent: name, pattern: "^peering-([0-9a-f]{8,17})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetTransitGatewayPeeringResponse: AWSDecodableShape {
+        /// Returns information about a transit gateway peering.
+        public let transitGatewayPeering: TransitGatewayPeering?
+
+        public init(transitGatewayPeering: TransitGatewayPeering? = nil) {
+            self.transitGatewayPeering = transitGatewayPeering
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transitGatewayPeering = "TransitGatewayPeering"
+        }
+    }
+
     public struct GetTransitGatewayRegistrationsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "globalNetworkId", location: .uri("GlobalNetworkId")),
@@ -3800,6 +4109,39 @@ extension NetworkManager {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case transitGatewayRegistrations = "TransitGatewayRegistrations"
+        }
+    }
+
+    public struct GetTransitGatewayRouteTableAttachmentRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "attachmentId", location: .uri("AttachmentId"))
+        ]
+
+        /// The ID of the transit gateway route table attachment.
+        public let attachmentId: String
+
+        public init(attachmentId: String) {
+            self.attachmentId = attachmentId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.attachmentId, name: "attachmentId", parent: name, max: 50)
+            try self.validate(self.attachmentId, name: "attachmentId", parent: name, pattern: "^attachment-([0-9a-f]{8,17})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetTransitGatewayRouteTableAttachmentResponse: AWSDecodableShape {
+        /// Returns information about the transit gateway route table attachment.
+        public let transitGatewayRouteTableAttachment: TransitGatewayRouteTableAttachment?
+
+        public init(transitGatewayRouteTableAttachment: TransitGatewayRouteTableAttachment? = nil) {
+            self.transitGatewayRouteTableAttachment = transitGatewayRouteTableAttachment
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transitGatewayRouteTableAttachment = "TransitGatewayRouteTableAttachment"
         }
     }
 
@@ -4164,7 +4506,9 @@ extension NetworkManager {
             AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
+        /// The maximum number of results to return.
         public let maxResults: Int?
+        /// The token for the next page of results.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -4183,7 +4527,9 @@ extension NetworkManager {
     }
 
     public struct ListOrganizationServiceAccessStatusResponse: AWSDecodableShape {
+        /// The token for the next page of results.
         public let nextToken: String?
+        /// Displays the status of an Amazon Web Services Organization.
         public let organizationStatus: OrganizationStatus?
 
         public init(nextToken: String? = nil, organizationStatus: OrganizationStatus? = nil) {
@@ -4194,6 +4540,70 @@ extension NetworkManager {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case organizationStatus = "OrganizationStatus"
+        }
+    }
+
+    public struct ListPeeringsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "coreNetworkId", location: .querystring("coreNetworkId")),
+            AWSMemberEncoding(label: "edgeLocation", location: .querystring("edgeLocation")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "peeringType", location: .querystring("peeringType")),
+            AWSMemberEncoding(label: "state", location: .querystring("state"))
+        ]
+
+        /// The ID of a core network.
+        public let coreNetworkId: String?
+        /// Returns a list edge locations for the
+        public let edgeLocation: String?
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// Returns a list of a peering requests.
+        public let peeringType: PeeringType?
+        /// Returns a list of the peering request states.
+        public let state: PeeringState?
+
+        public init(coreNetworkId: String? = nil, edgeLocation: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, peeringType: PeeringType? = nil, state: PeeringState? = nil) {
+            self.coreNetworkId = coreNetworkId
+            self.edgeLocation = edgeLocation
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.peeringType = peeringType
+            self.state = state
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, max: 50)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, pattern: "^core-network-([0-9a-f]{8,17})$")
+            try self.validate(self.edgeLocation, name: "edgeLocation", parent: name, max: 63)
+            try self.validate(self.edgeLocation, name: "edgeLocation", parent: name, min: 1)
+            try self.validate(self.edgeLocation, name: "edgeLocation", parent: name, pattern: "^[\\s\\S]*$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\s\\S]*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListPeeringsResponse: AWSDecodableShape {
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// Lists the transit gateway peerings for the ListPeerings request.
+        public let peerings: [Peering]?
+
+        public init(nextToken: String? = nil, peerings: [Peering]? = nil) {
+            self.nextToken = nextToken
+            self.peerings = peerings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case peerings = "Peerings"
         }
     }
 
@@ -4265,7 +4675,7 @@ extension NetworkManager {
         public let accountId: String?
         /// The Amazon Web Services Region.
         public let awsRegion: String?
-        /// a core network ID.
+        /// The ID of a core network.
         public let coreNetworkId: String?
         /// Information about the resource, in JSON format. Network Manager gets this information by describing the resource using its Describe API call.
         public let definition: String?
@@ -4472,9 +4882,13 @@ extension NetworkManager {
     }
 
     public struct OrganizationStatus: AWSDecodableShape {
+        /// The current service-linked role (SLR) deployment status for an Amazon Web Services Organization's accounts. This will be either SUCCEEDED or IN_PROGRESS.
         public let accountStatusList: [AccountStatus]?
+        /// The status  of the organization's AWS service access. This will be ENABLED or DISABLED.
         public let organizationAwsServiceAccessStatus: String?
+        /// The ID of an Amazon Web Services Organization.
         public let organizationId: String?
+        /// The status of the SLR deployment for the account. This will be either SUCCEEDED or IN_PROGRESS.
         public let slrDeploymentStatus: String?
 
         public init(accountStatusList: [AccountStatus]? = nil, organizationAwsServiceAccessStatus: String? = nil, organizationId: String? = nil, slrDeploymentStatus: String? = nil) {
@@ -4513,12 +4927,61 @@ extension NetworkManager {
         }
     }
 
+    public struct Peering: AWSDecodableShape {
+        /// The ARN of a core network.
+        public let coreNetworkArn: String?
+        /// The ID of the core network for the peering request.
+        public let coreNetworkId: String?
+        /// The timestamp when the attachment peer was created.
+        public let createdAt: Date?
+        /// The edge location for the peer.
+        public let edgeLocation: String?
+        /// The ID of the account owner.
+        public let ownerAccountId: String?
+        /// The ID of the peering attachment.
+        public let peeringId: String?
+        /// The type of peering. This will be TRANSIT_GATEWAY.
+        public let peeringType: PeeringType?
+        /// The resource ARN of the peer.
+        public let resourceArn: String?
+        /// The current state of the peering connection.
+        public let state: PeeringState?
+        /// The list of key-value tags associated with the peering.
+        public let tags: [Tag]?
+
+        public init(coreNetworkArn: String? = nil, coreNetworkId: String? = nil, createdAt: Date? = nil, edgeLocation: String? = nil, ownerAccountId: String? = nil, peeringId: String? = nil, peeringType: PeeringType? = nil, resourceArn: String? = nil, state: PeeringState? = nil, tags: [Tag]? = nil) {
+            self.coreNetworkArn = coreNetworkArn
+            self.coreNetworkId = coreNetworkId
+            self.createdAt = createdAt
+            self.edgeLocation = edgeLocation
+            self.ownerAccountId = ownerAccountId
+            self.peeringId = peeringId
+            self.peeringType = peeringType
+            self.resourceArn = resourceArn
+            self.state = state
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case coreNetworkArn = "CoreNetworkArn"
+            case coreNetworkId = "CoreNetworkId"
+            case createdAt = "CreatedAt"
+            case edgeLocation = "EdgeLocation"
+            case ownerAccountId = "OwnerAccountId"
+            case peeringId = "PeeringId"
+            case peeringType = "PeeringType"
+            case resourceArn = "ResourceArn"
+            case state = "State"
+            case tags = "Tags"
+        }
+    }
+
     public struct ProposedSegmentChange: AWSDecodableShape {
         /// The rule number in the policy document that applies to this change.
         public let attachmentPolicyRuleNumber: Int?
         /// The name of the segment to change.
         public let segmentName: String?
-        /// The key-value tags that changed for the segment.
+        /// The list of key-value tags that changed for the segment.
         public let tags: [Tag]?
 
         public init(attachmentPolicyRuleNumber: Int? = nil, segmentName: String? = nil, tags: [Tag]? = nil) {
@@ -4967,6 +5430,7 @@ extension NetworkManager {
     }
 
     public struct StartOrganizationServiceAccessUpdateRequest: AWSEncodableShape {
+        /// The action to take for the update request. This can be either ENABLE or DISABLE.
         public let action: String
 
         public init(action: String) {
@@ -4983,6 +5447,7 @@ extension NetworkManager {
     }
 
     public struct StartOrganizationServiceAccessUpdateResponse: AWSDecodableShape {
+        /// The status of the service access update request for an Amazon Web Services Organization.
         public let organizationStatus: OrganizationStatus?
 
         public init(organizationStatus: OrganizationStatus? = nil) {
@@ -5131,6 +5596,27 @@ extension NetworkManager {
         }
     }
 
+    public struct TransitGatewayPeering: AWSDecodableShape {
+        /// Describes a transit gateway peer connection.
+        public let peering: Peering?
+        /// The ARN of the transit gateway.
+        public let transitGatewayArn: String?
+        /// The ID of the transit gateway peering attachment.
+        public let transitGatewayPeeringAttachmentId: String?
+
+        public init(peering: Peering? = nil, transitGatewayArn: String? = nil, transitGatewayPeeringAttachmentId: String? = nil) {
+            self.peering = peering
+            self.transitGatewayArn = transitGatewayArn
+            self.transitGatewayPeeringAttachmentId = transitGatewayPeeringAttachmentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case peering = "Peering"
+            case transitGatewayArn = "TransitGatewayArn"
+            case transitGatewayPeeringAttachmentId = "TransitGatewayPeeringAttachmentId"
+        }
+    }
+
     public struct TransitGatewayRegistration: AWSDecodableShape {
         /// The ID of the global network.
         public let globalNetworkId: String?
@@ -5166,6 +5652,26 @@ extension NetworkManager {
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
             case message = "Message"
+        }
+    }
+
+    public struct TransitGatewayRouteTableAttachment: AWSDecodableShape {
+        public let attachment: Attachment?
+        /// The ID of the peering attachment.
+        public let peeringId: String?
+        /// The ARN of the transit gateway attachment route table.
+        public let transitGatewayRouteTableArn: String?
+
+        public init(attachment: Attachment? = nil, peeringId: String? = nil, transitGatewayRouteTableArn: String? = nil) {
+            self.attachment = attachment
+            self.peeringId = peeringId
+            self.transitGatewayRouteTableArn = transitGatewayRouteTableArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachment = "Attachment"
+            case peeringId = "PeeringId"
+            case transitGatewayRouteTableArn = "TransitGatewayRouteTableArn"
         }
     }
 

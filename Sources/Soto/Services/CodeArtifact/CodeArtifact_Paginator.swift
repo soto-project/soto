@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -373,6 +373,7 @@ extension CodeArtifact.ListPackageVersionsRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             namespace: self.namespace,
             nextToken: token,
+            originType: self.originType,
             package: self.package,
             repository: self.repository,
             sortBy: self.sortBy,
@@ -391,17 +392,9 @@ extension CodeArtifact.ListPackagesRequest: AWSPaginateToken {
             namespace: self.namespace,
             nextToken: token,
             packagePrefix: self.packagePrefix,
-            repository: self.repository
-        )
-    }
-}
-
-extension CodeArtifact.ListRepositoriesRequest: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> CodeArtifact.ListRepositoriesRequest {
-        return .init(
-            maxResults: self.maxResults,
-            nextToken: token,
-            repositoryPrefix: self.repositoryPrefix
+            publish: self.publish,
+            repository: self.repository,
+            upstream: self.upstream
         )
     }
 }
@@ -412,6 +405,16 @@ extension CodeArtifact.ListRepositoriesInDomainRequest: AWSPaginateToken {
             administratorAccount: self.administratorAccount,
             domain: self.domain,
             domainOwner: self.domainOwner,
+            maxResults: self.maxResults,
+            nextToken: token,
+            repositoryPrefix: self.repositoryPrefix
+        )
+    }
+}
+
+extension CodeArtifact.ListRepositoriesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> CodeArtifact.ListRepositoriesRequest {
+        return .init(
             maxResults: self.maxResults,
             nextToken: token,
             repositoryPrefix: self.repositoryPrefix

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -163,9 +163,18 @@ extension Glue {
     public enum CrawlState: String, CustomStringConvertible, Codable, _SotoSendable {
         case cancelled = "CANCELLED"
         case cancelling = "CANCELLING"
+        case error = "ERROR"
         case failed = "FAILED"
         case running = "RUNNING"
         case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CrawlerHistoryState: String, CustomStringConvertible, Codable, _SotoSendable {
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case running = "RUNNING"
+        case stopped = "STOPPED"
         public var description: String { return self.rawValue }
     }
 
@@ -209,10 +218,25 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
+    public enum ExecutionClass: String, CustomStringConvertible, Codable, _SotoSendable {
+        case flex = "FLEX"
+        case standard = "STANDARD"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ExistCondition: String, CustomStringConvertible, Codable, _SotoSendable {
         case mustExist = "MUST_EXIST"
         case none = "NONE"
         case notExist = "NOT_EXIST"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FieldName: String, CustomStringConvertible, Codable, _SotoSendable {
+        case crawlId = "CRAWL_ID"
+        case dpuHour = "DPU_HOUR"
+        case endTime = "END_TIME"
+        case startTime = "START_TIME"
+        case state = "STATE"
         public var description: String { return self.rawValue }
     }
 
@@ -230,6 +254,16 @@ extension Glue {
         case lt = "LT"
         case lte = "LTE"
         case regex = "REGEX"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FilterOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+        case eq = "EQ"
+        case ge = "GE"
+        case gt = "GT"
+        case le = "LE"
+        case lt = "LT"
+        case ne = "NE"
         public var description: String { return self.rawValue }
     }
 
@@ -303,6 +337,7 @@ extension Glue {
     }
 
     public enum JobRunState: String, CustomStringConvertible, Codable, _SotoSendable {
+        case error = "ERROR"
         case failed = "FAILED"
         case running = "RUNNING"
         case starting = "STARTING"
@@ -310,6 +345,7 @@ extension Glue {
         case stopping = "STOPPING"
         case succeeded = "SUCCEEDED"
         case timeout = "TIMEOUT"
+        case waiting = "WAITING"
         public var description: String { return self.rawValue }
     }
 
@@ -623,6 +659,7 @@ extension Glue {
     }
 
     public enum WorkerType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case g025X = "G.025X"
         case g1X = "G.1X"
         case g2X = "G.2X"
         case standard = "Standard"
@@ -2857,7 +2894,7 @@ extension Glue {
     }
 
     public struct Connection: AWSDecodableShape {
-        /// These key-value pairs define parameters for the connection:    HOST - The host URI: either the fully qualified domain name (FQDN) or the IPv4 address of the database host.    PORT - The port number, between 1024 and 65535, of the port on which the database host is listening for database connections.    USER_NAME -  The name under which to log in to the database. The value string for USER_NAME is "USERNAME".    PASSWORD - A password, if one is used, for the user name.    ENCRYPTED_PASSWORD - When you enable connection password protection by setting ConnectionPasswordEncryption in the Data Catalog encryption settings, this field stores the encrypted password.    JDBC_DRIVER_JAR_URI - The Amazon Simple Storage Service (Amazon S3) path of the JAR file that contains the JDBC driver to use.    JDBC_DRIVER_CLASS_NAME - The class name of the JDBC driver to use.    JDBC_ENGINE - The name of the JDBC engine to use.    JDBC_ENGINE_VERSION - The version of the JDBC engine to use.    CONFIG_FILES - (Reserved for future use.)    INSTANCE_ID - The instance ID to use.    JDBC_CONNECTION_URL - The URL for connecting to a JDBC data source.    JDBC_ENFORCE_SSL - A Boolean string (true, false) specifying whether Secure Sockets Layer (SSL) with hostname matching is enforced for the JDBC connection on the client. The default is false.    CUSTOM_JDBC_CERT - An Amazon S3 location specifying the customer's root certificate. Glue uses this root certificate to validate the customer’s certificate when connecting to the customer database. Glue only handles X.509 certificates. The certificate provided must be DER-encoded and supplied in Base64 encoding PEM format.    SKIP_CUSTOM_JDBC_CERT_VALIDATION - By default, this is false. Glue validates the Signature algorithm and Subject Public Key Algorithm for the customer certificate. The only permitted algorithms for the Signature algorithm are SHA256withRSA, SHA384withRSA or SHA512withRSA. For the Subject Public Key Algorithm, the key length must be at least 2048. You can set the value of this property to true to skip Glue’s validation of the customer certificate.    CUSTOM_JDBC_CERT_STRING - A custom JDBC certificate string which is used for domain match or distinguished name match to prevent a man-in-the-middle attack. In Oracle database, this is used as the SSL_SERVER_CERT_DN; in Microsoft SQL Server, this is used as the hostNameInCertificate.    CONNECTION_URL - The URL for connecting to a general (non-JDBC) data source.    KAFKA_BOOTSTRAP_SERVERS - A comma-separated list of host and port pairs that are the addresses of the Apache Kafka brokers in a Kafka cluster to which a Kafka client will connect to and bootstrap itself.    KAFKA_SSL_ENABLED - Whether to enable or disable SSL on an Apache Kafka connection. Default value is "true".    KAFKA_CUSTOM_CERT - The Amazon S3 URL for the private CA cert file (.pem format). The default is an empty string.    KAFKA_SKIP_CUSTOM_CERT_VALIDATION - Whether to skip the validation of the CA cert file or not. Glue validates for three algorithms: SHA256withRSA, SHA384withRSA and SHA512withRSA. Default value is "false".    SECRET_ID - The secret ID used for the secret manager of credentials.    CONNECTOR_URL - The connector URL for a MARKETPLACE or CUSTOM connection.    CONNECTOR_TYPE - The connector type for a MARKETPLACE or CUSTOM connection.    CONNECTOR_CLASS_NAME - The connector class name for a MARKETPLACE or CUSTOM connection.    KAFKA_CLIENT_KEYSTORE - The Amazon S3 location of the client keystore file for Kafka client side authentication (Optional).    KAFKA_CLIENT_KEYSTORE_PASSWORD - The password to access the provided keystore (Optional).    KAFKA_CLIENT_KEY_PASSWORD - A keystore can consist of multiple keys, so this is the password to access the client key to be used with the Kafka server side key (Optional).    ENCRYPTED_KAFKA_CLIENT_KEYSTORE_PASSWORD - The encrypted version of the Kafka client keystore password (if the user has the Glue encrypt passwords setting selected).    ENCRYPTED_KAFKA_CLIENT_KEY_PASSWORD - The encrypted version of the Kafka client key password (if the user has the Glue encrypt passwords setting selected).
+        /// These key-value pairs define parameters for the connection:    HOST - The host URI: either the fully qualified domain name (FQDN) or the IPv4 address of the database host.    PORT - The port number, between 1024 and 65535, of the port on which the database host is listening for database connections.    USER_NAME -  The name under which to log in to the database. The value string for USER_NAME is "USERNAME".    PASSWORD - A password, if one is used, for the user name.    ENCRYPTED_PASSWORD - When you enable connection password protection by setting ConnectionPasswordEncryption in the Data Catalog encryption settings, this field stores the encrypted password.    JDBC_DRIVER_JAR_URI - The Amazon Simple Storage Service (Amazon S3) path of the JAR file that contains the JDBC driver to use.    JDBC_DRIVER_CLASS_NAME - The class name of the JDBC driver to use.    JDBC_ENGINE - The name of the JDBC engine to use.    JDBC_ENGINE_VERSION - The version of the JDBC engine to use.    CONFIG_FILES - (Reserved for future use.)    INSTANCE_ID - The instance ID to use.    JDBC_CONNECTION_URL - The URL for connecting to a JDBC data source.    JDBC_ENFORCE_SSL - A Boolean string (true, false) specifying whether Secure Sockets Layer (SSL) with hostname matching is enforced for the JDBC connection on the client. The default is false.    CUSTOM_JDBC_CERT - An Amazon S3 location specifying the customer's root certificate. Glue uses this root certificate to validate the customer’s certificate when connecting to the customer database. Glue only handles X.509 certificates. The certificate provided must be DER-encoded and supplied in Base64 encoding PEM format.    SKIP_CUSTOM_JDBC_CERT_VALIDATION - By default, this is false. Glue validates the Signature algorithm and Subject Public Key Algorithm for the customer certificate. The only permitted algorithms for the Signature algorithm are SHA256withRSA, SHA384withRSA or SHA512withRSA. For the Subject Public Key Algorithm, the key length must be at least 2048. You can set the value of this property to true to skip Glue’s validation of the customer certificate.    CUSTOM_JDBC_CERT_STRING - A custom JDBC certificate string which is used for domain match or distinguished name match to prevent a man-in-the-middle attack. In Oracle database, this is used as the SSL_SERVER_CERT_DN; in Microsoft SQL Server, this is used as the hostNameInCertificate.    CONNECTION_URL - The URL for connecting to a general (non-JDBC) data source.    SECRET_ID - The secret ID used for the secret manager of credentials.    CONNECTOR_URL - The connector URL for a MARKETPLACE or CUSTOM connection.    CONNECTOR_TYPE - The connector type for a MARKETPLACE or CUSTOM connection.    CONNECTOR_CLASS_NAME - The connector class name for a MARKETPLACE or CUSTOM connection.    KAFKA_BOOTSTRAP_SERVERS - A comma-separated list of host and port pairs that are the addresses of the Apache Kafka brokers in a Kafka cluster to which a Kafka client will connect to and bootstrap itself.    KAFKA_SSL_ENABLED - Whether to enable or disable SSL on an Apache Kafka connection. Default value is "true".    KAFKA_CUSTOM_CERT - The Amazon S3 URL for the private CA cert file (.pem format). The default is an empty string.    KAFKA_SKIP_CUSTOM_CERT_VALIDATION - Whether to skip the validation of the CA cert file or not. Glue validates for three algorithms: SHA256withRSA, SHA384withRSA and SHA512withRSA. Default value is "false".    KAFKA_CLIENT_KEYSTORE - The Amazon S3 location of the client keystore file for Kafka client side authentication (Optional).    KAFKA_CLIENT_KEYSTORE_PASSWORD - The password to access the provided keystore (Optional).    KAFKA_CLIENT_KEY_PASSWORD - A keystore can consist of multiple keys, so this is the password to access the client key to be used with the Kafka server side key (Optional).    ENCRYPTED_KAFKA_CLIENT_KEYSTORE_PASSWORD - The encrypted version of the Kafka client keystore password (if the user has the Glue encrypt passwords setting selected).    ENCRYPTED_KAFKA_CLIENT_KEY_PASSWORD - The encrypted version of the Kafka client key password (if the user has the Glue encrypt passwords setting selected).    KAFKA_SASL_MECHANISM - "SCRAM-SHA-512" or "GSSAPI". These are the two supported SASL Mechanisms.    KAFKA_SASL_SCRAM_USERNAME - A plaintext username used to authenticate with the "SCRAM-SHA-512" mechanism.    KAFKA_SASL_SCRAM_PASSWORD - A plaintext password used to authenticate with the "SCRAM-SHA-512" mechanism.    ENCRYPTED_KAFKA_SASL_SCRAM_PASSWORD - The encrypted version of the Kafka SASL SCRAM password (if the user has the Glue encrypt passwords setting selected).    KAFKA_SASL_GSSAPI_KEYTAB - The S3 location of a Kerberos keytab file. A keytab stores long-term keys for one or more principals. For more information, see MIT Kerberos Documentation: Keytab.    KAFKA_SASL_GSSAPI_KRB5_CONF - The S3 location of a Kerberos krb5.conf file. A krb5.conf stores Kerberos configuration information, such as the location of the KDC server. For more information, see MIT Kerberos Documentation: krb5.conf.    KAFKA_SASL_GSSAPI_SERVICE - The Kerberos service name, as set with sasl.kerberos.service.name in your Kafka Configuration.    KAFKA_SASL_GSSAPI_PRINCIPAL - The name of the Kerberos princial used by Glue. For more information, see Kafka Documentation: Configuring Kafka Brokers.
         public let connectionProperties: [ConnectionPropertyKey: String]?
         /// The type of the connection. Currently, SFTP is not supported.
         public let connectionType: ConnectionType?
@@ -3040,7 +3077,7 @@ extension Glue {
         public let databaseName: String?
         /// A description of the crawler.
         public let description: String?
-        /// Specifies whether the crawler should use AWS Lake Formation credentials for the crawler instead of the IAM role credentials.
+        /// Specifies whether the crawler should use Lake Formation credentials for the crawler instead of the IAM role credentials.
         public let lakeFormationConfiguration: LakeFormationConfiguration?
         /// The status of the last crawl, and potentially error information if an error occurred.
         public let lastCrawl: LastCrawlInfo?
@@ -3111,6 +3148,55 @@ extension Glue {
             case tablePrefix = "TablePrefix"
             case targets = "Targets"
             case version = "Version"
+        }
+    }
+
+    public struct CrawlerHistory: AWSDecodableShape {
+        /// A UUID identifier for each crawl.
+        public let crawlId: String?
+        /// The number of data processing units (DPU) used in hours for the crawl.
+        public let dpuHour: Double?
+        /// The date and time on which the crawl ended.
+        public let endTime: Date?
+        /// If an error occurred, the error message associated with the crawl.
+        public let errorMessage: String?
+        /// The log group associated with the crawl.
+        public let logGroup: String?
+        /// The log stream associated with the crawl.
+        public let logStream: String?
+        /// The prefix for a CloudWatch message about this crawl.
+        public let messagePrefix: String?
+        /// The date and time on which the crawl started.
+        public let startTime: Date?
+        /// The state of the crawl.
+        public let state: CrawlerHistoryState?
+        /// A run summary for the specific crawl in JSON. Contains the catalog tables and partitions that were added, updated, or deleted.
+        public let summary: String?
+
+        public init(crawlId: String? = nil, dpuHour: Double? = nil, endTime: Date? = nil, errorMessage: String? = nil, logGroup: String? = nil, logStream: String? = nil, messagePrefix: String? = nil, startTime: Date? = nil, state: CrawlerHistoryState? = nil, summary: String? = nil) {
+            self.crawlId = crawlId
+            self.dpuHour = dpuHour
+            self.endTime = endTime
+            self.errorMessage = errorMessage
+            self.logGroup = logGroup
+            self.logStream = logStream
+            self.messagePrefix = messagePrefix
+            self.startTime = startTime
+            self.state = state
+            self.summary = summary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case crawlId = "CrawlId"
+            case dpuHour = "DPUHour"
+            case endTime = "EndTime"
+            case errorMessage = "ErrorMessage"
+            case logGroup = "LogGroup"
+            case logStream = "LogStream"
+            case messagePrefix = "MessagePrefix"
+            case startTime = "StartTime"
+            case state = "State"
+            case summary = "Summary"
         }
     }
 
@@ -3204,6 +3290,29 @@ extension Glue {
             case jdbcTargets = "JdbcTargets"
             case mongoDBTargets = "MongoDBTargets"
             case s3Targets = "S3Targets"
+        }
+    }
+
+    public struct CrawlsFilter: AWSEncodableShape {
+        /// A key used to filter the crawler runs for a specified crawler. Valid values for each of the field names are:
+        /// 	           CRAWL_ID: A string representing the UUID identifier for a crawl.    STATE: A string representing the state of the crawl.    START_TIME and END_TIME: The epoch timestamp in milliseconds.    DPU_HOUR: The number of data processing unit (DPU) hours used for the crawl.
+        public let fieldName: FieldName?
+        /// The value provided for comparison on the crawl field.
+        public let fieldValue: String?
+        /// A defined comparator that operates on the value. The available operators are:
+        /// 	           GT: Greater than.    GE: Greater than or equal to.    LT: Less than.    LE: Less than or equal to.    EQ: Equal to.    NE: Not equal to.
+        public let filterOperator: FilterOperator?
+
+        public init(fieldName: FieldName? = nil, fieldValue: String? = nil, filterOperator: FilterOperator? = nil) {
+            self.fieldName = fieldName
+            self.fieldValue = fieldValue
+            self.filterOperator = filterOperator
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldName = "FieldName"
+            case fieldValue = "FieldValue"
+            case filterOperator = "FilterOperator"
         }
     }
 
@@ -3347,6 +3456,7 @@ extension Glue {
         public let databaseName: String?
         /// A description of the new crawler.
         public let description: String?
+        /// Specifies Lake Formation configuration settings for the crawler.
         public let lakeFormationConfiguration: LakeFormationConfiguration?
         /// Specifies data lineage configuration settings for the crawler.
         public let lineageConfiguration: LineageConfiguration?
@@ -3542,10 +3652,13 @@ extension Glue {
         public let catalogId: String?
         /// The metadata for the database.
         public let databaseInput: DatabaseInput
+        /// The tags you assign to the database.
+        public let tags: [String: String]?
 
-        public init(catalogId: String? = nil, databaseInput: DatabaseInput) {
+        public init(catalogId: String? = nil, databaseInput: DatabaseInput, tags: [String: String]? = nil) {
             self.catalogId = catalogId
             self.databaseInput = databaseInput
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -3553,11 +3666,18 @@ extension Glue {
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.databaseInput.validate(name: "\(name).databaseInput")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
             case catalogId = "CatalogId"
             case databaseInput = "DatabaseInput"
+            case tags = "Tags"
         }
     }
 
@@ -3787,7 +3907,7 @@ extension Glue {
 
     public struct CreateJobRequest: AWSEncodableShape {
         /// This parameter is deprecated. Use MaxCapacity instead.
-        /// 	 The number of Glue data processing units (DPUs) to allocate to this Job. You can allocate from 2 to 100 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the Glue pricing page.
+        /// 	 The number of Glue data processing units (DPUs) to allocate to this Job. You can allocate a minimum of 2 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the Glue pricing page.
         public let allocatedCapacity: Int?
         /// The representation of a directed acyclic graph on which both the Glue Studio visual component and Glue Studio code generation is based.
         public let codeGenConfigurationNodes: [String: CodeGenConfigurationNode]?
@@ -3795,10 +3915,16 @@ extension Glue {
         public let command: JobCommand
         /// The connections used for this job.
         public let connections: ConnectionsList?
-        /// The default arguments for this job. You can specify arguments here that your own job-execution script consumes, as well as arguments that Glue itself consumes. For information about how to specify and consume your own Job arguments, see the Calling Glue APIs in Python topic in the developer guide. For information about the key-value pairs that Glue consumes to set up your job, see the Special Parameters Used by Glue topic in the developer guide.
+        /// The default arguments for this job. You can specify arguments here that your own job-execution script consumes, as well as arguments that Glue itself consumes. Job arguments may be logged. Do not pass plaintext secrets as arguments. Retrieve secrets from a Glue Connection, Secrets Manager or other secret management mechanism if you intend to keep them within the Job.  For information about how to specify and consume your own Job arguments, see the Calling Glue APIs in Python topic in the developer guide.
+        /// 	   For information about the key-value pairs that Glue consumes to set up your job, see the Special Parameters Used by Glue topic in the developer guide.
         public let defaultArguments: [String: String]?
         /// Description of the job being defined.
         public let description: String?
+        /// Indicates whether the job is run with a standard or flexible execution class. The standard execution-class is ideal for time-sensitive workloads that require fast job startup and dedicated resources.
+        ///  The flexible execution class is appropriate for time-insensitive jobs whose start and completion times may vary.
+        ///
+        /// 	        Only jobs with Glue version 3.0 and above and command type glueetl will be allowed to set ExecutionClass to FLEX. The flexible execution class is available for Spark jobs.
+        public let executionClass: ExecutionClass?
         /// An ExecutionProperty specifying the maximum number of concurrent runs allowed for this job.
         public let executionProperty: ExecutionProperty?
         /// Glue version determines the versions of Apache Spark and Python that Glue supports. The Python version indicates the version supported for jobs of type Spark.   For more information about the available Glue versions and corresponding Spark and Python versions, see Glue version in the developer guide.
@@ -3809,7 +3935,7 @@ extension Glue {
         public let logUri: String?
         /// For Glue version 1.0 or earlier jobs, using the standard worker type, the number of Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the Glue pricing page.
         ///
-        /// 	        Do not set Max Capacity if using WorkerType and NumberOfWorkers.  The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job or an Apache Spark ETL job:   When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl") or Apache  Spark streaming ETL job (JobCommand.Name="gluestreaming"), you can allocate from 2 to 100 DPUs.  The default is 10 DPUs. This job type cannot have a fractional DPU allocation.   For Glue version 2.0 jobs, you cannot instead specify a Maximum capacity. Instead, you should specify a Worker type and the Number of workers.
+        /// 	        Do not set Max Capacity if using WorkerType and NumberOfWorkers.  The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job or an Apache Spark ETL job:   When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl") or Apache  Spark streaming ETL job (JobCommand.Name="gluestreaming"), you can allocate a minimum of 2 DPUs.  The default is 10 DPUs. This job type cannot have a fractional DPU allocation.   For Glue version 2.0 jobs, you cannot instead specify a Maximum capacity. Instead, you should specify a Worker type and the Number of workers.
         public let maxCapacity: Double?
         /// The maximum number of times to retry this job if it fails.
         public let maxRetries: Int?
@@ -3820,8 +3946,6 @@ extension Glue {
         /// Specifies configuration properties of a job notification.
         public let notificationProperty: NotificationProperty?
         /// The number of workers of a defined workerType that are allocated when a job runs.
-        ///
-        /// 	        The maximum number of workers you can define are 299 for G.1X, and 149 for G.2X.
         public let numberOfWorkers: Int?
         /// The name or Amazon Resource Name (ARN) of the IAM role associated with this job.
         public let role: String
@@ -3831,17 +3955,18 @@ extension Glue {
         public let tags: [String: String]?
         /// The job timeout in minutes.  This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
         public let timeout: Int?
-        /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.
-        /// 	          For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.
+        /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, G.2X, or G.025X.
+        /// 	          For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.
         public let workerType: WorkerType?
 
-        public init(codeGenConfigurationNodes: [String: CodeGenConfigurationNode]? = nil, command: JobCommand, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String, securityConfiguration: String? = nil, tags: [String: String]? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
+        public init(codeGenConfigurationNodes: [String: CodeGenConfigurationNode]? = nil, command: JobCommand, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionClass: ExecutionClass? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String, securityConfiguration: String? = nil, tags: [String: String]? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = nil
             self.codeGenConfigurationNodes = codeGenConfigurationNodes
             self.command = command
             self.connections = connections
             self.defaultArguments = defaultArguments
             self.description = description
+            self.executionClass = executionClass
             self.executionProperty = executionProperty
             self.glueVersion = glueVersion
             self.logUri = logUri
@@ -3859,13 +3984,14 @@ extension Glue {
         }
 
         @available(*, deprecated, message: "Members allocatedCapacity have been deprecated")
-        public init(allocatedCapacity: Int? = nil, codeGenConfigurationNodes: [String: CodeGenConfigurationNode]? = nil, command: JobCommand, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String, securityConfiguration: String? = nil, tags: [String: String]? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
+        public init(allocatedCapacity: Int? = nil, codeGenConfigurationNodes: [String: CodeGenConfigurationNode]? = nil, command: JobCommand, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionClass: ExecutionClass? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String, securityConfiguration: String? = nil, tags: [String: String]? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = allocatedCapacity
             self.codeGenConfigurationNodes = codeGenConfigurationNodes
             self.command = command
             self.connections = connections
             self.defaultArguments = defaultArguments
             self.description = description
+            self.executionClass = executionClass
             self.executionProperty = executionProperty
             self.glueVersion = glueVersion
             self.logUri = logUri
@@ -3916,6 +4042,7 @@ extension Glue {
             case connections = "Connections"
             case defaultArguments = "DefaultArguments"
             case description = "Description"
+            case executionClass = "ExecutionClass"
             case executionProperty = "ExecutionProperty"
             case glueVersion = "GlueVersion"
             case logUri = "LogUri"
@@ -4440,15 +4567,15 @@ extension Glue {
         public let defaultArguments: [String: String]?
         /// The description of the session.
         public let description: String?
-        /// The Glue version determines the versions of Apache Spark and Python that AWS Glue supports.  The GlueVersion must be greater than 2.0.
+        /// The Glue version determines the versions of Apache Spark and Python that Glue supports.  The GlueVersion must be greater than 2.0.
         public let glueVersion: String?
         /// The ID of the session request.
         public let id: String
         /// The number of seconds when idle before request times out.
         public let idleTimeout: Int?
-        /// The number of AWS Glue data processing units (DPUs) that can be allocated when the job runs.  A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB memory.
+        /// The number of Glue data processing units (DPUs) that can be allocated when the job runs.  A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB memory.
         public let maxCapacity: Double?
-        /// The number of workers to use for the session.
+        /// The number of workers of a defined WorkerType to use for the session.
         public let numberOfWorkers: Int?
         /// The origin of the request.
         public let requestOrigin: String?
@@ -4460,7 +4587,8 @@ extension Glue {
         public let tags: [String: String]?
         /// The number of seconds before request times out.
         public let timeout: Int?
-        /// The Worker Type. Can be one of G.1X, G.2X, Standard
+        /// The type of predefined worker that is allocated to use for the session. Accepts a value of Standard, G.1X, G.2X, or G.025X.
+        /// 	          For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.
         public let workerType: WorkerType?
 
         public init(command: SessionCommand, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, glueVersion: String? = nil, id: String, idleTimeout: Int? = nil, maxCapacity: Double? = nil, numberOfWorkers: Int? = nil, requestOrigin: String? = nil, role: String, securityConfiguration: String? = nil, tags: [String: String]? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
@@ -7199,7 +7327,7 @@ extension Glue {
     public struct GetConnectionRequest: AWSEncodableShape {
         /// The ID of the Data Catalog in which the connection resides. If none is provided, the Amazon Web Services account ID is used by default.
         public let catalogId: String?
-        /// Allows you to retrieve the connection metadata without returning the password. For instance, the AWS Glue console uses this flag to retrieve the connection, and does not display the password. Set this parameter when the caller might not have permission to use the KMS key to decrypt the password, but it does have permission to access the rest of the connection properties.
+        /// Allows you to retrieve the connection metadata without returning the password. For instance, the Glue console uses this flag to retrieve the connection, and does not display the password. Set this parameter when the caller might not have permission to use the KMS key to decrypt the password, but it does have permission to access the rest of the connection properties.
         public let hidePassword: Bool?
         /// The name of the connection definition to retrieve.
         public let name: String
@@ -7270,7 +7398,7 @@ extension Glue {
         public let catalogId: String?
         /// A filter that controls which connections are returned.
         public let filter: GetConnectionsFilter?
-        /// Allows you to retrieve the connection metadata without returning the password. For instance, the AWS Glue console uses this flag to retrieve the connection, and does not display the password. Set this parameter when the caller might not have permission to use the KMS key to decrypt the password, but it does have permission to access the rest of the connection properties.
+        /// Allows you to retrieve the connection metadata without returning the password. For instance, the Glue console uses this flag to retrieve the connection, and does not display the password. Set this parameter when the caller might not have permission to use the KMS key to decrypt the password, but it does have permission to access the rest of the connection properties.
         public let hidePassword: Bool?
         /// The maximum number of connections to return in one response.
         public let maxResults: Int?
@@ -10279,7 +10407,7 @@ extension Glue {
 
     public struct Job: AWSDecodableShape {
         /// This field is deprecated. Use MaxCapacity instead.
-        /// 	   The number of Glue data processing units (DPUs) allocated to runs of this job. You can allocate from 2 to 100 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the Glue pricing page.
+        /// 	   The number of Glue data processing units (DPUs) allocated to runs of this job. You can allocate a minimum of 2 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the Glue pricing page.
         ///
         public let allocatedCapacity: Int?
         /// The representation of a directed acyclic graph on which both the Glue Studio visual component and Glue Studio code generation is based.
@@ -10294,6 +10422,11 @@ extension Glue {
         public let defaultArguments: [String: String]?
         /// A description of the job.
         public let description: String?
+        /// Indicates whether the job is run with a standard or flexible execution class. The standard execution class is ideal for time-sensitive workloads that require fast job startup and dedicated resources.
+        ///  The flexible execution class is appropriate for time-insensitive jobs whose start and completion times may vary.
+        ///
+        /// 	        Only jobs with Glue version 3.0 and above and command type glueetl will be allowed to set ExecutionClass to FLEX. The flexible execution class is available for Spark jobs.
+        public let executionClass: ExecutionClass?
         /// An ExecutionProperty specifying the maximum number of concurrent runs allowed for this job.
         public let executionProperty: ExecutionProperty?
         /// Glue version determines the versions of Apache Spark and Python that Glue supports. The Python version indicates the version supported for jobs of type Spark.   For more information about the available Glue versions and corresponding Spark and Python versions, see Glue version in the developer guide.
@@ -10308,7 +10441,7 @@ extension Glue {
         ///
         /// 	        Do not set Max Capacity if using WorkerType and NumberOfWorkers.
         ///
-        /// 	        The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job, an Apache Spark ETL job, or an Apache Spark streaming ETL job:   When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl") or Apache  Spark streaming ETL job (JobCommand.Name="gluestreaming"), you can allocate from 2 to 100 DPUs.  The default is 10 DPUs. This job type cannot have a fractional DPU allocation.   For Glue version 2.0 jobs, you cannot instead specify a Maximum capacity. Instead, you should specify a Worker type and the Number of workers.
+        /// 	        The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job, an Apache Spark ETL job, or an Apache Spark streaming ETL job:   When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl") or Apache  Spark streaming ETL job (JobCommand.Name="gluestreaming"), you can allocate a minimum of 2 DPUs.  The default is 10 DPUs. This job type cannot have a fractional DPU allocation.   For Glue version 2.0 jobs, you cannot instead specify a Maximum capacity. Instead, you should specify a Worker type and the Number of workers.
         public let maxCapacity: Double?
         /// The maximum number of times to retry this job after a JobRun fails.
         public let maxRetries: Int?
@@ -10319,8 +10452,6 @@ extension Glue {
         /// Specifies configuration properties of a job notification.
         public let notificationProperty: NotificationProperty?
         /// The number of workers of a defined workerType that are allocated when a job runs.
-        ///
-        /// 		       The maximum number of workers you can define are 299 for G.1X, and 149 for G.2X.
         public let numberOfWorkers: Int?
         /// The name or Amazon Resource Name (ARN) of the IAM role associated with this job.
         public let role: String?
@@ -10328,11 +10459,11 @@ extension Glue {
         public let securityConfiguration: String?
         /// The job timeout in minutes.  This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
         public let timeout: Int?
-        /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.
-        /// 	          For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.
+        /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, G.2X, or G.025X.
+        /// 	          For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.
         public let workerType: WorkerType?
 
-        public init(codeGenConfigurationNodes: [String: CodeGenConfigurationNode]? = nil, command: JobCommand? = nil, connections: ConnectionsList? = nil, createdOn: Date? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, lastModifiedOn: Date? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
+        public init(codeGenConfigurationNodes: [String: CodeGenConfigurationNode]? = nil, command: JobCommand? = nil, connections: ConnectionsList? = nil, createdOn: Date? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionClass: ExecutionClass? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, lastModifiedOn: Date? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = nil
             self.codeGenConfigurationNodes = codeGenConfigurationNodes
             self.command = command
@@ -10340,6 +10471,7 @@ extension Glue {
             self.createdOn = createdOn
             self.defaultArguments = defaultArguments
             self.description = description
+            self.executionClass = executionClass
             self.executionProperty = executionProperty
             self.glueVersion = glueVersion
             self.lastModifiedOn = lastModifiedOn
@@ -10357,7 +10489,7 @@ extension Glue {
         }
 
         @available(*, deprecated, message: "Members allocatedCapacity have been deprecated")
-        public init(allocatedCapacity: Int? = nil, codeGenConfigurationNodes: [String: CodeGenConfigurationNode]? = nil, command: JobCommand? = nil, connections: ConnectionsList? = nil, createdOn: Date? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, lastModifiedOn: Date? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
+        public init(allocatedCapacity: Int? = nil, codeGenConfigurationNodes: [String: CodeGenConfigurationNode]? = nil, command: JobCommand? = nil, connections: ConnectionsList? = nil, createdOn: Date? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionClass: ExecutionClass? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, lastModifiedOn: Date? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = allocatedCapacity
             self.codeGenConfigurationNodes = codeGenConfigurationNodes
             self.command = command
@@ -10365,6 +10497,7 @@ extension Glue {
             self.createdOn = createdOn
             self.defaultArguments = defaultArguments
             self.description = description
+            self.executionClass = executionClass
             self.executionProperty = executionProperty
             self.glueVersion = glueVersion
             self.lastModifiedOn = lastModifiedOn
@@ -10389,6 +10522,7 @@ extension Glue {
             case createdOn = "CreatedOn"
             case defaultArguments = "DefaultArguments"
             case description = "Description"
+            case executionClass = "ExecutionClass"
             case executionProperty = "ExecutionProperty"
             case glueVersion = "GlueVersion"
             case lastModifiedOn = "LastModifiedOn"
@@ -10479,7 +10613,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.pythonVersion, name: "pythonVersion", parent: name, pattern: "^[2-3]$")
+            try self.validate(self.pythonVersion, name: "pythonVersion", parent: name, pattern: "^([2-3]|3[.]9)$")
             try self.validate(self.scriptLocation, name: "scriptLocation", parent: name, max: 400_000)
         }
 
@@ -10513,10 +10647,15 @@ extension Glue {
         public let attempt: Int?
         /// The date and time that this job run completed.
         public let completedOn: Date?
-        /// This field populates only when an Auto Scaling job run completes, and represents the total time each executor ran during the lifecycle of a job run in seconds, multiplied by a DPU factor (1 for G.1X and 2 for G.2X workers). This value may be different than the executionEngineRuntime * MaxCapacity as in the case of Auto Scaling jobs, as the number of executors running at a given time may be less than the MaxCapacity. Therefore, it is possible that the value of DPUSeconds is less than executionEngineRuntime * MaxCapacity.
+        /// This field populates only for Auto Scaling job runs, and represents the total time each executor ran during the lifecycle of a job run in seconds, multiplied by a DPU factor (1 for G.1X, 2 for G.2X, or 0.25 for G.025X workers). This value may be different than the executionEngineRuntime * MaxCapacity as in the case of Auto Scaling jobs, as the number of executors running at a given time may be less than the MaxCapacity. Therefore, it is possible that the value of DPUSeconds is less than executionEngineRuntime * MaxCapacity.
         public let dpuSeconds: Double?
         /// An error message associated with this job run.
         public let errorMessage: String?
+        /// Indicates whether the job is run with a standard or flexible execution class. The standard execution-class is ideal for time-sensitive workloads that require fast job startup and dedicated resources.
+        ///  The flexible execution class is appropriate for time-insensitive jobs whose start and completion times may vary.
+        ///
+        /// 	        Only jobs with Glue version 3.0 and above and command type glueetl will be allowed to set ExecutionClass to FLEX. The flexible execution class is available for Spark jobs.
+        public let executionClass: ExecutionClass?
         /// The amount of time (in seconds) that the job run consumed resources.
         public let executionTime: Int?
         /// Glue version determines the versions of Apache Spark and Python that Glue supports. The Python version indicates the version supported for jobs of type Spark.   For more information about the available Glue versions and corresponding Spark and Python versions, see Glue version in the developer guide.
@@ -10535,12 +10674,11 @@ extension Glue {
         public let logGroupName: String?
         /// The number of Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the Glue pricing page.
         ///  Do not set Max Capacity if using WorkerType and NumberOfWorkers.
-        ///  The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job or an Apache Spark ETL job:   When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl"), you can allocate from 2 to 100 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU allocation.
+        ///  The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job or an Apache Spark ETL job:   When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl"), you can allocate a minimum of 2 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU allocation.
         public let maxCapacity: Double?
         /// Specifies configuration properties of a job run notification.
         public let notificationProperty: NotificationProperty?
         /// The number of workers of a defined workerType that are allocated when a job runs.
-        ///  The maximum number of workers you can define are 299 for G.1X, and 149 for G.2X.
         public let numberOfWorkers: Int?
         /// A list of predecessors to this job run.
         public let predecessorRuns: [Predecessor]?
@@ -10550,20 +10688,21 @@ extension Glue {
         public let securityConfiguration: String?
         /// The date and time at which this job run was started.
         public let startedOn: Date?
-        /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours). This overrides the timeout value set in the parent job.
+        /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. This value overrides the timeout value set in the parent job.  Streaming jobs do not have a timeout. The default for non-streaming jobs is 2,880 minutes (48 hours).
         public let timeout: Int?
         /// The name of the trigger that started this job run.
         public let triggerName: String?
-        /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.
+        /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, G.2X, or G.025X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.
         public let workerType: WorkerType?
 
-        public init(arguments: [String: String]? = nil, attempt: Int? = nil, completedOn: Date? = nil, dpuSeconds: Double? = nil, errorMessage: String? = nil, executionTime: Int? = nil, glueVersion: String? = nil, id: String? = nil, jobName: String? = nil, jobRunState: JobRunState? = nil, lastModifiedOn: Date? = nil, logGroupName: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, predecessorRuns: [Predecessor]? = nil, previousRunId: String? = nil, securityConfiguration: String? = nil, startedOn: Date? = nil, timeout: Int? = nil, triggerName: String? = nil, workerType: WorkerType? = nil) {
+        public init(arguments: [String: String]? = nil, attempt: Int? = nil, completedOn: Date? = nil, dpuSeconds: Double? = nil, errorMessage: String? = nil, executionClass: ExecutionClass? = nil, executionTime: Int? = nil, glueVersion: String? = nil, id: String? = nil, jobName: String? = nil, jobRunState: JobRunState? = nil, lastModifiedOn: Date? = nil, logGroupName: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, predecessorRuns: [Predecessor]? = nil, previousRunId: String? = nil, securityConfiguration: String? = nil, startedOn: Date? = nil, timeout: Int? = nil, triggerName: String? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = nil
             self.arguments = arguments
             self.attempt = attempt
             self.completedOn = completedOn
             self.dpuSeconds = dpuSeconds
             self.errorMessage = errorMessage
+            self.executionClass = executionClass
             self.executionTime = executionTime
             self.glueVersion = glueVersion
             self.id = id
@@ -10584,13 +10723,14 @@ extension Glue {
         }
 
         @available(*, deprecated, message: "Members allocatedCapacity have been deprecated")
-        public init(allocatedCapacity: Int? = nil, arguments: [String: String]? = nil, attempt: Int? = nil, completedOn: Date? = nil, dpuSeconds: Double? = nil, errorMessage: String? = nil, executionTime: Int? = nil, glueVersion: String? = nil, id: String? = nil, jobName: String? = nil, jobRunState: JobRunState? = nil, lastModifiedOn: Date? = nil, logGroupName: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, predecessorRuns: [Predecessor]? = nil, previousRunId: String? = nil, securityConfiguration: String? = nil, startedOn: Date? = nil, timeout: Int? = nil, triggerName: String? = nil, workerType: WorkerType? = nil) {
+        public init(allocatedCapacity: Int? = nil, arguments: [String: String]? = nil, attempt: Int? = nil, completedOn: Date? = nil, dpuSeconds: Double? = nil, errorMessage: String? = nil, executionClass: ExecutionClass? = nil, executionTime: Int? = nil, glueVersion: String? = nil, id: String? = nil, jobName: String? = nil, jobRunState: JobRunState? = nil, lastModifiedOn: Date? = nil, logGroupName: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, predecessorRuns: [Predecessor]? = nil, previousRunId: String? = nil, securityConfiguration: String? = nil, startedOn: Date? = nil, timeout: Int? = nil, triggerName: String? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = allocatedCapacity
             self.arguments = arguments
             self.attempt = attempt
             self.completedOn = completedOn
             self.dpuSeconds = dpuSeconds
             self.errorMessage = errorMessage
+            self.executionClass = executionClass
             self.executionTime = executionTime
             self.glueVersion = glueVersion
             self.id = id
@@ -10617,6 +10757,7 @@ extension Glue {
             case completedOn = "CompletedOn"
             case dpuSeconds = "DPUSeconds"
             case errorMessage = "ErrorMessage"
+            case executionClass = "ExecutionClass"
             case executionTime = "ExecutionTime"
             case glueVersion = "GlueVersion"
             case id = "Id"
@@ -10638,7 +10779,7 @@ extension Glue {
     }
 
     public struct JobUpdate: AWSEncodableShape {
-        /// This field is deprecated. Use MaxCapacity instead.  The number of Glue data processing units (DPUs) to allocate to this job. You can allocate from 2 to 100 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the Glue pricing page.
+        /// This field is deprecated. Use MaxCapacity instead.  The number of Glue data processing units (DPUs) to allocate to this job. You can allocate a minimum of 2 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the Glue pricing page.
         public let allocatedCapacity: Int?
         /// The representation of a directed acyclic graph on which both the Glue Studio visual component and Glue Studio code generation is based.
         public let codeGenConfigurationNodes: [String: CodeGenConfigurationNode]?
@@ -10650,6 +10791,11 @@ extension Glue {
         public let defaultArguments: [String: String]?
         /// Description of the job being defined.
         public let description: String?
+        /// Indicates whether the job is run with a standard or flexible execution class. The standard execution-class is ideal for time-sensitive workloads that require fast job startup and dedicated resources.
+        ///  The flexible execution class is appropriate for time-insensitive jobs whose start and completion times may vary.
+        ///
+        /// 	        Only jobs with Glue version 3.0 and above and command type glueetl will be allowed to set ExecutionClass to FLEX. The flexible execution class is available for Spark jobs.
+        public let executionClass: ExecutionClass?
         /// An ExecutionProperty specifying the maximum number of concurrent runs allowed for this job.
         public let executionProperty: ExecutionProperty?
         /// Glue version determines the versions of Apache Spark and Python that Glue supports. The Python version indicates the version supported for jobs of type Spark.   For more information about the available Glue versions and corresponding Spark and Python versions, see Glue version in the developer guide.
@@ -10659,7 +10805,7 @@ extension Glue {
         /// For Glue version 1.0 or earlier jobs, using the standard worker type, the number of Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the Glue pricing page.
         /// 	        Do not set Max Capacity if using WorkerType and NumberOfWorkers.
         /// 	    The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job or an Apache Spark ETL job:
-        ///    When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl") or Apache  Spark streaming ETL job (JobCommand.Name="gluestreaming"), you can allocate from 2 to 100 DPUs.  The default is 10 DPUs. This job type cannot have a fractional DPU allocation.
+        ///    When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl") or Apache  Spark streaming ETL job (JobCommand.Name="gluestreaming"), you can allocate a minimum of 2 DPUs.  The default is 10 DPUs. This job type cannot have a fractional DPU allocation.
         /// 	        For Glue version 2.0 jobs, you cannot instead specify a Maximum capacity. Instead, you should specify a Worker type and the Number of workers.
         public let maxCapacity: Double?
         /// The maximum number of times to retry this job if it fails.
@@ -10669,7 +10815,6 @@ extension Glue {
         /// Specifies the configuration properties of a job notification.
         public let notificationProperty: NotificationProperty?
         /// The number of workers of a defined workerType that are allocated when a job runs.
-        /// 	 The maximum number of workers you can define are 299 for G.1X, and 149 for G.2X.
         public let numberOfWorkers: Int?
         /// The name or Amazon Resource Name (ARN) of the IAM role associated with this job (required).
         public let role: String?
@@ -10677,17 +10822,18 @@ extension Glue {
         public let securityConfiguration: String?
         /// The job timeout in minutes.  This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
         public let timeout: Int?
-        /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.
-        /// 	          For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.
+        /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, G.2X, or G.025X.
+        /// 	          For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.
         public let workerType: WorkerType?
 
-        public init(codeGenConfigurationNodes: [String: CodeGenConfigurationNode]? = nil, command: JobCommand? = nil, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
+        public init(codeGenConfigurationNodes: [String: CodeGenConfigurationNode]? = nil, command: JobCommand? = nil, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionClass: ExecutionClass? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = nil
             self.codeGenConfigurationNodes = codeGenConfigurationNodes
             self.command = command
             self.connections = connections
             self.defaultArguments = defaultArguments
             self.description = description
+            self.executionClass = executionClass
             self.executionProperty = executionProperty
             self.glueVersion = glueVersion
             self.logUri = logUri
@@ -10703,13 +10849,14 @@ extension Glue {
         }
 
         @available(*, deprecated, message: "Members allocatedCapacity have been deprecated")
-        public init(allocatedCapacity: Int? = nil, codeGenConfigurationNodes: [String: CodeGenConfigurationNode]? = nil, command: JobCommand? = nil, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
+        public init(allocatedCapacity: Int? = nil, codeGenConfigurationNodes: [String: CodeGenConfigurationNode]? = nil, command: JobCommand? = nil, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionClass: ExecutionClass? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = allocatedCapacity
             self.codeGenConfigurationNodes = codeGenConfigurationNodes
             self.command = command
             self.connections = connections
             self.defaultArguments = defaultArguments
             self.description = description
+            self.executionClass = executionClass
             self.executionProperty = executionProperty
             self.glueVersion = glueVersion
             self.logUri = logUri
@@ -10749,6 +10896,7 @@ extension Glue {
             case connections = "Connections"
             case defaultArguments = "DefaultArguments"
             case description = "Description"
+            case executionClass = "ExecutionClass"
             case executionProperty = "ExecutionProperty"
             case glueVersion = "GlueVersion"
             case logUri = "LogUri"
@@ -11072,7 +11220,7 @@ extension Glue {
     public struct LakeFormationConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Required for cross account crawls. For same account crawls as the target data, this can be left as null.
         public let accountId: String?
-        /// Specifies whether to use AWS Lake Formation credentials for the crawler instead of the IAM role credentials.
+        /// Specifies whether to use Lake Formation credentials for the crawler instead of the IAM role credentials.
         public let useLakeFormationCredentials: Bool?
 
         public init(accountId: String? = nil, useLakeFormationCredentials: Bool? = nil) {
@@ -11261,6 +11409,56 @@ extension Glue {
 
         private enum CodingKeys: String, CodingKey {
             case crawlerNames = "CrawlerNames"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListCrawlsRequest: AWSEncodableShape {
+        /// The name of the crawler whose runs you want to retrieve.
+        public let crawlerName: String
+        /// Filters the crawls by the criteria you specify in a list of CrawlsFilter objects.
+        public let filters: [CrawlsFilter]?
+        /// The maximum number of results to return. The default is 20, and maximum is 100.
+        public let maxResults: Int?
+        /// A continuation token, if this is a continuation call.
+        public let nextToken: String?
+
+        public init(crawlerName: String, filters: [CrawlsFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.crawlerName = crawlerName
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.crawlerName, name: "crawlerName", parent: name, max: 255)
+            try self.validate(self.crawlerName, name: "crawlerName", parent: name, min: 1)
+            try self.validate(self.crawlerName, name: "crawlerName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case crawlerName = "CrawlerName"
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListCrawlsResponse: AWSDecodableShape {
+        /// A list of CrawlerHistory objects representing the crawl runs that meet your criteria.
+        public let crawls: [CrawlerHistory]?
+        /// A continuation token for paginating the returned list of tokens, returned if the current segment of the list is not the last.
+        public let nextToken: String?
+
+        public init(crawls: [CrawlerHistory]? = nil, nextToken: String? = nil) {
+            self.crawls = crawls
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case crawls = "Crawls"
             case nextToken = "NextToken"
         }
     }
@@ -11629,7 +11827,7 @@ extension Glue {
     }
 
     public struct ListSessionsResponse: AWSDecodableShape {
-        /// Returns the Id of the session.
+        /// Returns the ID of the session.
         public let ids: [String]?
         /// The token for the next set of results, or null if there are no more result.
         public let nextToken: String?
@@ -11650,6 +11848,7 @@ extension Glue {
     }
 
     public struct ListStatementsRequest: AWSEncodableShape {
+        /// A continuation token, if this is a continuation call.
         public let nextToken: String?
         /// The origin of the request to list statements.
         public let requestOrigin: String?
@@ -11680,6 +11879,7 @@ extension Glue {
     }
 
     public struct ListStatementsResponse: AWSDecodableShape {
+        /// A continuation token, if not all statements have yet been returned.
         public let nextToken: String?
         /// Returns the list of statements.
         public let statements: [Statement]?
@@ -14655,11 +14855,11 @@ extension Glue {
         public let description: String?
         /// The error message displayed during the session.
         public let errorMessage: String?
-        /// The Glue version determines the versions of Apache Spark and Python that AWS Glue supports.  The GlueVersion must be greater than 2.0.
+        /// The Glue version determines the versions of Apache Spark and Python that Glue supports.  The GlueVersion must be greater than 2.0.
         public let glueVersion: String?
         /// The ID of the session.
         public let id: String?
-        /// The number of AWS Glue data processing units (DPUs) that can be allocated when the job runs.  A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB memory.
+        /// The number of Glue data processing units (DPUs) that can be allocated when the job runs.  A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB memory.
         public let maxCapacity: Double?
         /// The code execution progress of the session.
         public let progress: Double?
@@ -14704,7 +14904,7 @@ extension Glue {
     }
 
     public struct SessionCommand: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies the name of the SessionCommand.Can be 'glueetl' or 'gluestreaming'.
+        /// Specifies the name of the SessionCommand. Can be 'glueetl' or 'gluestreaming'.
         public let name: String?
         /// Specifies the Python version. The Python version indicates the version supported for jobs of type Spark.
         public let pythonVersion: String?
@@ -14718,7 +14918,7 @@ extension Glue {
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
-            try self.validate(self.pythonVersion, name: "pythonVersion", parent: name, pattern: "^[2-3]$")
+            try self.validate(self.pythonVersion, name: "pythonVersion", parent: name, pattern: "^([2-3]|3[.]9)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -15191,33 +15391,38 @@ extension Glue {
 
     public struct StartJobRunRequest: AWSEncodableShape {
         /// This field is deprecated. Use MaxCapacity instead.
-        ///  The number of Glue data processing units (DPUs) to allocate to this JobRun. From 2 to 100 DPUs can be allocated; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the Glue pricing page.
+        ///  The number of Glue data processing units (DPUs) to allocate to this JobRun. You can allocate a minimum of 2 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the Glue pricing page.
         public let allocatedCapacity: Int?
-        /// The job arguments specifically for this run. For this job run, they replace the default arguments set in the job definition itself. You can specify arguments here that your own job-execution script consumes, as well as arguments that Glue itself consumes. For information about how to specify and consume your own Job arguments, see the Calling Glue APIs in Python topic in the developer guide. For information about the key-value pairs that Glue consumes to set up your job, see the Special Parameters Used by Glue topic in the developer guide.
+        /// The job arguments specifically for this run. For this job run, they replace the default arguments set in the job definition itself. You can specify arguments here that your own job-execution script consumes, as well as arguments that Glue itself consumes. Job arguments may be logged. Do not pass plaintext secrets as arguments. Retrieve secrets from a Glue Connection, Secrets Manager or other secret management mechanism if you intend to keep them within the Job.  For information about how to specify and consume your own Job arguments, see the Calling Glue APIs in Python topic in the developer guide. For information about the key-value pairs that Glue consumes to set up your job, see the Special Parameters Used by Glue topic in the developer guide.
         public let arguments: [String: String]?
+        /// Indicates whether the job is run with a standard or flexible execution class. The standard execution-class is ideal for time-sensitive workloads that require fast job startup and dedicated resources.
+        ///  The flexible execution class is appropriate for time-insensitive jobs whose start and completion times may vary.
+        ///
+        /// 	        Only jobs with Glue version 3.0 and above and command type glueetl will be allowed to set ExecutionClass to FLEX. The flexible execution class is available for Spark jobs.
+        public let executionClass: ExecutionClass?
         /// The name of the job definition to use.
         public let jobName: String
         /// The ID of a previous JobRun to retry.
         public let jobRunId: String?
         /// The number of Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the Glue pricing page.
         ///  Do not set Max Capacity if using WorkerType and NumberOfWorkers.
-        ///  The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job, or an Apache Spark ETL job:   When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl"), you can allocate from 2 to 100 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU allocation.
+        ///  The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job, or an Apache Spark ETL job:   When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl"), you can allocate a minimum of 2 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU allocation.
         public let maxCapacity: Double?
         /// Specifies configuration properties of a job run notification.
         public let notificationProperty: NotificationProperty?
         /// The number of workers of a defined workerType that are allocated when a job runs.
-        ///  The maximum number of workers you can define are 299 for G.1X, and 149 for G.2X.
         public let numberOfWorkers: Int?
         /// The name of the SecurityConfiguration structure to be used with this job run.
         public let securityConfiguration: String?
-        /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours). This overrides the timeout value set in the parent job.
+        /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. This value overrides the timeout value set in the parent job.  Streaming jobs do not have a timeout. The default for non-streaming jobs is 2,880 minutes (48 hours).
         public let timeout: Int?
-        /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.
+        /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, G.2X, or G.025X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.
         public let workerType: WorkerType?
 
-        public init(arguments: [String: String]? = nil, jobName: String, jobRunId: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
+        public init(arguments: [String: String]? = nil, executionClass: ExecutionClass? = nil, jobName: String, jobRunId: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = nil
             self.arguments = arguments
+            self.executionClass = executionClass
             self.jobName = jobName
             self.jobRunId = jobRunId
             self.maxCapacity = maxCapacity
@@ -15229,9 +15434,10 @@ extension Glue {
         }
 
         @available(*, deprecated, message: "Members allocatedCapacity have been deprecated")
-        public init(allocatedCapacity: Int? = nil, arguments: [String: String]? = nil, jobName: String, jobRunId: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
+        public init(allocatedCapacity: Int? = nil, arguments: [String: String]? = nil, executionClass: ExecutionClass? = nil, jobName: String, jobRunId: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = allocatedCapacity
             self.arguments = arguments
+            self.executionClass = executionClass
             self.jobName = jobName
             self.jobRunId = jobRunId
             self.maxCapacity = maxCapacity
@@ -15259,6 +15465,7 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case allocatedCapacity = "AllocatedCapacity"
             case arguments = "Arguments"
+            case executionClass = "ExecutionClass"
             case jobName = "JobName"
             case jobRunId = "JobRunId"
             case maxCapacity = "MaxCapacity"
@@ -15672,6 +15879,7 @@ extension Glue {
     }
 
     public struct StorageDescriptor: AWSEncodableShape & AWSDecodableShape {
+        /// A list of locations that point to the path where a Delta table is located.
         public let additionalLocations: [String]?
         /// A list of reducer grouping columns, clustering columns, and bucketing columns in the table.
         public let bucketColumns: [String]?
@@ -15860,6 +16068,7 @@ extension Glue {
         public let targetTable: TableIdentifier?
         /// The last time that the table was updated.
         public let updateTime: Date?
+        /// The ID of the table version.
         public let versionId: String?
         /// If the table is a view, the expanded text of the view; otherwise null.
         public let viewExpandedText: String?
@@ -16796,6 +17005,7 @@ extension Glue {
         public let databaseName: String?
         /// A description of the new crawler.
         public let description: String?
+        /// Specifies Lake Formation configuration settings for the crawler.
         public let lakeFormationConfiguration: LakeFormationConfiguration?
         /// Specifies data lineage configuration settings for the crawler.
         public let lineageConfiguration: LineageConfiguration?
@@ -17080,7 +17290,7 @@ extension Glue {
     public struct UpdateJobRequest: AWSEncodableShape {
         /// The name of the job definition to update.
         public let jobName: String
-        /// Specifies the values with which to update the job definition.
+        /// Specifies the values with which to update the job definition. Unspecified configuration is removed or reset to default values.
         public let jobUpdate: JobUpdate
 
         public init(jobName: String, jobUpdate: JobUpdate) {
@@ -17378,6 +17588,7 @@ extension Glue {
         public let tableInput: TableInput
         /// The transaction ID at which to update the table contents.
         public let transactionId: String?
+        /// The version ID at which to update the table contents.
         public let versionId: String?
 
         public init(catalogId: String? = nil, databaseName: String, skipArchive: Bool? = nil, tableInput: TableInput, transactionId: String? = nil, versionId: String? = nil) {
@@ -17805,6 +18016,8 @@ extension Glue {
     }
 
     public struct WorkflowRunStatistics: AWSDecodableShape {
+        /// Indicates the count of job runs in the ERROR state in the workflow run.
+        public let erroredActions: Int?
         /// Total number of Actions that have failed.
         public let failedActions: Int?
         /// Total number Actions in running state.
@@ -17817,23 +18030,29 @@ extension Glue {
         public let timeoutActions: Int?
         /// Total number of Actions in the workflow run.
         public let totalActions: Int?
+        /// Indicates the count of job runs in WAITING state in the workflow run.
+        public let waitingActions: Int?
 
-        public init(failedActions: Int? = nil, runningActions: Int? = nil, stoppedActions: Int? = nil, succeededActions: Int? = nil, timeoutActions: Int? = nil, totalActions: Int? = nil) {
+        public init(erroredActions: Int? = nil, failedActions: Int? = nil, runningActions: Int? = nil, stoppedActions: Int? = nil, succeededActions: Int? = nil, timeoutActions: Int? = nil, totalActions: Int? = nil, waitingActions: Int? = nil) {
+            self.erroredActions = erroredActions
             self.failedActions = failedActions
             self.runningActions = runningActions
             self.stoppedActions = stoppedActions
             self.succeededActions = succeededActions
             self.timeoutActions = timeoutActions
             self.totalActions = totalActions
+            self.waitingActions = waitingActions
         }
 
         private enum CodingKeys: String, CodingKey {
+            case erroredActions = "ErroredActions"
             case failedActions = "FailedActions"
             case runningActions = "RunningActions"
             case stoppedActions = "StoppedActions"
             case succeededActions = "SucceededActions"
             case timeoutActions = "TimeoutActions"
             case totalActions = "TotalActions"
+            case waitingActions = "WaitingActions"
         }
     }
 

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -81,6 +81,20 @@ extension LookoutMetrics {
         case high = "HIGH"
         case low = "LOW"
         case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataQualityMetricType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case backtestInferenceDataEndTimeStamp = "BACKTEST_INFERENCE_DATA_END_TIME_STAMP"
+        case backtestInferenceDataStartTimeStamp = "BACKTEST_INFERENCE_DATA_START_TIME_STAMP"
+        case backtestTrainingDataEndTimeStamp = "BACKTEST_TRAINING_DATA_END_TIME_STAMP"
+        case backtestTrainingDataStartTimeStamp = "BACKTEST_TRAINING_DATA_START_TIME_STAMP"
+        case columnCompleteness = "COLUMN_COMPLETENESS"
+        case dimensionUniqueness = "DIMENSION_UNIQUENESS"
+        case invalidRowsCompliance = "INVALID_ROWS_COMPLIANCE"
+        case rowsPartialCompliance = "ROWS_PARTIAL_COMPLIANCE"
+        case rowsProcessed = "ROWS_PROCESSED"
+        case timeSeriesCount = "TIME_SERIES_COUNT"
         public var description: String { return self.rawValue }
     }
 
@@ -309,6 +323,23 @@ extension LookoutMetrics {
 
         private enum CodingKeys: String, CodingKey {
             case anomalyDetectorFrequency = "AnomalyDetectorFrequency"
+        }
+    }
+
+    public struct AnomalyDetectorDataQualityMetric: AWSDecodableShape {
+        /// An array of DataQualityMetricList objects. Each object in the array contains information about a data quality metric.
+        public let metricSetDataQualityMetricList: [MetricSetDataQualityMetric]?
+        /// The start time for the data quality metrics collection.
+        public let startTimestamp: Date?
+
+        public init(metricSetDataQualityMetricList: [MetricSetDataQualityMetric]? = nil, startTimestamp: Date? = nil) {
+            self.metricSetDataQualityMetricList = metricSetDataQualityMetricList
+            self.startTimestamp = startTimestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricSetDataQualityMetricList = "MetricSetDataQualityMetricList"
+            case startTimestamp = "StartTimestamp"
         }
     }
 
@@ -863,7 +894,7 @@ extension LookoutMetrics {
         public let metricSetName: String
         /// Contains information about how the source data should be interpreted.
         public let metricSource: MetricSource
-        /// After an interval ends, the amount of seconds that the detector waits before importing data. Offset is only supported for S3 and Redshift datasources.
+        /// After an interval ends, the amount of seconds that the detector waits before importing data. Offset is only supported for S3, Redshift, Athena and datasources.
         public let offset: Int?
         /// A list of tags to apply to the dataset.
         public let tags: [String: String]?
@@ -992,6 +1023,31 @@ extension LookoutMetrics {
             case fileCompression = "FileCompression"
             case headerList = "HeaderList"
             case quoteSymbol = "QuoteSymbol"
+        }
+    }
+
+    public struct DataQualityMetric: AWSDecodableShape {
+        /// A description of the data quality metric.
+        public let metricDescription: String?
+        /// The name of the data quality metric.
+        public let metricType: DataQualityMetricType?
+        /// The value of the data quality metric.
+        public let metricValue: Double?
+        /// The column that is being monitored.
+        public let relatedColumnName: String?
+
+        public init(metricDescription: String? = nil, metricType: DataQualityMetricType? = nil, metricValue: Double? = nil, relatedColumnName: String? = nil) {
+            self.metricDescription = metricDescription
+            self.metricType = metricType
+            self.metricValue = metricValue
+            self.relatedColumnName = relatedColumnName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricDescription = "MetricDescription"
+            case metricType = "MetricType"
+            case metricValue = "MetricValue"
+            case relatedColumnName = "RelatedColumnName"
         }
     }
 
@@ -1252,7 +1308,7 @@ extension LookoutMetrics {
         public let metricSetName: String?
         /// Contains information about the dataset's source data.
         public let metricSource: MetricSource?
-        /// The offset in seconds. Only supported for S3 and Redshift datasources.
+        /// After an interval ends, the amount of seconds that the detector waits before importing data. Offset is only supported for S3, Redshift, Athena and datasources.
         public let offset: Int?
         /// Contains information about the column used for tracking time in your source data.
         public let timestampColumn: TimestampColumn?
@@ -1616,6 +1672,43 @@ extension LookoutMetrics {
 
         private enum CodingKeys: String, CodingKey {
             case anomalyGroup = "AnomalyGroup"
+        }
+    }
+
+    public struct GetDataQualityMetricsRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the anomaly detector that you want to investigate.
+        public let anomalyDetectorArn: String
+        /// The Amazon Resource Name (ARN) of a specific data quality metric set.
+        public let metricSetArn: String?
+
+        public init(anomalyDetectorArn: String, metricSetArn: String? = nil) {
+            self.anomalyDetectorArn = anomalyDetectorArn
+            self.metricSetArn = metricSetArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, max: 256)
+            try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, pattern: "^arn:([a-z\\d-]+):.*:.*:.*:.+$")
+            try self.validate(self.metricSetArn, name: "metricSetArn", parent: name, max: 256)
+            try self.validate(self.metricSetArn, name: "metricSetArn", parent: name, pattern: "^arn:([a-z\\d-]+):.*:.*:.*:.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anomalyDetectorArn = "AnomalyDetectorArn"
+            case metricSetArn = "MetricSetArn"
+        }
+    }
+
+    public struct GetDataQualityMetricsResponse: AWSDecodableShape {
+        /// A list of the data quality metrics for the AnomalyDetectorArn that you requested.
+        public let anomalyDetectorDataQualityMetricList: [AnomalyDetectorDataQualityMetric]?
+
+        public init(anomalyDetectorDataQualityMetricList: [AnomalyDetectorDataQualityMetric]? = nil) {
+            self.anomalyDetectorDataQualityMetricList = anomalyDetectorDataQualityMetricList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anomalyDetectorDataQualityMetricList = "AnomalyDetectorDataQualityMetricList"
         }
     }
 
@@ -2201,6 +2294,23 @@ extension LookoutMetrics {
             case contributionMatrix = "ContributionMatrix"
             case metricName = "MetricName"
             case numTimeSeries = "NumTimeSeries"
+        }
+    }
+
+    public struct MetricSetDataQualityMetric: AWSDecodableShape {
+        /// The array of data quality metrics contained in the data quality metric set.
+        public let dataQualityMetricList: [DataQualityMetric]?
+        /// The Amazon Resource Name (ARN) of the data quality metric array.
+        public let metricSetArn: String?
+
+        public init(dataQualityMetricList: [DataQualityMetric]? = nil, metricSetArn: String? = nil) {
+            self.dataQualityMetricList = dataQualityMetricList
+            self.metricSetArn = metricSetArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataQualityMetricList = "DataQualityMetricList"
+            case metricSetArn = "MetricSetArn"
         }
     }
 
@@ -2795,7 +2905,7 @@ extension LookoutMetrics {
         /// The dataset's interval.
         public let metricSetFrequency: Frequency?
         public let metricSource: MetricSource?
-        /// After an interval ends, the amount of seconds that the detector waits before importing data. Offset is only supported for S3 and Redshift datasources.
+        /// After an interval ends, the amount of seconds that the detector waits before importing data. Offset is only supported for S3, Redshift, Athena and datasources.
         public let offset: Int?
         /// The timestamp column.
         public let timestampColumn: TimestampColumn?

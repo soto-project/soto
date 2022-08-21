@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -222,6 +222,28 @@ extension ChimeSDKMessaging {
             command: listChannelsModeratedByAppInstanceUser,
             inputKey: \ListChannelsModeratedByAppInstanceUserRequest.nextToken,
             outputKey: \ListChannelsModeratedByAppInstanceUserResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Lists all the SubChannels in an elastic channel when given a channel ID. Available only to the app instance admins and channel moderators of elastic channels.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listSubChannelsPaginator(
+        _ input: ListSubChannelsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListSubChannelsRequest, ListSubChannelsResponse> {
+        return .init(
+            input: input,
+            command: listSubChannels,
+            inputKey: \ListSubChannelsRequest.nextToken,
+            outputKey: \ListSubChannelsResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

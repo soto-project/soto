@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -178,6 +178,7 @@ extension Nimble {
                 .init(state: .failure, matcher: try! JMESPathMatcher("studioComponent.state", expected: "DELETE_FAILED")),
             ],
             minDelayTime: .seconds(1),
+            maxDelayTime: .seconds(120),
             command: getStudioComponent
         )
         return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)

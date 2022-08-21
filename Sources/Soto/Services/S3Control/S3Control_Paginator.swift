@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -339,21 +339,21 @@ extension S3Control {
     }
 }
 
-extension S3Control.ListAccessPointsRequest: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> S3Control.ListAccessPointsRequest {
+extension S3Control.ListAccessPointsForObjectLambdaRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> S3Control.ListAccessPointsForObjectLambdaRequest {
         return .init(
             accountId: self.accountId,
-            bucket: self.bucket,
             maxResults: self.maxResults,
             nextToken: token
         )
     }
 }
 
-extension S3Control.ListAccessPointsForObjectLambdaRequest: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> S3Control.ListAccessPointsForObjectLambdaRequest {
+extension S3Control.ListAccessPointsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> S3Control.ListAccessPointsRequest {
         return .init(
             accountId: self.accountId,
+            bucket: self.bucket,
             maxResults: self.maxResults,
             nextToken: token
         )

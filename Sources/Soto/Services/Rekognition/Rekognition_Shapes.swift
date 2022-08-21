@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -178,6 +178,9 @@ extension Rekognition {
     }
 
     public enum ProjectVersionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case copyingCompleted = "COPYING_COMPLETED"
+        case copyingFailed = "COPYING_FAILED"
+        case copyingInProgress = "COPYING_IN_PROGRESS"
         case deleting = "DELETING"
         case failed = "FAILED"
         case running = "RUNNING"
@@ -678,6 +681,83 @@ extension Rekognition {
         }
     }
 
+    public struct CopyProjectVersionRequest: AWSEncodableShape {
+        /// The ARN of the project in the trusted AWS account that you want to copy the model version to.
+        public let destinationProjectArn: String
+        /// The identifier for your AWS Key Management Service key (AWS KMS key). You can supply the Amazon Resource Name (ARN) of your KMS key, the ID of your KMS key, an alias for your KMS key, or an alias ARN. The key is used to encrypt training results and manifest files written to the output Amazon S3 bucket (OutputConfig). If you choose to use your own KMS key, you need the following permissions on the KMS key.    kms:CreateGrant   kms:DescribeKey   kms:GenerateDataKey   kms:Decrypt   If you don't specify a value for KmsKeyId, images copied into the service are encrypted using a key that AWS owns and manages.
+        public let kmsKeyId: String?
+        /// The S3 bucket and folder location where the training output for the source model version is placed.
+        public let outputConfig: OutputConfig
+        /// The ARN of the source project in the trusting AWS account.
+        public let sourceProjectArn: String
+        /// The ARN of the model version in the source project that you want to copy to a destination project.
+        public let sourceProjectVersionArn: String
+        /// The key-value tags to assign to the model version.
+        public let tags: [String: String]?
+        /// A name for the version of the model that's copied to the destination project.
+        public let versionName: String
+
+        public init(destinationProjectArn: String, kmsKeyId: String? = nil, outputConfig: OutputConfig, sourceProjectArn: String, sourceProjectVersionArn: String, tags: [String: String]? = nil, versionName: String) {
+            self.destinationProjectArn = destinationProjectArn
+            self.kmsKeyId = kmsKeyId
+            self.outputConfig = outputConfig
+            self.sourceProjectArn = sourceProjectArn
+            self.sourceProjectVersionArn = sourceProjectVersionArn
+            self.tags = tags
+            self.versionName = versionName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.destinationProjectArn, name: "destinationProjectArn", parent: name, max: 2048)
+            try self.validate(self.destinationProjectArn, name: "destinationProjectArn", parent: name, min: 20)
+            try self.validate(self.destinationProjectArn, name: "destinationProjectArn", parent: name, pattern: "^(^arn:[a-z\\d-]+:rekognition:[a-z\\d-]+:\\d{12}:project\\/[a-zA-Z0-9_.\\-]{1,255}\\/[0-9]+$)$")
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$")
+            try self.outputConfig.validate(name: "\(name).outputConfig")
+            try self.validate(self.sourceProjectArn, name: "sourceProjectArn", parent: name, max: 2048)
+            try self.validate(self.sourceProjectArn, name: "sourceProjectArn", parent: name, min: 20)
+            try self.validate(self.sourceProjectArn, name: "sourceProjectArn", parent: name, pattern: "^(^arn:[a-z\\d-]+:rekognition:[a-z\\d-]+:\\d{12}:project\\/[a-zA-Z0-9_.\\-]{1,255}\\/[0-9]+$)$")
+            try self.validate(self.sourceProjectVersionArn, name: "sourceProjectVersionArn", parent: name, max: 2048)
+            try self.validate(self.sourceProjectVersionArn, name: "sourceProjectVersionArn", parent: name, min: 20)
+            try self.validate(self.sourceProjectVersionArn, name: "sourceProjectVersionArn", parent: name, pattern: "^(^arn:[a-z\\d-]+:rekognition:[a-z\\d-]+:\\d{12}:project\\/[a-zA-Z0-9_.\\-]{1,255}\\/version\\/[a-zA-Z0-9_.\\-]{1,255}\\/[0-9]+$)$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.versionName, name: "versionName", parent: name, max: 255)
+            try self.validate(self.versionName, name: "versionName", parent: name, min: 1)
+            try self.validate(self.versionName, name: "versionName", parent: name, pattern: "^[a-zA-Z0-9_.\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationProjectArn = "DestinationProjectArn"
+            case kmsKeyId = "KmsKeyId"
+            case outputConfig = "OutputConfig"
+            case sourceProjectArn = "SourceProjectArn"
+            case sourceProjectVersionArn = "SourceProjectVersionArn"
+            case tags = "Tags"
+            case versionName = "VersionName"
+        }
+    }
+
+    public struct CopyProjectVersionResponse: AWSDecodableShape {
+        /// The ARN of the copied model version in the destination project.
+        public let projectVersionArn: String?
+
+        public init(projectVersionArn: String? = nil) {
+            self.projectVersionArn = projectVersionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case projectVersionArn = "ProjectVersionArn"
+        }
+    }
+
     public struct CoversBodyPart: AWSDecodableShape {
         /// The confidence that Amazon Rekognition has in the value of Value.
         public let confidence: Float?
@@ -906,7 +986,7 @@ extension Rekognition {
         public let notificationChannel: StreamProcessorNotificationChannel?
         /// Kinesis data stream stream or Amazon S3 bucket location to which Amazon Rekognition Video puts the analysis results. If you are using the AWS CLI, the parameter name is StreamProcessorOutput.  This must be a S3Destination of an Amazon S3 bucket that you own for a label detection stream processor or a Kinesis data stream ARN for a face search stream processor.
         public let output: StreamProcessorOutput
-        ///  Specifies locations in the frames where Amazon Rekognition checks for objects or people. You can specify up to 10 regions of interest. This is an optional parameter for label detection stream processors and should not be used to create a face search stream processor.
+        ///  Specifies locations in the frames where Amazon Rekognition checks for objects or people. You can specify up to 10 regions of interest, and each region has either a polygon or a bounding box. This is an optional parameter for label detection stream processors and should not be used to create a face search stream processor.
         public let regionsOfInterest: [RegionOfInterest]?
         /// The Amazon Resource Number (ARN) of the IAM role that allows access to the stream processor.  The IAM role provides Rekognition read permissions for a Kinesis stream.  It also provides write permissions to an Amazon S3 bucket and Amazon Simple Notification Service topic for a label detection stream processor. This is required for both face search and label detection stream processors.
         public let roleArn: String
@@ -1260,6 +1340,42 @@ extension Rekognition {
         private enum CodingKeys: String, CodingKey {
             case deletedFaces = "DeletedFaces"
         }
+    }
+
+    public struct DeleteProjectPolicyRequest: AWSEncodableShape {
+        /// The name of the policy that you want to delete.
+        public let policyName: String
+        /// The ID of the project policy revision that you want to delete.
+        public let policyRevisionId: String?
+        /// The Amazon Resource Name (ARN) of the project that the project policy you want to delete is attached to.
+        public let projectArn: String
+
+        public init(policyName: String, policyRevisionId: String? = nil, projectArn: String) {
+            self.policyName = policyName
+            self.policyRevisionId = policyRevisionId
+            self.projectArn = projectArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.policyName, name: "policyName", parent: name, max: 128)
+            try self.validate(self.policyName, name: "policyName", parent: name, min: 1)
+            try self.validate(self.policyName, name: "policyName", parent: name, pattern: "^[a-zA-Z0-9_.\\-]+$")
+            try self.validate(self.policyRevisionId, name: "policyRevisionId", parent: name, max: 64)
+            try self.validate(self.policyRevisionId, name: "policyRevisionId", parent: name, pattern: "^[0-9A-Fa-f]+$")
+            try self.validate(self.projectArn, name: "projectArn", parent: name, max: 2048)
+            try self.validate(self.projectArn, name: "projectArn", parent: name, min: 20)
+            try self.validate(self.projectArn, name: "projectArn", parent: name, pattern: "^(^arn:[a-z\\d-]+:rekognition:[a-z\\d-]+:\\d{12}:project\\/[a-zA-Z0-9_.\\-]{1,255}\\/[0-9]+$)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyName = "PolicyName"
+            case policyRevisionId = "PolicyRevisionId"
+            case projectArn = "ProjectArn"
+        }
+    }
+
+    public struct DeleteProjectPolicyResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DeleteProjectRequest: AWSEncodableShape {
@@ -3381,6 +3497,53 @@ extension Rekognition {
         }
     }
 
+    public struct ListProjectPoliciesRequest: AWSEncodableShape {
+        /// The maximum number of results to return per paginated call. The largest value you can specify is 5. If you specify a value greater than 5, a ValidationException error occurs. The default value is 5.
+        public let maxResults: Int?
+        /// If the previous response was incomplete (because there is more results to retrieve), Amazon Rekognition Custom Labels returns a pagination token in the response. You can use this pagination token to retrieve the next set of results.
+        public let nextToken: String?
+        /// The ARN of the project for which you want to list the project policies.
+        public let projectArn: String
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, projectArn: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.projectArn = projectArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 5)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.projectArn, name: "projectArn", parent: name, max: 2048)
+            try self.validate(self.projectArn, name: "projectArn", parent: name, min: 20)
+            try self.validate(self.projectArn, name: "projectArn", parent: name, pattern: "^(^arn:[a-z\\d-]+:rekognition:[a-z\\d-]+:\\d{12}:project\\/[a-zA-Z0-9_.\\-]{1,255}\\/[0-9]+$)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case projectArn = "ProjectArn"
+        }
+    }
+
+    public struct ListProjectPoliciesResponse: AWSDecodableShape {
+        /// If the response is truncated, Amazon Rekognition returns this token that you can use in the subsequent request to retrieve the next set of project policies.
+        public let nextToken: String?
+        /// A list of project policies attached to the project.
+        public let projectPolicies: [ProjectPolicy]?
+
+        public init(nextToken: String? = nil, projectPolicies: [ProjectPolicy]? = nil) {
+            self.nextToken = nextToken
+            self.projectPolicies = projectPolicies
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case projectPolicies = "ProjectPolicies"
+        }
+    }
+
     public struct ListStreamProcessorsRequest: AWSEncodableShape {
         /// Maximum number of stream processors you want Amazon Rekognition Video to return in the response. The default is 1000.
         public let maxResults: Int?
@@ -3687,6 +3850,39 @@ extension Rekognition {
         }
     }
 
+    public struct ProjectPolicy: AWSDecodableShape {
+        /// The Unix datetime for the creation of the project policy.
+        public let creationTimestamp: Date?
+        /// The Unix datetime for when the project policy was last updated.
+        public let lastUpdatedTimestamp: Date?
+        /// The JSON document for the project policy.
+        public let policyDocument: String?
+        /// The name of the project policy.
+        public let policyName: String?
+        /// The revision ID of the project policy.
+        public let policyRevisionId: String?
+        /// The Amazon Resource Name (ARN) of the project to which the project policy is attached.
+        public let projectArn: String?
+
+        public init(creationTimestamp: Date? = nil, lastUpdatedTimestamp: Date? = nil, policyDocument: String? = nil, policyName: String? = nil, policyRevisionId: String? = nil, projectArn: String? = nil) {
+            self.creationTimestamp = creationTimestamp
+            self.lastUpdatedTimestamp = lastUpdatedTimestamp
+            self.policyDocument = policyDocument
+            self.policyName = policyName
+            self.policyRevisionId = policyRevisionId
+            self.projectArn = projectArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTimestamp = "CreationTimestamp"
+            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+            case policyDocument = "PolicyDocument"
+            case policyName = "PolicyName"
+            case policyRevisionId = "PolicyRevisionId"
+            case projectArn = "ProjectArn"
+        }
+    }
+
     public struct ProjectVersionDescription: AWSDecodableShape {
         /// The duration, in seconds, that you were billed for a successful training of the model version.  This value is only returned if the model version has been successfully trained.
         public let billableTrainingTimeInSeconds: Int64?
@@ -3698,12 +3894,16 @@ extension Rekognition {
         public let kmsKeyId: String?
         /// The location of the summary manifest. The summary manifest provides aggregate data validation results for the training and test datasets.
         public let manifestSummary: GroundTruthManifest?
+        /// The maximum number of inference units Amazon Rekognition Custom Labels uses to auto-scale the model. For more information, see StartProjectVersion.
+        public let maxInferenceUnits: Int?
         /// The minimum number of inference units used by the model. For more information, see StartProjectVersion.
         public let minInferenceUnits: Int?
         /// The location where training results are saved.
         public let outputConfig: OutputConfig?
         /// The Amazon Resource Name (ARN) of the model version.
         public let projectVersionArn: String?
+        /// If the model version was copied from a different project, SourceProjectVersionArn contains the ARN of the source model version.
+        public let sourceProjectVersionArn: String?
         /// The current status of the model version.
         public let status: ProjectVersionStatus?
         /// A descriptive message for an error or warning that occurred.
@@ -3715,15 +3915,17 @@ extension Rekognition {
         /// The Unix date and time that training of the model ended.
         public let trainingEndTimestamp: Date?
 
-        public init(billableTrainingTimeInSeconds: Int64? = nil, creationTimestamp: Date? = nil, evaluationResult: EvaluationResult? = nil, kmsKeyId: String? = nil, manifestSummary: GroundTruthManifest? = nil, minInferenceUnits: Int? = nil, outputConfig: OutputConfig? = nil, projectVersionArn: String? = nil, status: ProjectVersionStatus? = nil, statusMessage: String? = nil, testingDataResult: TestingDataResult? = nil, trainingDataResult: TrainingDataResult? = nil, trainingEndTimestamp: Date? = nil) {
+        public init(billableTrainingTimeInSeconds: Int64? = nil, creationTimestamp: Date? = nil, evaluationResult: EvaluationResult? = nil, kmsKeyId: String? = nil, manifestSummary: GroundTruthManifest? = nil, maxInferenceUnits: Int? = nil, minInferenceUnits: Int? = nil, outputConfig: OutputConfig? = nil, projectVersionArn: String? = nil, sourceProjectVersionArn: String? = nil, status: ProjectVersionStatus? = nil, statusMessage: String? = nil, testingDataResult: TestingDataResult? = nil, trainingDataResult: TrainingDataResult? = nil, trainingEndTimestamp: Date? = nil) {
             self.billableTrainingTimeInSeconds = billableTrainingTimeInSeconds
             self.creationTimestamp = creationTimestamp
             self.evaluationResult = evaluationResult
             self.kmsKeyId = kmsKeyId
             self.manifestSummary = manifestSummary
+            self.maxInferenceUnits = maxInferenceUnits
             self.minInferenceUnits = minInferenceUnits
             self.outputConfig = outputConfig
             self.projectVersionArn = projectVersionArn
+            self.sourceProjectVersionArn = sourceProjectVersionArn
             self.status = status
             self.statusMessage = statusMessage
             self.testingDataResult = testingDataResult
@@ -3737,9 +3939,11 @@ extension Rekognition {
             case evaluationResult = "EvaluationResult"
             case kmsKeyId = "KmsKeyId"
             case manifestSummary = "ManifestSummary"
+            case maxInferenceUnits = "MaxInferenceUnits"
             case minInferenceUnits = "MinInferenceUnits"
             case outputConfig = "OutputConfig"
             case projectVersionArn = "ProjectVersionArn"
+            case sourceProjectVersionArn = "SourceProjectVersionArn"
             case status = "Status"
             case statusMessage = "StatusMessage"
             case testingDataResult = "TestingDataResult"
@@ -3834,6 +4038,58 @@ extension Rekognition {
             case personsIndeterminate = "PersonsIndeterminate"
             case personsWithoutRequiredEquipment = "PersonsWithoutRequiredEquipment"
             case personsWithRequiredEquipment = "PersonsWithRequiredEquipment"
+        }
+    }
+
+    public struct PutProjectPolicyRequest: AWSEncodableShape {
+        /// A resource policy to add to the model. The policy is a JSON structure that contains one or more statements that define the policy.  The policy must follow the IAM syntax. For more information about the contents of a JSON policy document, see  IAM JSON policy reference.
+        public let policyDocument: String
+        /// A name for the policy.
+        public let policyName: String
+        /// The revision ID for the Project Policy. Each time you modify a policy, Amazon Rekognition Custom Labels generates and assigns a new PolicyRevisionId and then deletes the previous version of the policy.
+        public let policyRevisionId: String?
+        /// The Amazon Resource Name (ARN) of the project that the project policy is attached to.
+        public let projectArn: String
+
+        public init(policyDocument: String, policyName: String, policyRevisionId: String? = nil, projectArn: String) {
+            self.policyDocument = policyDocument
+            self.policyName = policyName
+            self.policyRevisionId = policyRevisionId
+            self.projectArn = projectArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.policyDocument, name: "policyDocument", parent: name, max: 2000)
+            try self.validate(self.policyDocument, name: "policyDocument", parent: name, min: 1)
+            try self.validate(self.policyDocument, name: "policyDocument", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+$")
+            try self.validate(self.policyName, name: "policyName", parent: name, max: 128)
+            try self.validate(self.policyName, name: "policyName", parent: name, min: 1)
+            try self.validate(self.policyName, name: "policyName", parent: name, pattern: "^[a-zA-Z0-9_.\\-]+$")
+            try self.validate(self.policyRevisionId, name: "policyRevisionId", parent: name, max: 64)
+            try self.validate(self.policyRevisionId, name: "policyRevisionId", parent: name, pattern: "^[0-9A-Fa-f]+$")
+            try self.validate(self.projectArn, name: "projectArn", parent: name, max: 2048)
+            try self.validate(self.projectArn, name: "projectArn", parent: name, min: 20)
+            try self.validate(self.projectArn, name: "projectArn", parent: name, pattern: "^(^arn:[a-z\\d-]+:rekognition:[a-z\\d-]+:\\d{12}:project\\/[a-zA-Z0-9_.\\-]{1,255}\\/[0-9]+$)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyDocument = "PolicyDocument"
+            case policyName = "PolicyName"
+            case policyRevisionId = "PolicyRevisionId"
+            case projectArn = "ProjectArn"
+        }
+    }
+
+    public struct PutProjectPolicyResponse: AWSDecodableShape {
+        /// The ID of the project policy.
+        public let policyRevisionId: String?
+
+        public init(policyRevisionId: String? = nil) {
+            self.policyRevisionId = policyRevisionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyRevisionId = "PolicyRevisionId"
         }
     }
 
@@ -4501,17 +4757,21 @@ extension Rekognition {
     }
 
     public struct StartProjectVersionRequest: AWSEncodableShape {
-        /// The minimum number of inference units to use. A single inference unit represents 1 hour of processing and can support up to 5 Transaction Pers Second (TPS). Use a higher number to increase the TPS throughput of your model. You are charged for the number of inference units that you use.
+        /// The maximum number of inference units to use for auto-scaling the model. If you don't specify a value, Amazon Rekognition Custom Labels doesn't auto-scale the model.
+        public let maxInferenceUnits: Int?
+        /// The minimum number of inference units to use. A single inference unit represents 1 hour of processing.   For information about the number  of transactions per second (TPS) that an inference unit can support, see  Running a trained Amazon Rekognition Custom Labels model in the  Amazon Rekognition Custom Labels Guide.  Use a higher number to increase the TPS throughput of your model. You are charged for the number of inference units that you use.
         public let minInferenceUnits: Int
         /// The Amazon Resource Name(ARN) of the model version that you want to start.
         public let projectVersionArn: String
 
-        public init(minInferenceUnits: Int, projectVersionArn: String) {
+        public init(maxInferenceUnits: Int? = nil, minInferenceUnits: Int, projectVersionArn: String) {
+            self.maxInferenceUnits = maxInferenceUnits
             self.minInferenceUnits = minInferenceUnits
             self.projectVersionArn = projectVersionArn
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.maxInferenceUnits, name: "maxInferenceUnits", parent: name, min: 1)
             try self.validate(self.minInferenceUnits, name: "minInferenceUnits", parent: name, min: 1)
             try self.validate(self.projectVersionArn, name: "projectVersionArn", parent: name, max: 2048)
             try self.validate(self.projectVersionArn, name: "projectVersionArn", parent: name, min: 20)
@@ -4519,6 +4779,7 @@ extension Rekognition {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case maxInferenceUnits = "MaxInferenceUnits"
             case minInferenceUnits = "MinInferenceUnits"
             case projectVersionArn = "ProjectVersionArn"
         }

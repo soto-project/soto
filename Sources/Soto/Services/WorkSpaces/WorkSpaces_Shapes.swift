@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -97,6 +97,12 @@ extension WorkSpaces {
         public var description: String { return self.rawValue }
     }
 
+    public enum DeletableSamlProperty: String, CustomStringConvertible, Codable, _SotoSendable {
+        case samlPropertiesRelayStateParameterName = "SAML_PROPERTIES_RELAY_STATE_PARAMETER_NAME"
+        case samlPropertiesUserAccessUrl = "SAML_PROPERTIES_USER_ACCESS_URL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ImageType: String, CustomStringConvertible, Codable, _SotoSendable {
         case owned = "OWNED"
         case shared = "SHARED"
@@ -131,6 +137,13 @@ extension WorkSpaces {
     public enum RunningMode: String, CustomStringConvertible, Codable, _SotoSendable {
         case alwaysOn = "ALWAYS_ON"
         case autoStop = "AUTO_STOP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SamlStatusEnum: String, CustomStringConvertible, Codable, _SotoSendable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        case enabledWithDirectoryLoginFallback = "ENABLED_WITH_DIRECTORY_LOGIN_FALLBACK"
         public var description: String { return self.rawValue }
     }
 
@@ -801,6 +814,85 @@ extension WorkSpaces {
         }
     }
 
+    public struct CreateWorkspaceImageRequest: AWSEncodableShape {
+        /// The description of the new WorkSpace image.
+        public let description: String
+        /// The name of the new WorkSpace image.
+        public let name: String
+        /// The tags that you want to add to the new WorkSpace image.  To add tags when you're creating the image, you must create an IAM policy that grants  your IAM user permission to use workspaces:CreateTags.
+        public let tags: [Tag]?
+        /// The identifier of the source WorkSpace
+        public let workspaceId: String
+
+        public init(description: String, name: String, tags: [Tag]? = nil, workspaceId: String) {
+            self.description = description
+            self.name = name
+            self.tags = tags
+            self.workspaceId = workspaceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[a-zA-Z0-9_./() -]+$")
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_./()\\\\-]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "^ws-[0-9a-z]{8,63}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case name = "Name"
+            case tags = "Tags"
+            case workspaceId = "WorkspaceId"
+        }
+    }
+
+    public struct CreateWorkspaceImageResult: AWSDecodableShape {
+        /// The date when the image was created.
+        public let created: Date?
+        /// The description of the image.
+        public let description: String?
+        /// The identifier of the new WorkSpace image.
+        public let imageId: String?
+        /// The name of the image.
+        public let name: String?
+        /// The operating system that the image is running.
+        public let operatingSystem: OperatingSystem?
+        /// The identifier of the AWS account that owns the image.
+        public let ownerAccountId: String?
+        /// Specifies whether the image is running on dedicated hardware.  When Bring Your Own License (BYOL) is enabled, this value is set  to DEDICATED. For more information, see   Bring Your Own Windows Desktop Images.
+        public let requiredTenancy: WorkspaceImageRequiredTenancy?
+        /// The availability status of the image.
+        public let state: WorkspaceImageState?
+
+        public init(created: Date? = nil, description: String? = nil, imageId: String? = nil, name: String? = nil, operatingSystem: OperatingSystem? = nil, ownerAccountId: String? = nil, requiredTenancy: WorkspaceImageRequiredTenancy? = nil, state: WorkspaceImageState? = nil) {
+            self.created = created
+            self.description = description
+            self.imageId = imageId
+            self.name = name
+            self.operatingSystem = operatingSystem
+            self.ownerAccountId = ownerAccountId
+            self.requiredTenancy = requiredTenancy
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case created = "Created"
+            case description = "Description"
+            case imageId = "ImageId"
+            case name = "Name"
+            case operatingSystem = "OperatingSystem"
+            case ownerAccountId = "OwnerAccountId"
+            case requiredTenancy = "RequiredTenancy"
+            case state = "State"
+        }
+    }
+
     public struct CreateWorkspacesRequest: AWSEncodableShape {
         /// The WorkSpaces to create. You can specify up to 25 WorkSpaces.
         public let workspaces: [WorkspaceRequest]
@@ -842,9 +934,9 @@ extension WorkSpaces {
     public struct DefaultClientBrandingAttributes: AWSDecodableShape {
         /// The forgotten password link. This is the web address that users can go to if they forget the password for their WorkSpace.
         public let forgotPasswordLink: String?
-        /// The login message. Specified as a key value pair, in which the key is a locale and the value is the localized message for that locale. The only key supported is en_US.
+        /// The login message. Specified as a key value pair, in which the key is a locale and the value is the localized message for that locale. The only key supported is en_US. The HTML tags supported include the following: a, b, blockquote, br, cite, code, dd, dl, dt, div, em,  i, li, ol, p, pre, q, small, span, strike, strong, sub, sup, u, ul.
         public let loginMessage: [String: String]?
-        /// The logo URL. The only image  format accepted is a binary data object that is converted from a .png file.
+        /// The logo. The only image format accepted is a binary data object that is converted from a .png file.
         public let logoUrl: String?
         /// The support email. The company's customer support email address.    In each platform type, the SupportEmail and SupportLink parameters are mutually exclusive. You can specify one parameter for each platform type, but not both.   The default email is workspaces-feedback@amazon.com.
         public let supportEmail: String?
@@ -871,9 +963,9 @@ extension WorkSpaces {
     public struct DefaultImportClientBrandingAttributes: AWSEncodableShape {
         /// The forgotten password link. This is the web address that users can go to if they forget the password for their WorkSpace.
         public let forgotPasswordLink: String?
-        /// The login message. Specified as a key value pair, in which the key is a locale and the value is the localized message for that locale. The only key supported is en_US.
+        /// The login message. Specified as a key value pair, in which the key is a locale and the value is the localized message for that locale. The only key supported is en_US. The HTML tags supported include the following: a, b, blockquote, br, cite, code, dd, dl, dt, div, em,  i, li, ol, p, pre, q, small, span, strike, strong, sub, sup, u, ul.
         public let loginMessage: [String: String]?
-        /// The logo. The only image  format accepted is a binary data object that is converted from a .png file.
+        /// The logo. The only image format accepted is a binary data object that is converted from a .png file.
         public let logo: AWSBase64Data?
         /// The support email. The company's customer support email address.    In each platform type, the SupportEmail and SupportLink parameters are mutually exclusive. You can specify one parameter for each platform type, but not both.   The default email is workspaces-feedback@amazon.com.
         public let supportEmail: String?
@@ -896,7 +988,7 @@ extension WorkSpaces {
                 try validate($0.key, name: "loginMessage.key", parent: name, max: 5)
                 try validate($0.key, name: "loginMessage.key", parent: name, min: 5)
                 try validate($0.key, name: "loginMessage.key", parent: name, pattern: "^[a-z]{2}_[A-Z]{2}$")
-                try validate($0.value, name: "loginMessage[\"\($0.key)\"]", parent: name, max: 850)
+                try validate($0.value, name: "loginMessage[\"\($0.key)\"]", parent: name, max: 2000)
                 try validate($0.value, name: "loginMessage[\"\($0.key)\"]", parent: name, pattern: "^.*$")
             }
             try self.validate(self.logo, name: "logo", parent: name, max: 1_500_000)
@@ -2128,13 +2220,13 @@ extension WorkSpaces {
     public struct IosClientBrandingAttributes: AWSDecodableShape {
         /// The forgotten password link. This is the web address that users can go to if they forget the password for their WorkSpace.
         public let forgotPasswordLink: String?
-        /// The login message. Specified as a key value pair, in which the key is a locale and the value is the localized message for that locale. The only key supported is en_US.
+        /// The login message. Specified as a key value pair, in which the key is a locale and the value is the localized message for that locale. The only key supported is en_US. The HTML tags supported include the following: a, b, blockquote, br, cite, code, dd, dl, dt, div, em,  i, li, ol, p, pre, q, small, span, strike, strong, sub, sup, u, ul.
         public let loginMessage: [String: String]?
         /// The @2x version of the logo. This is the higher resolution display that offers a scale factor of 2.0 (or @2x). The only image format accepted is a binary data object that is  converted from a .png file.  For more information about iOS image size and resolution, see Image Size and Resolution  in the Apple Human Interface Guidelines.
         public let logo2xUrl: String?
         /// The @3x version of the logo. This is the higher resolution display that offers a scale factor of 3.0 (or @3x).The only image format accepted is a binary data object that is  converted from a .png file.  For more information about iOS image size and resolution, see Image Size and Resolution  in the Apple Human Interface Guidelines.
         public let logo3xUrl: String?
-        /// The logo. This is the standard-resolution display that has a 1:1 pixel density (or @1x), where one pixel is equal to one point. The only image format accepted is a binary data object that is converted from  a .png file.
+        /// The logo. This is the standard-resolution display that has a 1:1 pixel density  (or @1x), where one pixel is equal to one point. The only image format accepted is a binary data object that is converted from  a .png file.
         public let logoUrl: String?
         /// The support email. The company's customer support email address.    In each platform type, the SupportEmail and SupportLink parameters are mutually exclusive. You can specify one parameter for each platform type, but not both.   The default email is workspaces-feedback@amazon.com.
         public let supportEmail: String?
@@ -2165,7 +2257,7 @@ extension WorkSpaces {
     public struct IosImportClientBrandingAttributes: AWSEncodableShape {
         /// The forgotten password link. This is the web address that users can go to if they forget the password for their WorkSpace.
         public let forgotPasswordLink: String?
-        /// The login message. Specified as a key value pair, in which the key is a locale and the value is the localized message for that locale. The only key supported is en_US.
+        /// The login message. Specified as a key value pair, in which the key is a locale and the value is the localized message for that locale. The only key supported is en_US. The HTML tags supported include the following: a, b, blockquote, br, cite, code, dd, dl, dt, div, em,  i, li, ol, p, pre, q, small, span, strike, strong, sub, sup, u, ul.
         public let loginMessage: [String: String]?
         /// The logo. This is the standard-resolution display that has a 1:1 pixel density (or @1x), where one pixel is equal to one point. The only image format accepted is a binary data object that is converted  from a .png file.
         public let logo: AWSBase64Data?
@@ -2196,7 +2288,7 @@ extension WorkSpaces {
                 try validate($0.key, name: "loginMessage.key", parent: name, max: 5)
                 try validate($0.key, name: "loginMessage.key", parent: name, min: 5)
                 try validate($0.key, name: "loginMessage.key", parent: name, pattern: "^[a-z]{2}_[A-Z]{2}$")
-                try validate($0.value, name: "loginMessage[\"\($0.key)\"]", parent: name, max: 850)
+                try validate($0.value, name: "loginMessage[\"\($0.key)\"]", parent: name, max: 2000)
                 try validate($0.value, name: "loginMessage[\"\($0.key)\"]", parent: name, pattern: "^.*$")
             }
             try self.validate(self.logo, name: "logo", parent: name, max: 447_000)
@@ -2390,6 +2482,38 @@ extension WorkSpaces {
     }
 
     public struct ModifyClientPropertiesResult: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct ModifySamlPropertiesRequest: AWSEncodableShape {
+        /// The SAML properties to delete as part of your request. Specify one of the following options:    SAML_PROPERTIES_USER_ACCESS_URL to delete the user access URL.    SAML_PROPERTIES_RELAY_STATE_PARAMETER_NAME to delete the relay state parameter name.
+        public let propertiesToDelete: [DeletableSamlProperty]?
+        /// The directory identifier for which you want to configure SAML properties.
+        public let resourceId: String
+        /// The properties for configuring SAML 2.0 authentication.
+        public let samlProperties: SamlProperties?
+
+        public init(propertiesToDelete: [DeletableSamlProperty]? = nil, resourceId: String, samlProperties: SamlProperties? = nil) {
+            self.propertiesToDelete = propertiesToDelete
+            self.resourceId = resourceId
+            self.samlProperties = samlProperties
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceId, name: "resourceId", parent: name, max: 65)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, min: 10)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
+            try self.samlProperties?.validate(name: "\(name).samlProperties")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case propertiesToDelete = "PropertiesToDelete"
+            case resourceId = "ResourceId"
+            case samlProperties = "SamlProperties"
+        }
+    }
+
+    public struct ModifySamlPropertiesResult: AWSDecodableShape {
         public init() {}
     }
 
@@ -2752,6 +2876,34 @@ extension WorkSpaces {
 
         private enum CodingKeys: String, CodingKey {
             case capacity = "Capacity"
+        }
+    }
+
+    public struct SamlProperties: AWSEncodableShape & AWSDecodableShape {
+        /// The relay state parameter name supported by the SAML 2.0 identity provider (IdP). When the end user is redirected to  the user access URL from the WorkSpaces client application, this relay state parameter name is appended as a query  parameter to the URL along with the relay state endpoint to return the user to the client application session.  To use SAML 2.0 authentication with WorkSpaces, the IdP must support IdP-initiated deep linking for the relay state  URL. Consult your IdP documentation for more information.
+        public let relayStateParameterName: String?
+        /// Indicates the status of SAML 2.0 authentication. These statuses include the following.   If the setting is DISABLED, end users will be directed to login with their directory credentials.   If the setting is ENABLED, end users will be directed to login via the user access URL. Users attempting  to connect to WorkSpaces from a client application that does not support SAML 2.0 authentication will not be able to  connect.   If the setting is ENABLED_WITH_DIRECTORY_LOGIN_FALLBACK, end users will be directed to login via the user  access URL on supported client applications, but will not prevent clients that do not support SAML 2.0 authentication  from connecting as if SAML 2.0 authentication was disabled.
+        public let status: SamlStatusEnum?
+        /// The SAML 2.0 identity provider (IdP) user access URL is the URL a user would navigate to in their web browser in  order to federate from the IdP and directly access the application, without any SAML 2.0 service provider (SP)  bindings.
+        public let userAccessUrl: String?
+
+        public init(relayStateParameterName: String? = nil, status: SamlStatusEnum? = nil, userAccessUrl: String? = nil) {
+            self.relayStateParameterName = relayStateParameterName
+            self.status = status
+            self.userAccessUrl = userAccessUrl
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.relayStateParameterName, name: "relayStateParameterName", parent: name, min: 1)
+            try self.validate(self.userAccessUrl, name: "userAccessUrl", parent: name, max: 200)
+            try self.validate(self.userAccessUrl, name: "userAccessUrl", parent: name, min: 8)
+            try self.validate(self.userAccessUrl, name: "userAccessUrl", parent: name, pattern: "^(http|https)\\://\\S+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case relayStateParameterName = "RelayStateParameterName"
+            case status = "Status"
+            case userAccessUrl = "UserAccessUrl"
         }
     }
 
@@ -3402,6 +3554,8 @@ extension WorkSpaces {
         public let ipGroupIds: [String]?
         /// The registration code for the directory. This is the code that users enter in their Amazon WorkSpaces client application to connect to the directory.
         public let registrationCode: String?
+        /// Describes the enablement status, user access URL, and relay state parameter name that are used for configuring  federation with an SAML 2.0 identity provider.
+        public let samlProperties: SamlProperties?
         /// The default self-service permissions for WorkSpaces in the directory.
         public let selfservicePermissions: SelfservicePermissions?
         /// The state of the directory's registration with Amazon WorkSpaces. After a directory is deregistered, the DEREGISTERED state is returned very briefly before the directory metadata is cleaned up, so this state is rarely returned. To confirm that a directory is deregistered, check for the directory ID by using  DescribeWorkspaceDirectories. If the directory ID isn't returned, then the directory has been successfully deregistered.
@@ -3417,7 +3571,7 @@ extension WorkSpaces {
         /// The identifier of the security group that is assigned to new WorkSpaces.
         public let workspaceSecurityGroupId: String?
 
-        public init(alias: String? = nil, customerUserName: String? = nil, directoryId: String? = nil, directoryName: String? = nil, directoryType: WorkspaceDirectoryType? = nil, dnsIpAddresses: [String]? = nil, iamRoleId: String? = nil, ipGroupIds: [String]? = nil, registrationCode: String? = nil, selfservicePermissions: SelfservicePermissions? = nil, state: WorkspaceDirectoryState? = nil, subnetIds: [String]? = nil, tenancy: Tenancy? = nil, workspaceAccessProperties: WorkspaceAccessProperties? = nil, workspaceCreationProperties: DefaultWorkspaceCreationProperties? = nil, workspaceSecurityGroupId: String? = nil) {
+        public init(alias: String? = nil, customerUserName: String? = nil, directoryId: String? = nil, directoryName: String? = nil, directoryType: WorkspaceDirectoryType? = nil, dnsIpAddresses: [String]? = nil, iamRoleId: String? = nil, ipGroupIds: [String]? = nil, registrationCode: String? = nil, samlProperties: SamlProperties? = nil, selfservicePermissions: SelfservicePermissions? = nil, state: WorkspaceDirectoryState? = nil, subnetIds: [String]? = nil, tenancy: Tenancy? = nil, workspaceAccessProperties: WorkspaceAccessProperties? = nil, workspaceCreationProperties: DefaultWorkspaceCreationProperties? = nil, workspaceSecurityGroupId: String? = nil) {
             self.alias = alias
             self.customerUserName = customerUserName
             self.directoryId = directoryId
@@ -3427,6 +3581,7 @@ extension WorkSpaces {
             self.iamRoleId = iamRoleId
             self.ipGroupIds = ipGroupIds
             self.registrationCode = registrationCode
+            self.samlProperties = samlProperties
             self.selfservicePermissions = selfservicePermissions
             self.state = state
             self.subnetIds = subnetIds
@@ -3446,6 +3601,7 @@ extension WorkSpaces {
             case iamRoleId = "IamRoleId"
             case ipGroupIds
             case registrationCode = "RegistrationCode"
+            case samlProperties = "SamlProperties"
             case selfservicePermissions = "SelfservicePermissions"
             case state = "State"
             case subnetIds = "SubnetIds"

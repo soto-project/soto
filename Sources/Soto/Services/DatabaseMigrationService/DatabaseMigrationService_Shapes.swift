@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -1759,7 +1759,7 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeFleetAdvisorDatabasesRequest: AWSEncodableShape {
-        ///  If you specify any of the following filters, the output includes information for only those databases that meet the filter criteria:      database-id – The ID of the database, for example d4610ac5-e323-4ad9-bc50-eaf7249dfe9d.    database-name – The name of the database.    database-engine – The name of the database engine.    server-ip-address – The IP address of the database server.    database-ip-address – The IP address of the database.    collector-name – The name of the associated Fleet Advisor collector.    An example is: describe-fleet-advisor-databases --filter Name="database-id",Values="d4610ac5-e323-4ad9-bc50-eaf7249dfe9d"
+        ///  If you specify any of the following filters, the output includes information for only those databases that meet the filter criteria:      database-id – The ID of the database.    database-name – The name of the database.    database-engine – The name of the database engine.    server-ip-address – The IP address of the database server.    database-ip-address – The IP address of the database.    collector-name – The name of the associated Fleet Advisor collector.    An example is: describe-fleet-advisor-databases --filter Name="database-id",Values="45"
         public let filters: [Filter]?
         /// Sets the maximum number of records returned in the response.
         public let maxRecords: Int?
@@ -2461,12 +2461,15 @@ extension DatabaseMigrationService {
         public let fullLoadErrorPercentage: Int?
         /// The Amazon Resource Name (ARN) used by the service to access the IAM role. The role must allow the iam:PassRole action.
         public let serviceAccessRoleArn: String
+        /// Set this option to true for DMS to migrate documentation using the documentation type _doc.  OpenSearch and  an Elasticsearch cluster only support the _doc documentation type in versions 7. x and later. The default value is false.
+        public let useNewMappingType: Bool?
 
-        public init(endpointUri: String, errorRetryDuration: Int? = nil, fullLoadErrorPercentage: Int? = nil, serviceAccessRoleArn: String) {
+        public init(endpointUri: String, errorRetryDuration: Int? = nil, fullLoadErrorPercentage: Int? = nil, serviceAccessRoleArn: String, useNewMappingType: Bool? = nil) {
             self.endpointUri = endpointUri
             self.errorRetryDuration = errorRetryDuration
             self.fullLoadErrorPercentage = fullLoadErrorPercentage
             self.serviceAccessRoleArn = serviceAccessRoleArn
+            self.useNewMappingType = useNewMappingType
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2474,6 +2477,7 @@ extension DatabaseMigrationService {
             case errorRetryDuration = "ErrorRetryDuration"
             case fullLoadErrorPercentage = "FullLoadErrorPercentage"
             case serviceAccessRoleArn = "ServiceAccessRoleArn"
+            case useNewMappingType = "UseNewMappingType"
         }
     }
 
@@ -3175,6 +3179,8 @@ extension DatabaseMigrationService {
         public let secretsManagerSecretId: String?
         /// Fully qualified domain name of the endpoint.
         public let serverName: String?
+        /// Use the TrimSpaceInChar source endpoint setting to trim data  on CHAR and NCHAR data types during migration. The default value is true.
+        public let trimSpaceInChar: Bool?
         /// Use this to attribute to transfer data for full-load operations using BCP. When the target table contains an identity column that does not exist in the source table, you must disable the use BCP for loading table option.
         public let useBcpFullLoad: Bool?
         /// Endpoint connection user name.
@@ -3182,7 +3188,7 @@ extension DatabaseMigrationService {
         /// When this attribute is set to Y, DMS processes third-party  transaction log backups if they are created in native format.
         public let useThirdPartyBackupDevice: Bool?
 
-        public init(bcpPacketSize: Int? = nil, controlTablesFileGroup: String? = nil, databaseName: String? = nil, password: String? = nil, port: Int? = nil, querySingleAlwaysOnNode: Bool? = nil, readBackupOnly: Bool? = nil, safeguardPolicy: SafeguardPolicy? = nil, secretsManagerAccessRoleArn: String? = nil, secretsManagerSecretId: String? = nil, serverName: String? = nil, useBcpFullLoad: Bool? = nil, username: String? = nil, useThirdPartyBackupDevice: Bool? = nil) {
+        public init(bcpPacketSize: Int? = nil, controlTablesFileGroup: String? = nil, databaseName: String? = nil, password: String? = nil, port: Int? = nil, querySingleAlwaysOnNode: Bool? = nil, readBackupOnly: Bool? = nil, safeguardPolicy: SafeguardPolicy? = nil, secretsManagerAccessRoleArn: String? = nil, secretsManagerSecretId: String? = nil, serverName: String? = nil, trimSpaceInChar: Bool? = nil, useBcpFullLoad: Bool? = nil, username: String? = nil, useThirdPartyBackupDevice: Bool? = nil) {
             self.bcpPacketSize = bcpPacketSize
             self.controlTablesFileGroup = controlTablesFileGroup
             self.databaseName = databaseName
@@ -3194,6 +3200,7 @@ extension DatabaseMigrationService {
             self.secretsManagerAccessRoleArn = secretsManagerAccessRoleArn
             self.secretsManagerSecretId = secretsManagerSecretId
             self.serverName = serverName
+            self.trimSpaceInChar = trimSpaceInChar
             self.useBcpFullLoad = useBcpFullLoad
             self.username = username
             self.useThirdPartyBackupDevice = useThirdPartyBackupDevice
@@ -3211,6 +3218,7 @@ extension DatabaseMigrationService {
             case secretsManagerAccessRoleArn = "SecretsManagerAccessRoleArn"
             case secretsManagerSecretId = "SecretsManagerSecretId"
             case serverName = "ServerName"
+            case trimSpaceInChar = "TrimSpaceInChar"
             case useBcpFullLoad = "UseBcpFullLoad"
             case username = "Username"
             case useThirdPartyBackupDevice = "UseThirdPartyBackupDevice"
@@ -3836,6 +3844,8 @@ extension DatabaseMigrationService {
         public let spatialDataOptionToGeoJsonFunctionName: String?
         /// Use this attribute to specify a time in minutes for the delay in standby sync. If the source is an Oracle Active Data Guard standby database, use this attribute to specify the time lag between primary and standby databases. In DMS, you can create an Oracle CDC task that uses an Active Data Guard standby instance as a source for replicating ongoing changes. Doing this eliminates the need to connect to an active database that might be in production.
         public let standbyDelayTime: Int?
+        /// Use the TrimSpaceInChar source endpoint setting to trim data  on CHAR and NCHAR data types during migration. The default value is true.
+        public let trimSpaceInChar: Bool?
         /// Set this attribute to true in order to use the Binary Reader to capture change data for an Amazon RDS for Oracle as the source. This tells the DMS instance to use any specified prefix replacement to access all online redo logs.
         public let useAlternateFolderForOnline: Bool?
         /// Set this attribute to Y to capture change data using the Binary Reader utility. Set UseLogminerReader to N to set this attribute to Y. To use Binary Reader with Amazon RDS for Oracle as the source, you set additional attributes. For more information about using this setting with Oracle Automatic Storage Management (ASM), see  Using Oracle LogMiner or DMS Binary Reader for CDC.
@@ -3849,7 +3859,7 @@ extension DatabaseMigrationService {
         /// Endpoint connection user name.
         public let username: String?
 
-        public init(accessAlternateDirectly: Bool? = nil, additionalArchivedLogDestId: Int? = nil, addSupplementalLogging: Bool? = nil, allowSelectNestedTables: Bool? = nil, archivedLogDestId: Int? = nil, archivedLogsOnly: Bool? = nil, asmPassword: String? = nil, asmServer: String? = nil, asmUser: String? = nil, charLengthSemantics: CharLengthSemantics? = nil, databaseName: String? = nil, directPathNoLog: Bool? = nil, directPathParallelLoad: Bool? = nil, enableHomogenousTablespace: Bool? = nil, extraArchivedLogDestIds: [Int]? = nil, failTasksOnLobTruncation: Bool? = nil, numberDatatypeScale: Int? = nil, oraclePathPrefix: String? = nil, parallelAsmReadThreads: Int? = nil, password: String? = nil, port: Int? = nil, readAheadBlocks: Int? = nil, readTableSpaceName: Bool? = nil, replacePathPrefix: Bool? = nil, retryInterval: Int? = nil, secretsManagerAccessRoleArn: String? = nil, secretsManagerOracleAsmAccessRoleArn: String? = nil, secretsManagerOracleAsmSecretId: String? = nil, secretsManagerSecretId: String? = nil, securityDbEncryption: String? = nil, securityDbEncryptionName: String? = nil, serverName: String? = nil, spatialDataOptionToGeoJsonFunctionName: String? = nil, standbyDelayTime: Int? = nil, useAlternateFolderForOnline: Bool? = nil, useBFile: Bool? = nil, useDirectPathFullLoad: Bool? = nil, useLogminerReader: Bool? = nil, usePathPrefix: String? = nil, username: String? = nil) {
+        public init(accessAlternateDirectly: Bool? = nil, additionalArchivedLogDestId: Int? = nil, addSupplementalLogging: Bool? = nil, allowSelectNestedTables: Bool? = nil, archivedLogDestId: Int? = nil, archivedLogsOnly: Bool? = nil, asmPassword: String? = nil, asmServer: String? = nil, asmUser: String? = nil, charLengthSemantics: CharLengthSemantics? = nil, databaseName: String? = nil, directPathNoLog: Bool? = nil, directPathParallelLoad: Bool? = nil, enableHomogenousTablespace: Bool? = nil, extraArchivedLogDestIds: [Int]? = nil, failTasksOnLobTruncation: Bool? = nil, numberDatatypeScale: Int? = nil, oraclePathPrefix: String? = nil, parallelAsmReadThreads: Int? = nil, password: String? = nil, port: Int? = nil, readAheadBlocks: Int? = nil, readTableSpaceName: Bool? = nil, replacePathPrefix: Bool? = nil, retryInterval: Int? = nil, secretsManagerAccessRoleArn: String? = nil, secretsManagerOracleAsmAccessRoleArn: String? = nil, secretsManagerOracleAsmSecretId: String? = nil, secretsManagerSecretId: String? = nil, securityDbEncryption: String? = nil, securityDbEncryptionName: String? = nil, serverName: String? = nil, spatialDataOptionToGeoJsonFunctionName: String? = nil, standbyDelayTime: Int? = nil, trimSpaceInChar: Bool? = nil, useAlternateFolderForOnline: Bool? = nil, useBFile: Bool? = nil, useDirectPathFullLoad: Bool? = nil, useLogminerReader: Bool? = nil, usePathPrefix: String? = nil, username: String? = nil) {
             self.accessAlternateDirectly = accessAlternateDirectly
             self.additionalArchivedLogDestId = additionalArchivedLogDestId
             self.addSupplementalLogging = addSupplementalLogging
@@ -3884,6 +3894,7 @@ extension DatabaseMigrationService {
             self.serverName = serverName
             self.spatialDataOptionToGeoJsonFunctionName = spatialDataOptionToGeoJsonFunctionName
             self.standbyDelayTime = standbyDelayTime
+            self.trimSpaceInChar = trimSpaceInChar
             self.useAlternateFolderForOnline = useAlternateFolderForOnline
             self.useBFile = useBFile
             self.useDirectPathFullLoad = useDirectPathFullLoad
@@ -3927,6 +3938,7 @@ extension DatabaseMigrationService {
             case serverName = "ServerName"
             case spatialDataOptionToGeoJsonFunctionName = "SpatialDataOptionToGeoJsonFunctionName"
             case standbyDelayTime = "StandbyDelayTime"
+            case trimSpaceInChar = "TrimSpaceInChar"
             case useAlternateFolderForOnline = "UseAlternateFolderForOnline"
             case useBFile = "UseBFile"
             case useDirectPathFullLoad = "UseDirectPathFullLoad"
@@ -4049,10 +4061,12 @@ extension DatabaseMigrationService {
         public let serverName: String?
         /// Sets the name of a previously created logical replication slot for a change data capture (CDC) load of the PostgreSQL source instance.  When used with the CdcStartPosition request parameter for the DMS API , this attribute also makes it possible to use native CDC start points. DMS verifies that the specified logical replication slot exists before starting the CDC load task. It also verifies that the task was created with a valid setting of CdcStartPosition. If the specified slot doesn't exist or the task doesn't have a valid CdcStartPosition setting, DMS raises an error. For more information about setting the CdcStartPosition request parameter, see Determining a CDC native start point in the Database Migration Service User Guide. For more information about using CdcStartPosition, see CreateReplicationTask, StartReplicationTask, and ModifyReplicationTask.
         public let slotName: String?
+        /// Use the TrimSpaceInChar source endpoint setting to trim data  on CHAR and NCHAR data types during migration. The default value is true.
+        public let trimSpaceInChar: Bool?
         /// Endpoint connection user name.
         public let username: String?
 
-        public init(afterConnectScript: String? = nil, captureDdls: Bool? = nil, databaseName: String? = nil, ddlArtifactsSchema: String? = nil, executeTimeout: Int? = nil, failTasksOnLobTruncation: Bool? = nil, heartbeatEnable: Bool? = nil, heartbeatFrequency: Int? = nil, heartbeatSchema: String? = nil, maxFileSize: Int? = nil, password: String? = nil, pluginName: PluginNameValue? = nil, port: Int? = nil, secretsManagerAccessRoleArn: String? = nil, secretsManagerSecretId: String? = nil, serverName: String? = nil, slotName: String? = nil, username: String? = nil) {
+        public init(afterConnectScript: String? = nil, captureDdls: Bool? = nil, databaseName: String? = nil, ddlArtifactsSchema: String? = nil, executeTimeout: Int? = nil, failTasksOnLobTruncation: Bool? = nil, heartbeatEnable: Bool? = nil, heartbeatFrequency: Int? = nil, heartbeatSchema: String? = nil, maxFileSize: Int? = nil, password: String? = nil, pluginName: PluginNameValue? = nil, port: Int? = nil, secretsManagerAccessRoleArn: String? = nil, secretsManagerSecretId: String? = nil, serverName: String? = nil, slotName: String? = nil, trimSpaceInChar: Bool? = nil, username: String? = nil) {
             self.afterConnectScript = afterConnectScript
             self.captureDdls = captureDdls
             self.databaseName = databaseName
@@ -4070,6 +4084,7 @@ extension DatabaseMigrationService {
             self.secretsManagerSecretId = secretsManagerSecretId
             self.serverName = serverName
             self.slotName = slotName
+            self.trimSpaceInChar = trimSpaceInChar
             self.username = username
         }
 
@@ -4091,6 +4106,7 @@ extension DatabaseMigrationService {
             case secretsManagerSecretId = "SecretsManagerSecretId"
             case serverName = "ServerName"
             case slotName = "SlotName"
+            case trimSpaceInChar = "TrimSpaceInChar"
             case username = "Username"
         }
     }
@@ -4641,7 +4657,7 @@ extension DatabaseMigrationService {
         public let sourceEndpointArn: String?
         /// The status of the replication task. This response parameter can return one of the following values:    "moving" – The task is being moved in response to running the  MoveReplicationTask operation.    "creating" – The task is being created in response to running the  CreateReplicationTask operation.    "deleting" – The task is being deleted in response to running the  DeleteReplicationTask operation.    "failed" – The task failed to successfully complete the database migration in response to running the  StartReplicationTask operation.    "failed-move" – The task failed to move in response to running the  MoveReplicationTask operation.    "modifying" – The task definition is being modified in response to running the  ModifyReplicationTask operation.    "ready" – The task is in a ready state where it can respond to other task operations, such as  StartReplicationTask or  DeleteReplicationTask .     "running" – The task is performing a database migration in response to running the  StartReplicationTask operation.    "starting" – The task is preparing to perform a database migration in response to running the  StartReplicationTask operation.    "stopped" – The task has stopped in response to running the  StopReplicationTask operation.    "stopping" – The task is preparing to stop in response to running the  StopReplicationTask operation.    "testing" – The database migration specified for this task is being tested in response to running either the  StartReplicationTaskAssessmentRun or the  StartReplicationTaskAssessment  operation.    StartReplicationTaskAssessmentRun is an improved premigration task assessment operation. The  StartReplicationTaskAssessment  operation assesses data type compatibility only between the source and target database of a given migration task. In contrast,  StartReplicationTaskAssessmentRun  enables you to specify a variety of premigration task assessments in addition to data type compatibility. These assessments include ones for the validity of primary key definitions and likely issues with database migration performance, among others.
         public let status: String?
-        /// The reason the replication task was stopped. This response parameter can return one of the following values:    "STOP_REASON_FULL_LOAD_COMPLETED" – Full-load migration completed.    "STOP_REASON_CACHED_CHANGES_APPLIED" – Change data capture (CDC) load completed.    "STOP_REASON_CACHED_CHANGES_NOT_APPLIED" – In a full-load and CDC migration, the full load stopped as specified before starting the CDC migration.    "STOP_REASON_SERVER_TIME" – The migration stopped at the specified server time.
+        /// The reason the replication task was stopped. This response parameter can return one of the following values:    "Stop Reason NORMAL"     "Stop Reason RECOVERABLE_ERROR"     "Stop Reason FATAL_ERROR"     "Stop Reason FULL_LOAD_ONLY_FINISHED"      "Stop Reason STOPPED_AFTER_FULL_LOAD" – Full load completed, with cached changes not applied    "Stop Reason STOPPED_AFTER_CACHED_EVENTS"  – Full load completed, with cached changes applied    "Stop Reason EXPRESS_LICENSE_LIMITS_REACHED"      "Stop Reason STOPPED_AFTER_DDL_APPLY" – User-defined stop task after DDL applied    "Stop Reason STOPPED_DUE_TO_LOW_MEMORY"      "Stop Reason STOPPED_DUE_TO_LOW_DISK"      "Stop Reason STOPPED_AT_SERVER_TIME" – User-defined server time for stopping task    "Stop Reason STOPPED_AT_COMMIT_TIME" –  User-defined commit time for stopping task    "Stop Reason RECONFIGURATION_RESTART"      "Stop Reason RECYCLE_TASK"
         public let stopReason: String?
         /// Table mappings specified in the task.
         public let tableMappings: String?
@@ -4927,6 +4943,8 @@ extension DatabaseMigrationService {
     public struct S3Settings: AWSEncodableShape & AWSDecodableShape {
         /// An optional parameter that, when set to true or y, you can use to add column name information to the .csv output file. The default value is false. Valid values are true, false, y, and n.
         public let addColumnName: Bool?
+        /// Use the S3 target endpoint setting AddTrailingPaddingCharacter to add  padding on string data. The default value is false.
+        public let addTrailingPaddingCharacter: Bool?
         ///  An optional parameter to set a folder name in the S3 bucket. If provided, tables are created in the path  bucketFolder/schema_name/table_name/. If this parameter isn't specified, then the path used is  schema_name/table_name/.
         public let bucketFolder: String?
         ///  The name of the S3 bucket.
@@ -4980,6 +4998,8 @@ extension DatabaseMigrationService {
         public let encodingType: EncodingTypeValue?
         /// The type of server-side encryption that you want to use for your data. This encryption type is part of the endpoint settings or the extra connections attributes for Amazon S3. You can choose either SSE_S3 (the default) or SSE_KMS.   For the ModifyEndpoint operation, you can change the existing value of the EncryptionMode parameter from SSE_KMS to SSE_S3. But you can’t change the existing value from SSE_S3 to SSE_KMS.  To use SSE_S3, you need an Identity and Access Management (IAM) role with permission to allow "arn:aws:s3:::dms-*" to use the following actions:    s3:CreateBucket     s3:ListBucket     s3:DeleteBucket     s3:GetBucketLocation     s3:GetObject     s3:PutObject     s3:DeleteObject     s3:GetObjectVersion     s3:GetBucketPolicy     s3:PutBucketPolicy     s3:DeleteBucketPolicy
         public let encryptionMode: EncryptionModeValue?
+        /// To specify a bucket owner and prevent sniping, you can use the  ExpectedBucketOwner endpoint setting.  Example: --s3-settings='{"ExpectedBucketOwner": "AWS_Account_ID"}'  When you make a request to test a connection or perform a migration, S3 checks the account  ID of the bucket owner against the specified parameter.
+        public let expectedBucketOwner: String?
         ///  Specifies how tables are defined in the S3 source files only.
         public let externalTableDefinition: String?
         /// When this value is set to 1, DMS ignores the first row header in a .csv file. A value of 1 turns on the feature; a value of 0 turns off the feature. The default is 0.
@@ -5010,8 +5030,9 @@ extension DatabaseMigrationService {
         /// When set to true, this parameter uses the task start time as the timestamp column value instead of  the time data is written to target. For full load, when useTaskStartTimeForFullLoadTimestamp is set to true, each row of the timestamp column contains the task start time. For CDC loads,  each row of the timestamp column contains the transaction commit time.  When useTaskStartTimeForFullLoadTimestamp is set to false, the full load timestamp  in the timestamp column increments with the time data arrives at the target.
         public let useTaskStartTimeForFullLoadTimestamp: Bool?
 
-        public init(addColumnName: Bool? = nil, bucketFolder: String? = nil, bucketName: String? = nil, cannedAclForObjects: CannedAclForObjectsValue? = nil, cdcInsertsAndUpdates: Bool? = nil, cdcInsertsOnly: Bool? = nil, cdcMaxBatchInterval: Int? = nil, cdcMinFileSize: Int? = nil, cdcPath: String? = nil, compressionType: CompressionTypeValue? = nil, csvDelimiter: String? = nil, csvNoSupValue: String? = nil, csvNullValue: String? = nil, csvRowDelimiter: String? = nil, dataFormat: DataFormatValue? = nil, dataPageSize: Int? = nil, datePartitionDelimiter: DatePartitionDelimiterValue? = nil, datePartitionEnabled: Bool? = nil, datePartitionSequence: DatePartitionSequenceValue? = nil, datePartitionTimezone: String? = nil, dictPageSizeLimit: Int? = nil, enableStatistics: Bool? = nil, encodingType: EncodingTypeValue? = nil, encryptionMode: EncryptionModeValue? = nil, externalTableDefinition: String? = nil, ignoreHeaderRows: Int? = nil, includeOpForFullLoad: Bool? = nil, maxFileSize: Int? = nil, parquetTimestampInMillisecond: Bool? = nil, parquetVersion: ParquetVersionValue? = nil, preserveTransactions: Bool? = nil, rfc4180: Bool? = nil, rowGroupLength: Int? = nil, serverSideEncryptionKmsKeyId: String? = nil, serviceAccessRoleArn: String? = nil, timestampColumnName: String? = nil, useCsvNoSupValue: Bool? = nil, useTaskStartTimeForFullLoadTimestamp: Bool? = nil) {
+        public init(addColumnName: Bool? = nil, addTrailingPaddingCharacter: Bool? = nil, bucketFolder: String? = nil, bucketName: String? = nil, cannedAclForObjects: CannedAclForObjectsValue? = nil, cdcInsertsAndUpdates: Bool? = nil, cdcInsertsOnly: Bool? = nil, cdcMaxBatchInterval: Int? = nil, cdcMinFileSize: Int? = nil, cdcPath: String? = nil, compressionType: CompressionTypeValue? = nil, csvDelimiter: String? = nil, csvNoSupValue: String? = nil, csvNullValue: String? = nil, csvRowDelimiter: String? = nil, dataFormat: DataFormatValue? = nil, dataPageSize: Int? = nil, datePartitionDelimiter: DatePartitionDelimiterValue? = nil, datePartitionEnabled: Bool? = nil, datePartitionSequence: DatePartitionSequenceValue? = nil, datePartitionTimezone: String? = nil, dictPageSizeLimit: Int? = nil, enableStatistics: Bool? = nil, encodingType: EncodingTypeValue? = nil, encryptionMode: EncryptionModeValue? = nil, expectedBucketOwner: String? = nil, externalTableDefinition: String? = nil, ignoreHeaderRows: Int? = nil, includeOpForFullLoad: Bool? = nil, maxFileSize: Int? = nil, parquetTimestampInMillisecond: Bool? = nil, parquetVersion: ParquetVersionValue? = nil, preserveTransactions: Bool? = nil, rfc4180: Bool? = nil, rowGroupLength: Int? = nil, serverSideEncryptionKmsKeyId: String? = nil, serviceAccessRoleArn: String? = nil, timestampColumnName: String? = nil, useCsvNoSupValue: Bool? = nil, useTaskStartTimeForFullLoadTimestamp: Bool? = nil) {
             self.addColumnName = addColumnName
+            self.addTrailingPaddingCharacter = addTrailingPaddingCharacter
             self.bucketFolder = bucketFolder
             self.bucketName = bucketName
             self.cannedAclForObjects = cannedAclForObjects
@@ -5035,6 +5056,7 @@ extension DatabaseMigrationService {
             self.enableStatistics = enableStatistics
             self.encodingType = encodingType
             self.encryptionMode = encryptionMode
+            self.expectedBucketOwner = expectedBucketOwner
             self.externalTableDefinition = externalTableDefinition
             self.ignoreHeaderRows = ignoreHeaderRows
             self.includeOpForFullLoad = includeOpForFullLoad
@@ -5053,6 +5075,7 @@ extension DatabaseMigrationService {
 
         private enum CodingKeys: String, CodingKey {
             case addColumnName = "AddColumnName"
+            case addTrailingPaddingCharacter = "AddTrailingPaddingCharacter"
             case bucketFolder = "BucketFolder"
             case bucketName = "BucketName"
             case cannedAclForObjects = "CannedAclForObjects"
@@ -5076,6 +5099,7 @@ extension DatabaseMigrationService {
             case enableStatistics = "EnableStatistics"
             case encodingType = "EncodingType"
             case encryptionMode = "EncryptionMode"
+            case expectedBucketOwner = "ExpectedBucketOwner"
             case externalTableDefinition = "ExternalTableDefinition"
             case ignoreHeaderRows = "IgnoreHeaderRows"
             case includeOpForFullLoad = "IncludeOpForFullLoad"
@@ -5451,7 +5475,7 @@ extension DatabaseMigrationService {
         public let schemaName: String?
         /// The name of the table.
         public let tableName: String?
-        /// The state of the tables described. Valid states: Table does not exist | Before load | Full load | Table completed | Table cancelled | Table error | Table all | Table updates | Table is being reloaded
+        /// The state of the tables described. Valid states: Table does not exist | Before load | Full load | Table completed | Table cancelled | Table error | Table is being reloaded
         public let tableState: String?
         /// The number of update actions performed on a table.
         public let updates: Int64?
@@ -5576,6 +5600,32 @@ extension DatabaseMigrationService {
 
         private enum CodingKeys: String, CodingKey {
             case connection = "Connection"
+        }
+    }
+
+    public struct UpdateSubscriptionsToEventBridgeMessage: AWSEncodableShape {
+        /// When set to true, this operation migrates DMS subscriptions for Amazon SNS notifications no matter what your replication instance version is. If not set or set to false, this operation runs only when all your replication instances are from DMS version 3.4.6 or higher.
+        public let forceMove: Bool?
+
+        public init(forceMove: Bool? = nil) {
+            self.forceMove = forceMove
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case forceMove = "ForceMove"
+        }
+    }
+
+    public struct UpdateSubscriptionsToEventBridgeResponse: AWSDecodableShape {
+        /// A string that indicates how many event subscriptions were migrated and how many remain to be migrated.
+        public let result: String?
+
+        public init(result: String? = nil) {
+            self.result = result
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case result = "Result"
         }
     }
 

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -24,6 +24,7 @@ public struct EC2InstanceConnectErrorType: AWSErrorType {
         case ec2InstanceNotFoundException = "EC2InstanceNotFoundException"
         case ec2InstanceStateInvalidException = "EC2InstanceStateInvalidException"
         case ec2InstanceTypeInvalidException = "EC2InstanceTypeInvalidException"
+        case ec2InstanceUnavailableException = "EC2InstanceUnavailableException"
         case invalidArgsException = "InvalidArgsException"
         case serialConsoleAccessDisabledException = "SerialConsoleAccessDisabledException"
         case serialConsoleSessionLimitExceededException = "SerialConsoleSessionLimitExceededException"
@@ -58,6 +59,8 @@ public struct EC2InstanceConnectErrorType: AWSErrorType {
     public static var ec2InstanceStateInvalidException: Self { .init(.ec2InstanceStateInvalidException) }
     /// The instance type is not supported for connecting via the serial console. Only Nitro instance types are currently supported.
     public static var ec2InstanceTypeInvalidException: Self { .init(.ec2InstanceTypeInvalidException) }
+    /// The instance is currently unavailable. Wait a few minutes and try again.
+    public static var ec2InstanceUnavailableException: Self { .init(.ec2InstanceUnavailableException) }
     /// One of the parameters is not valid.
     public static var invalidArgsException: Self { .init(.invalidArgsException) }
     /// Your account is not authorized to use the EC2 Serial Console. To authorize your account, run the EnableSerialConsoleAccess API. For more information, see EnableSerialConsoleAccess in the Amazon EC2 API Reference.

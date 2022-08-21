@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -97,9 +97,9 @@ extension LookoutEquipment {
     // MARK: Shapes
 
     public struct CategoricalValues: AWSDecodableShape {
-        /// Indicates the number of categories in the data.
+        ///  Indicates the number of categories in the data.
         public let numberOfCategory: Int?
-        /// Indicates whether there is a potential data issue related to categorical values.
+        ///  Indicates whether there is a potential data issue related to categorical values.
         public let status: StatisticalIssueStatus
 
         public init(numberOfCategory: Int? = nil, status: StatisticalIssueStatus) {
@@ -114,9 +114,9 @@ extension LookoutEquipment {
     }
 
     public struct CountPercent: AWSDecodableShape {
-        /// Indicates the count of occurences of the given statistic.
+        ///  Indicates the count of occurences of the given statistic.
         public let count: Int
-        /// Indicates the percentage of occurances of the given statistic.
+        ///  Indicates the percentage of occurances of the given statistic.
         public let percentage: Float
 
         public init(count: Int, percentage: Float) {
@@ -200,7 +200,7 @@ extension LookoutEquipment {
     public struct CreateInferenceSchedulerRequest: AWSEncodableShape {
         ///  A unique identifier for the request. If you do not set the client request token, Amazon Lookout for Equipment generates one.
         public let clientToken: String
-        /// A period of time (in minutes) by which inference on the data is delayed after the data starts. For instance, if you select an offset delay time of five minutes, inference will not begin on the data until the first data measurement after the five minute mark. For example, if  five minutes is selected, the inference scheduler will wake up at the configured frequency with the  additional five minute delay time to check the customer S3 bucket. The customer can upload data at  the same frequency and they don't need to stop and restart the scheduler when uploading new data.
+        /// A period of time (in minutes) by which inference on the data is delayed after the data starts. For instance, if you select an offset delay time of five minutes, inference will not begin on the data until the first data measurement after the five minute mark. For example, if five minutes is selected, the inference scheduler will wake up at the configured frequency with the additional five minute delay time to check the customer S3 bucket. The customer can upload data at the same frequency and they don't need to stop and restart the scheduler when uploading new data.
         public let dataDelayOffsetInMinutes: Int64?
         /// Specifies configuration information for the input data for the inference scheduler, including delimiter, format, and dataset location.
         public let dataInputConfiguration: InferenceInputConfiguration
@@ -296,7 +296,7 @@ extension LookoutEquipment {
     public struct CreateModelRequest: AWSEncodableShape {
         /// A unique identifier for the request. If you do not set the client request token, Amazon Lookout for Equipment generates one.
         public let clientToken: String
-        /// The configuration is the TargetSamplingRate, which is the sampling rate of  the data after post processing by  Amazon Lookout for Equipment. For example, if you provide data that  has been collected at a 1 second level and you want the system to resample  the data at a 1 minute rate before training, the TargetSamplingRate is 1 minute. When providing a value for the TargetSamplingRate, you must  attach the prefix "PT" to the rate you want.  The value for a 1 second rate  is therefore PT1S, the value for a 15 minute rate  is PT15M, and the value for a 1 hour rate  is PT1H
+        /// The configuration is the TargetSamplingRate, which is the sampling rate of the data after post processing by Amazon Lookout for Equipment. For example, if you provide data that has been collected at a 1 second level and you want the system to resample the data at a 1 minute rate before training, the TargetSamplingRate is 1 minute. When providing a value for the TargetSamplingRate, you must attach the prefix "PT" to the rate you want. The value for a 1 second rate is therefore PT1S, the value for a 15 minute rate is PT15M, and the value for a 1 hour rate is PT1H
         public let dataPreProcessingConfiguration: DataPreProcessingConfiguration?
         /// The name of the dataset for the ML model being created.
         public let datasetName: String
@@ -431,7 +431,7 @@ extension LookoutEquipment {
     }
 
     public struct DataPreProcessingConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The sampling rate of the data after post processing by Amazon Lookout for Equipment.  For example, if you provide data that has been collected at a 1 second level and  you want the system to resample the data at a 1 minute rate before training,  the TargetSamplingRate is 1 minute. When providing a value for the TargetSamplingRate, you must attach  the prefix "PT" to the rate you want.  The value for a 1 second rate is  therefore PT1S, the value for a 15 minute  rate is PT15M, and the value for a 1 hour rate  is PT1H
+        /// The sampling rate of the data after post processing by Amazon Lookout for Equipment. For example, if you provide data that has been collected at a 1 second level and you want the system to resample the data at a 1 minute rate before training, the TargetSamplingRate is 1 minute. When providing a value for the TargetSamplingRate, you must attach the prefix "PT" to the rate you want. The value for a 1 second rate is therefore PT1S, the value for a 15 minute rate is PT15M, and the value for a 1 hour rate is PT1H
         public let targetSamplingRate: TargetSamplingRate?
 
         public init(targetSamplingRate: TargetSamplingRate? = nil) {
@@ -444,15 +444,15 @@ extension LookoutEquipment {
     }
 
     public struct DataQualitySummary: AWSDecodableShape {
-        /// Parameter that gives information about duplicate timestamps in the input data.
+        ///  Parameter that gives information about duplicate timestamps in the input data.
         public let duplicateTimestamps: DuplicateTimestamps
-        /// Parameter that gives information about insufficient data for sensors in the dataset. This includes information about those sensors that have complete data missing and those with a short date range.
+        ///  Parameter that gives information about insufficient data for sensors in the dataset. This includes information about those sensors that have complete data missing and those with a short date range.
         public let insufficientSensorData: InsufficientSensorData
-        /// Parameter that gives information about data that is invalid over all the sensors in the input data.
+        ///  Parameter that gives information about data that is invalid over all the sensors in the input data.
         public let invalidSensorData: InvalidSensorData
-        /// Parameter that gives information about data that is missing over all the sensors in the input data.
+        ///  Parameter that gives information about data that is missing over all the sensors in the input data.
         public let missingSensorData: MissingSensorData
-        /// Parameter that gives information about unsupported timestamps in the input data.
+        ///  Parameter that gives information about unsupported timestamps in the input data.
         public let unsupportedTimestamps: UnsupportedTimestamps
 
         public init(duplicateTimestamps: DuplicateTimestamps, insufficientSensorData: InsufficientSensorData, invalidSensorData: InvalidSensorData, missingSensorData: MissingSensorData, unsupportedTimestamps: UnsupportedTimestamps) {
@@ -595,7 +595,7 @@ extension LookoutEquipment {
         public let createdAt: Date?
         ///  Indicates the latest timestamp corresponding to data that was successfully ingested during this specific ingestion job.
         public let dataEndTime: Date?
-        /// Gives statistics about a completed ingestion job. These statistics primarily relate to quantifying incorrect data such as MissingCompleteSensorData, MissingSensorData, UnsupportedDateFormats, InsufficientSensorData, and DuplicateTimeStamps.
+        ///  Gives statistics about a completed ingestion job. These statistics primarily relate to quantifying incorrect data such as MissingCompleteSensorData, MissingSensorData, UnsupportedDateFormats, InsufficientSensorData, and DuplicateTimeStamps.
         public let dataQualitySummary: DataQualitySummary?
         /// The Amazon Resource Name (ARN) of the dataset being used in the data ingestion job.
         public let datasetArn: String?
@@ -670,11 +670,11 @@ extension LookoutEquipment {
     }
 
     public struct DescribeDatasetResponse: AWSDecodableShape {
-        /// Specifies the time the dataset was created in Amazon Lookout for Equipment.
+        /// Specifies the time the dataset was created in Lookout for Equipment.
         public let createdAt: Date?
         ///  Indicates the latest timestamp corresponding to data that was successfully ingested during the most recent ingestion of this particular dataset.
         public let dataEndTime: Date?
-        /// Gives statistics associated with the given dataset for the latest successful associated ingestion job id. These statistics primarily relate to quantifying incorrect data such as MissingCompleteSensorData, MissingSensorData, UnsupportedDateFormats, InsufficientSensorData, and DuplicateTimeStamps.
+        ///  Gives statistics associated with the given dataset for the latest successful associated ingestion job id. These statistics primarily relate to quantifying incorrect data such as MissingCompleteSensorData, MissingSensorData, UnsupportedDateFormats, InsufficientSensorData, and DuplicateTimeStamps.
         public let dataQualitySummary: DataQualitySummary?
         /// The Amazon Resource Name (ARN) of the dataset being described.
         public let datasetArn: String?
@@ -682,7 +682,7 @@ extension LookoutEquipment {
         public let datasetName: String?
         ///  Indicates the earliest timestamp corresponding to data that was successfully ingested during the most recent ingestion of this particular dataset.
         public let dataStartTime: Date?
-        /// IngestedFilesSummary associated with the given dataset for the latest successful associated ingestion job id.
+        ///  IngestedFilesSummary associated with the given dataset for the latest successful associated ingestion job id.
         public let ingestedFilesSummary: IngestedFilesSummary?
         /// Specifies the S3 location configuration for the data input for the data ingestion job.
         public let ingestionInputConfiguration: IngestionInputConfiguration?
@@ -752,11 +752,11 @@ extension LookoutEquipment {
     public struct DescribeInferenceSchedulerResponse: AWSDecodableShape {
         /// Specifies the time at which the inference scheduler was created.
         public let createdAt: Date?
-        ///  A period of time (in minutes) by which inference on the data is delayed after the data starts. For instance, if you select an offset delay time of five minutes, inference will not begin on the data until the first data measurement after the five minute mark. For example, if  five minutes is selected, the inference scheduler will wake up at the configured frequency with the  additional five minute delay time to check the customer S3 bucket. The customer can upload data at  the same frequency and they don't need to stop and restart the scheduler when uploading new data.
+        ///  A period of time (in minutes) by which inference on the data is delayed after the data starts. For instance, if you select an offset delay time of five minutes, inference will not begin on the data until the first data measurement after the five minute mark. For example, if five minutes is selected, the inference scheduler will wake up at the configured frequency with the additional five minute delay time to check the customer S3 bucket. The customer can upload data at the same frequency and they don't need to stop and restart the scheduler when uploading new data.
         public let dataDelayOffsetInMinutes: Int64?
         ///  Specifies configuration information for the input data for the inference scheduler, including delimiter, format, and dataset location.
         public let dataInputConfiguration: InferenceInputConfiguration?
-        ///  Specifies information for the output results for the inference scheduler,  including the output S3 location.
+        ///  Specifies information for the output results for the inference scheduler, including the output S3 location.
         public let dataOutputConfiguration: InferenceOutputConfiguration?
         /// Specifies how often data is uploaded to the source S3 bucket for the input data. This value is the length of time between data uploads. For instance, if you select 5 minutes, Amazon Lookout for Equipment will upload the real-time data to the source bucket once every 5 minutes. This frequency also determines how often Amazon Lookout for Equipment starts a scheduled inference on your data. In this example, it starts once every 5 minutes.
         public let dataUploadFrequency: DataUploadFrequency?
@@ -832,7 +832,7 @@ extension LookoutEquipment {
     public struct DescribeModelResponse: AWSDecodableShape {
         /// Indicates the time and date at which the ML model was created.
         public let createdAt: Date?
-        /// The configuration is the TargetSamplingRate, which is the sampling rate of  the data after post processing by  Amazon Lookout for Equipment. For example, if you provide data that  has been collected at a 1 second level and you want the system to resample  the data at a 1 minute rate before training, the TargetSamplingRate is 1 minute. When providing a value for the TargetSamplingRate, you must  attach the prefix "PT" to the rate you want.  The value for a 1 second rate  is therefore PT1S, the value for a 15 minute rate  is PT15M, and the value for a 1 hour rate  is PT1H
+        /// The configuration is the TargetSamplingRate, which is the sampling rate of the data after post processing by Amazon Lookout for Equipment. For example, if you provide data that has been collected at a 1 second level and you want the system to resample the data at a 1 minute rate before training, the TargetSamplingRate is 1 minute. When providing a value for the TargetSamplingRate, you must attach the prefix "PT" to the rate you want. The value for a 1 second rate is therefore PT1S, the value for a 15 minute rate is PT15M, and the value for a 1 hour rate is PT1H
         public let dataPreProcessingConfiguration: DataPreProcessingConfiguration?
         /// The Amazon Resouce Name (ARN) of the dataset used to create the ML model being described.
         public let datasetArn: String?
@@ -850,7 +850,7 @@ extension LookoutEquipment {
         public let lastUpdatedTime: Date?
         /// The Amazon Resource Name (ARN) of the ML model being described.
         public let modelArn: String?
-        /// The Model Metrics show an aggregated summary of the model's performance within the evaluation time  range. This is the JSON content of the metrics created when evaluating the model.
+        /// The Model Metrics show an aggregated summary of the model's performance within the evaluation time range. This is the JSON content of the metrics created when evaluating the model.
         public let modelMetrics: String?
         /// The name of the ML model being described.
         public let modelName: String?
@@ -923,7 +923,7 @@ extension LookoutEquipment {
     }
 
     public struct DuplicateTimestamps: AWSDecodableShape {
-        /// Indicates the total number of duplicate timestamps.
+        ///  Indicates the total number of duplicate timestamps.
         public let totalNumberOfDuplicateTimestamps: Int
 
         public init(totalNumberOfDuplicateTimestamps: Int) {
@@ -932,6 +932,39 @@ extension LookoutEquipment {
 
         private enum CodingKeys: String, CodingKey {
             case totalNumberOfDuplicateTimestamps = "TotalNumberOfDuplicateTimestamps"
+        }
+    }
+
+    public struct InferenceEventSummary: AWSDecodableShape {
+        ///  An array which specifies the names and values of all sensors contributing to an inference event.
+        public let diagnostics: String?
+        ///  Indicates the size of an inference event in seconds.
+        public let eventDurationInSeconds: Int64?
+        /// Indicates the ending time of an inference event.
+        public let eventEndTime: Date?
+        /// Indicates the starting time of an inference event.
+        public let eventStartTime: Date?
+        ///  The Amazon Resource Name (ARN) of the inference scheduler being used for the inference event.
+        public let inferenceSchedulerArn: String?
+        /// The name of the inference scheduler being used for the inference events.
+        public let inferenceSchedulerName: String?
+
+        public init(diagnostics: String? = nil, eventDurationInSeconds: Int64? = nil, eventEndTime: Date? = nil, eventStartTime: Date? = nil, inferenceSchedulerArn: String? = nil, inferenceSchedulerName: String? = nil) {
+            self.diagnostics = diagnostics
+            self.eventDurationInSeconds = eventDurationInSeconds
+            self.eventEndTime = eventEndTime
+            self.eventStartTime = eventStartTime
+            self.inferenceSchedulerArn = inferenceSchedulerArn
+            self.inferenceSchedulerName = inferenceSchedulerName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case diagnostics = "Diagnostics"
+            case eventDurationInSeconds = "EventDurationInSeconds"
+            case eventEndTime = "EventEndTime"
+            case eventStartTime = "EventStartTime"
+            case inferenceSchedulerArn = "InferenceSchedulerArn"
+            case inferenceSchedulerName = "InferenceSchedulerName"
         }
     }
 
@@ -1082,7 +1115,7 @@ extension LookoutEquipment {
             try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
             try self.validate(self.bucket, name: "bucket", parent: name, pattern: "^[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9]$")
             try self.validate(self.prefix, name: "prefix", parent: name, max: 1024)
-            try self.validate(self.prefix, name: "prefix", parent: name, pattern: "^(^$)|([\\P{M}\\p{M}]{1,1023}/$)$")
+            try self.validate(self.prefix, name: "prefix", parent: name, pattern: "^(^$)|([\\u0009\\u000A\\u000D\\u0020-\\u00FF]{1,1023}/$)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1107,7 +1140,7 @@ extension LookoutEquipment {
             try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
             try self.validate(self.bucket, name: "bucket", parent: name, pattern: "^[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9]$")
             try self.validate(self.prefix, name: "prefix", parent: name, max: 1024)
-            try self.validate(self.prefix, name: "prefix", parent: name, pattern: "^(^$)|([\\P{M}\\p{M}]{1,1023}/$)$")
+            try self.validate(self.prefix, name: "prefix", parent: name, pattern: "^(^$)|([\\u0009\\u000A\\u000D\\u0020-\\u00FF]{1,1023}/$)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1117,7 +1150,7 @@ extension LookoutEquipment {
     }
 
     public struct InferenceSchedulerSummary: AWSDecodableShape {
-        /// A period of time (in minutes) by which inference on the data is delayed after the data starts. For instance, if an offset delay time of five minutes was selected, inference will not begin on the data until the first data measurement after the five minute mark. For example, if  five minutes is selected, the inference scheduler will wake up at the configured frequency with the  additional five minute delay time to check the customer S3 bucket. The customer can upload data at  the same frequency and they don't need to stop and restart the scheduler when uploading new data.
+        /// A period of time (in minutes) by which inference on the data is delayed after the data starts. For instance, if an offset delay time of five minutes was selected, inference will not begin on the data until the first data measurement after the five minute mark. For example, if five minutes is selected, the inference scheduler will wake up at the configured frequency with the additional five minute delay time to check the customer S3 bucket. The customer can upload data at the same frequency and they don't need to stop and restart the scheduler when uploading new data.
         public let dataDelayOffsetInMinutes: Int64?
         /// How often data is uploaded to the source S3 bucket for the input data. This value is the length of time between data uploads. For instance, if you select 5 minutes, Amazon Lookout for Equipment will upload the real-time data to the source bucket once every 5 minutes. This frequency also determines how often Amazon Lookout for Equipment starts a scheduled inference on your data. In this example, it starts once every 5 minutes.
         public let dataUploadFrequency: DataUploadFrequency?
@@ -1194,8 +1227,7 @@ extension LookoutEquipment {
     public struct IngestionS3InputConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The name of the S3 bucket used for the input data for the data ingestion.
         public let bucket: String
-        /// Pattern for matching the Amazon S3 files which will be used for ingestion.
-        /// If no KeyPattern is provided, we will use the default hierarchy file structure, which is same as KeyPattern {prefix}/{component_name}/*
+        ///  Pattern for matching the Amazon S3 files which will be used for ingestion. If no KeyPattern is provided, we will use the default hierarchy file structure, which is same as KeyPattern {prefix}/{component_name}/*
         public let keyPattern: String?
         /// The prefix for the S3 location being used for the input data for the data ingestion.
         public let prefix: String?
@@ -1213,7 +1245,7 @@ extension LookoutEquipment {
             try self.validate(self.keyPattern, name: "keyPattern", parent: name, max: 2048)
             try self.validate(self.keyPattern, name: "keyPattern", parent: name, min: 1)
             try self.validate(self.prefix, name: "prefix", parent: name, max: 1024)
-            try self.validate(self.prefix, name: "prefix", parent: name, pattern: "^(^$)|([\\P{M}\\p{M}]{1,1023}/$)$")
+            try self.validate(self.prefix, name: "prefix", parent: name, pattern: "^(^$)|([\\u0009\\u000A\\u000D\\u0020-\\u00FF]{1,1023}/$)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1224,9 +1256,9 @@ extension LookoutEquipment {
     }
 
     public struct InsufficientSensorData: AWSDecodableShape {
-        /// Parameter that describes the total number of sensors that have data completely missing for it.
+        ///  Parameter that describes the total number of sensors that have data completely missing for it.
         public let missingCompleteSensorData: MissingCompleteSensorData
-        /// Parameter that describes the total number of sensors that have a short date range of less than 90 days of data overall.
+        ///  Parameter that describes the total number of sensors that have a short date range of less than 90 days of data overall.
         public let sensorsWithShortDateRange: SensorsWithShortDateRange
 
         public init(missingCompleteSensorData: MissingCompleteSensorData, sensorsWithShortDateRange: SensorsWithShortDateRange) {
@@ -1241,9 +1273,9 @@ extension LookoutEquipment {
     }
 
     public struct InvalidSensorData: AWSDecodableShape {
-        /// Indicates the number of sensors that have at least some invalid values.
+        ///  Indicates the number of sensors that have at least some invalid values.
         public let affectedSensorCount: Int
-        /// Indicates the total number of invalid values across all the sensors.
+        ///  Indicates the total number of invalid values across all the sensors.
         public let totalNumberOfInvalidValues: Int
 
         public init(affectedSensorCount: Int, totalNumberOfInvalidValues: Int) {
@@ -1290,7 +1322,7 @@ extension LookoutEquipment {
             try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
             try self.validate(self.bucket, name: "bucket", parent: name, pattern: "^[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9]$")
             try self.validate(self.prefix, name: "prefix", parent: name, max: 1024)
-            try self.validate(self.prefix, name: "prefix", parent: name, pattern: "^(^$)|([\\P{M}\\p{M}]{1,1023}/$)$")
+            try self.validate(self.prefix, name: "prefix", parent: name, pattern: "^(^$)|([\\u0009\\u000A\\u000D\\u0020-\\u00FF]{1,1023}/$)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1300,11 +1332,11 @@ extension LookoutEquipment {
     }
 
     public struct LargeTimestampGaps: AWSDecodableShape {
-        /// Indicates the size of the largest timestamp gap, in days.
+        ///  Indicates the size of the largest timestamp gap, in days.
         public let maxTimestampGapInDays: Int?
-        /// Indicates the number of large timestamp gaps, if there are any.
+        ///  Indicates the number of large timestamp gaps, if there are any.
         public let numberOfLargeTimestampGaps: Int?
-        /// Indicates whether there is a potential data issue related to large gaps in timestamps.
+        ///  Indicates whether there is a potential data issue related to large gaps in timestamps.
         public let status: StatisticalIssueStatus
 
         public init(maxTimestampGapInDays: Int? = nil, numberOfLargeTimestampGaps: Int? = nil, status: StatisticalIssueStatus) {
@@ -1416,6 +1448,62 @@ extension LookoutEquipment {
 
         private enum CodingKeys: String, CodingKey {
             case datasetSummaries = "DatasetSummaries"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListInferenceEventsRequest: AWSEncodableShape {
+        /// The name of the inference scheduler for the inference events listed.
+        public let inferenceSchedulerName: String
+        /// Lookout for Equipment will return all the inference events with end time equal to or less than the end time given.
+        public let intervalEndTime: Date
+        ///  Lookout for Equipment will return all the inference events with start time equal to or greater than the start time given.
+        public let intervalStartTime: Date
+        /// Specifies the maximum number of inference events to list.
+        public let maxResults: Int?
+        /// An opaque pagination token indicating where to continue the listing of inference events.
+        public let nextToken: String?
+
+        public init(inferenceSchedulerName: String, intervalEndTime: Date, intervalStartTime: Date, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.inferenceSchedulerName = inferenceSchedulerName
+            self.intervalEndTime = intervalEndTime
+            self.intervalStartTime = intervalStartTime
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.inferenceSchedulerName, name: "inferenceSchedulerName", parent: name, max: 200)
+            try self.validate(self.inferenceSchedulerName, name: "inferenceSchedulerName", parent: name, min: 1)
+            try self.validate(self.inferenceSchedulerName, name: "inferenceSchedulerName", parent: name, pattern: "^[0-9a-zA-Z_-]{1,200}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\p{ASCII}{0,8192}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inferenceSchedulerName = "InferenceSchedulerName"
+            case intervalEndTime = "IntervalEndTime"
+            case intervalStartTime = "IntervalStartTime"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListInferenceEventsResponse: AWSDecodableShape {
+        /// Provides an array of information about the individual inference events returned from the ListInferenceEvents operation, including scheduler used, event start time, event end time, diagnostics, and so on.
+        public let inferenceEventSummaries: [InferenceEventSummary]?
+        /// An opaque pagination token indicating where to continue the listing of inference executions.
+        public let nextToken: String?
+
+        public init(inferenceEventSummaries: [InferenceEventSummary]? = nil, nextToken: String? = nil) {
+            self.inferenceEventSummaries = inferenceEventSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inferenceEventSummaries = "InferenceEventSummaries"
             case nextToken = "NextToken"
         }
     }
@@ -1595,13 +1683,13 @@ extension LookoutEquipment {
     }
 
     public struct ListSensorStatisticsRequest: AWSEncodableShape {
-        /// The name of the dataset associated with the list of Sensor Statistics.
+        ///  The name of the dataset associated with the list of Sensor Statistics.
         public let datasetName: String
-        /// The ingestion job id associated with the list of Sensor Statistics. To get sensor statistics for a particular ingestion job id, both dataset name and ingestion job id must be submitted as inputs.
+        ///  The ingestion job id associated with the list of Sensor Statistics. To get sensor statistics for a particular ingestion job id, both dataset name and ingestion job id must be submitted as inputs.
         public let ingestionJobId: String?
-        /// Specifies the maximum number of sensors for which to retrieve statistics.
+        ///  Specifies the maximum number of sensors for which to retrieve statistics.
         public let maxResults: Int?
-        /// An opaque pagination token indicating where to continue the listing of sensor statistics.
+        ///  An opaque pagination token indicating where to continue the listing of sensor statistics.
         public let nextToken: String?
 
         public init(datasetName: String, ingestionJobId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -1632,9 +1720,9 @@ extension LookoutEquipment {
     }
 
     public struct ListSensorStatisticsResponse: AWSDecodableShape {
-        /// An opaque pagination token indicating where to continue the listing of sensor statistics.
+        ///  An opaque pagination token indicating where to continue the listing of sensor statistics.
         public let nextToken: String?
-        /// Provides ingestion-based statistics regarding the specified sensor with respect to various validation types, such as whether data exists, the number and percentage of missing values, and the number and percentage of duplicate timestamps.
+        ///  Provides ingestion-based statistics regarding the specified sensor with respect to various validation types, such as whether data exists, the number and percentage of missing values, and the number and percentage of duplicate timestamps.
         public let sensorStatisticsSummaries: [SensorStatisticsSummary]?
 
         public init(nextToken: String? = nil, sensorStatisticsSummaries: [SensorStatisticsSummary]? = nil) {
@@ -1680,7 +1768,7 @@ extension LookoutEquipment {
     }
 
     public struct MissingCompleteSensorData: AWSDecodableShape {
-        /// Indicates the number of sensors that have data missing completely.
+        ///  Indicates the number of sensors that have data missing completely.
         public let affectedSensorCount: Int
 
         public init(affectedSensorCount: Int) {
@@ -1693,9 +1781,9 @@ extension LookoutEquipment {
     }
 
     public struct MissingSensorData: AWSDecodableShape {
-        /// Indicates the number of sensors that have atleast some data missing.
+        ///  Indicates the number of sensors that have atleast some data missing.
         public let affectedSensorCount: Int
-        /// Indicates the total number of missing values across all the sensors.
+        ///  Indicates the total number of missing values across all the sensors.
         public let totalNumberOfMissingValues: Int
 
         public init(affectedSensorCount: Int, totalNumberOfMissingValues: Int) {
@@ -1743,9 +1831,9 @@ extension LookoutEquipment {
     }
 
     public struct MonotonicValues: AWSDecodableShape {
-        /// Indicates the monotonicity of values. Can be INCREASING, DECREASING, or STATIC.
+        ///  Indicates the monotonicity of values. Can be INCREASING, DECREASING, or STATIC.
         public let monotonicity: Monotonicity?
-        /// Indicates whether there is a potential data issue related to having monotonic values.
+        ///  Indicates whether there is a potential data issue related to having monotonic values.
         public let status: StatisticalIssueStatus
 
         public init(monotonicity: Monotonicity? = nil, status: StatisticalIssueStatus) {
@@ -1790,31 +1878,31 @@ extension LookoutEquipment {
     }
 
     public struct SensorStatisticsSummary: AWSDecodableShape {
-        /// Parameter that describes potential risk about whether data associated with the sensor is categorical.
+        ///  Parameter that describes potential risk about whether data associated with the sensor is categorical.
         public let categoricalValues: CategoricalValues?
-        /// Name of the component to which the particular sensor belongs for which the statistics belong to.
+        ///  Name of the component to which the particular sensor belongs for which the statistics belong to.
         public let componentName: String?
-        /// Indicates the time reference to indicate the end of valid data associated with the sensor that the statistics belong to.
+        ///  Indicates the time reference to indicate the end of valid data associated with the sensor that the statistics belong to.
         public let dataEndTime: Date?
-        /// Parameter that indicates whether data exists for the sensor that the statistics belong to.
+        ///  Parameter that indicates whether data exists for the sensor that the statistics belong to.
         public let dataExists: Bool?
-        /// Indicates the time reference to indicate the beginning of valid data associated with the sensor that the statistics belong to.
+        ///  Indicates the time reference to indicate the beginning of valid data associated with the sensor that the statistics belong to.
         public let dataStartTime: Date?
-        /// Parameter that describes the total number of duplicate timestamp records associated with the sensor that the statistics belong to.
+        ///  Parameter that describes the total number of duplicate timestamp records associated with the sensor that the statistics belong to.
         public let duplicateTimestamps: CountPercent?
-        /// Parameter that describes the total number of invalid date entries associated with the sensor that the statistics belong to.
+        ///  Parameter that describes the total number of invalid date entries associated with the sensor that the statistics belong to.
         public let invalidDateEntries: CountPercent?
-        /// Parameter that describes the total number of, and percentage of, values that are invalid for the sensor that the statistics belong to.
+        ///  Parameter that describes the total number of, and percentage of, values that are invalid for the sensor that the statistics belong to.
         public let invalidValues: CountPercent?
-        /// Parameter that describes potential risk about whether data associated with the sensor contains one or more large gaps between consecutive timestamps.
+        ///  Parameter that describes potential risk about whether data associated with the sensor contains one or more large gaps between consecutive timestamps.
         public let largeTimestampGaps: LargeTimestampGaps?
-        /// Parameter that describes the total number of, and percentage of, values that are missing for the sensor that the statistics belong to.
+        ///  Parameter that describes the total number of, and percentage of, values that are missing for the sensor that the statistics belong to.
         public let missingValues: CountPercent?
-        /// Parameter that describes potential risk about whether data associated with the sensor is mostly monotonic.
+        ///  Parameter that describes potential risk about whether data associated with the sensor is mostly monotonic.
         public let monotonicValues: MonotonicValues?
-        /// Parameter that describes potential risk about whether data associated with the sensor has more than one operating mode.
+        ///  Parameter that describes potential risk about whether data associated with the sensor has more than one operating mode.
         public let multipleOperatingModes: MultipleOperatingModes?
-        /// Name of the sensor that the statistics belong to.
+        ///  Name of the sensor that the statistics belong to.
         public let sensorName: String?
 
         public init(categoricalValues: CategoricalValues? = nil, componentName: String? = nil, dataEndTime: Date? = nil, dataExists: Bool? = nil, dataStartTime: Date? = nil, duplicateTimestamps: CountPercent? = nil, invalidDateEntries: CountPercent? = nil, invalidValues: CountPercent? = nil, largeTimestampGaps: LargeTimestampGaps? = nil, missingValues: CountPercent? = nil, monotonicValues: MonotonicValues? = nil, multipleOperatingModes: MultipleOperatingModes? = nil, sensorName: String? = nil) {
@@ -1851,7 +1939,7 @@ extension LookoutEquipment {
     }
 
     public struct SensorsWithShortDateRange: AWSDecodableShape {
-        /// Indicates the number of sensors that have less than 90 days of data.
+        ///  Indicates the number of sensors that have less than 90 days of data.
         public let affectedSensorCount: Int
 
         public init(affectedSensorCount: Int) {
@@ -2070,7 +2158,7 @@ extension LookoutEquipment {
     }
 
     public struct UnsupportedTimestamps: AWSDecodableShape {
-        /// Indicates the total number of unsupported timestamps across the ingested data.
+        ///  Indicates the total number of unsupported timestamps across the ingested data.
         public let totalNumberOfUnsupportedTimestamps: Int
 
         public init(totalNumberOfUnsupportedTimestamps: Int) {
@@ -2115,7 +2203,7 @@ extension LookoutEquipment {
     }
 
     public struct UpdateInferenceSchedulerRequest: AWSEncodableShape {
-        ///  A period of time (in minutes) by which inference on the data is delayed after the data starts. For instance, if you select an offset delay time of five minutes, inference will not begin on the data until the first data measurement after the five minute mark. For example, if  five minutes is selected, the inference scheduler will wake up at the configured frequency with the  additional five minute delay time to check the customer S3 bucket. The customer can upload data at  the same frequency and they don't need to stop and restart the scheduler when uploading new data.
+        ///  A period of time (in minutes) by which inference on the data is delayed after the data starts. For instance, if you select an offset delay time of five minutes, inference will not begin on the data until the first data measurement after the five minute mark. For example, if five minutes is selected, the inference scheduler will wake up at the configured frequency with the additional five minute delay time to check the customer S3 bucket. The customer can upload data at the same frequency and they don't need to stop and restart the scheduler when uploading new data.
         public let dataDelayOffsetInMinutes: Int64?
         ///  Specifies information for the input data for the inference scheduler, including delimiter, format, and dataset location.
         public let dataInputConfiguration: InferenceInputConfiguration?

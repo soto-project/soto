@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -192,6 +192,31 @@ extension FinspaceData {
 
         private enum CodingKeys: String, CodingKey {
             case statusCode
+        }
+    }
+
+    public struct AwsCredentials: AWSDecodableShape {
+        ///  The unique identifier for the security credentials.
+        public let accessKeyId: String?
+        ///  The Epoch time when the current credentials expire.
+        public let expiration: Int64?
+        ///  The secret access key that can be used to sign requests.
+        public let secretAccessKey: String?
+        ///  The token that users must pass to use the credentials.
+        public let sessionToken: String?
+
+        public init(accessKeyId: String? = nil, expiration: Int64? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil) {
+            self.accessKeyId = accessKeyId
+            self.expiration = expiration
+            self.secretAccessKey = secretAccessKey
+            self.sessionToken = sessionToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessKeyId
+            case expiration
+            case secretAccessKey
+            case sessionToken
         }
     }
 
@@ -518,7 +543,7 @@ extension FinspaceData {
     }
 
     public struct CreatePermissionGroupRequest: AWSEncodableShape {
-        /// The option to indicate FinSpace application permissions that are granted to a specific group.    CreateDataset – Group members can create new datasets.    ManageClusters – Group members can manage Apache Spark clusters from FinSpace notebooks.    ManageUsersAndGroups – Group members can manage users and permission groups.    ManageAttributeSets – Group members can manage attribute sets.    ViewAuditData – Group members can view audit data.    AccessNotebooks – Group members will have access to FinSpace notebooks.    GetTemporaryCredentials – Group members can get temporary API credentials.
+        /// The option to indicate FinSpace application permissions that are granted to a specific group.  When assigning application permissions, be aware that the permission ManageUsersAndGroups allows users to grant themselves or others access to any functionality in their FinSpace environment's application. It should only be granted to trusted users.     CreateDataset – Group members can create new datasets.    ManageClusters – Group members can manage Apache Spark clusters from FinSpace notebooks.    ManageUsersAndGroups – Group members can manage users and permission groups. This is a privileged permission that allows users to grant themselves or others access to any functionality in the application. It should only be granted to trusted users.    ManageAttributeSets – Group members can manage attribute sets.    ViewAuditData – Group members can view audit data.    AccessNotebooks – Group members will have access to FinSpace notebooks.    GetTemporaryCredentials – Group members can get temporary API credentials.
         public let applicationPermissions: [ApplicationPermission]
         /// A token that ensures idempotency. This token expires in 10 minutes.
         public let clientToken: String?
@@ -1299,6 +1324,49 @@ extension FinspaceData {
         }
     }
 
+    public struct GetExternalDataViewAccessDetailsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "datasetId", location: .uri("datasetId")),
+            AWSMemberEncoding(label: "dataViewId", location: .uri("dataViewId"))
+        ]
+
+        /// The unique identifier for the Dataset.
+        public let datasetId: String
+        /// The unique identifier for the Dataview that you want to access.
+        public let dataViewId: String
+
+        public init(datasetId: String, dataViewId: String) {
+            self.datasetId = datasetId
+            self.dataViewId = dataViewId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.datasetId, name: "datasetId", parent: name, max: 26)
+            try self.validate(self.datasetId, name: "datasetId", parent: name, min: 1)
+            try self.validate(self.dataViewId, name: "dataViewId", parent: name, max: 26)
+            try self.validate(self.dataViewId, name: "dataViewId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetExternalDataViewAccessDetailsResponse: AWSDecodableShape {
+        /// The credentials required to access the external Dataview from the S3 location.
+        public let credentials: AwsCredentials?
+        /// The location where the external Dataview is stored.
+        public let s3Location: S3Location?
+
+        public init(credentials: AwsCredentials? = nil, s3Location: S3Location? = nil) {
+            self.credentials = credentials
+            self.s3Location = s3Location
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case credentials
+            case s3Location
+        }
+    }
+
     public struct GetPermissionGroupRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "permissionGroupId", location: .uri("permissionGroupId"))
@@ -1805,7 +1873,7 @@ extension FinspaceData {
     }
 
     public struct PermissionGroup: AWSDecodableShape {
-        /// Indicates the permissions that are granted to a specific group for accessing the FinSpace application.    CreateDataset – Group members can create new datasets.    ManageClusters – Group members can manage Apache Spark clusters from FinSpace notebooks.    ManageUsersAndGroups – Group members can manage users and permission groups.    ManageAttributeSets – Group members can manage attribute sets.    ViewAuditData – Group members can view audit data.    AccessNotebooks – Group members will have access to FinSpace notebooks.    GetTemporaryCredentials – Group members can get temporary API credentials.
+        /// Indicates the permissions that are granted to a specific group for accessing the FinSpace application.  When assigning application permissions, be aware that the permission ManageUsersAndGroups allows users to grant themselves or others access to any functionality in their FinSpace environment's application. It should only be granted to trusted users.     CreateDataset – Group members can create new datasets.    ManageClusters – Group members can manage Apache Spark clusters from FinSpace notebooks.    ManageUsersAndGroups – Group members can manage users and permission groups. This is a privileged permission that allows users to grant themselves or others access to any functionality in the application. It should only be granted to trusted users.    ManageAttributeSets – Group members can manage attribute sets.    ViewAuditData – Group members can view audit data.    AccessNotebooks – Group members will have access to FinSpace notebooks.    GetTemporaryCredentials – Group members can get temporary API credentials.
         public let applicationPermissions: [ApplicationPermission]?
         /// The timestamp at which the group was created in FinSpace. The value is determined as epoch time in milliseconds.
         public let createTime: Int64?
@@ -1950,6 +2018,23 @@ extension FinspaceData {
 
         private enum CodingKeys: String, CodingKey {
             case permission
+        }
+    }
+
+    public struct S3Location: AWSDecodableShape {
+        ///  The name of the S3 bucket.
+        public let bucket: String
+        ///  The path of the folder, within the S3 bucket that contains the Dataset.
+        public let key: String
+
+        public init(bucket: String, key: String) {
+            self.bucket = bucket
+            self.key = key
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket
+            case key
         }
     }
 
@@ -2143,7 +2228,7 @@ extension FinspaceData {
             AWSMemberEncoding(label: "permissionGroupId", location: .uri("permissionGroupId"))
         ]
 
-        /// The permissions that are granted to a specific group for accessing the FinSpace application.    CreateDataset – Group members can create new datasets.    ManageClusters – Group members can manage Apache Spark clusters from FinSpace notebooks.    ManageUsersAndGroups – Group members can manage users and permission groups.    ManageAttributeSets – Group members can manage attribute sets.    ViewAuditData – Group members can view audit data.    AccessNotebooks – Group members will have access to FinSpace notebooks.    GetTemporaryCredentials – Group members can get temporary API credentials.
+        /// The permissions that are granted to a specific group for accessing the FinSpace application.  When assigning application permissions, be aware that the permission ManageUsersAndGroups allows users to grant themselves or others access to any functionality in their FinSpace environment's application. It should only be granted to trusted users.     CreateDataset – Group members can create new datasets.    ManageClusters – Group members can manage Apache Spark clusters from FinSpace notebooks.    ManageUsersAndGroups – Group members can manage users and permission groups. This is a privileged permission that allows users to grant themselves or others access to any functionality in the application. It should only be granted to trusted users.    ManageAttributeSets – Group members can manage attribute sets.    ViewAuditData – Group members can view audit data.    AccessNotebooks – Group members will have access to FinSpace notebooks.    GetTemporaryCredentials – Group members can get temporary API credentials.
         public let applicationPermissions: [ApplicationPermission]?
         /// A token that ensures idempotency. This token expires in 10 minutes.
         public let clientToken: String?

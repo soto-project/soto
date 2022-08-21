@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -199,11 +199,46 @@ extension SSOAdmin {
         }
     }
 
+    public struct AttachCustomerManagedPolicyReferenceToPermissionSetRequest: AWSEncodableShape {
+        /// Specifies the name and path of a customer managed policy. You must have an IAM policy that matches the name and path in each Amazon Web Services account where you want to deploy your permission set.
+        public let customerManagedPolicyReference: CustomerManagedPolicyReference
+        /// The ARN of the Amazon Web Services SSO instance under which the operation will be executed.
+        public let instanceArn: String
+        /// The ARN of the PermissionSet.
+        public let permissionSetArn: String
+
+        public init(customerManagedPolicyReference: CustomerManagedPolicyReference, instanceArn: String, permissionSetArn: String) {
+            self.customerManagedPolicyReference = customerManagedPolicyReference
+            self.instanceArn = instanceArn
+            self.permissionSetArn = permissionSetArn
+        }
+
+        public func validate(name: String) throws {
+            try self.customerManagedPolicyReference.validate(name: "\(name).customerManagedPolicyReference")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
+            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
+            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customerManagedPolicyReference = "CustomerManagedPolicyReference"
+            case instanceArn = "InstanceArn"
+            case permissionSetArn = "PermissionSetArn"
+        }
+    }
+
+    public struct AttachCustomerManagedPolicyReferenceToPermissionSetResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct AttachManagedPolicyToPermissionSetRequest: AWSEncodableShape {
-        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+        /// The ARN of the Amazon Web Services SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
         /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
-        /// The IAM managed policy ARN to be attached to a permission set.
+        /// The Amazon Web Services managed policy ARN to be attached to a permission set.
         public let managedPolicyArn: String
         /// The ARN of the PermissionSet that the managed policy should be attached to.
         public let permissionSetArn: String
@@ -217,12 +252,13 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.managedPolicyArn, name: "managedPolicyArn", parent: name, max: 2048)
             try self.validate(self.managedPolicyArn, name: "managedPolicyArn", parent: name, min: 20)
+            try self.validate(self.managedPolicyArn, name: "managedPolicyArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):iam::aws:policy/[\\p{L}\\p{M}\\p{Z}\\p{S}\\p{N}\\p{P}]+$")
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
-            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:aws:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
+            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -237,10 +273,10 @@ extension SSOAdmin {
     }
 
     public struct AttachedManagedPolicy: AWSDecodableShape {
-        /// The ARN of the IAM managed policy. For more information about ARNs, see Amazon Resource
+        /// The ARN of the Amazon Web Services managed policy. For more information about ARNs, see Amazon Resource
         /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let arn: String?
-        /// The name of the IAM managed policy.
+        /// The name of the Amazon Web Services managed policy.
         public let name: String?
 
         public init(arn: String? = nil, name: String? = nil) {
@@ -255,7 +291,7 @@ extension SSOAdmin {
     }
 
     public struct CreateAccountAssignmentRequest: AWSEncodableShape {
-        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+        /// The ARN of the Amazon Web Services SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
         /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The ARN of the permission set that the admin wants to grant the principal access to.
@@ -281,13 +317,15 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
-            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:aws:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
+            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
             try self.validate(self.principalId, name: "principalId", parent: name, max: 47)
             try self.validate(self.principalId, name: "principalId", parent: name, min: 1)
             try self.validate(self.principalId, name: "principalId", parent: name, pattern: "^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
+            try self.validate(self.targetId, name: "targetId", parent: name, max: 12)
+            try self.validate(self.targetId, name: "targetId", parent: name, min: 12)
             try self.validate(self.targetId, name: "targetId", parent: name, pattern: "^\\d{12}$")
         }
 
@@ -317,7 +355,7 @@ extension SSOAdmin {
     public struct CreateInstanceAccessControlAttributeConfigurationRequest: AWSEncodableShape {
         /// Specifies the Amazon Web Services SSO identity store attributes to add to your ABAC configuration. When using an external identity provider as an identity source, you can pass attributes through the SAML assertion. Doing so provides an alternative to configuring attributes from the Amazon Web Services SSO identity store. If a SAML assertion passes any of these attributes, Amazon Web Services SSO will replace the attribute value with the value from the Amazon Web Services SSO identity store.
         public let instanceAccessControlAttributeConfiguration: InstanceAccessControlAttributeConfiguration
-        /// The ARN of the SSO instance under which the operation will be executed.
+        /// The ARN of the Amazon Web Services SSO instance under which the operation will be executed.
         public let instanceArn: String
 
         public init(instanceAccessControlAttributeConfiguration: InstanceAccessControlAttributeConfiguration, instanceArn: String) {
@@ -329,7 +367,7 @@ extension SSOAdmin {
             try self.instanceAccessControlAttributeConfiguration.validate(name: "\(name).instanceAccessControlAttributeConfiguration")
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -345,7 +383,7 @@ extension SSOAdmin {
     public struct CreatePermissionSetRequest: AWSEncodableShape {
         /// The description of the PermissionSet.
         public let description: String?
-        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+        /// The ARN of the Amazon Web Services SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
         /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The name of the PermissionSet.
@@ -369,10 +407,10 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.description, name: "description", parent: name, max: 700)
             try self.validate(self.description, name: "description", parent: name, min: 1)
-            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\p{L}\\p{M}\\p{Z}\\p{S}\\p{N}\\p{P}]*$")
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u00A0-\\u00FF]*$")
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.name, name: "name", parent: name, max: 32)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w+=,.@-]+$")
@@ -411,8 +449,34 @@ extension SSOAdmin {
         }
     }
 
+    public struct CustomerManagedPolicyReference: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the IAM policy that you have configured in each account where you want to deploy your permission set.
+        public let name: String
+        /// The path to the IAM policy that you have configured in each account where you want to deploy your permission set. The default is /. For more information, see Friendly names and paths in the Identity and Access Management User Guide.
+        public let path: String?
+
+        public init(name: String, path: String? = nil) {
+            self.name = name
+            self.path = path
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w+=,.@-]+$")
+            try self.validate(self.path, name: "path", parent: name, max: 512)
+            try self.validate(self.path, name: "path", parent: name, min: 1)
+            try self.validate(self.path, name: "path", parent: name, pattern: "^((/[A-Za-z0-9\\.,\\+@=_-]+)*)/$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case path = "Path"
+        }
+    }
+
     public struct DeleteAccountAssignmentRequest: AWSEncodableShape {
-        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+        /// The ARN of the Amazon Web Services SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
         /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The ARN of the permission set that will be used to remove access.
@@ -438,13 +502,15 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
-            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:aws:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
+            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
             try self.validate(self.principalId, name: "principalId", parent: name, max: 47)
             try self.validate(self.principalId, name: "principalId", parent: name, min: 1)
             try self.validate(self.principalId, name: "principalId", parent: name, pattern: "^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
+            try self.validate(self.targetId, name: "targetId", parent: name, max: 12)
+            try self.validate(self.targetId, name: "targetId", parent: name, min: 12)
             try self.validate(self.targetId, name: "targetId", parent: name, pattern: "^\\d{12}$")
         }
 
@@ -472,7 +538,7 @@ extension SSOAdmin {
     }
 
     public struct DeleteInlinePolicyFromPermissionSetRequest: AWSEncodableShape {
-        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+        /// The ARN of the Amazon Web Services SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
         /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The ARN of the permission set that will be used to remove access.
@@ -486,10 +552,10 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
-            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:aws:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
+            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -503,7 +569,7 @@ extension SSOAdmin {
     }
 
     public struct DeleteInstanceAccessControlAttributeConfigurationRequest: AWSEncodableShape {
-        /// The ARN of the SSO instance under which the operation will be executed.
+        /// The ARN of the Amazon Web Services SSO instance under which the operation will be executed.
         public let instanceArn: String
 
         public init(instanceArn: String) {
@@ -513,7 +579,7 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -526,7 +592,7 @@ extension SSOAdmin {
     }
 
     public struct DeletePermissionSetRequest: AWSEncodableShape {
-        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+        /// The ARN of the Amazon Web Services SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
         /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The ARN of the permission set that should be deleted.
@@ -540,10 +606,10 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
-            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:aws:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
+            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -556,10 +622,40 @@ extension SSOAdmin {
         public init() {}
     }
 
+    public struct DeletePermissionsBoundaryFromPermissionSetRequest: AWSEncodableShape {
+        /// The ARN of the Amazon Web Services SSO instance under which the operation will be executed.
+        public let instanceArn: String
+        /// The ARN of the PermissionSet.
+        public let permissionSetArn: String
+
+        public init(instanceArn: String, permissionSetArn: String) {
+            self.instanceArn = instanceArn
+            self.permissionSetArn = permissionSetArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
+            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
+            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceArn = "InstanceArn"
+            case permissionSetArn = "PermissionSetArn"
+        }
+    }
+
+    public struct DeletePermissionsBoundaryFromPermissionSetResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DescribeAccountAssignmentCreationStatusRequest: AWSEncodableShape {
         /// The identifier that is used to track the request operation progress.
         public let accountAssignmentCreationRequestId: String
-        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+        /// The ARN of the Amazon Web Services SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
         /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
 
@@ -569,10 +665,12 @@ extension SSOAdmin {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountAssignmentCreationRequestId, name: "accountAssignmentCreationRequestId", parent: name, max: 36)
+            try self.validate(self.accountAssignmentCreationRequestId, name: "accountAssignmentCreationRequestId", parent: name, min: 36)
             try self.validate(self.accountAssignmentCreationRequestId, name: "accountAssignmentCreationRequestId", parent: name, pattern: "^\\b[0-9a-f]{8}\\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\\b[0-9a-f]{12}\\b$")
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -597,7 +695,7 @@ extension SSOAdmin {
     public struct DescribeAccountAssignmentDeletionStatusRequest: AWSEncodableShape {
         /// The identifier that is used to track the request operation progress.
         public let accountAssignmentDeletionRequestId: String
-        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+        /// The ARN of the Amazon Web Services SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
         /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
 
@@ -607,10 +705,12 @@ extension SSOAdmin {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountAssignmentDeletionRequestId, name: "accountAssignmentDeletionRequestId", parent: name, max: 36)
+            try self.validate(self.accountAssignmentDeletionRequestId, name: "accountAssignmentDeletionRequestId", parent: name, min: 36)
             try self.validate(self.accountAssignmentDeletionRequestId, name: "accountAssignmentDeletionRequestId", parent: name, pattern: "^\\b[0-9a-f]{8}\\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\\b[0-9a-f]{12}\\b$")
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -633,7 +733,7 @@ extension SSOAdmin {
     }
 
     public struct DescribeInstanceAccessControlAttributeConfigurationRequest: AWSEncodableShape {
-        /// The ARN of the SSO instance under which the operation will be executed.
+        /// The ARN of the Amazon Web Services SSO instance under which the operation will be executed.
         public let instanceArn: String
 
         public init(instanceArn: String) {
@@ -643,7 +743,7 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -673,7 +773,7 @@ extension SSOAdmin {
     }
 
     public struct DescribePermissionSetProvisioningStatusRequest: AWSEncodableShape {
-        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+        /// The ARN of the Amazon Web Services SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
         /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The identifier that is provided by the ProvisionPermissionSet call to retrieve the current status of the provisioning workflow.
@@ -687,7 +787,9 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.provisionPermissionSetRequestId, name: "provisionPermissionSetRequestId", parent: name, max: 36)
+            try self.validate(self.provisionPermissionSetRequestId, name: "provisionPermissionSetRequestId", parent: name, min: 36)
             try self.validate(self.provisionPermissionSetRequestId, name: "provisionPermissionSetRequestId", parent: name, pattern: "^\\b[0-9a-f]{8}\\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\\b[0-9a-f]{12}\\b$")
         }
 
@@ -711,7 +813,7 @@ extension SSOAdmin {
     }
 
     public struct DescribePermissionSetRequest: AWSEncodableShape {
-        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+        /// The ARN of the Amazon Web Services SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
         /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The ARN of the permission set.
@@ -725,10 +827,10 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
-            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:aws:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
+            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -750,11 +852,46 @@ extension SSOAdmin {
         }
     }
 
+    public struct DetachCustomerManagedPolicyReferenceFromPermissionSetRequest: AWSEncodableShape {
+        /// Specifies the name and path of a customer managed policy. You must have an IAM policy that matches the name and path in each Amazon Web Services account where you want to deploy your permission set.
+        public let customerManagedPolicyReference: CustomerManagedPolicyReference
+        /// The ARN of the Amazon Web Services SSO instance under which the operation will be executed.
+        public let instanceArn: String
+        /// The ARN of the PermissionSet.
+        public let permissionSetArn: String
+
+        public init(customerManagedPolicyReference: CustomerManagedPolicyReference, instanceArn: String, permissionSetArn: String) {
+            self.customerManagedPolicyReference = customerManagedPolicyReference
+            self.instanceArn = instanceArn
+            self.permissionSetArn = permissionSetArn
+        }
+
+        public func validate(name: String) throws {
+            try self.customerManagedPolicyReference.validate(name: "\(name).customerManagedPolicyReference")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
+            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
+            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customerManagedPolicyReference = "CustomerManagedPolicyReference"
+            case instanceArn = "InstanceArn"
+            case permissionSetArn = "PermissionSetArn"
+        }
+    }
+
+    public struct DetachCustomerManagedPolicyReferenceFromPermissionSetResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DetachManagedPolicyFromPermissionSetRequest: AWSEncodableShape {
-        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+        /// The ARN of the Amazon Web Services SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
         /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
-        /// The IAM managed policy ARN to be attached to a permission set.
+        /// The Amazon Web Services managed policy ARN to be detached from a permission set.
         public let managedPolicyArn: String
         /// The ARN of the PermissionSet from which the policy should be detached.
         public let permissionSetArn: String
@@ -768,12 +905,13 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.managedPolicyArn, name: "managedPolicyArn", parent: name, max: 2048)
             try self.validate(self.managedPolicyArn, name: "managedPolicyArn", parent: name, min: 20)
+            try self.validate(self.managedPolicyArn, name: "managedPolicyArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):iam::aws:policy/[\\p{L}\\p{M}\\p{Z}\\p{S}\\p{N}\\p{P}]+$")
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
-            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:aws:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
+            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -788,7 +926,7 @@ extension SSOAdmin {
     }
 
     public struct GetInlinePolicyForPermissionSetRequest: AWSEncodableShape {
-        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+        /// The ARN of the Amazon Web Services SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
         /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The ARN of the permission set.
@@ -802,10 +940,10 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
-            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:aws:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
+            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -815,7 +953,7 @@ extension SSOAdmin {
     }
 
     public struct GetInlinePolicyForPermissionSetResponse: AWSDecodableShape {
-        /// The IAM inline policy that is attached to the permission set.
+        /// The inline policy that is attached to the permission set.
         public let inlinePolicy: String?
 
         public init(inlinePolicy: String? = nil) {
@@ -824,6 +962,45 @@ extension SSOAdmin {
 
         private enum CodingKeys: String, CodingKey {
             case inlinePolicy = "InlinePolicy"
+        }
+    }
+
+    public struct GetPermissionsBoundaryForPermissionSetRequest: AWSEncodableShape {
+        /// The ARN of the Amazon Web Services SSO instance under which the operation will be executed.
+        public let instanceArn: String
+        /// The ARN of the PermissionSet.
+        public let permissionSetArn: String
+
+        public init(instanceArn: String, permissionSetArn: String) {
+            self.instanceArn = instanceArn
+            self.permissionSetArn = permissionSetArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
+            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
+            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceArn = "InstanceArn"
+            case permissionSetArn = "PermissionSetArn"
+        }
+    }
+
+    public struct GetPermissionsBoundaryForPermissionSetResponse: AWSDecodableShape {
+        /// The permissions boundary attached to the specified permission set.
+        public let permissionsBoundary: PermissionsBoundary?
+
+        public init(permissionsBoundary: PermissionsBoundary? = nil) {
+            self.permissionsBoundary = permissionsBoundary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case permissionsBoundary = "PermissionsBoundary"
         }
     }
 
@@ -848,9 +1025,9 @@ extension SSOAdmin {
     }
 
     public struct InstanceMetadata: AWSDecodableShape {
-        /// The identifier of the identity store that is connected to the SSO instance.
+        /// The identifier of the identity store that is connected to the Amazon Web Services SSO instance.
         public let identityStoreId: String?
-        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+        /// The ARN of the Amazon Web Services SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
         /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String?
 
@@ -868,7 +1045,7 @@ extension SSOAdmin {
     public struct ListAccountAssignmentCreationStatusRequest: AWSEncodableShape {
         /// Filters results based on the passed attribute value.
         public let filter: OperationStatusFilter?
-        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+        /// The ARN of the Amazon Web Services SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
         /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The maximum number of results to display for the assignment.
@@ -886,7 +1063,7 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
@@ -921,7 +1098,7 @@ extension SSOAdmin {
     public struct ListAccountAssignmentDeletionStatusRequest: AWSEncodableShape {
         /// Filters results based on the passed attribute value.
         public let filter: OperationStatusFilter?
-        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+        /// The ARN of the Amazon Web Services SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
         /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The maximum number of results to display for the assignment.
@@ -939,7 +1116,7 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
@@ -974,7 +1151,7 @@ extension SSOAdmin {
     public struct ListAccountAssignmentsRequest: AWSEncodableShape {
         /// The identifier of the Amazon Web Services account from which to list the assignments.
         public let accountId: String
-        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+        /// The ARN of the Amazon Web Services SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
         /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The maximum number of results to display for the assignment.
@@ -993,17 +1170,19 @@ extension SSOAdmin {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/_]*$")
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
-            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:aws:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
+            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1033,7 +1212,7 @@ extension SSOAdmin {
     }
 
     public struct ListAccountsForProvisionedPermissionSetRequest: AWSEncodableShape {
-        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+        /// The ARN of the Amazon Web Services SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
         /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The maximum number of results to display for the PermissionSet.
@@ -1056,14 +1235,14 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/_]*$")
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
-            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:aws:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
+            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1088,6 +1267,61 @@ extension SSOAdmin {
 
         private enum CodingKeys: String, CodingKey {
             case accountIds = "AccountIds"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListCustomerManagedPolicyReferencesInPermissionSetRequest: AWSEncodableShape {
+        /// The ARN of the Amazon Web Services SSO instance under which the operation will be executed.
+        public let instanceArn: String
+        /// The maximum number of results to display for the list call.
+        public let maxResults: Int?
+        /// The pagination token for the list API. Initially the value is null. Use the output of previous API calls to make subsequent calls.
+        public let nextToken: String?
+        /// The ARN of the PermissionSet.
+        public let permissionSetArn: String
+
+        public init(instanceArn: String, maxResults: Int? = nil, nextToken: String? = nil, permissionSetArn: String) {
+            self.instanceArn = instanceArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.permissionSetArn = permissionSetArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/_]*$")
+            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
+            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
+            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceArn = "InstanceArn"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case permissionSetArn = "PermissionSetArn"
+        }
+    }
+
+    public struct ListCustomerManagedPolicyReferencesInPermissionSetResponse: AWSDecodableShape {
+        /// Specifies the names and paths of the customer managed policies that you have attached to your permission set.
+        public let customerManagedPolicyReferences: [CustomerManagedPolicyReference]?
+        /// The pagination token for the list API. Initially the value is null. Use the output of previous API calls to make subsequent calls.
+        public let nextToken: String?
+
+        public init(customerManagedPolicyReferences: [CustomerManagedPolicyReference]? = nil, nextToken: String? = nil) {
+            self.customerManagedPolicyReferences = customerManagedPolicyReferences
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customerManagedPolicyReferences = "CustomerManagedPolicyReferences"
             case nextToken = "NextToken"
         }
     }
@@ -1117,7 +1351,7 @@ extension SSOAdmin {
     }
 
     public struct ListInstancesResponse: AWSDecodableShape {
-        /// Lists the SSO instances that the caller has access to.
+        /// Lists the Amazon Web Services SSO instances that the caller has access to.
         public let instances: [InstanceMetadata]?
         /// The pagination token for the list API. Initially the value is null. Use the output of previous API calls to make subsequent calls.
         public let nextToken: String?
@@ -1134,7 +1368,7 @@ extension SSOAdmin {
     }
 
     public struct ListManagedPoliciesInPermissionSetRequest: AWSEncodableShape {
-        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+        /// The ARN of the Amazon Web Services SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
         /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The maximum number of results to display for the PermissionSet.
@@ -1154,14 +1388,14 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/_]*$")
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
-            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:aws:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
+            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1173,7 +1407,7 @@ extension SSOAdmin {
     }
 
     public struct ListManagedPoliciesInPermissionSetResponse: AWSDecodableShape {
-        /// The array of the AttachedManagedPolicy data type object.
+        /// An array of the AttachedManagedPolicy data type object.
         public let attachedManagedPolicies: [AttachedManagedPolicy]?
         /// The pagination token for the list API. Initially the value is null. Use the output of previous API calls to make subsequent calls.
         public let nextToken: String?
@@ -1192,7 +1426,7 @@ extension SSOAdmin {
     public struct ListPermissionSetProvisioningStatusRequest: AWSEncodableShape {
         /// Filters results based on the passed attribute value.
         public let filter: OperationStatusFilter?
-        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+        /// The ARN of the Amazon Web Services SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
         /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The maximum number of results to display for the assignment.
@@ -1210,7 +1444,7 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
@@ -1245,7 +1479,7 @@ extension SSOAdmin {
     public struct ListPermissionSetsProvisionedToAccountRequest: AWSEncodableShape {
         /// The identifier of the Amazon Web Services account from which to list the assignments.
         public let accountId: String
-        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+        /// The ARN of the Amazon Web Services SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
         /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The maximum number of results to display for the assignment.
@@ -1264,10 +1498,12 @@ extension SSOAdmin {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
@@ -1301,7 +1537,7 @@ extension SSOAdmin {
     }
 
     public struct ListPermissionSetsRequest: AWSEncodableShape {
-        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+        /// The ARN of the Amazon Web Services SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
         /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The maximum number of results to display for the assignment.
@@ -1318,7 +1554,7 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
@@ -1350,7 +1586,7 @@ extension SSOAdmin {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+        /// The ARN of the Amazon Web Services SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
         /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The pagination token for the list API. Initially the value is null. Use the output of previous API calls to make subsequent calls.
@@ -1367,12 +1603,12 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/_]*$")
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 10)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws:sso:([a-zA-Z0-9-]+)?:(\\d{12})?:[a-zA-Z0-9-]+/[a-zA-Z0-9-/.]+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1501,8 +1737,32 @@ extension SSOAdmin {
         }
     }
 
+    public struct PermissionsBoundary: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the name and path of a customer managed policy. You must have an IAM policy that matches the name and path in each Amazon Web Services account where you want to deploy your permission set.
+        public let customerManagedPolicyReference: CustomerManagedPolicyReference?
+        /// The Amazon Web Services managed policy ARN that you want to attach to a permission set as a permissions boundary.
+        public let managedPolicyArn: String?
+
+        public init(customerManagedPolicyReference: CustomerManagedPolicyReference? = nil, managedPolicyArn: String? = nil) {
+            self.customerManagedPolicyReference = customerManagedPolicyReference
+            self.managedPolicyArn = managedPolicyArn
+        }
+
+        public func validate(name: String) throws {
+            try self.customerManagedPolicyReference?.validate(name: "\(name).customerManagedPolicyReference")
+            try self.validate(self.managedPolicyArn, name: "managedPolicyArn", parent: name, max: 2048)
+            try self.validate(self.managedPolicyArn, name: "managedPolicyArn", parent: name, min: 20)
+            try self.validate(self.managedPolicyArn, name: "managedPolicyArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):iam::aws:policy/[\\p{L}\\p{M}\\p{Z}\\p{S}\\p{N}\\p{P}]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customerManagedPolicyReference = "CustomerManagedPolicyReference"
+            case managedPolicyArn = "ManagedPolicyArn"
+        }
+    }
+
     public struct ProvisionPermissionSetRequest: AWSEncodableShape {
-        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+        /// The ARN of the Amazon Web Services SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
         /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The ARN of the permission set.
@@ -1522,10 +1782,12 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
-            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:aws:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
+            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
+            try self.validate(self.targetId, name: "targetId", parent: name, max: 12)
+            try self.validate(self.targetId, name: "targetId", parent: name, min: 12)
             try self.validate(self.targetId, name: "targetId", parent: name, pattern: "^\\d{12}$")
         }
 
@@ -1551,9 +1813,9 @@ extension SSOAdmin {
     }
 
     public struct PutInlinePolicyToPermissionSetRequest: AWSEncodableShape {
-        /// The IAM inline policy to attach to a PermissionSet.
+        /// The inline policy to attach to a PermissionSet.
         public let inlinePolicy: String
-        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+        /// The ARN of the Amazon Web Services SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
         /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The ARN of the permission set.
@@ -1571,10 +1833,10 @@ extension SSOAdmin {
             try self.validate(self.inlinePolicy, name: "inlinePolicy", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+$")
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
-            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:aws:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
+            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1588,13 +1850,48 @@ extension SSOAdmin {
         public init() {}
     }
 
+    public struct PutPermissionsBoundaryToPermissionSetRequest: AWSEncodableShape {
+        /// The ARN of the Amazon Web Services SSO instance under which the operation will be executed.
+        public let instanceArn: String
+        /// The permissions boundary that you want to attach to a PermissionSet.
+        public let permissionsBoundary: PermissionsBoundary
+        /// The ARN of the PermissionSet.
+        public let permissionSetArn: String
+
+        public init(instanceArn: String, permissionsBoundary: PermissionsBoundary, permissionSetArn: String) {
+            self.instanceArn = instanceArn
+            self.permissionsBoundary = permissionsBoundary
+            self.permissionSetArn = permissionSetArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.permissionsBoundary.validate(name: "\(name).permissionsBoundary")
+            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
+            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
+            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceArn = "InstanceArn"
+            case permissionsBoundary = "PermissionsBoundary"
+            case permissionSetArn = "PermissionSetArn"
+        }
+    }
+
+    public struct PutPermissionsBoundaryToPermissionSetResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
         /// The key for the tag.
-        public let key: String?
+        public let key: String
         /// The value of the tag.
-        public let value: String?
+        public let value: String
 
-        public init(key: String? = nil, value: String? = nil) {
+        public init(key: String, value: String) {
             self.key = key
             self.value = value
         }
@@ -1614,7 +1911,7 @@ extension SSOAdmin {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+        /// The ARN of the Amazon Web Services SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
         /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The ARN of the resource with the tags to be listed.
@@ -1631,10 +1928,10 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 10)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws:sso:([a-zA-Z0-9-]+)?:(\\d{12})?:[a-zA-Z0-9-]+/[a-zA-Z0-9-/.]+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -1653,7 +1950,7 @@ extension SSOAdmin {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+        /// The ARN of the Amazon Web Services SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
         /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The ARN of the resource with the tags to be listed.
@@ -1670,10 +1967,10 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 10)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws:sso:([a-zA-Z0-9-]+)?:(\\d{12})?:[a-zA-Z0-9-]+/[a-zA-Z0-9-/.]+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
@@ -1697,7 +1994,7 @@ extension SSOAdmin {
     public struct UpdateInstanceAccessControlAttributeConfigurationRequest: AWSEncodableShape {
         /// Updates the attributes for your ABAC configuration.
         public let instanceAccessControlAttributeConfiguration: InstanceAccessControlAttributeConfiguration
-        /// The ARN of the SSO instance under which the operation will be executed.
+        /// The ARN of the Amazon Web Services SSO instance under which the operation will be executed.
         public let instanceArn: String
 
         public init(instanceAccessControlAttributeConfiguration: InstanceAccessControlAttributeConfiguration, instanceArn: String) {
@@ -1709,7 +2006,7 @@ extension SSOAdmin {
             try self.instanceAccessControlAttributeConfiguration.validate(name: "\(name).instanceAccessControlAttributeConfiguration")
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1725,7 +2022,7 @@ extension SSOAdmin {
     public struct UpdatePermissionSetRequest: AWSEncodableShape {
         /// The description of the PermissionSet.
         public let description: String?
-        /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+        /// The ARN of the Amazon Web Services SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
         /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The ARN of the permission set.
@@ -1746,13 +2043,13 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.description, name: "description", parent: name, max: 700)
             try self.validate(self.description, name: "description", parent: name, min: 1)
-            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\p{L}\\p{M}\\p{Z}\\p{S}\\p{N}\\p{P}]*$")
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u00A0-\\u00FF]*$")
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
-            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:aws:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
+            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
             try self.validate(self.relayState, name: "relayState", parent: name, max: 240)
             try self.validate(self.relayState, name: "relayState", parent: name, min: 1)
             try self.validate(self.relayState, name: "relayState", parent: name, pattern: "^[a-zA-Z0-9&$@#\\\\\\/%?=~\\-_'\"|!:,.;*+\\[\\]\\ \\(\\)\\{\\}]+$")

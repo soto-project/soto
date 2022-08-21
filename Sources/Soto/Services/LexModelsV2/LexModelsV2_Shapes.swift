@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -148,6 +148,19 @@ extension LexModelsV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum DialogActionType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case closeIntent = "CloseIntent"
+        case confirmIntent = "ConfirmIntent"
+        case elicitIntent = "ElicitIntent"
+        case elicitSlot = "ElicitSlot"
+        case endConversation = "EndConversation"
+        case evaluateConditional = "EvaluateConditional"
+        case fulfillIntent = "FulfillIntent"
+        case invokeDialogCodeHook = "InvokeDialogCodeHook"
+        case startIntent = "StartIntent"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Effect: String, CustomStringConvertible, Codable, _SotoSendable {
         case allow = "Allow"
         case deny = "Deny"
@@ -239,6 +252,12 @@ extension LexModelsV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum MessageSelectionStrategy: String, CustomStringConvertible, Codable, _SotoSendable {
+        case ordered = "Ordered"
+        case random = "Random"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ObfuscationSettingType: String, CustomStringConvertible, Codable, _SotoSendable {
         case defaultObfuscation = "DefaultObfuscation"
         case none = "None"
@@ -265,6 +284,12 @@ extension LexModelsV2 {
     public enum SlotFilterOperator: String, CustomStringConvertible, Codable, _SotoSendable {
         case co = "CO"
         case eq = "EQ"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SlotShape: String, CustomStringConvertible, Codable, _SotoSendable {
+        case list = "List"
+        case scalar = "Scalar"
         public var description: String { return self.rawValue }
     }
 
@@ -1231,6 +1256,87 @@ extension LexModelsV2 {
         }
     }
 
+    public struct Condition: AWSEncodableShape & AWSDecodableShape {
+        /// The expression string that is evaluated.
+        public let expressionString: String
+
+        public init(expressionString: String) {
+            self.expressionString = expressionString
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.expressionString, name: "expressionString", parent: name, max: 1024)
+            try self.validate(self.expressionString, name: "expressionString", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expressionString
+        }
+    }
+
+    public struct ConditionalBranch: AWSEncodableShape & AWSDecodableShape {
+        /// Contains the expression to evaluate. If the condition is true, the branch's actions are taken.
+        public let condition: Condition
+        /// The name of the branch.
+        public let name: String
+        /// The next step in the conversation.
+        public let nextStep: DialogState
+        public let response: ResponseSpecification?
+
+        public init(condition: Condition, name: String, nextStep: DialogState, response: ResponseSpecification? = nil) {
+            self.condition = condition
+            self.name = name
+            self.nextStep = nextStep
+            self.response = response
+        }
+
+        public func validate(name: String) throws {
+            try self.condition.validate(name: "\(name).condition")
+            try self.validate(self.name, name: "name", parent: name, max: 100)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([0-9a-zA-Z][_-]?)+$")
+            try self.nextStep.validate(name: "\(name).nextStep")
+            try self.response?.validate(name: "\(name).response")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case condition
+            case name
+            case nextStep
+            case response
+        }
+    }
+
+    public struct ConditionalSpecification: AWSEncodableShape & AWSDecodableShape {
+        /// Determines whether a conditional branch is active. When active is false, the conditions are not evaluated.
+        public let active: Bool
+        /// A list of conditional branches. A conditional branch is made up of a condition, a response and a next step. The response and next step are executed when the condition is true.
+        public let conditionalBranches: [ConditionalBranch]
+        /// The conditional branch that should be followed when the conditions for other branches are not satisfied. A conditional branch is made up of a condition, a response and a next step.
+        public let defaultBranch: DefaultConditionalBranch
+
+        public init(active: Bool, conditionalBranches: [ConditionalBranch], defaultBranch: DefaultConditionalBranch) {
+            self.active = active
+            self.conditionalBranches = conditionalBranches
+            self.defaultBranch = defaultBranch
+        }
+
+        public func validate(name: String) throws {
+            try self.conditionalBranches.forEach {
+                try $0.validate(name: "\(name).conditionalBranches[]")
+            }
+            try self.validate(self.conditionalBranches, name: "conditionalBranches", parent: name, max: 4)
+            try self.validate(self.conditionalBranches, name: "conditionalBranches", parent: name, min: 1)
+            try self.defaultBranch.validate(name: "\(name).defaultBranch")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case active
+            case conditionalBranches
+            case defaultBranch
+        }
+    }
+
     public struct ConversationLogSettings: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon S3 settings for logging audio to an S3 bucket.
         public let audioLogSettings: [AudioLogSetting]?
@@ -1724,6 +1830,8 @@ extension LexModelsV2 {
         public let dialogCodeHook: DialogCodeHookSettings?
         /// Specifies that Amazon Lex invokes the alias Lambda function when the intent is ready for fulfillment. You can invoke this function to complete the bot's transaction with the user. For example, in a pizza ordering bot, the Lambda function can look up the closest pizza restaurant to the customer's location and then place an order on the customer's behalf.
         public let fulfillmentCodeHook: FulfillmentCodeHookSettings?
+        /// Configuration settings for the response that is sent to the user at the beginning of a conversation, before eliciting slot values.
+        public let initialResponseSetting: InitialResponseSetting?
         /// A list of contexts that must be active for this intent to be considered by Amazon Lex. When an intent has an input context list, Amazon Lex only considers using the intent in an interaction with the user when the specified contexts are included in the active context list for the session. If the contexts are not active, then Amazon Lex will not use the intent. A context can be automatically activated using the outputContexts property or it can be set at runtime. For example, if there are two intents with different input contexts that respond to the same utterances, only the intent with the active context will respond. An intent may have up to 5 input contexts. If an intent has multiple input contexts, all of the contexts must be active to consider the intent.
         public let inputContexts: [InputContext]?
         /// Sets the response that Amazon Lex sends to the user when the intent is closed.
@@ -1743,12 +1851,13 @@ extension LexModelsV2 {
         /// An array of strings that a user might say to signal the intent. For example, "I want a pizza", or "I want a {PizzaSize} pizza".  In an utterance, slot names are enclosed in curly braces ("{", "}") to indicate where they should be displayed in the utterance shown to the user..
         public let sampleUtterances: [SampleUtterance]?
 
-        public init(botId: String, botVersion: String, description: String? = nil, dialogCodeHook: DialogCodeHookSettings? = nil, fulfillmentCodeHook: FulfillmentCodeHookSettings? = nil, inputContexts: [InputContext]? = nil, intentClosingSetting: IntentClosingSetting? = nil, intentConfirmationSetting: IntentConfirmationSetting? = nil, intentName: String, kendraConfiguration: KendraConfiguration? = nil, localeId: String, outputContexts: [OutputContext]? = nil, parentIntentSignature: String? = nil, sampleUtterances: [SampleUtterance]? = nil) {
+        public init(botId: String, botVersion: String, description: String? = nil, dialogCodeHook: DialogCodeHookSettings? = nil, fulfillmentCodeHook: FulfillmentCodeHookSettings? = nil, initialResponseSetting: InitialResponseSetting? = nil, inputContexts: [InputContext]? = nil, intentClosingSetting: IntentClosingSetting? = nil, intentConfirmationSetting: IntentConfirmationSetting? = nil, intentName: String, kendraConfiguration: KendraConfiguration? = nil, localeId: String, outputContexts: [OutputContext]? = nil, parentIntentSignature: String? = nil, sampleUtterances: [SampleUtterance]? = nil) {
             self.botId = botId
             self.botVersion = botVersion
             self.description = description
             self.dialogCodeHook = dialogCodeHook
             self.fulfillmentCodeHook = fulfillmentCodeHook
+            self.initialResponseSetting = initialResponseSetting
             self.inputContexts = inputContexts
             self.intentClosingSetting = intentClosingSetting
             self.intentConfirmationSetting = intentConfirmationSetting
@@ -1769,6 +1878,7 @@ extension LexModelsV2 {
             try self.validate(self.botVersion, name: "botVersion", parent: name, pattern: "^DRAFT$")
             try self.validate(self.description, name: "description", parent: name, max: 200)
             try self.fulfillmentCodeHook?.validate(name: "\(name).fulfillmentCodeHook")
+            try self.initialResponseSetting?.validate(name: "\(name).initialResponseSetting")
             try self.inputContexts?.forEach {
                 try $0.validate(name: "\(name).inputContexts[]")
             }
@@ -1789,6 +1899,7 @@ extension LexModelsV2 {
             case description
             case dialogCodeHook
             case fulfillmentCodeHook
+            case initialResponseSetting
             case inputContexts
             case intentClosingSetting
             case intentConfirmationSetting
@@ -1813,6 +1924,8 @@ extension LexModelsV2 {
         public let dialogCodeHook: DialogCodeHookSettings?
         /// The fulfillment Lambda function specified for the intent.
         public let fulfillmentCodeHook: FulfillmentCodeHookSettings?
+        /// Configuration settings for the response that is sent to the user at the beginning of a conversation, before eliciting slot values.
+        public let initialResponseSetting: InitialResponseSetting?
         /// The list of input contexts specified for the intent.
         public let inputContexts: [InputContext]?
         /// The closing setting specified for the intent.
@@ -1834,13 +1947,14 @@ extension LexModelsV2 {
         /// The sample utterances specified for the intent.
         public let sampleUtterances: [SampleUtterance]?
 
-        public init(botId: String? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, dialogCodeHook: DialogCodeHookSettings? = nil, fulfillmentCodeHook: FulfillmentCodeHookSettings? = nil, inputContexts: [InputContext]? = nil, intentClosingSetting: IntentClosingSetting? = nil, intentConfirmationSetting: IntentConfirmationSetting? = nil, intentId: String? = nil, intentName: String? = nil, kendraConfiguration: KendraConfiguration? = nil, localeId: String? = nil, outputContexts: [OutputContext]? = nil, parentIntentSignature: String? = nil, sampleUtterances: [SampleUtterance]? = nil) {
+        public init(botId: String? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, dialogCodeHook: DialogCodeHookSettings? = nil, fulfillmentCodeHook: FulfillmentCodeHookSettings? = nil, initialResponseSetting: InitialResponseSetting? = nil, inputContexts: [InputContext]? = nil, intentClosingSetting: IntentClosingSetting? = nil, intentConfirmationSetting: IntentConfirmationSetting? = nil, intentId: String? = nil, intentName: String? = nil, kendraConfiguration: KendraConfiguration? = nil, localeId: String? = nil, outputContexts: [OutputContext]? = nil, parentIntentSignature: String? = nil, sampleUtterances: [SampleUtterance]? = nil) {
             self.botId = botId
             self.botVersion = botVersion
             self.creationDateTime = creationDateTime
             self.description = description
             self.dialogCodeHook = dialogCodeHook
             self.fulfillmentCodeHook = fulfillmentCodeHook
+            self.initialResponseSetting = initialResponseSetting
             self.inputContexts = inputContexts
             self.intentClosingSetting = intentClosingSetting
             self.intentConfirmationSetting = intentConfirmationSetting
@@ -1860,6 +1974,7 @@ extension LexModelsV2 {
             case description
             case dialogCodeHook
             case fulfillmentCodeHook
+            case initialResponseSetting
             case inputContexts
             case intentClosingSetting
             case intentConfirmationSetting
@@ -2373,6 +2488,27 @@ extension LexModelsV2 {
         private enum CodingKeys: String, CodingKey {
             case endDateTime
             case startDateTime
+        }
+    }
+
+    public struct DefaultConditionalBranch: AWSEncodableShape & AWSDecodableShape {
+        /// The next step in the conversation.
+        public let nextStep: DialogState?
+        public let response: ResponseSpecification?
+
+        public init(nextStep: DialogState? = nil, response: ResponseSpecification? = nil) {
+            self.nextStep = nextStep
+            self.response = response
+        }
+
+        public func validate(name: String) throws {
+            try self.nextStep?.validate(name: "\(name).nextStep")
+            try self.response?.validate(name: "\(name).response")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextStep
+            case response
         }
     }
 
@@ -3642,6 +3778,7 @@ extension LexModelsV2 {
         public let dialogCodeHook: DialogCodeHookSettings?
         /// The Lambda function called when the intent is complete and ready for fulfillment.
         public let fulfillmentCodeHook: FulfillmentCodeHookSettings?
+        public let initialResponseSetting: InitialResponseSetting?
         /// A list of contexts that must be active for the intent to be considered for sending to the user.
         public let inputContexts: [InputContext]?
         /// The response that Amazon Lex sends to when the intent is closed.
@@ -3667,13 +3804,14 @@ extension LexModelsV2 {
         /// The list that determines the priority that slots should be elicited from the user.
         public let slotPriorities: [SlotPriority]?
 
-        public init(botId: String? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, dialogCodeHook: DialogCodeHookSettings? = nil, fulfillmentCodeHook: FulfillmentCodeHookSettings? = nil, inputContexts: [InputContext]? = nil, intentClosingSetting: IntentClosingSetting? = nil, intentConfirmationSetting: IntentConfirmationSetting? = nil, intentId: String? = nil, intentName: String? = nil, kendraConfiguration: KendraConfiguration? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, outputContexts: [OutputContext]? = nil, parentIntentSignature: String? = nil, sampleUtterances: [SampleUtterance]? = nil, slotPriorities: [SlotPriority]? = nil) {
+        public init(botId: String? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, dialogCodeHook: DialogCodeHookSettings? = nil, fulfillmentCodeHook: FulfillmentCodeHookSettings? = nil, initialResponseSetting: InitialResponseSetting? = nil, inputContexts: [InputContext]? = nil, intentClosingSetting: IntentClosingSetting? = nil, intentConfirmationSetting: IntentConfirmationSetting? = nil, intentId: String? = nil, intentName: String? = nil, kendraConfiguration: KendraConfiguration? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, outputContexts: [OutputContext]? = nil, parentIntentSignature: String? = nil, sampleUtterances: [SampleUtterance]? = nil, slotPriorities: [SlotPriority]? = nil) {
             self.botId = botId
             self.botVersion = botVersion
             self.creationDateTime = creationDateTime
             self.description = description
             self.dialogCodeHook = dialogCodeHook
             self.fulfillmentCodeHook = fulfillmentCodeHook
+            self.initialResponseSetting = initialResponseSetting
             self.inputContexts = inputContexts
             self.intentClosingSetting = intentClosingSetting
             self.intentConfirmationSetting = intentConfirmationSetting
@@ -3695,6 +3833,7 @@ extension LexModelsV2 {
             case description
             case dialogCodeHook
             case fulfillmentCodeHook
+            case initialResponseSetting
             case inputContexts
             case intentClosingSetting
             case intentConfirmationSetting
@@ -3953,6 +4092,65 @@ extension LexModelsV2 {
         }
     }
 
+    public struct DialogAction: AWSEncodableShape & AWSDecodableShape {
+        /// If the dialog action is ElicitSlot, defines the slot to elicit from the user.
+        public let slotToElicit: String?
+        /// When true the next message for the intent is not used.
+        public let suppressNextMessage: Bool?
+        /// The action that the bot should execute.
+        public let type: DialogActionType
+
+        public init(slotToElicit: String? = nil, suppressNextMessage: Bool? = nil, type: DialogActionType) {
+            self.slotToElicit = slotToElicit
+            self.suppressNextMessage = suppressNextMessage
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.slotToElicit, name: "slotToElicit", parent: name, max: 100)
+            try self.validate(self.slotToElicit, name: "slotToElicit", parent: name, min: 1)
+            try self.validate(self.slotToElicit, name: "slotToElicit", parent: name, pattern: "^([0-9a-zA-Z][_-]?)+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case slotToElicit
+            case suppressNextMessage
+            case type
+        }
+    }
+
+    public struct DialogCodeHookInvocationSetting: AWSEncodableShape & AWSDecodableShape {
+        /// Determines whether a dialog code hook is used when the intent is activated.
+        public let active: Bool
+        /// Indicates whether a Lambda function should be invoked for the dialog.
+        public let enableCodeHookInvocation: Bool
+        /// A label that indicates the dialog step from which the dialog code hook is happening.
+        public let invocationLabel: String?
+        /// Contains the responses and actions that Amazon Lex takes after the Lambda function is complete.
+        public let postCodeHookSpecification: PostDialogCodeHookInvocationSpecification
+
+        public init(active: Bool, enableCodeHookInvocation: Bool, invocationLabel: String? = nil, postCodeHookSpecification: PostDialogCodeHookInvocationSpecification) {
+            self.active = active
+            self.enableCodeHookInvocation = enableCodeHookInvocation
+            self.invocationLabel = invocationLabel
+            self.postCodeHookSpecification = postCodeHookSpecification
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.invocationLabel, name: "invocationLabel", parent: name, max: 100)
+            try self.validate(self.invocationLabel, name: "invocationLabel", parent: name, min: 1)
+            try self.validate(self.invocationLabel, name: "invocationLabel", parent: name, pattern: "^([0-9a-zA-Z][_-]?)+$")
+            try self.postCodeHookSpecification.validate(name: "\(name).postCodeHookSpecification")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case active
+            case enableCodeHookInvocation
+            case invocationLabel
+            case postCodeHookSpecification
+        }
+    }
+
     public struct DialogCodeHookSettings: AWSEncodableShape & AWSDecodableShape {
         /// Enables the dialog code hook so that it processes user requests.
         public let enabled: Bool
@@ -3963,6 +4161,56 @@ extension LexModelsV2 {
 
         private enum CodingKeys: String, CodingKey {
             case enabled
+        }
+    }
+
+    public struct DialogState: AWSEncodableShape & AWSDecodableShape {
+        public let dialogAction: DialogAction?
+        public let intent: IntentOverride?
+        /// Map of key/value pairs representing session-specific context information. It contains application information passed between Amazon Lex and a client application.
+        public let sessionAttributes: [String: String]?
+
+        public init(dialogAction: DialogAction? = nil, intent: IntentOverride? = nil, sessionAttributes: [String: String]? = nil) {
+            self.dialogAction = dialogAction
+            self.intent = intent
+            self.sessionAttributes = sessionAttributes
+        }
+
+        public func validate(name: String) throws {
+            try self.dialogAction?.validate(name: "\(name).dialogAction")
+            try self.intent?.validate(name: "\(name).intent")
+            try self.sessionAttributes?.forEach {
+                try validate($0.key, name: "sessionAttributes.key", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dialogAction
+            case intent
+            case sessionAttributes
+        }
+    }
+
+    public struct ElicitationCodeHookInvocationSetting: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates whether a Lambda function should be invoked for the dialog.
+        public let enableCodeHookInvocation: Bool
+        /// A label that indicates the dialog step from which the dialog code hook is happening.
+        public let invocationLabel: String?
+
+        public init(enableCodeHookInvocation: Bool, invocationLabel: String? = nil) {
+            self.enableCodeHookInvocation = enableCodeHookInvocation
+            self.invocationLabel = invocationLabel
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.invocationLabel, name: "invocationLabel", parent: name, max: 100)
+            try self.validate(self.invocationLabel, name: "invocationLabel", parent: name, min: 1)
+            try self.validate(self.invocationLabel, name: "invocationLabel", parent: name, pattern: "^([0-9a-zA-Z][_-]?)+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enableCodeHookInvocation
+            case invocationLabel
         }
     }
 
@@ -4121,6 +4369,8 @@ extension LexModelsV2 {
     }
 
     public struct FulfillmentCodeHookSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Determines whether the fulfillment code hook is used. When active is false, the code hook doesn't run.
+        public let active: Bool?
         /// Indicates whether a Lambda function should be invoked to fulfill a specific intent.
         public let enabled: Bool
         /// Provides settings for update messages sent to the user for long-running Lambda fulfillment functions. Fulfillment updates can be used only with streaming conversations.
@@ -4128,7 +4378,8 @@ extension LexModelsV2 {
         /// Provides settings for messages sent to the user for after the Lambda fulfillment function completes. Post-fulfillment messages can be sent for both streaming and non-streaming conversations.
         public let postFulfillmentStatusSpecification: PostFulfillmentStatusSpecification?
 
-        public init(enabled: Bool, fulfillmentUpdatesSpecification: FulfillmentUpdatesSpecification? = nil, postFulfillmentStatusSpecification: PostFulfillmentStatusSpecification? = nil) {
+        public init(active: Bool? = nil, enabled: Bool, fulfillmentUpdatesSpecification: FulfillmentUpdatesSpecification? = nil, postFulfillmentStatusSpecification: PostFulfillmentStatusSpecification? = nil) {
+            self.active = active
             self.enabled = enabled
             self.fulfillmentUpdatesSpecification = fulfillmentUpdatesSpecification
             self.postFulfillmentStatusSpecification = postFulfillmentStatusSpecification
@@ -4140,6 +4391,7 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case active
             case enabled
             case fulfillmentUpdatesSpecification
             case postFulfillmentStatusSpecification
@@ -4443,6 +4695,35 @@ extension LexModelsV2 {
         }
     }
 
+    public struct InitialResponseSetting: AWSEncodableShape & AWSDecodableShape {
+        public let codeHook: DialogCodeHookInvocationSetting?
+        public let conditional: ConditionalSpecification?
+        public let initialResponse: ResponseSpecification?
+        /// The next step in the conversation.
+        public let nextStep: DialogState?
+
+        public init(codeHook: DialogCodeHookInvocationSetting? = nil, conditional: ConditionalSpecification? = nil, initialResponse: ResponseSpecification? = nil, nextStep: DialogState? = nil) {
+            self.codeHook = codeHook
+            self.conditional = conditional
+            self.initialResponse = initialResponse
+            self.nextStep = nextStep
+        }
+
+        public func validate(name: String) throws {
+            try self.codeHook?.validate(name: "\(name).codeHook")
+            try self.conditional?.validate(name: "\(name).conditional")
+            try self.initialResponse?.validate(name: "\(name).initialResponse")
+            try self.nextStep?.validate(name: "\(name).nextStep")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case codeHook
+            case conditional
+            case initialResponse
+            case nextStep
+        }
+    }
+
     public struct InputContext: AWSEncodableShape & AWSDecodableShape {
         /// The name of the context.
         public let name: String
@@ -4466,45 +4747,102 @@ extension LexModelsV2 {
         /// Specifies whether an intent's closing response is used. When this field is false, the closing response isn't sent to the user. If the active field isn't specified, the default is true.
         public let active: Bool?
         /// The response that Amazon Lex sends to the user when the intent is complete.
-        public let closingResponse: ResponseSpecification
+        public let closingResponse: ResponseSpecification?
+        /// A list of conditional branches associated with the intent's closing response. These branches are executed when the nextStep attribute is set to EvalutateConditional.
+        public let conditional: ConditionalSpecification?
+        /// Specifies the next step that the bot executes after playing the intent's closing response.
+        public let nextStep: DialogState?
 
-        public init(active: Bool? = nil, closingResponse: ResponseSpecification) {
+        public init(active: Bool? = nil, closingResponse: ResponseSpecification? = nil, conditional: ConditionalSpecification? = nil, nextStep: DialogState? = nil) {
             self.active = active
             self.closingResponse = closingResponse
+            self.conditional = conditional
+            self.nextStep = nextStep
         }
 
         public func validate(name: String) throws {
-            try self.closingResponse.validate(name: "\(name).closingResponse")
+            try self.closingResponse?.validate(name: "\(name).closingResponse")
+            try self.conditional?.validate(name: "\(name).conditional")
+            try self.nextStep?.validate(name: "\(name).nextStep")
         }
 
         private enum CodingKeys: String, CodingKey {
             case active
             case closingResponse
+            case conditional
+            case nextStep
         }
     }
 
     public struct IntentConfirmationSetting: AWSEncodableShape & AWSDecodableShape {
         /// Specifies whether the intent's confirmation is sent to the user. When this field is false, confirmation and declination responses aren't sent. If the active field isn't specified, the default is true.
         public let active: Bool?
+        /// The DialogCodeHookInvocationSetting object associated with intent's confirmation step. The dialog code hook is triggered based on these invocation settings when the confirmation next step or declination next step or failure next step is InvokeDialogCodeHook.
+        public let codeHook: DialogCodeHookInvocationSetting?
+        /// A list of conditional branches to evaluate after the intent is closed.
+        public let confirmationConditional: ConditionalSpecification?
+        /// Specifies the next step that the bot executes when the customer confirms the intent.
+        public let confirmationNextStep: DialogState?
+        public let confirmationResponse: ResponseSpecification?
+        /// A list of conditional branches to evaluate after the intent is declined.
+        public let declinationConditional: ConditionalSpecification?
+        /// Specifies the next step that the bot executes when the customer declines the intent.
+        public let declinationNextStep: DialogState?
         /// When the user answers "no" to the question defined in promptSpecification, Amazon Lex responds with this response to acknowledge that the intent was canceled.
-        public let declinationResponse: ResponseSpecification
+        public let declinationResponse: ResponseSpecification?
+        /// The DialogCodeHookInvocationSetting used when the code hook is invoked during confirmation prompt retries.
+        public let elicitationCodeHook: ElicitationCodeHookInvocationSetting?
+        public let failureConditional: ConditionalSpecification?
+        /// The next step to take in the conversation if the confirmation step fails.
+        public let failureNextStep: DialogState?
+        public let failureResponse: ResponseSpecification?
         /// Prompts the user to confirm the intent. This question should have a yes or no answer. Amazon Lex uses this prompt to ensure that the user acknowledges that the intent is ready for fulfillment. For example, with the OrderPizza intent, you might want to confirm that the order is correct before placing it. For other intents, such as intents that simply respond to user questions, you might not need to ask the user for confirmation before providing the information.
         public let promptSpecification: PromptSpecification
 
-        public init(active: Bool? = nil, declinationResponse: ResponseSpecification, promptSpecification: PromptSpecification) {
+        public init(active: Bool? = nil, codeHook: DialogCodeHookInvocationSetting? = nil, confirmationConditional: ConditionalSpecification? = nil, confirmationNextStep: DialogState? = nil, confirmationResponse: ResponseSpecification? = nil, declinationConditional: ConditionalSpecification? = nil, declinationNextStep: DialogState? = nil, declinationResponse: ResponseSpecification? = nil, elicitationCodeHook: ElicitationCodeHookInvocationSetting? = nil, failureConditional: ConditionalSpecification? = nil, failureNextStep: DialogState? = nil, failureResponse: ResponseSpecification? = nil, promptSpecification: PromptSpecification) {
             self.active = active
+            self.codeHook = codeHook
+            self.confirmationConditional = confirmationConditional
+            self.confirmationNextStep = confirmationNextStep
+            self.confirmationResponse = confirmationResponse
+            self.declinationConditional = declinationConditional
+            self.declinationNextStep = declinationNextStep
             self.declinationResponse = declinationResponse
+            self.elicitationCodeHook = elicitationCodeHook
+            self.failureConditional = failureConditional
+            self.failureNextStep = failureNextStep
+            self.failureResponse = failureResponse
             self.promptSpecification = promptSpecification
         }
 
         public func validate(name: String) throws {
-            try self.declinationResponse.validate(name: "\(name).declinationResponse")
+            try self.codeHook?.validate(name: "\(name).codeHook")
+            try self.confirmationConditional?.validate(name: "\(name).confirmationConditional")
+            try self.confirmationNextStep?.validate(name: "\(name).confirmationNextStep")
+            try self.confirmationResponse?.validate(name: "\(name).confirmationResponse")
+            try self.declinationConditional?.validate(name: "\(name).declinationConditional")
+            try self.declinationNextStep?.validate(name: "\(name).declinationNextStep")
+            try self.declinationResponse?.validate(name: "\(name).declinationResponse")
+            try self.elicitationCodeHook?.validate(name: "\(name).elicitationCodeHook")
+            try self.failureConditional?.validate(name: "\(name).failureConditional")
+            try self.failureNextStep?.validate(name: "\(name).failureNextStep")
+            try self.failureResponse?.validate(name: "\(name).failureResponse")
             try self.promptSpecification.validate(name: "\(name).promptSpecification")
         }
 
         private enum CodingKeys: String, CodingKey {
             case active
+            case codeHook
+            case confirmationConditional
+            case confirmationNextStep
+            case confirmationResponse
+            case declinationConditional
+            case declinationNextStep
             case declinationResponse
+            case elicitationCodeHook
+            case failureConditional
+            case failureNextStep
+            case failureResponse
             case promptSpecification
         }
     }
@@ -4537,6 +4875,35 @@ extension LexModelsV2 {
             case name
             case `operator`
             case values
+        }
+    }
+
+    public struct IntentOverride: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the intent. Only required when you're switching intents.
+        public let name: String?
+        /// A map of all of the slot value overrides for the intent. The name of the slot maps to the value of the slot. Slots that are not included in the map aren't overridden.,
+        public let slots: [String: SlotValueOverride]?
+
+        public init(name: String? = nil, slots: [String: SlotValueOverride]? = nil) {
+            self.name = name
+            self.slots = slots
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 100)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([0-9a-zA-Z][_-]?)+$")
+            try self.slots?.forEach {
+                try validate($0.key, name: "slots.key", parent: name, max: 100)
+                try validate($0.key, name: "slots.key", parent: name, min: 1)
+                try validate($0.key, name: "slots.key", parent: name, pattern: "^([0-9a-zA-Z][_-]?)+$")
+                try $0.value.validate(name: "\(name).slots[\"\($0.key)\"]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name
+            case slots
         }
     }
 
@@ -5910,26 +6277,110 @@ extension LexModelsV2 {
         }
     }
 
-    public struct PostFulfillmentStatusSpecification: AWSEncodableShape & AWSDecodableShape {
+    public struct PostDialogCodeHookInvocationSpecification: AWSEncodableShape & AWSDecodableShape {
+        /// A list of conditional branches to evaluate after the dialog code hook throws an exception or returns with the State field of the Intent object set to Failed.
+        public let failureConditional: ConditionalSpecification?
+        /// Specifies the next step the bot runs after the dialog code hook throws an exception or returns with the State field of the Intent object set to Failed.
+        public let failureNextStep: DialogState?
         public let failureResponse: ResponseSpecification?
+        /// A list of conditional branches to evaluate after the dialog code hook finishes successfully.
+        public let successConditional: ConditionalSpecification?
+        /// Specifics the next step the bot runs after the dialog code hook finishes successfully.
+        public let successNextStep: DialogState?
         public let successResponse: ResponseSpecification?
+        /// A list of conditional branches to evaluate if the code hook times out.
+        public let timeoutConditional: ConditionalSpecification?
+        /// Specifies the next step that the bot runs when the code hook times out.
+        public let timeoutNextStep: DialogState?
         public let timeoutResponse: ResponseSpecification?
 
-        public init(failureResponse: ResponseSpecification? = nil, successResponse: ResponseSpecification? = nil, timeoutResponse: ResponseSpecification? = nil) {
+        public init(failureConditional: ConditionalSpecification? = nil, failureNextStep: DialogState? = nil, failureResponse: ResponseSpecification? = nil, successConditional: ConditionalSpecification? = nil, successNextStep: DialogState? = nil, successResponse: ResponseSpecification? = nil, timeoutConditional: ConditionalSpecification? = nil, timeoutNextStep: DialogState? = nil, timeoutResponse: ResponseSpecification? = nil) {
+            self.failureConditional = failureConditional
+            self.failureNextStep = failureNextStep
             self.failureResponse = failureResponse
+            self.successConditional = successConditional
+            self.successNextStep = successNextStep
             self.successResponse = successResponse
+            self.timeoutConditional = timeoutConditional
+            self.timeoutNextStep = timeoutNextStep
             self.timeoutResponse = timeoutResponse
         }
 
         public func validate(name: String) throws {
+            try self.failureConditional?.validate(name: "\(name).failureConditional")
+            try self.failureNextStep?.validate(name: "\(name).failureNextStep")
             try self.failureResponse?.validate(name: "\(name).failureResponse")
+            try self.successConditional?.validate(name: "\(name).successConditional")
+            try self.successNextStep?.validate(name: "\(name).successNextStep")
             try self.successResponse?.validate(name: "\(name).successResponse")
+            try self.timeoutConditional?.validate(name: "\(name).timeoutConditional")
+            try self.timeoutNextStep?.validate(name: "\(name).timeoutNextStep")
             try self.timeoutResponse?.validate(name: "\(name).timeoutResponse")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case failureConditional
+            case failureNextStep
             case failureResponse
+            case successConditional
+            case successNextStep
             case successResponse
+            case timeoutConditional
+            case timeoutNextStep
+            case timeoutResponse
+        }
+    }
+
+    public struct PostFulfillmentStatusSpecification: AWSEncodableShape & AWSDecodableShape {
+        /// A list of conditional branches to evaluate after the fulfillment code hook throws an exception or returns with the State field of the Intent object set to Failed.
+        public let failureConditional: ConditionalSpecification?
+        /// Specifies the next step the bot runs after the fulfillment code hook throws an exception or returns with the State field of the Intent object set to Failed.
+        public let failureNextStep: DialogState?
+        public let failureResponse: ResponseSpecification?
+        /// A list of conditional branches to evaluate after the fulfillment code hook finishes successfully.
+        public let successConditional: ConditionalSpecification?
+        /// Specifies the next step in the conversation that Amazon Lex invokes when the fulfillment code hook completes successfully.
+        public let successNextStep: DialogState?
+        public let successResponse: ResponseSpecification?
+        /// A list of conditional branches to evaluate if the fulfillment code hook times out.
+        public let timeoutConditional: ConditionalSpecification?
+        /// Specifies the next step that the bot runs when the fulfillment code hook times out.
+        public let timeoutNextStep: DialogState?
+        public let timeoutResponse: ResponseSpecification?
+
+        public init(failureConditional: ConditionalSpecification? = nil, failureNextStep: DialogState? = nil, failureResponse: ResponseSpecification? = nil, successConditional: ConditionalSpecification? = nil, successNextStep: DialogState? = nil, successResponse: ResponseSpecification? = nil, timeoutConditional: ConditionalSpecification? = nil, timeoutNextStep: DialogState? = nil, timeoutResponse: ResponseSpecification? = nil) {
+            self.failureConditional = failureConditional
+            self.failureNextStep = failureNextStep
+            self.failureResponse = failureResponse
+            self.successConditional = successConditional
+            self.successNextStep = successNextStep
+            self.successResponse = successResponse
+            self.timeoutConditional = timeoutConditional
+            self.timeoutNextStep = timeoutNextStep
+            self.timeoutResponse = timeoutResponse
+        }
+
+        public func validate(name: String) throws {
+            try self.failureConditional?.validate(name: "\(name).failureConditional")
+            try self.failureNextStep?.validate(name: "\(name).failureNextStep")
+            try self.failureResponse?.validate(name: "\(name).failureResponse")
+            try self.successConditional?.validate(name: "\(name).successConditional")
+            try self.successNextStep?.validate(name: "\(name).successNextStep")
+            try self.successResponse?.validate(name: "\(name).successResponse")
+            try self.timeoutConditional?.validate(name: "\(name).timeoutConditional")
+            try self.timeoutNextStep?.validate(name: "\(name).timeoutNextStep")
+            try self.timeoutResponse?.validate(name: "\(name).timeoutResponse")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failureConditional
+            case failureNextStep
+            case failureResponse
+            case successConditional
+            case successNextStep
+            case successResponse
+            case timeoutConditional
+            case timeoutNextStep
             case timeoutResponse
         }
     }
@@ -5967,11 +6418,14 @@ extension LexModelsV2 {
         public let maxRetries: Int
         /// A collection of messages that Amazon Lex can send to the user. Amazon Lex chooses the actual message to send at runtime.
         public let messageGroups: [MessageGroup]
+        /// Indicates how a message is selected from a message group among retries.
+        public let messageSelectionStrategy: MessageSelectionStrategy?
 
-        public init(allowInterrupt: Bool? = nil, maxRetries: Int, messageGroups: [MessageGroup]) {
+        public init(allowInterrupt: Bool? = nil, maxRetries: Int, messageGroups: [MessageGroup], messageSelectionStrategy: MessageSelectionStrategy? = nil) {
             self.allowInterrupt = allowInterrupt
             self.maxRetries = maxRetries
             self.messageGroups = messageGroups
+            self.messageSelectionStrategy = messageSelectionStrategy
         }
 
         public func validate(name: String) throws {
@@ -5988,6 +6442,7 @@ extension LexModelsV2 {
             case allowInterrupt
             case maxRetries
             case messageGroups
+            case messageSelectionStrategy
         }
     }
 
@@ -6293,6 +6748,56 @@ extension LexModelsV2 {
         }
     }
 
+    public struct SlotCaptureSetting: AWSEncodableShape & AWSDecodableShape {
+        /// A list of conditional branches to evaluate after the slot value is captured.
+        public let captureConditional: ConditionalSpecification?
+        /// Specifies the next step that the bot runs when the slot value is captured before the code hook times out.
+        public let captureNextStep: DialogState?
+        public let captureResponse: ResponseSpecification?
+        /// Code hook called after Amazon Lex successfully captures a slot value.
+        public let codeHook: DialogCodeHookInvocationSetting?
+        /// Code hook called when Amazon Lex doesn't capture a slot value.
+        public let elicitationCodeHook: ElicitationCodeHookInvocationSetting?
+        /// A list of conditional branches to evaluate when the slot value isn't captured.
+        public let failureConditional: ConditionalSpecification?
+        /// Specifies the next step that the bot runs when the slot value code is not recognized.
+        public let failureNextStep: DialogState?
+        public let failureResponse: ResponseSpecification?
+
+        public init(captureConditional: ConditionalSpecification? = nil, captureNextStep: DialogState? = nil, captureResponse: ResponseSpecification? = nil, codeHook: DialogCodeHookInvocationSetting? = nil, elicitationCodeHook: ElicitationCodeHookInvocationSetting? = nil, failureConditional: ConditionalSpecification? = nil, failureNextStep: DialogState? = nil, failureResponse: ResponseSpecification? = nil) {
+            self.captureConditional = captureConditional
+            self.captureNextStep = captureNextStep
+            self.captureResponse = captureResponse
+            self.codeHook = codeHook
+            self.elicitationCodeHook = elicitationCodeHook
+            self.failureConditional = failureConditional
+            self.failureNextStep = failureNextStep
+            self.failureResponse = failureResponse
+        }
+
+        public func validate(name: String) throws {
+            try self.captureConditional?.validate(name: "\(name).captureConditional")
+            try self.captureNextStep?.validate(name: "\(name).captureNextStep")
+            try self.captureResponse?.validate(name: "\(name).captureResponse")
+            try self.codeHook?.validate(name: "\(name).codeHook")
+            try self.elicitationCodeHook?.validate(name: "\(name).elicitationCodeHook")
+            try self.failureConditional?.validate(name: "\(name).failureConditional")
+            try self.failureNextStep?.validate(name: "\(name).failureNextStep")
+            try self.failureResponse?.validate(name: "\(name).failureResponse")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case captureConditional
+            case captureNextStep
+            case captureResponse
+            case codeHook
+            case elicitationCodeHook
+            case failureConditional
+            case failureNextStep
+            case failureResponse
+        }
+    }
+
     public struct SlotDefaultValue: AWSEncodableShape & AWSDecodableShape {
         /// The default value to use when a user doesn't provide a value for a slot.
         public let defaultValue: String
@@ -6561,6 +7066,23 @@ extension LexModelsV2 {
         }
     }
 
+    public struct SlotValue: AWSEncodableShape & AWSDecodableShape {
+        /// The value that Amazon Lex determines for the slot. The actual value depends on the setting of the value selection strategy for the bot. You can choose to use the value entered by the user, or you can have Amazon Lex choose the first value in the resolvedValues list.
+        public let interpretedValue: String?
+
+        public init(interpretedValue: String? = nil) {
+            self.interpretedValue = interpretedValue
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.interpretedValue, name: "interpretedValue", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case interpretedValue
+        }
+    }
+
     public struct SlotValueElicitationSetting: AWSEncodableShape & AWSDecodableShape {
         /// A list of default values for a slot. Default values are used when Amazon Lex hasn't determined a value for a slot. You can specify default values from context variables, session attributes, and defined values.
         public let defaultValueSpecification: SlotDefaultValueSpecification?
@@ -6568,14 +7090,17 @@ extension LexModelsV2 {
         public let promptSpecification: PromptSpecification?
         /// If you know a specific pattern that users might respond to an Amazon Lex request for a slot value, you can provide those utterances to improve accuracy. This is optional. In most cases, Amazon Lex is capable of understanding user utterances.
         public let sampleUtterances: [SampleUtterance]?
+        /// Specifies the settings that Amazon Lex uses when a slot value is successfully entered by a user.
+        public let slotCaptureSetting: SlotCaptureSetting?
         /// Specifies whether the slot is required or optional.
         public let slotConstraint: SlotConstraint
         public let waitAndContinueSpecification: WaitAndContinueSpecification?
 
-        public init(defaultValueSpecification: SlotDefaultValueSpecification? = nil, promptSpecification: PromptSpecification? = nil, sampleUtterances: [SampleUtterance]? = nil, slotConstraint: SlotConstraint, waitAndContinueSpecification: WaitAndContinueSpecification? = nil) {
+        public init(defaultValueSpecification: SlotDefaultValueSpecification? = nil, promptSpecification: PromptSpecification? = nil, sampleUtterances: [SampleUtterance]? = nil, slotCaptureSetting: SlotCaptureSetting? = nil, slotConstraint: SlotConstraint, waitAndContinueSpecification: WaitAndContinueSpecification? = nil) {
             self.defaultValueSpecification = defaultValueSpecification
             self.promptSpecification = promptSpecification
             self.sampleUtterances = sampleUtterances
+            self.slotCaptureSetting = slotCaptureSetting
             self.slotConstraint = slotConstraint
             self.waitAndContinueSpecification = waitAndContinueSpecification
         }
@@ -6583,6 +7108,7 @@ extension LexModelsV2 {
         public func validate(name: String) throws {
             try self.defaultValueSpecification?.validate(name: "\(name).defaultValueSpecification")
             try self.promptSpecification?.validate(name: "\(name).promptSpecification")
+            try self.slotCaptureSetting?.validate(name: "\(name).slotCaptureSetting")
             try self.waitAndContinueSpecification?.validate(name: "\(name).waitAndContinueSpecification")
         }
 
@@ -6590,8 +7116,37 @@ extension LexModelsV2 {
             case defaultValueSpecification
             case promptSpecification
             case sampleUtterances
+            case slotCaptureSetting
             case slotConstraint
             case waitAndContinueSpecification
+        }
+    }
+
+    public final class SlotValueOverride: AWSEncodableShape & AWSDecodableShape {
+        /// When the shape value is List, it indicates that the values field contains a list of slot values. When the value is Scalar, it indicates that the value field contains a single value.
+        public let shape: SlotShape?
+        /// The current value of the slot.
+        public let value: SlotValue?
+        /// A list of one or more values that the user provided for the slot. For example, for a slot that elicits pizza toppings, the values might be "pepperoni" and "pineapple."
+        public let values: [SlotValueOverride]?
+
+        public init(shape: SlotShape? = nil, value: SlotValue? = nil, values: [SlotValueOverride]? = nil) {
+            self.shape = shape
+            self.value = value
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.value?.validate(name: "\(name).value")
+            try self.values?.forEach {
+                try $0.validate(name: "\(name).values[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case shape
+            case value
+            case values
         }
     }
 
@@ -7445,6 +8000,7 @@ extension LexModelsV2 {
         public let dialogCodeHook: DialogCodeHookSettings?
         /// The new Lambda function to call when all of the intents required slots are provided and the intent is ready for fulfillment.
         public let fulfillmentCodeHook: FulfillmentCodeHookSettings?
+        public let initialResponseSetting: InitialResponseSetting?
         /// A new list of contexts that must be active in order for Amazon Lex to consider the intent.
         public let inputContexts: [InputContext]?
         /// The new response that Amazon Lex sends the user when the intent is closed.
@@ -7468,12 +8024,13 @@ extension LexModelsV2 {
         /// A new list of slots and their priorities that are contained by the intent.
         public let slotPriorities: [SlotPriority]?
 
-        public init(botId: String, botVersion: String, description: String? = nil, dialogCodeHook: DialogCodeHookSettings? = nil, fulfillmentCodeHook: FulfillmentCodeHookSettings? = nil, inputContexts: [InputContext]? = nil, intentClosingSetting: IntentClosingSetting? = nil, intentConfirmationSetting: IntentConfirmationSetting? = nil, intentId: String, intentName: String, kendraConfiguration: KendraConfiguration? = nil, localeId: String, outputContexts: [OutputContext]? = nil, parentIntentSignature: String? = nil, sampleUtterances: [SampleUtterance]? = nil, slotPriorities: [SlotPriority]? = nil) {
+        public init(botId: String, botVersion: String, description: String? = nil, dialogCodeHook: DialogCodeHookSettings? = nil, fulfillmentCodeHook: FulfillmentCodeHookSettings? = nil, initialResponseSetting: InitialResponseSetting? = nil, inputContexts: [InputContext]? = nil, intentClosingSetting: IntentClosingSetting? = nil, intentConfirmationSetting: IntentConfirmationSetting? = nil, intentId: String, intentName: String, kendraConfiguration: KendraConfiguration? = nil, localeId: String, outputContexts: [OutputContext]? = nil, parentIntentSignature: String? = nil, sampleUtterances: [SampleUtterance]? = nil, slotPriorities: [SlotPriority]? = nil) {
             self.botId = botId
             self.botVersion = botVersion
             self.description = description
             self.dialogCodeHook = dialogCodeHook
             self.fulfillmentCodeHook = fulfillmentCodeHook
+            self.initialResponseSetting = initialResponseSetting
             self.inputContexts = inputContexts
             self.intentClosingSetting = intentClosingSetting
             self.intentConfirmationSetting = intentConfirmationSetting
@@ -7496,6 +8053,7 @@ extension LexModelsV2 {
             try self.validate(self.botVersion, name: "botVersion", parent: name, pattern: "^DRAFT$")
             try self.validate(self.description, name: "description", parent: name, max: 200)
             try self.fulfillmentCodeHook?.validate(name: "\(name).fulfillmentCodeHook")
+            try self.initialResponseSetting?.validate(name: "\(name).initialResponseSetting")
             try self.inputContexts?.forEach {
                 try $0.validate(name: "\(name).inputContexts[]")
             }
@@ -7522,6 +8080,7 @@ extension LexModelsV2 {
             case description
             case dialogCodeHook
             case fulfillmentCodeHook
+            case initialResponseSetting
             case inputContexts
             case intentClosingSetting
             case intentConfirmationSetting
@@ -7547,6 +8106,7 @@ extension LexModelsV2 {
         public let dialogCodeHook: DialogCodeHookSettings?
         /// The updated Lambda function called when the intent is ready for fulfillment.
         public let fulfillmentCodeHook: FulfillmentCodeHookSettings?
+        public let initialResponseSetting: InitialResponseSetting?
         /// The updated list of contexts that must be active for the intent to be considered by Amazon Lex.
         public let inputContexts: [InputContext]?
         /// The updated response that Amazon Lex sends the user when the intent is closed.
@@ -7572,13 +8132,14 @@ extension LexModelsV2 {
         /// The updated list of slots and their priorities that are elicited from the user for the intent.
         public let slotPriorities: [SlotPriority]?
 
-        public init(botId: String? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, dialogCodeHook: DialogCodeHookSettings? = nil, fulfillmentCodeHook: FulfillmentCodeHookSettings? = nil, inputContexts: [InputContext]? = nil, intentClosingSetting: IntentClosingSetting? = nil, intentConfirmationSetting: IntentConfirmationSetting? = nil, intentId: String? = nil, intentName: String? = nil, kendraConfiguration: KendraConfiguration? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, outputContexts: [OutputContext]? = nil, parentIntentSignature: String? = nil, sampleUtterances: [SampleUtterance]? = nil, slotPriorities: [SlotPriority]? = nil) {
+        public init(botId: String? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, dialogCodeHook: DialogCodeHookSettings? = nil, fulfillmentCodeHook: FulfillmentCodeHookSettings? = nil, initialResponseSetting: InitialResponseSetting? = nil, inputContexts: [InputContext]? = nil, intentClosingSetting: IntentClosingSetting? = nil, intentConfirmationSetting: IntentConfirmationSetting? = nil, intentId: String? = nil, intentName: String? = nil, kendraConfiguration: KendraConfiguration? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, outputContexts: [OutputContext]? = nil, parentIntentSignature: String? = nil, sampleUtterances: [SampleUtterance]? = nil, slotPriorities: [SlotPriority]? = nil) {
             self.botId = botId
             self.botVersion = botVersion
             self.creationDateTime = creationDateTime
             self.description = description
             self.dialogCodeHook = dialogCodeHook
             self.fulfillmentCodeHook = fulfillmentCodeHook
+            self.initialResponseSetting = initialResponseSetting
             self.inputContexts = inputContexts
             self.intentClosingSetting = intentClosingSetting
             self.intentConfirmationSetting = intentConfirmationSetting
@@ -7600,6 +8161,7 @@ extension LexModelsV2 {
             case description
             case dialogCodeHook
             case fulfillmentCodeHook
+            case initialResponseSetting
             case inputContexts
             case intentClosingSetting
             case intentConfirmationSetting

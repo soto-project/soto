@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -131,6 +131,34 @@ extension IoTWireless {
 
     public enum PartnerType: String, CustomStringConvertible, Codable, _SotoSendable {
         case sidewalk = "Sidewalk"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PositionConfigurationFec: String, CustomStringConvertible, Codable, _SotoSendable {
+        case none = "NONE"
+        case rose = "ROSE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PositionConfigurationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case disabled = "Disabled"
+        case enabled = "Enabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PositionResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case wirelessDevice = "WirelessDevice"
+        case wirelessGateway = "WirelessGateway"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PositionSolverProvider: String, CustomStringConvertible, Codable, _SotoSendable {
+        case semtech = "Semtech"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PositionSolverType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case gnss = "GNSS"
         public var description: String { return self.rawValue }
     }
 
@@ -271,6 +299,23 @@ extension IoTWireless {
             case devAddr = "DevAddr"
             case fCntStart = "FCntStart"
             case sessionKeys = "SessionKeys"
+        }
+    }
+
+    public struct Accuracy: AWSDecodableShape {
+        /// The horizontal accuracy of the estimated position in meters.
+        public let horizontalAccuracy: Float?
+        /// The vertical accuracy of the estimated position in meters.
+        public let verticalAccuracy: Float?
+
+        public init(horizontalAccuracy: Float? = nil, verticalAccuracy: Float? = nil) {
+            self.horizontalAccuracy = horizontalAccuracy
+            self.verticalAccuracy = verticalAccuracy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case horizontalAccuracy = "HorizontalAccuracy"
+            case verticalAccuracy = "VerticalAccuracy"
         }
     }
 
@@ -541,7 +586,7 @@ extension IoTWireless {
     public struct ConnectionStatusEventConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Connection status event configuration object for enabling or disabling LoRaWAN related event topics.
         public let loRaWAN: LoRaWANConnectionStatusEventNotificationConfigurations?
-        /// Enum to denote whether the wireless gateway id connection status event topic is enabled or disabled .
+        /// Enum to denote whether the wireless gateway ID connection status event topic is enabled or disabled.
         public let wirelessGatewayIdEventTopic: EventNotificationTopicStatus?
 
         public init(loRaWAN: LoRaWANConnectionStatusEventNotificationConfigurations? = nil, wirelessGatewayIdEventTopic: EventNotificationTopicStatus? = nil) {
@@ -896,6 +941,7 @@ extension IoTWireless {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.loRaWAN?.validate(name: "\(name).loRaWAN")
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
@@ -1733,13 +1779,16 @@ extension IoTWireless {
         public let deviceRegistrationState: DeviceRegistrationStateEventConfiguration?
         /// Join event configuration for an event configuration item.
         public let join: JoinEventConfiguration?
+        /// Message delivery status event configuration for an event configuration item.
+        public let messageDeliveryStatus: MessageDeliveryStatusEventConfiguration?
         /// Proximity event configuration for an event configuration item.
         public let proximity: ProximityEventConfiguration?
 
-        public init(connectionStatus: ConnectionStatusEventConfiguration? = nil, deviceRegistrationState: DeviceRegistrationStateEventConfiguration? = nil, join: JoinEventConfiguration? = nil, proximity: ProximityEventConfiguration? = nil) {
+        public init(connectionStatus: ConnectionStatusEventConfiguration? = nil, deviceRegistrationState: DeviceRegistrationStateEventConfiguration? = nil, join: JoinEventConfiguration? = nil, messageDeliveryStatus: MessageDeliveryStatusEventConfiguration? = nil, proximity: ProximityEventConfiguration? = nil) {
             self.connectionStatus = connectionStatus
             self.deviceRegistrationState = deviceRegistrationState
             self.join = join
+            self.messageDeliveryStatus = messageDeliveryStatus
             self.proximity = proximity
         }
 
@@ -1747,6 +1796,7 @@ extension IoTWireless {
             case connectionStatus = "ConnectionStatus"
             case deviceRegistrationState = "DeviceRegistrationState"
             case join = "Join"
+            case messageDeliveryStatus = "MessageDeliveryStatus"
             case proximity = "Proximity"
         }
     }
@@ -1755,11 +1805,14 @@ extension IoTWireless {
         public let clockSync: Int?
         public let fuota: Int?
         public let multicast: Int?
+        /// FPort values for the GNSS, stream, and ClockSync functions of the positioning information.
+        public let positioning: Positioning?
 
-        public init(clockSync: Int? = nil, fuota: Int? = nil, multicast: Int? = nil) {
+        public init(clockSync: Int? = nil, fuota: Int? = nil, multicast: Int? = nil, positioning: Positioning? = nil) {
             self.clockSync = clockSync
             self.fuota = fuota
             self.multicast = multicast
+            self.positioning = positioning
         }
 
         public func validate(name: String) throws {
@@ -1769,12 +1822,14 @@ extension IoTWireless {
             try self.validate(self.fuota, name: "fuota", parent: name, min: 1)
             try self.validate(self.multicast, name: "multicast", parent: name, max: 223)
             try self.validate(self.multicast, name: "multicast", parent: name, min: 1)
+            try self.positioning?.validate(name: "\(name).positioning")
         }
 
         private enum CodingKeys: String, CodingKey {
             case clockSync = "ClockSync"
             case fuota = "Fuota"
             case multicast = "Multicast"
+            case positioning = "Positioning"
         }
     }
 
@@ -1898,19 +1953,22 @@ extension IoTWireless {
     }
 
     public struct GetEventConfigurationByResourceTypesResponse: AWSDecodableShape {
-        /// Resource type event configuration for the connection status event
+        /// Resource type event configuration for the connection status event.
         public let connectionStatus: ConnectionStatusResourceTypeEventConfiguration?
-        /// Resource type event configuration for the device registration state event
+        /// Resource type event configuration for the device registration state event.
         public let deviceRegistrationState: DeviceRegistrationStateResourceTypeEventConfiguration?
-        /// Resource type event configuration for the join event
+        /// Resource type event configuration for the join event.
         public let join: JoinResourceTypeEventConfiguration?
-        /// Resource type event configuration for the proximity event
+        /// Resource type event configuration object for the message delivery status event.
+        public let messageDeliveryStatus: MessageDeliveryStatusResourceTypeEventConfiguration?
+        /// Resource type event configuration for the proximity event.
         public let proximity: ProximityResourceTypeEventConfiguration?
 
-        public init(connectionStatus: ConnectionStatusResourceTypeEventConfiguration? = nil, deviceRegistrationState: DeviceRegistrationStateResourceTypeEventConfiguration? = nil, join: JoinResourceTypeEventConfiguration? = nil, proximity: ProximityResourceTypeEventConfiguration? = nil) {
+        public init(connectionStatus: ConnectionStatusResourceTypeEventConfiguration? = nil, deviceRegistrationState: DeviceRegistrationStateResourceTypeEventConfiguration? = nil, join: JoinResourceTypeEventConfiguration? = nil, messageDeliveryStatus: MessageDeliveryStatusResourceTypeEventConfiguration? = nil, proximity: ProximityResourceTypeEventConfiguration? = nil) {
             self.connectionStatus = connectionStatus
             self.deviceRegistrationState = deviceRegistrationState
             self.join = join
+            self.messageDeliveryStatus = messageDeliveryStatus
             self.proximity = proximity
         }
 
@@ -1918,6 +1976,7 @@ extension IoTWireless {
             case connectionStatus = "ConnectionStatus"
             case deviceRegistrationState = "DeviceRegistrationState"
             case join = "Join"
+            case messageDeliveryStatus = "MessageDeliveryStatus"
             case proximity = "Proximity"
         }
     }
@@ -2166,6 +2225,102 @@ extension IoTWireless {
         }
     }
 
+    public struct GetPositionConfigurationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceIdentifier", location: .uri("ResourceIdentifier")),
+            AWSMemberEncoding(label: "resourceType", location: .querystring("resourceType"))
+        ]
+
+        /// Resource identifier used in a position configuration.
+        public let resourceIdentifier: String
+        /// Resource type of the resource for which position configuration is retrieved.
+        public let resourceType: PositionResourceType
+
+        public init(resourceIdentifier: String, resourceType: PositionResourceType) {
+            self.resourceIdentifier = resourceIdentifier
+            self.resourceType = resourceType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, pattern: "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetPositionConfigurationResponse: AWSDecodableShape {
+        /// The position data destination that describes the AWS IoT rule that processes the device's position data for use by AWS IoT Core for LoRaWAN.
+        public let destination: String?
+        /// The wrapper for the solver configuration details object.
+        public let solvers: PositionSolverDetails?
+
+        public init(destination: String? = nil, solvers: PositionSolverDetails? = nil) {
+            self.destination = destination
+            self.solvers = solvers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destination = "Destination"
+            case solvers = "Solvers"
+        }
+    }
+
+    public struct GetPositionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceIdentifier", location: .uri("ResourceIdentifier")),
+            AWSMemberEncoding(label: "resourceType", location: .querystring("resourceType"))
+        ]
+
+        /// Resource identifier used to retrieve the position information.
+        public let resourceIdentifier: String
+        /// Resource type of the resource for which position information is retrieved.
+        public let resourceType: PositionResourceType
+
+        public init(resourceIdentifier: String, resourceType: PositionResourceType) {
+            self.resourceIdentifier = resourceIdentifier
+            self.resourceType = resourceType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, pattern: "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetPositionResponse: AWSDecodableShape {
+        /// The accuracy of the estimated position in meters. An empty value indicates that no position data is available.  A value of ‘0.0’ value indicates that position data is available. This data corresponds to the position information that you specified instead of the position computed by solver.
+        public let accuracy: Accuracy?
+        /// The position information of the resource.
+        public let position: [Float]?
+        /// The vendor of the positioning solver.
+        public let solverProvider: PositionSolverProvider?
+        /// The type of solver used to identify the position of the resource.
+        public let solverType: PositionSolverType?
+        /// The version of the positioning solver.
+        public let solverVersion: String?
+        /// The timestamp at which the device's position was determined.
+        public let timestamp: String?
+
+        public init(accuracy: Accuracy? = nil, position: [Float]? = nil, solverProvider: PositionSolverProvider? = nil, solverType: PositionSolverType? = nil, solverVersion: String? = nil, timestamp: String? = nil) {
+            self.accuracy = accuracy
+            self.position = position
+            self.solverProvider = solverProvider
+            self.solverType = solverType
+            self.solverVersion = solverVersion
+            self.timestamp = timestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accuracy = "Accuracy"
+            case position = "Position"
+            case solverProvider = "SolverProvider"
+            case solverType = "SolverType"
+            case solverVersion = "SolverVersion"
+            case timestamp = "Timestamp"
+        }
+    }
+
     public struct GetResourceEventConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "identifier", location: .uri("Identifier")),
@@ -2196,17 +2351,20 @@ extension IoTWireless {
     public struct GetResourceEventConfigurationResponse: AWSDecodableShape {
         /// Event configuration for the connection status event.
         public let connectionStatus: ConnectionStatusEventConfiguration?
-        /// Event configuration for the device registration state event
+        /// Event configuration for the device registration state event.
         public let deviceRegistrationState: DeviceRegistrationStateEventConfiguration?
         /// Event configuration for the join event.
         public let join: JoinEventConfiguration?
-        /// Event configuration for the Proximity event
+        /// Event configuration for the message delivery status event.
+        public let messageDeliveryStatus: MessageDeliveryStatusEventConfiguration?
+        /// Event configuration for the proximity event.
         public let proximity: ProximityEventConfiguration?
 
-        public init(connectionStatus: ConnectionStatusEventConfiguration? = nil, deviceRegistrationState: DeviceRegistrationStateEventConfiguration? = nil, join: JoinEventConfiguration? = nil, proximity: ProximityEventConfiguration? = nil) {
+        public init(connectionStatus: ConnectionStatusEventConfiguration? = nil, deviceRegistrationState: DeviceRegistrationStateEventConfiguration? = nil, join: JoinEventConfiguration? = nil, messageDeliveryStatus: MessageDeliveryStatusEventConfiguration? = nil, proximity: ProximityEventConfiguration? = nil) {
             self.connectionStatus = connectionStatus
             self.deviceRegistrationState = deviceRegistrationState
             self.join = join
+            self.messageDeliveryStatus = messageDeliveryStatus
             self.proximity = proximity
         }
 
@@ -2214,6 +2372,7 @@ extension IoTWireless {
             case connectionStatus = "ConnectionStatus"
             case deviceRegistrationState = "DeviceRegistrationState"
             case join = "Join"
+            case messageDeliveryStatus = "MessageDeliveryStatus"
             case proximity = "Proximity"
         }
     }
@@ -3075,6 +3234,51 @@ extension IoTWireless {
         }
     }
 
+    public struct ListPositionConfigurationsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "resourceType", location: .querystring("resourceType"))
+        ]
+
+        public let maxResults: Int?
+        /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null  to receive the first set of results.
+        public let nextToken: String?
+        /// Resource type for which position configurations are listed.
+        public let resourceType: PositionResourceType?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceType: PositionResourceType? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resourceType = resourceType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListPositionConfigurationsResponse: AWSDecodableShape {
+        /// The token to use to get the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+        /// A list of position configurations.
+        public let positionConfigurationList: [PositionConfigurationItem]?
+
+        public init(nextToken: String? = nil, positionConfigurationList: [PositionConfigurationItem]? = nil) {
+            self.nextToken = nextToken
+            self.positionConfigurationList = positionConfigurationList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case positionConfigurationList = "PositionConfigurationList"
+        }
+    }
+
     public struct ListQueuedMessagesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri("Id")),
@@ -3360,7 +3564,7 @@ extension IoTWireless {
     }
 
     public struct LoRaWANConnectionStatusEventNotificationConfigurations: AWSEncodableShape & AWSDecodableShape {
-        /// Enum to denote whether the gateway eui connection status event topic is enabled or disabled.
+        /// Enum to denote whether the gateway EUI connection status event topic is enabled or disabled.
         public let gatewayEuiEventTopic: EventNotificationTopicStatus?
 
         public init(gatewayEuiEventTopic: EventNotificationTopicStatus? = nil) {
@@ -3810,7 +4014,7 @@ extension IoTWireless {
     }
 
     public struct LoRaWANJoinEventNotificationConfigurations: AWSEncodableShape & AWSDecodableShape {
-        /// Enum to denote whether the dev eui join event topic is enabled or disabled.
+        /// Enum to denote whether the Dev EUI join event topic is enabled or disabled.
         public let devEuiEventTopic: EventNotificationTopicStatus?
 
         public init(devEuiEventTopic: EventNotificationTopicStatus? = nil) {
@@ -3952,13 +4156,28 @@ extension IoTWireless {
     public struct LoRaWANServiceProfile: AWSEncodableShape {
         /// The AddGWMetaData value.
         public let addGwMetadata: Bool?
+        /// The DrMax value.
+        public let drMax: Int?
+        /// The DrMin value.
+        public let drMin: Int?
 
-        public init(addGwMetadata: Bool? = nil) {
+        public init(addGwMetadata: Bool? = nil, drMax: Int? = nil, drMin: Int? = nil) {
             self.addGwMetadata = addGwMetadata
+            self.drMax = drMax
+            self.drMin = drMin
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.drMax, name: "drMax", parent: name, max: 15)
+            try self.validate(self.drMax, name: "drMax", parent: name, min: 0)
+            try self.validate(self.drMin, name: "drMin", parent: name, max: 15)
+            try self.validate(self.drMin, name: "drMin", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case addGwMetadata = "AddGwMetadata"
+            case drMax = "DrMax"
+            case drMin = "DrMin"
         }
     }
 
@@ -3982,13 +4201,16 @@ extension IoTWireless {
         public let abpV11: UpdateAbpV11?
         /// The ID of the device profile for the wireless device.
         public let deviceProfileId: String?
+        /// FPorts object for the positioning information of the device.
+        public let fPorts: UpdateFPorts?
         /// The ID of the service profile.
         public let serviceProfileId: String?
 
-        public init(abpV10X: UpdateAbpV10X? = nil, abpV11: UpdateAbpV11? = nil, deviceProfileId: String? = nil, serviceProfileId: String? = nil) {
+        public init(abpV10X: UpdateAbpV10X? = nil, abpV11: UpdateAbpV11? = nil, deviceProfileId: String? = nil, fPorts: UpdateFPorts? = nil, serviceProfileId: String? = nil) {
             self.abpV10X = abpV10X
             self.abpV11 = abpV11
             self.deviceProfileId = deviceProfileId
+            self.fPorts = fPorts
             self.serviceProfileId = serviceProfileId
         }
 
@@ -3996,6 +4218,7 @@ extension IoTWireless {
             try self.abpV10X?.validate(name: "\(name).abpV10X")
             try self.abpV11?.validate(name: "\(name).abpV11")
             try self.validate(self.deviceProfileId, name: "deviceProfileId", parent: name, max: 256)
+            try self.fPorts?.validate(name: "\(name).fPorts")
             try self.validate(self.serviceProfileId, name: "serviceProfileId", parent: name, max: 256)
         }
 
@@ -4003,6 +4226,7 @@ extension IoTWireless {
             case abpV10X = "AbpV1_0_x"
             case abpV11 = "AbpV1_1"
             case deviceProfileId = "DeviceProfileId"
+            case fPorts = "FPorts"
             case serviceProfileId = "ServiceProfileId"
         }
     }
@@ -4055,6 +4279,34 @@ extension IoTWireless {
         private enum CodingKeys: String, CodingKey {
             case currentVersion = "CurrentVersion"
             case updateVersion = "UpdateVersion"
+        }
+    }
+
+    public struct MessageDeliveryStatusEventConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public let sidewalk: SidewalkEventNotificationConfigurations?
+        /// Enum to denote whether the wireless device id device registration state event topic is enabled or disabled.
+        public let wirelessDeviceIdEventTopic: EventNotificationTopicStatus?
+
+        public init(sidewalk: SidewalkEventNotificationConfigurations? = nil, wirelessDeviceIdEventTopic: EventNotificationTopicStatus? = nil) {
+            self.sidewalk = sidewalk
+            self.wirelessDeviceIdEventTopic = wirelessDeviceIdEventTopic
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sidewalk = "Sidewalk"
+            case wirelessDeviceIdEventTopic = "WirelessDeviceIdEventTopic"
+        }
+    }
+
+    public struct MessageDeliveryStatusResourceTypeEventConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public let sidewalk: SidewalkResourceTypeEventConfiguration?
+
+        public init(sidewalk: SidewalkResourceTypeEventConfiguration? = nil) {
+            self.sidewalk = sidewalk
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sidewalk = "Sidewalk"
         }
     }
 
@@ -4174,6 +4426,84 @@ extension IoTWireless {
         }
     }
 
+    public struct PositionConfigurationItem: AWSDecodableShape {
+        /// The position data destination that describes the AWS IoT rule that processes the device's position data for use by AWS IoT Core for LoRaWAN.
+        public let destination: String?
+        /// Resource identifier for the position configuration.
+        public let resourceIdentifier: String?
+        /// Resource type of the resource for the position configuration.
+        public let resourceType: PositionResourceType?
+        /// The details of the positioning solver object used to compute the location.
+        public let solvers: PositionSolverDetails?
+
+        public init(destination: String? = nil, resourceIdentifier: String? = nil, resourceType: PositionResourceType? = nil, solvers: PositionSolverDetails? = nil) {
+            self.destination = destination
+            self.resourceIdentifier = resourceIdentifier
+            self.resourceType = resourceType
+            self.solvers = solvers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destination = "Destination"
+            case resourceIdentifier = "ResourceIdentifier"
+            case resourceType = "ResourceType"
+            case solvers = "Solvers"
+        }
+    }
+
+    public struct PositionSolverConfigurations: AWSEncodableShape {
+        /// The Semtech GNSS solver configuration object.
+        public let semtechGnss: SemtechGnssConfiguration?
+
+        public init(semtechGnss: SemtechGnssConfiguration? = nil) {
+            self.semtechGnss = semtechGnss
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case semtechGnss = "SemtechGnss"
+        }
+    }
+
+    public struct PositionSolverDetails: AWSDecodableShape {
+        /// The Semtech GNSS solver object details.
+        public let semtechGnss: SemtechGnssDetail?
+
+        public init(semtechGnss: SemtechGnssDetail? = nil) {
+            self.semtechGnss = semtechGnss
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case semtechGnss = "SemtechGnss"
+        }
+    }
+
+    public struct Positioning: AWSEncodableShape & AWSDecodableShape {
+        public let clockSync: Int?
+        public let gnss: Int?
+        public let stream: Int?
+
+        public init(clockSync: Int? = nil, gnss: Int? = nil, stream: Int? = nil) {
+            self.clockSync = clockSync
+            self.gnss = gnss
+            self.stream = stream
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clockSync, name: "clockSync", parent: name, max: 223)
+            try self.validate(self.clockSync, name: "clockSync", parent: name, min: 1)
+            try self.validate(self.gnss, name: "gnss", parent: name, max: 223)
+            try self.validate(self.gnss, name: "gnss", parent: name, min: 1)
+            try self.validate(self.stream, name: "stream", parent: name, max: 223)
+            try self.validate(self.stream, name: "stream", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clockSync = "ClockSync"
+            case gnss = "Gnss"
+            case stream = "Stream"
+        }
+    }
+
     public struct ProximityEventConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Proximity event configuration object for enabling or disabling Sidewalk related event topics.
         public let sidewalk: SidewalkEventNotificationConfigurations?
@@ -4202,6 +4532,44 @@ extension IoTWireless {
         private enum CodingKeys: String, CodingKey {
             case sidewalk = "Sidewalk"
         }
+    }
+
+    public struct PutPositionConfigurationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceIdentifier", location: .uri("ResourceIdentifier")),
+            AWSMemberEncoding(label: "resourceType", location: .querystring("resourceType"))
+        ]
+
+        /// The position data destination that describes the AWS IoT rule that processes the device's position data for use by AWS IoT Core for LoRaWAN.
+        public let destination: String?
+        /// Resource identifier used to update the position configuration.
+        public let resourceIdentifier: String
+        /// Resource type of the resource for which you want to update the position configuration.
+        public let resourceType: PositionResourceType
+        /// The positioning solvers used to update the position configuration of the resource.
+        public let solvers: PositionSolverConfigurations?
+
+        public init(destination: String? = nil, resourceIdentifier: String, resourceType: PositionResourceType, solvers: PositionSolverConfigurations? = nil) {
+            self.destination = destination
+            self.resourceIdentifier = resourceIdentifier
+            self.resourceType = resourceType
+            self.solvers = solvers
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.destination, name: "destination", parent: name, max: 128)
+            try self.validate(self.destination, name: "destination", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, pattern: "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destination = "Destination"
+            case solvers = "Solvers"
+        }
+    }
+
+    public struct PutPositionConfigurationResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct PutResourceLogLevelRequest: AWSEncodableShape {
@@ -4266,6 +4634,48 @@ extension IoTWireless {
 
     public struct ResetResourceLogLevelResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct SemtechGnssConfiguration: AWSEncodableShape {
+        /// Whether forward error correction is enabled.
+        public let fec: PositionConfigurationFec
+        /// The status indicating whether the solver is enabled.
+        public let status: PositionConfigurationStatus
+
+        public init(fec: PositionConfigurationFec, status: PositionConfigurationStatus) {
+            self.fec = fec
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fec = "Fec"
+            case status = "Status"
+        }
+    }
+
+    public struct SemtechGnssDetail: AWSDecodableShape {
+        /// Whether forward error correction is enabled.
+        public let fec: PositionConfigurationFec?
+        /// The vendor of the solver object.
+        public let provider: PositionSolverProvider?
+        /// The status indicating whether the solver is enabled.
+        public let status: PositionConfigurationStatus?
+        /// The type of positioning solver used.
+        public let type: PositionSolverType?
+
+        public init(fec: PositionConfigurationFec? = nil, provider: PositionSolverProvider? = nil, status: PositionConfigurationStatus? = nil, type: PositionSolverType? = nil) {
+            self.fec = fec
+            self.provider = provider
+            self.status = status
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fec = "Fec"
+            case provider = "Provider"
+            case status = "Status"
+            case type = "Type"
+        }
     }
 
     public struct SendDataToMulticastGroupRequest: AWSEncodableShape {
@@ -4578,21 +4988,27 @@ extension IoTWireless {
     }
 
     public struct SidewalkSendDataToDevice: AWSEncodableShape {
+        /// The duration of time in seconds for which you want to retry sending the ACK.
+        public let ackModeRetryDurationSecs: Int?
         public let messageType: MessageType?
         /// The sequence number.
         public let seq: Int?
 
-        public init(messageType: MessageType? = nil, seq: Int? = nil) {
+        public init(ackModeRetryDurationSecs: Int? = nil, messageType: MessageType? = nil, seq: Int? = nil) {
+            self.ackModeRetryDurationSecs = ackModeRetryDurationSecs
             self.messageType = messageType
             self.seq = seq
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.ackModeRetryDurationSecs, name: "ackModeRetryDurationSecs", parent: name, max: 604_800)
+            try self.validate(self.ackModeRetryDurationSecs, name: "ackModeRetryDurationSecs", parent: name, min: 0)
             try self.validate(self.seq, name: "seq", parent: name, max: 16383)
             try self.validate(self.seq, name: "seq", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case ackModeRetryDurationSecs = "AckModeRetryDurationSecs"
             case messageType = "MessageType"
             case seq = "Seq"
         }
@@ -4962,13 +5378,16 @@ extension IoTWireless {
         public let deviceRegistrationState: DeviceRegistrationStateResourceTypeEventConfiguration?
         /// Join resource type event configuration object for enabling and disabling wireless device topic.
         public let join: JoinResourceTypeEventConfiguration?
+        /// Message delivery status resource type event configuration object for enabling and disabling wireless device topic.
+        public let messageDeliveryStatus: MessageDeliveryStatusResourceTypeEventConfiguration?
         /// Proximity resource type event configuration object for enabling and disabling wireless gateway topic.
         public let proximity: ProximityResourceTypeEventConfiguration?
 
-        public init(connectionStatus: ConnectionStatusResourceTypeEventConfiguration? = nil, deviceRegistrationState: DeviceRegistrationStateResourceTypeEventConfiguration? = nil, join: JoinResourceTypeEventConfiguration? = nil, proximity: ProximityResourceTypeEventConfiguration? = nil) {
+        public init(connectionStatus: ConnectionStatusResourceTypeEventConfiguration? = nil, deviceRegistrationState: DeviceRegistrationStateResourceTypeEventConfiguration? = nil, join: JoinResourceTypeEventConfiguration? = nil, messageDeliveryStatus: MessageDeliveryStatusResourceTypeEventConfiguration? = nil, proximity: ProximityResourceTypeEventConfiguration? = nil) {
             self.connectionStatus = connectionStatus
             self.deviceRegistrationState = deviceRegistrationState
             self.join = join
+            self.messageDeliveryStatus = messageDeliveryStatus
             self.proximity = proximity
         }
 
@@ -4976,12 +5395,30 @@ extension IoTWireless {
             case connectionStatus = "ConnectionStatus"
             case deviceRegistrationState = "DeviceRegistrationState"
             case join = "Join"
+            case messageDeliveryStatus = "MessageDeliveryStatus"
             case proximity = "Proximity"
         }
     }
 
     public struct UpdateEventConfigurationByResourceTypesResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UpdateFPorts: AWSEncodableShape {
+        /// Positioning FPorts for the ClockSync, Stream, and GNSS functions.
+        public let positioning: Positioning?
+
+        public init(positioning: Positioning? = nil) {
+            self.positioning = positioning
+        }
+
+        public func validate(name: String) throws {
+            try self.positioning?.validate(name: "\(name).positioning")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case positioning = "Positioning"
+        }
     }
 
     public struct UpdateFuotaTaskRequest: AWSEncodableShape {
@@ -5179,6 +5616,38 @@ extension IoTWireless {
         public init() {}
     }
 
+    public struct UpdatePositionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceIdentifier", location: .uri("ResourceIdentifier")),
+            AWSMemberEncoding(label: "resourceType", location: .querystring("resourceType"))
+        ]
+
+        /// The position information of the resource.
+        public let position: [Float]
+        /// Resource identifier of the resource for which position is updated.
+        public let resourceIdentifier: String
+        /// Resource type of the resource for which position is updated.
+        public let resourceType: PositionResourceType
+
+        public init(position: [Float], resourceIdentifier: String, resourceType: PositionResourceType) {
+            self.position = position
+            self.resourceIdentifier = resourceIdentifier
+            self.resourceType = resourceType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, pattern: "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case position = "Position"
+        }
+    }
+
+    public struct UpdatePositionResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct UpdateResourceEventConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "identifier", location: .uri("Identifier")),
@@ -5186,27 +5655,30 @@ extension IoTWireless {
             AWSMemberEncoding(label: "partnerType", location: .querystring("partnerType"))
         ]
 
-        /// Event configuration for the connection status event
+        /// Event configuration for the connection status event.
         public let connectionStatus: ConnectionStatusEventConfiguration?
-        /// Event configuration for the device registration state event
+        /// Event configuration for the device registration state event.
         public let deviceRegistrationState: DeviceRegistrationStateEventConfiguration?
         /// Resource identifier to opt in for event messaging.
         public let identifier: String
         /// Identifier type of the particular resource identifier for event configuration.
         public let identifierType: IdentifierType
-        /// Event configuration for the join event
+        /// Event configuration for the join event.
         public let join: JoinEventConfiguration?
+        /// Event configuration for the message delivery status event.
+        public let messageDeliveryStatus: MessageDeliveryStatusEventConfiguration?
         /// Partner type of the resource if the identifier type is PartnerAccountId
         public let partnerType: EventNotificationPartnerType?
-        /// Event configuration for the Proximity event
+        /// Event configuration for the proximity event.
         public let proximity: ProximityEventConfiguration?
 
-        public init(connectionStatus: ConnectionStatusEventConfiguration? = nil, deviceRegistrationState: DeviceRegistrationStateEventConfiguration? = nil, identifier: String, identifierType: IdentifierType, join: JoinEventConfiguration? = nil, partnerType: EventNotificationPartnerType? = nil, proximity: ProximityEventConfiguration? = nil) {
+        public init(connectionStatus: ConnectionStatusEventConfiguration? = nil, deviceRegistrationState: DeviceRegistrationStateEventConfiguration? = nil, identifier: String, identifierType: IdentifierType, join: JoinEventConfiguration? = nil, messageDeliveryStatus: MessageDeliveryStatusEventConfiguration? = nil, partnerType: EventNotificationPartnerType? = nil, proximity: ProximityEventConfiguration? = nil) {
             self.connectionStatus = connectionStatus
             self.deviceRegistrationState = deviceRegistrationState
             self.identifier = identifier
             self.identifierType = identifierType
             self.join = join
+            self.messageDeliveryStatus = messageDeliveryStatus
             self.partnerType = partnerType
             self.proximity = proximity
         }
@@ -5219,6 +5691,7 @@ extension IoTWireless {
             case connectionStatus = "ConnectionStatus"
             case deviceRegistrationState = "DeviceRegistrationState"
             case join = "Join"
+            case messageDeliveryStatus = "MessageDeliveryStatus"
             case proximity = "Proximity"
         }
     }

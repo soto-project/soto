@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -91,7 +91,7 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "AttachPolicy", path: "/target-policies/{policyName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Attaches the specified policy to the specified principal (certificate or other credential).  Note: This action is deprecated. Please use AttachPolicy instead. Requires permission to access the AttachPrincipalPolicy action.
+    /// Attaches the specified policy to the specified principal (certificate or other credential).  Note: This action is deprecated and works as expected for backward compatibility, but we won't add enhancements. Use AttachPolicy instead. Requires permission to access the AttachPrincipalPolicy action.
     @discardableResult public func attachPrincipalPolicy(_ input: AttachPrincipalPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "AttachPrincipalPolicy", path: "/principal-policies/{policyName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -238,12 +238,12 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "CreateProvisioningClaim", path: "/provisioning-templates/{templateName}/provisioning-claim", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a fleet provisioning template. Requires permission to access the CreateProvisioningTemplate action.
+    /// Creates a provisioning template. Requires permission to access the CreateProvisioningTemplate action.
     public func createProvisioningTemplate(_ input: CreateProvisioningTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateProvisioningTemplateResponse> {
         return self.client.execute(operation: "CreateProvisioningTemplate", path: "/provisioning-templates", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a new version of a fleet provisioning template. Requires permission to access the CreateProvisioningTemplateVersion action.
+    /// Creates a new version of a provisioning template. Requires permission to access the CreateProvisioningTemplateVersion action.
     public func createProvisioningTemplateVersion(_ input: CreateProvisioningTemplateVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateProvisioningTemplateVersionResponse> {
         return self.client.execute(operation: "CreateProvisioningTemplateVersion", path: "/provisioning-templates/{templateName}/versions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -399,12 +399,12 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "DeletePolicyVersion", path: "/policies/{policyName}/version/{policyVersionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes a fleet provisioning template. Requires permission to access the DeleteProvisioningTemplate action.
+    /// Deletes a provisioning template. Requires permission to access the DeleteProvisioningTemplate action.
     public func deleteProvisioningTemplate(_ input: DeleteProvisioningTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteProvisioningTemplateResponse> {
         return self.client.execute(operation: "DeleteProvisioningTemplate", path: "/provisioning-templates/{templateName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes a fleet provisioning template version. Requires permission to access the DeleteProvisioningTemplateVersion action.
+    /// Deletes a provisioning template version. Requires permission to access the DeleteProvisioningTemplateVersion action.
     public func deleteProvisioningTemplateVersion(_ input: DeleteProvisioningTemplateVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteProvisioningTemplateVersionResponse> {
         return self.client.execute(operation: "DeleteProvisioningTemplateVersion", path: "/provisioning-templates/{templateName}/versions/{versionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -595,12 +595,12 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "DescribeMitigationAction", path: "/mitigationactions/actions/{actionName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns information about a fleet provisioning template. Requires permission to access the DescribeProvisioningTemplate action.
+    /// Returns information about a provisioning template. Requires permission to access the DescribeProvisioningTemplate action.
     public func describeProvisioningTemplate(_ input: DescribeProvisioningTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeProvisioningTemplateResponse> {
         return self.client.execute(operation: "DescribeProvisioningTemplate", path: "/provisioning-templates/{templateName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns information about a fleet provisioning template version. Requires permission to access the DescribeProvisioningTemplateVersion action.
+    /// Returns information about a provisioning template version. Requires permission to access the DescribeProvisioningTemplateVersion action.
     public func describeProvisioningTemplateVersion(_ input: DescribeProvisioningTemplateVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeProvisioningTemplateVersionResponse> {
         return self.client.execute(operation: "DescribeProvisioningTemplateVersion", path: "/provisioning-templates/{templateName}/versions/{versionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -655,7 +655,7 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "DetachPolicy", path: "/target-policies/{policyName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Removes the specified policy from the specified certificate.  This action is deprecated. Please use DetachPolicy instead.  Requires permission to access the DetachPrincipalPolicy action.
+    /// Removes the specified policy from the specified certificate.  Note: This action is deprecated and works as expected for backward compatibility, but we won't add enhancements. Use DetachPolicy instead. Requires permission to access the DetachPrincipalPolicy action.
     @discardableResult public func detachPrincipalPolicy(_ input: DetachPrincipalPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DetachPrincipalPolicy", path: "/principal-policies/{policyName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -913,7 +913,7 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "ListPolicies", path: "/policies", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the principals associated with the specified policy.  Note: This action is deprecated. Please use ListTargetsForPolicy instead. Requires permission to access the ListPolicyPrincipals action.
+    /// Lists the principals associated with the specified policy.  Note: This action is deprecated and works as expected for backward compatibility, but we won't add enhancements. Use ListTargetsForPolicy instead. Requires permission to access the ListPolicyPrincipals action.
     public func listPolicyPrincipals(_ input: ListPolicyPrincipalsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPolicyPrincipalsResponse> {
         return self.client.execute(operation: "ListPolicyPrincipals", path: "/policy-principals", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -923,7 +923,7 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "ListPolicyVersions", path: "/policies/{policyName}/version", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the policies attached to the specified principal. If you use an Cognito identity, the ID must be in AmazonCognito Identity format.  Note: This action is deprecated. Please use ListAttachedPolicies instead. Requires permission to access the ListPrincipalPolicies action.
+    /// Lists the policies attached to the specified principal. If you use an Cognito identity, the ID must be in AmazonCognito Identity format.  Note: This action is deprecated and works as expected for backward compatibility, but we won't add enhancements. Use ListAttachedPolicies instead. Requires permission to access the ListPrincipalPolicies action.
     public func listPrincipalPolicies(_ input: ListPrincipalPoliciesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPrincipalPoliciesResponse> {
         return self.client.execute(operation: "ListPrincipalPolicies", path: "/principal-policies", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -936,12 +936,12 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "ListPrincipalThings", path: "/principals/things", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// A list of fleet provisioning template versions. Requires permission to access the ListProvisioningTemplateVersions action.
+    /// A list of provisioning template versions. Requires permission to access the ListProvisioningTemplateVersions action.
     public func listProvisioningTemplateVersions(_ input: ListProvisioningTemplateVersionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListProvisioningTemplateVersionsResponse> {
         return self.client.execute(operation: "ListProvisioningTemplateVersions", path: "/provisioning-templates/{templateName}/versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the fleet provisioning templates in your Amazon Web Services account. Requires permission to access the ListProvisioningTemplates action.
+    /// Lists the provisioning templates in your Amazon Web Services account. Requires permission to access the ListProvisioningTemplates action.
     public func listProvisioningTemplates(_ input: ListProvisioningTemplatesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListProvisioningTemplatesResponse> {
         return self.client.execute(operation: "ListProvisioningTemplates", path: "/provisioning-templates", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1076,12 +1076,12 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "PutVerificationStateOnViolation", path: "/violations/verification-state/{violationId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Registers a CA certificate with IoT. This CA certificate can then be used to sign device certificates, which can be then registered with IoT. You can register up to 10 CA certificates per Amazon Web Services account that have the same subject field. This enables you to have up to 10 certificate authorities sign your device certificates. If you have more than one CA certificate registered, make sure you pass the CA certificate when you register your device certificates with the RegisterCertificate action. Requires permission to access the RegisterCACertificate action.
+    /// Registers a CA certificate with Amazon Web Services IoT Core. There is no limit to the number of CA certificates you can register in your Amazon Web Services account. You can register up to 10 CA certificates with the same CA subject field per Amazon Web Services account. Requires permission to access the RegisterCACertificate action.
     public func registerCACertificate(_ input: RegisterCACertificateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RegisterCACertificateResponse> {
         return self.client.execute(operation: "RegisterCACertificate", path: "/cacertificate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Registers a device certificate with IoT. If you have more than one CA certificate that has the same subject field, you must specify the CA certificate that was used to sign the device certificate being registered. Requires permission to access the RegisterCertificate action.
+    /// Registers a device certificate with IoT in the same certificate mode as the signing CA. If you have more than one CA certificate that has the same subject field, you must specify the CA certificate that was used to sign the device certificate being registered. Requires permission to access the RegisterCertificate action.
     public func registerCertificate(_ input: RegisterCertificateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RegisterCertificateResponse> {
         return self.client.execute(operation: "RegisterCertificate", path: "/certificate/register", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1287,7 +1287,7 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "UpdateMitigationAction", path: "/mitigationactions/actions/{actionName}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates a fleet provisioning template. Requires permission to access the UpdateProvisioningTemplate action.
+    /// Updates a provisioning template. Requires permission to access the UpdateProvisioningTemplate action.
     public func updateProvisioningTemplate(_ input: UpdateProvisioningTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateProvisioningTemplateResponse> {
         return self.client.execute(operation: "UpdateProvisioningTemplate", path: "/provisioning-templates/{templateName}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

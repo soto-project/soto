@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -78,6 +78,17 @@ extension Pinpoint {
         case push = "PUSH"
         case sms = "SMS"
         case voice = "VOICE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DayOfWeek: String, CustomStringConvertible, Codable, _SotoSendable {
+        case friday = "FRIDAY"
+        case monday = "MONDAY"
+        case saturday = "SATURDAY"
+        case sunday = "SUNDAY"
+        case thursday = "THURSDAY"
+        case tuesday = "TUESDAY"
+        case wednesday = "WEDNESDAY"
         public var description: String { return self.rawValue }
     }
 
@@ -1799,6 +1810,56 @@ extension Pinpoint {
 
         private enum CodingKeys: String, CodingKey {
             case channels = "Channels"
+        }
+    }
+
+    public struct ClosedDays: AWSEncodableShape & AWSDecodableShape {
+        /// Rules for Custom Channel.
+        public let custom: [ClosedDaysRule]?
+        /// Rules for Email Channel.
+        public let email: [ClosedDaysRule]?
+        /// Rules for Push Channel.
+        public let push: [ClosedDaysRule]?
+        /// Rules for SMS Channel.
+        public let sms: [ClosedDaysRule]?
+        /// Rules for Voice Channel.
+        public let voice: [ClosedDaysRule]?
+
+        public init(custom: [ClosedDaysRule]? = nil, email: [ClosedDaysRule]? = nil, push: [ClosedDaysRule]? = nil, sms: [ClosedDaysRule]? = nil, voice: [ClosedDaysRule]? = nil) {
+            self.custom = custom
+            self.email = email
+            self.push = push
+            self.sms = sms
+            self.voice = voice
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case custom = "CUSTOM"
+            case email = "EMAIL"
+            case push = "PUSH"
+            case sms = "SMS"
+            case voice = "VOICE"
+        }
+    }
+
+    public struct ClosedDaysRule: AWSEncodableShape & AWSDecodableShape {
+        /// End Datetime in ISO 8601 format.
+        public let endDateTime: String?
+        /// Name of the rule.
+        public let name: String?
+        /// Start Datetime in ISO 8601 format.
+        public let startDateTime: String?
+
+        public init(endDateTime: String? = nil, name: String? = nil, startDateTime: String? = nil) {
+            self.endDateTime = endDateTime
+            self.name = name
+            self.startDateTime = startDateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endDateTime = "EndDateTime"
+            case name = "Name"
+            case startDateTime = "StartDateTime"
         }
     }
 
@@ -7019,6 +7080,8 @@ extension Pinpoint {
         public let activities: [String: Activity]?
         /// The unique identifier for the application that the journey applies to.
         public let applicationId: String
+        /// The time when journey will stop sending messages. QuietTime should be configured first and SendingSchedule should be set to true.
+        public let closedDays: ClosedDays?
         /// The date, in ISO 8601 format, when the journey was created.
         public let creationDate: String?
         /// The unique identifier for the journey.
@@ -7033,6 +7096,8 @@ extension Pinpoint {
         public let localTime: Bool?
         /// The name of the journey.
         public let name: String
+        /// The time when journey allow to send messages. QuietTime should be configured first and SendingSchedule should be set to true.
+        public let openHours: OpenHours?
         /// The quiet time settings for the journey. Quiet time is a specific time range when a journey doesn't send messages to participants, if all the following conditions are met: The EndpointDemographic.Timezone property of the endpoint for the participant is set to a valid value. The current time in the participant's time zone is later than or equal to the time specified by the QuietTime.Start property for the journey. The current time in the participant's time zone is earlier than or equal to the time specified by the QuietTime.End property for the journey. If any of the preceding conditions isn't met, the participant will receive messages from the journey, even if quiet time is enabled.
         public let quietTime: QuietTime?
         /// The frequency with which Amazon Pinpoint evaluates segment and event data for the journey, as a duration in ISO 8601 format.
@@ -7041,6 +7106,8 @@ extension Pinpoint {
         public let refreshOnSegmentUpdate: Bool?
         /// The schedule settings for the journey.
         public let schedule: JourneySchedule?
+        /// Indicates if journey have Advance Quiet Time (OpenHours and ClosedDays). This flag should be set to true in order to allow (OpenHours and ClosedDays)
+        public let sendingSchedule: Bool?
         /// The unique identifier for the first activity in the journey.
         public let startActivity: String?
         /// The segment that defines which users are participants in the journey.
@@ -7052,9 +7119,10 @@ extension Pinpoint {
         /// Specifies whether endpoints in quiet hours should enter a wait till the end of their quiet hours.
         public let waitForQuietTime: Bool?
 
-        public init(activities: [String: Activity]? = nil, applicationId: String, creationDate: String? = nil, id: String, journeyChannelSettings: JourneyChannelSettings? = nil, lastModifiedDate: String? = nil, limits: JourneyLimits? = nil, localTime: Bool? = nil, name: String, quietTime: QuietTime? = nil, refreshFrequency: String? = nil, refreshOnSegmentUpdate: Bool? = nil, schedule: JourneySchedule? = nil, startActivity: String? = nil, startCondition: StartCondition? = nil, state: State? = nil, tags: [String: String]? = nil, waitForQuietTime: Bool? = nil) {
+        public init(activities: [String: Activity]? = nil, applicationId: String, closedDays: ClosedDays? = nil, creationDate: String? = nil, id: String, journeyChannelSettings: JourneyChannelSettings? = nil, lastModifiedDate: String? = nil, limits: JourneyLimits? = nil, localTime: Bool? = nil, name: String, openHours: OpenHours? = nil, quietTime: QuietTime? = nil, refreshFrequency: String? = nil, refreshOnSegmentUpdate: Bool? = nil, schedule: JourneySchedule? = nil, sendingSchedule: Bool? = nil, startActivity: String? = nil, startCondition: StartCondition? = nil, state: State? = nil, tags: [String: String]? = nil, waitForQuietTime: Bool? = nil) {
             self.activities = activities
             self.applicationId = applicationId
+            self.closedDays = closedDays
             self.creationDate = creationDate
             self.id = id
             self.journeyChannelSettings = journeyChannelSettings
@@ -7062,10 +7130,12 @@ extension Pinpoint {
             self.limits = limits
             self.localTime = localTime
             self.name = name
+            self.openHours = openHours
             self.quietTime = quietTime
             self.refreshFrequency = refreshFrequency
             self.refreshOnSegmentUpdate = refreshOnSegmentUpdate
             self.schedule = schedule
+            self.sendingSchedule = sendingSchedule
             self.startActivity = startActivity
             self.startCondition = startCondition
             self.state = state
@@ -7076,6 +7146,7 @@ extension Pinpoint {
         private enum CodingKeys: String, CodingKey {
             case activities = "Activities"
             case applicationId = "ApplicationId"
+            case closedDays = "ClosedDays"
             case creationDate = "CreationDate"
             case id = "Id"
             case journeyChannelSettings = "JourneyChannelSettings"
@@ -7083,10 +7154,12 @@ extension Pinpoint {
             case limits = "Limits"
             case localTime = "LocalTime"
             case name = "Name"
+            case openHours = "OpenHours"
             case quietTime = "QuietTime"
             case refreshFrequency = "RefreshFrequency"
             case refreshOnSegmentUpdate = "RefreshOnSegmentUpdate"
             case schedule = "Schedule"
+            case sendingSchedule = "SendingSchedule"
             case startActivity = "StartActivity"
             case startCondition = "StartCondition"
             case state = "State"
@@ -7698,6 +7771,52 @@ extension Pinpoint {
             case phoneTypeCode = "PhoneTypeCode"
             case timezone = "Timezone"
             case zipCode = "ZipCode"
+        }
+    }
+
+    public struct OpenHours: AWSEncodableShape & AWSDecodableShape {
+        /// Rules for Custom Channel.
+        public let custom: [DayOfWeek: [OpenHoursRule]]?
+        /// Rules for Email Channel.
+        public let email: [DayOfWeek: [OpenHoursRule]]?
+        /// Rules for Push Channel.
+        public let push: [DayOfWeek: [OpenHoursRule]]?
+        /// Rules for SMS Channel.
+        public let sms: [DayOfWeek: [OpenHoursRule]]?
+        /// Rules for Voice Channel.
+        public let voice: [DayOfWeek: [OpenHoursRule]]?
+
+        public init(custom: [DayOfWeek: [OpenHoursRule]]? = nil, email: [DayOfWeek: [OpenHoursRule]]? = nil, push: [DayOfWeek: [OpenHoursRule]]? = nil, sms: [DayOfWeek: [OpenHoursRule]]? = nil, voice: [DayOfWeek: [OpenHoursRule]]? = nil) {
+            self.custom = custom
+            self.email = email
+            self.push = push
+            self.sms = sms
+            self.voice = voice
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case custom = "CUSTOM"
+            case email = "EMAIL"
+            case push = "PUSH"
+            case sms = "SMS"
+            case voice = "VOICE"
+        }
+    }
+
+    public struct OpenHoursRule: AWSEncodableShape & AWSDecodableShape {
+        /// Local start time in ISO 8601 format.
+        public let endTime: String?
+        /// Local start time in ISO 8601 format.
+        public let startTime: String?
+
+        public init(endTime: String? = nil, startTime: String? = nil) {
+            self.endTime = endTime
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "EndTime"
+            case startTime = "StartTime"
         }
     }
 
@@ -10931,6 +11050,8 @@ extension Pinpoint {
     public struct WriteJourneyRequest: AWSEncodableShape {
         /// A map that contains a set of Activity objects, one object for each activity in the journey. For each Activity object, the key is the unique identifier (string) for an activity and the value is the settings for the activity. An activity identifier can contain a maximum of 100 characters. The characters must be alphanumeric characters.
         public let activities: [String: Activity]?
+        /// The time when journey will stop sending messages. QuietTime should be configured first and SendingSchedule should be set to true.
+        public let closedDays: ClosedDays?
         /// The date, in ISO 8601 format, when the journey was created.
         public let creationDate: String?
         /// The channel-specific configurations for the journey.
@@ -10943,6 +11064,8 @@ extension Pinpoint {
         public let localTime: Bool?
         /// The name of the journey. A journey name can contain a maximum of 150 characters. The characters can be alphanumeric characters or symbols, such as underscores (_) or hyphens (-). A journey name can't contain any spaces.
         public let name: String
+        /// The time when journey allow to send messages. QuietTime should be configured first and SendingSchedule should be set to true.
+        public let openHours: OpenHours?
         /// The quiet time settings for the journey. Quiet time is a specific time range when a journey doesn't send messages to participants, if all the following conditions are met: The EndpointDemographic.Timezone property of the endpoint for the participant is set to a valid value. The current time in the participant's time zone is later than or equal to the time specified by the QuietTime.Start property for the journey. The current time in the participant's time zone is earlier than or equal to the time specified by the QuietTime.End property for the journey. If any of the preceding conditions isn't met, the participant will receive messages from the journey, even if quiet time is enabled.
         public let quietTime: QuietTime?
         /// The frequency with which Amazon Pinpoint evaluates segment and event data for the journey, as a duration in ISO 8601 format.
@@ -10951,6 +11074,8 @@ extension Pinpoint {
         public let refreshOnSegmentUpdate: Bool?
         /// The schedule settings for the journey.
         public let schedule: JourneySchedule?
+        /// Indicates if journey have Advance Quiet Time (OpenHours and ClosedDays). This flag should be set to true in order to allow (OpenHours and ClosedDays)
+        public let sendingSchedule: Bool?
         /// The unique identifier for the first activity in the journey. The identifier for this activity can contain a maximum of 128 characters. The characters must be alphanumeric characters.
         public let startActivity: String?
         /// The segment that defines which users are participants in the journey.
@@ -10960,18 +11085,21 @@ extension Pinpoint {
         /// Specifies whether endpoints in quiet hours should enter a wait till the end of their quiet hours.
         public let waitForQuietTime: Bool?
 
-        public init(activities: [String: Activity]? = nil, creationDate: String? = nil, journeyChannelSettings: JourneyChannelSettings? = nil, lastModifiedDate: String? = nil, limits: JourneyLimits? = nil, localTime: Bool? = nil, name: String, quietTime: QuietTime? = nil, refreshFrequency: String? = nil, refreshOnSegmentUpdate: Bool? = nil, schedule: JourneySchedule? = nil, startActivity: String? = nil, startCondition: StartCondition? = nil, state: State? = nil, waitForQuietTime: Bool? = nil) {
+        public init(activities: [String: Activity]? = nil, closedDays: ClosedDays? = nil, creationDate: String? = nil, journeyChannelSettings: JourneyChannelSettings? = nil, lastModifiedDate: String? = nil, limits: JourneyLimits? = nil, localTime: Bool? = nil, name: String, openHours: OpenHours? = nil, quietTime: QuietTime? = nil, refreshFrequency: String? = nil, refreshOnSegmentUpdate: Bool? = nil, schedule: JourneySchedule? = nil, sendingSchedule: Bool? = nil, startActivity: String? = nil, startCondition: StartCondition? = nil, state: State? = nil, waitForQuietTime: Bool? = nil) {
             self.activities = activities
+            self.closedDays = closedDays
             self.creationDate = creationDate
             self.journeyChannelSettings = journeyChannelSettings
             self.lastModifiedDate = lastModifiedDate
             self.limits = limits
             self.localTime = localTime
             self.name = name
+            self.openHours = openHours
             self.quietTime = quietTime
             self.refreshFrequency = refreshFrequency
             self.refreshOnSegmentUpdate = refreshOnSegmentUpdate
             self.schedule = schedule
+            self.sendingSchedule = sendingSchedule
             self.startActivity = startActivity
             self.startCondition = startCondition
             self.state = state
@@ -10980,16 +11108,19 @@ extension Pinpoint {
 
         private enum CodingKeys: String, CodingKey {
             case activities = "Activities"
+            case closedDays = "ClosedDays"
             case creationDate = "CreationDate"
             case journeyChannelSettings = "JourneyChannelSettings"
             case lastModifiedDate = "LastModifiedDate"
             case limits = "Limits"
             case localTime = "LocalTime"
             case name = "Name"
+            case openHours = "OpenHours"
             case quietTime = "QuietTime"
             case refreshFrequency = "RefreshFrequency"
             case refreshOnSegmentUpdate = "RefreshOnSegmentUpdate"
             case schedule = "Schedule"
+            case sendingSchedule = "SendingSchedule"
             case startActivity = "StartActivity"
             case startCondition = "StartCondition"
             case state = "State"

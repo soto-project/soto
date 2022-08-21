@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -145,11 +145,34 @@ extension DynamoDB {
         public var description: String { return self.rawValue }
     }
 
+    public enum ImportStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case cancelled = "CANCELLED"
+        case cancelling = "CANCELLING"
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum IndexStatus: String, CustomStringConvertible, Codable, _SotoSendable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleting = "DELETING"
         case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InputCompressionType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case gzip = "GZIP"
+        case none = "NONE"
+        case zstd = "ZSTD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InputFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+        case csv = "CSV"
+        case dynamodbJson = "DYNAMODB_JSON"
+        case ion = "ION"
         public var description: String { return self.rawValue }
     }
 
@@ -874,7 +897,7 @@ extension DynamoDB {
     public struct BatchStatementError: AWSDecodableShape {
         ///  The error code associated with the failed PartiQL batch statement.
         public let code: BatchStatementErrorCodeEnum?
-        ///  The error message associated with the PartiQL batch resposne.
+        ///  The error message associated with the PartiQL batch response.
         public let message: String?
 
         public init(code: BatchStatementErrorCodeEnum? = nil, message: String? = nil) {
@@ -1431,6 +1454,36 @@ extension DynamoDB {
         }
     }
 
+    public struct CsvOptions: AWSEncodableShape & AWSDecodableShape {
+        ///  The delimiter used for separating items in the CSV file being imported.
+        public let delimiter: String?
+        ///  List of the headers used to specify a common header for all source CSV files being imported. If this field is specified then the first line of each CSV file is treated as data instead of the header. If this field is not specified the the first line of each CSV file is treated as the header.
+        public let headerList: [String]?
+
+        public init(delimiter: String? = nil, headerList: [String]? = nil) {
+            self.delimiter = delimiter
+            self.headerList = headerList
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.delimiter, name: "delimiter", parent: name, max: 1)
+            try self.validate(self.delimiter, name: "delimiter", parent: name, min: 1)
+            try self.validate(self.delimiter, name: "delimiter", parent: name, pattern: "^[,;:|\\t ]$")
+            try self.headerList?.forEach {
+                try validate($0, name: "headerList[]", parent: name, max: 65536)
+                try validate($0, name: "headerList[]", parent: name, min: 1)
+                try validate($0, name: "headerList[]", parent: name, pattern: "^[\\x20-\\x21\\x23-\\x2B\\x2D-\\x7E]*$")
+            }
+            try self.validate(self.headerList, name: "headerList", parent: name, max: 255)
+            try self.validate(self.headerList, name: "headerList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case delimiter = "Delimiter"
+            case headerList = "HeaderList"
+        }
+    }
+
     public struct Delete: AWSEncodableShape {
         /// A condition that must be satisfied in order for a conditional delete to succeed.
         public let conditionExpression: String?
@@ -1935,6 +1988,37 @@ extension DynamoDB {
         }
     }
 
+    public struct DescribeImportInput: AWSEncodableShape {
+        ///  The Amazon Resource Name (ARN) associated with the table you're importing to.
+        public let importArn: String
+
+        public init(importArn: String) {
+            self.importArn = importArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.importArn, name: "importArn", parent: name, max: 1024)
+            try self.validate(self.importArn, name: "importArn", parent: name, min: 37)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case importArn = "ImportArn"
+        }
+    }
+
+    public struct DescribeImportOutput: AWSDecodableShape {
+        ///  Represents the properties of the table created for the import, and parameters of  the import. The import parameters include import status, how many items were processed,  and how many errors were encountered.
+        public let importTableDescription: ImportTableDescription
+
+        public init(importTableDescription: ImportTableDescription) {
+            self.importTableDescription = importTableDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case importTableDescription = "ImportTableDescription"
+        }
+    }
+
     public struct DescribeKinesisStreamingDestinationInput: AWSEncodableShape {
         /// The name of the table being described.
         public let tableName: String
@@ -2363,7 +2447,7 @@ extension DynamoDB {
     }
 
     public struct ExportTableToPointInTimeInput: AWSEncodableShape {
-        /// Providing a ClientToken makes the call to ExportTableToPointInTimeInput idempotent, meaning that multiple identical calls have the same effect as one single call. A client token is valid for 8 hours after the first request that uses it is completed. After 8 hours, any request with the same client token is treated as a new request. Do not resubmit the same request with the same client token for more than 8 hours, or the result might not be idempotent. If you submit a request with the same client token but a change in other parameters within the 8-hour idempotency window, DynamoDB returns an IdempotentParameterMismatch exception.
+        /// Providing a ClientToken makes the call to ExportTableToPointInTimeInput idempotent, meaning that multiple identical calls have the same effect as one single call. A client token is valid for 8 hours after the first request that uses it is completed. After 8 hours, any request with the same client token is treated as a new request. Do not resubmit the same request with the same client token for more than 8 hours, or the result might not be idempotent. If you submit a request with the same client token but a change in other parameters within the 8-hour idempotency window, DynamoDB returns an ImportConflictException.
         public let clientToken: String?
         /// The format for the exported data. Valid values for ExportFormat are DYNAMODB_JSON or ION.
         public let exportFormat: ExportFormat?
@@ -2395,6 +2479,11 @@ extension DynamoDB {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[^\\$]+$")
+            try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, max: 255)
+            try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, pattern: "^[a-z0-9A-Z]+[\\.\\-\\w]*[a-z0-9A-Z]+$")
+            try self.validate(self.s3BucketOwner, name: "s3BucketOwner", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.s3Prefix, name: "s3Prefix", parent: name, max: 1024)
             try self.validate(self.s3SseKmsKeyId, name: "s3SseKmsKeyId", parent: name, max: 2048)
             try self.validate(self.s3SseKmsKeyId, name: "s3SseKmsKeyId", parent: name, min: 1)
         }
@@ -2550,7 +2639,7 @@ extension DynamoDB {
         }
     }
 
-    public struct GlobalSecondaryIndex: AWSEncodableShape {
+    public struct GlobalSecondaryIndex: AWSEncodableShape & AWSDecodableShape {
         /// The name of the global secondary index. The name must be unique among all other indexes on this table.
         public let indexName: String
         /// The complete key schema for a global secondary index, which consists of one or more pairs of attribute names and key types:    HASH - partition key    RANGE - sort key    The partition key of an item is also known as its hash attribute. The term "hash attribute" derives from DynamoDB's usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values. The sort key of an item is also known as its range attribute. The term "range attribute" derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value.
@@ -2780,6 +2869,202 @@ extension DynamoDB {
             case indexName = "IndexName"
             case provisionedWriteCapacityAutoScalingSettingsUpdate = "ProvisionedWriteCapacityAutoScalingSettingsUpdate"
             case provisionedWriteCapacityUnits = "ProvisionedWriteCapacityUnits"
+        }
+    }
+
+    public struct ImportSummary: AWSDecodableShape {
+        ///  The Amazon Resource Number (ARN) of the Cloudwatch Log Group associated with this import task.
+        public let cloudWatchLogGroupArn: String?
+        ///  The time at which this import task ended. (Does this include the successful complete creation of  the table it was imported to?)
+        public let endTime: Date?
+        ///  The Amazon Resource Number (ARN) corresponding to the import request.
+        public let importArn: String?
+        ///  The status of the import operation.
+        public let importStatus: ImportStatus?
+        ///  The format of the source data. Valid values are CSV, DYNAMODB_JSON or ION.
+        public let inputFormat: InputFormat?
+        ///  The path and S3 bucket of the source file that is being imported. This includes the S3Bucket (required),  S3KeyPrefix (optional) and S3BucketOwner (optional if the bucket is owned by the requester).
+        public let s3BucketSource: S3BucketSource?
+        ///  The time at which this import task began.
+        public let startTime: Date?
+        ///  The Amazon Resource Number (ARN) of the table being imported into.
+        public let tableArn: String?
+
+        public init(cloudWatchLogGroupArn: String? = nil, endTime: Date? = nil, importArn: String? = nil, importStatus: ImportStatus? = nil, inputFormat: InputFormat? = nil, s3BucketSource: S3BucketSource? = nil, startTime: Date? = nil, tableArn: String? = nil) {
+            self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
+            self.endTime = endTime
+            self.importArn = importArn
+            self.importStatus = importStatus
+            self.inputFormat = inputFormat
+            self.s3BucketSource = s3BucketSource
+            self.startTime = startTime
+            self.tableArn = tableArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudWatchLogGroupArn = "CloudWatchLogGroupArn"
+            case endTime = "EndTime"
+            case importArn = "ImportArn"
+            case importStatus = "ImportStatus"
+            case inputFormat = "InputFormat"
+            case s3BucketSource = "S3BucketSource"
+            case startTime = "StartTime"
+            case tableArn = "TableArn"
+        }
+    }
+
+    public struct ImportTableDescription: AWSDecodableShape {
+        ///  The client token that was provided for the import task. Reusing the client token  on retry makes a call to ImportTable idempotent.
+        public let clientToken: String?
+        ///  The Amazon Resource Number (ARN) of the Cloudwatch Log Group associated with the target table.
+        public let cloudWatchLogGroupArn: String?
+        ///  The time at which the creation of the table associated with this import task completed.
+        public let endTime: Date?
+        ///  The number of errors occurred on importing the source file into the target table.
+        public let errorCount: Int64?
+        ///  The error code corresponding to the failure that the import job ran into during execution.
+        public let failureCode: String?
+        ///  The error message corresponding to the failure that the import job ran into during execution.
+        public let failureMessage: String?
+        ///  The Amazon Resource Number (ARN) corresponding to the import request.
+        public let importArn: String?
+        ///  The number of items successfully imported into the new table.
+        public let importedItemCount: Int64?
+        ///  The status of the import.
+        public let importStatus: ImportStatus?
+        ///  The compression options for the data that has been imported into the target table. The values are  NONE, GZIP, or ZSTD.
+        public let inputCompressionType: InputCompressionType?
+        ///  The format of the source data going into the target table.
+        public let inputFormat: InputFormat?
+        ///  The format options for the data that was imported into the target table. There is one value, CsvOption.
+        public let inputFormatOptions: InputFormatOptions?
+        ///  The total number of items processed from the source file.
+        public let processedItemCount: Int64?
+        ///  The total size of data processed from the source file, in Bytes.
+        public let processedSizeBytes: Int64?
+        ///  Values for the S3 bucket the source file is imported from. Includes bucket name (required),  key prefix (optional) and bucket account owner ID (optional).
+        public let s3BucketSource: S3BucketSource?
+        ///  The time when this import task started.
+        public let startTime: Date?
+        ///  The Amazon Resource Number (ARN) of the table being imported into.
+        public let tableArn: String?
+        ///  The parameters for the new table that is being imported into.
+        public let tableCreationParameters: TableCreationParameters?
+        ///  The table id corresponding to the table created by import table process.
+        public let tableId: String?
+
+        public init(clientToken: String? = nil, cloudWatchLogGroupArn: String? = nil, endTime: Date? = nil, errorCount: Int64? = nil, failureCode: String? = nil, failureMessage: String? = nil, importArn: String? = nil, importedItemCount: Int64? = nil, importStatus: ImportStatus? = nil, inputCompressionType: InputCompressionType? = nil, inputFormat: InputFormat? = nil, inputFormatOptions: InputFormatOptions? = nil, processedItemCount: Int64? = nil, processedSizeBytes: Int64? = nil, s3BucketSource: S3BucketSource? = nil, startTime: Date? = nil, tableArn: String? = nil, tableCreationParameters: TableCreationParameters? = nil, tableId: String? = nil) {
+            self.clientToken = clientToken
+            self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
+            self.endTime = endTime
+            self.errorCount = errorCount
+            self.failureCode = failureCode
+            self.failureMessage = failureMessage
+            self.importArn = importArn
+            self.importedItemCount = importedItemCount
+            self.importStatus = importStatus
+            self.inputCompressionType = inputCompressionType
+            self.inputFormat = inputFormat
+            self.inputFormatOptions = inputFormatOptions
+            self.processedItemCount = processedItemCount
+            self.processedSizeBytes = processedSizeBytes
+            self.s3BucketSource = s3BucketSource
+            self.startTime = startTime
+            self.tableArn = tableArn
+            self.tableCreationParameters = tableCreationParameters
+            self.tableId = tableId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case cloudWatchLogGroupArn = "CloudWatchLogGroupArn"
+            case endTime = "EndTime"
+            case errorCount = "ErrorCount"
+            case failureCode = "FailureCode"
+            case failureMessage = "FailureMessage"
+            case importArn = "ImportArn"
+            case importedItemCount = "ImportedItemCount"
+            case importStatus = "ImportStatus"
+            case inputCompressionType = "InputCompressionType"
+            case inputFormat = "InputFormat"
+            case inputFormatOptions = "InputFormatOptions"
+            case processedItemCount = "ProcessedItemCount"
+            case processedSizeBytes = "ProcessedSizeBytes"
+            case s3BucketSource = "S3BucketSource"
+            case startTime = "StartTime"
+            case tableArn = "TableArn"
+            case tableCreationParameters = "TableCreationParameters"
+            case tableId = "TableId"
+        }
+    }
+
+    public struct ImportTableInput: AWSEncodableShape {
+        /// Providing a ClientToken makes the call to ImportTableInput idempotent, meaning that multiple identical calls have the same effect as one single call. A client token is valid for 8 hours after the first request that uses it is completed. After 8 hours, any request with the same client token is treated as a new request. Do not resubmit the same request with the same client token for more than 8 hours, or the result might not be idempotent. If you submit a request with the same client token but a change in other parameters within the 8-hour idempotency window, DynamoDB returns an IdempotentParameterMismatch exception.
+        public let clientToken: String?
+        ///  Type of compression to be used on the input coming from the imported table.
+        public let inputCompressionType: InputCompressionType?
+        ///  The format of the source data. Valid values for ImportFormat are CSV,  DYNAMODB_JSON or ION.
+        public let inputFormat: InputFormat
+        ///  Additional properties that specify how the input is formatted,
+        public let inputFormatOptions: InputFormatOptions?
+        ///  The S3 bucket that provides the source for the import.
+        public let s3BucketSource: S3BucketSource
+        /// Parameters for the table to import the data into.
+        public let tableCreationParameters: TableCreationParameters
+
+        public init(clientToken: String? = ImportTableInput.idempotencyToken(), inputCompressionType: InputCompressionType? = nil, inputFormat: InputFormat, inputFormatOptions: InputFormatOptions? = nil, s3BucketSource: S3BucketSource, tableCreationParameters: TableCreationParameters) {
+            self.clientToken = clientToken
+            self.inputCompressionType = inputCompressionType
+            self.inputFormat = inputFormat
+            self.inputFormatOptions = inputFormatOptions
+            self.s3BucketSource = s3BucketSource
+            self.tableCreationParameters = tableCreationParameters
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[^\\$]+$")
+            try self.inputFormatOptions?.validate(name: "\(name).inputFormatOptions")
+            try self.s3BucketSource.validate(name: "\(name).s3BucketSource")
+            try self.tableCreationParameters.validate(name: "\(name).tableCreationParameters")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case inputCompressionType = "InputCompressionType"
+            case inputFormat = "InputFormat"
+            case inputFormatOptions = "InputFormatOptions"
+            case s3BucketSource = "S3BucketSource"
+            case tableCreationParameters = "TableCreationParameters"
+        }
+    }
+
+    public struct ImportTableOutput: AWSDecodableShape {
+        ///  Represents the properties of the table created for the import, and parameters of  the import. The import parameters include import status, how many items were processed,  and how many errors were encountered.
+        public let importTableDescription: ImportTableDescription
+
+        public init(importTableDescription: ImportTableDescription) {
+            self.importTableDescription = importTableDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case importTableDescription = "ImportTableDescription"
+        }
+    }
+
+    public struct InputFormatOptions: AWSEncodableShape & AWSDecodableShape {
+        ///  The options for imported source files in CSV format. The values are Delimiter and HeaderList.
+        public let csv: CsvOptions?
+
+        public init(csv: CsvOptions? = nil) {
+            self.csv = csv
+        }
+
+        public func validate(name: String) throws {
+            try self.csv?.validate(name: "\(name).csv")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case csv = "Csv"
         }
     }
 
@@ -3133,6 +3418,52 @@ extension DynamoDB {
         private enum CodingKeys: String, CodingKey {
             case globalTables = "GlobalTables"
             case lastEvaluatedGlobalTableName = "LastEvaluatedGlobalTableName"
+        }
+    }
+
+    public struct ListImportsInput: AWSEncodableShape {
+        ///  An optional string that, if supplied, must be copied from the output of a previous call to ListImports. When provided in this manner, the API fetches the next page of results.
+        public let nextToken: String?
+        ///  The number of ImportSummary objects returned in a single page.
+        public let pageSize: Int?
+        ///  The Amazon Resource Name (ARN) associated with the table that was imported to.
+        public let tableArn: String?
+
+        public init(nextToken: String? = nil, pageSize: Int? = nil, tableArn: String? = nil) {
+            self.nextToken = nextToken
+            self.pageSize = pageSize
+            self.tableArn = tableArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 112)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^([0-9a-f]{16})+$")
+            try self.validate(self.pageSize, name: "pageSize", parent: name, max: 25)
+            try self.validate(self.pageSize, name: "pageSize", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case pageSize = "PageSize"
+            case tableArn = "TableArn"
+        }
+    }
+
+    public struct ListImportsOutput: AWSDecodableShape {
+        ///  A list of ImportSummary objects.
+        public let importSummaryList: [ImportSummary]?
+        ///  If this value is returned, there are additional results to be displayed. To retrieve them, call ListImports again, with NextToken set to this value.
+        public let nextToken: String?
+
+        public init(importSummaryList: [ImportSummary]? = nil, nextToken: String? = nil) {
+            self.importSummaryList = importSummaryList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case importSummaryList = "ImportSummaryList"
+            case nextToken = "NextToken"
         }
     }
 
@@ -4317,6 +4648,34 @@ extension DynamoDB {
         }
     }
 
+    public struct S3BucketSource: AWSEncodableShape & AWSDecodableShape {
+        ///  The S3 bucket that is being imported from.
+        public let s3Bucket: String
+        ///  The account number of the S3 bucket that is being imported from.  If the bucket is owned by the requester this is optional.
+        public let s3BucketOwner: String?
+        ///  The key prefix shared by all S3 Objects that are being imported.
+        public let s3KeyPrefix: String?
+
+        public init(s3Bucket: String, s3BucketOwner: String? = nil, s3KeyPrefix: String? = nil) {
+            self.s3Bucket = s3Bucket
+            self.s3BucketOwner = s3BucketOwner
+            self.s3KeyPrefix = s3KeyPrefix
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, max: 255)
+            try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, pattern: "^[a-z0-9A-Z]+[\\.\\-\\w]*[a-z0-9A-Z]+$")
+            try self.validate(self.s3BucketOwner, name: "s3BucketOwner", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.s3KeyPrefix, name: "s3KeyPrefix", parent: name, max: 1024)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Bucket = "S3Bucket"
+            case s3BucketOwner = "S3BucketOwner"
+            case s3KeyPrefix = "S3KeyPrefix"
+        }
+    }
+
     public struct SSEDescription: AWSDecodableShape {
         /// Indicates the time, in UNIX epoch date format, when DynamoDB detected that the table's KMS key was inaccessible. This attribute will automatically be cleared when DynamoDB detects that the table's KMS key is accessible again. DynamoDB will initiate the table archival process when table's KMS key remains inaccessible for more than seven days from this date.
         public let inaccessibleEncryptionDateTime: Date?
@@ -4342,7 +4701,7 @@ extension DynamoDB {
         }
     }
 
-    public struct SSESpecification: AWSEncodableShape {
+    public struct SSESpecification: AWSEncodableShape & AWSDecodableShape {
         /// Indicates whether server-side encryption is done using an Amazon Web Services managed key or an Amazon Web Services owned key. If enabled (true), server-side encryption type is set to KMS and an Amazon Web Services managed key is used (KMS charges apply). If disabled (false) or not specified, server-side encryption is set to Amazon Web Services owned key.
         public let enabled: Bool?
         /// The KMS key that should be used for the KMS encryption. To specify a key, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. Note that you should only provide this parameter if the key is different from the default DynamoDB key alias/aws/dynamodb.
@@ -4622,6 +4981,59 @@ extension DynamoDB {
         private enum CodingKeys: String, CodingKey {
             case lastUpdateDateTime = "LastUpdateDateTime"
             case tableClass = "TableClass"
+        }
+    }
+
+    public struct TableCreationParameters: AWSEncodableShape & AWSDecodableShape {
+        ///  The attributes of the table created as part of the import operation.
+        public let attributeDefinitions: [AttributeDefinition]
+        ///  The billing mode for provisioning the table created as part of the import operation.
+        public let billingMode: BillingMode?
+        ///  The Global Secondary Indexes (GSI) of the table to be created as part of the import operation.
+        public let globalSecondaryIndexes: [GlobalSecondaryIndex]?
+        ///  The primary key and option sort key of the table created as part of the import operation.
+        public let keySchema: [KeySchemaElement]
+        public let provisionedThroughput: ProvisionedThroughput?
+        public let sseSpecification: SSESpecification?
+        ///  The name of the table created as part of the import operation.
+        public let tableName: String
+
+        public init(attributeDefinitions: [AttributeDefinition], billingMode: BillingMode? = nil, globalSecondaryIndexes: [GlobalSecondaryIndex]? = nil, keySchema: [KeySchemaElement], provisionedThroughput: ProvisionedThroughput? = nil, sseSpecification: SSESpecification? = nil, tableName: String) {
+            self.attributeDefinitions = attributeDefinitions
+            self.billingMode = billingMode
+            self.globalSecondaryIndexes = globalSecondaryIndexes
+            self.keySchema = keySchema
+            self.provisionedThroughput = provisionedThroughput
+            self.sseSpecification = sseSpecification
+            self.tableName = tableName
+        }
+
+        public func validate(name: String) throws {
+            try self.attributeDefinitions.forEach {
+                try $0.validate(name: "\(name).attributeDefinitions[]")
+            }
+            try self.globalSecondaryIndexes?.forEach {
+                try $0.validate(name: "\(name).globalSecondaryIndexes[]")
+            }
+            try self.keySchema.forEach {
+                try $0.validate(name: "\(name).keySchema[]")
+            }
+            try self.validate(self.keySchema, name: "keySchema", parent: name, max: 2)
+            try self.validate(self.keySchema, name: "keySchema", parent: name, min: 1)
+            try self.provisionedThroughput?.validate(name: "\(name).provisionedThroughput")
+            try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
+            try self.validate(self.tableName, name: "tableName", parent: name, min: 3)
+            try self.validate(self.tableName, name: "tableName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeDefinitions = "AttributeDefinitions"
+            case billingMode = "BillingMode"
+            case globalSecondaryIndexes = "GlobalSecondaryIndexes"
+            case keySchema = "KeySchema"
+            case provisionedThroughput = "ProvisionedThroughput"
+            case sseSpecification = "SSESpecification"
+            case tableName = "TableName"
         }
     }
 

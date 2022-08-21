@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -243,20 +243,20 @@ extension QLDB.ListJournalKinesisStreamsForLedgerRequest: AWSPaginateToken {
     }
 }
 
-extension QLDB.ListJournalS3ExportsRequest: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> QLDB.ListJournalS3ExportsRequest {
-        return .init(
-            maxResults: self.maxResults,
-            nextToken: token
-        )
-    }
-}
-
 extension QLDB.ListJournalS3ExportsForLedgerRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> QLDB.ListJournalS3ExportsForLedgerRequest {
         return .init(
             maxResults: self.maxResults,
             name: self.name,
+            nextToken: token
+        )
+    }
+}
+
+extension QLDB.ListJournalS3ExportsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> QLDB.ListJournalS3ExportsRequest {
+        return .init(
+            maxResults: self.maxResults,
             nextToken: token
         )
     }

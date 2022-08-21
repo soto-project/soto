@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -155,6 +155,11 @@ public struct DynamoDB: AWSService {
         return self.client.execute(operation: "DescribeGlobalTableSettings", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: false), logger: logger, on: eventLoop)
     }
 
+    ///  Represents the properties of the import.
+    public func describeImport(_ input: DescribeImportInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeImportOutput> {
+        return self.client.execute(operation: "DescribeImport", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns information about the status of Kinesis streaming.
     public func describeKinesisStreamingDestination(_ input: DescribeKinesisStreamingDestinationInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeKinesisStreamingDestinationOutput> {
         return self.client.execute(operation: "DescribeKinesisStreamingDestination", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: false), logger: logger, on: eventLoop)
@@ -214,6 +219,11 @@ public struct DynamoDB: AWSService {
         return self.client.execute(operation: "GetItem", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: false), logger: logger, on: eventLoop)
     }
 
+    ///  Imports table data from an S3 bucket.
+    public func importTable(_ input: ImportTableInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ImportTableOutput> {
+        return self.client.execute(operation: "ImportTable", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// List backups associated with an Amazon Web Services account. To list backups for a given table, specify TableName. ListBackups returns a paginated list of results with at most 1 MB worth of items in a page. You can also specify a maximum number of entries to be returned in a page. In the request, start time is inclusive, but end time is exclusive. Note that these boundaries are for the time at which the original backup was requested. You can call ListBackups a maximum of five times per second.
     public func listBackups(_ input: ListBackupsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListBackupsOutput> {
         return self.client.execute(operation: "ListBackups", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: false), logger: logger, on: eventLoop)
@@ -232,6 +242,11 @@ public struct DynamoDB: AWSService {
     /// Lists all global tables that have a replica in the specified Region.  This operation only applies to Version 2017.11.29 of global tables.
     public func listGlobalTables(_ input: ListGlobalTablesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListGlobalTablesOutput> {
         return self.client.execute(operation: "ListGlobalTables", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: false), logger: logger, on: eventLoop)
+    }
+
+    ///  Lists completed imports within the past 90 days.
+    public func listImports(_ input: ListImportsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListImportsOutput> {
+        return self.client.execute(operation: "ListImports", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns an array of table names associated with the current account and endpoint. The output from ListTables is paginated, with each page returning a maximum of 100 table names.

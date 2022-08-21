@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -450,7 +450,7 @@ extension Location {
     public struct BatchPutGeofenceRequestEntry: AWSEncodableShape {
         /// The identifier for the geofence to be stored in a given geofence collection.
         public let geofenceId: String
-        /// Contains the polygon details to specify the position of the geofence.  Each geofence polygon can have a maximum of 1,000 vertices.
+        /// Contains the details of the position of the geofence. Can be either a  polygon or a circle. Including both will return a validation error.  Each  geofence polygon can have a maximum of 1,000 vertices.
         public let geometry: GeofenceGeometry
 
         public init(geofenceId: String, geometry: GeofenceGeometry) {
@@ -727,7 +727,7 @@ extension Location {
         public let distanceUnit: DistanceUnit?
         /// Set to include the geometry details in the result for each path between a pair of positions. Default Value: false  Valid Values: false | true
         public let includeLegGeometry: Bool?
-        /// Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. The TravelMode you specify also determines how you specify route preferences:    If traveling by Car use the CarModeOptions parameter.   If traveling by Truck use the TruckModeOptions parameter.   Default Value: Car
+        /// Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. You can choose Car, Truck,  or Walking as options for the TravelMode. The TravelMode you specify also determines how you specify route preferences:    If traveling by Car use the CarModeOptions parameter.   If traveling by Truck use the TruckModeOptions parameter.   Default Value: Car
         public let travelMode: TravelMode?
         /// Specifies route preferences when traveling by Truck, such as avoiding routes that use ferries or tolls, and truck specifications to consider when choosing an optimal road. Requirements: TravelMode must be specified as Truck.
         public let truckModeOptions: CalculateRouteTruckModeOptions?
@@ -844,6 +844,28 @@ extension Location {
             case avoidTolls = "AvoidTolls"
             case dimensions = "Dimensions"
             case weight = "Weight"
+        }
+    }
+
+    public struct Circle: AWSEncodableShape & AWSDecodableShape {
+        /// A single point geometry, specifying the center of the circle, using WGS 84 coordinates, in the form [longitude, latitude].
+        public let center: [Double]
+        /// The radius of the circle in meters. Must be greater than zero and no  larger than 100,000 (100 kilometers).
+        public let radius: Double
+
+        public init(center: [Double], radius: Double) {
+            self.center = center
+            self.radius = radius
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.center, name: "center", parent: name, max: 2)
+            try self.validate(self.center, name: "center", parent: name, min: 2)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case center = "Center"
+            case radius = "Radius"
         }
     }
 
@@ -1897,14 +1919,18 @@ extension Location {
     }
 
     public struct GeofenceGeometry: AWSEncodableShape & AWSDecodableShape {
-        /// An array of 1 or more linear rings. A linear ring is an array of 4 or more vertices, where the first and last vertex are the same to form a closed boundary. Each vertex is a 2-dimensional point of the form: [longitude, latitude].  The first linear ring is an outer ring, describing the polygon's boundary. Subsequent linear rings may be inner or outer rings to describe holes and islands. Outer rings must list their vertices in counter-clockwise order around the ring's center, where the left side is the polygon's exterior. Inner rings must list their vertices in clockwise order, where the left side is the polygon's interior.
+        /// A circle on the earth, as defined by a center point and a radius.
+        public let circle: Circle?
+        /// An array of 1 or more linear rings. A linear ring is an array of 4 or more vertices, where the first and last vertex are the same to form a closed boundary. Each vertex is a 2-dimensional point of the form: [longitude, latitude].  The first linear ring is an outer ring, describing the polygon's boundary. Subsequent linear rings may be inner or outer rings to describe holes and islands. Outer rings must list their vertices in counter-clockwise order around the ring's center, where the left side is the polygon's exterior. Inner rings must list their vertices in clockwise order, where the left side is the polygon's interior. A geofence polygon can consist of between 4 and 1,000 vertices.
         public let polygon: [[[Double]]]?
 
-        public init(polygon: [[[Double]]]? = nil) {
+        public init(circle: Circle? = nil, polygon: [[[Double]]]? = nil) {
+            self.circle = circle
             self.polygon = polygon
         }
 
         public func validate(name: String) throws {
+            try self.circle?.validate(name: "\(name).circle")
             try self.polygon?.forEach {
                 try validate($0, name: "polygon[]", parent: name, min: 4)
             }
@@ -1912,6 +1938,7 @@ extension Location {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case circle = "Circle"
             case polygon = "Polygon"
         }
     }
@@ -2079,7 +2106,7 @@ extension Location {
         public var createTime: Date
         /// The geofence identifier.
         public let geofenceId: String
-        /// Contains the geofence geometry details describing a polygon.
+        /// Contains the geofence geometry details describing a polygon or a circle.
         public let geometry: GeofenceGeometry
         /// Identifies the state of the geofence. A geofence will hold one of the following states:    ACTIVE — The geofence has been indexed by the system.     PENDING — The geofence is being processed by the system.    FAILED — The geofence failed to be indexed by the system.    DELETED — The geofence has been deleted from the system index.    DELETING — The geofence is being deleted from the system index.
         public let status: String
@@ -2111,7 +2138,7 @@ extension Location {
             AWSMemberEncoding(label: "mapName", location: .uri("MapName"))
         ]
 
-        /// A comma-separated list of fonts to load glyphs from in order of preference. For example, Noto Sans Regular, Arial Unicode. Valid fonts stacks for Esri styles:    VectorEsriDarkGrayCanvas – Ubuntu Medium Italic | Ubuntu Medium | Ubuntu Italic | Ubuntu Regular | Ubuntu Bold    VectorEsriLightGrayCanvas – Ubuntu Italic | Ubuntu Regular | Ubuntu Light | Ubuntu Bold    VectorEsriTopographic – Noto Sans Italic | Noto Sans Regular | Noto Sans Bold | Noto Serif Regular | Roboto Condensed Light Italic    VectorEsriStreets – Arial Regular | Arial Italic | Arial Bold    VectorEsriNavigation – Arial Regular | Arial Italic | Arial Bold    Valid font stacks for HERE Technologies styles:    VectorHereBerlin – Fira  GO Regular | Fira GO Bold    VectorHereExplore, VectorHereExploreTruck – Firo GO Italic |  Fira GO Map | Fira GO Map Bold | Noto Sans CJK  JP Bold | Noto Sans CJK JP Light | Noto Sans CJK  JP Regular
+        /// A comma-separated list of fonts to load glyphs from in order of preference. For example, Noto Sans Regular, Arial Unicode. Valid fonts stacks for Esri styles:    VectorEsriDarkGrayCanvas – Ubuntu Medium Italic | Ubuntu Medium | Ubuntu Italic | Ubuntu Regular | Ubuntu Bold    VectorEsriLightGrayCanvas – Ubuntu Italic | Ubuntu Regular | Ubuntu Light | Ubuntu Bold    VectorEsriTopographic – Noto Sans Italic | Noto Sans Regular | Noto Sans Bold | Noto Serif Regular | Roboto Condensed Light Italic    VectorEsriStreets – Arial Regular | Arial Italic | Arial Bold    VectorEsriNavigation – Arial Regular | Arial Italic | Arial Bold    Valid font stacks for HERE Technologies styles:    VectorHereContrast – Fira  GO Regular | Fira GO Bold    VectorHereExplore, VectorHereExploreTruck – Firo GO Italic |  Fira GO Map | Fira GO Map Bold | Noto Sans CJK  JP Bold | Noto Sans CJK JP Light | Noto Sans CJK  JP Regular
         public let fontStack: String
         /// A Unicode range of characters to download glyphs for. Each response will contain 256 characters. For example, 0–255 includes all characters from range U+0000 to 00FF. Must be aligned to multiples of 256.
         public let fontUnicodeRange: String
@@ -2527,7 +2554,7 @@ extension Location {
         public var createTime: Date
         /// The geofence identifier.
         public let geofenceId: String
-        /// Contains the geofence geometry details describing a polygon.
+        /// Contains the geofence geometry details describing a polygon or a circle.
         public let geometry: GeofenceGeometry
         /// Identifies the state of the geofence. A geofence will hold one of the following states:    ACTIVE — The geofence has been indexed by the system.     PENDING — The geofence is being processed by the system.    FAILED — The geofence failed to be indexed by the system.    DELETED — The geofence has been deleted from the system index.    DELETING — The geofence is being deleted from the system index.
         public let status: String
@@ -3022,7 +3049,7 @@ extension Location {
     }
 
     public struct MapConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies the map style selected from an available data provider. Valid Esri map styles:    VectorEsriDarkGrayCanvas – The Esri Dark Gray Canvas map style. A vector basemap with a dark gray, neutral background with minimal colors, labels, and features that's designed to draw attention to your thematic content.     RasterEsriImagery – The Esri Imagery map style. A raster basemap that provides one meter or better satellite and aerial imagery in many parts of the world and lower resolution satellite imagery worldwide.     VectorEsriLightGrayCanvas – The Esri Light Gray Canvas map style, which provides a detailed vector basemap with a light gray, neutral background style with minimal colors, labels, and features that's designed to draw attention to your thematic content.     VectorEsriTopographic – The Esri Light map style, which provides a detailed vector basemap with a classic Esri map style.    VectorEsriStreets – The Esri World Streets map style, which provides a detailed vector basemap for the world symbolized with a classic Esri street map style. The vector tile layer is similar in content and style to the World Street Map raster map.    VectorEsriNavigation – The Esri World Navigation map style, which provides a detailed basemap for the world symbolized with a custom navigation map style that's designed for use during the day in mobile devices.   Valid HERE Technologies map styles:    VectorHereBerlin – The HERE Berlin map style is a high contrast detailed base map of the world that blends 3D and 2D rendering.    VectorHereExplore – A default HERE map style containing a  neutral, global map and its features including roads, buildings, landmarks,  and water features. It also now includes a fully designed map of Japan.    VectorHereExploreTruck – A global map containing truck  restrictions and attributes (e.g. width / height / HAZMAT) symbolized with  highlighted segments and icons on top of HERE Explore to support use cases  within transport and logistics.
+        /// Specifies the map style selected from an available data provider. Valid Esri map styles:    VectorEsriDarkGrayCanvas – The Esri Dark Gray Canvas map style. A vector basemap with a dark gray, neutral background with minimal colors, labels, and features that's designed to draw attention to your thematic content.     RasterEsriImagery – The Esri Imagery map style. A raster basemap that provides one meter or better satellite and aerial imagery in many parts of the world and lower resolution satellite imagery worldwide.     VectorEsriLightGrayCanvas – The Esri Light Gray Canvas map style, which provides a detailed vector basemap with a light gray, neutral background style with minimal colors, labels, and features that's designed to draw attention to your thematic content.     VectorEsriTopographic – The Esri Light map style, which provides a detailed vector basemap with a classic Esri map style.    VectorEsriStreets – The Esri World Streets map style, which provides a detailed vector basemap for the world symbolized with a classic Esri street map style. The vector tile layer is similar in content and style to the World Street Map raster map.    VectorEsriNavigation – The Esri World Navigation map style, which provides a detailed basemap for the world symbolized with a custom navigation map style that's designed for use during the day in mobile devices.   Valid HERE Technologies map styles:    VectorHereContrast – The HERE Contrast (Berlin) map style is a high contrast detailed base map of the world that blends 3D and 2D rendering.    VectorHereExplore – A default HERE map style containing a  neutral, global map and its features including roads, buildings, landmarks,  and water features. It also now includes a fully designed map of Japan.    VectorHereExploreTruck – A global map containing truck  restrictions and attributes (e.g. width / height / HAZMAT) symbolized with  highlighted segments and icons on top of HERE Explore to support use cases  within transport and logistics.    The VectorHereContrast style has been renamed from VectorHereBerlin.  VectorHereBerlin has been deprecated, but will continue to work in  applications that use it.
         public let style: String
 
         public init(style: String) {
@@ -3132,7 +3159,7 @@ extension Location {
         public let collectionName: String
         /// An identifier for the geofence. For example, ExampleGeofence-1.
         public let geofenceId: String
-        /// Contains the polygon details to specify the position of the geofence.  Each geofence polygon can have a maximum of 1,000 vertices.
+        /// Contains the details to specify the position of the geofence. Can be either a  polygon or a circle. Including both will return a validation error.  Each  geofence polygon can have a maximum of 1,000 vertices.
         public let geometry: GeofenceGeometry
 
         public init(collectionName: String, geofenceId: String, geometry: GeofenceGeometry) {
@@ -3663,13 +3690,13 @@ extension Location {
     }
 
     public struct TruckDimensions: AWSEncodableShape {
-        /// The height of the truck.   For example, 4.5.
+        /// The height of the truck.   For example, 4.5.     For routes calculated with a HERE resource, this value must be between 0 and 50 meters.
         public let height: Double?
-        /// The length of the truck.   For example, 15.5.
+        /// The length of the truck.   For example, 15.5.     For routes calculated with a HERE resource, this value must be between 0 and 300 meters.
         public let length: Double?
         ///  Specifies the unit of measurement for the truck dimensions. Default Value: Meters
         public let unit: DimensionUnit?
-        /// The width of the truck.   For example, 4.5.
+        /// The width of the truck.   For example, 4.5.     For routes calculated with a HERE resource, this value must be between 0 and 50 meters.
         public let width: Double?
 
         public init(height: Double? = nil, length: Double? = nil, unit: DimensionUnit? = nil, width: Double? = nil) {
