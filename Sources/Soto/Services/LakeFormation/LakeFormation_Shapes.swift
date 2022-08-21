@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -218,6 +218,65 @@ extension LakeFormation {
 
     public struct AllRowsWildcard: AWSEncodableShape & AWSDecodableShape {
         public init() {}
+    }
+
+    public struct AssumeDecoratedRoleWithSAMLRequest: AWSEncodableShape {
+        /// The time period, between 900 and 43,200 seconds, for the timeout of the temporary credentials.
+        public let durationSeconds: Int?
+        /// The Amazon Resource Name (ARN) of the SAML provider in IAM that describes the IdP.
+        public let principalArn: String
+        /// The role that represents an IAM principal whose scope down policy allows it to call credential vending APIs such as GetTemporaryTableCredentials. The caller must also have iam:PassRole permission on this role.
+        public let roleArn: String
+        /// A SAML assertion consisting of an assertion statement for the user who needs temporary credentials. This must match the SAML assertion that was issued to IAM. This must be Base64 encoded.
+        public let samlAssertion: String
+
+        public init(durationSeconds: Int? = nil, principalArn: String, roleArn: String, samlAssertion: String) {
+            self.durationSeconds = durationSeconds
+            self.principalArn = principalArn
+            self.roleArn = roleArn
+            self.samlAssertion = samlAssertion
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.durationSeconds, name: "durationSeconds", parent: name, max: 43200)
+            try self.validate(self.durationSeconds, name: "durationSeconds", parent: name, min: 900)
+            try self.validate(self.principalArn, name: "principalArn", parent: name, pattern: "^arn:aws:iam::[0-9]*:saml-provider/")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws:iam::[0-9]*:role/")
+            try self.validate(self.samlAssertion, name: "samlAssertion", parent: name, max: 100_000)
+            try self.validate(self.samlAssertion, name: "samlAssertion", parent: name, min: 4)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case durationSeconds = "DurationSeconds"
+            case principalArn = "PrincipalArn"
+            case roleArn = "RoleArn"
+            case samlAssertion = "SAMLAssertion"
+        }
+    }
+
+    public struct AssumeDecoratedRoleWithSAMLResponse: AWSDecodableShape {
+        /// The access key ID for the temporary credentials. (The access key consists of an access key ID and a secret key).
+        public let accessKeyId: String?
+        /// The date and time when the temporary credentials expire.
+        public let expiration: Date?
+        /// The secret key for the temporary credentials. (The access key consists of an access key ID and a secret key).
+        public let secretAccessKey: String?
+        /// The session token for the temporary credentials.
+        public let sessionToken: String?
+
+        public init(accessKeyId: String? = nil, expiration: Date? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil) {
+            self.accessKeyId = accessKeyId
+            self.expiration = expiration
+            self.secretAccessKey = secretAccessKey
+            self.sessionToken = sessionToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessKeyId = "AccessKeyId"
+            case expiration = "Expiration"
+            case secretAccessKey = "SecretAccessKey"
+            case sessionToken = "SessionToken"
+        }
     }
 
     public struct AuditContext: AWSEncodableShape {
@@ -696,11 +755,11 @@ extension LakeFormation {
             try self.dataLakeAdmins?.forEach {
                 try $0.validate(name: "\(name).dataLakeAdmins[]")
             }
-            try self.validate(self.dataLakeAdmins, name: "dataLakeAdmins", parent: name, max: 10)
+            try self.validate(self.dataLakeAdmins, name: "dataLakeAdmins", parent: name, max: 30)
             try self.externalDataFilteringAllowList?.forEach {
                 try $0.validate(name: "\(name).externalDataFilteringAllowList[]")
             }
-            try self.validate(self.externalDataFilteringAllowList, name: "externalDataFilteringAllowList", parent: name, max: 10)
+            try self.validate(self.externalDataFilteringAllowList, name: "externalDataFilteringAllowList", parent: name, max: 30)
             try self.trustedResourceOwners?.forEach {
                 try validate($0, name: "trustedResourceOwners[]", parent: name, max: 255)
                 try validate($0, name: "trustedResourceOwners[]", parent: name, min: 1)

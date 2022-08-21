@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -62,7 +62,7 @@ public struct SecretsManagerErrorType: AWSErrorType {
     public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
     /// The parameter name or value is invalid.
     public static var invalidParameterException: Self { .init(.invalidParameterException) }
-    /// A parameter value is not valid for the current state of the resource. Possible causes:   The secret is scheduled for deletion.   You tried to enable rotation on a secret that doesn't already have a Lambda function ARN configured and you didn't include such an ARN as a parameter in this call.
+    /// A parameter value is not valid for the current state of the resource. Possible causes:   The secret is scheduled for deletion.   You tried to enable rotation on a secret that doesn't already have a Lambda function ARN configured and you didn't include such an ARN as a parameter in this call.    The secret is managed by another service, and you must use that service to update it.  For more information, see Secrets managed by other Amazon Web Services services.
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
     /// The request failed because it would exceed one of the Secrets Manager quotas.
     public static var limitExceededException: Self { .init(.limitExceededException) }

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -69,7 +69,7 @@ public struct ChimeSDKMeetings: AWSService {
         return self.client.execute(operation: "BatchCreateAttendee", path: "/meetings/{MeetingId}/attendees?operation=batch-create", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates AttendeeCapabilities except the capabilities listed in an ExcludedAttendeeIds table.
+    /// Updates AttendeeCapabilities except the capabilities listed in an ExcludedAttendeeIds table.   You use the capabilities with a set of values that control what the capabilities can do, such as SendReceive data. For more information about those values, see  .   When using capabilities, be aware of these corner cases:   You can't set content capabilities to SendReceive or Receive unless you also set video capabilities to SendReceive  or Receive. If you don't set the video capability to receive, the response will contain an HTTP 400 Bad Request status code. However, you can set your video capability  to receive and you set your content capability to not receive.                       When you change an audio capability from None or Receive to Send or SendReceive ,  and if the attendee left their microphone unmuted, audio will flow from the attendee to the other meeting participants.   When you change a video or content capability from None or Receive to Send or SendReceive ,  and if the attendee turned on their video or content streams, remote attendess can receive those streams, but only after media renegotiation between the client and the Amazon Chime back-end server.
     @discardableResult public func batchUpdateAttendeeCapabilitiesExcept(_ input: BatchUpdateAttendeeCapabilitiesExceptRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "BatchUpdateAttendeeCapabilitiesExcept", path: "/meetings/{MeetingId}/attendees/capabilities?operation=batch-update-except", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -114,6 +114,11 @@ public struct ChimeSDKMeetings: AWSService {
         return self.client.execute(operation: "ListAttendees", path: "/meetings/{MeetingId}/attendees", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Returns a list of the tags available for the specified resource.
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
+        return self.client.execute(operation: "ListTagsForResource", path: "/tags", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Starts transcription for the specified meetingId.
     @discardableResult public func startMeetingTranscription(_ input: StartMeetingTranscriptionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "StartMeetingTranscription", path: "/meetings/{MeetingId}/transcription?operation=start", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -124,7 +129,17 @@ public struct ChimeSDKMeetings: AWSService {
         return self.client.execute(operation: "StopMeetingTranscription", path: "/meetings/{MeetingId}/transcription?operation=stop", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// The capabilties that you want to update.
+    /// The resource that supports tags.
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
+        return self.client.execute(operation: "TagResource", path: "/tags?operation=tag-resource", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Removes the specified tags from the specified resources. When you specify a tag key, the action removes both that key and its associated value. The operation succeeds even if you  attempt to remove tags from a resource that were already removed. Note the following:   To remove tags from a resource, you need the necessary permissions for the service that the resource belongs to as well as permissions for removing tags. For more information,  see the documentation for the service whose resource you want to untag.   You can only tag resources that are located in the specified AWS Region for the calling AWS account.     Minimum permissions   In addition to the tag:UntagResources permission required by this operation, you must also have the remove tags permission defined by the service that created the resource.  For example, to remove the tags from an Amazon EC2 instance using the UntagResources operation, you must have both of the following permissions:   tag:UntagResource    ChimeSDKMeetings:DeleteTags
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
+        return self.client.execute(operation: "UntagResource", path: "/tags?operation=untag-resource", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// The capabilties that you want to update.  You use the capabilities with a set of values that control what the capabilities can do, such as SendReceive data. For more information about those values, see  .   When using capabilities, be aware of these corner cases:   You can't set content capabilities to SendReceive or Receive unless you also set video capabilities to SendReceive  or Receive. If you don't set the video capability to receive, the response will contain an HTTP 400 Bad Request status code. However, you can set your video capability  to receive and you set your content capability to not receive.                       When you change an audio capability from None or Receive to Send or SendReceive ,  and if the attendee left their microphone unmuted, audio will flow from the attendee to the other meeting participants.   When you change a video or content capability from None or Receive to Send or SendReceive ,  and if the attendee turned on their video or content streams, remote attendess can receive those streams, but only after media renegotiation between the client and the Amazon Chime back-end server.
     public func updateAttendeeCapabilities(_ input: UpdateAttendeeCapabilitiesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateAttendeeCapabilitiesResponse> {
         return self.client.execute(operation: "UpdateAttendeeCapabilities", path: "/meetings/{MeetingId}/attendees/{AttendeeId}/capabilities", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

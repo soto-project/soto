@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -289,6 +289,9 @@ extension EC2 {
     ///  Describes one or more of your linked EC2-Classic instances. This request only returns
     ///  			information about EC2-Classic instances linked to a VPC through ClassicLink. You cannot
     ///  			use this request to return information about other instances.
+    ///
+    ///  	           We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
+    ///
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1675,7 +1678,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the specified instances or all instances. If you specify instance IDs, the output includes information for only the specified instances. If you specify filters, the output includes information for only those instances that meet the filter criteria. If you do not specify instance IDs or filters, the output includes information for all instances, which can affect performance. We recommend that you use pagination to ensure that the operation returns quickly and successfully. If you specify an instance ID that is not valid, an error is returned. If you specify an instance that you do not own, it is not included in the output. Recently terminated instances might appear in the returned results. This interval is usually less than one hour. If you describe instances in the rare case where an Availability Zone is experiencing a service disruption and you specify instance IDs that are in the affected zone, or do not specify any instance IDs at all, the call fails. If you describe instances and specify only instance IDs that are in an unaffected zone, the call works normally.
+    ///  Describes the specified instances or all instances. If you specify instance IDs, the output includes information for only the specified instances. If you specify filters, the output includes information for only those instances that meet the filter criteria. If you do not specify instance IDs or filters, the output includes information for all instances, which can affect performance. We recommend that you use pagination to ensure that the operation returns quickly and successfully. If you specify an instance ID that is not valid, an error is returned. If you specify an instance that you do not own, it is not included in the output. Recently terminated instances might appear in the returned results. This interval is usually less than one hour. If you describe instances in the rare case where an Availability Zone is experiencing a service disruption and you specify instance IDs that are in the affected zone, or do not specify any instance IDs at all, the call fails. If you describe instances and specify only instance IDs that are in an unaffected zone, the call works normally.  We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon EC2 User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -3161,7 +3164,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the modifications made to your Reserved Instances. If no parameter is specified, information about all your Reserved Instances modification requests is returned. If a modification ID is specified, only information about the specific modification is returned. 	     For more information, see Modifying Reserved Instances in the Amazon EC2 User Guide.
+    ///  Describes the modifications made to your Reserved Instances. If no parameter is specified, information about all your Reserved Instances modification requests is returned. If a modification ID is specified, only information about the specific modification is returned. 	     For more information, see Modifying Reserved Instances in the Amazon EC2 User Guide.  We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -3215,7 +3218,7 @@ extension EC2 {
     }
 
     ///  Describes Reserved Instance offerings that are available for purchase. With Reserved Instances, you purchase the right to launch instances for a period of time. During that time period, you do not receive insufficient capacity errors, and you pay a lower usage rate than the rate charged for On-Demand instances for the actual time used. If you have listed your own Reserved Instances for sale in the Reserved Instance Marketplace, they will be excluded from these results. This is to ensure that you do not purchase your own Reserved Instances. For more information, see Reserved Instance Marketplace
-    ///  				in the Amazon EC2 User Guide.
+    ///  				in the Amazon EC2 User Guide.  We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -3323,7 +3326,7 @@ extension EC2 {
         )
     }
 
-    ///  Finds available schedules that meet the specified criteria. You can search for an available schedule no more than 3 months in advance. You must meet the minimum required duration of 1,200 hours per year. For example, the minimum daily schedule is 4 hours, the minimum weekly schedule is 24 hours, and the minimum monthly schedule is 100 hours. After you find a schedule that meets your needs, call PurchaseScheduledInstances to purchase Scheduled Instances with that schedule.
+    ///  Finds available schedules that meet the specified criteria. You can search for an available schedule no more than 3 months in advance. You must meet the minimum required duration of 1,200 hours per year. For example, the minimum daily schedule is 4 hours, the minimum weekly schedule is 24 hours, and the minimum monthly schedule is 100 hours. After you find a schedule that meets your needs, call PurchaseScheduledInstances to purchase Scheduled Instances with that schedule.   We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -3376,7 +3379,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the specified Scheduled Instances or all your Scheduled Instances.
+    ///  Describes the specified Scheduled Instances or all your Scheduled Instances.   We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -3487,7 +3490,7 @@ extension EC2 {
     ///  				Amazon EC2 security groups in
     ///  				the Amazon Elastic Compute Cloud User Guide and
     ///  				Security groups for your VPC in the
-    ///  				Amazon Virtual Private Cloud User Guide.
+    ///  				Amazon Virtual Private Cloud User Guide.  We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -3965,7 +3968,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the specified tags for your EC2 resources. For more information about tags, see Tagging Your Resources in the Amazon Elastic Compute Cloud User Guide.
+    ///  Describes the specified tags for your EC2 resources. For more information about tags, see Tag your Amazon EC2 resources in the Amazon Elastic Compute Cloud User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -4442,6 +4445,112 @@ extension EC2 {
         )
     }
 
+    ///  Describes one or more transit gateway route policy tables.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeTransitGatewayPolicyTablesPaginator<Result>(
+        _ input: DescribeTransitGatewayPolicyTablesRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeTransitGatewayPolicyTablesResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeTransitGatewayPolicyTables,
+            inputKey: \DescribeTransitGatewayPolicyTablesRequest.nextToken,
+            outputKey: \DescribeTransitGatewayPolicyTablesResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeTransitGatewayPolicyTablesPaginator(
+        _ input: DescribeTransitGatewayPolicyTablesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeTransitGatewayPolicyTablesResult, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeTransitGatewayPolicyTables,
+            inputKey: \DescribeTransitGatewayPolicyTablesRequest.nextToken,
+            outputKey: \DescribeTransitGatewayPolicyTablesResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Describes one or more transit gateway route table advertisements.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeTransitGatewayRouteTableAnnouncementsPaginator<Result>(
+        _ input: DescribeTransitGatewayRouteTableAnnouncementsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeTransitGatewayRouteTableAnnouncementsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeTransitGatewayRouteTableAnnouncements,
+            inputKey: \DescribeTransitGatewayRouteTableAnnouncementsRequest.nextToken,
+            outputKey: \DescribeTransitGatewayRouteTableAnnouncementsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeTransitGatewayRouteTableAnnouncementsPaginator(
+        _ input: DescribeTransitGatewayRouteTableAnnouncementsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeTransitGatewayRouteTableAnnouncementsResult, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeTransitGatewayRouteTableAnnouncements,
+            inputKey: \DescribeTransitGatewayRouteTableAnnouncementsRequest.nextToken,
+            outputKey: \DescribeTransitGatewayRouteTableAnnouncementsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Describes one or more transit gateway route tables. By default, all transit gateway route tables are described. Alternatively, you can filter the results.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -4813,7 +4922,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the ClassicLink DNS support status of one or more VPCs. If enabled, the DNS hostname of a linked EC2-Classic instance resolves to its private IP address when addressed from an instance in the VPC to which it's linked. Similarly, the DNS hostname of an instance in a VPC resolves to its private IP address when addressed from a linked EC2-Classic instance. For more information, see ClassicLink in the Amazon Elastic Compute Cloud User Guide.
+    ///   We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.  Describes the ClassicLink DNS support status of one or more VPCs. If enabled, the DNS hostname of a linked EC2-Classic instance resolves to its private IP address when addressed from an instance in the VPC to which it's linked. Similarly, the DNS hostname of an instance in a VPC resolves to its private IP address when addressed from a linked EC2-Classic instance. For more information, see ClassicLink in the Amazon Elastic Compute Cloud User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -5868,6 +5977,59 @@ extension EC2 {
             command: getTransitGatewayMulticastDomainAssociations,
             inputKey: \GetTransitGatewayMulticastDomainAssociationsRequest.nextToken,
             outputKey: \GetTransitGatewayMulticastDomainAssociationsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Gets a list of the transit gateway policy table associations.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func getTransitGatewayPolicyTableAssociationsPaginator<Result>(
+        _ input: GetTransitGatewayPolicyTableAssociationsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, GetTransitGatewayPolicyTableAssociationsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: getTransitGatewayPolicyTableAssociations,
+            inputKey: \GetTransitGatewayPolicyTableAssociationsRequest.nextToken,
+            outputKey: \GetTransitGatewayPolicyTableAssociationsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func getTransitGatewayPolicyTableAssociationsPaginator(
+        _ input: GetTransitGatewayPolicyTableAssociationsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (GetTransitGatewayPolicyTableAssociationsResult, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: getTransitGatewayPolicyTableAssociations,
+            inputKey: \GetTransitGatewayPolicyTableAssociationsRequest.nextToken,
+            outputKey: \GetTransitGatewayPolicyTableAssociationsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -7315,6 +7477,30 @@ extension EC2.DescribeTransitGatewayPeeringAttachmentsRequest: AWSPaginateToken 
     }
 }
 
+extension EC2.DescribeTransitGatewayPolicyTablesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeTransitGatewayPolicyTablesRequest {
+        return .init(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            transitGatewayPolicyTableIds: self.transitGatewayPolicyTableIds
+        )
+    }
+}
+
+extension EC2.DescribeTransitGatewayRouteTableAnnouncementsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeTransitGatewayRouteTableAnnouncementsRequest {
+        return .init(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            transitGatewayRouteTableAnnouncementIds: self.transitGatewayRouteTableAnnouncementIds
+        )
+    }
+}
+
 extension EC2.DescribeTransitGatewayRouteTablesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeTransitGatewayRouteTablesRequest {
         return .init(
@@ -7375,8 +7561,8 @@ extension EC2.DescribeVolumeStatusRequest: AWSPaginateToken {
     }
 }
 
-extension EC2.DescribeVolumesRequest: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> EC2.DescribeVolumesRequest {
+extension EC2.DescribeVolumesModificationsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeVolumesModificationsRequest {
         return .init(
             dryRun: self.dryRun,
             filters: self.filters,
@@ -7387,8 +7573,8 @@ extension EC2.DescribeVolumesRequest: AWSPaginateToken {
     }
 }
 
-extension EC2.DescribeVolumesModificationsRequest: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> EC2.DescribeVolumesModificationsRequest {
+extension EC2.DescribeVolumesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeVolumesRequest {
         return .init(
             dryRun: self.dryRun,
             filters: self.filters,
@@ -7643,6 +7829,18 @@ extension EC2.GetTransitGatewayMulticastDomainAssociationsRequest: AWSPaginateTo
             maxResults: self.maxResults,
             nextToken: token,
             transitGatewayMulticastDomainId: self.transitGatewayMulticastDomainId
+        )
+    }
+}
+
+extension EC2.GetTransitGatewayPolicyTableAssociationsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> EC2.GetTransitGatewayPolicyTableAssociationsRequest {
+        return .init(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            transitGatewayPolicyTableId: self.transitGatewayPolicyTableId
         )
     }
 }

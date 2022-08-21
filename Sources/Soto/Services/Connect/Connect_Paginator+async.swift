@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -156,7 +156,7 @@ extension Connect {
         )
     }
 
-    ///  Provides information about the contact flow modules for the specified Amazon Connect instance.
+    ///  Provides information about the flow modules for the specified Amazon Connect instance.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -178,7 +178,7 @@ extension Connect {
         )
     }
 
-    ///  Provides information about the contact flows for the specified Amazon Connect instance. You can also create and update contact flows using the Amazon Connect Flow language. For more information about contact flows, see Contact Flows in the Amazon Connect Administrator Guide.
+    ///  Provides information about the flows for the specified Amazon Connect instance. You can also create and update flows using the Amazon Connect Flow language. For more information about flows, see Flows in the Amazon Connect Administrator Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -355,7 +355,7 @@ extension Connect {
         )
     }
 
-    ///  This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all Lambda functions that display in the dropdown options in the relevant contact flow blocks.
+    ///  This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all Lambda functions that display in the dropdown options in the relevant flow blocks.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -746,6 +746,28 @@ extension Connect {
             command: searchAvailablePhoneNumbers,
             inputKey: \SearchAvailablePhoneNumbersRequest.nextToken,
             outputKey: \SearchAvailablePhoneNumbersResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  This API is in preview release for Amazon Connect and is subject to change. Searches security profiles in an Amazon Connect instance, with optional filtering.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func searchSecurityProfilesPaginator(
+        _ input: SearchSecurityProfilesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<SearchSecurityProfilesRequest, SearchSecurityProfilesResponse> {
+        return .init(
+            input: input,
+            command: searchSecurityProfiles,
+            inputKey: \SearchSecurityProfilesRequest.nextToken,
+            outputKey: \SearchSecurityProfilesResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -85,7 +85,7 @@ public struct GlobalAcceleratorErrorType: AWSErrorType {
     /// The CIDR that you specified is not valid for this action. For example, the state of the CIDR might be
     /// 		incorrect for this action.
     public static var incorrectCidrStateException: Self { .init(.incorrectCidrStateException) }
-    /// There was an internal error for AWS Global Accelerator.
+    /// There was an internal error for Global Accelerator.
     public static var internalServiceErrorException: Self { .init(.internalServiceErrorException) }
     /// An argument that you specified is invalid.
     public static var invalidArgumentException: Self { .init(.invalidArgumentException) }
@@ -93,7 +93,7 @@ public struct GlobalAcceleratorErrorType: AWSErrorType {
     public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
     /// The port numbers that you specified are not valid numbers or are not unique for this accelerator.
     public static var invalidPortRangeException: Self { .init(.invalidPortRangeException) }
-    /// Processing your request would cause you to exceed an AWS Global Accelerator limit.
+    /// Processing your request would cause you to exceed an Global Accelerator limit.
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// The listener that you specified doesn't exist.
     public static var listenerNotFoundException: Self { .init(.listenerNotFoundException) }

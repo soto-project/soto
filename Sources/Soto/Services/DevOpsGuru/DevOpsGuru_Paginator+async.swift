@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -143,6 +143,29 @@ extension DevOpsGuru {
         )
     }
 
+    ///  			Returns the list of log groups that contain log anomalies.
+    ///
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listAnomalousLogGroupsPaginator(
+        _ input: ListAnomalousLogGroupsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListAnomalousLogGroupsRequest, ListAnomalousLogGroupsResponse> {
+        return .init(
+            input: input,
+            command: listAnomalousLogGroups,
+            inputKey: \ListAnomalousLogGroupsRequest.nextToken,
+            outputKey: \ListAnomalousLogGroupsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///   Returns a list of the events emitted by the resources that are evaluated by DevOps Guru.
     ///  			You can use filters to specify which events are returned.
     /// Return PaginatorSequence for operation.
@@ -185,6 +208,29 @@ extension DevOpsGuru {
             command: listInsights,
             inputKey: \ListInsightsRequest.nextToken,
             outputKey: \ListInsightsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  			Returns the list of all log groups that are being monitored and tagged by DevOps Guru.
+    ///
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listMonitoredResourcesPaginator(
+        _ input: ListMonitoredResourcesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListMonitoredResourcesRequest, ListMonitoredResourcesResponse> {
+        return .init(
+            input: input,
+            command: listMonitoredResources,
+            inputKey: \ListMonitoredResourcesRequest.nextToken,
+            outputKey: \ListMonitoredResourcesResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

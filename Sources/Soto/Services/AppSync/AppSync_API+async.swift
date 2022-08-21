@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -25,7 +25,7 @@ extension AppSync {
 
     /// Maps an endpoint to your custom domain.
     public func associateApi(_ input: AssociateApiRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AssociateApiResponse {
-        return try await self.client.execute(operation: "AssociateApi", path: "/domainnames/{domainName}/apiassociation", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+        return try await self.client.execute(operation: "AssociateApi", path: "/v1/domainnames/{domainName}/apiassociation", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates a cache for the GraphQL API.
@@ -45,7 +45,7 @@ extension AppSync {
 
     /// Creates a custom DomainName object.
     public func createDomainName(_ input: CreateDomainNameRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateDomainNameResponse {
-        return try await self.client.execute(operation: "CreateDomainName", path: "/domainnames", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+        return try await self.client.execute(operation: "CreateDomainName", path: "/v1/domainnames", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates a Function object. A function is a reusable entity. You can use multiple functions to compose the resolver logic.
@@ -85,7 +85,7 @@ extension AppSync {
 
     /// Deletes a custom DomainName object.
     public func deleteDomainName(_ input: DeleteDomainNameRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteDomainNameResponse {
-        return try await self.client.execute(operation: "DeleteDomainName", path: "/domainnames/{domainName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+        return try await self.client.execute(operation: "DeleteDomainName", path: "/v1/domainnames/{domainName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes a Function.
@@ -110,7 +110,12 @@ extension AppSync {
 
     /// Removes an ApiAssociation object from a custom domain.
     public func disassociateApi(_ input: DisassociateApiRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DisassociateApiResponse {
-        return try await self.client.execute(operation: "DisassociateApi", path: "/domainnames/{domainName}/apiassociation", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+        return try await self.client.execute(operation: "DisassociateApi", path: "/v1/domainnames/{domainName}/apiassociation", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Evaluates a given template and returns the response. The mapping template can be a request or response template. Request templates take the incoming request after a GraphQL operation is parsed and convert it into a request configuration for the selected data source operation. Response templates interpret responses from the data source and map it to the shape of the GraphQL field output type. Mapping templates are written in the Apache Velocity Template Language (VTL).
+    public func evaluateMappingTemplate(_ input: EvaluateMappingTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> EvaluateMappingTemplateResponse {
+        return try await self.client.execute(operation: "EvaluateMappingTemplate", path: "/v1/dataplane-evaluatetemplate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Flushes an ApiCache object.
@@ -120,7 +125,7 @@ extension AppSync {
 
     /// Retrieves an ApiAssociation object.
     public func getApiAssociation(_ input: GetApiAssociationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetApiAssociationResponse {
-        return try await self.client.execute(operation: "GetApiAssociation", path: "/domainnames/{domainName}/apiassociation", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+        return try await self.client.execute(operation: "GetApiAssociation", path: "/v1/domainnames/{domainName}/apiassociation", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Retrieves an ApiCache object.
@@ -135,7 +140,7 @@ extension AppSync {
 
     /// Retrieves a custom DomainName object.
     public func getDomainName(_ input: GetDomainNameRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetDomainNameResponse {
-        return try await self.client.execute(operation: "GetDomainName", path: "/domainnames/{domainName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+        return try await self.client.execute(operation: "GetDomainName", path: "/v1/domainnames/{domainName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Get a Function.
@@ -180,7 +185,7 @@ extension AppSync {
 
     /// Lists multiple custom domain names.
     public func listDomainNames(_ input: ListDomainNamesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListDomainNamesResponse {
-        return try await self.client.execute(operation: "ListDomainNames", path: "/domainnames", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+        return try await self.client.execute(operation: "ListDomainNames", path: "/v1/domainnames", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// List multiple functions.
@@ -245,7 +250,7 @@ extension AppSync {
 
     /// Updates a custom DomainName object.
     public func updateDomainName(_ input: UpdateDomainNameRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateDomainNameResponse {
-        return try await self.client.execute(operation: "UpdateDomainName", path: "/domainnames/{domainName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+        return try await self.client.execute(operation: "UpdateDomainName", path: "/v1/domainnames/{domainName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates a Function object.

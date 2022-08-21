@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -231,10 +231,169 @@ extension Synthetics {
             onPage: onPage
         )
     }
+
+    ///  Returns a list of the groups that the specified canary is associated with. The canary that you specify must be in the current Region.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listAssociatedGroupsPaginator<Result>(
+        _ input: ListAssociatedGroupsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListAssociatedGroupsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listAssociatedGroups,
+            inputKey: \ListAssociatedGroupsRequest.nextToken,
+            outputKey: \ListAssociatedGroupsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listAssociatedGroupsPaginator(
+        _ input: ListAssociatedGroupsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListAssociatedGroupsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listAssociatedGroups,
+            inputKey: \ListAssociatedGroupsRequest.nextToken,
+            outputKey: \ListAssociatedGroupsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  This operation returns a list of the ARNs of the canaries that are associated with the specified group.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listGroupResourcesPaginator<Result>(
+        _ input: ListGroupResourcesRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListGroupResourcesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listGroupResources,
+            inputKey: \ListGroupResourcesRequest.nextToken,
+            outputKey: \ListGroupResourcesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listGroupResourcesPaginator(
+        _ input: ListGroupResourcesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListGroupResourcesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listGroupResources,
+            inputKey: \ListGroupResourcesRequest.nextToken,
+            outputKey: \ListGroupResourcesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Returns a list of all groups in the account, displaying their names, unique IDs, and ARNs. The groups from all Regions are returned.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listGroupsPaginator<Result>(
+        _ input: ListGroupsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListGroupsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listGroups,
+            inputKey: \ListGroupsRequest.nextToken,
+            outputKey: \ListGroupsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listGroupsPaginator(
+        _ input: ListGroupsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListGroupsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listGroups,
+            inputKey: \ListGroupsRequest.nextToken,
+            outputKey: \ListGroupsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
 }
 
-extension Synthetics.DescribeCanariesRequest: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> Synthetics.DescribeCanariesRequest {
+extension Synthetics.DescribeCanariesLastRunRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Synthetics.DescribeCanariesLastRunRequest {
         return .init(
             maxResults: self.maxResults,
             names: self.names,
@@ -243,8 +402,8 @@ extension Synthetics.DescribeCanariesRequest: AWSPaginateToken {
     }
 }
 
-extension Synthetics.DescribeCanariesLastRunRequest: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> Synthetics.DescribeCanariesLastRunRequest {
+extension Synthetics.DescribeCanariesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Synthetics.DescribeCanariesRequest {
         return .init(
             maxResults: self.maxResults,
             names: self.names,
@@ -267,6 +426,35 @@ extension Synthetics.GetCanaryRunsRequest: AWSPaginateToken {
         return .init(
             maxResults: self.maxResults,
             name: self.name,
+            nextToken: token
+        )
+    }
+}
+
+extension Synthetics.ListAssociatedGroupsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Synthetics.ListAssociatedGroupsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceArn: self.resourceArn
+        )
+    }
+}
+
+extension Synthetics.ListGroupResourcesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Synthetics.ListGroupResourcesRequest {
+        return .init(
+            groupIdentifier: self.groupIdentifier,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Synthetics.ListGroupsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Synthetics.ListGroupsRequest {
+        return .init(
+            maxResults: self.maxResults,
             nextToken: token
         )
     }

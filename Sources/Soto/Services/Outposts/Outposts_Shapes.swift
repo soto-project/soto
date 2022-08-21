@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -147,6 +147,14 @@ extension Outposts {
         public var description: String { return self.rawValue }
     }
 
+    public enum ShipmentCarrier: String, CustomStringConvertible, Codable, _SotoSendable {
+        case dbs = "DBS"
+        case dhl = "DHL"
+        case fedex = "FEDEX"
+        case ups = "UPS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SupportedHardwareType: String, CustomStringConvertible, Codable, _SotoSendable {
         case rack = "RACK"
         case server = "SERVER"
@@ -272,6 +280,8 @@ extension Outposts {
     public struct AssetInfo: AWSDecodableShape {
         ///  The ID of the asset.
         public let assetId: String?
+        ///  The position of an asset in a rack.
+        public let assetLocation: AssetLocation?
         ///  The type of the asset.
         public let assetType: AssetType?
         ///  Information about compute hardware assets.
@@ -279,8 +289,9 @@ extension Outposts {
         ///  The rack ID of the asset.
         public let rackId: String?
 
-        public init(assetId: String? = nil, assetType: AssetType? = nil, computeAttributes: ComputeAttributes? = nil, rackId: String? = nil) {
+        public init(assetId: String? = nil, assetLocation: AssetLocation? = nil, assetType: AssetType? = nil, computeAttributes: ComputeAttributes? = nil, rackId: String? = nil) {
             self.assetId = assetId
+            self.assetLocation = assetLocation
             self.assetType = assetType
             self.computeAttributes = computeAttributes
             self.rackId = rackId
@@ -288,9 +299,23 @@ extension Outposts {
 
         private enum CodingKeys: String, CodingKey {
             case assetId = "AssetId"
+            case assetLocation = "AssetLocation"
             case assetType = "AssetType"
             case computeAttributes = "ComputeAttributes"
             case rackId = "RackId"
+        }
+    }
+
+    public struct AssetLocation: AWSDecodableShape {
+        ///  The position of an asset in a rack measured in rack units.
+        public let rackElevation: Float?
+
+        public init(rackElevation: Float? = nil) {
+            self.rackElevation = rackElevation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rackElevation = "RackElevation"
         }
     }
 
@@ -710,9 +735,9 @@ extension Outposts {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.connectionId, name: "connectionId", parent: name, max: 255)
+            try self.validate(self.connectionId, name: "connectionId", parent: name, max: 1024)
             try self.validate(self.connectionId, name: "connectionId", parent: name, min: 1)
-            try self.validate(self.connectionId, name: "connectionId", parent: name, pattern: "^([\\w-]+)$")
+            try self.validate(self.connectionId, name: "connectionId", parent: name, pattern: "^[a-zA-Z0-9+/=]{1,1024}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -946,27 +971,52 @@ extension Outposts {
     }
 
     public struct LineItem: AWSDecodableShape {
+        ///  Information about assets.
+        public let assetInformationList: [LineItemAssetInformation]?
         ///  The ID of the catalog item.
         public let catalogItemId: String?
         /// The ID of the line item.
         public let lineItemId: String?
         /// The quantity of the line item.
         public let quantity: Int?
+        ///  Information about a line item shipment.
+        public let shipmentInformation: ShipmentInformation?
         /// The status of the line item.
         public let status: LineItemStatus?
 
-        public init(catalogItemId: String? = nil, lineItemId: String? = nil, quantity: Int? = nil, status: LineItemStatus? = nil) {
+        public init(assetInformationList: [LineItemAssetInformation]? = nil, catalogItemId: String? = nil, lineItemId: String? = nil, quantity: Int? = nil, shipmentInformation: ShipmentInformation? = nil, status: LineItemStatus? = nil) {
+            self.assetInformationList = assetInformationList
             self.catalogItemId = catalogItemId
             self.lineItemId = lineItemId
             self.quantity = quantity
+            self.shipmentInformation = shipmentInformation
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
+            case assetInformationList = "AssetInformationList"
             case catalogItemId = "CatalogItemId"
             case lineItemId = "LineItemId"
             case quantity = "Quantity"
+            case shipmentInformation = "ShipmentInformation"
             case status = "Status"
+        }
+    }
+
+    public struct LineItemAssetInformation: AWSDecodableShape {
+        ///  The ID of the asset.
+        public let assetId: String?
+        ///  MAC addresses of the asset.
+        public let macAddressList: [String]?
+
+        public init(assetId: String? = nil, macAddressList: [String]? = nil) {
+            self.assetId = assetId
+            self.macAddressList = macAddressList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetId = "AssetId"
+            case macAddressList = "MacAddressList"
         }
     }
 
@@ -1495,6 +1545,23 @@ extension Outposts {
             case powerPhase = "PowerPhase"
             case uplinkCount = "UplinkCount"
             case uplinkGbps = "UplinkGbps"
+        }
+    }
+
+    public struct ShipmentInformation: AWSDecodableShape {
+        ///  The carrier of the shipment.
+        public let shipmentCarrier: ShipmentCarrier?
+        ///  The tracking number of the shipment.
+        public let shipmentTrackingNumber: String?
+
+        public init(shipmentCarrier: ShipmentCarrier? = nil, shipmentTrackingNumber: String? = nil) {
+            self.shipmentCarrier = shipmentCarrier
+            self.shipmentTrackingNumber = shipmentTrackingNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case shipmentCarrier = "ShipmentCarrier"
+            case shipmentTrackingNumber = "ShipmentTrackingNumber"
         }
     }
 

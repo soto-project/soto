@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -1547,16 +1547,6 @@ extension IAM.ListGroupPoliciesRequest: AWSPaginateToken {
     }
 }
 
-extension IAM.ListGroupsRequest: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> IAM.ListGroupsRequest {
-        return .init(
-            marker: token,
-            maxItems: self.maxItems,
-            pathPrefix: self.pathPrefix
-        )
-    }
-}
-
 extension IAM.ListGroupsForUserRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IAM.ListGroupsForUserRequest {
         return .init(
@@ -1567,8 +1557,8 @@ extension IAM.ListGroupsForUserRequest: AWSPaginateToken {
     }
 }
 
-extension IAM.ListInstanceProfilesRequest: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> IAM.ListInstanceProfilesRequest {
+extension IAM.ListGroupsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IAM.ListGroupsRequest {
         return .init(
             marker: token,
             maxItems: self.maxItems,
@@ -1583,6 +1573,16 @@ extension IAM.ListInstanceProfilesForRoleRequest: AWSPaginateToken {
             marker: token,
             maxItems: self.maxItems,
             roleName: self.roleName
+        )
+    }
+}
+
+extension IAM.ListInstanceProfilesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IAM.ListInstanceProfilesRequest {
+        return .init(
+            marker: token,
+            maxItems: self.maxItems,
+            pathPrefix: self.pathPrefix
         )
     }
 }

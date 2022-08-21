@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -62,6 +62,28 @@ extension DynamoDB {
             command: listExports,
             inputKey: \ListExportsInput.nextToken,
             outputKey: \ListExportsOutput.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///   Lists completed imports within the past 90 days.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listImportsPaginator(
+        _ input: ListImportsInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListImportsInput, ListImportsOutput> {
+        return .init(
+            input: input,
+            command: listImports,
+            inputKey: \ListImportsInput.nextToken,
+            outputKey: \ListImportsOutput.nextToken,
             logger: logger,
             on: eventLoop
         )

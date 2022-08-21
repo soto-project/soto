@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -114,6 +114,11 @@ extension GuardDuty {
         return try await self.client.execute(operation: "DeleteThreatIntelSet", path: "/detector/{DetectorId}/threatintelset/{ThreatIntelSetId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Returns a list of malware scans.
+    public func describeMalwareScans(_ input: DescribeMalwareScansRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeMalwareScansResponse {
+        return try await self.client.execute(operation: "DescribeMalwareScans", path: "/detector/{DetectorId}/malware-scans", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns information about the account selected as the delegated administrator for GuardDuty.
     public func describeOrganizationConfiguration(_ input: DescribeOrganizationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeOrganizationConfigurationResponse {
         return try await self.client.execute(operation: "DescribeOrganizationConfiguration", path: "/detector/{DetectorId}/admin", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -183,6 +188,11 @@ extension GuardDuty {
     /// Returns the count of all GuardDuty membership invitations that were sent to the current member account except the currently accepted invitation.
     public func getInvitationsCount(_ input: GetInvitationsCountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetInvitationsCountResponse {
         return try await self.client.execute(operation: "GetInvitationsCount", path: "/invitation/count", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns the details of the malware scan settings.
+    public func getMalwareScanSettings(_ input: GetMalwareScanSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetMalwareScanSettingsResponse {
+        return try await self.client.execute(operation: "GetMalwareScanSettings", path: "/detector/{DetectorId}/malware-scan-settings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Provides the details for the GuardDuty administrator account associated with the current GuardDuty member account.
@@ -314,6 +324,11 @@ extension GuardDuty {
     /// Updates the IPSet specified by the IPSet ID.
     public func updateIPSet(_ input: UpdateIPSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateIPSetResponse {
         return try await self.client.execute(operation: "UpdateIPSet", path: "/detector/{DetectorId}/ipset/{IpSetId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates the malware scan settings.
+    public func updateMalwareScanSettings(_ input: UpdateMalwareScanSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateMalwareScanSettingsResponse {
+        return try await self.client.execute(operation: "UpdateMalwareScanSettings", path: "/detector/{DetectorId}/malware-scan-settings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Contains information on member accounts to be updated.

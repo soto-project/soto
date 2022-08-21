@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -21,6 +21,42 @@ import SotoCore
 extension Transfer {
     // MARK: Enums
 
+    public enum AgreementStatusType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case active = "ACTIVE"
+        case inactive = "INACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum As2Transport: String, CustomStringConvertible, Codable, _SotoSendable {
+        case http = "HTTP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CertificateStatusType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case active = "ACTIVE"
+        case inactive = "INACTIVE"
+        case pendingRotation = "PENDING_ROTATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CertificateType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case certificate = "CERTIFICATE"
+        case certificateWithPrivateKey = "CERTIFICATE_WITH_PRIVATE_KEY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CertificateUsageType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case encryption = "ENCRYPTION"
+        case signing = "SIGNING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CompressionEnum: String, CustomStringConvertible, Codable, _SotoSendable {
+        case disabled = "DISABLED"
+        case zlib = "ZLIB"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CustomStepStatus: String, CustomStringConvertible, Codable, _SotoSendable {
         case failure = "FAILURE"
         case success = "SUCCESS"
@@ -30,6 +66,13 @@ extension Transfer {
     public enum Domain: String, CustomStringConvertible, Codable, _SotoSendable {
         case efs = "EFS"
         case s3 = "S3"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EncryptionAlg: String, CustomStringConvertible, Codable, _SotoSendable {
+        case aes128Cbc = "AES128_CBC"
+        case aes192Cbc = "AES192_CBC"
+        case aes256Cbc = "AES256_CBC"
         public var description: String { return self.rawValue }
     }
 
@@ -74,13 +117,36 @@ extension Transfer {
         public var description: String { return self.rawValue }
     }
 
+    public enum MdnResponse: String, CustomStringConvertible, Codable, _SotoSendable {
+        case none = "NONE"
+        case sync = "SYNC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MdnSigningAlg: String, CustomStringConvertible, Codable, _SotoSendable {
+        case `default` = "DEFAULT"
+        case none = "NONE"
+        case sha1 = "SHA1"
+        case sha256 = "SHA256"
+        case sha384 = "SHA384"
+        case sha512 = "SHA512"
+        public var description: String { return self.rawValue }
+    }
+
     public enum OverwriteExisting: String, CustomStringConvertible, Codable, _SotoSendable {
         case `false` = "FALSE"
         case `true` = "TRUE"
         public var description: String { return self.rawValue }
     }
 
+    public enum ProfileType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case local = "LOCAL"
+        case partner = "PARTNER"
+        public var description: String { return self.rawValue }
+    }
+
     public enum `Protocol`: String, CustomStringConvertible, Codable, _SotoSendable {
+        case as2 = "AS2"
         case ftp = "FTP"
         case ftps = "FTPS"
         case sftp = "SFTP"
@@ -90,6 +156,15 @@ extension Transfer {
     public enum SetStatOption: String, CustomStringConvertible, Codable, _SotoSendable {
         case `default` = "DEFAULT"
         case enableNoOp = "ENABLE_NO_OP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SigningAlg: String, CustomStringConvertible, Codable, _SotoSendable {
+        case none = "NONE"
+        case sha1 = "SHA1"
+        case sha256 = "SHA256"
+        case sha384 = "SHA384"
+        case sha512 = "SHA512"
         public var description: String { return self.rawValue }
     }
 
@@ -119,6 +194,59 @@ extension Transfer {
     }
 
     // MARK: Shapes
+
+    public struct As2ConnectorConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether the AS2 file is compressed.
+        public let compression: CompressionEnum?
+        /// The algorithm that is used to encrypt the file.
+        public let encryptionAlgorithm: EncryptionAlg?
+        /// A unique identifier for the AS2 process.
+        public let localProfileId: String?
+        /// Used  for outbound requests (from an Transfer Family server to a partner AS2 server) to determine whether the partner response for transfers is synchronous or asynchronous. Specify either of the following values:    SYNC: The system expects a synchronous MDN response, confirming that the file was transferred successfully (or not).    NONE: Specifies that no MDN response is required.
+        public let mdnResponse: MdnResponse?
+        /// The signing algorithm for the MDN response.
+        public let mdnSigningAlgorithm: MdnSigningAlg?
+        /// A short description to help identify the connector.
+        public let messageSubject: String?
+        /// A unique identifier for the partner for the connector.
+        public let partnerProfileId: String?
+        /// The algorithm that is used to sign the AS2 transfers for this partner profile.
+        public let signingAlgorithm: SigningAlg?
+
+        public init(compression: CompressionEnum? = nil, encryptionAlgorithm: EncryptionAlg? = nil, localProfileId: String? = nil, mdnResponse: MdnResponse? = nil, mdnSigningAlgorithm: MdnSigningAlg? = nil, messageSubject: String? = nil, partnerProfileId: String? = nil, signingAlgorithm: SigningAlg? = nil) {
+            self.compression = compression
+            self.encryptionAlgorithm = encryptionAlgorithm
+            self.localProfileId = localProfileId
+            self.mdnResponse = mdnResponse
+            self.mdnSigningAlgorithm = mdnSigningAlgorithm
+            self.messageSubject = messageSubject
+            self.partnerProfileId = partnerProfileId
+            self.signingAlgorithm = signingAlgorithm
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.localProfileId, name: "localProfileId", parent: name, max: 19)
+            try self.validate(self.localProfileId, name: "localProfileId", parent: name, min: 19)
+            try self.validate(self.localProfileId, name: "localProfileId", parent: name, pattern: "^p-([0-9a-f]{17})$")
+            try self.validate(self.messageSubject, name: "messageSubject", parent: name, max: 1024)
+            try self.validate(self.messageSubject, name: "messageSubject", parent: name, min: 1)
+            try self.validate(self.messageSubject, name: "messageSubject", parent: name, pattern: "^[\\p{Print}\\p{Blank}]+$")
+            try self.validate(self.partnerProfileId, name: "partnerProfileId", parent: name, max: 19)
+            try self.validate(self.partnerProfileId, name: "partnerProfileId", parent: name, min: 19)
+            try self.validate(self.partnerProfileId, name: "partnerProfileId", parent: name, pattern: "^p-([0-9a-f]{17})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case compression = "Compression"
+            case encryptionAlgorithm = "EncryptionAlgorithm"
+            case localProfileId = "LocalProfileId"
+            case mdnResponse = "MdnResponse"
+            case mdnSigningAlgorithm = "MdnSigningAlgorithm"
+            case messageSubject = "MessageSubject"
+            case partnerProfileId = "PartnerProfileId"
+            case signingAlgorithm = "SigningAlgorithm"
+        }
+    }
 
     public struct CopyStepDetails: AWSEncodableShape & AWSDecodableShape {
         /// Specifies the location for the file being copied. Only applicable for Copy type workflow steps. Use ${Transfer:username} in this field to parametrize the destination prefix by username.
@@ -154,20 +282,20 @@ extension Transfer {
     }
 
     public struct CreateAccessRequest: AWSEncodableShape {
-        /// A unique identifier that is required to identify specific groups within your directory. The users of the group that you associate have access to your Amazon S3 or Amazon EFS resources over the enabled protocols using Amazon Web Services Transfer Family. If you know the group name, you can view the SID values by running the following command using Windows PowerShell.
+        /// A unique identifier that is required to identify specific groups within your directory. The users of the group that you associate have access to your Amazon S3 or Amazon EFS resources over the enabled protocols using Transfer Family. If you know the group name, you can view the SID values by running the following command using Windows PowerShell.
         ///   Get-ADGroup -Filter {samAccountName -like "YourGroupName*"} -Properties * | Select SamAccountName,ObjectSid   In that command, replace YourGroupName with the name of your Active Directory group.
-        ///  The regex used to validate this parameter is a string of characters consisting of uppercase and lowercase alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
+        ///  The regular expression used to validate this parameter is a string of characters consisting of uppercase and lowercase alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
         public let externalId: String
         /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.
         public let homeDirectory: String?
-        /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Amazon Web Services Identity and Access Management (IAM) role provides access to paths in Target. This value can only be set when HomeDirectoryType is set to LOGICAL. The following is an Entry and Target pair example.  [ { "Entry": "/directory1", "Target": "/bucket_name/home/mydirectory" } ]  In most cases, you can use this value instead of the session policy to lock down your user to the designated home directory ("chroot"). To do this, you can set Entry to / and set Target to the HomeDirectory parameter value. The following is an Entry and Target pair example for chroot.  [ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" } ]
+        /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Identity and Access Management (IAM)  role provides access to paths in Target. This value can be set only when HomeDirectoryType is set to LOGICAL. The following is an Entry and Target pair example.  [ { "Entry": "/directory1", "Target": "/bucket_name/home/mydirectory" } ]  In most cases, you can use this value instead of the session policy to lock down your user to the designated home directory ("chroot"). To do this, you can set Entry to / and set Target to the HomeDirectory parameter value. The following is an Entry and Target pair example for chroot.  [ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" } ]
         public let homeDirectoryMappings: [HomeDirectoryMapEntry]?
-        /// The type of landing directory (folder) you want your users' home directory to be when they log into the server. If you set it to PATH, the user will see the absolute Amazon S3 bucket or EFS paths as is in their file transfer protocol clients. If you set it LOGICAL, you need to provide mappings in the HomeDirectoryMappings for how you want to make Amazon S3 or EFS paths visible to your users.
+        /// The type of landing directory (folder) that you want your users' home directory to be when they log in to the server. If you set it to PATH, the user will see the absolute Amazon S3 bucket or EFS paths as is in their file transfer  protocol clients. If you set it LOGICAL, you need to provide mappings in the HomeDirectoryMappings for  how you want to make Amazon S3 or Amazon EFS paths visible to your users.
         public let homeDirectoryType: HomeDirectoryType?
-        /// A session policy for your user so that you can use the same IAM role across multiple users. This policy scopes down user access to portions of their Amazon S3 bucket. Variables that you can use inside this policy include ${Transfer:UserName}, ${Transfer:HomeDirectory}, and ${Transfer:HomeBucket}.   This only applies when the domain of ServerId is S3. EFS does not use session policies. For session policies, Amazon Web Services Transfer Family stores the policy as a JSON blob, instead of the Amazon Resource Name (ARN) of the policy. You save the policy as a JSON blob and pass it in the Policy argument.       For an example of a session policy, see Example session policy. For more information, see AssumeRole in the Amazon Web Services Security Token Service API Reference.
+        /// A session policy for your user so that you can use the same Identity and Access Management (IAM) role across multiple users. This policy scopes down a user's access to portions of their Amazon S3 bucket. Variables that you can use inside this policy include ${Transfer:UserName}, ${Transfer:HomeDirectory}, and ${Transfer:HomeBucket}.   This policy applies only when the domain of ServerId is Amazon S3. Amazon EFS does not use session policies. For session policies, Transfer Family stores the policy as a JSON blob, instead of the Amazon Resource Name (ARN) of the policy. You save the policy as a JSON blob and pass it in the Policy argument.       For an example of a session policy, see Example session policy. For more information, see AssumeRole in the Security Token Service API Reference.
         public let policy: String?
         public let posixProfile: PosixProfile?
-        /// Specifies the Amazon Resource Name (ARN) of the IAM role that controls your users' access to your Amazon S3 bucket or EFS file system. The policies attached to this role determine the level of access that you want to provide your users when transferring files into and out of your Amazon S3 bucket or EFS file system. The IAM role should also contain a trust relationship that allows the server to access your resources when servicing your users' transfer requests.
+        /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that controls your users' access to your Amazon S3  bucket or Amazon EFS file system. The policies attached to this role determine the level of access that you want to provide your users  when transferring files into and out of your Amazon S3 bucket or Amazon EFS file system. The IAM role should also contain a trust  relationship that allows the server to access your resources when servicing your users' transfer requests.
         public let role: String
         /// A system-assigned unique identifier for a server instance. This is the specific server that you added your user to.
         public let serverId: String
@@ -217,7 +345,7 @@ extension Transfer {
     }
 
     public struct CreateAccessResponse: AWSDecodableShape {
-        /// The external ID of the group whose users have access to your Amazon S3 or Amazon EFS resources over the enabled protocols using Amazon Web Services Transfer Family.
+        /// The external ID of the group whose users have access to your Amazon S3 or Amazon EFS resources over the enabled protocols using Transfer Family.
         public let externalId: String
         /// The ID of the server that the user is attached to.
         public let serverId: String
@@ -233,11 +361,202 @@ extension Transfer {
         }
     }
 
+    public struct CreateAgreementRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that grants access to at least the  HomeDirectory of your users' Amazon S3 buckets.
+        public let accessRole: String
+        /// The landing directory (folder) for files transferred by using the AS2 protocol. A BaseDirectory example is /DOC-EXAMPLE-BUCKET/home/mydirectory .
+        public let baseDirectory: String
+        /// A name or short description to identify the agreement.
+        public let description: String?
+        /// A unique identifier for the AS2 local profile.
+        public let localProfileId: String
+        /// A unique identifier for the partner profile used in the agreement.
+        public let partnerProfileId: String
+        /// A system-assigned unique identifier for a server instance. This is the specific server that the agreement uses.
+        public let serverId: String
+        /// The status of the agreement. The agreement can be either ACTIVE or INACTIVE.
+        public let status: AgreementStatusType?
+        /// Key-value pairs that can be used to group and search for agreements.
+        public let tags: [Tag]?
+
+        public init(accessRole: String, baseDirectory: String, description: String? = nil, localProfileId: String, partnerProfileId: String, serverId: String, status: AgreementStatusType? = nil, tags: [Tag]? = nil) {
+            self.accessRole = accessRole
+            self.baseDirectory = baseDirectory
+            self.description = description
+            self.localProfileId = localProfileId
+            self.partnerProfileId = partnerProfileId
+            self.serverId = serverId
+            self.status = status
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accessRole, name: "accessRole", parent: name, max: 2048)
+            try self.validate(self.accessRole, name: "accessRole", parent: name, min: 20)
+            try self.validate(self.accessRole, name: "accessRole", parent: name, pattern: "^arn:.*role/")
+            try self.validate(self.baseDirectory, name: "baseDirectory", parent: name, max: 1024)
+            try self.validate(self.baseDirectory, name: "baseDirectory", parent: name, pattern: "^$|/")
+            try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\p{Graph}]+$")
+            try self.validate(self.localProfileId, name: "localProfileId", parent: name, max: 19)
+            try self.validate(self.localProfileId, name: "localProfileId", parent: name, min: 19)
+            try self.validate(self.localProfileId, name: "localProfileId", parent: name, pattern: "^p-([0-9a-f]{17})$")
+            try self.validate(self.partnerProfileId, name: "partnerProfileId", parent: name, max: 19)
+            try self.validate(self.partnerProfileId, name: "partnerProfileId", parent: name, min: 19)
+            try self.validate(self.partnerProfileId, name: "partnerProfileId", parent: name, pattern: "^p-([0-9a-f]{17})$")
+            try self.validate(self.serverId, name: "serverId", parent: name, max: 19)
+            try self.validate(self.serverId, name: "serverId", parent: name, min: 19)
+            try self.validate(self.serverId, name: "serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessRole = "AccessRole"
+            case baseDirectory = "BaseDirectory"
+            case description = "Description"
+            case localProfileId = "LocalProfileId"
+            case partnerProfileId = "PartnerProfileId"
+            case serverId = "ServerId"
+            case status = "Status"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateAgreementResponse: AWSDecodableShape {
+        /// The unique identifier for the agreement. Use this ID for deleting, or updating an agreement, as well as in any other API calls that require that you specify the agreement ID.
+        public let agreementId: String
+
+        public init(agreementId: String) {
+            self.agreementId = agreementId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agreementId = "AgreementId"
+        }
+    }
+
+    public struct CreateConnectorRequest: AWSEncodableShape {
+        /// With AS2, you can send files by calling StartFileTransfer and specifying the file paths in the request parameter, SendFilePaths. We use the file’s parent directory (for example, for --send-file-paths /bucket/dir/file.txt, parent directory is /bucket/dir/) to temporarily store a processed AS2 message file, store the MDN when we receive them from the partner, and write a final JSON file containing relevant metadata of the transmission. So, the AccessRole needs to provide read and write access to the parent directory of the file location used in the StartFileTransfer request. Additionally, you need to provide read and write access to the parent directory of the files that you intend to send with StartFileTransfer.
+        public let accessRole: String
+        /// A structure that contains the parameters for a connector object.
+        public let as2Config: As2ConnectorConfig
+        /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a connector to turn on CloudWatch logging for Amazon S3 events. When set, you can view connector activity in your CloudWatch logs.
+        public let loggingRole: String?
+        /// Key-value pairs that can be used to group and search for connectors. Tags are metadata attached to connectors for any purpose.
+        public let tags: [Tag]?
+        /// The URL of the partner's AS2 endpoint.
+        public let url: String
+
+        public init(accessRole: String, as2Config: As2ConnectorConfig, loggingRole: String? = nil, tags: [Tag]? = nil, url: String) {
+            self.accessRole = accessRole
+            self.as2Config = as2Config
+            self.loggingRole = loggingRole
+            self.tags = tags
+            self.url = url
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accessRole, name: "accessRole", parent: name, max: 2048)
+            try self.validate(self.accessRole, name: "accessRole", parent: name, min: 20)
+            try self.validate(self.accessRole, name: "accessRole", parent: name, pattern: "^arn:.*role/")
+            try self.as2Config.validate(name: "\(name).as2Config")
+            try self.validate(self.loggingRole, name: "loggingRole", parent: name, max: 2048)
+            try self.validate(self.loggingRole, name: "loggingRole", parent: name, min: 20)
+            try self.validate(self.loggingRole, name: "loggingRole", parent: name, pattern: "^arn:.*role/")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+            try self.validate(self.url, name: "url", parent: name, max: 255)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessRole = "AccessRole"
+            case as2Config = "As2Config"
+            case loggingRole = "LoggingRole"
+            case tags = "Tags"
+            case url = "Url"
+        }
+    }
+
+    public struct CreateConnectorResponse: AWSDecodableShape {
+        /// The unique identifier for the connector, returned after the API call succeeds.
+        public let connectorId: String
+
+        public init(connectorId: String) {
+            self.connectorId = connectorId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorId = "ConnectorId"
+        }
+    }
+
+    public struct CreateProfileRequest: AWSEncodableShape {
+        /// The As2Id is the AS2-name, as defined in the  defined in the RFC 4130. For inbound transfers, this is the AS2-From header for the AS2 messages sent from the partner. For outbound connectors, this is the AS2-To header for the AS2 messages sent to the partner using the StartFileTransfer API operation. This ID cannot include spaces.
+        public let as2Id: String
+        /// An array of identifiers for the imported certificates. You use this identifier for working with profiles and partner profiles.
+        public let certificateIds: [String]?
+        /// Indicates whether to list only LOCAL type profiles or only PARTNER type profiles.  If not supplied in the request, the command lists all types of profiles.
+        public let profileType: ProfileType
+        /// Key-value pairs that can be used to group and search for AS2 profiles.
+        public let tags: [Tag]?
+
+        public init(as2Id: String, certificateIds: [String]? = nil, profileType: ProfileType, tags: [Tag]? = nil) {
+            self.as2Id = as2Id
+            self.certificateIds = certificateIds
+            self.profileType = profileType
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.as2Id, name: "as2Id", parent: name, max: 128)
+            try self.validate(self.as2Id, name: "as2Id", parent: name, min: 1)
+            try self.validate(self.as2Id, name: "as2Id", parent: name, pattern: "^[\\p{Print}\\s]*$")
+            try self.certificateIds?.forEach {
+                try validate($0, name: "certificateIds[]", parent: name, max: 22)
+                try validate($0, name: "certificateIds[]", parent: name, min: 22)
+                try validate($0, name: "certificateIds[]", parent: name, pattern: "^cert-([0-9a-f]{17})$")
+            }
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case as2Id = "As2Id"
+            case certificateIds = "CertificateIds"
+            case profileType = "ProfileType"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateProfileResponse: AWSDecodableShape {
+        /// The unique identifier for the AS2 profile, returned after the API call succeeds.
+        public let profileId: String
+
+        public init(profileId: String) {
+            self.profileId = profileId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case profileId = "ProfileId"
+        }
+    }
+
     public struct CreateServerRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the Amazon Web Services Certificate Manager (ACM) certificate. Required when Protocols is set to FTPS.
-        ///  To request a new public certificate, see Request a public certificate in the  Amazon Web Services Certificate Manager User Guide.
-        ///  To import an existing certificate into ACM, see Importing certificates into ACM in the  Amazon Web Services Certificate Manager User Guide.
-        ///  To request a private certificate to use FTPS through private IP addresses, see Request a private certificate in the  Amazon Web Services Certificate Manager User Guide.
+        /// The Amazon Resource Name (ARN) of the Certificate Manager (ACM) certificate. Required when Protocols is set to FTPS.
+        ///  To request a new public certificate, see Request a public certificate in the Certificate Manager User Guide.
+        ///  To import an existing certificate into ACM, see Importing certificates into ACM in the Certificate Manager User Guide.
+        ///  To request a private certificate to use FTPS through private IP addresses, see Request a private certificate in the Certificate Manager User Guide.
         ///  Certificates with the following cryptographic algorithms and key sizes are supported:
         ///    2048-bit RSA (RSA_2048)   4096-bit RSA (RSA_4096)   Elliptic Prime Curve 256 bit (EC_prime256v1)   Elliptic Prime Curve 384 bit (EC_secp384r1)   Elliptic Prime Curve 521 bit (EC_secp521r1)
         ///   The certificate must be a valid SSL/TLS X.509 version 3 certificate with FQDN or IP address specified and information about the issuer.
@@ -245,39 +564,36 @@ extension Transfer {
         /// The domain of the storage system that is used for file transfers. There are two domains available: Amazon Simple Storage Service (Amazon S3) and Amazon Elastic File System (Amazon EFS). The default value is S3.
         ///   After the server is created, the domain cannot be changed.
         public let domain: Domain?
-        /// The virtual private cloud (VPC) endpoint settings that are configured for your server. When you host your endpoint within your VPC, you can make it accessible only to resources within your VPC, or you can attach Elastic IP addresses and make it accessible to clients over the internet. Your VPC's default security groups are automatically assigned to your endpoint.
+        /// The virtual private cloud (VPC) endpoint settings that are configured for your server. When you host your endpoint within your VPC, you can make your endpoint accessible only to resources within your VPC, or you can attach Elastic IP addresses and make your endpoint accessible to clients over the internet. Your VPC's default security groups are automatically assigned to your endpoint.
         public let endpointDetails: EndpointDetails?
         /// The type of endpoint that you want your server to use. You can choose to make your server's endpoint publicly accessible (PUBLIC) or host it inside your VPC. With an endpoint that is hosted in a VPC, you can restrict access to your server and  resources only within your VPC or choose to make it internet facing by attaching Elastic IP addresses directly to it.  After May 19, 2021, you won't be able to create a server using EndpointType=VPC_ENDPOINT in your Amazon Web Services account if your account hasn't already done so before May 19, 2021. If you have already created servers with EndpointType=VPC_ENDPOINT in your Amazon Web Services account on or before May 19, 2021, you will not be affected. After this date, use EndpointType=VPC.   For more information, see https://docs.aws.amazon.com/transfer/latest/userguide/create-server-in-vpc.html#deprecate-vpc-endpoint. It is recommended that you use VPC as the EndpointType. With this endpoint type, you have the option to directly associate up to three Elastic IPv4 addresses (BYO IP included) with your server's endpoint and use VPC security groups to restrict traffic by the client's public IP address. This is not possible with EndpointType set to VPC_ENDPOINT.
         public let endpointType: EndpointType?
-        /// The RSA private key as generated by the ssh-keygen -N "" -m PEM -f my-new-server-key command.
+        /// The RSA, ECDSA, or ED25519 private key to use for your server.  Use the following command to generate an RSA 2048 bit key with no passphrase:  ssh-keygen -t rsa -b 2048 -N "" -m PEM -f my-new-server-key. Use a minimum value of 2048 for the -b option. You can create a stronger key by using 3072 or 4096.  Use the following command to generate an ECDSA 256 bit key with no passphrase:  ssh-keygen -t ecdsa -b 256 -N "" -m PEM -f my-new-server-key. Valid values for the -b option for ECDSA are 256, 384, and 521.  Use the following command to generate an ED25519 key with no passphrase:  ssh-keygen -t ed25519 -N "" -f my-new-server-key.  For all of these commands, you can replace my-new-server-key with a string of your choice.
         ///   If you aren't planning to migrate existing users from an existing SFTP-enabled server to a new server, don't update the host key. Accidentally changing a server's host key can be disruptive.
         ///
-        ///  For more information, see Change the host key for your SFTP-enabled server in the Amazon Web Services Transfer Family User Guide.
+        ///  For more information, see Change the host key for your SFTP-enabled server in the Transfer Family User Guide.
         public let hostKey: String?
         /// Required when IdentityProviderType is set to AWS_DIRECTORY_SERVICE or API_GATEWAY. Accepts an array containing all of the information required to use a directory in AWS_DIRECTORY_SERVICE or invoke a customer-supplied authentication API, including the API Gateway URL. Not required when IdentityProviderType is set to SERVICE_MANAGED.
         public let identityProviderDetails: IdentityProviderDetails?
-        /// Specifies the mode of authentication for a server. The default value is SERVICE_MANAGED, which allows you to store and access user credentials within the Amazon Web Services Transfer Family service. Use AWS_DIRECTORY_SERVICE to provide access to Active Directory groups in Amazon Web Services Managed Active Directory or Microsoft Active Directory in your on-premises environment or in Amazon Web Services using AD Connectors. This option also requires you to provide a Directory ID using the IdentityProviderDetails parameter. Use the API_GATEWAY value to integrate with an identity provider of your choosing. The API_GATEWAY setting requires you to provide an API Gateway endpoint URL to call for authentication using the IdentityProviderDetails parameter. Use the AWS_LAMBDA value to directly use a Lambda function as your identity provider. If you choose this value, you must specify the ARN for the lambda function in the Function parameter for the IdentityProviderDetails data type.
+        /// The mode of authentication for a server. The default value is SERVICE_MANAGED, which allows you to store and access user credentials within the Transfer Family service. Use AWS_DIRECTORY_SERVICE to provide access to Active Directory groups in Directory Service for Microsoft Active Directory or Microsoft Active Directory in your on-premises environment or in Amazon Web Services using AD Connector. This option also requires you to provide a Directory ID by using the IdentityProviderDetails parameter. Use the API_GATEWAY value to integrate with an identity provider of your choosing. The API_GATEWAY setting requires you to provide an Amazon API Gateway endpoint URL to call for authentication by using the IdentityProviderDetails parameter. Use the AWS_LAMBDA value to directly use an Lambda function as your identity provider.  If you choose this value, you must specify the ARN for the Lambda function in the Function parameter  or the IdentityProviderDetails data type.
         public let identityProviderType: IdentityProviderType?
-        /// Specifies the Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) role that allows a server to turn on Amazon CloudWatch logging for Amazon S3 or Amazon EFS events. When set, user activity can be viewed in your CloudWatch logs.
+        /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a server to turn on Amazon CloudWatch logging for Amazon S3 or Amazon EFSevents. When set, you can view user activity in your CloudWatch logs.
         public let loggingRole: String?
-        /// Specify a string to display when users connect to a server. This string is displayed after the user authenticates.  The SFTP protocol does not support post-authentication display banners.
+        /// Specifies a string to display when users connect to a server. This string is displayed after the user authenticates.  The SFTP protocol does not support post-authentication display banners.
         public let postAuthenticationLoginBanner: String?
-        /// Specify a string to display when users connect to a server. This string is displayed before the user authenticates. For example, the following banner displays details about using the system.  This system is for the use of authorized users only. Individuals using this computer system without authority, or in excess of their authority, are subject to having all of their activities on this system monitored and recorded by system personnel.
+        /// Specifies a string to display when users connect to a server. This string is displayed before the user authenticates. For example, the following banner displays details about using the system:   This system is for the use of authorized users only. Individuals using this computer system without authority, or in excess of their authority, are subject to having all of their activities on this system monitored and recorded by system personnel.
         public let preAuthenticationLoginBanner: String?
-        /// The protocol settings that are configured for your server.    Use the PassiveIp parameter to indicate passive mode (for FTP and FTPS protocols). Enter a single dotted-quad IPv4 address, such as the external IP address of a firewall, router, or load balancer.    Use the SetStatOption to ignore the error that is generated when the client attempts to use SETSTAT on a file you are uploading to an S3 bucket. Set the value to ENABLE_NO_OP to have the Transfer Family server ignore the SETSTAT command, and upload files without needing to make any changes to your SFTP client. Note that with SetStatOption set to ENABLE_NO_OP, Transfer generates a log entry to CloudWatch Logs, so you can determine when the client is making a SETSTAT call.   Use the TlsSessionResumptionMode parameter to determine whether or not your Transfer server resumes recent, negotiated sessions through a unique session ID.
+        /// The protocol settings that are configured for your server.    To indicate passive mode (for FTP and FTPS protocols), use the PassiveIp parameter. Enter a single dotted-quad IPv4 address, such as the external IP address of a firewall, router, or load balancer.    To ignore the error that is generated when the client attempts to use the SETSTAT command on a file that you are  uploading to an Amazon S3 bucket, use the SetStatOption parameter. To have the Transfer Family server ignore the  SETSTAT command and upload files without needing to make any changes to your SFTP client, set the value to  ENABLE_NO_OP. If you set the SetStatOption parameter to ENABLE_NO_OP, Transfer Family  generates a log entry to Amazon CloudWatch Logs, so that you can determine when the client is making a SETSTAT  call.   To determine whether your Transfer Family server resumes recent, negotiated sessions through a unique session ID, use the  TlsSessionResumptionMode parameter.    As2Transports indicates the transport method for the AS2 messages. Currently, only HTTP is supported.
         public let protocolDetails: ProtocolDetails?
         /// Specifies the file transfer protocol or protocols over which your file transfer protocol client can connect to your server's endpoint. The available protocols are:
-        ///     SFTP (Secure Shell (SSH) File Transfer Protocol): File transfer over SSH    FTPS (File Transfer Protocol Secure): File transfer with TLS encryption    FTP (File Transfer Protocol): Unencrypted file transfer
-        ///   If you select FTPS, you must choose a certificate stored in Amazon Web Services Certificate Manager (ACM) which is used to identify your server when clients connect to it over FTPS.
-        ///  If Protocol includes either FTP or FTPS, then the EndpointType must be VPC and the IdentityProviderType must be AWS_DIRECTORY_SERVICE or API_GATEWAY.
-        ///  If Protocol includes FTP, then AddressAllocationIds cannot be associated.
-        ///  If Protocol is set only to SFTP, the EndpointType can be set to PUBLIC and the IdentityProviderType can be set to SERVICE_MANAGED.
+        ///     SFTP (Secure Shell (SSH) File Transfer Protocol): File transfer over SSH    FTPS (File Transfer Protocol Secure): File transfer with TLS encryption    FTP (File Transfer Protocol): Unencrypted file transfer    AS2 (Applicability Statement 2): used for transporting structured business-to-business data
+        ///     If you select FTPS, you must choose a certificate stored in Certificate Manager (ACM)  which is used to identify your server when clients connect to it over FTPS.   If Protocol includes either FTP or FTPS, then the EndpointType must be VPC and the IdentityProviderType must be AWS_DIRECTORY_SERVICE or API_GATEWAY.   If Protocol includes FTP, then AddressAllocationIds cannot be associated.   If Protocol is set only to SFTP, the EndpointType can be set to PUBLIC and the IdentityProviderType can be set to SERVICE_MANAGED.   If Protocol includes AS2, then the EndpointType must be VPC, and domain must be Amazon S3.
         public let protocols: [`Protocol`]?
         /// Specifies the name of the security policy that is attached to the server.
         public let securityPolicyName: String?
         /// Key-value pairs that can be used to group and search for servers.
         public let tags: [Tag]?
-        /// Specifies the workflow ID for the workflow to assign and the execution role used for executing the workflow.
+        /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow.
         public let workflowDetails: WorkflowDetails?
 
         public init(certificate: String? = nil, domain: Domain? = nil, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKey: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, identityProviderType: IdentityProviderType? = nil, loggingRole: String? = nil, postAuthenticationLoginBanner: String? = nil, preAuthenticationLoginBanner: String? = nil, protocolDetails: ProtocolDetails? = nil, protocols: [`Protocol`]? = nil, securityPolicyName: String? = nil, tags: [Tag]? = nil, workflowDetails: WorkflowDetails? = nil) {
@@ -311,7 +627,7 @@ extension Transfer {
             try self.validate(self.preAuthenticationLoginBanner, name: "preAuthenticationLoginBanner", parent: name, max: 512)
             try self.validate(self.preAuthenticationLoginBanner, name: "preAuthenticationLoginBanner", parent: name, pattern: "^[\\x09-\\x0D\\x20-\\x7E]*$")
             try self.protocolDetails?.validate(name: "\(name).protocolDetails")
-            try self.validate(self.protocols, name: "protocols", parent: name, max: 3)
+            try self.validate(self.protocols, name: "protocols", parent: name, max: 4)
             try self.validate(self.protocols, name: "protocols", parent: name, min: 1)
             try self.validate(self.securityPolicyName, name: "securityPolicyName", parent: name, max: 100)
             try self.validate(self.securityPolicyName, name: "securityPolicyName", parent: name, pattern: "^TransferSecurityPolicy-.+$")
@@ -358,15 +674,15 @@ extension Transfer {
     public struct CreateUserRequest: AWSEncodableShape {
         /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.
         public let homeDirectory: String?
-        /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Amazon Web Services Identity and Access Management (IAM) role provides access to paths in Target. This value can only be set when HomeDirectoryType is set to LOGICAL.
+        /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Identity and Access Management (IAM)  role provides access to paths in Target. This value can be set only when HomeDirectoryType is set to LOGICAL.
         ///  The following is an Entry and Target pair example.
         ///   [ { "Entry": "/directory1", "Target": "/bucket_name/home/mydirectory" } ]
         ///  In most cases, you can use this value instead of the session policy to lock your user down to the designated home directory ("chroot"). To do this, you can set Entry to / and set Target to the HomeDirectory parameter value. The following is an Entry and Target pair example for chroot.  [ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" } ]
         public let homeDirectoryMappings: [HomeDirectoryMapEntry]?
-        /// The type of landing directory (folder) you want your users' home directory to be when they log into the server. If you set it to PATH, the user will see the absolute Amazon S3 bucket or EFS paths as is in their file transfer protocol clients. If you set it LOGICAL, you need to provide mappings in the HomeDirectoryMappings for how you want to make Amazon S3 or EFS paths visible to your users.
+        /// The type of landing directory (folder) that you want your users' home directory to be when they log in to the server. If you set it to PATH, the user will see the absolute Amazon S3 bucket or EFS paths as is in their file transfer  protocol clients. If you set it LOGICAL, you need to provide mappings in the HomeDirectoryMappings for  how you want to make Amazon S3 or Amazon EFS paths visible to your users.
         public let homeDirectoryType: HomeDirectoryType?
-        /// A session policy for your user so that you can use the same IAM role across multiple users. This policy scopes down user access to portions of their Amazon S3 bucket. Variables that you can use inside this policy include ${Transfer:UserName}, ${Transfer:HomeDirectory}, and ${Transfer:HomeBucket}.
-        ///   This only applies when the domain of ServerId is S3. EFS does not use session policies. For session policies, Amazon Web Services Transfer Family stores the policy as a JSON blob, instead of the Amazon Resource Name (ARN) of the policy. You save the policy as a JSON blob and pass it in the Policy argument.
+        /// A session policy for your user so that you can use the same Identity and Access Management (IAM) role across multiple users. This policy scopes down a user's access to portions of their Amazon S3 bucket. Variables that you can use inside this policy include ${Transfer:UserName}, ${Transfer:HomeDirectory}, and ${Transfer:HomeBucket}.
+        ///   This policy applies only when the domain of ServerId is Amazon S3. Amazon EFS does not use session policies. For session policies, Transfer Family stores the policy as a JSON blob, instead of the Amazon Resource Name (ARN) of the policy. You save the policy as a JSON blob and pass it in the Policy argument.
         ///
         ///  For an example of a session policy, see Example session policy.
         ///
@@ -374,11 +690,11 @@ extension Transfer {
         public let policy: String?
         /// Specifies the full POSIX identity, including user ID (Uid), group ID (Gid), and any secondary groups IDs (SecondaryGids), that controls your users' access to your Amazon EFS file systems. The POSIX permissions that are set on files and directories in Amazon EFS determine the level of access your users get when transferring files into and out of your Amazon EFS file systems.
         public let posixProfile: PosixProfile?
-        /// Specifies the Amazon Resource Name (ARN) of the IAM role that controls your users' access to your Amazon S3 bucket or EFS file system. The policies attached to this role determine the level of access that you want to provide your users when transferring files into and out of your Amazon S3 bucket or EFS file system. The IAM role should also contain a trust relationship that allows the server to access your resources when servicing your users' transfer requests.
+        /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that controls your users' access to your Amazon S3  bucket or Amazon EFS file system. The policies attached to this role determine the level of access that you want to provide your users  when transferring files into and out of your Amazon S3 bucket or Amazon EFS file system. The IAM role should also contain a trust  relationship that allows the server to access your resources when servicing your users' transfer requests.
         public let role: String
         /// A system-assigned unique identifier for a server instance. This is the specific server that you added your user to.
         public let serverId: String
-        /// The public portion of the Secure Shell (SSH) key used to authenticate the user to the server.   Currently, Transfer Family does not accept elliptical curve keys (keys beginning with ecdsa).
+        /// The public portion of the Secure Shell (SSH) key used to authenticate the user to the server. Transfer Family accepts RSA, ECDSA, and ED25519 keys.
         public let sshPublicKeyBody: String?
         /// Key-value pairs that can be used to group and search for users. Tags are metadata attached to users for any purpose.
         public let tags: [Tag]?
@@ -415,7 +731,6 @@ extension Transfer {
             try self.validate(self.serverId, name: "serverId", parent: name, min: 19)
             try self.validate(self.serverId, name: "serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
             try self.validate(self.sshPublicKeyBody, name: "sshPublicKeyBody", parent: name, max: 2048)
-            try self.validate(self.sshPublicKeyBody, name: "sshPublicKeyBody", parent: name, pattern: "^ssh-rsa\\s+[A-Za-z0-9+/]+[=]{0,3}(\\s+.+)?\\s*$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -462,7 +777,7 @@ extension Transfer {
         public let description: String?
         /// Specifies the steps (actions) to take if errors are encountered during execution of the workflow.  For custom steps, the lambda function needs to send FAILURE to the call back API to kick off the exception steps. Additionally, if the lambda does not send SUCCESS before it times out, the exception steps are executed.
         public let onExceptionSteps: [WorkflowStep]?
-        /// Specifies the details for the steps that are in the specified workflow.  The TYPE specifies which of the following actions is being taken for this step.     COPY: copy the file to another location    CUSTOM: custom step with a lambda target    DELETE: delete the file    TAG: add a tag to the file     Currently, copying and tagging are supported only on S3.    For file location, you specify either the S3 bucket and key, or the EFS filesystem ID and path.
+        /// Specifies the details for the steps that are in the specified workflow.  The TYPE specifies which of the following actions is being taken for this step.     COPY: Copy the file to another location.    CUSTOM: Perform a custom step with an Lambda function target.    DELETE: Delete the file.    TAG: Add a tag to the file.     Currently, copying and tagging are supported only on S3.   For file location, you specify either the S3 bucket and key, or the EFS file system ID and path.
         public let steps: [WorkflowStep]
         /// Key-value pairs that can be used to group and search for workflows. Tags are metadata attached to workflows for any purpose.
         public let tags: [Tag]?
@@ -550,9 +865,9 @@ extension Transfer {
     }
 
     public struct DeleteAccessRequest: AWSEncodableShape {
-        /// A unique identifier that is required to identify specific groups within your directory. The users of the group that you associate have access to your Amazon S3 or Amazon EFS resources over the enabled protocols using Amazon Web Services Transfer Family. If you know the group name, you can view the SID values by running the following command using Windows PowerShell.
+        /// A unique identifier that is required to identify specific groups within your directory. The users of the group that you associate have access to your Amazon S3 or Amazon EFS resources over the enabled protocols using Transfer Family. If you know the group name, you can view the SID values by running the following command using Windows PowerShell.
         ///   Get-ADGroup -Filter {samAccountName -like "YourGroupName*"} -Properties * | Select SamAccountName,ObjectSid   In that command, replace YourGroupName with the name of your Active Directory group.
-        ///  The regex used to validate this parameter is a string of characters consisting of uppercase and lowercase alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
+        ///  The regular expression used to validate this parameter is a string of characters consisting of uppercase and lowercase alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
         public let externalId: String
         /// A system-assigned unique identifier for a server that has this user assigned.
         public let serverId: String
@@ -574,6 +889,89 @@ extension Transfer {
         private enum CodingKeys: String, CodingKey {
             case externalId = "ExternalId"
             case serverId = "ServerId"
+        }
+    }
+
+    public struct DeleteAgreementRequest: AWSEncodableShape {
+        /// A unique identifier for the agreement. This identifier is returned when you create an agreement.
+        public let agreementId: String
+        /// The server ID associated with the agreement that you are deleting.
+        public let serverId: String
+
+        public init(agreementId: String, serverId: String) {
+            self.agreementId = agreementId
+            self.serverId = serverId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.agreementId, name: "agreementId", parent: name, max: 19)
+            try self.validate(self.agreementId, name: "agreementId", parent: name, min: 19)
+            try self.validate(self.agreementId, name: "agreementId", parent: name, pattern: "^a-([0-9a-f]{17})$")
+            try self.validate(self.serverId, name: "serverId", parent: name, max: 19)
+            try self.validate(self.serverId, name: "serverId", parent: name, min: 19)
+            try self.validate(self.serverId, name: "serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agreementId = "AgreementId"
+            case serverId = "ServerId"
+        }
+    }
+
+    public struct DeleteCertificateRequest: AWSEncodableShape {
+        /// The ID of the certificate object that you are deleting.
+        public let certificateId: String
+
+        public init(certificateId: String) {
+            self.certificateId = certificateId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.certificateId, name: "certificateId", parent: name, max: 22)
+            try self.validate(self.certificateId, name: "certificateId", parent: name, min: 22)
+            try self.validate(self.certificateId, name: "certificateId", parent: name, pattern: "^cert-([0-9a-f]{17})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateId = "CertificateId"
+        }
+    }
+
+    public struct DeleteConnectorRequest: AWSEncodableShape {
+        /// The unique identifier for the connector.
+        public let connectorId: String
+
+        public init(connectorId: String) {
+            self.connectorId = connectorId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.connectorId, name: "connectorId", parent: name, max: 19)
+            try self.validate(self.connectorId, name: "connectorId", parent: name, min: 19)
+            try self.validate(self.connectorId, name: "connectorId", parent: name, pattern: "^c-([0-9a-f]{17})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorId = "ConnectorId"
+        }
+    }
+
+    public struct DeleteProfileRequest: AWSEncodableShape {
+        /// The ID of the profile that you are deleting.
+        public let profileId: String
+
+        public init(profileId: String) {
+            self.profileId = profileId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.profileId, name: "profileId", parent: name, max: 19)
+            try self.validate(self.profileId, name: "profileId", parent: name, min: 19)
+            try self.validate(self.profileId, name: "profileId", parent: name, pattern: "^p-([0-9a-f]{17})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case profileId = "ProfileId"
         }
     }
 
@@ -699,9 +1097,9 @@ extension Transfer {
     }
 
     public struct DescribeAccessRequest: AWSEncodableShape {
-        /// A unique identifier that is required to identify specific groups within your directory. The users of the group that you associate have access to your Amazon S3 or Amazon EFS resources over the enabled protocols using Amazon Web Services Transfer Family. If you know the group name, you can view the SID values by running the following command using Windows PowerShell.
+        /// A unique identifier that is required to identify specific groups within your directory. The users of the group that you associate have access to your Amazon S3 or Amazon EFS resources over the enabled protocols using Transfer Family. If you know the group name, you can view the SID values by running the following command using Windows PowerShell.
         ///   Get-ADGroup -Filter {samAccountName -like "YourGroupName*"} -Properties * | Select SamAccountName,ObjectSid   In that command, replace YourGroupName with the name of your Active Directory group.
-        ///  The regex used to validate this parameter is a string of characters consisting of uppercase and lowercase alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
+        ///  The regular expression used to validate this parameter is a string of characters consisting of uppercase and lowercase alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
         public let externalId: String
         /// A system-assigned unique identifier for a server that has this access assigned.
         public let serverId: String
@@ -740,6 +1138,109 @@ extension Transfer {
         private enum CodingKeys: String, CodingKey {
             case access = "Access"
             case serverId = "ServerId"
+        }
+    }
+
+    public struct DescribeAgreementRequest: AWSEncodableShape {
+        /// A unique identifier for the agreement. This identifier is returned when you create an agreement.
+        public let agreementId: String
+        /// The server ID that's associated with the agreement.
+        public let serverId: String
+
+        public init(agreementId: String, serverId: String) {
+            self.agreementId = agreementId
+            self.serverId = serverId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.agreementId, name: "agreementId", parent: name, max: 19)
+            try self.validate(self.agreementId, name: "agreementId", parent: name, min: 19)
+            try self.validate(self.agreementId, name: "agreementId", parent: name, pattern: "^a-([0-9a-f]{17})$")
+            try self.validate(self.serverId, name: "serverId", parent: name, max: 19)
+            try self.validate(self.serverId, name: "serverId", parent: name, min: 19)
+            try self.validate(self.serverId, name: "serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agreementId = "AgreementId"
+            case serverId = "ServerId"
+        }
+    }
+
+    public struct DescribeAgreementResponse: AWSDecodableShape {
+        /// The details for the specified agreement, returned as a DescribedAgreement object.
+        public let agreement: DescribedAgreement
+
+        public init(agreement: DescribedAgreement) {
+            self.agreement = agreement
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agreement = "Agreement"
+        }
+    }
+
+    public struct DescribeCertificateRequest: AWSEncodableShape {
+        /// An array of identifiers for the imported certificates. You use this identifier for working with profiles and partner profiles.
+        public let certificateId: String
+
+        public init(certificateId: String) {
+            self.certificateId = certificateId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.certificateId, name: "certificateId", parent: name, max: 22)
+            try self.validate(self.certificateId, name: "certificateId", parent: name, min: 22)
+            try self.validate(self.certificateId, name: "certificateId", parent: name, pattern: "^cert-([0-9a-f]{17})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateId = "CertificateId"
+        }
+    }
+
+    public struct DescribeCertificateResponse: AWSDecodableShape {
+        /// The details for the specified certificate, returned as an object.
+        public let certificate: DescribedCertificate
+
+        public init(certificate: DescribedCertificate) {
+            self.certificate = certificate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificate = "Certificate"
+        }
+    }
+
+    public struct DescribeConnectorRequest: AWSEncodableShape {
+        /// The unique identifier for the connector.
+        public let connectorId: String
+
+        public init(connectorId: String) {
+            self.connectorId = connectorId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.connectorId, name: "connectorId", parent: name, max: 19)
+            try self.validate(self.connectorId, name: "connectorId", parent: name, min: 19)
+            try self.validate(self.connectorId, name: "connectorId", parent: name, pattern: "^c-([0-9a-f]{17})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorId = "ConnectorId"
+        }
+    }
+
+    public struct DescribeConnectorResponse: AWSDecodableShape {
+        /// The structure that contains the details of the connector.
+        public let connector: DescribedConnector
+
+        public init(connector: DescribedConnector) {
+            self.connector = connector
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connector = "Connector"
         }
     }
 
@@ -783,6 +1284,38 @@ extension Transfer {
         private enum CodingKeys: String, CodingKey {
             case execution = "Execution"
             case workflowId = "WorkflowId"
+        }
+    }
+
+    public struct DescribeProfileRequest: AWSEncodableShape {
+        /// The identifier of the profile that you want described.
+        public let profileId: String
+
+        public init(profileId: String) {
+            self.profileId = profileId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.profileId, name: "profileId", parent: name, max: 19)
+            try self.validate(self.profileId, name: "profileId", parent: name, min: 19)
+            try self.validate(self.profileId, name: "profileId", parent: name, pattern: "^p-([0-9a-f]{17})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case profileId = "ProfileId"
+        }
+    }
+
+    public struct DescribeProfileResponse: AWSDecodableShape {
+        /// The details of the specified profile, returned as an object.
+        public let profile: DescribedProfile
+
+        public init(profile: DescribedProfile) {
+            self.profile = profile
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case profile = "Profile"
         }
     }
 
@@ -852,7 +1385,7 @@ extension Transfer {
     public struct DescribeUserRequest: AWSEncodableShape {
         /// A system-assigned unique identifier for a server that has this user assigned.
         public let serverId: String
-        /// The name of the user assigned to one or more servers. User names are part of the sign-in credentials to use the Amazon Web Services Transfer Family service and perform file transfer tasks.
+        /// The name of the user assigned to one or more servers. User names are part of the sign-in credentials to use the Transfer Family service and perform file transfer tasks.
         public let userName: String
 
         public init(serverId: String, userName: String) {
@@ -925,20 +1458,20 @@ extension Transfer {
     }
 
     public struct DescribedAccess: AWSDecodableShape {
-        /// A unique identifier that is required to identify specific groups within your directory. The users of the group that you associate have access to your Amazon S3 or Amazon EFS resources over the enabled protocols using Amazon Web Services Transfer Family. If you know the group name, you can view the SID values by running the following command using Windows PowerShell.
+        /// A unique identifier that is required to identify specific groups within your directory. The users of the group that you associate have access to your Amazon S3 or Amazon EFS resources over the enabled protocols using Transfer Family. If you know the group name, you can view the SID values by running the following command using Windows PowerShell.
         ///   Get-ADGroup -Filter {samAccountName -like "YourGroupName*"} -Properties * | Select SamAccountName,ObjectSid   In that command, replace YourGroupName with the name of your Active Directory group.
-        ///  The regex used to validate this parameter is a string of characters consisting of uppercase and lowercase alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
+        ///  The regular expression used to validate this parameter is a string of characters consisting of uppercase and lowercase alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
         public let externalId: String?
         /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.
         public let homeDirectory: String?
-        /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Amazon Web Services Identity and Access Management (IAM) role provides access to paths in Target. This value can only be set when HomeDirectoryType is set to LOGICAL.  In most cases, you can use this value instead of the session policy to lock down the associated access to the designated home directory ("chroot"). To do this, you can set Entry to '/' and set Target to the HomeDirectory parameter value.
+        /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Identity and Access Management (IAM)  role provides access to paths in Target. This value can be set only when HomeDirectoryType is set to LOGICAL.  In most cases, you can use this value instead of the session policy to lock down the associated access to the designated home directory ("chroot"). To do this, you can set Entry to '/' and set Target to the HomeDirectory parameter value.
         public let homeDirectoryMappings: [HomeDirectoryMapEntry]?
-        /// The type of landing directory (folder) you want your users' home directory to be when they log into the server. If you set it to PATH, the user will see the absolute Amazon S3 bucket or EFS paths as is in their file transfer protocol clients. If you set it LOGICAL, you need to provide mappings in the HomeDirectoryMappings for how you want to make Amazon S3 or EFS paths visible to your users.
+        /// The type of landing directory (folder) that you want your users' home directory to be when they log in to the server. If you set it to PATH, the user will see the absolute Amazon S3 bucket or EFS paths as is in their file transfer  protocol clients. If you set it LOGICAL, you need to provide mappings in the HomeDirectoryMappings for  how you want to make Amazon S3 or Amazon EFS paths visible to your users.
         public let homeDirectoryType: HomeDirectoryType?
-        /// A session policy for your user so that you can use the same IAM role across multiple users. This policy scopes down user access to portions of their Amazon S3 bucket. Variables that you can use inside this policy include ${Transfer:UserName}, ${Transfer:HomeDirectory}, and ${Transfer:HomeBucket}.
+        /// A session policy for your user so that you can use the same Identity and Access Management (IAM) role across multiple users. This policy scopes down a user's access to portions of their Amazon S3 bucket. Variables that you can use inside this policy include ${Transfer:UserName}, ${Transfer:HomeDirectory}, and ${Transfer:HomeBucket}.
         public let policy: String?
         public let posixProfile: PosixProfile?
-        /// Specifies the Amazon Resource Name (ARN) of the IAM role that controls your users' access to your Amazon S3 bucket or EFS file system. The policies attached to this role determine the level of access that you want to provide your users when transferring files into and out of your Amazon S3 bucket or EFS file system. The IAM role should also contain a trust relationship that allows the server to access your resources when servicing your users' transfer requests.
+        /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that controls your users' access to your Amazon S3  bucket or Amazon EFS file system. The policies attached to this role determine the level of access that you want to provide your users  when transferring files into and out of your Amazon S3 bucket or Amazon EFS file system. The IAM role should also contain a trust  relationship that allows the server to access your resources when servicing your users' transfer requests.
         public let role: String?
 
         public init(externalId: String? = nil, homeDirectory: String? = nil, homeDirectoryMappings: [HomeDirectoryMapEntry]? = nil, homeDirectoryType: HomeDirectoryType? = nil, policy: String? = nil, posixProfile: PosixProfile? = nil, role: String? = nil) {
@@ -962,6 +1495,157 @@ extension Transfer {
         }
     }
 
+    public struct DescribedAgreement: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that grants access to at least the  HomeDirectory of your users' Amazon S3 buckets.
+        public let accessRole: String?
+        /// A unique identifier for the agreement. This identifier is returned when you create an agreement.
+        public let agreementId: String?
+        /// The unique Amazon Resource Name (ARN) for the agreement.
+        public let arn: String
+        /// The landing directory (folder) for files that are transferred by using the AS2 protocol.
+        public let baseDirectory: String?
+        /// The name or short description that's used to identify the agreement.
+        public let description: String?
+        /// A unique identifier for the AS2 process.
+        public let localProfileId: String?
+        /// A unique identifier for the partner in the agreement.
+        public let partnerProfileId: String?
+        /// A system-assigned unique identifier for a server instance. This identifier indicates the specific server that the agreement uses.
+        public let serverId: String?
+        /// The current status of the agreement, either ACTIVE or INACTIVE.
+        public let status: AgreementStatusType?
+        /// Key-value pairs that can be used to group and search for agreements.
+        public let tags: [Tag]?
+
+        public init(accessRole: String? = nil, agreementId: String? = nil, arn: String, baseDirectory: String? = nil, description: String? = nil, localProfileId: String? = nil, partnerProfileId: String? = nil, serverId: String? = nil, status: AgreementStatusType? = nil, tags: [Tag]? = nil) {
+            self.accessRole = accessRole
+            self.agreementId = agreementId
+            self.arn = arn
+            self.baseDirectory = baseDirectory
+            self.description = description
+            self.localProfileId = localProfileId
+            self.partnerProfileId = partnerProfileId
+            self.serverId = serverId
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessRole = "AccessRole"
+            case agreementId = "AgreementId"
+            case arn = "Arn"
+            case baseDirectory = "BaseDirectory"
+            case description = "Description"
+            case localProfileId = "LocalProfileId"
+            case partnerProfileId = "PartnerProfileId"
+            case serverId = "ServerId"
+            case status = "Status"
+            case tags = "Tags"
+        }
+    }
+
+    public struct DescribedCertificate: AWSDecodableShape {
+        /// An optional date that specifies when the certificate becomes active.
+        public let activeDate: Date?
+        /// The unique Amazon Resource Name (ARN) for the certificate.
+        public let arn: String
+        /// The file name for the certificate.
+        public let certificate: String?
+        /// The list of certificates that make up the chain for the certificate.
+        public let certificateChain: String?
+        /// An array of identifiers for the imported certificates. You use this identifier for working with profiles and partner profiles.
+        public let certificateId: String?
+        /// The name or description that's used to identity the certificate.
+        public let description: String?
+        /// An optional date that specifies when the certificate becomes inactive.
+        public let inactiveDate: Date?
+        /// The final date that the certificate is valid.
+        public let notAfterDate: Date?
+        /// The earliest date that the certificate is valid.
+        public let notBeforeDate: Date?
+        /// The serial number for the certificate.
+        public let serial: String?
+        /// The certificate can be either ACTIVE, PENDING_ROTATION, or INACTIVE. PENDING_ROTATION means that this certificate will replace the current certificate when it expires.
+        public let status: CertificateStatusType?
+        /// Key-value pairs that can be used to group and search for certificates.
+        public let tags: [Tag]?
+        /// If a private key has been specified for the certificate, its type is CERTIFICATE_WITH_PRIVATE_KEY. If there is no private key, the type is CERTIFICATE.
+        public let type: CertificateType?
+        /// Specifies whether this certificate is used for signing or encryption.
+        public let usage: CertificateUsageType?
+
+        public init(activeDate: Date? = nil, arn: String, certificate: String? = nil, certificateChain: String? = nil, certificateId: String? = nil, description: String? = nil, inactiveDate: Date? = nil, notAfterDate: Date? = nil, notBeforeDate: Date? = nil, serial: String? = nil, status: CertificateStatusType? = nil, tags: [Tag]? = nil, type: CertificateType? = nil, usage: CertificateUsageType? = nil) {
+            self.activeDate = activeDate
+            self.arn = arn
+            self.certificate = certificate
+            self.certificateChain = certificateChain
+            self.certificateId = certificateId
+            self.description = description
+            self.inactiveDate = inactiveDate
+            self.notAfterDate = notAfterDate
+            self.notBeforeDate = notBeforeDate
+            self.serial = serial
+            self.status = status
+            self.tags = tags
+            self.type = type
+            self.usage = usage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activeDate = "ActiveDate"
+            case arn = "Arn"
+            case certificate = "Certificate"
+            case certificateChain = "CertificateChain"
+            case certificateId = "CertificateId"
+            case description = "Description"
+            case inactiveDate = "InactiveDate"
+            case notAfterDate = "NotAfterDate"
+            case notBeforeDate = "NotBeforeDate"
+            case serial = "Serial"
+            case status = "Status"
+            case tags = "Tags"
+            case type = "Type"
+            case usage = "Usage"
+        }
+    }
+
+    public struct DescribedConnector: AWSDecodableShape {
+        /// With AS2, you can send files by calling StartFileTransfer and specifying the file paths in the request parameter, SendFilePaths. We use the file’s parent directory (for example, for --send-file-paths /bucket/dir/file.txt, parent directory is /bucket/dir/) to temporarily store a processed AS2 message file, store the MDN when we receive them from the partner, and write a final JSON file containing relevant metadata of the transmission. So, the AccessRole needs to provide read and write access to the parent directory of the file location used in the StartFileTransfer request. Additionally, you need to provide read and write access to the parent directory of the files that you intend to send with StartFileTransfer.
+        public let accessRole: String?
+        /// The unique Amazon Resource Name (ARN) for the connector.
+        public let arn: String
+        /// A structure that contains the parameters for a connector object.
+        public let as2Config: As2ConnectorConfig?
+        /// The unique identifier for the connector.
+        public let connectorId: String?
+        /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a connector to turn on CloudWatch logging for Amazon S3 events. When set, you can view connector activity in your CloudWatch logs.
+        public let loggingRole: String?
+        /// Key-value pairs that can be used to group and search for connectors.
+        public let tags: [Tag]?
+        /// The URL of the partner's AS2 endpoint.
+        public let url: String?
+
+        public init(accessRole: String? = nil, arn: String, as2Config: As2ConnectorConfig? = nil, connectorId: String? = nil, loggingRole: String? = nil, tags: [Tag]? = nil, url: String? = nil) {
+            self.accessRole = accessRole
+            self.arn = arn
+            self.as2Config = as2Config
+            self.connectorId = connectorId
+            self.loggingRole = loggingRole
+            self.tags = tags
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessRole = "AccessRole"
+            case arn = "Arn"
+            case as2Config = "As2Config"
+            case connectorId = "ConnectorId"
+            case loggingRole = "LoggingRole"
+            case tags = "Tags"
+            case url = "Url"
+        }
+    }
+
     public struct DescribedExecution: AWSDecodableShape {
         /// A unique identifier for the execution of a workflow.
         public let executionId: String?
@@ -974,7 +1658,7 @@ extension Transfer {
         public let posixProfile: PosixProfile?
         /// A structure that describes the execution results. This includes a list of the steps along with the details of each step, error type and message (if any), and the OnExceptionSteps structure.
         public let results: ExecutionResults?
-        /// A container object for the session details associated with a workflow.
+        /// A container object for the session details that are associated with a workflow.
         public let serviceMetadata: ServiceMetadata?
         /// The status is one of the execution. Can be in progress, completed, exception encountered, or handling the exception.
         public let status: ExecutionStatus?
@@ -999,6 +1683,39 @@ extension Transfer {
             case results = "Results"
             case serviceMetadata = "ServiceMetadata"
             case status = "Status"
+        }
+    }
+
+    public struct DescribedProfile: AWSDecodableShape {
+        /// The unique Amazon Resource Name (ARN) for the profile.
+        public let arn: String
+        /// The unique identifier for the AS2 process.
+        public let as2Id: String?
+        /// An array of identifiers for the imported certificates. You use this identifier for working with profiles and partner profiles.
+        public let certificateIds: [String]?
+        /// A unique identifier for the local or partner AS2 profile.
+        public let profileId: String?
+        /// Indicates whether to list only LOCAL type profiles or only PARTNER type profiles.  If not supplied in the request, the command lists all types of profiles.
+        public let profileType: ProfileType?
+        /// Key-value pairs that can be used to group and search for profiles.
+        public let tags: [Tag]?
+
+        public init(arn: String, as2Id: String? = nil, certificateIds: [String]? = nil, profileId: String? = nil, profileType: ProfileType? = nil, tags: [Tag]? = nil) {
+            self.arn = arn
+            self.as2Id = as2Id
+            self.certificateIds = certificateIds
+            self.profileId = profileId
+            self.profileType = profileType
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case as2Id = "As2Id"
+            case certificateIds = "CertificateIds"
+            case profileId = "ProfileId"
+            case profileType = "ProfileType"
+            case tags = "Tags"
         }
     }
 
@@ -1042,7 +1759,7 @@ extension Transfer {
         public let certificate: String?
         /// Specifies the domain of the storage system that is used for file transfers.
         public let domain: Domain?
-        /// The virtual private cloud (VPC) endpoint settings that are configured for your server. When you host your endpoint within your VPC, you can make it accessible only to resources within your VPC, or you can attach Elastic IP addresses and make it accessible to clients over the internet. Your VPC's default security groups are automatically assigned to your endpoint.
+        /// The virtual private cloud (VPC) endpoint settings that are configured for your server. When you host your endpoint within your VPC, you can make your endpoint accessible only to resources within your VPC, or you can attach Elastic IP addresses and make your endpoint accessible to clients over the internet. Your VPC's default security groups are automatically assigned to your endpoint.
         public let endpointDetails: EndpointDetails?
         /// Defines the type of endpoint that your server is connected to. If your server is connected to a VPC endpoint, your server isn't accessible over the public internet.
         public let endpointType: EndpointType?
@@ -1050,15 +1767,15 @@ extension Transfer {
         public let hostKeyFingerprint: String?
         /// Specifies information to call a customer-supplied authentication API. This field is not populated when the IdentityProviderType of a server is AWS_DIRECTORY_SERVICE or SERVICE_MANAGED.
         public let identityProviderDetails: IdentityProviderDetails?
-        /// Specifies the mode of authentication for a server. The default value is SERVICE_MANAGED, which allows you to store and access user credentials within the Amazon Web Services Transfer Family service. Use AWS_DIRECTORY_SERVICE to provide access to Active Directory groups in Amazon Web Services Managed Active Directory or Microsoft Active Directory in your on-premises environment or in Amazon Web Services using AD Connectors. This option also requires you to provide a Directory ID using the IdentityProviderDetails parameter. Use the API_GATEWAY value to integrate with an identity provider of your choosing. The API_GATEWAY setting requires you to provide an API Gateway endpoint URL to call for authentication using the IdentityProviderDetails parameter. Use the AWS_LAMBDA value to directly use a Lambda function as your identity provider. If you choose this value, you must specify the ARN for the lambda function in the Function parameter for the IdentityProviderDetails data type.
+        /// The mode of authentication for a server. The default value is SERVICE_MANAGED, which allows you to store and access user credentials within the Transfer Family service. Use AWS_DIRECTORY_SERVICE to provide access to Active Directory groups in Directory Service for Microsoft Active Directory or Microsoft Active Directory in your on-premises environment or in Amazon Web Services using AD Connector. This option also requires you to provide a Directory ID by using the IdentityProviderDetails parameter. Use the API_GATEWAY value to integrate with an identity provider of your choosing. The API_GATEWAY setting requires you to provide an Amazon API Gateway endpoint URL to call for authentication by using the IdentityProviderDetails parameter. Use the AWS_LAMBDA value to directly use an Lambda function as your identity provider.  If you choose this value, you must specify the ARN for the Lambda function in the Function parameter  or the IdentityProviderDetails data type.
         public let identityProviderType: IdentityProviderType?
-        /// Specifies the Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) role that allows a server to turn on Amazon CloudWatch logging for Amazon S3 or Amazon EFS events. When set, user activity can be viewed in your CloudWatch logs.
+        /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a server to turn on Amazon CloudWatch logging for Amazon S3 or Amazon EFSevents. When set, you can view user activity in your CloudWatch logs.
         public let loggingRole: String?
-        /// Specify a string to display when users connect to a server. This string is displayed after the user authenticates.  The SFTP protocol does not support post-authentication display banners.
+        /// Specifies a string to display when users connect to a server. This string is displayed after the user authenticates.  The SFTP protocol does not support post-authentication display banners.
         public let postAuthenticationLoginBanner: String?
-        /// Specify a string to display when users connect to a server. This string is displayed before the user authenticates. For example, the following banner displays details about using the system.  This system is for the use of authorized users only. Individuals using this computer system without authority, or in excess of their authority, are subject to having all of their activities on this system monitored and recorded by system personnel.
+        /// Specifies a string to display when users connect to a server. This string is displayed before the user authenticates. For example, the following banner displays details about using the system:   This system is for the use of authorized users only. Individuals using this computer system without authority, or in excess of their authority, are subject to having all of their activities on this system monitored and recorded by system personnel.
         public let preAuthenticationLoginBanner: String?
-        ///  The protocol settings that are configured for your server.   Use the PassiveIp parameter to indicate passive mode. Enter a single dotted-quad IPv4 address, such as the external IP address of a firewall, router, or load balancer.
+        ///  The protocol settings that are configured for your server.   Use the PassiveIp parameter to indicate passive mode. Enter a single IPv4 address, such as the public IP address of a firewall, router, or load balancer.
         public let protocolDetails: ProtocolDetails?
         /// Specifies the file transfer protocol or protocols over which your file transfer protocol client can connect to your server's endpoint. The available protocols are:
         ///     SFTP (Secure Shell (SSH) File Transfer Protocol): File transfer over SSH    FTPS (File Transfer Protocol Secure): File transfer with TLS encryption    FTP (File Transfer Protocol): Unencrypted file transfer
@@ -1067,14 +1784,14 @@ extension Transfer {
         public let securityPolicyName: String?
         /// Specifies the unique system-assigned identifier for a server that you instantiate.
         public let serverId: String?
-        /// Specifies the condition of a server for the server that was described. A value of ONLINE indicates that the server can accept jobs and transfer files. A State value of OFFLINE means that the server cannot perform file transfer operations.
+        /// The condition of the server that was described. A value of ONLINE indicates that the server can accept jobs and transfer files. A State value of OFFLINE means that the server cannot perform file transfer operations.
         ///  The states of STARTING and STOPPING indicate that the server is in an intermediate state, either not fully able to respond, or not fully offline. The values of START_FAILED or STOP_FAILED can indicate an error condition.
         public let state: State?
         /// Specifies the key-value pairs that you can use to search for and group servers that were assigned to the server that was described.
         public let tags: [Tag]?
         /// Specifies the number of users that are assigned to a server you specified with the ServerId.
         public let userCount: Int?
-        /// Specifies the workflow ID for the workflow to assign and the execution role used for executing the workflow.
+        /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow.
         public let workflowDetails: WorkflowDetails?
 
         public init(arn: String, certificate: String? = nil, domain: Domain? = nil, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKeyFingerprint: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, identityProviderType: IdentityProviderType? = nil, loggingRole: String? = nil, postAuthenticationLoginBanner: String? = nil, preAuthenticationLoginBanner: String? = nil, protocolDetails: ProtocolDetails? = nil, protocols: [`Protocol`]? = nil, securityPolicyName: String? = nil, serverId: String? = nil, state: State? = nil, tags: [Tag]? = nil, userCount: Int? = nil, workflowDetails: WorkflowDetails? = nil) {
@@ -1127,16 +1844,16 @@ extension Transfer {
         public let arn: String
         /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.
         public let homeDirectory: String?
-        /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Amazon Web Services Identity and Access Management (IAM) role provides access to paths in Target. This value can only be set when HomeDirectoryType is set to LOGICAL.
+        /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Identity and Access Management (IAM)  role provides access to paths in Target. This value can be set only when HomeDirectoryType is set to LOGICAL.
         ///  In most cases, you can use this value instead of the session policy to lock your user down to the designated home directory ("chroot"). To do this, you can set Entry to '/' and set Target to the HomeDirectory parameter value.
         public let homeDirectoryMappings: [HomeDirectoryMapEntry]?
-        /// The type of landing directory (folder) you want your users' home directory to be when they log into the server. If you set it to PATH, the user will see the absolute Amazon S3 bucket or EFS paths as is in their file transfer protocol clients. If you set it LOGICAL, you need to provide mappings in the HomeDirectoryMappings for how you want to make Amazon S3 or EFS paths visible to your users.
+        /// The type of landing directory (folder) that you want your users' home directory to be when they log in to the server. If you set it to PATH, the user will see the absolute Amazon S3 bucket or EFS paths as is in their file transfer  protocol clients. If you set it LOGICAL, you need to provide mappings in the HomeDirectoryMappings for  how you want to make Amazon S3 or Amazon EFS paths visible to your users.
         public let homeDirectoryType: HomeDirectoryType?
-        /// A session policy for your user so that you can use the same IAM role across multiple users. This policy scopes down user access to portions of their Amazon S3 bucket. Variables that you can use inside this policy include ${Transfer:UserName}, ${Transfer:HomeDirectory}, and ${Transfer:HomeBucket}.
+        /// A session policy for your user so that you can use the same Identity and Access Management (IAM) role across multiple users. This policy scopes down a user's access to portions of their Amazon S3 bucket. Variables that you can use inside this policy include ${Transfer:UserName}, ${Transfer:HomeDirectory}, and ${Transfer:HomeBucket}.
         public let policy: String?
         /// Specifies the full POSIX identity, including user ID (Uid), group ID (Gid), and any secondary groups IDs (SecondaryGids), that controls your users' access to your Amazon Elastic File System (Amazon EFS) file systems. The POSIX permissions that are set on files and directories in your file system determine the level of access your users get when transferring files into and out of your Amazon EFS file systems.
         public let posixProfile: PosixProfile?
-        /// Specifies the Amazon Resource Name (ARN) of the IAM role that controls your users' access to your Amazon S3 bucket or EFS file system. The policies attached to this role determine the level of access that you want to provide your users when transferring files into and out of your Amazon S3 bucket or EFS file system. The IAM role should also contain a trust relationship that allows the server to access your resources when servicing your users' transfer requests.
+        /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that controls your users' access to your Amazon S3  bucket or Amazon EFS file system. The policies attached to this role determine the level of access that you want to provide your users  when transferring files into and out of your Amazon S3 bucket or Amazon EFS file system. The IAM role should also contain a trust  relationship that allows the server to access your resources when servicing your users' transfer requests.
         public let role: String?
         /// Specifies the public key portion of the Secure Shell (SSH) keys stored for the described user.
         public let sshPublicKeys: [SshPublicKey]?
@@ -1312,11 +2029,11 @@ extension Transfer {
     }
 
     public struct ExecutionStepResult: AWSDecodableShape {
-        /// Specifies the details for an error, if it occurred during execution of the specified workfow step.
+        /// Specifies the details for an error, if it occurred during execution of the specified workflow step.
         public let error: ExecutionError?
         /// The values for the key/value pair applied as a tag to the file. Only applicable if the step type is TAG.
         public let outputs: String?
-        /// One of the available step types.    COPY: copy the file to another location    CUSTOM: custom step with a lambda target    DELETE: delete the file    TAG: add a tag to the file
+        /// One of the available step types.    COPY: Copy the file to another location.    CUSTOM: Perform a custom step with an Lambda function target.    DELETE: Delete the file.    TAG: Add a tag to the file.
         public let stepType: WorkflowStepType?
 
         public init(error: ExecutionError? = nil, outputs: String? = nil, stepType: WorkflowStepType? = nil) {
@@ -1335,7 +2052,7 @@ extension Transfer {
     public struct FileLocation: AWSDecodableShape {
         /// Specifies the Amazon EFS ID and the path for the file being used.
         public let efsFileLocation: EfsFileLocation?
-        /// Specifies the S3 details for the file being used, such as bucket, Etag, and so forth.
+        /// Specifies the S3 details for the file being used, such as bucket, ETag, and so forth.
         public let s3FileLocation: S3FileLocation?
 
         public init(efsFileLocation: EfsFileLocation? = nil, s3FileLocation: S3FileLocation? = nil) {
@@ -1374,7 +2091,7 @@ extension Transfer {
     }
 
     public struct IdentityProviderDetails: AWSEncodableShape & AWSDecodableShape {
-        /// The identifier of the Amazon Web Services Directory Service directory that you want to stop sharing.
+        /// The identifier of the Directory Service directory that you want to stop sharing.
         public let directoryId: String?
         /// The ARN for a lambda function to use for the Identity provider.
         public let function: String?
@@ -1411,10 +2128,84 @@ extension Transfer {
         }
     }
 
+    public struct ImportCertificateRequest: AWSEncodableShape {
+        /// An optional date that specifies when the certificate becomes active.
+        public let activeDate: Date?
+        /// The file that contains the certificate to import.
+        public let certificate: String
+        /// An optional list of certificates that make up the chain for the certificate that's being imported.
+        public let certificateChain: String?
+        /// A short description that helps identify the certificate.
+        public let description: String?
+        /// An optional date that specifies when the certificate becomes inactive.
+        public let inactiveDate: Date?
+        /// The file that contains the private key for the certificate that's being imported.
+        public let privateKey: String?
+        /// Key-value pairs that can be used to group and search for certificates.
+        public let tags: [Tag]?
+        /// Specifies whether this certificate is used for signing or encryption.
+        public let usage: CertificateUsageType
+
+        public init(activeDate: Date? = nil, certificate: String, certificateChain: String? = nil, description: String? = nil, inactiveDate: Date? = nil, privateKey: String? = nil, tags: [Tag]? = nil, usage: CertificateUsageType) {
+            self.activeDate = activeDate
+            self.certificate = certificate
+            self.certificateChain = certificateChain
+            self.description = description
+            self.inactiveDate = inactiveDate
+            self.privateKey = privateKey
+            self.tags = tags
+            self.usage = usage
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.certificate, name: "certificate", parent: name, max: 16384)
+            try self.validate(self.certificate, name: "certificate", parent: name, min: 1)
+            try self.validate(self.certificate, name: "certificate", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u00FF]*$")
+            try self.validate(self.certificateChain, name: "certificateChain", parent: name, max: 2_097_152)
+            try self.validate(self.certificateChain, name: "certificateChain", parent: name, min: 1)
+            try self.validate(self.certificateChain, name: "certificateChain", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u00FF]*$")
+            try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\p{Graph}]+$")
+            try self.validate(self.privateKey, name: "privateKey", parent: name, max: 16384)
+            try self.validate(self.privateKey, name: "privateKey", parent: name, min: 1)
+            try self.validate(self.privateKey, name: "privateKey", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u00FF]*$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activeDate = "ActiveDate"
+            case certificate = "Certificate"
+            case certificateChain = "CertificateChain"
+            case description = "Description"
+            case inactiveDate = "InactiveDate"
+            case privateKey = "PrivateKey"
+            case tags = "Tags"
+            case usage = "Usage"
+        }
+    }
+
+    public struct ImportCertificateResponse: AWSDecodableShape {
+        /// An array of identifiers for the imported certificates. You use this identifier for working with profiles and partner profiles.
+        public let certificateId: String
+
+        public init(certificateId: String) {
+            self.certificateId = certificateId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateId = "CertificateId"
+        }
+    }
+
     public struct ImportSshPublicKeyRequest: AWSEncodableShape {
         /// A system-assigned unique identifier for a server.
         public let serverId: String
-        /// The public key portion of an SSH key pair.
+        /// The public key portion of an SSH key pair. Transfer Family accepts RSA, ECDSA, and ED25519 keys.
         public let sshPublicKeyBody: String
         /// The name of the user account that is assigned to one or more servers.
         public let userName: String
@@ -1430,7 +2221,6 @@ extension Transfer {
             try self.validate(self.serverId, name: "serverId", parent: name, min: 19)
             try self.validate(self.serverId, name: "serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
             try self.validate(self.sshPublicKeyBody, name: "sshPublicKeyBody", parent: name, max: 2048)
-            try self.validate(self.sshPublicKeyBody, name: "sshPublicKeyBody", parent: name, pattern: "^ssh-rsa\\s+[A-Za-z0-9+/]+[=]{0,3}(\\s+.+)?\\s*$")
             try self.validate(self.userName, name: "userName", parent: name, max: 100)
             try self.validate(self.userName, name: "userName", parent: name, min: 3)
             try self.validate(self.userName, name: "userName", parent: name, pattern: "^[\\w][\\w@.-]{2,99}$")
@@ -1538,10 +2328,140 @@ extension Transfer {
         }
     }
 
-    public struct ListExecutionsRequest: AWSEncodableShape {
-        /// Specifies the aximum number of executions to return.
+    public struct ListAgreementsRequest: AWSEncodableShape {
+        /// The maximum number of agreements to return.
         public let maxResults: Int?
-        ///  ListExecutions returns the NextToken parameter in the output. You can then pass the NextToken parameter in a subsequent command to continue listing additional executions.  This is useful for pagination, for instance. If you have 100 executions for a workflow, you might only want to list first 10. If so, callthe API by specifing the max-results:   aws transfer list-executions --max-results 10   This returns details for the first 10 executions, as well as the pointer (NextToken) to the eleventh execution. You can now call the API again, suppling the NextToken value you received:   aws transfer list-executions --max-results 10 --next-token $somePointerReturnedFromPreviousListResult   This call returns the next 10 executions, the 11th through the 20th. You can then repeat the call until the details for all 100 executions have been returned.
+        /// When you can get additional results from the ListAgreements call, a NextToken parameter is returned in the output. You can then pass in a subsequent command to the NextToken parameter to continue listing additional agreements.
+        public let nextToken: String?
+        /// The identifier of the server for which you want a list of agreements.
+        public let serverId: String
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, serverId: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.serverId = serverId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 6144)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.serverId, name: "serverId", parent: name, max: 19)
+            try self.validate(self.serverId, name: "serverId", parent: name, min: 19)
+            try self.validate(self.serverId, name: "serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case serverId = "ServerId"
+        }
+    }
+
+    public struct ListAgreementsResponse: AWSDecodableShape {
+        /// Returns an array, where each item contains the details of an agreement.
+        public let agreements: [ListedAgreement]
+        /// Returns a token that you can use to call ListAgreements again and receive additional results, if there are any.
+        public let nextToken: String?
+
+        public init(agreements: [ListedAgreement], nextToken: String? = nil) {
+            self.agreements = agreements
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agreements = "Agreements"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListCertificatesRequest: AWSEncodableShape {
+        /// The maximum number of certificates to return.
+        public let maxResults: Int?
+        /// When you can get additional results from the ListCertificates call, a NextToken parameter is returned in the output. You can then pass in a subsequent command to the NextToken parameter to continue listing additional certificates.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 6144)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListCertificatesResponse: AWSDecodableShape {
+        /// Returns an array of the certificates that are specified in the ListCertificates call.
+        public let certificates: [ListedCertificate]
+        /// Returns the next token, which you can use to list the next certificate.
+        public let nextToken: String?
+
+        public init(certificates: [ListedCertificate], nextToken: String? = nil) {
+            self.certificates = certificates
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificates = "Certificates"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListConnectorsRequest: AWSEncodableShape {
+        /// The maximum number of connectors to return.
+        public let maxResults: Int?
+        /// When you can get additional results from the ListConnectors call, a NextToken parameter is returned in the output. You can then pass in a subsequent command to the NextToken parameter to continue listing additional connectors.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 6144)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListConnectorsResponse: AWSDecodableShape {
+        /// Returns an array, where each item contains the details of a connector.
+        public let connectors: [ListedConnector]
+        /// Returns a token that you can use to call ListConnectors again and receive additional results, if there are any.
+        public let nextToken: String?
+
+        public init(connectors: [ListedConnector], nextToken: String? = nil) {
+            self.connectors = connectors
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectors = "Connectors"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListExecutionsRequest: AWSEncodableShape {
+        /// Specifies the maximum number of executions to return.
+        public let maxResults: Int?
+        ///  ListExecutions returns the NextToken parameter in the output. You can then pass the NextToken parameter in a subsequent command to continue listing additional executions.  This is useful for pagination, for instance. If you have 100 executions for a workflow, you might only want to list first 10. If so, call the API by specifying the max-results:   aws transfer list-executions --max-results 10   This returns details for the first 10 executions, as well as the pointer (NextToken) to the eleventh execution. You can now call the API again, supplying the NextToken value you received:   aws transfer list-executions --max-results 10 --next-token $somePointerReturnedFromPreviousListResult   This call returns the next 10 executions, the 11th through the 20th. You can then repeat the call until the details for all 100 executions have been returned.
         public let nextToken: String?
         /// A unique identifier for the workflow.
         public let workflowId: String
@@ -1587,6 +2507,51 @@ extension Transfer {
             case executions = "Executions"
             case nextToken = "NextToken"
             case workflowId = "WorkflowId"
+        }
+    }
+
+    public struct ListProfilesRequest: AWSEncodableShape {
+        /// The maximum number of profiles to return.
+        public let maxResults: Int?
+        /// When there are additional results that were not returned, a NextToken parameter is returned. You can use that value for a subsequent call to ListProfiles to continue listing results.
+        public let nextToken: String?
+        /// Indicates whether to list only LOCAL type profiles or only PARTNER type profiles.  If not supplied in the request, the command lists all types of profiles.
+        public let profileType: ProfileType?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, profileType: ProfileType? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.profileType = profileType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 6144)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case profileType = "ProfileType"
+        }
+    }
+
+    public struct ListProfilesResponse: AWSDecodableShape {
+        /// Returns a token that you can use to call ListProfiles again and receive additional results, if there are any.
+        public let nextToken: String?
+        /// Returns an array, where each item contains the details of a profile.
+        public let profiles: [ListedProfile]
+
+        public init(nextToken: String? = nil, profiles: [ListedProfile]) {
+            self.nextToken = nextToken
+            self.profiles = profiles
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case profiles = "Profiles"
         }
     }
 
@@ -1818,15 +2783,15 @@ extension Transfer {
     }
 
     public struct ListedAccess: AWSDecodableShape {
-        /// A unique identifier that is required to identify specific groups within your directory. The users of the group that you associate have access to your Amazon S3 or Amazon EFS resources over the enabled protocols using Amazon Web Services Transfer Family. If you know the group name, you can view the SID values by running the following command using Windows PowerShell.
+        /// A unique identifier that is required to identify specific groups within your directory. The users of the group that you associate have access to your Amazon S3 or Amazon EFS resources over the enabled protocols using Transfer Family. If you know the group name, you can view the SID values by running the following command using Windows PowerShell.
         ///   Get-ADGroup -Filter {samAccountName -like "YourGroupName*"} -Properties * | Select SamAccountName,ObjectSid   In that command, replace YourGroupName with the name of your Active Directory group.
-        ///  The regex used to validate this parameter is a string of characters consisting of uppercase and lowercase alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
+        ///  The regular expression used to validate this parameter is a string of characters consisting of uppercase and lowercase alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
         public let externalId: String?
         /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.
         public let homeDirectory: String?
-        /// The type of landing directory (folder) you want your users' home directory to be when they log into the server. If you set it to PATH, the user will see the absolute Amazon S3 bucket or EFS paths as is in their file transfer protocol clients. If you set it LOGICAL, you need to provide mappings in the HomeDirectoryMappings for how you want to make Amazon S3 or EFS paths visible to your users.
+        /// The type of landing directory (folder) that you want your users' home directory to be when they log in to the server. If you set it to PATH, the user will see the absolute Amazon S3 bucket or EFS paths as is in their file transfer  protocol clients. If you set it LOGICAL, you need to provide mappings in the HomeDirectoryMappings for  how you want to make Amazon S3 or Amazon EFS paths visible to your users.
         public let homeDirectoryType: HomeDirectoryType?
-        /// Specifies the Amazon Resource Name (ARN) of the IAM role that controls your users' access to your Amazon S3 bucket or EFS file system. The policies attached to this role determine the level of access that you want to provide your users when transferring files into and out of your Amazon S3 bucket or EFS file system. The IAM role should also contain a trust relationship that allows the server to access your resources when servicing your users' transfer requests.
+        /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that controls your users' access to your Amazon S3  bucket or Amazon EFS file system. The policies attached to this role determine the level of access that you want to provide your users  when transferring files into and out of your Amazon S3 bucket or Amazon EFS file system. The IAM role should also contain a trust  relationship that allows the server to access your resources when servicing your users' transfer requests.
         public let role: String?
 
         public init(externalId: String? = nil, homeDirectory: String? = nil, homeDirectoryType: HomeDirectoryType? = nil, role: String? = nil) {
@@ -1844,12 +2809,111 @@ extension Transfer {
         }
     }
 
+    public struct ListedAgreement: AWSDecodableShape {
+        /// A unique identifier for the agreement. This identifier is returned when you create an agreement.
+        public let agreementId: String?
+        /// The Amazon Resource Name (ARN) of the specified agreement.
+        public let arn: String?
+        /// The current description for the agreement. You can change it by calling the UpdateAgreement operation and providing a new description.
+        public let description: String?
+        /// A unique identifier for the AS2 process.
+        public let localProfileId: String?
+        /// A unique identifier for the partner process.
+        public let partnerProfileId: String?
+        /// The unique identifier for the agreement.
+        public let serverId: String?
+        /// The agreement can be either ACTIVE or INACTIVE.
+        public let status: AgreementStatusType?
+
+        public init(agreementId: String? = nil, arn: String? = nil, description: String? = nil, localProfileId: String? = nil, partnerProfileId: String? = nil, serverId: String? = nil, status: AgreementStatusType? = nil) {
+            self.agreementId = agreementId
+            self.arn = arn
+            self.description = description
+            self.localProfileId = localProfileId
+            self.partnerProfileId = partnerProfileId
+            self.serverId = serverId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agreementId = "AgreementId"
+            case arn = "Arn"
+            case description = "Description"
+            case localProfileId = "LocalProfileId"
+            case partnerProfileId = "PartnerProfileId"
+            case serverId = "ServerId"
+            case status = "Status"
+        }
+    }
+
+    public struct ListedCertificate: AWSDecodableShape {
+        /// An optional date that specifies when the certificate becomes active.
+        public let activeDate: Date?
+        /// The Amazon Resource Name (ARN) of the specified certificate.
+        public let arn: String?
+        /// An array of identifiers for the imported certificates. You use this identifier for working with profiles and partner profiles.
+        public let certificateId: String?
+        /// The name or short description that's used to identify the certificate.
+        public let description: String?
+        /// An optional date that specifies when the certificate becomes inactive.
+        public let inactiveDate: Date?
+        /// The certificate can be either ACTIVE, PENDING_ROTATION, or INACTIVE. PENDING_ROTATION means that this certificate will replace the current certificate when it expires.
+        public let status: CertificateStatusType?
+        /// The type for the certificate. If a private key has been specified for the certificate, its type is CERTIFICATE_WITH_PRIVATE_KEY. If there is no private key, the type is CERTIFICATE.
+        public let type: CertificateType?
+        /// Specifies whether this certificate is used for signing or encryption.
+        public let usage: CertificateUsageType?
+
+        public init(activeDate: Date? = nil, arn: String? = nil, certificateId: String? = nil, description: String? = nil, inactiveDate: Date? = nil, status: CertificateStatusType? = nil, type: CertificateType? = nil, usage: CertificateUsageType? = nil) {
+            self.activeDate = activeDate
+            self.arn = arn
+            self.certificateId = certificateId
+            self.description = description
+            self.inactiveDate = inactiveDate
+            self.status = status
+            self.type = type
+            self.usage = usage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activeDate = "ActiveDate"
+            case arn = "Arn"
+            case certificateId = "CertificateId"
+            case description = "Description"
+            case inactiveDate = "InactiveDate"
+            case status = "Status"
+            case type = "Type"
+            case usage = "Usage"
+        }
+    }
+
+    public struct ListedConnector: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the specified connector.
+        public let arn: String?
+        /// The unique identifier for the connector.
+        public let connectorId: String?
+        /// The URL of the partner's AS2 endpoint.
+        public let url: String?
+
+        public init(arn: String? = nil, connectorId: String? = nil, url: String? = nil) {
+            self.arn = arn
+            self.connectorId = connectorId
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case connectorId = "ConnectorId"
+            case url = "Url"
+        }
+    }
+
     public struct ListedExecution: AWSDecodableShape {
         /// A unique identifier for the execution of a workflow.
         public let executionId: String?
         /// A structure that describes the Amazon S3 or EFS file location. This is the file location when the execution begins: if the file is being copied, this is the initial (as opposed to destination) file location.
         public let initialFileLocation: FileLocation?
-        /// A container object for the session details associated with a workflow.
+        /// A container object for the session details that are associated with a workflow.
         public let serviceMetadata: ServiceMetadata?
         /// The status is one of the execution. Can be in progress, completed, exception encountered, or handling the exception.
         public let status: ExecutionStatus?
@@ -1869,6 +2933,31 @@ extension Transfer {
         }
     }
 
+    public struct ListedProfile: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the specified profile.
+        public let arn: String?
+        /// The unique identifier for the AS2 process.
+        public let as2Id: String?
+        /// A unique identifier for the local or partner AS2 profile.
+        public let profileId: String?
+        /// Indicates whether to list only LOCAL type profiles or only PARTNER type profiles.  If not supplied in the request, the command lists all types of profiles.
+        public let profileType: ProfileType?
+
+        public init(arn: String? = nil, as2Id: String? = nil, profileId: String? = nil, profileType: ProfileType? = nil) {
+            self.arn = arn
+            self.as2Id = as2Id
+            self.profileId = profileId
+            self.profileType = profileType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case as2Id = "As2Id"
+            case profileId = "ProfileId"
+            case profileType = "ProfileType"
+        }
+    }
+
     public struct ListedServer: AWSDecodableShape {
         /// Specifies the unique Amazon Resource Name (ARN) for a server to be listed.
         public let arn: String
@@ -1876,13 +2965,13 @@ extension Transfer {
         public let domain: Domain?
         /// Specifies the type of VPC endpoint that your server is connected to. If your server is connected to a VPC endpoint, your server isn't accessible over the public internet.
         public let endpointType: EndpointType?
-        /// Specifies the mode of authentication for a server. The default value is SERVICE_MANAGED, which allows you to store and access user credentials within the Amazon Web Services Transfer Family service. Use AWS_DIRECTORY_SERVICE to provide access to Active Directory groups in Amazon Web Services Managed Active Directory or Microsoft Active Directory in your on-premises environment or in Amazon Web Services using AD Connectors. This option also requires you to provide a Directory ID using the IdentityProviderDetails parameter. Use the API_GATEWAY value to integrate with an identity provider of your choosing. The API_GATEWAY setting requires you to provide an API Gateway endpoint URL to call for authentication using the IdentityProviderDetails parameter. Use the AWS_LAMBDA value to directly use a Lambda function as your identity provider. If you choose this value, you must specify the ARN for the lambda function in the Function parameter for the IdentityProviderDetails data type.
+        /// The mode of authentication for a server. The default value is SERVICE_MANAGED, which allows you to store and access user credentials within the Transfer Family service. Use AWS_DIRECTORY_SERVICE to provide access to Active Directory groups in Directory Service for Microsoft Active Directory or Microsoft Active Directory in your on-premises environment or in Amazon Web Services using AD Connector. This option also requires you to provide a Directory ID by using the IdentityProviderDetails parameter. Use the API_GATEWAY value to integrate with an identity provider of your choosing. The API_GATEWAY setting requires you to provide an Amazon API Gateway endpoint URL to call for authentication by using the IdentityProviderDetails parameter. Use the AWS_LAMBDA value to directly use an Lambda function as your identity provider.  If you choose this value, you must specify the ARN for the Lambda function in the Function parameter  or the IdentityProviderDetails data type.
         public let identityProviderType: IdentityProviderType?
-        /// Specifies the Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) role that allows a server to turn on Amazon CloudWatch logging for Amazon S3 or Amazon EFS events. When set, user activity can be viewed in your CloudWatch logs.
+        /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a server to turn on Amazon CloudWatch logging for Amazon S3 or Amazon EFSevents. When set, you can view user activity in your CloudWatch logs.
         public let loggingRole: String?
         /// Specifies the unique system assigned identifier for the servers that were listed.
         public let serverId: String?
-        /// Specifies the condition of a server for the server that was described. A value of ONLINE indicates that the server can accept jobs and transfer files. A State value of OFFLINE means that the server cannot perform file transfer operations.
+        /// The condition of the server that was described. A value of ONLINE indicates that the server can accept jobs and transfer files. A State value of OFFLINE means that the server cannot perform file transfer operations.
         ///  The states of STARTING and STOPPING indicate that the server is in an intermediate state, either not fully able to respond, or not fully offline. The values of START_FAILED or STOP_FAILED can indicate an error condition.
         public let state: State?
         /// Specifies the number of users that are assigned to a server you specified with the ServerId.
@@ -1916,9 +3005,9 @@ extension Transfer {
         public let arn: String
         /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.
         public let homeDirectory: String?
-        /// The type of landing directory (folder) you want your users' home directory to be when they log into the server. If you set it to PATH, the user will see the absolute Amazon S3 bucket or EFS paths as is in their file transfer protocol clients. If you set it LOGICAL, you need to provide mappings in the HomeDirectoryMappings for how you want to make Amazon S3 or EFS paths visible to your users.
+        /// The type of landing directory (folder) that you want your users' home directory to be when they log in to the server. If you set it to PATH, the user will see the absolute Amazon S3 bucket or EFS paths as is in their file transfer  protocol clients. If you set it LOGICAL, you need to provide mappings in the HomeDirectoryMappings for  how you want to make Amazon S3 or Amazon EFS paths visible to your users.
         public let homeDirectoryType: HomeDirectoryType?
-        /// Specifies the Amazon Resource Name (ARN) of the IAM role that controls your users' access to your Amazon S3 bucket or EFS file system. The policies attached to this role determine the level of access that you want to provide your users when transferring files into and out of your Amazon S3 bucket or EFS file system. The IAM role should also contain a trust relationship that allows the server to access your resources when servicing your users' transfer requests.
+        /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that controls your users' access to your Amazon S3  bucket or Amazon EFS file system. The policies attached to this role determine the level of access that you want to provide your users  when transferring files into and out of your Amazon S3 bucket or Amazon EFS file system. The IAM role should also contain a trust  relationship that allows the server to access your resources when servicing your users' transfer requests.
         ///  The IAM role that controls your users' access to your Amazon S3 bucket for servers with Domain=S3, or your EFS file system for servers with Domain=EFS.   The policies attached to this role determine the level of access you want to provide your users when  transferring files into and out of your S3 buckets or EFS file systems.
         ///
         public let role: String?
@@ -1968,9 +3057,9 @@ extension Transfer {
     }
 
     public struct LoggingConfiguration: AWSDecodableShape {
-        /// Specifies the Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) role that allows a server to turn on Amazon CloudWatch logging for Amazon S3 or Amazon EFS events. When set, user activity can be viewed in your CloudWatch logs.
+        /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a server to turn on Amazon CloudWatch logging for Amazon S3 or Amazon EFSevents. When set, you can view user activity in your CloudWatch logs.
         public let loggingRole: String?
-        /// The name of the CloudWatch logging group for the Amazon Web Services Transfer server to which this workflow belongs.
+        /// The name of the CloudWatch logging group for the Transfer Family server to which this workflow belongs.
         public let logGroupName: String?
 
         public init(loggingRole: String? = nil, logGroupName: String? = nil) {
@@ -2018,24 +3107,30 @@ extension Transfer {
     }
 
     public struct ProtocolDetails: AWSEncodableShape & AWSDecodableShape {
-        ///  Indicates passive mode, for FTP and FTPS protocols. Enter a single dotted-quad IPv4 address, such as the external IP address of a firewall, router, or load balancer. For example:    aws transfer update-server --protocol-details PassiveIp=0.0.0.0   Replace  0.0.0.0 in the example above with the actual IP address you want to use.   If you change the PassiveIp value, you must stop and then restart your Transfer server for the change to take effect. For details on using Passive IP (PASV) in a NAT environment, see Configuring your FTPS server behind a firewall or NAT with Amazon Web Services Transfer Family.
+        /// Indicates the transport method for the AS2 messages. Currently, only HTTP is supported.
+        public let as2Transports: [As2Transport]?
+        ///  Indicates passive mode, for FTP and FTPS protocols. Enter a single IPv4 address, such as the public IP address of a firewall, router, or load balancer. For example:    aws transfer update-server --protocol-details PassiveIp=0.0.0.0   Replace  0.0.0.0 in the example above with the actual IP address you want to use.   If you change the PassiveIp value, you must stop and then restart your Transfer Family server for the change to take effect. For details on using passive mode (PASV) in a NAT environment, see Configuring your FTPS server behind a firewall or NAT with Transfer Family.
         public let passiveIp: String?
-        /// Use the SetStatOption to ignore the error that is generated when the client attempts to use SETSTAT on a file you are uploading to an S3 bucket. Some SFTP file transfer clients can attempt to change the attributes of remote files, including timestamp and permissions, using commands, such as SETSTAT when uploading the file. However, these commands are not compatible with object storage systems, such as Amazon S3. Due to this incompatibility, file uploads from these clients can result in errors even when  the file is otherwise successfully uploaded. Set the value to ENABLE_NO_OP to have the Transfer Family server ignore the SETSTAT command, and upload files without needing to make any changes to your SFTP client. While the SetStatOption  ENABLE_NO_OP setting ignores the error, it does generate a log entry in CloudWatch Logs, so you can determine when the client is making a SETSTAT call.  If you want to preserve the original timestamp for your file, and modify other file attributes using SETSTAT, you can use Amazon EFS as backend storage with Transfer Family.
+        /// Use the SetStatOption to ignore the error that is generated when the client attempts to use SETSTAT on a file you are uploading to an S3 bucket. Some SFTP file transfer clients can attempt to change the attributes of remote files, including timestamp and permissions, using commands, such as SETSTAT when uploading the file. However, these commands are not compatible with object storage systems, such as Amazon S3. Due to this incompatibility, file uploads from these clients can result in errors even when  the file is otherwise successfully uploaded. Set the value to ENABLE_NO_OP to have the Transfer Family server ignore the SETSTAT command, and upload files without needing to make any changes to your SFTP client. While the SetStatOption  ENABLE_NO_OP setting ignores the error, it does generate a log entry in Amazon CloudWatch Logs, so you can determine when the client is making a SETSTAT call.  If you want to preserve the original timestamp for your file, and modify other file attributes using SETSTAT, you can use Amazon EFS as backend storage with Transfer Family.
         public let setStatOption: SetStatOption?
-        /// A property used with Transfer servers that use the FTPS protocol. TLS Session Resumption provides a mechanism to resume or share a negotiated secret key between the control and data connection for an FTPS session. TlsSessionResumptionMode determines whether or not the server resumes recent, negotiated sessions through a unique session ID. This property is available during CreateServer and UpdateServer calls. If a TlsSessionResumptionMode value is not specified during CreateServer, it is set to ENFORCED by default.    DISABLED: the server does not process TLS session resumption client requests and creates a new TLS session for each request.     ENABLED: the server processes and accepts clients that are performing TLS session resumption. The server doesn't reject client data connections that do not perform the TLS session resumption client processing.    ENFORCED: the server processes and accepts clients that are performing TLS session resumption. The server rejects client data connections that do not perform the TLS session resumption client processing. Before you set the value to ENFORCED, test your clients.  Not all FTPS clients perform TLS session resumption. So, if you choose to enforce TLS session resumption, you prevent any connections from FTPS clients that don't perform the protocol negotiation. To determine whether or not you can use the ENFORCED value, you need to test your clients.
+        /// A property used with Transfer Family servers that use the FTPS protocol. TLS Session Resumption provides a mechanism to resume or share a negotiated secret key between the control and data connection for an FTPS session. TlsSessionResumptionMode determines whether or not the server resumes recent, negotiated sessions through a unique session ID. This property is available during CreateServer and UpdateServer calls. If a TlsSessionResumptionMode value is not specified during CreateServer, it is set to ENFORCED by default.    DISABLED: the server does not process TLS session resumption client requests and creates a new TLS session for each request.     ENABLED: the server processes and accepts clients that are performing TLS session resumption. The server doesn't reject client data connections that do not perform the TLS session resumption client processing.    ENFORCED: the server processes and accepts clients that are performing TLS session resumption. The server rejects client data connections that do not perform the TLS session resumption client processing. Before you set the value to ENFORCED, test your clients.  Not all FTPS clients perform TLS session resumption. So, if you choose to enforce TLS session resumption, you prevent any connections from FTPS clients that don't perform the protocol negotiation. To determine whether or not you can use the ENFORCED value, you need to test your clients.
         public let tlsSessionResumptionMode: TlsSessionResumptionMode?
 
-        public init(passiveIp: String? = nil, setStatOption: SetStatOption? = nil, tlsSessionResumptionMode: TlsSessionResumptionMode? = nil) {
+        public init(as2Transports: [As2Transport]? = nil, passiveIp: String? = nil, setStatOption: SetStatOption? = nil, tlsSessionResumptionMode: TlsSessionResumptionMode? = nil) {
+            self.as2Transports = as2Transports
             self.passiveIp = passiveIp
             self.setStatOption = setStatOption
             self.tlsSessionResumptionMode = tlsSessionResumptionMode
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.as2Transports, name: "as2Transports", parent: name, max: 1)
+            try self.validate(self.as2Transports, name: "as2Transports", parent: name, min: 1)
             try self.validate(self.passiveIp, name: "passiveIp", parent: name, max: 15)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case as2Transports = "As2Transports"
             case passiveIp = "PassiveIp"
             case setStatOption = "SetStatOption"
             case tlsSessionResumptionMode = "TlsSessionResumptionMode"
@@ -2047,7 +3142,7 @@ extension Transfer {
         public let bucket: String?
         /// The entity tag is a hash of the object. The ETag reflects changes only to the contents of an object, not its metadata.
         public let etag: String?
-        /// The name assigned to the file when it was created in S3. You use the object key to retrieve the object.
+        /// The name assigned to the file when it was created in Amazon S3. You use the object key to retrieve the object.
         public let key: String?
         /// Specifies the file version.
         public let versionId: String?
@@ -2070,7 +3165,7 @@ extension Transfer {
     public struct S3InputFileLocation: AWSEncodableShape & AWSDecodableShape {
         /// Specifies the S3 bucket for the customer input file.
         public let bucket: String?
-        /// The name assigned to the file when it was created in S3. You use the object key to retrieve the object.
+        /// The name assigned to the file when it was created in Amazon S3. You use the object key to retrieve the object.
         public let key: String?
 
         public init(bucket: String? = nil, key: String? = nil) {
@@ -2174,7 +3269,7 @@ extension Transfer {
     public struct SshPublicKey: AWSDecodableShape {
         /// Specifies the date that the public key was added to the user account.
         public let dateImported: Date
-        /// Specifies the content of the SSH public key as specified by the PublicKeyId.
+        /// Specifies the content of the SSH public key as specified by the PublicKeyId. Transfer Family accepts RSA, ECDSA, and ED25519 keys.
         public let sshPublicKeyBody: String
         /// Specifies the SshPublicKeyId parameter contains the identifier of the public key.
         public let sshPublicKeyId: String
@@ -2189,6 +3284,49 @@ extension Transfer {
             case dateImported = "DateImported"
             case sshPublicKeyBody = "SshPublicKeyBody"
             case sshPublicKeyId = "SshPublicKeyId"
+        }
+    }
+
+    public struct StartFileTransferRequest: AWSEncodableShape {
+        /// The unique identifier for the connector.
+        public let connectorId: String
+        /// An array of strings. Each string represents the absolute path for one outbound file transfer. For example,  DOC-EXAMPLE-BUCKET/myfile.txt .
+        public let sendFilePaths: [String]
+
+        public init(connectorId: String, sendFilePaths: [String]) {
+            self.connectorId = connectorId
+            self.sendFilePaths = sendFilePaths
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.connectorId, name: "connectorId", parent: name, max: 19)
+            try self.validate(self.connectorId, name: "connectorId", parent: name, min: 19)
+            try self.validate(self.connectorId, name: "connectorId", parent: name, pattern: "^c-([0-9a-f]{17})$")
+            try self.sendFilePaths.forEach {
+                try validate($0, name: "sendFilePaths[]", parent: name, max: 1024)
+                try validate($0, name: "sendFilePaths[]", parent: name, min: 1)
+                try validate($0, name: "sendFilePaths[]", parent: name, pattern: "^(.)+$")
+            }
+            try self.validate(self.sendFilePaths, name: "sendFilePaths", parent: name, max: 10)
+            try self.validate(self.sendFilePaths, name: "sendFilePaths", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorId = "ConnectorId"
+            case sendFilePaths = "SendFilePaths"
+        }
+    }
+
+    public struct StartFileTransferResponse: AWSDecodableShape {
+        /// Returns the unique identifier for this file transfer.
+        public let transferId: String
+
+        public init(transferId: String) {
+            self.transferId = transferId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transferId = "TransferId"
         }
     }
 
@@ -2410,20 +3548,20 @@ extension Transfer {
     }
 
     public struct UpdateAccessRequest: AWSEncodableShape {
-        /// A unique identifier that is required to identify specific groups within your directory. The users of the group that you associate have access to your Amazon S3 or Amazon EFS resources over the enabled protocols using Amazon Web Services Transfer Family. If you know the group name, you can view the SID values by running the following command using Windows PowerShell.
+        /// A unique identifier that is required to identify specific groups within your directory. The users of the group that you associate have access to your Amazon S3 or Amazon EFS resources over the enabled protocols using Transfer Family. If you know the group name, you can view the SID values by running the following command using Windows PowerShell.
         ///   Get-ADGroup -Filter {samAccountName -like "YourGroupName*"} -Properties * | Select SamAccountName,ObjectSid   In that command, replace YourGroupName with the name of your Active Directory group.
-        ///  The regex used to validate this parameter is a string of characters consisting of uppercase and lowercase alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
+        ///  The regular expression used to validate this parameter is a string of characters consisting of uppercase and lowercase alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
         public let externalId: String
         /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.
         public let homeDirectory: String?
-        /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Amazon Web Services Identity and Access Management (IAM) role provides access to paths in Target. This value can only be set when HomeDirectoryType is set to LOGICAL. The following is an Entry and Target pair example.  [ { "Entry": "/directory1", "Target": "/bucket_name/home/mydirectory" } ]  In most cases, you can use this value instead of the session policy to lock down your user to the designated home directory ("chroot"). To do this, you can set Entry to / and set Target to the HomeDirectory parameter value. The following is an Entry and Target pair example for chroot.  [ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" } ]
+        /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Identity and Access Management (IAM)  role provides access to paths in Target. This value can be set only when HomeDirectoryType is set to LOGICAL. The following is an Entry and Target pair example.  [ { "Entry": "/directory1", "Target": "/bucket_name/home/mydirectory" } ]  In most cases, you can use this value instead of the session policy to lock down your user to the designated home directory ("chroot"). To do this, you can set Entry to / and set Target to the HomeDirectory parameter value. The following is an Entry and Target pair example for chroot.  [ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" } ]
         public let homeDirectoryMappings: [HomeDirectoryMapEntry]?
-        /// The type of landing directory (folder) you want your users' home directory to be when they log into the server. If you set it to PATH, the user will see the absolute Amazon S3 bucket or EFS paths as is in their file transfer protocol clients. If you set it LOGICAL, you need to provide mappings in the HomeDirectoryMappings for how you want to make Amazon S3 or EFS paths visible to your users.
+        /// The type of landing directory (folder) that you want your users' home directory to be when they log in to the server. If you set it to PATH, the user will see the absolute Amazon S3 bucket or EFS paths as is in their file transfer  protocol clients. If you set it LOGICAL, you need to provide mappings in the HomeDirectoryMappings for  how you want to make Amazon S3 or Amazon EFS paths visible to your users.
         public let homeDirectoryType: HomeDirectoryType?
-        /// A session policy for your user so that you can use the same IAM role across multiple users. This policy scopes down user access to portions of their Amazon S3 bucket. Variables that you can use inside this policy include ${Transfer:UserName}, ${Transfer:HomeDirectory}, and ${Transfer:HomeBucket}.    This only applies when the domain of ServerId is S3. EFS does not use session policies. For session policies, Amazon Web Services Transfer Family stores the policy as a JSON blob, instead of the Amazon Resource Name (ARN) of the policy. You save the policy as a JSON blob and pass it in the Policy argument. For an example of a session policy, see Example session policy. For more information, see AssumeRole in the Amazon Web ServicesSecurity Token Service API Reference.
+        /// A session policy for your user so that you can use the same Identity and Access Management (IAM) role across multiple users. This policy scopes down a user's access to portions of their Amazon S3 bucket. Variables that you can use inside this policy include ${Transfer:UserName}, ${Transfer:HomeDirectory}, and ${Transfer:HomeBucket}.   This policy applies only when the domain of ServerId is Amazon S3. Amazon EFS does not use session policies. For session policies, Transfer Family stores the policy as a JSON blob, instead of the Amazon Resource Name (ARN) of the policy. You save the policy as a JSON blob and pass it in the Policy argument. For an example of a session policy, see Example session policy. For more information, see AssumeRole in the Amazon Web ServicesSecurity Token Service API Reference.
         public let policy: String?
         public let posixProfile: PosixProfile?
-        /// Specifies the Amazon Resource Name (ARN) of the IAM role that controls your users' access to your Amazon S3 bucket or EFS file system. The policies attached to this role determine the level of access that you want to provide your users when transferring files into and out of your Amazon S3 bucket or EFS file system. The IAM role should also contain a trust relationship that allows the server to access your resources when servicing your users' transfer requests.
+        /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that controls your users' access to your Amazon S3  bucket or Amazon EFS file system. The policies attached to this role determine the level of access that you want to provide your users  when transferring files into and out of your Amazon S3 bucket or Amazon EFS file system. The IAM role should also contain a trust  relationship that allows the server to access your resources when servicing your users' transfer requests.
         public let role: String?
         /// A system-assigned unique identifier for a server instance. This is the specific server that you added your user to.
         public let serverId: String
@@ -2489,6 +3627,227 @@ extension Transfer {
         }
     }
 
+    public struct UpdateAgreementRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that grants access to at least the  HomeDirectory of your users' Amazon S3 buckets.
+        public let accessRole: String?
+        /// A unique identifier for the agreement. This identifier is returned when you create an agreement.
+        public let agreementId: String
+        /// To change the landing directory (folder) for files that are transferred, provide the bucket folder that you want to use; for example, /DOC-EXAMPLE-BUCKET/home/mydirectory .
+        public let baseDirectory: String?
+        /// To replace the existing description, provide a short description for the agreement.
+        public let description: String?
+        /// To change the local profile identifier, provide a new value here.
+        public let localProfileId: String?
+        /// To change the partner profile identifier, provide a new value here.
+        public let partnerProfileId: String?
+        /// A system-assigned unique identifier for a server instance. This is the specific server that the agreement uses.
+        public let serverId: String
+        /// You can update the status for the agreement, either activating an inactive agreement or the reverse.
+        public let status: AgreementStatusType?
+
+        public init(accessRole: String? = nil, agreementId: String, baseDirectory: String? = nil, description: String? = nil, localProfileId: String? = nil, partnerProfileId: String? = nil, serverId: String, status: AgreementStatusType? = nil) {
+            self.accessRole = accessRole
+            self.agreementId = agreementId
+            self.baseDirectory = baseDirectory
+            self.description = description
+            self.localProfileId = localProfileId
+            self.partnerProfileId = partnerProfileId
+            self.serverId = serverId
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accessRole, name: "accessRole", parent: name, max: 2048)
+            try self.validate(self.accessRole, name: "accessRole", parent: name, min: 20)
+            try self.validate(self.accessRole, name: "accessRole", parent: name, pattern: "^arn:.*role/")
+            try self.validate(self.agreementId, name: "agreementId", parent: name, max: 19)
+            try self.validate(self.agreementId, name: "agreementId", parent: name, min: 19)
+            try self.validate(self.agreementId, name: "agreementId", parent: name, pattern: "^a-([0-9a-f]{17})$")
+            try self.validate(self.baseDirectory, name: "baseDirectory", parent: name, max: 1024)
+            try self.validate(self.baseDirectory, name: "baseDirectory", parent: name, pattern: "^$|/")
+            try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\p{Graph}]+$")
+            try self.validate(self.localProfileId, name: "localProfileId", parent: name, max: 19)
+            try self.validate(self.localProfileId, name: "localProfileId", parent: name, min: 19)
+            try self.validate(self.localProfileId, name: "localProfileId", parent: name, pattern: "^p-([0-9a-f]{17})$")
+            try self.validate(self.partnerProfileId, name: "partnerProfileId", parent: name, max: 19)
+            try self.validate(self.partnerProfileId, name: "partnerProfileId", parent: name, min: 19)
+            try self.validate(self.partnerProfileId, name: "partnerProfileId", parent: name, pattern: "^p-([0-9a-f]{17})$")
+            try self.validate(self.serverId, name: "serverId", parent: name, max: 19)
+            try self.validate(self.serverId, name: "serverId", parent: name, min: 19)
+            try self.validate(self.serverId, name: "serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessRole = "AccessRole"
+            case agreementId = "AgreementId"
+            case baseDirectory = "BaseDirectory"
+            case description = "Description"
+            case localProfileId = "LocalProfileId"
+            case partnerProfileId = "PartnerProfileId"
+            case serverId = "ServerId"
+            case status = "Status"
+        }
+    }
+
+    public struct UpdateAgreementResponse: AWSDecodableShape {
+        /// A unique identifier for the agreement. This identifier is returned when you create an agreement.
+        public let agreementId: String
+
+        public init(agreementId: String) {
+            self.agreementId = agreementId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agreementId = "AgreementId"
+        }
+    }
+
+    public struct UpdateCertificateRequest: AWSEncodableShape {
+        /// An optional date that specifies when the certificate becomes active.
+        public let activeDate: Date?
+        /// The identifier of the certificate object that you are updating.
+        public let certificateId: String
+        /// A short description to help identify the certificate.
+        public let description: String?
+        /// An optional date that specifies when the certificate becomes inactive.
+        public let inactiveDate: Date?
+
+        public init(activeDate: Date? = nil, certificateId: String, description: String? = nil, inactiveDate: Date? = nil) {
+            self.activeDate = activeDate
+            self.certificateId = certificateId
+            self.description = description
+            self.inactiveDate = inactiveDate
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.certificateId, name: "certificateId", parent: name, max: 22)
+            try self.validate(self.certificateId, name: "certificateId", parent: name, min: 22)
+            try self.validate(self.certificateId, name: "certificateId", parent: name, pattern: "^cert-([0-9a-f]{17})$")
+            try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\p{Graph}]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activeDate = "ActiveDate"
+            case certificateId = "CertificateId"
+            case description = "Description"
+            case inactiveDate = "InactiveDate"
+        }
+    }
+
+    public struct UpdateCertificateResponse: AWSDecodableShape {
+        /// Returns the identifier of the certificate object that you are updating.
+        public let certificateId: String
+
+        public init(certificateId: String) {
+            self.certificateId = certificateId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateId = "CertificateId"
+        }
+    }
+
+    public struct UpdateConnectorRequest: AWSEncodableShape {
+        /// With AS2, you can send files by calling StartFileTransfer and specifying the file paths in the request parameter, SendFilePaths. We use the file’s parent directory (for example, for --send-file-paths /bucket/dir/file.txt, parent directory is /bucket/dir/) to temporarily store a processed AS2 message file, store the MDN when we receive them from the partner, and write a final JSON file containing relevant metadata of the transmission. So, the AccessRole needs to provide read and write access to the parent directory of the file location used in the StartFileTransfer request. Additionally, you need to provide read and write access to the parent directory of the files that you intend to send with StartFileTransfer.
+        public let accessRole: String?
+        /// A structure that contains the parameters for a connector object.
+        public let as2Config: As2ConnectorConfig?
+        /// The unique identifier for the connector.
+        public let connectorId: String
+        /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a connector to turn on CloudWatch logging for Amazon S3 events. When set, you can view connector activity in your CloudWatch logs.
+        public let loggingRole: String?
+        /// The URL of the partner's AS2 endpoint.
+        public let url: String?
+
+        public init(accessRole: String? = nil, as2Config: As2ConnectorConfig? = nil, connectorId: String, loggingRole: String? = nil, url: String? = nil) {
+            self.accessRole = accessRole
+            self.as2Config = as2Config
+            self.connectorId = connectorId
+            self.loggingRole = loggingRole
+            self.url = url
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accessRole, name: "accessRole", parent: name, max: 2048)
+            try self.validate(self.accessRole, name: "accessRole", parent: name, min: 20)
+            try self.validate(self.accessRole, name: "accessRole", parent: name, pattern: "^arn:.*role/")
+            try self.as2Config?.validate(name: "\(name).as2Config")
+            try self.validate(self.connectorId, name: "connectorId", parent: name, max: 19)
+            try self.validate(self.connectorId, name: "connectorId", parent: name, min: 19)
+            try self.validate(self.connectorId, name: "connectorId", parent: name, pattern: "^c-([0-9a-f]{17})$")
+            try self.validate(self.loggingRole, name: "loggingRole", parent: name, max: 2048)
+            try self.validate(self.loggingRole, name: "loggingRole", parent: name, min: 20)
+            try self.validate(self.loggingRole, name: "loggingRole", parent: name, pattern: "^arn:.*role/")
+            try self.validate(self.url, name: "url", parent: name, max: 255)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessRole = "AccessRole"
+            case as2Config = "As2Config"
+            case connectorId = "ConnectorId"
+            case loggingRole = "LoggingRole"
+            case url = "Url"
+        }
+    }
+
+    public struct UpdateConnectorResponse: AWSDecodableShape {
+        /// Returns the identifier of the connector object that you are updating.
+        public let connectorId: String
+
+        public init(connectorId: String) {
+            self.connectorId = connectorId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorId = "ConnectorId"
+        }
+    }
+
+    public struct UpdateProfileRequest: AWSEncodableShape {
+        /// An array of identifiers for the imported certificates. You use this identifier for working with profiles and partner profiles.
+        public let certificateIds: [String]?
+        /// The identifier of the profile object that you are updating.
+        public let profileId: String
+
+        public init(certificateIds: [String]? = nil, profileId: String) {
+            self.certificateIds = certificateIds
+            self.profileId = profileId
+        }
+
+        public func validate(name: String) throws {
+            try self.certificateIds?.forEach {
+                try validate($0, name: "certificateIds[]", parent: name, max: 22)
+                try validate($0, name: "certificateIds[]", parent: name, min: 22)
+                try validate($0, name: "certificateIds[]", parent: name, pattern: "^cert-([0-9a-f]{17})$")
+            }
+            try self.validate(self.profileId, name: "profileId", parent: name, max: 19)
+            try self.validate(self.profileId, name: "profileId", parent: name, min: 19)
+            try self.validate(self.profileId, name: "profileId", parent: name, pattern: "^p-([0-9a-f]{17})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateIds = "CertificateIds"
+            case profileId = "ProfileId"
+        }
+    }
+
+    public struct UpdateProfileResponse: AWSDecodableShape {
+        /// Returns the identifier for the profile that's being updated.
+        public let profileId: String
+
+        public init(profileId: String) {
+            self.profileId = profileId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case profileId = "ProfileId"
+        }
+    }
+
     public struct UpdateServerRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the Amazon Web ServicesCertificate Manager (ACM) certificate. Required when Protocols is set to FTPS.
         ///  To request a new public certificate, see Request a public certificate in the  Amazon Web ServicesCertificate Manager User Guide.
@@ -2498,24 +3857,24 @@ extension Transfer {
         ///    2048-bit RSA (RSA_2048)   4096-bit RSA (RSA_4096)   Elliptic Prime Curve 256 bit (EC_prime256v1)   Elliptic Prime Curve 384 bit (EC_secp384r1)   Elliptic Prime Curve 521 bit (EC_secp521r1)
         ///   The certificate must be a valid SSL/TLS X.509 version 3 certificate with FQDN or IP address specified and information about the issuer.
         public let certificate: String?
-        /// The virtual private cloud (VPC) endpoint settings that are configured for your server. When you host your endpoint within your VPC, you can make it accessible only to resources within your VPC, or you can attach Elastic IP addresses and make it accessible to clients over the internet. Your VPC's default security groups are automatically assigned to your endpoint.
+        /// The virtual private cloud (VPC) endpoint settings that are configured for your server. When you host your endpoint within your VPC, you can make your endpoint accessible only to resources within your VPC, or you can attach Elastic IP addresses and make your endpoint accessible to clients over the internet. Your VPC's default security groups are automatically assigned to your endpoint.
         public let endpointDetails: EndpointDetails?
         /// The type of endpoint that you want your server to use. You can choose to make your server's endpoint publicly accessible (PUBLIC) or host it inside your VPC. With an endpoint that is hosted in a VPC, you can restrict access to your server and  resources only within your VPC or choose to make it internet facing by attaching Elastic IP addresses directly to it.  After May 19, 2021, you won't be able to create a server using EndpointType=VPC_ENDPOINT in your Amazon Web Servicesaccount if your account hasn't already done so before May 19, 2021. If you have already created servers with EndpointType=VPC_ENDPOINT in your Amazon Web Servicesaccount on or before May 19, 2021, you will not be affected. After this date, use EndpointType=VPC.   For more information, see https://docs.aws.amazon.com/transfer/latest/userguide/create-server-in-vpc.html#deprecate-vpc-endpoint. It is recommended that you use VPC as the EndpointType. With this endpoint type, you have the option to directly associate up to three Elastic IPv4 addresses (BYO IP included) with your server's endpoint and use VPC security groups to restrict traffic by the client's public IP address. This is not possible with EndpointType set to VPC_ENDPOINT.
         public let endpointType: EndpointType?
-        /// The RSA private key as generated by ssh-keygen -N "" -m PEM -f my-new-server-key.
-        ///   If you aren't planning to migrate existing users from an existing server to a new server, don't update the host key. Accidentally changing a server's host key can be disruptive.
+        /// The RSA, ECDSA, or ED25519 private key to use for your server.  Use the following command to generate an RSA 2048 bit key with no passphrase:  ssh-keygen -t rsa -b 2048 -N "" -m PEM -f my-new-server-key. Use a minimum value of 2048 for the -b option. You can create a stronger key by using 3072 or 4096.  Use the following command to generate an ECDSA 256 bit key with no passphrase:  ssh-keygen -t ecdsa -b 256 -N "" -m PEM -f my-new-server-key. Valid values for the -b option for ECDSA are 256, 384, and 521.  Use the following command to generate an ED25519 key with no passphrase:  ssh-keygen -t ed25519 -N "" -f my-new-server-key.  For all of these commands, you can replace my-new-server-key with a string of your choice.
+        ///   If you aren't planning to migrate existing users from an existing SFTP-enabled server to a new server, don't update the host key. Accidentally changing a server's host key can be disruptive.
         ///
-        ///  For more information, see Change the host key for your SFTP-enabled server in the Amazon Web ServicesTransfer Family User Guide.
+        ///  For more information, see Change the host key for your SFTP-enabled server in the Transfer Family User Guide.
         public let hostKey: String?
         /// An array containing all of the information required to call a customer's authentication API method.
         public let identityProviderDetails: IdentityProviderDetails?
-        /// Specifies the Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) role that allows a server to turn on Amazon CloudWatch logging for Amazon S3 or Amazon EFS events. When set, user activity can be viewed in your CloudWatch logs.
+        /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a server to turn on Amazon CloudWatch logging for Amazon S3 or Amazon EFSevents. When set, you can view user activity in your CloudWatch logs.
         public let loggingRole: String?
-        /// Specify a string to display when users connect to a server. This string is displayed after the user authenticates.  The SFTP protocol does not support post-authentication display banners.
+        /// Specifies a string to display when users connect to a server. This string is displayed after the user authenticates.  The SFTP protocol does not support post-authentication display banners.
         public let postAuthenticationLoginBanner: String?
-        /// Specify a string to display when users connect to a server. This string is displayed before the user authenticates. For example, the following banner displays details about using the system.  This system is for the use of authorized users only. Individuals using this computer system without authority, or in excess of their authority, are subject to having all of their activities on this system monitored and recorded by system personnel.
+        /// Specifies a string to display when users connect to a server. This string is displayed before the user authenticates. For example, the following banner displays details about using the system:   This system is for the use of authorized users only. Individuals using this computer system without authority, or in excess of their authority, are subject to having all of their activities on this system monitored and recorded by system personnel.
         public let preAuthenticationLoginBanner: String?
-        /// The protocol settings that are configured for your server.    Use the PassiveIp parameter to indicate passive mode (for FTP and FTPS protocols). Enter a single dotted-quad IPv4 address, such as the external IP address of a firewall, router, or load balancer.    Use the SetStatOption to ignore the error that is generated when the client attempts to use SETSTAT on a file you are uploading to an S3 bucket. Set the value to ENABLE_NO_OP to have the Transfer Family server ignore the SETSTAT command, and upload files without needing to make any changes to your SFTP client. Note that with SetStatOption set to ENABLE_NO_OP, Transfer generates a log entry to CloudWatch Logs, so you can determine when the client is making a SETSTAT call.   Use the TlsSessionResumptionMode parameter to determine whether or not your Transfer server resumes recent, negotiated sessions through a unique session ID.
+        /// The protocol settings that are configured for your server.    To indicate passive mode (for FTP and FTPS protocols), use the PassiveIp parameter. Enter a single dotted-quad IPv4 address, such as the external IP address of a firewall, router, or load balancer.    To ignore the error that is generated when the client attempts to use the SETSTAT command on a file that you are  uploading to an Amazon S3 bucket, use the SetStatOption parameter. To have the Transfer Family server ignore the  SETSTAT command and upload files without needing to make any changes to your SFTP client, set the value to  ENABLE_NO_OP. If you set the SetStatOption parameter to ENABLE_NO_OP, Transfer Family  generates a log entry to Amazon CloudWatch Logs, so that you can determine when the client is making a SETSTAT  call.   To determine whether your Transfer Family server resumes recent, negotiated sessions through a unique session ID, use the  TlsSessionResumptionMode parameter.    As2Transports indicates the transport method for the AS2 messages. Currently, only HTTP is supported.
         public let protocolDetails: ProtocolDetails?
         /// Specifies the file transfer protocol or protocols over which your file transfer protocol client can connect to your server's endpoint. The available protocols are:
         ///    Secure Shell (SSH) File Transfer Protocol (SFTP): File transfer over SSH   File Transfer Protocol Secure (FTPS): File transfer with TLS encryption   File Transfer Protocol (FTP): Unencrypted file transfer
@@ -2528,7 +3887,7 @@ extension Transfer {
         public let securityPolicyName: String?
         /// A system-assigned unique identifier for a server instance that the user account is assigned to.
         public let serverId: String
-        /// Specifies the workflow ID for the workflow to assign and the execution role used for executing the workflow. To remove an associated workflow from a server, you can provide an empty OnUpload object, as in the following example.  aws transfer update-server --server-id s-01234567890abcdef --workflow-details '{"OnUpload":[]}'
+        /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. To remove an associated workflow from a server, you can provide an empty OnUpload object, as in the following example.  aws transfer update-server --server-id s-01234567890abcdef --workflow-details '{"OnUpload":[]}'
         public let workflowDetails: WorkflowDetails?
 
         public init(certificate: String? = nil, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKey: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, loggingRole: String? = nil, postAuthenticationLoginBanner: String? = nil, preAuthenticationLoginBanner: String? = nil, protocolDetails: ProtocolDetails? = nil, protocols: [`Protocol`]? = nil, securityPolicyName: String? = nil, serverId: String, workflowDetails: WorkflowDetails? = nil) {
@@ -2559,7 +3918,7 @@ extension Transfer {
             try self.validate(self.preAuthenticationLoginBanner, name: "preAuthenticationLoginBanner", parent: name, max: 512)
             try self.validate(self.preAuthenticationLoginBanner, name: "preAuthenticationLoginBanner", parent: name, pattern: "^[\\x09-\\x0D\\x20-\\x7E]*$")
             try self.protocolDetails?.validate(name: "\(name).protocolDetails")
-            try self.validate(self.protocols, name: "protocols", parent: name, max: 3)
+            try self.validate(self.protocols, name: "protocols", parent: name, max: 4)
             try self.validate(self.protocols, name: "protocols", parent: name, min: 1)
             try self.validate(self.securityPolicyName, name: "securityPolicyName", parent: name, max: 100)
             try self.validate(self.securityPolicyName, name: "securityPolicyName", parent: name, pattern: "^TransferSecurityPolicy-.+$")
@@ -2602,21 +3961,21 @@ extension Transfer {
     public struct UpdateUserRequest: AWSEncodableShape {
         /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.
         public let homeDirectory: String?
-        /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Amazon Web Services Identity and Access Management (IAM) role provides access to paths in Target. This value can only be set when HomeDirectoryType is set to LOGICAL.
+        /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Identity and Access Management (IAM)  role provides access to paths in Target. This value can be set only when HomeDirectoryType is set to LOGICAL.
         ///  The following is an Entry and Target pair example.  [ { "Entry": "/directory1", "Target": "/bucket_name/home/mydirectory" } ]
         ///  In most cases, you can use this value instead of the session policy to lock down your user to the designated home directory ("chroot"). To do this, you can set Entry to '/' and set Target to the HomeDirectory parameter value.
         ///  The following is an Entry and Target pair example for chroot.  [ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" } ]
         public let homeDirectoryMappings: [HomeDirectoryMapEntry]?
-        /// The type of landing directory (folder) you want your users' home directory to be when they log into the server. If you set it to PATH, the user will see the absolute Amazon S3 bucket or EFS paths as is in their file transfer protocol clients. If you set it LOGICAL, you need to provide mappings in the HomeDirectoryMappings for how you want to make Amazon S3 or EFS paths visible to your users.
+        /// The type of landing directory (folder) that you want your users' home directory to be when they log in to the server. If you set it to PATH, the user will see the absolute Amazon S3 bucket or EFS paths as is in their file transfer  protocol clients. If you set it LOGICAL, you need to provide mappings in the HomeDirectoryMappings for  how you want to make Amazon S3 or Amazon EFS paths visible to your users.
         public let homeDirectoryType: HomeDirectoryType?
-        /// A session policy for your user so that you can use the same IAM role across multiple users. This policy scopes down user access to portions of their Amazon S3 bucket. Variables that you can use inside this policy include ${Transfer:UserName}, ${Transfer:HomeDirectory}, and ${Transfer:HomeBucket}.   This only applies when the domain of ServerId is S3. EFS does not use session policies. For session policies, Amazon Web Services Transfer Family stores the policy as a JSON blob, instead of the Amazon Resource Name (ARN) of the policy. You save the policy as a JSON blob and pass it in the Policy argument.
+        /// A session policy for your user so that you can use the same Identity and Access Management (IAM) role across multiple users. This policy scopes down a user's access to portions of their Amazon S3 bucket. Variables that you can use inside this policy include ${Transfer:UserName}, ${Transfer:HomeDirectory}, and ${Transfer:HomeBucket}.   This policy applies only when the domain of ServerId is Amazon S3. Amazon EFS does not use session policies. For session policies, Transfer Family stores the policy as a JSON blob, instead of the Amazon Resource Name (ARN) of the policy. You save the policy as a JSON blob and pass it in the Policy argument.
         ///  For an example of a session policy, see Creating a session policy.
         ///
         ///  For more information, see AssumeRole in the Amazon Web Services Security Token Service API Reference.
         public let policy: String?
         /// Specifies the full POSIX identity, including user ID (Uid), group ID (Gid), and any secondary groups IDs (SecondaryGids), that controls your users' access to your Amazon Elastic File Systems (Amazon EFS). The POSIX permissions that are set on files and directories in your file system determines the level of access your users get when transferring files into and out of your Amazon EFS file systems.
         public let posixProfile: PosixProfile?
-        /// Specifies the Amazon Resource Name (ARN) of the IAM role that controls your users' access to your Amazon S3 bucket or EFS file system. The policies attached to this role determine the level of access that you want to provide your users when transferring files into and out of your Amazon S3 bucket or EFS file system. The IAM role should also contain a trust relationship that allows the server to access your resources when servicing your users' transfer requests.
+        /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that controls your users' access to your Amazon S3  bucket or Amazon EFS file system. The policies attached to this role determine the level of access that you want to provide your users  when transferring files into and out of your Amazon S3 bucket or Amazon EFS file system. The IAM role should also contain a trust  relationship that allows the server to access your resources when servicing your users' transfer requests.
         public let role: String?
         /// A system-assigned unique identifier for a server instance that the user account is assigned to.
         public let serverId: String
@@ -2760,7 +4119,7 @@ extension Transfer {
         public let deleteStepDetails: DeleteStepDetails?
         /// Details for a step that creates one or more tags. You specify one or more tags: each tag contains a key/value pair.
         public let tagStepDetails: TagStepDetails?
-        ///  Currently, the following step types are supported.     COPY: copy the file to another location    CUSTOM: custom step with a lambda target    DELETE: delete the file    TAG: add a tag to the file
+        ///  Currently, the following step types are supported.     COPY: Copy the file to another location.    CUSTOM: Perform a custom step with an Lambda function target.    DELETE: Delete the file.    TAG: Add a tag to the file.
         public let type: WorkflowStepType?
 
         public init(copyStepDetails: CopyStepDetails? = nil, customStepDetails: CustomStepDetails? = nil, deleteStepDetails: DeleteStepDetails? = nil, tagStepDetails: TagStepDetails? = nil, type: WorkflowStepType? = nil) {

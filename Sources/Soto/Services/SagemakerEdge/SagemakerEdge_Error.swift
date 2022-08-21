@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -41,7 +41,7 @@ public struct SagemakerEdgeErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// An internal failure occurred. Try your request again. If the problem  persists, contact AWS customer support.
+    /// An internal failure occurred. Try your request again. If the problem  persists, contact Amazon Web Services customer support.
     public static var internalServiceException: Self { .init(.internalServiceException) }
 }
 

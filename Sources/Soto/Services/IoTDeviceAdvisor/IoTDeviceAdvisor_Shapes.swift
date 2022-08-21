@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -20,6 +20,12 @@ import SotoCore
 
 extension IoTDeviceAdvisor {
     // MARK: Enums
+
+    public enum `Protocol`: String, CustomStringConvertible, Codable, _SotoSendable {
+        case mqttV311 = "MqttV3_1_1"
+        case mqttV5 = "MqttV5"
+        public var description: String { return self.rawValue }
+    }
 
     public enum Status: String, CustomStringConvertible, Codable, _SotoSendable {
         case canceled = "CANCELED"
@@ -44,6 +50,25 @@ extension IoTDeviceAdvisor {
         case running = "RUNNING"
         case stopped = "STOPPED"
         case stopping = "STOPPING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TestCaseScenarioStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case canceled = "CANCELED"
+        case error = "ERROR"
+        case fail = "FAIL"
+        case pass = "PASS"
+        case passWithWarnings = "PASS_WITH_WARNINGS"
+        case pending = "PENDING"
+        case running = "RUNNING"
+        case stopped = "STOPPED"
+        case stopping = "STOPPING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TestCaseScenarioType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case advanced = "Advanced"
+        case basic = "Basic"
         public var description: String { return self.rawValue }
     }
 
@@ -625,15 +650,21 @@ extension IoTDeviceAdvisor {
         public let devices: [DeviceUnderTest]?
         /// Gets the tests intended for qualification in a suite.
         public let intendedForQualification: Bool?
+        ///  Verifies if the test suite is a long duration test.
+        public let isLongDurationTest: Bool?
+        ///  Gets the MQTT protocol that is configured in the suite definition.
+        public let `protocol`: `Protocol`?
         /// Gets test suite root group.
         public let rootGroup: String?
         /// Gets Suite Definition Configuration name.
         public let suiteDefinitionName: String?
 
-        public init(devicePermissionRoleArn: String? = nil, devices: [DeviceUnderTest]? = nil, intendedForQualification: Bool? = nil, rootGroup: String? = nil, suiteDefinitionName: String? = nil) {
+        public init(devicePermissionRoleArn: String? = nil, devices: [DeviceUnderTest]? = nil, intendedForQualification: Bool? = nil, isLongDurationTest: Bool? = nil, protocol: `Protocol`? = nil, rootGroup: String? = nil, suiteDefinitionName: String? = nil) {
             self.devicePermissionRoleArn = devicePermissionRoleArn
             self.devices = devices
             self.intendedForQualification = intendedForQualification
+            self.isLongDurationTest = isLongDurationTest
+            self.`protocol` = `protocol`
             self.rootGroup = rootGroup
             self.suiteDefinitionName = suiteDefinitionName
         }
@@ -655,6 +686,8 @@ extension IoTDeviceAdvisor {
             case devicePermissionRoleArn
             case devices
             case intendedForQualification
+            case isLongDurationTest
+            case `protocol`
             case rootGroup
             case suiteDefinitionName
         }
@@ -667,15 +700,21 @@ extension IoTDeviceAdvisor {
         public let defaultDevices: [DeviceUnderTest]?
         /// Specifies if the test suite is intended for qualification.
         public let intendedForQualification: Bool?
+        ///  Verifies if the test suite is a long duration test.
+        public let isLongDurationTest: Bool?
+        ///  Gets the MQTT protocol that is configured in the suite definition.
+        public let `protocol`: `Protocol`?
         /// Suite definition ID of the test suite.
         public let suiteDefinitionId: String?
         /// Suite name of the test suite.
         public let suiteDefinitionName: String?
 
-        public init(createdAt: Date? = nil, defaultDevices: [DeviceUnderTest]? = nil, intendedForQualification: Bool? = nil, suiteDefinitionId: String? = nil, suiteDefinitionName: String? = nil) {
+        public init(createdAt: Date? = nil, defaultDevices: [DeviceUnderTest]? = nil, intendedForQualification: Bool? = nil, isLongDurationTest: Bool? = nil, protocol: `Protocol`? = nil, suiteDefinitionId: String? = nil, suiteDefinitionName: String? = nil) {
             self.createdAt = createdAt
             self.defaultDevices = defaultDevices
             self.intendedForQualification = intendedForQualification
+            self.isLongDurationTest = isLongDurationTest
+            self.`protocol` = `protocol`
             self.suiteDefinitionId = suiteDefinitionId
             self.suiteDefinitionName = suiteDefinitionName
         }
@@ -684,6 +723,8 @@ extension IoTDeviceAdvisor {
             case createdAt
             case defaultDevices
             case intendedForQualification
+            case isLongDurationTest
+            case `protocol`
             case suiteDefinitionId
             case suiteDefinitionName
         }
@@ -821,10 +862,12 @@ extension IoTDeviceAdvisor {
         public let testCaseDefinitionName: String?
         /// Provides the test case run ID.
         public let testCaseRunId: String?
+        ///  Provides the test scenarios for the test case run.
+        public let testScenarios: [TestCaseScenario]?
         /// Provides test case run warnings.
         public let warnings: String?
 
-        public init(endTime: Date? = nil, failure: String? = nil, logUrl: String? = nil, startTime: Date? = nil, status: Status? = nil, testCaseDefinitionId: String? = nil, testCaseDefinitionName: String? = nil, testCaseRunId: String? = nil, warnings: String? = nil) {
+        public init(endTime: Date? = nil, failure: String? = nil, logUrl: String? = nil, startTime: Date? = nil, status: Status? = nil, testCaseDefinitionId: String? = nil, testCaseDefinitionName: String? = nil, testCaseRunId: String? = nil, testScenarios: [TestCaseScenario]? = nil, warnings: String? = nil) {
             self.endTime = endTime
             self.failure = failure
             self.logUrl = logUrl
@@ -833,6 +876,7 @@ extension IoTDeviceAdvisor {
             self.testCaseDefinitionId = testCaseDefinitionId
             self.testCaseDefinitionName = testCaseDefinitionName
             self.testCaseRunId = testCaseRunId
+            self.testScenarios = testScenarios
             self.warnings = warnings
         }
 
@@ -845,7 +889,37 @@ extension IoTDeviceAdvisor {
             case testCaseDefinitionId
             case testCaseDefinitionName
             case testCaseRunId
+            case testScenarios
             case warnings
+        }
+    }
+
+    public struct TestCaseScenario: AWSDecodableShape {
+        /// Provides test case scenario failure result.
+        public let failure: String?
+        /// Provides the test case scenario status. Status is one of the following:    PASS: Test passed.    FAIL: Test failed.    PENDING: Test has not started running but is scheduled.    RUNNING: Test is running.    STOPPING: Test is performing cleanup steps. You will see this status only if you stop a suite run.    STOPPED Test is stopped. You will see this status only if you stop a suite run.    PASS_WITH_WARNINGS: Test passed with warnings.    ERORR: Test faced an error when running due to an internal issue.
+        public let status: TestCaseScenarioStatus?
+        ///
+        public let systemMessage: String?
+        /// Provides test case scenario ID.
+        public let testCaseScenarioId: String?
+        /// Provides test case scenario type. Type is one of the following:   Advanced   Basic
+        public let testCaseScenarioType: TestCaseScenarioType?
+
+        public init(failure: String? = nil, status: TestCaseScenarioStatus? = nil, systemMessage: String? = nil, testCaseScenarioId: String? = nil, testCaseScenarioType: TestCaseScenarioType? = nil) {
+            self.failure = failure
+            self.status = status
+            self.systemMessage = systemMessage
+            self.testCaseScenarioId = testCaseScenarioId
+            self.testCaseScenarioType = testCaseScenarioType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failure
+            case status
+            case systemMessage
+            case testCaseScenarioId
+            case testCaseScenarioType
         }
     }
 

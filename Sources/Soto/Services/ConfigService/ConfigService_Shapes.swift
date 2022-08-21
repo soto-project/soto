@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -230,10 +230,13 @@ extension ConfigService {
 
     public enum ResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
         case awsACMCertificate = "AWS::ACM::Certificate"
+        case awsAccessanalyzerAnalyzer = "AWS::AccessAnalyzer::Analyzer"
         case awsApigatewayRestapi = "AWS::ApiGateway::RestApi"
         case awsApigatewayStage = "AWS::ApiGateway::Stage"
         case awsApigatewayv2Api = "AWS::ApiGatewayV2::Api"
         case awsApigatewayv2Stage = "AWS::ApiGatewayV2::Stage"
+        case awsAthenaDatacatalog = "AWS::Athena::DataCatalog"
+        case awsAthenaWorkgroup = "AWS::Athena::WorkGroup"
         case awsAutoscalingAutoscalinggroup = "AWS::AutoScaling::AutoScalingGroup"
         case awsAutoscalingLaunchconfiguration = "AWS::AutoScaling::LaunchConfiguration"
         case awsAutoscalingScalingpolicy = "AWS::AutoScaling::ScalingPolicy"
@@ -242,6 +245,8 @@ extension ConfigService {
         case awsBackupBackupselection = "AWS::Backup::BackupSelection"
         case awsBackupBackupvault = "AWS::Backup::BackupVault"
         case awsBackupRecoverypoint = "AWS::Backup::RecoveryPoint"
+        case awsBatchComputeenvironment = "AWS::Batch::ComputeEnvironment"
+        case awsBatchJobqueue = "AWS::Batch::JobQueue"
         case awsCloudformationStack = "AWS::CloudFormation::Stack"
         case awsCloudfrontDistribution = "AWS::CloudFront::Distribution"
         case awsCloudfrontStreamingdistribution = "AWS::CloudFront::StreamingDistribution"
@@ -254,6 +259,10 @@ extension ConfigService {
         case awsCodepipelinePipeline = "AWS::CodePipeline::Pipeline"
         case awsConfigConformancepackcompliance = "AWS::Config::ConformancePackCompliance"
         case awsConfigResourcecompliance = "AWS::Config::ResourceCompliance"
+        case awsDMSCertificate = "AWS::DMS::Certificate"
+        case awsDMSEventsubscription = "AWS::DMS::EventSubscription"
+        case awsDMSReplicationsubnetgroup = "AWS::DMS::ReplicationSubnetGroup"
+        case awsDetectiveGraph = "AWS::Detective::Graph"
         case awsDynamodbTable = "AWS::DynamoDB::Table"
         case awsEC2Customergateway = "AWS::EC2::CustomerGateway"
         case awsEc2Eip = "AWS::EC2::EIP"
@@ -271,6 +280,8 @@ extension ConfigService {
         case awsEC2Securitygroup = "AWS::EC2::SecurityGroup"
         case awsEC2Subnet = "AWS::EC2::Subnet"
         case awsEC2Transitgateway = "AWS::EC2::TransitGateway"
+        case awsEC2Transitgatewayattachment = "AWS::EC2::TransitGatewayAttachment"
+        case awsEC2Transitgatewayroutetable = "AWS::EC2::TransitGatewayRouteTable"
         case awsEc2Vpc = "AWS::EC2::VPC"
         case awsEC2Vpcendpoint = "AWS::EC2::VPCEndpoint"
         case awsEC2Vpcendpointservice = "AWS::EC2::VPCEndpointService"
@@ -291,8 +302,12 @@ extension ConfigService {
         case awsElasticbeanstalkApplicationversion = "AWS::ElasticBeanstalk::ApplicationVersion"
         case awsElasticbeanstalkEnvironment = "AWS::ElasticBeanstalk::Environment"
         case awsElasticloadbalancingLoadbalancer = "AWS::ElasticLoadBalancing::LoadBalancer"
+        case awsElasticloadbalancingv2Listener = "AWS::ElasticLoadBalancingV2::Listener"
         case awsElasticloadbalancingv2Loadbalancer = "AWS::ElasticLoadBalancingV2::LoadBalancer"
         case awsElasticsearchDomain = "AWS::Elasticsearch::Domain"
+        case awsGlobalacceleratorAccelerator = "AWS::GlobalAccelerator::Accelerator"
+        case awsGlobalacceleratorEndpointgroup = "AWS::GlobalAccelerator::EndpointGroup"
+        case awsGlobalacceleratorListener = "AWS::GlobalAccelerator::Listener"
         case awsGuarddutyDetector = "AWS::GuardDuty::Detector"
         case awsIAMGroup = "AWS::IAM::Group"
         case awsIAMPolicy = "AWS::IAM::Policy"
@@ -302,6 +317,7 @@ extension ConfigService {
         case awsKinesisStream = "AWS::Kinesis::Stream"
         case awsKinesisStreamconsumer = "AWS::Kinesis::StreamConsumer"
         case awsLambdaFunction = "AWS::Lambda::Function"
+        case awsMSKCluster = "AWS::MSK::Cluster"
         case awsNetworkfirewallFirewall = "AWS::NetworkFirewall::Firewall"
         case awsNetworkfirewallFirewallpolicy = "AWS::NetworkFirewall::FirewallPolicy"
         case awsNetworkfirewallRulegroup = "AWS::NetworkFirewall::RuleGroup"
@@ -320,6 +336,9 @@ extension ConfigService {
         case awsRedshiftClustersnapshot = "AWS::Redshift::ClusterSnapshot"
         case awsRedshiftClustersubnetgroup = "AWS::Redshift::ClusterSubnetGroup"
         case awsRedshiftEventsubscription = "AWS::Redshift::EventSubscription"
+        case awsRoute53ResolverResolverendpoint = "AWS::Route53Resolver::ResolverEndpoint"
+        case awsRoute53ResolverResolverrule = "AWS::Route53Resolver::ResolverRule"
+        case awsRoute53ResolverResolverruleassociation = "AWS::Route53Resolver::ResolverRuleAssociation"
         case awsS3Accountpublicaccessblock = "AWS::S3::AccountPublicAccessBlock"
         case awsS3Bucket = "AWS::S3::Bucket"
         case awsSNSTopic = "AWS::SNS::Topic"
@@ -329,12 +348,15 @@ extension ConfigService {
         case awsSSMManagedinstanceinventory = "AWS::SSM::ManagedInstanceInventory"
         case awsSSMPatchcompliance = "AWS::SSM::PatchCompliance"
         case awsSagemakerCoderepository = "AWS::SageMaker::CodeRepository"
+        case awsSagemakerModel = "AWS::SageMaker::Model"
         case awsSecretsmanagerSecret = "AWS::SecretsManager::Secret"
         case awsServicecatalogCloudformationproduct = "AWS::ServiceCatalog::CloudFormationProduct"
         case awsServicecatalogCloudformationprovisionedproduct = "AWS::ServiceCatalog::CloudFormationProvisionedProduct"
         case awsServicecatalogPortfolio = "AWS::ServiceCatalog::Portfolio"
         case awsShieldProtection = "AWS::Shield::Protection"
         case awsShieldregionalProtection = "AWS::ShieldRegional::Protection"
+        case awsStepfunctionsActivity = "AWS::StepFunctions::Activity"
+        case awsStepfunctionsStatemachine = "AWS::StepFunctions::StateMachine"
         case awsWAFRatebasedrule = "AWS::WAF::RateBasedRule"
         case awsWAFRule = "AWS::WAF::Rule"
         case awsWAFRulegroup = "AWS::WAF::RuleGroup"
@@ -348,12 +370,25 @@ extension ConfigService {
         case awsWafv2Regexpatternset = "AWS::WAFv2::RegexPatternSet"
         case awsWafv2Rulegroup = "AWS::WAFv2::RuleGroup"
         case awsWafv2Webacl = "AWS::WAFv2::WebACL"
+        case awsWorkspacesConnectionalias = "AWS::WorkSpaces::ConnectionAlias"
+        case awsWorkspacesWorkspace = "AWS::WorkSpaces::Workspace"
         case awsXrayEncryptionconfig = "AWS::XRay::EncryptionConfig"
         public var description: String { return self.rawValue }
     }
 
     public enum ResourceValueType: String, CustomStringConvertible, Codable, _SotoSendable {
         case resourceId = "RESOURCE_ID"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SortBy: String, CustomStringConvertible, Codable, _SotoSendable {
+        case score = "SCORE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SortOrder: String, CustomStringConvertible, Codable, _SotoSendable {
+        case ascending = "ASCENDING"
+        case descending = "DESCENDING"
         public var description: String { return self.rawValue }
     }
 
@@ -1092,7 +1127,7 @@ extension ConfigService {
         /// Service principal name of the service that created the
         /// 			rule.
         ///
-        /// 			         The field is populated only if the service linked rule is
+        /// 			         The field is populated only if the service-linked rule is
         /// 				created by a service. The field is empty if you create your own
         /// 				rule.
         ///
@@ -1107,7 +1142,7 @@ extension ConfigService {
         /// 			for a rule. You can specify a value for
         /// 				MaximumExecutionFrequency when:
         ///
-        /// 				           You are using an Config managed rule that is triggered at
+        /// 				           This is for an Config managed rule that is triggered at
         /// 					a periodic frequency.
         ///
         /// 				           Your custom rule is triggered when Config delivers
@@ -1129,7 +1164,7 @@ extension ConfigService {
         /// 			changes.
         /// 		        The scope can be empty.
         public let scope: Scope?
-        /// Provides the rule owner (Amazon Web Services or customer), the rule identifier,
+        /// Provides the rule owner (Amazon Web Services for managed rules, CUSTOM_POLICY for Custom Policy rules, and CUSTOM_LAMBDA for Custom Lambda rules), the rule identifier,
         /// 			and the notifications that cause the function to evaluate your Amazon Web Services
         /// 			resources.
         public let source: Source
@@ -1523,6 +1558,7 @@ extension ConfigService {
         public let recordingGroup: RecordingGroup?
         /// Amazon Resource Name (ARN) of the IAM role used to describe the
         /// 			Amazon Web Services resources associated with the account.
+        /// 		        While the API model does not require this field, the server will reject a request without a defined roleARN for the configuration recorder.
         public let roleARN: String?
 
         public init(name: String? = nil, recordingGroup: RecordingGroup? = nil, roleARN: String? = nil) {
@@ -1609,6 +1645,51 @@ extension ConfigService {
         private enum CodingKeys: String, CodingKey {
             case complianceType = "ComplianceType"
             case configRuleNames = "ConfigRuleNames"
+        }
+    }
+
+    public struct ConformancePackComplianceScore: AWSDecodableShape {
+        /// The name of the conformance pack.
+        public let conformancePackName: String?
+        /// The time that the conformance pack compliance score was last updated.
+        public let lastUpdatedTime: Date?
+        /// Compliance score for the conformance pack. Conformance packs with no evaluation results will have a compliance score of INSUFFICIENT_DATA.
+        public let score: String?
+
+        public init(conformancePackName: String? = nil, lastUpdatedTime: Date? = nil, score: String? = nil) {
+            self.conformancePackName = conformancePackName
+            self.lastUpdatedTime = lastUpdatedTime
+            self.score = score
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conformancePackName = "ConformancePackName"
+            case lastUpdatedTime = "LastUpdatedTime"
+            case score = "Score"
+        }
+    }
+
+    public struct ConformancePackComplianceScoresFilters: AWSEncodableShape {
+        /// The names of the conformance packs whose compliance scores you want to include in the conformance pack compliance score result set.
+        /// 			You can include up to 25 conformance packs in the ConformancePackNames array of strings, each with a character limit of 256 characters for the conformance pack name.
+        public let conformancePackNames: [String]
+
+        public init(conformancePackNames: [String]) {
+            self.conformancePackNames = conformancePackNames
+        }
+
+        public func validate(name: String) throws {
+            try self.conformancePackNames.forEach {
+                try validate($0, name: "conformancePackNames[]", parent: name, max: 256)
+                try validate($0, name: "conformancePackNames[]", parent: name, min: 1)
+                try validate($0, name: "conformancePackNames[]", parent: name, pattern: "^[a-zA-Z][-a-zA-Z0-9]*$")
+            }
+            try self.validate(self.conformancePackNames, name: "conformancePackNames", parent: name, max: 25)
+            try self.validate(self.conformancePackNames, name: "conformancePackNames", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conformancePackNames = "ConformancePackNames"
         }
     }
 
@@ -4828,6 +4909,60 @@ extension ConfigService {
         }
     }
 
+    public struct ListConformancePackComplianceScoresRequest: AWSEncodableShape {
+        /// Filters the results based on the ConformancePackComplianceScoresFilters.
+        public let filters: ConformancePackComplianceScoresFilters?
+        /// The maximum number of conformance pack compliance scores returned on each page.
+        public let limit: Int?
+        /// The nextToken string in a prior request that you can use to get the paginated response for next set of conformance pack compliance scores.
+        public let nextToken: String?
+        /// Sorts your conformance pack compliance scores in either ascending or descending order, depending on SortOrder.
+        /// 		       By default, conformance pack compliance scores are sorted in ascending order by compliance score and alphabetically by name of the conformance pack if there is more than one conformance pack with the same compliance score.
+        public let sortBy: SortBy?
+        /// Determines the order in which conformance pack compliance scores are sorted. Either in ascending or descending order.
+        /// 		       Conformance packs with a compliance score of INSUFFICIENT_DATA will be first when sorting by ascending order and last when sorting by descending order.
+        public let sortOrder: SortOrder?
+
+        public init(filters: ConformancePackComplianceScoresFilters? = nil, limit: Int? = nil, nextToken: String? = nil, sortBy: SortBy? = nil, sortOrder: SortOrder? = nil) {
+            self.filters = filters
+            self.limit = limit
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.validate(name: "\(name).filters")
+            try self.validate(self.limit, name: "limit", parent: name, max: 20)
+            try self.validate(self.limit, name: "limit", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case limit = "Limit"
+            case nextToken = "NextToken"
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+        }
+    }
+
+    public struct ListConformancePackComplianceScoresResponse: AWSDecodableShape {
+        /// A list of ConformancePackComplianceScore objects.
+        public let conformancePackComplianceScores: [ConformancePackComplianceScore]
+        /// The nextToken string that you can use to get the next page of results in a paginated response.
+        public let nextToken: String?
+
+        public init(conformancePackComplianceScores: [ConformancePackComplianceScore], nextToken: String? = nil) {
+            self.conformancePackComplianceScores = conformancePackComplianceScores
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conformancePackComplianceScores = "ConformancePackComplianceScores"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListDiscoveredResourcesRequest: AWSEncodableShape {
         /// Specifies whether Config includes deleted resources in the
         /// 			results. By default, deleted resources are not included.
@@ -5466,7 +5601,7 @@ extension ConfigService {
         public let description: String?
         /// A string, in JSON format, that is passed to your organization Config rule Lambda function.
         public let inputParameters: String?
-        /// The maximum frequency with which Config runs evaluations for a rule. You are using an Config managed rule that is triggered at a periodic frequency.
+        /// The maximum frequency with which Config runs evaluations for a rule. This is for an Config managed rule that is triggered at a periodic frequency.
         /// 		        By default, rules with a periodic trigger are evaluated every 24 hours. To change the frequency, specify a valid
         /// 			value for the MaximumExecutionFrequency parameter.
         public let maximumExecutionFrequency: MaximumExecutionFrequency?
@@ -5890,13 +6025,17 @@ extension ConfigService {
         public let excludedAccounts: [String]?
         /// The name that you assign to an organization Config rule.
         public let organizationConfigRuleName: String
-        /// An object that specifies metadata for your organization's Config Custom Policy rule. The metadata includes the runtime system in use, which accounts have debug
+        /// An OrganizationCustomPolicyRuleMetadata object. This object specifies metadata for your organization's Config Custom Policy rule. The metadata includes the runtime system in use, which accounts have debug
         /// 			logging enabled, and other custom rule metadata, such as resource type, resource ID of
-        /// 				Amazon Web Services resource, and organization trigger types that initiate Config to evaluate Amazon Web Services resources against a rule.
+        /// 			Amazon Web Services resource, and organization trigger types that initiate Config to evaluate Amazon Web Services resources against a rule.
         public let organizationCustomPolicyRuleMetadata: OrganizationCustomPolicyRuleMetadata?
-        /// An OrganizationCustomRuleMetadata object.
+        /// An OrganizationCustomRuleMetadata object. This object specifies organization custom rule metadata such as resource type,
+        /// 			resource ID of Amazon Web Services resource, Lambda function ARN, and organization trigger types that trigger Config to evaluate your Amazon Web Services resources against a rule.
+        /// 			It also provides the frequency with which you want Config to run evaluations for the rule if the trigger type is periodic.
         public let organizationCustomRuleMetadata: OrganizationCustomRuleMetadata?
-        /// An OrganizationManagedRuleMetadata object.
+        /// An OrganizationManagedRuleMetadata object. This object specifies organization
+        /// 			managed rule metadata such as resource type and ID of Amazon Web Services resource along with the rule identifier.
+        /// 			It also provides the frequency with which you want Config to run evaluations for the rule if the trigger type is periodic.
         public let organizationManagedRuleMetadata: OrganizationManagedRuleMetadata?
 
         public init(excludedAccounts: [String]? = nil, organizationConfigRuleName: String, organizationCustomPolicyRuleMetadata: OrganizationCustomPolicyRuleMetadata? = nil, organizationCustomRuleMetadata: OrganizationCustomRuleMetadata? = nil, organizationManagedRuleMetadata: OrganizationManagedRuleMetadata? = nil) {
@@ -6116,6 +6255,8 @@ extension ConfigService {
         /// Version of the schema registered for the ResourceType in CloudFormation.
         public let schemaVersionId: String
         /// Tags associated with the resource.
+        /// 		        This field is not to be confused with the Amazon Web Services-wide tag feature for Amazon Web Services resources.
+        /// 			Tags for PutResourceConfig are tags that you supply for the configuration items of your custom resources.
         public let tags: [String: String]?
 
         public init(configuration: String, resourceId: String, resourceName: String? = nil, resourceType: String, schemaVersionId: String, tags: [String: String]? = nil) {
@@ -6324,7 +6465,7 @@ extension ConfigService {
         public let automatic: Bool?
         /// The name of the Config rule.
         public let configRuleName: String
-        /// Name of the service that owns the service linked rule, if applicable.
+        /// Name of the service that owns the service-linked rule, if applicable.
         public let createdByService: String?
         /// An ExecutionControls object.
         public let executionControls: ExecutionControls?

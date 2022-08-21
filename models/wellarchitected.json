@@ -45,6 +45,47 @@
                 "smithy.api#httpError": 403
             }
         },
+        "com.amazonaws.wellarchitected#AdditionalResourceType": {
+            "type": "string",
+            "traits": {
+                "smithy.api#enum": [
+                    {
+                        "value": "HELPFUL_RESOURCE",
+                        "name": "HELPFUL_RESOURCE"
+                    },
+                    {
+                        "value": "IMPROVEMENT_PLAN",
+                        "name": "IMPROVEMENT_PLAN"
+                    }
+                ]
+            }
+        },
+        "com.amazonaws.wellarchitected#AdditionalResources": {
+            "type": "structure",
+            "members": {
+                "Type": {
+                    "target": "com.amazonaws.wellarchitected#AdditionalResourceType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Type of additional resource.</p>"
+                    }
+                },
+                "Content": {
+                    "target": "com.amazonaws.wellarchitected#Urls",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The URLs for additional resources, either helpful resources or improvement plans. Up to five additional URLs can be specified.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The choice level additional resources.</p>"
+            }
+        },
+        "com.amazonaws.wellarchitected#AdditionalResourcesList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.wellarchitected#AdditionalResources"
+            }
+        },
         "com.amazonaws.wellarchitected#Answer": {
             "type": "structure",
             "members": {
@@ -186,6 +227,9 @@
             "input": {
                 "target": "com.amazonaws.wellarchitected#AssociateLensesInput"
             },
+            "output": {
+                "target": "smithy.api#Unit"
+            },
             "errors": [
                 {
                     "target": "com.amazonaws.wellarchitected#AccessDeniedException"
@@ -281,6 +325,12 @@
                     "target": "com.amazonaws.wellarchitected#ChoiceContent",
                     "traits": {
                         "smithy.api#documentation": "<p>The choice level improvement plan.</p>"
+                    }
+                },
+                "AdditionalResources": {
+                    "target": "com.amazonaws.wellarchitected#AdditionalResourcesList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The additional resources for a choice. A choice can have up to two additional resources: one of type <code>HELPFUL_RESOURCE</code>, \n            one of type <code>IMPROVEMENT_PLAN</code>, or both.</p>"
                     }
                 }
             },
@@ -907,10 +957,7 @@
                     "target": "com.amazonaws.wellarchitected#WorkloadArchitecturalDesign"
                 },
                 "ReviewOwner": {
-                    "target": "com.amazonaws.wellarchitected#WorkloadReviewOwner",
-                    "traits": {
-                        "smithy.api#required": {}
-                    }
+                    "target": "com.amazonaws.wellarchitected#WorkloadReviewOwner"
                 },
                 "IndustryType": {
                     "target": "com.amazonaws.wellarchitected#WorkloadIndustryType"
@@ -1052,6 +1099,9 @@
             "input": {
                 "target": "com.amazonaws.wellarchitected#DeleteLensInput"
             },
+            "output": {
+                "target": "smithy.api#Unit"
+            },
             "errors": [
                 {
                     "target": "com.amazonaws.wellarchitected#AccessDeniedException"
@@ -1114,6 +1164,9 @@
             "input": {
                 "target": "com.amazonaws.wellarchitected#DeleteLensShareInput"
             },
+            "output": {
+                "target": "smithy.api#Unit"
+            },
             "errors": [
                 {
                     "target": "com.amazonaws.wellarchitected#AccessDeniedException"
@@ -1175,6 +1228,9 @@
             "input": {
                 "target": "com.amazonaws.wellarchitected#DeleteWorkloadInput"
             },
+            "output": {
+                "target": "smithy.api#Unit"
+            },
             "errors": [
                 {
                     "target": "com.amazonaws.wellarchitected#AccessDeniedException"
@@ -1231,6 +1287,9 @@
             "type": "operation",
             "input": {
                 "target": "com.amazonaws.wellarchitected#DeleteWorkloadShareInput"
+            },
+            "output": {
+                "target": "smithy.api#Unit"
             },
             "errors": [
                 {
@@ -1314,6 +1373,9 @@
             "type": "operation",
             "input": {
                 "target": "com.amazonaws.wellarchitected#DisassociateLensesInput"
+            },
+            "output": {
+                "target": "smithy.api#Unit"
             },
             "errors": [
                 {
@@ -2220,6 +2282,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The ID assigned to the share invitation.</p>"
                     }
+                },
+                "Tags": {
+                    "target": "com.amazonaws.wellarchitected#TagMap",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The tags assigned to the lens.</p>"
+                    }
                 }
             },
             "traits": {
@@ -2229,7 +2297,7 @@
         "com.amazonaws.wellarchitected#LensAlias": {
             "type": "string",
             "traits": {
-                "smithy.api#documentation": "<p>The alias of the lens, for example, <code>serverless</code>.</p>\n        <p>Each lens is identified by its <a>LensSummary$LensAlias</a>.</p>",
+                "smithy.api#documentation": "<p>The alias of the lens.</p>\n        <p>For Amazon Web Services official lenses, this is either the lens alias,\n            such as <code>serverless</code>, or the lens ARN, such as <code>arn:aws:wellarchitected:us-west-2::lens/serverless</code>.</p>\n        <p>For custom lenses, this is the lens ARN, such as <code>arn:aws:wellarchitected:us-east-1:123456789012:lens/my-lens</code>. </p>\n        <p>Each lens is identified by its <a>LensSummary$LensAlias</a>.</p>",
                 "smithy.api#length": {
                     "min": 1,
                     "max": 128
@@ -2423,6 +2491,12 @@
                 },
                 "Status": {
                     "target": "com.amazonaws.wellarchitected#ShareStatus"
+                },
+                "StatusMessage": {
+                    "target": "com.amazonaws.wellarchitected#StatusMessage",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Optional message to compliment the Status field.</p>"
+                    }
                 }
             },
             "traits": {
@@ -3005,6 +3079,12 @@
                         "smithy.api#documentation": "<p>The maximum number of results to return for this request.</p>",
                         "smithy.api#httpQuery": "MaxResults"
                     }
+                },
+                "Status": {
+                    "target": "com.amazonaws.wellarchitected#ShareStatus",
+                    "traits": {
+                        "smithy.api#httpQuery": "Status"
+                    }
                 }
             }
         },
@@ -3385,7 +3465,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>List the tags for a resource.</p>",
+                "smithy.api#documentation": "<p>List the tags for a resource.</p>\n        <note>\n            <p>The WorkloadArn parameter can be either a workload ARN or a custom lens ARN.</p>\n         </note>",
                 "smithy.api#http": {
                     "method": "GET",
                     "uri": "/tags/{WorkloadArn}",
@@ -3483,6 +3563,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The maximum number of results to return for this request.</p>",
                         "smithy.api#httpQuery": "MaxResults"
+                    }
+                },
+                "Status": {
+                    "target": "com.amazonaws.wellarchitected#ShareStatus",
+                    "traits": {
+                        "smithy.api#httpQuery": "Status"
                     }
                 }
             },
@@ -3727,6 +3813,21 @@
                     {
                         "value": "LENS_VERSION_DEPRECATED",
                         "name": "LENS_VERSION_DEPRECATED"
+                    }
+                ]
+            }
+        },
+        "com.amazonaws.wellarchitected#OrganizationSharingStatus": {
+            "type": "string",
+            "traits": {
+                "smithy.api#enum": [
+                    {
+                        "value": "ENABLED",
+                        "name": "ENABLED"
+                    },
+                    {
+                        "value": "DISABLED",
+                        "name": "DISABLED"
                     }
                 ]
             }
@@ -4169,6 +4270,18 @@
                     {
                         "value": "EXPIRED",
                         "name": "EXPIRED"
+                    },
+                    {
+                        "value": "ASSOCIATING",
+                        "name": "ASSOCIATING"
+                    },
+                    {
+                        "value": "ASSOCIATED",
+                        "name": "ASSOCIATED"
+                    },
+                    {
+                        "value": "FAILED",
+                        "name": "FAILED"
                     }
                 ]
             }
@@ -4189,6 +4302,15 @@
                 "smithy.api#length": {
                     "min": 0,
                     "max": 100
+                }
+            }
+        },
+        "com.amazonaws.wellarchitected#StatusMessage": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 512
                 }
             }
         },
@@ -4245,7 +4367,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Adds one or more tags to the specified resource.</p>",
+                "smithy.api#documentation": "<p>Adds one or more tags to the specified resource.</p>\n        <note>\n            <p>The WorkloadArn parameter can be either a workload ARN or a custom lens ARN.</p>\n         </note>",
                 "smithy.api#http": {
                     "method": "POST",
                     "uri": "/tags/{WorkloadArn}",
@@ -4330,7 +4452,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Deletes specified tags from a resource.</p>\n        <p>To specify multiple tags, use separate <b>tagKeys</b> parameters, for example:</p>\n        <p>\n            <code>DELETE /tags/WorkloadArn?tagKeys=key1&tagKeys=key2</code>\n         </p>",
+                "smithy.api#documentation": "<p>Deletes specified tags from a resource.</p>\n        <note>\n            <p>The WorkloadArn parameter can be either a workload ARN or a custom lens ARN.</p>\n         </note>\n        \n        <p>To specify multiple tags, use separate <b>tagKeys</b> parameters, for example:</p>\n        <p>\n            <code>DELETE /tags/WorkloadArn?tagKeys=key1&tagKeys=key2</code>\n         </p>",
                 "smithy.api#http": {
                     "method": "DELETE",
                     "uri": "/tags/{WorkloadArn}",
@@ -4470,6 +4592,51 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>Output of a update answer call.</p>"
+            }
+        },
+        "com.amazonaws.wellarchitected#UpdateGlobalSettings": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.wellarchitected#UpdateGlobalSettingsInput"
+            },
+            "output": {
+                "target": "smithy.api#Unit"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.wellarchitected#AccessDeniedException"
+                },
+                {
+                    "target": "com.amazonaws.wellarchitected#ConflictException"
+                },
+                {
+                    "target": "com.amazonaws.wellarchitected#InternalServerException"
+                },
+                {
+                    "target": "com.amazonaws.wellarchitected#ThrottlingException"
+                },
+                {
+                    "target": "com.amazonaws.wellarchitected#ValidationException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Updates whether the Amazon Web Services account is opted into organization sharing features.</p>",
+                "smithy.api#http": {
+                    "method": "PATCH",
+                    "uri": "/global-settings",
+                    "code": 200
+                }
+            }
+        },
+        "com.amazonaws.wellarchitected#UpdateGlobalSettingsInput": {
+            "type": "structure",
+            "members": {
+                "OrganizationSharingStatus": {
+                    "target": "com.amazonaws.wellarchitected#OrganizationSharingStatus",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The status of organization sharing settings.</p>"
+                    }
+                }
             }
         },
         "com.amazonaws.wellarchitected#UpdateLensReview": {
@@ -4813,6 +4980,9 @@
             "input": {
                 "target": "com.amazonaws.wellarchitected#UpgradeLensReviewInput"
             },
+            "output": {
+                "target": "smithy.api#Unit"
+            },
             "errors": [
                 {
                     "target": "com.amazonaws.wellarchitected#AccessDeniedException"
@@ -4868,6 +5038,12 @@
                 "ClientRequestToken": {
                     "target": "com.amazonaws.wellarchitected#ClientRequestToken"
                 }
+            }
+        },
+        "com.amazonaws.wellarchitected#Urls": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.wellarchitected#ChoiceContent"
             }
         },
         "com.amazonaws.wellarchitected#ValidationException": {
@@ -5085,6 +5261,9 @@
                 },
                 {
                     "target": "com.amazonaws.wellarchitected#UpdateAnswer"
+                },
+                {
+                    "target": "com.amazonaws.wellarchitected#UpdateGlobalSettings"
                 },
                 {
                     "target": "com.amazonaws.wellarchitected#UpdateLensReview"
@@ -5434,6 +5613,12 @@
                 },
                 "Status": {
                     "target": "com.amazonaws.wellarchitected#ShareStatus"
+                },
+                "StatusMessage": {
+                    "target": "com.amazonaws.wellarchitected#StatusMessage",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Optional message to compliment the Status field.</p>"
+                    }
                 }
             },
             "traits": {

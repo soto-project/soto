@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -118,6 +118,12 @@ extension Evidently {
         public var description: String { return self.rawValue }
     }
 
+    public enum SegmentReferenceResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case experiment = "EXPERIMENT"
+        case launch = "LAUNCH"
+        public var description: String { return self.rawValue }
+    }
+
     public enum VariationValueType: String, CustomStringConvertible, Codable, _SotoSendable {
         case boolean = "BOOLEAN"
         case double = "DOUBLE"
@@ -202,7 +208,7 @@ extension Evidently {
 
         public func validate(name: String) throws {
             try self.validate(self.project, name: "project", parent: name, max: 2048)
-            try self.validate(self.project, name: "project", parent: name, pattern: "([-a-zA-Z0-9._]*)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[-a-zA-Z0-9._]*)")
+            try self.validate(self.project, name: "project", parent: name, pattern: "(^[a-zA-Z0-9._-]*$)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[a-zA-Z0-9._-]*)")
             try self.requests.forEach {
                 try $0.validate(name: "\(name).requests[]")
             }
@@ -279,12 +285,14 @@ extension Evidently {
         public let randomizationSalt: String?
         /// The portion of the available audience that you want to allocate to this experiment, in thousandths of a percent. The available audience is the total audience minus the audience that you have allocated to overrides or current launches of this feature. This is represented in thousandths of a percent. For example, specify 10,000 to allocate 10% of the available audience.
         public let samplingRate: Int64?
+        /// Specifies an audience segment to use in the experiment. When a segment is used in an experiment, only user sessions that match the segment pattern are used in the experiment.
+        public let segment: String?
         /// Assigns one or more tags (key-value pairs) to the experiment. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters.  You can associate as many as 50 tags with an experiment. For more information, see Tagging Amazon Web Services resources.
         public let tags: [String: String]?
         /// An array of structures that describe the configuration of each feature variation used in the experiment.
         public let treatments: [TreatmentConfig]
 
-        public init(description: String? = nil, metricGoals: [MetricGoalConfig], name: String, onlineAbConfig: OnlineAbConfig? = nil, project: String, randomizationSalt: String? = nil, samplingRate: Int64? = nil, tags: [String: String]? = nil, treatments: [TreatmentConfig]) {
+        public init(description: String? = nil, metricGoals: [MetricGoalConfig], name: String, onlineAbConfig: OnlineAbConfig? = nil, project: String, randomizationSalt: String? = nil, samplingRate: Int64? = nil, segment: String? = nil, tags: [String: String]? = nil, treatments: [TreatmentConfig]) {
             self.description = description
             self.metricGoals = metricGoals
             self.name = name
@@ -292,6 +300,7 @@ extension Evidently {
             self.project = project
             self.randomizationSalt = randomizationSalt
             self.samplingRate = samplingRate
+            self.segment = segment
             self.tags = tags
             self.treatments = treatments
         }
@@ -309,11 +318,13 @@ extension Evidently {
             try self.validate(self.name, name: "name", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
             try self.onlineAbConfig?.validate(name: "\(name).onlineAbConfig")
             try self.validate(self.project, name: "project", parent: name, max: 2048)
-            try self.validate(self.project, name: "project", parent: name, pattern: "([-a-zA-Z0-9._]*)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[-a-zA-Z0-9._]*)")
+            try self.validate(self.project, name: "project", parent: name, pattern: "(^[a-zA-Z0-9._-]*$)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[a-zA-Z0-9._-]*)")
             try self.validate(self.randomizationSalt, name: "randomizationSalt", parent: name, max: 127)
             try self.validate(self.randomizationSalt, name: "randomizationSalt", parent: name, pattern: ".*")
             try self.validate(self.samplingRate, name: "samplingRate", parent: name, max: 100_000)
             try self.validate(self.samplingRate, name: "samplingRate", parent: name, min: 0)
+            try self.validate(self.segment, name: "segment", parent: name, max: 2048)
+            try self.validate(self.segment, name: "segment", parent: name, pattern: "(^[-a-zA-Z0-9._]*$)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:segment/[-a-zA-Z0-9._]*)")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -333,6 +344,7 @@ extension Evidently {
             case onlineAbConfig
             case randomizationSalt
             case samplingRate
+            case segment
             case tags
             case treatments
         }
@@ -403,7 +415,7 @@ extension Evidently {
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
             try self.validate(self.project, name: "project", parent: name, max: 2048)
-            try self.validate(self.project, name: "project", parent: name, pattern: "([-a-zA-Z0-9._]*)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[-a-zA-Z0-9._]*)")
+            try self.validate(self.project, name: "project", parent: name, pattern: "(^[a-zA-Z0-9._-]*$)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[a-zA-Z0-9._-]*)")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -456,7 +468,7 @@ extension Evidently {
         public let name: String
         /// The name or ARN of the project that you want to create the launch in.
         public let project: String
-        /// When Evidently assigns a particular user session to a launch, it must use a randomization ID to determine which variation the user session is served. This randomization ID is a combination of the entity ID and randomizationSalt. If you omit randomizationSalt, Evidently uses the launch name as the randomizationsSalt.
+        /// When Evidently assigns a particular user session to a launch, it must use a randomization ID to determine which variation the user session is served. This randomization ID is a combination of the entity ID and randomizationSalt. If you omit randomizationSalt, Evidently uses the launch name as the randomizationSalt.
         public let randomizationSalt: String?
         /// An array of structures that define the traffic allocation percentages among the feature variations during each step of the launch.
         public let scheduledSplitsConfig: ScheduledSplitsLaunchConfig?
@@ -490,7 +502,7 @@ extension Evidently {
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
             try self.validate(self.project, name: "project", parent: name, max: 2048)
-            try self.validate(self.project, name: "project", parent: name, pattern: "([-a-zA-Z0-9._]*)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[-a-zA-Z0-9._]*)")
+            try self.validate(self.project, name: "project", parent: name, pattern: "(^[a-zA-Z0-9._-]*$)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[a-zA-Z0-9._-]*)")
             try self.validate(self.randomizationSalt, name: "randomizationSalt", parent: name, max: 127)
             try self.validate(self.randomizationSalt, name: "randomizationSalt", parent: name, pattern: ".*")
             try self.scheduledSplitsConfig?.validate(name: "\(name).scheduledSplitsConfig")
@@ -579,6 +591,60 @@ extension Evidently {
         }
     }
 
+    public struct CreateSegmentRequest: AWSEncodableShape {
+        /// An optional description for this segment.
+        public let description: String?
+        /// A name for the segment.
+        public let name: String
+        /// The pattern to use for the segment. For more information about pattern syntax,  see  Segment rule pattern syntax.
+        public let pattern: String
+        /// Assigns one or more tags (key-value pairs) to the segment. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters.  You can associate as many as 50 tags with a segment. For more information, see Tagging Amazon Web Services resources.
+        public let tags: [String: String]?
+
+        public init(description: String? = nil, name: String, pattern: String, tags: [String: String]? = nil) {
+            self.description = description
+            self.name = name
+            self.pattern = pattern
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 160)
+            try self.validate(self.description, name: "description", parent: name, pattern: ".*")
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
+            try self.validate(self.pattern, name: "pattern", parent: name, max: 1024)
+            try self.validate(self.pattern, name: "pattern", parent: name, min: 1)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description
+            case name
+            case pattern
+            case tags
+        }
+    }
+
+    public struct CreateSegmentResponse: AWSDecodableShape {
+        /// A structure that contains the complete information about the segment that was just created.
+        public let segment: Segment
+
+        public init(segment: Segment) {
+            self.segment = segment
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case segment
+        }
+    }
+
     public struct DeleteExperimentRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "experiment", location: .uri("experiment")),
@@ -600,7 +666,7 @@ extension Evidently {
             try self.validate(self.experiment, name: "experiment", parent: name, min: 1)
             try self.validate(self.experiment, name: "experiment", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
             try self.validate(self.project, name: "project", parent: name, max: 2048)
-            try self.validate(self.project, name: "project", parent: name, pattern: "([-a-zA-Z0-9._]*)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[-a-zA-Z0-9._]*)")
+            try self.validate(self.project, name: "project", parent: name, pattern: "(^[a-zA-Z0-9._-]*$)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[a-zA-Z0-9._-]*)")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -631,7 +697,7 @@ extension Evidently {
             try self.validate(self.feature, name: "feature", parent: name, min: 1)
             try self.validate(self.feature, name: "feature", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
             try self.validate(self.project, name: "project", parent: name, max: 2048)
-            try self.validate(self.project, name: "project", parent: name, pattern: "([-a-zA-Z0-9._]*)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[-a-zA-Z0-9._]*)")
+            try self.validate(self.project, name: "project", parent: name, pattern: "(^[a-zA-Z0-9._-]*$)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[a-zA-Z0-9._-]*)")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -662,7 +728,7 @@ extension Evidently {
             try self.validate(self.launch, name: "launch", parent: name, min: 1)
             try self.validate(self.launch, name: "launch", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
             try self.validate(self.project, name: "project", parent: name, max: 2048)
-            try self.validate(self.project, name: "project", parent: name, pattern: "([-a-zA-Z0-9._]*)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[-a-zA-Z0-9._]*)")
+            try self.validate(self.project, name: "project", parent: name, pattern: "(^[a-zA-Z0-9._-]*$)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[a-zA-Z0-9._-]*)")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -686,13 +752,37 @@ extension Evidently {
 
         public func validate(name: String) throws {
             try self.validate(self.project, name: "project", parent: name, max: 2048)
-            try self.validate(self.project, name: "project", parent: name, pattern: "([-a-zA-Z0-9._]*)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[-a-zA-Z0-9._]*)")
+            try self.validate(self.project, name: "project", parent: name, pattern: "(^[a-zA-Z0-9._-]*$)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[a-zA-Z0-9._-]*)")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteProjectResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteSegmentRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "segment", location: .uri("segment"))
+        ]
+
+        /// Specifies the segment to delete.
+        public let segment: String
+
+        public init(segment: String) {
+            self.segment = segment
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.segment, name: "segment", parent: name, max: 2048)
+            try self.validate(self.segment, name: "segment", parent: name, pattern: "(^[-a-zA-Z0-9._]*$)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:segment/[-a-zA-Z0-9._]*)")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteSegmentResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -704,7 +794,7 @@ extension Evidently {
 
         /// An internal ID that represents a unique user of the application. This entityID is checked against any override rules assigned for this feature.
         public let entityId: String
-        /// A JSON block of attributes that you can optionally pass in. This JSON block is included in the evaluation events sent to Evidently from the user session.
+        /// A JSON object of attributes that you can optionally pass in as part of the evaluation event sent to Evidently from the user session. Evidently can use  this value to match user sessions with defined audience segments. For more information, see Use segments to focus your  audience.  If you include this parameter, the value must be a JSON object. A JSON array is not supported.
         public let evaluationContext: String?
         /// The name of the feature being evaluated.
         public let feature: String
@@ -726,7 +816,7 @@ extension Evidently {
             try self.validate(self.feature, name: "feature", parent: name, min: 1)
             try self.validate(self.feature, name: "feature", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
             try self.validate(self.project, name: "project", parent: name, max: 2048)
-            try self.validate(self.project, name: "project", parent: name, pattern: "([-a-zA-Z0-9._]*)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[-a-zA-Z0-9._]*)")
+            try self.validate(self.project, name: "project", parent: name, pattern: "(^[a-zA-Z0-9._-]*$)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[a-zA-Z0-9._-]*)")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -890,6 +980,8 @@ extension Evidently {
         public let samplingRate: Int64?
         /// A structure that contains the time and date that Evidently completed the analysis of the experiment.
         public let schedule: ExperimentSchedule?
+        /// The audience segment being used for the experiment, if a segment is being used.
+        public let segment: String?
         /// The current state of the experiment.
         public let status: ExperimentStatus
         /// If the experiment was stopped, this is the string that was entered by the person who  stopped the experiment, to explain why it was stopped.
@@ -901,7 +993,7 @@ extension Evidently {
         /// The type of this experiment. Currently, this value must be aws.experiment.onlineab.
         public let type: ExperimentType
 
-        public init(arn: String, createdTime: Date, description: String? = nil, execution: ExperimentExecution? = nil, lastUpdatedTime: Date, metricGoals: [MetricGoal]? = nil, name: String, onlineAbDefinition: OnlineAbDefinition? = nil, project: String? = nil, randomizationSalt: String? = nil, samplingRate: Int64? = nil, schedule: ExperimentSchedule? = nil, status: ExperimentStatus, statusReason: String? = nil, tags: [String: String]? = nil, treatments: [Treatment]? = nil, type: ExperimentType) {
+        public init(arn: String, createdTime: Date, description: String? = nil, execution: ExperimentExecution? = nil, lastUpdatedTime: Date, metricGoals: [MetricGoal]? = nil, name: String, onlineAbDefinition: OnlineAbDefinition? = nil, project: String? = nil, randomizationSalt: String? = nil, samplingRate: Int64? = nil, schedule: ExperimentSchedule? = nil, segment: String? = nil, status: ExperimentStatus, statusReason: String? = nil, tags: [String: String]? = nil, treatments: [Treatment]? = nil, type: ExperimentType) {
             self.arn = arn
             self.createdTime = createdTime
             self.description = description
@@ -914,6 +1006,7 @@ extension Evidently {
             self.randomizationSalt = randomizationSalt
             self.samplingRate = samplingRate
             self.schedule = schedule
+            self.segment = segment
             self.status = status
             self.statusReason = statusReason
             self.tags = tags
@@ -934,6 +1027,7 @@ extension Evidently {
             case randomizationSalt
             case samplingRate
             case schedule
+            case segment
             case status
             case statusReason
             case tags
@@ -1157,7 +1251,7 @@ extension Evidently {
             try self.validate(self.experiment, name: "experiment", parent: name, min: 1)
             try self.validate(self.experiment, name: "experiment", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
             try self.validate(self.project, name: "project", parent: name, max: 2048)
-            try self.validate(self.project, name: "project", parent: name, pattern: "([-a-zA-Z0-9._]*)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[-a-zA-Z0-9._]*)")
+            try self.validate(self.project, name: "project", parent: name, pattern: "(^[a-zA-Z0-9._-]*$)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[a-zA-Z0-9._-]*)")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1230,7 +1324,7 @@ extension Evidently {
             try self.validate(self.period, name: "period", parent: name, max: 90000)
             try self.validate(self.period, name: "period", parent: name, min: 300)
             try self.validate(self.project, name: "project", parent: name, max: 2048)
-            try self.validate(self.project, name: "project", parent: name, pattern: "([-a-zA-Z0-9._]*)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[-a-zA-Z0-9._]*)")
+            try self.validate(self.project, name: "project", parent: name, pattern: "(^[a-zA-Z0-9._-]*$)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[a-zA-Z0-9._-]*)")
             try self.validate(self.reportNames, name: "reportNames", parent: name, max: 5)
             try self.validate(self.resultStats, name: "resultStats", parent: name, max: 5)
             try self.treatmentNames.forEach {
@@ -1300,7 +1394,7 @@ extension Evidently {
             try self.validate(self.feature, name: "feature", parent: name, min: 1)
             try self.validate(self.feature, name: "feature", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
             try self.validate(self.project, name: "project", parent: name, max: 2048)
-            try self.validate(self.project, name: "project", parent: name, pattern: "([-a-zA-Z0-9._]*)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[-a-zA-Z0-9._]*)")
+            try self.validate(self.project, name: "project", parent: name, pattern: "(^[a-zA-Z0-9._-]*$)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[a-zA-Z0-9._-]*)")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1340,7 +1434,7 @@ extension Evidently {
             try self.validate(self.launch, name: "launch", parent: name, min: 1)
             try self.validate(self.launch, name: "launch", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
             try self.validate(self.project, name: "project", parent: name, max: 2048)
-            try self.validate(self.project, name: "project", parent: name, pattern: "([-a-zA-Z0-9._]*)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[-a-zA-Z0-9._]*)")
+            try self.validate(self.project, name: "project", parent: name, pattern: "(^[a-zA-Z0-9._-]*$)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[a-zA-Z0-9._-]*)")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1373,7 +1467,7 @@ extension Evidently {
 
         public func validate(name: String) throws {
             try self.validate(self.project, name: "project", parent: name, max: 2048)
-            try self.validate(self.project, name: "project", parent: name, pattern: "([-a-zA-Z0-9._]*)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[-a-zA-Z0-9._]*)")
+            try self.validate(self.project, name: "project", parent: name, pattern: "(^[a-zA-Z0-9._-]*$)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[a-zA-Z0-9._-]*)")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1389,6 +1483,39 @@ extension Evidently {
 
         private enum CodingKeys: String, CodingKey {
             case project
+        }
+    }
+
+    public struct GetSegmentRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "segment", location: .uri("segment"))
+        ]
+
+        /// The ARN of the segment to return information for.
+        public let segment: String
+
+        public init(segment: String) {
+            self.segment = segment
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.segment, name: "segment", parent: name, max: 2048)
+            try self.validate(self.segment, name: "segment", parent: name, pattern: "(^[-a-zA-Z0-9._]*$)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:segment/[-a-zA-Z0-9._]*)")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetSegmentResponse: AWSDecodableShape {
+        /// A structure that contains the complete information about the segment.
+        public let segment: Segment
+
+        public init(segment: Segment) {
+            self.segment = segment
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case segment
         }
     }
 
@@ -1569,7 +1696,7 @@ extension Evidently {
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
             try self.validate(self.project, name: "project", parent: name, max: 2048)
-            try self.validate(self.project, name: "project", parent: name, pattern: "([-a-zA-Z0-9._]*)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[-a-zA-Z0-9._]*)")
+            try self.validate(self.project, name: "project", parent: name, pattern: "(^[a-zA-Z0-9._-]*$)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[a-zA-Z0-9._-]*)")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1619,7 +1746,7 @@ extension Evidently {
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
             try self.validate(self.project, name: "project", parent: name, max: 2048)
-            try self.validate(self.project, name: "project", parent: name, pattern: "([-a-zA-Z0-9._]*)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[-a-zA-Z0-9._]*)")
+            try self.validate(self.project, name: "project", parent: name, pattern: "(^[a-zA-Z0-9._-]*$)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[a-zA-Z0-9._-]*)")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1673,7 +1800,7 @@ extension Evidently {
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
             try self.validate(self.project, name: "project", parent: name, max: 2048)
-            try self.validate(self.project, name: "project", parent: name, pattern: "([-a-zA-Z0-9._]*)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[-a-zA-Z0-9._]*)")
+            try self.validate(self.project, name: "project", parent: name, pattern: "(^[a-zA-Z0-9._-]*$)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[a-zA-Z0-9._-]*)")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1737,6 +1864,104 @@ extension Evidently {
         private enum CodingKeys: String, CodingKey {
             case nextToken
             case projects
+        }
+    }
+
+    public struct ListSegmentReferencesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "segment", location: .uri("segment")),
+            AWSMemberEncoding(label: "type", location: .querystring("type"))
+        ]
+
+        /// The maximum number of results to include in the response. If you omit this, the default of 50 is used.
+        public let maxResults: Int?
+        /// The token to use when requesting the next set of results. You received this token from a previous  ListSegmentReferences operation.
+        public let nextToken: String?
+        /// The ARN of the segment that you want to view information for.
+        public let segment: String
+        /// Specifies whether to return information about launches or experiments that use this segment.
+        public let type: SegmentReferenceResourceType
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, segment: String, type: SegmentReferenceResourceType) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.segment = segment
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+            try self.validate(self.segment, name: "segment", parent: name, max: 2048)
+            try self.validate(self.segment, name: "segment", parent: name, pattern: "(^[-a-zA-Z0-9._]*$)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:segment/[-a-zA-Z0-9._]*)")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListSegmentReferencesResponse: AWSDecodableShape {
+        /// The token to use in a subsequent ListSegmentReferences operation to return the next set of results.
+        public let nextToken: String?
+        /// An array of structures, where each structure contains information about one experiment or launch that uses this segment.
+        public let referencedBy: [RefResource]?
+
+        public init(nextToken: String? = nil, referencedBy: [RefResource]? = nil) {
+            self.nextToken = nextToken
+            self.referencedBy = referencedBy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken
+            case referencedBy
+        }
+    }
+
+    public struct ListSegmentsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
+        ]
+
+        /// The maximum number of results to include in the response. If you omit this, the default of 50 is used.
+        public let maxResults: Int?
+        /// The token to use when requesting the next set of results. You received this token from a previous  ListSegments operation.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListSegmentsResponse: AWSDecodableShape {
+        /// The token to use in a subsequent ListSegments operation to return the next set of results.
+        public let nextToken: String?
+        /// An array of structures that contain information about the segments in this Region.
+        public let segments: [Segment]?
+
+        public init(nextToken: String? = nil, segments: [Segment]? = nil) {
+            self.nextToken = nextToken
+            self.segments = segments
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken
+            case segments
         }
     }
 
@@ -2136,7 +2361,7 @@ extension Evidently {
         public func validate(name: String) throws {
             try self.validate(self.events, name: "events", parent: name, max: 50)
             try self.validate(self.project, name: "project", parent: name, max: 2048)
-            try self.validate(self.project, name: "project", parent: name, pattern: "([-a-zA-Z0-9._]*)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[-a-zA-Z0-9._]*)")
+            try self.validate(self.project, name: "project", parent: name, pattern: "(^[a-zA-Z0-9._-]*$)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[a-zA-Z0-9._-]*)")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2179,6 +2404,43 @@ extension Evidently {
             case errorCode
             case errorMessage
             case eventId
+        }
+    }
+
+    public struct RefResource: AWSDecodableShape {
+        /// The ARN of the experiment or launch.
+        public let arn: String?
+        /// The day and time that this experiment or launch ended.
+        public let endTime: String?
+        /// The day and time that this experiment or launch was most recently updated.
+        public let lastUpdatedOn: String?
+        /// The name of the experiment or launch.
+        public let name: String
+        /// The day and time that this experiment or launch started.
+        public let startTime: String?
+        /// The status of the experiment or launch.
+        public let status: String?
+        /// Specifies whether the resource that this structure contains information about is an experiment or a launch.
+        public let type: String
+
+        public init(arn: String? = nil, endTime: String? = nil, lastUpdatedOn: String? = nil, name: String, startTime: String? = nil, status: String? = nil, type: String) {
+            self.arn = arn
+            self.endTime = endTime
+            self.lastUpdatedOn = lastUpdatedOn
+            self.name = name
+            self.startTime = startTime
+            self.status = status
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn
+            case endTime
+            case lastUpdatedOn
+            case name
+            case startTime
+            case status
+            case type
         }
     }
 
@@ -2226,30 +2488,37 @@ extension Evidently {
     }
 
     public struct ScheduledSplit: AWSDecodableShape {
-        /// The traffic allocation percentages among the feature variations during one step of a launch. This is a set of key-value pairs.   The keys are variation names. The values represent the percentage of traffic to allocate to that variation during this step.
+        /// The traffic allocation percentages among the feature variations during one step of a launch. This is a set of key-value pairs.   The keys are variation names. The values represent the percentage of traffic to allocate to that variation during this step. The values is expressed in thousandths of a percent, so assigning a weight of 50000 assigns 50% of traffic to that variation. If the sum of the weights for all the variations in a segment override does not add up to 100,000,  then the remaining traffic that matches this segment is not assigned by this segment override, and instead moves on to the next segment override or the default traffic split.
         public let groupWeights: [String: Int64]?
+        /// Use this parameter to specify different traffic splits for one or more audience segments.  A segment is a portion of your audience that share one or more characteristics. Examples could be Chrome browser users,  users in Europe, or Firefox browser users in Europe who also fit other criteria that your application collects, such as age. This parameter is an array of up to six segment override objects. Each of these objects specifies a segment that you have already created, and defines the traffic split for that segment.
+        public let segmentOverrides: [SegmentOverride]?
         /// The date and time that this step of the launch starts.
         public let startTime: Date
 
-        public init(groupWeights: [String: Int64]? = nil, startTime: Date) {
+        public init(groupWeights: [String: Int64]? = nil, segmentOverrides: [SegmentOverride]? = nil, startTime: Date) {
             self.groupWeights = groupWeights
+            self.segmentOverrides = segmentOverrides
             self.startTime = startTime
         }
 
         private enum CodingKeys: String, CodingKey {
             case groupWeights
+            case segmentOverrides
             case startTime
         }
     }
 
     public struct ScheduledSplitConfig: AWSEncodableShape {
-        /// The traffic allocation percentages among the feature variations during one step of a launch. This is a set of key-value pairs. The keys are variation names. The values represent the percentage of traffic to allocate to that variation during this step.
+        /// The traffic allocation percentages among the feature variations during one step of a launch. This is a set of key-value pairs. The keys are variation names. The values represent the percentage of traffic to allocate to that variation during this step.  The values is expressed in thousandths of a percent, so assigning a weight of 50000 assigns 50% of traffic to that variation. If the sum of the weights for all the variations in a segment override does not add up to 100,000,  then the remaining traffic that matches this segment is not assigned by this segment override, and instead moves on to the next segment override or the default traffic split.
         public let groupWeights: [String: Int64]
+        /// Use this parameter to specify different traffic splits for one or more audience segments.  A segment is a portion of your audience that share one or more characteristics. Examples could be Chrome browser users,  users in Europe, or Firefox browser users in Europe who also fit other criteria that your application collects, such as age. This parameter is an array of up to six segment override objects. Each of these objects specifies a segment that you have already created, and defines the traffic split for that segment.
+        public let segmentOverrides: [SegmentOverride]?
         /// The date and time that this step of the launch starts.
         public let startTime: Date
 
-        public init(groupWeights: [String: Int64], startTime: Date) {
+        public init(groupWeights: [String: Int64], segmentOverrides: [SegmentOverride]? = nil, startTime: Date) {
             self.groupWeights = groupWeights
+            self.segmentOverrides = segmentOverrides
             self.startTime = startTime
         }
 
@@ -2262,10 +2531,15 @@ extension Evidently {
                 try validate($0.value, name: "groupWeights[\"\($0.key)\"]", parent: name, min: 0)
             }
             try self.validate(self.groupWeights, name: "groupWeights", parent: name, max: 5)
+            try self.segmentOverrides?.forEach {
+                try $0.validate(name: "\(name).segmentOverrides[]")
+            }
+            try self.validate(self.segmentOverrides, name: "segmentOverrides", parent: name, max: 6)
         }
 
         private enum CodingKeys: String, CodingKey {
             case groupWeights
+            case segmentOverrides
             case startTime
         }
     }
@@ -2304,6 +2578,84 @@ extension Evidently {
         }
     }
 
+    public struct Segment: AWSDecodableShape {
+        /// The ARN of the segment.
+        public let arn: String
+        /// The date and time that this segment was created.
+        public let createdTime: Date
+        /// The customer-created description for this segment.
+        public let description: String?
+        /// The number of experiments that this segment is used in. This count includes all current experiments, not just those that are currently running.
+        public let experimentCount: Int64?
+        /// The date and time that this segment was most recently updated.
+        public let lastUpdatedTime: Date
+        /// The number of launches that this segment is used in. This count includes all current launches, not just those that are currently running.
+        public let launchCount: Int64?
+        /// The name of the segment.
+        public let name: String
+        public let pattern: String
+        /// The list of tag keys and values associated with this launch.
+        public let tags: [String: String]?
+
+        public init(arn: String, createdTime: Date, description: String? = nil, experimentCount: Int64? = nil, lastUpdatedTime: Date, launchCount: Int64? = nil, name: String, pattern: String, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.createdTime = createdTime
+            self.description = description
+            self.experimentCount = experimentCount
+            self.lastUpdatedTime = lastUpdatedTime
+            self.launchCount = launchCount
+            self.name = name
+            self.pattern = pattern
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn
+            case createdTime
+            case description
+            case experimentCount
+            case lastUpdatedTime
+            case launchCount
+            case name
+            case pattern
+            case tags
+        }
+    }
+
+    public struct SegmentOverride: AWSEncodableShape & AWSDecodableShape {
+        /// A number indicating the order to use to evaluate segment overrides, if there are more than one. Segment overrides with lower numbers are evaluated first.
+        public let evaluationOrder: Int64
+        /// The ARN of the segment to use.
+        public let segment: String
+        /// The traffic allocation percentages among the feature variations to assign to this  segment. This is a set of key-value pairs.   The keys are variation names. The values represent the amount of traffic to allocate to that variation for this segment. This is expressed in thousandths of a percent, so a weight of 50000 represents 50% of traffic.
+        public let weights: [String: Int64]
+
+        public init(evaluationOrder: Int64, segment: String, weights: [String: Int64]) {
+            self.evaluationOrder = evaluationOrder
+            self.segment = segment
+            self.weights = weights
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.segment, name: "segment", parent: name, max: 2048)
+            try self.validate(self.segment, name: "segment", parent: name, pattern: "(^[-a-zA-Z0-9._]*$)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:segment/[-a-zA-Z0-9._]*)")
+            try self.weights.forEach {
+                try validate($0.key, name: "weights.key", parent: name, max: 127)
+                try validate($0.key, name: "weights.key", parent: name, min: 1)
+                try validate($0.key, name: "weights.key", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
+                try validate($0.value, name: "weights[\"\($0.key)\"]", parent: name, max: 100_000)
+                try validate($0.value, name: "weights[\"\($0.key)\"]", parent: name, min: 0)
+            }
+            try self.validate(self.weights, name: "weights", parent: name, max: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case evaluationOrder
+            case segment
+            case weights
+        }
+    }
+
     public struct StartExperimentRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "experiment", location: .uri("experiment")),
@@ -2328,7 +2680,7 @@ extension Evidently {
             try self.validate(self.experiment, name: "experiment", parent: name, min: 1)
             try self.validate(self.experiment, name: "experiment", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
             try self.validate(self.project, name: "project", parent: name, max: 2048)
-            try self.validate(self.project, name: "project", parent: name, pattern: "([-a-zA-Z0-9._]*)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[-a-zA-Z0-9._]*)")
+            try self.validate(self.project, name: "project", parent: name, pattern: "(^[a-zA-Z0-9._-]*$)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[a-zA-Z0-9._-]*)")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2370,7 +2722,7 @@ extension Evidently {
             try self.validate(self.launch, name: "launch", parent: name, min: 1)
             try self.validate(self.launch, name: "launch", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
             try self.validate(self.project, name: "project", parent: name, max: 2048)
-            try self.validate(self.project, name: "project", parent: name, pattern: "([-a-zA-Z0-9._]*)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[-a-zA-Z0-9._]*)")
+            try self.validate(self.project, name: "project", parent: name, pattern: "(^[a-zA-Z0-9._-]*$)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[a-zA-Z0-9._-]*)")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2416,7 +2768,7 @@ extension Evidently {
             try self.validate(self.experiment, name: "experiment", parent: name, min: 1)
             try self.validate(self.experiment, name: "experiment", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
             try self.validate(self.project, name: "project", parent: name, max: 2048)
-            try self.validate(self.project, name: "project", parent: name, pattern: "([-a-zA-Z0-9._]*)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[-a-zA-Z0-9._]*)")
+            try self.validate(self.project, name: "project", parent: name, pattern: "(^[a-zA-Z0-9._-]*$)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[a-zA-Z0-9._-]*)")
             try self.validate(self.reason, name: "reason", parent: name, max: 160)
             try self.validate(self.reason, name: "reason", parent: name, pattern: ".*")
         }
@@ -2467,7 +2819,7 @@ extension Evidently {
             try self.validate(self.launch, name: "launch", parent: name, min: 1)
             try self.validate(self.launch, name: "launch", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
             try self.validate(self.project, name: "project", parent: name, max: 2048)
-            try self.validate(self.project, name: "project", parent: name, pattern: "([-a-zA-Z0-9._]*)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[-a-zA-Z0-9._]*)")
+            try self.validate(self.project, name: "project", parent: name, pattern: "(^[a-zA-Z0-9._-]*$)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[a-zA-Z0-9._-]*)")
             try self.validate(self.reason, name: "reason", parent: name, max: 160)
             try self.validate(self.reason, name: "reason", parent: name, pattern: ".*")
         }
@@ -2524,6 +2876,41 @@ extension Evidently {
 
     public struct TagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct TestSegmentPatternRequest: AWSEncodableShape {
+        /// The pattern to test.
+        public let pattern: String
+        /// A sample evaluationContext JSON block to test against the specified pattern.
+        public let payload: String
+
+        public init(pattern: String, payload: String) {
+            self.pattern = pattern
+            self.payload = payload
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.pattern, name: "pattern", parent: name, max: 1024)
+            try self.validate(self.pattern, name: "pattern", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pattern
+            case payload
+        }
+    }
+
+    public struct TestSegmentPatternResponse: AWSDecodableShape {
+        /// Returns true if the pattern matches the payload.
+        public let match: Bool
+
+        public init(match: Bool) {
+            self.match = match
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case match
+        }
     }
 
     public struct Treatment: AWSDecodableShape {
@@ -2638,19 +3025,25 @@ extension Evidently {
         public let project: String
         /// When Evidently assigns a particular user session to an experiment, it must use a randomization ID to determine which variation the user session is served. This randomization ID is a combination of the entity ID and randomizationSalt. If you omit randomizationSalt, Evidently uses the experiment name as the randomizationSalt.
         public let randomizationSalt: String?
+        /// Removes a segment from being used in an experiment. You can't use this parameter if the experiment is currently running.
+        public let removeSegment: Bool?
         /// The portion of the available audience that you want to allocate to this experiment, in thousandths of a percent. The available audience is the total audience minus the audience that you have allocated to overrides or current launches of this feature. This is represented in thousandths of a percent. For example, specify 20,000 to allocate 20% of the available audience.
         public let samplingRate: Int64?
+        /// Adds an audience segment to an experiment. When a segment is used in an experiment, only user sessions that match the segment pattern are used in the experiment. You can't use this parameter if the  experiment is currently running.
+        public let segment: String?
         /// An array of structures that define the variations being tested in the experiment.
         public let treatments: [TreatmentConfig]?
 
-        public init(description: String? = nil, experiment: String, metricGoals: [MetricGoalConfig]? = nil, onlineAbConfig: OnlineAbConfig? = nil, project: String, randomizationSalt: String? = nil, samplingRate: Int64? = nil, treatments: [TreatmentConfig]? = nil) {
+        public init(description: String? = nil, experiment: String, metricGoals: [MetricGoalConfig]? = nil, onlineAbConfig: OnlineAbConfig? = nil, project: String, randomizationSalt: String? = nil, removeSegment: Bool? = nil, samplingRate: Int64? = nil, segment: String? = nil, treatments: [TreatmentConfig]? = nil) {
             self.description = description
             self.experiment = experiment
             self.metricGoals = metricGoals
             self.onlineAbConfig = onlineAbConfig
             self.project = project
             self.randomizationSalt = randomizationSalt
+            self.removeSegment = removeSegment
             self.samplingRate = samplingRate
+            self.segment = segment
             self.treatments = treatments
         }
 
@@ -2667,11 +3060,13 @@ extension Evidently {
             try self.validate(self.metricGoals, name: "metricGoals", parent: name, min: 1)
             try self.onlineAbConfig?.validate(name: "\(name).onlineAbConfig")
             try self.validate(self.project, name: "project", parent: name, max: 2048)
-            try self.validate(self.project, name: "project", parent: name, pattern: "([-a-zA-Z0-9._]*)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[-a-zA-Z0-9._]*)")
+            try self.validate(self.project, name: "project", parent: name, pattern: "(^[a-zA-Z0-9._-]*$)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[a-zA-Z0-9._-]*)")
             try self.validate(self.randomizationSalt, name: "randomizationSalt", parent: name, max: 127)
             try self.validate(self.randomizationSalt, name: "randomizationSalt", parent: name, pattern: ".*")
             try self.validate(self.samplingRate, name: "samplingRate", parent: name, max: 100_000)
             try self.validate(self.samplingRate, name: "samplingRate", parent: name, min: 0)
+            try self.validate(self.segment, name: "segment", parent: name, max: 2048)
+            try self.validate(self.segment, name: "segment", parent: name, pattern: "(^[-a-zA-Z0-9._]*$)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:segment/[-a-zA-Z0-9._]*)")
             try self.treatments?.forEach {
                 try $0.validate(name: "\(name).treatments[]")
             }
@@ -2683,7 +3078,9 @@ extension Evidently {
             case metricGoals
             case onlineAbConfig
             case randomizationSalt
+            case removeSegment
             case samplingRate
+            case segment
             case treatments
         }
     }
@@ -2759,7 +3156,7 @@ extension Evidently {
             try self.validate(self.feature, name: "feature", parent: name, min: 1)
             try self.validate(self.feature, name: "feature", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
             try self.validate(self.project, name: "project", parent: name, max: 2048)
-            try self.validate(self.project, name: "project", parent: name, pattern: "([-a-zA-Z0-9._]*)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[-a-zA-Z0-9._]*)")
+            try self.validate(self.project, name: "project", parent: name, pattern: "(^[a-zA-Z0-9._-]*$)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[a-zA-Z0-9._-]*)")
             try self.removeVariations?.forEach {
                 try validate($0, name: "removeVariations[]", parent: name, max: 127)
                 try validate($0, name: "removeVariations[]", parent: name, min: 1)
@@ -2838,7 +3235,7 @@ extension Evidently {
             }
             try self.validate(self.metricMonitors, name: "metricMonitors", parent: name, max: 3)
             try self.validate(self.project, name: "project", parent: name, max: 2048)
-            try self.validate(self.project, name: "project", parent: name, pattern: "([-a-zA-Z0-9._]*)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[-a-zA-Z0-9._]*)")
+            try self.validate(self.project, name: "project", parent: name, pattern: "(^[a-zA-Z0-9._-]*$)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[a-zA-Z0-9._-]*)")
             try self.validate(self.randomizationSalt, name: "randomizationSalt", parent: name, max: 127)
             try self.validate(self.randomizationSalt, name: "randomizationSalt", parent: name, pattern: ".*")
             try self.scheduledSplitsConfig?.validate(name: "\(name).scheduledSplitsConfig")
@@ -2887,7 +3284,7 @@ extension Evidently {
         public func validate(name: String) throws {
             try self.cloudWatchLogs?.validate(name: "\(name).cloudWatchLogs")
             try self.validate(self.project, name: "project", parent: name, max: 2048)
-            try self.validate(self.project, name: "project", parent: name, pattern: "([-a-zA-Z0-9._]*)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[-a-zA-Z0-9._]*)")
+            try self.validate(self.project, name: "project", parent: name, pattern: "(^[a-zA-Z0-9._-]*$)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[a-zA-Z0-9._-]*)")
             try self.s3Destination?.validate(name: "\(name).s3Destination")
         }
 
@@ -2929,7 +3326,7 @@ extension Evidently {
             try self.validate(self.description, name: "description", parent: name, max: 160)
             try self.validate(self.description, name: "description", parent: name, pattern: ".*")
             try self.validate(self.project, name: "project", parent: name, max: 2048)
-            try self.validate(self.project, name: "project", parent: name, pattern: "([-a-zA-Z0-9._]*)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[-a-zA-Z0-9._]*)")
+            try self.validate(self.project, name: "project", parent: name, pattern: "(^[a-zA-Z0-9._-]*$)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[a-zA-Z0-9._-]*)")
         }
 
         private enum CodingKeys: String, CodingKey {

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -48,7 +48,6 @@ extension Transcribe {
         case afZA = "af-ZA"
         case arAE = "ar-AE"
         case arSA = "ar-SA"
-        case cyGB = "cy-GB"
         case daDK = "da-DK"
         case deCH = "de-CH"
         case deDE = "de-DE"
@@ -66,8 +65,6 @@ extension Transcribe {
         case faIR = "fa-IR"
         case frCA = "fr-CA"
         case frFR = "fr-FR"
-        case gaIE = "ga-IE"
-        case gdGB = "gd-GB"
         case heIL = "he-IL"
         case hiIN = "hi-IN"
         case idID = "id-ID"
@@ -3171,11 +3168,11 @@ extension Transcribe {
         /// The language code that represents the language of the entries in the custom vocabulary  you want to update. US English (en-US) is the only language supported with  Amazon Transcribe Medical.
         public let languageCode: LanguageCode
         /// The Amazon S3 location of the text file that contains your custom medical  vocabulary. The URI must be located in the same Amazon Web Services Region as the resource  you're calling. Here's an example URI path: s3://DOC-EXAMPLE-BUCKET/my-vocab-file.txt
-        public let vocabularyFileUri: String?
+        public let vocabularyFileUri: String
         /// The name of the custom medical vocabulary you want to update. Vocabulary names are case sensitive.
         public let vocabularyName: String
 
-        public init(languageCode: LanguageCode, vocabularyFileUri: String? = nil, vocabularyName: String) {
+        public init(languageCode: LanguageCode, vocabularyFileUri: String, vocabularyName: String) {
             self.languageCode = languageCode
             self.vocabularyFileUri = vocabularyFileUri
             self.vocabularyName = vocabularyName

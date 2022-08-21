@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -181,7 +181,7 @@ extension LookoutVision {
         )
     }
 
-    ///  Lists the Amazon Lookout for Vision projects in your AWS account. The ListProjects operation is eventually consistent.   Recent calls to CreateProject and DeleteProject might take a while to appear in the response from ListProjects. This operation requires permissions to perform the lookoutvision:ListProjects operation.
+    ///  Lists the Amazon Lookout for Vision projects in your AWS account that are in the AWS Region in  which you call ListProjects. The ListProjects operation is eventually consistent.   Recent calls to CreateProject and DeleteProject might take a while to appear in the response from ListProjects. This operation requires permissions to perform the lookoutvision:ListProjects operation.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

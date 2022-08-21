@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -62,7 +62,7 @@ public struct ConnectErrorType: AWSErrorType {
 
     /// You do not have sufficient permissions to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
-    /// The contact flow has not been published.
+    /// The flow has not been published.
     public static var contactFlowNotPublishedException: Self { .init(.contactFlowNotPublishedException) }
     /// The contact with the specified ID is not active or does not exist.
     public static var contactNotFoundException: Self { .init(.contactNotFoundException) }
@@ -74,7 +74,7 @@ public struct ConnectErrorType: AWSErrorType {
     public static var idempotencyException: Self { .init(.idempotencyException) }
     /// Request processing failed because of an error or failure with the service.
     public static var internalServiceException: Self { .init(.internalServiceException) }
-    /// The contact flow is not valid.
+    /// The flow is not valid.
     public static var invalidContactFlowException: Self { .init(.invalidContactFlowException) }
     /// The problems with the module. Please fix before trying again.
     public static var invalidContactFlowModuleException: Self { .init(.invalidContactFlowModuleException) }
@@ -86,6 +86,7 @@ public struct ConnectErrorType: AWSErrorType {
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// The contact is not permitted.
     public static var outboundContactNotPermittedException: Self { .init(.outboundContactNotPermittedException) }
+    /// The property is not valid.
     public static var propertyValidationException: Self { .init(.propertyValidationException) }
     /// A resource already has that name.
     public static var resourceConflictException: Self { .init(.resourceConflictException) }

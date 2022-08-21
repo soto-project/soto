@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -66,7 +66,6 @@ public struct TransferErrorType: AWSErrorType {
     /// The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
     /// The request was denied due to request throttling.
-    ///  HTTP Status Code: 400
     public static var throttlingException: Self { .init(.throttlingException) }
 }
 

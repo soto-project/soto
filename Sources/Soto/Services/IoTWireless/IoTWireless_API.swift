@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -265,7 +265,7 @@ public struct IoTWireless: AWSService {
         return self.client.execute(operation: "GetDeviceProfile", path: "/device-profiles/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Get the event configuration by resource types.
+    /// Get the event configuration based on resource types.
     public func getEventConfigurationByResourceTypes(_ input: GetEventConfigurationByResourceTypesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetEventConfigurationByResourceTypesResponse> {
         return self.client.execute(operation: "GetEventConfigurationByResourceTypes", path: "/event-configurations-resource-types", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -298,6 +298,16 @@ public struct IoTWireless: AWSService {
     /// Gets information about a partner account. If PartnerAccountId and PartnerType are null, returns all partner accounts.
     public func getPartnerAccount(_ input: GetPartnerAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPartnerAccountResponse> {
         return self.client.execute(operation: "GetPartnerAccount", path: "/partner-accounts/{PartnerAccountId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Get the position information for a given resource.
+    public func getPosition(_ input: GetPositionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPositionResponse> {
+        return self.client.execute(operation: "GetPosition", path: "/positions/{ResourceIdentifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Get position configuration for a given resource.
+    public func getPositionConfiguration(_ input: GetPositionConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPositionConfigurationResponse> {
+        return self.client.execute(operation: "GetPositionConfiguration", path: "/position-configurations/{ResourceIdentifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Get the event configuration for a particular resource identifier.
@@ -400,6 +410,11 @@ public struct IoTWireless: AWSService {
         return self.client.execute(operation: "ListPartnerAccounts", path: "/partner-accounts", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// List position configurations for a given resource, such as positioning solvers.
+    public func listPositionConfigurations(_ input: ListPositionConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPositionConfigurationsResponse> {
+        return self.client.execute(operation: "ListPositionConfigurations", path: "/position-configurations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// List queued messages in the downlink queue.
     public func listQueuedMessages(_ input: ListQueuedMessagesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListQueuedMessagesResponse> {
         return self.client.execute(operation: "ListQueuedMessages", path: "/wireless-devices/{Id}/data", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -428,6 +443,11 @@ public struct IoTWireless: AWSService {
     /// Lists the wireless gateways registered to your AWS account.
     public func listWirelessGateways(_ input: ListWirelessGatewaysRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListWirelessGatewaysResponse> {
         return self.client.execute(operation: "ListWirelessGateways", path: "/wireless-gateways", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Put position configuration for a given resource.
+    public func putPositionConfiguration(_ input: PutPositionConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutPositionConfigurationResponse> {
+        return self.client.execute(operation: "PutPositionConfiguration", path: "/position-configurations/{ResourceIdentifier}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Sets the log-level override for a resource-ID and resource-type. This option can be specified for a wireless gateway  or a wireless device. A limit of 200 log level override can be set per account.
@@ -495,7 +515,7 @@ public struct IoTWireless: AWSService {
         return self.client.execute(operation: "UpdateDestination", path: "/destinations/{Name}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Update the event configuration by resource types.
+    /// Update the event configuration based on resource types.
     public func updateEventConfigurationByResourceTypes(_ input: UpdateEventConfigurationByResourceTypesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateEventConfigurationByResourceTypesResponse> {
         return self.client.execute(operation: "UpdateEventConfigurationByResourceTypes", path: "/event-configurations-resource-types", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -523,6 +543,11 @@ public struct IoTWireless: AWSService {
     /// Updates properties of a partner account.
     public func updatePartnerAccount(_ input: UpdatePartnerAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdatePartnerAccountResponse> {
         return self.client.execute(operation: "UpdatePartnerAccount", path: "/partner-accounts/{PartnerAccountId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Update the position information of a resource.
+    public func updatePosition(_ input: UpdatePositionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdatePositionResponse> {
+        return self.client.execute(operation: "UpdatePosition", path: "/positions/{ResourceIdentifier}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Update the event configuration for a particular resource identifier.

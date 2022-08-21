@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -1067,6 +1067,8 @@ extension SSMIncidents {
         public let dedupeString: String?
         /// The impact of the incident on your customers and applications.
         public let impact: Int
+        /// Tags to apply to an incident when calling the StartIncident API action.
+        public let incidentTags: [String: String]?
         /// The Amazon SNS targets that are notified when updates are made to an incident.
         public let notificationTargets: [NotificationTargetItem]?
         /// The summary of the incident. The summary is a brief synopsis of what occurred, what's currently happening, and context.
@@ -1074,9 +1076,10 @@ extension SSMIncidents {
         /// The title of the incident.
         public let title: String
 
-        public init(dedupeString: String? = nil, impact: Int, notificationTargets: [NotificationTargetItem]? = nil, summary: String? = nil, title: String) {
+        public init(dedupeString: String? = nil, impact: Int, incidentTags: [String: String]? = nil, notificationTargets: [NotificationTargetItem]? = nil, summary: String? = nil, title: String) {
             self.dedupeString = dedupeString
             self.impact = impact
+            self.incidentTags = incidentTags
             self.notificationTargets = notificationTargets
             self.summary = summary
             self.title = title
@@ -1086,6 +1089,15 @@ extension SSMIncidents {
             try self.validate(self.dedupeString, name: "dedupeString", parent: name, max: 1000)
             try self.validate(self.impact, name: "impact", parent: name, max: 5)
             try self.validate(self.impact, name: "impact", parent: name, min: 1)
+            try self.incidentTags?.forEach {
+                try validate($0.key, name: "incidentTags.key", parent: name, max: 128)
+                try validate($0.key, name: "incidentTags.key", parent: name, min: 1)
+                try validate($0.key, name: "incidentTags.key", parent: name, pattern: "^(?!aws:)[A-Za-z0-9 _=@:.+-/]+$")
+                try validate($0.value, name: "incidentTags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "incidentTags[\"\($0.key)\"]", parent: name, pattern: "^[A-Za-z0-9 _=@:.+-/]*$")
+            }
+            try self.validate(self.incidentTags, name: "incidentTags", parent: name, max: 50)
+            try self.validate(self.incidentTags, name: "incidentTags", parent: name, min: 1)
             try self.notificationTargets?.forEach {
                 try $0.validate(name: "\(name).notificationTargets[]")
             }
@@ -1097,6 +1109,7 @@ extension SSMIncidents {
         private enum CodingKeys: String, CodingKey {
             case dedupeString
             case impact
+            case incidentTags
             case notificationTargets
             case summary
             case title
@@ -1618,7 +1631,7 @@ extension SSMIncidents {
     public struct StartIncidentInput: AWSEncodableShape {
         /// A token ensuring that the operation is called only once with the specified details.
         public let clientToken: String?
-        /// Defines the impact to the customers. Providing an impact overwrites the impact provided by a response plan.  Possible impacts:     1 - Critical impact, this typically relates to full application failure that impacts many to all customers.     2 - High impact, partial application failure with impact to many customers.    3 -  Medium impact, the application is providing reduced service to customers.    4 -  Low impact, customer might aren't impacted by the problem yet.    5 - No impact, customers aren't currently impacted but urgent action is needed to avoid impact.
+        /// Defines the impact to the customers. Providing an impact overwrites the impact provided by a response plan.  Possible impacts:     1 - Critical impact, this typically relates to full application failure that impacts many to all customers.     2 - High impact, partial application failure with impact to many customers.    3 - Medium impact, the application is providing reduced service to customers.    4 - Low impact, customer might aren't impacted by the problem yet.    5 - No impact, customers aren't currently impacted but urgent action is needed to avoid impact.
         public let impact: Int?
         /// Add related items to the incident for other responders to use. Related items are AWS resources, external links, or files uploaded to an Amazon S3 bucket.
         public let relatedItems: [RelatedItem]?
@@ -1987,10 +2000,12 @@ extension SSMIncidents {
         public let incidentTemplateNotificationTargets: [NotificationTargetItem]?
         /// A brief summary of the incident. This typically contains what has happened, what's currently happening, and next steps.
         public let incidentTemplateSummary: String?
+        /// Tags to apply to an incident when calling the StartIncident API action. To call this action, you must also have permission to call the TagResource API action for the incident record resource.
+        public let incidentTemplateTags: [String: String]?
         /// The short format name of the incident. The title can't contain spaces.
         public let incidentTemplateTitle: String?
 
-        public init(actions: [Action]? = nil, arn: String, chatChannel: ChatChannel? = nil, clientToken: String? = UpdateResponsePlanInput.idempotencyToken(), displayName: String? = nil, engagements: [String]? = nil, incidentTemplateDedupeString: String? = nil, incidentTemplateImpact: Int? = nil, incidentTemplateNotificationTargets: [NotificationTargetItem]? = nil, incidentTemplateSummary: String? = nil, incidentTemplateTitle: String? = nil) {
+        public init(actions: [Action]? = nil, arn: String, chatChannel: ChatChannel? = nil, clientToken: String? = UpdateResponsePlanInput.idempotencyToken(), displayName: String? = nil, engagements: [String]? = nil, incidentTemplateDedupeString: String? = nil, incidentTemplateImpact: Int? = nil, incidentTemplateNotificationTargets: [NotificationTargetItem]? = nil, incidentTemplateSummary: String? = nil, incidentTemplateTags: [String: String]? = nil, incidentTemplateTitle: String? = nil) {
             self.actions = actions
             self.arn = arn
             self.chatChannel = chatChannel
@@ -2001,6 +2016,7 @@ extension SSMIncidents {
             self.incidentTemplateImpact = incidentTemplateImpact
             self.incidentTemplateNotificationTargets = incidentTemplateNotificationTargets
             self.incidentTemplateSummary = incidentTemplateSummary
+            self.incidentTemplateTags = incidentTemplateTags
             self.incidentTemplateTitle = incidentTemplateTitle
         }
 
@@ -2027,6 +2043,14 @@ extension SSMIncidents {
             }
             try self.validate(self.incidentTemplateNotificationTargets, name: "incidentTemplateNotificationTargets", parent: name, max: 10)
             try self.validate(self.incidentTemplateSummary, name: "incidentTemplateSummary", parent: name, max: 4000)
+            try self.incidentTemplateTags?.forEach {
+                try validate($0.key, name: "incidentTemplateTags.key", parent: name, max: 128)
+                try validate($0.key, name: "incidentTemplateTags.key", parent: name, min: 1)
+                try validate($0.key, name: "incidentTemplateTags.key", parent: name, pattern: "^(?!aws:)[A-Za-z0-9 _=@:.+-/]+$")
+                try validate($0.value, name: "incidentTemplateTags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "incidentTemplateTags[\"\($0.key)\"]", parent: name, pattern: "^[A-Za-z0-9 _=@:.+-/]*$")
+            }
+            try self.validate(self.incidentTemplateTags, name: "incidentTemplateTags", parent: name, max: 50)
             try self.validate(self.incidentTemplateTitle, name: "incidentTemplateTitle", parent: name, max: 200)
         }
 
@@ -2041,6 +2065,7 @@ extension SSMIncidents {
             case incidentTemplateImpact
             case incidentTemplateNotificationTargets
             case incidentTemplateSummary
+            case incidentTemplateTags
             case incidentTemplateTitle
         }
     }

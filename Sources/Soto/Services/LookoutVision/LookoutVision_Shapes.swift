@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -87,6 +87,23 @@ extension LookoutVision {
     }
 
     // MARK: Shapes
+
+    public struct Anomaly: AWSDecodableShape {
+        /// The name of an anomaly type found in an image.   Name maps to an anomaly type in the training dataset, apart from the anomaly type background. The service automatically inserts the background anomaly type into the response from DetectAnomalies.
+        public let name: String?
+        /// Information about the pixel mask that covers an anomaly type.
+        public let pixelAnomaly: PixelAnomaly?
+
+        public init(name: String? = nil, pixelAnomaly: PixelAnomaly? = nil) {
+            self.name = name
+            self.pixelAnomaly = pixelAnomaly
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case pixelAnomaly = "PixelAnomaly"
+        }
+    }
 
     public struct CreateDatasetRequest: AWSEncodableShape {
         public static var _encoding = [
@@ -714,20 +731,28 @@ extension LookoutVision {
     }
 
     public struct DetectAnomalyResult: AWSDecodableShape {
-        /// The confidence that Amazon Lookout for Vision has in the accuracy of the prediction.
+        /// If the model is an image segmentation model, Anomalies contains a list of anomaly types found in the image. There is one entry for each type of anomaly found (even if multiple instances of an anomaly type exist on the image). The first element in the list is always an anomaly type representing the image background ('background') and shouldn't be considered an anomaly. Amazon Lookout for Vision automatically add the background anomaly type to the response, and you don't need to declare a background anomaly type in your dataset. If the list has one entry ('background'), no anomalies were found on the image.  An image classification model doesn't return an Anomalies list.
+        public let anomalies: [Anomaly]?
+        /// If the model is an image segmentation model, AnomalyMask contains pixel masks that covers all anomaly types found on the image.  Each anomaly type has a different mask color. To map a color to an anomaly type, see the color field of the PixelAnomaly object. An image classification model doesn't return an Anomalies list.
+        public let anomalyMask: AWSBase64Data?
+        /// The confidence that Lookout for Vision has in the accuracy of the classification in IsAnomalous.
         public let confidence: Float?
-        /// True if the image contains an anomaly, otherwise false.
+        /// True if Amazon Lookout for Vision classifies the image as containing an anomaly, otherwise false.
         public let isAnomalous: Bool?
         /// The source of the image that was analyzed. direct means that the images was supplied from the local computer. No other values are supported.
         public let source: ImageSource?
 
-        public init(confidence: Float? = nil, isAnomalous: Bool? = nil, source: ImageSource? = nil) {
+        public init(anomalies: [Anomaly]? = nil, anomalyMask: AWSBase64Data? = nil, confidence: Float? = nil, isAnomalous: Bool? = nil, source: ImageSource? = nil) {
+            self.anomalies = anomalies
+            self.anomalyMask = anomalyMask
             self.confidence = confidence
             self.isAnomalous = isAnomalous
             self.source = source
         }
 
         private enum CodingKeys: String, CodingKey {
+            case anomalies = "Anomalies"
+            case anomalyMask = "AnomalyMask"
             case confidence = "Confidence"
             case isAnomalous = "IsAnomalous"
             case source = "Source"
@@ -735,8 +760,7 @@ extension LookoutVision {
     }
 
     public struct GreengrassConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Additional compiler options for the Greengrass component. Currently,  only NVIDIA Graphics Processing Units (GPU) are supported. If you specify TargetPlatform, you must specify
-        /// CompilerOptions. If you specify TargetDevice, don't specify CompilerOptions.    For more information, see  Compiler options in the  Amazon Lookout for Vision Developer Guide.
+        /// Additional compiler options for the Greengrass component. Currently,  only NVIDIA Graphics Processing Units (GPU) and CPU accelerators are supported.  If you specify TargetDevice, don't specify CompilerOptions.    For more information, see  Compiler options in the  Amazon Lookout for Vision Developer Guide.
         public let compilerOptions: String?
         ///  A description for the AWS IoT Greengrass component.
         public let componentDescription: String?
@@ -1135,6 +1159,10 @@ extension LookoutVision {
         public let evaluationResult: OutputS3Object?
         /// The identifer for the AWS Key Management Service (AWS KMS) key that was used to encrypt the model during training.
         public let kmsKeyId: String?
+        /// The maximum number of inference units Amazon Lookout for Vision uses to auto-scale the model. For more information, see StartModel.
+        public let maxInferenceUnits: Int?
+        /// The minimum number of inference units used by the model. For more information, see StartModel
+        public let minInferenceUnits: Int?
         /// The Amazon Resource Name (ARN) of the model.
         public let modelArn: String?
         /// The version of the model
@@ -1148,13 +1176,15 @@ extension LookoutVision {
         /// The status message for the model.
         public let statusMessage: String?
 
-        public init(creationTimestamp: Date? = nil, description: String? = nil, evaluationEndTimestamp: Date? = nil, evaluationManifest: OutputS3Object? = nil, evaluationResult: OutputS3Object? = nil, kmsKeyId: String? = nil, modelArn: String? = nil, modelVersion: String? = nil, outputConfig: OutputConfig? = nil, performance: ModelPerformance? = nil, status: ModelStatus? = nil, statusMessage: String? = nil) {
+        public init(creationTimestamp: Date? = nil, description: String? = nil, evaluationEndTimestamp: Date? = nil, evaluationManifest: OutputS3Object? = nil, evaluationResult: OutputS3Object? = nil, kmsKeyId: String? = nil, maxInferenceUnits: Int? = nil, minInferenceUnits: Int? = nil, modelArn: String? = nil, modelVersion: String? = nil, outputConfig: OutputConfig? = nil, performance: ModelPerformance? = nil, status: ModelStatus? = nil, statusMessage: String? = nil) {
             self.creationTimestamp = creationTimestamp
             self.description = description
             self.evaluationEndTimestamp = evaluationEndTimestamp
             self.evaluationManifest = evaluationManifest
             self.evaluationResult = evaluationResult
             self.kmsKeyId = kmsKeyId
+            self.maxInferenceUnits = maxInferenceUnits
+            self.minInferenceUnits = minInferenceUnits
             self.modelArn = modelArn
             self.modelVersion = modelVersion
             self.outputConfig = outputConfig
@@ -1170,6 +1200,8 @@ extension LookoutVision {
             case evaluationManifest = "EvaluationManifest"
             case evaluationResult = "EvaluationResult"
             case kmsKeyId = "KmsKeyId"
+            case maxInferenceUnits = "MaxInferenceUnits"
+            case minInferenceUnits = "MinInferenceUnits"
             case modelArn = "ModelArn"
             case modelVersion = "ModelVersion"
             case outputConfig = "OutputConfig"
@@ -1400,6 +1432,23 @@ extension LookoutVision {
         }
     }
 
+    public struct PixelAnomaly: AWSDecodableShape {
+        /// A hex color value for the mask that covers an anomaly type. Each anomaly type has a different mask color. The color maps to the color of the anomaly type used in the training dataset.
+        public let color: String?
+        /// The percentage area of the image that the anomaly type covers.
+        public let totalPercentageArea: Float?
+
+        public init(color: String? = nil, totalPercentageArea: Float? = nil) {
+            self.color = color
+            self.totalPercentageArea = totalPercentageArea
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case color = "Color"
+            case totalPercentageArea = "TotalPercentageArea"
+        }
+    }
+
     public struct ProjectDescription: AWSDecodableShape {
         /// The unix timestamp for the date and time that the project was created.
         public let creationTimestamp: Date?
@@ -1548,6 +1597,8 @@ extension LookoutVision {
 
         /// ClientToken is an idempotency token that ensures a call to StartModel completes only once.  You choose the value to pass. For example, An issue might prevent  you from getting a response from StartModel. In this case, safely retry your call to StartModel by using the same ClientToken parameter value.  If you don't supply a value for ClientToken, the AWS SDK you are using inserts a value for you.  This prevents retries after a network error from making multiple start requests. You'll need to provide your own value for other use cases.   An error occurs if the other input parameters are not the same as in the first request. Using a different   value for ClientToken is considered a new call to StartModel. An idempotency token is active for 8 hours.
         public let clientToken: String?
+        /// The maximum number of inference units to use for auto-scaling the model. If you don't specify a value, Amazon Lookout for Vision doesn't auto-scale the model.
+        public let maxInferenceUnits: Int?
         /// The minimum number of inference units to use. A single inference unit represents 1 hour of processing.  Use a higher number to increase the TPS throughput of your model. You are charged for the number of inference units that you use.
         public let minInferenceUnits: Int
         /// The version of the model that you want to start.
@@ -1555,8 +1606,9 @@ extension LookoutVision {
         /// The name of the project that contains the model that you want to start.
         public let projectName: String
 
-        public init(clientToken: String? = StartModelRequest.idempotencyToken(), minInferenceUnits: Int, modelVersion: String, projectName: String) {
+        public init(clientToken: String? = StartModelRequest.idempotencyToken(), maxInferenceUnits: Int? = nil, minInferenceUnits: Int, modelVersion: String, projectName: String) {
             self.clientToken = clientToken
+            self.maxInferenceUnits = maxInferenceUnits
             self.minInferenceUnits = minInferenceUnits
             self.modelVersion = modelVersion
             self.projectName = projectName
@@ -1566,6 +1618,7 @@ extension LookoutVision {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.validate(self.maxInferenceUnits, name: "maxInferenceUnits", parent: name, min: 1)
             try self.validate(self.minInferenceUnits, name: "minInferenceUnits", parent: name, min: 1)
             try self.validate(self.modelVersion, name: "modelVersion", parent: name, max: 10)
             try self.validate(self.modelVersion, name: "modelVersion", parent: name, min: 1)
@@ -1576,6 +1629,7 @@ extension LookoutVision {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case maxInferenceUnits = "MaxInferenceUnits"
             case minInferenceUnits = "MinInferenceUnits"
         }
     }
@@ -1700,14 +1754,14 @@ extension LookoutVision {
     }
 
     public struct TargetPlatform: AWSEncodableShape & AWSDecodableShape {
-        /// The target accelerator for the model. NVIDIA (Nvidia graphics processing unit)  is the only accelerator that is currently supported. You must also specify the gpu-code, trt-ver, and cuda-ver compiler options.
-        public let accelerator: TargetPlatformAccelerator
+        /// The target accelerator for the model. Currently, Amazon Lookout for Vision only supports NVIDIA (Nvidia graphics processing unit)  and CPU accelerators. If you specify NVIDIA as an accelerator, you must also specify the gpu-code, trt-ver, and cuda-ver compiler options. If you don't specify an accelerator, Lookout for Vision uses the CPU for compilation and we highly recommend that you use the GreengrassConfiguration$CompilerOptions field. For example, you can use the following compiler options for CPU:     mcpu: CPU micro-architecture. For example, {'mcpu': 'skylake-avx512'}     mattr: CPU flags. For example, {'mattr': ['+neon', '+vfpv4']}
+        public let accelerator: TargetPlatformAccelerator?
         /// The target architecture for the model. The currently supported architectures are X86_64 (64-bit version of the x86 instruction set) and ARM_64 (ARMv8 64-bit CPU).
         public let arch: TargetPlatformArch
         /// The target operating system for the model. Linux is the only operating system that is currently supported.
         public let os: TargetPlatformOs
 
-        public init(accelerator: TargetPlatformAccelerator, arch: TargetPlatformArch, os: TargetPlatformOs) {
+        public init(accelerator: TargetPlatformAccelerator? = nil, arch: TargetPlatformArch, os: TargetPlatformOs) {
             self.accelerator = accelerator
             self.arch = arch
             self.os = os

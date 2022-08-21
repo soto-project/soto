@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -184,6 +184,12 @@ public struct DevOpsGuru: AWSService {
         return self.client.execute(operation: "ListAnomaliesForInsight", path: "/anomalies/insight/{InsightId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// 			Returns the list of log groups that contain log anomalies.
+    ///
+    public func listAnomalousLogGroups(_ input: ListAnomalousLogGroupsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAnomalousLogGroupsResponse> {
+        return self.client.execute(operation: "ListAnomalousLogGroups", path: "/list-log-anomalies", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     ///  Returns a list of the events emitted by the resources that are evaluated by DevOps Guru.
     /// 			You can use filters to specify which events are returned.
     public func listEvents(_ input: ListEventsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListEventsResponse> {
@@ -195,6 +201,12 @@ public struct DevOpsGuru: AWSService {
     /// 				ANY).
     public func listInsights(_ input: ListInsightsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListInsightsResponse> {
         return self.client.execute(operation: "ListInsights", path: "/insights", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// 			Returns the list of all log groups that are being monitored and tagged by DevOps Guru.
+    ///
+    public func listMonitoredResources(_ input: ListMonitoredResourcesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListMonitoredResourcesResponse> {
+        return self.client.execute(operation: "ListMonitoredResources", path: "/monitoredResources", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Returns a list of notification channels configured for DevOps Guru. Each notification

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -101,8 +101,40 @@ extension Synthetics {
         }
     }
 
+    public struct AssociateResourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "groupIdentifier", location: .uri("GroupIdentifier"))
+        ]
+
+        /// Specifies the group. You can specify the group name, the ARN, or the  group ID as the GroupIdentifier.
+        public let groupIdentifier: String
+        /// The ARN of the canary that you want to associate with the specified group.
+        public let resourceArn: String
+
+        public init(groupIdentifier: String, resourceArn: String) {
+            self.groupIdentifier = groupIdentifier
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.groupIdentifier, name: "groupIdentifier", parent: name, max: 128)
+            try self.validate(self.groupIdentifier, name: "groupIdentifier", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:synthetics:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:canary:[0-9a-z_\\-]{1,21}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct AssociateResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct BaseScreenshot: AWSEncodableShape & AWSDecodableShape {
-        /// Coordinates that define the part of a screen to ignore during screenshot comparisons. To obtain the coordinates to use here, use the  CloudWatch Logs console to draw the boundaries on the screen. For more information, see {LINK}
+        /// Coordinates that define the part of a screen to ignore during screenshot comparisons. To obtain the  coordinates to use here, use the  CloudWatch console to draw the boundaries on the screen. For more information, see   Editing or deleting a canary
         public let ignoreCoordinates: [String]?
         /// The name of the screenshot. This is generated the first time the canary is run after the UpdateCanary operation that specified for this canary to perform visual monitoring.
         public let screenshotName: String
@@ -311,7 +343,7 @@ extension Synthetics {
     public struct CanaryRunConfigInput: AWSEncodableShape {
         /// Specifies whether this canary is to use active X-Ray tracing when it runs. Active tracing  enables this canary run to be displayed in the ServiceLens and X-Ray service maps even if the canary does  not hit an endpoint that has X-Ray tracing enabled. Using X-Ray tracing incurs charges. For more information, see   Canaries and X-Ray tracing. You can enable active tracing only for canaries that use version syn-nodejs-2.0  or later for their canary runtime.
         public let activeTracing: Bool?
-        /// Specifies the keys and values to use for any environment variables used in the canary script. Use the following format: { "key1" : "value1", "key2" : "value2", ...} Keys must start with a letter and be at least two characters. The total size of your environment variables cannot exceed 4 KB. You can't specify any Lambda reserved environment variables as the keys for your environment variables. For  more information about reserved keys, see  Runtime environment variables.
+        /// Specifies the keys and values to use for any environment variables used in the canary script. Use the following format: { "key1" : "value1", "key2" : "value2", ...} Keys must start with a letter and be at least two characters. The total size of your environment variables cannot exceed 4 KB. You can't specify any Lambda reserved environment variables as the keys for your environment variables. For  more information about reserved keys, see  Runtime environment variables.  The environment variables keys and values are not encrypted. Do not store sensitive information in this field.
         public let environmentVariables: [String: String]?
         /// The maximum amount of memory available to the canary while it is running, in MB. This value must be a multiple of 64.
         public let memoryInMB: Int?
@@ -502,7 +534,7 @@ extension Synthetics {
         public let failureRetentionPeriodInDays: Int?
         /// The name for this canary. Be sure to give it a descriptive name  that distinguishes it from other canaries in your account. Do not include secrets or proprietary information in your canary names. The canary name makes up part of the canary ARN, and the ARN is included in outbound calls over the internet. For more information, see Security Considerations for Synthetics Canaries.
         public let name: String
-        /// A structure that contains the configuration for individual canary runs,  such as timeout value.
+        /// A structure that contains the configuration for individual canary runs,  such as timeout value and environment variables.  The environment variables keys and values are not encrypted. Do not store sensitive information in this field.
         public let runConfig: CanaryRunConfigInput?
         /// Specifies the runtime version to use for the canary. For a list of valid runtime versions and more information about runtime versions, see  Canary Runtime Versions.
         public let runtimeVersion: String
@@ -589,6 +621,49 @@ extension Synthetics {
         }
     }
 
+    public struct CreateGroupRequest: AWSEncodableShape {
+        /// The name for the group. It can include any Unicode characters. The names for all groups in your account, across all Regions, must be unique.
+        public let name: String
+        /// A list of key-value pairs to associate with the group.  You can associate as many as 50 tags with a group. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by  granting a user permission to access or change only the resources that have certain tag values.
+        public let tags: [String: String]?
+
+        public init(name: String, tags: [String: String]? = nil) {
+            self.name = name
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateGroupResponse: AWSDecodableShape {
+        /// A structure that contains information about the group that was just created.
+        public let group: Group?
+
+        public init(group: Group? = nil) {
+            self.group = group
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case group = "Group"
+        }
+    }
+
     public struct DeleteCanaryRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "deleteLambda", location: .querystring("deleteLambda")),
@@ -618,12 +693,36 @@ extension Synthetics {
         public init() {}
     }
 
+    public struct DeleteGroupRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "groupIdentifier", location: .uri("GroupIdentifier"))
+        ]
+
+        /// Specifies which group to delete. You can specify the group name, the ARN, or the  group ID as the GroupIdentifier.
+        public let groupIdentifier: String
+
+        public init(groupIdentifier: String) {
+            self.groupIdentifier = groupIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.groupIdentifier, name: "groupIdentifier", parent: name, max: 128)
+            try self.validate(self.groupIdentifier, name: "groupIdentifier", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteGroupResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DescribeCanariesLastRunRequest: AWSEncodableShape {
         /// Specify this parameter to limit how many runs are returned each time you use the DescribeLastRun operation. If you omit this parameter, the default of 100 is used.
         public let maxResults: Int?
         /// Use this parameter to return only canaries that match the names that you specify here. You can specify as many as five canary names. If you specify this parameter, the operation is successful only if you have authorization to view all the canaries that you specify in your request. If you do not have permission to view any of  the canaries, the request fails with a 403 response. You are required to use the Names parameter if you are logged on to a user or role that has an  IAM policy that restricts which canaries that you are allowed to view. For more information,  see  Limiting a user to viewing specific canaries.
         public let names: [String]?
-        /// A token that indicates that there is more data available. You can use this token in a subsequent DescribeCanaries operation to retrieve the next  set of results.
+        /// A token that indicates that there is more data available. You can use this token in a subsequent DescribeCanariesLastRun operation to retrieve the next  set of results.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, names: [String]? = nil, nextToken: String? = nil) {
@@ -763,6 +862,38 @@ extension Synthetics {
         }
     }
 
+    public struct DisassociateResourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "groupIdentifier", location: .uri("GroupIdentifier"))
+        ]
+
+        /// Specifies the group. You can specify the group name, the ARN, or the  group ID as the GroupIdentifier.
+        public let groupIdentifier: String
+        /// The ARN of the canary that you want to remove from the specified group.
+        public let resourceArn: String
+
+        public init(groupIdentifier: String, resourceArn: String) {
+            self.groupIdentifier = groupIdentifier
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.groupIdentifier, name: "groupIdentifier", parent: name, max: 128)
+            try self.validate(self.groupIdentifier, name: "groupIdentifier", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:synthetics:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:canary:[0-9a-z_\\-]{1,21}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct DisassociateResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct GetCanaryRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri("Name"))
@@ -785,7 +916,7 @@ extension Synthetics {
     }
 
     public struct GetCanaryResponse: AWSDecodableShape {
-        /// A strucure that contains the full information about the canary.
+        /// A structure that contains the full information about the canary.
         public let canary: Canary?
 
         public init(canary: Canary? = nil) {
@@ -848,12 +979,244 @@ extension Synthetics {
         }
     }
 
+    public struct GetGroupRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "groupIdentifier", location: .uri("GroupIdentifier"))
+        ]
+
+        /// Specifies the group to return information for. You can specify the group name, the ARN, or the  group ID as the GroupIdentifier.
+        public let groupIdentifier: String
+
+        public init(groupIdentifier: String) {
+            self.groupIdentifier = groupIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.groupIdentifier, name: "groupIdentifier", parent: name, max: 128)
+            try self.validate(self.groupIdentifier, name: "groupIdentifier", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetGroupResponse: AWSDecodableShape {
+        /// A structure that contains information about the group.
+        public let group: Group?
+
+        public init(group: Group? = nil) {
+            self.group = group
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case group = "Group"
+        }
+    }
+
+    public struct Group: AWSDecodableShape {
+        /// The ARN of the group.
+        public let arn: String?
+        /// The date and time that the group was created.
+        public let createdTime: Date?
+        /// The unique ID of the group.
+        public let id: String?
+        /// The date and time that the group was most recently updated.
+        public let lastModifiedTime: Date?
+        /// The name of the group.
+        public let name: String?
+        /// The list of key-value pairs that are associated with the canary.
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, createdTime: Date? = nil, id: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.createdTime = createdTime
+            self.id = id
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case createdTime = "CreatedTime"
+            case id = "Id"
+            case lastModifiedTime = "LastModifiedTime"
+            case name = "Name"
+            case tags = "Tags"
+        }
+    }
+
+    public struct GroupSummary: AWSDecodableShape {
+        /// The ARN of the group.
+        public let arn: String?
+        /// The unique ID of the group.
+        public let id: String?
+        /// The name of the group.
+        public let name: String?
+
+        public init(arn: String? = nil, id: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.id = id
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case id = "Id"
+            case name = "Name"
+        }
+    }
+
+    public struct ListAssociatedGroupsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
+        ]
+
+        /// Specify this parameter to limit how many groups are returned each time you use the ListAssociatedGroups operation. If you omit this parameter, the default of 20 is used.
+        public let maxResults: Int?
+        /// A token that indicates that there is more data available. You can use this token in a subsequent operation to retrieve the next  set of results.
+        public let nextToken: String?
+        /// The ARN of the canary that you want to view groups for.
+        public let resourceArn: String
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceArn: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 20)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 512)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:synthetics:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:canary:[0-9a-z_\\-]{1,21}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListAssociatedGroupsResponse: AWSDecodableShape {
+        /// An array of structures that contain information about the groups that this canary is associated with.
+        public let groups: [GroupSummary]?
+        /// A token that indicates that there is more data available. You can use this token in a subsequent ListAssociatedGroups operation to retrieve the next  set of results.
+        public let nextToken: String?
+
+        public init(groups: [GroupSummary]? = nil, nextToken: String? = nil) {
+            self.groups = groups
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groups = "Groups"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListGroupResourcesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "groupIdentifier", location: .uri("GroupIdentifier"))
+        ]
+
+        /// Specifies the group to return information for. You can specify the group name, the ARN, or the  group ID as the GroupIdentifier.
+        public let groupIdentifier: String
+        /// Specify this parameter to limit how many canary ARNs are returned each time you use the ListGroupResources operation. If you omit this parameter, the default of 20 is used.
+        public let maxResults: Int?
+        /// A token that indicates that there is more data available. You can use this token in a subsequent operation to retrieve the next  set of results.
+        public let nextToken: String?
+
+        public init(groupIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.groupIdentifier = groupIdentifier
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.groupIdentifier, name: "groupIdentifier", parent: name, max: 128)
+            try self.validate(self.groupIdentifier, name: "groupIdentifier", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 20)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 512)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListGroupResourcesResponse: AWSDecodableShape {
+        /// A token that indicates that there is more data available. You can use this token in a subsequent ListGroupResources operation to retrieve the next  set of results.
+        public let nextToken: String?
+        /// An array of ARNs. These ARNs are for the canaries that are associated with the group.
+        public let resources: [String]?
+
+        public init(nextToken: String? = nil, resources: [String]? = nil) {
+            self.nextToken = nextToken
+            self.resources = resources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case resources = "Resources"
+        }
+    }
+
+    public struct ListGroupsRequest: AWSEncodableShape {
+        /// Specify this parameter to limit how many groups are returned each time you use the ListGroups operation. If you omit this parameter, the default of 20 is used.
+        public let maxResults: Int?
+        /// A token that indicates that there is more data available. You can use this token in a subsequent operation to retrieve the next  set of results.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 20)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 512)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListGroupsResponse: AWSDecodableShape {
+        /// An array of structures that each contain information about one group.
+        public let groups: [GroupSummary]?
+        /// A token that indicates that there is more data available. You can use this token in a subsequent ListGroups operation to retrieve the next  set of results.
+        public let nextToken: String?
+
+        public init(groups: [GroupSummary]? = nil, nextToken: String? = nil) {
+            self.groups = groups
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groups = "Groups"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
-        /// The ARN of the canary that you want to view tags for. The ARN format of a canary is arn:aws:synthetics:Region:account-id:canary:canary-name .
+        /// The ARN of the canary or group that you want to view tags for. The ARN format of a canary is arn:aws:synthetics:Region:account-id:canary:canary-name . The ARN format of a group is arn:aws:synthetics:Region:account-id:group:group-name
         public let resourceArn: String
 
         public init(resourceArn: String) {
@@ -863,14 +1226,14 @@ extension Synthetics {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:synthetics:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:canary:[0-9a-z_\\-]{1,21}$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:synthetics:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:(canary|group):[0-9a-z_\\-]+$")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
-        /// The list of tag keys and values associated with the canary that you specified.
+        /// The list of tag keys and values associated with the resource that you specified.
         public let tags: [String: String]?
 
         public init(tags: [String: String]? = nil) {
@@ -960,7 +1323,7 @@ extension Synthetics {
             AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
-        /// The name of the canary that you want to stop. To find the names of your  canaries, use DescribeCanaries.
+        /// The name of the canary that you want to stop. To find the names of your  canaries, use ListCanaries.
         public let name: String
 
         public init(name: String) {
@@ -985,9 +1348,10 @@ extension Synthetics {
             AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
-        /// The ARN of the canary that you're adding tags to. The ARN format of a canary is arn:aws:synthetics:Region:account-id:canary:canary-name .
+        /// The ARN of the canary or group that you're adding tags to. The ARN format of a canary is
+        /// arn:aws:synthetics:Region:account-id:canary:canary-name . The ARN format of a group is arn:aws:synthetics:Region:account-id:group:group-name
         public let resourceArn: String
-        /// The list of key-value pairs to associate with the canary.
+        /// The list of key-value pairs to associate with the resource.
         public let tags: [String: String]
 
         public init(resourceArn: String, tags: [String: String]) {
@@ -998,7 +1362,7 @@ extension Synthetics {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:synthetics:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:canary:[0-9a-z_\\-]{1,21}$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:synthetics:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:(canary|group):[0-9a-z_\\-]+$")
             try self.tags.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -1024,7 +1388,7 @@ extension Synthetics {
             AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
-        /// The ARN of the canary that you're removing tags from. The ARN format of a canary is arn:aws:synthetics:Region:account-id:canary:canary-name .
+        /// The ARN of the canary or group that you're removing tags from. The ARN format of a canary is arn:aws:synthetics:Region:account-id:canary:canary-name .  The ARN format of a group is arn:aws:synthetics:Region:account-id:group:group-name
         public let resourceArn: String
         /// The list of tag keys to remove from the resource.
         public let tagKeys: [String]
@@ -1037,7 +1401,7 @@ extension Synthetics {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:synthetics:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:canary:[0-9a-z_\\-]{1,21}$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:synthetics:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:(canary|group):[0-9a-z_\\-]+$")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
@@ -1071,7 +1435,7 @@ extension Synthetics {
         public let failureRetentionPeriodInDays: Int?
         /// The name of the canary that you want to update. To find the names of your  canaries, use DescribeCanaries. You cannot change the name of a canary that has already been created.
         public let name: String
-        /// A structure that contains the timeout value that is used for each individual run of the  canary.
+        /// A structure that contains the timeout value that is used for each individual run of the  canary.  The environment variables keys and values are not encrypted. Do not store sensitive information in this field.
         public let runConfig: CanaryRunConfigInput?
         /// Specifies the runtime version to use for the canary.   For a list of valid runtime versions and for more information about runtime versions, see  Canary Runtime Versions.
         public let runtimeVersion: String?
@@ -1167,7 +1531,7 @@ extension Synthetics {
     }
 
     public struct VisualReferenceOutput: AWSDecodableShape {
-        /// The ID of the canary run that produced the screenshots that are used as the baseline for visual monitoring comparisons during future runs of this canary.
+        /// The ID of the canary run that produced the baseline screenshots  that are used for visual monitoring comparisons by this canary.
         public let baseCanaryRunId: String?
         /// An array of screenshots that are used as the baseline for comparisons during visual monitoring.
         public let baseScreenshots: [BaseScreenshot]?

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -392,8 +392,22 @@ extension ConfigService {
     ///  Returns a list of organization Config rules.
     ///
     ///  		        When you specify the limit and the next token, you receive a paginated response.
-    ///  			Limit and next token are not applicable if you specify organization Config rule names.
+    ///  			         Limit and next token are not applicable if you specify organization Config rule names.
     ///  			It is only applicable, when you request all the organization Config rules.
+    ///
+    ///  			          For accounts within an organzation
+    ///
+    ///  			         If you deploy an organizational rule or conformance pack in an organization
+    ///  				administrator account, and then establish a delegated administrator and deploy an
+    ///  				organizational rule or conformance pack in the delegated administrator account, you
+    ///  				won't be able to see the organizational rule or conformance pack in the organization
+    ///  				administrator account from the delegated administrator account or see the organizational
+    ///  				rule or conformance pack in the delegated administrator account from organization
+    ///  				administrator account. The DescribeOrganizationConfigRules and
+    ///  				DescribeOrganizationConformancePacks APIs can only see and interact with
+    ///  				the organization-related resource that were deployed from within the account calling
+    ///  				those APIs.
+    ///
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -447,6 +461,20 @@ extension ConfigService {
     ///  		        When you specify the limit and the next token, you receive a paginated response.
     ///  			         Limit and next token are not applicable if you specify organization conformance packs names. They are only applicable,
     ///  			when you request all the organization conformance packs.
+    ///
+    ///  			          For accounts within an organzation
+    ///
+    ///  			         If you deploy an organizational rule or conformance pack in an organization
+    ///  				administrator account, and then establish a delegated administrator and deploy an
+    ///  				organizational rule or conformance pack in the delegated administrator account, you
+    ///  				won't be able to see the organizational rule or conformance pack in the organization
+    ///  				administrator account from the delegated administrator account or see the organizational
+    ///  				rule or conformance pack in the delegated administrator account from organization
+    ///  				administrator account. The DescribeOrganizationConfigRules and
+    ///  				DescribeOrganizationConformancePacks APIs can only see and interact with
+    ///  				the organization-related resource that were deployed from within the account calling
+    ///  				those APIs.
+    ///
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -938,6 +966,32 @@ extension ConfigService {
             command: listAggregateDiscoveredResources,
             inputKey: \ListAggregateDiscoveredResourcesRequest.nextToken,
             outputKey: \ListAggregateDiscoveredResourcesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Returns a list of conformance pack compliance scores.
+    ///  			A compliance score is the percentage of the number of compliant rule-resource combinations in a conformance pack compared to the number of total possible rule-resource combinations in the conformance pack.
+    ///  			This metric provides you with a high-level view of the compliance state of your conformance packs, and can be used to identify, investigate, and understand
+    ///  			the level of compliance in your conformance packs.
+    ///  		        Conformance packs with no evaluation results will have a compliance score of INSUFFICIENT_DATA.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listConformancePackComplianceScoresPaginator(
+        _ input: ListConformancePackComplianceScoresRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListConformancePackComplianceScoresRequest, ListConformancePackComplianceScoresResponse> {
+        return .init(
+            input: input,
+            command: listConformancePackComplianceScores,
+            inputKey: \ListConformancePackComplianceScoresRequest.nextToken,
+            outputKey: \ListConformancePackComplianceScoresResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

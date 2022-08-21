@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -64,11 +64,24 @@ extension MediaPackage {
 
     public enum PresetSpeke20Audio: String, CustomStringConvertible, Codable, _SotoSendable {
         case presetAudio1 = "PRESET-AUDIO-1"
+        case presetAudio2 = "PRESET-AUDIO-2"
+        case presetAudio3 = "PRESET-AUDIO-3"
+        case shared = "SHARED"
+        case unencrypted = "UNENCRYPTED"
         public var description: String { return self.rawValue }
     }
 
     public enum PresetSpeke20Video: String, CustomStringConvertible, Codable, _SotoSendable {
         case presetVideo1 = "PRESET-VIDEO-1"
+        case presetVideo2 = "PRESET-VIDEO-2"
+        case presetVideo3 = "PRESET-VIDEO-3"
+        case presetVideo4 = "PRESET-VIDEO-4"
+        case presetVideo5 = "PRESET-VIDEO-5"
+        case presetVideo6 = "PRESET-VIDEO-6"
+        case presetVideo7 = "PRESET-VIDEO-7"
+        case presetVideo8 = "PRESET-VIDEO-8"
+        case shared = "SHARED"
+        case unencrypted = "UNENCRYPTED"
         public var description: String { return self.rawValue }
     }
 
@@ -597,6 +610,8 @@ extension MediaPackage {
         public let adsOnDeliveryRestrictions: AdsOnDeliveryRestrictions?
         public let adTriggers: [AdTriggersElement]?
         public let encryption: DashEncryption?
+        /// When enabled, an I-Frame only stream will be included in the output.
+        public let includeIframeOnlyStream: Bool?
         /// Determines the position of some tags in the Media Presentation Description (MPD).  When set to FULL, elements like SegmentTemplate and ContentProtection are included in each Representation.  When set to COMPACT, duplicate elements are combined and presented at the AdaptationSet level.
         public let manifestLayout: ManifestLayout?
         /// Time window (in seconds) contained in each manifest.
@@ -625,10 +640,11 @@ extension MediaPackage {
         /// Specifies the value attribute of the UTCTiming field when utcTiming is set to HTTP-ISO, HTTP-HEAD or HTTP-XSDATE
         public let utcTimingUri: String?
 
-        public init(adsOnDeliveryRestrictions: AdsOnDeliveryRestrictions? = nil, adTriggers: [AdTriggersElement]? = nil, encryption: DashEncryption? = nil, manifestLayout: ManifestLayout? = nil, manifestWindowSeconds: Int? = nil, minBufferTimeSeconds: Int? = nil, minUpdatePeriodSeconds: Int? = nil, periodTriggers: [PeriodTriggersElement]? = nil, profile: Profile? = nil, segmentDurationSeconds: Int? = nil, segmentTemplateFormat: SegmentTemplateFormat? = nil, streamSelection: StreamSelection? = nil, suggestedPresentationDelaySeconds: Int? = nil, utcTiming: UtcTiming? = nil, utcTimingUri: String? = nil) {
+        public init(adsOnDeliveryRestrictions: AdsOnDeliveryRestrictions? = nil, adTriggers: [AdTriggersElement]? = nil, encryption: DashEncryption? = nil, includeIframeOnlyStream: Bool? = nil, manifestLayout: ManifestLayout? = nil, manifestWindowSeconds: Int? = nil, minBufferTimeSeconds: Int? = nil, minUpdatePeriodSeconds: Int? = nil, periodTriggers: [PeriodTriggersElement]? = nil, profile: Profile? = nil, segmentDurationSeconds: Int? = nil, segmentTemplateFormat: SegmentTemplateFormat? = nil, streamSelection: StreamSelection? = nil, suggestedPresentationDelaySeconds: Int? = nil, utcTiming: UtcTiming? = nil, utcTimingUri: String? = nil) {
             self.adsOnDeliveryRestrictions = adsOnDeliveryRestrictions
             self.adTriggers = adTriggers
             self.encryption = encryption
+            self.includeIframeOnlyStream = includeIframeOnlyStream
             self.manifestLayout = manifestLayout
             self.manifestWindowSeconds = manifestWindowSeconds
             self.minBufferTimeSeconds = minBufferTimeSeconds
@@ -647,6 +663,7 @@ extension MediaPackage {
             case adsOnDeliveryRestrictions
             case adTriggers
             case encryption
+            case includeIframeOnlyStream
             case manifestLayout
             case manifestWindowSeconds
             case minBufferTimeSeconds

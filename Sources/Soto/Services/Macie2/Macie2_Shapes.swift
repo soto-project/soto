@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -31,6 +31,12 @@ extension Macie2 {
         case `false` = "FALSE"
         case `true` = "TRUE"
         case unknown = "UNKNOWN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AvailabilityCode: String, CustomStringConvertible, Codable, _SotoSendable {
+        case available = "AVAILABLE"
+        case unavailable = "UNAVAILABLE"
         public var description: String { return self.rawValue }
     }
 
@@ -238,6 +244,19 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum RevealRequestStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case error = "ERROR"
+        case processing = "PROCESSING"
+        case success = "SUCCESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RevealStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ScopeFilterKey: String, CustomStringConvertible, Codable, _SotoSendable {
         case objectExtension = "OBJECT_EXTENSION"
         case objectKey = "OBJECT_KEY"
@@ -325,6 +344,15 @@ extension Macie2 {
         case aes256 = "AES256"
         case none = "NONE"
         case awsKms = "aws:kms"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UnavailabilityReasonCode: String, CustomStringConvertible, Codable, _SotoSendable {
+        case invalidClassificationResult = "INVALID_CLASSIFICATION_RESULT"
+        case objectExceedsSizeQuota = "OBJECT_EXCEEDS_SIZE_QUOTA"
+        case objectUnavailable = "OBJECT_UNAVAILABLE"
+        case unsupportedFindingType = "UNSUPPORTED_FINDING_TYPE"
+        case unsupportedObjectType = "UNSUPPORTED_OBJECT_TYPE"
         public var description: String { return self.rawValue }
     }
 
@@ -1186,9 +1214,9 @@ extension Macie2 {
         public let description: String?
         /// An array that lists specific character sequences (ignore words) to exclude from the results. If the text matched by the regular expression contains any string in this array, Amazon Macie ignores it. The array can contain as many as 10 ignore words. Each ignore word can contain 4-90 UTF-8 characters. Ignore words are case sensitive.
         public let ignoreWords: [String]?
-        /// An array that lists specific character sequences (keywords), one of which must be within proximity (maximumMatchDistance) of the regular expression to match. The array can contain as many as 50 keywords. Each keyword can contain 3-90 UTF-8 characters. Keywords aren't case sensitive.
+        /// An array that lists specific character sequences (keywords), one of which must precede and be within proximity (maximumMatchDistance) of the regular expression to match. The array can contain as many as 50 keywords. Each keyword can contain 3-90 UTF-8 characters. Keywords aren't case sensitive.
         public let keywords: [String]?
-        /// The maximum number of characters that can exist between text that matches the regular expression and the character sequences specified by the keywords array. Amazon Macie includes or excludes a result based on the proximity of a keyword to text that matches the regular expression. The distance can be 1-300 characters. The default value is 50.
+        /// The maximum number of characters that can exist between the end of at least one complete character sequence specified by the keywords array and the end of the text that matches the regex pattern. If a complete keyword precedes all the text that matches the pattern and the keyword is within the specified distance, Amazon Macie includes the result. The distance can be 1-300 characters. The default value is 50.
         public let maximumMatchDistance: Int?
         /// A custom name for the custom data identifier. The name can contain as many as 128 characters. We strongly recommend that you avoid including any sensitive data in the name of a custom data identifier. Other users of your account might be able to see this name, depending on the actions that they're allowed to perform in Amazon Macie.
         public let name: String
@@ -1724,7 +1752,7 @@ extension Macie2 {
         public let jobType: JobType?
         /// Specifies whether any account- or bucket-level access errors occurred when the job ran. For a recurring job, this value indicates the error status of the job's most recent run.
         public let lastRunErrorStatus: LastRunErrorStatus?
-        /// The date and time, in UTC and extended ISO 8601 format, when the job started. If the job is a recurring job, this value indicates when the most recent run started.
+        /// The date and time, in UTC and extended ISO 8601 format, when the job started. If the job is a recurring job, this value indicates when the most recent run started or, if the job hasn't run yet, when the job was created.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastRunTime: Date?
         /// An array of unique identifiers, one for each managed data identifier that the job is explicitly configured to include (use) or exclude (not use) when it analyzes data. Inclusion or exclusion depends on the managed data identifier selection type specified for the job (managedDataIdentifierSelector). This value is null if the job's managed data identifier selection type is ALL or the job uses only custom data identifiers (customDataIdentifierIds) to analyze data.
@@ -1811,6 +1839,19 @@ extension Macie2 {
         private enum CodingKeys: String, CodingKey {
             case autoEnable
             case maxAccountLimitReached
+        }
+    }
+
+    public struct DetectedDataDetails: AWSDecodableShape {
+        /// An occurrence of the specified type of sensitive data. Each occurrence can contain 1-128 characters.
+        public let value: String
+
+        public init(value: String) {
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case value
         }
     }
 
@@ -2282,9 +2323,9 @@ extension Macie2 {
         public let id: String?
         /// An array that lists specific character sequences (ignore words) to exclude from the results. If the text matched by the regular expression contains any string in this array, Amazon Macie ignores it. Ignore words are case sensitive.
         public let ignoreWords: [String]?
-        /// An array that lists specific character sequences (keywords), one of which must be within proximity (maximumMatchDistance) of the regular expression to match. Keywords aren't case sensitive.
+        /// An array that lists specific character sequences (keywords), one of which must precede and be within proximity (maximumMatchDistance) of the regular expression to match. Keywords aren't case sensitive.
         public let keywords: [String]?
-        /// The maximum number of characters that can exist between text that matches the regular expression and the character sequences specified by the keywords array. Amazon Macie includes or excludes a result based on the proximity of a keyword to text that matches the regular expression.
+        /// The maximum number of characters that can exist between the end of at least one complete character sequence specified by the keywords array and the end of the text that matches the regex pattern. If a complete keyword precedes all the text that matches the pattern and the keyword is within the specified distance, Amazon Macie includes the result. Otherwise, Macie excludes the result.
         public let maximumMatchDistance: Int?
         /// The custom name of the custom data identifier.
         public let name: String?
@@ -2595,6 +2636,91 @@ extension Macie2 {
             case relationshipStatus
             case tags
             case updatedAt
+        }
+    }
+
+    public struct GetRevealConfigurationRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct GetRevealConfigurationResponse: AWSDecodableShape {
+        /// The current configuration settings and the status of the configuration for the account.
+        public let configuration: RevealConfiguration?
+
+        public init(configuration: RevealConfiguration? = nil) {
+            self.configuration = configuration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration
+        }
+    }
+
+    public struct GetSensitiveDataOccurrencesAvailabilityRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "findingId", location: .uri("findingId"))
+        ]
+
+        /// The unique identifier for the finding.
+        public let findingId: String
+
+        public init(findingId: String) {
+            self.findingId = findingId
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetSensitiveDataOccurrencesAvailabilityResponse: AWSDecodableShape {
+        /// Specifies whether occurrences of sensitive data can be retrieved for the finding. Possible values are: AVAILABLE, the sensitive data can be retrieved; and, UNAVAILABLE, the sensitive data can't be retrieved. If this value is UNAVAILABLE, the reasons array indicates why the data can't be retrieved.
+        public let code: AvailabilityCode?
+        /// Specifies why occurrences of sensitive data can't be retrieved for the finding. Possible values are: INVALID_CLASSIFICATION_RESULT - Amazon Macie can't verify the location of the sensitive data to retrieve. There isn't a corresponding sensitive data discovery result for the finding. Or the sensitive data discovery result specified by the ClassificationDetails.detailedResultsLocation field of the finding isn't available, is malformed or corrupted, or uses an unsupported storage format. OBJECT_EXCEEDS_SIZE_QUOTA - The storage size of the affected S3 object exceeds the size quota for retrieving occurrences of sensitive data. OBJECT_UNAVAILABLE - The affected S3 object isn't available. The object might have been renamed, moved, or deleted. Or the object was changed after Amazon Macie created the finding. UNSUPPORTED_FINDING_TYPE - The specified finding isn't a sensitive data finding. UNSUPPORTED_OBJECT_TYPE - The affected S3 object uses a file or storage format that Macie doesn't support for retrieving occurrences of sensitive data. This value is null if sensitive data can be retrieved for the finding.
+        public let reasons: [UnavailabilityReasonCode]?
+
+        public init(code: AvailabilityCode? = nil, reasons: [UnavailabilityReasonCode]? = nil) {
+            self.code = code
+            self.reasons = reasons
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code
+            case reasons
+        }
+    }
+
+    public struct GetSensitiveDataOccurrencesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "findingId", location: .uri("findingId"))
+        ]
+
+        /// The unique identifier for the finding.
+        public let findingId: String
+
+        public init(findingId: String) {
+            self.findingId = findingId
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetSensitiveDataOccurrencesResponse: AWSDecodableShape {
+        /// If an error occurred when Amazon Macie attempted to retrieve occurrences of sensitive data reported by the finding, a description of the error that occurred. This value is null if the status (status) of the request is PROCESSING or SUCCESS.
+        public let error: String?
+        /// A map that specifies 1-100 types of sensitive data reported by the finding and, for each type, 1-10 occurrences of sensitive data.
+        public let sensitiveDataOccurrences: [String: [DetectedDataDetails]]?
+        /// The status of the request to retrieve occurrences of sensitive data reported by the finding. Possible values are: ERROR - An error occurred when Amazon Macie attempted to locate, retrieve, or encrypt the sensitive data. The error value indicates the nature of the error that occurred. PROCESSING - Macie is processing the request. SUCCESS - Macie successfully located, retrieved, and encrypted the sensitive data.
+        public let status: RevealRequestStatus?
+
+        public init(error: String? = nil, sensitiveDataOccurrences: [String: [DetectedDataDetails]]? = nil, status: RevealRequestStatus? = nil) {
+            self.error = error
+            self.sensitiveDataOccurrences = sensitiveDataOccurrences
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case error
+            case sensitiveDataOccurrences
+            case status
         }
     }
 
@@ -3792,6 +3918,28 @@ extension Macie2 {
         }
     }
 
+    public struct RevealConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN), ID, or alias of the KMS key to use to encrypt sensitive data that's retrieved. The key must be an existing, customer managed, symmetric encryption key that's in the same Amazon Web Services Region as the Amazon Macie account. If this value specifies an alias, it must include the following prefix: alias/. If this value specifies a key that's owned by another Amazon Web Services account, it must specify the ARN of the key or the ARN of the key's alias.
+        public let kmsKeyId: String?
+        /// The status of the configuration for the Amazon Macie account. In a request, valid values are: ENABLED, enable the configuration for the account; and, DISABLED, disable the configuration for the account. In a response, possible values are: ENABLED, the configuration is currently enabled for the account; and, DISABLED, the configuration is currently disabled for the account.
+        public let status: RevealStatus
+
+        public init(kmsKeyId: String? = nil, status: RevealStatus) {
+            self.kmsKeyId = kmsKeyId
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyId
+            case status
+        }
+    }
+
     public struct S3Bucket: AWSDecodableShape {
         /// Specifies whether the bucket policy for the bucket requires server-side encryption of objects when objects are uploaded to the bucket. Possible values are: FALSE - The bucket policy requires server-side encryption of new objects. PutObject requests must include the x-amz-server-side-encryption header and the value for that header must be AES256 or aws:kms. TRUE - The bucket doesn't have a bucket policy or it has a bucket policy that doesn't require server-side encryption of new objects. If a bucket policy exists, it doesn't require PutObject requests to include the x-amz-server-side-encryption header and it doesn't require the value for that header to be AES256 or aws:kms. UNKNOWN - Amazon Macie can't determine whether the bucket policy requires server-side encryption of objects.
         public let allowsUnencryptedObjectUploads: AllowsUnencryptedObjectUploads?
@@ -3890,7 +4038,7 @@ extension Macie2 {
         public let bucketName: String
         /// The path prefix to use in the path to the location in the bucket. This prefix specifies where to store classification results in the bucket.
         public let keyPrefix: String?
-        /// The Amazon Resource Name (ARN) of the KMS key to use for encryption of the results. This must be the ARN of an existing, symmetric, customer managed KMS key that's in the same Amazon Web Services Region as the bucket.
+        /// The Amazon Resource Name (ARN) of the customer managed KMS key to use for encryption of the results. This must be the ARN of an existing, symmetric encryption KMS key that's in the same Amazon Web Services Region as the bucket.
         public let kmsKeyArn: String
 
         public init(bucketName: String, keyPrefix: String? = nil, kmsKeyArn: String) {
@@ -4516,9 +4664,9 @@ extension Macie2 {
     public struct TestCustomDataIdentifierRequest: AWSEncodableShape {
         /// An array that lists specific character sequences (ignore words) to exclude from the results. If the text matched by the regular expression contains any string in this array, Amazon Macie ignores it. The array can contain as many as 10 ignore words. Each ignore word can contain 4-90 UTF-8 characters. Ignore words are case sensitive.
         public let ignoreWords: [String]?
-        /// An array that lists specific character sequences (keywords), one of which must be within proximity (maximumMatchDistance) of the regular expression to match. The array can contain as many as 50 keywords. Each keyword can contain 3-90 UTF-8 characters. Keywords aren't case sensitive.
+        /// An array that lists specific character sequences (keywords), one of which must precede and be within proximity (maximumMatchDistance) of the regular expression to match. The array can contain as many as 50 keywords. Each keyword can contain 3-90 UTF-8 characters. Keywords aren't case sensitive.
         public let keywords: [String]?
-        /// The maximum number of characters that can exist between text that matches the regular expression and the character sequences specified by the keywords array. Amazon Macie includes or excludes a result based on the proximity of a keyword to text that matches the regular expression. The distance can be 1-300 characters. The default value is 50.
+        /// The maximum number of characters that can exist between the end of at least one complete character sequence specified by the keywords array and the end of the text that matches the regex pattern. If a complete keyword precedes all the text that matches the pattern and the keyword is within the specified distance, Amazon Macie includes the result. The distance can be 1-300 characters. The default value is 50.
         public let maximumMatchDistance: Int?
         /// The regular expression (regex) that defines the pattern to match. The expression can contain as many as 512 characters.
         public let regex: String
@@ -4740,6 +4888,36 @@ extension Macie2 {
 
     public struct UpdateOrganizationConfigurationResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UpdateRevealConfigurationRequest: AWSEncodableShape {
+        /// The new configuration settings and the status of the configuration for the account.
+        public let configuration: RevealConfiguration
+
+        public init(configuration: RevealConfiguration) {
+            self.configuration = configuration
+        }
+
+        public func validate(name: String) throws {
+            try self.configuration.validate(name: "\(name).configuration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration
+        }
+    }
+
+    public struct UpdateRevealConfigurationResponse: AWSDecodableShape {
+        /// The new configuration settings and the status of the configuration for the account.
+        public let configuration: RevealConfiguration?
+
+        public init(configuration: RevealConfiguration? = nil) {
+            self.configuration = configuration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration
+        }
     }
 
     public struct UsageByAccount: AWSDecodableShape {

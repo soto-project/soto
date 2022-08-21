@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -732,8 +732,12 @@ extension Nimble {
         public let initializationScripts: [StudioComponentInitializationScript]?
         /// The name for the studio component.
         public let name: String
+        /// An IAM role attached to a Studio Component that gives the studio component access to AWS resources at anytime while the instance is running.
+        public let runtimeRoleArn: String?
         /// Parameters for the studio component scripts.
         public let scriptParameters: [ScriptParameterKeyValue]?
+        /// An IAM role attached to Studio Component when the system initialization script runs which give the studio component access to AWS resources when the system initialization script runs.
+        public let secureInitializationRoleArn: String?
         /// The studio ID.
         public let studioId: String
         /// The specific subtype of a studio component.
@@ -743,14 +747,16 @@ extension Nimble {
         /// The type of the studio component.
         public let type: StudioComponentType
 
-        public init(clientToken: String? = CreateStudioComponentRequest.idempotencyToken(), configuration: StudioComponentConfiguration? = nil, description: String? = nil, ec2SecurityGroupIds: [String]? = nil, initializationScripts: [StudioComponentInitializationScript]? = nil, name: String, scriptParameters: [ScriptParameterKeyValue]? = nil, studioId: String, subtype: StudioComponentSubtype? = nil, tags: [String: String]? = nil, type: StudioComponentType) {
+        public init(clientToken: String? = CreateStudioComponentRequest.idempotencyToken(), configuration: StudioComponentConfiguration? = nil, description: String? = nil, ec2SecurityGroupIds: [String]? = nil, initializationScripts: [StudioComponentInitializationScript]? = nil, name: String, runtimeRoleArn: String? = nil, scriptParameters: [ScriptParameterKeyValue]? = nil, secureInitializationRoleArn: String? = nil, studioId: String, subtype: StudioComponentSubtype? = nil, tags: [String: String]? = nil, type: StudioComponentType) {
             self.clientToken = clientToken
             self.configuration = configuration
             self.description = description
             self.ec2SecurityGroupIds = ec2SecurityGroupIds
             self.initializationScripts = initializationScripts
             self.name = name
+            self.runtimeRoleArn = runtimeRoleArn
             self.scriptParameters = scriptParameters
+            self.secureInitializationRoleArn = secureInitializationRoleArn
             self.studioId = studioId
             self.subtype = subtype
             self.tags = tags
@@ -767,10 +773,12 @@ extension Nimble {
                 try $0.validate(name: "\(name).initializationScripts[]")
             }
             try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.runtimeRoleArn, name: "runtimeRoleArn", parent: name, max: 2048)
             try self.scriptParameters?.forEach {
                 try $0.validate(name: "\(name).scriptParameters[]")
             }
             try self.validate(self.scriptParameters, name: "scriptParameters", parent: name, max: 30)
+            try self.validate(self.secureInitializationRoleArn, name: "secureInitializationRoleArn", parent: name, max: 2048)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -779,7 +787,9 @@ extension Nimble {
             case ec2SecurityGroupIds
             case initializationScripts
             case name
+            case runtimeRoleArn
             case scriptParameters
+            case secureInitializationRoleArn
             case subtype
             case tags
             case type
@@ -830,6 +840,7 @@ extension Nimble {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.adminRoleArn, name: "adminRoleArn", parent: name, max: 2048)
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.displayName, name: "displayName", parent: name, max: 64)
@@ -837,6 +848,7 @@ extension Nimble {
             try self.validate(self.studioName, name: "studioName", parent: name, max: 64)
             try self.validate(self.studioName, name: "studioName", parent: name, min: 3)
             try self.validate(self.studioName, name: "studioName", parent: name, pattern: "^[a-z0-9]*$")
+            try self.validate(self.userRoleArn, name: "userRoleArn", parent: name, max: 2048)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1726,21 +1738,29 @@ extension Nimble {
     }
 
     public struct LaunchProfileInitializationScript: AWSDecodableShape {
+        /// An IAM role attached to a Studio Component that gives the studio component access to AWS resources at anytime while the instance is running.
+        public let runtimeRoleArn: String?
         /// The initialization script.
         public let script: String?
+        /// An IAM role attached to Studio Component when the system initialization script runs which give the studio component access to AWS resources when the system initialization script runs.
+        public let secureInitializationRoleArn: String?
         /// The unique identifier for a studio component resource.
         public let studioComponentId: String?
         /// The name for the studio component.
         public let studioComponentName: String?
 
-        public init(script: String? = nil, studioComponentId: String? = nil, studioComponentName: String? = nil) {
+        public init(runtimeRoleArn: String? = nil, script: String? = nil, secureInitializationRoleArn: String? = nil, studioComponentId: String? = nil, studioComponentName: String? = nil) {
+            self.runtimeRoleArn = runtimeRoleArn
             self.script = script
+            self.secureInitializationRoleArn = secureInitializationRoleArn
             self.studioComponentId = studioComponentId
             self.studioComponentName = studioComponentName
         }
 
         private enum CodingKeys: String, CodingKey {
+            case runtimeRoleArn
             case script
+            case secureInitializationRoleArn
             case studioComponentId
             case studioComponentName
         }
@@ -2508,7 +2528,7 @@ extension Nimble {
         public let ec2InstanceTypes: [StreamingInstanceType]
         /// The length of time, in minutes, that a streaming session can be active before it is stopped or terminated. After this point, Nimble Studio automatically terminates or stops the session. The default length of time is 690 minutes, and the maximum length of time is 30 days.
         public let maxSessionLengthInMinutes: Int?
-        /// Integer that determines if you can start and stop your sessions and how long a session can stay in the STOPPED state. The default value is 0. The maximum value is 5760. If the value is missing or set to 0, your sessions can’t be stopped. If you then call StopStreamingSession, the session fails. If the time that a session stays in the READY state exceeds the maxSessionLengthInMinutes value, the session will automatically be terminated by AWS (instead of stopped). If the value is set to a positive number, the session can be stopped. You can call StopStreamingSession to stop sessions in the READY state. If the time that a session stays in the READY state exceeds the maxSessionLengthInMinutes value, the session will automatically be stopped by AWS (instead of terminated).
+        /// Integer that determines if you can start and stop your sessions and how long a session can stay in the STOPPED state. The default value is 0. The maximum value is 5760. If the value is missing or set to 0, your sessions can’t be stopped. If you then call StopStreamingSession, the session fails. If the time that a session stays in the READY state exceeds the maxSessionLengthInMinutes value, the session will automatically be terminated (instead of stopped). If the value is set to a positive number, the session can be stopped. You can call StopStreamingSession to stop sessions in the READY state. If the time that a session stays in the READY state exceeds the maxSessionLengthInMinutes value, the session will automatically be stopped (instead of terminated).
         public let maxStoppedSessionLengthInMinutes: Int?
         /// (Optional) The upload storage for a streaming session.
         public let sessionStorage: StreamConfigurationSessionStorage?
@@ -2541,7 +2561,7 @@ extension Nimble {
         public let ec2InstanceTypes: [StreamingInstanceType]
         /// The length of time, in minutes, that a streaming session can be active before it is stopped or terminated. After this point, Nimble Studio automatically terminates or stops the session. The default length of time is 690 minutes, and the maximum length of time is 30 days.
         public let maxSessionLengthInMinutes: Int?
-        /// Integer that determines if you can start and stop your sessions and how long a session can stay in the STOPPED state. The default value is 0. The maximum value is 5760. If the value is missing or set to 0, your sessions can’t be stopped. If you then call StopStreamingSession, the session fails. If the time that a session stays in the READY state exceeds the maxSessionLengthInMinutes value, the session will automatically be terminated by AWS (instead of stopped). If the value is set to a positive number, the session can be stopped. You can call StopStreamingSession to stop sessions in the READY state. If the time that a session stays in the READY state exceeds the maxSessionLengthInMinutes value, the session will automatically be stopped by AWS (instead of terminated).
+        /// Integer that determines if you can start and stop your sessions and how long a session can stay in the STOPPED state. The default value is 0. The maximum value is 5760. If the value is missing or set to 0, your sessions can’t be stopped. If you then call StopStreamingSession, the session fails. If the time that a session stays in the READY state exceeds the maxSessionLengthInMinutes value, the session will automatically be terminated (instead of stopped). If the value is set to a positive number, the session can be stopped. You can call StopStreamingSession to stop sessions in the READY state. If the time that a session stays in the READY state exceeds the maxSessionLengthInMinutes value, the session will automatically be stopped (instead of terminated).
         public let maxStoppedSessionLengthInMinutes: Int?
         /// (Optional) The upload storage for a streaming workstation that is created using this launch profile.
         public let sessionStorage: StreamConfigurationSessionStorage?
@@ -2940,8 +2960,12 @@ extension Nimble {
         public let initializationScripts: [StudioComponentInitializationScript]?
         /// A friendly name for the studio component resource.
         public let name: String?
+        /// An IAM role attached to a Studio Component that gives the studio component access to AWS resources at anytime while the instance is running.
+        public let runtimeRoleArn: String?
         /// Parameters for the studio component scripts.
         public let scriptParameters: [ScriptParameterKeyValue]?
+        /// An IAM role attached to Studio Component when the system initialization script runs which give the studio component access to AWS resources when the system initialization script runs.
+        public let secureInitializationRoleArn: String?
         /// The current state.
         public let state: StudioComponentState?
         /// The status code.
@@ -2962,7 +2986,7 @@ extension Nimble {
         /// The user ID of the user that most recently updated the resource.
         public let updatedBy: String?
 
-        public init(arn: String? = nil, configuration: StudioComponentConfiguration? = nil, createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, ec2SecurityGroupIds: [String]? = nil, initializationScripts: [StudioComponentInitializationScript]? = nil, name: String? = nil, scriptParameters: [ScriptParameterKeyValue]? = nil, state: StudioComponentState? = nil, statusCode: StudioComponentStatusCode? = nil, statusMessage: String? = nil, studioComponentId: String? = nil, subtype: StudioComponentSubtype? = nil, tags: [String: String]? = nil, type: StudioComponentType? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
+        public init(arn: String? = nil, configuration: StudioComponentConfiguration? = nil, createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, ec2SecurityGroupIds: [String]? = nil, initializationScripts: [StudioComponentInitializationScript]? = nil, name: String? = nil, runtimeRoleArn: String? = nil, scriptParameters: [ScriptParameterKeyValue]? = nil, secureInitializationRoleArn: String? = nil, state: StudioComponentState? = nil, statusCode: StudioComponentStatusCode? = nil, statusMessage: String? = nil, studioComponentId: String? = nil, subtype: StudioComponentSubtype? = nil, tags: [String: String]? = nil, type: StudioComponentType? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.arn = arn
             self.configuration = configuration
             self.createdAt = createdAt
@@ -2971,7 +2995,9 @@ extension Nimble {
             self.ec2SecurityGroupIds = ec2SecurityGroupIds
             self.initializationScripts = initializationScripts
             self.name = name
+            self.runtimeRoleArn = runtimeRoleArn
             self.scriptParameters = scriptParameters
+            self.secureInitializationRoleArn = secureInitializationRoleArn
             self.state = state
             self.statusCode = statusCode
             self.statusMessage = statusMessage
@@ -2992,7 +3018,9 @@ extension Nimble {
             case ec2SecurityGroupIds
             case initializationScripts
             case name
+            case runtimeRoleArn
             case scriptParameters
+            case secureInitializationRoleArn
             case state
             case statusCode
             case statusMessage
@@ -3370,8 +3398,12 @@ extension Nimble {
         public let initializationScripts: [StudioComponentInitializationScript]?
         /// The name for the studio component.
         public let name: String?
+        /// An IAM role attached to a Studio Component that gives the studio component access to AWS resources at anytime while the instance is running.
+        public let runtimeRoleArn: String?
         /// Parameters for the studio component scripts.
         public let scriptParameters: [ScriptParameterKeyValue]?
+        /// An IAM role attached to Studio Component when the system initialization script runs which give the studio component access to AWS resources when the system initialization script runs.
+        public let secureInitializationRoleArn: String?
         /// The studio component ID.
         public let studioComponentId: String
         /// The studio ID.
@@ -3381,14 +3413,16 @@ extension Nimble {
         /// The type of the studio component.
         public let type: StudioComponentType?
 
-        public init(clientToken: String? = UpdateStudioComponentRequest.idempotencyToken(), configuration: StudioComponentConfiguration? = nil, description: String? = nil, ec2SecurityGroupIds: [String]? = nil, initializationScripts: [StudioComponentInitializationScript]? = nil, name: String? = nil, scriptParameters: [ScriptParameterKeyValue]? = nil, studioComponentId: String, studioId: String, subtype: StudioComponentSubtype? = nil, type: StudioComponentType? = nil) {
+        public init(clientToken: String? = UpdateStudioComponentRequest.idempotencyToken(), configuration: StudioComponentConfiguration? = nil, description: String? = nil, ec2SecurityGroupIds: [String]? = nil, initializationScripts: [StudioComponentInitializationScript]? = nil, name: String? = nil, runtimeRoleArn: String? = nil, scriptParameters: [ScriptParameterKeyValue]? = nil, secureInitializationRoleArn: String? = nil, studioComponentId: String, studioId: String, subtype: StudioComponentSubtype? = nil, type: StudioComponentType? = nil) {
             self.clientToken = clientToken
             self.configuration = configuration
             self.description = description
             self.ec2SecurityGroupIds = ec2SecurityGroupIds
             self.initializationScripts = initializationScripts
             self.name = name
+            self.runtimeRoleArn = runtimeRoleArn
             self.scriptParameters = scriptParameters
+            self.secureInitializationRoleArn = secureInitializationRoleArn
             self.studioComponentId = studioComponentId
             self.studioId = studioId
             self.subtype = subtype
@@ -3405,10 +3439,12 @@ extension Nimble {
                 try $0.validate(name: "\(name).initializationScripts[]")
             }
             try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.runtimeRoleArn, name: "runtimeRoleArn", parent: name, max: 2048)
             try self.scriptParameters?.forEach {
                 try $0.validate(name: "\(name).scriptParameters[]")
             }
             try self.validate(self.scriptParameters, name: "scriptParameters", parent: name, max: 30)
+            try self.validate(self.secureInitializationRoleArn, name: "secureInitializationRoleArn", parent: name, max: 2048)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3417,7 +3453,9 @@ extension Nimble {
             case ec2SecurityGroupIds
             case initializationScripts
             case name
+            case runtimeRoleArn
             case scriptParameters
+            case secureInitializationRoleArn
             case subtype
             case type
         }
@@ -3462,9 +3500,11 @@ extension Nimble {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.adminRoleArn, name: "adminRoleArn", parent: name, max: 2048)
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.displayName, name: "displayName", parent: name, max: 64)
+            try self.validate(self.userRoleArn, name: "userRoleArn", parent: name, max: 2048)
         }
 
         private enum CodingKeys: String, CodingKey {

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -137,6 +137,9 @@ extension EC2 {
     ///  Describes one or more of your linked EC2-Classic instances. This request only returns
     ///  			information about EC2-Classic instances linked to a VPC through ClassicLink. You cannot
     ///  			use this request to return information about other instances.
+    ///
+    ///  	           We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
+    ///
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -717,7 +720,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the specified instances or all instances. If you specify instance IDs, the output includes information for only the specified instances. If you specify filters, the output includes information for only those instances that meet the filter criteria. If you do not specify instance IDs or filters, the output includes information for all instances, which can affect performance. We recommend that you use pagination to ensure that the operation returns quickly and successfully. If you specify an instance ID that is not valid, an error is returned. If you specify an instance that you do not own, it is not included in the output. Recently terminated instances might appear in the returned results. This interval is usually less than one hour. If you describe instances in the rare case where an Availability Zone is experiencing a service disruption and you specify instance IDs that are in the affected zone, or do not specify any instance IDs at all, the call fails. If you describe instances and specify only instance IDs that are in an unaffected zone, the call works normally.
+    ///  Describes the specified instances or all instances. If you specify instance IDs, the output includes information for only the specified instances. If you specify filters, the output includes information for only those instances that meet the filter criteria. If you do not specify instance IDs or filters, the output includes information for all instances, which can affect performance. We recommend that you use pagination to ensure that the operation returns quickly and successfully. If you specify an instance ID that is not valid, an error is returned. If you specify an instance that you do not own, it is not included in the output. Recently terminated instances might appear in the returned results. This interval is usually less than one hour. If you describe instances in the rare case where an Availability Zone is experiencing a service disruption and you specify instance IDs that are in the affected zone, or do not specify any instance IDs at all, the call fails. If you describe instances and specify only instance IDs that are in an unaffected zone, the call works normally.  We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon EC2 User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1335,7 +1338,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the modifications made to your Reserved Instances. If no parameter is specified, information about all your Reserved Instances modification requests is returned. If a modification ID is specified, only information about the specific modification is returned. 	     For more information, see Modifying Reserved Instances in the Amazon EC2 User Guide.
+    ///  Describes the modifications made to your Reserved Instances. If no parameter is specified, information about all your Reserved Instances modification requests is returned. If a modification ID is specified, only information about the specific modification is returned. 	     For more information, see Modifying Reserved Instances in the Amazon EC2 User Guide.  We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1358,7 +1361,7 @@ extension EC2 {
     }
 
     ///  Describes Reserved Instance offerings that are available for purchase. With Reserved Instances, you purchase the right to launch instances for a period of time. During that time period, you do not receive insufficient capacity errors, and you pay a lower usage rate than the rate charged for On-Demand instances for the actual time used. If you have listed your own Reserved Instances for sale in the Reserved Instance Marketplace, they will be excluded from these results. This is to ensure that you do not purchase your own Reserved Instances. For more information, see Reserved Instance Marketplace
-    ///  				in the Amazon EC2 User Guide.
+    ///  				in the Amazon EC2 User Guide.  We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1404,7 +1407,7 @@ extension EC2 {
         )
     }
 
-    ///  Finds available schedules that meet the specified criteria. You can search for an available schedule no more than 3 months in advance. You must meet the minimum required duration of 1,200 hours per year. For example, the minimum daily schedule is 4 hours, the minimum weekly schedule is 24 hours, and the minimum monthly schedule is 100 hours. After you find a schedule that meets your needs, call PurchaseScheduledInstances to purchase Scheduled Instances with that schedule.
+    ///  Finds available schedules that meet the specified criteria. You can search for an available schedule no more than 3 months in advance. You must meet the minimum required duration of 1,200 hours per year. For example, the minimum daily schedule is 4 hours, the minimum weekly schedule is 24 hours, and the minimum monthly schedule is 100 hours. After you find a schedule that meets your needs, call PurchaseScheduledInstances to purchase Scheduled Instances with that schedule.   We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1426,7 +1429,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the specified Scheduled Instances or all your Scheduled Instances.
+    ///  Describes the specified Scheduled Instances or all your Scheduled Instances.   We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1475,7 +1478,7 @@ extension EC2 {
     ///  				Amazon EC2 security groups in
     ///  				the Amazon Elastic Compute Cloud User Guide and
     ///  				Security groups for your VPC in the
-    ///  				Amazon Virtual Private Cloud User Guide.
+    ///  				Amazon Virtual Private Cloud User Guide.  We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1674,7 +1677,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the specified tags for your EC2 resources. For more information about tags, see Tagging Your Resources in the Amazon Elastic Compute Cloud User Guide.
+    ///  Describes the specified tags for your EC2 resources. For more information about tags, see Tag your Amazon EC2 resources in the Amazon Elastic Compute Cloud User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1872,6 +1875,50 @@ extension EC2 {
         )
     }
 
+    ///  Describes one or more transit gateway route policy tables.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeTransitGatewayPolicyTablesPaginator(
+        _ input: DescribeTransitGatewayPolicyTablesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeTransitGatewayPolicyTablesRequest, DescribeTransitGatewayPolicyTablesResult> {
+        return .init(
+            input: input,
+            command: describeTransitGatewayPolicyTables,
+            inputKey: \DescribeTransitGatewayPolicyTablesRequest.nextToken,
+            outputKey: \DescribeTransitGatewayPolicyTablesResult.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Describes one or more transit gateway route table advertisements.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeTransitGatewayRouteTableAnnouncementsPaginator(
+        _ input: DescribeTransitGatewayRouteTableAnnouncementsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeTransitGatewayRouteTableAnnouncementsRequest, DescribeTransitGatewayRouteTableAnnouncementsResult> {
+        return .init(
+            input: input,
+            command: describeTransitGatewayRouteTableAnnouncements,
+            inputKey: \DescribeTransitGatewayRouteTableAnnouncementsRequest.nextToken,
+            outputKey: \DescribeTransitGatewayRouteTableAnnouncementsResult.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Describes one or more transit gateway route tables. By default, all transit gateway route tables are described. Alternatively, you can filter the results.
     /// Return PaginatorSequence for operation.
     ///
@@ -2026,7 +2073,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the ClassicLink DNS support status of one or more VPCs. If enabled, the DNS hostname of a linked EC2-Classic instance resolves to its private IP address when addressed from an instance in the VPC to which it's linked. Similarly, the DNS hostname of an instance in a VPC resolves to its private IP address when addressed from a linked EC2-Classic instance. For more information, see ClassicLink in the Amazon Elastic Compute Cloud User Guide.
+    ///   We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.  Describes the ClassicLink DNS support status of one or more VPCs. If enabled, the DNS hostname of a linked EC2-Classic instance resolves to its private IP address when addressed from an instance in the VPC to which it's linked. Similarly, the DNS hostname of an instance in a VPC resolves to its private IP address when addressed from a linked EC2-Classic instance. For more information, see ClassicLink in the Amazon Elastic Compute Cloud User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2461,6 +2508,28 @@ extension EC2 {
             command: getTransitGatewayMulticastDomainAssociations,
             inputKey: \GetTransitGatewayMulticastDomainAssociationsRequest.nextToken,
             outputKey: \GetTransitGatewayMulticastDomainAssociationsResult.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Gets a list of the transit gateway policy table associations.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func getTransitGatewayPolicyTableAssociationsPaginator(
+        _ input: GetTransitGatewayPolicyTableAssociationsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<GetTransitGatewayPolicyTableAssociationsRequest, GetTransitGatewayPolicyTableAssociationsResult> {
+        return .init(
+            input: input,
+            command: getTransitGatewayPolicyTableAssociations,
+            inputKey: \GetTransitGatewayPolicyTableAssociationsRequest.nextToken,
+            outputKey: \GetTransitGatewayPolicyTableAssociationsResult.nextToken,
             logger: logger,
             on: eventLoop
         )

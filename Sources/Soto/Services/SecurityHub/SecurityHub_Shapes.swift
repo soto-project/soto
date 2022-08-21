@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -14105,7 +14105,7 @@ extension SecurityHub {
     }
 
     public struct AwsWafRegionalWebAclRulesListDetails: AWSEncodableShape & AWSDecodableShape {
-        /// The action that AWS WAF takes when a web request matches all conditions in the rule, such as allow,  block, or count the request.
+        /// The action that WAF takes when a web request matches all conditions in the rule, such as allow,  block, or count the request.
         public let action: AwsWafRegionalWebAclRulesListActionDetails?
         /// Overrides the rule evaluation result in the rule group.
         public let overrideAction: AwsWafRegionalWebAclRulesListOverrideActionDetails?
@@ -14603,9 +14603,9 @@ extension SecurityHub {
     }
 
     public struct BatchUpdateFindingsUnprocessedFinding: AWSDecodableShape {
-        /// The code associated with the error.
+        /// The code associated with the error. Possible values are:    ConcurrentUpdateError - Another process or request attempted to update the finding while this request was being processed    DuplicatedFindingIdentifier - The request included two or more findings with the same FindingIdentifier     FindingNotFound - The FindingIdentifier included in the request did not match an existing finding    FindingSizeExceeded - The finding size was greater than the permissible value of 240 KB    InternalFailure - An internal service failure occurred when updating the finding    InvalidInput - The finding update contained an invalid value that did not satisfy the Amazon Web Services Security Finding Format syntax
         public let errorCode: String
-        /// The message associated with the error.
+        /// The message associated with the error. Possible values are:    Concurrent finding updates detected     Finding Identifier is duplicated     Finding Not Found     Finding size exceeded 240 KB     Internal service failure     Invalid Input
         public let errorMessage: String
         /// The identifier of the finding that was not updated.
         public let findingIdentifier: AwsSecurityFindingIdentifier

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -45,7 +45,29 @@ extension Kendra {
         )
     }
 
-    ///  Gets statistics about synchronizing Amazon Kendra with a data source.
+    ///  Lists one or more access control configurations for an index. This  includes user and group access information for your documents. This  is useful for user context filtering, where search results are filtered  based on the user or their group access to documents.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listAccessControlConfigurationsPaginator(
+        _ input: ListAccessControlConfigurationsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListAccessControlConfigurationsRequest, ListAccessControlConfigurationsResponse> {
+        return .init(
+            input: input,
+            command: listAccessControlConfigurations,
+            inputKey: \ListAccessControlConfigurationsRequest.nextToken,
+            outputKey: \ListAccessControlConfigurationsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Gets statistics about synchronizing a data source connector.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -67,7 +89,7 @@ extension Kendra {
         )
     }
 
-    ///  Lists the data sources that you have created.
+    ///  Lists the data source connectors that you have created.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -243,7 +265,7 @@ extension Kendra {
         )
     }
 
-    ///  Lists the Amazon Kendra thesauri associated with an index.
+    ///  Lists the thesauri for an index.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

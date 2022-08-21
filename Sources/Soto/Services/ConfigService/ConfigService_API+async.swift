@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -379,8 +379,22 @@ extension ConfigService {
     /// Returns a list of organization Config rules.
     ///
     /// 		        When you specify the limit and the next token, you receive a paginated response.
-    /// 			Limit and next token are not applicable if you specify organization Config rule names.
+    /// 			         Limit and next token are not applicable if you specify organization Config rule names.
     /// 			It is only applicable, when you request all the organization Config rules.
+    ///
+    /// 			          For accounts within an organzation
+    ///
+    /// 			         If you deploy an organizational rule or conformance pack in an organization
+    /// 				administrator account, and then establish a delegated administrator and deploy an
+    /// 				organizational rule or conformance pack in the delegated administrator account, you
+    /// 				won't be able to see the organizational rule or conformance pack in the organization
+    /// 				administrator account from the delegated administrator account or see the organizational
+    /// 				rule or conformance pack in the delegated administrator account from organization
+    /// 				administrator account. The DescribeOrganizationConfigRules and
+    /// 				DescribeOrganizationConformancePacks APIs can only see and interact with
+    /// 				the organization-related resource that were deployed from within the account calling
+    /// 				those APIs.
+    ///
     public func describeOrganizationConfigRules(_ input: DescribeOrganizationConfigRulesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeOrganizationConfigRulesResponse {
         return try await self.client.execute(operation: "DescribeOrganizationConfigRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -400,6 +414,20 @@ extension ConfigService {
     /// 		        When you specify the limit and the next token, you receive a paginated response.
     /// 			         Limit and next token are not applicable if you specify organization conformance packs names. They are only applicable,
     /// 			when you request all the organization conformance packs.
+    ///
+    /// 			          For accounts within an organzation
+    ///
+    /// 			         If you deploy an organizational rule or conformance pack in an organization
+    /// 				administrator account, and then establish a delegated administrator and deploy an
+    /// 				organizational rule or conformance pack in the delegated administrator account, you
+    /// 				won't be able to see the organizational rule or conformance pack in the organization
+    /// 				administrator account from the delegated administrator account or see the organizational
+    /// 				rule or conformance pack in the delegated administrator account from organization
+    /// 				administrator account. The DescribeOrganizationConfigRules and
+    /// 				DescribeOrganizationConformancePacks APIs can only see and interact with
+    /// 				the organization-related resource that were deployed from within the account calling
+    /// 				those APIs.
+    ///
     public func describeOrganizationConformancePacks(_ input: DescribeOrganizationConformancePacksRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeOrganizationConformancePacksResponse {
         return try await self.client.execute(operation: "DescribeOrganizationConformancePacks", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -629,6 +657,15 @@ extension ConfigService {
         return try await self.client.execute(operation: "ListAggregateDiscoveredResources", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Returns a list of conformance pack compliance scores.
+    /// 			A compliance score is the percentage of the number of compliant rule-resource combinations in a conformance pack compared to the number of total possible rule-resource combinations in the conformance pack.
+    /// 			This metric provides you with a high-level view of the compliance state of your conformance packs, and can be used to identify, investigate, and understand
+    /// 			the level of compliance in your conformance packs.
+    /// 		        Conformance packs with no evaluation results will have a compliance score of INSUFFICIENT_DATA.
+    public func listConformancePackComplianceScores(_ input: ListConformancePackComplianceScoresRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListConformancePackComplianceScoresResponse {
+        return try await self.client.execute(operation: "ListConformancePackComplianceScores", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Accepts a resource type and returns a list of resource
     /// 			identifiers for the resources of that type. A resource identifier
     /// 			includes the resource type, ID, and (if available) the custom
@@ -666,23 +703,31 @@ extension ConfigService {
         return try await self.client.execute(operation: "PutAggregationAuthorization", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Adds or updates an Config rule for evaluating whether your
-    /// 			Amazon Web Services resources comply with your desired configurations.
-    /// 		       You can use this action for Config custom rules and Config
-    /// 			managed rules. A Config custom rule is a rule that you
-    /// 			develop and maintain. An Config managed rule is a customizable,
-    /// 			predefined rule that Config provides.
-    /// 		       If you are adding a new Config custom rule, you must first
-    /// 			create the Lambda function that the rule invokes to evaluate
-    /// 			your resources. When you use the PutConfigRule action
-    /// 			to add the rule to Config, you must specify the Amazon Resource
-    /// 			Name (ARN) that Lambda assigns to the function. Specify the ARN
-    /// 			for the SourceIdentifier key. This key is part of the
-    /// 				Source object, which is part of the
-    /// 				ConfigRule object.
-    /// 		       If you are adding an Config managed rule, specify the
-    /// 			rule's identifier for the SourceIdentifier key. To
-    /// 			reference Config managed rule identifiers, see About Config managed rules.
+    /// Adds or updates an Config rule to evaluate if your
+    /// 			Amazon Web Services resources comply with your desired configurations. For information on how many Config rules you can have per account,
+    /// 			see  Service Limits in the Config Developer Guide.
+    ///
+    /// 		       There are two types of rules: Config Custom Rules and Config Managed Rules.
+    /// 			You can use PutConfigRule to create both Config custom rules and Config managed rules.
+    ///
+    /// 		       Custom rules are rules that you can create using either Guard or Lambda functions.
+    /// 			Guard (Guard GitHub
+    /// 				Repository) is a policy-as-code language that allows you to write policies that
+    /// 			are enforced by Config Custom Policy rules. Lambda uses custom code that you upload to
+    /// 			evaluate a custom rule. If you are adding a new Custom Lambda rule,
+    /// 			you first need to create an Lambda function that the rule invokes to evaluate
+    /// 			your resources. When you use PutConfigRule to add a Custom Lambda rule to Config, you must specify the Amazon Resource
+    /// 			Name (ARN) that Lambda assigns to the function. You specify the ARN
+    /// 			in the SourceIdentifier key. This key is part of the
+    /// 			Source object, which is part of the
+    /// 			ConfigRule object.
+    ///
+    /// 		       Managed rules are predefined,
+    /// 			customizable rules created by Config. For a list of managed rules, see
+    /// 			List of Config
+    /// 				Managed Rules. If you are adding an Config managed rule, you must specify the
+    /// 			rule's identifier for the SourceIdentifier key.
+    ///
     /// 		       For any new rule that you add, specify the
     /// 				ConfigRuleName in the ConfigRule
     /// 			object. Do not specify the ConfigRuleArn or the
@@ -692,10 +737,6 @@ extension ConfigService {
     /// 				ConfigRuleId, or ConfigRuleArn in the
     /// 				ConfigRule data type that you use in this
     /// 			request.
-    /// 		       The maximum number of rules that Config supports is 150.
-    /// 		       For information about requesting a rule limit increase, see
-    /// 				Config Limits in the Amazon Web Services General
-    /// 				Reference Guide.
     /// 		       For more information about developing and using Config
     /// 			rules, see Evaluating Amazon Web Services resource Configurations with Config
     /// 			in the Config Developer Guide.
@@ -741,8 +782,10 @@ extension ConfigService {
     }
 
     /// Creates or updates a conformance pack. A conformance pack is a collection of Config rules that can be easily deployed in an account and a region and across Amazon Web Services Organization.
-    /// 		       This API creates a service linked role AWSServiceRoleForConfigConforms in your account.
-    /// 		The service linked role is created only when the role does not exist in your account.
+    /// 			For information on how many conformance packs you can have per account,
+    /// 			see  Service Limits in the Config Developer Guide.
+    /// 		       This API creates a service-linked role AWSServiceRoleForConfigConforms in your account.
+    /// 		The service-linked role is created only when the role does not exist in your account.
     /// 		        You must specify either the TemplateS3Uri or the TemplateBody parameter, but not both.
     /// 			If you provide both Config uses the TemplateS3Uri parameter and ignores the TemplateBody parameter.
     public func putConformancePack(_ input: PutConformancePackRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PutConformancePackResponse {
@@ -782,39 +825,53 @@ extension ConfigService {
         return try await self.client.execute(operation: "PutExternalEvaluation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Adds or updates organization Config rule for your entire organization evaluating whether your Amazon Web Services resources comply with your
-    /// 			desired configurations.
+    /// Adds or updates an Config rule for your entire organization to evaluate if your Amazon Web Services resources comply with your
+    /// 			desired configurations. For information on how many organization Config rules you can have per account,
+    /// 			see  Service Limits in the Config Developer Guide.
     /// 	         Only a master account and a delegated administrator can create or update an organization Config rule.
     /// 		When calling this API with a delegated administrator, you must ensure Organizations
-    /// 		ListDelegatedAdministrator permissions are added.
-    /// 		       This API enables organization service access through the EnableAWSServiceAccess action and creates a service linked
+    /// 		ListDelegatedAdministrator permissions are added. An organization can have up to 3 delegated administrators.
+    /// 		       This API enables organization service access through the EnableAWSServiceAccess action and creates a service-linked
     /// 			role AWSServiceRoleForConfigMultiAccountSetup in the master or delegated administrator account of your organization.
-    /// 			The service linked role is created only when the role does not exist in the caller account.
+    /// 			The service-linked role is created only when the role does not exist in the caller account.
     /// 			Config verifies the existence of role with GetRole action.
     /// 		       To use this API with delegated administrator, register a delegated administrator by calling Amazon Web Services Organization
     /// 			register-delegated-administrator for config-multiaccountsetup.amazonaws.com.
-    /// 		       You can use this action to create both Config custom rules and Config managed rules.
-    /// 			If you are adding a new Config custom rule, you must first create Lambda function in the master account or a delegated
-    /// 			administrator that the rule invokes to evaluate your resources. You also need to create an IAM role in the managed-account that can be assumed by the Lambda function.
-    /// 			When you use the PutOrganizationConfigRule action to add the rule to Config, you must
+    ///
+    /// 		       There are two types of rules: Config Custom Rules and Config Managed Rules.
+    /// 			You can use PutOrganizationConfigRule to create both Config custom rules and Config managed rules.
+    ///
+    /// 		       Custom rules are rules that you can create using either Guard or Lambda functions.
+    /// 			Guard (Guard GitHub
+    /// 				Repository) is a policy-as-code language that allows you to write policies that
+    /// 			are enforced by Config Custom Policy rules. Lambda uses custom code that you upload to
+    /// 			evaluate a custom rule. If you are adding a new Custom Lambda rule, you first need to create an Lambda function in the master account or a delegated
+    /// 		administrator that the rule invokes to evaluate your resources. You also need to create an IAM role in the managed account that can be assumed by the Lambda function.
+    /// 		When you use PutOrganizationConfigRule to add a Custom Lambda rule to Config, you must
     /// 			specify the Amazon Resource Name (ARN) that Lambda assigns to the function.
-    /// 			If you are adding an Config managed rule, specify the rule's identifier for the RuleIdentifier key.
-    /// 		       The maximum number of organization Config rules that Config supports is 150 and 3 delegated administrator per organization.
+    ///
+    /// 		       Managed rules are predefined,
+    /// 			customizable rules created by Config. For a list of managed rules, see
+    /// 			List of Config
+    /// 				Managed Rules. If you are adding an Config managed rule, you must specify the rule's identifier for the RuleIdentifier key.
+    ///
+    ///
     /// 		        Prerequisite: Ensure you call EnableAllFeatures API to enable all features in an organization.
-    /// 			         Specify either OrganizationCustomRuleMetadata or OrganizationManagedRuleMetadata.
+    /// 			         Make sure to specify one of either OrganizationCustomPolicyRuleMetadata for Custom Policy rules, OrganizationCustomRuleMetadata for Custom Lambda rules, or OrganizationManagedRuleMetadata for managed rules.
     ///
     public func putOrganizationConfigRule(_ input: PutOrganizationConfigRuleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PutOrganizationConfigRuleResponse {
         return try await self.client.execute(operation: "PutOrganizationConfigRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deploys conformance packs across member accounts in an Amazon Web Services Organization.
+    /// Deploys conformance packs across member accounts in an Amazon Web Services Organization. For information on how many organization conformance packs and how many Config rules you can have per account,
+    /// 			see  Service Limits in the Config Developer Guide.
     /// 		       Only a master account and a delegated administrator can call this API.
     /// 			When calling this API with a delegated administrator, you must ensure Organizations
-    /// 			ListDelegatedAdministrator permissions are added.
+    /// 			ListDelegatedAdministrator permissions are added. An organization can have up to 3 delegated administrators.
     /// 		       This API enables organization service access for config-multiaccountsetup.amazonaws.com
     /// 			through the EnableAWSServiceAccess action and creates a
-    /// 			service linked role AWSServiceRoleForConfigMultiAccountSetup in the master or delegated administrator account of your organization.
-    /// 			The service linked role is created only when the role does not exist in the caller account.
+    /// 			service-linked role AWSServiceRoleForConfigMultiAccountSetup in the master or delegated administrator account of your organization.
+    /// 			The service-linked role is created only when the role does not exist in the caller account.
     /// 			To use this API with delegated administrator, register a delegated administrator by calling Amazon Web Services Organization
     /// 			register-delegate-admin for config-multiaccountsetup.amazonaws.com.
     ///
@@ -825,7 +882,6 @@ extension ConfigService {
     /// 			If you provide both Config uses the TemplateS3Uri parameter and ignores the TemplateBody parameter.
     /// 			         Config sets the state of a conformance pack to CREATE_IN_PROGRESS and UPDATE_IN_PROGRESS until the conformance pack is created or updated.
     /// 				You cannot update a conformance pack while it is in this state.
-    /// 			         You can create 50 conformance packs with 25 Config rules in each pack and 3 delegated administrator per organization.
     public func putOrganizationConformancePack(_ input: PutOrganizationConformancePackRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PutOrganizationConformancePackResponse {
         return try await self.client.execute(operation: "PutOrganizationConformancePack", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -839,6 +895,9 @@ extension ConfigService {
     /// 			you must call this again to ensure the remediations can run.
     /// 			         This API does not support adding remediation configurations for service-linked Config Rules such as Organization Config rules,
     /// 				the rules deployed by conformance packs, and rules deployed by Amazon Web Services Security Hub.
+    /// 		        For manual remediation configuration, you need to provide a value for automationAssumeRole or use a value in the assumeRolefield  to remediate your resources. The SSM automation document can use either as long as it maps to a valid parameter.
+    /// 			         However, for automatic remediation configuration, the only valid assumeRole field value is AutomationAssumeRole and you need to provide a value for AutomationAssumeRole to remediate your resources.
+    ///
     public func putRemediationConfigurations(_ input: PutRemediationConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PutRemediationConfigurationsResponse {
         return try await self.client.execute(operation: "PutRemediationConfigurations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

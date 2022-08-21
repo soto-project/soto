@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -260,6 +260,7 @@ extension ElasticsearchService {
 
     public enum VolumeType: String, CustomStringConvertible, Codable, _SotoSendable {
         case gp2
+        case gp3
         case io1
         case standard
         public var description: String { return self.rawValue }
@@ -1873,16 +1874,19 @@ extension ElasticsearchService {
     public struct EBSOptions: AWSEncodableShape & AWSDecodableShape {
         /// Specifies whether EBS-based storage is enabled.
         public let ebsEnabled: Bool?
-        /// Specifies the IOPD for a Provisioned IOPS EBS volume (SSD).
+        /// Specifies the IOPS for Provisioned IOPS And GP3 EBS volume (SSD).
         public let iops: Int?
+        /// Specifies the Throughput for GP3 EBS volume (SSD).
+        public let throughput: Int?
         ///  Integer to specify the size of an EBS volume.
         public let volumeSize: Int?
         ///  Specifies the volume type for EBS-based storage.
         public let volumeType: VolumeType?
 
-        public init(ebsEnabled: Bool? = nil, iops: Int? = nil, volumeSize: Int? = nil, volumeType: VolumeType? = nil) {
+        public init(ebsEnabled: Bool? = nil, iops: Int? = nil, throughput: Int? = nil, volumeSize: Int? = nil, volumeType: VolumeType? = nil) {
             self.ebsEnabled = ebsEnabled
             self.iops = iops
+            self.throughput = throughput
             self.volumeSize = volumeSize
             self.volumeType = volumeType
         }
@@ -1890,6 +1894,7 @@ extension ElasticsearchService {
         private enum CodingKeys: String, CodingKey {
             case ebsEnabled = "EBSEnabled"
             case iops = "Iops"
+            case throughput = "Throughput"
             case volumeSize = "VolumeSize"
             case volumeType = "VolumeType"
         }
@@ -3447,7 +3452,7 @@ extension ElasticsearchService {
     }
 
     public struct StorageTypeLimit: AWSDecodableShape {
-        ///  Name of storage limits that are applicable for given storage type. If  StorageType  is ebs, following storage options are applicable  MinimumVolumeSize Minimum amount of volume size that is applicable for given storage type.It can be empty if it is not applicable. MaximumVolumeSize Maximum amount of volume size that is applicable for given storage type.It can be empty if it is not applicable. MaximumIops Maximum amount of Iops that is applicable for given storage type.It can be empty if it is not applicable. MinimumIops Minimum amount of Iops that is applicable for given storage type.It can be empty if it is not applicable.
+        ///  Name of storage limits that are applicable for given storage type. If  StorageType  is ebs, following storage options are applicable  MinimumVolumeSize Minimum amount of volume size that is applicable for given storage type.It can be empty if it is not applicable. MaximumVolumeSize Maximum amount of volume size that is applicable for given storage type.It can be empty if it is not applicable. MaximumIops Maximum amount of Iops that is applicable for given storage type.It can be empty if it is not applicable. MinimumIops Minimum amount of Iops that is applicable for given storage type.It can be empty if it is not applicable. MaximumThroughput Maximum amount of Throughput that is applicable for given storage type.It can be empty if it is not applicable. MinimumThroughput Minimum amount of Throughput that is applicable for given storage type.It can be empty if it is not applicable.
         public let limitName: String?
         ///  Values for the  StorageTypeLimit$LimitName  .
         public let limitValues: [String]?

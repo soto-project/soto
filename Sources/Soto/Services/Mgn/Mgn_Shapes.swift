@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -171,6 +171,19 @@ extension Mgn {
         public var description: String { return self.rawValue }
     }
 
+    public enum PostLaunchActionExecutionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case success = "SUCCESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PostLaunchActionsDeploymentType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case cutoverOnly = "CUTOVER_ONLY"
+        case testAndCutover = "TEST_AND_CUTOVER"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ReplicationConfigurationDataPlaneRouting: String, CustomStringConvertible, Codable, _SotoSendable {
         case privateIp = "PRIVATE_IP"
         case publicIp = "PUBLIC_IP"
@@ -205,6 +218,17 @@ extension Mgn {
     public enum ReplicationType: String, CustomStringConvertible, Codable, _SotoSendable {
         case agentBased = "AGENT_BASED"
         case snapshotShipping = "SNAPSHOT_SHIPPING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SsmDocumentType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case automation = "AUTOMATION"
+        case command = "COMMAND"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SsmParameterStoreParameterType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case string = "STRING"
         public var description: String { return self.rawValue }
     }
 
@@ -266,6 +290,31 @@ extension Mgn {
 
         private enum CodingKeys: String, CodingKey {
             case state
+        }
+    }
+
+    public struct CreateLaunchConfigurationTemplateRequest: AWSEncodableShape {
+        /// Request to associate the default Application Migration Service Security group with the Replication Settings template.
+        public let postLaunchActions: PostLaunchActions?
+        /// Request to associate the default Application Migration Service Security group with the Replication Settings template.
+        public let tags: [String: String]?
+
+        public init(postLaunchActions: PostLaunchActions? = nil, tags: [String: String]? = nil) {
+            self.postLaunchActions = postLaunchActions
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.postLaunchActions?.validate(name: "\(name).postLaunchActions")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case postLaunchActions
+            case tags
         }
     }
 
@@ -496,6 +545,29 @@ extension Mgn {
         public init() {}
     }
 
+    public struct DeleteLaunchConfigurationTemplateRequest: AWSEncodableShape {
+        /// ID of resource to be deleted.
+        public let launchConfigurationTemplateID: String
+
+        public init(launchConfigurationTemplateID: String) {
+            self.launchConfigurationTemplateID = launchConfigurationTemplateID
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.launchConfigurationTemplateID, name: "launchConfigurationTemplateID", parent: name, max: 21)
+            try self.validate(self.launchConfigurationTemplateID, name: "launchConfigurationTemplateID", parent: name, min: 21)
+            try self.validate(self.launchConfigurationTemplateID, name: "launchConfigurationTemplateID", parent: name, pattern: "^lct-[0-9a-zA-Z]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case launchConfigurationTemplateID
+        }
+    }
+
+    public struct DeleteLaunchConfigurationTemplateResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteReplicationConfigurationTemplateRequest: AWSEncodableShape {
         /// Request to delete Replication Configuration Template from service by Replication Configuration Template ID.
         public let replicationConfigurationTemplateID: String
@@ -677,6 +749,55 @@ extension Mgn {
         public let nextToken: String?
 
         public init(items: [Job]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items
+            case nextToken
+        }
+    }
+
+    public struct DescribeLaunchConfigurationTemplatesRequest: AWSEncodableShape {
+        /// Request to disconnect Source Server from service by Server ID.
+        public let launchConfigurationTemplateIDs: [String]?
+        /// Request to disconnect Source Server from service by Server ID.
+        public let maxResults: Int?
+        /// Request to disconnect Source Server from service by Server ID.
+        public let nextToken: String?
+
+        public init(launchConfigurationTemplateIDs: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.launchConfigurationTemplateIDs = launchConfigurationTemplateIDs
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.launchConfigurationTemplateIDs?.forEach {
+                try validate($0, name: "launchConfigurationTemplateIDs[]", parent: name, max: 21)
+                try validate($0, name: "launchConfigurationTemplateIDs[]", parent: name, min: 21)
+                try validate($0, name: "launchConfigurationTemplateIDs[]", parent: name, pattern: "^lct-[0-9a-zA-Z]{17}$")
+            }
+            try self.validate(self.launchConfigurationTemplateIDs, name: "launchConfigurationTemplateIDs", parent: name, max: 200)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case launchConfigurationTemplateIDs
+            case maxResults
+            case nextToken
+        }
+    }
+
+    public struct DescribeLaunchConfigurationTemplatesResponse: AWSDecodableShape {
+        /// Request to disconnect Source Server from service by Server ID.
+        public let items: [LaunchConfigurationTemplate]?
+        /// Request to disconnect Source Server from service by Server ID.
+        public let nextToken: String?
+
+        public init(items: [LaunchConfigurationTemplate]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
         }
@@ -1078,6 +1199,35 @@ extension Mgn {
         }
     }
 
+    public struct JobPostLaunchActionsLaunchStatus: AWSDecodableShape {
+        /// Job type.
+        public let executionID: String?
+        /// Job type.
+        public let executionStatus: PostLaunchActionExecutionStatus?
+        /// Job type.
+        public let failureReason: String?
+        /// Job type.
+        public let ssmDocument: SsmDocument?
+        /// Job type.
+        public let ssmDocumentType: SsmDocumentType?
+
+        public init(executionID: String? = nil, executionStatus: PostLaunchActionExecutionStatus? = nil, failureReason: String? = nil, ssmDocument: SsmDocument? = nil, ssmDocumentType: SsmDocumentType? = nil) {
+            self.executionID = executionID
+            self.executionStatus = executionStatus
+            self.failureReason = failureReason
+            self.ssmDocument = ssmDocument
+            self.ssmDocumentType = ssmDocumentType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case executionID
+            case executionStatus
+            case failureReason
+            case ssmDocument
+            case ssmDocumentType
+        }
+    }
+
     public struct LaunchConfiguration: AWSDecodableShape {
         /// Launch configuration boot mode.
         public let bootMode: BootMode?
@@ -1093,12 +1243,13 @@ extension Mgn {
         public let licensing: Licensing?
         /// Launch configuration name.
         public let name: String?
+        public let postLaunchActions: PostLaunchActions?
         /// Launch configuration Source Server ID.
         public let sourceServerID: String?
         /// Launch configuration Target instance type right sizing method.
         public let targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod?
 
-        public init(bootMode: BootMode? = nil, copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, ec2LaunchTemplateID: String? = nil, launchDisposition: LaunchDisposition? = nil, licensing: Licensing? = nil, name: String? = nil, sourceServerID: String? = nil, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
+        public init(bootMode: BootMode? = nil, copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, ec2LaunchTemplateID: String? = nil, launchDisposition: LaunchDisposition? = nil, licensing: Licensing? = nil, name: String? = nil, postLaunchActions: PostLaunchActions? = nil, sourceServerID: String? = nil, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
             self.bootMode = bootMode
             self.copyPrivateIp = copyPrivateIp
             self.copyTags = copyTags
@@ -1106,6 +1257,7 @@ extension Mgn {
             self.launchDisposition = launchDisposition
             self.licensing = licensing
             self.name = name
+            self.postLaunchActions = postLaunchActions
             self.sourceServerID = sourceServerID
             self.targetInstanceTypeRightSizingMethod = targetInstanceTypeRightSizingMethod
         }
@@ -1118,8 +1270,34 @@ extension Mgn {
             case launchDisposition
             case licensing
             case name
+            case postLaunchActions
             case sourceServerID
             case targetInstanceTypeRightSizingMethod
+        }
+    }
+
+    public struct LaunchConfigurationTemplate: AWSDecodableShape {
+        /// Copy Private IP during Launch Configuration.
+        public let arn: String?
+        /// Copy Private IP during Launch Configuration.
+        public let launchConfigurationTemplateID: String
+        /// Copy Private IP during Launch Configuration.
+        public let postLaunchActions: PostLaunchActions?
+        /// Copy Private IP during Launch Configuration.
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, launchConfigurationTemplateID: String, postLaunchActions: PostLaunchActions? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.launchConfigurationTemplateID = launchConfigurationTemplateID
+            self.postLaunchActions = postLaunchActions
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn
+            case launchConfigurationTemplateID
+            case postLaunchActions
+            case tags
         }
     }
 
@@ -1408,19 +1586,86 @@ extension Mgn {
     }
 
     public struct ParticipatingServer: AWSDecodableShape {
+        /// Participating server Source Server ID.
+        public let launchedEc2InstanceID: String?
         /// Participating server launch status.
         public let launchStatus: LaunchStatus?
         /// Participating server Source Server ID.
-        public let sourceServerID: String?
+        public let postLaunchActionsStatus: PostLaunchActionsStatus?
+        /// Participating server Source Server ID.
+        public let sourceServerID: String
 
-        public init(launchStatus: LaunchStatus? = nil, sourceServerID: String? = nil) {
+        public init(launchedEc2InstanceID: String? = nil, launchStatus: LaunchStatus? = nil, postLaunchActionsStatus: PostLaunchActionsStatus? = nil, sourceServerID: String) {
+            self.launchedEc2InstanceID = launchedEc2InstanceID
             self.launchStatus = launchStatus
+            self.postLaunchActionsStatus = postLaunchActionsStatus
             self.sourceServerID = sourceServerID
         }
 
         private enum CodingKeys: String, CodingKey {
+            case launchedEc2InstanceID
             case launchStatus
+            case postLaunchActionsStatus
             case sourceServerID
+        }
+    }
+
+    public struct PostLaunchActions: AWSEncodableShape & AWSDecodableShape {
+        /// Server participating in Job.
+        public let cloudWatchLogGroupName: String?
+        /// Server participating in Job.
+        public let deployment: PostLaunchActionsDeploymentType?
+        /// Server participating in Job.
+        public let s3LogBucket: String?
+        /// Server participating in Job.
+        public let s3OutputKeyPrefix: String?
+        /// Server participating in Job.
+        public let ssmDocuments: [SsmDocument]?
+
+        public init(cloudWatchLogGroupName: String? = nil, deployment: PostLaunchActionsDeploymentType? = nil, s3LogBucket: String? = nil, s3OutputKeyPrefix: String? = nil, ssmDocuments: [SsmDocument]? = nil) {
+            self.cloudWatchLogGroupName = cloudWatchLogGroupName
+            self.deployment = deployment
+            self.s3LogBucket = s3LogBucket
+            self.s3OutputKeyPrefix = s3OutputKeyPrefix
+            self.ssmDocuments = ssmDocuments
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.cloudWatchLogGroupName, name: "cloudWatchLogGroupName", parent: name, max: 512)
+            try self.validate(self.cloudWatchLogGroupName, name: "cloudWatchLogGroupName", parent: name, min: 1)
+            try self.validate(self.cloudWatchLogGroupName, name: "cloudWatchLogGroupName", parent: name, pattern: "^[\\.\\-_/#A-Za-z0-9]+$")
+            try self.validate(self.s3LogBucket, name: "s3LogBucket", parent: name, max: 63)
+            try self.validate(self.s3LogBucket, name: "s3LogBucket", parent: name, min: 3)
+            try self.validate(self.s3OutputKeyPrefix, name: "s3OutputKeyPrefix", parent: name, max: 256)
+            try self.ssmDocuments?.forEach {
+                try $0.validate(name: "\(name).ssmDocuments[]")
+            }
+            try self.validate(self.ssmDocuments, name: "ssmDocuments", parent: name, max: 10)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudWatchLogGroupName
+            case deployment
+            case s3LogBucket
+            case s3OutputKeyPrefix
+            case ssmDocuments
+        }
+    }
+
+    public struct PostLaunchActionsStatus: AWSDecodableShape {
+        /// Server participating in Job.
+        public let postLaunchActionsLaunchStatusList: [JobPostLaunchActionsLaunchStatus]?
+        /// Server participating in Job.
+        public let ssmAgentDiscoveryDatetime: String?
+
+        public init(postLaunchActionsLaunchStatusList: [JobPostLaunchActionsLaunchStatus]? = nil, ssmAgentDiscoveryDatetime: String? = nil) {
+            self.postLaunchActionsLaunchStatusList = postLaunchActionsLaunchStatusList
+            self.ssmAgentDiscoveryDatetime = ssmAgentDiscoveryDatetime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case postLaunchActionsLaunchStatusList
+            case ssmAgentDiscoveryDatetime
         }
     }
 
@@ -1706,6 +1951,73 @@ extension Mgn {
         }
     }
 
+    public struct SsmDocument: AWSEncodableShape & AWSDecodableShape {
+        /// Source server replication type.
+        public let actionName: String
+        /// Source server replication type.
+        public let mustSucceedForCutover: Bool?
+        /// Source server replication type.
+        public let parameters: [String: [SsmParameterStoreParameter]]?
+        /// Source server replication type.
+        public let ssmDocumentName: String
+        /// Source server replication type.
+        public let timeoutSeconds: Int?
+
+        public init(actionName: String, mustSucceedForCutover: Bool? = nil, parameters: [String: [SsmParameterStoreParameter]]? = nil, ssmDocumentName: String, timeoutSeconds: Int? = nil) {
+            self.actionName = actionName
+            self.mustSucceedForCutover = mustSucceedForCutover
+            self.parameters = parameters
+            self.ssmDocumentName = ssmDocumentName
+            self.timeoutSeconds = timeoutSeconds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.actionName, name: "actionName", parent: name, max: 256)
+            try self.parameters?.forEach {
+                try validate($0.key, name: "parameters.key", parent: name, max: 1011)
+                try validate($0.key, name: "parameters.key", parent: name, min: 1)
+                try validate($0.key, name: "parameters.key", parent: name, pattern: "^([A-Za-z0-9])+$")
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 10)
+            }
+            try self.validate(self.parameters, name: "parameters", parent: name, max: 10)
+            try self.validate(self.ssmDocumentName, name: "ssmDocumentName", parent: name, max: 172)
+            try self.validate(self.ssmDocumentName, name: "ssmDocumentName", parent: name, min: 3)
+            try self.validate(self.ssmDocumentName, name: "ssmDocumentName", parent: name, pattern: "^([A-Za-z0-9/:_\\.-])+$")
+            try self.validate(self.timeoutSeconds, name: "timeoutSeconds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionName
+            case mustSucceedForCutover
+            case parameters
+            case ssmDocumentName
+            case timeoutSeconds
+        }
+    }
+
+    public struct SsmParameterStoreParameter: AWSEncodableShape & AWSDecodableShape {
+        /// Source server replication type.
+        public let parameterName: String
+        /// Source server replication type.
+        public let parameterType: SsmParameterStoreParameterType
+
+        public init(parameterName: String, parameterType: SsmParameterStoreParameterType) {
+            self.parameterName = parameterName
+            self.parameterType = parameterType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.parameterName, name: "parameterName", parent: name, max: 1011)
+            try self.validate(self.parameterName, name: "parameterName", parent: name, min: 1)
+            try self.validate(self.parameterName, name: "parameterName", parent: name, pattern: "^([A-Za-z0-9_\\.-])+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case parameterName
+            case parameterType
+        }
+    }
+
     public struct StartCutoverRequest: AWSEncodableShape {
         /// Start Cutover by Source Server IDs.
         public let sourceServerIDs: [String]
@@ -1926,24 +2238,27 @@ extension Mgn {
         public let licensing: Licensing?
         /// Update Launch configuration name request.
         public let name: String?
+        public let postLaunchActions: PostLaunchActions?
         /// Update Launch configuration by Source Server ID request.
         public let sourceServerID: String
         /// Update Launch configuration Target instance right sizing request.
         public let targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod?
 
-        public init(bootMode: BootMode? = nil, copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, launchDisposition: LaunchDisposition? = nil, licensing: Licensing? = nil, name: String? = nil, sourceServerID: String, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
+        public init(bootMode: BootMode? = nil, copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, launchDisposition: LaunchDisposition? = nil, licensing: Licensing? = nil, name: String? = nil, postLaunchActions: PostLaunchActions? = nil, sourceServerID: String, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
             self.bootMode = bootMode
             self.copyPrivateIp = copyPrivateIp
             self.copyTags = copyTags
             self.launchDisposition = launchDisposition
             self.licensing = licensing
             self.name = name
+            self.postLaunchActions = postLaunchActions
             self.sourceServerID = sourceServerID
             self.targetInstanceTypeRightSizingMethod = targetInstanceTypeRightSizingMethod
         }
 
         public func validate(name: String) throws {
             try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.postLaunchActions?.validate(name: "\(name).postLaunchActions")
             try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, max: 19)
             try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, min: 19)
             try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, pattern: "^s-[0-9a-zA-Z]{17}$")
@@ -1956,8 +2271,33 @@ extension Mgn {
             case launchDisposition
             case licensing
             case name
+            case postLaunchActions
             case sourceServerID
             case targetInstanceTypeRightSizingMethod
+        }
+    }
+
+    public struct UpdateLaunchConfigurationTemplateRequest: AWSEncodableShape {
+        /// Update Launch configuration Target instance right sizing request.
+        public let launchConfigurationTemplateID: String
+        /// Update Launch configuration Target instance right sizing request.
+        public let postLaunchActions: PostLaunchActions?
+
+        public init(launchConfigurationTemplateID: String, postLaunchActions: PostLaunchActions? = nil) {
+            self.launchConfigurationTemplateID = launchConfigurationTemplateID
+            self.postLaunchActions = postLaunchActions
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.launchConfigurationTemplateID, name: "launchConfigurationTemplateID", parent: name, max: 21)
+            try self.validate(self.launchConfigurationTemplateID, name: "launchConfigurationTemplateID", parent: name, min: 21)
+            try self.validate(self.launchConfigurationTemplateID, name: "launchConfigurationTemplateID", parent: name, pattern: "^lct-[0-9a-zA-Z]{17}$")
+            try self.postLaunchActions?.validate(name: "\(name).postLaunchActions")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case launchConfigurationTemplateID
+            case postLaunchActions
         }
     }
 

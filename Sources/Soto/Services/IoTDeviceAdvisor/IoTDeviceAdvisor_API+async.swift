@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -68,7 +68,7 @@ extension IoTDeviceAdvisor {
         return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Starts a Device Advisor test suite run.  Requires permission to access the StartSuiteRun action.
+    /// Starts a Device Advisor test suite run. Requires permission to access the StartSuiteRun action.
     public func startSuiteRun(_ input: StartSuiteRunRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StartSuiteRunResponse {
         return try await self.client.execute(operation: "StartSuiteRun", path: "/suiteDefinitions/{suiteDefinitionId}/suiteRuns", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -88,7 +88,7 @@ extension IoTDeviceAdvisor {
         return try await self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates a Device Advisor test suite.  Requires permission to access the UpdateSuiteDefinition action.
+    /// Updates a Device Advisor test suite. Requires permission to access the UpdateSuiteDefinition action.
     public func updateSuiteDefinition(_ input: UpdateSuiteDefinitionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateSuiteDefinitionResponse {
         return try await self.client.execute(operation: "UpdateSuiteDefinition", path: "/suiteDefinitions/{suiteDefinitionId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

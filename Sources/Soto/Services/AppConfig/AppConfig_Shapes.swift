@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -20,6 +20,17 @@ import SotoCore
 
 extension AppConfig {
     // MARK: Enums
+
+    public enum ActionPoint: String, CustomStringConvertible, Codable, _SotoSendable {
+        case onDeploymentBaking = "ON_DEPLOYMENT_BAKING"
+        case onDeploymentComplete = "ON_DEPLOYMENT_COMPLETE"
+        case onDeploymentRolledBack = "ON_DEPLOYMENT_ROLLED_BACK"
+        case onDeploymentStart = "ON_DEPLOYMENT_START"
+        case onDeploymentStep = "ON_DEPLOYMENT_STEP"
+        case preCreateHostedConfigurationVersion = "PRE_CREATE_HOSTED_CONFIGURATION_VERSION"
+        case preStartDeployment = "PRE_START_DEPLOYMENT"
+        public var description: String { return self.rawValue }
+    }
 
     public enum DeploymentEventType: String, CustomStringConvertible, Codable, _SotoSendable {
         case bakeTimeStarted = "BAKE_TIME_STARTED"
@@ -77,6 +88,79 @@ extension AppConfig {
 
     // MARK: Shapes
 
+    public struct Action: AWSEncodableShape & AWSDecodableShape {
+        /// Information about the action.
+        public let description: String?
+        /// The action name.
+        public let name: String?
+        /// An Amazon Resource Name (ARN) for an Identity and Access Management assume role.
+        public let roleArn: String?
+        /// The extension URI associated to the action point in the extension definition. The URI can be an Amazon Resource Name (ARN) for one of the following: an Lambda function, an Amazon Simple Queue Service queue, an Amazon Simple Notification Service topic, or the Amazon EventBridge default event bus.
+        public let uri: String?
+
+        public init(description: String? = nil, name: String? = nil, roleArn: String? = nil, uri: String? = nil) {
+            self.description = description
+            self.name = name
+            self.roleArn = roleArn
+            self.uri = uri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:[a-z]+:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:[a-zA-Z0-9-_/:.]+$")
+            try self.validate(self.uri, name: "uri", parent: name, max: 2048)
+            try self.validate(self.uri, name: "uri", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case name = "Name"
+            case roleArn = "RoleArn"
+            case uri = "Uri"
+        }
+    }
+
+    public struct ActionInvocation: AWSDecodableShape {
+        /// The name of the action.
+        public let actionName: String?
+        /// The error code when an extension invocation fails.
+        public let errorCode: String?
+        /// The error message when an extension invocation fails.
+        public let errorMessage: String?
+        /// The name, the ID, or the Amazon Resource Name (ARN) of the extension.
+        public let extensionIdentifier: String?
+        /// A system-generated ID for this invocation.
+        public let invocationId: String?
+        /// An Amazon Resource Name (ARN) for an Identity and Access Management assume role.
+        public let roleArn: String?
+        /// The extension URI associated to the action point in the extension definition. The URI can be an Amazon Resource Name (ARN) for one of the following: an Lambda function, an Amazon Simple Queue Service queue, an Amazon Simple Notification Service topic, or the Amazon EventBridge default event bus.
+        public let uri: String?
+
+        public init(actionName: String? = nil, errorCode: String? = nil, errorMessage: String? = nil, extensionIdentifier: String? = nil, invocationId: String? = nil, roleArn: String? = nil, uri: String? = nil) {
+            self.actionName = actionName
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.extensionIdentifier = extensionIdentifier
+            self.invocationId = invocationId
+            self.roleArn = roleArn
+            self.uri = uri
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionName = "ActionName"
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
+            case extensionIdentifier = "ExtensionIdentifier"
+            case invocationId = "InvocationId"
+            case roleArn = "RoleArn"
+            case uri = "Uri"
+        }
+    }
+
     public struct Application: AWSDecodableShape {
         /// The description of the application.
         public let description: String?
@@ -112,6 +196,31 @@ extension AppConfig {
         private enum CodingKeys: String, CodingKey {
             case items = "Items"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct AppliedExtension: AWSDecodableShape {
+        /// The system-generated ID for the association.
+        public let extensionAssociationId: String?
+        /// The system-generated ID of the extension.
+        public let extensionId: String?
+        /// One or more parameters for the actions called by the extension.
+        public let parameters: [String: String]?
+        /// The extension version number.
+        public let versionNumber: Int?
+
+        public init(extensionAssociationId: String? = nil, extensionId: String? = nil, parameters: [String: String]? = nil, versionNumber: Int? = nil) {
+            self.extensionAssociationId = extensionAssociationId
+            self.extensionId = extensionId
+            self.parameters = parameters
+            self.versionNumber = versionNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case extensionAssociationId = "ExtensionAssociationId"
+            case extensionId = "ExtensionId"
+            case parameters = "Parameters"
+            case versionNumber = "VersionNumber"
         }
     }
 
@@ -307,7 +416,7 @@ extension AppConfig {
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.locationUri, name: "locationUri", parent: name, max: 2048)
             try self.validate(self.locationUri, name: "locationUri", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.retrievalRoleArn, name: "retrievalRoleArn", parent: name, max: 2048)
             try self.validate(self.retrievalRoleArn, name: "retrievalRoleArn", parent: name, min: 20)
@@ -341,7 +450,7 @@ extension AppConfig {
         public let deploymentDurationInMinutes: Int
         /// A description of the deployment strategy.
         public let description: String?
-        /// The amount of time AppConfig monitors for alarms before considering the deployment to be complete and no longer eligible for automatic roll back.
+        /// Specifies the amount of time AppConfig monitors for Amazon CloudWatch alarms after the configuration has been deployed to 100% of its targets, before considering the deployment to be complete. If an alarm is triggered during this time, AppConfig rolls back the deployment. You must configure permissions for AppConfig to roll back based on CloudWatch alarms. For more information, see Configuring permissions for rollback based on Amazon CloudWatch alarms in the AppConfig User Guide.
         public let finalBakeTimeInMinutes: Int?
         /// The percentage of targets to receive a deployed configuration during each interval.
         public let growthFactor: Float
@@ -351,11 +460,11 @@ extension AppConfig {
         /// A name for the deployment strategy.
         public let name: String
         /// Save the deployment strategy to a Systems Manager (SSM) document.
-        public let replicateTo: ReplicateTo
+        public let replicateTo: ReplicateTo?
         /// Metadata to assign to the deployment strategy. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define.
         public let tags: [String: String]?
 
-        public init(deploymentDurationInMinutes: Int, description: String? = nil, finalBakeTimeInMinutes: Int? = nil, growthFactor: Float, growthType: GrowthType? = nil, name: String, replicateTo: ReplicateTo, tags: [String: String]? = nil) {
+        public init(deploymentDurationInMinutes: Int, description: String? = nil, finalBakeTimeInMinutes: Int? = nil, growthFactor: Float, growthType: GrowthType? = nil, name: String, replicateTo: ReplicateTo? = nil, tags: [String: String]? = nil) {
             self.deploymentDurationInMinutes = deploymentDurationInMinutes
             self.description = description
             self.finalBakeTimeInMinutes = finalBakeTimeInMinutes
@@ -441,6 +550,116 @@ extension AppConfig {
             case description = "Description"
             case monitors = "Monitors"
             case name = "Name"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateExtensionAssociationRequest: AWSEncodableShape {
+        /// The name, the ID, or the Amazon Resource Name (ARN) of the extension.
+        public let extensionIdentifier: String
+        /// The version number of the extension. If not specified, AppConfig uses the maximum version of the extension.
+        public let extensionVersionNumber: Int?
+        /// The parameter names and values defined in the extensions. Extension parameters marked Required must be entered for this field.
+        public let parameters: [String: String]?
+        /// The ARN of an application, configuration profile, or environment.
+        public let resourceIdentifier: String
+        /// Adds one or more tags for the specified extension association. Tags are metadata that help you categorize resources in different ways, for example, by purpose, owner, or environment. Each tag consists of a key and an optional value, both of which you define.
+        public let tags: [String: String]?
+
+        public init(extensionIdentifier: String, extensionVersionNumber: Int? = nil, parameters: [String: String]? = nil, resourceIdentifier: String, tags: [String: String]? = nil) {
+            self.extensionIdentifier = extensionIdentifier
+            self.extensionVersionNumber = extensionVersionNumber
+            self.parameters = parameters
+            self.resourceIdentifier = resourceIdentifier
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.extensionIdentifier, name: "extensionIdentifier", parent: name, max: 2048)
+            try self.validate(self.extensionIdentifier, name: "extensionIdentifier", parent: name, min: 1)
+            try self.parameters?.forEach {
+                try validate($0.key, name: "parameters.key", parent: name, max: 64)
+                try validate($0.key, name: "parameters.key", parent: name, min: 1)
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 2048)
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, min: 1)
+            }
+            try self.validate(self.parameters, name: "parameters", parent: name, max: 5)
+            try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, max: 2048)
+            try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, min: 1)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case extensionIdentifier = "ExtensionIdentifier"
+            case extensionVersionNumber = "ExtensionVersionNumber"
+            case parameters = "Parameters"
+            case resourceIdentifier = "ResourceIdentifier"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateExtensionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "latestVersionNumber", location: .header("Latest-Version-Number"))
+        ]
+
+        /// The actions defined in the extension.
+        public let actions: [ActionPoint: [Action]]
+        /// Information about the extension.
+        public let description: String?
+        /// You can omit this field when you create an extension. When you create a new version, specify the most recent current version number. For example, you create version 3, enter 2 for this field.
+        public let latestVersionNumber: Int?
+        /// A name for the extension. Each extension name in your account must be unique. Extension versions use the same name.
+        public let name: String
+        /// The parameters accepted by the extension. You specify parameter values when you associate the extension to an AppConfig resource by using the CreateExtensionAssociation API action. For Lambda extension actions, these parameters are included in the Lambda request object.
+        public let parameters: [String: Parameter]?
+        /// Adds one or more tags for the specified extension. Tags are metadata that help you categorize resources in different ways, for example, by purpose, owner, or environment. Each tag consists of a key and an optional value, both of which you define.
+        public let tags: [String: String]?
+
+        public init(actions: [ActionPoint: [Action]], description: String? = nil, latestVersionNumber: Int? = nil, name: String, parameters: [String: Parameter]? = nil, tags: [String: String]? = nil) {
+            self.actions = actions
+            self.description = description
+            self.latestVersionNumber = latestVersionNumber
+            self.name = name
+            self.parameters = parameters
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.actions.forEach {
+                try validate($0.value, name: "actions[\"\($0.key)\"]", parent: name, max: 1)
+                try validate($0.value, name: "actions[\"\($0.key)\"]", parent: name, min: 1)
+            }
+            try self.validate(self.actions, name: "actions", parent: name, max: 5)
+            try self.validate(self.actions, name: "actions", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.parameters?.forEach {
+                try validate($0.key, name: "parameters.key", parent: name, max: 64)
+                try validate($0.key, name: "parameters.key", parent: name, min: 1)
+                try $0.value.validate(name: "\(name).parameters[\"\($0.key)\"]")
+            }
+            try self.validate(self.parameters, name: "parameters", parent: name, max: 5)
+            try self.validate(self.parameters, name: "parameters", parent: name, min: 1)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case description = "Description"
+            case name = "Name"
+            case parameters = "Parameters"
             case tags = "Tags"
         }
     }
@@ -576,6 +795,49 @@ extension AppConfig {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DeleteExtensionAssociationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "extensionAssociationId", location: .uri("ExtensionAssociationId"))
+        ]
+
+        /// The ID of the extension association to delete.
+        public let extensionAssociationId: String
+
+        public init(extensionAssociationId: String) {
+            self.extensionAssociationId = extensionAssociationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.extensionAssociationId, name: "extensionAssociationId", parent: name, pattern: "^[a-z0-9]{4,7}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteExtensionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "extensionIdentifier", location: .uri("ExtensionIdentifier")),
+            AWSMemberEncoding(label: "versionNumber", location: .querystring("version"))
+        ]
+
+        /// The name, ID, or Amazon Resource Name (ARN) of the extension you want to delete.
+        public let extensionIdentifier: String
+        /// A specific version of an extension to delete. If omitted, the highest version is deleted.
+        public let versionNumber: Int?
+
+        public init(extensionIdentifier: String, versionNumber: Int? = nil) {
+            self.extensionIdentifier = extensionIdentifier
+            self.versionNumber = versionNumber
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.extensionIdentifier, name: "extensionIdentifier", parent: name, max: 2048)
+            try self.validate(self.extensionIdentifier, name: "extensionIdentifier", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct DeleteHostedConfigurationVersionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
@@ -607,6 +869,8 @@ extension AppConfig {
     public struct Deployment: AWSDecodableShape {
         /// The ID of the application that was deployed.
         public let applicationId: String?
+        /// A list of extensions that were processed as part of the deployment. The extensions that were previously associated to the configuration profile, environment, or the application when StartDeployment was called.
+        public let appliedExtensions: [AppliedExtension]?
         /// The time the deployment completed.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var completedAt: Date?
@@ -644,8 +908,9 @@ extension AppConfig {
         /// The state of the deployment.
         public let state: DeploymentState?
 
-        public init(applicationId: String? = nil, completedAt: Date? = nil, configurationLocationUri: String? = nil, configurationName: String? = nil, configurationProfileId: String? = nil, configurationVersion: String? = nil, deploymentDurationInMinutes: Int? = nil, deploymentNumber: Int? = nil, deploymentStrategyId: String? = nil, description: String? = nil, environmentId: String? = nil, eventLog: [DeploymentEvent]? = nil, finalBakeTimeInMinutes: Int? = nil, growthFactor: Float? = nil, growthType: GrowthType? = nil, percentageComplete: Float? = nil, startedAt: Date? = nil, state: DeploymentState? = nil) {
+        public init(applicationId: String? = nil, appliedExtensions: [AppliedExtension]? = nil, completedAt: Date? = nil, configurationLocationUri: String? = nil, configurationName: String? = nil, configurationProfileId: String? = nil, configurationVersion: String? = nil, deploymentDurationInMinutes: Int? = nil, deploymentNumber: Int? = nil, deploymentStrategyId: String? = nil, description: String? = nil, environmentId: String? = nil, eventLog: [DeploymentEvent]? = nil, finalBakeTimeInMinutes: Int? = nil, growthFactor: Float? = nil, growthType: GrowthType? = nil, percentageComplete: Float? = nil, startedAt: Date? = nil, state: DeploymentState? = nil) {
             self.applicationId = applicationId
+            self.appliedExtensions = appliedExtensions
             self.completedAt = completedAt
             self.configurationLocationUri = configurationLocationUri
             self.configurationName = configurationName
@@ -667,6 +932,7 @@ extension AppConfig {
 
         private enum CodingKeys: String, CodingKey {
             case applicationId = "ApplicationId"
+            case appliedExtensions = "AppliedExtensions"
             case completedAt = "CompletedAt"
             case configurationLocationUri = "ConfigurationLocationUri"
             case configurationName = "ConfigurationName"
@@ -688,6 +954,8 @@ extension AppConfig {
     }
 
     public struct DeploymentEvent: AWSDecodableShape {
+        /// The list of extensions that were invoked as part of the deployment.
+        public let actionInvocations: [ActionInvocation]?
         /// A description of the deployment event. Descriptions include, but are not limited to, the user account or the Amazon CloudWatch alarm ARN that initiated a rollback, the percentage of hosts that received the deployment, or in the case of an internal error, a recommendation to attempt a new deployment.
         public let description: String?
         /// The type of deployment event. Deployment event types include the start, stop, or completion of a deployment; a percentage update; the start or stop of a bake period; and the start or completion of a rollback.
@@ -698,7 +966,8 @@ extension AppConfig {
         /// The entity that triggered the deployment event. Events can be triggered by a user, AppConfig, an Amazon CloudWatch alarm, or an internal error.
         public let triggeredBy: TriggeredBy?
 
-        public init(description: String? = nil, eventType: DeploymentEventType? = nil, occurredAt: Date? = nil, triggeredBy: TriggeredBy? = nil) {
+        public init(actionInvocations: [ActionInvocation]? = nil, description: String? = nil, eventType: DeploymentEventType? = nil, occurredAt: Date? = nil, triggeredBy: TriggeredBy? = nil) {
+            self.actionInvocations = actionInvocations
             self.description = description
             self.eventType = eventType
             self.occurredAt = occurredAt
@@ -706,6 +975,7 @@ extension AppConfig {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case actionInvocations = "ActionInvocations"
             case description = "Description"
             case eventType = "EventType"
             case occurredAt = "OccurredAt"
@@ -893,6 +1163,160 @@ extension AppConfig {
         }
     }
 
+    public struct Extension: AWSDecodableShape {
+        /// The actions defined in the extension.
+        public let actions: [ActionPoint: [Action]]?
+        /// The system-generated Amazon Resource Name (ARN) for the extension.
+        public let arn: String?
+        /// Information about the extension.
+        public let description: String?
+        /// The system-generated ID of the extension.
+        public let id: String?
+        /// The extension name.
+        public let name: String?
+        /// The parameters accepted by the extension. You specify parameter values when you associate the extension to an AppConfig resource by using the CreateExtensionAssociation API action. For Lambda extension actions, these parameters are included in the Lambda request object.
+        public let parameters: [String: Parameter]?
+        /// The extension version number.
+        public let versionNumber: Int?
+
+        public init(actions: [ActionPoint: [Action]]? = nil, arn: String? = nil, description: String? = nil, id: String? = nil, name: String? = nil, parameters: [String: Parameter]? = nil, versionNumber: Int? = nil) {
+            self.actions = actions
+            self.arn = arn
+            self.description = description
+            self.id = id
+            self.name = name
+            self.parameters = parameters
+            self.versionNumber = versionNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case arn = "Arn"
+            case description = "Description"
+            case id = "Id"
+            case name = "Name"
+            case parameters = "Parameters"
+            case versionNumber = "VersionNumber"
+        }
+    }
+
+    public struct ExtensionAssociation: AWSDecodableShape {
+        /// The system-generated Amazon Resource Name (ARN) for the extension.
+        public let arn: String?
+        /// The ARN of the extension defined in the association.
+        public let extensionArn: String?
+        /// The version number for the extension defined in the association.
+        public let extensionVersionNumber: Int?
+        /// The system-generated ID for the association.
+        public let id: String?
+        /// The parameter names and values defined in the association.
+        public let parameters: [String: String]?
+        /// The ARNs of applications, configuration profiles, or environments defined in the association.
+        public let resourceArn: String?
+
+        public init(arn: String? = nil, extensionArn: String? = nil, extensionVersionNumber: Int? = nil, id: String? = nil, parameters: [String: String]? = nil, resourceArn: String? = nil) {
+            self.arn = arn
+            self.extensionArn = extensionArn
+            self.extensionVersionNumber = extensionVersionNumber
+            self.id = id
+            self.parameters = parameters
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case extensionArn = "ExtensionArn"
+            case extensionVersionNumber = "ExtensionVersionNumber"
+            case id = "Id"
+            case parameters = "Parameters"
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct ExtensionAssociationSummary: AWSDecodableShape {
+        /// The system-generated Amazon Resource Name (ARN) for the extension.
+        public let extensionArn: String?
+        /// The extension association ID. This ID is used to call other ExtensionAssociation API actions such as GetExtensionAssociation or DeleteExtensionAssociation.
+        public let id: String?
+        /// The ARNs of applications, configuration profiles, or environments defined in the association.
+        public let resourceArn: String?
+
+        public init(extensionArn: String? = nil, id: String? = nil, resourceArn: String? = nil) {
+            self.extensionArn = extensionArn
+            self.id = id
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case extensionArn = "ExtensionArn"
+            case id = "Id"
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct ExtensionAssociations: AWSDecodableShape {
+        /// The list of extension associations. Each item represents an extension association to an application, environment, or configuration profile.
+        public let items: [ExtensionAssociationSummary]?
+        /// The token for the next set of items to return. Use this token to get the next set of results.
+        public let nextToken: String?
+
+        public init(items: [ExtensionAssociationSummary]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ExtensionSummary: AWSDecodableShape {
+        /// The system-generated Amazon Resource Name (ARN) for the extension.
+        public let arn: String?
+        /// Information about the extension.
+        public let description: String?
+        /// The system-generated ID of the extension.
+        public let id: String?
+        /// The extension name.
+        public let name: String?
+        /// The extension version number.
+        public let versionNumber: Int?
+
+        public init(arn: String? = nil, description: String? = nil, id: String? = nil, name: String? = nil, versionNumber: Int? = nil) {
+            self.arn = arn
+            self.description = description
+            self.id = id
+            self.name = name
+            self.versionNumber = versionNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case description = "Description"
+            case id = "Id"
+            case name = "Name"
+            case versionNumber = "VersionNumber"
+        }
+    }
+
+    public struct Extensions: AWSDecodableShape {
+        /// The list of available extensions. The list includes Amazon Web Services-authored and user-created extensions.
+        public let items: [ExtensionSummary]?
+        /// The token for the next set of items to return. Use this token to get the next set of results.
+        public let nextToken: String?
+
+        public init(items: [ExtensionSummary]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct GetApplicationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
@@ -1046,6 +1470,49 @@ extension AppConfig {
         public func validate(name: String) throws {
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-z0-9]{4,7}$")
             try self.validate(self.environmentId, name: "environmentId", parent: name, pattern: "^[a-z0-9]{4,7}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetExtensionAssociationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "extensionAssociationId", location: .uri("ExtensionAssociationId"))
+        ]
+
+        /// The extension association ID to get.
+        public let extensionAssociationId: String
+
+        public init(extensionAssociationId: String) {
+            self.extensionAssociationId = extensionAssociationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.extensionAssociationId, name: "extensionAssociationId", parent: name, pattern: "^[a-z0-9]{4,7}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetExtensionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "extensionIdentifier", location: .uri("ExtensionIdentifier")),
+            AWSMemberEncoding(label: "versionNumber", location: .querystring("version_number"))
+        ]
+
+        /// The name, the ID, or the Amazon Resource Name (ARN) of the extension.
+        public let extensionIdentifier: String
+        /// The extension version number. If no version number was defined, AppConfig uses the highest version.
+        public let versionNumber: Int?
+
+        public init(extensionIdentifier: String, versionNumber: Int? = nil) {
+            self.extensionIdentifier = extensionIdentifier
+            self.versionNumber = versionNumber
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.extensionIdentifier, name: "extensionIdentifier", parent: name, max: 2048)
+            try self.validate(self.extensionIdentifier, name: "extensionIdentifier", parent: name, min: 1)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1325,6 +1792,81 @@ extension AppConfig {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct ListExtensionAssociationsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "extensionIdentifier", location: .querystring("extension_identifier")),
+            AWSMemberEncoding(label: "extensionVersionNumber", location: .querystring("extension_version_number")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("max_results")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next_token")),
+            AWSMemberEncoding(label: "resourceIdentifier", location: .querystring("resource_identifier"))
+        ]
+
+        /// The name, the ID, or the Amazon Resource Name (ARN) of the extension.
+        public let extensionIdentifier: String?
+        /// The version number for the extension defined in the association.
+        public let extensionVersionNumber: Int?
+        /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
+        public let maxResults: Int?
+        /// A token to start the list. Use this token to get the next set of results or pass null to get the first set of results.
+        public let nextToken: String?
+        /// The ARN of an application, configuration profile, or environment.
+        public let resourceIdentifier: String?
+
+        public init(extensionIdentifier: String? = nil, extensionVersionNumber: Int? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceIdentifier: String? = nil) {
+            self.extensionIdentifier = extensionIdentifier
+            self.extensionVersionNumber = extensionVersionNumber
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resourceIdentifier = resourceIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.extensionIdentifier, name: "extensionIdentifier", parent: name, max: 2048)
+            try self.validate(self.extensionIdentifier, name: "extensionIdentifier", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, max: 2048)
+            try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, min: 20)
+            try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:[a-z]+:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:[a-zA-Z0-9-_/:.]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListExtensionsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring("max_results")),
+            AWSMemberEncoding(label: "name", location: .querystring("name")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next_token"))
+        ]
+
+        /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
+        public let maxResults: Int?
+        /// The extension name.
+        public let name: String?
+        /// A token to start the list. Use this token to get the next set of results.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.name = name
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct ListHostedConfigurationVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
@@ -1404,6 +1946,27 @@ extension AppConfig {
         private enum CodingKeys: String, CodingKey {
             case alarmArn = "AlarmArn"
             case alarmRoleArn = "AlarmRoleArn"
+        }
+    }
+
+    public struct Parameter: AWSEncodableShape & AWSDecodableShape {
+        /// Information about the parameter.
+        public let description: String?
+        /// A parameter value must be specified in the extension association.
+        public let required: Bool?
+
+        public init(description: String? = nil, required: Bool? = nil) {
+            self.description = description
+            self.required = required
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case required = "Required"
         }
     }
 
@@ -1737,6 +2300,88 @@ extension AppConfig {
             case description = "Description"
             case monitors = "Monitors"
             case name = "Name"
+        }
+    }
+
+    public struct UpdateExtensionAssociationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "extensionAssociationId", location: .uri("ExtensionAssociationId"))
+        ]
+
+        /// The system-generated ID for the association.
+        public let extensionAssociationId: String
+        /// The parameter names and values defined in the extension.
+        public let parameters: [String: String]?
+
+        public init(extensionAssociationId: String, parameters: [String: String]? = nil) {
+            self.extensionAssociationId = extensionAssociationId
+            self.parameters = parameters
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.extensionAssociationId, name: "extensionAssociationId", parent: name, pattern: "^[a-z0-9]{4,7}$")
+            try self.parameters?.forEach {
+                try validate($0.key, name: "parameters.key", parent: name, max: 64)
+                try validate($0.key, name: "parameters.key", parent: name, min: 1)
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 2048)
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, min: 1)
+            }
+            try self.validate(self.parameters, name: "parameters", parent: name, max: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case parameters = "Parameters"
+        }
+    }
+
+    public struct UpdateExtensionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "extensionIdentifier", location: .uri("ExtensionIdentifier"))
+        ]
+
+        /// The actions defined in the extension.
+        public let actions: [ActionPoint: [Action]]?
+        /// Information about the extension.
+        public let description: String?
+        /// The name, the ID, or the Amazon Resource Name (ARN) of the extension.
+        public let extensionIdentifier: String
+        /// One or more parameters for the actions called by the extension.
+        public let parameters: [String: Parameter]?
+        /// The extension version number.
+        public let versionNumber: Int?
+
+        public init(actions: [ActionPoint: [Action]]? = nil, description: String? = nil, extensionIdentifier: String, parameters: [String: Parameter]? = nil, versionNumber: Int? = nil) {
+            self.actions = actions
+            self.description = description
+            self.extensionIdentifier = extensionIdentifier
+            self.parameters = parameters
+            self.versionNumber = versionNumber
+        }
+
+        public func validate(name: String) throws {
+            try self.actions?.forEach {
+                try validate($0.value, name: "actions[\"\($0.key)\"]", parent: name, max: 1)
+                try validate($0.value, name: "actions[\"\($0.key)\"]", parent: name, min: 1)
+            }
+            try self.validate(self.actions, name: "actions", parent: name, max: 5)
+            try self.validate(self.actions, name: "actions", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.extensionIdentifier, name: "extensionIdentifier", parent: name, max: 2048)
+            try self.validate(self.extensionIdentifier, name: "extensionIdentifier", parent: name, min: 1)
+            try self.parameters?.forEach {
+                try validate($0.key, name: "parameters.key", parent: name, max: 64)
+                try validate($0.key, name: "parameters.key", parent: name, min: 1)
+                try $0.value.validate(name: "\(name).parameters[\"\($0.key)\"]")
+            }
+            try self.validate(self.parameters, name: "parameters", parent: name, max: 5)
+            try self.validate(self.parameters, name: "parameters", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case description = "Description"
+            case parameters = "Parameters"
+            case versionNumber = "VersionNumber"
         }
     }
 

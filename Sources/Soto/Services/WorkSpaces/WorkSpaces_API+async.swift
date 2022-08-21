@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -71,6 +71,11 @@ extension WorkSpaces {
     /// Creates the specified WorkSpace bundle. For more information about creating WorkSpace bundles, see   Create a Custom WorkSpaces Image and Bundle.
     public func createWorkspaceBundle(_ input: CreateWorkspaceBundleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateWorkspaceBundleResult {
         return try await self.client.execute(operation: "CreateWorkspaceBundle", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a new WorkSpace image from an existing WorkSpace.
+    public func createWorkspaceImage(_ input: CreateWorkspaceImageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateWorkspaceImageResult {
+        return try await self.client.execute(operation: "CreateWorkspaceImage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates one or more WorkSpaces. This operation is asynchronous and returns before the WorkSpaces are created.
@@ -236,6 +241,11 @@ extension WorkSpaces {
     /// Modifies the properties of the specified Amazon WorkSpaces clients.
     public func modifyClientProperties(_ input: ModifyClientPropertiesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ModifyClientPropertiesResult {
         return try await self.client.execute(operation: "ModifyClientProperties", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Modifies multiple properties related to SAML 2.0 authentication, including the enablement status,  user access URL, and relay state parameter name that are used for configuring federation with an  SAML 2.0 identity provider.
+    public func modifySamlProperties(_ input: ModifySamlPropertiesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ModifySamlPropertiesResult {
+        return try await self.client.execute(operation: "ModifySamlProperties", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Modifies the self-service WorkSpace management capabilities for your users. For more information, see Enable Self-Service WorkSpace Management Capabilities for Your Users.

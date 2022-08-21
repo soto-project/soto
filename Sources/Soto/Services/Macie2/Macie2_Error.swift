@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -26,6 +26,7 @@ public struct Macie2ErrorType: AWSErrorType {
         case resourceNotFoundException = "ResourceNotFoundException"
         case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case throttlingException = "ThrottlingException"
+        case unprocessableEntityException = "UnprocessableEntityException"
         case validationException = "ValidationException"
     }
 
@@ -59,6 +60,8 @@ public struct Macie2ErrorType: AWSErrorType {
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     public static var throttlingException: Self { .init(.throttlingException) }
+    /// Provides information about an error that occurred due to an unprocessable entity.
+    public static var unprocessableEntityException: Self { .init(.unprocessableEntityException) }
     /// Provides information about an error that occurred due to a syntax error in a request.
     public static var validationException: Self { .init(.validationException) }
 }

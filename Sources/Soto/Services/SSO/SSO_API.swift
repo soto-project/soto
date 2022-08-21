@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -19,7 +19,10 @@
 
 /// Service object for interacting with AWS SSO service.
 ///
-/// AWS Single Sign-On Portal is a web service that makes it easy for you to assign user access to AWS SSO resources such as the user portal. Users can get AWS account applications and roles assigned to them and get federated into the application.  For general information about AWS SSO, see What is AWS Single Sign-On? in the AWS SSO User Guide.  This API reference guide describes the AWS SSO Portal operations that you can call programatically and includes detailed information on data types and errors.   AWS provides SDKs that consist of libraries and sample code for various programming languages and platforms, such as Java, Ruby, .Net, iOS, or Android. The SDKs provide a convenient way to create programmatic access to AWS SSO and other AWS services. For more information about the AWS SDKs, including how to download and install them, see Tools for Amazon Web Services.
+/// Amazon Web Services Single Sign On Portal is a web service that makes it easy for you to assign user access to Amazon Web Services SSO resources such as the AWS access portal. Users can get Amazon Web Services account applications and roles assigned to them and get federated into the application.
+///   Although Amazon Web Services Single Sign-On was renamed, the sso and identitystore API namespaces will continue to retain their original name for backward compatibility purposes. For more information, see Amazon Web Services SSO rename.
+///  This reference guide describes the Amazon Web Services SSO Portal operations that you can call programatically and includes detailed information on data types and errors.
+///   Amazon Web Services provides SDKs that consist of libraries and sample code for various programming languages and platforms, such as Java, Ruby, .Net, iOS, or Android. The SDKs provide a convenient way to create programmatic access to Amazon Web Services SSO and other Amazon Web Services services. For more information about the Amazon Web Services SDKs, including how to download and install them, see Tools for Amazon Web Services.
 public struct SSO: AWSService {
     // MARK: Member variables
 
@@ -55,7 +58,7 @@ public struct SSO: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2019-06-10",
             endpoint: endpoint,
-            serviceEndpoints: ["ap-northeast-1": "portal.sso.ap-northeast-1.amazonaws.com", "ap-northeast-2": "portal.sso.ap-northeast-2.amazonaws.com", "ap-northeast-3": "portal.sso.ap-northeast-3.amazonaws.com", "ap-south-1": "portal.sso.ap-south-1.amazonaws.com", "ap-southeast-1": "portal.sso.ap-southeast-1.amazonaws.com", "ap-southeast-2": "portal.sso.ap-southeast-2.amazonaws.com", "ca-central-1": "portal.sso.ca-central-1.amazonaws.com", "eu-central-1": "portal.sso.eu-central-1.amazonaws.com", "eu-north-1": "portal.sso.eu-north-1.amazonaws.com", "eu-south-1": "portal.sso.eu-south-1.amazonaws.com", "eu-west-1": "portal.sso.eu-west-1.amazonaws.com", "eu-west-2": "portal.sso.eu-west-2.amazonaws.com", "eu-west-3": "portal.sso.eu-west-3.amazonaws.com", "sa-east-1": "portal.sso.sa-east-1.amazonaws.com", "us-east-1": "portal.sso.us-east-1.amazonaws.com", "us-east-2": "portal.sso.us-east-2.amazonaws.com", "us-gov-east-1": "portal.sso.us-gov-east-1.amazonaws.com", "us-gov-west-1": "portal.sso.us-gov-west-1.amazonaws.com", "us-west-2": "portal.sso.us-west-2.amazonaws.com"],
+            serviceEndpoints: ["ap-east-1": "portal.sso.ap-east-1.amazonaws.com", "ap-northeast-1": "portal.sso.ap-northeast-1.amazonaws.com", "ap-northeast-2": "portal.sso.ap-northeast-2.amazonaws.com", "ap-northeast-3": "portal.sso.ap-northeast-3.amazonaws.com", "ap-south-1": "portal.sso.ap-south-1.amazonaws.com", "ap-southeast-1": "portal.sso.ap-southeast-1.amazonaws.com", "ap-southeast-2": "portal.sso.ap-southeast-2.amazonaws.com", "ca-central-1": "portal.sso.ca-central-1.amazonaws.com", "eu-central-1": "portal.sso.eu-central-1.amazonaws.com", "eu-north-1": "portal.sso.eu-north-1.amazonaws.com", "eu-south-1": "portal.sso.eu-south-1.amazonaws.com", "eu-west-1": "portal.sso.eu-west-1.amazonaws.com", "eu-west-2": "portal.sso.eu-west-2.amazonaws.com", "eu-west-3": "portal.sso.eu-west-3.amazonaws.com", "me-south-1": "portal.sso.me-south-1.amazonaws.com", "sa-east-1": "portal.sso.sa-east-1.amazonaws.com", "us-east-1": "portal.sso.us-east-1.amazonaws.com", "us-east-2": "portal.sso.us-east-2.amazonaws.com", "us-gov-east-1": "portal.sso.us-gov-east-1.amazonaws.com", "us-gov-west-1": "portal.sso.us-gov-west-1.amazonaws.com", "us-west-2": "portal.sso.us-west-2.amazonaws.com"],
             errorType: SSOErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
@@ -70,17 +73,19 @@ public struct SSO: AWSService {
         return self.client.execute(operation: "GetRoleCredentials", path: "/federation/credentials", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists all roles that are assigned to the user for a given AWS account.
+    /// Lists all roles that are assigned to the user for a given Amazon Web Services account.
     public func listAccountRoles(_ input: ListAccountRolesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAccountRolesResponse> {
         return self.client.execute(operation: "ListAccountRoles", path: "/assignment/roles", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists all AWS accounts assigned to the user. These AWS accounts are assigned by the administrator of the account. For more information, see Assign User Access in the AWS SSO User Guide. This operation returns a paginated response.
+    /// Lists all Amazon Web Services accounts assigned to the user. These Amazon Web Services accounts are assigned by the administrator of the account. For more information, see Assign User Access in the Amazon Web Services SSO User Guide. This operation returns a paginated response.
     public func listAccounts(_ input: ListAccountsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAccountsResponse> {
         return self.client.execute(operation: "ListAccounts", path: "/assignment/accounts", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Removes the client- and server-side session that is associated with the user.
+    /// Removes the locally stored SSO tokens from the client-side cache and sends an API call to the Amazon Web Services SSO service to invalidate the corresponding server-side Amazon Web Services SSO sign in session.
+    ///   If a user uses Amazon Web Services SSO to access the AWS CLI, the user’s Amazon Web Services SSO sign in session is used to obtain an IAM session, as specified in the corresponding Amazon Web Services SSO permission set. More specifically, Amazon Web Services SSO assumes an IAM role in the target account on behalf of the user, and the corresponding temporary Amazon Web Services credentials are returned to the client.
+    ///  After user logout, any existing IAM role sessions that were created by using Amazon Web Services SSO permission sets continue based on the duration configured in the permission set. For more information, see User authentications in the Amazon Web Services SSO User Guide.
     @discardableResult public func logout(_ input: LogoutRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "Logout", path: "/logout", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

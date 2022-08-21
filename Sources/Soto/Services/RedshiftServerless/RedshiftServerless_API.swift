@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS RedshiftServerless service.
 ///
-///  This is prerelease documentation for Amazon Redshift Serverless, which is in preview release.  The documentation and the feature are both subject to change. We recommend that you use this feature only in test environments,  and not in production environments. For preview terms and conditions, see Beta Service Participation in  Amazon Web Services Service Terms.  This is an interface reference for Amazon Redshift Serverless.  It contains documentation for one of the programming or command line interfaces you can use to manage Amazon Redshift Serverless.  Amazon Redshift Serverless automatically provisions data warehouse capacity and intelligently scales the  underlying resources based on workload demands. Amazon Redshift Serverless adjusts capacity in seconds to deliver consistently high  performance and simplified operations for even the most demanding and volatile workloads. Amazon Redshift Serverless lets you focus on using your data to acquire new insights for your business and customers.   To learn more about Amazon Redshift Serverless,  see What is Amazon Redshift Serverless.
+/// This is an interface reference for Amazon Redshift Serverless.  It contains documentation for one of the programming or command line interfaces you can use to manage Amazon Redshift Serverless.  Amazon Redshift Serverless automatically provisions data warehouse capacity and intelligently scales the  underlying resources based on workload demands. Amazon Redshift Serverless adjusts capacity in seconds to deliver consistently high  performance and simplified operations for even the most demanding and volatile workloads. Amazon Redshift Serverless lets you focus on using your data to acquire new insights for your business and customers.   To learn more about Amazon Redshift Serverless,  see What is Amazon Redshift Serverless.
 public struct RedshiftServerless: AWSService {
     // MARK: Member variables
 

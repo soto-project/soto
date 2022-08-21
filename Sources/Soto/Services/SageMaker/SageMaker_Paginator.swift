@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -810,6 +810,59 @@ extension SageMaker {
             command: listDomains,
             inputKey: \ListDomainsRequest.nextToken,
             outputKey: \ListDomainsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Lists all edge deployment plans.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listEdgeDeploymentPlansPaginator<Result>(
+        _ input: ListEdgeDeploymentPlansRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListEdgeDeploymentPlansResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listEdgeDeploymentPlans,
+            inputKey: \ListEdgeDeploymentPlansRequest.nextToken,
+            outputKey: \ListEdgeDeploymentPlansResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listEdgeDeploymentPlansPaginator(
+        _ input: ListEdgeDeploymentPlansRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListEdgeDeploymentPlansResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listEdgeDeploymentPlans,
+            inputKey: \ListEdgeDeploymentPlansRequest.nextToken,
+            outputKey: \ListEdgeDeploymentPlansResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2405,6 +2458,59 @@ extension SageMaker {
         )
     }
 
+    ///  Lists devices allocated to the stage, containing detailed device information and deployment status.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listStageDevicesPaginator<Result>(
+        _ input: ListStageDevicesRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListStageDevicesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listStageDevices,
+            inputKey: \ListStageDevicesRequest.nextToken,
+            outputKey: \ListStageDevicesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listStageDevicesPaginator(
+        _ input: ListStageDevicesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListStageDevicesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listStageDevices,
+            inputKey: \ListStageDevicesRequest.nextToken,
+            outputKey: \ListStageDevicesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Lists the Studio Lifecycle Configurations in your Amazon Web Services Account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -3317,6 +3423,23 @@ extension SageMaker.ListDomainsRequest: AWSPaginateToken {
     }
 }
 
+extension SageMaker.ListEdgeDeploymentPlansRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListEdgeDeploymentPlansRequest {
+        return .init(
+            creationTimeAfter: self.creationTimeAfter,
+            creationTimeBefore: self.creationTimeBefore,
+            deviceFleetNameContains: self.deviceFleetNameContains,
+            lastModifiedTimeAfter: self.lastModifiedTimeAfter,
+            lastModifiedTimeBefore: self.lastModifiedTimeBefore,
+            maxResults: self.maxResults,
+            nameContains: self.nameContains,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder
+        )
+    }
+}
+
 extension SageMaker.ListEdgePackagingJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SageMaker.ListEdgePackagingJobsRequest {
         return .init(
@@ -3469,6 +3592,21 @@ extension SageMaker.ListInferenceRecommendationsJobsRequest: AWSPaginateToken {
     }
 }
 
+extension SageMaker.ListLabelingJobsForWorkteamRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListLabelingJobsForWorkteamRequest {
+        return .init(
+            creationTimeAfter: self.creationTimeAfter,
+            creationTimeBefore: self.creationTimeBefore,
+            jobReferenceCodeContains: self.jobReferenceCodeContains,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder,
+            workteamArn: self.workteamArn
+        )
+    }
+}
+
 extension SageMaker.ListLabelingJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SageMaker.ListLabelingJobsRequest {
         return .init(
@@ -3482,21 +3620,6 @@ extension SageMaker.ListLabelingJobsRequest: AWSPaginateToken {
             sortBy: self.sortBy,
             sortOrder: self.sortOrder,
             statusEquals: self.statusEquals
-        )
-    }
-}
-
-extension SageMaker.ListLabelingJobsForWorkteamRequest: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> SageMaker.ListLabelingJobsForWorkteamRequest {
-        return .init(
-            creationTimeAfter: self.creationTimeAfter,
-            creationTimeBefore: self.creationTimeBefore,
-            jobReferenceCodeContains: self.jobReferenceCodeContains,
-            maxResults: self.maxResults,
-            nextToken: token,
-            sortBy: self.sortBy,
-            sortOrder: self.sortOrder,
-            workteamArn: self.workteamArn
         )
     }
 }
@@ -3772,6 +3895,18 @@ extension SageMaker.ListProjectsInput: AWSPaginateToken {
     }
 }
 
+extension SageMaker.ListStageDevicesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListStageDevicesRequest {
+        return .init(
+            edgeDeploymentPlanName: self.edgeDeploymentPlanName,
+            excludeDevicesDeployedInOtherStage: self.excludeDevicesDeployedInOtherStage,
+            maxResults: self.maxResults,
+            nextToken: token,
+            stageName: self.stageName
+        )
+    }
+}
+
 extension SageMaker.ListStudioLifecycleConfigsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SageMaker.ListStudioLifecycleConfigsRequest {
         return .init(
@@ -3809,6 +3944,19 @@ extension SageMaker.ListTagsInput: AWSPaginateToken {
     }
 }
 
+extension SageMaker.ListTrainingJobsForHyperParameterTuningJobRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListTrainingJobsForHyperParameterTuningJobRequest {
+        return .init(
+            hyperParameterTuningJobName: self.hyperParameterTuningJobName,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder,
+            statusEquals: self.statusEquals
+        )
+    }
+}
+
 extension SageMaker.ListTrainingJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SageMaker.ListTrainingJobsRequest {
         return .init(
@@ -3818,19 +3966,6 @@ extension SageMaker.ListTrainingJobsRequest: AWSPaginateToken {
             lastModifiedTimeBefore: self.lastModifiedTimeBefore,
             maxResults: self.maxResults,
             nameContains: self.nameContains,
-            nextToken: token,
-            sortBy: self.sortBy,
-            sortOrder: self.sortOrder,
-            statusEquals: self.statusEquals
-        )
-    }
-}
-
-extension SageMaker.ListTrainingJobsForHyperParameterTuningJobRequest: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> SageMaker.ListTrainingJobsForHyperParameterTuningJobRequest {
-        return .init(
-            hyperParameterTuningJobName: self.hyperParameterTuningJobName,
-            maxResults: self.maxResults,
             nextToken: token,
             sortBy: self.sortBy,
             sortOrder: self.sortOrder,

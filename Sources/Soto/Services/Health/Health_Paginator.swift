@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -404,17 +404,6 @@ extension Health.DescribeAffectedAccountsForOrganizationRequest: AWSPaginateToke
     }
 }
 
-extension Health.DescribeAffectedEntitiesRequest: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> Health.DescribeAffectedEntitiesRequest {
-        return .init(
-            filter: self.filter,
-            locale: self.locale,
-            maxResults: self.maxResults,
-            nextToken: token
-        )
-    }
-}
-
 extension Health.DescribeAffectedEntitiesForOrganizationRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Health.DescribeAffectedEntitiesForOrganizationRequest {
         return .init(
@@ -422,6 +411,17 @@ extension Health.DescribeAffectedEntitiesForOrganizationRequest: AWSPaginateToke
             maxResults: self.maxResults,
             nextToken: token,
             organizationEntityFilters: self.organizationEntityFilters
+        )
+    }
+}
+
+extension Health.DescribeAffectedEntitiesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Health.DescribeAffectedEntitiesRequest {
+        return .init(
+            filter: self.filter,
+            locale: self.locale,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }
@@ -448,8 +448,8 @@ extension Health.DescribeEventTypesRequest: AWSPaginateToken {
     }
 }
 
-extension Health.DescribeEventsRequest: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> Health.DescribeEventsRequest {
+extension Health.DescribeEventsForOrganizationRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Health.DescribeEventsForOrganizationRequest {
         return .init(
             filter: self.filter,
             locale: self.locale,
@@ -459,8 +459,8 @@ extension Health.DescribeEventsRequest: AWSPaginateToken {
     }
 }
 
-extension Health.DescribeEventsForOrganizationRequest: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> Health.DescribeEventsForOrganizationRequest {
+extension Health.DescribeEventsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Health.DescribeEventsRequest {
         return .init(
             filter: self.filter,
             locale: self.locale,

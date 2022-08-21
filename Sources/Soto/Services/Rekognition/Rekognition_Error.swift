@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -28,8 +28,10 @@ public struct RekognitionErrorType: AWSErrorType {
         case invalidImageFormatException = "InvalidImageFormatException"
         case invalidPaginationTokenException = "InvalidPaginationTokenException"
         case invalidParameterException = "InvalidParameterException"
+        case invalidPolicyRevisionIdException = "InvalidPolicyRevisionIdException"
         case invalidS3ObjectException = "InvalidS3ObjectException"
         case limitExceededException = "LimitExceededException"
+        case malformedPolicyDocumentException = "MalformedPolicyDocumentException"
         case provisionedThroughputExceededException = "ProvisionedThroughputExceededException"
         case resourceAlreadyExistsException = "ResourceAlreadyExistsException"
         case resourceInUseException = "ResourceInUseException"
@@ -74,10 +76,14 @@ public struct RekognitionErrorType: AWSErrorType {
     public static var invalidPaginationTokenException: Self { .init(.invalidPaginationTokenException) }
     /// Input parameter violated a constraint. Validate your parameter before calling the API operation again.
     public static var invalidParameterException: Self { .init(.invalidParameterException) }
+    /// The supplied revision id for the project policy is invalid.
+    public static var invalidPolicyRevisionIdException: Self { .init(.invalidPolicyRevisionIdException) }
     /// Amazon Rekognition is unable to access the S3 object specified in the request.
     public static var invalidS3ObjectException: Self { .init(.invalidS3ObjectException) }
     /// An Amazon Rekognition service limit was exceeded. For example, if you start too many Amazon Rekognition Video jobs concurrently, calls to start operations  (StartLabelDetection, for example) will raise a LimitExceededException exception (HTTP status code: 400) until the number of concurrently running jobs is below the Amazon Rekognition service limit.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// The format of the project policy document that you supplied to  PutProjectPolicy is incorrect.
+    public static var malformedPolicyDocumentException: Self { .init(.malformedPolicyDocumentException) }
     /// The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     public static var provisionedThroughputExceededException: Self { .init(.provisionedThroughputExceededException) }
     /// A resource with the specified ID already exists.

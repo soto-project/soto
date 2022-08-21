@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -315,19 +315,19 @@ extension ServiceCatalogAppRegistry.ListAssociatedResourcesRequest: AWSPaginateT
     }
 }
 
-extension ServiceCatalogAppRegistry.ListAttributeGroupsRequest: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> ServiceCatalogAppRegistry.ListAttributeGroupsRequest {
+extension ServiceCatalogAppRegistry.ListAttributeGroupsForApplicationRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ServiceCatalogAppRegistry.ListAttributeGroupsForApplicationRequest {
         return .init(
+            application: self.application,
             maxResults: self.maxResults,
             nextToken: token
         )
     }
 }
 
-extension ServiceCatalogAppRegistry.ListAttributeGroupsForApplicationRequest: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> ServiceCatalogAppRegistry.ListAttributeGroupsForApplicationRequest {
+extension ServiceCatalogAppRegistry.ListAttributeGroupsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ServiceCatalogAppRegistry.ListAttributeGroupsRequest {
         return .init(
-            application: self.application,
             maxResults: self.maxResults,
             nextToken: token
         )

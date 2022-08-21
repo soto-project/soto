@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -55,6 +55,7 @@ public struct IoTDeviceAdvisor: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2020-09-18",
             endpoint: endpoint,
+            serviceEndpoints: ["ap-northeast-1": "api.iotdeviceadvisor.ap-northeast-1.amazonaws.com", "eu-west-1": "api.iotdeviceadvisor.eu-west-1.amazonaws.com", "us-east-1": "api.iotdeviceadvisor.us-east-1.amazonaws.com", "us-west-2": "api.iotdeviceadvisor.us-west-2.amazonaws.com"],
             errorType: IoTDeviceAdvisorErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
@@ -109,7 +110,7 @@ public struct IoTDeviceAdvisor: AWSService {
         return self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Starts a Device Advisor test suite run.  Requires permission to access the StartSuiteRun action.
+    /// Starts a Device Advisor test suite run. Requires permission to access the StartSuiteRun action.
     public func startSuiteRun(_ input: StartSuiteRunRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartSuiteRunResponse> {
         return self.client.execute(operation: "StartSuiteRun", path: "/suiteDefinitions/{suiteDefinitionId}/suiteRuns", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -129,7 +130,7 @@ public struct IoTDeviceAdvisor: AWSService {
         return self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates a Device Advisor test suite.  Requires permission to access the UpdateSuiteDefinition action.
+    /// Updates a Device Advisor test suite. Requires permission to access the UpdateSuiteDefinition action.
     public func updateSuiteDefinition(_ input: UpdateSuiteDefinitionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateSuiteDefinitionResponse> {
         return self.client.execute(operation: "UpdateSuiteDefinition", path: "/suiteDefinitions/{suiteDefinitionId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

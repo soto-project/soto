@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -84,6 +84,11 @@ public struct WorkMail: AWSService {
         return self.client.execute(operation: "CreateAlias", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates an AvailabilityConfiguration for the given WorkMail organization and domain.
+    public func createAvailabilityConfiguration(_ input: CreateAvailabilityConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAvailabilityConfigurationResponse> {
+        return self.client.execute(operation: "CreateAvailabilityConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates a group that can be used in Amazon WorkMail by calling the RegisterToWorkMail operation.
     public func createGroup(_ input: CreateGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateGroupResponse> {
         return self.client.execute(operation: "CreateGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -117,6 +122,11 @@ public struct WorkMail: AWSService {
     /// Remove one or more specified aliases from a set of aliases for a given user.
     public func deleteAlias(_ input: DeleteAliasRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAliasResponse> {
         return self.client.execute(operation: "DeleteAlias", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes the AvailabilityConfiguration for the given WorkMail organization and domain.
+    public func deleteAvailabilityConfiguration(_ input: DeleteAvailabilityConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAvailabilityConfigurationResponse> {
+        return self.client.execute(operation: "DeleteAvailabilityConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes the email monitoring configuration for a specified organization.
@@ -259,6 +269,11 @@ public struct WorkMail: AWSService {
         return self.client.execute(operation: "ListAliases", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// List all the AvailabilityConfiguration's for the given WorkMail organization.
+    public func listAvailabilityConfigurations(_ input: ListAvailabilityConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAvailabilityConfigurationsResponse> {
+        return self.client.execute(operation: "ListAvailabilityConfigurations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns an overview of the members of a group. Users and groups can be members of a group.
     public func listGroupMembers(_ input: ListGroupMembersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListGroupMembersResponse> {
         return self.client.execute(operation: "ListGroupMembers", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -374,9 +389,19 @@ public struct WorkMail: AWSService {
         return self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Performs a test on an availability provider to ensure that access is allowed. For EWS, it verifies the provided credentials can be used to successfully log in. For Lambda, it verifies that the Lambda function can be invoked and that the resource access policy was configured to deny anonymous access. An anonymous invocation is one done without providing either a SourceArn or SourceAccount header.    The request must contain either one provider definition (EwsProvider or LambdaProvider) or the DomainName parameter. If the DomainName parameter is provided, the configuration stored under the DomainName will be tested.
+    public func testAvailabilityConfiguration(_ input: TestAvailabilityConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TestAvailabilityConfigurationResponse> {
+        return self.client.execute(operation: "TestAvailabilityConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Untags the specified tags from the specified Amazon WorkMail organization resource.
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
         return self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates an existing AvailabilityConfiguration for the given WorkMail organization and domain.
+    public func updateAvailabilityConfiguration(_ input: UpdateAvailabilityConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateAvailabilityConfigurationResponse> {
+        return self.client.execute(operation: "UpdateAvailabilityConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates the default mail domain for an organization. The default mail domain is used by the WorkMail AWS Console to suggest an email address when enabling a mail user. You can only have one default domain.

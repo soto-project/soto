@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -23,6 +23,7 @@ public struct AuditManagerErrorType: AWSErrorType {
         case accessDeniedException = "AccessDeniedException"
         case internalServerException = "InternalServerException"
         case resourceNotFoundException = "ResourceNotFoundException"
+        case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case throttlingException = "ThrottlingException"
         case validationException = "ValidationException"
     }
@@ -51,6 +52,8 @@ public struct AuditManagerErrorType: AWSErrorType {
     public static var internalServerException: Self { .init(.internalServerException) }
     ///  The resource that's specified in the request can't be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// You've reached your account quota for this resource type. To perform the requested action, delete some existing resources or request a quota increase from the Service Quotas console. For a list of Audit Manager service quotas, see Quotas and restrictions for Audit Manager.
+    public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// The request was denied due to request throttling.
     public static var throttlingException: Self { .init(.throttlingException) }
     ///  The request has invalid or missing parameters.

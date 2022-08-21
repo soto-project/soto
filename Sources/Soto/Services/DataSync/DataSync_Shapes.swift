@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -370,7 +370,7 @@ extension DataSync {
         public let efsFilesystemArn: String
         /// Specifies an Identity and Access Management (IAM) role that DataSync assumes when mounting the Amazon EFS file system.
         public let fileSystemAccessRoleArn: String?
-        /// Specifies whether you want DataSync to use TLS encryption when transferring data to or from your Amazon EFS file system. If you specify an access point using AccessPointArn or an IAM role using FileSystemAccessRoleArn, you must set this parameter to TLS1_2.
+        /// Specifies whether you want DataSync to use Transport Layer Security (TLS) 1.2 encryption when it copies data to or from the Amazon EFS file system. If you specify an access point using AccessPointArn or an IAM role using FileSystemAccessRoleArn, you must set this parameter to TLS1_2.
         public let inTransitEncryption: EfsInTransitEncryption?
         /// Specifies a mount path for your Amazon EFS file system. This is where DataSync reads or writes data (depending on if this is a source or destination location). By default, DataSync uses the root directory, but you can also include subdirectories.  You must specify a value with forward slashes (for example, /path/to/folder).
         public let subdirectory: String?
@@ -482,6 +482,65 @@ extension DataSync {
         }
     }
 
+    public struct CreateLocationFsxOntapRequest: AWSEncodableShape {
+        public let `protocol`: FsxProtocol
+        /// Specifies the Amazon EC2 security groups that provide access to your file system's preferred subnet. The security groups must allow outbound traffic on the following ports (depending on the protocol you use):    Network File System (NFS): TCP ports 111, 635, and 2049    Server Message Block (SMB): TCP port 445   Your file system's security groups must also allow inbound traffic on the same ports.
+        public let securityGroupArns: [String]
+        /// Specifies the ARN of the storage virtual machine (SVM) on your file system where you're copying data to or from.
+        public let storageVirtualMachineArn: String
+        /// Specifies the junction path (also known as a mount point) in the SVM volume where you're copying data to or from (for example, /vol1).  Don't specify a junction path in the SVM's root volume. For more information, see Managing FSx for ONTAP storage virtual machines in the Amazon FSx for NetApp ONTAP User Guide.
+        public let subdirectory: String?
+        /// Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least a name tag for your location.
+        public let tags: [TagListEntry]?
+
+        public init(protocol: FsxProtocol, securityGroupArns: [String], storageVirtualMachineArn: String, subdirectory: String? = nil, tags: [TagListEntry]? = nil) {
+            self.`protocol` = `protocol`
+            self.securityGroupArns = securityGroupArns
+            self.storageVirtualMachineArn = storageVirtualMachineArn
+            self.subdirectory = subdirectory
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.`protocol`.validate(name: "\(name).`protocol`")
+            try self.securityGroupArns.forEach {
+                try validate($0, name: "securityGroupArns[]", parent: name, max: 128)
+                try validate($0, name: "securityGroupArns[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):ec2:[a-z\\-0-9]*:[0-9]{12}:security-group/.*$")
+            }
+            try self.validate(self.securityGroupArns, name: "securityGroupArns", parent: name, max: 5)
+            try self.validate(self.securityGroupArns, name: "securityGroupArns", parent: name, min: 1)
+            try self.validate(self.storageVirtualMachineArn, name: "storageVirtualMachineArn", parent: name, max: 162)
+            try self.validate(self.storageVirtualMachineArn, name: "storageVirtualMachineArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):fsx:[a-z\\-0-9]+:[0-9]{12}:storage-virtual-machine/fs-[0-9a-f]+/svm-[0-9a-f]{17,}$")
+            try self.validate(self.subdirectory, name: "subdirectory", parent: name, max: 255)
+            try self.validate(self.subdirectory, name: "subdirectory", parent: name, pattern: "^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{1,255}$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `protocol` = "Protocol"
+            case securityGroupArns = "SecurityGroupArns"
+            case storageVirtualMachineArn = "StorageVirtualMachineArn"
+            case subdirectory = "Subdirectory"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateLocationFsxOntapResponse: AWSDecodableShape {
+        /// Specifies the ARN of the FSx for ONTAP file system location that you create.
+        public let locationArn: String?
+
+        public init(locationArn: String? = nil) {
+            self.locationArn = locationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case locationArn = "LocationArn"
+        }
+    }
+
     public struct CreateLocationFsxOpenZfsRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the FSx for OpenZFS file system.
         public let fsxFilesystemArn: String
@@ -505,6 +564,7 @@ extension DataSync {
         public func validate(name: String) throws {
             try self.validate(self.fsxFilesystemArn, name: "fsxFilesystemArn", parent: name, max: 128)
             try self.validate(self.fsxFilesystemArn, name: "fsxFilesystemArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):fsx:[a-z\\-0-9]*:[0-9]{12}:file-system/fs-.*$")
+            try self.`protocol`.validate(name: "\(name).`protocol`")
             try self.securityGroupArns.forEach {
                 try validate($0, name: "securityGroupArns[]", parent: name, max: 128)
                 try validate($0, name: "securityGroupArns[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):ec2:[a-z\\-0-9]*:[0-9]{12}:security-group/.*$")
@@ -542,19 +602,19 @@ extension DataSync {
     }
 
     public struct CreateLocationFsxWindowsRequest: AWSEncodableShape {
-        /// The name of the Windows domain that the FSx for Windows File Server belongs to.
+        /// Specifies the name of the Windows domain that the FSx for Windows File Server belongs to.
         public let domain: String?
-        /// The Amazon Resource Name (ARN) for the FSx for Windows File Server file system.
+        /// Specifies the Amazon Resource Name (ARN) for the FSx for Windows File Server file system.
         public let fsxFilesystemArn: String
-        /// The password of the user who has the permissions to access files and folders in the FSx for Windows File Server file system.
+        /// Specifies the password of the user who has the permissions to access files and folders in the file system.
         public let password: String
-        /// The ARNs of the security groups that are used to configure the FSx for Windows File Server file system.
+        /// Specifies the ARNs of the security groups that provide access to your file system's preferred subnet.  If you choose a security group that doesn't allow connections from within itself, do one of the following:   Configure the security group to allow it to communicate within itself.   Choose a different security group that can communicate with the mount target's security group.
         public let securityGroupArns: [String]
-        /// A subdirectory in the location's path. This subdirectory in the Amazon FSx for Windows File Server file system is used to read data from the Amazon FSx for Windows File Server source location or write data to the FSx for Windows File Server destination.
+        /// Specifies a mount path for your file system using forward slashes. This is where DataSync reads or writes data (depending on if this is a source or destination location).
         public let subdirectory: String?
-        /// The key-value pair that represents a tag that you want to add to the resource. The value can be an empty string. This value helps you manage, filter, and search for your resources. We recommend that you create a name tag for your location.
+        /// Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least a name tag for your location.
         public let tags: [TagListEntry]?
-        /// The user who has the permissions to access files and folders in the FSx for Windows File Server file system. For information about choosing a user name that ensures sufficient permissions to files, folders, and metadata, see user.
+        /// Specifies the user who has the permissions to access files and folders in the file system. For information about choosing a user name that ensures sufficient permissions to files, folders, and metadata, see user.
         public let user: String
 
         public init(domain: String? = nil, fsxFilesystemArn: String, password: String, securityGroupArns: [String], subdirectory: String? = nil, tags: [TagListEntry]? = nil, user: String) {
@@ -569,7 +629,7 @@ extension DataSync {
 
         public func validate(name: String) throws {
             try self.validate(self.domain, name: "domain", parent: name, max: 253)
-            try self.validate(self.domain, name: "domain", parent: name, pattern: "^([A-Za-z0-9]+[A-Za-z0-9-.]*)*[A-Za-z0-9-]*[A-Za-z0-9]$")
+            try self.validate(self.domain, name: "domain", parent: name, pattern: "^[A-Za-z0-9]((\\.|-+)?[A-Za-z0-9]){0,252}$")
             try self.validate(self.fsxFilesystemArn, name: "fsxFilesystemArn", parent: name, max: 128)
             try self.validate(self.fsxFilesystemArn, name: "fsxFilesystemArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):fsx:[a-z\\-0-9]*:[0-9]{12}:file-system/fs-.*$")
             try self.validate(self.password, name: "password", parent: name, max: 104)
@@ -602,7 +662,7 @@ extension DataSync {
     }
 
     public struct CreateLocationFsxWindowsResponse: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the FSx for Windows File Server file system location you created.
+        /// The ARN of the FSx for Windows File Server file system location you created.
         public let locationArn: String?
 
         public init(locationArn: String? = nil) {
@@ -777,23 +837,23 @@ extension DataSync {
     }
 
     public struct CreateLocationObjectStorageRequest: AWSEncodableShape {
-        /// Optional. The access key is used if credentials are required to access the self-managed object storage server. If your object storage requires a user name and password to authenticate, use AccessKey and SecretKey to provide the user name and password, respectively.
+        /// Specifies the access key (for example, a user name) if credentials are required to authenticate with the object storage server.
         public let accessKey: String?
-        /// The Amazon Resource Name (ARN) of the agents associated with the  self-managed object storage server location.
+        /// Specifies the Amazon Resource Names (ARNs) of the DataSync agents that can securely connect with your location.
         public let agentArns: [String]
-        /// The bucket on the self-managed object storage server that is used to read data from.
+        /// Specifies the name of the object storage bucket involved in the transfer.
         public let bucketName: String
-        /// Optional. The secret key is used if credentials are required to access the self-managed object storage server. If your object storage requires a user name and password to authenticate, use AccessKey and SecretKey to provide the user name and password, respectively.
+        /// Specifies the secret key (for example, a password) if credentials are required to authenticate with the object storage server.
         public let secretKey: String?
-        /// The name of the self-managed object storage server. This value is the IP address or Domain Name Service (DNS) name of the object storage server. An agent uses this hostname to mount the object storage server in a network.
+        /// Specifies the domain name or IP address of the object storage server. A DataSync agent uses this hostname to mount the object storage server in a network.
         public let serverHostname: String
-        /// The port that your self-managed object storage server accepts inbound network traffic on. The server port is set by default to TCP 80 (HTTP) or TCP 443 (HTTPS). You can  specify a custom port if your self-managed object storage server requires one.
+        /// Specifies the port that your object storage server accepts inbound network traffic on (for example, port 443).
         public let serverPort: Int?
-        /// The protocol that the object storage server uses to communicate.  Valid values are HTTP or HTTPS.
+        /// Specifies the protocol that your object storage server uses to communicate.
         public let serverProtocol: ObjectStorageServerProtocol?
-        /// The subdirectory in the self-managed object storage server that is used to read data from.
+        /// Specifies the object prefix for your object storage server. If this is a source location, DataSync only copies objects with this prefix. If this is a destination location, DataSync writes all objects with this prefix.
         public let subdirectory: String?
-        /// The key-value pair that represents the tag that you want to add to the location. The value can be an empty string. We recommend using tags to name your resources.
+        /// Specifies the key-value pair that represents a tag that you want to add to the resource. Tags can help you manage, filter, and search for your resources. We recommend creating a name tag for your location.
         public let tags: [TagListEntry]?
 
         public init(accessKey: String? = nil, agentArns: [String], bucketName: String, secretKey: String? = nil, serverHostname: String, serverPort: Int? = nil, serverProtocol: ObjectStorageServerProtocol? = nil, subdirectory: String? = nil, tags: [TagListEntry]? = nil) {
@@ -850,7 +910,7 @@ extension DataSync {
     }
 
     public struct CreateLocationObjectStorageResponse: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the agents associated with the  self-managed object storage server location.
+        /// Specifies the ARN of the object storage system location that you create.
         public let locationArn: String?
 
         public init(locationArn: String? = nil) {
@@ -941,7 +1001,7 @@ extension DataSync {
         public let subdirectory: String
         /// The key-value pair that represents the tag that you want to add to the location. The value can be an empty string. We recommend using tags to name your resources.
         public let tags: [TagListEntry]?
-        /// The user who can mount the share, has the permissions to access files and folders in the SMB share.  For information about choosing a user name that ensures sufficient permissions to files, folders, and metadata, see user.
+        /// The user who can mount the share, has the permissions to access files and folders in the SMB share.  For information about choosing a user name that ensures sufficient permissions to files, folders, and metadata, see the User setting for SMB locations.
         public let user: String
 
         public init(agentArns: [String], domain: String? = nil, mountOptions: SmbMountOptions? = nil, password: String, serverHostname: String, subdirectory: String, tags: [TagListEntry]? = nil, user: String) {
@@ -963,7 +1023,7 @@ extension DataSync {
             try self.validate(self.agentArns, name: "agentArns", parent: name, max: 4)
             try self.validate(self.agentArns, name: "agentArns", parent: name, min: 1)
             try self.validate(self.domain, name: "domain", parent: name, max: 253)
-            try self.validate(self.domain, name: "domain", parent: name, pattern: "^([A-Za-z0-9]+[A-Za-z0-9-.]*)*[A-Za-z0-9-]*[A-Za-z0-9]$")
+            try self.validate(self.domain, name: "domain", parent: name, pattern: "^[A-Za-z0-9]((\\.|-+)?[A-Za-z0-9]){0,252}$")
             try self.validate(self.password, name: "password", parent: name, max: 104)
             try self.validate(self.password, name: "password", parent: name, pattern: "^.{0,104}$")
             try self.validate(self.serverHostname, name: "serverHostname", parent: name, max: 255)
@@ -1234,7 +1294,7 @@ extension DataSync {
         public let ec2Config: Ec2Config?
         /// The Identity and Access Management (IAM) role that DataSync assumes when mounting the Amazon EFS file system.
         public let fileSystemAccessRoleArn: String?
-        /// Whether DataSync uses TLS encryption when transferring data to or from your Amazon EFS file system.
+        /// Describes whether DataSync uses Transport Layer Security (TLS) encryption when copying data to or from the Amazon EFS file system.
         public let inTransitEncryption: EfsInTransitEncryption?
         /// The ARN of the Amazon EFS file system location.
         public let locationArn: String?
@@ -1302,6 +1362,60 @@ extension DataSync {
             case locationArn = "LocationArn"
             case locationUri = "LocationUri"
             case securityGroupArns = "SecurityGroupArns"
+        }
+    }
+
+    public struct DescribeLocationFsxOntapRequest: AWSEncodableShape {
+        /// Specifies the Amazon Resource Name (ARN) of the FSx for ONTAP file system location that you want information about.
+        public let locationArn: String
+
+        public init(locationArn: String) {
+            self.locationArn = locationArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.locationArn, name: "locationArn", parent: name, max: 128)
+            try self.validate(self.locationArn, name: "locationArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case locationArn = "LocationArn"
+        }
+    }
+
+    public struct DescribeLocationFsxOntapResponse: AWSDecodableShape {
+        /// The time that the location was created.
+        public let creationTime: Date?
+        /// The ARN of the FSx for ONTAP file system.
+        public let fsxFilesystemArn: String?
+        /// The ARN of the FSx for ONTAP file system location.
+        public let locationArn: String?
+        /// The uniform resource identifier (URI) of the FSx for ONTAP file system location.
+        public let locationUri: String?
+        public let `protocol`: FsxProtocol?
+        /// The security groups that DataSync uses to access your FSx for ONTAP file system.
+        public let securityGroupArns: [String]?
+        /// The ARN of the storage virtual machine (SVM) on your FSx for ONTAP file system where you're copying data to or from.
+        public let storageVirtualMachineArn: String?
+
+        public init(creationTime: Date? = nil, fsxFilesystemArn: String? = nil, locationArn: String? = nil, locationUri: String? = nil, protocol: FsxProtocol? = nil, securityGroupArns: [String]? = nil, storageVirtualMachineArn: String? = nil) {
+            self.creationTime = creationTime
+            self.fsxFilesystemArn = fsxFilesystemArn
+            self.locationArn = locationArn
+            self.locationUri = locationUri
+            self.`protocol` = `protocol`
+            self.securityGroupArns = securityGroupArns
+            self.storageVirtualMachineArn = storageVirtualMachineArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case fsxFilesystemArn = "FsxFilesystemArn"
+            case locationArn = "LocationArn"
+            case locationUri = "LocationUri"
+            case `protocol` = "Protocol"
+            case securityGroupArns = "SecurityGroupArns"
+            case storageVirtualMachineArn = "StorageVirtualMachineArn"
         }
     }
 
@@ -1525,7 +1639,7 @@ extension DataSync {
     }
 
     public struct DescribeLocationObjectStorageRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the self-managed object storage server location that was described.
+        /// The Amazon Resource Name (ARN) of the object storage system location that you want information about.
         public let locationArn: String
 
         public init(locationArn: String) {
@@ -1543,19 +1657,19 @@ extension DataSync {
     }
 
     public struct DescribeLocationObjectStorageResponse: AWSDecodableShape {
-        /// Optional. The access key is used if credentials are required to access the self-managed object storage server. If your object storage requires a user name and password to authenticate, use AccessKey and SecretKey to provide the user name and password, respectively.
+        /// The access key (for example, a user name) required to authenticate with the object storage server.
         public let accessKey: String?
-        /// The Amazon Resource Name (ARN) of the agents associated with the  self-managed object storage server location.
+        /// The ARNs of the DataSync agents that can securely connect with your location.
         public let agentArns: [String]?
-        /// The time that the self-managed object storage server agent was created.
+        /// The time that the location was created.
         public let creationTime: Date?
-        /// The Amazon Resource Name (ARN) of the self-managed object storage server location to describe.
+        /// The ARN of the object storage system location.
         public let locationArn: String?
-        /// The URL of the source self-managed object storage server location that was described.
+        /// The URL of the object storage system location.
         public let locationUri: String?
-        /// The port that your self-managed object storage server accepts inbound network traffic on. The server port is set by default to TCP 80 (HTTP) or TCP 443 (HTTPS).
+        /// The port that your object storage server accepts inbound network traffic on (for example, port 443).
         public let serverPort: Int?
-        /// The protocol that the object storage server uses to communicate.  Valid values are HTTP or HTTPS.
+        /// The protocol that your object storage server uses to communicate.
         public let serverProtocol: ObjectStorageServerProtocol?
 
         public init(accessKey: String? = nil, agentArns: [String]? = nil, creationTime: Date? = nil, locationArn: String? = nil, locationUri: String? = nil, serverPort: Int? = nil, serverProtocol: ObjectStorageServerProtocol? = nil) {
@@ -1903,15 +2017,23 @@ extension DataSync {
     }
 
     public struct FsxProtocol: AWSEncodableShape & AWSDecodableShape {
-        /// Represents the Network File System (NFS) protocol that DataSync uses to access your FSx for OpenZFS file system.
+        /// Specifies the Network File System (NFS) protocol configuration that DataSync uses to access your FSx for OpenZFS file system or FSx for ONTAP file system's storage virtual machine (SVM).
         public let nfs: FsxProtocolNfs?
+        /// Specifies the Server Message Block (SMB) protocol configuration that DataSync uses to access your FSx for ONTAP file system's SVM.
+        public let smb: FsxProtocolSmb?
 
-        public init(nfs: FsxProtocolNfs? = nil) {
+        public init(nfs: FsxProtocolNfs? = nil, smb: FsxProtocolSmb? = nil) {
             self.nfs = nfs
+            self.smb = smb
+        }
+
+        public func validate(name: String) throws {
+            try self.smb?.validate(name: "\(name).smb")
         }
 
         private enum CodingKeys: String, CodingKey {
             case nfs = "NFS"
+            case smb = "SMB"
         }
     }
 
@@ -1924,6 +2046,39 @@ extension DataSync {
 
         private enum CodingKeys: String, CodingKey {
             case mountOptions = "MountOptions"
+        }
+    }
+
+    public struct FsxProtocolSmb: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the fully qualified domain name (FQDN) of the Microsoft Active Directory that your storage virtual machine (SVM) belongs to.
+        public let domain: String?
+        public let mountOptions: SmbMountOptions?
+        /// Specifies the password of a user who has permission to access your SVM.
+        public let password: String
+        /// Specifies a user name that can mount the location and access the files, folders, and metadata that you need in the SVM. If you provide a user in your Active Directory, note the following:   If you're using Directory Service for Microsoft Active Directory, the user must be a member of the Amazon Web Services Delegated FSx Administrators group.   If you're using a self-managed Active Directory, the user must be a member of either the Domain Admins group or a custom group that you specified for file system administration when you created your file system.   Make sure that the user has the permissions it needs to copy the data you want:    SE_TCB_NAME: Required to set object ownership and file metadata. With this privilege, you also can copy NTFS discretionary access lists (DACLs).    SE_SECURITY_NAME: May be needed to copy NTFS system access control lists (SACLs). This operation specifically requires the Windows privilege, which is granted to members of the Domain Admins group. If you configure your task to copy SACLs, make sure that the user has the required privileges. For information about copying SACLs, see Ownership and permissions-related options.
+        public let user: String
+
+        public init(domain: String? = nil, mountOptions: SmbMountOptions? = nil, password: String, user: String) {
+            self.domain = domain
+            self.mountOptions = mountOptions
+            self.password = password
+            self.user = user
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domain, name: "domain", parent: name, max: 253)
+            try self.validate(self.domain, name: "domain", parent: name, pattern: "^[A-Za-z0-9]((\\.|-+)?[A-Za-z0-9]){0,252}$")
+            try self.validate(self.password, name: "password", parent: name, max: 104)
+            try self.validate(self.password, name: "password", parent: name, pattern: "^.{0,104}$")
+            try self.validate(self.user, name: "user", parent: name, max: 104)
+            try self.validate(self.user, name: "user", parent: name, pattern: "^[^\\x5B\\x5D\\\\/:;|=,+*?]{1,104}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domain = "Domain"
+            case mountOptions = "MountOptions"
+            case password = "Password"
+            case user = "User"
         }
     }
 
@@ -2186,7 +2341,7 @@ extension DataSync {
     public struct LocationFilter: AWSEncodableShape {
         /// The name of the filter being used. Each API call supports a list of filters that are available  for it (for example, LocationType for ListLocations).
         public let name: LocationFilterName
-        /// The operator that is used to compare filter values (for example, Equals or  Contains). For more about API filtering operators, see  API filters for ListTasks and ListLocations.
+        /// The operator that is used to compare filter values (for example, Equals or  Contains).
         public let `operator`: Operator
         /// The values that you want to filter for. For example, you might want to display only Amazon S3  locations.
         public let values: [String]
@@ -2230,8 +2385,8 @@ extension DataSync {
     }
 
     public struct NfsMountOptions: AWSEncodableShape & AWSDecodableShape {
-        /// The specific NFS version that you want DataSync to use to mount your NFS share. If the server refuses to use the version specified, the sync will fail. If you don't specify a version, DataSync defaults to AUTOMATIC. That is, DataSync automatically selects a version based on negotiation with the NFS server.
-        ///  You can specify the following NFS versions:     NFSv3 - stateless protocol version that allows for asynchronous writes on the server.     NFSv4.0 - stateful, firewall-friendly protocol version that supports delegations and pseudo file systems.     NFSv4.1 - stateful protocol version that supports sessions, directory delegations, and parallel data processing. Version 4.1 also includes all features available in version 4.0.
+        /// Specifies the NFS version that you want DataSync to use when mounting your NFS share. If the server refuses to use the version specified, the task fails.
+        ///  You can specify the following options:    AUTOMATIC (default): DataSync chooses NFS version 4.1.    NFS3: Stateless protocol version that allows for asynchronous writes on the server.    NFSv4_0: Stateful, firewall-friendly protocol version that supports delegations and pseudo file systems.    NFSv4_1: Stateful protocol version that supports sessions, directory delegations, and parallel data processing. NFS version 4.1 also includes all features available in version 4.0.    DataSync currently only supports NFS version 3 with Amazon FSx for NetApp ONTAP locations.
         public let version: NfsVersion?
 
         public init(version: NfsVersion? = nil) {
@@ -2266,36 +2421,36 @@ extension DataSync {
     }
 
     public struct Options: AWSEncodableShape & AWSDecodableShape {
-        /// A file metadata value that shows the last time a file was accessed (that is, when the file was read or written to). If you set Atime to BEST_EFFORT, DataSync attempts to preserve the original Atime attribute on all source files (that is, the version before the PREPARING phase). However, Atime's behavior is not fully standard across platforms, so DataSync can only do this on a best-effort basis.  Default value: BEST_EFFORT. BEST_EFFORT: Attempt to preserve the per-file Atime value (recommended). NONE: Ignore Atime.  If Atime is set to BEST_EFFORT, Mtime must be set to PRESERVE.  If Atime is set to NONE, Mtime must also be NONE.
+        /// A file metadata value that shows the last time a file was accessed (that is, when the file was read or written to). If you set Atime to BEST_EFFORT, DataSync attempts to preserve the original Atime attribute on all source files (that is, the version before the PREPARING phase). However, Atime's behavior is not fully standard across platforms, so DataSync can only do this on a best-effort basis.  Default value: BEST_EFFORT   BEST_EFFORT: Attempt to preserve the per-file Atime value (recommended).  NONE: Ignore Atime.  If Atime is set to BEST_EFFORT, Mtime must be set to PRESERVE.  If Atime is set to NONE, Mtime must also be NONE.
         public let atime: Atime?
         /// A value that limits the bandwidth used by DataSync. For example, if you want DataSync to use a maximum of 1 MB, set this value to 1048576 (=1024*1024).
         public let bytesPerSecond: Int64?
-        /// The POSIX group ID (GID) of the file's owners. This option should only be set for NFS, EFS, and S3 locations. For more information about what metadata is copied by DataSync, see Metadata Copied by DataSync.  Default value: INT_VALUE. This preserves the integer value of the ID. INT_VALUE: Preserve the integer value of user ID (UID) and GID (recommended). NONE: Ignore UID and GID.
+        /// The POSIX group ID (GID) of the file's owners. For more information, see Metadata copied by DataSync. Default value: INT_VALUE. This preserves the integer value of the ID.  INT_VALUE: Preserve the integer value of user ID (UID) and GID (recommended).  NONE: Ignore UID and GID.
         public let gid: Gid?
         /// A value that determines the type of logs that DataSync publishes to a log stream in the Amazon CloudWatch log group that you provide. For more information about providing a log group for DataSync, see CloudWatchLogGroupArn. If set to OFF, no logs are published. BASIC publishes logs on errors for individual files transferred, and TRANSFER publishes logs for every file or object that is transferred and integrity checked.
         public let logLevel: LogLevel?
-        /// A value that indicates the last time that a file was modified (that is, a file was written to) before the PREPARING phase. This option is required for cases when you need to run the same task more than one time.  Default Value: PRESERVE  PRESERVE: Preserve original Mtime (recommended) NONE: Ignore Mtime.   If Mtime is set to PRESERVE, Atime must be set to BEST_EFFORT. If Mtime is set to NONE, Atime must also be set to NONE.
+        /// A value that indicates the last time that a file was modified (that is, a file was written to) before the PREPARING phase. This option is required for cases when you need to run the same task more than one time.  Default Value: PRESERVE   PRESERVE: Preserve original Mtime (recommended)  NONE: Ignore Mtime.   If Mtime is set to PRESERVE, Atime must be set to BEST_EFFORT. If Mtime is set to NONE, Atime must also be set to NONE.
         public let mtime: Mtime?
         /// Specifies whether object tags are maintained when transferring between object storage systems. If you want your DataSync task to ignore object tags, specify the NONE value. Default Value: PRESERVE
         public let objectTags: ObjectTags?
         /// A value that determines whether files at the destination should be overwritten or preserved when copying files. If set to NEVER a destination file will not be replaced by a source file, even if the destination file differs from the source file. If you modify files in the destination and you sync the files, you can use this value to protect against overwriting those changes.  Some storage classes have specific behaviors that can affect your S3 storage cost. For detailed information, see  Considerations when working with Amazon S3 storage classes in DataSync  in the DataSync User Guide.
         public let overwriteMode: OverwriteMode?
-        /// A value that determines which users or groups can access a file for a specific purpose such as reading, writing, or execution of the file. This option should only be set for NFS, EFS, and S3 locations. For more information about what metadata is copied by DataSync, see Metadata Copied by DataSync.  Default value: PRESERVE. PRESERVE: Preserve POSIX-style permissions (recommended). NONE: Ignore permissions.   DataSync can preserve extant permissions of a source location.
+        /// A value that determines which users or groups can access a file for a specific purpose such as reading, writing, or execution of the file. For more information, see Metadata copied by DataSync. Default value: PRESERVE   PRESERVE: Preserve POSIX-style permissions (recommended).  NONE: Ignore permissions.   DataSync can preserve extant permissions of a source location.
         public let posixPermissions: PosixPermissions?
-        /// A value that specifies whether files in the destination that don't exist in the source file system should be preserved. This option can affect your storage cost.  If your task deletes objects, you might incur minimum storage duration charges for certain storage classes. For detailed information, see Considerations when working with Amazon S3 storage classes in DataSync  in the DataSync User Guide. Default value: PRESERVE. PRESERVE: Ignore such destination files (recommended).  REMOVE: Delete destination files that aren’t present in the source.
+        /// A value that specifies whether files in the destination that don't exist in the source file system should be preserved. This option can affect your storage cost.  If your task deletes objects, you might incur minimum storage duration charges for certain storage classes. For detailed information, see Considerations when working with Amazon S3 storage classes in DataSync  in the DataSync User Guide. Default value: PRESERVE   PRESERVE: Ignore such destination files (recommended).   REMOVE: Delete destination files that aren’t present in the source.
         public let preserveDeletedFiles: PreserveDeletedFiles?
-        /// A value that determines whether DataSync should preserve the metadata of block and character devices in the source file system, and re-create the files with that device name and metadata on the destination. DataSync does not copy the contents of such devices, only the name and metadata.   DataSync can't sync the actual contents of such devices, because they are nonterminal and don't return an end-of-file (EOF) marker.  Default value: NONE. NONE: Ignore special devices (recommended).  PRESERVE: Preserve character and block device metadata. This option isn't currently supported for Amazon EFS.
+        /// A value that determines whether DataSync should preserve the metadata of block and character devices in the source file system, and re-create the files with that device name and metadata on the destination. DataSync does not copy the contents of such devices, only the name and metadata.   DataSync can't sync the actual contents of such devices, because they are nonterminal and don't return an end-of-file (EOF) marker.  Default value: NONE   NONE: Ignore special devices (recommended).   PRESERVE: Preserve character and block device metadata. This option isn't currently supported for Amazon EFS.
         public let preserveDevices: PreserveDevices?
-        /// A value that determines which components of the SMB security descriptor are copied from source to destination objects.  This value is only used for transfers  between SMB and Amazon FSx for Windows File Server locations, or between two Amazon FSx for Windows File Server locations. For more information about how  DataSync handles metadata, see How DataSync Handles Metadata and Special Files.  Default value: OWNER_DACL.
-        ///   OWNER_DACL: For each copied object, DataSync copies the following metadata:   Object owner.   NTFS discretionary access control lists (DACLs), which determine whether to  grant access to an object.   When choosing this option, DataSync does NOT copy the NTFS system access control lists (SACLs), which are used by administrators to log attempts to access a secured object.   OWNER_DACL_SACL: For each copied object, DataSync copies the following metadata:    Object owner.   NTFS discretionary access control lists (DACLs), which determine whether to grant access to an object.   NTFS system access control lists (SACLs), which are used by administrators  to log attempts to access a secured object.   Copying SACLs requires granting additional permissions to the Windows user that DataSync uses to access your SMB location. For information about choosing a user that ensures sufficient permissions to files, folders, and metadata, see user.   NONE: None of the SMB security descriptor components are copied. Destination objects are owned by the user that was provided for accessing the  destination location. DACLs and SACLs are set based on the destination server’s configuration.
+        /// A value that determines which components of the SMB security descriptor are copied from source to destination objects.  This value is only used for transfers  between SMB and Amazon FSx for Windows File Server locations, or between two Amazon FSx for Windows File Server locations. For more information about how  DataSync handles metadata, see How DataSync Handles Metadata and Special Files.  Default value: OWNER_DACL
+        ///   OWNER_DACL: For each copied object, DataSync copies the following metadata:   Object owner.   NTFS discretionary access control lists (DACLs), which determine whether to  grant access to an object.   When choosing this option, DataSync does NOT copy the NTFS system access control lists (SACLs), which are used by administrators to log attempts to access a secured object.   OWNER_DACL_SACL: For each copied object, DataSync copies the following metadata:    Object owner.   NTFS discretionary access control lists (DACLs), which determine whether to grant access to an object.   NTFS system access control lists (SACLs), which are used by administrators  to log attempts to access a secured object.   Copying SACLs requires granting additional permissions to the Windows user that DataSync uses to access your SMB location. For information about choosing a user that ensures sufficient permissions to files, folders, and metadata, see user.   NONE: None of the SMB security descriptor components are copied. Destination objects are owned by the user that was provided for accessing the destination location. DACLs and SACLs are set based on the destination server’s configuration.
         public let securityDescriptorCopyFlags: SmbSecurityDescriptorCopyFlags?
         /// A value that determines whether tasks should be queued before executing the tasks. If set to ENABLED, the tasks will be queued. The default is ENABLED. If you use the same agent to run multiple tasks, you can enable the tasks to run in series. For more information, see  Queueing task executions.
         public let taskQueueing: TaskQueueing?
-        /// A value that determines whether DataSync transfers only the data and metadata that differ between the source  and the destination location, or whether DataSync transfers all the content from the source, without comparing to  the destination location.  CHANGED: DataSync copies only data or metadata that is new or different content from the source location to the  destination location. ALL: DataSync copies all source location content to the destination, without comparing to existing content on  the destination.
+        /// A value that determines whether DataSync transfers only the data and metadata that differ between the source  and the destination location, or whether DataSync transfers all the content from the source, without comparing to  the destination location.   CHANGED: DataSync copies only data or metadata that is new or different content from the source location to the destination location.  ALL: DataSync copies all source location content to the destination, without comparing to existing content on the destination.
         public let transferMode: TransferMode?
-        /// The POSIX user ID (UID) of the file's owner. This option should only be set for NFS, EFS, and S3 locations. To learn more about what metadata is copied by DataSync, see Metadata Copied by DataSync. Default value: INT_VALUE. This preserves the integer value of the ID. INT_VALUE: Preserve the integer value of UID and group ID (GID) (recommended). NONE: Ignore UID and GID.
+        /// The POSIX user ID (UID) of the file's owner. For more information, see Metadata copied by DataSync. Default value: INT_VALUE. This preserves the integer value of the ID.  INT_VALUE: Preserve the integer value of UID and group ID (GID) (recommended).  NONE: Ignore UID and GID.
         public let uid: Uid?
-        /// A value that determines whether a data integrity verification should be performed at the end of a task execution after all data and metadata have been transferred.  For more information, see  Configure task settings.  Default value: POINT_IN_TIME_CONSISTENT. ONLY_FILES_TRANSFERRED (recommended): Perform verification only on files that were transferred.   POINT_IN_TIME_CONSISTENT: Scan the entire source and entire destination  at the end of the transfer  to verify that source and destination are fully  synchronized. This option isn't supported when transferring to S3 Glacier Flexible Retrieval or S3 Glacier Deep Archive storage classes. NONE: No additional verification is done at the end of the  transfer, but all data transmissions are integrity-checked with  checksum verification during the transfer.
+        /// A value that determines whether a data integrity verification should be performed at the end of a task execution after all data and metadata have been transferred.  For more information, see  Configure task settings.  Default value: POINT_IN_TIME_CONSISTENT   ONLY_FILES_TRANSFERRED (recommended): Perform verification only on files that were transferred.    POINT_IN_TIME_CONSISTENT: Scan the entire source and entire destination at the end of the transfer to verify that source and destination are fully synchronized. This option isn't supported when transferring to S3 Glacier Flexible Retrieval or S3 Glacier Deep Archive storage classes.  NONE: No additional verification is done at the end of the transfer, but all data transmissions are integrity-checked with checksum verification during the transfer.
         public let verifyMode: VerifyMode?
 
         public init(atime: Atime? = nil, bytesPerSecond: Int64? = nil, gid: Gid? = nil, logLevel: LogLevel? = nil, mtime: Mtime? = nil, objectTags: ObjectTags? = nil, overwriteMode: OverwriteMode? = nil, posixPermissions: PosixPermissions? = nil, preserveDeletedFiles: PreserveDeletedFiles? = nil, preserveDevices: PreserveDevices? = nil, securityDescriptorCopyFlags: SmbSecurityDescriptorCopyFlags? = nil, taskQueueing: TaskQueueing? = nil, transferMode: TransferMode? = nil, uid: Uid? = nil, verifyMode: VerifyMode? = nil) {
@@ -2400,7 +2555,7 @@ extension DataSync {
     }
 
     public struct SmbMountOptions: AWSEncodableShape & AWSDecodableShape {
-        /// The specific SMB version that you want DataSync to use to mount your SMB share. If you don't specify a version, DataSync defaults to AUTOMATIC. That is, DataSync automatically selects a version based on negotiation with the SMB server.
+        /// Specifies the SMB version that you want DataSync to use when mounting your SMB share. If you don't specify a version, DataSync defaults to AUTOMATIC and chooses a version based on negotiation with the SMB server.
         public let version: SmbVersion?
 
         public init(version: SmbVersion? = nil) {
@@ -2584,7 +2739,7 @@ extension DataSync {
     public struct TaskFilter: AWSEncodableShape {
         /// The name of the filter being used. Each API call supports a list of filters that are available for it. For example, LocationId for ListTasks.
         public let name: TaskFilterName
-        /// The operator that is used to compare filter values (for example, Equals or  Contains). For more about API filtering operators, see API filters for ListTasks and ListLocations.
+        /// The operator that is used to compare filter values (for example, Equals or  Contains).
         public let `operator`: Operator
         /// The values that you want to filter for. For example, you might want to display only tasks  for a specific destination location.
         public let values: [String]
@@ -2938,7 +3093,7 @@ extension DataSync {
             try self.validate(self.agentArns, name: "agentArns", parent: name, max: 4)
             try self.validate(self.agentArns, name: "agentArns", parent: name, min: 1)
             try self.validate(self.domain, name: "domain", parent: name, max: 253)
-            try self.validate(self.domain, name: "domain", parent: name, pattern: "^([A-Za-z0-9]+[A-Za-z0-9-.]*)*[A-Za-z0-9-]*[A-Za-z0-9]$")
+            try self.validate(self.domain, name: "domain", parent: name, pattern: "^[A-Za-z0-9]((\\.|-+)?[A-Za-z0-9]){0,252}$")
             try self.validate(self.locationArn, name: "locationArn", parent: name, max: 128)
             try self.validate(self.locationArn, name: "locationArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
             try self.validate(self.password, name: "password", parent: name, max: 104)

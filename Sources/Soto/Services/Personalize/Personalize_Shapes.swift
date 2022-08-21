@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -24,6 +24,12 @@ extension Personalize {
     public enum Domain: String, CustomStringConvertible, Codable, _SotoSendable {
         case ecommerce = "ECOMMERCE"
         case videoOnDemand = "VIDEO_ON_DEMAND"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImportMode: String, CustomStringConvertible, Codable, _SotoSendable {
+        case full = "FULL"
+        case incremental = "INCREMENTAL"
         public var description: String { return self.rawValue }
     }
 
@@ -837,7 +843,7 @@ extension Personalize {
     public struct CreateDatasetExportJobRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the dataset that contains the data to export.
         public let datasetArn: String
-        /// The data to export, based on how you imported the data. You can choose to export only BULK data that you imported using a dataset import job,  only PUT data that you imported incrementally (using the console, PutEvents, PutUsers and PutItems operations), or ALL  for both types. The default value is PUT.
+        /// The data to export, based on how you imported the data. You can choose to export only BULK data that you imported using a dataset import job, only PUT data that you imported incrementally (using the console, PutEvents, PutUsers and PutItems operations), or ALL for both types. The default value is PUT.
         public let ingestionMode: IngestionMode?
         /// The name for the dataset export job.
         public let jobName: String
@@ -896,7 +902,7 @@ extension Personalize {
     }
 
     public struct CreateDatasetGroupRequest: AWSEncodableShape {
-        /// The domain of the dataset group. Specify a domain to create a Domain dataset group. The domain you specify  determines the default schemas for datasets and the use cases available for recommenders. If you don't specify a domain, you create a Custom dataset group with solution versions that you deploy with a campaign.
+        /// The domain of the dataset group. Specify a domain to create a Domain dataset group. The domain you specify determines the default schemas for datasets and the use cases available for recommenders. If you don't specify a domain, you create a Custom dataset group with solution versions that you deploy with a campaign.
         public let domain: Domain?
         /// The Amazon Resource Name (ARN) of a Key Management Service (KMS) key used to encrypt the datasets.
         public let kmsKeyArn: String?
@@ -960,6 +966,8 @@ extension Personalize {
         public let datasetArn: String
         /// The Amazon S3 bucket that contains the training data to import.
         public let dataSource: DataSource
+        /// Specify how to add the new records to an existing dataset. The default import mode is FULL. If you haven't imported bulk records into the dataset previously, you can only specify FULL.   Specify FULL to overwrite all existing bulk data in your dataset. Data you imported individually is not replaced.   Specify INCREMENTAL to append the new records to the existing data in your dataset. Amazon Personalize replaces any record with the same ID with the new one.
+        public let importMode: ImportMode?
         /// The name for the dataset import job.
         public let jobName: String
         /// The ARN of the IAM role that has permissions to read from the Amazon S3 data source.
@@ -967,9 +975,10 @@ extension Personalize {
         /// A list of tags to apply to the dataset import job.
         public let tags: [Tag]?
 
-        public init(datasetArn: String, dataSource: DataSource, jobName: String, roleArn: String, tags: [Tag]? = nil) {
+        public init(datasetArn: String, dataSource: DataSource, importMode: ImportMode? = nil, jobName: String, roleArn: String, tags: [Tag]? = nil) {
             self.datasetArn = datasetArn
             self.dataSource = dataSource
+            self.importMode = importMode
             self.jobName = jobName
             self.roleArn = roleArn
             self.tags = tags
@@ -993,6 +1002,7 @@ extension Personalize {
         private enum CodingKeys: String, CodingKey {
             case datasetArn
             case dataSource
+            case importMode
             case jobName
             case roleArn
             case tags
@@ -1450,11 +1460,11 @@ extension Personalize {
         public let datasetExportJobArn: String?
         /// If a dataset export job fails, provides the reason why.
         public let failureReason: String?
-        /// The data to export, based on how you imported the data. You can choose to export BULK data that you imported using a dataset import job,  PUT data that you imported incrementally (using the console, PutEvents, PutUsers and PutItems operations), or ALL  for both types. The default value is PUT.
+        /// The data to export, based on how you imported the data. You can choose to export BULK data that you imported using a dataset import job, PUT data that you imported incrementally (using the console, PutEvents, PutUsers and PutItems operations), or ALL for both types. The default value is PUT.
         public let ingestionMode: IngestionMode?
         /// The name of the export job.
         public let jobName: String?
-        /// The path to the Amazon S3 bucket where the job's output is stored.  For example:  s3://bucket-name/folder-name/
+        /// The path to the Amazon S3 bucket where the job's output is stored. For example:  s3://bucket-name/folder-name/
         public let jobOutput: DatasetExportJobOutput?
         /// The date and time (in Unix time) the status of the dataset export job was last updated.
         public let lastUpdatedDateTime: Date?
@@ -1632,6 +1642,8 @@ extension Personalize {
         public let dataSource: DataSource?
         /// If a dataset import job fails, provides the reason why.
         public let failureReason: String?
+        /// The import mode used by the dataset import job to import new records.
+        public let importMode: ImportMode?
         /// The name of the import job.
         public let jobName: String?
         /// The date and time (in Unix time) the dataset was last updated.
@@ -1641,12 +1653,13 @@ extension Personalize {
         /// The status of the dataset import job. A dataset import job can be in one of the following states:   CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
         public let status: String?
 
-        public init(creationDateTime: Date? = nil, datasetArn: String? = nil, datasetImportJobArn: String? = nil, dataSource: DataSource? = nil, failureReason: String? = nil, jobName: String? = nil, lastUpdatedDateTime: Date? = nil, roleArn: String? = nil, status: String? = nil) {
+        public init(creationDateTime: Date? = nil, datasetArn: String? = nil, datasetImportJobArn: String? = nil, dataSource: DataSource? = nil, failureReason: String? = nil, importMode: ImportMode? = nil, jobName: String? = nil, lastUpdatedDateTime: Date? = nil, roleArn: String? = nil, status: String? = nil) {
             self.creationDateTime = creationDateTime
             self.datasetArn = datasetArn
             self.datasetImportJobArn = datasetImportJobArn
             self.dataSource = dataSource
             self.failureReason = failureReason
+            self.importMode = importMode
             self.jobName = jobName
             self.lastUpdatedDateTime = lastUpdatedDateTime
             self.roleArn = roleArn
@@ -1659,6 +1672,7 @@ extension Personalize {
             case datasetImportJobArn
             case dataSource
             case failureReason
+            case importMode
             case jobName
             case lastUpdatedDateTime
             case roleArn
@@ -1673,6 +1687,8 @@ extension Personalize {
         public let datasetImportJobArn: String?
         /// If a dataset import job fails, the reason behind the failure.
         public let failureReason: String?
+        /// The import mode the dataset import job used to update the data in the dataset.  For more information see Updating existing bulk data.
+        public let importMode: ImportMode?
         /// The name of the dataset import job.
         public let jobName: String?
         /// The date and time (in Unix time) that the dataset import job status was last updated.
@@ -1680,10 +1696,11 @@ extension Personalize {
         /// The status of the dataset import job. A dataset import job can be in one of the following states:   CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
         public let status: String?
 
-        public init(creationDateTime: Date? = nil, datasetImportJobArn: String? = nil, failureReason: String? = nil, jobName: String? = nil, lastUpdatedDateTime: Date? = nil, status: String? = nil) {
+        public init(creationDateTime: Date? = nil, datasetImportJobArn: String? = nil, failureReason: String? = nil, importMode: ImportMode? = nil, jobName: String? = nil, lastUpdatedDateTime: Date? = nil, status: String? = nil) {
             self.creationDateTime = creationDateTime
             self.datasetImportJobArn = datasetImportJobArn
             self.failureReason = failureReason
+            self.importMode = importMode
             self.jobName = jobName
             self.lastUpdatedDateTime = lastUpdatedDateTime
             self.status = status
@@ -1693,6 +1710,7 @@ extension Personalize {
             case creationDateTime
             case datasetImportJobArn
             case failureReason
+            case importMode
             case jobName
             case lastUpdatedDateTime
             case status

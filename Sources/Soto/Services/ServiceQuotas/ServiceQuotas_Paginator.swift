@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -349,23 +349,23 @@ extension ServiceQuotas.ListAWSDefaultServiceQuotasRequest: AWSPaginateToken {
     }
 }
 
-extension ServiceQuotas.ListRequestedServiceQuotaChangeHistoryRequest: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> ServiceQuotas.ListRequestedServiceQuotaChangeHistoryRequest {
-        return .init(
-            maxResults: self.maxResults,
-            nextToken: token,
-            serviceCode: self.serviceCode,
-            status: self.status
-        )
-    }
-}
-
 extension ServiceQuotas.ListRequestedServiceQuotaChangeHistoryByQuotaRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ServiceQuotas.ListRequestedServiceQuotaChangeHistoryByQuotaRequest {
         return .init(
             maxResults: self.maxResults,
             nextToken: token,
             quotaCode: self.quotaCode,
+            serviceCode: self.serviceCode,
+            status: self.status
+        )
+    }
+}
+
+extension ServiceQuotas.ListRequestedServiceQuotaChangeHistoryRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ServiceQuotas.ListRequestedServiceQuotaChangeHistoryRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
             serviceCode: self.serviceCode,
             status: self.status
         )

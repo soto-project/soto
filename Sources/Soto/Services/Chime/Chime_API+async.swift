@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -890,7 +890,7 @@ extension Chime {
         return try await self.client.execute(operation: "PutVoiceConnectorProxy", path: "/voice-connectors/{VoiceConnectorId}/programmable-numbers/proxy", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Adds a streaming configuration for the specified Amazon Chime Voice Connector. The streaming configuration specifies whether media streaming is enabled for sending to Indonesians. It also sets the retention period, in hours, for the Amazon Kinesis data.
+    /// Adds a streaming configuration for the specified Amazon Chime Voice Connector. The streaming configuration specifies whether media streaming is enabled for sending to Kinesis. It also sets the retention period, in hours, for the Amazon Kinesis data.
     public func putVoiceConnectorStreamingConfiguration(_ input: PutVoiceConnectorStreamingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PutVoiceConnectorStreamingConfigurationResponse {
         return try await self.client.execute(operation: "PutVoiceConnectorStreamingConfiguration", path: "/voice-connectors/{VoiceConnectorId}/streaming-configuration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1094,6 +1094,11 @@ extension Chime {
     /// Updates details of the specified Amazon Chime Voice Connector group, such as the name and Amazon Chime Voice Connector priority ranking.
     public func updateVoiceConnectorGroup(_ input: UpdateVoiceConnectorGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateVoiceConnectorGroupResponse {
         return try await self.client.execute(operation: "UpdateVoiceConnectorGroup", path: "/voice-connector-groups/{VoiceConnectorGroupId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Validates an address to be used for 911 calls made with Amazon  Chime Voice Connectors. You can use validated addresses  in a Presence Information Data Format Location Object file that you include in SIP requests. That helps ensure that addresses are routed to the appropriate Public Safety Answering Point.
+    public func validateE911Address(_ input: ValidateE911AddressRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ValidateE911AddressResponse {
+        return try await self.client.execute(operation: "ValidateE911Address", path: "/emergency-calling/address", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 }
 

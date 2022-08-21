@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS Pricing service.
 ///
-/// Amazon Web Services Price List Service API (Amazon Web Services Price List Service) is a centralized and convenient way to programmatically query Amazon Web Services for services, products, and pricing information. The Amazon Web Services Price List Service uses standardized product attributes such as Location, Storage Class, and Operating System, and provides prices at the SKU level. You can use the Amazon Web Services Price List Service to build cost control and scenario planning tools, reconcile billing data, forecast future spend for budgeting purposes, and provide cost benefit analysis that compare your internal workloads with Amazon Web Services. Use GetServices without a service code to retrieve the service codes for all AWS services, then  GetServices with a service code to retrieve the attribute names for  that service. After you have the service code and attribute names, you can use GetAttributeValues to see what values are available for an attribute. With the service code and an attribute name and value,  you can use GetProducts to find specific products that you're interested in, such as  an AmazonEC2 instance, with a Provisioned IOPS  volumeType. Service Endpoint Amazon Web Services Price List Service API provides the following two endpoints:   https://api.pricing.us-east-1.amazonaws.com   https://api.pricing.ap-south-1.amazonaws.com
+/// Amazon Web Services Price List API is a centralized and convenient way to programmatically query Amazon Web Services for services, products, and pricing information. The Amazon Web Services Price List uses standardized product attributes such as Location, Storage Class, and Operating System, and provides prices at the SKU level. You can use the Amazon Web Services Price List to build cost control and scenario planning tools, reconcile billing data, forecast future spend for budgeting purposes, and provide cost benefit analysis that compare your internal workloads with Amazon Web Services. Use GetServices without a service code to retrieve the service codes for all AWS services, then  GetServices with a service code to retrieve the attribute names for  that service. After you have the service code and attribute names, you can use GetAttributeValues to see what values are available for an attribute. With the service code and an attribute name and value,  you can use GetProducts to find specific products that you're interested in, such as  an AmazonEC2 instance, with a Provisioned IOPS  volumeType. Service Endpoint Amazon Web Services Price List service API provides the following two endpoints:   https://api.pricing.us-east-1.amazonaws.com   https://api.pricing.ap-south-1.amazonaws.com
 public struct Pricing: AWSService {
     // MARK: Member variables
 
@@ -70,7 +70,7 @@ public struct Pricing: AWSService {
         return self.client.execute(operation: "DescribeServices", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns a list of attribute values. Attributes are similar to the details  in a Price List API offer file. For a list of available attributes, see  Offer File Definitions in the Amazon Web Services Billing and Cost Management User Guide.
+    /// Returns a list of attribute values. Attributes are similar to the details  in a Price List API offer file. For a list of available attributes, see  Offer File Definitions in the Billing and Cost Management User Guide.
     public func getAttributeValues(_ input: GetAttributeValuesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAttributeValuesResponse> {
         return self.client.execute(operation: "GetAttributeValues", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

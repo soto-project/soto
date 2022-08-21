@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -20,6 +20,14 @@ import SotoCore
 
 extension CloudFormation {
     // MARK: Enums
+
+    public enum AccountFilterType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case difference = "DIFFERENCE"
+        case intersection = "INTERSECTION"
+        case none = "NONE"
+        case union = "UNION"
+        public var description: String { return self.rawValue }
+    }
 
     public enum AccountGateStatus: String, CustomStringConvertible, Codable, _SotoSendable {
         case failed = "FAILED"
@@ -1474,6 +1482,9 @@ extension CloudFormation {
     }
 
     public struct DeploymentTargets: AWSEncodableShape & AWSDecodableShape {
+        /// Limit deployment targets to individual accounts or include additional accounts with provided OUs.
+        ///  The following is a list of possible values for the AccountFilterType operation.    INTERSECTION: StackSets deploys to the accounts specified in Accounts parameter.     DIFFERENCE: StackSets excludes the accounts specified in Accounts parameter. This enables user to avoid certain accounts within an OU such as suspended accounts.    UNION: (default value) StackSets includes additional accounts deployment targets.  This is the default value if AccountFilterType is not provided. This enables user to update an entire OU and individual accounts from a different OU in one request, which used to be two separate requests.    NONE: Deploys to all the accounts in specified organizational units (OU).
+        public let accountFilterType: AccountFilterType?
         /// The names of one or more Amazon Web Services accounts for which you want to deploy stack set updates.
         @OptionalCustomCoding<StandardArrayCoder>
         public var accounts: [String]?
@@ -1483,7 +1494,8 @@ extension CloudFormation {
         @OptionalCustomCoding<StandardArrayCoder>
         public var organizationalUnitIds: [String]?
 
-        public init(accounts: [String]? = nil, accountsUrl: String? = nil, organizationalUnitIds: [String]? = nil) {
+        public init(accountFilterType: AccountFilterType? = nil, accounts: [String]? = nil, accountsUrl: String? = nil, organizationalUnitIds: [String]? = nil) {
+            self.accountFilterType = accountFilterType
             self.accounts = accounts
             self.accountsUrl = accountsUrl
             self.organizationalUnitIds = organizationalUnitIds
@@ -1502,6 +1514,7 @@ extension CloudFormation {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountFilterType = "AccountFilterType"
             case accounts = "Accounts"
             case accountsUrl = "AccountsUrl"
             case organizationalUnitIds = "OrganizationalUnitIds"

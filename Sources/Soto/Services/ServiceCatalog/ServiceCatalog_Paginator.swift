@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -974,7 +974,7 @@ extension ServiceCatalog {
         )
     }
 
-    ///  Gets information about the provisioned products that meet the specified criteria.
+    ///  Gets information about the provisioned products that meet the specified criteria.   To ensure a complete list of provisioned products and remove duplicate products, use sort-by createdTime.  Here is a CLI example:     aws servicecatalog search-provisioned-products --sort-by createdTime
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1121,16 +1121,6 @@ extension ServiceCatalog.ListPortfolioAccessInput: AWSPaginateToken {
     }
 }
 
-extension ServiceCatalog.ListPortfoliosInput: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> ServiceCatalog.ListPortfoliosInput {
-        return .init(
-            acceptLanguage: self.acceptLanguage,
-            pageSize: self.pageSize,
-            pageToken: token
-        )
-    }
-}
-
 extension ServiceCatalog.ListPortfoliosForProductInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ServiceCatalog.ListPortfoliosForProductInput {
         return .init(
@@ -1138,6 +1128,16 @@ extension ServiceCatalog.ListPortfoliosForProductInput: AWSPaginateToken {
             pageSize: self.pageSize,
             pageToken: token,
             productId: self.productId
+        )
+    }
+}
+
+extension ServiceCatalog.ListPortfoliosInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ServiceCatalog.ListPortfoliosInput {
+        return .init(
+            acceptLanguage: self.acceptLanguage,
+            pageSize: self.pageSize,
+            pageToken: token
         )
     }
 }
@@ -1175,16 +1175,6 @@ extension ServiceCatalog.ListResourcesForTagOptionInput: AWSPaginateToken {
     }
 }
 
-extension ServiceCatalog.ListServiceActionsInput: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> ServiceCatalog.ListServiceActionsInput {
-        return .init(
-            acceptLanguage: self.acceptLanguage,
-            pageSize: self.pageSize,
-            pageToken: token
-        )
-    }
-}
-
 extension ServiceCatalog.ListServiceActionsForProvisioningArtifactInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ServiceCatalog.ListServiceActionsForProvisioningArtifactInput {
         return .init(
@@ -1193,6 +1183,16 @@ extension ServiceCatalog.ListServiceActionsForProvisioningArtifactInput: AWSPagi
             pageToken: token,
             productId: self.productId,
             provisioningArtifactId: self.provisioningArtifactId
+        )
+    }
+}
+
+extension ServiceCatalog.ListServiceActionsInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ServiceCatalog.ListServiceActionsInput {
+        return .init(
+            acceptLanguage: self.acceptLanguage,
+            pageSize: self.pageSize,
+            pageToken: token
         )
     }
 }
@@ -1207,19 +1207,6 @@ extension ServiceCatalog.ListTagOptionsInput: AWSPaginateToken {
     }
 }
 
-extension ServiceCatalog.SearchProductsInput: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> ServiceCatalog.SearchProductsInput {
-        return .init(
-            acceptLanguage: self.acceptLanguage,
-            filters: self.filters,
-            pageSize: self.pageSize,
-            pageToken: token,
-            sortBy: self.sortBy,
-            sortOrder: self.sortOrder
-        )
-    }
-}
-
 extension ServiceCatalog.SearchProductsAsAdminInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ServiceCatalog.SearchProductsAsAdminInput {
         return .init(
@@ -1229,6 +1216,19 @@ extension ServiceCatalog.SearchProductsAsAdminInput: AWSPaginateToken {
             pageToken: token,
             portfolioId: self.portfolioId,
             productSource: self.productSource,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder
+        )
+    }
+}
+
+extension ServiceCatalog.SearchProductsInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ServiceCatalog.SearchProductsInput {
+        return .init(
+            acceptLanguage: self.acceptLanguage,
+            filters: self.filters,
+            pageSize: self.pageSize,
+            pageToken: token,
             sortBy: self.sortBy,
             sortOrder: self.sortOrder
         )

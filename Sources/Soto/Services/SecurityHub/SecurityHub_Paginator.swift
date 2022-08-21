@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -677,21 +677,21 @@ extension SecurityHub.DescribeProductsRequest: AWSPaginateToken {
     }
 }
 
-extension SecurityHub.DescribeStandardsRequest: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> SecurityHub.DescribeStandardsRequest {
-        return .init(
-            maxResults: self.maxResults,
-            nextToken: token
-        )
-    }
-}
-
 extension SecurityHub.DescribeStandardsControlsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SecurityHub.DescribeStandardsControlsRequest {
         return .init(
             maxResults: self.maxResults,
             nextToken: token,
             standardsSubscriptionArn: self.standardsSubscriptionArn
+        )
+    }
+}
+
+extension SecurityHub.DescribeStandardsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SecurityHub.DescribeStandardsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

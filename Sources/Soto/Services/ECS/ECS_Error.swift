@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -122,10 +122,16 @@ public struct ECSErrorType: AWSErrorType {
     public static var serviceNotFoundException: Self { .init(.serviceNotFoundException) }
     /// The execute command cannot run. This error can be caused by any of the following
     /// 			configuration issues:
-    /// 		         Incorrect IAM permissions   The SSM agent is not installed or is not running   There is an interface Amazon VPC endpoint for  Amazon ECS, but there is not one for for Systems Manager Session Manager
-    /// 			      For information about how to troubleshoot the
-    /// 			issues, see Troubleshooting issues with ECS Exec in the
-    /// 				Amazon Elastic Container Service Developer Guide.
+    ///
+    /// 				           Incorrect IAM permissions
+    ///
+    /// 				           The SSM agent is not installed or is not running
+    ///
+    /// 				            There is an interface Amazon VPC endpoint for Amazon ECS, but there is not one for
+    /// 					for Systems Manager Session Manager
+    ///
+    /// 		       For information about how to troubleshoot the issues, see Troubleshooting issues with ECS
+    /// 				Exec in the Amazon Elastic Container Service Developer Guide.
     public static var targetNotConnectedException: Self { .init(.targetNotConnectedException) }
     /// The specified target wasn't found. You can view your available container instances
     /// 			with ListContainerInstances. Amazon ECS container instances are

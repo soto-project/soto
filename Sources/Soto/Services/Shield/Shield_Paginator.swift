@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -73,7 +73,7 @@ extension Shield {
         )
     }
 
-    ///  Retrieves the ProtectionGroup objects for the account.
+    ///  Retrieves ProtectionGroup objects for the account. You can retrieve all protection groups or you can provide  filtering criteria and retrieve just the subset of protection groups that match the criteria.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -126,7 +126,7 @@ extension Shield {
         )
     }
 
-    ///  Lists all Protection objects for the account.
+    ///  Retrieves Protection objects for the account. You can retrieve all protections or you can provide  filtering criteria and retrieve just the subset of protections that match the criteria.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -248,6 +248,7 @@ extension Shield.ListAttacksRequest: AWSPaginateToken {
 extension Shield.ListProtectionGroupsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Shield.ListProtectionGroupsRequest {
         return .init(
+            inclusionFilters: self.inclusionFilters,
             maxResults: self.maxResults,
             nextToken: token
         )
@@ -257,6 +258,7 @@ extension Shield.ListProtectionGroupsRequest: AWSPaginateToken {
 extension Shield.ListProtectionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Shield.ListProtectionsRequest {
         return .init(
+            inclusionFilters: self.inclusionFilters,
             maxResults: self.maxResults,
             nextToken: token
         )

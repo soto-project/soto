@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -128,6 +128,50 @@ extension AppConfig {
             command: listEnvironments,
             inputKey: \ListEnvironmentsRequest.nextToken,
             outputKey: \Environments.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Lists all AppConfig extension associations in the account. For more information about extensions and associations, see Working with AppConfig extensions in the AppConfig User Guide.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listExtensionAssociationsPaginator(
+        _ input: ListExtensionAssociationsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListExtensionAssociationsRequest, ExtensionAssociations> {
+        return .init(
+            input: input,
+            command: listExtensionAssociations,
+            inputKey: \ListExtensionAssociationsRequest.nextToken,
+            outputKey: \ExtensionAssociations.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Lists all custom and Amazon Web Services-authored AppConfig extensions in the account. For more information about extensions, see Working with AppConfig extensions in the AppConfig User Guide.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listExtensionsPaginator(
+        _ input: ListExtensionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListExtensionsRequest, Extensions> {
+        return .init(
+            input: input,
+            command: listExtensions,
+            inputKey: \ListExtensionsRequest.nextToken,
+            outputKey: \Extensions.nextToken,
             logger: logger,
             on: eventLoop
         )

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -603,6 +603,59 @@ extension IoTSiteWise {
         )
     }
 
+    ///   This API operation is in preview release for IoT SiteWise and is subject to change.  We recommend that you use this operation only with test data, and not in production environments.  Retrieves a paginated list of bulk import job requests. For more information,  see List bulk import jobs (CLI)  in the Amazon Simple Storage Service User Guide.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listBulkImportJobsPaginator<Result>(
+        _ input: ListBulkImportJobsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListBulkImportJobsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listBulkImportJobs,
+            inputKey: \ListBulkImportJobsRequest.nextToken,
+            outputKey: \ListBulkImportJobsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listBulkImportJobsPaginator(
+        _ input: ListBulkImportJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListBulkImportJobsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listBulkImportJobs,
+            inputKey: \ListBulkImportJobsRequest.nextToken,
+            outputKey: \ListBulkImportJobsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Retrieves a paginated list of dashboards for an IoT SiteWise Monitor project.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -932,20 +985,20 @@ extension IoTSiteWise.BatchGetAssetPropertyAggregatesRequest: AWSPaginateToken {
     }
 }
 
-extension IoTSiteWise.BatchGetAssetPropertyValueRequest: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> IoTSiteWise.BatchGetAssetPropertyValueRequest {
-        return .init(
-            entries: self.entries,
-            nextToken: token
-        )
-    }
-}
-
 extension IoTSiteWise.BatchGetAssetPropertyValueHistoryRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IoTSiteWise.BatchGetAssetPropertyValueHistoryRequest {
         return .init(
             entries: self.entries,
             maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension IoTSiteWise.BatchGetAssetPropertyValueRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IoTSiteWise.BatchGetAssetPropertyValueRequest {
+        return .init(
+            entries: self.entries,
             nextToken: token
         )
     }
@@ -1058,6 +1111,16 @@ extension IoTSiteWise.ListAssociatedAssetsRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             traversalDirection: self.traversalDirection
+        )
+    }
+}
+
+extension IoTSiteWise.ListBulkImportJobsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IoTSiteWise.ListBulkImportJobsRequest {
+        return .init(
+            filter: self.filter,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

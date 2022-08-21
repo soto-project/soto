@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -45,6 +45,16 @@ extension DirectoryService {
 
     public enum ClientAuthenticationType: String, CustomStringConvertible, Codable, _SotoSendable {
         case smartCard = "SmartCard"
+        case smartCardOrPassword = "SmartCardOrPassword"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DirectoryConfigurationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case `default` = "Default"
+        case failed = "Failed"
+        case requested = "Requested"
+        case updated = "Updated"
+        case updating = "Updating"
         public var description: String { return self.rawValue }
     }
 
@@ -973,7 +983,7 @@ extension DirectoryService {
             try self.validate(self.remoteDomainName, name: "remoteDomainName", parent: name, pattern: "^([a-zA-Z0-9]+[\\\\.-])+([a-zA-Z0-9])+[.]?$")
             try self.validate(self.trustPassword, name: "trustPassword", parent: name, max: 128)
             try self.validate(self.trustPassword, name: "trustPassword", parent: name, min: 1)
-            try self.validate(self.trustPassword, name: "trustPassword", parent: name, pattern: "^(.|\\s)*\\S(.|\\s)*$")
+            try self.validate(self.trustPassword, name: "trustPassword", parent: name, pattern: "^(\\p{LD}|\\p{Punct}| )+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1538,6 +1548,52 @@ extension DirectoryService {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case regionsDescription = "RegionsDescription"
+        }
+    }
+
+    public struct DescribeSettingsRequest: AWSEncodableShape {
+        /// The identifier of the directory for which to retrieve information.
+        public let directoryId: String
+        /// The DescribeSettingsResult.NextToken value from a previous call to DescribeSettings. Pass null if this is the first call.
+        public let nextToken: String?
+        /// The status of the directory settings for which to retrieve information.
+        public let status: DirectoryConfigurationStatus?
+
+        public init(directoryId: String, nextToken: String? = nil, status: DirectoryConfigurationStatus? = nil) {
+            self.directoryId = directoryId
+            self.nextToken = nextToken
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+            case nextToken = "NextToken"
+            case status = "Status"
+        }
+    }
+
+    public struct DescribeSettingsResult: AWSDecodableShape {
+        /// The identifier of the directory.
+        public let directoryId: String?
+        /// If not null, token that indicates that more results are available. Pass this value for the NextToken parameter in a subsequent call to DescribeSettings to retrieve the next set of items.
+        public let nextToken: String?
+        /// The list of SettingEntry objects that were retrieved. It is possible that this list contains less than the number of items specified in the Limit member of the request. This occurs if there are less than the requested number of items left to retrieve, or if the limitations of the operation have been exceeded.
+        public let settingEntries: [SettingEntry]?
+
+        public init(directoryId: String? = nil, nextToken: String? = nil, settingEntries: [SettingEntry]? = nil) {
+            self.directoryId = directoryId
+            self.nextToken = nextToken
+            self.settingEntries = settingEntries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+            case nextToken = "NextToken"
+            case settingEntries = "SettingEntries"
         }
     }
 
@@ -3043,6 +3099,81 @@ extension DirectoryService {
         }
     }
 
+    public struct Setting: AWSEncodableShape {
+        /// The name of the directory setting. For example:  TLS_1_0
+        public let name: String
+        /// The value of the directory setting for which to retrieve information. For example, for TLS_1_0, the valid values are: Enable and Disable.
+        public let value: String
+
+        public init(name: String, value: String) {
+            self.name = name
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-/. _]*$")
+            try self.validate(self.value, name: "value", parent: name, max: 255)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+            try self.validate(self.value, name: "value", parent: name, pattern: "^[a-zA-Z0-9]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case value = "Value"
+        }
+    }
+
+    public struct SettingEntry: AWSDecodableShape {
+        /// The valid range of values for the directory setting.
+        public let allowedValues: String?
+        /// The value of the directory setting that is applied to the directory.
+        public let appliedValue: String?
+        /// The date and time when the request to update a directory setting was last submitted.
+        public let lastRequestedDateTime: Date?
+        /// The date and time when the directory setting was last updated.
+        public let lastUpdatedDateTime: Date?
+        /// The name of the directory setting. For example:  TLS_1_0
+        public let name: String?
+        /// Details about the status of the request to update the directory setting. If the directory setting is deployed in more than one region, status is returned for the request in each region where the setting is deployed.
+        public let requestDetailedStatus: [String: DirectoryConfigurationStatus]?
+        /// The value that was last requested for the directory setting.
+        public let requestedValue: String?
+        /// The overall status of the request to update the directory setting request. If the directory setting is deployed in more than one region, and the request fails in any region, the overall status is Failed.
+        public let requestStatus: DirectoryConfigurationStatus?
+        /// The last status message for the directory status request.
+        public let requestStatusMessage: String?
+        /// The type of directory setting. For example, Protocol or Cipher.
+        public let type: String?
+
+        public init(allowedValues: String? = nil, appliedValue: String? = nil, lastRequestedDateTime: Date? = nil, lastUpdatedDateTime: Date? = nil, name: String? = nil, requestDetailedStatus: [String: DirectoryConfigurationStatus]? = nil, requestedValue: String? = nil, requestStatus: DirectoryConfigurationStatus? = nil, requestStatusMessage: String? = nil, type: String? = nil) {
+            self.allowedValues = allowedValues
+            self.appliedValue = appliedValue
+            self.lastRequestedDateTime = lastRequestedDateTime
+            self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.name = name
+            self.requestDetailedStatus = requestDetailedStatus
+            self.requestedValue = requestedValue
+            self.requestStatus = requestStatus
+            self.requestStatusMessage = requestStatusMessage
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowedValues = "AllowedValues"
+            case appliedValue = "AppliedValue"
+            case lastRequestedDateTime = "LastRequestedDateTime"
+            case lastUpdatedDateTime = "LastUpdatedDateTime"
+            case name = "Name"
+            case requestDetailedStatus = "RequestDetailedStatus"
+            case requestedValue = "RequestedValue"
+            case requestStatus = "RequestStatus"
+            case requestStatusMessage = "RequestStatusMessage"
+            case type = "Type"
+        }
+    }
+
     public struct ShareDirectoryRequest: AWSEncodableShape {
         /// Identifier of the Managed Microsoft AD directory that you want to share with other Amazon Web Services accounts.
         public let directoryId: String
@@ -3472,6 +3603,43 @@ extension DirectoryService {
 
     public struct UpdateRadiusResult: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UpdateSettingsRequest: AWSEncodableShape {
+        /// The identifier of the directory for which to update settings.
+        public let directoryId: String
+        /// The list of Setting objects.
+        public let settings: [Setting]
+
+        public init(directoryId: String, settings: [Setting]) {
+            self.directoryId = directoryId
+            self.settings = settings
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+            try self.settings.forEach {
+                try $0.validate(name: "\(name).settings[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+            case settings = "Settings"
+        }
+    }
+
+    public struct UpdateSettingsResult: AWSDecodableShape {
+        /// The identifier of the directory.
+        public let directoryId: String?
+
+        public init(directoryId: String? = nil) {
+            self.directoryId = directoryId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+        }
     }
 
     public struct UpdateTrustRequest: AWSEncodableShape {

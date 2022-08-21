@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -1558,7 +1558,7 @@ extension IoT {
         )
     }
 
-    ///  Lists the principals associated with the specified policy.  Note: This action is deprecated. Please use ListTargetsForPolicy instead. Requires permission to access the ListPolicyPrincipals action.
+    ///  Lists the principals associated with the specified policy.  Note: This action is deprecated and works as expected for backward compatibility, but we won't add enhancements. Use ListTargetsForPolicy instead. Requires permission to access the ListPolicyPrincipals action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1611,7 +1611,7 @@ extension IoT {
         )
     }
 
-    ///  Lists the policies attached to the specified principal. If you use an Cognito identity, the ID must be in AmazonCognito Identity format.  Note: This action is deprecated. Please use ListAttachedPolicies instead. Requires permission to access the ListPrincipalPolicies action.
+    ///  Lists the policies attached to the specified principal. If you use an Cognito identity, the ID must be in AmazonCognito Identity format.  Note: This action is deprecated and works as expected for backward compatibility, but we won't add enhancements. Use ListAttachedPolicies instead. Requires permission to access the ListPrincipalPolicies action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1720,7 +1720,7 @@ extension IoT {
         )
     }
 
-    ///  A list of fleet provisioning template versions. Requires permission to access the ListProvisioningTemplateVersions action.
+    ///  A list of provisioning template versions. Requires permission to access the ListProvisioningTemplateVersions action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1773,7 +1773,7 @@ extension IoT {
         )
     }
 
-    ///  Lists the fleet provisioning templates in your Amazon Web Services account. Requires permission to access the ListProvisioningTemplates action.
+    ///  Lists the provisioning templates in your Amazon Web Services account. Requires permission to access the ListProvisioningTemplates action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -3087,17 +3087,8 @@ extension IoT.ListCACertificatesRequest: AWSPaginateToken {
         return .init(
             ascendingOrder: self.ascendingOrder,
             marker: token,
-            pageSize: self.pageSize
-        )
-    }
-}
-
-extension IoT.ListCertificatesRequest: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> IoT.ListCertificatesRequest {
-        return .init(
-            ascendingOrder: self.ascendingOrder,
-            marker: token,
-            pageSize: self.pageSize
+            pageSize: self.pageSize,
+            templateName: self.templateName
         )
     }
 }
@@ -3107,6 +3098,16 @@ extension IoT.ListCertificatesByCARequest: AWSPaginateToken {
         return .init(
             ascendingOrder: self.ascendingOrder,
             caCertificateId: self.caCertificateId,
+            marker: token,
+            pageSize: self.pageSize
+        )
+    }
+}
+
+extension IoT.ListCertificatesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IoT.ListCertificatesRequest {
+        return .init(
+            ascendingOrder: self.ascendingOrder,
             marker: token,
             pageSize: self.pageSize
         )
@@ -3356,17 +3357,6 @@ extension IoT.ListScheduledAuditsRequest: AWSPaginateToken {
     }
 }
 
-extension IoT.ListSecurityProfilesRequest: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> IoT.ListSecurityProfilesRequest {
-        return .init(
-            dimensionName: self.dimensionName,
-            maxResults: self.maxResults,
-            metricName: self.metricName,
-            nextToken: token
-        )
-    }
-}
-
 extension IoT.ListSecurityProfilesForTargetRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IoT.ListSecurityProfilesForTargetRequest {
         return .init(
@@ -3374,6 +3364,17 @@ extension IoT.ListSecurityProfilesForTargetRequest: AWSPaginateToken {
             nextToken: token,
             recursive: self.recursive,
             securityProfileTargetArn: self.securityProfileTargetArn
+        )
+    }
+}
+
+extension IoT.ListSecurityProfilesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IoT.ListSecurityProfilesRequest {
+        return .init(
+            dimensionName: self.dimensionName,
+            maxResults: self.maxResults,
+            metricName: self.metricName,
+            nextToken: token
         )
     }
 }
@@ -3417,6 +3418,16 @@ extension IoT.ListTargetsForSecurityProfileRequest: AWSPaginateToken {
     }
 }
 
+extension IoT.ListThingGroupsForThingRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IoT.ListThingGroupsForThingRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            thingName: self.thingName
+        )
+    }
+}
+
 extension IoT.ListThingGroupsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IoT.ListThingGroupsRequest {
         return .init(
@@ -3425,16 +3436,6 @@ extension IoT.ListThingGroupsRequest: AWSPaginateToken {
             nextToken: token,
             parentGroup: self.parentGroup,
             recursive: self.recursive
-        )
-    }
-}
-
-extension IoT.ListThingGroupsForThingRequest: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> IoT.ListThingGroupsForThingRequest {
-        return .init(
-            maxResults: self.maxResults,
-            nextToken: token,
-            thingName: self.thingName
         )
     }
 }
@@ -3480,19 +3481,6 @@ extension IoT.ListThingTypesRequest: AWSPaginateToken {
     }
 }
 
-extension IoT.ListThingsRequest: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> IoT.ListThingsRequest {
-        return .init(
-            attributeName: self.attributeName,
-            attributeValue: self.attributeValue,
-            maxResults: self.maxResults,
-            nextToken: token,
-            thingTypeName: self.thingTypeName,
-            usePrefixAttributeValue: self.usePrefixAttributeValue
-        )
-    }
-}
-
 extension IoT.ListThingsInBillingGroupRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IoT.ListThingsInBillingGroupRequest {
         return .init(
@@ -3510,6 +3498,19 @@ extension IoT.ListThingsInThingGroupRequest: AWSPaginateToken {
             nextToken: token,
             recursive: self.recursive,
             thingGroupName: self.thingGroupName
+        )
+    }
+}
+
+extension IoT.ListThingsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IoT.ListThingsRequest {
+        return .init(
+            attributeName: self.attributeName,
+            attributeValue: self.attributeValue,
+            maxResults: self.maxResults,
+            nextToken: token,
+            thingTypeName: self.thingTypeName,
+            usePrefixAttributeValue: self.usePrefixAttributeValue
         )
     }
 }

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -682,17 +682,6 @@ extension CodeBuild.DescribeTestCasesInput: AWSPaginateToken {
     }
 }
 
-extension CodeBuild.ListBuildBatchesInput: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> CodeBuild.ListBuildBatchesInput {
-        return .init(
-            filter: self.filter,
-            maxResults: self.maxResults,
-            nextToken: token,
-            sortOrder: self.sortOrder
-        )
-    }
-}
-
 extension CodeBuild.ListBuildBatchesForProjectInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CodeBuild.ListBuildBatchesForProjectInput {
         return .init(
@@ -705,9 +694,11 @@ extension CodeBuild.ListBuildBatchesForProjectInput: AWSPaginateToken {
     }
 }
 
-extension CodeBuild.ListBuildsInput: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> CodeBuild.ListBuildsInput {
+extension CodeBuild.ListBuildBatchesInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> CodeBuild.ListBuildBatchesInput {
         return .init(
+            filter: self.filter,
+            maxResults: self.maxResults,
             nextToken: token,
             sortOrder: self.sortOrder
         )
@@ -719,6 +710,15 @@ extension CodeBuild.ListBuildsForProjectInput: AWSPaginateToken {
         return .init(
             nextToken: token,
             projectName: self.projectName,
+            sortOrder: self.sortOrder
+        )
+    }
+}
+
+extension CodeBuild.ListBuildsInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> CodeBuild.ListBuildsInput {
+        return .init(
+            nextToken: token,
             sortOrder: self.sortOrder
         )
     }
@@ -745,17 +745,6 @@ extension CodeBuild.ListReportGroupsInput: AWSPaginateToken {
     }
 }
 
-extension CodeBuild.ListReportsInput: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> CodeBuild.ListReportsInput {
-        return .init(
-            filter: self.filter,
-            maxResults: self.maxResults,
-            nextToken: token,
-            sortOrder: self.sortOrder
-        )
-    }
-}
-
 extension CodeBuild.ListReportsForReportGroupInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CodeBuild.ListReportsForReportGroupInput {
         return .init(
@@ -763,6 +752,17 @@ extension CodeBuild.ListReportsForReportGroupInput: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             reportGroupArn: self.reportGroupArn,
+            sortOrder: self.sortOrder
+        )
+    }
+}
+
+extension CodeBuild.ListReportsInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> CodeBuild.ListReportsInput {
+        return .init(
+            filter: self.filter,
+            maxResults: self.maxResults,
+            nextToken: token,
             sortOrder: self.sortOrder
         )
     }

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -643,6 +643,57 @@ extension AppMesh {
         }
     }
 
+    public enum LoggingFormat: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+        case json([JsonFormatRef])
+        case text(String)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .json:
+                let value = try container.decode([JsonFormatRef].self, forKey: .json)
+                self = .json(value)
+            case .text:
+                let value = try container.decode(String.self, forKey: .text)
+                self = .text(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .json(let value):
+                try container.encode(value, forKey: .json)
+            case .text(let value):
+                try container.encode(value, forKey: .text)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .json(let value):
+                try value.forEach {
+                    try $0.validate(name: "\(name).json[]")
+                }
+            case .text(let value):
+                try self.validate(value, name: "text", parent: name, max: 1000)
+                try self.validate(value, name: "text", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case json
+            case text
+        }
+    }
+
     public enum ServiceDiscovery: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
         /// Specifies any Cloud Map information for the virtual node.
         case awsCloudMap(AwsCloudMapServiceDiscovery)
@@ -1182,7 +1233,7 @@ extension AppMesh {
     public struct AwsCloudMapServiceDiscovery: AWSEncodableShape & AWSDecodableShape {
         /// A string map that contains attributes with values that you can use to filter instances by any custom attribute that you specified when you registered the instance. Only instances that match all of the specified key/value pairs will be returned.
         public let attributes: [AwsCloudMapInstanceAttribute]?
-        /// The IP version to use to control traffic within the mesh.
+        /// The preferred IP version that this virtual node uses. Setting the IP preference on the virtual node only overrides the IP preference set for the mesh on this specific node.
         public let ipPreference: IpPreference?
         /// The name of the Cloud Map namespace to use.
         public let namespaceName: String
@@ -2422,7 +2473,7 @@ extension AppMesh {
     public struct DnsServiceDiscovery: AWSEncodableShape & AWSDecodableShape {
         /// Specifies the DNS service discovery hostname for the virtual node.
         public let hostname: String
-        /// The IP version to use to control traffic within the mesh.
+        /// The preferred IP version that this virtual node uses. Setting the IP preference on the virtual node only overrides the IP preference set for the mesh on this specific node.
         public let ipPreference: IpPreference?
         /// Specifies the DNS response type for the virtual node.
         public let responseType: DnsResponseType?
@@ -2475,19 +2526,24 @@ extension AppMesh {
     }
 
     public struct FileAccessLog: AWSEncodableShape & AWSDecodableShape {
+        /// The specified format for the logs. The format is either json_format or text_format.
+        public let format: LoggingFormat?
         /// The file path to write access logs to. You can use /dev/stdout to send access logs to standard out and configure your Envoy container to use a log driver, such as awslogs, to export the access logs to a log storage service such as Amazon CloudWatch Logs. You can also specify a path in the Envoy container's file system to write the files to disk.   The Envoy process must have write permissions to the path that you specify here. Otherwise, Envoy fails to bootstrap properly.
         public let path: String
 
-        public init(path: String) {
+        public init(format: LoggingFormat? = nil, path: String) {
+            self.format = format
             self.path = path
         }
 
         public func validate(name: String) throws {
+            try self.format?.validate(name: "\(name).format")
             try self.validate(self.path, name: "path", parent: name, max: 255)
             try self.validate(self.path, name: "path", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case format
             case path
         }
     }
@@ -2653,18 +2709,24 @@ extension AppMesh {
     }
 
     public struct GatewayRouteTarget: AWSEncodableShape & AWSDecodableShape {
+        /// The port number of the gateway route target.
+        public let port: Int?
         /// An object that represents a virtual service gateway route target.
         public let virtualService: GatewayRouteVirtualService
 
-        public init(virtualService: GatewayRouteVirtualService) {
+        public init(port: Int? = nil, virtualService: GatewayRouteVirtualService) {
+            self.port = port
             self.virtualService = virtualService
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.port, name: "port", parent: name, max: 65535)
+            try self.validate(self.port, name: "port", parent: name, min: 1)
             try self.virtualService.validate(name: "\(name).virtualService")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case port
             case virtualService
         }
     }
@@ -2735,12 +2797,15 @@ extension AppMesh {
         public let hostname: GatewayRouteHostnameMatch?
         /// The gateway route metadata to be matched on.
         public let metadata: [GrpcGatewayRouteMetadata]?
+        /// The port number to match from the request.
+        public let port: Int?
         /// The fully qualified domain name for the service to match from the request.
         public let serviceName: String?
 
-        public init(hostname: GatewayRouteHostnameMatch? = nil, metadata: [GrpcGatewayRouteMetadata]? = nil, serviceName: String? = nil) {
+        public init(hostname: GatewayRouteHostnameMatch? = nil, metadata: [GrpcGatewayRouteMetadata]? = nil, port: Int? = nil, serviceName: String? = nil) {
             self.hostname = hostname
             self.metadata = metadata
+            self.port = port
             self.serviceName = serviceName
         }
 
@@ -2751,11 +2816,14 @@ extension AppMesh {
             }
             try self.validate(self.metadata, name: "metadata", parent: name, max: 10)
             try self.validate(self.metadata, name: "metadata", parent: name, min: 1)
+            try self.validate(self.port, name: "port", parent: name, max: 65535)
+            try self.validate(self.port, name: "port", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case hostname
             case metadata
+            case port
             case serviceName
         }
     }
@@ -2902,12 +2970,15 @@ extension AppMesh {
         public let metadata: [GrpcRouteMetadata]?
         /// The method name to match from the request. If you specify a name, you must also specify a serviceName.
         public let methodName: String?
+        /// The port number to match on.
+        public let port: Int?
         /// The fully qualified domain name for the service to match from the request.
         public let serviceName: String?
 
-        public init(metadata: [GrpcRouteMetadata]? = nil, methodName: String? = nil, serviceName: String? = nil) {
+        public init(metadata: [GrpcRouteMetadata]? = nil, methodName: String? = nil, port: Int? = nil, serviceName: String? = nil) {
             self.metadata = metadata
             self.methodName = methodName
+            self.port = port
             self.serviceName = serviceName
         }
 
@@ -2919,11 +2990,14 @@ extension AppMesh {
             try self.validate(self.metadata, name: "metadata", parent: name, min: 1)
             try self.validate(self.methodName, name: "methodName", parent: name, max: 50)
             try self.validate(self.methodName, name: "methodName", parent: name, min: 1)
+            try self.validate(self.port, name: "port", parent: name, max: 65535)
+            try self.validate(self.port, name: "port", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case metadata
             case methodName
+            case port
             case serviceName
         }
     }
@@ -3107,16 +3181,19 @@ extension AppMesh {
         public let method: HttpMethod?
         /// The path to match on.
         public let path: HttpPathMatch?
+        /// The port number to match on.
+        public let port: Int?
         /// Specifies the path to match requests with. This parameter must always start with /, which by itself matches all requests to the virtual service name. You can also match for path-based routing of requests. For example, if your virtual service name is my-service.local and you want the route to match requests to my-service.local/metrics, your prefix should be /metrics.
         public let prefix: String?
         /// The query parameter to match on.
         public let queryParameters: [HttpQueryParameter]?
 
-        public init(headers: [HttpGatewayRouteHeader]? = nil, hostname: GatewayRouteHostnameMatch? = nil, method: HttpMethod? = nil, path: HttpPathMatch? = nil, prefix: String? = nil, queryParameters: [HttpQueryParameter]? = nil) {
+        public init(headers: [HttpGatewayRouteHeader]? = nil, hostname: GatewayRouteHostnameMatch? = nil, method: HttpMethod? = nil, path: HttpPathMatch? = nil, port: Int? = nil, prefix: String? = nil, queryParameters: [HttpQueryParameter]? = nil) {
             self.headers = headers
             self.hostname = hostname
             self.method = method
             self.path = path
+            self.port = port
             self.prefix = prefix
             self.queryParameters = queryParameters
         }
@@ -3129,6 +3206,8 @@ extension AppMesh {
             try self.validate(self.headers, name: "headers", parent: name, min: 1)
             try self.hostname?.validate(name: "\(name).hostname")
             try self.path?.validate(name: "\(name).path")
+            try self.validate(self.port, name: "port", parent: name, max: 65535)
+            try self.validate(self.port, name: "port", parent: name, min: 1)
             try self.validate(self.queryParameters, name: "queryParameters", parent: name, max: 10)
             try self.validate(self.queryParameters, name: "queryParameters", parent: name, min: 1)
         }
@@ -3138,6 +3217,7 @@ extension AppMesh {
             case hostname
             case method
             case path
+            case port
             case prefix
             case queryParameters
         }
@@ -3375,6 +3455,8 @@ extension AppMesh {
         public let method: HttpMethod?
         /// The client request path to match on.
         public let path: HttpPathMatch?
+        /// The port number to match on.
+        public let port: Int?
         /// Specifies the path to match requests with. This parameter must always start with /, which by itself matches all requests to the virtual service name. You can also match for path-based routing of requests. For example, if your virtual service name is my-service.local and you want the route to match requests to my-service.local/metrics, your prefix should be /metrics.
         public let prefix: String?
         /// The client request query parameters to match on.
@@ -3382,10 +3464,11 @@ extension AppMesh {
         /// The client request scheme to match on. Specify only one. Applicable only for HTTP2 routes.
         public let scheme: HttpScheme?
 
-        public init(headers: [HttpRouteHeader]? = nil, method: HttpMethod? = nil, path: HttpPathMatch? = nil, prefix: String? = nil, queryParameters: [HttpQueryParameter]? = nil, scheme: HttpScheme? = nil) {
+        public init(headers: [HttpRouteHeader]? = nil, method: HttpMethod? = nil, path: HttpPathMatch? = nil, port: Int? = nil, prefix: String? = nil, queryParameters: [HttpQueryParameter]? = nil, scheme: HttpScheme? = nil) {
             self.headers = headers
             self.method = method
             self.path = path
+            self.port = port
             self.prefix = prefix
             self.queryParameters = queryParameters
             self.scheme = scheme
@@ -3398,6 +3481,8 @@ extension AppMesh {
             try self.validate(self.headers, name: "headers", parent: name, max: 10)
             try self.validate(self.headers, name: "headers", parent: name, min: 1)
             try self.path?.validate(name: "\(name).path")
+            try self.validate(self.port, name: "port", parent: name, max: 65535)
+            try self.validate(self.port, name: "port", parent: name, min: 1)
             try self.validate(self.queryParameters, name: "queryParameters", parent: name, max: 10)
             try self.validate(self.queryParameters, name: "queryParameters", parent: name, min: 1)
         }
@@ -3406,6 +3491,7 @@ extension AppMesh {
             case headers
             case method
             case path
+            case port
             case prefix
             case queryParameters
             case scheme
@@ -3431,6 +3517,30 @@ extension AppMesh {
         private enum CodingKeys: String, CodingKey {
             case idle
             case perRequest
+        }
+    }
+
+    public struct JsonFormatRef: AWSEncodableShape & AWSDecodableShape {
+        /// The specified key for the JSON.
+        public let key: String
+        /// The specified value for the JSON.
+        public let value: String
+
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 100)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.value, name: "value", parent: name, max: 100)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key
+            case value
         }
     }
 
@@ -4456,21 +4566,26 @@ extension AppMesh {
     public struct TcpRoute: AWSEncodableShape & AWSDecodableShape {
         /// The action to take if a match is determined.
         public let action: TcpRouteAction
+        /// An object that represents the criteria for determining a request match.
+        public let match: TcpRouteMatch?
         /// An object that represents types of timeouts.
         public let timeout: TcpTimeout?
 
-        public init(action: TcpRouteAction, timeout: TcpTimeout? = nil) {
+        public init(action: TcpRouteAction, match: TcpRouteMatch? = nil, timeout: TcpTimeout? = nil) {
             self.action = action
+            self.match = match
             self.timeout = timeout
         }
 
         public func validate(name: String) throws {
             try self.action.validate(name: "\(name).action")
+            try self.match?.validate(name: "\(name).match")
             try self.timeout?.validate(name: "\(name).timeout")
         }
 
         private enum CodingKeys: String, CodingKey {
             case action
+            case match
             case timeout
         }
     }
@@ -4496,6 +4611,24 @@ extension AppMesh {
         }
     }
 
+    public struct TcpRouteMatch: AWSEncodableShape & AWSDecodableShape {
+        /// The port number to match on.
+        public let port: Int?
+
+        public init(port: Int? = nil) {
+            self.port = port
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.port, name: "port", parent: name, max: 65535)
+            try self.validate(self.port, name: "port", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case port
+        }
+    }
+
     public struct TcpTimeout: AWSEncodableShape & AWSDecodableShape {
         /// An object that represents an idle timeout. An idle timeout bounds the amount of time that a connection may be idle. The default value is none.
         public let idle: Duration?
@@ -4514,7 +4647,7 @@ extension AppMesh {
     }
 
     public struct TlsValidationContext: AWSEncodableShape & AWSDecodableShape {
-        /// A reference to an object that represents the SANs for a Transport Layer Security (TLS) validation context.
+        /// A reference to an object that represents the SANs for a Transport Layer Security (TLS) validation context. If you don't specify SANs on the terminating mesh endpoint, the Envoy proxy for that node doesn't verify the SAN on a peer client certificate. If you don't specify SANs on the originating mesh endpoint, the SAN on the certificate provided by the terminating endpoint must match the mesh endpoint service discovery configuration. Since SPIRE vended certificates have a SPIFFE ID as a name, you must set the SAN since the name doesn't match the service discovery name.
         public let subjectAlternativeNames: SubjectAlternativeNames?
         /// A reference to where to retrieve the trust chain when validating a peer’s Transport Layer Security (TLS) certificate.
         public let trust: TlsValidationContextTrust
@@ -5122,19 +5255,24 @@ extension AppMesh {
     }
 
     public struct VirtualGatewayFileAccessLog: AWSEncodableShape & AWSDecodableShape {
+        /// The specified format for the virtual gateway access logs. It can be either json_format or text_format.
+        public let format: LoggingFormat?
         /// The file path to write access logs to. You can use /dev/stdout to send access logs to standard out and configure your Envoy container to use a log driver, such as awslogs, to export the access logs to a log storage service such as Amazon CloudWatch Logs. You can also specify a path in the Envoy container's file system to write the files to disk.
         public let path: String
 
-        public init(path: String) {
+        public init(format: LoggingFormat? = nil, path: String) {
+            self.format = format
             self.path = path
         }
 
         public func validate(name: String) throws {
+            try self.format?.validate(name: "\(name).format")
             try self.validate(self.path, name: "path", parent: name, max: 255)
             try self.validate(self.path, name: "path", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case format
             case path
         }
     }
@@ -6039,17 +6177,22 @@ extension AppMesh {
     }
 
     public struct WeightedTarget: AWSEncodableShape & AWSDecodableShape {
+        /// The targeted port of the weighted object.
+        public let port: Int?
         /// The virtual node to associate with the weighted target.
         public let virtualNode: String
         /// The relative weight of the weighted target.
         public let weight: Int
 
-        public init(virtualNode: String, weight: Int) {
+        public init(port: Int? = nil, virtualNode: String, weight: Int) {
+            self.port = port
             self.virtualNode = virtualNode
             self.weight = weight
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.port, name: "port", parent: name, max: 65535)
+            try self.validate(self.port, name: "port", parent: name, min: 1)
             try self.validate(self.virtualNode, name: "virtualNode", parent: name, max: 255)
             try self.validate(self.virtualNode, name: "virtualNode", parent: name, min: 1)
             try self.validate(self.weight, name: "weight", parent: name, max: 100)
@@ -6057,6 +6200,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case port
             case virtualNode
             case weight
         }

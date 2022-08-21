@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -295,6 +295,60 @@ extension DevOpsGuru {
         )
     }
 
+    ///  			Returns the list of log groups that contain log anomalies.
+    ///
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listAnomalousLogGroupsPaginator<Result>(
+        _ input: ListAnomalousLogGroupsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListAnomalousLogGroupsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listAnomalousLogGroups,
+            inputKey: \ListAnomalousLogGroupsRequest.nextToken,
+            outputKey: \ListAnomalousLogGroupsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listAnomalousLogGroupsPaginator(
+        _ input: ListAnomalousLogGroupsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListAnomalousLogGroupsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listAnomalousLogGroups,
+            inputKey: \ListAnomalousLogGroupsRequest.nextToken,
+            outputKey: \ListAnomalousLogGroupsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///   Returns a list of the events emitted by the resources that are evaluated by DevOps Guru.
     ///  			You can use filters to specify which events are returned.
     ///
@@ -399,6 +453,60 @@ extension DevOpsGuru {
             command: listInsights,
             inputKey: \ListInsightsRequest.nextToken,
             outputKey: \ListInsightsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  			Returns the list of all log groups that are being monitored and tagged by DevOps Guru.
+    ///
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listMonitoredResourcesPaginator<Result>(
+        _ input: ListMonitoredResourcesRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListMonitoredResourcesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listMonitoredResources,
+            inputKey: \ListMonitoredResourcesRequest.nextToken,
+            outputKey: \ListMonitoredResourcesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listMonitoredResourcesPaginator(
+        _ input: ListMonitoredResourcesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListMonitoredResourcesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listMonitoredResources,
+            inputKey: \ListMonitoredResourcesRequest.nextToken,
+            outputKey: \ListMonitoredResourcesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -737,6 +845,16 @@ extension DevOpsGuru.ListAnomaliesForInsightRequest: AWSPaginateToken {
     }
 }
 
+extension DevOpsGuru.ListAnomalousLogGroupsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> DevOpsGuru.ListAnomalousLogGroupsRequest {
+        return .init(
+            insightId: self.insightId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension DevOpsGuru.ListEventsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DevOpsGuru.ListEventsRequest {
         return .init(
@@ -754,6 +872,16 @@ extension DevOpsGuru.ListInsightsRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             statusFilter: self.statusFilter
+        )
+    }
+}
+
+extension DevOpsGuru.ListMonitoredResourcesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> DevOpsGuru.ListMonitoredResourcesRequest {
+        return .init(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

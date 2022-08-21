@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -30,6 +30,8 @@ public struct DynamoDBErrorType: AWSErrorType {
         case globalTableAlreadyExistsException = "GlobalTableAlreadyExistsException"
         case globalTableNotFoundException = "GlobalTableNotFoundException"
         case idempotentParameterMismatchException = "IdempotentParameterMismatchException"
+        case importConflictException = "ImportConflictException"
+        case importNotFoundException = "ImportNotFoundException"
         case indexNotFoundException = "IndexNotFoundException"
         case internalServerError = "InternalServerError"
         case invalidEndpointException = "InvalidEndpointException"
@@ -90,6 +92,10 @@ public struct DynamoDBErrorType: AWSErrorType {
     public static var globalTableNotFoundException: Self { .init(.globalTableNotFoundException) }
     /// DynamoDB rejected the request because you retried a request with a different payload but with an idempotent token that was already used.
     public static var idempotentParameterMismatchException: Self { .init(.idempotentParameterMismatchException) }
+    ///  There was a conflict when importing from the specified S3 source.  This can occur when the current import conflicts with a previous import request  that had the same client token.
+    public static var importConflictException: Self { .init(.importConflictException) }
+    ///  The specified import was not found.
+    public static var importNotFoundException: Self { .init(.importNotFoundException) }
     /// The operation tried to access a nonexistent index.
     public static var indexNotFoundException: Self { .init(.indexNotFoundException) }
     /// An error occurred on the server side.

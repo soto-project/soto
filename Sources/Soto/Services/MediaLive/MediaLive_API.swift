@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -278,6 +278,11 @@ public struct MediaLive: AWSService {
         return self.client.execute(operation: "PurchaseOffering", path: "/prod/offerings/{OfferingId}/purchase", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Send a reboot command to the specified input device. The device will begin rebooting within a few seconds of sending the command. When the reboot is complete, the device’s connection status will change to connected.
+    public func rebootInputDevice(_ input: RebootInputDeviceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RebootInputDeviceResponse> {
+        return self.client.execute(operation: "RebootInputDevice", path: "/prod/inputDevices/{InputDeviceId}/reboot", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Reject the transfer of the specified input device to your AWS account.
     public func rejectInputDeviceTransfer(_ input: RejectInputDeviceTransferRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RejectInputDeviceTransferResponse> {
         return self.client.execute(operation: "RejectInputDeviceTransfer", path: "/prod/inputDevices/{InputDeviceId}/reject", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -286,6 +291,11 @@ public struct MediaLive: AWSService {
     /// Starts an existing channel
     public func startChannel(_ input: StartChannelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartChannelResponse> {
         return self.client.execute(operation: "StartChannel", path: "/prod/channels/{ChannelId}/start", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Start a maintenance window for the specified input device. Starting a maintenance window will give the device up to two hours to install software. If the device was streaming prior to the maintenance, it will resume streaming when the software is fully installed. Devices automatically install updates while they are powered on and their MediaLive channels are stopped. A maintenance window allows you to update a device without having to stop MediaLive channels that use the device. The device must remain powered on and connected to the internet for the duration of the maintenance.
+    public func startInputDeviceMaintenanceWindow(_ input: StartInputDeviceMaintenanceWindowRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartInputDeviceMaintenanceWindowResponse> {
+        return self.client.execute(operation: "StartInputDeviceMaintenanceWindow", path: "/prod/inputDevices/{InputDeviceId}/startInputDeviceMaintenanceWindow", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Start (run) the multiplex. Starting the multiplex does not start the channels. You must explicitly start each channel.

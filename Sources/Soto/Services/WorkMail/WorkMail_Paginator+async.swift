@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -40,6 +40,28 @@ extension WorkMail {
             command: listAliases,
             inputKey: \ListAliasesRequest.nextToken,
             outputKey: \ListAliasesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  List all the AvailabilityConfiguration's for the given WorkMail organization.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listAvailabilityConfigurationsPaginator(
+        _ input: ListAvailabilityConfigurationsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListAvailabilityConfigurationsRequest, ListAvailabilityConfigurationsResponse> {
+        return .init(
+            input: input,
+            command: listAvailabilityConfigurations,
+            inputKey: \ListAvailabilityConfigurationsRequest.nextToken,
+            outputKey: \ListAvailabilityConfigurationsResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

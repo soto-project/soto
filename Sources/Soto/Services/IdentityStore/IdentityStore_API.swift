@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS IdentityStore service.
 ///
-/// The AWS Single Sign-On (SSO) Identity Store service provides a single place to retrieve all of your identities (users and groups). For more information about AWS, see the AWS Single Sign-On User Guide.
+/// The Identity Store service used by Amazon Web Services Single Sign On provides a single place to retrieve all of your identities (users and groups). For more information, see the Amazon Web Services SSO User Guide.   Although Amazon Web Services Single Sign-On was renamed, the sso and identitystore API namespaces will continue to retain their original name for backward compatibility purposes. For more information, see Amazon Web Services SSO rename.   This reference guide describes the identity store operations that you can call programatically and includes detailed information on data types and errors.
 public struct IdentityStore: AWSService {
     // MARK: Member variables
 

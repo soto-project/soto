@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -843,22 +843,22 @@ extension CodeCommit.ListPullRequestsInput: AWSPaginateToken {
     }
 }
 
-extension CodeCommit.ListRepositoriesInput: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> CodeCommit.ListRepositoriesInput {
-        return .init(
-            nextToken: token,
-            order: self.order,
-            sortBy: self.sortBy
-        )
-    }
-}
-
 extension CodeCommit.ListRepositoriesForApprovalRuleTemplateInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CodeCommit.ListRepositoriesForApprovalRuleTemplateInput {
         return .init(
             approvalRuleTemplateName: self.approvalRuleTemplateName,
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension CodeCommit.ListRepositoriesInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> CodeCommit.ListRepositoriesInput {
+        return .init(
+            nextToken: token,
+            order: self.order,
+            sortBy: self.sortBy
         )
     }
 }

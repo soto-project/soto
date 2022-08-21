@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -93,6 +93,7 @@ public struct GlueErrorType: AWSErrorType {
     public static var glueEncryptionException: Self { .init(.glueEncryptionException) }
     /// The same unique identifier was associated with two different records.
     public static var idempotentParameterMismatchException: Self { .init(.idempotentParameterMismatchException) }
+    /// The blueprint is in an invalid state to perform a requested operation.
     public static var illegalBlueprintStateException: Self { .init(.illegalBlueprintStateException) }
     /// The session is in an invalid state to perform a requested operation.
     public static var illegalSessionStateException: Self { .init(.illegalSessionStateException) }

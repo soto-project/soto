@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -662,7 +662,7 @@ extension IoT {
         )
     }
 
-    ///  Lists the principals associated with the specified policy.  Note: This action is deprecated. Please use ListTargetsForPolicy instead. Requires permission to access the ListPolicyPrincipals action.
+    ///  Lists the principals associated with the specified policy.  Note: This action is deprecated and works as expected for backward compatibility, but we won't add enhancements. Use ListTargetsForPolicy instead. Requires permission to access the ListPolicyPrincipals action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -684,7 +684,7 @@ extension IoT {
         )
     }
 
-    ///  Lists the policies attached to the specified principal. If you use an Cognito identity, the ID must be in AmazonCognito Identity format.  Note: This action is deprecated. Please use ListAttachedPolicies instead. Requires permission to access the ListPrincipalPolicies action.
+    ///  Lists the policies attached to the specified principal. If you use an Cognito identity, the ID must be in AmazonCognito Identity format.  Note: This action is deprecated and works as expected for backward compatibility, but we won't add enhancements. Use ListAttachedPolicies instead. Requires permission to access the ListPrincipalPolicies action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -731,7 +731,7 @@ extension IoT {
         )
     }
 
-    ///  A list of fleet provisioning template versions. Requires permission to access the ListProvisioningTemplateVersions action.
+    ///  A list of provisioning template versions. Requires permission to access the ListProvisioningTemplateVersions action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -753,7 +753,7 @@ extension IoT {
         )
     }
 
-    ///  Lists the fleet provisioning templates in your Amazon Web Services account. Requires permission to access the ListProvisioningTemplates action.
+    ///  Lists the provisioning templates in your Amazon Web Services account. Requires permission to access the ListProvisioningTemplates action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

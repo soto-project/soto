@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -210,6 +210,11 @@ public struct DirectoryService: AWSService {
         return self.client.execute(operation: "DescribeRegions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Retrieves information about the configurable settings for the specified directory.
+    public func describeSettings(_ input: DescribeSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeSettingsResult> {
+        return self.client.execute(operation: "DescribeSettings", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns the shared directories in your account.
     public func describeSharedDirectories(_ input: DescribeSharedDirectoriesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeSharedDirectoriesResult> {
         return self.client.execute(operation: "DescribeSharedDirectories", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -368,6 +373,11 @@ public struct DirectoryService: AWSService {
     /// Updates the Remote Authentication Dial In User Service (RADIUS) server information for an AD Connector or Microsoft AD directory.
     public func updateRadius(_ input: UpdateRadiusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateRadiusResult> {
         return self.client.execute(operation: "UpdateRadius", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates the configurable settings for the specified directory.
+    public func updateSettings(_ input: UpdateSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateSettingsResult> {
+        return self.client.execute(operation: "UpdateSettings", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates the trust that has been set up between your Managed Microsoft AD directory and an self-managed Active Directory.

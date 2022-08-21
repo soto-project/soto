@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -27,6 +27,7 @@ public struct CognitoIdentityProviderErrorType: AWSErrorType {
         case duplicateProviderException = "DuplicateProviderException"
         case enableSoftwareTokenMFAException = "EnableSoftwareTokenMFAException"
         case expiredCodeException = "ExpiredCodeException"
+        case forbiddenException = "ForbiddenException"
         case groupExistsException = "GroupExistsException"
         case internalErrorException = "InternalErrorException"
         case invalidEmailRoleAccessPolicyException = "InvalidEmailRoleAccessPolicyException"
@@ -94,6 +95,8 @@ public struct CognitoIdentityProviderErrorType: AWSErrorType {
     public static var enableSoftwareTokenMFAException: Self { .init(.enableSoftwareTokenMFAException) }
     /// This exception is thrown if a code has expired.
     public static var expiredCodeException: Self { .init(.expiredCodeException) }
+    /// This exception is thrown when WAF doesn't allow your request based on a web ACL that's associated with your user pool.
+    public static var forbiddenException: Self { .init(.forbiddenException) }
     /// This exception is thrown when Amazon Cognito encounters a group that already exists in the user pool.
     public static var groupExistsException: Self { .init(.groupExistsException) }
     /// This exception is thrown when Amazon Cognito encounters an internal error.

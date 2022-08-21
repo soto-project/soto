@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -62,6 +62,28 @@ extension LookoutEquipment {
             command: listDatasets,
             inputKey: \ListDatasetsRequest.nextToken,
             outputKey: \ListDatasetsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///   Lists all inference events that have been found for the specified inference scheduler.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listInferenceEventsPaginator(
+        _ input: ListInferenceEventsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListInferenceEventsRequest, ListInferenceEventsResponse> {
+        return .init(
+            input: input,
+            command: listInferenceEvents,
+            inputKey: \ListInferenceEventsRequest.nextToken,
+            outputKey: \ListInferenceEventsResponse.nextToken,
             logger: logger,
             on: eventLoop
         )
@@ -133,7 +155,7 @@ extension LookoutEquipment {
         )
     }
 
-    ///  Lists statistics about the data collected for each of the sensors that have been successfully ingested in the particular dataset. Can also be used to retreive Sensor Statistics for a previous ingestion job.
+    ///   Lists statistics about the data collected for each of the sensors that have been successfully ingested in the particular dataset. Can also be used to retreive Sensor Statistics for a previous ingestion job.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

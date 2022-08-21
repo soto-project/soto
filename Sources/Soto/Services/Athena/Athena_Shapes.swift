@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -118,6 +118,11 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
+            try self.namedQueryIds.forEach {
+                try validate($0, name: "namedQueryIds[]", parent: name, max: 128)
+                try validate($0, name: "namedQueryIds[]", parent: name, min: 1)
+                try validate($0, name: "namedQueryIds[]", parent: name, pattern: "^\\S+$")
+            }
             try self.validate(self.namedQueryIds, name: "namedQueryIds", parent: name, max: 50)
             try self.validate(self.namedQueryIds, name: "namedQueryIds", parent: name, min: 1)
         }
@@ -144,6 +149,49 @@ extension Athena {
         }
     }
 
+    public struct BatchGetPreparedStatementInput: AWSEncodableShape {
+        /// A list of prepared statement names to return.
+        public let preparedStatementNames: [String]
+        /// The name of the workgroup to which the prepared statements belong.
+        public let workGroup: String
+
+        public init(preparedStatementNames: [String], workGroup: String) {
+            self.preparedStatementNames = preparedStatementNames
+            self.workGroup = workGroup
+        }
+
+        public func validate(name: String) throws {
+            try self.preparedStatementNames.forEach {
+                try validate($0, name: "preparedStatementNames[]", parent: name, max: 256)
+                try validate($0, name: "preparedStatementNames[]", parent: name, min: 1)
+                try validate($0, name: "preparedStatementNames[]", parent: name, pattern: "^[a-zA-Z_][a-zA-Z0-9_@:]{1,256}$")
+            }
+            try self.validate(self.workGroup, name: "workGroup", parent: name, pattern: "^[a-zA-Z0-9._-]{1,128}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case preparedStatementNames = "PreparedStatementNames"
+            case workGroup = "WorkGroup"
+        }
+    }
+
+    public struct BatchGetPreparedStatementOutput: AWSDecodableShape {
+        /// The list of prepared statements returned.
+        public let preparedStatements: [PreparedStatement]?
+        /// A list of one or more prepared statements that were requested but could not be returned.
+        public let unprocessedPreparedStatementNames: [UnprocessedPreparedStatementName]?
+
+        public init(preparedStatements: [PreparedStatement]? = nil, unprocessedPreparedStatementNames: [UnprocessedPreparedStatementName]? = nil) {
+            self.preparedStatements = preparedStatements
+            self.unprocessedPreparedStatementNames = unprocessedPreparedStatementNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case preparedStatements = "PreparedStatements"
+            case unprocessedPreparedStatementNames = "UnprocessedPreparedStatementNames"
+        }
+    }
+
     public struct BatchGetQueryExecutionInput: AWSEncodableShape {
         /// An array of query execution IDs.
         public let queryExecutionIds: [String]
@@ -153,6 +201,11 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
+            try self.queryExecutionIds.forEach {
+                try validate($0, name: "queryExecutionIds[]", parent: name, max: 128)
+                try validate($0, name: "queryExecutionIds[]", parent: name, min: 1)
+                try validate($0, name: "queryExecutionIds[]", parent: name, pattern: "^\\S+$")
+            }
             try self.validate(self.queryExecutionIds, name: "queryExecutionIds", parent: name, max: 50)
             try self.validate(self.queryExecutionIds, name: "queryExecutionIds", parent: name, min: 1)
         }
@@ -544,6 +597,12 @@ extension Athena {
             self.namedQueryId = namedQueryId
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.namedQueryId, name: "namedQueryId", parent: name, max: 128)
+            try self.validate(self.namedQueryId, name: "namedQueryId", parent: name, min: 1)
+            try self.validate(self.namedQueryId, name: "namedQueryId", parent: name, pattern: "^\\S+$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case namedQueryId = "NamedQueryId"
         }
@@ -725,6 +784,12 @@ extension Athena {
             self.namedQueryId = namedQueryId
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.namedQueryId, name: "namedQueryId", parent: name, max: 128)
+            try self.validate(self.namedQueryId, name: "namedQueryId", parent: name, min: 1)
+            try self.validate(self.namedQueryId, name: "namedQueryId", parent: name, pattern: "^\\S+$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case namedQueryId = "NamedQueryId"
         }
@@ -788,6 +853,12 @@ extension Athena {
             self.queryExecutionId = queryExecutionId
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.queryExecutionId, name: "queryExecutionId", parent: name, max: 128)
+            try self.validate(self.queryExecutionId, name: "queryExecutionId", parent: name, min: 1)
+            try self.validate(self.queryExecutionId, name: "queryExecutionId", parent: name, pattern: "^\\S+$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case queryExecutionId = "QueryExecutionId"
         }
@@ -825,6 +896,9 @@ extension Athena {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.queryExecutionId, name: "queryExecutionId", parent: name, max: 128)
+            try self.validate(self.queryExecutionId, name: "queryExecutionId", parent: name, min: 1)
+            try self.validate(self.queryExecutionId, name: "queryExecutionId", parent: name, pattern: "^\\S+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -852,6 +926,38 @@ extension Athena {
             case nextToken = "NextToken"
             case resultSet = "ResultSet"
             case updateCount = "UpdateCount"
+        }
+    }
+
+    public struct GetQueryRuntimeStatisticsInput: AWSEncodableShape {
+        /// The unique ID of the query execution.
+        public let queryExecutionId: String
+
+        public init(queryExecutionId: String) {
+            self.queryExecutionId = queryExecutionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.queryExecutionId, name: "queryExecutionId", parent: name, max: 128)
+            try self.validate(self.queryExecutionId, name: "queryExecutionId", parent: name, min: 1)
+            try self.validate(self.queryExecutionId, name: "queryExecutionId", parent: name, pattern: "^\\S+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queryExecutionId = "QueryExecutionId"
+        }
+    }
+
+    public struct GetQueryRuntimeStatisticsOutput: AWSDecodableShape {
+        /// Runtime statistics about the query execution.
+        public let queryRuntimeStatistics: QueryRuntimeStatistics?
+
+        public init(queryRuntimeStatistics: QueryRuntimeStatistics? = nil) {
+            self.queryRuntimeStatistics = queryRuntimeStatistics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queryRuntimeStatistics = "QueryRuntimeStatistics"
         }
     }
 
@@ -1425,6 +1531,8 @@ extension Athena {
     public struct QueryExecution: AWSDecodableShape {
         /// The engine version that executed the query.
         public let engineVersion: EngineVersion?
+        /// A list of values for the parameters in a query. The values are applied sequentially to the parameters in the query in the order in which the parameters occur.
+        public let executionParameters: [String]?
         /// The SQL query statements which the query execution ran.
         public let query: String?
         /// The database in which the query execution occurred.
@@ -1442,8 +1550,9 @@ extension Athena {
         /// The name of the workgroup in which the query ran.
         public let workGroup: String?
 
-        public init(engineVersion: EngineVersion? = nil, query: String? = nil, queryExecutionContext: QueryExecutionContext? = nil, queryExecutionId: String? = nil, resultConfiguration: ResultConfiguration? = nil, statementType: StatementType? = nil, statistics: QueryExecutionStatistics? = nil, status: QueryExecutionStatus? = nil, workGroup: String? = nil) {
+        public init(engineVersion: EngineVersion? = nil, executionParameters: [String]? = nil, query: String? = nil, queryExecutionContext: QueryExecutionContext? = nil, queryExecutionId: String? = nil, resultConfiguration: ResultConfiguration? = nil, statementType: StatementType? = nil, statistics: QueryExecutionStatistics? = nil, status: QueryExecutionStatus? = nil, workGroup: String? = nil) {
             self.engineVersion = engineVersion
+            self.executionParameters = executionParameters
             self.query = query
             self.queryExecutionContext = queryExecutionContext
             self.queryExecutionId = queryExecutionId
@@ -1456,6 +1565,7 @@ extension Athena {
 
         private enum CodingKeys: String, CodingKey {
             case engineVersion = "EngineVersion"
+            case executionParameters = "ExecutionParameters"
             case query = "Query"
             case queryExecutionContext = "QueryExecutionContext"
             case queryExecutionId = "QueryExecutionId"
@@ -1558,6 +1668,149 @@ extension Athena {
         }
     }
 
+    public struct QueryRuntimeStatistics: AWSDecodableShape {
+        /// Stage statistics such as input and output rows and bytes, execution time, and stage state. This  information also includes substages and the query stage plan.
+        public let outputStage: QueryStage?
+        public let rows: QueryRuntimeStatisticsRows?
+        public let timeline: QueryRuntimeStatisticsTimeline?
+
+        public init(outputStage: QueryStage? = nil, rows: QueryRuntimeStatisticsRows? = nil, timeline: QueryRuntimeStatisticsTimeline? = nil) {
+            self.outputStage = outputStage
+            self.rows = rows
+            self.timeline = timeline
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case outputStage = "OutputStage"
+            case rows = "Rows"
+            case timeline = "Timeline"
+        }
+    }
+
+    public struct QueryRuntimeStatisticsRows: AWSDecodableShape {
+        /// The number of bytes read to execute the query.
+        public let inputBytes: Int64?
+        /// The number of rows read to execute the query.
+        public let inputRows: Int64?
+        /// The number of bytes returned by the query.
+        public let outputBytes: Int64?
+        /// The number of rows returned by the query.
+        public let outputRows: Int64?
+
+        public init(inputBytes: Int64? = nil, inputRows: Int64? = nil, outputBytes: Int64? = nil, outputRows: Int64? = nil) {
+            self.inputBytes = inputBytes
+            self.inputRows = inputRows
+            self.outputBytes = outputBytes
+            self.outputRows = outputRows
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputBytes = "InputBytes"
+            case inputRows = "InputRows"
+            case outputBytes = "OutputBytes"
+            case outputRows = "OutputRows"
+        }
+    }
+
+    public struct QueryRuntimeStatisticsTimeline: AWSDecodableShape {
+        /// The number of milliseconds that the query took to execute.
+        public let engineExecutionTimeInMillis: Int64?
+        /// The number of milliseconds that Athena took to plan the query processing flow. This includes the time spent retrieving table partitions from the data source. Note that because the query engine performs the query planning, query planning time is a subset of engine processing time.
+        public let queryPlanningTimeInMillis: Int64?
+        /// The number of milliseconds that the query was in your query queue waiting for resources. Note that if transient errors occur, Athena might automatically add the query back to the queue.
+        public let queryQueueTimeInMillis: Int64?
+        /// The number of milliseconds that Athena took to finalize and publish the query results after the query engine finished running the query.
+        public let serviceProcessingTimeInMillis: Int64?
+        /// The number of milliseconds that Athena took to run the query.
+        public let totalExecutionTimeInMillis: Int64?
+
+        public init(engineExecutionTimeInMillis: Int64? = nil, queryPlanningTimeInMillis: Int64? = nil, queryQueueTimeInMillis: Int64? = nil, serviceProcessingTimeInMillis: Int64? = nil, totalExecutionTimeInMillis: Int64? = nil) {
+            self.engineExecutionTimeInMillis = engineExecutionTimeInMillis
+            self.queryPlanningTimeInMillis = queryPlanningTimeInMillis
+            self.queryQueueTimeInMillis = queryQueueTimeInMillis
+            self.serviceProcessingTimeInMillis = serviceProcessingTimeInMillis
+            self.totalExecutionTimeInMillis = totalExecutionTimeInMillis
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case engineExecutionTimeInMillis = "EngineExecutionTimeInMillis"
+            case queryPlanningTimeInMillis = "QueryPlanningTimeInMillis"
+            case queryQueueTimeInMillis = "QueryQueueTimeInMillis"
+            case serviceProcessingTimeInMillis = "ServiceProcessingTimeInMillis"
+            case totalExecutionTimeInMillis = "TotalExecutionTimeInMillis"
+        }
+    }
+
+    public final class QueryStage: AWSDecodableShape {
+        /// Time taken to execute this stage.
+        public let executionTime: Int64?
+        /// The number of bytes input into the stage for execution.
+        public let inputBytes: Int64?
+        /// The number of rows input into the stage for execution.
+        public let inputRows: Int64?
+        /// The number of bytes output from the stage after execution.
+        public let outputBytes: Int64?
+        /// The number of rows output from the stage after execution.
+        public let outputRows: Int64?
+        /// Stage plan information such as name, identifier, sub plans, and source stages.
+        public let queryStagePlan: QueryStagePlanNode?
+        /// The identifier for a stage.
+        public let stageId: Int64?
+        /// State of the stage after query execution.
+        public let state: String?
+        /// List of sub query stages that form this stage execution plan.
+        public let subStages: [QueryStage]?
+
+        public init(executionTime: Int64? = nil, inputBytes: Int64? = nil, inputRows: Int64? = nil, outputBytes: Int64? = nil, outputRows: Int64? = nil, queryStagePlan: QueryStagePlanNode? = nil, stageId: Int64? = nil, state: String? = nil, subStages: [QueryStage]? = nil) {
+            self.executionTime = executionTime
+            self.inputBytes = inputBytes
+            self.inputRows = inputRows
+            self.outputBytes = outputBytes
+            self.outputRows = outputRows
+            self.queryStagePlan = queryStagePlan
+            self.stageId = stageId
+            self.state = state
+            self.subStages = subStages
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case executionTime = "ExecutionTime"
+            case inputBytes = "InputBytes"
+            case inputRows = "InputRows"
+            case outputBytes = "OutputBytes"
+            case outputRows = "OutputRows"
+            case queryStagePlan = "QueryStagePlan"
+            case stageId = "StageId"
+            case state = "State"
+            case subStages = "SubStages"
+        }
+    }
+
+    public final class QueryStagePlanNode: AWSDecodableShape {
+        /// Stage plan information such as name, identifier, sub plans, and remote sources of child plan nodes/
+        public let children: [QueryStagePlanNode]?
+        /// Information about the operation this query stage plan node is performing.
+        public let identifier: String?
+        /// Name of the query stage plan that describes the operation this stage is performing as part of query execution.
+        public let name: String?
+        /// Source plan node IDs.
+        public let remoteSources: [String]?
+
+        public init(children: [QueryStagePlanNode]? = nil, identifier: String? = nil, name: String? = nil, remoteSources: [String]? = nil) {
+            self.children = children
+            self.identifier = identifier
+            self.name = name
+            self.remoteSources = remoteSources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case children = "Children"
+            case identifier = "Identifier"
+            case name = "Name"
+            case remoteSources = "RemoteSources"
+        }
+    }
+
     public struct ResultConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Indicates that an Amazon S3 canned ACL should be set to control ownership of stored query results. Currently the only supported canned ACL is BUCKET_OWNER_FULL_CONTROL. This is a client-side setting. If workgroup settings override client-side settings, then the query uses the ACL configuration that is specified for the workgroup, and also uses the location for storing query results specified in the workgroup. For more information, see WorkGroupConfiguration$EnforceWorkGroupConfiguration and Workgroup Settings Override Client-Side Settings.
         public let aclConfiguration: AclConfiguration?
@@ -1573,6 +1826,12 @@ extension Athena {
             self.encryptionConfiguration = encryptionConfiguration
             self.expectedBucketOwner = expectedBucketOwner
             self.outputLocation = outputLocation
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.expectedBucketOwner, name: "expectedBucketOwner", parent: name, max: 12)
+            try self.validate(self.expectedBucketOwner, name: "expectedBucketOwner", parent: name, min: 12)
+            try self.validate(self.expectedBucketOwner, name: "expectedBucketOwner", parent: name, pattern: "^[0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1611,6 +1870,12 @@ extension Athena {
             self.removeEncryptionConfiguration = removeEncryptionConfiguration
             self.removeExpectedBucketOwner = removeExpectedBucketOwner
             self.removeOutputLocation = removeOutputLocation
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.expectedBucketOwner, name: "expectedBucketOwner", parent: name, max: 12)
+            try self.validate(self.expectedBucketOwner, name: "expectedBucketOwner", parent: name, min: 12)
+            try self.validate(self.expectedBucketOwner, name: "expectedBucketOwner", parent: name, pattern: "^[0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1671,6 +1936,8 @@ extension Athena {
     public struct StartQueryExecutionInput: AWSEncodableShape {
         /// A unique case-sensitive string used to ensure the request to create the query is idempotent (executes only once). If another StartQueryExecution request is received, the same response is returned and another query is not created. If a parameter has changed, for example, the QueryString, an error is returned.  This token is listed as not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for Java) auto-generate the token for users. If you are not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide this token or the action will fail.
         public let clientRequestToken: String?
+        /// A list of values for the parameters in a query. The values are applied sequentially to the parameters in the query in the order in which the parameters occur.
+        public let executionParameters: [String]?
         /// The database within which the query executes.
         public let queryExecutionContext: QueryExecutionContext?
         /// The SQL query statements to be executed.
@@ -1680,8 +1947,9 @@ extension Athena {
         /// The name of the workgroup in which the query is being started.
         public let workGroup: String?
 
-        public init(clientRequestToken: String? = StartQueryExecutionInput.idempotencyToken(), queryExecutionContext: QueryExecutionContext? = nil, queryString: String, resultConfiguration: ResultConfiguration? = nil, workGroup: String? = nil) {
+        public init(clientRequestToken: String? = StartQueryExecutionInput.idempotencyToken(), executionParameters: [String]? = nil, queryExecutionContext: QueryExecutionContext? = nil, queryString: String, resultConfiguration: ResultConfiguration? = nil, workGroup: String? = nil) {
             self.clientRequestToken = clientRequestToken
+            self.executionParameters = executionParameters
             self.queryExecutionContext = queryExecutionContext
             self.queryString = queryString
             self.resultConfiguration = resultConfiguration
@@ -1691,14 +1959,21 @@ extension Athena {
         public func validate(name: String) throws {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 128)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 32)
+            try self.executionParameters?.forEach {
+                try validate($0, name: "executionParameters[]", parent: name, max: 1024)
+                try validate($0, name: "executionParameters[]", parent: name, min: 1)
+            }
+            try self.validate(self.executionParameters, name: "executionParameters", parent: name, min: 1)
             try self.queryExecutionContext?.validate(name: "\(name).queryExecutionContext")
             try self.validate(self.queryString, name: "queryString", parent: name, max: 262_144)
             try self.validate(self.queryString, name: "queryString", parent: name, min: 1)
+            try self.resultConfiguration?.validate(name: "\(name).resultConfiguration")
             try self.validate(self.workGroup, name: "workGroup", parent: name, pattern: "^[a-zA-Z0-9._-]{1,128}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "ClientRequestToken"
+            case executionParameters = "ExecutionParameters"
             case queryExecutionContext = "QueryExecutionContext"
             case queryString = "QueryString"
             case resultConfiguration = "ResultConfiguration"
@@ -1725,6 +2000,12 @@ extension Athena {
 
         public init(queryExecutionId: String = StopQueryExecutionInput.idempotencyToken()) {
             self.queryExecutionId = queryExecutionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.queryExecutionId, name: "queryExecutionId", parent: name, max: 128)
+            try self.validate(self.queryExecutionId, name: "queryExecutionId", parent: name, min: 1)
+            try self.validate(self.queryExecutionId, name: "queryExecutionId", parent: name, pattern: "^\\S+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1846,6 +2127,27 @@ extension Athena {
         }
     }
 
+    public struct UnprocessedPreparedStatementName: AWSDecodableShape {
+        /// The error code returned when the request for the prepared statement failed.
+        public let errorCode: String?
+        /// The error message containing the reason why the prepared statement could not be returned. The following error messages are possible:    INVALID_INPUT - The name of the prepared statement that was provided is not valid (for example, the name is too long).    STATEMENT_NOT_FOUND - A prepared statement with the name provided could not be found.    UNAUTHORIZED - The requester does not have permission to access the workgroup that contains the prepared statement.
+        public let errorMessage: String?
+        /// The name of a prepared statement that could not be returned due to an error.
+        public let statementName: String?
+
+        public init(errorCode: String? = nil, errorMessage: String? = nil, statementName: String? = nil) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.statementName = statementName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
+            case statementName = "StatementName"
+        }
+    }
+
     public struct UnprocessedQueryExecutionId: AWSDecodableShape {
         /// The error code returned when the query execution failed to process, if applicable.
         public let errorCode: String?
@@ -1961,6 +2263,9 @@ extension Athena {
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.namedQueryId, name: "namedQueryId", parent: name, max: 128)
+            try self.validate(self.namedQueryId, name: "namedQueryId", parent: name, min: 1)
+            try self.validate(self.namedQueryId, name: "namedQueryId", parent: name, pattern: "^\\S+$")
             try self.validate(self.queryString, name: "queryString", parent: name, max: 262_144)
             try self.validate(self.queryString, name: "queryString", parent: name, min: 1)
         }
@@ -2107,6 +2412,7 @@ extension Athena {
         public func validate(name: String) throws {
             try self.validate(self.bytesScannedCutoffPerQuery, name: "bytesScannedCutoffPerQuery", parent: name, min: 10_000_000)
             try self.engineVersion?.validate(name: "\(name).engineVersion")
+            try self.resultConfiguration?.validate(name: "\(name).resultConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2148,6 +2454,7 @@ extension Athena {
         public func validate(name: String) throws {
             try self.validate(self.bytesScannedCutoffPerQuery, name: "bytesScannedCutoffPerQuery", parent: name, min: 10_000_000)
             try self.engineVersion?.validate(name: "\(name).engineVersion")
+            try self.resultConfigurationUpdates?.validate(name: "\(name).resultConfigurationUpdates")
         }
 
         private enum CodingKeys: String, CodingKey {

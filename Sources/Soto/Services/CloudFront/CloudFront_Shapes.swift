@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -96,6 +96,8 @@ extension CloudFront {
     public enum HttpVersion: String, CustomStringConvertible, Codable, _SotoSendable {
         case http11 = "http1.1"
         case http2
+        case http2and3
+        case http3
         public var description: String { return self.rawValue }
     }
 
@@ -2771,14 +2773,16 @@ extension CloudFront {
         public let defaultRootObject: String?
         /// From this field, you can enable or disable the selected distribution.
         public let enabled: Bool
-        /// (Optional) Specify the maximum HTTP version that you want viewers to use to communicate
-        /// 			with CloudFront. The default value for new web distributions is http2. Viewers that don't support
-        /// 			HTTP/2 automatically use an earlier HTTP version.
-        /// 		       For viewers and CloudFront to use HTTP/2, viewers must support TLS 1.2 or later, and must
-        /// 			support Server Name Identification (SNI).
-        /// 		       In general, configuring CloudFront to communicate with viewers using HTTP/2 reduces latency.
-        /// 			You can improve performance by optimizing for HTTP/2. For more information, do an Internet
-        /// 			search for "http/2 optimization."
+        /// (Optional) Specify the maximum HTTP version(s) that you want viewers to use to communicate
+        /// 			with CloudFront. The default value for new web distributions is http2. Viewers
+        /// 			that don't support HTTP/2 automatically use an earlier HTTP version.
+        /// 		       For viewers and CloudFront to use HTTP/2, viewers must support TLSv1.2 or later, and must
+        /// 			support Server Name Indication (SNI).
+        /// 		       For viewers and CloudFront to use HTTP/3, viewers must support TLSv1.3 and Server Name
+        /// 			Indication (SNI). CloudFront supports HTTP/3 connection migration to allow the
+        /// 			viewer to switch networks without losing connection. For more information
+        /// 			about connection migration, see Connection Migration at RFC 9000. For more information about
+        /// 			supported TLSv1.3 ciphers, see Supported protocols and ciphers between viewers and CloudFront.
         public let httpVersion: HttpVersion?
         /// If you want CloudFront to respond to IPv6 DNS requests with an IPv6 address for your
         /// 			distribution, specify true. If you specify false, CloudFront responds to

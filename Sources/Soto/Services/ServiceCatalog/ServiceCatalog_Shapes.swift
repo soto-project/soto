@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -710,7 +710,7 @@ extension ServiceCatalog {
         public let description: String?
         /// A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.
         public let idempotencyToken: String
-        /// The constraint parameters, in JSON format. The syntax depends on the constraint type as follows:  LAUNCH  You are required to specify either the RoleArn or the LocalRoleName but can't use both. Specify the RoleArn property as follows:  {"RoleArn" : "arn:aws:iam::123456789012:role/LaunchRole"}  Specify the LocalRoleName property as follows:  {"LocalRoleName": "SCBasicLaunchRole"}  If you specify the LocalRoleName property, when an account uses the launch constraint, the IAM role with that name in the account will be used. This allows launch-role constraints to be  account-agnostic so the administrator can create fewer resources per shared account.  The given role name must exist in the account used to create the launch constraint and the account of the user who launches a product with this launch constraint.  You cannot have both a LAUNCH and a STACKSET constraint. You also cannot have more than one LAUNCH constraint on a product and portfolio.  NOTIFICATION  Specify the NotificationArns property as follows:  {"NotificationArns" : ["arn:aws:sns:us-east-1:123456789012:Topic"]}   RESOURCE_UPDATE  Specify the TagUpdatesOnProvisionedProduct property as follows:  {"Version":"2.0","Properties":{"TagUpdateOnProvisionedProduct":"String"}}  The TagUpdatesOnProvisionedProduct property accepts a string value of ALLOWED or NOT_ALLOWED.  STACKSET  Specify the Parameters property as follows:  {"Version": "String", "Properties": {"AccountList": [ "String" ], "RegionList": [ "String" ], "AdminRole": "String", "ExecutionRole": "String"}}  You cannot have both a LAUNCH and a STACKSET constraint. You also cannot have more than one STACKSET constraint on a product and portfolio. Products with a STACKSET constraint will launch an AWS CloudFormation stack set.  TEMPLATE  Specify the Rules property. For more information, see Template Constraint Rules.
+        /// The constraint parameters, in JSON format. The syntax depends on the constraint type as follows:  LAUNCH  You are required to specify either the RoleArn or the LocalRoleName but can't use both. Specify the RoleArn property as follows:  {"RoleArn" : "arn:aws:iam::123456789012:role/LaunchRole"}  Specify the LocalRoleName property as follows:  {"LocalRoleName": "SCBasicLaunchRole"}  If you specify the LocalRoleName property, when an account uses the launch constraint, the IAM role with that name in the account will be used. This allows launch-role constraints to be  account-agnostic so the administrator can create fewer resources per shared account.  The given role name must exist in the account used to create the launch constraint and the account of the user who launches a product with this launch constraint.  You cannot have both a LAUNCH and a STACKSET constraint. You also cannot have more than one LAUNCH constraint on a product and portfolio.  NOTIFICATION  Specify the NotificationArns property as follows:  {"NotificationArns" : ["arn:aws:sns:us-east-1:123456789012:Topic"]}   RESOURCE_UPDATE  Specify the TagUpdatesOnProvisionedProduct property as follows:  {"Version":"2.0","Properties":{"TagUpdateOnProvisionedProduct":"String"}}  The TagUpdatesOnProvisionedProduct property accepts a string value of ALLOWED or NOT_ALLOWED.  STACKSET  Specify the Parameters property as follows:  {"Version": "String", "Properties": {"AccountList": [ "String" ], "RegionList": [ "String" ], "AdminRole": "String", "ExecutionRole": "String"}}  You cannot have both a LAUNCH and a STACKSET constraint. You also cannot have more than one STACKSET constraint on a product and portfolio. Products with a STACKSET constraint will launch an CloudFormation stack set.  TEMPLATE  Specify the Rules property. For more information, see Template Constraint Rules.
         public let parameters: String
         /// The portfolio identifier.
         public let portfolioId: String
@@ -846,9 +846,9 @@ extension ServiceCatalog {
     public struct CreatePortfolioShareInput: AWSEncodableShape {
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
-        /// The AWS account ID. For example, 123456789012.
+        /// The Amazon Web Services account ID. For example, 123456789012.
         public let accountId: String?
-        /// The organization node to whom you are going to share. If OrganizationNode is passed in, PortfolioShare will be created for the node an ListOrganizationPortfolioAccessd its children (when applies), and a PortfolioShareToken will be returned in the output in order for the administrator to monitor the status of the PortfolioShare creation process.
+        /// The organization node to whom you are going to share. When you pass OrganizationNode, it creates PortfolioShare for all of the Amazon Web Services accounts that are associated to the OrganizationNode.  The output returns a PortfolioShareToken, which enables the administrator to monitor the status of the PortfolioShare creation process.
         public let organizationNode: OrganizationNode?
         /// The portfolio identifier.
         public let portfolioId: String
@@ -1006,7 +1006,7 @@ extension ServiceCatalog {
         public let planType: ProvisionedProductPlanType
         /// The product identifier.
         public let productId: String
-        /// A user-friendly name for the provisioned product. This value must be unique for the AWS account and cannot be updated after the product is provisioned.
+        /// A user-friendly name for the provisioned product. This value must be unique for the Amazon Web Services account and cannot be updated after the product is provisioned.
         public let provisionedProductName: String
         /// The identifier of the provisioning artifact.
         public let provisioningArtifactId: String
@@ -1142,7 +1142,7 @@ extension ServiceCatalog {
     }
 
     public struct CreateProvisioningArtifactOutput: AWSDecodableShape {
-        /// Specify the template source with one of the following options, but not both. Keys accepted: [ LoadTemplateFromURL, ImportFromPhysicalId ]. The URL of the CloudFormation template in Amazon S3, in JSON format.   LoadTemplateFromURL  Use the URL of the CloudFormation template in Amazon S3 in JSON format.  ImportFromPhysicalId  Use the physical id of the resource that contains the template; currently supports CloudFormation stack ARN.
+        /// Specify the template source with one of the following options, but not both. Keys accepted: [ LoadTemplateFromURL, ImportFromPhysicalId ]. The URL of the CloudFormation template in Amazon S3, Amazon Web Services CodeCommit, or GitHub in JSON format.   LoadTemplateFromURL  Use the URL of the CloudFormation template in Amazon S3, Amazon Web Services CodeCommit, or GitHub in JSON format.  ImportFromPhysicalId  Use the physical id of the resource that contains the template; currently supports CloudFormation stack ARN.
         public let info: [String: String]?
         /// Information about the provisioning artifact.
         public let provisioningArtifactDetail: ProvisioningArtifactDetail?
@@ -1165,7 +1165,7 @@ extension ServiceCatalog {
     public struct CreateServiceActionInput: AWSEncodableShape {
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
-        /// The self-service action definition. Can be one of the following:  Name  The name of the AWS Systems Manager document (SSM document). For example, AWS-RestartEC2Instance. If you are using a shared SSM document, you must provide the ARN instead of the name.  Version  The AWS Systems Manager automation document version. For example, "Version": "1"   AssumeRole  The Amazon Resource Name (ARN) of the role that performs the self-service actions on your behalf. For example, "AssumeRole": "arn:aws:iam::12345678910:role/ActionRole". To reuse the provisioned product launch role, set to "AssumeRole": "LAUNCH_ROLE".  Parameters  The list of parameters in JSON format. For example: [{\"Name\":\"InstanceId\",\"Type\":\"TARGET\"}] or [{\"Name\":\"InstanceId\",\"Type\":\"TEXT_VALUE\"}].
+        /// The self-service action definition. Can be one of the following:  Name  The name of the Amazon Web Services Systems Manager document (SSM document). For example, AWS-RestartEC2Instance. If you are using a shared SSM document, you must provide the ARN instead of the name.  Version  The Amazon Web Services Systems Manager automation document version. For example, "Version": "1"   AssumeRole  The Amazon Resource Name (ARN) of the role that performs the self-service actions on your behalf. For example, "AssumeRole": "arn:aws:iam::12345678910:role/ActionRole". To reuse the provisioned product launch role, set to "AssumeRole": "LAUNCH_ROLE".  Parameters  The list of parameters in JSON format. For example: [{\"Name\":\"InstanceId\",\"Type\":\"TARGET\"}] or [{\"Name\":\"InstanceId\",\"Type\":\"TEXT_VALUE\"}].
         public let definition: [ServiceActionDefinitionKey: String]
         /// The service action definition type. For example, SSM_AUTOMATION.
         public let definitionType: ServiceActionDefinitionType
@@ -1323,7 +1323,7 @@ extension ServiceCatalog {
     public struct DeletePortfolioShareInput: AWSEncodableShape {
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
-        /// The AWS account ID.
+        /// The Amazon Web Services account ID.
         public let accountId: String?
         /// The organization node to whom you are going to stop sharing.
         public let organizationNode: OrganizationNode?
@@ -1398,7 +1398,7 @@ extension ServiceCatalog {
     public struct DeleteProvisionedProductPlanInput: AWSEncodableShape {
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
-        /// If set to true, AWS Service Catalog stops managing the specified provisioned product even if it cannot delete the underlying resources.
+        /// If set to true, Service Catalog stops managing the specified provisioned product even if it cannot delete the underlying resources.
         public let ignoreErrors: Bool?
         /// The plan identifier.
         public let planId: String
@@ -2064,7 +2064,7 @@ extension ServiceCatalog {
     }
 
     public struct DescribeProvisioningArtifactOutput: AWSDecodableShape {
-        /// The URL of the CloudFormation template in Amazon S3.
+        /// The URL of the CloudFormation template in Amazon S3, Amazon Web Services CodeCommit, or GitHub in JSON format.
         public let info: [String: String]?
         /// Information about the provisioning artifact.
         public let provisioningArtifactDetail: ProvisioningArtifactDetail?
@@ -2147,7 +2147,7 @@ extension ServiceCatalog {
         public let provisioningArtifactOutputs: [ProvisioningArtifactOutput]?
         /// Information about the parameters used to provision the product.
         public let provisioningArtifactParameters: [ProvisioningArtifactParameter]?
-        /// An object that contains information about preferences, such as regions and accounts, for the provisioning artifact.
+        /// An object that contains information about preferences, such as Regions and accounts, for the provisioning artifact.
         public let provisioningArtifactPreferences: ProvisioningArtifactPreferences?
         /// Information about the TagOptions associated with the resource.
         public let tagOptions: [TagOptionSummary]?
@@ -2590,7 +2590,7 @@ extension ServiceCatalog {
         public let acceptLanguage: String?
         /// An idempotency token that uniquely identifies the execute request.
         public let executeToken: String
-        /// A map of all self-service action parameters and their values. If a provided parameter is of a special type, such as TARGET, the provided value will  override the default value generated by AWS Service Catalog. If the parameters field is not provided, no additional parameters are passed and default values will be used for  any special parameters such as TARGET.
+        /// A map of all self-service action parameters and their values. If a provided parameter is of a special type, such as TARGET, the provided value will  override the default value generated by Service Catalog. If the parameters field is not provided, no additional parameters are passed and default values will be used for  any special parameters such as TARGET.
         public let parameters: [String: [String]]?
         /// The identifier of the provisioned product.
         public let provisionedProductId: String
@@ -2788,7 +2788,7 @@ extension ServiceCatalog {
         public let physicalId: String
         /// The product identifier.
         public let productId: String
-        /// The user-friendly name of the provisioned product. The value must be unique for the AWS account. The name cannot be updated after the product is provisioned.
+        /// The user-friendly name of the provisioned product. The value must be unique for the Amazon Web Services account. The name cannot be updated after the product is provisioned.
         public let provisionedProductName: String
         /// The identifier of the provisioning artifact.
         public let provisioningArtifactId: String
@@ -3199,7 +3199,7 @@ extension ServiceCatalog {
     }
 
     public struct ListPortfolioAccessOutput: AWSDecodableShape {
-        /// Information about the AWS accounts with access to the portfolio.
+        /// Information about the Amazon Web Services accounts with access to the portfolio.
         public let accountIds: [String]?
         /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
@@ -4073,7 +4073,7 @@ extension ServiceCatalog {
         public let supportEmail: String?
         /// The URL information to obtain support for this Product.
         public let supportUrl: String?
-        /// The product type. Contact the product administrator for the significance of this value. If this value is MARKETPLACE, the product was created by AWS Marketplace.
+        /// The product type. Contact the product administrator for the significance of this value. If this value is MARKETPLACE, the product was created by Amazon Web Services Marketplace.
         public let type: ProductType?
 
         public init(distributor: String? = nil, hasDefaultPath: Bool? = nil, id: String? = nil, name: String? = nil, owner: String? = nil, productId: String? = nil, shortDescription: String? = nil, supportDescription: String? = nil, supportEmail: String? = nil, supportUrl: String? = nil, type: ProductType? = nil) {
@@ -4118,7 +4118,7 @@ extension ServiceCatalog {
         public let productId: String?
         /// The name of the product. You must provide the name or ID, but not both.
         public let productName: String?
-        /// A user-friendly name for the provisioned product. This value must be unique for the AWS account and cannot be updated after the product is provisioned.
+        /// A user-friendly name for the provisioned product. This value must be unique for the Amazon Web Services account and cannot be updated after the product is provisioned.
         public let provisionedProductName: String
         /// The identifier of the provisioning artifact. You must provide the name or ID, but not both.
         public let provisioningArtifactId: String?
@@ -4510,7 +4510,7 @@ extension ServiceCatalog {
         public let id: String?
         /// The name of the provisioning artifact.
         public let name: String?
-        /// The type of provisioning artifact.    CLOUD_FORMATION_TEMPLATE - AWS CloudFormation template    MARKETPLACE_AMI - AWS Marketplace AMI    MARKETPLACE_CAR - AWS Marketplace Clusters and AWS Resources
+        /// The type of provisioning artifact.    CLOUD_FORMATION_TEMPLATE - CloudFormation template    MARKETPLACE_AMI - Amazon Web Services Marketplace AMI    MARKETPLACE_CAR - Amazon Web Services Marketplace Clusters and Amazon Web Services Resources
         public let type: ProvisioningArtifactType?
 
         public init(active: Bool? = nil, createdTime: Date? = nil, description: String? = nil, guidance: ProvisioningArtifactGuidance? = nil, id: String? = nil, name: String? = nil, type: ProvisioningArtifactType? = nil) {
@@ -4585,9 +4585,9 @@ extension ServiceCatalog {
     }
 
     public struct ProvisioningArtifactPreferences: AWSDecodableShape {
-        /// One or more AWS accounts where stack instances are deployed from the stack set. These accounts can be scoped in ProvisioningPreferences$StackSetAccounts and UpdateProvisioningPreferences$StackSetAccounts. Applicable only to a CFN_STACKSET provisioned product type.
+        /// One or more Amazon Web Services accounts where stack instances are deployed from the stack set. These accounts can be scoped in ProvisioningPreferences$StackSetAccounts and UpdateProvisioningPreferences$StackSetAccounts. Applicable only to a CFN_STACKSET provisioned product type.
         public let stackSetAccounts: [String]?
-        /// One or more AWS Regions where stack instances are deployed from the stack set. These regions can be scoped in ProvisioningPreferences$StackSetRegions and UpdateProvisioningPreferences$StackSetRegions. Applicable only to a CFN_STACKSET provisioned product type.
+        /// One or more Amazon Web Services Regions where stack instances are deployed from the stack set. These Regions can be scoped in ProvisioningPreferences$StackSetRegions and UpdateProvisioningPreferences$StackSetRegions. Applicable only to a CFN_STACKSET provisioned product type.
         public let stackSetRegions: [String]?
 
         public init(stackSetAccounts: [String]? = nil, stackSetRegions: [String]? = nil) {
@@ -4604,13 +4604,13 @@ extension ServiceCatalog {
     public struct ProvisioningArtifactProperties: AWSEncodableShape {
         /// The description of the provisioning artifact, including how it differs from the previous provisioning artifact.
         public let description: String?
-        /// If set to true, AWS Service Catalog stops validating the specified provisioning artifact even if it is invalid.
+        /// If set to true, Amazon Web Services Service Catalog stops validating the specified provisioning artifact even if it is invalid.
         public let disableTemplateValidation: Bool?
-        /// Specify the template source with one of the following options, but not both. Keys accepted: [ LoadTemplateFromURL, ImportFromPhysicalId ] The URL of the CloudFormation template in Amazon S3. Specify the URL in JSON format as follows:  "LoadTemplateFromURL": "https://s3.amazonaws.com/cf-templates-ozkq9d3hgiq2-us-east-1/..."   ImportFromPhysicalId: The physical id of the resource that contains the template. Currently only supports CloudFormation stack arn. Specify the physical id in JSON format as follows: ImportFromPhysicalId: “arn:aws:cloudformation:[us-east-1]:[accountId]:stack/[StackName]/[resourceId]
+        /// Specify the template source with one of the following options, but not both. Keys accepted: [ LoadTemplateFromURL, ImportFromPhysicalId ] The URL of the CloudFormation template in Amazon S3, Amazon Web Services CodeCommit, or GitHub in JSON format. Specify the URL in JSON format as follows:  "LoadTemplateFromURL": "https://s3.amazonaws.com/cf-templates-ozkq9d3hgiq2-us-east-1/..."   ImportFromPhysicalId: The physical id of the resource that contains the template. Currently only supports CloudFormation stack arn. Specify the physical id in JSON format as follows: ImportFromPhysicalId: “arn:aws:cloudformation:[us-east-1]:[accountId]:stack/[StackName]/[resourceId]
         public let info: [String: String]
         /// The name of the provisioning artifact (for example, v1 v2beta). No spaces are allowed.
         public let name: String?
-        /// The type of provisioning artifact.    CLOUD_FORMATION_TEMPLATE - AWS CloudFormation template    MARKETPLACE_AMI - AWS Marketplace AMI    MARKETPLACE_CAR - AWS Marketplace Clusters and AWS Resources
+        /// The type of provisioning artifact.    CLOUD_FORMATION_TEMPLATE - CloudFormation template    MARKETPLACE_AMI - Amazon Web Services Marketplace AMI    MARKETPLACE_CAR - Amazon Web Services Marketplace Clusters and Amazon Web Services Resources
         public let type: ProvisioningArtifactType?
 
         public init(description: String? = nil, disableTemplateValidation: Bool? = nil, info: [String: String], name: String? = nil, type: ProvisioningArtifactType? = nil) {
@@ -4646,7 +4646,7 @@ extension ServiceCatalog {
         public let id: String?
         /// The name of the provisioning artifact.
         public let name: String?
-        /// The metadata for the provisioning artifact. This is used with AWS Marketplace products.
+        /// The metadata for the provisioning artifact. This is used with Amazon Web Services Marketplace products.
         public let provisioningArtifactMetadata: [String: String]?
 
         public init(createdTime: Date? = nil, description: String? = nil, id: String? = nil, name: String? = nil, provisioningArtifactMetadata: [String: String]? = nil) {
@@ -4707,17 +4707,17 @@ extension ServiceCatalog {
     }
 
     public struct ProvisioningPreferences: AWSEncodableShape {
-        /// One or more AWS accounts where the provisioned product will be available. Applicable only to a CFN_STACKSET provisioned product type. The specified accounts should be within the list of accounts from the STACKSET constraint. To get the list of accounts in the STACKSET constraint, use the DescribeProvisioningParameters operation. If no values are specified, the default value is all acounts from the STACKSET constraint.
+        /// One or more Amazon Web Services accounts where the provisioned product will be available. Applicable only to a CFN_STACKSET provisioned product type. The specified accounts should be within the list of accounts from the STACKSET constraint. To get the list of accounts in the STACKSET constraint, use the DescribeProvisioningParameters operation. If no values are specified, the default value is all acounts from the STACKSET constraint.
         public let stackSetAccounts: [String]?
-        /// The number of accounts, per region, for which this operation can fail before AWS Service Catalog stops the operation in that region. If the operation is stopped in a region, AWS Service Catalog doesn't attempt the operation in any subsequent regions. Applicable only to a CFN_STACKSET provisioned product type. Conditional: You must specify either StackSetFailureToleranceCount or StackSetFailureTolerancePercentage, but not both. The default value is 0 if no value is specified.
+        /// The number of accounts, per Region, for which this operation can fail before Service Catalog stops the operation in that Region. If the operation is stopped in a Region, Service Catalog doesn't attempt the operation in any subsequent Regions. Applicable only to a CFN_STACKSET provisioned product type. Conditional: You must specify either StackSetFailureToleranceCount or StackSetFailureTolerancePercentage, but not both. The default value is 0 if no value is specified.
         public let stackSetFailureToleranceCount: Int?
-        /// The percentage of accounts, per region, for which this stack operation can fail before AWS Service Catalog stops the operation in that region. If the operation is stopped in a region, AWS Service Catalog doesn't attempt the operation in any subsequent regions. When calculating the number of accounts based on the specified percentage, AWS Service Catalog rounds down to the next whole number. Applicable only to a CFN_STACKSET provisioned product type. Conditional: You must specify either StackSetFailureToleranceCount or StackSetFailureTolerancePercentage, but not both.
+        /// The percentage of accounts, per Region, for which this stack operation can fail before Service Catalog stops the operation in that Region. If the operation is stopped in a Region, Service Catalog doesn't attempt the operation in any subsequent Regions. When calculating the number of accounts based on the specified percentage, Service Catalog rounds down to the next whole number. Applicable only to a CFN_STACKSET provisioned product type. Conditional: You must specify either StackSetFailureToleranceCount or StackSetFailureTolerancePercentage, but not both.
         public let stackSetFailureTolerancePercentage: Int?
         /// The maximum number of accounts in which to perform this operation at one time. This is dependent on the value of StackSetFailureToleranceCount. StackSetMaxConcurrentCount is at most one more than the StackSetFailureToleranceCount. Note that this setting lets you specify the maximum for operations. For large deployments, under certain circumstances the actual number of accounts acted upon concurrently may be lower due to service throttling. Applicable only to a CFN_STACKSET provisioned product type. Conditional: You must specify either StackSetMaxConcurrentCount or StackSetMaxConcurrentPercentage, but not both.
         public let stackSetMaxConcurrencyCount: Int?
-        /// The maximum percentage of accounts in which to perform this operation at one time. When calculating the number of accounts based on the specified percentage, AWS Service Catalog rounds down to the next whole number. This is true except in cases where rounding down would result is zero. In this case, AWS Service Catalog sets the number as 1 instead. Note that this setting lets you specify the maximum for operations. For large deployments, under certain circumstances the actual number of accounts acted upon concurrently may be lower due to service throttling. Applicable only to a CFN_STACKSET provisioned product type. Conditional: You must specify either StackSetMaxConcurrentCount or StackSetMaxConcurrentPercentage, but not both.
+        /// The maximum percentage of accounts in which to perform this operation at one time. When calculating the number of accounts based on the specified percentage, Service Catalog rounds down to the next whole number. This is true except in cases where rounding down would result is zero. In this case, Service Catalog sets the number as 1 instead. Note that this setting lets you specify the maximum for operations. For large deployments, under certain circumstances the actual number of accounts acted upon concurrently may be lower due to service throttling. Applicable only to a CFN_STACKSET provisioned product type. Conditional: You must specify either StackSetMaxConcurrentCount or StackSetMaxConcurrentPercentage, but not both.
         public let stackSetMaxConcurrencyPercentage: Int?
-        /// One or more AWS Regions where the provisioned product will be available. Applicable only to a CFN_STACKSET provisioned product type. The specified regions should be within the list of regions from the STACKSET constraint. To get the list of regions in the STACKSET constraint, use the DescribeProvisioningParameters operation. If no values are specified, the default value is all regions from the STACKSET constraint.
+        /// One or more Amazon Web Services Regions where the provisioned product will be available. Applicable only to a CFN_STACKSET provisioned product type. The specified Regions should be within the list of Regions from the STACKSET constraint. To get the list of Regions in the STACKSET constraint, use the DescribeProvisioningParameters operation. If no values are specified, the default value is all Regions from the STACKSET constraint.
         public let stackSetRegions: [String]?
 
         public init(stackSetAccounts: [String]? = nil, stackSetFailureToleranceCount: Int? = nil, stackSetFailureTolerancePercentage: Int? = nil, stackSetMaxConcurrencyCount: Int? = nil, stackSetMaxConcurrencyPercentage: Int? = nil, stackSetRegions: [String]? = nil) {
@@ -5372,9 +5372,9 @@ extension ServiceCatalog {
     }
 
     public struct StackInstance: AWSDecodableShape {
-        /// The name of the AWS account that the stack instance is associated with.
+        /// The name of the Amazon Web Services account that the stack instance is associated with.
         public let account: String?
-        /// The name of the AWS region that the stack instance is associated with.
+        /// The name of the Amazon Web Services Region that the stack instance is associated with.
         public let region: String?
         /// The status of the stack instance, in terms of its synchronization with its associated stack set.     INOPERABLE: A DeleteStackInstances operation has failed and left the stack in an unstable state. Stacks in this state are excluded from further UpdateStackSet operations. You might need to perform a DeleteStackInstances operation, with RetainStacks set to true, to delete the stack instance, and then delete the stack manually.     OUTDATED: The stack isn't currently up to date with the stack set because either             the associated stack failed during a CreateStackSet or UpdateStackSet operation,            or the stack was part of a CreateStackSet or UpdateStackSet operation that failed or was stopped before the stack was created or updated.    CURRENT: The stack is currently up to date with the stack set.
         public let stackInstanceStatus: StackInstanceStatus?
@@ -5425,7 +5425,7 @@ extension ServiceCatalog {
         public let id: String?
         /// The TagOption key.
         public let key: String?
-        /// The AWS account Id of the owner account that created the TagOption.
+        /// The Amazon Web Services account Id of the owner account that created the TagOption.
         public let owner: String?
         /// The TagOption value.
         public let value: String?
@@ -5467,7 +5467,7 @@ extension ServiceCatalog {
     public struct TerminateProvisionedProductInput: AWSEncodableShape {
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
-        /// If set to true, AWS Service Catalog stops managing the specified provisioned product even if it cannot delete the underlying resources.
+        /// If set to true, Service Catalog stops managing the specified provisioned product even if it cannot delete the underlying resources.
         public let ignoreErrors: Bool?
         /// The identifier of the provisioned product. You cannot specify both ProvisionedProductName and ProvisionedProductId.
         public let provisionedProductId: String?
@@ -5530,7 +5530,7 @@ extension ServiceCatalog {
         public let description: String?
         /// The identifier of the constraint.
         public let id: String
-        /// The constraint parameters, in JSON format. The syntax depends on the constraint type as follows:  LAUNCH  You are required to specify either the RoleArn or the LocalRoleName but can't use both. Specify the RoleArn property as follows:  {"RoleArn" : "arn:aws:iam::123456789012:role/LaunchRole"}  Specify the LocalRoleName property as follows:  {"LocalRoleName": "SCBasicLaunchRole"}  If you specify the LocalRoleName property, when an account uses the launch constraint, the IAM role with that name in the account will be used. This allows launch-role constraints to be  account-agnostic so the administrator can create fewer resources per shared account.  The given role name must exist in the account used to create the launch constraint and the account of the user who launches a product with this launch constraint.  You cannot have both a LAUNCH and a STACKSET constraint. You also cannot have more than one LAUNCH constraint on a product and portfolio.  NOTIFICATION  Specify the NotificationArns property as follows:  {"NotificationArns" : ["arn:aws:sns:us-east-1:123456789012:Topic"]}   RESOURCE_UPDATE  Specify the TagUpdatesOnProvisionedProduct property as follows:  {"Version":"2.0","Properties":{"TagUpdateOnProvisionedProduct":"String"}}  The TagUpdatesOnProvisionedProduct property accepts a string value of ALLOWED or NOT_ALLOWED.  STACKSET  Specify the Parameters property as follows:  {"Version": "String", "Properties": {"AccountList": [ "String" ], "RegionList": [ "String" ], "AdminRole": "String", "ExecutionRole": "String"}}  You cannot have both a LAUNCH and a STACKSET constraint. You also cannot have more than one STACKSET constraint on a product and portfolio. Products with a STACKSET constraint will launch an AWS CloudFormation stack set.  TEMPLATE  Specify the Rules property. For more information, see Template Constraint Rules.
+        /// The constraint parameters, in JSON format. The syntax depends on the constraint type as follows:  LAUNCH  You are required to specify either the RoleArn or the LocalRoleName but can't use both. Specify the RoleArn property as follows:  {"RoleArn" : "arn:aws:iam::123456789012:role/LaunchRole"}  Specify the LocalRoleName property as follows:  {"LocalRoleName": "SCBasicLaunchRole"}  If you specify the LocalRoleName property, when an account uses the launch constraint, the IAM role with that name in the account will be used. This allows launch-role constraints to be  account-agnostic so the administrator can create fewer resources per shared account.  The given role name must exist in the account used to create the launch constraint and the account of the user who launches a product with this launch constraint.  You cannot have both a LAUNCH and a STACKSET constraint. You also cannot have more than one LAUNCH constraint on a product and portfolio.  NOTIFICATION  Specify the NotificationArns property as follows:  {"NotificationArns" : ["arn:aws:sns:us-east-1:123456789012:Topic"]}   RESOURCE_UPDATE  Specify the TagUpdatesOnProvisionedProduct property as follows:  {"Version":"2.0","Properties":{"TagUpdateOnProvisionedProduct":"String"}}  The TagUpdatesOnProvisionedProduct property accepts a string value of ALLOWED or NOT_ALLOWED.  STACKSET  Specify the Parameters property as follows:  {"Version": "String", "Properties": {"AccountList": [ "String" ], "RegionList": [ "String" ], "AdminRole": "String", "ExecutionRole": "String"}}  You cannot have both a LAUNCH and a STACKSET constraint. You also cannot have more than one STACKSET constraint on a product and portfolio. Products with a STACKSET constraint will launch an CloudFormation stack set.  TEMPLATE  Specify the Rules property. For more information, see Template Constraint Rules.
         public let parameters: String?
 
         public init(acceptLanguage: String? = nil, description: String? = nil, id: String, parameters: String? = nil) {
@@ -5655,7 +5655,7 @@ extension ServiceCatalog {
     public struct UpdatePortfolioShareInput: AWSEncodableShape {
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
-        /// The AWS Account Id of the recipient account. This field is required when updating an external account to account type share.
+        /// The Amazon Web Services account Id of the recipient account. This field is required when updating an external account to account type share.
         public let accountId: String?
         public let organizationNode: OrganizationNode?
         /// The unique identifier of the portfolio for which the share will be updated.
@@ -5915,7 +5915,7 @@ extension ServiceCatalog {
         /// The identifier of the provisioned product.
         public let provisionedProductId: String
         /// A map that contains the provisioned product properties to be updated. The LAUNCH_ROLE key accepts role ARNs. This key allows an administrator to call UpdateProvisionedProductProperties to update the launch role that is associated with a provisioned product. This role is used when an end user calls a provisioning operation such as UpdateProvisionedProduct, TerminateProvisionedProduct, or ExecuteProvisionedProductServiceAction. Only a role ARN is valid. A user ARN is invalid.
-        ///  The OWNER key accepts user ARNs and role ARNs. The owner is the user that has permission to see, update, terminate, and execute service actions in the provisioned product. The administrator can change the owner of a provisioned product to another IAM user within the same account. Both end user owners and  administrators can see ownership history of the provisioned product using the ListRecordHistory API. The new owner can  describe all past records for the provisioned product using the DescribeRecord API. The previous owner can no longer use DescribeRecord,  but can still see the product's history from when he was an owner using ListRecordHistory. If a provisioned product ownership is assigned to an end user, they can see and perform any action through the API or  Service Catalog console such as update, terminate, and execute service actions.  If an end user provisions a product and the owner is updated to someone else, they will no longer be able to see or perform any actions through  API or the Service Catalog console on that provisioned product.
+        ///  The OWNER key accepts IAM user ARNs, IAM role ARNs, and STS  assumed-role ARNs. The owner is the user that has permission to see, update, terminate, and  execute service actions in the provisioned product. The administrator can change the owner of a provisioned product to another IAM or STS entity within the  same account. Both end user owners and administrators can see ownership history of the provisioned  product using the ListRecordHistory API. The new owner can describe all past records  for the provisioned product using the DescribeRecord API. The previous owner can no  longer use DescribeRecord, but can still see the product's history from when he was  an owner using ListRecordHistory. If a provisioned product ownership is assigned to an end user, they can see and perform any action through the API or  Service Catalog console such as update, terminate, and execute service actions.  If an end user provisions a product and the owner is updated to someone else, they will no longer be able to see or perform any actions through  API or the Service Catalog console on that provisioned product.
         public let provisionedProductProperties: [PropertyKey: String]
 
         public init(acceptLanguage: String? = nil, idempotencyToken: String = UpdateProvisionedProductPropertiesInput.idempotencyToken(), provisionedProductId: String, provisionedProductProperties: [PropertyKey: String]) {
@@ -6023,7 +6023,7 @@ extension ServiceCatalog {
     }
 
     public struct UpdateProvisioningArtifactOutput: AWSDecodableShape {
-        /// The URL of the CloudFormation template in Amazon S3.
+        /// The URL of the CloudFormation template in Amazon S3, Amazon Web Services CodeCommit, or GitHub in JSON format.
         public let info: [String: String]?
         /// Information about the provisioning artifact.
         public let provisioningArtifactDetail: ProvisioningArtifactDetail?
@@ -6071,19 +6071,19 @@ extension ServiceCatalog {
     }
 
     public struct UpdateProvisioningPreferences: AWSEncodableShape {
-        /// One or more AWS accounts that will have access to the provisioned product. Applicable only to a CFN_STACKSET provisioned product type. The AWS accounts specified should be within the list of accounts in the STACKSET constraint. To get the list of accounts in the STACKSET constraint, use the DescribeProvisioningParameters operation. If no values are specified, the default value is all accounts from the STACKSET constraint.
+        /// One or more Amazon Web Services accounts that will have access to the provisioned product. Applicable only to a CFN_STACKSET provisioned product type. The Amazon Web Services accounts specified should be within the list of accounts in the STACKSET constraint. To get the list of accounts in the STACKSET constraint, use the DescribeProvisioningParameters operation. If no values are specified, the default value is all accounts from the STACKSET constraint.
         public let stackSetAccounts: [String]?
-        /// The number of accounts, per region, for which this operation can fail before AWS Service Catalog stops the operation in that region. If the operation is stopped in a region, AWS Service Catalog doesn't attempt the operation in any subsequent regions. Applicable only to a CFN_STACKSET provisioned product type. Conditional: You must specify either StackSetFailureToleranceCount or StackSetFailureTolerancePercentage, but not both. The default value is 0 if no value is specified.
+        /// The number of accounts, per Region, for which this operation can fail before Service Catalog stops the operation in that Region. If the operation is stopped in a Region, Service Catalog doesn't attempt the operation in any subsequent Regions. Applicable only to a CFN_STACKSET provisioned product type. Conditional: You must specify either StackSetFailureToleranceCount or StackSetFailureTolerancePercentage, but not both. The default value is 0 if no value is specified.
         public let stackSetFailureToleranceCount: Int?
-        /// The percentage of accounts, per region, for which this stack operation can fail before AWS Service Catalog stops the operation in that region. If the operation is stopped in a region, AWS Service Catalog doesn't attempt the operation in any subsequent regions. When calculating the number of accounts based on the specified percentage, AWS Service Catalog rounds down to the next whole number. Applicable only to a CFN_STACKSET provisioned product type. Conditional: You must specify either StackSetFailureToleranceCount or StackSetFailureTolerancePercentage, but not both.
+        /// The percentage of accounts, per Region, for which this stack operation can fail before Service Catalog stops the operation in that Region. If the operation is stopped in a Region, Service Catalog doesn't attempt the operation in any subsequent Regions. When calculating the number of accounts based on the specified percentage, Service Catalog rounds down to the next whole number. Applicable only to a CFN_STACKSET provisioned product type. Conditional: You must specify either StackSetFailureToleranceCount or StackSetFailureTolerancePercentage, but not both.
         public let stackSetFailureTolerancePercentage: Int?
         /// The maximum number of accounts in which to perform this operation at one time. This is dependent on the value of StackSetFailureToleranceCount. StackSetMaxConcurrentCount is at most one more than the StackSetFailureToleranceCount. Note that this setting lets you specify the maximum for operations. For large deployments, under certain circumstances the actual number of accounts acted upon concurrently may be lower due to service throttling. Applicable only to a CFN_STACKSET provisioned product type. Conditional: You must specify either StackSetMaxConcurrentCount or StackSetMaxConcurrentPercentage, but not both.
         public let stackSetMaxConcurrencyCount: Int?
-        /// The maximum percentage of accounts in which to perform this operation at one time. When calculating the number of accounts based on the specified percentage, AWS Service Catalog rounds down to the next whole number. This is true except in cases where rounding down would result is zero. In this case, AWS Service Catalog sets the number as 1 instead. Note that this setting lets you specify the maximum for operations. For large deployments, under certain circumstances the actual number of accounts acted upon concurrently may be lower due to service throttling. Applicable only to a CFN_STACKSET provisioned product type. Conditional: You must specify either StackSetMaxConcurrentCount or StackSetMaxConcurrentPercentage, but not both.
+        /// The maximum percentage of accounts in which to perform this operation at one time. When calculating the number of accounts based on the specified percentage, Service Catalog rounds down to the next whole number. This is true except in cases where rounding down would result is zero. In this case, Service Catalog sets the number as 1 instead. Note that this setting lets you specify the maximum for operations. For large deployments, under certain circumstances the actual number of accounts acted upon concurrently may be lower due to service throttling. Applicable only to a CFN_STACKSET provisioned product type. Conditional: You must specify either StackSetMaxConcurrentCount or StackSetMaxConcurrentPercentage, but not both.
         public let stackSetMaxConcurrencyPercentage: Int?
-        /// Determines what action AWS Service Catalog performs to a stack set or a stack instance represented by the provisioned product. The default value is UPDATE if nothing is specified. Applicable only to a CFN_STACKSET provisioned product type.  CREATE  Creates a new stack instance in the stack set represented by the provisioned product. In this case, only new stack instances are created based on accounts and regions; if new ProductId or ProvisioningArtifactID are passed, they will be ignored.  UPDATE  Updates the stack set represented by the provisioned product and also its stack instances.  DELETE  Deletes a stack instance in the stack set represented by the provisioned product.
+        /// Determines what action Service Catalog performs to a stack set or a stack instance represented by the provisioned product. The default value is UPDATE if nothing is specified. Applicable only to a CFN_STACKSET provisioned product type.  CREATE  Creates a new stack instance in the stack set represented by the provisioned product. In this case, only new stack instances are created based on accounts and Regions; if new ProductId or ProvisioningArtifactID are passed, they will be ignored.  UPDATE  Updates the stack set represented by the provisioned product and also its stack instances.  DELETE  Deletes a stack instance in the stack set represented by the provisioned product.
         public let stackSetOperationType: StackSetOperationType?
-        /// One or more AWS Regions where the provisioned product will be available. Applicable only to a CFN_STACKSET provisioned product type. The specified regions should be within the list of regions from the STACKSET constraint. To get the list of regions in the STACKSET constraint, use the DescribeProvisioningParameters operation. If no values are specified, the default value is all regions from the STACKSET constraint.
+        /// One or more Amazon Web Services Regions where the provisioned product will be available. Applicable only to a CFN_STACKSET provisioned product type. The specified Regions should be within the list of Regions from the STACKSET constraint. To get the list of Regions in the STACKSET constraint, use the DescribeProvisioningParameters operation. If no values are specified, the default value is all Regions from the STACKSET constraint.
         public let stackSetRegions: [String]?
 
         public init(stackSetAccounts: [String]? = nil, stackSetFailureToleranceCount: Int? = nil, stackSetFailureTolerancePercentage: Int? = nil, stackSetMaxConcurrencyCount: Int? = nil, stackSetMaxConcurrencyPercentage: Int? = nil, stackSetOperationType: StackSetOperationType? = nil, stackSetRegions: [String]? = nil) {

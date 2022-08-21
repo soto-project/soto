@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -62,6 +62,28 @@ extension Mgn {
             command: describeJobs,
             inputKey: \DescribeJobsRequest.nextToken,
             outputKey: \DescribeJobsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Creates a new ReplicationConfigurationTemplate.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeLaunchConfigurationTemplatesPaginator(
+        _ input: DescribeLaunchConfigurationTemplatesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeLaunchConfigurationTemplatesRequest, DescribeLaunchConfigurationTemplatesResponse> {
+        return .init(
+            input: input,
+            command: describeLaunchConfigurationTemplates,
+            inputKey: \DescribeLaunchConfigurationTemplatesRequest.nextToken,
+            outputKey: \DescribeLaunchConfigurationTemplatesResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

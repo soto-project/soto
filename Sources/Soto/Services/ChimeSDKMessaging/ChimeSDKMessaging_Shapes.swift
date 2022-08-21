@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -124,16 +124,20 @@ extension ChimeSDKMessaging {
     public struct AppInstanceUserMembershipSummary: AWSDecodableShape {
         /// The time at which an AppInstanceUser last marked a channel as read.
         public let readMarkerTimestamp: Date?
+        /// The ID of the SubChannel that the AppInstanceUser is a member of.
+        public let subChannelId: String?
         /// The type of ChannelMembership.
         public let type: ChannelMembershipType?
 
-        public init(readMarkerTimestamp: Date? = nil, type: ChannelMembershipType? = nil) {
+        public init(readMarkerTimestamp: Date? = nil, subChannelId: String? = nil, type: ChannelMembershipType? = nil) {
             self.readMarkerTimestamp = readMarkerTimestamp
+            self.subChannelId = subChannelId
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case readMarkerTimestamp = "ReadMarkerTimestamp"
+            case subChannelId = "SubChannelId"
             case type = "Type"
         }
     }
@@ -181,13 +185,16 @@ extension ChimeSDKMessaging {
         public let invitedBy: Identity?
         /// The users successfully added to the request.
         public let members: [Identity]?
+        /// The ID of the SubChannel.
+        public let subChannelId: String?
         /// The membership types set for the channel users.
         public let type: ChannelMembershipType?
 
-        public init(channelArn: String? = nil, invitedBy: Identity? = nil, members: [Identity]? = nil, type: ChannelMembershipType? = nil) {
+        public init(channelArn: String? = nil, invitedBy: Identity? = nil, members: [Identity]? = nil, subChannelId: String? = nil, type: ChannelMembershipType? = nil) {
             self.channelArn = channelArn
             self.invitedBy = invitedBy
             self.members = members
+            self.subChannelId = subChannelId
             self.type = type
         }
 
@@ -195,6 +202,7 @@ extension ChimeSDKMessaging {
             case channelArn = "ChannelArn"
             case invitedBy = "InvitedBy"
             case members = "Members"
+            case subChannelId = "SubChannelId"
             case type = "Type"
         }
     }
@@ -232,13 +240,16 @@ extension ChimeSDKMessaging {
         public let chimeBearer: String
         /// The AppInstanceUserArns of the members you want to add to the channel.
         public let memberArns: [String]
+        /// The ID of the SubChannel in the request.   Only required when creating membership in a SubChannel for a moderator in an elastic channel.
+        public let subChannelId: String?
         /// The membership type of a user, DEFAULT or HIDDEN. Default members are always returned as part of ListChannelMemberships. Hidden members are only returned if the type filter in ListChannelMemberships equals HIDDEN. Otherwise hidden members are not returned. This is only supported by moderators.
         public let type: ChannelMembershipType?
 
-        public init(channelArn: String, chimeBearer: String, memberArns: [String], type: ChannelMembershipType? = nil) {
+        public init(channelArn: String, chimeBearer: String, memberArns: [String], subChannelId: String? = nil, type: ChannelMembershipType? = nil) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
             self.memberArns = memberArns
+            self.subChannelId = subChannelId
             self.type = type
         }
 
@@ -256,10 +267,14 @@ extension ChimeSDKMessaging {
             }
             try self.validate(self.memberArns, name: "memberArns", parent: name, max: 100)
             try self.validate(self.memberArns, name: "memberArns", parent: name, min: 1)
+            try self.validate(self.subChannelId, name: "subChannelId", parent: name, max: 128)
+            try self.validate(self.subChannelId, name: "subChannelId", parent: name, min: 1)
+            try self.validate(self.subChannelId, name: "subChannelId", parent: name, pattern: "^[-_a-zA-Z0-9]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case memberArns = "MemberArns"
+            case subChannelId = "SubChannelId"
             case type = "Type"
         }
     }
@@ -290,6 +305,8 @@ extension ChimeSDKMessaging {
         public let createdBy: Identity?
         /// The time at which the AppInstanceUser created the channel.
         public let createdTimestamp: Date?
+        /// The attributes required to configure and create an elastic channel. An elastic channel can support a maximum of 1-million members.
+        public let elasticChannelConfiguration: ElasticChannelConfiguration?
         /// The time at which a member sent the last message in the channel.
         public let lastMessageTimestamp: Date?
         /// The time at which a channel was last updated.
@@ -303,11 +320,12 @@ extension ChimeSDKMessaging {
         /// The channel's privacy setting.
         public let privacy: ChannelPrivacy?
 
-        public init(channelArn: String? = nil, channelFlowArn: String? = nil, createdBy: Identity? = nil, createdTimestamp: Date? = nil, lastMessageTimestamp: Date? = nil, lastUpdatedTimestamp: Date? = nil, metadata: String? = nil, mode: ChannelMode? = nil, name: String? = nil, privacy: ChannelPrivacy? = nil) {
+        public init(channelArn: String? = nil, channelFlowArn: String? = nil, createdBy: Identity? = nil, createdTimestamp: Date? = nil, elasticChannelConfiguration: ElasticChannelConfiguration? = nil, lastMessageTimestamp: Date? = nil, lastUpdatedTimestamp: Date? = nil, metadata: String? = nil, mode: ChannelMode? = nil, name: String? = nil, privacy: ChannelPrivacy? = nil) {
             self.channelArn = channelArn
             self.channelFlowArn = channelFlowArn
             self.createdBy = createdBy
             self.createdTimestamp = createdTimestamp
+            self.elasticChannelConfiguration = elasticChannelConfiguration
             self.lastMessageTimestamp = lastMessageTimestamp
             self.lastUpdatedTimestamp = lastUpdatedTimestamp
             self.metadata = metadata
@@ -321,6 +339,7 @@ extension ChimeSDKMessaging {
             case channelFlowArn = "ChannelFlowArn"
             case createdBy = "CreatedBy"
             case createdTimestamp = "CreatedTimestamp"
+            case elasticChannelConfiguration = "ElasticChannelConfiguration"
             case lastMessageTimestamp = "LastMessageTimestamp"
             case lastUpdatedTimestamp = "LastUpdatedTimestamp"
             case metadata = "Metadata"
@@ -512,15 +531,18 @@ extension ChimeSDKMessaging {
         public let lastUpdatedTimestamp: Date?
         /// The data of the channel member.
         public let member: Identity?
+        /// The ID of the SubChannel that a user belongs to.
+        public let subChannelId: String?
         /// The membership type set for the channel member.
         public let type: ChannelMembershipType?
 
-        public init(channelArn: String? = nil, createdTimestamp: Date? = nil, invitedBy: Identity? = nil, lastUpdatedTimestamp: Date? = nil, member: Identity? = nil, type: ChannelMembershipType? = nil) {
+        public init(channelArn: String? = nil, createdTimestamp: Date? = nil, invitedBy: Identity? = nil, lastUpdatedTimestamp: Date? = nil, member: Identity? = nil, subChannelId: String? = nil, type: ChannelMembershipType? = nil) {
             self.channelArn = channelArn
             self.createdTimestamp = createdTimestamp
             self.invitedBy = invitedBy
             self.lastUpdatedTimestamp = lastUpdatedTimestamp
             self.member = member
+            self.subChannelId = subChannelId
             self.type = type
         }
 
@@ -530,6 +552,7 @@ extension ChimeSDKMessaging {
             case invitedBy = "InvitedBy"
             case lastUpdatedTimestamp = "LastUpdatedTimestamp"
             case member = "Member"
+            case subChannelId = "SubChannelId"
             case type = "Type"
         }
     }
@@ -606,10 +629,12 @@ extension ChimeSDKMessaging {
         public let sender: Identity?
         /// The status of the channel message.
         public let status: ChannelMessageStatusStructure?
+        /// The ID of the SubChannel.
+        public let subChannelId: String?
         /// The message type.
         public let type: ChannelMessageType?
 
-        public init(channelArn: String? = nil, content: String? = nil, createdTimestamp: Date? = nil, lastEditedTimestamp: Date? = nil, lastUpdatedTimestamp: Date? = nil, messageAttributes: [String: MessageAttributeValue]? = nil, messageId: String? = nil, metadata: String? = nil, persistence: ChannelMessagePersistenceType? = nil, redacted: Bool? = nil, sender: Identity? = nil, status: ChannelMessageStatusStructure? = nil, type: ChannelMessageType? = nil) {
+        public init(channelArn: String? = nil, content: String? = nil, createdTimestamp: Date? = nil, lastEditedTimestamp: Date? = nil, lastUpdatedTimestamp: Date? = nil, messageAttributes: [String: MessageAttributeValue]? = nil, messageId: String? = nil, metadata: String? = nil, persistence: ChannelMessagePersistenceType? = nil, redacted: Bool? = nil, sender: Identity? = nil, status: ChannelMessageStatusStructure? = nil, subChannelId: String? = nil, type: ChannelMessageType? = nil) {
             self.channelArn = channelArn
             self.content = content
             self.createdTimestamp = createdTimestamp
@@ -622,6 +647,7 @@ extension ChimeSDKMessaging {
             self.redacted = redacted
             self.sender = sender
             self.status = status
+            self.subChannelId = subChannelId
             self.type = type
         }
 
@@ -638,6 +664,7 @@ extension ChimeSDKMessaging {
             case redacted = "Redacted"
             case sender = "Sender"
             case status = "Status"
+            case subChannelId = "SubChannelId"
             case type = "Type"
         }
     }
@@ -653,13 +680,16 @@ extension ChimeSDKMessaging {
         public let metadata: String?
         /// The push notification configuration of the message.
         public let pushNotification: PushNotificationConfiguration?
+        /// The ID of the SubChannel.
+        public let subChannelId: String?
 
-        public init(content: String? = nil, messageAttributes: [String: MessageAttributeValue]? = nil, messageId: String, metadata: String? = nil, pushNotification: PushNotificationConfiguration? = nil) {
+        public init(content: String? = nil, messageAttributes: [String: MessageAttributeValue]? = nil, messageId: String, metadata: String? = nil, pushNotification: PushNotificationConfiguration? = nil, subChannelId: String? = nil) {
             self.content = content
             self.messageAttributes = messageAttributes
             self.messageId = messageId
             self.metadata = metadata
             self.pushNotification = pushNotification
+            self.subChannelId = subChannelId
         }
 
         public func validate(name: String) throws {
@@ -677,6 +707,9 @@ extension ChimeSDKMessaging {
             try self.validate(self.metadata, name: "metadata", parent: name, max: 1024)
             try self.validate(self.metadata, name: "metadata", parent: name, pattern: ".*")
             try self.pushNotification?.validate(name: "\(name).pushNotification")
+            try self.validate(self.subChannelId, name: "subChannelId", parent: name, max: 128)
+            try self.validate(self.subChannelId, name: "subChannelId", parent: name, min: 1)
+            try self.validate(self.subChannelId, name: "subChannelId", parent: name, pattern: "^[-_a-zA-Z0-9]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -685,6 +718,7 @@ extension ChimeSDKMessaging {
             case messageId = "MessageId"
             case metadata = "Metadata"
             case pushNotification = "PushNotification"
+            case subChannelId = "SubChannelId"
         }
     }
 
@@ -971,13 +1005,16 @@ extension ChimeSDKMessaging {
         public let chimeBearer: String
         /// The AppInstanceUserArn of the member you want to add to the channel.
         public let memberArn: String
+        /// The ID of the SubChannel in the request.  Only required when creating membership in a SubChannel for a moderator in an elastic channel.
+        public let subChannelId: String?
         /// The membership type of a user, DEFAULT or HIDDEN. Default members are always returned as part of ListChannelMemberships. Hidden members are only returned if the type filter in ListChannelMemberships equals HIDDEN. Otherwise hidden members are not returned. This is only supported by moderators.
         public let type: ChannelMembershipType
 
-        public init(channelArn: String, chimeBearer: String, memberArn: String, type: ChannelMembershipType) {
+        public init(channelArn: String, chimeBearer: String, memberArn: String, subChannelId: String? = nil, type: ChannelMembershipType) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
             self.memberArn = memberArn
+            self.subChannelId = subChannelId
             self.type = type
         }
 
@@ -991,10 +1028,14 @@ extension ChimeSDKMessaging {
             try self.validate(self.memberArn, name: "memberArn", parent: name, max: 1600)
             try self.validate(self.memberArn, name: "memberArn", parent: name, min: 5)
             try self.validate(self.memberArn, name: "memberArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+            try self.validate(self.subChannelId, name: "subChannelId", parent: name, max: 128)
+            try self.validate(self.subChannelId, name: "subChannelId", parent: name, min: 1)
+            try self.validate(self.subChannelId, name: "subChannelId", parent: name, pattern: "^[-_a-zA-Z0-9]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case memberArn = "MemberArn"
+            case subChannelId = "SubChannelId"
             case type = "Type"
         }
     }
@@ -1004,15 +1045,19 @@ extension ChimeSDKMessaging {
         public let channelArn: String?
         /// The ARN and metadata of the member being added.
         public let member: Identity?
+        /// The ID of the SubChannel in the response.
+        public let subChannelId: String?
 
-        public init(channelArn: String? = nil, member: Identity? = nil) {
+        public init(channelArn: String? = nil, member: Identity? = nil, subChannelId: String? = nil) {
             self.channelArn = channelArn
             self.member = member
+            self.subChannelId = subChannelId
         }
 
         private enum CodingKeys: String, CodingKey {
             case channelArn = "ChannelArn"
             case member = "Member"
+            case subChannelId = "SubChannelId"
         }
     }
 
@@ -1082,6 +1127,8 @@ extension ChimeSDKMessaging {
         public let chimeBearer: String
         /// The client token for the request. An Idempotency token.
         public let clientRequestToken: String
+        /// The attributes required to configure and create an elastic channel. An elastic channel can support a maximum of 1-million users, excluding moderators.
+        public let elasticChannelConfiguration: ElasticChannelConfiguration?
         /// The ARNs of the channel members in the request.
         public let memberArns: [String]?
         /// The metadata of the creation request. Limited to 1KB and UTF-8.
@@ -1097,11 +1144,12 @@ extension ChimeSDKMessaging {
         /// The tags for the creation request.
         public let tags: [Tag]?
 
-        public init(appInstanceArn: String, channelId: String? = nil, chimeBearer: String, clientRequestToken: String = CreateChannelRequest.idempotencyToken(), memberArns: [String]? = nil, metadata: String? = nil, mode: ChannelMode? = nil, moderatorArns: [String]? = nil, name: String, privacy: ChannelPrivacy? = nil, tags: [Tag]? = nil) {
+        public init(appInstanceArn: String, channelId: String? = nil, chimeBearer: String, clientRequestToken: String = CreateChannelRequest.idempotencyToken(), elasticChannelConfiguration: ElasticChannelConfiguration? = nil, memberArns: [String]? = nil, metadata: String? = nil, mode: ChannelMode? = nil, moderatorArns: [String]? = nil, name: String, privacy: ChannelPrivacy? = nil, tags: [Tag]? = nil) {
             self.appInstanceArn = appInstanceArn
             self.channelId = channelId
             self.chimeBearer = chimeBearer
             self.clientRequestToken = clientRequestToken
+            self.elasticChannelConfiguration = elasticChannelConfiguration
             self.memberArns = memberArns
             self.metadata = metadata
             self.mode = mode
@@ -1124,6 +1172,7 @@ extension ChimeSDKMessaging {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 2)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[-_a-zA-Z0-9]*$")
+            try self.elasticChannelConfiguration?.validate(name: "\(name).elasticChannelConfiguration")
             try self.memberArns?.forEach {
                 try validate($0, name: "memberArns[]", parent: name, max: 1600)
                 try validate($0, name: "memberArns[]", parent: name, min: 5)
@@ -1154,6 +1203,7 @@ extension ChimeSDKMessaging {
             case appInstanceArn = "AppInstanceArn"
             case channelId = "ChannelId"
             case clientRequestToken = "ClientRequestToken"
+            case elasticChannelConfiguration = "ElasticChannelConfiguration"
             case memberArns = "MemberArns"
             case metadata = "Metadata"
             case mode = "Mode"
@@ -1237,7 +1287,8 @@ extension ChimeSDKMessaging {
         public static var _encoding = [
             AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
             AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer")),
-            AWSMemberEncoding(label: "memberArn", location: .uri("MemberArn"))
+            AWSMemberEncoding(label: "memberArn", location: .uri("MemberArn")),
+            AWSMemberEncoding(label: "subChannelId", location: .querystring("sub-channel-id"))
         ]
 
         /// The ARN of the channel from which you want to remove the user.
@@ -1246,11 +1297,14 @@ extension ChimeSDKMessaging {
         public let chimeBearer: String
         /// The AppInstanceUserArn of the member that you're removing from the channel.
         public let memberArn: String
+        /// The ID of the SubChannel in the request.  Only for use by moderators.
+        public let subChannelId: String?
 
-        public init(channelArn: String, chimeBearer: String, memberArn: String) {
+        public init(channelArn: String, chimeBearer: String, memberArn: String, subChannelId: String? = nil) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
             self.memberArn = memberArn
+            self.subChannelId = subChannelId
         }
 
         public func validate(name: String) throws {
@@ -1263,6 +1317,9 @@ extension ChimeSDKMessaging {
             try self.validate(self.memberArn, name: "memberArn", parent: name, max: 1600)
             try self.validate(self.memberArn, name: "memberArn", parent: name, min: 5)
             try self.validate(self.memberArn, name: "memberArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+            try self.validate(self.subChannelId, name: "subChannelId", parent: name, max: 128)
+            try self.validate(self.subChannelId, name: "subChannelId", parent: name, min: 1)
+            try self.validate(self.subChannelId, name: "subChannelId", parent: name, pattern: "^[-_a-zA-Z0-9]*$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1272,7 +1329,8 @@ extension ChimeSDKMessaging {
         public static var _encoding = [
             AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
             AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer")),
-            AWSMemberEncoding(label: "messageId", location: .uri("MessageId"))
+            AWSMemberEncoding(label: "messageId", location: .uri("MessageId")),
+            AWSMemberEncoding(label: "subChannelId", location: .querystring("sub-channel-id"))
         ]
 
         /// The ARN of the channel.
@@ -1281,11 +1339,14 @@ extension ChimeSDKMessaging {
         public let chimeBearer: String
         /// The ID of the message being deleted.
         public let messageId: String
+        /// The ID of the SubChannel in the request.  Only required when deleting messages in a SubChannel that the user belongs to.
+        public let subChannelId: String?
 
-        public init(channelArn: String, chimeBearer: String, messageId: String) {
+        public init(channelArn: String, chimeBearer: String, messageId: String, subChannelId: String? = nil) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
             self.messageId = messageId
+            self.subChannelId = subChannelId
         }
 
         public func validate(name: String) throws {
@@ -1298,6 +1359,9 @@ extension ChimeSDKMessaging {
             try self.validate(self.messageId, name: "messageId", parent: name, max: 128)
             try self.validate(self.messageId, name: "messageId", parent: name, min: 1)
             try self.validate(self.messageId, name: "messageId", parent: name, pattern: "^[-_a-zA-Z0-9]*$")
+            try self.validate(self.subChannelId, name: "subChannelId", parent: name, max: 128)
+            try self.validate(self.subChannelId, name: "subChannelId", parent: name, min: 1)
+            try self.validate(self.subChannelId, name: "subChannelId", parent: name, pattern: "^[-_a-zA-Z0-9]*$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1341,17 +1405,21 @@ extension ChimeSDKMessaging {
     public struct DeleteChannelRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
-            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer"))
+            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer")),
+            AWSMemberEncoding(label: "subChannelId", location: .querystring("sub-channel-id"))
         ]
 
         /// The ARN of the channel being deleted.
         public let channelArn: String
         /// The AppInstanceUserArn of the user that makes the API call.
         public let chimeBearer: String
+        /// The ID of the SubChannel in the request.
+        public let subChannelId: String?
 
-        public init(channelArn: String, chimeBearer: String) {
+        public init(channelArn: String, chimeBearer: String, subChannelId: String? = nil) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
+            self.subChannelId = subChannelId
         }
 
         public func validate(name: String) throws {
@@ -1361,6 +1429,9 @@ extension ChimeSDKMessaging {
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+            try self.validate(self.subChannelId, name: "subChannelId", parent: name, max: 128)
+            try self.validate(self.subChannelId, name: "subChannelId", parent: name, min: 1)
+            try self.validate(self.subChannelId, name: "subChannelId", parent: name, pattern: "^[-_a-zA-Z0-9]*$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1500,7 +1571,8 @@ extension ChimeSDKMessaging {
         public static var _encoding = [
             AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
             AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer")),
-            AWSMemberEncoding(label: "memberArn", location: .uri("MemberArn"))
+            AWSMemberEncoding(label: "memberArn", location: .uri("MemberArn")),
+            AWSMemberEncoding(label: "subChannelId", location: .querystring("sub-channel-id"))
         ]
 
         /// The ARN of the channel.
@@ -1509,11 +1581,14 @@ extension ChimeSDKMessaging {
         public let chimeBearer: String
         /// The AppInstanceUserArn of the member.
         public let memberArn: String
+        /// The ID of the SubChannel in the request. The response contains an ElasticChannelConfiguration object.  Only required to get a user’s SubChannel membership details.
+        public let subChannelId: String?
 
-        public init(channelArn: String, chimeBearer: String, memberArn: String) {
+        public init(channelArn: String, chimeBearer: String, memberArn: String, subChannelId: String? = nil) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
             self.memberArn = memberArn
+            self.subChannelId = subChannelId
         }
 
         public func validate(name: String) throws {
@@ -1526,6 +1601,9 @@ extension ChimeSDKMessaging {
             try self.validate(self.memberArn, name: "memberArn", parent: name, max: 1600)
             try self.validate(self.memberArn, name: "memberArn", parent: name, min: 5)
             try self.validate(self.memberArn, name: "memberArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+            try self.validate(self.subChannelId, name: "subChannelId", parent: name, max: 128)
+            try self.validate(self.subChannelId, name: "subChannelId", parent: name, min: 1)
+            try self.validate(self.subChannelId, name: "subChannelId", parent: name, pattern: "^[-_a-zA-Z0-9]*$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1716,6 +1794,34 @@ extension ChimeSDKMessaging {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct ElasticChannelConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum number of SubChannels that you want to allow in the elastic channel.
+        public let maximumSubChannels: Int
+        /// The minimum allowed percentage of TargetMembershipsPerSubChannel users. Ceil of the calculated value is used in balancing members among SubChannels of the elastic channel.
+        public let minimumMembershipPercentage: Int
+        /// The maximum number of members allowed in a SubChannel.
+        public let targetMembershipsPerSubChannel: Int
+
+        public init(maximumSubChannels: Int, minimumMembershipPercentage: Int, targetMembershipsPerSubChannel: Int) {
+            self.maximumSubChannels = maximumSubChannels
+            self.minimumMembershipPercentage = minimumMembershipPercentage
+            self.targetMembershipsPerSubChannel = targetMembershipsPerSubChannel
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maximumSubChannels, name: "maximumSubChannels", parent: name, min: 2)
+            try self.validate(self.minimumMembershipPercentage, name: "minimumMembershipPercentage", parent: name, max: 40)
+            try self.validate(self.minimumMembershipPercentage, name: "minimumMembershipPercentage", parent: name, min: 1)
+            try self.validate(self.targetMembershipsPerSubChannel, name: "targetMembershipsPerSubChannel", parent: name, min: 2)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maximumSubChannels = "MaximumSubChannels"
+            case minimumMembershipPercentage = "MinimumMembershipPercentage"
+            case targetMembershipsPerSubChannel = "TargetMembershipsPerSubChannel"
+        }
+    }
+
     public struct GetChannelMembershipPreferencesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
@@ -1776,7 +1882,8 @@ extension ChimeSDKMessaging {
         public static var _encoding = [
             AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
             AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer")),
-            AWSMemberEncoding(label: "messageId", location: .uri("MessageId"))
+            AWSMemberEncoding(label: "messageId", location: .uri("MessageId")),
+            AWSMemberEncoding(label: "subChannelId", location: .querystring("sub-channel-id"))
         ]
 
         /// The ARN of the channel.
@@ -1785,11 +1892,14 @@ extension ChimeSDKMessaging {
         public let chimeBearer: String
         /// The ID of the message.
         public let messageId: String
+        /// The ID of the SubChannel in the request.  Only required when getting messages in a SubChannel that the user belongs to.
+        public let subChannelId: String?
 
-        public init(channelArn: String, chimeBearer: String, messageId: String) {
+        public init(channelArn: String, chimeBearer: String, messageId: String, subChannelId: String? = nil) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
             self.messageId = messageId
+            self.subChannelId = subChannelId
         }
 
         public func validate(name: String) throws {
@@ -1802,6 +1912,9 @@ extension ChimeSDKMessaging {
             try self.validate(self.messageId, name: "messageId", parent: name, max: 128)
             try self.validate(self.messageId, name: "messageId", parent: name, min: 1)
             try self.validate(self.messageId, name: "messageId", parent: name, pattern: "^[-_a-zA-Z0-9]*$")
+            try self.validate(self.subChannelId, name: "subChannelId", parent: name, max: 128)
+            try self.validate(self.subChannelId, name: "subChannelId", parent: name, min: 1)
+            try self.validate(self.subChannelId, name: "subChannelId", parent: name, pattern: "^[-_a-zA-Z0-9]*$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1824,7 +1937,8 @@ extension ChimeSDKMessaging {
         public static var _encoding = [
             AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
             AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer")),
-            AWSMemberEncoding(label: "messageId", location: .uri("MessageId"))
+            AWSMemberEncoding(label: "messageId", location: .uri("MessageId")),
+            AWSMemberEncoding(label: "subChannelId", location: .querystring("sub-channel-id"))
         ]
 
         /// The ARN of the channel
@@ -1833,11 +1947,14 @@ extension ChimeSDKMessaging {
         public let chimeBearer: String
         /// The ID of the message.
         public let messageId: String
+        /// The ID of the SubChannel in the request.  Only required when getting message status in a SubChannel that the user belongs to.
+        public let subChannelId: String?
 
-        public init(channelArn: String, chimeBearer: String, messageId: String) {
+        public init(channelArn: String, chimeBearer: String, messageId: String, subChannelId: String? = nil) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
             self.messageId = messageId
+            self.subChannelId = subChannelId
         }
 
         public func validate(name: String) throws {
@@ -1850,6 +1967,9 @@ extension ChimeSDKMessaging {
             try self.validate(self.messageId, name: "messageId", parent: name, max: 128)
             try self.validate(self.messageId, name: "messageId", parent: name, min: 1)
             try self.validate(self.messageId, name: "messageId", parent: name, pattern: "^[-_a-zA-Z0-9]*$")
+            try self.validate(self.subChannelId, name: "subChannelId", parent: name, max: 128)
+            try self.validate(self.subChannelId, name: "subChannelId", parent: name, min: 1)
+            try self.validate(self.subChannelId, name: "subChannelId", parent: name, pattern: "^[-_a-zA-Z0-9]*$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2099,6 +2219,7 @@ extension ChimeSDKMessaging {
             AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer")),
             AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
             AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
+            AWSMemberEncoding(label: "subChannelId", location: .querystring("sub-channel-id")),
             AWSMemberEncoding(label: "type", location: .querystring("type"))
         ]
 
@@ -2110,14 +2231,17 @@ extension ChimeSDKMessaging {
         public let maxResults: Int?
         /// The token passed by previous API calls until all requested channel memberships are returned.
         public let nextToken: String?
+        /// The ID of the SubChannel in the request.  Only required when listing a user's memberships in a particular sub-channel of an elastic channel.
+        public let subChannelId: String?
         /// The membership type of a user, DEFAULT or HIDDEN. Default members are returned as part of ListChannelMemberships if no type is specified. Hidden members are only returned if the type filter in ListChannelMemberships equals HIDDEN.
         public let type: ChannelMembershipType?
 
-        public init(channelArn: String, chimeBearer: String, maxResults: Int? = nil, nextToken: String? = nil, type: ChannelMembershipType? = nil) {
+        public init(channelArn: String, chimeBearer: String, maxResults: Int? = nil, nextToken: String? = nil, subChannelId: String? = nil, type: ChannelMembershipType? = nil) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.subChannelId = subChannelId
             self.type = type
         }
 
@@ -2132,6 +2256,9 @@ extension ChimeSDKMessaging {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+            try self.validate(self.subChannelId, name: "subChannelId", parent: name, max: 128)
+            try self.validate(self.subChannelId, name: "subChannelId", parent: name, min: 1)
+            try self.validate(self.subChannelId, name: "subChannelId", parent: name, pattern: "^[-_a-zA-Z0-9]*$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2166,7 +2293,8 @@ extension ChimeSDKMessaging {
             AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
             AWSMemberEncoding(label: "notAfter", location: .querystring("not-after")),
             AWSMemberEncoding(label: "notBefore", location: .querystring("not-before")),
-            AWSMemberEncoding(label: "sortOrder", location: .querystring("sort-order"))
+            AWSMemberEncoding(label: "sortOrder", location: .querystring("sort-order")),
+            AWSMemberEncoding(label: "subChannelId", location: .querystring("sub-channel-id"))
         ]
 
         /// The ARN of the channel.
@@ -2183,8 +2311,10 @@ extension ChimeSDKMessaging {
         public let notBefore: Date?
         /// The order in which you want messages sorted. Default is Descending, based on time created.
         public let sortOrder: SortOrder?
+        /// The ID of the SubChannel in the request.  Only required when listing the messages in a SubChannel that the user belongs to.
+        public let subChannelId: String?
 
-        public init(channelArn: String, chimeBearer: String, maxResults: Int? = nil, nextToken: String? = nil, notAfter: Date? = nil, notBefore: Date? = nil, sortOrder: SortOrder? = nil) {
+        public init(channelArn: String, chimeBearer: String, maxResults: Int? = nil, nextToken: String? = nil, notAfter: Date? = nil, notBefore: Date? = nil, sortOrder: SortOrder? = nil, subChannelId: String? = nil) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
             self.maxResults = maxResults
@@ -2192,6 +2322,7 @@ extension ChimeSDKMessaging {
             self.notAfter = notAfter
             self.notBefore = notBefore
             self.sortOrder = sortOrder
+            self.subChannelId = subChannelId
         }
 
         public func validate(name: String) throws {
@@ -2205,6 +2336,9 @@ extension ChimeSDKMessaging {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+            try self.validate(self.subChannelId, name: "subChannelId", parent: name, max: 128)
+            try self.validate(self.subChannelId, name: "subChannelId", parent: name, min: 1)
+            try self.validate(self.subChannelId, name: "subChannelId", parent: name, pattern: "^[-_a-zA-Z0-9]*$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2217,17 +2351,21 @@ extension ChimeSDKMessaging {
         public let channelMessages: [ChannelMessageSummary]?
         /// The token passed by previous API calls until all requested messages are returned.
         public let nextToken: String?
+        /// The ID of the SubChannel in the response.
+        public let subChannelId: String?
 
-        public init(channelArn: String? = nil, channelMessages: [ChannelMessageSummary]? = nil, nextToken: String? = nil) {
+        public init(channelArn: String? = nil, channelMessages: [ChannelMessageSummary]? = nil, nextToken: String? = nil, subChannelId: String? = nil) {
             self.channelArn = channelArn
             self.channelMessages = channelMessages
             self.nextToken = nextToken
+            self.subChannelId = subChannelId
         }
 
         private enum CodingKeys: String, CodingKey {
             case channelArn = "ChannelArn"
             case channelMessages = "ChannelMessages"
             case nextToken = "NextToken"
+            case subChannelId = "SubChannelId"
         }
     }
 
@@ -2457,6 +2595,67 @@ extension ChimeSDKMessaging {
         private enum CodingKeys: String, CodingKey {
             case channels = "Channels"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListSubChannelsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "channelArn", location: .uri("ChannelArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
+        ]
+
+        /// The ARN of elastic channel.
+        public let channelArn: String
+        /// The AppInstanceUserArn of the user making the API call.
+        public let chimeBearer: String
+        /// The maximum number of sub-channels that you want to return.
+        public let maxResults: Int?
+        /// The token passed by previous API calls until all requested sub-channels are returned.
+        public let nextToken: String?
+
+        public init(channelArn: String, chimeBearer: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.channelArn = channelArn
+            self.chimeBearer = chimeBearer
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.channelArn, name: "channelArn", parent: name, max: 1600)
+            try self.validate(self.channelArn, name: "channelArn", parent: name, min: 5)
+            try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListSubChannelsResponse: AWSDecodableShape {
+        /// The ARN of elastic channel.
+        public let channelArn: String?
+        /// The token passed by previous API calls until all requested sub-channels are returned.
+        public let nextToken: String?
+        /// The information about each sub-channel.
+        public let subChannels: [SubChannelSummary]?
+
+        public init(channelArn: String? = nil, nextToken: String? = nil, subChannels: [SubChannelSummary]? = nil) {
+            self.channelArn = channelArn
+            self.nextToken = nextToken
+            self.subChannels = subChannels
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelArn = "ChannelArn"
+            case nextToken = "NextToken"
+            case subChannels = "SubChannels"
         }
     }
 
@@ -2704,11 +2903,14 @@ extension ChimeSDKMessaging {
         public let chimeBearer: String
         /// The ID of the message being redacted.
         public let messageId: String
+        /// The ID of the SubChannel in the request.
+        public let subChannelId: String?
 
-        public init(channelArn: String, chimeBearer: String, messageId: String) {
+        public init(channelArn: String, chimeBearer: String, messageId: String, subChannelId: String? = nil) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
             self.messageId = messageId
+            self.subChannelId = subChannelId
         }
 
         public func validate(name: String) throws {
@@ -2721,9 +2923,14 @@ extension ChimeSDKMessaging {
             try self.validate(self.messageId, name: "messageId", parent: name, max: 128)
             try self.validate(self.messageId, name: "messageId", parent: name, min: 1)
             try self.validate(self.messageId, name: "messageId", parent: name, pattern: "^[-_a-zA-Z0-9]*$")
+            try self.validate(self.subChannelId, name: "subChannelId", parent: name, max: 128)
+            try self.validate(self.subChannelId, name: "subChannelId", parent: name, min: 1)
+            try self.validate(self.subChannelId, name: "subChannelId", parent: name, pattern: "^[-_a-zA-Z0-9]*$")
         }
 
-        private enum CodingKeys: CodingKey {}
+        private enum CodingKeys: String, CodingKey {
+            case subChannelId = "SubChannelId"
+        }
     }
 
     public struct RedactChannelMessageResponse: AWSDecodableShape {
@@ -2731,15 +2938,19 @@ extension ChimeSDKMessaging {
         public let channelArn: String?
         /// The ID of the message being redacted.
         public let messageId: String?
+        /// The ID of the SubChannel in the response.  Only required when redacting messages in a SubChannel that the user belongs to.
+        public let subChannelId: String?
 
-        public init(channelArn: String? = nil, messageId: String? = nil) {
+        public init(channelArn: String? = nil, messageId: String? = nil, subChannelId: String? = nil) {
             self.channelArn = channelArn
             self.messageId = messageId
+            self.subChannelId = subChannelId
         }
 
         private enum CodingKeys: String, CodingKey {
             case channelArn = "ChannelArn"
             case messageId = "MessageId"
+            case subChannelId = "SubChannelId"
         }
     }
 
@@ -2856,10 +3067,12 @@ extension ChimeSDKMessaging {
         public let persistence: ChannelMessagePersistenceType
         /// The push notification configuration of the message.
         public let pushNotification: PushNotificationConfiguration?
+        /// The ID of the SubChannel in the request.
+        public let subChannelId: String?
         /// The type of message, STANDARD or CONTROL.
         public let type: ChannelMessageType
 
-        public init(channelArn: String, chimeBearer: String, clientRequestToken: String = SendChannelMessageRequest.idempotencyToken(), content: String, messageAttributes: [String: MessageAttributeValue]? = nil, metadata: String? = nil, persistence: ChannelMessagePersistenceType, pushNotification: PushNotificationConfiguration? = nil, type: ChannelMessageType) {
+        public init(channelArn: String, chimeBearer: String, clientRequestToken: String = SendChannelMessageRequest.idempotencyToken(), content: String, messageAttributes: [String: MessageAttributeValue]? = nil, metadata: String? = nil, persistence: ChannelMessagePersistenceType, pushNotification: PushNotificationConfiguration? = nil, subChannelId: String? = nil, type: ChannelMessageType) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
             self.clientRequestToken = clientRequestToken
@@ -2868,6 +3081,7 @@ extension ChimeSDKMessaging {
             self.metadata = metadata
             self.persistence = persistence
             self.pushNotification = pushNotification
+            self.subChannelId = subChannelId
             self.type = type
         }
 
@@ -2892,6 +3106,9 @@ extension ChimeSDKMessaging {
             try self.validate(self.metadata, name: "metadata", parent: name, max: 1024)
             try self.validate(self.metadata, name: "metadata", parent: name, pattern: ".*")
             try self.pushNotification?.validate(name: "\(name).pushNotification")
+            try self.validate(self.subChannelId, name: "subChannelId", parent: name, max: 128)
+            try self.validate(self.subChannelId, name: "subChannelId", parent: name, min: 1)
+            try self.validate(self.subChannelId, name: "subChannelId", parent: name, pattern: "^[-_a-zA-Z0-9]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2901,6 +3118,7 @@ extension ChimeSDKMessaging {
             case metadata = "Metadata"
             case persistence = "Persistence"
             case pushNotification = "PushNotification"
+            case subChannelId = "SubChannelId"
             case type = "Type"
         }
     }
@@ -2912,17 +3130,38 @@ extension ChimeSDKMessaging {
         public let messageId: String?
         /// The status of the channel message.
         public let status: ChannelMessageStatusStructure?
+        /// The ID of the SubChannel in the response.
+        public let subChannelId: String?
 
-        public init(channelArn: String? = nil, messageId: String? = nil, status: ChannelMessageStatusStructure? = nil) {
+        public init(channelArn: String? = nil, messageId: String? = nil, status: ChannelMessageStatusStructure? = nil, subChannelId: String? = nil) {
             self.channelArn = channelArn
             self.messageId = messageId
             self.status = status
+            self.subChannelId = subChannelId
         }
 
         private enum CodingKeys: String, CodingKey {
             case channelArn = "ChannelArn"
             case messageId = "MessageId"
             case status = "Status"
+            case subChannelId = "SubChannelId"
+        }
+    }
+
+    public struct SubChannelSummary: AWSDecodableShape {
+        /// The number of members in a SubChannel.
+        public let membershipCount: Int?
+        /// The unique ID of a SubChannel.
+        public let subChannelId: String?
+
+        public init(membershipCount: Int? = nil, subChannelId: String? = nil) {
+            self.membershipCount = membershipCount
+            self.subChannelId = subChannelId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case membershipCount = "MembershipCount"
+            case subChannelId = "SubChannelId"
         }
     }
 
@@ -3075,13 +3314,16 @@ extension ChimeSDKMessaging {
         public let messageId: String
         /// The metadata of the message being updated.
         public let metadata: String?
+        /// The ID of the SubChannel in the request.  Only required when updating messages in a SubChannel that the user belongs to.
+        public let subChannelId: String?
 
-        public init(channelArn: String, chimeBearer: String, content: String? = nil, messageId: String, metadata: String? = nil) {
+        public init(channelArn: String, chimeBearer: String, content: String? = nil, messageId: String, metadata: String? = nil, subChannelId: String? = nil) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
             self.content = content
             self.messageId = messageId
             self.metadata = metadata
+            self.subChannelId = subChannelId
         }
 
         public func validate(name: String) throws {
@@ -3098,11 +3340,15 @@ extension ChimeSDKMessaging {
             try self.validate(self.messageId, name: "messageId", parent: name, pattern: "^[-_a-zA-Z0-9]*$")
             try self.validate(self.metadata, name: "metadata", parent: name, max: 1024)
             try self.validate(self.metadata, name: "metadata", parent: name, pattern: ".*")
+            try self.validate(self.subChannelId, name: "subChannelId", parent: name, max: 128)
+            try self.validate(self.subChannelId, name: "subChannelId", parent: name, min: 1)
+            try self.validate(self.subChannelId, name: "subChannelId", parent: name, pattern: "^[-_a-zA-Z0-9]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case content = "Content"
             case metadata = "Metadata"
+            case subChannelId = "SubChannelId"
         }
     }
 
@@ -3113,17 +3359,21 @@ extension ChimeSDKMessaging {
         public let messageId: String?
         /// The status of the message update.
         public let status: ChannelMessageStatusStructure?
+        /// The ID of the SubChannel in the response.
+        public let subChannelId: String?
 
-        public init(channelArn: String? = nil, messageId: String? = nil, status: ChannelMessageStatusStructure? = nil) {
+        public init(channelArn: String? = nil, messageId: String? = nil, status: ChannelMessageStatusStructure? = nil, subChannelId: String? = nil) {
             self.channelArn = channelArn
             self.messageId = messageId
             self.status = status
+            self.subChannelId = subChannelId
         }
 
         private enum CodingKeys: String, CodingKey {
             case channelArn = "ChannelArn"
             case messageId = "MessageId"
             case status = "Status"
+            case subChannelId = "SubChannelId"
         }
     }
 
@@ -3137,10 +3387,13 @@ extension ChimeSDKMessaging {
         public let channelArn: String
         /// The AppInstanceUserArn of the user that makes the API call.
         public let chimeBearer: String
+        /// The ID of the SubChannel in the request.
+        public let subChannelId: String?
 
-        public init(channelArn: String, chimeBearer: String) {
+        public init(channelArn: String, chimeBearer: String, subChannelId: String? = nil) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
+            self.subChannelId = subChannelId
         }
 
         public func validate(name: String) throws {
@@ -3150,21 +3403,30 @@ extension ChimeSDKMessaging {
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+            try self.validate(self.subChannelId, name: "subChannelId", parent: name, max: 128)
+            try self.validate(self.subChannelId, name: "subChannelId", parent: name, min: 1)
+            try self.validate(self.subChannelId, name: "subChannelId", parent: name, pattern: "^[-_a-zA-Z0-9]*$")
         }
 
-        private enum CodingKeys: CodingKey {}
+        private enum CodingKeys: String, CodingKey {
+            case subChannelId = "SubChannelId"
+        }
     }
 
     public struct UpdateChannelReadMarkerResponse: AWSDecodableShape {
         /// The ARN of the channel.
         public let channelArn: String?
+        /// The ID of the SubChannel in the response.
+        public let subChannelId: String?
 
-        public init(channelArn: String? = nil) {
+        public init(channelArn: String? = nil, subChannelId: String? = nil) {
             self.channelArn = channelArn
+            self.subChannelId = subChannelId
         }
 
         private enum CodingKeys: String, CodingKey {
             case channelArn = "ChannelArn"
+            case subChannelId = "SubChannelId"
         }
     }
 

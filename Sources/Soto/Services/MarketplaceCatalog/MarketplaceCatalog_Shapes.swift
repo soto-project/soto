@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -301,7 +301,7 @@ extension MarketplaceCatalog {
     public struct DescribeEntityResponse: AWSDecodableShape {
         /// This stringified JSON object includes the details of the entity.
         public let details: String?
-        /// The ARN associated to the unique identifier for the change set referenced in this request.
+        /// The ARN associated to the unique identifier for the entity referenced in this request.
         public let entityArn: String?
         /// The identifier of the entity, in the format of EntityId@RevisionId.
         public let entityIdentifier: String?
@@ -601,7 +601,7 @@ extension MarketplaceCatalog {
         /// A unique token to identify the request to ensure idempotency.
         public let clientRequestToken: String?
 
-        public init(catalog: String, changeSet: [Change], changeSetName: String? = nil, clientRequestToken: String? = nil) {
+        public init(catalog: String, changeSet: [Change], changeSetName: String? = nil, clientRequestToken: String? = StartChangeSetRequest.idempotencyToken()) {
             self.catalog = catalog
             self.changeSet = changeSet
             self.changeSetName = changeSetName

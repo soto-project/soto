@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -88,6 +88,7 @@ extension FraudDetector {
     }
 
     public enum ModelTypeEnum: String, CustomStringConvertible, Codable, _SotoSendable {
+        case accountTakeoverInsights = "ACCOUNT_TAKEOVER_INSIGHTS"
         case onlineFraudInsights = "ONLINE_FRAUD_INSIGHTS"
         case transactionFraudInsights = "TRANSACTION_FRAUD_INSIGHTS"
         public var description: String { return self.rawValue }
@@ -120,6 +121,112 @@ extension FraudDetector {
     }
 
     // MARK: Shapes
+
+    public struct ATIMetricDataPoint: AWSDecodableShape {
+        ///  The anomaly discovery rate. This metric quantifies the percentage of anomalies that can be detected by the model at the selected score threshold.   A lower score threshold increases the percentage of anomalies captured by the model, but would also require challenging a larger percentage of  login events, leading to a higher customer friction.
+        public let adr: Float?
+        ///  The account takeover discovery rate. This metric quantifies the percentage of account compromise events that can be detected by the model at the selected score threshold. This metric is only available if 50 or more entities with at-least one labeled account takeover event is present in the ingested dataset.
+        public let atodr: Float?
+        ///  The challenge rate. This indicates the percentage of login events that the model recommends to challenge such as   one-time password, multi-factor authentication, and investigations.
+        public let cr: Float?
+        ///  The model's threshold that specifies an acceptable fraud capture rate. For example, a threshold of 500 means any model score 500 or above is  labeled as fraud.
+        public let threshold: Float?
+
+        public init(adr: Float? = nil, atodr: Float? = nil, cr: Float? = nil, threshold: Float? = nil) {
+            self.adr = adr
+            self.atodr = atodr
+            self.cr = cr
+            self.threshold = threshold
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adr
+            case atodr
+            case cr
+            case threshold
+        }
+    }
+
+    public struct ATIModelPerformance: AWSDecodableShape {
+        ///  The anomaly separation index (ASI) score. This metric summarizes the overall ability of the model to separate anomalous activities from the normal behavior. Depending on the business, a  large fraction of these anomalous activities can be malicious and correspond to the account takeover attacks. A model with no separability power will have the lowest possible  ASI score of 0.5, whereas the a model with a high separability power will have the highest possible ASI score of 1.0
+        public let asi: Float?
+
+        public init(asi: Float? = nil) {
+            self.asi = asi
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case asi
+        }
+    }
+
+    public struct ATITrainingMetricsValue: AWSDecodableShape {
+        ///  The model's performance metrics data points.
+        public let metricDataPoints: [ATIMetricDataPoint]?
+        ///  The model's overall performance scores.
+        public let modelPerformance: ATIModelPerformance?
+
+        public init(metricDataPoints: [ATIMetricDataPoint]? = nil, modelPerformance: ATIModelPerformance? = nil) {
+            self.metricDataPoints = metricDataPoints
+            self.modelPerformance = modelPerformance
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricDataPoints
+            case modelPerformance
+        }
+    }
+
+    public struct AggregatedLogOddsMetric: AWSDecodableShape {
+        ///  The relative importance of the variables in the list to the other event variable.
+        public let aggregatedVariablesImportance: Float
+        ///  The names of all the variables.
+        public let variableNames: [String]
+
+        public init(aggregatedVariablesImportance: Float, variableNames: [String]) {
+            self.aggregatedVariablesImportance = aggregatedVariablesImportance
+            self.variableNames = variableNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregatedVariablesImportance
+            case variableNames
+        }
+    }
+
+    public struct AggregatedVariablesImpactExplanation: AWSDecodableShape {
+        ///  The names of all the event variables that were used to derive the aggregated variables.
+        public let eventVariableNames: [String]?
+        ///  The raw, uninterpreted value represented as log-odds of the fraud.  These values are usually between -10 to +10, but range from -infinity to +infinity.   A positive value indicates that the variables drove the risk score up.   A negative value indicates that the variables drove the risk score down.
+        public let logOddsImpact: Float?
+        ///  The relative impact of the aggregated variables in terms of magnitude on the prediction scores.
+        public let relativeImpact: String?
+
+        public init(eventVariableNames: [String]? = nil, logOddsImpact: Float? = nil, relativeImpact: String? = nil) {
+            self.eventVariableNames = eventVariableNames
+            self.logOddsImpact = logOddsImpact
+            self.relativeImpact = relativeImpact
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventVariableNames
+            case logOddsImpact
+            case relativeImpact
+        }
+    }
+
+    public struct AggregatedVariablesImportanceMetrics: AWSDecodableShape {
+        ///  List of variables' metrics.
+        public let logOddsMetrics: [AggregatedLogOddsMetric]?
+
+        public init(logOddsMetrics: [AggregatedLogOddsMetric]? = nil) {
+            self.logOddsMetrics = logOddsMetrics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logOddsMetrics
+        }
+    }
 
     public struct BatchCreateVariableError: AWSDecodableShape {
         /// The error code.
@@ -705,7 +812,6 @@ extension FraudDetector {
                 try $0.validate(name: "\(name).tags[]")
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
-            try self.trainingDataSchema.validate(name: "\(name).trainingDataSchema")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -864,7 +970,7 @@ extension FraudDetector {
     public struct DataValidationMetrics: AWSDecodableShape {
         /// The field-specific model training validation messages.
         public let fieldLevelMessages: [FieldValidationMessage]?
-        /// The file-specific model training validation messages.
+        /// The file-specific model training data validation messages.
         public let fileLevelMessages: [FileValidationMessage]?
 
         public init(fieldLevelMessages: [FieldValidationMessage]? = nil, fileLevelMessages: [FileValidationMessage]? = nil) {
@@ -2339,7 +2445,7 @@ extension FraudDetector {
             try self.eventVariables.forEach {
                 try validate($0.key, name: "eventVariables.key", parent: name, max: 64)
                 try validate($0.key, name: "eventVariables.key", parent: name, min: 1)
-                try validate($0.value, name: "eventVariables[\"\($0.key)\"]", parent: name, max: 1024)
+                try validate($0.value, name: "eventVariables[\"\($0.key)\"]", parent: name, max: 8192)
                 try validate($0.value, name: "eventVariables[\"\($0.key)\"]", parent: name, min: 1)
             }
             try self.validate(self.eventVariables, name: "eventVariables", parent: name, min: 1)
@@ -2952,19 +3058,13 @@ extension FraudDetector {
 
     public struct LabelSchema: AWSEncodableShape & AWSDecodableShape {
         /// The label mapper maps the Amazon Fraud Detector supported model classification labels (FRAUD, LEGIT) to the appropriate event type labels. For example, if "FRAUD" and "LEGIT" are Amazon Fraud Detector supported labels, this mapper could be: {"FRAUD" => ["0"], "LEGIT" => ["1"]} or {"FRAUD" => ["false"], "LEGIT" => ["true"]} or {"FRAUD" => ["fraud", "abuse"], "LEGIT" => ["legit", "safe"]}. The value part of the mapper is a list, because you may have multiple label variants from your event type for a single Amazon Fraud Detector label.
-        public let labelMapper: [String: [String]]
+        public let labelMapper: [String: [String]]?
         /// The action to take for unlabeled events.
         public let unlabeledEventsTreatment: UnlabeledEventsTreatment?
 
-        public init(labelMapper: [String: [String]], unlabeledEventsTreatment: UnlabeledEventsTreatment? = nil) {
+        public init(labelMapper: [String: [String]]? = nil, unlabeledEventsTreatment: UnlabeledEventsTreatment? = nil) {
             self.labelMapper = labelMapper
             self.unlabeledEventsTreatment = unlabeledEventsTreatment
-        }
-
-        public func validate(name: String) throws {
-            try self.labelMapper.forEach {
-                try validate($0.value, name: "labelMapper[\"\($0.key)\"]", parent: name, min: 1)
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3327,8 +3427,10 @@ extension FraudDetector {
         public let trainingDataSource: TrainingDataSourceEnum?
         /// The training results.
         public let trainingResult: TrainingResult?
+        ///  The training result details. The details include the relative importance of the variables.
+        public let trainingResultV2: TrainingResultV2?
 
-        public init(arn: String? = nil, createdTime: String? = nil, externalEventsDetail: ExternalEventsDetail? = nil, ingestedEventsDetail: IngestedEventsDetail? = nil, lastUpdatedTime: String? = nil, modelId: String? = nil, modelType: ModelTypeEnum? = nil, modelVersionNumber: String? = nil, status: String? = nil, trainingDataSchema: TrainingDataSchema? = nil, trainingDataSource: TrainingDataSourceEnum? = nil, trainingResult: TrainingResult? = nil) {
+        public init(arn: String? = nil, createdTime: String? = nil, externalEventsDetail: ExternalEventsDetail? = nil, ingestedEventsDetail: IngestedEventsDetail? = nil, lastUpdatedTime: String? = nil, modelId: String? = nil, modelType: ModelTypeEnum? = nil, modelVersionNumber: String? = nil, status: String? = nil, trainingDataSchema: TrainingDataSchema? = nil, trainingDataSource: TrainingDataSourceEnum? = nil, trainingResult: TrainingResult? = nil, trainingResultV2: TrainingResultV2? = nil) {
             self.arn = arn
             self.createdTime = createdTime
             self.externalEventsDetail = externalEventsDetail
@@ -3341,6 +3443,7 @@ extension FraudDetector {
             self.trainingDataSchema = trainingDataSchema
             self.trainingDataSource = trainingDataSource
             self.trainingResult = trainingResult
+            self.trainingResultV2 = trainingResultV2
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3356,6 +3459,7 @@ extension FraudDetector {
             case trainingDataSchema
             case trainingDataSource
             case trainingResult
+            case trainingResultV2
         }
     }
 
@@ -3377,6 +3481,61 @@ extension FraudDetector {
             case evaluationScore
             case outputVariableName
             case predictionExplanations
+        }
+    }
+
+    public struct OFIMetricDataPoint: AWSDecodableShape {
+        ///  The false positive rate. This is the percentage of total legitimate events that are incorrectly predicted as fraud.
+        public let fpr: Float?
+        ///  The percentage of fraud events correctly predicted as fraudulent as compared to all events predicted as fraudulent.
+        public let precision: Float?
+        ///  The model threshold that specifies an acceptable fraud capture rate. For example, a threshold of 500 means any model score 500 or above is labeled as fraud.
+        public let threshold: Float?
+        ///  The true positive rate. This is the percentage of total fraud the model detects. Also known as capture rate.
+        public let tpr: Float?
+
+        public init(fpr: Float? = nil, precision: Float? = nil, threshold: Float? = nil, tpr: Float? = nil) {
+            self.fpr = fpr
+            self.precision = precision
+            self.threshold = threshold
+            self.tpr = tpr
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fpr
+            case precision
+            case threshold
+            case tpr
+        }
+    }
+
+    public struct OFIModelPerformance: AWSDecodableShape {
+        ///  The area under the curve (auc). This summarizes the total positive rate (tpr) and false positive rate (FPR) across all possible model score thresholds.
+        public let auc: Float?
+
+        public init(auc: Float? = nil) {
+            self.auc = auc
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case auc
+        }
+    }
+
+    public struct OFITrainingMetricsValue: AWSDecodableShape {
+        ///  The model's performance metrics data points.
+        public let metricDataPoints: [OFIMetricDataPoint]?
+        ///  The model's overall performance score.
+        public let modelPerformance: OFIModelPerformance?
+
+        public init(metricDataPoints: [OFIMetricDataPoint]? = nil, modelPerformance: OFIModelPerformance? = nil) {
+            self.metricDataPoints = metricDataPoints
+            self.modelPerformance = modelPerformance
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricDataPoints
+            case modelPerformance
         }
     }
 
@@ -3410,14 +3569,18 @@ extension FraudDetector {
     }
 
     public struct PredictionExplanations: AWSDecodableShape {
+        ///  The details of the aggregated variables impact on the prediction score.     Account Takeover Insights (ATI) model uses event variables from the login data you  provide to continuously calculate a set of variables (aggregated variables) based on historical events. For example, your ATI model might calculate the number of times an user has logged in using the same IP address.  In this case, event variables used to derive the aggregated variables are IP address and user.
+        public let aggregatedVariablesImpactExplanations: [AggregatedVariablesImpactExplanation]?
         /// The details of the event variable's impact on the prediction score.
         public let variableImpactExplanations: [VariableImpactExplanation]?
 
-        public init(variableImpactExplanations: [VariableImpactExplanation]? = nil) {
+        public init(aggregatedVariablesImpactExplanations: [AggregatedVariablesImpactExplanation]? = nil, variableImpactExplanations: [VariableImpactExplanation]? = nil) {
+            self.aggregatedVariablesImpactExplanations = aggregatedVariablesImpactExplanations
             self.variableImpactExplanations = variableImpactExplanations
         }
 
         private enum CodingKeys: String, CodingKey {
+            case aggregatedVariablesImpactExplanations
             case variableImpactExplanations
         }
     }
@@ -3873,7 +4036,7 @@ extension FraudDetector {
             try self.eventVariables.forEach {
                 try validate($0.key, name: "eventVariables.key", parent: name, max: 64)
                 try validate($0.key, name: "eventVariables.key", parent: name, min: 1)
-                try validate($0.value, name: "eventVariables[\"\($0.key)\"]", parent: name, max: 1024)
+                try validate($0.value, name: "eventVariables[\"\($0.key)\"]", parent: name, max: 8192)
                 try validate($0.value, name: "eventVariables[\"\($0.key)\"]", parent: name, min: 1)
             }
             try self.validate(self.eventVariables, name: "eventVariables", parent: name, min: 1)
@@ -3894,6 +4057,61 @@ extension FraudDetector {
 
     public struct SendEventResult: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct TFIMetricDataPoint: AWSDecodableShape {
+        ///  The false positive rate. This is the percentage of total legitimate events that are incorrectly predicted as fraud.
+        public let fpr: Float?
+        ///  The percentage of fraud events correctly predicted as fraudulent as compared to all events predicted as fraudulent.
+        public let precision: Float?
+        ///  The model threshold that specifies an acceptable fraud capture rate. For example, a threshold of 500 means any  model score 500 or above is labeled as fraud.
+        public let threshold: Float?
+        ///  The true positive rate. This is the percentage of total fraud the model detects. Also known as capture rate.
+        public let tpr: Float?
+
+        public init(fpr: Float? = nil, precision: Float? = nil, threshold: Float? = nil, tpr: Float? = nil) {
+            self.fpr = fpr
+            self.precision = precision
+            self.threshold = threshold
+            self.tpr = tpr
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fpr
+            case precision
+            case threshold
+            case tpr
+        }
+    }
+
+    public struct TFIModelPerformance: AWSDecodableShape {
+        ///  The area under the curve (auc). This summarizes the total positive rate (tpr) and false positive rate (FPR) across all possible model score thresholds.
+        public let auc: Float?
+
+        public init(auc: Float? = nil) {
+            self.auc = auc
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case auc
+        }
+    }
+
+    public struct TFITrainingMetricsValue: AWSDecodableShape {
+        ///  The model's performance metrics data points.
+        public let metricDataPoints: [TFIMetricDataPoint]?
+        ///  The model performance score.
+        public let modelPerformance: TFIModelPerformance?
+
+        public init(metricDataPoints: [TFIMetricDataPoint]? = nil, modelPerformance: TFIModelPerformance? = nil) {
+            self.metricDataPoints = metricDataPoints
+            self.modelPerformance = modelPerformance
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricDataPoints
+            case modelPerformance
+        }
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
@@ -3952,17 +4170,13 @@ extension FraudDetector {
     }
 
     public struct TrainingDataSchema: AWSEncodableShape & AWSDecodableShape {
-        public let labelSchema: LabelSchema
+        public let labelSchema: LabelSchema?
         /// The training data schema variables.
         public let modelVariables: [String]
 
-        public init(labelSchema: LabelSchema, modelVariables: [String]) {
+        public init(labelSchema: LabelSchema? = nil, modelVariables: [String]) {
             self.labelSchema = labelSchema
             self.modelVariables = modelVariables
-        }
-
-        public func validate(name: String) throws {
-            try self.labelSchema.validate(name: "\(name).labelSchema")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3988,6 +4202,27 @@ extension FraudDetector {
         }
     }
 
+    public struct TrainingMetricsV2: AWSDecodableShape {
+        ///  The Account Takeover Insights (ATI) model training metric details.
+        public let ati: ATITrainingMetricsValue?
+        ///  The Online Fraud Insights (OFI) model training metric details.
+        public let ofi: OFITrainingMetricsValue?
+        ///  The Transaction Fraud Insights (TFI) model training metric details.
+        public let tfi: TFITrainingMetricsValue?
+
+        public init(ati: ATITrainingMetricsValue? = nil, ofi: OFITrainingMetricsValue? = nil, tfi: TFITrainingMetricsValue? = nil) {
+            self.ati = ati
+            self.ofi = ofi
+            self.tfi = tfi
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ati
+            case ofi
+            case tfi
+        }
+    }
+
     public struct TrainingResult: AWSDecodableShape {
         /// The validation metrics.
         public let dataValidationMetrics: DataValidationMetrics?
@@ -4005,6 +4240,29 @@ extension FraudDetector {
         private enum CodingKeys: String, CodingKey {
             case dataValidationMetrics
             case trainingMetrics
+            case variableImportanceMetrics
+        }
+    }
+
+    public struct TrainingResultV2: AWSDecodableShape {
+        ///  The variable importance metrics of the aggregated variables.  Account Takeover Insights (ATI) model uses event variables from the login data you  provide to continuously calculate a set of variables (aggregated variables) based on historical events. For example, your ATI model might calculate the number of times an user has logged in using the same IP address.  In this case, event variables used to derive the aggregated variables are IP address and user.
+        public let aggregatedVariablesImportanceMetrics: AggregatedVariablesImportanceMetrics?
+        public let dataValidationMetrics: DataValidationMetrics?
+        ///  The training metric details.
+        public let trainingMetricsV2: TrainingMetricsV2?
+        public let variableImportanceMetrics: VariableImportanceMetrics?
+
+        public init(aggregatedVariablesImportanceMetrics: AggregatedVariablesImportanceMetrics? = nil, dataValidationMetrics: DataValidationMetrics? = nil, trainingMetricsV2: TrainingMetricsV2? = nil, variableImportanceMetrics: VariableImportanceMetrics? = nil) {
+            self.aggregatedVariablesImportanceMetrics = aggregatedVariablesImportanceMetrics
+            self.dataValidationMetrics = dataValidationMetrics
+            self.trainingMetricsV2 = trainingMetricsV2
+            self.variableImportanceMetrics = variableImportanceMetrics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregatedVariablesImportanceMetrics
+            case dataValidationMetrics
+            case trainingMetricsV2
             case variableImportanceMetrics
         }
     }

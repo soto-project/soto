@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -772,6 +772,59 @@ extension Rekognition {
         )
     }
 
+    ///  Gets a list of the project policies attached to a project. To attach a project policy to a project, call PutProjectPolicy. To remove a project policy from a project, call DeleteProjectPolicy.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listProjectPoliciesPaginator<Result>(
+        _ input: ListProjectPoliciesRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListProjectPoliciesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listProjectPolicies,
+            inputKey: \ListProjectPoliciesRequest.nextToken,
+            outputKey: \ListProjectPoliciesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listProjectPoliciesPaginator(
+        _ input: ListProjectPoliciesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListProjectPoliciesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listProjectPolicies,
+            inputKey: \ListProjectPoliciesRequest.nextToken,
+            outputKey: \ListProjectPoliciesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Gets a list of stream processors that you have created with CreateStreamProcessor.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -971,6 +1024,16 @@ extension Rekognition.ListFacesRequest: AWSPaginateToken {
             collectionId: self.collectionId,
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension Rekognition.ListProjectPoliciesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Rekognition.ListProjectPoliciesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            projectArn: self.projectArn
         )
     }
 }

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -112,6 +112,20 @@ extension Inspector2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum EcrRescanDuration: String, CustomStringConvertible, Codable, _SotoSendable {
+        case days180 = "DAYS_180"
+        case days30 = "DAYS_30"
+        case lifetime = "LIFETIME"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EcrRescanDurationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case failed = "FAILED"
+        case pending = "PENDING"
+        case success = "SUCCESS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EcrScanFrequency: String, CustomStringConvertible, Codable, _SotoSendable {
         case continuousScan = "CONTINUOUS_SCAN"
         case manual = "MANUAL"
@@ -121,6 +135,7 @@ extension Inspector2 {
 
     public enum ErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
         case accessDenied = "ACCESS_DENIED"
+        case accountIsIsolated = "ACCOUNT_IS_ISOLATED"
         case alreadyEnabled = "ALREADY_ENABLED"
         case disableInProgress = "DISABLE_IN_PROGRESS"
         case disassociateAllMembers = "DISASSOCIATE_ALL_MEMBERS"
@@ -230,11 +245,15 @@ extension Inspector2 {
         case gobinary = "GOBINARY"
         case gomod = "GOMOD"
         case jar = "JAR"
+        case nodepkg = "NODEPKG"
         case npm = "NPM"
         case nuget = "NUGET"
         case os = "OS"
+        case pip = "PIP"
         case pipenv = "PIPENV"
         case poetry = "POETRY"
+        case pom = "POM"
+        case pythonpkg = "PYTHONPKG"
         case yarn = "YARN"
         public var description: String { return self.rawValue }
     }
@@ -269,8 +288,12 @@ extension Inspector2 {
     }
 
     public enum ReportingErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
+        case bucketNotFound = "BUCKET_NOT_FOUND"
+        case incompatibleBucketRegion = "INCOMPATIBLE_BUCKET_REGION"
         case internalError = "INTERNAL_ERROR"
         case invalidPermissions = "INVALID_PERMISSIONS"
+        case malformedKmsKey = "MALFORMED_KMS_KEY"
+        case noFindingsFound = "NO_FINDINGS_FOUND"
         public var description: String { return self.rawValue }
     }
 
@@ -307,6 +330,7 @@ extension Inspector2 {
         case imageSizeExceeded = "IMAGE_SIZE_EXCEEDED"
         case internalError = "INTERNAL_ERROR"
         case noResourcesFound = "NO_RESOURCES_FOUND"
+        case pendingDisable = "PENDING_DISABLE"
         case pendingInitialScan = "PENDING_INITIAL_SCAN"
         case resourceTerminated = "RESOURCE_TERMINATED"
         case scanEligibilityExpired = "SCAN_ELIGIBILITY_EXPIRED"
@@ -1062,7 +1086,7 @@ extension Inspector2 {
         public let ecrRepositoryName: [CoverageStringFilter]?
         /// An array of Amazon Web Services resource IDs to return coverage statistics for.
         public let resourceId: [CoverageStringFilter]?
-        /// An array of Amazon Web Services resource types to return coverage statistics for.
+        /// An array of Amazon Web Services resource types to return coverage statistics for. The values can be AWS_EC2_INSTANCE or AWS_ECR_REPOSITORY.
         public let resourceType: [CoverageStringFilter]?
         /// The scan status code to filter on.
         public let scanStatusCode: [CoverageStringFilter]?
@@ -1234,14 +1258,17 @@ extension Inspector2 {
         public let filterCriteria: FilterCriteria
         /// The name of the filter. Minimum length of 3. Maximum length of 64. Valid characters include alphanumeric characters, dot (.), underscore (_), and dash (-). Spaces are not allowed.
         public let name: String
+        /// The reason for creating the filter.
+        public let reason: String?
         /// A list of tags for the filter.
         public let tags: [String: String]?
 
-        public init(action: FilterAction, description: String? = nil, filterCriteria: FilterCriteria, name: String, tags: [String: String]? = nil) {
+        public init(action: FilterAction, description: String? = nil, filterCriteria: FilterCriteria, name: String, reason: String? = nil, tags: [String: String]? = nil) {
             self.action = action
             self.description = description
             self.filterCriteria = filterCriteria
             self.name = name
+            self.reason = reason
             self.tags = tags
         }
 
@@ -1251,6 +1278,8 @@ extension Inspector2 {
             try self.filterCriteria.validate(name: "\(name).filterCriteria")
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.reason, name: "reason", parent: name, max: 512)
+            try self.validate(self.reason, name: "reason", parent: name, min: 1)
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -1263,6 +1292,7 @@ extension Inspector2 {
             case description
             case filterCriteria
             case name
+            case reason
             case tags
         }
     }
@@ -1739,6 +1769,32 @@ extension Inspector2 {
         }
     }
 
+    public struct EcrConfiguration: AWSEncodableShape {
+        /// The ECR automated re-scan duration defines how long an ECR image will be actively scanned by Amazon Inspector. When the number of days since an image was last pushed exceeds the automated re-scan duration the monitoring state of that image becomes inactive and all associated findings are scheduled for closure.
+        public let rescanDuration: EcrRescanDuration
+
+        public init(rescanDuration: EcrRescanDuration) {
+            self.rescanDuration = rescanDuration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rescanDuration
+        }
+    }
+
+    public struct EcrConfigurationState: AWSDecodableShape {
+        /// An object that contains details about the state of the ECR automated re-scan setting.
+        public let rescanDurationState: EcrRescanDurationState?
+
+        public init(rescanDurationState: EcrRescanDurationState? = nil) {
+            self.rescanDurationState = rescanDurationState
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rescanDurationState
+        }
+    }
+
     public struct EcrContainerImageMetadata: AWSDecodableShape {
         /// Tags associated with the Amazon ECR image metadata.
         public let tags: [String]?
@@ -1766,6 +1822,27 @@ extension Inspector2 {
         private enum CodingKeys: String, CodingKey {
             case name
             case scanFrequency
+        }
+    }
+
+    public struct EcrRescanDurationState: AWSDecodableShape {
+        /// The ECR automated re-scan duration defines how long an ECR image will be actively scanned by Amazon Inspector. When the number of days since an image was last pushed exceeds the automated re-scan duration the monitoring state of that image becomes inactive and all associated findings are scheduled for closure.
+        public let rescanDuration: EcrRescanDuration?
+        /// The status of changes to the ECR automated re-scan duration.
+        public let status: EcrRescanDurationStatus?
+        /// A timestamp representing when the last time the ECR scan duration setting was changed.
+        public let updatedAt: Date?
+
+        public init(rescanDuration: EcrRescanDuration? = nil, status: EcrRescanDurationStatus? = nil, updatedAt: Date? = nil) {
+            self.rescanDuration = rescanDuration
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rescanDuration
+            case status
+            case updatedAt
         }
     }
 
@@ -2387,6 +2464,23 @@ extension Inspector2 {
             case accountId
             case code
             case message
+        }
+    }
+
+    public struct GetConfigurationRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct GetConfigurationResponse: AWSDecodableShape {
+        /// Specifies how the ECR automated re-scan duration is currently configured for your environment.
+        public let ecrConfiguration: EcrConfigurationState?
+
+        public init(ecrConfiguration: EcrConfigurationState? = nil) {
+            self.ecrConfiguration = ecrConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ecrConfiguration
         }
     }
 
@@ -3787,6 +3881,23 @@ extension Inspector2 {
         public init() {}
     }
 
+    public struct UpdateConfigurationRequest: AWSEncodableShape {
+        /// Specifies how the ECR automated re-scan will be updated for your environment.
+        public let ecrConfiguration: EcrConfiguration
+
+        public init(ecrConfiguration: EcrConfiguration) {
+            self.ecrConfiguration = ecrConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ecrConfiguration
+        }
+    }
+
+    public struct UpdateConfigurationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct UpdateFilterRequest: AWSEncodableShape {
         /// Specifies the action that is to be applied to the findings that match the filter.
         public let action: FilterAction?
@@ -3798,13 +3909,16 @@ extension Inspector2 {
         public let filterCriteria: FilterCriteria?
         /// The name of the filter.
         public let name: String?
+        /// The reason the filter was updated.
+        public let reason: String?
 
-        public init(action: FilterAction? = nil, description: String? = nil, filterArn: String, filterCriteria: FilterCriteria? = nil, name: String? = nil) {
+        public init(action: FilterAction? = nil, description: String? = nil, filterArn: String, filterCriteria: FilterCriteria? = nil, name: String? = nil, reason: String? = nil) {
             self.action = action
             self.description = description
             self.filterArn = filterArn
             self.filterCriteria = filterCriteria
             self.name = name
+            self.reason = reason
         }
 
         public func validate(name: String) throws {
@@ -3815,6 +3929,8 @@ extension Inspector2 {
             try self.filterCriteria?.validate(name: "\(name).filterCriteria")
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.reason, name: "reason", parent: name, max: 512)
+            try self.validate(self.reason, name: "reason", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3823,6 +3939,7 @@ extension Inspector2 {
             case filterArn
             case filterCriteria
             case name
+            case reason
         }
     }
 

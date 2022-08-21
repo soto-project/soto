@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -43,7 +43,7 @@ extension Kendra {
         return try await self.client.execute(operation: "BatchGetDocumentStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Adds one or more documents to an index. The BatchPutDocument API enables you to ingest inline documents or a set of documents stored in an Amazon S3 bucket. Use this API to ingest your text and unstructured text into an index, add custom attributes to the documents, and to attach an access control list to the documents added to the index. The documents are indexed asynchronously. You can see the progress of the batch using Amazon Web Services CloudWatch. Any error messages related to processing the batch are sent to your Amazon Web Services CloudWatch log.
+    /// Adds one or more documents to an index. The BatchPutDocument API enables you to ingest inline documents or a set of documents stored in an Amazon S3 bucket. Use this API to ingest your text and unstructured text into an index, add custom attributes to the documents, and to attach an access control list to the documents added to the index. The documents are indexed asynchronously. You can see the progress of the batch using Amazon Web Services CloudWatch. Any error messages related to processing the batch are sent to your Amazon Web Services CloudWatch log. For an example of ingesting inline documents using Python and Java SDKs,  see Adding  files directly to an index.
     public func batchPutDocument(_ input: BatchPutDocumentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> BatchPutDocumentResponse {
         return try await self.client.execute(operation: "BatchPutDocument", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -53,37 +53,47 @@ extension Kendra {
         return try await self.client.execute(operation: "ClearQuerySuggestions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a data source that you want to use with an Amazon Kendra index.  You specify a name, data source connector type and description for your data source. You also specify configuration information for the  data source connector.  CreateDataSource is a synchronous operation. The operation returns 200 if the data source was successfully created. Otherwise, an exception is raised. Amazon S3 and custom data sources are  the only supported data sources in the Amazon Web Services GovCloud (US-West) region.
+    /// Creates an access configuration for your documents. This includes  user and group access information for your documents. This is useful  for user context filtering, where search results are filtered based  on the user or their group access to documents. You can use this to re-configure your existing document level access control without indexing all of your documents again. For example, your index contains top-secret company documents that only certain employees or users should access. One of these users leaves the company or switches to a team that should be blocked from accessing  top-secret documents. The user still has access to top-secret documents because the user  had access when your documents were previously indexed. You  can create a specific access control configuration for the user with deny  access. You can later update the access control configuration to allow access if the  user returns to the company and re-joins the 'top-secret' team. You can re-configure  access control for your documents as circumstances change. To apply your access control configuration to certain documents, you call  the BatchPutDocument  API with the AccessControlConfigurationId included in the  Document  object. If you use an S3 bucket as a data source, you update the  .metadata.json with the AccessControlConfigurationId  and synchronize your data source. Amazon Kendra currently only supports  access control configuration for S3 data sources and documents indexed using the  BatchPutDocument API.
+    public func createAccessControlConfiguration(_ input: CreateAccessControlConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateAccessControlConfigurationResponse {
+        return try await self.client.execute(operation: "CreateAccessControlConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a data source connector that you want to use with an Amazon Kendra index. You specify a name, data source connector type and description for your data source. You also specify configuration information for the  data source connector.  CreateDataSource is a synchronous operation. The operation returns 200 if the data source was successfully created. Otherwise, an exception is raised. Amazon S3 and custom data sources are  the only supported data sources in the Amazon Web Services GovCloud (US-West) region. For an example of creating an index and data source using the Python SDK,  see Getting  started with Python SDK. For an example of creating an index and data  source using the Java SDK, see Getting started with Java SDK.
     public func createDataSource(_ input: CreateDataSourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateDataSourceResponse {
         return try await self.client.execute(operation: "CreateDataSource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates an Amazon Kendra experience such as a search application. For more information  on creating a search application experience, see Building a  search experience with no code.
+    /// Creates an Amazon Kendra experience such as a search application. For more information  on creating a search application experience, including using the Python and Java SDKs,  see Building a  search experience with no code.
     public func createExperience(_ input: CreateExperienceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateExperienceResponse {
         return try await self.client.execute(operation: "CreateExperience", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates an new set of frequently asked question (FAQ) questions and answers. Adding FAQs to an index is an asynchronous operation.
+    /// Creates an new set of frequently asked question (FAQ) questions and answers. Adding FAQs to an index is an asynchronous operation. For an example of adding an FAQ to an index using Python and Java SDKs,  see Using your  FAQ file.
     public func createFaq(_ input: CreateFaqRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateFaqResponse {
         return try await self.client.execute(operation: "CreateFaq", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a new Amazon Kendra index. Index creation is an asynchronous API. To determine if index creation has completed, check the Status field returned from a call to DescribeIndex. The Status field is set to ACTIVE when the index is ready to use. Once the index is active you can index your documents using the BatchPutDocument API or using one of the supported data sources.
+    /// Creates an Amazon Kendra index. Index creation is an asynchronous API. To determine if index creation has completed, check the Status field returned from a call to DescribeIndex. The Status field is set to ACTIVE when the index is ready to use. Once the index is active you can index your documents using the BatchPutDocument API or using one of the supported data sources. For an example of creating an index and data source using the Python SDK,  see Getting  started with Python SDK. For an example of creating an index and data  source using the Java SDK, see Getting started with Java SDK.
     public func createIndex(_ input: CreateIndexRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateIndexResponse {
         return try await self.client.execute(operation: "CreateIndex", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a block list to exlcude certain queries from suggestions. Any query that contains words or phrases specified in the block  list is blocked or filtered out from being shown as a suggestion. You need to provide the file location of your block list text file  in your S3 bucket. In your text file, enter each block word or phrase  on a separate line. For information on the current quota limits for block lists, see  Quotas  for Amazon Kendra.  CreateQuerySuggestionsBlockList is currently not supported in the  Amazon Web Services GovCloud (US-West) region.
+    /// Creates a block list to exlcude certain queries from suggestions. Any query that contains words or phrases specified in the block  list is blocked or filtered out from being shown as a suggestion. You need to provide the file location of your block list text file  in your S3 bucket. In your text file, enter each block word or phrase  on a separate line. For information on the current quota limits for block lists, see  Quotas  for Amazon Kendra.  CreateQuerySuggestionsBlockList is currently not supported in the  Amazon Web Services GovCloud (US-West) region. For an example of creating a block list for query suggestions using the  Python SDK, see Query  suggestions block list.
     public func createQuerySuggestionsBlockList(_ input: CreateQuerySuggestionsBlockListRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateQuerySuggestionsBlockListResponse {
         return try await self.client.execute(operation: "CreateQuerySuggestionsBlockList", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a thesaurus for an index. The thesaurus contains a list of synonyms in Solr format.
+    /// Creates a thesaurus for an index. The thesaurus contains a list of synonyms in Solr format. For an example of adding a thesaurus file to an index, see  Adding  custom synonyms to an index.
     public func createThesaurus(_ input: CreateThesaurusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateThesaurusResponse {
         return try await self.client.execute(operation: "CreateThesaurus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes an Amazon Kendra data source. An exception is not thrown if the data source is already being deleted. While the data source is being deleted, the Status field returned by a call to the DescribeDataSource API is set to DELETING. For more information, see Deleting Data Sources.
+    /// Deletes an access control configuration that you created for your  documents in an index. This includes user and group access information  for your documents. This is useful for user context filtering, where search  results are filtered based on the user or their group access to documents.
+    public func deleteAccessControlConfiguration(_ input: DeleteAccessControlConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteAccessControlConfigurationResponse {
+        return try await self.client.execute(operation: "DeleteAccessControlConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes an Amazon Kendra data source connector. An exception is not thrown if the data source is already being deleted. While the data source is being deleted, the Status field returned by a call to the DescribeDataSource API is set to DELETING. For more information, see Deleting Data Sources.
     public func deleteDataSource(_ input: DeleteDataSourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "DeleteDataSource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -118,7 +128,12 @@ extension Kendra {
         return try await self.client.execute(operation: "DeleteThesaurus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets information about an Amazon Kendra data source.
+    /// Gets information about an access control configuration that you created for your  documents in an index. This includes user and group access information for your  documents. This is useful for user context filtering, where search results are  filtered based on the user or their group access to documents.
+    public func describeAccessControlConfiguration(_ input: DescribeAccessControlConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeAccessControlConfigurationResponse {
+        return try await self.client.execute(operation: "DescribeAccessControlConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets information about an Amazon Kendra data source connector.
     public func describeDataSource(_ input: DescribeDataSourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeDataSourceResponse {
         return try await self.client.execute(operation: "DescribeDataSource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -133,7 +148,7 @@ extension Kendra {
         return try await self.client.execute(operation: "DescribeFaq", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes an existing Amazon Kendra index.
+    /// Gets information about an existing Amazon Kendra index.
     public func describeIndex(_ input: DescribeIndexRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeIndexResponse {
         return try await self.client.execute(operation: "DescribeIndex", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -143,17 +158,17 @@ extension Kendra {
         return try await self.client.execute(operation: "DescribePrincipalMapping", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes a block list used for query suggestions for an index. This is used to check the current settings that are applied to a  block list.  DescribeQuerySuggestionsBlockList is currently not supported in the  Amazon Web Services GovCloud (US-West) region.
+    /// Gets information about a block list used for query suggestions for  an index. This is used to check the current settings that are applied to a  block list.  DescribeQuerySuggestionsBlockList is currently not supported in the  Amazon Web Services GovCloud (US-West) region.
     public func describeQuerySuggestionsBlockList(_ input: DescribeQuerySuggestionsBlockListRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeQuerySuggestionsBlockListResponse {
         return try await self.client.execute(operation: "DescribeQuerySuggestionsBlockList", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes the settings of query suggestions for an index. This is used to check the current settings applied  to query suggestions.  DescribeQuerySuggestionsConfig is currently not supported in the  Amazon Web Services GovCloud (US-West) region.
+    /// Gets information on the settings of query suggestions for an index. This is used to check the current settings applied  to query suggestions.  DescribeQuerySuggestionsConfig is currently not supported in the  Amazon Web Services GovCloud (US-West) region.
     public func describeQuerySuggestionsConfig(_ input: DescribeQuerySuggestionsConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeQuerySuggestionsConfigResponse {
         return try await self.client.execute(operation: "DescribeQuerySuggestionsConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes an existing Amazon Kendra thesaurus.
+    /// Gets information about an existing Amazon Kendra thesaurus.
     public func describeThesaurus(_ input: DescribeThesaurusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeThesaurusResponse {
         return try await self.client.execute(operation: "DescribeThesaurus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -178,12 +193,17 @@ extension Kendra {
         return try await self.client.execute(operation: "GetSnapshots", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets statistics about synchronizing Amazon Kendra with a data source.
+    /// Lists one or more access control configurations for an index. This  includes user and group access information for your documents. This  is useful for user context filtering, where search results are filtered  based on the user or their group access to documents.
+    public func listAccessControlConfigurations(_ input: ListAccessControlConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListAccessControlConfigurationsResponse {
+        return try await self.client.execute(operation: "ListAccessControlConfigurations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets statistics about synchronizing a data source connector.
     public func listDataSourceSyncJobs(_ input: ListDataSourceSyncJobsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListDataSourceSyncJobsResponse {
         return try await self.client.execute(operation: "ListDataSourceSyncJobs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the data sources that you have created.
+    /// Lists the data source connectors that you have created.
     public func listDataSources(_ input: ListDataSourcesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListDataSourcesResponse {
         return try await self.client.execute(operation: "ListDataSources", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -228,12 +248,12 @@ extension Kendra {
         return try await self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the Amazon Kendra thesauri associated with an index.
+    /// Lists the thesauri for an index.
     public func listThesauri(_ input: ListThesauriRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListThesauriResponse {
         return try await self.client.execute(operation: "ListThesauri", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Maps users to their groups so that you only need to provide  the user ID when you issue the query. You can also map sub groups to groups.  For example, the group "Company Intellectual Property Teams" includes  sub groups "Research" and "Engineering". These sub groups include their own list of users or people who work in these teams. Only users who work  in research and engineering, and therefore belong in the intellectual  property group, can see top-secret company documents in their search  results. You map users to their groups when you want to filter search results  for different users based on their group’s access to documents. For more  information on filtering search results for different users, see  Filtering  on user context. If more than five PUT actions for a group are currently  processing, a validation exception is thrown.  PutPrincipalMapping is currently not supported in the  Amazon Web Services GovCloud (US-West) region.
+    /// Maps users to their groups so that you only need to provide  the user ID when you issue the query. You can also map sub groups to groups.  For example, the group "Company Intellectual Property Teams" includes  sub groups "Research" and "Engineering". These sub groups include their own list of users or people who work in these teams. Only users who work  in research and engineering, and therefore belong in the intellectual  property group, can see top-secret company documents in their search  results. This is useful for user context filtering, where search results are  filtered based on the user or their group access to documents. For more  information, see  Filtering  on user context. If more than five PUT actions for a group are currently  processing, a validation exception is thrown.  PutPrincipalMapping is currently not supported in the  Amazon Web Services GovCloud (US-West) region.
     public func putPrincipalMapping(_ input: PutPrincipalMappingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "PutPrincipalMapping", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -243,7 +263,7 @@ extension Kendra {
         return try await self.client.execute(operation: "Query", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Starts a synchronization job for a data source. If a synchronization job is already in progress, Amazon Kendra returns a ResourceInUseException exception.
+    /// Starts a synchronization job for a data source connector. If a synchronization job is already in progress, Amazon Kendra returns a ResourceInUseException exception.
     public func startDataSourceSyncJob(_ input: StartDataSourceSyncJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StartDataSourceSyncJobResponse {
         return try await self.client.execute(operation: "StartDataSourceSyncJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -268,7 +288,12 @@ extension Kendra {
         return try await self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates an existing Amazon Kendra data source.
+    /// Updates an access control configuration for your documents in an index. This  includes user and group access information for your documents. This is useful  for user context filtering, where search results are filtered based on the user  or their group access to documents. You can update an access control configuration you created without indexing all  of your documents again. For example, your index contains top-secret company  documents that only certain employees or users should access. You created an 'allow'  access control configuration for one user who recently joined the 'top-secret' team,  switching from a team with 'deny' access to top-secret documents. However, the user  suddenly returns to their previous team and should no longer have access to top secret  documents. You can update the access control configuration to re-configure access  control for your documents as circumstances change. You call the BatchPutDocument API to apply the updated access control configuration, with the AccessControlConfigurationId included in the  Document object. If you use an S3 bucket as a data source, you synchronize your data source to apply the AccessControlConfigurationId in the .metadata.json file.  Amazon Kendra currently only supports access control configuration for S3 data sources and documents indexed using the BatchPutDocument API.
+    public func updateAccessControlConfiguration(_ input: UpdateAccessControlConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateAccessControlConfigurationResponse {
+        return try await self.client.execute(operation: "UpdateAccessControlConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates an existing Amazon Kendra data source connector.
     public func updateDataSource(_ input: UpdateDataSourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "UpdateDataSource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -293,7 +318,7 @@ extension Kendra {
         return try await self.client.execute(operation: "UpdateQuerySuggestionsConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates a thesaurus file associated with an index.
+    /// Updates a thesaurus for an index.
     public func updateThesaurus(_ input: UpdateThesaurusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "UpdateThesaurus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

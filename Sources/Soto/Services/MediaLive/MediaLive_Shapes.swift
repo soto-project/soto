@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -109,6 +109,12 @@ extension MediaLive {
 
     public enum AcceptHeader: String, CustomStringConvertible, Codable, _SotoSendable {
         case imageJpeg = "image/jpeg"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AccessibilityType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case doesNotImplementAccessibilityFeatures = "DOES_NOT_IMPLEMENT_ACCESSIBILITY_FEATURES"
+        case implementsAccessibilityFeatures = "IMPLEMENTS_ACCESSIBILITY_FEATURES"
         public var description: String { return self.rawValue }
     }
 
@@ -283,6 +289,7 @@ extension MediaLive {
 
     public enum DeviceUpdateStatus: String, CustomStringConvertible, Codable, _SotoSendable {
         case notUpToDate = "NOT_UP_TO_DATE"
+        case updating = "UPDATING"
         case upToDate = "UP_TO_DATE"
         public var description: String { return self.rawValue }
     }
@@ -1449,6 +1456,19 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
+    public enum RebootInputDeviceForce: String, CustomStringConvertible, Codable, _SotoSendable {
+        case no = "NO"
+        case yes = "YES"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReservationAutomaticRenewal: String, CustomStringConvertible, Codable, _SotoSendable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        case unavailable = "UNAVAILABLE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ReservationCodec: String, CustomStringConvertible, Codable, _SotoSendable {
         case audio = "AUDIO"
         case avc = "AVC"
@@ -2090,6 +2110,7 @@ extension MediaLive {
             try self.codecSettings?.validate(name: "\(name).codecSettings")
             try self.validate(self.languageCode, name: "languageCode", parent: name, max: 35)
             try self.validate(self.languageCode, name: "languageCode", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.remixSettings?.validate(name: "\(name).remixSettings")
         }
 
@@ -2192,6 +2213,10 @@ extension MediaLive {
             self.audioOnlyImage = audioOnlyImage
             self.audioTrackType = audioTrackType
             self.segmentType = segmentType
+        }
+
+        public func validate(name: String) throws {
+            try self.audioOnlyImage?.validate(name: "\(name).audioOnlyImage")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2384,6 +2409,10 @@ extension MediaLive {
         public init(availBlankingImage: InputLocation? = nil, state: AvailBlankingState? = nil) {
             self.availBlankingImage = availBlankingImage
             self.state = state
+        }
+
+        public func validate(name: String) throws {
+            try self.availBlankingImage?.validate(name: "\(name).availBlankingImage")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2709,6 +2738,8 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.blackoutSlateImage?.validate(name: "\(name).blackoutSlateImage")
+            try self.networkEndBlackoutImage?.validate(name: "\(name).networkEndBlackoutImage")
             try self.validate(self.networkId, name: "networkId", parent: name, max: 34)
             try self.validate(self.networkId, name: "networkId", parent: name, min: 34)
         }
@@ -2781,6 +2812,7 @@ extension MediaLive {
         public func validate(name: String) throws {
             try self.validate(self.backgroundOpacity, name: "backgroundOpacity", parent: name, max: 255)
             try self.validate(self.backgroundOpacity, name: "backgroundOpacity", parent: name, min: 0)
+            try self.font?.validate(name: "\(name).font")
             try self.validate(self.fontOpacity, name: "fontOpacity", parent: name, max: 255)
             try self.validate(self.fontOpacity, name: "fontOpacity", parent: name, min: 0)
             try self.validate(self.fontResolution, name: "fontResolution", parent: name, max: 600)
@@ -2834,6 +2866,8 @@ extension MediaLive {
     }
 
     public struct CaptionDescription: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates whether the caption track implements accessibility features such as written descriptions of spoken dialog, music, and sounds.
+        public let accessibility: AccessibilityType?
         /// Specifies which input caption selector to use as a caption source when generating output captions. This field should match a captionSelector name.
         public let captionSelectorName: String
         /// Additional settings for captions destination that depend on the destination type.
@@ -2845,7 +2879,8 @@ extension MediaLive {
         /// Name of the caption description.  Used to associate a caption description with an output.  Names must be unique within an event.
         public let name: String
 
-        public init(captionSelectorName: String, destinationSettings: CaptionDestinationSettings? = nil, languageCode: String? = nil, languageDescription: String? = nil, name: String) {
+        public init(accessibility: AccessibilityType? = nil, captionSelectorName: String, destinationSettings: CaptionDestinationSettings? = nil, languageCode: String? = nil, languageDescription: String? = nil, name: String) {
+            self.accessibility = accessibility
             self.captionSelectorName = captionSelectorName
             self.destinationSettings = destinationSettings
             self.languageCode = languageCode
@@ -2858,6 +2893,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accessibility
             case captionSelectorName
             case destinationSettings
             case languageCode
@@ -3885,6 +3921,8 @@ extension MediaLive {
         public let offeringType: OfferingType?
         /// AWS region, e.g. 'us-west-2'
         public let region: String?
+        /// Renewal settings for the reservation
+        public let renewalSettings: RenewalSettings?
         /// Unique reservation ID, e.g. '1234567'
         public let reservationId: String?
         /// Resource configuration details
@@ -3898,7 +3936,7 @@ extension MediaLive {
         /// Recurring usage charge for each reserved resource, e.g. '157.0'
         public let usagePrice: Double?
 
-        public init(arn: String? = nil, count: Int? = nil, currencyCode: String? = nil, duration: Int? = nil, durationUnits: OfferingDurationUnits? = nil, end: String? = nil, fixedPrice: Double? = nil, name: String? = nil, offeringDescription: String? = nil, offeringId: String? = nil, offeringType: OfferingType? = nil, region: String? = nil, reservationId: String? = nil, resourceSpecification: ReservationResourceSpecification? = nil, start: String? = nil, state: ReservationState? = nil, tags: [String: String]? = nil, usagePrice: Double? = nil) {
+        public init(arn: String? = nil, count: Int? = nil, currencyCode: String? = nil, duration: Int? = nil, durationUnits: OfferingDurationUnits? = nil, end: String? = nil, fixedPrice: Double? = nil, name: String? = nil, offeringDescription: String? = nil, offeringId: String? = nil, offeringType: OfferingType? = nil, region: String? = nil, renewalSettings: RenewalSettings? = nil, reservationId: String? = nil, resourceSpecification: ReservationResourceSpecification? = nil, start: String? = nil, state: ReservationState? = nil, tags: [String: String]? = nil, usagePrice: Double? = nil) {
             self.arn = arn
             self.count = count
             self.currencyCode = currencyCode
@@ -3911,6 +3949,7 @@ extension MediaLive {
             self.offeringId = offeringId
             self.offeringType = offeringType
             self.region = region
+            self.renewalSettings = renewalSettings
             self.reservationId = reservationId
             self.resourceSpecification = resourceSpecification
             self.start = start
@@ -3932,6 +3971,7 @@ extension MediaLive {
             case offeringId
             case offeringType
             case region
+            case renewalSettings
             case reservationId
             case resourceSpecification
             case start
@@ -4561,6 +4601,8 @@ extension MediaLive {
         public let offeringType: OfferingType?
         /// AWS region, e.g. 'us-west-2'
         public let region: String?
+        /// Renewal settings for the reservation
+        public let renewalSettings: RenewalSettings?
         /// Unique reservation ID, e.g. '1234567'
         public let reservationId: String?
         /// Resource configuration details
@@ -4574,7 +4616,7 @@ extension MediaLive {
         /// Recurring usage charge for each reserved resource, e.g. '157.0'
         public let usagePrice: Double?
 
-        public init(arn: String? = nil, count: Int? = nil, currencyCode: String? = nil, duration: Int? = nil, durationUnits: OfferingDurationUnits? = nil, end: String? = nil, fixedPrice: Double? = nil, name: String? = nil, offeringDescription: String? = nil, offeringId: String? = nil, offeringType: OfferingType? = nil, region: String? = nil, reservationId: String? = nil, resourceSpecification: ReservationResourceSpecification? = nil, start: String? = nil, state: ReservationState? = nil, tags: [String: String]? = nil, usagePrice: Double? = nil) {
+        public init(arn: String? = nil, count: Int? = nil, currencyCode: String? = nil, duration: Int? = nil, durationUnits: OfferingDurationUnits? = nil, end: String? = nil, fixedPrice: Double? = nil, name: String? = nil, offeringDescription: String? = nil, offeringId: String? = nil, offeringType: OfferingType? = nil, region: String? = nil, renewalSettings: RenewalSettings? = nil, reservationId: String? = nil, resourceSpecification: ReservationResourceSpecification? = nil, start: String? = nil, state: ReservationState? = nil, tags: [String: String]? = nil, usagePrice: Double? = nil) {
             self.arn = arn
             self.count = count
             self.currencyCode = currencyCode
@@ -4587,6 +4629,7 @@ extension MediaLive {
             self.offeringId = offeringId
             self.offeringType = offeringType
             self.region = region
+            self.renewalSettings = renewalSettings
             self.reservationId = reservationId
             self.resourceSpecification = resourceSpecification
             self.start = start
@@ -4608,6 +4651,7 @@ extension MediaLive {
             case offeringId
             case offeringType
             case region
+            case renewalSettings
             case reservationId
             case resourceSpecification
             case start
@@ -4783,6 +4827,7 @@ extension MediaLive {
         public func validate(name: String) throws {
             try self.validate(self.backgroundOpacity, name: "backgroundOpacity", parent: name, max: 255)
             try self.validate(self.backgroundOpacity, name: "backgroundOpacity", parent: name, min: 0)
+            try self.font?.validate(name: "\(name).font")
             try self.validate(self.fontOpacity, name: "fontOpacity", parent: name, max: 255)
             try self.validate(self.fontOpacity, name: "fontOpacity", parent: name, min: 0)
             try self.validate(self.fontResolution, name: "fontResolution", parent: name, max: 600)
@@ -5068,6 +5113,7 @@ extension MediaLive {
             try self.audioDescriptions.forEach {
                 try $0.validate(name: "\(name).audioDescriptions[]")
             }
+            try self.availBlanking?.validate(name: "\(name).availBlanking")
             try self.availConfiguration?.validate(name: "\(name).availConfiguration")
             try self.blackoutSlate?.validate(name: "\(name).blackoutSlate")
             try self.captionDescriptions?.forEach {
@@ -6315,6 +6361,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.audioOnlyHlsSettings?.validate(name: "\(name).audioOnlyHlsSettings")
             try self.standardHlsSettings?.validate(name: "\(name).standardHlsSettings")
         }
 
@@ -6815,6 +6862,10 @@ extension MediaLive {
             self.username = username
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.uri, name: "uri", parent: name, max: 2048)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case passwordParam
             case uri
@@ -6847,6 +6898,7 @@ extension MediaLive {
             try self.validate(self.blackFrameMsec, name: "blackFrameMsec", parent: name, min: 0)
             try self.validate(self.inputLossImageColor, name: "inputLossImageColor", parent: name, max: 6)
             try self.validate(self.inputLossImageColor, name: "inputLossImageColor", parent: name, min: 6)
+            try self.inputLossImageSlate?.validate(name: "\(name).inputLossImageSlate")
             try self.validate(self.repeatFrameMsec, name: "repeatFrameMsec", parent: name, max: 1_000_000)
             try self.validate(self.repeatFrameMsec, name: "repeatFrameMsec", parent: name, min: 0)
         }
@@ -9239,6 +9291,8 @@ extension MediaLive {
         public let name: String?
         /// Offering to purchase, e.g. '87654321'
         public let offeringId: String
+        /// Renewal settings for the reservation
+        public let renewalSettings: RenewalSettings?
         /// Unique request ID to be specified. This is needed to prevent retries from creating multiple resources.
         public let requestId: String?
         /// Requested reservation start time (UTC) in ISO-8601 format. The specified time must be between the first day of the current month and one year from now. If no value is given, the default is now.
@@ -9246,10 +9300,11 @@ extension MediaLive {
         /// A collection of key-value pairs
         public let tags: [String: String]?
 
-        public init(count: Int, name: String? = nil, offeringId: String, requestId: String? = PurchaseOfferingRequest.idempotencyToken(), start: String? = nil, tags: [String: String]? = nil) {
+        public init(count: Int, name: String? = nil, offeringId: String, renewalSettings: RenewalSettings? = nil, requestId: String? = PurchaseOfferingRequest.idempotencyToken(), start: String? = nil, tags: [String: String]? = nil) {
             self.count = count
             self.name = name
             self.offeringId = offeringId
+            self.renewalSettings = renewalSettings
             self.requestId = requestId
             self.start = start
             self.tags = tags
@@ -9257,11 +9312,13 @@ extension MediaLive {
 
         public func validate(name: String) throws {
             try self.validate(self.count, name: "count", parent: name, min: 1)
+            try self.renewalSettings?.validate(name: "\(name).renewalSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
             case count
             case name
+            case renewalSettings
             case requestId
             case start
             case tags
@@ -9281,6 +9338,30 @@ extension MediaLive {
     }
 
     public struct RawSettings: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct RebootInputDeviceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "inputDeviceId", location: .uri("InputDeviceId"))
+        ]
+
+        /// Force a reboot of an input device. If the device is streaming, it will stop streaming and begin rebooting within a few seconds of sending the command. If the device was streaming prior to the reboot, the device will resume streaming when the reboot completes.
+        public let force: RebootInputDeviceForce?
+        /// The unique ID of the input device to reboot. For example, hd-123456789abcdef.
+        public let inputDeviceId: String
+
+        public init(force: RebootInputDeviceForce? = nil, inputDeviceId: String) {
+            self.force = force
+            self.inputDeviceId = inputDeviceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case force
+        }
+    }
+
+    public struct RebootInputDeviceResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -9343,6 +9424,27 @@ extension MediaLive {
         }
     }
 
+    public struct RenewalSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Automatic renewal status for the reservation
+        public let automaticRenewal: ReservationAutomaticRenewal?
+        /// Count for the reservation renewal
+        public let renewalCount: Int?
+
+        public init(automaticRenewal: ReservationAutomaticRenewal? = nil, renewalCount: Int? = nil) {
+            self.automaticRenewal = automaticRenewal
+            self.renewalCount = renewalCount
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.renewalCount, name: "renewalCount", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case automaticRenewal
+            case renewalCount
+        }
+    }
+
     public struct Reservation: AWSDecodableShape {
         /// Unique reservation ARN, e.g. 'arn:aws:medialive:us-west-2:123456789012:reservation:1234567'
         public let arn: String?
@@ -9368,6 +9470,8 @@ extension MediaLive {
         public let offeringType: OfferingType?
         /// AWS region, e.g. 'us-west-2'
         public let region: String?
+        /// Renewal settings for the reservation
+        public let renewalSettings: RenewalSettings?
         /// Unique reservation ID, e.g. '1234567'
         public let reservationId: String?
         /// Resource configuration details
@@ -9381,7 +9485,7 @@ extension MediaLive {
         /// Recurring usage charge for each reserved resource, e.g. '157.0'
         public let usagePrice: Double?
 
-        public init(arn: String? = nil, count: Int? = nil, currencyCode: String? = nil, duration: Int? = nil, durationUnits: OfferingDurationUnits? = nil, end: String? = nil, fixedPrice: Double? = nil, name: String? = nil, offeringDescription: String? = nil, offeringId: String? = nil, offeringType: OfferingType? = nil, region: String? = nil, reservationId: String? = nil, resourceSpecification: ReservationResourceSpecification? = nil, start: String? = nil, state: ReservationState? = nil, tags: [String: String]? = nil, usagePrice: Double? = nil) {
+        public init(arn: String? = nil, count: Int? = nil, currencyCode: String? = nil, duration: Int? = nil, durationUnits: OfferingDurationUnits? = nil, end: String? = nil, fixedPrice: Double? = nil, name: String? = nil, offeringDescription: String? = nil, offeringId: String? = nil, offeringType: OfferingType? = nil, region: String? = nil, renewalSettings: RenewalSettings? = nil, reservationId: String? = nil, resourceSpecification: ReservationResourceSpecification? = nil, start: String? = nil, state: ReservationState? = nil, tags: [String: String]? = nil, usagePrice: Double? = nil) {
             self.arn = arn
             self.count = count
             self.currencyCode = currencyCode
@@ -9394,6 +9498,7 @@ extension MediaLive {
             self.offeringId = offeringId
             self.offeringType = offeringType
             self.region = region
+            self.renewalSettings = renewalSettings
             self.reservationId = reservationId
             self.resourceSpecification = resourceSpecification
             self.start = start
@@ -9415,6 +9520,7 @@ extension MediaLive {
             case offeringId
             case offeringType
             case region
+            case renewalSettings
             case reservationId
             case resourceSpecification
             case start
@@ -10071,6 +10177,25 @@ extension MediaLive {
         }
     }
 
+    public struct StartInputDeviceMaintenanceWindowRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "inputDeviceId", location: .uri("InputDeviceId"))
+        ]
+
+        /// The unique ID of the input device to start a maintenance window for. For example, hd-123456789abcdef.
+        public let inputDeviceId: String
+
+        public init(inputDeviceId: String) {
+            self.inputDeviceId = inputDeviceId
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct StartInputDeviceMaintenanceWindowResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct StartMultiplexRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "multiplexId", location: .uri("MultiplexId"))
@@ -10188,6 +10313,7 @@ extension MediaLive {
             try self.validate(self.fadeIn, name: "fadeIn", parent: name, min: 0)
             try self.validate(self.fadeOut, name: "fadeOut", parent: name, min: 0)
             try self.validate(self.height, name: "height", parent: name, min: 1)
+            try self.image.validate(name: "\(name).image")
             try self.validate(self.imageX, name: "imageX", parent: name, min: 0)
             try self.validate(self.imageY, name: "imageY", parent: name, min: 0)
             try self.validate(self.layer, name: "layer", parent: name, max: 7)
@@ -10246,6 +10372,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.keyProviderServer?.validate(name: "\(name).keyProviderServer")
             try self.validate(self.staticKeyValue, name: "staticKeyValue", parent: name, max: 32)
             try self.validate(self.staticKeyValue, name: "staticKeyValue", parent: name, min: 32)
         }
@@ -11026,16 +11153,24 @@ extension MediaLive {
 
         /// Name of the reservation
         public let name: String?
+        /// Renewal settings for the reservation
+        public let renewalSettings: RenewalSettings?
         /// Unique reservation ID, e.g. '1234567'
         public let reservationId: String
 
-        public init(name: String? = nil, reservationId: String) {
+        public init(name: String? = nil, renewalSettings: RenewalSettings? = nil, reservationId: String) {
             self.name = name
+            self.renewalSettings = renewalSettings
             self.reservationId = reservationId
+        }
+
+        public func validate(name: String) throws {
+            try self.renewalSettings?.validate(name: "\(name).renewalSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
             case name
+            case renewalSettings
         }
     }
 

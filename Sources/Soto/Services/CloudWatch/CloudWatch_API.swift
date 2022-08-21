@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -94,7 +94,14 @@ public struct CloudWatch: AWSService {
         return self.client.execute(operation: "DeleteAlarms", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes the specified anomaly detection model from your account.
+    /// 			Deletes the specified anomaly detection model
+    /// 			from your account.
+    /// 			For more information
+    /// 			about
+    /// 			how to delete an anomaly detection model,
+    /// 			see Deleting an anomaly detection model
+    /// 			in the CloudWatch User Guide.
+    ///
     public func deleteAnomalyDetector(_ input: DeleteAnomalyDetectorInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAnomalyDetectorOutput> {
         return self.client.execute(operation: "DeleteAnomalyDetector", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -331,6 +338,16 @@ public struct CloudWatch: AWSService {
         return self.client.execute(operation: "ListDashboards", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// 			Returns a list
+    /// 			that contains the number
+    /// 			of managed Contributor Insights rules
+    /// 			in your account.
+    ///
+    ///
+    public func listManagedInsightRules(_ input: ListManagedInsightRulesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListManagedInsightRulesOutput> {
+        return self.client.execute(operation: "ListManagedInsightRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns a list of metric streams in this account.
     public func listMetricStreams(_ input: ListMetricStreamsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListMetricStreamsOutput> {
         return self.client.execute(operation: "ListMetricStreams", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -435,6 +452,26 @@ public struct CloudWatch: AWSService {
         return self.client.execute(operation: "PutInsightRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// 			Creates a managed Contributor Insights rule
+    /// 			for a specified Amazon Web Services resource.
+    /// 			When you enable a managed rule,
+    /// 			you create a Contributor Insights rule
+    /// 			that collects data
+    /// 			from Amazon Web Services services.
+    /// 			You cannot edit these rules
+    /// 			with PutInsightRule.
+    /// 			The rules can be enabled, disabled, and deleted using EnableInsightRules, DisableInsightRules, and DeleteInsightRules.
+    /// 			If a previously created managed rule is currently disabled,
+    /// 			a subsequent call
+    /// 			to this API will re-enable it.
+    /// 			Use ListManagedInsightRules
+    /// 			to describe all available rules.
+    ///
+    ///
+    public func putManagedInsightRules(_ input: PutManagedInsightRulesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutManagedInsightRulesOutput> {
+        return self.client.execute(operation: "PutManagedInsightRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates or updates an alarm and associates it with the specified metric, metric math expression,
     /// 			or anomaly detection model.
     ///
@@ -499,14 +536,14 @@ public struct CloudWatch: AWSService {
     /// 		the Values and Counts method enables you to publish up to 150 values per metric
     /// 			with one PutMetricData request, and
     /// 		supports retrieving percentile statistics on this data.
-    /// 		       Each PutMetricData request is limited to 40 KB in size for HTTP POST requests. You can
+    /// 		       Each PutMetricData request is limited to 1 MB in size for HTTP POST requests. You can
     /// 			send a payload compressed by gzip. Each request
-    /// 		is also limited to no more than 20 different metrics.
+    /// 		is also limited to no more than 1000 different metrics.
     /// 		       Although the Value parameter accepts numbers of type
     /// 			Double, CloudWatch rejects values that are either too small
     /// 			or too large. Values must be in the range of -2^360 to 2^360. In addition, special values (for example, NaN, +Infinity,
     /// 			-Infinity) are not supported.
-    /// 		       You can use up to 10 dimensions per metric to further clarify what data the metric collects. Each dimension
+    /// 		       You can use up to 30 dimensions per metric to further clarify what data the metric collects. Each dimension
     /// 			consists of a Name and Value pair. For more information about specifying dimensions, see Publishing Metrics in the
     /// 			Amazon CloudWatch User Guide.
     /// 		       You specify the time stamp to be associated with each data point. You can specify

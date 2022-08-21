@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -133,7 +133,7 @@ extension MWAA {
 
         /// A list of key-value pairs containing the Apache Airflow configuration options you want to attach to your environment. To learn more, see Apache Airflow configuration options.
         public let airflowConfigurationOptions: [String: String]?
-        /// The Apache Airflow version for your environment. If no value is specified, defaults to the latest version. Valid values: 1.10.12, 2.0.2. To learn more, see Apache Airflow versions on Amazon Managed Workflows for Apache Airflow (MWAA).
+        /// The Apache Airflow version for your environment. If no value is specified, it defaults to the latest version. Valid values: 1.10.12, 2.0.2, and 2.2.2. To learn more, see Apache Airflow versions on Amazon Managed Workflows for Apache Airflow (MWAA).
         public let airflowVersion: String?
         /// The relative path to the DAGs folder on your Amazon S3 bucket. For example, dags. To learn more, see Adding or updating DAGs.
         public let dagS3Path: String
@@ -161,7 +161,7 @@ extension MWAA {
         public let requirementsS3ObjectVersion: String?
         /// The relative path to the requirements.txt file on your Amazon S3 bucket. For example, requirements.txt. If specified, then a file version is required. To learn more, see Installing Python dependencies.
         public let requirementsS3Path: String?
-        /// The number of Apache Airflow schedulers to run in your environment. Valid values:   v2.0.2 - Accepts between 2 to 5. Defaults to 2.   v1.10.12 - Accepts 1.
+        /// The number of Apache Airflow schedulers to run in your environment. Valid values:   v2 - Accepts between 2 to 5. Defaults to 2.   v1 - Accepts 1.
         public let schedulers: Int?
         /// The Amazon Resource Name (ARN) of the Amazon S3 bucket where your DAG code and supporting files are stored. For example, arn:aws:s3:::my-airflow-bucket-unique-name. To learn more, see Create an Amazon S3 bucket for Amazon MWAA.
         public let sourceBucketArn: String
@@ -372,7 +372,7 @@ extension MWAA {
     public struct Environment: AWSDecodableShape {
         /// A list of key-value pairs containing the Apache Airflow configuration options attached to your environment. To learn more, see Apache Airflow configuration options.
         public let airflowConfigurationOptions: [String: String]?
-        /// The Apache Airflow version on your environment. Valid values: 1.10.12, 2.0.2.
+        /// The Apache Airflow version on your environment. Valid values: 1.10.12, 2.0.2, and 2.2.2.
         public let airflowVersion: String?
         /// The Amazon Resource Name (ARN) of the Amazon MWAA environment.
         public let arn: String?
@@ -915,7 +915,7 @@ extension MWAA {
 
         /// A list of key-value pairs containing the Apache Airflow configuration options you want to attach to your environment. To learn more, see Apache Airflow configuration options.
         public let airflowConfigurationOptions: [String: String]?
-        /// The Apache Airflow version for your environment. If no value is specified, defaults to the latest version. Valid values: 1.10.12, 2.0.2.
+        /// The Apache Airflow version for your environment. If no value is specified, defaults to the latest version. Valid values: 1.10.12, 2.0.2, and 2.2.2.
         public let airflowVersion: String?
         /// The relative path to the DAGs folder on your Amazon S3 bucket. For example, dags. To learn more, see Adding or updating DAGs.
         public let dagS3Path: String?

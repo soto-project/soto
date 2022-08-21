@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -80,7 +80,14 @@ extension GlobalAccelerator {
         public var description: String { return self.rawValue }
     }
 
+    public enum IpAddressFamily: String, CustomStringConvertible, Codable, _SotoSendable {
+        case iPv4 = "IPv4"
+        case iPv6 = "IPv6"
+        public var description: String { return self.rawValue }
+    }
+
     public enum IpAddressType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case dualStack = "DUAL_STACK"
         case ipv4 = "IPV4"
         public var description: String { return self.rawValue }
     }
@@ -98,18 +105,29 @@ extension GlobalAccelerator {
         public let acceleratorArn: String?
         /// The date and time that the accelerator was created.
         public let createdTime: Date?
-        /// The Domain Name System (DNS) name that Global Accelerator creates that points to your accelerator's static IP addresses.
-        /// 		       The naming convention for the DNS name is the following: A lowercase letter a,
+        /// The Domain Name System (DNS) name that Global Accelerator creates that points to an accelerator's static IPv4 addresses.
+        /// 		       The naming convention for the DNS name for an accelerator is the following: A lowercase letter a,
         /// 			followed by a 16-bit random hex string, followed by .awsglobalaccelerator.com. For example:
-        /// 			a1234567890abcdef.awsglobalaccelerator.com.
+        /// 			a1234567890abcdef.awsglobalaccelerator.com. If you have a dual-stack accelerator, you also have a second DNS name, DualStackDnsName, that points to both the A record and the AAAA record for all four
+        /// 			static addresses for the accelerator (two IPv4 addresses and two IPv6 addresses).
         /// 		       For more information about the default DNS name, see
-        /// 			Support for DNS Addressing in Global Accelerator in the AWS Global Accelerator Developer Guide.
+        /// 			Support for DNS Addressing in Global Accelerator in the Global Accelerator Developer Guide.
         public let dnsName: String?
+        /// The Domain Name System (DNS) name that Global Accelerator creates that points to a dual-stack accelerator's four static IP addresses:
+        /// 			two IPv4 addresses and two IPv6 addresses.
+        /// 		       The naming convention for the dual-stack DNS name is the following: A lowercase letter a,
+        /// 			followed by a 16-bit random hex string, followed by .dualstack.awsglobalaccelerator.com. For example:
+        /// 			a1234567890abcdef.dualstack.awsglobalaccelerator.com.
+        /// 		       Note: Global Accelerator also assigns a default DNS name, DnsName, to your accelerator that points just to the static IPv4 addresses.
+        /// 		       For more information, see
+        /// 			Support for DNS Addressing in Global Accelerator in the Global Accelerator Developer Guide.
+        public let dualStackDnsName: String?
         /// Indicates whether the accelerator is enabled. The value is true or false. The default value is true.
         /// 		       If the value is set to true, the accelerator cannot be deleted. If set to false, accelerator can be deleted.
         public let enabled: Bool?
-        /// The value for the address type must be IPv4.
-        ///
+        /// A history of changes that you make to an accelerator in Global Accelerator.
+        public let events: [AcceleratorEvent]?
+        /// The IP address type that an accelerator supports. For a standard accelerator, the value can be IPV4 or DUAL_STACK.
         public let ipAddressType: IpAddressType?
         /// The static IP addresses that Global Accelerator associates with the accelerator.
         public let ipSets: [IpSet]?
@@ -121,11 +139,13 @@ extension GlobalAccelerator {
         /// Describes the deployment status of the accelerator.
         public let status: AcceleratorStatus?
 
-        public init(acceleratorArn: String? = nil, createdTime: Date? = nil, dnsName: String? = nil, enabled: Bool? = nil, ipAddressType: IpAddressType? = nil, ipSets: [IpSet]? = nil, lastModifiedTime: Date? = nil, name: String? = nil, status: AcceleratorStatus? = nil) {
+        public init(acceleratorArn: String? = nil, createdTime: Date? = nil, dnsName: String? = nil, dualStackDnsName: String? = nil, enabled: Bool? = nil, events: [AcceleratorEvent]? = nil, ipAddressType: IpAddressType? = nil, ipSets: [IpSet]? = nil, lastModifiedTime: Date? = nil, name: String? = nil, status: AcceleratorStatus? = nil) {
             self.acceleratorArn = acceleratorArn
             self.createdTime = createdTime
             self.dnsName = dnsName
+            self.dualStackDnsName = dualStackDnsName
             self.enabled = enabled
+            self.events = events
             self.ipAddressType = ipAddressType
             self.ipSets = ipSets
             self.lastModifiedTime = lastModifiedTime
@@ -137,7 +157,9 @@ extension GlobalAccelerator {
             case acceleratorArn = "AcceleratorArn"
             case createdTime = "CreatedTime"
             case dnsName = "DnsName"
+            case dualStackDnsName = "DualStackDnsName"
             case enabled = "Enabled"
+            case events = "Events"
             case ipAddressType = "IpAddressType"
             case ipSets = "IpSets"
             case lastModifiedTime = "LastModifiedTime"
@@ -149,17 +171,16 @@ extension GlobalAccelerator {
     public struct AcceleratorAttributes: AWSDecodableShape {
         /// Indicates whether flow logs are enabled. The default value is false. If the value is true,
         /// 				FlowLogsS3Bucket and FlowLogsS3Prefix must be specified.
-        /// 		       For more information, see Flow Logs in
-        /// 			the AWS Global Accelerator Developer Guide.
+        /// 		       For more information, see Flow logs in
+        /// 		    the Global Accelerator Developer Guide.
         public let flowLogsEnabled: Bool?
         /// The name of the Amazon S3 bucket for the flow logs. Attribute is required if FlowLogsEnabled is
-        /// 				true. The bucket must exist and have a bucket policy that grants AWS Global Accelerator permission to write to the
+        /// 		    true. The bucket must exist and have a bucket policy that grants Global Accelerator permission to write to the
         /// 			bucket.
         public let flowLogsS3Bucket: String?
         /// The prefix for the location in the Amazon S3 bucket for the flow logs. Attribute is required if
         /// 				FlowLogsEnabled is true.
-        /// 		       If you don’t specify a prefix, the flow logs are stored in the
-        /// 			root of the bucket. If you specify slash (/) for the S3 bucket prefix, the log file bucket folder structure will include a double slash (//), like the following:
+        /// 		       If you specify slash (/) for the S3 bucket prefix, the log file bucket folder structure will include a double slash (//), like the following:
         /// 		       s3-bucket_name//AWSLogs/aws_account_id
         public let flowLogsS3Prefix: String?
 
@@ -173,6 +194,24 @@ extension GlobalAccelerator {
             case flowLogsEnabled = "FlowLogsEnabled"
             case flowLogsS3Bucket = "FlowLogsS3Bucket"
             case flowLogsS3Prefix = "FlowLogsS3Prefix"
+        }
+    }
+
+    public struct AcceleratorEvent: AWSDecodableShape {
+        /// A string that contains an Event message describing changes or errors
+        /// 			when you update an accelerator in Global Accelerator from IPv4 to dual-stack, or dual-stack to IPv4.
+        public let message: String?
+        /// A timestamp for when you update an accelerator in Global Accelerator from IPv4 to dual-stack, or dual-stack to IPv4.
+        public let timestamp: Date?
+
+        public init(message: String? = nil, timestamp: Date? = nil) {
+            self.message = message
+            self.timestamp = timestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case timestamp = "Timestamp"
         }
     }
 
@@ -306,7 +345,7 @@ extension GlobalAccelerator {
     public struct ByoipCidr: AWSDecodableShape {
         /// The address range, in CIDR notation.
         public let cidr: String?
-        /// A history of status changes for an IP address range that you bring to AWS Global Accelerator
+        /// A history of status changes for an IP address range that you bring to Global Accelerator
         /// 			through bring your own IP address (BYOIP).
         public let events: [ByoipCidrEvent]?
         /// The state of the address pool.
@@ -327,9 +366,9 @@ extension GlobalAccelerator {
 
     public struct ByoipCidrEvent: AWSDecodableShape {
         /// A string that contains an Event message describing changes that you make in the status
-        /// 			of an IP address range that you bring to AWS Global Accelerator through bring your own IP address (BYOIP).
+        /// 			of an IP address range that you bring to Global Accelerator through bring your own IP address (BYOIP).
         public let message: String?
-        /// A timestamp when you make a status change for an IP address range that you bring to AWS Global Accelerator through
+        /// A timestamp for when you make a status change for an IP address range that you bring to Global Accelerator through
         /// 			bring your own IP address (BYOIP).
         public let timestamp: Date?
 
@@ -373,25 +412,27 @@ extension GlobalAccelerator {
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency—that is, the
         /// 			uniqueness—of an accelerator.
         public let idempotencyToken: String
-        /// Optionally, if you've added your own IP address pool to Global Accelerator (BYOIP), you can choose IP addresses
-        /// 			from your own pool to use for the accelerator's static IP addresses when you create an accelerator. You can
-        /// 			specify one or two addresses, separated by a space. Do not include the /32 suffix.
-        /// 		       Only one IP address from each of your IP address ranges can be used for each accelerator. If you specify only
-        /// 			one IP address from your IP address range, Global Accelerator assigns a second static IP address for the
-        /// 			accelerator from the AWS IP address pool.
+        /// Optionally, if you've added your own IP address pool to Global Accelerator (BYOIP), you can choose an IPv4 address
+        /// 			from your own pool to use for the accelerator's static IPv4 address when you create an accelerator.
+        /// 	        After you bring an address range to Amazon Web Services, it appears in your account as an address pool.
+        /// 	    	When you create an accelerator, you can assign one IPv4 address from your range to it. Global Accelerator assigns
+        /// 	    	you a second static IPv4 address from an Amazon IP address range. If you bring two IPv4 address ranges
+        /// 	    	to Amazon Web Services, you can assign one IPv4 address from each range to your accelerator. This restriction is
+        /// 			because Global Accelerator assigns each address range to a different network zone, for high availability.
+        /// 		       You can specify one or two addresses, separated by a space. Do not include the /32 suffix.
         /// 		       Note that you can't update IP addresses for an existing accelerator. To change them, you must create a new
         /// 			accelerator with the new addresses.
-        /// 		       For more information, see Bring Your Own
-        /// 			IP Addresses (BYOIP) in the AWS Global Accelerator Developer Guide.
+        /// 		       For more information, see Bring
+        /// 		    your own IP addresses (BYOIP) in the Global Accelerator Developer Guide.
         public let ipAddresses: [String]?
-        /// The value for the address type must be IPv4.
+        /// The IP address type that an accelerator supports. For a standard accelerator, the value can be IPV4 or DUAL_STACK.
         public let ipAddressType: IpAddressType?
-        /// The name of an accelerator. The name can have a maximum of 32 characters, must contain only alphanumeric characters or
-        /// 			hyphens (-), and must not begin or end with a hyphen.
+        /// The name of the accelerator. The name can have a maximum of 64 characters, must contain only alphanumeric characters,
+        /// 			periods (.), or hyphens (-), and must not begin or end with a hyphen or period.
         public let name: String
         /// Create tags for an accelerator.
         /// 		       For more information, see Tagging
-        /// 			in AWS Global Accelerator in the AWS Global Accelerator Developer Guide.
+        /// 		    in Global Accelerator in the Global Accelerator Developer Guide.
         public let tags: [Tag]?
 
         public init(enabled: Bool? = nil, idempotencyToken: String = CreateAcceleratorRequest.idempotencyToken(), ipAddresses: [String]? = nil, ipAddressType: IpAddressType? = nil, name: String, tags: [Tag]? = nil) {
@@ -445,25 +486,27 @@ extension GlobalAccelerator {
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency—that
         /// 			is, the uniqueness—of the request.
         public let idempotencyToken: String
-        /// Optionally, if you've added your own IP address pool to Global Accelerator (BYOIP), you can choose IP addresses
-        /// 				from your own pool to use for the accelerator's static IP addresses when you create an accelerator. You can
-        /// 				specify one or two addresses, separated by a space. Do not include the /32 suffix.
-        /// 			      Only one IP address from each of your IP address ranges can be used for each accelerator. If you specify only
-        /// 				one IP address from your IP address range, Global Accelerator assigns a second static IP address for the
-        /// 				accelerator from the AWS IP address pool.
-        /// 			      Note that you can't update IP addresses for an existing accelerator. To change them, you must create a new
-        /// 				accelerator with the new addresses.
-        /// 			      For more information, see Bring
-        /// 				your own IP addresses (BYOIP) in the AWS Global Accelerator Developer Guide.
+        /// Optionally, if you've added your own IP address pool to Global Accelerator (BYOIP), you can choose an IPv4 address
+        /// 			from your own pool to use for the accelerator's static IPv4 address when you create an accelerator.
+        /// 		       After you bring an address range to Amazon Web Services, it appears in your account as an address pool.
+        /// 			When you create an accelerator, you can assign one IPv4 address from your range to it. Global Accelerator assigns
+        /// 			you a second static IPv4 address from an Amazon IP address range. If you bring two IPv4 address ranges
+        /// 			to Amazon Web Services, you can assign one IPv4 address from each range to your accelerator. This restriction is
+        /// 			because Global Accelerator assigns each address range to a different network zone, for high availability.
+        /// 		       You can specify one or two addresses, separated by a space. Do not include the /32 suffix.
+        /// 		       Note that you can't update IP addresses for an existing accelerator. To change them, you must create a new
+        /// 			accelerator with the new addresses.
+        /// 		       For more information, see Bring
+        /// 			your own IP addresses (BYOIP) in the Global Accelerator Developer Guide.
         public let ipAddresses: [String]?
-        /// The value for the address type must be IPv4.
+        /// The IP address type that an accelerator supports. For a custom routing accelerator, the value must be IPV4.
         public let ipAddressType: IpAddressType?
         /// The name of a custom routing accelerator. The name can have a maximum of 64 characters, must contain
         /// 		only alphanumeric characters or hyphens (-), and must not begin or end with a hyphen.
         public let name: String
         /// Create tags for an accelerator.
         /// 	        For more information, see Tagging
-        /// 		in AWS Global Accelerator in the AWS Global Accelerator Developer Guide.
+        /// 	    in Global Accelerator in the Global Accelerator Developer Guide.
         public let tags: [Tag]?
 
         public init(enabled: Bool? = nil, idempotencyToken: String = CreateCustomRoutingAcceleratorRequest.idempotencyToken(), ipAddresses: [String]? = nil, ipAddressType: IpAddressType? = nil, name: String, tags: [Tag]? = nil) {
@@ -514,7 +557,7 @@ extension GlobalAccelerator {
         /// Sets the port range and protocol for all endpoints (virtual private cloud subnets) in a custom routing endpoint group to accept
         /// 		client traffic on.
         public let destinationConfigurations: [CustomRoutingDestinationConfiguration]
-        /// The AWS Region where the endpoint group is located. A listener can have only one endpoint group in a
+        /// The Amazon Web Services Region where the endpoint group is located. A listener can have only one endpoint group in a
         /// 		specific Region.
         public let endpointGroupRegion: String
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency—that is, the
@@ -612,7 +655,7 @@ extension GlobalAccelerator {
     public struct CreateEndpointGroupRequest: AWSEncodableShape {
         /// The list of endpoint objects.
         public let endpointConfigurations: [EndpointConfiguration]?
-        /// The AWS Region where the endpoint group is located. A listener can have only one endpoint group in a
+        /// The Amazon Web Services Region where the endpoint group is located. A listener can have only one endpoint group in a
         /// 			specific Region.
         public let endpointGroupRegion: String
         /// The time—10 seconds or 30 seconds—between each health check for an endpoint. The default value is 30.
@@ -620,11 +663,11 @@ extension GlobalAccelerator {
         /// If the protocol is HTTP/S, then this specifies the path that is the destination for health check targets. The
         /// 			default value is slash (/).
         public let healthCheckPath: String?
-        /// The port that AWS Global Accelerator uses to check the health of endpoints that are part of this endpoint group. The default port
-        /// 			is the listener port that this endpoint group is associated with. If listener port is a list of ports, Global Accelerator uses the
+        /// The port that Global Accelerator uses to check the health of endpoints that are part of this endpoint group. The default port
+        /// 	        is the listener port that this endpoint group is associated with. If listener port is a list of ports, Global Accelerator uses the
         /// 			first port in the list.
         public let healthCheckPort: Int?
-        /// The protocol that AWS Global Accelerator uses to check the health of endpoints that are part of this endpoint group. The default
+        /// The protocol that Global Accelerator uses to check the health of endpoints that are part of this endpoint group. The default
         /// 			value is TCP.
         public let healthCheckProtocol: HealthCheckProtocol?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency—that is, the
@@ -637,12 +680,12 @@ extension GlobalAccelerator {
         /// 			receives user traffic on ports 80 and 443, but your accelerator routes that traffic to ports 1080
         /// 			and 1443, respectively, on the endpoints.
         /// 		       For more information, see
-        /// 			Port overrides in the AWS Global Accelerator Developer Guide.
+        /// 			Overriding listener ports in the Global Accelerator Developer Guide.
         public let portOverrides: [PortOverride]?
         /// The number of consecutive health checks required to set the state of a healthy endpoint to unhealthy, or to set an
         /// 			unhealthy endpoint to healthy. The default value is 3.
         public let thresholdCount: Int?
-        /// The percentage of traffic to send to an AWS Region. Additional traffic is distributed to other endpoint groups for
+        /// The percentage of traffic to send to an Amazon Web Services Region. Additional traffic is distributed to other endpoint groups for
         /// 			this listener.
         /// 		       Use this action to increase (dial up) or decrease (dial down) traffic to a specific Region. The percentage is
         /// 			applied to the traffic that would otherwise have been routed to the Region based on optimal routing.
@@ -721,13 +764,13 @@ extension GlobalAccelerator {
         /// Client affinity lets you direct all requests from a user to the same endpoint, if you have stateful applications,
         /// 			regardless of the port and protocol of the client request. Client affinity gives you control over whether to always
         /// 			route each client to the same specific endpoint.
-        /// 		       AWS Global Accelerator uses a consistent-flow hashing algorithm to choose the optimal endpoint for a connection. If client
-        /// 			affinity is NONE, Global Accelerator uses the "five-tuple" (5-tuple) properties—source IP address, source port,
+        /// 	        Global Accelerator uses a consistent-flow hashing algorithm to choose the optimal endpoint for a connection. If client
+        /// 	        affinity is NONE, Global Accelerator uses the "five-tuple" (5-tuple) properties—source IP address, source port,
         /// 			destination IP address, destination port, and protocol—to select the hash value, and then chooses the best
         /// 			endpoint. However, with this setting, if someone uses different ports to connect to Global Accelerator, their connections might not
         /// 			be always routed to the same endpoint because the hash value changes.
         /// 		       If you want a given client to always be routed to the same endpoint, set client affinity to SOURCE_IP
-        /// 			instead. When you use the SOURCE_IP setting, Global Accelerator uses the "two-tuple" (2-tuple) properties—
+        /// 		    instead. When you use the SOURCE_IP setting, Global Accelerator uses the "two-tuple" (2-tuple) properties—
         /// 			source (client) IP address and destination IP address—to select the hash value.
         /// 		       The default value is NONE.
         public let clientAffinity: ClientAffinity?
@@ -784,17 +827,19 @@ extension GlobalAccelerator {
         public let acceleratorArn: String?
         /// The date and time that the accelerator was created.
         public let createdTime: Date?
-        /// The Domain Name System (DNS) name that Global Accelerator creates that points to your accelerator's static IP addresses.
+        /// The Domain Name System (DNS) name that Global Accelerator creates that points to an accelerator's static IPv4 addresses.
         /// 		       The naming convention for the DNS name is the following: A lowercase letter a,
         /// 			followed by a 16-bit random hex string, followed by .awsglobalaccelerator.com. For example:
         /// 			a1234567890abcdef.awsglobalaccelerator.com.
+        /// 		       If you have a dual-stack accelerator, you also have a second DNS name, DualStackDnsName, that points to both the A record and the AAAA record for all four
+        /// 			static addresses for the accelerator (two IPv4 addresses and two IPv6 addresses).
         /// 		       For more information about the default DNS name, see
-        /// 			Support for DNS Addressing in Global Accelerator in the AWS Global Accelerator Developer Guide.
+        /// 			Support for DNS Addressing in Global Accelerator in the Global Accelerator Developer Guide.
         public let dnsName: String?
         /// Indicates whether the accelerator is enabled. The value is true or false. The default value is true.
         /// 		       If the value is set to true, the accelerator cannot be deleted. If set to false, accelerator can be deleted.
         public let enabled: Bool?
-        /// The value for the address type must be IPv4.
+        /// The IP address type that an accelerator supports. For a custom routing accelerator, the value must be IPV4.
         public let ipAddressType: IpAddressType?
         /// The static IP addresses that Global Accelerator associates with the accelerator.
         public let ipSets: [IpSet]?
@@ -834,11 +879,11 @@ extension GlobalAccelerator {
     public struct CustomRoutingAcceleratorAttributes: AWSDecodableShape {
         /// Indicates whether flow logs are enabled. The default value is false. If the value is true,
         /// 			FlowLogsS3Bucket and FlowLogsS3Prefix must be specified.
-        /// 		       For more information, see Flow Logs in
-        /// 			the AWS Global Accelerator Developer Guide.
+        /// 		       For more information, see Flow logs in
+        /// 		    the Global Accelerator Developer Guide.
         public let flowLogsEnabled: Bool?
         /// The name of the Amazon S3 bucket for the flow logs. Attribute is required if FlowLogsEnabled is
-        /// 			true. The bucket must exist and have a bucket policy that grants AWS Global Accelerator permission to write to the
+        /// 		    true. The bucket must exist and have a bucket policy that grants Global Accelerator permission to write to the
         /// 			bucket.
         public let flowLogsS3Bucket: String?
         /// The prefix for the location in the Amazon S3 bucket for the flow logs. Attribute is required if
@@ -953,7 +998,7 @@ extension GlobalAccelerator {
         public let endpointDescriptions: [CustomRoutingEndpointDescription]?
         /// The Amazon Resource Name (ARN) of the endpoint group.
         public let endpointGroupArn: String?
-        /// The AWS Region where the endpoint group is located.
+        /// The Amazon Web Services Region where the endpoint group is located.
         public let endpointGroupRegion: String?
 
         public init(destinationDescriptions: [CustomRoutingDestinationDescription]? = nil, endpointDescriptions: [CustomRoutingEndpointDescription]? = nil, endpointGroupArn: String? = nil, endpointGroupRegion: String? = nil) {
@@ -1430,11 +1475,11 @@ extension GlobalAccelerator {
         public let destinationTrafficState: CustomRoutingDestinationTrafficState?
         /// The Amazon Resource Name (ARN) of the endpoint group.
         public let endpointGroupArn: String?
-        /// The AWS Region for the endpoint group.
+        /// The Amazon Web Services Region for the endpoint group.
         public let endpointGroupRegion: String?
         /// The ID for the virtual private cloud (VPC) subnet.
         public let endpointId: String?
-        /// The IP address type, which must be IPv4.
+        /// The IP address type that an accelerator supports. For a custom routing accelerator, the value must be IPV4.
         public let ipAddressType: IpAddressType?
 
         public init(acceleratorArn: String? = nil, acceleratorSocketAddresses: [SocketAddress]? = nil, destinationSocketAddress: SocketAddress? = nil, destinationTrafficState: CustomRoutingDestinationTrafficState? = nil, endpointGroupArn: String? = nil, endpointGroupRegion: String? = nil, endpointId: String? = nil, ipAddressType: IpAddressType? = nil) {
@@ -1461,12 +1506,15 @@ extension GlobalAccelerator {
     }
 
     public struct EndpointConfiguration: AWSEncodableShape {
-        /// Indicates whether client IP address preservation is enabled for an Application Load Balancer endpoint.
+        /// Indicates whether client IP address preservation is enabled for an endpoint.
         /// 			The value is true or false. The default value is true for new accelerators.
         /// 		       If the value is set to true, the client's IP address is preserved in the X-Forwarded-For request header as
-        /// 			traffic travels to applications on the Application Load Balancer endpoint fronted by the accelerator.
+        /// 			traffic travels to applications on the endpoint fronted by the accelerator.
+        ///
+        /// 		       Client IP address preservation is supported, in specific Amazon Web Services Regions, for endpoints that are Application Load
+        /// 			Balancers and Amazon EC2 instances.
         /// 		       For more information, see
-        /// 			Preserve Client IP Addresses in AWS Global Accelerator in the AWS Global Accelerator Developer Guide.
+        /// 			Preserve client IP addresses in Global Accelerator in the Global Accelerator Developer Guide.
         public let clientIPPreservationEnabled: Bool?
         /// An ID for the endpoint. If the endpoint is a Network Load Balancer or Application Load Balancer, this is the Amazon
         /// 			Resource Name (ARN) of the resource. If the endpoint is an Elastic IP address, this is the Elastic IP address
@@ -1474,11 +1522,11 @@ extension GlobalAccelerator {
         /// 			when you add it as an endpoint.
         /// 		       An Application Load Balancer can be either internal or internet-facing.
         public let endpointId: String?
-        /// The weight associated with the endpoint. When you add weights to endpoints, you configure AWS Global Accelerator to route traffic
+        /// The weight associated with the endpoint. When you add weights to endpoints, you configure Global Accelerator to route traffic
         /// 			based on proportions that you specify. For example, you might specify endpoint weights of 4, 5, 5, and 6 (sum=20). The
         /// 			result is that 4/20 of your traffic, on average, is routed to the first endpoint, 5/20 is routed both to the second
-        /// 			and third endpoints, and 6/20 is routed to the last endpoint. For more information, see Endpoint Weights in the
-        /// 				AWS Global Accelerator Developer Guide.
+        /// 			and third endpoints, and 6/20 is routed to the last endpoint. For more information, see Endpoint weights in the
+        /// 	        Global Accelerator Developer Guide.
         public let weight: Int?
 
         public init(clientIPPreservationEnabled: Bool? = nil, endpointId: String? = nil, weight: Int? = nil) {
@@ -1501,12 +1549,14 @@ extension GlobalAccelerator {
     }
 
     public struct EndpointDescription: AWSDecodableShape {
-        /// Indicates whether client IP address preservation is enabled for an Application Load Balancer endpoint.
+        /// Indicates whether client IP address preservation is enabled for an endpoint.
         /// 			The value is true or false. The default value is true for new accelerators.
         /// 		       If the value is set to true, the client's IP address is preserved in the X-Forwarded-For request header as
-        /// 			traffic travels to applications on the Application Load Balancer endpoint fronted by the accelerator.
+        /// 			traffic travels to applications on the endpoint fronted by the accelerator.
+        /// 		       Client IP address preservation is supported, in specific Amazon Web Services Regions, for endpoints that are Application Load
+        /// 			Balancers and Amazon EC2 instances.
         /// 		       For more information, see
-        /// 			Viewing Client IP Addresses in AWS Global Accelerator in the AWS Global Accelerator Developer Guide.
+        /// 			Preserve client IP addresses in Global Accelerator in the Global Accelerator Developer Guide.
         public let clientIPPreservationEnabled: Bool?
         /// An ID for the endpoint. If the endpoint is a Network Load Balancer or Application Load Balancer, this is the Amazon
         /// 			Resource Name (ARN) of the resource. If the endpoint is an Elastic IP address, this is the Elastic IP address
@@ -1517,11 +1567,11 @@ extension GlobalAccelerator {
         public let healthReason: String?
         /// The health status of the endpoint.
         public let healthState: HealthState?
-        /// The weight associated with the endpoint. When you add weights to endpoints, you configure AWS Global Accelerator to route traffic
+        /// The weight associated with the endpoint. When you add weights to endpoints, you configure Global Accelerator to route traffic
         /// 			based on proportions that you specify. For example, you might specify endpoint weights of 4, 5, 5, and 6 (sum=20). The
         /// 			result is that 4/20 of your traffic, on average, is routed to the first endpoint, 5/20 is routed both to the second
-        /// 			and third endpoints, and 6/20 is routed to the last endpoint. For more information, see Endpoint Weights in the
-        /// 				AWS Global Accelerator Developer Guide.
+        /// 			and third endpoints, and 6/20 is routed to the last endpoint. For more information, see Endpoint weights in the
+        /// 	        Global Accelerator Developer Guide.
         public let weight: Int?
 
         public init(clientIPPreservationEnabled: Bool? = nil, endpointId: String? = nil, healthReason: String? = nil, healthState: HealthState? = nil, weight: Int? = nil) {
@@ -1546,7 +1596,7 @@ extension GlobalAccelerator {
         public let endpointDescriptions: [EndpointDescription]?
         /// The Amazon Resource Name (ARN) of the endpoint group.
         public let endpointGroupArn: String?
-        /// The AWS Region where the endpoint group is located.
+        /// The Amazon Web Services Region where the endpoint group is located.
         public let endpointGroupRegion: String?
         /// The time—10 seconds or 30 seconds—between health checks for each endpoint. The default value is 30.
         public let healthCheckIntervalSeconds: Int?
@@ -1556,20 +1606,20 @@ extension GlobalAccelerator {
         /// The port that Global Accelerator uses to perform health checks on endpoints that are part of this endpoint group.
         ///
         /// 		       The default port is the port for the listener that this endpoint group is associated with. If the listener port is a
-        /// 			list, Global Accelerator uses the first specified port in the list of ports.
+        /// 		    list, Global Accelerator uses the first specified port in the list of ports.
         public let healthCheckPort: Int?
         /// The protocol that Global Accelerator uses to perform health checks on endpoints that are part of this endpoint group. The default
         /// 			value is TCP.
         public let healthCheckProtocol: HealthCheckProtocol?
         /// Allows you to override the destination ports used to route traffic to an endpoint.
-        /// 			Using a port override lets you to map a list of external destination ports (that your
+        /// 			Using a port override lets you map a list of external destination ports (that your
         /// 			users send traffic to) to a list of internal destination ports that you want an application
         /// 			endpoint to receive traffic on.
         public let portOverrides: [PortOverride]?
         /// The number of consecutive health checks required to set the state of a healthy endpoint to unhealthy, or to set an
         /// 			unhealthy endpoint to healthy. The default value is 3.
         public let thresholdCount: Int?
-        /// The percentage of traffic to send to an AWS Region. Additional traffic is distributed to other endpoint groups for
+        /// The percentage of traffic to send to an Amazon Web Services Region. Additional traffic is distributed to other endpoint groups for
         /// 			this listener.
         /// 		       Use this action to increase (dial up) or decrease (dial down) traffic to a specific Region. The percentage is
         /// 			applied to the traffic that would otherwise have been routed to the Region based on optimal routing.
@@ -1607,15 +1657,26 @@ extension GlobalAccelerator {
         /// The array of IP addresses in the IP address set. An IP address set can have a maximum of two IP addresses.
         public let ipAddresses: [String]?
         /// The types of IP addresses included in this IP set.
+        public let ipAddressFamily: IpAddressFamily?
+        /// IpFamily is deprecated and has been replaced by IpAddressFamily.
         public let ipFamily: String?
 
-        public init(ipAddresses: [String]? = nil, ipFamily: String? = nil) {
+        public init(ipAddresses: [String]? = nil, ipAddressFamily: IpAddressFamily? = nil) {
             self.ipAddresses = ipAddresses
+            self.ipAddressFamily = ipAddressFamily
+            self.ipFamily = nil
+        }
+
+        @available(*, deprecated, message: "Members ipFamily have been deprecated")
+        public init(ipAddresses: [String]? = nil, ipAddressFamily: IpAddressFamily? = nil, ipFamily: String? = nil) {
+            self.ipAddresses = ipAddresses
+            self.ipAddressFamily = ipAddressFamily
             self.ipFamily = ipFamily
         }
 
         private enum CodingKeys: String, CodingKey {
             case ipAddresses = "IpAddresses"
+            case ipAddressFamily = "IpAddressFamily"
             case ipFamily = "IpFamily"
         }
     }
@@ -2057,13 +2118,13 @@ extension GlobalAccelerator {
         /// Client affinity lets you direct all requests from a user to the same endpoint, if you have stateful applications,
         /// 			regardless of the port and protocol of the client request. Client affinity gives you control over whether to always
         /// 			route each client to the same specific endpoint.
-        /// 		       AWS Global Accelerator uses a consistent-flow hashing algorithm to choose the optimal endpoint for a connection. If client
-        /// 			affinity is NONE, Global Accelerator uses the "five-tuple" (5-tuple) properties—source IP address, source port,
+        /// 	        Global Accelerator uses a consistent-flow hashing algorithm to choose the optimal endpoint for a connection. If client
+        /// 	        affinity is NONE, Global Accelerator uses the "five-tuple" (5-tuple) properties—source IP address, source port,
         /// 			destination IP address, destination port, and protocol—to select the hash value, and then chooses the best
         /// 			endpoint. However, with this setting, if someone uses different ports to connect to Global Accelerator, their connections might not
         /// 			be always routed to the same endpoint because the hash value changes.
         /// 		       If you want a given client to always be routed to the same endpoint, set client affinity to SOURCE_IP
-        /// 			instead. When you use the SOURCE_IP setting, Global Accelerator uses the "two-tuple" (2-tuple) properties—
+        /// 		    instead. When you use the SOURCE_IP setting, Global Accelerator uses the "two-tuple" (2-tuple) properties—
         /// 			source (client) IP address and destination IP address—to select the hash value.
         /// 		       The default value is NONE.
         public let clientAffinity: ClientAffinity?
@@ -2125,10 +2186,10 @@ extension GlobalAccelerator {
 
     public struct PortOverride: AWSEncodableShape & AWSDecodableShape {
         /// The endpoint port that you want a listener port to be mapped to. This is the port on the endpoint,
-        /// 			such as the Application Load Balancer or Amazon EC2 instance.
+        /// 		    such as the Application Load Balancer or Amazon EC2 instance.
         public let endpointPort: Int?
         /// The listener port that you want to map to a specific endpoint port. This is the port that user traffic
-        /// 		arrives to the Global Accelerator on.
+        /// 		    arrives to the Global Accelerator on.
         public let listenerPort: Int?
 
         public init(endpointPort: Int? = nil, listenerPort: Int? = nil) {
@@ -2343,16 +2404,16 @@ extension GlobalAccelerator {
         /// Update whether flow logs are enabled. The default value is false. If the value is true,
         /// 				FlowLogsS3Bucket and FlowLogsS3Prefix must be specified.
         /// 		       For more information, see Flow Logs in
-        /// 			the AWS Global Accelerator Developer Guide.
+        /// 		    the Global Accelerator Developer Guide.
         public let flowLogsEnabled: Bool?
         /// The name of the Amazon S3 bucket for the flow logs. Attribute is required if FlowLogsEnabled is
-        /// 				true. The bucket must exist and have a bucket policy that grants AWS Global Accelerator permission to write to the
+        /// 		    true. The bucket must exist and have a bucket policy that grants Global Accelerator permission to write to the
         /// 			bucket.
         public let flowLogsS3Bucket: String?
         /// Update the prefix for the location in the Amazon S3 bucket for the flow logs. Attribute is required if
         /// 				FlowLogsEnabled is true.
-        /// 		       If you don’t specify a prefix, the flow logs are stored in the
-        /// 			root of the bucket. If you specify slash (/) for the S3 bucket prefix, the log file bucket folder structure will include a double slash (//), like the following:
+        /// 		       If you specify slash (/) for the S3 bucket prefix, the log file bucket folder structure will include a double slash (//),
+        /// 			like the following:
         /// 			      s3-bucket_name//AWSLogs/aws_account_id
         public let flowLogsS3Prefix: String?
 
@@ -2396,10 +2457,10 @@ extension GlobalAccelerator {
         /// Indicates whether an accelerator is enabled. The value is true or false. The default value is true.
         /// 		       If the value is set to true, the accelerator cannot be deleted. If set to false, the accelerator can be deleted.
         public let enabled: Bool?
-        /// The IP address type, which must be IPv4.
+        /// The IP address type that an accelerator supports. For a standard accelerator, the value can be IPV4 or DUAL_STACK.
         public let ipAddressType: IpAddressType?
-        /// The name of the accelerator. The name can have a maximum of 32 characters, must contain only alphanumeric characters or
-        /// 			hyphens (-), and must not begin or end with a hyphen.
+        /// The name of the accelerator. The name can have a maximum of 64 characters, must contain only alphanumeric characters,
+        /// 			periods (.), or hyphens (-), and must not begin or end with a hyphen or period.
         public let name: String?
 
         public init(acceleratorArn: String, enabled: Bool? = nil, ipAddressType: IpAddressType? = nil, name: String? = nil) {
@@ -2440,11 +2501,11 @@ extension GlobalAccelerator {
         public let acceleratorArn: String
         /// Update whether flow logs are enabled. The default value is false. If the value is true,
         /// 		FlowLogsS3Bucket and FlowLogsS3Prefix must be specified.
-        /// 	        For more information, see Flow Logs in
-        /// 		the AWS Global Accelerator Developer Guide.
+        /// 	        For more information, see Flow logs in
+        /// 	    the Global Accelerator Developer Guide.
         public let flowLogsEnabled: Bool?
         /// The name of the Amazon S3 bucket for the flow logs. Attribute is required if FlowLogsEnabled is
-        /// 		true. The bucket must exist and have a bucket policy that grants AWS Global Accelerator permission to write to the
+        /// 	    true. The bucket must exist and have a bucket policy that grants Global Accelerator permission to write to the
         /// 		bucket.
         public let flowLogsS3Bucket: String?
         /// Update the prefix for the location in the Amazon S3 bucket for the flow logs. Attribute is required if
@@ -2494,10 +2555,10 @@ extension GlobalAccelerator {
         /// Indicates whether an accelerator is enabled. The value is true or false. The default value is true.
         /// 	        If the value is set to true, the accelerator cannot be deleted. If set to false, the accelerator can be deleted.
         public let enabled: Bool?
-        /// The value for the address type must be IPv4.
+        /// The IP address type that an accelerator supports. For a custom routing accelerator, the value must be IPV4.
         public let ipAddressType: IpAddressType?
-        /// The name of the accelerator. The name can have a maximum of 32 characters, must contain only alphanumeric characters or
-        /// 		hyphens (-), and must not begin or end with a hyphen.
+        /// The name of the accelerator. The name can have a maximum of 64 characters, must contain only alphanumeric characters,
+        /// 		periods (.), or hyphens (-), and must not begin or end with a hyphen or period.
         public let name: String?
 
         public init(acceleratorArn: String, enabled: Bool? = nil, ipAddressType: IpAddressType? = nil, name: String? = nil) {
@@ -2585,11 +2646,11 @@ extension GlobalAccelerator {
         /// If the protocol is HTTP/S, then this specifies the path that is the destination for health check targets. The
         /// 			default value is slash (/).
         public let healthCheckPath: String?
-        /// The port that AWS Global Accelerator uses to check the health of endpoints that are part of this endpoint group. The default port
-        /// 			is the listener port that this endpoint group is associated with. If the listener port is a list of ports, Global Accelerator uses
+        /// The port that Global Accelerator uses to check the health of endpoints that are part of this endpoint group. The default port
+        /// 	        is the listener port that this endpoint group is associated with. If the listener port is a list of ports, Global Accelerator uses
         /// 			the first port in the list.
         public let healthCheckPort: Int?
-        /// The protocol that AWS Global Accelerator uses to check the health of endpoints that are part of this endpoint group. The default
+        /// The protocol that Global Accelerator uses to check the health of endpoints that are part of this endpoint group. The default
         /// 			value is TCP.
         public let healthCheckProtocol: HealthCheckProtocol?
         /// Override specific listener ports used to route traffic to endpoints that are part of this endpoint group.
@@ -2597,12 +2658,12 @@ extension GlobalAccelerator {
         /// 			receives user traffic on ports 80 and 443, but your accelerator routes that traffic to ports 1080
         /// 			and 1443, respectively, on the endpoints.
         /// 		       For more information, see
-        /// 			Port overrides in the AWS Global Accelerator Developer Guide.
+        /// 			Overriding listener ports in the Global Accelerator Developer Guide.
         public let portOverrides: [PortOverride]?
         /// The number of consecutive health checks required to set the state of a healthy endpoint to unhealthy, or to set an
         /// 			unhealthy endpoint to healthy. The default value is 3.
         public let thresholdCount: Int?
-        /// The percentage of traffic to send to an AWS Region. Additional traffic is distributed to other endpoint groups for
+        /// The percentage of traffic to send to an Amazon Web Services Region. Additional traffic is distributed to other endpoint groups for
         /// 			this listener.
         /// 		       Use this action to increase (dial up) or decrease (dial down) traffic to a specific Region. The percentage is
         /// 			applied to the traffic that would otherwise have been routed to the Region based on optimal routing.
@@ -2673,13 +2734,13 @@ extension GlobalAccelerator {
         /// Client affinity lets you direct all requests from a user to the same endpoint, if you have stateful applications,
         /// 			regardless of the port and protocol of the client request. Client affinity gives you control over whether to always
         /// 			route each client to the same specific endpoint.
-        /// 		       AWS Global Accelerator uses a consistent-flow hashing algorithm to choose the optimal endpoint for a connection. If client
-        /// 			affinity is NONE, Global Accelerator uses the "five-tuple" (5-tuple) properties—source IP address, source port,
+        /// 	        Global Accelerator uses a consistent-flow hashing algorithm to choose the optimal endpoint for a connection. If client
+        /// 	        affinity is NONE, Global Accelerator uses the "five-tuple" (5-tuple) properties—source IP address, source port,
         /// 			destination IP address, destination port, and protocol—to select the hash value, and then chooses the best
         /// 			endpoint. However, with this setting, if someone uses different ports to connect to Global Accelerator, their connections might not
         /// 			be always routed to the same endpoint because the hash value changes.
         /// 		       If you want a given client to always be routed to the same endpoint, set client affinity to SOURCE_IP
-        /// 			instead. When you use the SOURCE_IP setting, Global Accelerator uses the "two-tuple" (2-tuple) properties—
+        /// 		    instead. When you use the SOURCE_IP setting, Global Accelerator uses the "two-tuple" (2-tuple) properties—
         /// 			source (client) IP address and destination IP address—to select the hash value.
         /// 		       The default value is NONE.
         public let clientAffinity: ClientAffinity?

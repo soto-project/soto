@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -2565,16 +2565,6 @@ extension SSM.DescribeInstanceInformationRequest: AWSPaginateToken {
     }
 }
 
-extension SSM.DescribeInstancePatchStatesRequest: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> SSM.DescribeInstancePatchStatesRequest {
-        return .init(
-            instanceIds: self.instanceIds,
-            maxResults: self.maxResults,
-            nextToken: token
-        )
-    }
-}
-
 extension SSM.DescribeInstancePatchStatesForPatchGroupRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SSM.DescribeInstancePatchStatesForPatchGroupRequest {
         return .init(
@@ -2582,6 +2572,16 @@ extension SSM.DescribeInstancePatchStatesForPatchGroupRequest: AWSPaginateToken 
             maxResults: self.maxResults,
             nextToken: token,
             patchGroup: self.patchGroup
+        )
+    }
+}
+
+extension SSM.DescribeInstancePatchStatesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SSM.DescribeInstancePatchStatesRequest {
+        return .init(
+            instanceIds: self.instanceIds,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }
@@ -2676,16 +2676,6 @@ extension SSM.DescribeMaintenanceWindowTasksRequest: AWSPaginateToken {
     }
 }
 
-extension SSM.DescribeMaintenanceWindowsRequest: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> SSM.DescribeMaintenanceWindowsRequest {
-        return .init(
-            filters: self.filters,
-            maxResults: self.maxResults,
-            nextToken: token
-        )
-    }
-}
-
 extension SSM.DescribeMaintenanceWindowsForTargetRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SSM.DescribeMaintenanceWindowsForTargetRequest {
         return .init(
@@ -2693,6 +2683,16 @@ extension SSM.DescribeMaintenanceWindowsForTargetRequest: AWSPaginateToken {
             nextToken: token,
             resourceType: self.resourceType,
             targets: self.targets
+        )
+    }
+}
+
+extension SSM.DescribeMaintenanceWindowsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SSM.DescribeMaintenanceWindowsRequest {
+        return .init(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -213,7 +213,7 @@ public struct Nimble: AWSService {
         return self.client.execute(operation: "ListStreamingImages", path: "/2020-08-01/studios/{studioId}/streaming-images", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the streaming image resources in a studio.
+    /// Lists the streaming sessions in a studio.
     public func listStreamingSessions(_ input: ListStreamingSessionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListStreamingSessionsResponse> {
         return self.client.execute(operation: "ListStreamingSessions", path: "/2020-08-01/studios/{studioId}/streaming-sessions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

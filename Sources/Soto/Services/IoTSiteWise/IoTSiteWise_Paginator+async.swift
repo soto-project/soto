@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -260,6 +260,28 @@ extension IoTSiteWise {
             command: listAssociatedAssets,
             inputKey: \ListAssociatedAssetsRequest.nextToken,
             outputKey: \ListAssociatedAssetsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///   This API operation is in preview release for IoT SiteWise and is subject to change.  We recommend that you use this operation only with test data, and not in production environments.  Retrieves a paginated list of bulk import job requests. For more information,  see List bulk import jobs (CLI)  in the Amazon Simple Storage Service User Guide.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listBulkImportJobsPaginator(
+        _ input: ListBulkImportJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListBulkImportJobsRequest, ListBulkImportJobsResponse> {
+        return .init(
+            input: input,
+            command: listBulkImportJobs,
+            inputKey: \ListBulkImportJobsRequest.nextToken,
+            outputKey: \ListBulkImportJobsResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

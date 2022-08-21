@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -20,6 +20,18 @@ import SotoCore
 
 extension CodeArtifact {
     // MARK: Enums
+
+    public enum AllowPublish: String, CustomStringConvertible, Codable, _SotoSendable {
+        case allow = "ALLOW"
+        case block = "BLOCK"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AllowUpstream: String, CustomStringConvertible, Codable, _SotoSendable {
+        case allow = "ALLOW"
+        case block = "BLOCK"
+        public var description: String { return self.rawValue }
+    }
 
     public enum DomainStatus: String, CustomStringConvertible, Codable, _SotoSendable {
         case active = "Active"
@@ -55,6 +67,13 @@ extension CodeArtifact {
         case notAllowed = "NOT_ALLOWED"
         case notFound = "NOT_FOUND"
         case skipped = "SKIPPED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PackageVersionOriginType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case external = "EXTERNAL"
+        case `internal` = "INTERNAL"
+        case unknown = "UNKNOWN"
         public var description: String { return self.rawValue }
     }
 
@@ -108,7 +127,7 @@ extension CodeArtifact {
         public let domain: String
         ///  The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include  dashes or spaces.
         public let domainOwner: String?
-        ///  The name of the external connection to add to the repository. The following values are supported:     public:npmjs - for the npm public repository.     public:nuget-org - for the NuGet Gallery.     public:pypi - for the Python Package Index.     public:maven-central - for Maven Central.     public:maven-googleandroid - for the Google Android repository.     public:maven-gradleplugins - for the Gradle plugins repository.     public:maven-commonsware - for the CommonsWare Android repository.
+        ///  The name of the external connection to add to the repository. The following values are supported:     public:npmjs - for the npm public repository.     public:pypi - for the Python Package Index.     public:maven-central - for Maven Central.     public:maven-googleandroid - for the Google Android repository.     public:maven-gradleplugins - for the Gradle plugins repository.     public:maven-commonsware - for the CommonsWare Android repository.
         public let externalConnection: String
         ///  The name of the repository to which the external connection is added.
         public let repository: String
@@ -127,6 +146,8 @@ extension CodeArtifact {
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, max: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, min: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.externalConnection, name: "externalConnection", parent: name, max: 100)
+            try self.validate(self.externalConnection, name: "externalConnection", parent: name, min: 2)
             try self.validate(self.externalConnection, name: "externalConnection", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9._\\-:]{1,99}$")
             try self.validate(self.repository, name: "repository", parent: name, max: 100)
             try self.validate(self.repository, name: "repository", parent: name, min: 2)
@@ -168,19 +189,20 @@ extension CodeArtifact {
         public let domain: String
         ///  The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include  dashes or spaces.
         public let domainOwner: String?
-        ///  The format of the package that is copied.
+        ///  The format of the package versions to be copied.
         public let format: PackageFormat
         ///  Set to true to copy packages from repositories that are upstream from the source repository to the destination repository. The default setting is false. For more information, see Working with upstream repositories.
         public let includeFromUpstream: Bool?
-        ///  The namespace of the package. The package component that specifies its  namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so  Python packages do not have a namespace.
+        /// The namespace of the package versions to be copied. The package version component that specifies its  namespace depends on its type. For example:
+        ///     The namespace of a Maven package version is its groupId. The namespace is required when copying Maven package versions.     The namespace of an npm package version is its scope.     Python and NuGet package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
         public let namespace: String?
-        ///  The name of the package that is copied.
+        ///  The name of the package that contains the versions to be copied.
         public let package: String
-        ///  The name of the repository that contains the package versions to copy.
+        ///  The name of the repository that contains the package versions to be copied.
         public let sourceRepository: String
         ///  A list of key-value pairs. The keys are package versions and the values are package version revisions. A CopyPackageVersion operation succeeds if the specified versions in the source repository match the specified package version revision.    You must specify versions or versionRevisions. You cannot specify both.
         public let versionRevisions: [String: String]?
-        ///  The versions of the package to copy.    You must specify versions or versionRevisions. You cannot specify both.
+        ///  The versions of the package to be copied.    You must specify versions or versionRevisions. You cannot specify both.
         public let versions: [String]?
 
         public init(allowOverwrite: Bool? = nil, destinationRepository: String, domain: String, domainOwner: String? = nil, format: PackageFormat, includeFromUpstream: Bool? = nil, namespace: String? = nil, package: String, sourceRepository: String, versionRevisions: [String: String]? = nil, versions: [String]? = nil) {
@@ -209,17 +231,17 @@ extension CodeArtifact {
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
             try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
-            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[^!#/\\s]+$")
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[^#/\\s]+$")
             try self.validate(self.package, name: "package", parent: name, max: 255)
             try self.validate(self.package, name: "package", parent: name, min: 1)
-            try self.validate(self.package, name: "package", parent: name, pattern: "^[^!#/\\s]+$")
+            try self.validate(self.package, name: "package", parent: name, pattern: "^[^#/\\s]+$")
             try self.validate(self.sourceRepository, name: "sourceRepository", parent: name, max: 100)
             try self.validate(self.sourceRepository, name: "sourceRepository", parent: name, min: 2)
             try self.validate(self.sourceRepository, name: "sourceRepository", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9._\\-]{1,99}$")
             try self.versionRevisions?.forEach {
                 try validate($0.key, name: "versionRevisions.key", parent: name, max: 255)
                 try validate($0.key, name: "versionRevisions.key", parent: name, min: 1)
-                try validate($0.key, name: "versionRevisions.key", parent: name, pattern: "^[^!#/\\s]+$")
+                try validate($0.key, name: "versionRevisions.key", parent: name, pattern: "^[^#/\\s]+$")
                 try validate($0.value, name: "versionRevisions[\"\($0.key)\"]", parent: name, max: 50)
                 try validate($0.value, name: "versionRevisions[\"\($0.key)\"]", parent: name, min: 1)
                 try validate($0.value, name: "versionRevisions[\"\($0.key)\"]", parent: name, pattern: "^\\S+$")
@@ -227,7 +249,7 @@ extension CodeArtifact {
             try self.versions?.forEach {
                 try validate($0, name: "versions[]", parent: name, max: 255)
                 try validate($0, name: "versions[]", parent: name, min: 1)
-                try validate($0, name: "versions[]", parent: name, pattern: "^[^!#/\\s]+$")
+                try validate($0, name: "versions[]", parent: name, pattern: "^[^#/\\s]+$")
             }
             try self.validate(self.versions, name: "versions", parent: name, max: 100)
         }
@@ -338,7 +360,7 @@ extension CodeArtifact {
 
         public func validate(name: String) throws {
             try self.validate(self.description, name: "description", parent: name, max: 1000)
-            try self.validate(self.description, name: "description", parent: name, pattern: "^\\P{C}+$")
+            try self.validate(self.description, name: "description", parent: name, pattern: "^\\P{C}*$")
             try self.validate(self.domain, name: "domain", parent: name, max: 50)
             try self.validate(self.domain, name: "domain", parent: name, min: 2)
             try self.validate(self.domain, name: "domain", parent: name, pattern: "^[a-z][a-z0-9\\-]{0,48}[a-z0-9]$")
@@ -484,7 +506,7 @@ extension CodeArtifact {
         public let expectedStatus: PackageVersionStatus?
         ///  The format of the package versions to delete.
         public let format: PackageFormat
-        ///  The namespace of the package. The package component that specifies its  namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so  Python packages do not have a namespace.
+        /// The namespace of the package versions to be deleted. The package version component that specifies its  namespace depends on its type. For example:     The namespace of a Maven package version is its groupId. The namespace is required when deleting Maven package versions.     The namespace of an npm package version is its scope.     Python and NuGet package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
         public let namespace: String?
         ///  The name of the package with the versions to delete.
         public let package: String
@@ -513,17 +535,17 @@ extension CodeArtifact {
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
             try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
-            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[^!#/\\s]+$")
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[^#/\\s]+$")
             try self.validate(self.package, name: "package", parent: name, max: 255)
             try self.validate(self.package, name: "package", parent: name, min: 1)
-            try self.validate(self.package, name: "package", parent: name, pattern: "^[^!#/\\s]+$")
+            try self.validate(self.package, name: "package", parent: name, pattern: "^[^#/\\s]+$")
             try self.validate(self.repository, name: "repository", parent: name, max: 100)
             try self.validate(self.repository, name: "repository", parent: name, min: 2)
             try self.validate(self.repository, name: "repository", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9._\\-]{1,99}$")
             try self.versions.forEach {
                 try validate($0, name: "versions[]", parent: name, max: 255)
                 try validate($0, name: "versions[]", parent: name, min: 1)
-                try validate($0, name: "versions[]", parent: name, pattern: "^[^!#/\\s]+$")
+                try validate($0, name: "versions[]", parent: name, pattern: "^[^#/\\s]+$")
             }
             try self.validate(self.versions, name: "versions", parent: name, max: 100)
         }
@@ -694,6 +716,72 @@ extension CodeArtifact {
         }
     }
 
+    public struct DescribePackageRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
+            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
+            AWSMemberEncoding(label: "format", location: .querystring("format")),
+            AWSMemberEncoding(label: "namespace", location: .querystring("namespace")),
+            AWSMemberEncoding(label: "package", location: .querystring("package")),
+            AWSMemberEncoding(label: "repository", location: .querystring("repository"))
+        ]
+
+        /// The name of the domain that contains the repository that contains the package.
+        public let domain: String
+        ///  The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include  dashes or spaces.
+        public let domainOwner: String?
+        /// A format that specifies the type of the requested package.
+        public let format: PackageFormat
+        /// The namespace of the requested package. The package component that specifies its  namespace depends on its type. For example:     The namespace of a Maven package is its groupId. The namespace is required when requesting Maven packages.     The namespace of an npm package is its scope.     Python and NuGet packages do not contain a corresponding component, packages  of those formats do not have a namespace.
+        public let namespace: String?
+        /// The name of the requested package.
+        public let package: String
+        /// The name of the repository that contains the requested package.
+        public let repository: String
+
+        public init(domain: String, domainOwner: String? = nil, format: PackageFormat, namespace: String? = nil, package: String, repository: String) {
+            self.domain = domain
+            self.domainOwner = domainOwner
+            self.format = format
+            self.namespace = namespace
+            self.package = package
+            self.repository = repository
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domain, name: "domain", parent: name, max: 50)
+            try self.validate(self.domain, name: "domain", parent: name, min: 2)
+            try self.validate(self.domain, name: "domain", parent: name, pattern: "^[a-z][a-z0-9\\-]{0,48}[a-z0-9]$")
+            try self.validate(self.domainOwner, name: "domainOwner", parent: name, max: 12)
+            try self.validate(self.domainOwner, name: "domainOwner", parent: name, min: 12)
+            try self.validate(self.domainOwner, name: "domainOwner", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
+            try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[^#/\\s]+$")
+            try self.validate(self.package, name: "package", parent: name, max: 255)
+            try self.validate(self.package, name: "package", parent: name, min: 1)
+            try self.validate(self.package, name: "package", parent: name, pattern: "^[^#/\\s]+$")
+            try self.validate(self.repository, name: "repository", parent: name, max: 100)
+            try self.validate(self.repository, name: "repository", parent: name, min: 2)
+            try self.validate(self.repository, name: "repository", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9._\\-]{1,99}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribePackageResult: AWSDecodableShape {
+        /// A PackageDescription  object that contains information about the requested package.
+        public let package: PackageDescription
+
+        public init(package: PackageDescription) {
+            self.package = package
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case package
+        }
+    }
+
     public struct DescribePackageVersionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "domain", location: .querystring("domain")),
@@ -711,7 +799,7 @@ extension CodeArtifact {
         public let domainOwner: String?
         ///  A format that specifies the type of the requested package version.
         public let format: PackageFormat
-        ///  The namespace of the package. The package component that specifies its  namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so  Python packages do not have a namespace.
+        /// The namespace of the requested package version. The package version component that specifies its  namespace depends on its type. For example:     The namespace of a Maven package version is its groupId.     The namespace of an npm package version is its scope.     Python and NuGet package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
         public let namespace: String?
         ///  The name of the requested package version.
         public let package: String
@@ -739,13 +827,13 @@ extension CodeArtifact {
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
             try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
-            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[^!#/\\s]+$")
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[^#/\\s]+$")
             try self.validate(self.package, name: "package", parent: name, max: 255)
             try self.validate(self.package, name: "package", parent: name, min: 1)
-            try self.validate(self.package, name: "package", parent: name, pattern: "^[^!#/\\s]+$")
+            try self.validate(self.package, name: "package", parent: name, pattern: "^[^#/\\s]+$")
             try self.validate(self.packageVersion, name: "packageVersion", parent: name, max: 255)
             try self.validate(self.packageVersion, name: "packageVersion", parent: name, min: 1)
-            try self.validate(self.packageVersion, name: "packageVersion", parent: name, pattern: "^[^!#/\\s]+$")
+            try self.validate(self.packageVersion, name: "packageVersion", parent: name, pattern: "^[^#/\\s]+$")
             try self.validate(self.repository, name: "repository", parent: name, max: 100)
             try self.validate(self.repository, name: "repository", parent: name, min: 2)
             try self.validate(self.repository, name: "repository", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9._\\-]{1,99}$")
@@ -846,6 +934,8 @@ extension CodeArtifact {
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, max: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, min: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.externalConnection, name: "externalConnection", parent: name, max: 100)
+            try self.validate(self.externalConnection, name: "externalConnection", parent: name, min: 2)
             try self.validate(self.externalConnection, name: "externalConnection", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9._\\-:]{1,99}$")
             try self.validate(self.repository, name: "repository", parent: name, max: 100)
             try self.validate(self.repository, name: "repository", parent: name, min: 2)
@@ -886,7 +976,7 @@ extension CodeArtifact {
         public let expectedStatus: PackageVersionStatus?
         ///  A format that specifies the type of package versions you want to dispose.
         public let format: PackageFormat
-        ///  The namespace of the package. The package component that specifies its  namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so  Python packages do not have a namespace.
+        /// The namespace of the package versions to be disposed. The package version component that specifies its  namespace depends on its type. For example:     The namespace of a Maven package version is its groupId.     The namespace of an npm package version is its scope.     Python and NuGet package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
         public let namespace: String?
         ///  The name of the package with the versions you want to dispose.
         public let package: String
@@ -918,17 +1008,17 @@ extension CodeArtifact {
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
             try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
-            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[^!#/\\s]+$")
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[^#/\\s]+$")
             try self.validate(self.package, name: "package", parent: name, max: 255)
             try self.validate(self.package, name: "package", parent: name, min: 1)
-            try self.validate(self.package, name: "package", parent: name, pattern: "^[^!#/\\s]+$")
+            try self.validate(self.package, name: "package", parent: name, pattern: "^[^#/\\s]+$")
             try self.validate(self.repository, name: "repository", parent: name, max: 100)
             try self.validate(self.repository, name: "repository", parent: name, min: 2)
             try self.validate(self.repository, name: "repository", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9._\\-]{1,99}$")
             try self.versionRevisions?.forEach {
                 try validate($0.key, name: "versionRevisions.key", parent: name, max: 255)
                 try validate($0.key, name: "versionRevisions.key", parent: name, min: 1)
-                try validate($0.key, name: "versionRevisions.key", parent: name, pattern: "^[^!#/\\s]+$")
+                try validate($0.key, name: "versionRevisions.key", parent: name, pattern: "^[^#/\\s]+$")
                 try validate($0.value, name: "versionRevisions[\"\($0.key)\"]", parent: name, max: 50)
                 try validate($0.value, name: "versionRevisions[\"\($0.key)\"]", parent: name, min: 1)
                 try validate($0.value, name: "versionRevisions[\"\($0.key)\"]", parent: name, pattern: "^\\S+$")
@@ -936,7 +1026,7 @@ extension CodeArtifact {
             try self.versions.forEach {
                 try validate($0, name: "versions[]", parent: name, max: 255)
                 try validate($0, name: "versions[]", parent: name, min: 1)
-                try validate($0, name: "versions[]", parent: name, pattern: "^[^!#/\\s]+$")
+                try validate($0, name: "versions[]", parent: name, pattern: "^[^#/\\s]+$")
             }
             try self.validate(self.versions, name: "versions", parent: name, max: 100)
         }
@@ -1007,6 +1097,23 @@ extension CodeArtifact {
             case repositoryCount
             case s3BucketArn
             case status
+        }
+    }
+
+    public struct DomainEntryPoint: AWSDecodableShape {
+        /// The name of the external connection that a package was ingested from.
+        public let externalConnectionName: String?
+        /// The name of the repository that a package was originally published to.
+        public let repositoryName: String?
+
+        public init(externalConnectionName: String? = nil, repositoryName: String? = nil) {
+            self.externalConnectionName = externalConnectionName
+            self.repositoryName = repositoryName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case externalConnectionName
+            case repositoryName
         }
     }
 
@@ -1156,7 +1263,7 @@ extension CodeArtifact {
         public let domainOwner: String?
         ///  A format that specifies the type of the package version with the requested asset file.
         public let format: PackageFormat
-        ///  The namespace of the package. The package component that specifies its  namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so  Python packages do not have a namespace.
+        /// The namespace of the package version with the requested asset file. The package version component that specifies its  namespace depends on its type. For example:     The namespace of a Maven package version is its groupId.     The namespace of an npm package version is its scope.     Python and NuGet package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
         public let namespace: String?
         ///  The name of the package that contains the requested asset.
         public let package: String
@@ -1191,13 +1298,13 @@ extension CodeArtifact {
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
             try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
-            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[^!#/\\s]+$")
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[^#/\\s]+$")
             try self.validate(self.package, name: "package", parent: name, max: 255)
             try self.validate(self.package, name: "package", parent: name, min: 1)
-            try self.validate(self.package, name: "package", parent: name, pattern: "^[^!#/\\s]+$")
+            try self.validate(self.package, name: "package", parent: name, pattern: "^[^#/\\s]+$")
             try self.validate(self.packageVersion, name: "packageVersion", parent: name, max: 255)
             try self.validate(self.packageVersion, name: "packageVersion", parent: name, min: 1)
-            try self.validate(self.packageVersion, name: "packageVersion", parent: name, pattern: "^[^!#/\\s]+$")
+            try self.validate(self.packageVersion, name: "packageVersion", parent: name, pattern: "^[^#/\\s]+$")
             try self.validate(self.packageVersionRevision, name: "packageVersionRevision", parent: name, max: 50)
             try self.validate(self.packageVersionRevision, name: "packageVersionRevision", parent: name, min: 1)
             try self.validate(self.packageVersionRevision, name: "packageVersionRevision", parent: name, pattern: "^\\S+$")
@@ -1258,9 +1365,9 @@ extension CodeArtifact {
         public let domain: String
         ///  The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include  dashes or spaces.
         public let domainOwner: String?
-        ///  A format that specifies the type of the package version with the requested readme file.   Although maven is  listed as a valid value, CodeArtifact does not support displaying readme files for Maven packages.
+        ///  A format that specifies the type of the package version with the requested readme file.
         public let format: PackageFormat
-        ///  The namespace of the package. The package component that specifies its  namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so  Python packages do not have a namespace.
+        /// The namespace of the package version with the requested readme file. The package version component that specifies its  namespace depends on its type. For example:     The namespace of a Maven package version is its groupId.     The namespace of an npm package version is its scope.     Python and NuGet package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
         public let namespace: String?
         ///  The name of the package version that contains the requested readme file.
         public let package: String
@@ -1288,13 +1395,13 @@ extension CodeArtifact {
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
             try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
-            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[^!#/\\s]+$")
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[^#/\\s]+$")
             try self.validate(self.package, name: "package", parent: name, max: 255)
             try self.validate(self.package, name: "package", parent: name, min: 1)
-            try self.validate(self.package, name: "package", parent: name, pattern: "^[^!#/\\s]+$")
+            try self.validate(self.package, name: "package", parent: name, pattern: "^[^#/\\s]+$")
             try self.validate(self.packageVersion, name: "packageVersion", parent: name, max: 255)
             try self.validate(self.packageVersion, name: "packageVersion", parent: name, min: 1)
-            try self.validate(self.packageVersion, name: "packageVersion", parent: name, pattern: "^[^!#/\\s]+$")
+            try self.validate(self.packageVersion, name: "packageVersion", parent: name, pattern: "^[^#/\\s]+$")
             try self.validate(self.repository, name: "repository", parent: name, max: 100)
             try self.validate(self.repository, name: "repository", parent: name, min: 2)
             try self.validate(self.repository, name: "repository", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9._\\-]{1,99}$")
@@ -1306,7 +1413,7 @@ extension CodeArtifact {
     public struct GetPackageVersionReadmeResult: AWSDecodableShape {
         ///  The format of the package with the requested readme file.
         public let format: PackageFormat?
-        ///  The namespace of the package. The package component that specifies its  namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so  Python packages do not have a namespace.
+        /// The namespace of the package version with the requested readme file. The package version component that specifies its  namespace depends on its type. For example:     The namespace of a Maven package version is its groupId.     The namespace of an npm package version is its scope.     Python and NuGet package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
         public let namespace: String?
         ///  The name of the package that contains the returned readme file.
         public let package: String?
@@ -1512,19 +1619,19 @@ extension CodeArtifact {
         public let domain: String
         ///  The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include  dashes or spaces.
         public let domainOwner: String?
-        ///  The format of the package that contains the returned package version assets.
+        ///  The format of the package that contains the requested package version assets.
         public let format: PackageFormat
         ///  The maximum number of results to return per page.
         public let maxResults: Int?
-        ///  The namespace of the package. The package component that specifies its  namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so  Python packages do not have a namespace.
+        /// The namespace of the package version that contains the requested package version assets. The package version component that specifies its  namespace depends on its type. For example:     The namespace of a Maven package version is its groupId.     The namespace of an npm package version is its scope.     Python and NuGet package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
         public let namespace: String?
         ///  The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
-        ///  The name of the package that contains the returned package version assets.
+        ///  The name of the package that contains the requested package version assets.
         public let package: String
         ///  A string that contains the package version (for example, 3.5.2).
         public let packageVersion: String
-        ///  The name of the repository that contains the package that contains the returned package version assets.
+        ///  The name of the repository that contains the package that contains the requested package version assets.
         public let repository: String
 
         public init(domain: String, domainOwner: String? = nil, format: PackageFormat, maxResults: Int? = nil, namespace: String? = nil, nextToken: String? = nil, package: String, packageVersion: String, repository: String) {
@@ -1550,16 +1657,16 @@ extension CodeArtifact {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
             try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
-            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[^!#/\\s]+$")
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[^#/\\s]+$")
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S+$")
             try self.validate(self.package, name: "package", parent: name, max: 255)
             try self.validate(self.package, name: "package", parent: name, min: 1)
-            try self.validate(self.package, name: "package", parent: name, pattern: "^[^!#/\\s]+$")
+            try self.validate(self.package, name: "package", parent: name, pattern: "^[^#/\\s]+$")
             try self.validate(self.packageVersion, name: "packageVersion", parent: name, max: 255)
             try self.validate(self.packageVersion, name: "packageVersion", parent: name, min: 1)
-            try self.validate(self.packageVersion, name: "packageVersion", parent: name, pattern: "^[^!#/\\s]+$")
+            try self.validate(self.packageVersion, name: "packageVersion", parent: name, pattern: "^[^#/\\s]+$")
             try self.validate(self.repository, name: "repository", parent: name, max: 100)
             try self.validate(self.repository, name: "repository", parent: name, min: 2)
             try self.validate(self.repository, name: "repository", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9._\\-]{1,99}$")
@@ -1571,15 +1678,15 @@ extension CodeArtifact {
     public struct ListPackageVersionAssetsResult: AWSDecodableShape {
         ///  The returned list of AssetSummary objects.
         public let assets: [AssetSummary]?
-        ///  The format of the package that contains the returned package version assets.
+        ///  The format of the package that contains the requested package version assets.
         public let format: PackageFormat?
-        ///  The namespace of the package. The package component that specifies its  namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so  Python packages do not have a namespace.
+        /// The namespace of the package version that contains the requested package version assets. The package version component that specifies its  namespace depends on its type. For example:     The namespace of a Maven package version is its groupId.     The namespace of an npm package version is its scope.     Python and NuGet package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
         public let namespace: String?
         ///  If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
-        ///  The name of the package that contains the returned package version assets.
+        ///  The name of the package that contains the requested package version assets.
         public let package: String?
-        ///  The version of the package associated with the returned assets.
+        ///  The version of the package associated with the requested assets.
         public let version: String?
         ///  The current revision associated with the package version.
         public let versionRevision: String?
@@ -1623,7 +1730,7 @@ extension CodeArtifact {
         public let domainOwner: String?
         ///  The format of the package with the requested dependencies.
         public let format: PackageFormat
-        ///  The namespace of the package. The package component that specifies its  namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so  Python packages do not have a namespace.
+        /// The namespace of the package version with the requested dependencies. The package version component that specifies its  namespace depends on its type. For example:     The namespace of a Maven package version is its groupId.     The namespace of an npm package version is its scope.     Python and NuGet package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
         public let namespace: String?
         ///  The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
@@ -1654,16 +1761,16 @@ extension CodeArtifact {
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
             try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
-            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[^!#/\\s]+$")
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[^#/\\s]+$")
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S+$")
             try self.validate(self.package, name: "package", parent: name, max: 255)
             try self.validate(self.package, name: "package", parent: name, min: 1)
-            try self.validate(self.package, name: "package", parent: name, pattern: "^[^!#/\\s]+$")
+            try self.validate(self.package, name: "package", parent: name, pattern: "^[^#/\\s]+$")
             try self.validate(self.packageVersion, name: "packageVersion", parent: name, max: 255)
             try self.validate(self.packageVersion, name: "packageVersion", parent: name, min: 1)
-            try self.validate(self.packageVersion, name: "packageVersion", parent: name, pattern: "^[^!#/\\s]+$")
+            try self.validate(self.packageVersion, name: "packageVersion", parent: name, pattern: "^[^#/\\s]+$")
             try self.validate(self.repository, name: "repository", parent: name, max: 100)
             try self.validate(self.repository, name: "repository", parent: name, min: 2)
             try self.validate(self.repository, name: "repository", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9._\\-]{1,99}$")
@@ -1677,7 +1784,7 @@ extension CodeArtifact {
         public let dependencies: [PackageDependency]?
         ///  A format that specifies the type of the package that contains the returned dependencies.
         public let format: PackageFormat?
-        ///  The namespace of the package. The package component that specifies its  namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so  Python packages do not have a namespace.
+        /// The namespace of the package version that contains the returned dependencies. The package version component that specifies its  namespace depends on its type. For example:     The namespace of a Maven package version is its groupId.     The namespace of an npm package version is its scope.     Python and NuGet package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
         public let namespace: String?
         ///  The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
@@ -1717,40 +1824,44 @@ extension CodeArtifact {
             AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
             AWSMemberEncoding(label: "namespace", location: .querystring("namespace")),
             AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
+            AWSMemberEncoding(label: "originType", location: .querystring("originType")),
             AWSMemberEncoding(label: "package", location: .querystring("package")),
             AWSMemberEncoding(label: "repository", location: .querystring("repository")),
             AWSMemberEncoding(label: "sortBy", location: .querystring("sortBy")),
             AWSMemberEncoding(label: "status", location: .querystring("status"))
         ]
 
-        ///  The name of the domain that contains the repository that contains the returned package versions.
+        ///  The name of the domain that contains the repository that contains the requested package versions.
         public let domain: String
         ///  The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include  dashes or spaces.
         public let domainOwner: String?
-        ///  The format of the returned packages.
+        ///  The format of the returned package versions.
         public let format: PackageFormat
         ///  The maximum number of results to return per page.
         public let maxResults: Int?
-        ///  The namespace of the package. The package component that specifies its  namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so  Python packages do not have a namespace.
+        /// The namespace of the package that contains the requested package versions. The package component that specifies its  namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     Python and NuGet packages do not contain a corresponding component, packages  of those formats do not have a namespace.
         public let namespace: String?
         ///  The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
-        ///  The name of the package for which you want to return a list of package versions.
+        /// The originType used to filter package versions.  Only package versions with the provided originType will be returned.
+        public let originType: PackageVersionOriginType?
+        ///  The name of the package for which you want to request package versions.
         public let package: String
-        ///  The name of the repository that contains the package.
+        ///  The name of the repository that contains the requested package versions.
         public let repository: String
-        ///  How to sort the returned list of package versions.
+        ///  How to sort the requested list of package versions.
         public let sortBy: PackageVersionSortType?
-        ///  A string that specifies the status of the package versions to include in the returned list.
+        ///  A string that filters the requested package versions by status.
         public let status: PackageVersionStatus?
 
-        public init(domain: String, domainOwner: String? = nil, format: PackageFormat, maxResults: Int? = nil, namespace: String? = nil, nextToken: String? = nil, package: String, repository: String, sortBy: PackageVersionSortType? = nil, status: PackageVersionStatus? = nil) {
+        public init(domain: String, domainOwner: String? = nil, format: PackageFormat, maxResults: Int? = nil, namespace: String? = nil, nextToken: String? = nil, originType: PackageVersionOriginType? = nil, package: String, repository: String, sortBy: PackageVersionSortType? = nil, status: PackageVersionStatus? = nil) {
             self.domain = domain
             self.domainOwner = domainOwner
             self.format = format
             self.maxResults = maxResults
             self.namespace = namespace
             self.nextToken = nextToken
+            self.originType = originType
             self.package = package
             self.repository = repository
             self.sortBy = sortBy
@@ -1768,13 +1879,13 @@ extension CodeArtifact {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
             try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
-            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[^!#/\\s]+$")
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[^#/\\s]+$")
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S+$")
             try self.validate(self.package, name: "package", parent: name, max: 255)
             try self.validate(self.package, name: "package", parent: name, min: 1)
-            try self.validate(self.package, name: "package", parent: name, pattern: "^[^!#/\\s]+$")
+            try self.validate(self.package, name: "package", parent: name, pattern: "^[^#/\\s]+$")
             try self.validate(self.repository, name: "repository", parent: name, max: 100)
             try self.validate(self.repository, name: "repository", parent: name, min: 2)
             try self.validate(self.repository, name: "repository", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9._\\-]{1,99}$")
@@ -1788,7 +1899,7 @@ extension CodeArtifact {
         public let defaultDisplayVersion: String?
         ///  A format of the package.
         public let format: PackageFormat?
-        ///  The namespace of the package. The package component that specifies its  namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so  Python packages do not have a namespace.
+        /// The namespace of the package that contains the requested package versions. The package component that specifies its  namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     Python and NuGet packages do not contain a corresponding component, packages  of those formats do not have a namespace.
         public let namespace: String?
         ///  If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
@@ -1825,27 +1936,33 @@ extension CodeArtifact {
             AWSMemberEncoding(label: "namespace", location: .querystring("namespace")),
             AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
             AWSMemberEncoding(label: "packagePrefix", location: .querystring("package-prefix")),
-            AWSMemberEncoding(label: "repository", location: .querystring("repository"))
+            AWSMemberEncoding(label: "publish", location: .querystring("publish")),
+            AWSMemberEncoding(label: "repository", location: .querystring("repository")),
+            AWSMemberEncoding(label: "upstream", location: .querystring("upstream"))
         ]
 
-        ///  The name of the domain that contains the repository that contains the requested list of packages.
+        ///  The name of the domain that contains the repository that contains the requested packages.
         public let domain: String
         ///  The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include  dashes or spaces.
         public let domainOwner: String?
-        ///  The format of the packages.
+        /// The format used to filter requested packages. Only packages from the provided format will be returned.
         public let format: PackageFormat?
         ///  The maximum number of results to return per page.
         public let maxResults: Int?
-        ///  The namespace of the package. The package component that specifies its  namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so  Python packages do not have a namespace.
+        /// The namespace used to filter requested packages. Only packages with the provided namespace will be returned.  The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     Python and NuGet packages do not contain a corresponding component, packages  of those formats do not have a namespace.
         public let namespace: String?
         ///  The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
-        ///  A prefix used to filter returned packages. Only packages with names that start with  packagePrefix are returned.
+        ///  A prefix used to filter requested packages. Only packages with names that start with  packagePrefix are returned.
         public let packagePrefix: String?
-        ///  The name of the repository from which packages are to be listed.
+        /// The value of the Publish package origin control restriction used to filter requested packages.  Only packages with the provided restriction are returned.  For more information, see PackageOriginRestrictions.
+        public let publish: AllowPublish?
+        ///  The name of the repository that contains the requested packages.
         public let repository: String
+        /// The value of the Upstream package origin control restriction used to filter requested packages.  Only packages with the provided restriction are returned. For more information, see PackageOriginRestrictions.
+        public let upstream: AllowUpstream?
 
-        public init(domain: String, domainOwner: String? = nil, format: PackageFormat? = nil, maxResults: Int? = nil, namespace: String? = nil, nextToken: String? = nil, packagePrefix: String? = nil, repository: String) {
+        public init(domain: String, domainOwner: String? = nil, format: PackageFormat? = nil, maxResults: Int? = nil, namespace: String? = nil, nextToken: String? = nil, packagePrefix: String? = nil, publish: AllowPublish? = nil, repository: String, upstream: AllowUpstream? = nil) {
             self.domain = domain
             self.domainOwner = domainOwner
             self.format = format
@@ -1853,7 +1970,9 @@ extension CodeArtifact {
             self.namespace = namespace
             self.nextToken = nextToken
             self.packagePrefix = packagePrefix
+            self.publish = publish
             self.repository = repository
+            self.upstream = upstream
         }
 
         public func validate(name: String) throws {
@@ -1867,13 +1986,13 @@ extension CodeArtifact {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
             try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
-            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[^!#/\\s]+$")
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[^#/\\s]+$")
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S+$")
             try self.validate(self.packagePrefix, name: "packagePrefix", parent: name, max: 255)
             try self.validate(self.packagePrefix, name: "packagePrefix", parent: name, min: 1)
-            try self.validate(self.packagePrefix, name: "packagePrefix", parent: name, pattern: "^[^!#/\\s]+$")
+            try self.validate(self.packagePrefix, name: "packagePrefix", parent: name, pattern: "^[^#/\\s]+$")
             try self.validate(self.repository, name: "repository", parent: name, max: 100)
             try self.validate(self.repository, name: "repository", parent: name, min: 2)
             try self.validate(self.repository, name: "repository", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9._\\-]{1,99}$")
@@ -2059,7 +2178,7 @@ extension CodeArtifact {
     public struct PackageDependency: AWSDecodableShape {
         ///  The type of a package dependency. The possible values depend on the package type. Example types are compile, runtime, and test for Maven packages, and dev, prod, and optional for npm packages.
         public let dependencyType: String?
-        ///  The namespace of the package. The package component that specifies its  namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so  Python packages do not have a namespace.
+        /// The namespace of the package that this package depends on. The package component that specifies its  namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     Python and NuGet packages do not contain a corresponding component, packages  of those formats do not have a namespace.
         public let namespace: String?
         ///  The name of the package that this package depends on.
         public let package: String?
@@ -2081,23 +2200,82 @@ extension CodeArtifact {
         }
     }
 
+    public struct PackageDescription: AWSDecodableShape {
+        /// A format that specifies the type of the package.
+        public let format: PackageFormat?
+        /// The name of the package.
+        public let name: String?
+        /// The namespace of the package. The package component that specifies its  namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     Python and NuGet packages do not contain a corresponding component, packages  of those formats do not have a namespace.
+        public let namespace: String?
+        /// The package origin configuration for the package.
+        public let originConfiguration: PackageOriginConfiguration?
+
+        public init(format: PackageFormat? = nil, name: String? = nil, namespace: String? = nil, originConfiguration: PackageOriginConfiguration? = nil) {
+            self.format = format
+            self.name = name
+            self.namespace = namespace
+            self.originConfiguration = originConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case format
+            case name
+            case namespace
+            case originConfiguration
+        }
+    }
+
+    public struct PackageOriginConfiguration: AWSDecodableShape {
+        /// A PackageOriginRestrictions object that contains information  about the upstream and publish package origin configuration for the package.
+        public let restrictions: PackageOriginRestrictions?
+
+        public init(restrictions: PackageOriginRestrictions? = nil) {
+            self.restrictions = restrictions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case restrictions
+        }
+    }
+
+    public struct PackageOriginRestrictions: AWSEncodableShape & AWSDecodableShape {
+        /// The package origin configuration that determines if new versions of the package can be published directly to the repository.
+        public let publish: AllowPublish
+        /// The package origin configuration that determines if new versions of the package can be added to the repository from an external connection or upstream source.
+        public let upstream: AllowUpstream
+
+        public init(publish: AllowPublish, upstream: AllowUpstream) {
+            self.publish = publish
+            self.upstream = upstream
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case publish
+            case upstream
+        }
+    }
+
     public struct PackageSummary: AWSDecodableShape {
         ///  The format of the package.
         public let format: PackageFormat?
-        ///  The namespace of the package. The package component that specifies its  namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so  Python packages do not have a namespace.
+        /// The namespace of the package. The package component that specifies its  namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     Python and NuGet packages do not contain a corresponding component, packages  of those formats do not have a namespace.
         public let namespace: String?
+        /// A PackageOriginConfiguration  object that contains a PackageOriginRestrictions object  that contains information about the upstream and publish package origin restrictions.
+        public let originConfiguration: PackageOriginConfiguration?
         ///  The name of the package.
         public let package: String?
 
-        public init(format: PackageFormat? = nil, namespace: String? = nil, package: String? = nil) {
+        public init(format: PackageFormat? = nil, namespace: String? = nil, originConfiguration: PackageOriginConfiguration? = nil, package: String? = nil) {
             self.format = format
             self.namespace = namespace
+            self.originConfiguration = originConfiguration
             self.package = package
         }
 
         private enum CodingKeys: String, CodingKey {
             case format
             case namespace
+            case originConfiguration
             case package
         }
     }
@@ -2111,8 +2289,10 @@ extension CodeArtifact {
         public let homePage: String?
         ///  Information about licenses associated with the package version.
         public let licenses: [LicenseInfo]?
-        ///  The namespace of the package. The package component that specifies its  namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so  Python packages do not have a namespace.
+        /// The namespace of the package version. The package version component that specifies its  namespace depends on its type. For example:     The namespace of a Maven package version is its groupId.     The namespace of an npm package version is its scope.     Python and NuGet package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
         public let namespace: String?
+        /// A PackageVersionOrigin object that contains  information about how the package version was added to the repository.
+        public let origin: PackageVersionOrigin?
         ///  The name of the requested package.
         public let packageName: String?
         ///  A timestamp that contains the date and time the package version was published.
@@ -2128,12 +2308,13 @@ extension CodeArtifact {
         ///  The version of the package.
         public let version: String?
 
-        public init(displayName: String? = nil, format: PackageFormat? = nil, homePage: String? = nil, licenses: [LicenseInfo]? = nil, namespace: String? = nil, packageName: String? = nil, publishedTime: Date? = nil, revision: String? = nil, sourceCodeRepository: String? = nil, status: PackageVersionStatus? = nil, summary: String? = nil, version: String? = nil) {
+        public init(displayName: String? = nil, format: PackageFormat? = nil, homePage: String? = nil, licenses: [LicenseInfo]? = nil, namespace: String? = nil, origin: PackageVersionOrigin? = nil, packageName: String? = nil, publishedTime: Date? = nil, revision: String? = nil, sourceCodeRepository: String? = nil, status: PackageVersionStatus? = nil, summary: String? = nil, version: String? = nil) {
             self.displayName = displayName
             self.format = format
             self.homePage = homePage
             self.licenses = licenses
             self.namespace = namespace
+            self.origin = origin
             self.packageName = packageName
             self.publishedTime = publishedTime
             self.revision = revision
@@ -2149,6 +2330,7 @@ extension CodeArtifact {
             case homePage
             case licenses
             case namespace
+            case origin
             case packageName
             case publishedTime
             case revision
@@ -2176,7 +2358,26 @@ extension CodeArtifact {
         }
     }
 
+    public struct PackageVersionOrigin: AWSDecodableShape {
+        /// A DomainEntryPoint object that contains  information about from which repository or external connection the package version was added to the domain.
+        public let domainEntryPoint: DomainEntryPoint?
+        /// Describes how the package version was originally added to the domain. An INTERNAL origin type means the package version was published  directly to a repository in the domain. An EXTERNAL origin type means the package version was ingested from an external connection.
+        public let originType: PackageVersionOriginType?
+
+        public init(domainEntryPoint: DomainEntryPoint? = nil, originType: PackageVersionOriginType? = nil) {
+            self.domainEntryPoint = domainEntryPoint
+            self.originType = originType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainEntryPoint
+            case originType
+        }
+    }
+
     public struct PackageVersionSummary: AWSDecodableShape {
+        /// A PackageVersionOrigin object that contains information  about how the package version was added to the repository.
+        public let origin: PackageVersionOrigin?
         ///  The revision associated with a package version.
         public let revision: String?
         ///  A string that contains the status of the package version. It can be one of the following:
@@ -2184,13 +2385,15 @@ extension CodeArtifact {
         ///  Information about a package version.
         public let version: String
 
-        public init(revision: String? = nil, status: PackageVersionStatus, version: String) {
+        public init(origin: PackageVersionOrigin? = nil, revision: String? = nil, status: PackageVersionStatus, version: String) {
+            self.origin = origin
             self.revision = revision
             self.status = status
             self.version = version
         }
 
         private enum CodingKeys: String, CodingKey {
+            case origin
             case revision
             case status
             case version
@@ -2221,8 +2424,9 @@ extension CodeArtifact {
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, max: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, min: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, pattern: "^[0-9]{12}$")
-            try self.validate(self.policyDocument, name: "policyDocument", parent: name, max: 5120)
+            try self.validate(self.policyDocument, name: "policyDocument", parent: name, max: 7168)
             try self.validate(self.policyDocument, name: "policyDocument", parent: name, min: 1)
+            try self.validate(self.policyDocument, name: "policyDocument", parent: name, pattern: "^[\\P{C}\\s]+$")
             try self.validate(self.policyRevision, name: "policyRevision", parent: name, max: 100)
             try self.validate(self.policyRevision, name: "policyRevision", parent: name, min: 1)
             try self.validate(self.policyRevision, name: "policyRevision", parent: name, pattern: "^\\S+$")
@@ -2246,6 +2450,77 @@ extension CodeArtifact {
 
         private enum CodingKeys: String, CodingKey {
             case policy
+        }
+    }
+
+    public struct PutPackageOriginConfigurationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
+            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
+            AWSMemberEncoding(label: "format", location: .querystring("format")),
+            AWSMemberEncoding(label: "namespace", location: .querystring("namespace")),
+            AWSMemberEncoding(label: "package", location: .querystring("package")),
+            AWSMemberEncoding(label: "repository", location: .querystring("repository"))
+        ]
+
+        /// The name of the domain that contains the repository that contains the package.
+        public let domain: String
+        ///  The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include  dashes or spaces.
+        public let domainOwner: String?
+        /// A format that specifies the type of the package to be updated.
+        public let format: PackageFormat
+        /// The namespace of the package to be updated. The package component that specifies its  namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     Python and NuGet packages do not contain a corresponding component, packages  of those formats do not have a namespace.
+        public let namespace: String?
+        /// The name of the package to be updated.
+        public let package: String
+        /// The name of the repository that contains the package.
+        public let repository: String
+        /// A PackageOriginRestrictions  object that contains information about the upstream and publish package origin restrictions.  The upstream restriction determines if new package versions can be ingested or retained from external connections or upstream repositories.  The publish restriction determines if new package versions can be published directly to the repository.  You must include both the desired upstream and publish restrictions.
+        public let restrictions: PackageOriginRestrictions
+
+        public init(domain: String, domainOwner: String? = nil, format: PackageFormat, namespace: String? = nil, package: String, repository: String, restrictions: PackageOriginRestrictions) {
+            self.domain = domain
+            self.domainOwner = domainOwner
+            self.format = format
+            self.namespace = namespace
+            self.package = package
+            self.repository = repository
+            self.restrictions = restrictions
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domain, name: "domain", parent: name, max: 50)
+            try self.validate(self.domain, name: "domain", parent: name, min: 2)
+            try self.validate(self.domain, name: "domain", parent: name, pattern: "^[a-z][a-z0-9\\-]{0,48}[a-z0-9]$")
+            try self.validate(self.domainOwner, name: "domainOwner", parent: name, max: 12)
+            try self.validate(self.domainOwner, name: "domainOwner", parent: name, min: 12)
+            try self.validate(self.domainOwner, name: "domainOwner", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
+            try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[^#/\\s]+$")
+            try self.validate(self.package, name: "package", parent: name, max: 255)
+            try self.validate(self.package, name: "package", parent: name, min: 1)
+            try self.validate(self.package, name: "package", parent: name, pattern: "^[^#/\\s]+$")
+            try self.validate(self.repository, name: "repository", parent: name, max: 100)
+            try self.validate(self.repository, name: "repository", parent: name, min: 2)
+            try self.validate(self.repository, name: "repository", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9._\\-]{1,99}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case restrictions
+        }
+    }
+
+    public struct PutPackageOriginConfigurationResult: AWSDecodableShape {
+        /// A PackageOriginConfiguration  object that describes the origin configuration set for the package. It contains a  PackageOriginRestrictions  object that describes how new versions of the package can be introduced to the repository.
+        public let originConfiguration: PackageOriginConfiguration?
+
+        public init(originConfiguration: PackageOriginConfiguration? = nil) {
+            self.originConfiguration = originConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case originConfiguration
         }
     }
 
@@ -2282,8 +2557,9 @@ extension CodeArtifact {
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, max: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, min: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, pattern: "^[0-9]{12}$")
-            try self.validate(self.policyDocument, name: "policyDocument", parent: name, max: 5120)
+            try self.validate(self.policyDocument, name: "policyDocument", parent: name, max: 7168)
             try self.validate(self.policyDocument, name: "policyDocument", parent: name, min: 1)
+            try self.validate(self.policyDocument, name: "policyDocument", parent: name, pattern: "^[\\P{C}\\s]+$")
             try self.validate(self.policyRevision, name: "policyRevision", parent: name, max: 100)
             try self.validate(self.policyRevision, name: "policyRevision", parent: name, min: 1)
             try self.validate(self.policyRevision, name: "policyRevision", parent: name, pattern: "^\\S+$")
@@ -2458,7 +2734,9 @@ extension CodeArtifact {
         public func validate(name: String) throws {
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.key, name: "key", parent: name, pattern: "^\\P{C}+$")
             try self.validate(self.value, name: "value", parent: name, max: 256)
+            try self.validate(self.value, name: "value", parent: name, pattern: "^\\P{C}*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2523,6 +2801,7 @@ extension CodeArtifact {
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^\\P{C}+$")
             }
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
         }
@@ -2554,7 +2833,7 @@ extension CodeArtifact {
         public let expectedStatus: PackageVersionStatus?
         ///  A format that specifies the type of the package with the statuses to update.
         public let format: PackageFormat
-        ///  The namespace of the package. The package component that specifies its  namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so  Python packages do not have a namespace.
+        /// The namespace of the package version to be updated. The package version component that specifies its  namespace depends on its type. For example:     The namespace of a Maven package version is its groupId.     The namespace of an npm package version is its scope.     Python and NuGet package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
         public let namespace: String?
         ///  The name of the package with the version statuses to update.
         public let package: String
@@ -2589,17 +2868,17 @@ extension CodeArtifact {
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
             try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
-            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[^!#/\\s]+$")
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[^#/\\s]+$")
             try self.validate(self.package, name: "package", parent: name, max: 255)
             try self.validate(self.package, name: "package", parent: name, min: 1)
-            try self.validate(self.package, name: "package", parent: name, pattern: "^[^!#/\\s]+$")
+            try self.validate(self.package, name: "package", parent: name, pattern: "^[^#/\\s]+$")
             try self.validate(self.repository, name: "repository", parent: name, max: 100)
             try self.validate(self.repository, name: "repository", parent: name, min: 2)
             try self.validate(self.repository, name: "repository", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9._\\-]{1,99}$")
             try self.versionRevisions?.forEach {
                 try validate($0.key, name: "versionRevisions.key", parent: name, max: 255)
                 try validate($0.key, name: "versionRevisions.key", parent: name, min: 1)
-                try validate($0.key, name: "versionRevisions.key", parent: name, pattern: "^[^!#/\\s]+$")
+                try validate($0.key, name: "versionRevisions.key", parent: name, pattern: "^[^#/\\s]+$")
                 try validate($0.value, name: "versionRevisions[\"\($0.key)\"]", parent: name, max: 50)
                 try validate($0.value, name: "versionRevisions[\"\($0.key)\"]", parent: name, min: 1)
                 try validate($0.value, name: "versionRevisions[\"\($0.key)\"]", parent: name, pattern: "^\\S+$")
@@ -2607,7 +2886,7 @@ extension CodeArtifact {
             try self.versions.forEach {
                 try validate($0, name: "versions[]", parent: name, max: 255)
                 try validate($0, name: "versions[]", parent: name, min: 1)
-                try validate($0, name: "versions[]", parent: name, pattern: "^[^!#/\\s]+$")
+                try validate($0, name: "versions[]", parent: name, pattern: "^[^#/\\s]+$")
             }
             try self.validate(self.versions, name: "versions", parent: name, max: 100)
         }
@@ -2665,7 +2944,7 @@ extension CodeArtifact {
 
         public func validate(name: String) throws {
             try self.validate(self.description, name: "description", parent: name, max: 1000)
-            try self.validate(self.description, name: "description", parent: name, pattern: "^\\P{C}+$")
+            try self.validate(self.description, name: "description", parent: name, pattern: "^\\P{C}*$")
             try self.validate(self.domain, name: "domain", parent: name, max: 50)
             try self.validate(self.domain, name: "domain", parent: name, min: 2)
             try self.validate(self.domain, name: "domain", parent: name, pattern: "^[a-z][a-z0-9\\-]{0,48}[a-z0-9]$")

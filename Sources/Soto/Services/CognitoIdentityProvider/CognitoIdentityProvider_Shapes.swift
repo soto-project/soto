@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -145,13 +145,16 @@ extension CognitoIdentityProvider {
     }
 
     public enum EventResponseType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case failure = "Failure"
-        case success = "Success"
+        case fail = "Fail"
+        case inProgress = "InProgress"
+        case pass = "Pass"
         public var description: String { return self.rawValue }
     }
 
     public enum EventType: String, CustomStringConvertible, Codable, _SotoSendable {
         case forgotPassword = "ForgotPassword"
+        case passwordChange = "PasswordChange"
+        case resendCode = "ResendCode"
         case signIn = "SignIn"
         case signUp = "SignUp"
         public var description: String { return self.rawValue }
@@ -1647,7 +1650,7 @@ extension CognitoIdentityProvider {
     }
 
     public struct AssociateSoftwareTokenResponse: AWSDecodableShape {
-        /// A unique generated shared secret code that is used in the time-based one-time password (TOTP) algorithm to generate a one-time code.
+        /// A unique generated shared secret code that is used in the TOTP algorithm to generate a one-time code.
         public let secretCode: String?
         /// The session that should be passed both ways in challenge-response calls to the service. This allows authentication of the user as part of the MFA setup process.
         public let session: String?
@@ -1918,9 +1921,9 @@ extension CognitoIdentityProvider {
         /// Customizing user pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.
         ///   When you use the ClientMetadata parameter, remember that Amazon Cognito won't do the following:   Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.   Validate the ClientMetadata value.   Encrypt the ClientMetadata value. Don't use Amazon Cognito to provide sensitive information.
         public let clientMetadata: [String: String]?
-        /// The confirmation code sent by a user's request to retrieve a forgotten password. For more information, see ForgotPassword.
+        /// The confirmation code from your user's request to reset their password. For more information, see ForgotPassword.
         public let confirmationCode: String
-        /// The password sent by a user's request to retrieve a forgotten password.
+        /// The new password that your user wants to set.
         public let password: String
         /// A keyed-hash message authentication code (HMAC) calculated using the secret key of a user pool client and username plus the client ID in the message.
         public let secretHash: String?
@@ -2310,7 +2313,7 @@ extension CognitoIdentityProvider {
         public let enablePropagateAdditionalUserContextData: Bool?
         /// Activates or deactivates token revocation. For more information about revoking tokens, see RevokeToken. If you don't include this parameter, token revocation is automatically activated for the new user pool client.
         public let enableTokenRevocation: Bool?
-        /// The authentication flows that are supported by the user pool clients. Flow names without the ALLOW_ prefix are no longer supported, in favor of new names with the ALLOW_ prefix.  Values with ALLOW_ prefix must be used only along with the ALLOW_ prefix.  Valid values include:    ALLOW_ADMIN_USER_PASSWORD_AUTH: Enable admin based user password authentication flow ADMIN_USER_PASSWORD_AUTH. This setting replaces the ADMIN_NO_SRP_AUTH setting. With this authentication flow, Amazon Cognito receives the password in the request instead of using the Secure Remote Password (SRP) protocol to verify passwords.    ALLOW_CUSTOM_AUTH: Enable Lambda trigger based authentication.    ALLOW_USER_PASSWORD_AUTH: Enable user password-based authentication. In this flow, Amazon Cognito receives the password in the request instead of using the SRP protocol to verify passwords.    ALLOW_USER_SRP_AUTH: Enable SRP-based authentication.    ALLOW_REFRESH_TOKEN_AUTH: Enable authflow to refresh tokens.   If you don't specify a value for ExplicitAuthFlows, your app client activates the ALLOW_USER_SRP_AUTH and ALLOW_CUSTOM_AUTH authentication flows.
+        /// The authentication flows that are supported by the user pool clients. Flow names without the ALLOW_ prefix are no longer supported, in favor of new names with the ALLOW_ prefix.  Values with ALLOW_ prefix must be used only along with the ALLOW_ prefix.  Valid values include:  ALLOW_ADMIN_USER_PASSWORD_AUTH  Enable admin based user password authentication flow ADMIN_USER_PASSWORD_AUTH. This setting replaces the ADMIN_NO_SRP_AUTH setting. With this authentication flow, Amazon Cognito receives the password in the request instead of using the Secure Remote Password (SRP) protocol to verify passwords.  ALLOW_CUSTOM_AUTH  Enable Lambda trigger based authentication.  ALLOW_USER_PASSWORD_AUTH  Enable user password-based authentication. In this flow, Amazon Cognito receives the password in the request instead of using the SRP protocol to verify passwords.  ALLOW_USER_SRP_AUTH  Enable SRP-based authentication.  ALLOW_REFRESH_TOKEN_AUTH  Enable the authflow that refreshes tokens.   If you don't specify a value for ExplicitAuthFlows, your user client supports ALLOW_USER_SRP_AUTH and ALLOW_CUSTOM_AUTH.
         public let explicitAuthFlows: [ExplicitAuthFlowsType]?
         /// Boolean to specify whether you want to generate a secret for the user pool client being created.
         public let generateSecret: Bool?
@@ -2324,7 +2327,7 @@ extension CognitoIdentityProvider {
         public let readAttributes: [String]?
         /// The refresh token time limit. After this limit expires, your user can't use  their refresh token. To specify the time unit for RefreshTokenValidity as  seconds, minutes, hours, or days,  set a TokenValidityUnits value in your API request. For example, when you set RefreshTokenValidity as 10 and TokenValidityUnits as days, your user can refresh their session and retrieve new access and ID tokens for 10 days. The default time unit for RefreshTokenValidity in an API request is days.  You can't set RefreshTokenValidity to 0. If you do, Amazon Cognito overrides the  value with the default value of 30 days. Valid range is displayed below  in seconds.
         public let refreshTokenValidity: Int?
-        /// A list of provider names for the IdPs that this client supports. The following are supported: COGNITO, Facebook, Google LoginWithAmazon, and the names of your own SAML and OIDC providers.
+        /// A list of provider names for the identity providers (IdPs) that are supported on this client. The following are supported: COGNITO, Facebook, Google, SignInWithApple, and LoginWithAmazon. You can also specify the names that you configured for the SAML and OIDC IdPs in your user pool, for example MySAMLIdP or MyOIDCIdP.
         public let supportedIdentityProviders: [String]?
         /// The units in which the validity times are represented. The default unit for RefreshToken is days, and default for ID and access tokens are hours.
         public let tokenValidityUnits: TokenValidityUnitsType?
@@ -2499,7 +2502,7 @@ extension CognitoIdentityProvider {
         public let aliasAttributes: [AliasAttributeType]?
         /// The attributes to be auto-verified. Possible values: email, phone_number.
         public let autoVerifiedAttributes: [VerifiedAttributeType]?
-        /// The device configuration.
+        /// The device-remembering configuration for a user pool. A null value indicates that you have deactivated device remembering in your user pool.  When you provide a value for any DeviceConfiguration field, you activate the Amazon Cognito device-remembering feature.
         public let deviceConfiguration: DeviceConfigurationType?
         /// The email configuration of your user pool. The email configuration type sets your preferred sending method, Amazon Web Services Region, and sender for messages from your user pool.
         public let emailConfiguration: EmailConfigurationType?
@@ -2526,7 +2529,7 @@ extension CognitoIdentityProvider {
         /// The settings for updates to user attributes. These settings include the property AttributesRequireVerificationBeforeUpdate,
         /// a user-pool setting that tells Amazon Cognito how to handle changes to the value of your users' email address and phone number attributes. For
         /// more information, see
-        /// Verifying updates to to email addresses and phone numbers.
+        /// Verifying updates to email addresses and phone numbers.
         public let userAttributeUpdateSettings: UserAttributeUpdateSettingsType?
         /// Specifies whether a user can use an email address or phone number as a username when they sign up.
         public let usernameAttributes: [UsernameAttributeType]?
@@ -3163,9 +3166,9 @@ extension CognitoIdentityProvider {
     }
 
     public struct DeviceConfigurationType: AWSEncodableShape & AWSDecodableShape {
-        /// When true, device authentication can replace SMS and time-based one-time password (TOTP) factors for multi-factor authentication (MFA).  Users that sign in with devices that have not been confirmed or remembered will still have to provide a second factor, whether or not ChallengeRequiredOnNewDevice is true, when your user pool requires MFA.
+        /// When true, device authentication can replace SMS and time-based one-time password (TOTP) factors for multi-factor authentication (MFA).  Regardless of the value of this field, users that sign in with new devices that have not been confirmed or remembered must provide a second factor if your user pool requires MFA.
         public let challengeRequiredOnNewDevice: Bool?
-        /// When true, users can opt in to remembering their device. Your app code must use callback functions to return the user's choice.
+        /// When true, Amazon Cognito doesn't remember newly-confirmed devices. Users who want to authenticate with their device  can instead opt in to remembering their device. To collect a choice from your user, create an input prompt  in your app and return the value that the user chooses in an UpdateDeviceStatus API request.
         public let deviceOnlyRememberedOnUserPrompt: Bool?
 
         public init(challengeRequiredOnNewDevice: Bool? = nil, deviceOnlyRememberedOnUserPrompt: Bool? = nil) {
@@ -3747,11 +3750,11 @@ extension CognitoIdentityProvider {
     }
 
     public struct GetUserPoolMfaConfigResponse: AWSDecodableShape {
-        /// The multi-factor (MFA) configuration. Valid values include:    OFF MFA won't be used for any users.    ON MFA is required for all users to sign in.    OPTIONAL MFA will be required only for individual users who have an MFA factor activated.
+        /// The multi-factor authentication (MFA) configuration. Valid values include:    OFF MFA won't be used for any users.    ON MFA is required for all users to sign in.    OPTIONAL MFA will be required only for individual users who have an MFA factor activated.
         public let mfaConfiguration: UserPoolMfaType?
-        /// The SMS text message multi-factor (MFA) configuration.
+        /// The SMS text message multi-factor authentication (MFA) configuration.
         public let smsMfaConfiguration: SmsMfaConfigType?
-        /// The software token multi-factor (MFA) configuration.
+        /// The software token multi-factor authentication (MFA) configuration.
         public let softwareTokenMfaConfiguration: SoftwareTokenMfaConfigType?
 
         public init(mfaConfiguration: UserPoolMfaType? = nil, smsMfaConfiguration: SmsMfaConfigType? = nil, softwareTokenMfaConfiguration: SoftwareTokenMfaConfigType? = nil) {
@@ -5298,7 +5301,7 @@ extension CognitoIdentityProvider {
         public let accessToken: String
         /// The SMS text message multi-factor authentication (MFA) settings.
         public let smsMfaSettings: SMSMfaSettingsType?
-        /// The time-based one-time password software token MFA settings.
+        /// The time-based one-time password (TOTP) software token MFA settings.
         public let softwareTokenMfaSettings: SoftwareTokenMfaSettingsType?
 
         public init(accessToken: String, smsMfaSettings: SMSMfaSettingsType? = nil, softwareTokenMfaSettings: SoftwareTokenMfaSettingsType? = nil) {
@@ -6119,7 +6122,7 @@ extension CognitoIdentityProvider {
         public let readAttributes: [String]?
         /// The refresh token time limit. After this limit expires, your user can't use  their refresh token. To specify the time unit for RefreshTokenValidity as  seconds, minutes, hours, or days,  set a TokenValidityUnits value in your API request. For example, when you set RefreshTokenValidity as 10 and TokenValidityUnits as days, your user can refresh their session and retrieve new access and ID tokens for 10 days. The default time unit for RefreshTokenValidity in an API request is days.  You can't set RefreshTokenValidity to 0. If you do, Amazon Cognito overrides the  value with the default value of 30 days. Valid range is displayed below  in seconds.
         public let refreshTokenValidity: Int?
-        /// A list of provider names for the IdPs that this client supports. The following are supported: COGNITO, Facebook, Google LoginWithAmazon, and the names of your own SAML and OIDC providers.
+        /// A list of provider names for the IdPs that this client supports. The following are supported: COGNITO, Facebook, Google, SignInWithApple, LoginWithAmazon, and the names of your own SAML and OIDC providers.
         public let supportedIdentityProviders: [String]?
         /// The units in which the validity times are represented. The default unit for RefreshToken is days, and the default for ID and access tokens is hours.
         public let tokenValidityUnits: TokenValidityUnitsType?
@@ -6295,7 +6298,7 @@ extension CognitoIdentityProvider {
         public let adminCreateUserConfig: AdminCreateUserConfigType?
         /// The attributes that are automatically verified when Amazon Cognito requests to update user pools.
         public let autoVerifiedAttributes: [VerifiedAttributeType]?
-        /// Device configuration.
+        /// The device-remembering configuration for a user pool. A null value indicates that you have deactivated device remembering in your user pool.  When you provide a value for any DeviceConfiguration field, you activate the Amazon Cognito device-remembering feature.
         public let deviceConfiguration: DeviceConfigurationType?
         /// The email configuration of your user pool. The email configuration type sets your preferred sending method, Amazon Web Services Region, and sender for email invitation and verification messages from your user pool.
         public let emailConfiguration: EmailConfigurationType?
@@ -6318,7 +6321,7 @@ extension CognitoIdentityProvider {
         /// The settings for updates to user attributes. These settings include the property AttributesRequireVerificationBeforeUpdate,
         /// a user-pool setting that tells Amazon Cognito how to handle changes to the value of your users' email address and phone number attributes. For
         /// more information, see
-        /// Verifying updates to to email addresses and phone numbers.
+        /// Verifying updates to email addresses and phone numbers.
         public let userAttributeUpdateSettings: UserAttributeUpdateSettingsType?
         /// Enables advanced security risk detection. Set the key AdvancedSecurityMode to the value "AUDIT".
         public let userPoolAddOns: UserPoolAddOnsType?
@@ -6572,7 +6575,7 @@ extension CognitoIdentityProvider {
         public let readAttributes: [String]?
         /// The refresh token time limit. After this limit expires, your user can't use  their refresh token. To specify the time unit for RefreshTokenValidity as  seconds, minutes, hours, or days,  set a TokenValidityUnits value in your API request. For example, when you set RefreshTokenValidity as 10 and TokenValidityUnits as days, your user can refresh their session and retrieve new access and ID tokens for 10 days. The default time unit for RefreshTokenValidity in an API request is days.  You can't set RefreshTokenValidity to 0. If you do, Amazon Cognito overrides the  value with the default value of 30 days. Valid range is displayed below  in seconds.
         public let refreshTokenValidity: Int?
-        /// A list of provider names for the IdPs that this client supports. The following are supported: COGNITO, Facebook, Google LoginWithAmazon, and the names of your own SAML and OIDC providers.
+        /// A list of provider names for the IdPs that this client supports. The following are supported: COGNITO, Facebook, Google, SignInWithApple, LoginWithAmazon, and the names of your own SAML and OIDC providers.
         public let supportedIdentityProviders: [String]?
         /// The time units used to specify the token validity times of each token type: ID, access, and refresh.
         public let tokenValidityUnits: TokenValidityUnitsType?
@@ -6701,7 +6704,7 @@ extension CognitoIdentityProvider {
         public let creationDate: Date?
         /// A custom domain name that you provide to Amazon Cognito. This parameter applies only if you use a custom domain to host the sign-up and sign-in pages for your application. An example of a custom domain name might be auth.example.com. For more information about adding a custom domain to your user pool, see Using Your Own Domain for the Hosted UI.
         public let customDomain: String?
-        /// The device configuration.
+        /// The device-remembering configuration for a user pool. A null value indicates that you have deactivated device remembering in your user pool.  When you provide a value for any DeviceConfiguration field, you activate the Amazon Cognito device-remembering feature.
         public let deviceConfiguration: DeviceConfigurationType?
         /// The domain prefix, if the user pool has a domain associated with it.
         public let domain: String?
@@ -6742,7 +6745,7 @@ extension CognitoIdentityProvider {
         /// The settings for updates to user attributes. These settings include the property AttributesRequireVerificationBeforeUpdate,
         /// a user-pool setting that tells Amazon Cognito how to handle changes to the value of your users' email address and phone number attributes. For
         /// more information, see
-        /// Verifying updates to to email addresses and phone numbers.
+        /// Verifying updates to email addresses and phone numbers.
         public let userAttributeUpdateSettings: UserAttributeUpdateSettingsType?
         /// Specifies whether a user can use an email address or phone number as a username when they sign up.
         public let usernameAttributes: [UsernameAttributeType]?

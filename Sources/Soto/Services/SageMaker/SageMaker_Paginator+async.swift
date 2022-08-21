@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -348,6 +348,28 @@ extension SageMaker {
             command: listDomains,
             inputKey: \ListDomainsRequest.nextToken,
             outputKey: \ListDomainsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Lists all edge deployment plans.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listEdgeDeploymentPlansPaginator(
+        _ input: ListEdgeDeploymentPlansRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListEdgeDeploymentPlansRequest, ListEdgeDeploymentPlansResponse> {
+        return .init(
+            input: input,
+            command: listEdgeDeploymentPlans,
+            inputKey: \ListEdgeDeploymentPlansRequest.nextToken,
+            outputKey: \ListEdgeDeploymentPlansResponse.nextToken,
             logger: logger,
             on: eventLoop
         )
@@ -1008,6 +1030,28 @@ extension SageMaker {
             command: listProjects,
             inputKey: \ListProjectsInput.nextToken,
             outputKey: \ListProjectsOutput.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Lists devices allocated to the stage, containing detailed device information and deployment status.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listStageDevicesPaginator(
+        _ input: ListStageDevicesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListStageDevicesRequest, ListStageDevicesResponse> {
+        return .init(
+            input: input,
+            command: listStageDevices,
+            inputKey: \ListStageDevicesRequest.nextToken,
+            outputKey: \ListStageDevicesResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

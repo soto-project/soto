@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -573,21 +573,21 @@ extension MTurk.ListBonusPaymentsRequest: AWSPaginateToken {
     }
 }
 
-extension MTurk.ListHITsRequest: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> MTurk.ListHITsRequest {
-        return .init(
-            maxResults: self.maxResults,
-            nextToken: token
-        )
-    }
-}
-
 extension MTurk.ListHITsForQualificationTypeRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MTurk.ListHITsForQualificationTypeRequest {
         return .init(
             maxResults: self.maxResults,
             nextToken: token,
             qualificationTypeId: self.qualificationTypeId
+        )
+    }
+}
+
+extension MTurk.ListHITsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> MTurk.ListHITsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

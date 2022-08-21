@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -419,7 +419,7 @@ extension ServiceCatalog {
         )
     }
 
-    ///  Gets information about the provisioned products that meet the specified criteria.
+    ///  Gets information about the provisioned products that meet the specified criteria.   To ensure a complete list of provisioned products and remove duplicate products, use sort-by createdTime.  Here is a CLI example:     aws servicecatalog search-provisioned-products --sort-by createdTime
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -126,7 +126,7 @@ extension Lambda {
         )
     }
 
-    ///  Lists event source mappings. Specify an EventSourceArn to only show event source mappings for a single event source.
+    ///  Lists event source mappings. Specify an EventSourceArn to show only event source mappings for a single event source.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -655,22 +655,22 @@ extension Lambda.ListFunctionUrlConfigsRequest: AWSPaginateToken {
     }
 }
 
+extension Lambda.ListFunctionsByCodeSigningConfigRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Lambda.ListFunctionsByCodeSigningConfigRequest {
+        return .init(
+            codeSigningConfigArn: self.codeSigningConfigArn,
+            marker: token,
+            maxItems: self.maxItems
+        )
+    }
+}
+
 extension Lambda.ListFunctionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Lambda.ListFunctionsRequest {
         return .init(
             functionVersion: self.functionVersion,
             marker: token,
             masterRegion: self.masterRegion,
-            maxItems: self.maxItems
-        )
-    }
-}
-
-extension Lambda.ListFunctionsByCodeSigningConfigRequest: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> Lambda.ListFunctionsByCodeSigningConfigRequest {
-        return .init(
-            codeSigningConfigArn: self.codeSigningConfigArn,
-            marker: token,
             maxItems: self.maxItems
         )
     }

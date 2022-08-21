@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -33,13 +33,11 @@ public struct Health: AWSService {
     /// Initialize the Health client
     /// - parameters:
     ///     - client: AWSClient used to process requests
-    ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
     ///     - timeout: Timeout value for HTTP requests
     public init(
         client: AWSClient,
-        region: SotoCore.Region? = nil,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
         timeout: TimeAmount? = nil,
@@ -48,13 +46,15 @@ public struct Health: AWSService {
     ) {
         self.client = client
         self.config = AWSServiceConfig(
-            region: region,
-            partition: region?.partition ?? partition,
+            region: nil,
+            partition: partition,
             amzTarget: "AWSHealth_20160804",
             service: "health",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-08-04",
             endpoint: endpoint,
+            serviceEndpoints: ["aws-cn-global": "global.health.amazonaws.com.cn", "aws-global": "global.health.amazonaws.com", "us-east-2": "health.us-east-2.amazonaws.com"],
+            partitionEndpoints: [.aws: (endpoint: "aws-global", region: .useast1), .awscn: (endpoint: "aws-cn-global", region: .cnnorthwest1)],
             errorType: HealthErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

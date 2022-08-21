@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2021 the Soto project authors
+// Copyright (c) 2017-2022 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -28,7 +28,7 @@ extension Evidently {
         return try await self.client.execute(operation: "BatchEvaluateFeature", path: "/projects/{project}/evaluations", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "dataplane.", logger: logger, on: eventLoop)
     }
 
-    /// Creates an Evidently experiment. Before you create an experiment, you must create the feature to use for the experiment. An experiment helps you make feature design  decisions based on evidence and data. An experiment can test as many as five variations at once. Evidently collects experiment data and analyzes it by statistical methods, and provides clear recommendations about which variations perform better. Don't use this operation to update an existing experiment. Instead, use  UpdateExperiment.
+    /// Creates an Evidently experiment. Before you create an experiment, you must create the feature to use for the experiment. An experiment helps you make feature design  decisions based on evidence and data. An experiment can test as many as five variations at once. Evidently collects experiment data and analyzes it by statistical methods, and provides clear recommendations about which variations perform better. You can optionally specify a segment to have the experiment consider only certain audience  types in the experiment, such as using only user sessions from a certain location or who use a certain internet browser. Don't use this operation to update an existing experiment. Instead, use  UpdateExperiment.
     public func createExperiment(_ input: CreateExperimentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateExperimentResponse {
         return try await self.client.execute(operation: "CreateExperiment", path: "/projects/{project}/experiments", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -46,6 +46,11 @@ extension Evidently {
     /// Creates a project, which is the logical object in Evidently that can contain features, launches, and  experiments. Use projects to group similar features together. To update an existing project, use UpdateProject.
     public func createProject(_ input: CreateProjectRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateProjectResponse {
         return try await self.client.execute(operation: "CreateProject", path: "/projects", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Use this operation to define a segment of your audience. A segment is a portion of your audience that share one or more characteristics. Examples could be Chrome browser users,  users in Europe, or Firefox browser users in Europe who also fit other criteria that your application collects, such as age. Using a segment in an experiment limits that experiment to evaluate only the users who match the segment  criteria. Using one or more segments in a launch allow you to define different traffic splits for the different audience segments.  For more information about segment pattern syntax, see   Segment rule pattern syntax.  The pattern that you define for a segment is matched against the value of evaluationContext, which is passed into Evidently in the EvaluateFeature operation, when Evidently assigns a feature variation to a user.
+    public func createSegment(_ input: CreateSegmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateSegmentResponse {
+        return try await self.client.execute(operation: "CreateSegment", path: "/segments", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes an Evidently experiment. The feature used for the experiment is not deleted. To stop an experiment without deleting it, use StopExperiment.
@@ -68,7 +73,12 @@ extension Evidently {
         return try await self.client.execute(operation: "DeleteProject", path: "/projects/{project}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// This operation assigns a feature variation to one given user session. You pass in an entityID that represents the user. Evidently then checks the evaluation rules and assigns the variation. The first rules that are evaluated are the override rules. If the user's entityID matches an override rule, the user is served the variation specified by that rule. Next, if there is a launch of the feature, the user might be assigned to a variation in the launch. The chance of this depends on the percentage of users that are allocated to that launch. If the user is enrolled in the launch, the variation they are served depends on the allocation of the various feature variations used for the launch. If the user is not assigned to a launch, and there is an ongoing experiment for this feature,  the user might  be assigned to a variation in the experiment. The chance of this depends on the percentage of users that are allocated to that experiment. If the user is enrolled in the experiment,  the variation they are served depends on the allocation of the various feature variations used for the experiment.  If the user is not assigned to a launch or experiment, they are served the default variation.
+    /// Deletes a segment. You can't delete a segment that is being used in a launch or experiment, even if that  launch or experiment is not currently running.
+    public func deleteSegment(_ input: DeleteSegmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteSegmentResponse {
+        return try await self.client.execute(operation: "DeleteSegment", path: "/segments/{segment}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// This operation assigns a feature variation to one given user session. You pass in an entityID that represents the user. Evidently then checks the evaluation rules and assigns the variation. The first rules that are evaluated are the override rules. If the user's entityID matches an override rule, the user is served the variation specified by that rule.  If there is a current launch with this feature that uses segment overrides, and  if the user session's evaluationContext matches a segment rule defined in a segment override, the configuration in the segment overrides is used. For more information about segments, see CreateSegment  and  Use segments to focus your  audience. If there is a launch with no segment overrides, the user might be assigned to a variation in the launch. The chance of this depends on the percentage of users that are allocated to that launch. If the user is enrolled in the launch, the variation they are served depends on the allocation of the various feature variations used for the launch. If the user is not assigned to a launch, and there is an ongoing experiment for this feature, the user might  be assigned to a variation in the experiment. The chance of this depends on the percentage of users that are allocated to that experiment. If the experiment uses a segment, then only  user sessions with evaluationContext values that match the segment rule are used in the experiment. If the user is enrolled in the experiment,  the variation they are served depends on the allocation of the various feature variations used for the experiment.  If the user is not assigned to a launch or experiment, they are served the default variation.
     public func evaluateFeature(_ input: EvaluateFeatureRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> EvaluateFeatureResponse {
         return try await self.client.execute(operation: "EvaluateFeature", path: "/projects/{project}/evaluations/{feature}", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "dataplane.", logger: logger, on: eventLoop)
     }
@@ -98,6 +108,11 @@ extension Evidently {
         return try await self.client.execute(operation: "GetProject", path: "/projects/{project}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Returns information about the specified segment. Specify the segment you want to view by specifying its ARN.
+    public func getSegment(_ input: GetSegmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetSegmentResponse {
+        return try await self.client.execute(operation: "GetSegment", path: "/segments/{segment}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns configuration details about all the experiments in the specified project.
     public func listExperiments(_ input: ListExperimentsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListExperimentsResponse {
         return try await self.client.execute(operation: "ListExperiments", path: "/projects/{project}/experiments", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -116,6 +131,16 @@ extension Evidently {
     /// Returns configuration details about all the projects in the current Region in your account.
     public func listProjects(_ input: ListProjectsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListProjectsResponse {
         return try await self.client.execute(operation: "ListProjects", path: "/projects", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Use this operation to find which experiments or launches are using a specified segment.
+    public func listSegmentReferences(_ input: ListSegmentReferencesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListSegmentReferencesResponse {
+        return try await self.client.execute(operation: "ListSegmentReferences", path: "/segments/{segment}/references", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns a list of audience segments that you have created in your account in this Region.
+    public func listSegments(_ input: ListSegmentsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListSegmentsResponse {
+        return try await self.client.execute(operation: "ListSegments", path: "/segments", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Displays the tags associated with an Evidently resource.
@@ -151,6 +176,11 @@ extension Evidently {
     /// Assigns one or more tags (key-value pairs) to the specified CloudWatch Evidently resource. Projects, features, launches, and experiments can be tagged. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with a resource that already has tags.  If you specify a new tag key for the resource,  this tag is appended to the list of tags associated with the alarm. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a resource. For more information, see Tagging Amazon Web Services resources.
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> TagResourceResponse {
         return try await self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Use this operation to test a rules pattern that you plan to use to create an audience segment.  For more information about segments, see CreateSegment.
+    public func testSegmentPattern(_ input: TestSegmentPatternRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> TestSegmentPatternResponse {
+        return try await self.client.execute(operation: "TestSegmentPattern", path: "/test-segment-pattern", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Removes one or more tags from the specified resource.
