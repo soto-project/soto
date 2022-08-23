@@ -373,6 +373,43 @@ class S3Tests: XCTestCase {
         XCTAssertGreaterThan(byteBuffer.readableBytes, 0)
     }
 
+    /// test disable 100-Complete header
+    func testDisable100Complete() throws {
+        struct Disable100CompleteError: Error {
+            let header: String?
+        }
+        struct Disable100CompleteMiddleware: AWSServiceMiddleware {
+            func chain(request: AWSRequest, context: AWSMiddlewareContext) throws -> AWSRequest {
+                throw Disable100CompleteError(header: request.httpHeaders["Expect"].first)
+            }
+        }
+        let s3 = Self.s3.with(middlewares: [Disable100CompleteMiddleware()])
+        let name = TestEnvironment.generateResourceName()
+        let data = Self.createRandomBuffer(size: 192 * 1024)
+
+        let putRequest = S3.PutObjectRequest(
+            body: .data(data),
+            bucket: name,
+            key: name
+        )
+        XCTAssertThrowsError(try s3.putObject(putRequest).wait()) { error in
+            switch error {
+            case let error as Disable100CompleteError:
+                XCTAssertNotNil(error.header)
+            default:
+                XCTFail()
+            }
+        }
+        XCTAssertThrowsError(try s3.with(options: .s3Disable100Continue).putObject(putRequest).wait()) { error in
+            switch error {
+            case let error as Disable100CompleteError:
+                XCTAssertNil(error.header)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
     /// test lifecycle rules are uploaded and downloaded ok
     func testLifecycleRule() {
         let name = TestEnvironment.generateResourceName()
