@@ -26,7 +26,9 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
 
         self.virtualAddressFixup(request: &request, context: context)
         self.createBucketFixup(request: &request)
-        self.expect100Continue(request: &request)
+        if !context.options.contains(.s3Disable100Continue) {
+            self.expect100Continue(request: &request)
+        }
 
         return request
     }
