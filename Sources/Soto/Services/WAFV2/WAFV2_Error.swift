@@ -80,7 +80,7 @@ public struct WAFV2ErrorType: AWSErrorType {
     public static var wafLimitsExceededException: Self { .init(.wafLimitsExceededException) }
     /// The operation failed because you don't have the permissions that your logging configuration requires. For information, see Logging web ACL traffic information in the WAF Developer Guide.
     public static var wafLogDestinationPermissionIssueException: Self { .init(.wafLogDestinationPermissionIssueException) }
-    /// WAF couldn’t perform the operation because your resource doesn’t exist.
+    /// WAF couldn’t perform the operation because your resource doesn't exist.  If you've just created a resource that you're using in this operation, you might  just need to wait a few minutes. It can take from a few seconds to a number of minutes  for changes to propagate.
     public static var wafNonexistentItemException: Self { .init(.wafNonexistentItemException) }
     /// WAF couldn’t save your changes because you tried to update or delete a resource that has changed since you last retrieved it. Get the resource again, make any changes you need to make to the new copy, and retry your operation.
     public static var wafOptimisticLockException: Self { .init(.wafOptimisticLockException) }
@@ -92,7 +92,7 @@ public struct WAFV2ErrorType: AWSErrorType {
     public static var wafTagOperationException: Self { .init(.wafTagOperationException) }
     /// WAF couldn’t perform your tagging operation because of an internal error. Retry your request.
     public static var wafTagOperationInternalErrorException: Self { .init(.wafTagOperationInternalErrorException) }
-    /// WAF couldn’t retrieve a resource that you specified for this operation. Verify the resources that you are specifying in your request parameters and then retry the operation.
+    /// WAF couldn’t retrieve a resource that you specified for this operation.  If you've just created a resource that you're using in this operation, you might  just need to wait a few minutes. It can take from a few seconds to a number of minutes  for changes to propagate. Verify the resources that you are specifying in your request  parameters and then retry the operation.
     public static var wafUnavailableEntityException: Self { .init(.wafUnavailableEntityException) }
 }
 

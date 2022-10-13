@@ -286,7 +286,7 @@ extension Connect {
         )
     }
 
-    ///  This API is in preview release for Amazon Connect and is subject to change. For the specified version of Amazon Lex, returns a paginated list of all the Amazon Lex bots currently associated with the instance.
+    ///  This API is in preview release for Amazon Connect and is subject to change. For the specified version of Amazon Lex, returns a paginated list of all the Amazon Lex bots currently associated with the instance. Use this API to returns both Amazon Lex V1 and V2 bots.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -870,7 +870,7 @@ extension Connect {
         )
     }
 
-    ///  This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all the Amazon Lex bots currently associated with the instance.
+    ///  This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all the Amazon Lex V1 bots currently associated with the instance. To return both Amazon Lex V1 and V2 bots, use the ListBots API.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1771,6 +1771,112 @@ extension Connect {
         )
     }
 
+    ///  This API is in preview release for Amazon Connect and is subject to change. Searches queues in an Amazon Connect instance, with optional filtering.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func searchQueuesPaginator<Result>(
+        _ input: SearchQueuesRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, SearchQueuesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: searchQueues,
+            inputKey: \SearchQueuesRequest.nextToken,
+            outputKey: \SearchQueuesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func searchQueuesPaginator(
+        _ input: SearchQueuesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (SearchQueuesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: searchQueues,
+            inputKey: \SearchQueuesRequest.nextToken,
+            outputKey: \SearchQueuesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  This API is in preview release for Amazon Connect and is subject to change. Searches routing profiles in an Amazon Connect instance, with optional filtering.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func searchRoutingProfilesPaginator<Result>(
+        _ input: SearchRoutingProfilesRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, SearchRoutingProfilesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: searchRoutingProfiles,
+            inputKey: \SearchRoutingProfilesRequest.nextToken,
+            outputKey: \SearchRoutingProfilesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func searchRoutingProfilesPaginator(
+        _ input: SearchRoutingProfilesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (SearchRoutingProfilesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: searchRoutingProfiles,
+            inputKey: \SearchRoutingProfilesRequest.nextToken,
+            outputKey: \SearchRoutingProfilesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  This API is in preview release for Amazon Connect and is subject to change. Searches security profiles in an Amazon Connect instance, with optional filtering.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -2289,6 +2395,30 @@ extension Connect.SearchAvailablePhoneNumbersRequest: AWSPaginateToken {
             phoneNumberPrefix: self.phoneNumberPrefix,
             phoneNumberType: self.phoneNumberType,
             targetArn: self.targetArn
+        )
+    }
+}
+
+extension Connect.SearchQueuesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Connect.SearchQueuesRequest {
+        return .init(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            searchCriteria: self.searchCriteria,
+            searchFilter: self.searchFilter
+        )
+    }
+}
+
+extension Connect.SearchRoutingProfilesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Connect.SearchRoutingProfilesRequest {
+        return .init(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            searchCriteria: self.searchCriteria,
+            searchFilter: self.searchFilter
         )
     }
 }

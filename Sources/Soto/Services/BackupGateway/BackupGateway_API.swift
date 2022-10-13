@@ -94,6 +94,11 @@ public struct BackupGateway: AWSService {
         return self.client.execute(operation: "GetGateway", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// By providing the ARN (Amazon Resource Name), this API returns the virtual machine.
+    public func getVirtualMachine(_ input: GetVirtualMachineInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetVirtualMachineOutput> {
+        return self.client.execute(operation: "GetVirtualMachine", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Connect to a hypervisor by importing its configuration.
     public func importHypervisorConfiguration(_ input: ImportHypervisorConfigurationInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ImportHypervisorConfigurationOutput> {
         return self.client.execute(operation: "ImportHypervisorConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

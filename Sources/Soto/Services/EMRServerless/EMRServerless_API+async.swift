@@ -43,6 +43,11 @@ extension EMRServerless {
         return try await self.client.execute(operation: "GetApplication", path: "/applications/{applicationId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Returns a URL to access the job run dashboard.
+    public func getDashboardForJobRun(_ input: GetDashboardForJobRunRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetDashboardForJobRunResponse {
+        return try await self.client.execute(operation: "GetDashboardForJobRun", path: "/applications/{applicationId}/jobruns/{jobRunId}/dashboard", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Displays detailed information about a job run.
     public func getJobRun(_ input: GetJobRunRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetJobRunResponse {
         return try await self.client.execute(operation: "GetJobRun", path: "/applications/{applicationId}/jobruns/{jobRunId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

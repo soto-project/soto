@@ -28,27 +28,27 @@ extension SSOAdmin {
         return try await self.client.execute(operation: "AttachCustomerManagedPolicyReferenceToPermissionSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Attaches an Amazon Web Services managed policy ARN to a permission set.  If the permission set is already referenced by one or more account assignments, you will need to call  ProvisionPermissionSet after this operation. Calling ProvisionPermissionSet applies the corresponding IAM policy updates to all assigned accounts.
+    /// Attaches an AWS managed policy ARN to a permission set.  If the permission set is already referenced by one or more account assignments, you will need to call  ProvisionPermissionSet after this operation. Calling ProvisionPermissionSet applies the corresponding IAM policy updates to all assigned accounts.
     public func attachManagedPolicyToPermissionSet(_ input: AttachManagedPolicyToPermissionSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AttachManagedPolicyToPermissionSetResponse {
         return try await self.client.execute(operation: "AttachManagedPolicyToPermissionSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Assigns access to a principal for a specified Amazon Web Services account using a specified permission set.  The term principal here refers to a user or group that is defined in Amazon Web Services SSO.   As part of a successful CreateAccountAssignment call, the specified permission set will automatically be provisioned to the account in the form of an IAM policy. That policy is attached to the IAM role created in Amazon Web Services SSO. If the permission set is subsequently updated, the corresponding IAM policies attached to roles in your accounts will not be updated automatically. In this case, you must call  ProvisionPermissionSet to make these updates.
+    /// Assigns access to a principal for a specified AWS account using a specified permission set.  The term principal here refers to a user or group that is defined in IAM Identity Center.   As part of a successful CreateAccountAssignment call, the specified permission set will automatically be provisioned to the account in the form of an IAM policy. That policy is attached to the IAM role created in IAM Identity Center. If the permission set is subsequently updated, the corresponding IAM policies attached to roles in your accounts will not be updated automatically. In this case, you must call  ProvisionPermissionSet to make these updates.    After a successful response, call DescribeAccountAssignmentCreationStatus to describe the status of an assignment creation request.
     public func createAccountAssignment(_ input: CreateAccountAssignmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateAccountAssignmentResponse {
         return try await self.client.execute(operation: "CreateAccountAssignment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Enables the attributes-based access control (ABAC) feature for the specified Amazon Web Services SSO instance. You can also specify new attributes to add to your ABAC configuration during the enabling process. For more information about ABAC, see Attribute-Based Access Control in the Amazon Web Services SSO User Guide.
+    /// Enables the attributes-based access control (ABAC) feature for the specified IAM Identity Center instance. You can also specify new attributes to add to your ABAC configuration during the enabling process. For more information about ABAC, see Attribute-Based Access Control in the IAM Identity Center User Guide.  After a successful response, call DescribeInstanceAccessControlAttributeConfiguration to validate that InstanceAccessControlAttributeConfiguration was created.
     public func createInstanceAccessControlAttributeConfiguration(_ input: CreateInstanceAccessControlAttributeConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateInstanceAccessControlAttributeConfigurationResponse {
         return try await self.client.execute(operation: "CreateInstanceAccessControlAttributeConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a permission set within a specified Amazon Web Services SSO instance.  To grant users and groups access to Amazon Web Services account resources, use  CreateAccountAssignment .
+    /// Creates a permission set within a specified IAM Identity Center instance.  To grant users and groups access to AWS account resources, use  CreateAccountAssignment .
     public func createPermissionSet(_ input: CreatePermissionSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreatePermissionSetResponse {
         return try await self.client.execute(operation: "CreatePermissionSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes a principal's access from a specified Amazon Web Services account using a specified permission set.
+    /// Deletes a principal's access from a specified AWS account using a specified permission set.  After a successful response, call DescribeAccountAssignmentCreationStatus to describe the status of an assignment deletion request.
     public func deleteAccountAssignment(_ input: DeleteAccountAssignmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteAccountAssignmentResponse {
         return try await self.client.execute(operation: "DeleteAccountAssignment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -58,7 +58,7 @@ extension SSOAdmin {
         return try await self.client.execute(operation: "DeleteInlinePolicyFromPermissionSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Disables the attributes-based access control (ABAC) feature for the specified Amazon Web Services SSO instance and deletes all of the attribute mappings that have been configured. Once deleted, any attributes that are received from an identity source and any custom attributes you have previously configured will not be passed. For more information about ABAC, see Attribute-Based Access Control in the Amazon Web Services SSO User Guide.
+    /// Disables the attributes-based access control (ABAC) feature for the specified IAM Identity Center instance and deletes all of the attribute mappings that have been configured. Once deleted, any attributes that are received from an identity source and any custom attributes you have previously configured will not be passed. For more information about ABAC, see Attribute-Based Access Control in the IAM Identity Center User Guide.
     public func deleteInstanceAccessControlAttributeConfiguration(_ input: DeleteInstanceAccessControlAttributeConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteInstanceAccessControlAttributeConfigurationResponse {
         return try await self.client.execute(operation: "DeleteInstanceAccessControlAttributeConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -83,7 +83,7 @@ extension SSOAdmin {
         return try await self.client.execute(operation: "DescribeAccountAssignmentDeletionStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns the list of Amazon Web Services SSO identity store attributes that have been configured to work with attributes-based access control (ABAC) for the specified Amazon Web Services SSO instance. This will not return attributes configured and sent by an external identity provider. For more information about ABAC, see Attribute-Based Access Control in the Amazon Web Services SSO User Guide.
+    /// Returns the list of IAM Identity Center identity store attributes that have been configured to work with attributes-based access control (ABAC) for the specified IAM Identity Center instance. This will not return attributes configured and sent by an external identity provider. For more information about ABAC, see Attribute-Based Access Control in the IAM Identity Center User Guide.
     public func describeInstanceAccessControlAttributeConfiguration(_ input: DescribeInstanceAccessControlAttributeConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeInstanceAccessControlAttributeConfigurationResponse {
         return try await self.client.execute(operation: "DescribeInstanceAccessControlAttributeConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -103,7 +103,7 @@ extension SSOAdmin {
         return try await self.client.execute(operation: "DetachCustomerManagedPolicyReferenceFromPermissionSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Detaches the attached Amazon Web Services managed policy ARN from the specified permission set.
+    /// Detaches the attached AWS managed policy ARN from the specified permission set.
     public func detachManagedPolicyFromPermissionSet(_ input: DetachManagedPolicyFromPermissionSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DetachManagedPolicyFromPermissionSetResponse {
         return try await self.client.execute(operation: "DetachManagedPolicyFromPermissionSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -118,22 +118,22 @@ extension SSOAdmin {
         return try await self.client.execute(operation: "GetPermissionsBoundaryForPermissionSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the status of the Amazon Web Services account assignment creation requests for a specified Amazon Web Services SSO instance.
+    /// Lists the status of the AWS account assignment creation requests for a specified IAM Identity Center instance.
     public func listAccountAssignmentCreationStatus(_ input: ListAccountAssignmentCreationStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListAccountAssignmentCreationStatusResponse {
         return try await self.client.execute(operation: "ListAccountAssignmentCreationStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the status of the Amazon Web Services account assignment deletion requests for a specified Amazon Web Services SSO instance.
+    /// Lists the status of the AWS account assignment deletion requests for a specified IAM Identity Center instance.
     public func listAccountAssignmentDeletionStatus(_ input: ListAccountAssignmentDeletionStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListAccountAssignmentDeletionStatusResponse {
         return try await self.client.execute(operation: "ListAccountAssignmentDeletionStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the assignee of the specified Amazon Web Services account with the specified permission set.
+    /// Lists the assignee of the specified AWS account with the specified permission set.
     public func listAccountAssignments(_ input: ListAccountAssignmentsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListAccountAssignmentsResponse {
         return try await self.client.execute(operation: "ListAccountAssignments", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists all the Amazon Web Services accounts where the specified permission set is provisioned.
+    /// Lists all the AWS accounts where the specified permission set is provisioned.
     public func listAccountsForProvisionedPermissionSet(_ input: ListAccountsForProvisionedPermissionSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListAccountsForProvisionedPermissionSetResponse {
         return try await self.client.execute(operation: "ListAccountsForProvisionedPermissionSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -143,27 +143,27 @@ extension SSOAdmin {
         return try await self.client.execute(operation: "ListCustomerManagedPolicyReferencesInPermissionSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the Amazon Web Services SSO instances that the caller has access to.
+    /// Lists the IAM Identity Center instances that the caller has access to.
     public func listInstances(_ input: ListInstancesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListInstancesResponse {
         return try await self.client.execute(operation: "ListInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the Amazon Web Services managed policy that is attached to a specified permission set.
+    /// Lists the AWS managed policy that is attached to a specified permission set.
     public func listManagedPoliciesInPermissionSet(_ input: ListManagedPoliciesInPermissionSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListManagedPoliciesInPermissionSetResponse {
         return try await self.client.execute(operation: "ListManagedPoliciesInPermissionSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the status of the permission set provisioning requests for a specified Amazon Web Services SSO instance.
+    /// Lists the status of the permission set provisioning requests for a specified IAM Identity Center instance.
     public func listPermissionSetProvisioningStatus(_ input: ListPermissionSetProvisioningStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListPermissionSetProvisioningStatusResponse {
         return try await self.client.execute(operation: "ListPermissionSetProvisioningStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the PermissionSets in an Amazon Web Services SSO instance.
+    /// Lists the PermissionSets in an IAM Identity Center instance.
     public func listPermissionSets(_ input: ListPermissionSetsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListPermissionSetsResponse {
         return try await self.client.execute(operation: "ListPermissionSets", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists all the permission sets that are provisioned to a specified Amazon Web Services account.
+    /// Lists all the permission sets that are provisioned to a specified AWS account.
     public func listPermissionSetsProvisionedToAccount(_ input: ListPermissionSetsProvisionedToAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListPermissionSetsProvisionedToAccountResponse {
         return try await self.client.execute(operation: "ListPermissionSetsProvisionedToAccount", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -183,7 +183,7 @@ extension SSOAdmin {
         return try await self.client.execute(operation: "PutInlinePolicyToPermissionSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Attaches an Amazon Web Services managed or customer managed policy to the specified PermissionSet as a permissions boundary.
+    /// Attaches an AWS managed or customer managed policy to the specified PermissionSet as a permissions boundary.
     public func putPermissionsBoundaryToPermissionSet(_ input: PutPermissionsBoundaryToPermissionSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PutPermissionsBoundaryToPermissionSetResponse {
         return try await self.client.execute(operation: "PutPermissionsBoundaryToPermissionSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -198,7 +198,7 @@ extension SSOAdmin {
         return try await self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates the Amazon Web Services SSO identity store attributes that you can use with the Amazon Web Services SSO instance for attributes-based access control (ABAC). When using an external identity provider as an identity source, you can pass attributes through the SAML assertion as an alternative to configuring attributes from the Amazon Web Services SSO identity store. If a SAML assertion passes any of these attributes, Amazon Web Services SSO replaces the attribute value with the value from the Amazon Web Services SSO identity store. For more information about ABAC, see Attribute-Based Access Control in the Amazon Web Services SSO User Guide.
+    /// Updates the IAM Identity Center identity store attributes that you can use with the IAM Identity Center instance for attributes-based access control (ABAC). When using an external identity provider as an identity source, you can pass attributes through the SAML assertion as an alternative to configuring attributes from the IAM Identity Center identity store. If a SAML assertion passes any of these attributes, IAM Identity Center replaces the attribute value with the value from the IAM Identity Center identity store. For more information about ABAC, see Attribute-Based Access Control in the IAM Identity Center User Guide.
     public func updateInstanceAccessControlAttributeConfiguration(_ input: UpdateInstanceAccessControlAttributeConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateInstanceAccessControlAttributeConfigurationResponse {
         return try await self.client.execute(operation: "UpdateInstanceAccessControlAttributeConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

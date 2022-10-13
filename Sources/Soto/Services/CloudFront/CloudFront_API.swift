@@ -181,6 +181,17 @@ public struct CloudFront: AWSService {
         return self.client.execute(operation: "CreateMonitoringSubscription", path: "/2020-05-31/distributions/{DistributionId}/monitoring-subscription", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates a new origin access control in CloudFront. After you create an origin access control, you
+    /// 			can add it to an origin in a CloudFront distribution so that CloudFront sends authenticated (signed)
+    /// 			requests to the origin.
+    /// 		       For an Amazon S3 origin, this makes it possible to block public access to the Amazon S3 bucket
+    /// 			so that viewers (users) can access the content in the bucket only through CloudFront.
+    /// 		       For more information about using a CloudFront origin access control, see Restricting access to an Amazon S3 origin in the
+    /// 			Amazon CloudFront Developer Guide.
+    public func createOriginAccessControl(_ input: CreateOriginAccessControlRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateOriginAccessControlResult> {
+        return self.client.execute(operation: "CreateOriginAccessControl", path: "/2020-05-31/origin-access-control", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates an origin request policy.
     /// 		       After you create an origin request policy, you can attach it to one or more cache behaviors.
     /// 			When it’s attached to a cache behavior, the origin request policy determines the values
@@ -297,6 +308,14 @@ public struct CloudFront: AWSService {
     /// Disables additional CloudWatch metrics for the specified CloudFront distribution.
     public func deleteMonitoringSubscription(_ input: DeleteMonitoringSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteMonitoringSubscriptionResult> {
         return self.client.execute(operation: "DeleteMonitoringSubscription", path: "/2020-05-31/distributions/{DistributionId}/monitoring-subscription", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes a CloudFront origin access control.
+    /// 		       You cannot delete an origin access control if it's in use. First, update all distributions
+    /// 			to remove the origin access control from all origins, then delete the origin access
+    /// 			control.
+    @discardableResult public func deleteOriginAccessControl(_ input: DeleteOriginAccessControlRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteOriginAccessControl", path: "/2020-05-31/origin-access-control/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes an origin request policy.
@@ -489,6 +508,16 @@ public struct CloudFront: AWSService {
     /// 			CloudFront distribution.
     public func getMonitoringSubscription(_ input: GetMonitoringSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMonitoringSubscriptionResult> {
         return self.client.execute(operation: "GetMonitoringSubscription", path: "/2020-05-31/distributions/{DistributionId}/monitoring-subscription", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets a CloudFront origin access control, including its unique identifier.
+    public func getOriginAccessControl(_ input: GetOriginAccessControlRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetOriginAccessControlResult> {
+        return self.client.execute(operation: "GetOriginAccessControl", path: "/2020-05-31/origin-access-control/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets a CloudFront origin access control configuration.
+    public func getOriginAccessControlConfig(_ input: GetOriginAccessControlConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetOriginAccessControlConfigResult> {
+        return self.client.execute(operation: "GetOriginAccessControlConfig", path: "/2020-05-31/origin-access-control/{Id}/config", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Gets an origin request policy, including the following metadata:
@@ -717,6 +746,16 @@ public struct CloudFront: AWSService {
         return self.client.execute(operation: "ListKeyGroups", path: "/2020-05-31/key-group", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Gets the list of CloudFront origin access controls in this Amazon Web Services account.
+    /// 		       You can optionally specify the maximum number of items to receive in the response. If the
+    /// 			total number of items in the list exceeds the maximum that you specify, or the default
+    /// 			maximum, the response is paginated. To get the next page of items, send another request
+    /// 			that specifies the NextMarker value from the current response as the
+    /// 			Marker value in the next request.
+    public func listOriginAccessControls(_ input: ListOriginAccessControlsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListOriginAccessControlsResult> {
+        return self.client.execute(operation: "ListOriginAccessControls", path: "/2020-05-31/origin-access-control", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Gets a list of origin request policies.
     /// 		       You can optionally apply a filter to return only the managed policies created by Amazon Web Services, or
     /// 			only the custom policies created in your Amazon Web Services account.
@@ -906,6 +945,11 @@ public struct CloudFront: AWSService {
     ///
     public func updateKeyGroup(_ input: UpdateKeyGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateKeyGroupResult> {
         return self.client.execute(operation: "UpdateKeyGroup", path: "/2020-05-31/key-group/{Id}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates a CloudFront origin access control.
+    public func updateOriginAccessControl(_ input: UpdateOriginAccessControlRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateOriginAccessControlResult> {
+        return self.client.execute(operation: "UpdateOriginAccessControl", path: "/2020-05-31/origin-access-control/{Id}/config", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates an origin request policy configuration.

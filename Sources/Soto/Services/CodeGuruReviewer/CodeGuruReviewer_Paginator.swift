@@ -20,7 +20,7 @@ import SotoCore
 // MARK: Paginators
 
 extension CodeGuruReviewer {
-    ///   Lists all the code reviews that the customer has created in the past 90 days.
+    ///  Lists all the code reviews that the customer has created in the past 90 days.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -73,7 +73,7 @@ extension CodeGuruReviewer {
         )
     }
 
-    ///   Returns a list of   RecommendationFeedbackSummary  objects that contain customer recommendation feedback for all CodeGuru Reviewer users.
+    ///  Returns a list of RecommendationFeedbackSummary objects that contain customer recommendation feedback for all CodeGuru Reviewer users.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -126,7 +126,7 @@ extension CodeGuruReviewer {
         )
     }
 
-    ///   Returns the list of all recommendations for a completed code review.
+    ///  Returns the list of all recommendations for a completed code review.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -179,7 +179,7 @@ extension CodeGuruReviewer {
         )
     }
 
-    ///   Returns a list of  RepositoryAssociationSummary objects that  contain summary information about a repository association. You can filter the returned list by   ProviderType ,   Name ,   State , and   Owner .
+    ///  Returns a list of RepositoryAssociationSummary objects that contain summary information about a repository association. You can filter the returned list by ProviderType, Name, State, and Owner.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

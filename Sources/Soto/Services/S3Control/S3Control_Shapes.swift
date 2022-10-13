@@ -29,8 +29,8 @@ extension S3Control {
     }
 
     public enum BucketCannedACL: String, CustomStringConvertible, Codable, _SotoSendable {
-        case authenticatedRead = "authenticated-read"
         case `private`
+        case authenticatedRead = "authenticated-read"
         case publicRead = "public-read"
         case publicReadWrite = "public-read-write"
         public var description: String { return self.rawValue }
@@ -43,18 +43,24 @@ extension S3Control {
             self.rawValue = rawValue
         }
 
-        public static var eu: Self { .init(rawValue: "EU") }
         public static var apNortheast1: Self { .init(rawValue: "ap-northeast-1") }
         public static var apSouth1: Self { .init(rawValue: "ap-south-1") }
         public static var apSoutheast1: Self { .init(rawValue: "ap-southeast-1") }
         public static var apSoutheast2: Self { .init(rawValue: "ap-southeast-2") }
         public static var cnNorth1: Self { .init(rawValue: "cn-north-1") }
+        public static var eu: Self { .init(rawValue: "EU") }
         public static var euCentral1: Self { .init(rawValue: "eu-central-1") }
         public static var euWest1: Self { .init(rawValue: "eu-west-1") }
         public static var saEast1: Self { .init(rawValue: "sa-east-1") }
         public static var usEast1: Self { .init(rawValue: "us-east-1") }
         public static var usWest1: Self { .init(rawValue: "us-west-1") }
         public static var usWest2: Self { .init(rawValue: "us-west-2") }
+    }
+
+    public enum BucketVersioningStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case enabled = "Enabled"
+        case suspended = "Suspended"
+        public var description: String { return self.rawValue }
     }
 
     public enum ExpirationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
@@ -116,6 +122,18 @@ extension S3Control {
         public var description: String { return self.rawValue }
     }
 
+    public enum MFADelete: String, CustomStringConvertible, Codable, _SotoSendable {
+        case disabled = "Disabled"
+        case enabled = "Enabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MFADeleteStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case disabled = "Disabled"
+        case enabled = "Enabled"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MultiRegionAccessPointStatus: String, CustomStringConvertible, Codable, _SotoSendable {
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -133,13 +151,18 @@ extension S3Control {
     }
 
     public enum ObjectLambdaAllowedFeature: String, CustomStringConvertible, Codable, _SotoSendable {
-        case getObjectPartnumber = "GetObject-PartNumber"
+        case getObjectPartNumber = "GetObject-PartNumber"
         case getObjectRange = "GetObject-Range"
+        case headObjectPartNumber = "HeadObject-PartNumber"
+        case headObjectRange = "HeadObject-Range"
         public var description: String { return self.rawValue }
     }
 
     public enum ObjectLambdaTransformationConfigurationAction: String, CustomStringConvertible, Codable, _SotoSendable {
         case getObject = "GetObject"
+        case headObject = "HeadObject"
+        case listObjects = "ListObjects"
+        case listObjectsV2 = "ListObjectsV2"
         public var description: String { return self.rawValue }
     }
 
@@ -176,11 +199,11 @@ extension S3Control {
     }
 
     public enum S3CannedAccessControlList: String, CustomStringConvertible, Codable, _SotoSendable {
+        case `private`
         case authenticatedRead = "authenticated-read"
         case awsExecRead = "aws-exec-read"
         case bucketOwnerFullControl = "bucket-owner-full-control"
         case bucketOwnerRead = "bucket-owner-read"
-        case `private`
         case publicRead = "public-read"
         case publicReadWrite = "public-read-write"
         public var description: String { return self.rawValue }
@@ -201,9 +224,9 @@ extension S3Control {
     }
 
     public enum S3GranteeTypeIdentifier: String, CustomStringConvertible, Codable, _SotoSendable {
+        case canonical = "id"
         case emailAddress
-        case id
-        case uri
+        case group = "uri"
         public var description: String { return self.rawValue }
     }
 
@@ -351,7 +374,7 @@ extension S3Control {
     public struct AsyncErrorDetails: AWSDecodableShape {
         /// A string that uniquely identifies the error condition.
         public let code: String?
-        /// A generic descritpion of the error condition in English.
+        /// A generic description of the error condition in English.
         public let message: String?
         /// The ID of the request associated with the error.
         public let requestId: String?
@@ -655,11 +678,11 @@ extension S3Control {
         /// Allows grantee to write the ACL for the applicable bucket.  This is not supported by Amazon S3 on Outposts buckets.
         public let grantWriteACP: String?
         /// Specifies whether you want S3 Object Lock to be enabled for the new bucket.  This is not supported by Amazon S3 on Outposts buckets.
-        public let objectLockEnabledForBucket: Bool?
-        /// The ID of the Outposts where the bucket is being created.  This is required by Amazon S3 on Outposts buckets.
+        public let objectLockEnabledForBucket: Bool
+        /// The ID of the Outposts where the bucket is being created.  This ID is required by Amazon S3 on Outposts buckets.
         public let outpostId: String?
 
-        public init(acl: BucketCannedACL? = nil, bucket: String, createBucketConfiguration: CreateBucketConfiguration? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWrite: String? = nil, grantWriteACP: String? = nil, objectLockEnabledForBucket: Bool? = nil, outpostId: String? = nil) {
+        public init(acl: BucketCannedACL? = nil, bucket: String, createBucketConfiguration: CreateBucketConfiguration? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWrite: String? = nil, grantWriteACP: String? = nil, objectLockEnabledForBucket: Bool = false, outpostId: String? = nil) {
             self.acl = acl
             self.bucket = bucket
             self.createBucketConfiguration = createBucketConfiguration
@@ -726,7 +749,7 @@ extension S3Control {
         /// The action that you want this job to perform on every object listed in the manifest. For more information about the available actions, see Operations in the Amazon S3 User Guide.
         public let operation: JobOperation
         /// The numerical priority for this job. Higher numbers indicate higher priority.
-        public let priority: Int
+        public let priority: Int?
         /// Configuration parameters for the optional job-completion report.
         public let report: JobReport
         /// The Amazon Resource Name (ARN) for the Identity and Access Management (IAM) role that Batch Operations will use to run this job's action on every object in the manifest.
@@ -735,7 +758,7 @@ extension S3Control {
         @OptionalCustomCoding<StandardArrayCoder>
         public var tags: [S3Tag]?
 
-        public init(accountId: String, clientRequestToken: String = CreateJobRequest.idempotencyToken(), confirmationRequired: Bool? = nil, description: String? = nil, manifest: JobManifest? = nil, manifestGenerator: JobManifestGenerator? = nil, operation: JobOperation, priority: Int, report: JobReport, roleArn: String, tags: [S3Tag]? = nil) {
+        public init(accountId: String, clientRequestToken: String = CreateJobRequest.idempotencyToken(), confirmationRequired: Bool? = nil, description: String? = nil, manifest: JobManifest? = nil, manifestGenerator: JobManifestGenerator? = nil, operation: JobOperation, priority: Int? = nil, report: JobReport, roleArn: String, tags: [S3Tag]? = nil) {
             self.accountId = accountId
             self.clientRequestToken = clientRequestToken
             self.confirmationRequired = confirmationRequired
@@ -1917,6 +1940,50 @@ extension S3Control {
         }
     }
 
+    public struct GetBucketVersioningRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
+            AWSMemberEncoding(label: "bucket", location: .uri("Bucket"))
+        ]
+
+        /// The Amazon Web Services account ID of the S3 on Outposts bucket.
+        public let accountId: String
+        /// The S3 on Outposts bucket to return the versioning state for.
+        public let bucket: String
+
+        public init(accountId: String, bucket: String) {
+            self.accountId = accountId
+            self.bucket = bucket
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.bucket, name: "bucket", parent: name, max: 255)
+            try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetBucketVersioningResult: AWSDecodableShape {
+        /// Specifies whether MFA delete is enabled in the bucket versioning configuration. This element is returned only if the bucket has been configured with MFA delete. If MFA delete has never been configured for the bucket, this element is not returned.
+        public let mfaDelete: MFADeleteStatus?
+        /// The versioning state of the S3 on Outposts bucket.
+        public let status: BucketVersioningStatus?
+
+        public init(mfaDelete: MFADeleteStatus? = nil, status: BucketVersioningStatus? = nil) {
+            self.mfaDelete = mfaDelete
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mfaDelete = "MfaDelete"
+            case status = "Status"
+        }
+    }
+
     public struct GetJobTaggingRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
@@ -2782,11 +2849,11 @@ extension S3Control {
         /// The account ID for the account that owns the specified Object Lambda Access Point.
         public let accountId: String
         /// The maximum number of access points that you want to include in the list. The response may contain fewer access points but will never contain more. If there are more than this number of access points, then the response will include a continuation token in the NextToken field that you can use to retrieve the next page of access points.
-        public let maxResults: Int?
+        public let maxResults: Int
         /// If the list has more access points than can be returned in one call to this API, this field contains a continuation token that you can provide in subsequent calls to this API to retrieve additional access points.
         public let nextToken: String?
 
-        public init(accountId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(accountId: String, maxResults: Int = 0, nextToken: String? = nil) {
             self.accountId = accountId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2838,11 +2905,11 @@ extension S3Control {
         /// The name of the bucket whose associated access points you want to list. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well.  For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
         public let bucket: String?
         /// The maximum number of access points that you want to include in the list. If the specified bucket has more than this number of access points, then the response will include a continuation token in the NextToken field that you can use to retrieve the next page of access points.
-        public let maxResults: Int?
+        public let maxResults: Int
         /// A continuation token. If a previous call to ListAccessPoints returned a continuation token in the NextToken field, then providing that value here causes Amazon S3 to retrieve the next page of results.
         public let nextToken: String?
 
-        public init(accountId: String, bucket: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(accountId: String, bucket: String? = nil, maxResults: Int = 0, nextToken: String? = nil) {
             self.accountId = accountId
             self.bucket = bucket
             self.maxResults = maxResults
@@ -2951,11 +3018,11 @@ extension S3Control {
         /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point.
         public let accountId: String
         /// Not currently used. Do not use this parameter.
-        public let maxResults: Int?
+        public let maxResults: Int
         /// Not currently used. Do not use this parameter.
         public let nextToken: String?
 
-        public init(accountId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(accountId: String, maxResults: Int = 0, nextToken: String? = nil) {
             self.accountId = accountId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3004,12 +3071,12 @@ extension S3Control {
 
         /// The Amazon Web Services account ID of the Outposts bucket.
         public let accountId: String
-        public let maxResults: Int?
+        public let maxResults: Int
         public let nextToken: String?
-        /// The ID of the Outposts.  This is required by Amazon S3 on Outposts buckets.
+        /// The ID of the Outposts resource.  This ID is required by Amazon S3 on Outposts buckets.
         public let outpostId: String?
 
-        public init(accountId: String, maxResults: Int? = nil, nextToken: String? = nil, outpostId: String? = nil) {
+        public init(accountId: String, maxResults: Int = 0, nextToken: String? = nil, outpostId: String? = nil) {
             self.accountId = accountId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3163,7 +3230,7 @@ extension S3Control {
         /// A collection of the Regions and buckets associated with the Multi-Region Access Point.
         @OptionalCustomCoding<ArrayCoder<_RegionsEncoding, RegionReport>>
         public var regions: [RegionReport]?
-        /// The current status of the Multi-Region Access Point.  CREATING and DELETING are temporary states that exist while the request is propogating and being completed. If a Multi-Region Access Point has a status of PARTIALLY_CREATED, you can retry creation or send a request to delete the Multi-Region Access Point. If a Multi-Region Access Point has a status of PARTIALLY_DELETED, you can retry a delete request to finish the deletion of the Multi-Region Access Point.
+        /// The current status of the Multi-Region Access Point.  CREATING and DELETING are temporary states that exist while the request is propagating and being completed. If a Multi-Region Access Point has a status of PARTIALLY_CREATED, you can retry creation or send a request to delete the Multi-Region Access Point. If a Multi-Region Access Point has a status of PARTIALLY_DELETED, you can retry a delete request to finish the deletion of the Multi-Region Access Point.
         public let status: MultiRegionAccessPointStatus?
 
         public init(alias: String? = nil, createdAt: Date? = nil, name: String? = nil, publicAccessBlock: PublicAccessBlockConfiguration? = nil, regions: [RegionReport]? = nil, status: MultiRegionAccessPointStatus? = nil) {
@@ -3548,11 +3615,11 @@ extension S3Control {
         /// Specifies the bucket. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well.  For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
         public let bucket: String
         /// Set this parameter to true to confirm that you want to remove your permissions to change this bucket policy in the future.  This is not supported by Amazon S3 on Outposts buckets.
-        public let confirmRemoveSelfBucketAccess: Bool?
+        public let confirmRemoveSelfBucketAccess: Bool
         /// The bucket policy as a JSON document.
         public let policy: String
 
-        public init(accountId: String, bucket: String, confirmRemoveSelfBucketAccess: Bool? = nil, policy: String) {
+        public init(accountId: String, bucket: String, confirmRemoveSelfBucketAccess: Bool = false, policy: String) {
             self.accountId = accountId
             self.bucket = bucket
             self.confirmRemoveSelfBucketAccess = confirmRemoveSelfBucketAccess
@@ -3604,6 +3671,46 @@ extension S3Control {
 
         private enum CodingKeys: String, CodingKey {
             case tagging = "Tagging"
+        }
+    }
+
+    public struct PutBucketVersioningRequest: AWSEncodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "versioningConfiguration"
+        public static let _options: AWSShapeOptions = [.checksumRequired]
+        public static var _encoding = [
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
+            AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
+            AWSMemberEncoding(label: "mfa", location: .header("x-amz-mfa")),
+            AWSMemberEncoding(label: "versioningConfiguration", location: .body("VersioningConfiguration"))
+        ]
+
+        /// The Amazon Web Services account ID of the S3 on Outposts bucket.
+        public let accountId: String
+        /// The S3 on Outposts bucket to set the versioning state for.
+        public let bucket: String
+        /// The concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication device.
+        public let mfa: String?
+        /// The root-level tag for the VersioningConfiguration parameters.
+        public let versioningConfiguration: VersioningConfiguration
+
+        public init(accountId: String, bucket: String, mfa: String? = nil, versioningConfiguration: VersioningConfiguration) {
+            self.accountId = accountId
+            self.bucket = bucket
+            self.mfa = mfa
+            self.versioningConfiguration = versioningConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.bucket, name: "bucket", parent: name, max: 255)
+            try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case versioningConfiguration = "VersioningConfiguration"
         }
     }
 
@@ -4454,7 +4561,7 @@ extension S3Control {
     }
 
     public struct SSEKMSEncryption: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies the ID of the Amazon Web Services Key Management Service (Amazon Web Services KMS) symmetric customer managed key to use for encrypting generated manifest objects.
+        /// Specifies the ID of the Amazon Web Services Key Management Service (Amazon Web Services KMS) symmetric encryption customer managed key to use for encrypting generated manifest objects.
         public let keyId: String
 
         public init(keyId: String) {
@@ -4697,7 +4804,7 @@ extension S3Control {
         /// The priority you want to assign to this job.
         public let priority: Int
 
-        public init(accountId: String, jobId: String, priority: Int) {
+        public init(accountId: String, jobId: String, priority: Int = 0) {
             self.accountId = accountId
             self.jobId = jobId
             self.priority = priority
@@ -4789,6 +4896,23 @@ extension S3Control {
             case jobId = "JobId"
             case status = "Status"
             case statusUpdateReason = "StatusUpdateReason"
+        }
+    }
+
+    public struct VersioningConfiguration: AWSEncodableShape {
+        /// Specifies whether MFA delete is enabled or disabled in the bucket versioning configuration for the S3 on Outposts bucket.
+        public let mfaDelete: MFADelete?
+        /// Sets the versioning state of the S3 on Outposts bucket.
+        public let status: BucketVersioningStatus?
+
+        public init(mfaDelete: MFADelete? = nil, status: BucketVersioningStatus? = nil) {
+            self.mfaDelete = mfaDelete
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mfaDelete = "MfaDelete"
+            case status = "Status"
         }
     }
 

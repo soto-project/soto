@@ -58,7 +58,7 @@ public struct CodeStarNotificationsErrorType: AWSErrorType {
     public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
     /// One of the AWS CodeStar Notifications limits has been exceeded. Limits apply to accounts, notification rules, notifications, resources, and targets. For more information, see Limits.
     public static var limitExceededException: Self { .init(.limitExceededException) }
-    /// A resource with the same name or ID already exists. Notification rule names must be unique in your AWS account.
+    /// A resource with the same name or ID already exists. Notification rule names must be unique in your Amazon Web Services account.
     public static var resourceAlreadyExistsException: Self { .init(.resourceAlreadyExistsException) }
     /// AWS CodeStar Notifications can't find a resource that matches the provided ARN.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }

@@ -59,6 +59,19 @@ extension LookoutEquipment {
         public var description: String { return self.rawValue }
     }
 
+    public enum LabelRating: String, CustomStringConvertible, Codable, _SotoSendable {
+        case anomaly = "ANOMALY"
+        case neutral = "NEUTRAL"
+        case noAnomaly = "NO_ANOMALY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LatestInferenceResult: String, CustomStringConvertible, Codable, _SotoSendable {
+        case anomalous = "ANOMALOUS"
+        case normal = "NORMAL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ModelStatus: String, CustomStringConvertible, Codable, _SotoSendable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
@@ -200,13 +213,13 @@ extension LookoutEquipment {
     public struct CreateInferenceSchedulerRequest: AWSEncodableShape {
         ///  A unique identifier for the request. If you do not set the client request token, Amazon Lookout for Equipment generates one.
         public let clientToken: String
-        /// A period of time (in minutes) by which inference on the data is delayed after the data starts. For instance, if you select an offset delay time of five minutes, inference will not begin on the data until the first data measurement after the five minute mark. For example, if five minutes is selected, the inference scheduler will wake up at the configured frequency with the additional five minute delay time to check the customer S3 bucket. The customer can upload data at the same frequency and they don't need to stop and restart the scheduler when uploading new data.
+        /// The interval (in minutes) of planned delay at the start of each inference segment. For example, if inference is set to run every ten minutes, the delay is set to five minutes and the time is 09:08. The inference scheduler will wake up at the configured interval (which, without a delay configured, would be 09:10) plus the additional five minute delay time (so 09:15) to check your Amazon S3 bucket. The delay provides a buffer for you to upload data at the same frequency, so that you don't have to stop and restart the scheduler when uploading new data. For more information, see Understanding the inference process.
         public let dataDelayOffsetInMinutes: Int64?
         /// Specifies configuration information for the input data for the inference scheduler, including delimiter, format, and dataset location.
         public let dataInputConfiguration: InferenceInputConfiguration
         /// Specifies configuration information for the output results for the inference scheduler, including the S3 location for the output.
         public let dataOutputConfiguration: InferenceOutputConfiguration
-        ///  How often data is uploaded to the source S3 bucket for the input data. The value chosen is the length of time between data uploads. For instance, if you select 5 minutes, Amazon Lookout for Equipment will upload the real-time data to the source bucket once every 5 minutes. This frequency also determines how often Amazon Lookout for Equipment starts a scheduled inference on your data. In this example, it starts once every 5 minutes.
+        ///  How often data is uploaded to the source Amazon S3 bucket for the input data. The value chosen is the length of time between data uploads. For instance, if you select 5 minutes, Amazon Lookout for Equipment will upload the real-time data to the source bucket once every 5 minutes. This frequency also determines how often Amazon Lookout for Equipment runs inference on your data. For more information, see Understanding the inference process.
         public let dataUploadFrequency: DataUploadFrequency
         /// The name of the inference scheduler being created.
         public let inferenceSchedulerName: String
@@ -290,6 +303,142 @@ extension LookoutEquipment {
             case inferenceSchedulerArn = "InferenceSchedulerArn"
             case inferenceSchedulerName = "InferenceSchedulerName"
             case status = "Status"
+        }
+    }
+
+    public struct CreateLabelGroupRequest: AWSEncodableShape {
+        /// A unique identifier for the request to create a label group. If you do not set the client request token, Lookout for Equipment generates one.
+        public let clientToken: String
+        /// The acceptable fault codes (indicating the type of anomaly associated with the label) that can be used with this label group. Data in this field will be retained for service usage. Follow best practices for the security of your data.
+        public let faultCodes: [String]?
+        /// Names a group of labels. Data in this field will be retained for service usage. Follow best practices for the security of your data.
+        public let labelGroupName: String
+        /// Tags that provide metadata about the label group you are creating.
+        ///  Data in this field will be retained for service usage. Follow best practices for the security of your data.
+        public let tags: [Tag]?
+
+        public init(clientToken: String = CreateLabelGroupRequest.idempotencyToken(), faultCodes: [String]? = nil, labelGroupName: String, tags: [Tag]? = nil) {
+            self.clientToken = clientToken
+            self.faultCodes = faultCodes
+            self.labelGroupName = labelGroupName
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\p{ASCII}{1,256}$")
+            try self.faultCodes?.forEach {
+                try validate($0, name: "faultCodes[]", parent: name, max: 100)
+                try validate($0, name: "faultCodes[]", parent: name, min: 1)
+                try validate($0, name: "faultCodes[]", parent: name, pattern: "^[\\P{M}\\p{M}]{1,100}$")
+            }
+            try self.validate(self.faultCodes, name: "faultCodes", parent: name, max: 50)
+            try self.validate(self.labelGroupName, name: "labelGroupName", parent: name, max: 200)
+            try self.validate(self.labelGroupName, name: "labelGroupName", parent: name, min: 1)
+            try self.validate(self.labelGroupName, name: "labelGroupName", parent: name, pattern: "^[0-9a-zA-Z_-]{1,200}$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case faultCodes = "FaultCodes"
+            case labelGroupName = "LabelGroupName"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateLabelGroupResponse: AWSDecodableShape {
+        /// The ARN of the label group that you have created.
+        public let labelGroupArn: String?
+        /// The name of the label group that you have created. Data in this field will be retained for service usage. Follow best practices for the security of your data.
+        public let labelGroupName: String?
+
+        public init(labelGroupArn: String? = nil, labelGroupName: String? = nil) {
+            self.labelGroupArn = labelGroupArn
+            self.labelGroupName = labelGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case labelGroupArn = "LabelGroupArn"
+            case labelGroupName = "LabelGroupName"
+        }
+    }
+
+    public struct CreateLabelRequest: AWSEncodableShape {
+        /// A unique identifier for the request to create a label. If you do not set the client request token, Lookout for Equipment generates one.
+        public let clientToken: String
+        /// The end time of the labeled event.
+        public let endTime: Date
+        /// Indicates that a label pertains to a particular piece of equipment.
+        ///  Data in this field will be retained for service usage. Follow best practices for the security of your data.
+        public let equipment: String?
+        /// Provides additional information about the label. The fault code must be defined in the FaultCodes attribute of the label group. Data in this field will be retained for service usage. Follow best practices for the security of your data.
+        public let faultCode: String?
+        /// The name of a group of labels.  Data in this field will be retained for service usage. Follow best practices for the security of your data.
+        public let labelGroupName: String
+        /// Metadata providing additional information about the label.
+        ///  Data in this field will be retained for service usage. Follow best practices for the security of your data.
+        public let notes: String?
+        /// Indicates whether a labeled event represents an anomaly.
+        public let rating: LabelRating
+        /// The start time of the labeled event.
+        public let startTime: Date
+
+        public init(clientToken: String = CreateLabelRequest.idempotencyToken(), endTime: Date, equipment: String? = nil, faultCode: String? = nil, labelGroupName: String, notes: String? = nil, rating: LabelRating, startTime: Date) {
+            self.clientToken = clientToken
+            self.endTime = endTime
+            self.equipment = equipment
+            self.faultCode = faultCode
+            self.labelGroupName = labelGroupName
+            self.notes = notes
+            self.rating = rating
+            self.startTime = startTime
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\p{ASCII}{1,256}$")
+            try self.validate(self.equipment, name: "equipment", parent: name, max: 200)
+            try self.validate(self.equipment, name: "equipment", parent: name, min: 1)
+            try self.validate(self.equipment, name: "equipment", parent: name, pattern: "^[\\P{M}\\p{M}]{1,200}$")
+            try self.validate(self.faultCode, name: "faultCode", parent: name, max: 100)
+            try self.validate(self.faultCode, name: "faultCode", parent: name, min: 1)
+            try self.validate(self.faultCode, name: "faultCode", parent: name, pattern: "^[\\P{M}\\p{M}]{1,100}$")
+            try self.validate(self.labelGroupName, name: "labelGroupName", parent: name, max: 200)
+            try self.validate(self.labelGroupName, name: "labelGroupName", parent: name, min: 1)
+            try self.validate(self.labelGroupName, name: "labelGroupName", parent: name, pattern: "^[0-9a-zA-Z_-]{1,200}$")
+            try self.validate(self.notes, name: "notes", parent: name, max: 2560)
+            try self.validate(self.notes, name: "notes", parent: name, min: 1)
+            try self.validate(self.notes, name: "notes", parent: name, pattern: "^[\\P{M}\\p{M}]{1,2560}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case endTime = "EndTime"
+            case equipment = "Equipment"
+            case faultCode = "FaultCode"
+            case labelGroupName = "LabelGroupName"
+            case notes = "Notes"
+            case rating = "Rating"
+            case startTime = "StartTime"
+        }
+    }
+
+    public struct CreateLabelResponse: AWSDecodableShape {
+        /// The ID of the label that you have created.
+        public let labelId: String?
+
+        public init(labelId: String? = nil) {
+            self.labelId = labelId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case labelId = "LabelId"
         }
     }
 
@@ -553,6 +702,50 @@ extension LookoutEquipment {
         }
     }
 
+    public struct DeleteLabelGroupRequest: AWSEncodableShape {
+        /// The name of the label group that you want to delete. Data in this field will be retained for service usage. Follow best practices for the security of your data.
+        public let labelGroupName: String
+
+        public init(labelGroupName: String) {
+            self.labelGroupName = labelGroupName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.labelGroupName, name: "labelGroupName", parent: name, max: 200)
+            try self.validate(self.labelGroupName, name: "labelGroupName", parent: name, min: 1)
+            try self.validate(self.labelGroupName, name: "labelGroupName", parent: name, pattern: "^[0-9a-zA-Z_-]{1,200}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case labelGroupName = "LabelGroupName"
+        }
+    }
+
+    public struct DeleteLabelRequest: AWSEncodableShape {
+        /// The name of the label group that contains the label that you want to delete. Data in this field will be retained for service usage. Follow best practices for the security of your data.
+        public let labelGroupName: String
+        /// The ID of the label that you want to delete.
+        public let labelId: String
+
+        public init(labelGroupName: String, labelId: String) {
+            self.labelGroupName = labelGroupName
+            self.labelId = labelId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.labelGroupName, name: "labelGroupName", parent: name, max: 200)
+            try self.validate(self.labelGroupName, name: "labelGroupName", parent: name, min: 1)
+            try self.validate(self.labelGroupName, name: "labelGroupName", parent: name, pattern: "^[0-9a-zA-Z_-]{1,200}$")
+            try self.validate(self.labelId, name: "labelId", parent: name, max: 32)
+            try self.validate(self.labelId, name: "labelId", parent: name, pattern: "^[A-Fa-f0-9]{0,32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case labelGroupName = "LabelGroupName"
+            case labelId = "LabelId"
+        }
+    }
+
     public struct DeleteModelRequest: AWSEncodableShape {
         /// The name of the ML model to be deleted.
         public let modelName: String
@@ -764,6 +957,8 @@ extension LookoutEquipment {
         public let inferenceSchedulerArn: String?
         /// The name of the inference scheduler being described.
         public let inferenceSchedulerName: String?
+        /// Indicates whether the latest execution for the inference scheduler was Anomalous (anomalous events found) or Normal (no anomalous events found).
+        public let latestInferenceResult: LatestInferenceResult?
         /// The Amazon Resource Name (ARN) of the ML model of the inference scheduler being described.
         public let modelArn: String?
         /// The name of the ML model of the inference scheduler being described.
@@ -777,7 +972,7 @@ extension LookoutEquipment {
         /// Specifies the time at which the inference scheduler was last updated, if it was.
         public let updatedAt: Date?
 
-        public init(createdAt: Date? = nil, dataDelayOffsetInMinutes: Int64? = nil, dataInputConfiguration: InferenceInputConfiguration? = nil, dataOutputConfiguration: InferenceOutputConfiguration? = nil, dataUploadFrequency: DataUploadFrequency? = nil, inferenceSchedulerArn: String? = nil, inferenceSchedulerName: String? = nil, modelArn: String? = nil, modelName: String? = nil, roleArn: String? = nil, serverSideKmsKeyId: String? = nil, status: InferenceSchedulerStatus? = nil, updatedAt: Date? = nil) {
+        public init(createdAt: Date? = nil, dataDelayOffsetInMinutes: Int64? = nil, dataInputConfiguration: InferenceInputConfiguration? = nil, dataOutputConfiguration: InferenceOutputConfiguration? = nil, dataUploadFrequency: DataUploadFrequency? = nil, inferenceSchedulerArn: String? = nil, inferenceSchedulerName: String? = nil, latestInferenceResult: LatestInferenceResult? = nil, modelArn: String? = nil, modelName: String? = nil, roleArn: String? = nil, serverSideKmsKeyId: String? = nil, status: InferenceSchedulerStatus? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.dataDelayOffsetInMinutes = dataDelayOffsetInMinutes
             self.dataInputConfiguration = dataInputConfiguration
@@ -785,6 +980,7 @@ extension LookoutEquipment {
             self.dataUploadFrequency = dataUploadFrequency
             self.inferenceSchedulerArn = inferenceSchedulerArn
             self.inferenceSchedulerName = inferenceSchedulerName
+            self.latestInferenceResult = latestInferenceResult
             self.modelArn = modelArn
             self.modelName = modelName
             self.roleArn = roleArn
@@ -801,12 +997,136 @@ extension LookoutEquipment {
             case dataUploadFrequency = "DataUploadFrequency"
             case inferenceSchedulerArn = "InferenceSchedulerArn"
             case inferenceSchedulerName = "InferenceSchedulerName"
+            case latestInferenceResult = "LatestInferenceResult"
             case modelArn = "ModelArn"
             case modelName = "ModelName"
             case roleArn = "RoleArn"
             case serverSideKmsKeyId = "ServerSideKmsKeyId"
             case status = "Status"
             case updatedAt = "UpdatedAt"
+        }
+    }
+
+    public struct DescribeLabelGroupRequest: AWSEncodableShape {
+        /// Returns the name of the label group.
+        public let labelGroupName: String
+
+        public init(labelGroupName: String) {
+            self.labelGroupName = labelGroupName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.labelGroupName, name: "labelGroupName", parent: name, max: 200)
+            try self.validate(self.labelGroupName, name: "labelGroupName", parent: name, min: 1)
+            try self.validate(self.labelGroupName, name: "labelGroupName", parent: name, pattern: "^[0-9a-zA-Z_-]{1,200}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case labelGroupName = "LabelGroupName"
+        }
+    }
+
+    public struct DescribeLabelGroupResponse: AWSDecodableShape {
+        /// The time at which the label group was created.
+        public let createdAt: Date?
+        /// Codes indicating the type of anomaly associated with the labels in the lagbel group.
+        public let faultCodes: [String]?
+        /// The ARN of the label group.
+        public let labelGroupArn: String?
+        /// The name of the label group.
+        public let labelGroupName: String?
+        /// The time at which the label group was updated.
+        public let updatedAt: Date?
+
+        public init(createdAt: Date? = nil, faultCodes: [String]? = nil, labelGroupArn: String? = nil, labelGroupName: String? = nil, updatedAt: Date? = nil) {
+            self.createdAt = createdAt
+            self.faultCodes = faultCodes
+            self.labelGroupArn = labelGroupArn
+            self.labelGroupName = labelGroupName
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case faultCodes = "FaultCodes"
+            case labelGroupArn = "LabelGroupArn"
+            case labelGroupName = "LabelGroupName"
+            case updatedAt = "UpdatedAt"
+        }
+    }
+
+    public struct DescribeLabelRequest: AWSEncodableShape {
+        /// Returns the name of the group containing the label.
+        public let labelGroupName: String
+        /// Returns the ID of the label.
+        public let labelId: String
+
+        public init(labelGroupName: String, labelId: String) {
+            self.labelGroupName = labelGroupName
+            self.labelId = labelId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.labelGroupName, name: "labelGroupName", parent: name, max: 200)
+            try self.validate(self.labelGroupName, name: "labelGroupName", parent: name, min: 1)
+            try self.validate(self.labelGroupName, name: "labelGroupName", parent: name, pattern: "^[0-9a-zA-Z_-]{1,200}$")
+            try self.validate(self.labelId, name: "labelId", parent: name, max: 32)
+            try self.validate(self.labelId, name: "labelId", parent: name, pattern: "^[A-Fa-f0-9]{0,32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case labelGroupName = "LabelGroupName"
+            case labelId = "LabelId"
+        }
+    }
+
+    public struct DescribeLabelResponse: AWSDecodableShape {
+        /// The time at which the label was created.
+        public let createdAt: Date?
+        /// The end time of the requested label.
+        public let endTime: Date?
+        /// Indicates that a label pertains to a particular piece of equipment.
+        public let equipment: String?
+        /// Indicates the type of anomaly associated with the label.
+        ///  Data in this field will be retained for service usage. Follow best practices for the security of your data.
+        public let faultCode: String?
+        /// The ARN of the requested label group.
+        public let labelGroupArn: String?
+        /// The name of the requested label group.
+        public let labelGroupName: String?
+        /// The ID of the requested label.
+        public let labelId: String?
+        /// Metadata providing additional information about the label. Data in this field will be retained for service usage. Follow best practices for the security of your data.
+        public let notes: String?
+        /// Indicates whether a labeled event represents an anomaly.
+        public let rating: LabelRating?
+        /// The start time of the requested label.
+        public let startTime: Date?
+
+        public init(createdAt: Date? = nil, endTime: Date? = nil, equipment: String? = nil, faultCode: String? = nil, labelGroupArn: String? = nil, labelGroupName: String? = nil, labelId: String? = nil, notes: String? = nil, rating: LabelRating? = nil, startTime: Date? = nil) {
+            self.createdAt = createdAt
+            self.endTime = endTime
+            self.equipment = equipment
+            self.faultCode = faultCode
+            self.labelGroupArn = labelGroupArn
+            self.labelGroupName = labelGroupName
+            self.labelId = labelId
+            self.notes = notes
+            self.rating = rating
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case endTime = "EndTime"
+            case equipment = "Equipment"
+            case faultCode = "FaultCode"
+            case labelGroupArn = "LabelGroupArn"
+            case labelGroupName = "LabelGroupName"
+            case labelId = "LabelId"
+            case notes = "Notes"
+            case rating = "Rating"
+            case startTime = "StartTime"
         }
     }
 
@@ -1158,6 +1478,8 @@ extension LookoutEquipment {
         public let inferenceSchedulerArn: String?
         /// The name of the inference scheduler.
         public let inferenceSchedulerName: String?
+        /// Indicates whether the latest execution for the inference scheduler was Anomalous (anomalous events found) or Normal (no anomalous events found).
+        public let latestInferenceResult: LatestInferenceResult?
         ///  The Amazon Resource Name (ARN) of the ML model used by the inference scheduler.
         public let modelArn: String?
         /// The name of the ML model used for the inference scheduler.
@@ -1165,11 +1487,12 @@ extension LookoutEquipment {
         /// Indicates the status of the inference scheduler.
         public let status: InferenceSchedulerStatus?
 
-        public init(dataDelayOffsetInMinutes: Int64? = nil, dataUploadFrequency: DataUploadFrequency? = nil, inferenceSchedulerArn: String? = nil, inferenceSchedulerName: String? = nil, modelArn: String? = nil, modelName: String? = nil, status: InferenceSchedulerStatus? = nil) {
+        public init(dataDelayOffsetInMinutes: Int64? = nil, dataUploadFrequency: DataUploadFrequency? = nil, inferenceSchedulerArn: String? = nil, inferenceSchedulerName: String? = nil, latestInferenceResult: LatestInferenceResult? = nil, modelArn: String? = nil, modelName: String? = nil, status: InferenceSchedulerStatus? = nil) {
             self.dataDelayOffsetInMinutes = dataDelayOffsetInMinutes
             self.dataUploadFrequency = dataUploadFrequency
             self.inferenceSchedulerArn = inferenceSchedulerArn
             self.inferenceSchedulerName = inferenceSchedulerName
+            self.latestInferenceResult = latestInferenceResult
             self.modelArn = modelArn
             self.modelName = modelName
             self.status = status
@@ -1180,6 +1503,7 @@ extension LookoutEquipment {
             case dataUploadFrequency = "DataUploadFrequency"
             case inferenceSchedulerArn = "InferenceSchedulerArn"
             case inferenceSchedulerName = "InferenceSchedulerName"
+            case latestInferenceResult = "LatestInferenceResult"
             case modelArn = "ModelArn"
             case modelName = "ModelName"
             case status = "Status"
@@ -1289,19 +1613,97 @@ extension LookoutEquipment {
         }
     }
 
-    public struct LabelsInputConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Contains location information for the S3 location being used for label data.
-        public let s3InputConfiguration: LabelsS3InputConfiguration
+    public struct LabelGroupSummary: AWSDecodableShape {
+        /// The time at which the label group was created.
+        public let createdAt: Date?
+        /// The ARN of the label group.
+        public let labelGroupArn: String?
+        /// The name of the label group.
+        public let labelGroupName: String?
+        /// The time at which the label group was updated.
+        public let updatedAt: Date?
 
-        public init(s3InputConfiguration: LabelsS3InputConfiguration) {
+        public init(createdAt: Date? = nil, labelGroupArn: String? = nil, labelGroupName: String? = nil, updatedAt: Date? = nil) {
+            self.createdAt = createdAt
+            self.labelGroupArn = labelGroupArn
+            self.labelGroupName = labelGroupName
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case labelGroupArn = "LabelGroupArn"
+            case labelGroupName = "LabelGroupName"
+            case updatedAt = "UpdatedAt"
+        }
+    }
+
+    public struct LabelSummary: AWSDecodableShape {
+        /// The time at which the label was created.
+        public let createdAt: Date?
+        /// The timestamp indicating the end of the label.
+        public let endTime: Date?
+        /// Indicates that a label pertains to a particular piece of equipment.
+        public let equipment: String?
+        /// Indicates the type of anomaly associated with the label.
+        ///  Data in this field will be retained for service usage. Follow best practices for the security of your data.
+        public let faultCode: String?
+        /// The ARN of the label group.
+        public let labelGroupArn: String?
+        /// The name of the label group.
+        public let labelGroupName: String?
+        /// The ID of the label.
+        public let labelId: String?
+        /// Indicates whether a labeled event represents an anomaly.
+        public let rating: LabelRating?
+        /// The timestamp indicating the start of the label.
+        public let startTime: Date?
+
+        public init(createdAt: Date? = nil, endTime: Date? = nil, equipment: String? = nil, faultCode: String? = nil, labelGroupArn: String? = nil, labelGroupName: String? = nil, labelId: String? = nil, rating: LabelRating? = nil, startTime: Date? = nil) {
+            self.createdAt = createdAt
+            self.endTime = endTime
+            self.equipment = equipment
+            self.faultCode = faultCode
+            self.labelGroupArn = labelGroupArn
+            self.labelGroupName = labelGroupName
+            self.labelId = labelId
+            self.rating = rating
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case endTime = "EndTime"
+            case equipment = "Equipment"
+            case faultCode = "FaultCode"
+            case labelGroupArn = "LabelGroupArn"
+            case labelGroupName = "LabelGroupName"
+            case labelId = "LabelId"
+            case rating = "Rating"
+            case startTime = "StartTime"
+        }
+    }
+
+    public struct LabelsInputConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the label group to be used for label data.
+        public let labelGroupName: String?
+        /// Contains location information for the S3 location being used for label data.
+        public let s3InputConfiguration: LabelsS3InputConfiguration?
+
+        public init(labelGroupName: String? = nil, s3InputConfiguration: LabelsS3InputConfiguration? = nil) {
+            self.labelGroupName = labelGroupName
             self.s3InputConfiguration = s3InputConfiguration
         }
 
         public func validate(name: String) throws {
-            try self.s3InputConfiguration.validate(name: "\(name).s3InputConfiguration")
+            try self.validate(self.labelGroupName, name: "labelGroupName", parent: name, max: 200)
+            try self.validate(self.labelGroupName, name: "labelGroupName", parent: name, min: 1)
+            try self.validate(self.labelGroupName, name: "labelGroupName", parent: name, pattern: "^[0-9a-zA-Z_-]{1,200}$")
+            try self.s3InputConfiguration?.validate(name: "\(name).s3InputConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case labelGroupName = "LabelGroupName"
             case s3InputConfiguration = "S3InputConfiguration"
         }
     }
@@ -1357,7 +1759,7 @@ extension LookoutEquipment {
         public let datasetName: String?
         ///  Specifies the maximum number of data ingestion jobs to list.
         public let maxResults: Int?
-        ///  An opaque pagination token indicating where to continue the listing of data ingestion jobs.
+        /// An opaque pagination token indicating where to continue the listing of data ingestion jobs.
         public let nextToken: String?
         /// Indicates the status of the data ingestion job.
         public let status: IngestionJobStatus?
@@ -1455,9 +1857,9 @@ extension LookoutEquipment {
     public struct ListInferenceEventsRequest: AWSEncodableShape {
         /// The name of the inference scheduler for the inference events listed.
         public let inferenceSchedulerName: String
-        /// Lookout for Equipment will return all the inference events with end time equal to or less than the end time given.
+        /// Returns all the inference events with an end start time equal to or greater than less than the end time given
         public let intervalEndTime: Date
-        ///  Lookout for Equipment will return all the inference events with start time equal to or greater than the start time given.
+        ///  Lookout for Equipment will return all the inference events with an end time equal to or greater than the start time given.
         public let intervalStartTime: Date
         /// Specifies the maximum number of inference events to list.
         public let maxResults: Int?
@@ -1623,6 +2025,124 @@ extension LookoutEquipment {
         }
     }
 
+    public struct ListLabelGroupsRequest: AWSEncodableShape {
+        /// The beginning of the name of the label groups to be listed.
+        public let labelGroupNameBeginsWith: String?
+        /// Specifies the maximum number of label groups to list.
+        public let maxResults: Int?
+        /// An opaque pagination token indicating where to continue the listing of label groups.
+        public let nextToken: String?
+
+        public init(labelGroupNameBeginsWith: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.labelGroupNameBeginsWith = labelGroupNameBeginsWith
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.labelGroupNameBeginsWith, name: "labelGroupNameBeginsWith", parent: name, max: 200)
+            try self.validate(self.labelGroupNameBeginsWith, name: "labelGroupNameBeginsWith", parent: name, min: 1)
+            try self.validate(self.labelGroupNameBeginsWith, name: "labelGroupNameBeginsWith", parent: name, pattern: "^[0-9a-zA-Z_-]{1,200}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\p{ASCII}{0,8192}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case labelGroupNameBeginsWith = "LabelGroupNameBeginsWith"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListLabelGroupsResponse: AWSDecodableShape {
+        /// A summary of the label groups.
+        public let labelGroupSummaries: [LabelGroupSummary]?
+        /// An opaque pagination token indicating where to continue the listing of label groups.
+        public let nextToken: String?
+
+        public init(labelGroupSummaries: [LabelGroupSummary]? = nil, nextToken: String? = nil) {
+            self.labelGroupSummaries = labelGroupSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case labelGroupSummaries = "LabelGroupSummaries"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListLabelsRequest: AWSEncodableShape {
+        /// Lists the labels that pertain to a particular piece of equipment.
+        public let equipment: String?
+        /// Returns labels with a particular fault code.
+        public let faultCode: String?
+        /// Returns all labels with a start time earlier than the end time given.
+        public let intervalEndTime: Date?
+        /// Returns all the labels with a end time equal to or later than the start time given.
+        public let intervalStartTime: Date?
+        /// Retruns the name of the label group.
+        public let labelGroupName: String
+        /// Specifies the maximum number of labels to list.
+        public let maxResults: Int?
+        /// An opaque pagination token indicating where to continue the listing of label groups.
+        public let nextToken: String?
+
+        public init(equipment: String? = nil, faultCode: String? = nil, intervalEndTime: Date? = nil, intervalStartTime: Date? = nil, labelGroupName: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.equipment = equipment
+            self.faultCode = faultCode
+            self.intervalEndTime = intervalEndTime
+            self.intervalStartTime = intervalStartTime
+            self.labelGroupName = labelGroupName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.equipment, name: "equipment", parent: name, max: 200)
+            try self.validate(self.equipment, name: "equipment", parent: name, min: 1)
+            try self.validate(self.equipment, name: "equipment", parent: name, pattern: "^[\\P{M}\\p{M}]{1,200}$")
+            try self.validate(self.faultCode, name: "faultCode", parent: name, max: 100)
+            try self.validate(self.faultCode, name: "faultCode", parent: name, min: 1)
+            try self.validate(self.faultCode, name: "faultCode", parent: name, pattern: "^[\\P{M}\\p{M}]{1,100}$")
+            try self.validate(self.labelGroupName, name: "labelGroupName", parent: name, max: 200)
+            try self.validate(self.labelGroupName, name: "labelGroupName", parent: name, min: 1)
+            try self.validate(self.labelGroupName, name: "labelGroupName", parent: name, pattern: "^[0-9a-zA-Z_-]{1,200}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\p{ASCII}{0,8192}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case equipment = "Equipment"
+            case faultCode = "FaultCode"
+            case intervalEndTime = "IntervalEndTime"
+            case intervalStartTime = "IntervalStartTime"
+            case labelGroupName = "LabelGroupName"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListLabelsResponse: AWSDecodableShape {
+        /// A summary of the items in the label group.
+        public let labelSummaries: [LabelSummary]?
+        /// An opaque pagination token indicating where to continue the listing of datasets.
+        public let nextToken: String?
+
+        public init(labelSummaries: [LabelSummary]? = nil, nextToken: String? = nil) {
+            self.labelSummaries = labelSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case labelSummaries = "LabelSummaries"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListModelsRequest: AWSEncodableShape {
         /// The beginning of the name of the dataset of the ML models to be listed.
         public let datasetNameBeginsWith: String?
@@ -1687,9 +2207,9 @@ extension LookoutEquipment {
         public let datasetName: String
         ///  The ingestion job id associated with the list of Sensor Statistics. To get sensor statistics for a particular ingestion job id, both dataset name and ingestion job id must be submitted as inputs.
         public let ingestionJobId: String?
-        ///  Specifies the maximum number of sensors for which to retrieve statistics.
+        /// Specifies the maximum number of sensors for which to retrieve statistics.
         public let maxResults: Int?
-        ///  An opaque pagination token indicating where to continue the listing of sensor statistics.
+        /// An opaque pagination token indicating where to continue the listing of sensor statistics.
         public let nextToken: String?
 
         public init(datasetName: String, ingestionJobId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -1720,9 +2240,9 @@ extension LookoutEquipment {
     }
 
     public struct ListSensorStatisticsResponse: AWSDecodableShape {
-        ///  An opaque pagination token indicating where to continue the listing of sensor statistics.
+        /// An opaque pagination token indicating where to continue the listing of sensor statistics.
         public let nextToken: String?
-        ///  Provides ingestion-based statistics regarding the specified sensor with respect to various validation types, such as whether data exists, the number and percentage of missing values, and the number and percentage of duplicate timestamps.
+        /// Provides ingestion-based statistics regarding the specified sensor with respect to various validation types, such as whether data exists, the number and percentage of missing values, and the number and percentage of duplicate timestamps.
         public let sensorStatisticsSummaries: [SensorStatisticsSummary]?
 
         public init(nextToken: String? = nil, sensorStatisticsSummaries: [SensorStatisticsSummary]? = nil) {
@@ -2245,6 +2765,36 @@ extension LookoutEquipment {
             case dataUploadFrequency = "DataUploadFrequency"
             case inferenceSchedulerName = "InferenceSchedulerName"
             case roleArn = "RoleArn"
+        }
+    }
+
+    public struct UpdateLabelGroupRequest: AWSEncodableShape {
+        /// Updates the code indicating the type of anomaly associated with the label.
+        ///  Data in this field will be retained for service usage. Follow best practices for the security of your data.
+        public let faultCodes: [String]?
+        /// The name of the label group to be updated.
+        public let labelGroupName: String
+
+        public init(faultCodes: [String]? = nil, labelGroupName: String) {
+            self.faultCodes = faultCodes
+            self.labelGroupName = labelGroupName
+        }
+
+        public func validate(name: String) throws {
+            try self.faultCodes?.forEach {
+                try validate($0, name: "faultCodes[]", parent: name, max: 100)
+                try validate($0, name: "faultCodes[]", parent: name, min: 1)
+                try validate($0, name: "faultCodes[]", parent: name, pattern: "^[\\P{M}\\p{M}]{1,100}$")
+            }
+            try self.validate(self.faultCodes, name: "faultCodes", parent: name, max: 50)
+            try self.validate(self.labelGroupName, name: "labelGroupName", parent: name, max: 200)
+            try self.validate(self.labelGroupName, name: "labelGroupName", parent: name, min: 1)
+            try self.validate(self.labelGroupName, name: "labelGroupName", parent: name, pattern: "^[0-9a-zA-Z_-]{1,200}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case faultCodes = "FaultCodes"
+            case labelGroupName = "LabelGroupName"
         }
     }
 }

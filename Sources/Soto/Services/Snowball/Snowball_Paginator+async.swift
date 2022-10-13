@@ -45,6 +45,72 @@ extension Snowball {
         )
     }
 
+    ///  Returns an array of JobListEntry objects of the specified length. Each JobListEntry object is for a job in the specified cluster and contains a job's state, a job's ID, and other information.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listClusterJobsPaginator(
+        _ input: ListClusterJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListClusterJobsRequest, ListClusterJobsResult> {
+        return .init(
+            input: input,
+            command: listClusterJobs,
+            inputKey: \ListClusterJobsRequest.nextToken,
+            outputKey: \ListClusterJobsResult.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Returns an array of ClusterListEntry objects of the specified length. Each ClusterListEntry object contains a cluster's state, a cluster's ID, and other important status information.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listClustersPaginator(
+        _ input: ListClustersRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListClustersRequest, ListClustersResult> {
+        return .init(
+            input: input,
+            command: listClusters,
+            inputKey: \ListClustersRequest.nextToken,
+            outputKey: \ListClustersResult.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  This action returns a list of the different Amazon EC2 Amazon Machine Images (AMIs) that are owned by your Amazon Web Services accountthat would be supported for use on a Snow device. Currently, supported AMIs are based on the CentOS 7 (x86_64) - with Updates HVM, Ubuntu Server 14.04 LTS (HVM), and Ubuntu 16.04 LTS - Xenial (HVM) images, available on the Amazon Web Services Marketplace.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listCompatibleImagesPaginator(
+        _ input: ListCompatibleImagesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListCompatibleImagesRequest, ListCompatibleImagesResult> {
+        return .init(
+            input: input,
+            command: listCompatibleImages,
+            inputKey: \ListCompatibleImagesRequest.nextToken,
+            outputKey: \ListCompatibleImagesResult.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Returns an array of JobListEntry objects of the specified length. Each JobListEntry object contains a job's state, a job's ID, and a value that indicates whether the job is a job part, in the case of export jobs. Calling this API action in one of the US regions will return jobs from the list of all jobs associated with this account in all US regions.
     /// Return PaginatorSequence for operation.
     ///
@@ -62,6 +128,28 @@ extension Snowball {
             command: listJobs,
             inputKey: \ListJobsRequest.nextToken,
             outputKey: \ListJobsResult.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Lists all long-term pricing types.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listLongTermPricingPaginator(
+        _ input: ListLongTermPricingRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListLongTermPricingRequest, ListLongTermPricingResult> {
+        return .init(
+            input: input,
+            command: listLongTermPricing,
+            inputKey: \ListLongTermPricingRequest.nextToken,
+            outputKey: \ListLongTermPricingResult.nextToken,
             logger: logger,
             on: eventLoop
         )

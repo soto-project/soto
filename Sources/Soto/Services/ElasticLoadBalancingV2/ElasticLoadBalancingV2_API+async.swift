@@ -183,7 +183,7 @@ extension ElasticLoadBalancingV2 {
         return try await self.client.execute(operation: "RemoveTags", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Sets the type of IP addresses used by the subnets of the specified Application Load Balancer or Network Load Balancer.
+    /// Sets the type of IP addresses used by the subnets of the specified load balancer.
     public func setIpAddressType(_ input: SetIpAddressTypeInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> SetIpAddressTypeOutput {
         return try await self.client.execute(operation: "SetIpAddressType", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

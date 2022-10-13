@@ -110,6 +110,42 @@ extension DLM {
         }
     }
 
+    public struct ArchiveRetainRule: AWSEncodableShape & AWSDecodableShape {
+        /// Information about retention period in the Amazon EBS Snapshots Archive. For more information, see
+        /// 			Archive Amazon
+        /// 				EBS snapshots.
+        public let retentionArchiveTier: RetentionArchiveTier
+
+        public init(retentionArchiveTier: RetentionArchiveTier) {
+            self.retentionArchiveTier = retentionArchiveTier
+        }
+
+        public func validate(name: String) throws {
+            try self.retentionArchiveTier.validate(name: "\(name).retentionArchiveTier")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case retentionArchiveTier = "RetentionArchiveTier"
+        }
+    }
+
+    public struct ArchiveRule: AWSEncodableShape & AWSDecodableShape {
+        /// Information about the retention period for the snapshot archiving rule.
+        public let retainRule: ArchiveRetainRule
+
+        public init(retainRule: ArchiveRetainRule) {
+            self.retainRule = retainRule
+        }
+
+        public func validate(name: String) throws {
+            try self.retainRule.validate(name: "\(name).retainRule")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case retainRule = "RetainRule"
+        }
+    }
+
     public struct CreateLifecyclePolicyRequest: AWSEncodableShape {
         /// A description of the lifecycle policy. The characters ^[0-9A-Za-z _-]+$ are
         /// 			supported.
@@ -176,8 +212,7 @@ extension DLM {
         /// 			year. For more information, see Cron
         /// 				expressions in the Amazon CloudWatch User Guide.
         public let cronExpression: String?
-        /// The interval between snapshots. The supported values are 1, 2, 3, 4, 6, 8, 12, and
-        /// 			24.
+        /// The interval between snapshots. The supported values are 1, 2, 3, 4, 6, 8, 12, and 24.
         public let interval: Int?
         /// The interval unit.
         public let intervalUnit: IntervalUnitValues?
@@ -192,7 +227,7 @@ extension DLM {
         public let location: LocationValues?
         /// The time, in UTC, to start the operation. The supported format is hh:mm.
         /// 		       The operation occurs within a one-hour window following the specified time. If you do
-        /// 			not specify a time, Amazon DLM selects a time within the next 24 hours.
+        /// 			not specify a time, Amazon Data Lifecycle Manager selects a time within the next 24 hours.
         public let times: [String]?
 
         public init(cronExpression: String? = nil, interval: Int? = nil, intervalUnit: IntervalUnitValues? = nil, location: LocationValues? = nil, times: [String]? = nil) {
@@ -878,12 +913,51 @@ extension DLM {
     }
 
     public struct RetainRule: AWSEncodableShape & AWSDecodableShape {
-        /// The number of snapshots to retain for each volume, up to a maximum of 1000.
+        /// The number of snapshots to retain for each volume, up to a maximum of 1000. For example if you want to
+        /// 			retain a maximum of three snapshots, specify 3. When the fourth snapshot is created, the
+        /// 			oldest retained snapshot is deleted, or it is moved to the archive tier if you have specified an
+        /// 			ArchiveRule.
         public let count: Int?
         /// The amount of time to retain each snapshot. The maximum is 100 years. This is
         /// 			equivalent to 1200 months, 5200 weeks, or 36500 days.
         public let interval: Int?
-        /// The unit of time for time-based retention.
+        /// The unit of time for time-based retention. For example, to retain snapshots for 3 months, specify
+        /// 			Interval=3 and IntervalUnit=MONTHS. Once the snapshot has been retained for
+        /// 			3 months, it is deleted, or it is moved to the archive tier if you have specified an
+        /// 			ArchiveRule.
+        public let intervalUnit: RetentionIntervalUnitValues?
+
+        public init(count: Int? = nil, interval: Int? = nil, intervalUnit: RetentionIntervalUnitValues? = nil) {
+            self.count = count
+            self.interval = interval
+            self.intervalUnit = intervalUnit
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.count, name: "count", parent: name, max: 1000)
+            try self.validate(self.count, name: "count", parent: name, min: 0)
+            try self.validate(self.interval, name: "interval", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case count = "Count"
+            case interval = "Interval"
+            case intervalUnit = "IntervalUnit"
+        }
+    }
+
+    public struct RetentionArchiveTier: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum number of snapshots to retain in the archive storage tier for each volume.
+        /// 			The count must ensure that each snapshot remains in the archive tier for at least
+        /// 		90 days. For example, if the schedule creates snapshots every 30 days, you must specify a
+        /// 		count of 3 or more to ensure that each snapshot is archived for at least 90 days.
+        public let count: Int?
+        /// Specifies the period of time to retain snapshots in the archive tier. After this period
+        /// 			expires, the snapshot is permanently deleted.
+        public let interval: Int?
+        /// The unit of time in which to measure the Interval. For
+        /// 			example, to retain a snapshots in the archive tier for 6 months, specify Interval=6
+        /// 			and IntervalUnit=MONTHS.
         public let intervalUnit: RetentionIntervalUnitValues?
 
         public init(count: Int? = nil, interval: Int? = nil, intervalUnit: RetentionIntervalUnitValues? = nil) {
@@ -906,6 +980,13 @@ extension DLM {
     }
 
     public struct Schedule: AWSEncodableShape & AWSDecodableShape {
+        ///  [Snapshot policies that target volumes only] The snapshot archiving rule for the schedule. When you specify an archiving
+        /// 			rule, snapshots are automatically moved from the standard tier to the archive tier once the schedule's
+        /// 			retention threshold is met. Snapshots are then retained in the archive tier for the archive retention
+        /// 			period that you specify.
+        /// 		       For more information about using snapshot archiving, see Considerations for
+        /// 				snapshot lifecycle policies.
+        public let archiveRule: ArchiveRule?
         /// Copy all user-defined tags on a source volume to snapshots of the volume created by
         /// 			this policy.
         public let copyTags: Bool?
@@ -937,7 +1018,8 @@ extension DLM {
         /// 			tags are only valid for EBS Snapshot Management – Instance policies.
         public let variableTags: [Tag]?
 
-        public init(copyTags: Bool? = nil, createRule: CreateRule? = nil, crossRegionCopyRules: [CrossRegionCopyRule]? = nil, deprecateRule: DeprecateRule? = nil, fastRestoreRule: FastRestoreRule? = nil, name: String? = nil, retainRule: RetainRule? = nil, shareRules: [ShareRule]? = nil, tagsToAdd: [Tag]? = nil, variableTags: [Tag]? = nil) {
+        public init(archiveRule: ArchiveRule? = nil, copyTags: Bool? = nil, createRule: CreateRule? = nil, crossRegionCopyRules: [CrossRegionCopyRule]? = nil, deprecateRule: DeprecateRule? = nil, fastRestoreRule: FastRestoreRule? = nil, name: String? = nil, retainRule: RetainRule? = nil, shareRules: [ShareRule]? = nil, tagsToAdd: [Tag]? = nil, variableTags: [Tag]? = nil) {
+            self.archiveRule = archiveRule
             self.copyTags = copyTags
             self.createRule = createRule
             self.crossRegionCopyRules = crossRegionCopyRules
@@ -951,6 +1033,7 @@ extension DLM {
         }
 
         public func validate(name: String) throws {
+            try self.archiveRule?.validate(name: "\(name).archiveRule")
             try self.createRule?.validate(name: "\(name).createRule")
             try self.crossRegionCopyRules?.forEach {
                 try $0.validate(name: "\(name).crossRegionCopyRules[]")
@@ -976,6 +1059,7 @@ extension DLM {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case archiveRule = "ArchiveRule"
             case copyTags = "CopyTags"
             case createRule = "CreateRule"
             case crossRegionCopyRules = "CrossRegionCopyRules"

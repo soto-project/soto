@@ -2284,7 +2284,7 @@ extension DynamoDB {
             try self.transactStatements.forEach {
                 try $0.validate(name: "\(name).transactStatements[]")
             }
-            try self.validate(self.transactStatements, name: "transactStatements", parent: name, max: 25)
+            try self.validate(self.transactStatements, name: "transactStatements", parent: name, max: 100)
             try self.validate(self.transactStatements, name: "transactStatements", parent: name, min: 1)
         }
 
@@ -5243,7 +5243,7 @@ extension DynamoDB {
     public struct TransactGetItemsInput: AWSEncodableShape {
         /// A value of TOTAL causes consumed capacity information to be returned, and a value of NONE prevents that information from being returned. No other value is valid.
         public let returnConsumedCapacity: ReturnConsumedCapacity?
-        /// An ordered array of up to 25 TransactGetItem objects, each of which contains a Get structure.
+        /// An ordered array of up to 100 TransactGetItem objects, each of which contains a Get structure.
         public let transactItems: [TransactGetItem]
 
         public init(returnConsumedCapacity: ReturnConsumedCapacity? = nil, transactItems: [TransactGetItem]) {
@@ -5255,7 +5255,7 @@ extension DynamoDB {
             try self.transactItems.forEach {
                 try $0.validate(name: "\(name).transactItems[]")
             }
-            try self.validate(self.transactItems, name: "transactItems", parent: name, max: 25)
+            try self.validate(self.transactItems, name: "transactItems", parent: name, max: 100)
             try self.validate(self.transactItems, name: "transactItems", parent: name, min: 1)
         }
 
@@ -5268,7 +5268,7 @@ extension DynamoDB {
     public struct TransactGetItemsOutput: AWSDecodableShape {
         /// If the ReturnConsumedCapacity value was TOTAL, this is an array of ConsumedCapacity objects, one for each table addressed by TransactGetItem objects in the TransactItems parameter. These ConsumedCapacity objects report the read-capacity units consumed by the TransactGetItems call in that table.
         public let consumedCapacity: [ConsumedCapacity]?
-        /// An ordered array of up to 25 ItemResponse objects, each of which corresponds to the TransactGetItem object in the same position in the TransactItems array. Each ItemResponse object contains a Map of the name-value pairs that are the projected attributes of the requested item. If a requested item could not be retrieved, the corresponding ItemResponse object is Null, or if the requested item has no projected attributes, the corresponding ItemResponse object is an empty Map.
+        /// An ordered array of up to 100 ItemResponse objects, each of which corresponds to the TransactGetItem object in the same position in the TransactItems array. Each ItemResponse object contains a Map of the name-value pairs that are the projected attributes of the requested item. If a requested item could not be retrieved, the corresponding ItemResponse object is Null, or if the requested item has no projected attributes, the corresponding ItemResponse object is an empty Map.
         public let responses: [ItemResponse]?
 
         public init(consumedCapacity: [ConsumedCapacity]? = nil, responses: [ItemResponse]? = nil) {
@@ -5288,7 +5288,7 @@ extension DynamoDB {
         public let returnConsumedCapacity: ReturnConsumedCapacity?
         /// Determines whether item collection metrics are returned. If set to SIZE, the response includes statistics about item collections (if any), that were modified during the operation and are returned in the response. If set to NONE (the default), no statistics are returned.
         public let returnItemCollectionMetrics: ReturnItemCollectionMetrics?
-        /// An ordered array of up to 25 TransactWriteItem objects, each of which contains a ConditionCheck, Put, Update, or Delete object. These can operate on items in different tables, but the tables must reside in the same Amazon Web Services account and Region, and no two of them can operate on the same item.
+        /// An ordered array of up to 100 TransactWriteItem objects, each of which contains a ConditionCheck, Put, Update, or Delete object. These can operate on items in different tables, but the tables must reside in the same Amazon Web Services account and Region, and no two of them can operate on the same item.
         public let transactItems: [TransactWriteItem]
 
         public init(clientRequestToken: String? = TransactWriteItemsInput.idempotencyToken(), returnConsumedCapacity: ReturnConsumedCapacity? = nil, returnItemCollectionMetrics: ReturnItemCollectionMetrics? = nil, transactItems: [TransactWriteItem]) {
@@ -5304,7 +5304,7 @@ extension DynamoDB {
             try self.transactItems.forEach {
                 try $0.validate(name: "\(name).transactItems[]")
             }
-            try self.validate(self.transactItems, name: "transactItems", parent: name, max: 25)
+            try self.validate(self.transactItems, name: "transactItems", parent: name, max: 100)
             try self.validate(self.transactItems, name: "transactItems", parent: name, min: 1)
         }
 

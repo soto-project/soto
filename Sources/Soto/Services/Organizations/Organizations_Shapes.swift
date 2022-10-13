@@ -1218,7 +1218,7 @@ extension Organizations {
         }
     }
 
-    public final class HandshakeResource: AWSDecodableShape {
+    public struct HandshakeResource: AWSDecodableShape {
         /// When needed, contains an additional array of HandshakeResource objects.
         public let resources: [HandshakeResource]?
         /// The type of information being passed, specifying how the value is to be interpreted by the other party:    ACCOUNT - Specifies an Amazon Web Services account ID number.    ORGANIZATION - Specifies an organization ID number.    EMAIL - Specifies the email address that is associated with the account that receives the handshake.     OWNER_EMAIL - Specifies the email address associated with the management account. Included as information about an organization.     OWNER_NAME - Specifies the name associated with the management account. Included as information about an organization.     NOTES - Additional text provided by the handshake initiator and intended for the recipient to read.

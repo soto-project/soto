@@ -241,8 +241,8 @@ extension QuickSight {
         case ingestionCanceled = "INGESTION_CANCELED"
         case ingestionSuperseded = "INGESTION_SUPERSEDED"
         case internalServiceError = "INTERNAL_SERVICE_ERROR"
-        case invalidDataprepSyntax = "INVALID_DATAPREP_SYNTAX"
         case invalidDataSourceConfig = "INVALID_DATA_SOURCE_CONFIG"
+        case invalidDataprepSyntax = "INVALID_DATAPREP_SYNTAX"
         case invalidDateFormat = "INVALID_DATE_FORMAT"
         case iotDataSetFileEmpty = "IOT_DATA_SET_FILE_EMPTY"
         case iotFileNotFound = "IOT_FILE_NOT_FOUND"
@@ -1137,20 +1137,42 @@ extension QuickSight {
         }
     }
 
+    public struct AnonymousUserDashboardVisualEmbeddingConfiguration: AWSEncodableShape {
+        /// The visual ID for the visual that you want the user to see. This ID is included in the output URL. When the URL in response is accessed, Amazon QuickSight renders this visual. The Amazon Resource Name (ARN) of the dashboard that the visual belongs to must be included in the AuthorizedResourceArns parameter. Otherwise, the request will fail with InvalidParameterValueException.
+        public let initialDashboardVisualId: DashboardVisualId
+
+        public init(initialDashboardVisualId: DashboardVisualId) {
+            self.initialDashboardVisualId = initialDashboardVisualId
+        }
+
+        public func validate(name: String) throws {
+            try self.initialDashboardVisualId.validate(name: "\(name).initialDashboardVisualId")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case initialDashboardVisualId = "InitialDashboardVisualId"
+        }
+    }
+
     public struct AnonymousUserEmbeddingExperienceConfiguration: AWSEncodableShape {
         /// The type of embedding experience. In this case, Amazon QuickSight dashboards.
         public let dashboard: AnonymousUserDashboardEmbeddingConfiguration?
+        /// The type of embedding experience. In this case, Amazon QuickSight visuals.
+        public let dashboardVisual: AnonymousUserDashboardVisualEmbeddingConfiguration?
 
-        public init(dashboard: AnonymousUserDashboardEmbeddingConfiguration? = nil) {
+        public init(dashboard: AnonymousUserDashboardEmbeddingConfiguration? = nil, dashboardVisual: AnonymousUserDashboardVisualEmbeddingConfiguration? = nil) {
             self.dashboard = dashboard
+            self.dashboardVisual = dashboardVisual
         }
 
         public func validate(name: String) throws {
             try self.dashboard?.validate(name: "\(name).dashboard")
+            try self.dashboardVisual?.validate(name: "\(name).dashboardVisual")
         }
 
         private enum CodingKeys: String, CodingKey {
             case dashboard = "Dashboard"
+            case dashboardVisual = "DashboardVisual"
         }
     }
 
@@ -3414,6 +3436,39 @@ extension QuickSight {
         }
     }
 
+    public struct DashboardVisualId: AWSEncodableShape {
+        /// The ID of the dashboard that has the visual that you want to embed. The DashboardId can be found in the IDs for developers section of the Embed visual pane of the visual's on-visual menu of the Amazon QuickSight console. You can also get the DashboardId with a ListDashboards API operation.
+        public let dashboardId: String
+        /// The ID of the sheet that the has visual that you want to embed. The SheetId can be found in the IDs for developers section of the Embed visual pane of the visual's on-visual menu of the Amazon QuickSight console.
+        public let sheetId: String
+        /// The ID of the visual that you want to embed. The VisualID can be found in the IDs for developers section of the Embed visual pane of the visual's on-visual menu of the Amazon QuickSight console.
+        public let visualId: String
+
+        public init(dashboardId: String, sheetId: String, visualId: String) {
+            self.dashboardId = dashboardId
+            self.sheetId = sheetId
+            self.visualId = visualId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dashboardId, name: "dashboardId", parent: name, max: 2048)
+            try self.validate(self.dashboardId, name: "dashboardId", parent: name, min: 1)
+            try self.validate(self.dashboardId, name: "dashboardId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.validate(self.sheetId, name: "sheetId", parent: name, max: 2048)
+            try self.validate(self.sheetId, name: "sheetId", parent: name, min: 1)
+            try self.validate(self.sheetId, name: "sheetId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.validate(self.visualId, name: "visualId", parent: name, max: 2048)
+            try self.validate(self.visualId, name: "visualId", parent: name, min: 1)
+            try self.validate(self.visualId, name: "visualId", parent: name, pattern: "^[\\w\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dashboardId = "DashboardId"
+            case sheetId = "SheetId"
+            case visualId = "VisualId"
+        }
+    }
+
     public struct DataColorPalette: AWSEncodableShape & AWSDecodableShape {
         /// The hexadecimal codes for the colors.
         public let colors: [String]?
@@ -3654,6 +3709,8 @@ extension QuickSight {
         public let lastUpdatedTime: Date?
         /// A display name for the data source.
         public let name: String?
+        /// The Amazon Resource Name (ARN) of the secret associated with the data source in Amazon Secrets Manager.
+        public let secretArn: String?
         /// Secure Socket Layer (SSL) properties that apply when Amazon QuickSight connects to your underlying source.
         public let sslProperties: SslProperties?
         /// The HTTP status of the request.
@@ -3663,7 +3720,7 @@ extension QuickSight {
         /// The VPC connection information. You need to use this parameter only when you want Amazon QuickSight to use a VPC connection when connecting to your underlying source.
         public let vpcConnectionProperties: VpcConnectionProperties?
 
-        public init(alternateDataSourceParameters: [DataSourceParameters]? = nil, arn: String? = nil, createdTime: Date? = nil, dataSourceId: String? = nil, dataSourceParameters: DataSourceParameters? = nil, errorInfo: DataSourceErrorInfo? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, sslProperties: SslProperties? = nil, status: ResourceStatus? = nil, type: DataSourceType? = nil, vpcConnectionProperties: VpcConnectionProperties? = nil) {
+        public init(alternateDataSourceParameters: [DataSourceParameters]? = nil, arn: String? = nil, createdTime: Date? = nil, dataSourceId: String? = nil, dataSourceParameters: DataSourceParameters? = nil, errorInfo: DataSourceErrorInfo? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, secretArn: String? = nil, sslProperties: SslProperties? = nil, status: ResourceStatus? = nil, type: DataSourceType? = nil, vpcConnectionProperties: VpcConnectionProperties? = nil) {
             self.alternateDataSourceParameters = alternateDataSourceParameters
             self.arn = arn
             self.createdTime = createdTime
@@ -3672,6 +3729,7 @@ extension QuickSight {
             self.errorInfo = errorInfo
             self.lastUpdatedTime = lastUpdatedTime
             self.name = name
+            self.secretArn = secretArn
             self.sslProperties = sslProperties
             self.status = status
             self.type = type
@@ -3687,6 +3745,7 @@ extension QuickSight {
             case errorInfo = "ErrorInfo"
             case lastUpdatedTime = "LastUpdatedTime"
             case name = "Name"
+            case secretArn = "SecretArn"
             case sslProperties = "SslProperties"
             case status = "Status"
             case type = "Type"
@@ -3699,20 +3758,27 @@ extension QuickSight {
         public let copySourceArn: String?
         /// Credential pair. For more information, see  CredentialPair .
         public let credentialPair: CredentialPair?
+        /// The Amazon Resource Name (ARN) of the secret associated with the data source in Amazon Secrets Manager.
+        public let secretArn: String?
 
-        public init(copySourceArn: String? = nil, credentialPair: CredentialPair? = nil) {
+        public init(copySourceArn: String? = nil, credentialPair: CredentialPair? = nil, secretArn: String? = nil) {
             self.copySourceArn = copySourceArn
             self.credentialPair = credentialPair
+            self.secretArn = secretArn
         }
 
         public func validate(name: String) throws {
             try self.validate(self.copySourceArn, name: "copySourceArn", parent: name, pattern: "^arn:[-a-z0-9]*:quicksight:[-a-z0-9]*:[0-9]{12}:datasource/.+$")
             try self.credentialPair?.validate(name: "\(name).credentialPair")
+            try self.validate(self.secretArn, name: "secretArn", parent: name, max: 2048)
+            try self.validate(self.secretArn, name: "secretArn", parent: name, min: 1)
+            try self.validate(self.secretArn, name: "secretArn", parent: name, pattern: "^arn:[-a-z0-9]*:secretsmanager:[-a-z0-9]*:[0-9]{12}:secret:.+$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case copySourceArn = "CopySourceArn"
             case credentialPair = "CredentialPair"
+            case secretArn = "SecretArn"
         }
     }
 
@@ -3836,11 +3902,11 @@ extension QuickSight {
         /// The ID of the Amazon Web Services account where you want to delete an analysis.
         public let awsAccountId: String
         /// This option defaults to the value NoForceDeleteWithoutRecovery. To immediately delete the analysis, add the ForceDeleteWithoutRecovery option. You can't restore an analysis after it's deleted.
-        public let forceDeleteWithoutRecovery: Bool?
+        public let forceDeleteWithoutRecovery: Bool
         /// A value that specifies the number of days that Amazon QuickSight waits before it deletes the analysis. You can't use this parameter with the ForceDeleteWithoutRecovery option in the same API call. The default value is 30.
         public let recoveryWindowInDays: Int64?
 
-        public init(analysisId: String, awsAccountId: String, forceDeleteWithoutRecovery: Bool? = nil, recoveryWindowInDays: Int64? = nil) {
+        public init(analysisId: String, awsAccountId: String, forceDeleteWithoutRecovery: Bool = false, recoveryWindowInDays: Int64? = nil) {
             self.analysisId = analysisId
             self.awsAccountId = awsAccountId
             self.forceDeleteWithoutRecovery = forceDeleteWithoutRecovery
@@ -4787,9 +4853,9 @@ extension QuickSight {
         /// The Amazon QuickSight namespace that you want to describe Amazon QuickSight customizations for.
         public let namespace: String?
         /// The Resolved flag works with the other parameters to determine which view of Amazon QuickSight customizations is returned. You can add this flag to your command to use the same view that Amazon QuickSight uses to identify which customizations to apply to the console. Omit this flag, or set it to no-resolved, to reveal customizations that are configured at different levels.
-        public let resolved: Bool?
+        public let resolved: Bool
 
-        public init(awsAccountId: String, namespace: String? = nil, resolved: Bool? = nil) {
+        public init(awsAccountId: String, namespace: String? = nil, resolved: Bool = false) {
             self.awsAccountId = awsAccountId
             self.namespace = namespace
             self.resolved = resolved
@@ -6648,7 +6714,7 @@ extension QuickSight {
         public let allowedDomains: [String]?
         /// The ID for the Amazon Web Services account that contains the dashboard that you're embedding.
         public let awsAccountId: String
-        /// The experience you are embedding. For registered users, you can embed Amazon QuickSight dashboards or the entire Amazon QuickSight console.
+        /// The experience you are embedding. For registered users, you can embed Amazon QuickSight dashboards, Amazon QuickSight visuals, the Amazon QuickSight Q search bar, or the entire Amazon QuickSight console.
         public let experienceConfiguration: RegisteredUserEmbeddingExperienceConfiguration
         /// How many minutes the session is valid. The session lifetime must be in [15-600] minutes range.
         public let sessionLifetimeInMinutes: Int64?
@@ -6685,7 +6751,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "status", location: .statusCode)
         ]
 
-        /// The embed URL for the Amazon QuickSight dashboard or console.
+        /// The embed URL for the Amazon QuickSight dashboard, visual, Q search bar, or console.
         public let embedUrl: String
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String
@@ -6709,11 +6775,11 @@ extension QuickSight {
         /// Columns in this hierarchy.
         public let columns: [String]
         /// Country code.
-        public let countryCode: GeoSpatialCountryCode
+        public let countryCode: GeoSpatialCountryCode?
         /// A display name for the hierarchy.
         public let name: String
 
-        public init(columns: [String], countryCode: GeoSpatialCountryCode, name: String) {
+        public init(columns: [String], countryCode: GeoSpatialCountryCode? = nil, name: String) {
             self.columns = columns
             self.countryCode = countryCode
             self.name = name
@@ -6763,14 +6829,14 @@ extension QuickSight {
         public let namespace: String?
         /// Remove the reset button on the embedded dashboard. The default is FALSE, which enables the
         /// 			reset button.
-        public let resetDisabled: Bool?
+        public let resetDisabled: Bool
         /// How many minutes the session is valid. The session lifetime must be 15-600 minutes.
         public let sessionLifetimeInMinutes: Int64?
         /// Adds persistence of state for the user session in an embedded dashboard. Persistence applies to the sheet and the parameter settings. These are control settings that the dashboard subscriber (Amazon QuickSight reader) chooses while viewing the dashboard. If this is set to TRUE, the settings are the same when the subscriber reopens the same dashboard URL. The state is stored in Amazon QuickSight, not in a browser cookie. If this is set to FALSE, the state of the user session is not persisted. The default is FALSE.
-        public let statePersistenceEnabled: Bool?
+        public let statePersistenceEnabled: Bool
         /// Remove the undo/redo button on the embedded dashboard. The default is FALSE, which enables
         /// 			the undo/redo button.
-        public let undoRedoDisabled: Bool?
+        public let undoRedoDisabled: Bool
         /// The Amazon QuickSight user's Amazon Resource Name (ARN), for use with QUICKSIGHT identity type.
         /// 			You can use this for any Amazon QuickSight users in your account (readers, authors, or
         /// 			admins) authenticated as one of the following:
@@ -6784,7 +6850,7 @@ extension QuickSight {
         /// 			           Omit this parameter for users in the third group – IAM users and IAM role-based sessions.
         public let userArn: String?
 
-        public init(additionalDashboardIds: [String]? = nil, awsAccountId: String, dashboardId: String, identityType: EmbeddingIdentityType, namespace: String? = nil, resetDisabled: Bool? = nil, sessionLifetimeInMinutes: Int64? = nil, statePersistenceEnabled: Bool? = nil, undoRedoDisabled: Bool? = nil, userArn: String? = nil) {
+        public init(additionalDashboardIds: [String]? = nil, awsAccountId: String, dashboardId: String, identityType: EmbeddingIdentityType, namespace: String? = nil, resetDisabled: Bool = false, sessionLifetimeInMinutes: Int64? = nil, statePersistenceEnabled: Bool = false, undoRedoDisabled: Bool = false, userArn: String? = nil) {
             self.additionalDashboardIds = additionalDashboardIds
             self.awsAccountId = awsAccountId
             self.dashboardId = dashboardId
@@ -9272,28 +9338,50 @@ extension QuickSight {
         }
     }
 
+    public struct RegisteredUserDashboardVisualEmbeddingConfiguration: AWSEncodableShape {
+        /// The visual ID for the visual that you want the user to embed. This ID is included in the output URL. When the URL in response is accessed, Amazon QuickSight renders this visual. The Amazon Resource Name (ARN) of the dashboard that the visual belongs to must be included in the AuthorizedResourceArns parameter. Otherwise, the request will fail with InvalidParameterValueException.
+        public let initialDashboardVisualId: DashboardVisualId
+
+        public init(initialDashboardVisualId: DashboardVisualId) {
+            self.initialDashboardVisualId = initialDashboardVisualId
+        }
+
+        public func validate(name: String) throws {
+            try self.initialDashboardVisualId.validate(name: "\(name).initialDashboardVisualId")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case initialDashboardVisualId = "InitialDashboardVisualId"
+        }
+    }
+
     public struct RegisteredUserEmbeddingExperienceConfiguration: AWSEncodableShape {
         /// The configuration details for providing a dashboard embedding experience.
         public let dashboard: RegisteredUserDashboardEmbeddingConfiguration?
+        /// The type of embedding experience. In this case, Amazon QuickSight visuals.
+        public let dashboardVisual: RegisteredUserDashboardVisualEmbeddingConfiguration?
         /// The configuration details for embedding the Q search bar. For more information about embedding the Q search bar, see Embedding Overview in the Amazon QuickSight User Guide.
         public let qSearchBar: RegisteredUserQSearchBarEmbeddingConfiguration?
         /// The configuration details for providing each Amazon QuickSight console embedding experience. This can be used along with custom permissions to restrict access to certain features. For more information, see Customizing Access to the Amazon QuickSight Console in the Amazon QuickSight User Guide. Use  GenerateEmbedUrlForRegisteredUser  where you want to provide an authoring portal that allows users to create data sources, datasets, analyses, and dashboards. The users who accesses an embedded Amazon QuickSight console needs to belong to the author or admin security cohort. If you want to restrict permissions to some of these features, add a custom permissions profile to the user with the  UpdateUser API operation. Use the  RegisterUser API operation to add a new user with a custom permission profile attached. For more information, see the following sections in the Amazon QuickSight User Guide:    Embedding the Full Functionality of the Amazon QuickSight Console for Authenticated Users     Customizing Access to the Amazon QuickSight Console    For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the Amazon QuickSight Developer Portal.
         public let quickSightConsole: RegisteredUserQuickSightConsoleEmbeddingConfiguration?
 
-        public init(dashboard: RegisteredUserDashboardEmbeddingConfiguration? = nil, qSearchBar: RegisteredUserQSearchBarEmbeddingConfiguration? = nil, quickSightConsole: RegisteredUserQuickSightConsoleEmbeddingConfiguration? = nil) {
+        public init(dashboard: RegisteredUserDashboardEmbeddingConfiguration? = nil, dashboardVisual: RegisteredUserDashboardVisualEmbeddingConfiguration? = nil, qSearchBar: RegisteredUserQSearchBarEmbeddingConfiguration? = nil, quickSightConsole: RegisteredUserQuickSightConsoleEmbeddingConfiguration? = nil) {
             self.dashboard = dashboard
+            self.dashboardVisual = dashboardVisual
             self.qSearchBar = qSearchBar
             self.quickSightConsole = quickSightConsole
         }
 
         public func validate(name: String) throws {
             try self.dashboard?.validate(name: "\(name).dashboard")
+            try self.dashboardVisual?.validate(name: "\(name).dashboardVisual")
             try self.qSearchBar?.validate(name: "\(name).qSearchBar")
             try self.quickSightConsole?.validate(name: "\(name).quickSightConsole")
         }
 
         private enum CodingKeys: String, CodingKey {
             case dashboard = "Dashboard"
+            case dashboardVisual = "DashboardVisual"
             case qSearchBar = "QSearchBar"
             case quickSightConsole = "QuickSightConsole"
         }
@@ -12205,9 +12293,9 @@ extension QuickSight {
         /// The Amazon Web Services account ID associated with your Amazon QuickSight subscription.
         public let awsAccountId: String
         /// A Boolean value that indicates whether public sharing is turned on for an Amazon QuickSight account.
-        public let publicSharingEnabled: Bool?
+        public let publicSharingEnabled: Bool
 
-        public init(awsAccountId: String, publicSharingEnabled: Bool? = nil) {
+        public init(awsAccountId: String, publicSharingEnabled: Bool = false) {
             self.awsAccountId = awsAccountId
             self.publicSharingEnabled = publicSharingEnabled
         }
@@ -12760,11 +12848,11 @@ extension QuickSight {
         /// 	        screens dealing with permissions.
         public let role: UserRole
         /// A flag that you use to indicate that you want to remove all custom permissions from this user. Using this parameter resets the user to the state it was in before a custom permissions profile was applied. This parameter defaults to NULL and it doesn't accept any other value.
-        public let unapplyCustomPermissions: Bool?
+        public let unapplyCustomPermissions: Bool
         /// The Amazon QuickSight user name that you want to update.
         public let userName: String
 
-        public init(awsAccountId: String, customFederationProviderUrl: String? = nil, customPermissionsName: String? = nil, email: String, externalLoginFederationProviderType: String? = nil, externalLoginId: String? = nil, namespace: String, role: UserRole, unapplyCustomPermissions: Bool? = nil, userName: String) {
+        public init(awsAccountId: String, customFederationProviderUrl: String? = nil, customPermissionsName: String? = nil, email: String, externalLoginFederationProviderType: String? = nil, externalLoginId: String? = nil, namespace: String, role: UserRole, unapplyCustomPermissions: Bool = false, userName: String) {
             self.awsAccountId = awsAccountId
             self.customFederationProviderUrl = customFederationProviderUrl
             self.customPermissionsName = customPermissionsName
@@ -12882,7 +12970,7 @@ extension QuickSight {
         public let principalId: String?
         /// The Amazon QuickSight role for the user. The user role can be one of the following:.    READER: A user who has read-only access to dashboards.    AUTHOR: A user who can create data sources, datasets, analyses, and dashboards.    ADMIN: A user who is an author, who can also manage Amazon Amazon QuickSight settings.    RESTRICTED_READER: This role isn't currently available for use.    RESTRICTED_AUTHOR: This role isn't currently available for use.
         public let role: UserRole?
-        /// The user's user name. In the output, the value for UserName is N/A when the value for IdentityType is IAM and the corresponding IAM user is deleted.
+        /// The user's user name. This value is required if you are registering a user that will be managed in Amazon QuickSight. In the output, the value for UserName is N/A when the value for IdentityType is IAM and the corresponding IAM user is deleted.
         public let userName: String?
 
         public init(active: Bool? = nil, arn: String? = nil, customPermissionsName: String? = nil, email: String? = nil, externalLoginFederationProviderType: String? = nil, externalLoginFederationProviderUrl: String? = nil, externalLoginId: String? = nil, identityType: IdentityType? = nil, principalId: String? = nil, role: UserRole? = nil, userName: String? = nil) {

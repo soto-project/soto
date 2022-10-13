@@ -20,7 +20,7 @@ import SotoCore
 // MARK: Paginators
 
 extension Proton {
-    ///  Get a list of component Infrastructure as Code (IaC) outputs. For more information about components, see Proton components in the Proton Administrator Guide.
+    ///  Get a list of component Infrastructure as Code (IaC) outputs. For more information about components, see Proton components in the Proton User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -73,7 +73,7 @@ extension Proton {
         )
     }
 
-    ///  List provisioned resources for a component with details. For more information about components, see Proton components in the Proton Administrator Guide.
+    ///  List provisioned resources for a component with details. For more information about components, see Proton components in the Proton User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -126,7 +126,7 @@ extension Proton {
         )
     }
 
-    ///  List components with summary data. You can filter the result list by environment, service, or a single service instance. For more information about components, see Proton components in the Proton Administrator Guide.
+    ///  List components with summary data. You can filter the result list by environment, service, or a single service instance. For more information about components, see Proton components in the Proton User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -179,7 +179,7 @@ extension Proton {
         )
     }
 
-    ///  View a list of environment account connections. For more information, see Environment account connections in the Proton Administrator guide.
+    ///  View a list of environment account connections. For more information, see Environment account connections in the Proton User guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -497,7 +497,7 @@ extension Proton {
         )
     }
 
-    ///  List repositories with detail data.
+    ///  List linked repositories with detail data.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1027,7 +1027,7 @@ extension Proton {
         )
     }
 
-    ///  List tags for a resource. For more information, see Proton resources and tagging in the Proton Administrator Guide or Proton User Guide.
+    ///  List tags for a resource. For more information, see Proton resources and tagging in the Proton User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

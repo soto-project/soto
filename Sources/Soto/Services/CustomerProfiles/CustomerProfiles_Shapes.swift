@@ -1722,6 +1722,8 @@ extension CustomerProfiles {
         public let createdAt: Date
         /// The unique name of the domain.
         public let domainName: String
+        /// Boolean to indicate if the Flow associated with the Integration is created via Appflow  console or with ObjectTypeName equals _unstructured via API/CLI in flowDefinition
+        public let isUnstructured: Bool?
         /// The timestamp of when the domain was most recently edited.
         public let lastUpdatedAt: Date
         /// The name of the profile object type.
@@ -1737,9 +1739,10 @@ extension CustomerProfiles {
         /// Unique identifier for the workflow.
         public let workflowId: String?
 
-        public init(createdAt: Date, domainName: String, lastUpdatedAt: Date, objectTypeName: String? = nil, objectTypeNames: [String: String]? = nil, tags: [String: String]? = nil, uri: String, workflowId: String? = nil) {
+        public init(createdAt: Date, domainName: String, isUnstructured: Bool? = nil, lastUpdatedAt: Date, objectTypeName: String? = nil, objectTypeNames: [String: String]? = nil, tags: [String: String]? = nil, uri: String, workflowId: String? = nil) {
             self.createdAt = createdAt
             self.domainName = domainName
+            self.isUnstructured = isUnstructured
             self.lastUpdatedAt = lastUpdatedAt
             self.objectTypeName = objectTypeName
             self.objectTypeNames = objectTypeNames
@@ -1751,6 +1754,7 @@ extension CustomerProfiles {
         private enum CodingKeys: String, CodingKey {
             case createdAt = "CreatedAt"
             case domainName = "DomainName"
+            case isUnstructured = "IsUnstructured"
             case lastUpdatedAt = "LastUpdatedAt"
             case objectTypeName = "ObjectTypeName"
             case objectTypeNames = "ObjectTypeNames"
@@ -2391,6 +2395,8 @@ extension CustomerProfiles {
         public let createdAt: Date
         /// The unique name of the domain.
         public let domainName: String
+        /// Boolean to indicate if the Flow associated with the Integration is created via Appflow console or with ObjectTypeName equals _unstructured via API/CLI in flowDefinition
+        public let isUnstructured: Bool?
         /// The timestamp of when the domain was most recently edited.
         public let lastUpdatedAt: Date
         /// The name of the profile object type.
@@ -2406,9 +2412,10 @@ extension CustomerProfiles {
         /// Unique identifier for the workflow.
         public let workflowId: String?
 
-        public init(createdAt: Date, domainName: String, lastUpdatedAt: Date, objectTypeName: String? = nil, objectTypeNames: [String: String]? = nil, tags: [String: String]? = nil, uri: String, workflowId: String? = nil) {
+        public init(createdAt: Date, domainName: String, isUnstructured: Bool? = nil, lastUpdatedAt: Date, objectTypeName: String? = nil, objectTypeNames: [String: String]? = nil, tags: [String: String]? = nil, uri: String, workflowId: String? = nil) {
             self.createdAt = createdAt
             self.domainName = domainName
+            self.isUnstructured = isUnstructured
             self.lastUpdatedAt = lastUpdatedAt
             self.objectTypeName = objectTypeName
             self.objectTypeNames = objectTypeNames
@@ -2420,6 +2427,7 @@ extension CustomerProfiles {
         private enum CodingKeys: String, CodingKey {
             case createdAt = "CreatedAt"
             case domainName = "DomainName"
+            case isUnstructured = "IsUnstructured"
             case lastUpdatedAt = "LastUpdatedAt"
             case objectTypeName = "ObjectTypeName"
             case objectTypeNames = "ObjectTypeNames"
@@ -3245,6 +3253,8 @@ extension CustomerProfiles {
         public let createdAt: Date
         /// The unique name of the domain.
         public let domainName: String
+        /// Boolean to indicate if the Flow associated with the Integration is created via Appflow  console or with ObjectTypeName equals _unstructured via API/CLI in flowDefinition
+        public let isUnstructured: Bool?
         /// The timestamp of when the domain was most recently edited.
         public let lastUpdatedAt: Date
         /// The name of the profile object type.
@@ -3260,9 +3270,10 @@ extension CustomerProfiles {
         /// Unique identifier for the workflow.
         public let workflowId: String?
 
-        public init(createdAt: Date, domainName: String, lastUpdatedAt: Date, objectTypeName: String? = nil, objectTypeNames: [String: String]? = nil, tags: [String: String]? = nil, uri: String, workflowId: String? = nil) {
+        public init(createdAt: Date, domainName: String, isUnstructured: Bool? = nil, lastUpdatedAt: Date, objectTypeName: String? = nil, objectTypeNames: [String: String]? = nil, tags: [String: String]? = nil, uri: String, workflowId: String? = nil) {
             self.createdAt = createdAt
             self.domainName = domainName
+            self.isUnstructured = isUnstructured
             self.lastUpdatedAt = lastUpdatedAt
             self.objectTypeName = objectTypeName
             self.objectTypeNames = objectTypeNames
@@ -3274,6 +3285,7 @@ extension CustomerProfiles {
         private enum CodingKeys: String, CodingKey {
             case createdAt = "CreatedAt"
             case domainName = "DomainName"
+            case isUnstructured = "IsUnstructured"
             case lastUpdatedAt = "LastUpdatedAt"
             case objectTypeName = "ObjectTypeName"
             case objectTypeNames = "ObjectTypeNames"

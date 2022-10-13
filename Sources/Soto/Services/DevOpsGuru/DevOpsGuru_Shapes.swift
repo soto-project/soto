@@ -51,11 +51,11 @@ extension DevOpsGuru {
         case average = "Average"
         case maximum = "Maximum"
         case minimum = "Minimum"
-        case sampleCount = "SampleCount"
-        case sum = "Sum"
         case p50
         case p90
         case p99
+        case sampleCount = "SampleCount"
+        case sum = "Sum"
         public var description: String { return self.rawValue }
     }
 
@@ -147,6 +147,15 @@ extension DevOpsGuru {
         public var description: String { return self.rawValue }
     }
 
+    public enum NotificationMessageType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case closedInsight = "CLOSED_INSIGHT"
+        case newAssociation = "NEW_ASSOCIATION"
+        case newInsight = "NEW_INSIGHT"
+        case newRecommendation = "NEW_RECOMMENDATION"
+        case severityUpgraded = "SEVERITY_UPGRADED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum OptInStatus: String, CustomStringConvertible, Codable, _SotoSendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
@@ -188,8 +197,8 @@ extension DevOpsGuru {
         case ec2 = "EC2"
         case ecs = "ECS"
         case eks = "EKS"
-        case elasticBeanstalk = "ELASTIC_BEANSTALK"
         case elastiCache = "ELASTI_CACHE"
+        case elasticBeanstalk = "ELASTIC_BEANSTALK"
         case elb = "ELB"
         case es = "ES"
         case kinesis = "KINESIS"
@@ -583,11 +592,11 @@ extension DevOpsGuru {
         /// 			estimate.  Tags help you identify and organize your Amazon Web Services resources. Many Amazon Web Services services support 		tagging, so you can assign the same tag to resources from different services to indicate 		that the resources are related. For example, you can assign the same tag to an Amazon DynamoDB 		table resource that you assign to an Lambda function. For more information about 		using tags, see the Tagging 			best practices whitepaper.  	     Each Amazon Web Services tag has two parts.  	       			         A tag key (for example, CostCenter, 				Environment, Project, or Secret). Tag 				keys are case-sensitive. 		         			         An optional field known as a tag value (for example, 				111122223333, Production, or a team 				name). Omitting the tag value is the same as using an empty 				string. Like tag keys, tag values are 				case-sensitive. 		         	     Together these are known as key-value pairs.
         /// 		          The string used for a key in a tag that you use to define your resource coverage must begin with the
         /// 			prefix Devops-guru-. The tag key might be
-        /// 			Devops-guru-deployment-application or
-        /// 			Devops-guru-rds-application. While keys are case-sensitive, the
-        /// 			case of key characters don't matter to DevOps Guru. For example, DevOps Guru works with a
+        /// 			DevOps-Guru-deployment-application or
+        /// 			devops-guru-rds-application. When you create a key, the case of characters in the key can be whatever you choose. After you create a key, it is case-sensitive.
+        /// 			 For example, DevOps Guru works with a
         /// 			key named devops-guru-rds and a key named
-        /// 			DevOps-Guru-RDS. Possible key/value pairs in your
+        /// 			DevOps-Guru-RDS, and these act as two different keys. Possible key/value pairs in your
         /// 			application might be Devops-Guru-production-application/RDS or
         /// 			Devops-Guru-production-application/containers.
         ///
@@ -1056,11 +1065,11 @@ extension DevOpsGuru {
         /// Tags help you identify and organize your Amazon Web Services resources. Many Amazon Web Services services support 		tagging, so you can assign the same tag to resources from different services to indicate 		that the resources are related. For example, you can assign the same tag to an Amazon DynamoDB 		table resource that you assign to an Lambda function. For more information about 		using tags, see the Tagging 			best practices whitepaper.  	     Each Amazon Web Services tag has two parts.  	       			         A tag key (for example, CostCenter, 				Environment, Project, or Secret). Tag 				keys are case-sensitive. 		         			         An optional field known as a tag value (for example, 				111122223333, Production, or a team 				name). Omitting the tag value is the same as using an empty 				string. Like tag keys, tag values are 				case-sensitive. 		         	     Together these are known as key-value pairs.
         /// 		          The string used for a key in a tag that you use to define your resource coverage must begin with the
         /// 			prefix Devops-guru-. The tag key might be
-        /// 			Devops-guru-deployment-application or
-        /// 			Devops-guru-rds-application. While keys are case-sensitive, the
-        /// 			case of key characters don't matter to DevOps Guru. For example, DevOps Guru works with a
+        /// 			DevOps-Guru-deployment-application or
+        /// 			devops-guru-rds-application. When you create a key, the case of characters in the key can be whatever you choose. After you create a key, it is case-sensitive.
+        /// 			 For example, DevOps Guru works with a
         /// 			key named devops-guru-rds and a key named
-        /// 			DevOps-Guru-RDS. Possible key/value pairs in your
+        /// 			DevOps-Guru-RDS, and these act as two different keys. Possible key/value pairs in your
         /// 			application might be Devops-Guru-production-application/RDS or
         /// 			Devops-Guru-production-application/containers.
         ///
@@ -1123,11 +1132,11 @@ extension DevOpsGuru {
         /// 		       Tags help you identify and organize your Amazon Web Services resources. Many Amazon Web Services services support 		tagging, so you can assign the same tag to resources from different services to indicate 		that the resources are related. For example, you can assign the same tag to an Amazon DynamoDB 		table resource that you assign to an Lambda function. For more information about 		using tags, see the Tagging 			best practices whitepaper.  	     Each Amazon Web Services tag has two parts.  	       			         A tag key (for example, CostCenter, 				Environment, Project, or Secret). Tag 				keys are case-sensitive. 		         			         An optional field known as a tag value (for example, 				111122223333, Production, or a team 				name). Omitting the tag value is the same as using an empty 				string. Like tag keys, tag values are 				case-sensitive. 		         	     Together these are known as key-value pairs.
         /// 		          The string used for a key in a tag that you use to define your resource coverage must begin with the
         /// 			prefix Devops-guru-. The tag key might be
-        /// 			Devops-guru-deployment-application or
-        /// 			Devops-guru-rds-application. While keys are case-sensitive, the
-        /// 			case of key characters don't matter to DevOps Guru. For example, DevOps Guru works with a
+        /// 			DevOps-Guru-deployment-application or
+        /// 			devops-guru-rds-application. When you create a key, the case of characters in the key can be whatever you choose. After you create a key, it is case-sensitive.
+        /// 			 For example, DevOps Guru works with a
         /// 			key named devops-guru-rds and a key named
-        /// 			DevOps-Guru-RDS. Possible key/value pairs in your
+        /// 			DevOps-Guru-RDS, and these act as two different keys. Possible key/value pairs in your
         /// 			application might be Devops-Guru-production-application/RDS or
         /// 			Devops-Guru-production-application/containers.
         ///
@@ -2153,6 +2162,10 @@ extension DevOpsGuru {
     }
 
     public struct NotificationChannelConfig: AWSEncodableShape & AWSDecodableShape {
+        /// 			The filter configurations for the Amazon SNS notification topic you use with DevOps Guru.
+        /// 			If you do not provide filter configurations, the default configurations are to receive notifications for all message types of High or Medium severity.
+        ///
+        public let filters: NotificationFilterConfig?
         ///  Information about a notification channel configured in DevOps Guru to send notifications
         /// 			when insights are created.   If you use an Amazon SNS topic in another account, you must attach a policy to it that grants DevOps Guru permission
         /// 				to it notifications. DevOps Guru adds the required policy on your behalf to send notifications using Amazon SNS in your account. DevOps Guru only supports standard SNS topics.
@@ -2164,16 +2177,44 @@ extension DevOpsGuru {
         /// 				Amazon Web Services KMS–encrypted Amazon SNS topics.
         public let sns: SnsChannelConfig
 
-        public init(sns: SnsChannelConfig) {
+        public init(filters: NotificationFilterConfig? = nil, sns: SnsChannelConfig) {
+            self.filters = filters
             self.sns = sns
         }
 
         public func validate(name: String) throws {
+            try self.filters?.validate(name: "\(name).filters")
             try self.sns.validate(name: "\(name).sns")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
             case sns = "Sns"
+        }
+    }
+
+    public struct NotificationFilterConfig: AWSEncodableShape & AWSDecodableShape {
+        /// 			The events that you want to receive notifications for. For example, you can choose to receive notifications only when the severity level is upgraded or a new insight is created.
+        ///
+        public let messageTypes: [NotificationMessageType]?
+        /// 			The severity levels that you want to receive notifications for. For example, you can choose to receive notifications only for insights with HIGH and MEDIUM severity levels.
+        /// 			For more information, see Understanding insight severities.
+        ///
+        public let severities: [InsightSeverity]?
+
+        public init(messageTypes: [NotificationMessageType]? = nil, severities: [InsightSeverity]? = nil) {
+            self.messageTypes = messageTypes
+            self.severities = severities
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.messageTypes, name: "messageTypes", parent: name, max: 5)
+            try self.validate(self.severities, name: "severities", parent: name, max: 3)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case messageTypes = "MessageTypes"
+            case severities = "Severities"
         }
     }
 
@@ -3262,11 +3303,11 @@ extension DevOpsGuru {
         /// 		       Tags help you identify and organize your Amazon Web Services resources. Many Amazon Web Services services support 		tagging, so you can assign the same tag to resources from different services to indicate 		that the resources are related. For example, you can assign the same tag to an Amazon DynamoDB 		table resource that you assign to an Lambda function. For more information about 		using tags, see the Tagging 			best practices whitepaper.  	     Each Amazon Web Services tag has two parts.  	       			         A tag key (for example, CostCenter, 				Environment, Project, or Secret). Tag 				keys are case-sensitive. 		         			         An optional field known as a tag value (for example, 				111122223333, Production, or a team 				name). Omitting the tag value is the same as using an empty 				string. Like tag keys, tag values are 				case-sensitive. 		         	     Together these are known as key-value pairs.
         /// 		          The string used for a key in a tag that you use to define your resource coverage must begin with the
         /// 			prefix Devops-guru-. The tag key might be
-        /// 			Devops-guru-deployment-application or
-        /// 			Devops-guru-rds-application. While keys are case-sensitive, the
-        /// 			case of key characters don't matter to DevOps Guru. For example, DevOps Guru works with a
+        /// 			DevOps-Guru-deployment-application or
+        /// 			devops-guru-rds-application. When you create a key, the case of characters in the key can be whatever you choose. After you create a key, it is case-sensitive.
+        /// 			 For example, DevOps Guru works with a
         /// 			key named devops-guru-rds and a key named
-        /// 			DevOps-Guru-RDS. Possible key/value pairs in your
+        /// 			DevOps-Guru-RDS, and these act as two different keys. Possible key/value pairs in your
         /// 			application might be Devops-Guru-production-application/RDS or
         /// 			Devops-Guru-production-application/containers.
         ///
@@ -3300,11 +3341,11 @@ extension DevOpsGuru {
         /// 		       Tags help you identify and organize your Amazon Web Services resources. Many Amazon Web Services services support 		tagging, so you can assign the same tag to resources from different services to indicate 		that the resources are related. For example, you can assign the same tag to an Amazon DynamoDB 		table resource that you assign to an Lambda function. For more information about 		using tags, see the Tagging 			best practices whitepaper.  	     Each Amazon Web Services tag has two parts.  	       			         A tag key (for example, CostCenter, 				Environment, Project, or Secret). Tag 				keys are case-sensitive. 		         			         An optional field known as a tag value (for example, 				111122223333, Production, or a team 				name). Omitting the tag value is the same as using an empty 				string. Like tag keys, tag values are 				case-sensitive. 		         	     Together these are known as key-value pairs.
         /// 		          The string used for a key in a tag that you use to define your resource coverage must begin with the
         /// 			prefix Devops-guru-. The tag key might be
-        /// 			Devops-guru-deployment-application or
-        /// 			Devops-guru-rds-application. While keys are case-sensitive, the
-        /// 			case of key characters don't matter to DevOps Guru. For example, DevOps Guru works with a
+        /// 			DevOps-Guru-deployment-application or
+        /// 			devops-guru-rds-application. When you create a key, the case of characters in the key can be whatever you choose. After you create a key, it is case-sensitive.
+        /// 			 For example, DevOps Guru works with a
         /// 			key named devops-guru-rds and a key named
-        /// 			DevOps-Guru-RDS. Possible key/value pairs in your
+        /// 			DevOps-Guru-RDS, and these act as two different keys. Possible key/value pairs in your
         /// 			application might be Devops-Guru-production-application/RDS or
         /// 			Devops-Guru-production-application/containers.
         ///
@@ -3691,11 +3732,11 @@ extension DevOpsGuru {
         /// An Amazon Web Services tag key that is used to identify the Amazon Web Services resources that  	DevOps Guru analyzes. All Amazon Web Services resources in your account and Region tagged with this key make  up your DevOps Guru application and analysis boundary.
         /// 		          The string used for a key in a tag that you use to define your resource coverage must begin with the
         /// 			prefix Devops-guru-. The tag key might be
-        /// 			Devops-guru-deployment-application or
-        /// 			Devops-guru-rds-application. While keys are case-sensitive, the
-        /// 			case of key characters don't matter to DevOps Guru. For example, DevOps Guru works with a
+        /// 			DevOps-Guru-deployment-application or
+        /// 			devops-guru-rds-application. When you create a key, the case of characters in the key can be whatever you choose. After you create a key, it is case-sensitive.
+        /// 			 For example, DevOps Guru works with a
         /// 			key named devops-guru-rds and a key named
-        /// 			DevOps-Guru-RDS. Possible key/value pairs in your
+        /// 			DevOps-Guru-RDS, and these act as two different keys. Possible key/value pairs in your
         /// 			application might be Devops-Guru-production-application/RDS or
         /// 			Devops-Guru-production-application/containers.
         ///
@@ -3729,11 +3770,11 @@ extension DevOpsGuru {
         /// An Amazon Web Services tag key that is used to identify the Amazon Web Services resources that  	DevOps Guru analyzes. All Amazon Web Services resources in your account and Region tagged with this key make  up your DevOps Guru application and analysis boundary.
         /// 		          The string used for a key in a tag that you use to define your resource coverage must begin with the
         /// 			prefix Devops-guru-. The tag key might be
-        /// 			Devops-guru-deployment-application or
-        /// 			Devops-guru-rds-application. While keys are case-sensitive, the
-        /// 			case of key characters don't matter to DevOps Guru. For example, DevOps Guru works with a
+        /// 			DevOps-Guru-deployment-application or
+        /// 			devops-guru-rds-application. When you create a key, the case of characters in the key can be whatever you choose. After you create a key, it is case-sensitive.
+        /// 			 For example, DevOps Guru works with a
         /// 			key named devops-guru-rds and a key named
-        /// 			DevOps-Guru-RDS. Possible key/value pairs in your
+        /// 			DevOps-Guru-RDS, and these act as two different keys. Possible key/value pairs in your
         /// 			application might be Devops-Guru-production-application/RDS or
         /// 			Devops-Guru-production-application/containers.
         ///
@@ -3757,11 +3798,11 @@ extension DevOpsGuru {
         /// An Amazon Web Services tag key that is used to identify the Amazon Web Services resources that  	DevOps Guru analyzes. All Amazon Web Services resources in your account and Region tagged with this key make  up your DevOps Guru application and analysis boundary.
         /// 		          The string used for a key in a tag that you use to define your resource coverage must begin with the
         /// 			prefix Devops-guru-. The tag key might be
-        /// 			Devops-guru-deployment-application or
-        /// 			Devops-guru-rds-application. While keys are case-sensitive, the
-        /// 			case of key characters don't matter to DevOps Guru. For example, DevOps Guru works with a
+        /// 			DevOps-Guru-deployment-application or
+        /// 			devops-guru-rds-application. When you create a key, the case of characters in the key can be whatever you choose. After you create a key, it is case-sensitive.
+        /// 			 For example, DevOps Guru works with a
         /// 			key named devops-guru-rds and a key named
-        /// 			DevOps-Guru-RDS. Possible key/value pairs in your
+        /// 			DevOps-Guru-RDS, and these act as two different keys. Possible key/value pairs in your
         /// 			application might be Devops-Guru-production-application/RDS or
         /// 			Devops-Guru-production-application/containers.
         ///
@@ -3797,11 +3838,11 @@ extension DevOpsGuru {
         /// An Amazon Web Services tag key that is used to identify the Amazon Web Services resources that  	DevOps Guru analyzes. All Amazon Web Services resources in your account and Region tagged with this key make  up your DevOps Guru application and analysis boundary.
         /// 		          The string used for a key in a tag that you use to define your resource coverage must begin with the
         /// 			prefix Devops-guru-. The tag key might be
-        /// 			Devops-guru-deployment-application or
-        /// 			Devops-guru-rds-application. While keys are case-sensitive, the
-        /// 			case of key characters don't matter to DevOps Guru. For example, DevOps Guru works with a
+        /// 			DevOps-Guru-deployment-application or
+        /// 			devops-guru-rds-application. When you create a key, the case of characters in the key can be whatever you choose. After you create a key, it is case-sensitive.
+        /// 			 For example, DevOps Guru works with a
         /// 			key named devops-guru-rds and a key named
-        /// 			DevOps-Guru-RDS. Possible key/value pairs in your
+        /// 			DevOps-Guru-RDS, and these act as two different keys. Possible key/value pairs in your
         /// 			application might be Devops-Guru-production-application/RDS or
         /// 			Devops-Guru-production-application/containers.
         ///
@@ -3892,11 +3933,11 @@ extension DevOpsGuru {
         /// 		       Tags help you identify and organize your Amazon Web Services resources. Many Amazon Web Services services support 		tagging, so you can assign the same tag to resources from different services to indicate 		that the resources are related. For example, you can assign the same tag to an Amazon DynamoDB 		table resource that you assign to an Lambda function. For more information about 		using tags, see the Tagging 			best practices whitepaper.  	     Each Amazon Web Services tag has two parts.  	       			         A tag key (for example, CostCenter, 				Environment, Project, or Secret). Tag 				keys are case-sensitive. 		         			         An optional field known as a tag value (for example, 				111122223333, Production, or a team 				name). Omitting the tag value is the same as using an empty 				string. Like tag keys, tag values are 				case-sensitive. 		         	     Together these are known as key-value pairs.
         /// 		          The string used for a key in a tag that you use to define your resource coverage must begin with the
         /// 			prefix Devops-guru-. The tag key might be
-        /// 			Devops-guru-deployment-application or
-        /// 			Devops-guru-rds-application. While keys are case-sensitive, the
-        /// 			case of key characters don't matter to DevOps Guru. For example, DevOps Guru works with a
+        /// 			DevOps-Guru-deployment-application or
+        /// 			devops-guru-rds-application. When you create a key, the case of characters in the key can be whatever you choose. After you create a key, it is case-sensitive.
+        /// 			 For example, DevOps Guru works with a
         /// 			key named devops-guru-rds and a key named
-        /// 			DevOps-Guru-RDS. Possible key/value pairs in your
+        /// 			DevOps-Guru-RDS, and these act as two different keys. Possible key/value pairs in your
         /// 			application might be Devops-Guru-production-application/RDS or
         /// 			Devops-Guru-production-application/containers.
         ///
@@ -3984,11 +4025,11 @@ extension DevOpsGuru {
         /// An Amazon Web Services tag key that is used to identify the Amazon Web Services resources that  	DevOps Guru analyzes. All Amazon Web Services resources in your account and Region tagged with this key make  up your DevOps Guru application and analysis boundary.
         /// 		          The string used for a key in a tag that you use to define your resource coverage must begin with the
         /// 			prefix Devops-guru-. The tag key might be
-        /// 			Devops-guru-deployment-application or
-        /// 			Devops-guru-rds-application. While keys are case-sensitive, the
-        /// 			case of key characters don't matter to DevOps Guru. For example, DevOps Guru works with a
+        /// 			DevOps-Guru-deployment-application or
+        /// 			devops-guru-rds-application. When you create a key, the case of characters in the key can be whatever you choose. After you create a key, it is case-sensitive.
+        /// 			 For example, DevOps Guru works with a
         /// 			key named devops-guru-rds and a key named
-        /// 			DevOps-Guru-RDS. Possible key/value pairs in your
+        /// 			DevOps-Guru-RDS, and these act as two different keys. Possible key/value pairs in your
         /// 			application might be Devops-Guru-production-application/RDS or
         /// 			Devops-Guru-production-application/containers.
         ///

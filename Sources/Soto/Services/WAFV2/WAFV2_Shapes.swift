@@ -48,6 +48,10 @@ extension WAFV2 {
     }
 
     public enum CountryCode: String, CustomStringConvertible, Codable, _SotoSendable {
+        case `as` = "AS"
+        case `do` = "DO"
+        case `in` = "IN"
+        case `is` = "IS"
         case ad = "AD"
         case ae = "AE"
         case af = "AF"
@@ -58,7 +62,6 @@ extension WAFV2 {
         case ao = "AO"
         case aq = "AQ"
         case ar = "AR"
-        case `as` = "AS"
         case at = "AT"
         case au = "AU"
         case aw = "AW"
@@ -108,7 +111,6 @@ extension WAFV2 {
         case dj = "DJ"
         case dk = "DK"
         case dm = "DM"
-        case `do` = "DO"
         case dz = "DZ"
         case ec = "EC"
         case ee = "EE"
@@ -152,11 +154,9 @@ extension WAFV2 {
         case ie = "IE"
         case il = "IL"
         case im = "IM"
-        case `in` = "IN"
         case io = "IO"
         case iq = "IQ"
         case ir = "IR"
-        case `is` = "IS"
         case it = "IT"
         case je = "JE"
         case jm = "JM"
@@ -396,7 +396,7 @@ extension WAFV2 {
         case apiGateway = "API_GATEWAY"
         case applicationLoadBalancer = "APPLICATION_LOAD_BALANCER"
         case appsync = "APPSYNC"
-        case cognitoUserPool = "COGNITO_USER_POOL"
+        case cognitioUserPool = "COGNITO_USER_POOL"
         public var description: String { return self.rawValue }
     }
 
@@ -789,7 +789,7 @@ extension WAFV2 {
     }
 
     public struct CreateIPSetRequest: AWSEncodableShape {
-        /// Contains an array of strings that specifies zero or more IP addresses or blocks of IP addresses in Classless Inter-Domain Routing (CIDR) notation. WAF supports all IPv4 and IPv6 CIDR ranges except for /0.  Example address strings:    To configure WAF to allow, block, or count requests that originated from the IP address 192.0.2.44, specify 192.0.2.44/32.   To configure WAF to allow, block, or count requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify  192.0.2.0/24.   To configure WAF to allow, block, or count requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128.   To configure WAF to allow, block, or count requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64.   For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing.  Example JSON Addresses specifications:    Empty array: "Addresses": []     Array with one address: "Addresses": ["192.0.2.44/32"]     Array with three addresses: "Addresses": ["192.0.2.44/32", "192.0.2.0/24", "192.0.0.0/16"]     INVALID specification: "Addresses": [""] INVALID
+        /// Contains an array of strings that specifies zero or more IP addresses or blocks of IP addresses. All addresses must be specified using Classless Inter-Domain Routing (CIDR) notation. WAF supports all IPv4 and IPv6 CIDR ranges except for /0.  Example address strings:    To configure WAF to allow, block, or count requests that originated from the IP address 192.0.2.44, specify 192.0.2.44/32.   To configure WAF to allow, block, or count requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify  192.0.2.0/24.   To configure WAF to allow, block, or count requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128.   To configure WAF to allow, block, or count requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64.   For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing.  Example JSON Addresses specifications:    Empty array: "Addresses": []     Array with one address: "Addresses": ["192.0.2.44/32"]     Array with three addresses: "Addresses": ["192.0.2.44/32", "192.0.2.0/24", "192.0.0.0/16"]     INVALID specification: "Addresses": [""] INVALID
         public let addresses: [String]
         /// A description of the IP set that helps with identification.
         public let description: String?
@@ -930,7 +930,7 @@ extension WAFV2 {
         /// Defines and enables Amazon CloudWatch metrics and web request sample collection.
         public let visibilityConfig: VisibilityConfig
 
-        public init(capacity: Int64, customResponseBodies: [String: CustomResponseBody]? = nil, description: String? = nil, name: String, rules: [Rule]? = nil, scope: Scope, tags: [Tag]? = nil, visibilityConfig: VisibilityConfig) {
+        public init(capacity: Int64 = 0, customResponseBodies: [String: CustomResponseBody]? = nil, description: String? = nil, name: String, rules: [Rule]? = nil, scope: Scope, tags: [Tag]? = nil, visibilityConfig: VisibilityConfig) {
             self.capacity = capacity
             self.customResponseBodies = customResponseBodies
             self.description = description
@@ -1678,7 +1678,7 @@ extension WAFV2 {
     }
 
     public struct FirewallManagerStatement: AWSDecodableShape {
-        /// A rule statement used to run the rules that are defined in a managed rule group. To use this, provide the vendor name and the name of the rule group in this statement. You can retrieve the required names by calling ListAvailableManagedRuleGroups. You cannot nest a ManagedRuleGroupStatement, for example for use inside a NotStatement or OrStatement. It can only be referenced as a top-level statement within a rule.
+        /// A rule statement used to run the rules that are defined in a managed rule group. To use this, provide the vendor name and the name of the rule group in this statement. You can retrieve the required names by calling ListAvailableManagedRuleGroups. You cannot nest a ManagedRuleGroupStatement, for example for use inside a NotStatement or OrStatement. It can only be referenced as a top-level statement within a rule.   You are charged additional fees when you use the WAF Bot Control managed rule group AWSManagedRulesBotControlRuleSet or the WAF Fraud Control account takeover prevention (ATP) managed rule group AWSManagedRulesATPRuleSet. For more information, see WAF Pricing.
         public let managedRuleGroupStatement: ManagedRuleGroupStatement?
         /// A rule statement used to run the rules that are defined in a RuleGroup. To use this, create a rule group with your rules, then provide the ARN of the rule group in this statement. You cannot nest a RuleGroupReferenceStatement, for example for use inside a NotStatement or OrStatement. You  can only use a rule group reference statement at the top level inside a web ACL.
         public let ruleGroupReferenceStatement: RuleGroupReferenceStatement?
@@ -2140,7 +2140,7 @@ extension WAFV2 {
         /// The Amazon resource name (ARN) of the WebACL for which you want a sample of requests.
         public let webAclArn: String
 
-        public init(maxItems: Int64, ruleMetricName: String, scope: Scope, timeWindow: TimeWindow, webAclArn: String) {
+        public init(maxItems: Int64 = 0, ruleMetricName: String, scope: Scope, timeWindow: TimeWindow, webAclArn: String) {
             self.maxItems = maxItems
             self.ruleMetricName = ruleMetricName
             self.scope = scope
@@ -2386,7 +2386,7 @@ extension WAFV2 {
     }
 
     public struct IPSet: AWSDecodableShape {
-        /// Contains an array of strings that specifies zero or more IP addresses or blocks of IP addresses in Classless Inter-Domain Routing (CIDR) notation. WAF supports all IPv4 and IPv6 CIDR ranges except for /0.  Example address strings:    To configure WAF to allow, block, or count requests that originated from the IP address 192.0.2.44, specify 192.0.2.44/32.   To configure WAF to allow, block, or count requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify  192.0.2.0/24.   To configure WAF to allow, block, or count requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128.   To configure WAF to allow, block, or count requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64.   For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing.  Example JSON Addresses specifications:    Empty array: "Addresses": []     Array with one address: "Addresses": ["192.0.2.44/32"]     Array with three addresses: "Addresses": ["192.0.2.44/32", "192.0.2.0/24", "192.0.0.0/16"]     INVALID specification: "Addresses": [""] INVALID
+        /// Contains an array of strings that specifies zero or more IP addresses or blocks of IP addresses. All addresses must be specified using Classless Inter-Domain Routing (CIDR) notation. WAF supports all IPv4 and IPv6 CIDR ranges except for /0.  Example address strings:    To configure WAF to allow, block, or count requests that originated from the IP address 192.0.2.44, specify 192.0.2.44/32.   To configure WAF to allow, block, or count requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify  192.0.2.0/24.   To configure WAF to allow, block, or count requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128.   To configure WAF to allow, block, or count requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64.   For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing.  Example JSON Addresses specifications:    Empty array: "Addresses": []     Array with one address: "Addresses": ["192.0.2.44/32"]     Array with three addresses: "Addresses": ["192.0.2.44/32", "192.0.2.0/24", "192.0.0.0/16"]     INVALID specification: "Addresses": [""] INVALID
         public let addresses: [String]
         /// The Amazon Resource Name (ARN) of the entity.
         public let arn: String
@@ -2983,7 +2983,7 @@ extension WAFV2 {
     }
 
     public struct ListResourcesForWebACLRequest: AWSEncodableShape {
-        /// Used for web ACLs that are scoped for regional applications. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, or an Amazon Cognito user pool.
+        /// Used for web ACLs that are scoped for regional applications. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, or an Amazon Cognito user pool.   If you don't provide a resource type, the call uses the resource type APPLICATION_LOAD_BALANCER.   Default: APPLICATION_LOAD_BALANCER
         public let resourceType: ResourceType?
         /// The Amazon Resource Name (ARN) of the web ACL.
         public let webACLArn: String
@@ -3970,7 +3970,7 @@ extension WAFV2 {
         public let block: BlockAction?
         /// Instructs WAF to run a CAPTCHA check against the web request.
         public let captcha: CaptchaAction?
-        /// Instructs WAF to count the web request and allow it.
+        /// Instructs WAF to count the web request and then continue evaluating the request using the remaining rules in the web ACL.
         public let count: CountAction?
 
         public init(allow: AllowAction? = nil, block: BlockAction? = nil, captcha: CaptchaAction? = nil, count: CountAction? = nil) {
@@ -4281,7 +4281,7 @@ extension WAFV2 {
         public let ipSetReferenceStatement: IPSetReferenceStatement?
         /// A rule statement that defines a string match search against labels that have been added to the web request by rules that have already run in the web ACL.  The label match statement provides the label or namespace string to search for. The label string can represent a part or all of the fully qualified label name that had been added to the web request. Fully qualified labels have a prefix, optional namespaces, and label name. The prefix identifies the rule group or web ACL context of the rule that added the label.  If you do not provide the fully qualified name in your label match string, WAF performs the search for labels that were added in the same context as the label match statement.
         public let labelMatchStatement: LabelMatchStatement?
-        /// A rule statement used to run the rules that are defined in a managed rule group. To use this, provide the vendor name and the name of the rule group in this statement. You can retrieve the required names by calling ListAvailableManagedRuleGroups. You cannot nest a ManagedRuleGroupStatement, for example for use inside a NotStatement or OrStatement. It can only be referenced as a top-level statement within a rule.
+        /// A rule statement used to run the rules that are defined in a managed rule group. To use this, provide the vendor name and the name of the rule group in this statement. You can retrieve the required names by calling ListAvailableManagedRuleGroups. You cannot nest a ManagedRuleGroupStatement, for example for use inside a NotStatement or OrStatement. It can only be referenced as a top-level statement within a rule.   You are charged additional fees when you use the WAF Bot Control managed rule group AWSManagedRulesBotControlRuleSet or the WAF Fraud Control account takeover prevention (ATP) managed rule group AWSManagedRulesATPRuleSet. For more information, see WAF Pricing.
         public let managedRuleGroupStatement: ManagedRuleGroupStatement?
         /// A logical rule statement used to negate the results of another rule statement. You provide one Statement within the NotStatement.
         public let notStatement: NotStatement?
@@ -4503,7 +4503,7 @@ extension WAFV2 {
     }
 
     public struct UpdateIPSetRequest: AWSEncodableShape {
-        /// Contains an array of strings that specifies zero or more IP addresses or blocks of IP addresses in Classless Inter-Domain Routing (CIDR) notation. WAF supports all IPv4 and IPv6 CIDR ranges except for /0.  Example address strings:    To configure WAF to allow, block, or count requests that originated from the IP address 192.0.2.44, specify 192.0.2.44/32.   To configure WAF to allow, block, or count requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify  192.0.2.0/24.   To configure WAF to allow, block, or count requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128.   To configure WAF to allow, block, or count requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64.   For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing.  Example JSON Addresses specifications:    Empty array: "Addresses": []     Array with one address: "Addresses": ["192.0.2.44/32"]     Array with three addresses: "Addresses": ["192.0.2.44/32", "192.0.2.0/24", "192.0.0.0/16"]     INVALID specification: "Addresses": [""] INVALID
+        /// Contains an array of strings that specifies zero or more IP addresses or blocks of IP addresses. All addresses must be specified using Classless Inter-Domain Routing (CIDR) notation. WAF supports all IPv4 and IPv6 CIDR ranges except for /0.  Example address strings:    To configure WAF to allow, block, or count requests that originated from the IP address 192.0.2.44, specify 192.0.2.44/32.   To configure WAF to allow, block, or count requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify  192.0.2.0/24.   To configure WAF to allow, block, or count requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128.   To configure WAF to allow, block, or count requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64.   For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing.  Example JSON Addresses specifications:    Empty array: "Addresses": []     Array with one address: "Addresses": ["192.0.2.44/32"]     Array with three addresses: "Addresses": ["192.0.2.44/32", "192.0.2.0/24", "192.0.0.0/16"]     INVALID specification: "Addresses": [""] INVALID
         public let addresses: [String]
         /// A description of the IP set that helps with identification.
         public let description: String?

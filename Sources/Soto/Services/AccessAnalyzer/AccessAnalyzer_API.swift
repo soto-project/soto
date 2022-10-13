@@ -50,11 +50,11 @@ public struct AccessAnalyzer: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "access-analyzer",
+            service: "accessanalyzer",
+            signingName: "access-analyzer",
             serviceProtocol: .restjson,
             apiVersion: "2019-11-01",
             endpoint: endpoint,
-            serviceEndpoints: ["us-gov-east-1": "access-analyzer.us-gov-east-1.amazonaws.com", "us-gov-west-1": "access-analyzer.us-gov-west-1.amazonaws.com"],
             errorType: AccessAnalyzerErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

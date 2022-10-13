@@ -2630,12 +2630,6 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
-    public enum `Type`: String, CustomStringConvertible, Codable, _SotoSendable {
-        case custom = "CUSTOM"
-        case system = "SYSTEM"
-        public var description: String { return self.rawValue }
-    }
-
     public enum Vc3Class: String, CustomStringConvertible, Codable, _SotoSendable {
         case class1458Bit = "CLASS_145_8BIT"
         case class22010Bit = "CLASS_220_10BIT"
@@ -2932,6 +2926,12 @@ extension MediaConvert {
     public enum XavcTemporalAdaptiveQuantization: String, CustomStringConvertible, Codable, _SotoSendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum `Type`: String, CustomStringConvertible, Codable, _SotoSendable {
+        case custom = "CUSTOM"
+        case system = "SYSTEM"
         public var description: String { return self.rawValue }
     }
 

@@ -120,7 +120,7 @@ extension PI {
             try self.groupBy.validate(name: "\(name).groupBy")
             try self.validate(self.identifier, name: "identifier", parent: name, max: 256)
             try self.validate(self.identifier, name: "identifier", parent: name, pattern: "\\S")
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 20)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.metric, name: "metric", parent: name, max: 256)
             try self.validate(self.metric, name: "metric", parent: name, pattern: "\\S")
@@ -211,7 +211,7 @@ extension PI {
             try self.validate(self.dimensions, name: "dimensions", parent: name, min: 1)
             try self.validate(self.group, name: "group", parent: name, max: 256)
             try self.validate(self.group, name: "group", parent: name, pattern: "\\S")
-            try self.validate(self.limit, name: "limit", parent: name, max: 10)
+            try self.validate(self.limit, name: "limit", parent: name, max: 25)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
         }
 
@@ -426,7 +426,7 @@ extension PI {
         public func validate(name: String) throws {
             try self.validate(self.identifier, name: "identifier", parent: name, max: 256)
             try self.validate(self.identifier, name: "identifier", parent: name, pattern: "\\S")
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 20)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.metricQueries.forEach {
                 try $0.validate(name: "\(name).metricQueries[]")
@@ -502,7 +502,7 @@ extension PI {
         public func validate(name: String) throws {
             try self.validate(self.identifier, name: "identifier", parent: name, max: 256)
             try self.validate(self.identifier, name: "identifier", parent: name, pattern: "\\S")
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 20)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.metrics.forEach {
                 try validate($0, name: "metrics[]", parent: name, max: 256)
@@ -564,7 +564,7 @@ extension PI {
         public func validate(name: String) throws {
             try self.validate(self.identifier, name: "identifier", parent: name, max: 256)
             try self.validate(self.identifier, name: "identifier", parent: name, pattern: "\\S")
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 20)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.metricTypes.forEach {
                 try validate($0, name: "metricTypes[]", parent: name, max: 256)

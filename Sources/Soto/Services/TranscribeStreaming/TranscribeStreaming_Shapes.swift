@@ -82,16 +82,16 @@ extension TranscribeStreaming {
         public var description: String { return self.rawValue }
     }
 
-    public enum `Type`: String, CustomStringConvertible, Codable, _SotoSendable {
-        case conversation = "CONVERSATION"
-        case dictation = "DICTATION"
-        public var description: String { return self.rawValue }
-    }
-
     public enum VocabularyFilterMethod: String, CustomStringConvertible, Codable, _SotoSendable {
         case mask
         case remove
         case tag
+        public var description: String { return self.rawValue }
+    }
+
+    public enum `Type`: String, CustomStringConvertible, Codable, _SotoSendable {
+        case conversation = "CONVERSATION"
+        case dictation = "DICTATION"
         public var description: String { return self.rawValue }
     }
 

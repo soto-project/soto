@@ -2303,6 +2303,9 @@ extension CognitoIdentityProvider {
         public let allowedOAuthScopes: [String]?
         /// The user pool analytics configuration for collecting metrics and sending them to your Amazon Pinpoint campaign.  In Amazon Web Services Regions where Amazon Pinpoint isn't available, user pools only support sending events to Amazon Pinpoint projects in Amazon Web Services Region us-east-1. In Regions where Amazon Pinpoint is available, user pools support sending events to Amazon Pinpoint projects within that same Region.
         public let analyticsConfiguration: AnalyticsConfigurationType?
+        /// Amazon Cognito creates a session token for each API request in an authentication flow. AuthSessionValidity is the duration,
+        /// in minutes, of that session token. Your user pool native user must respond to each authentication challenge before the session expires.
+        public let authSessionValidity: Int?
         /// A list of allowed redirect (callback) URLs for the IdPs. A redirect URI must:   Be an absolute URI.   Be registered with the authorization server.   Not include a fragment component.   See OAuth 2.0 - Redirection Endpoint. Amazon Cognito requires HTTPS over HTTP except for http://localhost for testing purposes only. App callback URLs such as myapp://example are also supported.
         public let callbackURLs: [String]?
         /// The client name for the user pool client you would like to create.
@@ -2336,12 +2339,13 @@ extension CognitoIdentityProvider {
         /// The user pool attributes that the app client can write to. If your app client allows users to sign in through an IdP, this array must include all attributes that you have mapped to IdP attributes. Amazon Cognito updates mapped attributes when users sign in to your application through an IdP. If your app client does not have write access to a mapped attribute, Amazon Cognito throws an error when it tries to update the attribute. For more information, see Specifying IdP Attribute Mappings for Your user pool.
         public let writeAttributes: [String]?
 
-        public init(accessTokenValidity: Int? = nil, allowedOAuthFlows: [OAuthFlowType]? = nil, allowedOAuthFlowsUserPoolClient: Bool? = nil, allowedOAuthScopes: [String]? = nil, analyticsConfiguration: AnalyticsConfigurationType? = nil, callbackURLs: [String]? = nil, clientName: String, defaultRedirectURI: String? = nil, enablePropagateAdditionalUserContextData: Bool? = nil, enableTokenRevocation: Bool? = nil, explicitAuthFlows: [ExplicitAuthFlowsType]? = nil, generateSecret: Bool? = nil, idTokenValidity: Int? = nil, logoutURLs: [String]? = nil, preventUserExistenceErrors: PreventUserExistenceErrorTypes? = nil, readAttributes: [String]? = nil, refreshTokenValidity: Int? = nil, supportedIdentityProviders: [String]? = nil, tokenValidityUnits: TokenValidityUnitsType? = nil, userPoolId: String, writeAttributes: [String]? = nil) {
+        public init(accessTokenValidity: Int? = nil, allowedOAuthFlows: [OAuthFlowType]? = nil, allowedOAuthFlowsUserPoolClient: Bool? = nil, allowedOAuthScopes: [String]? = nil, analyticsConfiguration: AnalyticsConfigurationType? = nil, authSessionValidity: Int? = nil, callbackURLs: [String]? = nil, clientName: String, defaultRedirectURI: String? = nil, enablePropagateAdditionalUserContextData: Bool? = nil, enableTokenRevocation: Bool? = nil, explicitAuthFlows: [ExplicitAuthFlowsType]? = nil, generateSecret: Bool? = nil, idTokenValidity: Int? = nil, logoutURLs: [String]? = nil, preventUserExistenceErrors: PreventUserExistenceErrorTypes? = nil, readAttributes: [String]? = nil, refreshTokenValidity: Int? = nil, supportedIdentityProviders: [String]? = nil, tokenValidityUnits: TokenValidityUnitsType? = nil, userPoolId: String, writeAttributes: [String]? = nil) {
             self.accessTokenValidity = accessTokenValidity
             self.allowedOAuthFlows = allowedOAuthFlows
             self.allowedOAuthFlowsUserPoolClient = allowedOAuthFlowsUserPoolClient
             self.allowedOAuthScopes = allowedOAuthScopes
             self.analyticsConfiguration = analyticsConfiguration
+            self.authSessionValidity = authSessionValidity
             self.callbackURLs = callbackURLs
             self.clientName = clientName
             self.defaultRedirectURI = defaultRedirectURI
@@ -2371,6 +2375,8 @@ extension CognitoIdentityProvider {
             }
             try self.validate(self.allowedOAuthScopes, name: "allowedOAuthScopes", parent: name, max: 50)
             try self.analyticsConfiguration?.validate(name: "\(name).analyticsConfiguration")
+            try self.validate(self.authSessionValidity, name: "authSessionValidity", parent: name, max: 15)
+            try self.validate(self.authSessionValidity, name: "authSessionValidity", parent: name, min: 3)
             try self.callbackURLs?.forEach {
                 try validate($0, name: "callbackURLs[]", parent: name, max: 1024)
                 try validate($0, name: "callbackURLs[]", parent: name, min: 1)
@@ -2417,6 +2423,7 @@ extension CognitoIdentityProvider {
             case allowedOAuthFlowsUserPoolClient = "AllowedOAuthFlowsUserPoolClient"
             case allowedOAuthScopes = "AllowedOAuthScopes"
             case analyticsConfiguration = "AnalyticsConfiguration"
+            case authSessionValidity = "AuthSessionValidity"
             case callbackURLs = "CallbackURLs"
             case clientName = "ClientName"
             case defaultRedirectURI = "DefaultRedirectURI"
@@ -2506,9 +2513,9 @@ extension CognitoIdentityProvider {
         public let deviceConfiguration: DeviceConfigurationType?
         /// The email configuration of your user pool. The email configuration type sets your preferred sending method, Amazon Web Services Region, and sender for messages from your user pool.
         public let emailConfiguration: EmailConfigurationType?
-        /// A string representing the email verification message. EmailVerificationMessage is allowed only if EmailSendingAccount is DEVELOPER.
+        /// This parameter is no longer used. See VerificationMessageTemplateType.
         public let emailVerificationMessage: String?
-        /// A string representing the email verification subject. EmailVerificationSubject is allowed only if EmailSendingAccount is DEVELOPER.
+        /// This parameter is no longer used. See VerificationMessageTemplateType.
         public let emailVerificationSubject: String?
         /// The Lambda trigger configuration information for the new user pool.  In a push model, event sources (such as Amazon S3 and custom applications) need permission to invoke a function. So you must make an extra call to add permission for these event sources to invoke your Lambda function.  For more information on using the Lambda API to add permission, see AddPermission .  For adding permission using the CLI, see add-permission .
         public let lambdaConfig: LambdaConfigType?
@@ -2524,7 +2531,7 @@ extension CognitoIdentityProvider {
         public let smsAuthenticationMessage: String?
         /// The SMS configuration with the settings that your Amazon Cognito user pool must use to send an SMS message from your Amazon Web Services account through Amazon Simple Notification Service. To send SMS messages with Amazon SNS in the Amazon Web Services Region that you want, the Amazon Cognito user pool uses an Identity and Access Management (IAM) role in your Amazon Web Services account.
         public let smsConfiguration: SmsConfigurationType?
-        /// A string representing the SMS verification message.
+        /// This parameter is no longer used. See VerificationMessageTemplateType.
         public let smsVerificationMessage: String?
         /// The settings for updates to user attributes. These settings include the property AttributesRequireVerificationBeforeUpdate,
         /// a user-pool setting that tells Amazon Cognito how to handle changes to the value of your users' email address and phone number attributes. For
@@ -3166,9 +3173,9 @@ extension CognitoIdentityProvider {
     }
 
     public struct DeviceConfigurationType: AWSEncodableShape & AWSDecodableShape {
-        /// When true, device authentication can replace SMS and time-based one-time password (TOTP) factors for multi-factor authentication (MFA).  Regardless of the value of this field, users that sign in with new devices that have not been confirmed or remembered must provide a second factor if your user pool requires MFA.
+        /// When true, a remembered device can sign in with device authentication instead of SMS and time-based one-time password (TOTP) factors for multi-factor authentication (MFA).  Whether or not ChallengeRequiredOnNewDevice is true, users who sign in with devices that have not been confirmed or remembered must still provide a second factor in a user pool that requires MFA.
         public let challengeRequiredOnNewDevice: Bool?
-        /// When true, Amazon Cognito doesn't remember newly-confirmed devices. Users who want to authenticate with their device  can instead opt in to remembering their device. To collect a choice from your user, create an input prompt  in your app and return the value that the user chooses in an UpdateDeviceStatus API request.
+        /// When true, Amazon Cognito doesn't automatically remember a user's device when your app sends a  ConfirmDevice API request. In your app, create a prompt for your user to choose whether they want to remember their device. Return the user's choice in an  UpdateDeviceStatus API request. When DeviceOnlyRememberedOnUserPrompt is false, Amazon Cognito immediately remembers devices that you register in a ConfirmDevice API request.
         public let deviceOnlyRememberedOnUserPrompt: Bool?
 
         public init(challengeRequiredOnNewDevice: Bool? = nil, deviceOnlyRememberedOnUserPrompt: Bool? = nil) {
@@ -6098,6 +6105,9 @@ extension CognitoIdentityProvider {
         public let allowedOAuthScopes: [String]?
         /// The Amazon Pinpoint analytics configuration necessary to collect metrics for this user pool.  In Amazon Web Services Regions where Amazon Pinpoint isn't available, user pools only support sending events to Amazon Pinpoint projects in us-east-1. In Regions where Amazon Pinpoint is available, user pools support sending events to Amazon Pinpoint projects within that same Region.
         public let analyticsConfiguration: AnalyticsConfigurationType?
+        /// Amazon Cognito creates a session token for each API request in an authentication flow. AuthSessionValidity is the duration,
+        /// in minutes, of that session token. Your user pool native user must respond to each authentication challenge before the session expires.
+        public let authSessionValidity: Int?
         /// A list of allowed redirect (callback) URLs for the IdPs. A redirect URI must:   Be an absolute URI.   Be registered with the authorization server.   Not include a fragment component.   See OAuth 2.0 - Redirection Endpoint. Amazon Cognito requires HTTPS over HTTP except for http://localhost for testing purposes only. App callback URLs such as myapp://example are also supported.
         public let callbackURLs: [String]?
         /// The ID of the client associated with the user pool.
@@ -6131,12 +6141,13 @@ extension CognitoIdentityProvider {
         /// The writeable attributes of the user pool.
         public let writeAttributes: [String]?
 
-        public init(accessTokenValidity: Int? = nil, allowedOAuthFlows: [OAuthFlowType]? = nil, allowedOAuthFlowsUserPoolClient: Bool? = nil, allowedOAuthScopes: [String]? = nil, analyticsConfiguration: AnalyticsConfigurationType? = nil, callbackURLs: [String]? = nil, clientId: String, clientName: String? = nil, defaultRedirectURI: String? = nil, enablePropagateAdditionalUserContextData: Bool? = nil, enableTokenRevocation: Bool? = nil, explicitAuthFlows: [ExplicitAuthFlowsType]? = nil, idTokenValidity: Int? = nil, logoutURLs: [String]? = nil, preventUserExistenceErrors: PreventUserExistenceErrorTypes? = nil, readAttributes: [String]? = nil, refreshTokenValidity: Int? = nil, supportedIdentityProviders: [String]? = nil, tokenValidityUnits: TokenValidityUnitsType? = nil, userPoolId: String, writeAttributes: [String]? = nil) {
+        public init(accessTokenValidity: Int? = nil, allowedOAuthFlows: [OAuthFlowType]? = nil, allowedOAuthFlowsUserPoolClient: Bool? = nil, allowedOAuthScopes: [String]? = nil, analyticsConfiguration: AnalyticsConfigurationType? = nil, authSessionValidity: Int? = nil, callbackURLs: [String]? = nil, clientId: String, clientName: String? = nil, defaultRedirectURI: String? = nil, enablePropagateAdditionalUserContextData: Bool? = nil, enableTokenRevocation: Bool? = nil, explicitAuthFlows: [ExplicitAuthFlowsType]? = nil, idTokenValidity: Int? = nil, logoutURLs: [String]? = nil, preventUserExistenceErrors: PreventUserExistenceErrorTypes? = nil, readAttributes: [String]? = nil, refreshTokenValidity: Int? = nil, supportedIdentityProviders: [String]? = nil, tokenValidityUnits: TokenValidityUnitsType? = nil, userPoolId: String, writeAttributes: [String]? = nil) {
             self.accessTokenValidity = accessTokenValidity
             self.allowedOAuthFlows = allowedOAuthFlows
             self.allowedOAuthFlowsUserPoolClient = allowedOAuthFlowsUserPoolClient
             self.allowedOAuthScopes = allowedOAuthScopes
             self.analyticsConfiguration = analyticsConfiguration
+            self.authSessionValidity = authSessionValidity
             self.callbackURLs = callbackURLs
             self.clientId = clientId
             self.clientName = clientName
@@ -6166,6 +6177,8 @@ extension CognitoIdentityProvider {
             }
             try self.validate(self.allowedOAuthScopes, name: "allowedOAuthScopes", parent: name, max: 50)
             try self.analyticsConfiguration?.validate(name: "\(name).analyticsConfiguration")
+            try self.validate(self.authSessionValidity, name: "authSessionValidity", parent: name, max: 15)
+            try self.validate(self.authSessionValidity, name: "authSessionValidity", parent: name, min: 3)
             try self.callbackURLs?.forEach {
                 try validate($0, name: "callbackURLs[]", parent: name, max: 1024)
                 try validate($0, name: "callbackURLs[]", parent: name, min: 1)
@@ -6215,6 +6228,7 @@ extension CognitoIdentityProvider {
             case allowedOAuthFlowsUserPoolClient = "AllowedOAuthFlowsUserPoolClient"
             case allowedOAuthScopes = "AllowedOAuthScopes"
             case analyticsConfiguration = "AnalyticsConfiguration"
+            case authSessionValidity = "AuthSessionValidity"
             case callbackURLs = "CallbackURLs"
             case clientId = "ClientId"
             case clientName = "ClientName"
@@ -6302,9 +6316,9 @@ extension CognitoIdentityProvider {
         public let deviceConfiguration: DeviceConfigurationType?
         /// The email configuration of your user pool. The email configuration type sets your preferred sending method, Amazon Web Services Region, and sender for email invitation and verification messages from your user pool.
         public let emailConfiguration: EmailConfigurationType?
-        /// The contents of the email verification message.
+        /// This parameter is no longer used. See VerificationMessageTemplateType.
         public let emailVerificationMessage: String?
-        /// The subject of the email verification message.
+        /// This parameter is no longer used. See VerificationMessageTemplateType.
         public let emailVerificationSubject: String?
         /// The Lambda configuration information from the request to update the user pool.
         public let lambdaConfig: LambdaConfigType?
@@ -6316,7 +6330,7 @@ extension CognitoIdentityProvider {
         public let smsAuthenticationMessage: String?
         /// The SMS configuration with the settings that your Amazon Cognito user pool must use to send an SMS message from your Amazon Web Services account through Amazon Simple Notification Service. To send SMS messages with Amazon SNS in the Amazon Web Services Region that you want, the Amazon Cognito user pool uses an Identity and Access Management (IAM) role in your Amazon Web Services account.
         public let smsConfiguration: SmsConfigurationType?
-        /// A container with information about the SMS verification message.
+        /// This parameter is no longer used. See VerificationMessageTemplateType.
         public let smsVerificationMessage: String?
         /// The settings for updates to user attributes. These settings include the property AttributesRequireVerificationBeforeUpdate,
         /// a user-pool setting that tells Amazon Cognito how to handle changes to the value of your users' email address and phone number attributes. For
@@ -6545,6 +6559,9 @@ extension CognitoIdentityProvider {
         public let allowedOAuthScopes: [String]?
         /// The Amazon Pinpoint analytics configuration for the user pool client.  Amazon Cognito user pools only support sending events to Amazon Pinpoint projects in the US East (N. Virginia) us-east-1 Region, regardless of the Region where the user pool resides.
         public let analyticsConfiguration: AnalyticsConfigurationType?
+        /// Amazon Cognito creates a session token for each API request in an authentication flow. AuthSessionValidity is the duration,
+        /// in minutes, of that session token. Your user pool native user must respond to each authentication challenge before the session expires.
+        public let authSessionValidity: Int?
         /// A list of allowed redirect (callback) URLs for the IdPs. A redirect URI must:   Be an absolute URI.   Be registered with the authorization server.   Not include a fragment component.   See OAuth 2.0 - Redirection Endpoint. Amazon Cognito requires HTTPS over HTTP except for http://localhost for testing purposes only. App callback URLs such as myapp://example are also supported.
         public let callbackURLs: [String]?
         /// The ID of the client associated with the user pool.
@@ -6584,12 +6601,13 @@ extension CognitoIdentityProvider {
         /// The writeable attributes.
         public let writeAttributes: [String]?
 
-        public init(accessTokenValidity: Int? = nil, allowedOAuthFlows: [OAuthFlowType]? = nil, allowedOAuthFlowsUserPoolClient: Bool? = nil, allowedOAuthScopes: [String]? = nil, analyticsConfiguration: AnalyticsConfigurationType? = nil, callbackURLs: [String]? = nil, clientId: String? = nil, clientName: String? = nil, clientSecret: String? = nil, creationDate: Date? = nil, defaultRedirectURI: String? = nil, enablePropagateAdditionalUserContextData: Bool? = nil, enableTokenRevocation: Bool? = nil, explicitAuthFlows: [ExplicitAuthFlowsType]? = nil, idTokenValidity: Int? = nil, lastModifiedDate: Date? = nil, logoutURLs: [String]? = nil, preventUserExistenceErrors: PreventUserExistenceErrorTypes? = nil, readAttributes: [String]? = nil, refreshTokenValidity: Int? = nil, supportedIdentityProviders: [String]? = nil, tokenValidityUnits: TokenValidityUnitsType? = nil, userPoolId: String? = nil, writeAttributes: [String]? = nil) {
+        public init(accessTokenValidity: Int? = nil, allowedOAuthFlows: [OAuthFlowType]? = nil, allowedOAuthFlowsUserPoolClient: Bool? = nil, allowedOAuthScopes: [String]? = nil, analyticsConfiguration: AnalyticsConfigurationType? = nil, authSessionValidity: Int? = nil, callbackURLs: [String]? = nil, clientId: String? = nil, clientName: String? = nil, clientSecret: String? = nil, creationDate: Date? = nil, defaultRedirectURI: String? = nil, enablePropagateAdditionalUserContextData: Bool? = nil, enableTokenRevocation: Bool? = nil, explicitAuthFlows: [ExplicitAuthFlowsType]? = nil, idTokenValidity: Int? = nil, lastModifiedDate: Date? = nil, logoutURLs: [String]? = nil, preventUserExistenceErrors: PreventUserExistenceErrorTypes? = nil, readAttributes: [String]? = nil, refreshTokenValidity: Int? = nil, supportedIdentityProviders: [String]? = nil, tokenValidityUnits: TokenValidityUnitsType? = nil, userPoolId: String? = nil, writeAttributes: [String]? = nil) {
             self.accessTokenValidity = accessTokenValidity
             self.allowedOAuthFlows = allowedOAuthFlows
             self.allowedOAuthFlowsUserPoolClient = allowedOAuthFlowsUserPoolClient
             self.allowedOAuthScopes = allowedOAuthScopes
             self.analyticsConfiguration = analyticsConfiguration
+            self.authSessionValidity = authSessionValidity
             self.callbackURLs = callbackURLs
             self.clientId = clientId
             self.clientName = clientName
@@ -6617,6 +6635,7 @@ extension CognitoIdentityProvider {
             case allowedOAuthFlowsUserPoolClient = "AllowedOAuthFlowsUserPoolClient"
             case allowedOAuthScopes = "AllowedOAuthScopes"
             case analyticsConfiguration = "AnalyticsConfiguration"
+            case authSessionValidity = "AuthSessionValidity"
             case callbackURLs = "CallbackURLs"
             case clientId = "ClientId"
             case clientName = "ClientName"
@@ -6712,9 +6731,9 @@ extension CognitoIdentityProvider {
         public let emailConfiguration: EmailConfigurationType?
         /// Deprecated. Review error codes from API requests with EventSource:cognito-idp.amazonaws.com in CloudTrail for information about problems with user pool email configuration.
         public let emailConfigurationFailure: String?
-        /// The contents of the email verification message.
+        /// This parameter is no longer used. See VerificationMessageTemplateType.
         public let emailVerificationMessage: String?
-        /// The subject of the email verification message.
+        /// This parameter is no longer used. See VerificationMessageTemplateType.
         public let emailVerificationSubject: String?
         /// A number estimating the size of the user pool.
         public let estimatedNumberOfUsers: Int?
@@ -6738,7 +6757,7 @@ extension CognitoIdentityProvider {
         public let smsConfiguration: SmsConfigurationType?
         /// The reason why the SMS configuration can't send the messages to your users. This message might include comma-separated values to describe why your SMS configuration can't send messages to user pool end users.  InvalidSmsRoleAccessPolicyException  The Identity and Access Management role that Amazon Cognito uses to send SMS messages isn't properly configured. For more information, see SmsConfigurationType.  SNSSandbox  The Amazon Web Services account is in the SNS SMS Sandbox and messages will only reach verified end users. This parameter won’t get populated with SNSSandbox if the IAM user creating the user pool doesn’t have SNS permissions. To learn how to move your Amazon Web Services account out of the sandbox, see Moving out of the SMS sandbox.
         public let smsConfigurationFailure: String?
-        /// The contents of the SMS verification message.
+        /// This parameter is no longer used. See VerificationMessageTemplateType.
         public let smsVerificationMessage: String?
         /// The status of a user pool.
         public let status: StatusType?

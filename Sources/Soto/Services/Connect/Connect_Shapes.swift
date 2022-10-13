@@ -105,9 +105,9 @@ extension Connect {
         case agentsAvailable = "AGENTS_AVAILABLE"
         case agentsError = "AGENTS_ERROR"
         case agentsNonProductive = "AGENTS_NON_PRODUCTIVE"
-        case agentsOnline = "AGENTS_ONLINE"
         case agentsOnCall = "AGENTS_ON_CALL"
         case agentsOnContact = "AGENTS_ON_CONTACT"
+        case agentsOnline = "AGENTS_ONLINE"
         case agentsStaffed = "AGENTS_STAFFED"
         case contactsInQueue = "CONTACTS_IN_QUEUE"
         case contactsScheduled = "CONTACTS_SCHEDULED"
@@ -164,8 +164,8 @@ extension Connect {
         case interactionAndHoldTime = "INTERACTION_AND_HOLD_TIME"
         case interactionTime = "INTERACTION_TIME"
         case occupancy = "OCCUPANCY"
-        case queuedTime = "QUEUED_TIME"
         case queueAnswerTime = "QUEUE_ANSWER_TIME"
+        case queuedTime = "QUEUED_TIME"
         case serviceLevel = "SERVICE_LEVEL"
         public var description: String { return self.rawValue }
     }
@@ -183,8 +183,8 @@ extension Connect {
 
     public enum InstanceAttributeType: String, CustomStringConvertible, Codable, _SotoSendable {
         case autoResolveBestVoices = "AUTO_RESOLVE_BEST_VOICES"
-        case contactflowLogs = "CONTACTFLOW_LOGS"
         case contactLens = "CONTACT_LENS"
+        case contactflowLogs = "CONTACTFLOW_LOGS"
         case earlyMedia = "EARLY_MEDIA"
         case highVolumeOutbound = "HIGH_VOLUME_OUTBOUND"
         case inboundCalls = "INBOUND_CALLS"
@@ -213,6 +213,7 @@ extension Connect {
     }
 
     public enum IntegrationType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case casesDomain = "CASES_DOMAIN"
         case event = "EVENT"
         case pinpointApp = "PINPOINT_APP"
         case voiceId = "VOICE_ID"
@@ -228,6 +229,10 @@ extension Connect {
     }
 
     public enum PhoneNumberCountryCode: String, CustomStringConvertible, Codable, _SotoSendable {
+        case `as` = "AS"
+        case `do` = "DO"
+        case `in` = "IN"
+        case `is` = "IS"
         case ad = "AD"
         case ae = "AE"
         case af = "AF"
@@ -239,7 +244,6 @@ extension Connect {
         case ao = "AO"
         case aq = "AQ"
         case ar = "AR"
-        case `as` = "AS"
         case at = "AT"
         case au = "AU"
         case aw = "AW"
@@ -286,7 +290,6 @@ extension Connect {
         case dj = "DJ"
         case dk = "DK"
         case dm = "DM"
-        case `do` = "DO"
         case dz = "DZ"
         case ec = "EC"
         case ee = "EE"
@@ -326,11 +329,9 @@ extension Connect {
         case ie = "IE"
         case il = "IL"
         case im = "IM"
-        case `in` = "IN"
         case io = "IO"
         case iq = "IQ"
         case ir = "IR"
-        case `is` = "IS"
         case it = "IT"
         case je = "JE"
         case jm = "JM"
@@ -522,6 +523,11 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
+    public enum SearchableQueueType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case standard = "STANDARD"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SourceType: String, CustomStringConvertible, Codable, _SotoSendable {
         case salesforce = "SALESFORCE"
         case zendesk = "ZENDESK"
@@ -592,27 +598,27 @@ extension Connect {
     }
 
     public enum VocabularyLanguageCode: String, CustomStringConvertible, Codable, _SotoSendable {
-        case arAE = "ar-AE"
-        case deCH = "de-CH"
-        case deDE = "de-DE"
-        case enAB = "en-AB"
-        case enAU = "en-AU"
-        case enGB = "en-GB"
-        case enIE = "en-IE"
-        case enIN = "en-IN"
-        case enUS = "en-US"
-        case enWL = "en-WL"
-        case esES = "es-ES"
-        case esUS = "es-US"
-        case frCA = "fr-CA"
-        case frFR = "fr-FR"
-        case hiIN = "hi-IN"
-        case itIT = "it-IT"
-        case jaJP = "ja-JP"
-        case koKR = "ko-KR"
-        case ptBR = "pt-BR"
-        case ptPT = "pt-PT"
-        case zhCN = "zh-CN"
+        case arAe = "ar-AE"
+        case deCh = "de-CH"
+        case deDe = "de-DE"
+        case enAb = "en-AB"
+        case enAu = "en-AU"
+        case enGb = "en-GB"
+        case enIe = "en-IE"
+        case enIn = "en-IN"
+        case enUs = "en-US"
+        case enWl = "en-WL"
+        case esEs = "es-ES"
+        case esUs = "es-US"
+        case frCa = "fr-CA"
+        case frFr = "fr-FR"
+        case hiIn = "hi-IN"
+        case itIt = "it-IT"
+        case jaJp = "ja-JP"
+        case koKr = "ko-KR"
+        case ptBr = "pt-BR"
+        case ptPt = "pt-PT"
+        case zhCn = "zh-CN"
         public var description: String { return self.rawValue }
     }
 
@@ -826,11 +832,11 @@ extension Connect {
 
     public struct AnswerMachineDetectionConfig: AWSEncodableShape {
         /// Wait for the answering machine prompt.
-        public let awaitAnswerMachinePrompt: Bool?
+        public let awaitAnswerMachinePrompt: Bool
         /// The flag to indicate if answer machine detection analysis needs to be performed for a voice call. If set to true, TrafficType must be set as CAMPAIGN.
-        public let enableAnswerMachineDetection: Bool?
+        public let enableAnswerMachineDetection: Bool
 
-        public init(awaitAnswerMachinePrompt: Bool? = nil, enableAnswerMachineDetection: Bool? = nil) {
+        public init(awaitAnswerMachinePrompt: Bool = false, enableAnswerMachineDetection: Bool = false) {
             self.awaitAnswerMachinePrompt = awaitAnswerMachinePrompt
             self.enableAnswerMachineDetection = enableAnswerMachineDetection
         }
@@ -2272,7 +2278,7 @@ extension Connect {
         public let description: String?
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
-        /// Permissions assigned to the security profile.
+        /// Permissions assigned to the security profile. For a list of valid permissions, see List of security profile permissions.
         public let permissions: [String]?
         /// The name of the security profile.
         public let securityProfileName: String
@@ -5402,12 +5408,12 @@ extension Connect {
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page. The default MaxResult size is 100.
-        public let maxResults: Int?
+        public let maxResults: Int
         /// The token for the next set of results. Use the value returned in the previous
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
-        public init(contactFlowTypes: [ContactFlowType]? = nil, instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(contactFlowTypes: [ContactFlowType]? = nil, instanceId: String, maxResults: Int = 0, nextToken: String? = nil) {
             self.contactFlowTypes = contactFlowTypes
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -5506,12 +5512,12 @@ extension Connect {
         /// What is Amazon Transcribe?
         public let languageCode: VocabularyLanguageCode?
         /// The maximum number of results to return per page.
-        public let maxResults: Int?
+        public let maxResults: Int
         /// The token for the next set of results. Use the value returned in the previous
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
-        public init(instanceId: String, languageCode: VocabularyLanguageCode? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(instanceId: String, languageCode: VocabularyLanguageCode? = nil, maxResults: Int = 0, nextToken: String? = nil) {
             self.instanceId = instanceId
             self.languageCode = languageCode
             self.maxResults = maxResults
@@ -5562,12 +5568,12 @@ extension Connect {
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page. The default MaxResult size is 100.
-        public let maxResults: Int?
+        public let maxResults: Int
         /// The token for the next set of results. Use the value returned in the previous
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
-        public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(instanceId: String, maxResults: Int = 0, nextToken: String? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -5902,7 +5908,7 @@ extension Connect {
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page. The default MaxResult size is 100.
-        public let maxResults: Int?
+        public let maxResults: Int
         /// The token for the next set of results. Use the value returned in the previous
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
@@ -5911,7 +5917,7 @@ extension Connect {
         /// The type of phone number.
         public let phoneNumberTypes: [PhoneNumberType]?
 
-        public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, phoneNumberCountryCodes: [PhoneNumberCountryCode]? = nil, phoneNumberTypes: [PhoneNumberType]? = nil) {
+        public init(instanceId: String, maxResults: Int = 0, nextToken: String? = nil, phoneNumberCountryCodes: [PhoneNumberCountryCode]? = nil, phoneNumberTypes: [PhoneNumberType]? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -6152,14 +6158,14 @@ extension Connect {
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page. The default MaxResult size is 100.
-        public let maxResults: Int?
+        public let maxResults: Int
         /// The token for the next set of results. Use the value returned in the previous
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
         /// The type of queue.
         public let queueTypes: [QueueType]?
 
-        public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, queueTypes: [QueueType]? = nil) {
+        public init(instanceId: String, maxResults: Int = 0, nextToken: String? = nil, queueTypes: [QueueType]? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -6433,7 +6439,7 @@ extension Connect {
     public struct ListSecurityProfilePermissionsResponse: AWSDecodableShape {
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
-        /// The permissions granted to the security profile.
+        /// The permissions granted to the security profile. For a complete list of valid permissions, see List of security profile permissions.
         public let permissions: [String]?
 
         public init(nextToken: String? = nil, permissions: [String]? = nil) {
@@ -7034,6 +7040,42 @@ extension Connect {
         }
     }
 
+    public struct QueueSearchCriteria: AWSEncodableShape {
+        /// A list of conditions which would be applied together with an AND condition.
+        public let andConditions: [QueueSearchCriteria]?
+        /// A list of conditions which would be applied together with an OR condition.
+        public let orConditions: [QueueSearchCriteria]?
+        /// The type of queue.
+        public let queueTypeCondition: SearchableQueueType?
+        public let stringCondition: StringCondition?
+
+        public init(andConditions: [QueueSearchCriteria]? = nil, orConditions: [QueueSearchCriteria]? = nil, queueTypeCondition: SearchableQueueType? = nil, stringCondition: StringCondition? = nil) {
+            self.andConditions = andConditions
+            self.orConditions = orConditions
+            self.queueTypeCondition = queueTypeCondition
+            self.stringCondition = stringCondition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case andConditions = "AndConditions"
+            case orConditions = "OrConditions"
+            case queueTypeCondition = "QueueTypeCondition"
+            case stringCondition = "StringCondition"
+        }
+    }
+
+    public struct QueueSearchFilter: AWSEncodableShape {
+        public let tagFilter: ControlPlaneTagFilter?
+
+        public init(tagFilter: ControlPlaneTagFilter? = nil) {
+            self.tagFilter = tagFilter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tagFilter = "TagFilter"
+        }
+    }
+
     public struct QueueSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the queue.
         public let arn: String?
@@ -7271,6 +7313,10 @@ extension Connect {
         public let mediaConcurrencies: [MediaConcurrency]?
         /// The name of the routing profile.
         public let name: String?
+        /// The number of associated queues in routing profile.
+        public let numberOfAssociatedQueues: Int64?
+        /// The number of associated users in routing profile.
+        public let numberOfAssociatedUsers: Int64?
         /// The Amazon Resource Name (ARN) of the routing profile.
         public let routingProfileArn: String?
         /// The identifier of the routing profile.
@@ -7278,12 +7324,14 @@ extension Connect {
         /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
 
-        public init(defaultOutboundQueueId: String? = nil, description: String? = nil, instanceId: String? = nil, mediaConcurrencies: [MediaConcurrency]? = nil, name: String? = nil, routingProfileArn: String? = nil, routingProfileId: String? = nil, tags: [String: String]? = nil) {
+        public init(defaultOutboundQueueId: String? = nil, description: String? = nil, instanceId: String? = nil, mediaConcurrencies: [MediaConcurrency]? = nil, name: String? = nil, numberOfAssociatedQueues: Int64? = nil, numberOfAssociatedUsers: Int64? = nil, routingProfileArn: String? = nil, routingProfileId: String? = nil, tags: [String: String]? = nil) {
             self.defaultOutboundQueueId = defaultOutboundQueueId
             self.description = description
             self.instanceId = instanceId
             self.mediaConcurrencies = mediaConcurrencies
             self.name = name
+            self.numberOfAssociatedQueues = numberOfAssociatedQueues
+            self.numberOfAssociatedUsers = numberOfAssociatedUsers
             self.routingProfileArn = routingProfileArn
             self.routingProfileId = routingProfileId
             self.tags = tags
@@ -7295,6 +7343,8 @@ extension Connect {
             case instanceId = "InstanceId"
             case mediaConcurrencies = "MediaConcurrencies"
             case name = "Name"
+            case numberOfAssociatedQueues = "NumberOfAssociatedQueues"
+            case numberOfAssociatedUsers = "NumberOfAssociatedUsers"
             case routingProfileArn = "RoutingProfileArn"
             case routingProfileId = "RoutingProfileId"
             case tags = "Tags"
@@ -7303,13 +7353,13 @@ extension Connect {
 
     public struct RoutingProfileQueueConfig: AWSEncodableShape {
         /// The delay, in seconds, a contact should be in the queue before they are routed to an available agent. For more information, see Queues: priority and delay in the Amazon Connect Administrator Guide.
-        public let delay: Int
+        public let delay: Int?
         /// The order in which contacts are to be handled for the queue. For more information, see Queues: priority and delay.
-        public let priority: Int
+        public let priority: Int?
         /// Contains information about a queue resource.
         public let queueReference: RoutingProfileQueueReference
 
-        public init(delay: Int, priority: Int, queueReference: RoutingProfileQueueReference) {
+        public init(delay: Int? = nil, priority: Int? = nil, queueReference: RoutingProfileQueueReference) {
             self.delay = delay
             self.priority = priority
             self.queueReference = queueReference
@@ -7393,6 +7443,38 @@ extension Connect {
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case id = "Id"
+        }
+    }
+
+    public struct RoutingProfileSearchCriteria: AWSEncodableShape {
+        /// A list of conditions which would be applied together with an AND condition.
+        public let andConditions: [RoutingProfileSearchCriteria]?
+        /// A list of conditions which would be applied together with an OR condition.
+        public let orConditions: [RoutingProfileSearchCriteria]?
+        public let stringCondition: StringCondition?
+
+        public init(andConditions: [RoutingProfileSearchCriteria]? = nil, orConditions: [RoutingProfileSearchCriteria]? = nil, stringCondition: StringCondition? = nil) {
+            self.andConditions = andConditions
+            self.orConditions = orConditions
+            self.stringCondition = stringCondition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case andConditions = "AndConditions"
+            case orConditions = "OrConditions"
+            case stringCondition = "StringCondition"
+        }
+    }
+
+    public struct RoutingProfileSearchFilter: AWSEncodableShape {
+        public let tagFilter: ControlPlaneTagFilter?
+
+        public init(tagFilter: ControlPlaneTagFilter? = nil) {
+            self.tagFilter = tagFilter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tagFilter = "TagFilter"
         }
     }
 
@@ -7502,6 +7584,126 @@ extension Connect {
         private enum CodingKeys: String, CodingKey {
             case availableNumbersList = "AvailableNumbersList"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct SearchQueuesRequest: AWSEncodableShape {
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+        /// The maximum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous
+        /// response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+        /// The search criteria to be used to return queues.
+        public let searchCriteria: QueueSearchCriteria?
+        /// Filters to be applied to search results.
+        public let searchFilter: QueueSearchFilter?
+
+        public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, searchCriteria: QueueSearchCriteria? = nil, searchFilter: QueueSearchFilter? = nil) {
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.searchCriteria = searchCriteria
+            self.searchFilter = searchFilter
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2500)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "InstanceId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case searchCriteria = "SearchCriteria"
+            case searchFilter = "SearchFilter"
+        }
+    }
+
+    public struct SearchQueuesResponse: AWSDecodableShape {
+        /// The total number of queues which matched your search query.
+        public let approximateTotalCount: Int64?
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+        /// Information about the queues.
+        public let queues: [Queue]?
+
+        public init(approximateTotalCount: Int64? = nil, nextToken: String? = nil, queues: [Queue]? = nil) {
+            self.approximateTotalCount = approximateTotalCount
+            self.nextToken = nextToken
+            self.queues = queues
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case approximateTotalCount = "ApproximateTotalCount"
+            case nextToken = "NextToken"
+            case queues = "Queues"
+        }
+    }
+
+    public struct SearchRoutingProfilesRequest: AWSEncodableShape {
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+        /// The maximum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous
+        /// response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+        /// The search criteria to be used to return routing profiles.
+        public let searchCriteria: RoutingProfileSearchCriteria?
+        /// Filters to be applied to search results.
+        public let searchFilter: RoutingProfileSearchFilter?
+
+        public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, searchCriteria: RoutingProfileSearchCriteria? = nil, searchFilter: RoutingProfileSearchFilter? = nil) {
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.searchCriteria = searchCriteria
+            self.searchFilter = searchFilter
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2500)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "InstanceId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case searchCriteria = "SearchCriteria"
+            case searchFilter = "SearchFilter"
+        }
+    }
+
+    public struct SearchRoutingProfilesResponse: AWSDecodableShape {
+        /// The total number of routing profiles which matched your search query.
+        public let approximateTotalCount: Int64?
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+        /// Information about the routing profiles.
+        public let routingProfiles: [RoutingProfile]?
+
+        public init(approximateTotalCount: Int64? = nil, nextToken: String? = nil, routingProfiles: [RoutingProfile]? = nil) {
+            self.approximateTotalCount = approximateTotalCount
+            self.nextToken = nextToken
+            self.routingProfiles = routingProfiles
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case approximateTotalCount = "ApproximateTotalCount"
+            case nextToken = "NextToken"
+            case routingProfiles = "RoutingProfiles"
         }
     }
 
@@ -7635,7 +7837,7 @@ extension Connect {
         /// What is Amazon Transcribe?
         public let languageCode: VocabularyLanguageCode?
         /// The maximum number of results to return per page.
-        public let maxResults: Int?
+        public let maxResults: Int
         /// The starting pattern of the name of the vocabulary.
         public let nameStartsWith: String?
         /// The token for the next set of results. Use the value returned in the previous
@@ -7644,7 +7846,7 @@ extension Connect {
         /// The current state of the custom vocabulary.
         public let state: VocabularyState?
 
-        public init(instanceId: String, languageCode: VocabularyLanguageCode? = nil, maxResults: Int? = nil, nameStartsWith: String? = nil, nextToken: String? = nil, state: VocabularyState? = nil) {
+        public init(instanceId: String, languageCode: VocabularyLanguageCode? = nil, maxResults: Int = 0, nameStartsWith: String? = nil, nextToken: String? = nil, state: VocabularyState? = nil) {
             self.instanceId = instanceId
             self.languageCode = languageCode
             self.maxResults = maxResults
@@ -7746,7 +7948,7 @@ extension Connect {
         }
     }
 
-    public final class SecurityProfileSearchCriteria: AWSEncodableShape {
+    public struct SecurityProfileSearchCriteria: AWSEncodableShape {
         /// A list of conditions which would be applied together with an AND condition.
         public let andConditions: [SecurityProfileSearchCriteria]?
         /// A list of conditions which would be applied together with an OR condition.
@@ -8672,11 +8874,11 @@ extension Connect {
         /// The name of the agent status.
         public let name: String?
         /// A number indicating the reset order of the agent status.
-        public let resetOrderNumber: Bool?
+        public let resetOrderNumber: Bool
         /// The state of the agent status.
         public let state: AgentStatusState?
 
-        public init(agentStatusId: String, description: String? = nil, displayOrder: Int? = nil, instanceId: String, name: String? = nil, resetOrderNumber: Bool? = nil, state: AgentStatusState? = nil) {
+        public init(agentStatusId: String, description: String? = nil, displayOrder: Int? = nil, instanceId: String, name: String? = nil, resetOrderNumber: Bool = false, state: AgentStatusState? = nil) {
             self.agentStatusId = agentStatusId
             self.description = description
             self.displayOrder = displayOrder
@@ -8786,7 +8988,7 @@ extension Connect {
         public let description: String?
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
-        /// TThe name of the flow.
+        /// The name of the flow.
         public let name: String?
 
         public init(contactFlowId: String, contactFlowState: ContactFlowState? = nil, description: String? = nil, instanceId: String, name: String? = nil) {
@@ -9535,7 +9737,7 @@ extension Connect {
         public let description: String?
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
-        /// The permissions granted to a security profile.
+        /// The permissions granted to a security profile. For a list of valid permissions, see List of security profile permissions.
         public let permissions: [String]?
         /// The identifier for the security profle.
         public let securityProfileId: String
@@ -10157,7 +10359,7 @@ extension Connect {
         }
     }
 
-    public final class UserSearchCriteria: AWSEncodableShape {
+    public struct UserSearchCriteria: AWSEncodableShape {
         /// A list of conditions which would be applied together with an AND condition.
         public let andConditions: [UserSearchCriteria]?
         /// A leaf node condition which can be used to specify a hierarchy group condition.

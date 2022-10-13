@@ -28,6 +28,11 @@ extension AmplifyUIBuilder {
         return try await self.client.execute(operation: "CreateComponent", path: "/app/{appId}/environment/{environmentName}/components", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates a new form for an Amplify app.
+    public func createForm(_ input: CreateFormRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateFormResponse {
+        return try await self.client.execute(operation: "CreateForm", path: "/app/{appId}/environment/{environmentName}/forms", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates a theme to apply to the components in an Amplify app.
     public func createTheme(_ input: CreateThemeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateThemeResponse {
         return try await self.client.execute(operation: "CreateTheme", path: "/app/{appId}/environment/{environmentName}/themes", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -36,6 +41,11 @@ extension AmplifyUIBuilder {
     /// Deletes a component from an Amplify app.
     public func deleteComponent(_ input: DeleteComponentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "DeleteComponent", path: "/app/{appId}/environment/{environmentName}/components/{id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes a form from an Amplify app.
+    public func deleteForm(_ input: DeleteFormRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
+        return try await self.client.execute(operation: "DeleteForm", path: "/app/{appId}/environment/{environmentName}/forms/{id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes a theme from an Amplify app.
@@ -53,6 +63,11 @@ extension AmplifyUIBuilder {
         return try await self.client.execute(operation: "ExportComponents", path: "/export/app/{appId}/environment/{environmentName}/components", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Exports form configurations to code that is ready to integrate into an Amplify app.
+    public func exportForms(_ input: ExportFormsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ExportFormsResponse {
+        return try await self.client.execute(operation: "ExportForms", path: "/export/app/{appId}/environment/{environmentName}/forms", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Exports theme configurations to code that is ready to integrate into an Amplify app.
     public func exportThemes(_ input: ExportThemesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ExportThemesResponse {
         return try await self.client.execute(operation: "ExportThemes", path: "/export/app/{appId}/environment/{environmentName}/themes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -61,6 +76,16 @@ extension AmplifyUIBuilder {
     /// Returns an existing component for an Amplify app.
     public func getComponent(_ input: GetComponentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetComponentResponse {
         return try await self.client.execute(operation: "GetComponent", path: "/app/{appId}/environment/{environmentName}/components/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns an existing form for an Amplify app.
+    public func getForm(_ input: GetFormRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetFormResponse {
+        return try await self.client.execute(operation: "GetForm", path: "/app/{appId}/environment/{environmentName}/forms/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns existing metadata for an Amplify app.
+    public func getMetadata(_ input: GetMetadataRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetMetadataResponse {
+        return try await self.client.execute(operation: "GetMetadata", path: "/app/{appId}/environment/{environmentName}/metadata", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns an existing theme for an Amplify app.
@@ -73,9 +98,19 @@ extension AmplifyUIBuilder {
         return try await self.client.execute(operation: "ListComponents", path: "/app/{appId}/environment/{environmentName}/components", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Retrieves a list of forms for a specified Amplify app and backend environment.
+    public func listForms(_ input: ListFormsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListFormsResponse {
+        return try await self.client.execute(operation: "ListForms", path: "/app/{appId}/environment/{environmentName}/forms", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Retrieves a list of themes for a specified Amplify app and backend environment.
     public func listThemes(_ input: ListThemesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListThemesResponse {
         return try await self.client.execute(operation: "ListThemes", path: "/app/{appId}/environment/{environmentName}/themes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Stores the metadata information about a feature on a form or view.
+    public func putMetadataFlag(_ input: PutMetadataFlagRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
+        return try await self.client.execute(operation: "PutMetadataFlag", path: "/app/{appId}/environment/{environmentName}/metadata/features/{featureName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Refreshes a previously issued access token that might have expired.
@@ -86,6 +121,11 @@ extension AmplifyUIBuilder {
     /// Updates an existing component.
     public func updateComponent(_ input: UpdateComponentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateComponentResponse {
         return try await self.client.execute(operation: "UpdateComponent", path: "/app/{appId}/environment/{environmentName}/components/{id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates an existing form.
+    public func updateForm(_ input: UpdateFormRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateFormResponse {
+        return try await self.client.execute(operation: "UpdateForm", path: "/app/{appId}/environment/{environmentName}/forms/{id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates an existing theme.

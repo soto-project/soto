@@ -30,6 +30,7 @@ extension IoTThingsGraph {
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
+    @available(*, deprecated, message: "since: 2022-08-30")
     public func getFlowTemplateRevisionsPaginator(
         _ input: GetFlowTemplateRevisionsRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -52,6 +53,7 @@ extension IoTThingsGraph {
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
+    @available(*, deprecated, message: "since: 2022-08-30")
     public func getSystemTemplateRevisionsPaginator(
         _ input: GetSystemTemplateRevisionsRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -74,6 +76,7 @@ extension IoTThingsGraph {
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
+    @available(*, deprecated, message: "since: 2022-08-30")
     public func listFlowExecutionMessagesPaginator(
         _ input: ListFlowExecutionMessagesRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -96,6 +99,7 @@ extension IoTThingsGraph {
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
+    @available(*, deprecated, message: "since: 2022-08-30")
     public func listTagsForResourcePaginator(
         _ input: ListTagsForResourceRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -118,6 +122,7 @@ extension IoTThingsGraph {
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
+    @available(*, deprecated, message: "since: 2022-08-30")
     public func searchEntitiesPaginator(
         _ input: SearchEntitiesRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -140,6 +145,7 @@ extension IoTThingsGraph {
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
+    @available(*, deprecated, message: "since: 2022-08-30")
     public func searchFlowExecutionsPaginator(
         _ input: SearchFlowExecutionsRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -162,6 +168,7 @@ extension IoTThingsGraph {
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
+    @available(*, deprecated, message: "since: 2022-08-30")
     public func searchFlowTemplatesPaginator(
         _ input: SearchFlowTemplatesRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -184,6 +191,7 @@ extension IoTThingsGraph {
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
+    @available(*, deprecated, message: "since: 2022-08-30")
     public func searchSystemInstancesPaginator(
         _ input: SearchSystemInstancesRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -206,6 +214,7 @@ extension IoTThingsGraph {
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
+    @available(*, deprecated, message: "since: 2022-08-30")
     public func searchSystemTemplatesPaginator(
         _ input: SearchSystemTemplatesRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -228,6 +237,7 @@ extension IoTThingsGraph {
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
+    @available(*, deprecated, message: "since: 2022-08-30")
     public func searchThingsPaginator(
         _ input: SearchThingsRequest,
         logger: Logger = AWSClient.loggingDisabled,

@@ -1719,7 +1719,7 @@ extension ConfigService {
         public let conformancePackInputParameters: [ConformancePackInputParameter]?
         /// Name of the conformance pack.
         public let conformancePackName: String
-        /// Amazon Web Services service that created the conformance pack.
+        /// The Amazon Web Services service that created the conformance pack.
         public let createdBy: String?
         /// The name of the Amazon S3 bucket where Config stores conformance pack templates.
         /// 	         This field is optional.
@@ -1727,10 +1727,12 @@ extension ConfigService {
         /// The prefix for the Amazon S3 bucket.
         /// 		        This field is optional.
         public let deliveryS3KeyPrefix: String?
-        /// Last time when conformation pack update was requested.
+        /// The last time a conformation pack update was requested.
         public let lastUpdateRequestedTime: Date?
+        /// An object that contains the name or Amazon Resource Name (ARN) of the Amazon Web Services Systems Manager document (SSM document) and the version of the SSM document that is used to create a conformance pack.
+        public let templateSSMDocumentDetails: TemplateSSMDocumentDetails?
 
-        public init(conformancePackArn: String, conformancePackId: String, conformancePackInputParameters: [ConformancePackInputParameter]? = nil, conformancePackName: String, createdBy: String? = nil, deliveryS3Bucket: String? = nil, deliveryS3KeyPrefix: String? = nil, lastUpdateRequestedTime: Date? = nil) {
+        public init(conformancePackArn: String, conformancePackId: String, conformancePackInputParameters: [ConformancePackInputParameter]? = nil, conformancePackName: String, createdBy: String? = nil, deliveryS3Bucket: String? = nil, deliveryS3KeyPrefix: String? = nil, lastUpdateRequestedTime: Date? = nil, templateSSMDocumentDetails: TemplateSSMDocumentDetails? = nil) {
             self.conformancePackArn = conformancePackArn
             self.conformancePackId = conformancePackId
             self.conformancePackInputParameters = conformancePackInputParameters
@@ -1739,6 +1741,7 @@ extension ConfigService {
             self.deliveryS3Bucket = deliveryS3Bucket
             self.deliveryS3KeyPrefix = deliveryS3KeyPrefix
             self.lastUpdateRequestedTime = lastUpdateRequestedTime
+            self.templateSSMDocumentDetails = templateSSMDocumentDetails
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1750,6 +1753,7 @@ extension ConfigService {
             case deliveryS3Bucket = "DeliveryS3Bucket"
             case deliveryS3KeyPrefix = "DeliveryS3KeyPrefix"
             case lastUpdateRequestedTime = "LastUpdateRequestedTime"
+            case templateSSMDocumentDetails = "TemplateSSMDocumentDetails"
         }
     }
 
@@ -5854,7 +5858,7 @@ extension ConfigService {
     public struct PutConformancePackRequest: AWSEncodableShape {
         /// A list of ConformancePackInputParameter objects.
         public let conformancePackInputParameters: [ConformancePackInputParameter]?
-        /// Name of the conformance pack you want to create.
+        /// The unique name of the conformance pack you want to deploy.
         public let conformancePackName: String
         /// The name of the Amazon S3 bucket where Config stores conformance pack templates.
         /// 		        This field is optional.
@@ -5862,20 +5866,23 @@ extension ConfigService {
         /// The prefix for the Amazon S3 bucket.
         /// 		        This field is optional.
         public let deliveryS3KeyPrefix: String?
-        /// A string containing full conformance pack template body. Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes.
-        /// 		        You can only use a YAML template with two resource types: Config rule (AWS::Config::ConfigRule) and a remediation action (AWS::Config::RemediationConfiguration).
+        /// A string containing the full conformance pack template body. The structure containing the template body has a minimum length of 1 byte and a maximum length of 51,200 bytes.
+        /// 		        You can only use a YAML template with two resource types: Config rule (AWS::Config::ConfigRule) and remediation action (AWS::Config::RemediationConfiguration).
         public let templateBody: String?
-        /// Location of file containing the template body (s3://bucketname/prefix). The uri must point to the conformance pack template (max size: 300 KB) that is located in an Amazon S3 bucket in the same region as the conformance pack.
+        /// The location of the file containing the template body (s3://bucketname/prefix). The uri must point to a conformance pack template (max size: 300 KB) that is located in an Amazon S3 bucket in the same region as the conformance pack.
         /// 		        You must have access to read Amazon S3 bucket.
         public let templateS3Uri: String?
+        /// An object of type TemplateSSMDocumentDetails, which contains the name or the Amazon Resource Name (ARN) of the Amazon Web Services Systems Manager document (SSM document) and the version of the SSM document that is used to create a conformance pack.
+        public let templateSSMDocumentDetails: TemplateSSMDocumentDetails?
 
-        public init(conformancePackInputParameters: [ConformancePackInputParameter]? = nil, conformancePackName: String, deliveryS3Bucket: String? = nil, deliveryS3KeyPrefix: String? = nil, templateBody: String? = nil, templateS3Uri: String? = nil) {
+        public init(conformancePackInputParameters: [ConformancePackInputParameter]? = nil, conformancePackName: String, deliveryS3Bucket: String? = nil, deliveryS3KeyPrefix: String? = nil, templateBody: String? = nil, templateS3Uri: String? = nil, templateSSMDocumentDetails: TemplateSSMDocumentDetails? = nil) {
             self.conformancePackInputParameters = conformancePackInputParameters
             self.conformancePackName = conformancePackName
             self.deliveryS3Bucket = deliveryS3Bucket
             self.deliveryS3KeyPrefix = deliveryS3KeyPrefix
             self.templateBody = templateBody
             self.templateS3Uri = templateS3Uri
+            self.templateSSMDocumentDetails = templateSSMDocumentDetails
         }
 
         public func validate(name: String) throws {
@@ -5893,6 +5900,7 @@ extension ConfigService {
             try self.validate(self.templateS3Uri, name: "templateS3Uri", parent: name, max: 1024)
             try self.validate(self.templateS3Uri, name: "templateS3Uri", parent: name, min: 1)
             try self.validate(self.templateS3Uri, name: "templateS3Uri", parent: name, pattern: "^s3://")
+            try self.templateSSMDocumentDetails?.validate(name: "\(name).templateSSMDocumentDetails")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5902,6 +5910,7 @@ extension ConfigService {
             case deliveryS3KeyPrefix = "DeliveryS3KeyPrefix"
             case templateBody = "TemplateBody"
             case templateS3Uri = "TemplateS3Uri"
+            case templateSSMDocumentDetails = "TemplateSSMDocumentDetails"
         }
     }
 
@@ -7410,6 +7419,30 @@ extension ConfigService {
         private enum CodingKeys: String, CodingKey {
             case resourceArn = "ResourceArn"
             case tags = "Tags"
+        }
+    }
+
+    public struct TemplateSSMDocumentDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The name or Amazon Resource Name (ARN) of the SSM document to use to create a conformance pack.
+        /// 			If you use the Document Name, Config checks only your account and region for the SSM document. If you want to use an SSM document from another region or account, you must provide the ARN.
+        public let documentName: String
+        /// The version of the SSM document to use to create a conformance pack. By default, Config uses the latest version.
+        /// 		        This field is optional.
+        public let documentVersion: String?
+
+        public init(documentName: String, documentVersion: String? = nil) {
+            self.documentName = documentName
+            self.documentVersion = documentVersion
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.documentName, name: "documentName", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,200}$")
+            try self.validate(self.documentVersion, name: "documentVersion", parent: name, pattern: "^([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentName = "DocumentName"
+            case documentVersion = "DocumentVersion"
         }
     }
 

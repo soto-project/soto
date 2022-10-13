@@ -352,12 +352,6 @@ extension S3 {
         public var description: String { return self.rawValue }
     }
 
-    public enum `Protocol`: String, CustomStringConvertible, Codable, _SotoSendable {
-        case http
-        case https
-        public var description: String { return self.rawValue }
-    }
-
     public enum QuoteFields: String, CustomStringConvertible, Codable, _SotoSendable {
         case always = "ALWAYS"
         case asneeded = "ASNEEDED"
@@ -456,6 +450,12 @@ extension S3 {
         case intelligentTiering = "INTELLIGENT_TIERING"
         case onezoneIa = "ONEZONE_IA"
         case standardIa = "STANDARD_IA"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum `Protocol`: String, CustomStringConvertible, Codable, _SotoSendable {
+        case http
+        case https
         public var description: String { return self.rawValue }
     }
 

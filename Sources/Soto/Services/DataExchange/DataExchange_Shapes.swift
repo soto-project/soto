@@ -1932,13 +1932,13 @@ extension DataExchange {
         public let exportAssetToSignedUrl: ExportAssetToSignedUrlRequestDetails?
         /// Details about the export to Amazon S3 request.
         public let exportRevisionsToS3: ExportRevisionsToS3RequestDetails?
-        /// Information about the import asset from API Gateway API request.
-        public let importAssetFromApiGatewayApi: ImportAssetFromApiGatewayApiRequestDetails?
         /// Details about the import from signed URL request.
+        public let importAssetFromApiGatewayApi: ImportAssetFromApiGatewayApiRequestDetails?
+        /// Details about the import from Amazon S3 request.
         public let importAssetFromSignedUrl: ImportAssetFromSignedUrlRequestDetails?
         /// Details from an import from Amazon Redshift datashare request.
         public let importAssetsFromRedshiftDataShares: ImportAssetsFromRedshiftDataSharesRequestDetails?
-        /// Details about the import from Amazon S3 request.
+        /// Information about the import asset from API Gateway API request.
         public let importAssetsFromS3: ImportAssetsFromS3RequestDetails?
 
         public init(exportAssetsToS3: ExportAssetsToS3RequestDetails? = nil, exportAssetToSignedUrl: ExportAssetToSignedUrlRequestDetails? = nil, exportRevisionsToS3: ExportRevisionsToS3RequestDetails? = nil, importAssetFromApiGatewayApi: ImportAssetFromApiGatewayApiRequestDetails? = nil, importAssetFromSignedUrl: ImportAssetFromSignedUrlRequestDetails? = nil, importAssetsFromRedshiftDataShares: ImportAssetsFromRedshiftDataSharesRequestDetails? = nil, importAssetsFromS3: ImportAssetsFromS3RequestDetails? = nil) {
@@ -2213,7 +2213,7 @@ extension DataExchange {
         public let dataSetId: String
         /// HTTP method value for the API request. Alternatively, you can use the appropriate verb in your request.
         public let method: String?
-        /// URI path value for the API request. Alternatively, you can set the URI path directly by invoking /v1/{pathValue}
+        /// URI path value for the API request. Alternatively, you can set the URI path directly by invoking /v1/{pathValue}.
         public let path: String?
         /// Attach query string parameters to the end of the URI (for example, /v1/examplePath?exampleParam=exampleValue).
         public let queryStringParameters: [String: String]?

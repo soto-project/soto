@@ -23,7 +23,7 @@ import SotoCore
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension CodeGuruReviewer {
-    ///   Lists all the code reviews that the customer has created in the past 90 days.
+    ///  Lists all the code reviews that the customer has created in the past 90 days.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -45,7 +45,7 @@ extension CodeGuruReviewer {
         )
     }
 
-    ///   Returns a list of   RecommendationFeedbackSummary  objects that contain customer recommendation feedback for all CodeGuru Reviewer users.
+    ///  Returns a list of RecommendationFeedbackSummary objects that contain customer recommendation feedback for all CodeGuru Reviewer users.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -67,7 +67,7 @@ extension CodeGuruReviewer {
         )
     }
 
-    ///   Returns the list of all recommendations for a completed code review.
+    ///  Returns the list of all recommendations for a completed code review.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -89,7 +89,7 @@ extension CodeGuruReviewer {
         )
     }
 
-    ///   Returns a list of  RepositoryAssociationSummary objects that  contain summary information about a repository association. You can filter the returned list by   ProviderType ,   Name ,   State , and   Owner .
+    ///  Returns a list of RepositoryAssociationSummary objects that contain summary information about a repository association. You can filter the returned list by ProviderType, Name, State, and Owner.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

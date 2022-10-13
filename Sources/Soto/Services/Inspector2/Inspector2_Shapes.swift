@@ -185,6 +185,13 @@ extension Inspector2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum FixAvailable: String, CustomStringConvertible, Codable, _SotoSendable {
+        case no = "NO"
+        case partial = "PARTIAL"
+        case yes = "YES"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FreeTrialInfoErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
         case accessDenied = "ACCESS_DENIED"
         case internalError = "INTERNAL_ERROR"
@@ -329,6 +336,7 @@ extension Inspector2 {
         case ec2InstanceStopped = "EC2_INSTANCE_STOPPED"
         case imageSizeExceeded = "IMAGE_SIZE_EXCEEDED"
         case internalError = "INTERNAL_ERROR"
+        case noInventory = "NO_INVENTORY"
         case noResourcesFound = "NO_RESOURCES_FOUND"
         case pendingDisable = "PENDING_DISABLE"
         case pendingInitialScan = "PENDING_INITIAL_SCAN"
@@ -336,6 +344,7 @@ extension Inspector2 {
         case scanEligibilityExpired = "SCAN_ELIGIBILITY_EXPIRED"
         case scanFrequencyManual = "SCAN_FREQUENCY_MANUAL"
         case scanFrequencyScanOnPush = "SCAN_FREQUENCY_SCAN_ON_PUSH"
+        case staleInventory = "STALE_INVENTORY"
         case successful = "SUCCESSFUL"
         case unmanagedEc2Instance = "UNMANAGED_EC2_INSTANCE"
         case unsupportedOs = "UNSUPPORTED_OS"
@@ -2046,6 +2055,8 @@ extension Inspector2 {
         public let findingType: [StringFilter]?
         /// Details on the date and time a finding was first seen used to filter findings.
         public let firstObservedAt: [DateFilter]?
+        /// Details on whether a fix is available through a version update. This value can be YES, NO, or PARTIAL.  A PARTIAL fix means that some, but not all, of the packages identified in the finding have fixes available through updated versions.
+        public let fixAvailable: [StringFilter]?
         /// The Amazon Inspector score to filter on.
         public let inspectorScore: [NumberFilter]?
         /// Details on the date and time a finding was last seen used to filter findings.
@@ -2077,7 +2088,7 @@ extension Inspector2 {
         /// Details on the vulnerable packages used to filter findings.
         public let vulnerablePackages: [PackageFilter]?
 
-        public init(awsAccountId: [StringFilter]? = nil, componentId: [StringFilter]? = nil, componentType: [StringFilter]? = nil, ec2InstanceImageId: [StringFilter]? = nil, ec2InstanceSubnetId: [StringFilter]? = nil, ec2InstanceVpcId: [StringFilter]? = nil, ecrImageArchitecture: [StringFilter]? = nil, ecrImageHash: [StringFilter]? = nil, ecrImagePushedAt: [DateFilter]? = nil, ecrImageRegistry: [StringFilter]? = nil, ecrImageRepositoryName: [StringFilter]? = nil, ecrImageTags: [StringFilter]? = nil, findingArn: [StringFilter]? = nil, findingStatus: [StringFilter]? = nil, findingType: [StringFilter]? = nil, firstObservedAt: [DateFilter]? = nil, inspectorScore: [NumberFilter]? = nil, lastObservedAt: [DateFilter]? = nil, networkProtocol: [StringFilter]? = nil, portRange: [PortRangeFilter]? = nil, relatedVulnerabilities: [StringFilter]? = nil, resourceId: [StringFilter]? = nil, resourceTags: [MapFilter]? = nil, resourceType: [StringFilter]? = nil, severity: [StringFilter]? = nil, title: [StringFilter]? = nil, updatedAt: [DateFilter]? = nil, vendorSeverity: [StringFilter]? = nil, vulnerabilityId: [StringFilter]? = nil, vulnerabilitySource: [StringFilter]? = nil, vulnerablePackages: [PackageFilter]? = nil) {
+        public init(awsAccountId: [StringFilter]? = nil, componentId: [StringFilter]? = nil, componentType: [StringFilter]? = nil, ec2InstanceImageId: [StringFilter]? = nil, ec2InstanceSubnetId: [StringFilter]? = nil, ec2InstanceVpcId: [StringFilter]? = nil, ecrImageArchitecture: [StringFilter]? = nil, ecrImageHash: [StringFilter]? = nil, ecrImagePushedAt: [DateFilter]? = nil, ecrImageRegistry: [StringFilter]? = nil, ecrImageRepositoryName: [StringFilter]? = nil, ecrImageTags: [StringFilter]? = nil, findingArn: [StringFilter]? = nil, findingStatus: [StringFilter]? = nil, findingType: [StringFilter]? = nil, firstObservedAt: [DateFilter]? = nil, fixAvailable: [StringFilter]? = nil, inspectorScore: [NumberFilter]? = nil, lastObservedAt: [DateFilter]? = nil, networkProtocol: [StringFilter]? = nil, portRange: [PortRangeFilter]? = nil, relatedVulnerabilities: [StringFilter]? = nil, resourceId: [StringFilter]? = nil, resourceTags: [MapFilter]? = nil, resourceType: [StringFilter]? = nil, severity: [StringFilter]? = nil, title: [StringFilter]? = nil, updatedAt: [DateFilter]? = nil, vendorSeverity: [StringFilter]? = nil, vulnerabilityId: [StringFilter]? = nil, vulnerabilitySource: [StringFilter]? = nil, vulnerablePackages: [PackageFilter]? = nil) {
             self.awsAccountId = awsAccountId
             self.componentId = componentId
             self.componentType = componentType
@@ -2094,6 +2105,7 @@ extension Inspector2 {
             self.findingStatus = findingStatus
             self.findingType = findingType
             self.firstObservedAt = firstObservedAt
+            self.fixAvailable = fixAvailable
             self.inspectorScore = inspectorScore
             self.lastObservedAt = lastObservedAt
             self.networkProtocol = networkProtocol
@@ -2186,6 +2198,11 @@ extension Inspector2 {
             try self.validate(self.findingType, name: "findingType", parent: name, min: 1)
             try self.validate(self.firstObservedAt, name: "firstObservedAt", parent: name, max: 10)
             try self.validate(self.firstObservedAt, name: "firstObservedAt", parent: name, min: 1)
+            try self.fixAvailable?.forEach {
+                try $0.validate(name: "\(name).fixAvailable[]")
+            }
+            try self.validate(self.fixAvailable, name: "fixAvailable", parent: name, max: 10)
+            try self.validate(self.fixAvailable, name: "fixAvailable", parent: name, min: 1)
             try self.validate(self.inspectorScore, name: "inspectorScore", parent: name, max: 10)
             try self.validate(self.inspectorScore, name: "inspectorScore", parent: name, min: 1)
             try self.validate(self.lastObservedAt, name: "lastObservedAt", parent: name, max: 10)
@@ -2271,6 +2288,7 @@ extension Inspector2 {
             case findingStatus
             case findingType
             case firstObservedAt
+            case fixAvailable
             case inspectorScore
             case lastObservedAt
             case networkProtocol
@@ -2298,6 +2316,8 @@ extension Inspector2 {
         public let findingArn: String
         /// The date and time that the finding was first observed.
         public let firstObservedAt: Date
+        /// Details on whether a fix is available through a version update. This value can be YES, NO, or PARTIAL.  A PARTIAL fix means that some, but not all, of the packages identified in the finding have fixes available through updated versions.
+        public let fixAvailable: FixAvailable?
         /// The Amazon Inspector score given to the finding.
         public let inspectorScore: Double?
         /// An object that contains details of the Amazon Inspector score.
@@ -2323,11 +2343,12 @@ extension Inspector2 {
         /// The date and time the finding was last updated at.
         public let updatedAt: Date?
 
-        public init(awsAccountId: String, description: String, findingArn: String, firstObservedAt: Date, inspectorScore: Double? = nil, inspectorScoreDetails: InspectorScoreDetails? = nil, lastObservedAt: Date, networkReachabilityDetails: NetworkReachabilityDetails? = nil, packageVulnerabilityDetails: PackageVulnerabilityDetails? = nil, remediation: Remediation, resources: [Resource], severity: Severity, status: FindingStatus, title: String? = nil, type: FindingType, updatedAt: Date? = nil) {
+        public init(awsAccountId: String, description: String, findingArn: String, firstObservedAt: Date, fixAvailable: FixAvailable? = nil, inspectorScore: Double? = nil, inspectorScoreDetails: InspectorScoreDetails? = nil, lastObservedAt: Date, networkReachabilityDetails: NetworkReachabilityDetails? = nil, packageVulnerabilityDetails: PackageVulnerabilityDetails? = nil, remediation: Remediation, resources: [Resource], severity: Severity, status: FindingStatus, title: String? = nil, type: FindingType, updatedAt: Date? = nil) {
             self.awsAccountId = awsAccountId
             self.description = description
             self.findingArn = findingArn
             self.firstObservedAt = firstObservedAt
+            self.fixAvailable = fixAvailable
             self.inspectorScore = inspectorScore
             self.inspectorScoreDetails = inspectorScoreDetails
             self.lastObservedAt = lastObservedAt
@@ -2347,6 +2368,7 @@ extension Inspector2 {
             case description
             case findingArn
             case firstObservedAt
+            case fixAvailable
             case inspectorScore
             case inspectorScoreDetails
             case lastObservedAt
@@ -3351,9 +3373,9 @@ extension Inspector2 {
         /// The ID given to this vulnerability.
         public let vulnerabilityId: String
         /// The packages impacted by this vulnerability.
-        public let vulnerablePackages: [VulnerablePackage]
+        public let vulnerablePackages: [VulnerablePackage]?
 
-        public init(cvss: [CvssScore]? = nil, referenceUrls: [String]? = nil, relatedVulnerabilities: [String]? = nil, source: String, sourceUrl: String? = nil, vendorCreatedAt: Date? = nil, vendorSeverity: String? = nil, vendorUpdatedAt: Date? = nil, vulnerabilityId: String, vulnerablePackages: [VulnerablePackage]) {
+        public init(cvss: [CvssScore]? = nil, referenceUrls: [String]? = nil, relatedVulnerabilities: [String]? = nil, source: String, sourceUrl: String? = nil, vendorCreatedAt: Date? = nil, vendorSeverity: String? = nil, vendorUpdatedAt: Date? = nil, vulnerabilityId: String, vulnerablePackages: [VulnerablePackage]? = nil) {
             self.cvss = cvss
             self.referenceUrls = referenceUrls
             self.relatedVulnerabilities = relatedVulnerabilities
@@ -4039,12 +4061,14 @@ extension Inspector2 {
         public let packageManager: PackageManager?
         /// The release of the vulnerable package.
         public let release: String?
+        /// The code to run in your environment to update packages with a fix available.
+        public let remediation: String?
         /// The source layer hash of the vulnerable package.
         public let sourceLayerHash: String?
         /// The version of the vulnerable package.
         public let version: String
 
-        public init(arch: String? = nil, epoch: Int? = nil, filePath: String? = nil, fixedInVersion: String? = nil, name: String, packageManager: PackageManager? = nil, release: String? = nil, sourceLayerHash: String? = nil, version: String) {
+        public init(arch: String? = nil, epoch: Int? = nil, filePath: String? = nil, fixedInVersion: String? = nil, name: String, packageManager: PackageManager? = nil, release: String? = nil, remediation: String? = nil, sourceLayerHash: String? = nil, version: String) {
             self.arch = arch
             self.epoch = epoch
             self.filePath = filePath
@@ -4052,6 +4076,7 @@ extension Inspector2 {
             self.name = name
             self.packageManager = packageManager
             self.release = release
+            self.remediation = remediation
             self.sourceLayerHash = sourceLayerHash
             self.version = version
         }
@@ -4064,6 +4089,7 @@ extension Inspector2 {
             case name
             case packageManager
             case release
+            case remediation
             case sourceLayerHash
             case version
         }

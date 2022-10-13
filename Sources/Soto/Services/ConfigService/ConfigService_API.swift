@@ -848,8 +848,7 @@ public struct ConfigService: AWSService {
     /// 			see  Service Limits in the Config Developer Guide.
     /// 		       This API creates a service-linked role AWSServiceRoleForConfigConforms in your account.
     /// 		The service-linked role is created only when the role does not exist in your account.
-    /// 		        You must specify either the TemplateS3Uri or the TemplateBody parameter, but not both.
-    /// 			If you provide both Config uses the TemplateS3Uri parameter and ignores the TemplateBody parameter.
+    /// 		        You must specify one and only one of theTemplateS3Uri, TemplateBody or TemplateSSMDocumentDetails parameters.
     public func putConformancePack(_ input: PutConformancePackRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutConformancePackResponse> {
         return self.client.execute(operation: "PutConformancePack", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

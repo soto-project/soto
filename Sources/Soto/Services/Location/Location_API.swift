@@ -224,6 +224,11 @@ public struct Location: AWSService {
         return self.client.execute(operation: "GetMapTile", path: "/maps/v0/maps/{MapName}/tiles/{Z}/{X}/{Y}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "maps.", logger: logger, on: eventLoop)
     }
 
+    /// Finds a place by its unique ID. A PlaceId is returned by other search operations.  A PlaceId is valid only if all of the following are the same in the original search request and the call to GetPlace.   Customer AWS account   AWS Region   Data provider specified in the place index resource
+    public func getPlace(_ input: GetPlaceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPlaceResponse> {
+        return self.client.execute(operation: "GetPlace", path: "/places/v0/indexes/{IndexName}/places/{PlaceId}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "places.", logger: logger, on: eventLoop)
+    }
+
     /// A batch request to retrieve all device positions.
     public func listDevicePositions(_ input: ListDevicePositionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDevicePositionsResponse> {
         return self.client.execute(operation: "ListDevicePositions", path: "/tracking/v0/trackers/{TrackerName}/list-positions", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "tracking.", logger: logger, on: eventLoop)

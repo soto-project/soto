@@ -3181,7 +3181,7 @@ extension Resiliencehub {
     public struct UpdateResiliencyPolicyRequest: AWSEncodableShape {
         /// Specifies a high-level geographical location constraint for where your resilience policy data can be stored.
         public let dataLocationConstraint: DataLocationConstraint?
-        /// The type of resiliency policy to be created, including the recovery time objective (RTO) and recovery point objective (RPO) in seconds.
+        /// The type of resiliency policy to be created, including the recovery time objective (RTO) and recovery point objective (RPO) in seconds.  If you do not want to specify regional targets for a regional policy, you must set the values of rpoInSecs and rtoInSecs to -1.
         public let policy: [DisruptionType: FailurePolicy]?
         /// The Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is:
         /// arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For more information about ARNs,

@@ -49,6 +49,19 @@ extension Panorama {
         public var description: String { return self.rawValue }
     }
 
+    public enum DeviceAggregatedStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case awaitingProvisioning = "AWAITING_PROVISIONING"
+        case deleting = "DELETING"
+        case error = "ERROR"
+        case failed = "FAILED"
+        case leaseExpired = "LEASE_EXPIRED"
+        case offline = "OFFLINE"
+        case online = "ONLINE"
+        case pending = "PENDING"
+        case updateNeeded = "UPDATE_NEEDED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DeviceBrand: String, CustomStringConvertible, Codable, _SotoSendable {
         case awsPanorama = "AWS_PANORAMA"
         case lenovo = "LENOVO"
@@ -87,6 +100,14 @@ extension Panorama {
 
     public enum JobType: String, CustomStringConvertible, Codable, _SotoSendable {
         case ota = "OTA"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ListDevicesSortBy: String, CustomStringConvertible, Codable, _SotoSendable {
+        case createdTime = "CREATED_TIME"
+        case deviceAggregatedStatus = "DEVICE_AGGREGATED_STATUS"
+        case deviceId = "DEVICE_ID"
+        case name = "NAME"
         public var description: String { return self.rawValue }
     }
 
@@ -146,6 +167,12 @@ extension Panorama {
         case int32 = "INT32"
         case media = "MEDIA"
         case string = "STRING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SortOrder: String, CustomStringConvertible, Codable, _SotoSendable {
+        case ascending = "ASCENDING"
+        case descending = "DESCENDING"
         public var description: String { return self.rawValue }
     }
 
@@ -912,12 +939,16 @@ extension Panorama {
         public let currentSoftware: String?
         /// The device's description.
         public let description: String?
+        /// A device's aggregated status. Including the device's connection status, provisioning status, and lease status.
+        public let deviceAggregatedStatus: DeviceAggregatedStatus?
         /// The device's connection status.
         public let deviceConnectionStatus: DeviceConnectionStatus?
         /// The device's ID.
         public let deviceId: String?
         /// The most recent beta software release.
         public let latestAlternateSoftware: String?
+        /// A device's latest job. Includes the target image version, and the job status.
+        public let latestDeviceJob: LatestDeviceJob?
         /// The latest software version available for the device.
         public let latestSoftware: String?
         /// The device's lease expiration time.
@@ -935,7 +966,7 @@ extension Panorama {
         /// The device's type.
         public let type: DeviceType?
 
-        public init(alternateSoftwares: [AlternateSoftwareMetadata]? = nil, arn: String? = nil, brand: DeviceBrand? = nil, createdTime: Date? = nil, currentNetworkingStatus: NetworkStatus? = nil, currentSoftware: String? = nil, description: String? = nil, deviceConnectionStatus: DeviceConnectionStatus? = nil, deviceId: String? = nil, latestAlternateSoftware: String? = nil, latestSoftware: String? = nil, leaseExpirationTime: Date? = nil, name: String? = nil, networkingConfiguration: NetworkPayload? = nil, provisioningStatus: DeviceStatus? = nil, serialNumber: String? = nil, tags: [String: String]? = nil, type: DeviceType? = nil) {
+        public init(alternateSoftwares: [AlternateSoftwareMetadata]? = nil, arn: String? = nil, brand: DeviceBrand? = nil, createdTime: Date? = nil, currentNetworkingStatus: NetworkStatus? = nil, currentSoftware: String? = nil, description: String? = nil, deviceAggregatedStatus: DeviceAggregatedStatus? = nil, deviceConnectionStatus: DeviceConnectionStatus? = nil, deviceId: String? = nil, latestAlternateSoftware: String? = nil, latestDeviceJob: LatestDeviceJob? = nil, latestSoftware: String? = nil, leaseExpirationTime: Date? = nil, name: String? = nil, networkingConfiguration: NetworkPayload? = nil, provisioningStatus: DeviceStatus? = nil, serialNumber: String? = nil, tags: [String: String]? = nil, type: DeviceType? = nil) {
             self.alternateSoftwares = alternateSoftwares
             self.arn = arn
             self.brand = brand
@@ -943,9 +974,11 @@ extension Panorama {
             self.currentNetworkingStatus = currentNetworkingStatus
             self.currentSoftware = currentSoftware
             self.description = description
+            self.deviceAggregatedStatus = deviceAggregatedStatus
             self.deviceConnectionStatus = deviceConnectionStatus
             self.deviceId = deviceId
             self.latestAlternateSoftware = latestAlternateSoftware
+            self.latestDeviceJob = latestDeviceJob
             self.latestSoftware = latestSoftware
             self.leaseExpirationTime = leaseExpirationTime
             self.name = name
@@ -964,9 +997,11 @@ extension Panorama {
             case currentNetworkingStatus = "CurrentNetworkingStatus"
             case currentSoftware = "CurrentSoftware"
             case description = "Description"
+            case deviceAggregatedStatus = "DeviceAggregatedStatus"
             case deviceConnectionStatus = "DeviceConnectionStatus"
             case deviceId = "DeviceId"
             case latestAlternateSoftware = "LatestAlternateSoftware"
+            case latestDeviceJob = "LatestDeviceJob"
             case latestSoftware = "LatestSoftware"
             case leaseExpirationTime = "LeaseExpirationTime"
             case name = "Name"
@@ -1381,35 +1416,59 @@ extension Panorama {
         public let brand: DeviceBrand?
         /// When the device was created.
         public let createdTime: Date?
+        /// A device's current software.
+        public let currentSoftware: String?
+        /// A description for the device.
+        public let description: String?
+        /// A device's aggregated status. Including the device's connection status, provisioning status, and lease status.
+        public let deviceAggregatedStatus: DeviceAggregatedStatus?
         /// The device's ID.
         public let deviceId: String?
         /// When the device was updated.
         public let lastUpdatedTime: Date?
+        /// A device's latest job. Includes the target image version, and the update job status.
+        public let latestDeviceJob: LatestDeviceJob?
         /// The device's lease expiration time.
         public let leaseExpirationTime: Date?
         /// The device's name.
         public let name: String?
         /// The device's provisioning status.
         public let provisioningStatus: DeviceStatus?
+        /// The device's tags.
+        public let tags: [String: String]?
+        /// The device's type.
+        public let type: DeviceType?
 
-        public init(brand: DeviceBrand? = nil, createdTime: Date? = nil, deviceId: String? = nil, lastUpdatedTime: Date? = nil, leaseExpirationTime: Date? = nil, name: String? = nil, provisioningStatus: DeviceStatus? = nil) {
+        public init(brand: DeviceBrand? = nil, createdTime: Date? = nil, currentSoftware: String? = nil, description: String? = nil, deviceAggregatedStatus: DeviceAggregatedStatus? = nil, deviceId: String? = nil, lastUpdatedTime: Date? = nil, latestDeviceJob: LatestDeviceJob? = nil, leaseExpirationTime: Date? = nil, name: String? = nil, provisioningStatus: DeviceStatus? = nil, tags: [String: String]? = nil, type: DeviceType? = nil) {
             self.brand = brand
             self.createdTime = createdTime
+            self.currentSoftware = currentSoftware
+            self.description = description
+            self.deviceAggregatedStatus = deviceAggregatedStatus
             self.deviceId = deviceId
             self.lastUpdatedTime = lastUpdatedTime
+            self.latestDeviceJob = latestDeviceJob
             self.leaseExpirationTime = leaseExpirationTime
             self.name = name
             self.provisioningStatus = provisioningStatus
+            self.tags = tags
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case brand = "Brand"
             case createdTime = "CreatedTime"
+            case currentSoftware = "CurrentSoftware"
+            case description = "Description"
+            case deviceAggregatedStatus = "DeviceAggregatedStatus"
             case deviceId = "DeviceId"
             case lastUpdatedTime = "LastUpdatedTime"
+            case latestDeviceJob = "LatestDeviceJob"
             case leaseExpirationTime = "LeaseExpirationTime"
             case name = "Name"
             case provisioningStatus = "ProvisioningStatus"
+            case tags = "Tags"
+            case type = "Type"
         }
     }
 
@@ -1539,6 +1598,23 @@ extension Panorama {
         private enum CodingKeys: String, CodingKey {
             case resourceType = "ResourceType"
             case tags = "Tags"
+        }
+    }
+
+    public struct LatestDeviceJob: AWSDecodableShape {
+        /// The target version of the device software.
+        public let imageVersion: String?
+        /// Status of the latest device job.
+        public let status: UpdateProgress?
+
+        public init(imageVersion: String? = nil, status: UpdateProgress? = nil) {
+            self.imageVersion = imageVersion
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageVersion = "ImageVersion"
+            case status = "Status"
         }
     }
 
@@ -1752,18 +1828,34 @@ extension Panorama {
 
     public struct ListDevicesRequest: AWSEncodableShape {
         public static var _encoding = [
+            AWSMemberEncoding(label: "deviceAggregatedStatusFilter", location: .querystring("DeviceAggregatedStatusFilter")),
             AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
+            AWSMemberEncoding(label: "nameFilter", location: .querystring("NameFilter")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
+            AWSMemberEncoding(label: "sortBy", location: .querystring("SortBy")),
+            AWSMemberEncoding(label: "sortOrder", location: .querystring("SortOrder"))
         ]
 
+        /// Filter based on a device's status.
+        public let deviceAggregatedStatusFilter: DeviceAggregatedStatus?
         /// The maximum number of devices to return in one page of results.
         public let maxResults: Int?
+        /// Filter based on device's name. Prefixes supported.
+        public let nameFilter: String?
         /// Specify the pagination token from a previous request to retrieve the next page of results.
         public let nextToken: String?
+        /// The target column to be sorted on. Default column sort is CREATED_TIME.
+        public let sortBy: ListDevicesSortBy?
+        /// The sorting order for the returned list. SortOrder is DESCENDING by default based on CREATED_TIME. Otherwise, SortOrder is ASCENDING.
+        public let sortOrder: SortOrder?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(deviceAggregatedStatusFilter: DeviceAggregatedStatus? = nil, maxResults: Int? = nil, nameFilter: String? = nil, nextToken: String? = nil, sortBy: ListDevicesSortBy? = nil, sortOrder: SortOrder? = nil) {
+            self.deviceAggregatedStatusFilter = deviceAggregatedStatusFilter
             self.maxResults = maxResults
+            self.nameFilter = nameFilter
             self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
         }
 
         public func validate(name: String) throws {

@@ -137,6 +137,23 @@ extension CloudFront {
         public var description: String { return self.rawValue }
     }
 
+    public enum OriginAccessControlOriginTypes: String, CustomStringConvertible, Codable, _SotoSendable {
+        case s3
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OriginAccessControlSigningBehaviors: String, CustomStringConvertible, Codable, _SotoSendable {
+        case always
+        case never
+        case noOverride = "no-override"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OriginAccessControlSigningProtocols: String, CustomStringConvertible, Codable, _SotoSendable {
+        case sigv4
+        public var description: String { return self.rawValue }
+    }
+
     public enum OriginProtocolPolicy: String, CustomStringConvertible, Codable, _SotoSendable {
         case httpOnly = "http-only"
         case httpsOnly = "https-only"
@@ -1679,6 +1696,54 @@ extension CloudFront {
         }
     }
 
+    public struct CreateOriginAccessControlRequest: AWSEncodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "originAccessControlConfig"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "originAccessControlConfig", location: .body("OriginAccessControlConfig"))
+        ]
+
+        /// Contains the origin access control.
+        public let originAccessControlConfig: OriginAccessControlConfig
+
+        public init(originAccessControlConfig: OriginAccessControlConfig) {
+            self.originAccessControlConfig = originAccessControlConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case originAccessControlConfig = "OriginAccessControlConfig"
+        }
+    }
+
+    public struct CreateOriginAccessControlResult: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "originAccessControl"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
+            AWSMemberEncoding(label: "location", location: .header("Location")),
+            AWSMemberEncoding(label: "originAccessControl", location: .body("OriginAccessControl"))
+        ]
+
+        /// The version identifier for the current version of the origin access control.
+        public let eTag: String?
+        /// The URL of the origin access control.
+        public let location: String?
+        /// Contains an origin access control.
+        public let originAccessControl: OriginAccessControl?
+
+        public init(eTag: String? = nil, location: String? = nil, originAccessControl: OriginAccessControl? = nil) {
+            self.eTag = eTag
+            self.location = location
+            self.originAccessControl = originAccessControl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "ETag"
+            case location = "Location"
+            case originAccessControl = "OriginAccessControl"
+        }
+    }
+
     public struct CreateOriginRequestPolicyRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "originRequestPolicyConfig"
@@ -2501,6 +2566,26 @@ extension CloudFront {
 
     public struct DeleteMonitoringSubscriptionResult: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct DeleteOriginAccessControlRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri("Id")),
+            AWSMemberEncoding(label: "ifMatch", location: .header("If-Match"))
+        ]
+
+        /// The unique identifier of the origin access control that you are deleting.
+        public let id: String
+        /// The current version (ETag value) of the origin access control that you are
+        /// 			deleting.
+        public let ifMatch: String?
+
+        public init(id: String, ifMatch: String? = nil) {
+            self.id = id
+            self.ifMatch = ifMatch
+        }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteOriginRequestPolicyRequest: AWSEncodableShape {
@@ -4309,6 +4394,84 @@ extension CloudFront {
         }
     }
 
+    public struct GetOriginAccessControlConfigRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
+        ]
+
+        /// The unique identifier of the origin access control.
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetOriginAccessControlConfigResult: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "originAccessControlConfig"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
+            AWSMemberEncoding(label: "originAccessControlConfig", location: .body("OriginAccessControlConfig"))
+        ]
+
+        /// The version identifier for the current version of the origin access control.
+        public let eTag: String?
+        /// Contains an origin access control configuration.
+        public let originAccessControlConfig: OriginAccessControlConfig?
+
+        public init(eTag: String? = nil, originAccessControlConfig: OriginAccessControlConfig? = nil) {
+            self.eTag = eTag
+            self.originAccessControlConfig = originAccessControlConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "ETag"
+            case originAccessControlConfig = "OriginAccessControlConfig"
+        }
+    }
+
+    public struct GetOriginAccessControlRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
+        ]
+
+        /// The unique identifier of the origin access control.
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetOriginAccessControlResult: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "originAccessControl"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
+            AWSMemberEncoding(label: "originAccessControl", location: .body("OriginAccessControl"))
+        ]
+
+        /// The version identifier for the current version of the origin access control.
+        public let eTag: String?
+        /// Contains an origin access control, including its unique identifier.
+        public let originAccessControl: OriginAccessControl?
+
+        public init(eTag: String? = nil, originAccessControl: OriginAccessControl? = nil) {
+            self.eTag = eTag
+            self.originAccessControl = originAccessControl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "ETag"
+            case originAccessControl = "OriginAccessControl"
+        }
+    }
+
     public struct GetOriginRequestPolicyConfigRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri("Id"))
@@ -5697,6 +5860,47 @@ extension CloudFront {
         }
     }
 
+    public struct ListOriginAccessControlsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "marker", location: .querystring("Marker")),
+            AWSMemberEncoding(label: "maxItems", location: .querystring("MaxItems"))
+        ]
+
+        /// Use this field when paginating results to indicate where to begin in your list of origin
+        /// 			access controls. The response includes the items in the list that occur after the
+        /// 			marker. To get the next page of the list, set this field's value to the value of
+        /// 			NextMarker from the current page's response.
+        public let marker: String?
+        /// The maximum number of origin access controls that you want in the response.
+        public let maxItems: Int?
+
+        public init(marker: String? = nil, maxItems: Int? = nil) {
+            self.marker = marker
+            self.maxItems = maxItems
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListOriginAccessControlsResult: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "originAccessControlList"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "originAccessControlList", location: .body("OriginAccessControlList"))
+        ]
+
+        /// A list of origin access controls.
+        public let originAccessControlList: OriginAccessControlList?
+
+        public init(originAccessControlList: OriginAccessControlList? = nil) {
+            self.originAccessControlList = originAccessControlList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case originAccessControlList = "OriginAccessControlList"
+        }
+    }
+
     public struct ListOriginRequestPoliciesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "marker", location: .querystring("Marker")),
@@ -6034,6 +6238,10 @@ extension CloudFront {
         /// A unique identifier for the origin. This value must be unique within the
         /// 			distribution. Use this value to specify the TargetOriginId in a CacheBehavior or DefaultCacheBehavior.
         public let id: String
+        /// The unique identifier of an origin access control for this origin.
+        /// 		       For more information, see Restricting access to an Amazon S3 origin in the
+        /// 			Amazon CloudFront Developer Guide.
+        public let originAccessControlId: String?
         /// An optional path that CloudFront appends to the origin domain name when CloudFront requests content from
         /// 			the origin.
         /// 		       For more information, see Origin Path in the
@@ -6048,13 +6256,14 @@ extension CloudFront {
         /// 			instead.
         public let s3OriginConfig: S3OriginConfig?
 
-        public init(connectionAttempts: Int? = nil, connectionTimeout: Int? = nil, customHeaders: CustomHeaders? = nil, customOriginConfig: CustomOriginConfig? = nil, domainName: String, id: String, originPath: String? = nil, originShield: OriginShield? = nil, s3OriginConfig: S3OriginConfig? = nil) {
+        public init(connectionAttempts: Int? = nil, connectionTimeout: Int? = nil, customHeaders: CustomHeaders? = nil, customOriginConfig: CustomOriginConfig? = nil, domainName: String, id: String, originAccessControlId: String? = nil, originPath: String? = nil, originShield: OriginShield? = nil, s3OriginConfig: S3OriginConfig? = nil) {
             self.connectionAttempts = connectionAttempts
             self.connectionTimeout = connectionTimeout
             self.customHeaders = customHeaders
             self.customOriginConfig = customOriginConfig
             self.domainName = domainName
             self.id = id
+            self.originAccessControlId = originAccessControlId
             self.originPath = originPath
             self.originShield = originShield
             self.s3OriginConfig = s3OriginConfig
@@ -6071,9 +6280,165 @@ extension CloudFront {
             case customOriginConfig = "CustomOriginConfig"
             case domainName = "DomainName"
             case id = "Id"
+            case originAccessControlId = "OriginAccessControlId"
             case originPath = "OriginPath"
             case originShield = "OriginShield"
             case s3OriginConfig = "S3OriginConfig"
+        }
+    }
+
+    public struct OriginAccessControl: AWSDecodableShape {
+        /// The unique identifier of the origin access control.
+        public let id: String
+        /// The origin access control.
+        public let originAccessControlConfig: OriginAccessControlConfig?
+
+        public init(id: String, originAccessControlConfig: OriginAccessControlConfig? = nil) {
+            self.id = id
+            self.originAccessControlConfig = originAccessControlConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case originAccessControlConfig = "OriginAccessControlConfig"
+        }
+    }
+
+    public struct OriginAccessControlConfig: AWSEncodableShape & AWSDecodableShape {
+        /// A description of the origin access control.
+        public let description: String
+        /// A name to identify the origin access control.
+        public let name: String
+        /// The type of origin that this origin access control is for. The only valid value is
+        /// 			s3.
+        public let originAccessControlOriginType: OriginAccessControlOriginTypes
+        /// Specifies which requests CloudFront signs (adds authentication information to). Specify
+        /// 			always for the most common use case. For more information, see origin access control advanced settings in the
+        /// 			Amazon CloudFront Developer Guide.
+        /// 		       This field can have one of the following values:
+        ///
+        /// 				            always – CloudFront signs all origin requests, overwriting the
+        /// 					Authorization header from the viewer request if one exists.
+        ///
+        /// 				            never – CloudFront doesn't sign any origin requests. This value turns off origin
+        /// 					access control for all origins in all distributions that use this origin access
+        /// 					control.
+        ///
+        /// 				            no-override – If the viewer request doesn't contain the
+        /// 					Authorization header, then CloudFront signs the origin request. If the
+        /// 					viewer request contains the Authorization header, then CloudFront doesn't
+        /// 					sign the origin request and instead passes along the Authorization
+        /// 					header from the viewer request. WARNING: To pass along the
+        /// 					Authorization header from the viewer request, you
+        /// 					must add the Authorization header to a cache policy for all cache behaviors that use
+        /// 					origins associated with this origin access control.
+        ///
+        public let signingBehavior: OriginAccessControlSigningBehaviors
+        /// The signing protocol of the origin access control, which determines how CloudFront signs
+        /// 			(authenticates) requests. The only valid value is sigv4.
+        public let signingProtocol: OriginAccessControlSigningProtocols
+
+        public init(description: String, name: String, originAccessControlOriginType: OriginAccessControlOriginTypes, signingBehavior: OriginAccessControlSigningBehaviors, signingProtocol: OriginAccessControlSigningProtocols) {
+            self.description = description
+            self.name = name
+            self.originAccessControlOriginType = originAccessControlOriginType
+            self.signingBehavior = signingBehavior
+            self.signingProtocol = signingProtocol
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case name = "Name"
+            case originAccessControlOriginType = "OriginAccessControlOriginType"
+            case signingBehavior = "SigningBehavior"
+            case signingProtocol = "SigningProtocol"
+        }
+    }
+
+    public struct OriginAccessControlList: AWSDecodableShape {
+        public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "OriginAccessControlSummary" }
+
+        /// If there are more items in the list than are in this response, this value is
+        /// 			true.
+        public let isTruncated: Bool
+        /// Contains the origin access controls in the list.
+        @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, OriginAccessControlSummary>>
+        public var items: [OriginAccessControlSummary]?
+        /// The value of the Marker field that was provided in the request.
+        public let marker: String
+        /// The maximum number of origin access controls requested.
+        public let maxItems: Int
+        /// If there are more items in the list than are in this response, this element is present. It
+        /// 			contains the value to use in the Marker field of another request to
+        /// 			continue listing origin access controls.
+        public let nextMarker: String?
+        /// The number of origin access controls returned in the response.
+        public let quantity: Int
+
+        public init(isTruncated: Bool, items: [OriginAccessControlSummary]? = nil, marker: String, maxItems: Int, nextMarker: String? = nil, quantity: Int) {
+            self.isTruncated = isTruncated
+            self.items = items
+            self.marker = marker
+            self.maxItems = maxItems
+            self.nextMarker = nextMarker
+            self.quantity = quantity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isTruncated = "IsTruncated"
+            case items = "Items"
+            case marker = "Marker"
+            case maxItems = "MaxItems"
+            case nextMarker = "NextMarker"
+            case quantity = "Quantity"
+        }
+    }
+
+    public struct OriginAccessControlSummary: AWSDecodableShape {
+        /// A description of the origin access control.
+        public let description: String
+        /// The unique identifier of the origin access control.
+        public let id: String
+        /// A unique name that identifies the origin access control.
+        public let name: String
+        /// The type of origin that this origin access control is for. The only valid value is
+        /// 			s3.
+        public let originAccessControlOriginType: OriginAccessControlOriginTypes
+        /// A value that specifies which requests CloudFront signs (adds authentication information to).
+        /// 			This field can have one of the following values:
+        ///
+        /// 				            never – CloudFront doesn't sign any origin requests.
+        ///
+        /// 				            always – CloudFront signs all origin requests, overwriting the
+        /// 					Authorization header from the viewer request if necessary.
+        ///
+        /// 				            no-override – If the viewer request doesn't contain the
+        /// 					Authorization header, CloudFront signs the origin request. If the viewer
+        /// 					request contains the Authorization header, CloudFront doesn't sign the
+        /// 					origin request, but instead passes along the Authorization header
+        /// 					that it received in the viewer request.
+        ///
+        public let signingBehavior: OriginAccessControlSigningBehaviors
+        /// The signing protocol of the origin access control. The signing protocol determines how
+        /// 			CloudFront signs (authenticates) requests. The only valid value is sigv4.
+        public let signingProtocol: OriginAccessControlSigningProtocols
+
+        public init(description: String, id: String, name: String, originAccessControlOriginType: OriginAccessControlOriginTypes, signingBehavior: OriginAccessControlSigningBehaviors, signingProtocol: OriginAccessControlSigningProtocols) {
+            self.description = description
+            self.id = id
+            self.name = name
+            self.originAccessControlOriginType = originAccessControlOriginType
+            self.signingBehavior = signingBehavior
+            self.signingProtocol = signingProtocol
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case id = "Id"
+            case name = "Name"
+            case originAccessControlOriginType = "OriginAccessControlOriginType"
+            case signingBehavior = "SigningBehavior"
+            case signingProtocol = "SigningProtocol"
         }
     }
 
@@ -8501,6 +8866,58 @@ extension CloudFront {
         private enum CodingKeys: String, CodingKey {
             case eTag = "ETag"
             case keyGroup = "KeyGroup"
+        }
+    }
+
+    public struct UpdateOriginAccessControlRequest: AWSEncodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "originAccessControlConfig"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri("Id")),
+            AWSMemberEncoding(label: "ifMatch", location: .header("If-Match")),
+            AWSMemberEncoding(label: "originAccessControlConfig", location: .body("OriginAccessControlConfig"))
+        ]
+
+        /// The unique identifier of the origin access control that you are updating.
+        public let id: String
+        /// The current version (ETag value) of the origin access control that you are
+        /// 			updating.
+        public let ifMatch: String?
+        /// An origin access control.
+        public let originAccessControlConfig: OriginAccessControlConfig
+
+        public init(id: String, ifMatch: String? = nil, originAccessControlConfig: OriginAccessControlConfig) {
+            self.id = id
+            self.ifMatch = ifMatch
+            self.originAccessControlConfig = originAccessControlConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case originAccessControlConfig = "OriginAccessControlConfig"
+        }
+    }
+
+    public struct UpdateOriginAccessControlResult: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "originAccessControl"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
+            AWSMemberEncoding(label: "originAccessControl", location: .body("OriginAccessControl"))
+        ]
+
+        /// The new version of the origin access control after it has been updated.
+        public let eTag: String?
+        /// The origin access control after it has been updated.
+        public let originAccessControl: OriginAccessControl?
+
+        public init(eTag: String? = nil, originAccessControl: OriginAccessControl? = nil) {
+            self.eTag = eTag
+            self.originAccessControl = originAccessControl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "ETag"
+            case originAccessControl = "OriginAccessControl"
         }
     }
 

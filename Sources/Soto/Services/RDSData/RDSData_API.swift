@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS RDSData service.
 ///
-/// Amazon RDS Data Service Amazon RDS provides an HTTP endpoint to run SQL statements on an Amazon Aurora Serverless DB cluster. To run these statements, you work with the Data Service API. For more information about the Data Service API, see Using the Data API in the Amazon Aurora User Guide.
+/// Amazon RDS Data Service Amazon RDS provides an HTTP endpoint to run SQL statements on an Amazon Aurora Serverless v1 DB cluster. To run these statements, you work with the Data Service API.  The Data Service API isn't supported on Amazon Aurora Serverless v2 DB clusters.  For more information about the Data Service API, see Using the Data API in the Amazon Aurora User Guide.
 public struct RDSData: AWSService {
     // MARK: Member variables
 
@@ -69,7 +69,7 @@ public struct RDSData: AWSService {
         return self.client.execute(operation: "BatchExecuteStatement", path: "/BatchExecute", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Starts a SQL transaction.   A transaction can run for a maximum of 24 hours. A transaction is terminated and  rolled back automatically after 24 hours. A transaction times out if no calls use its transaction ID in three minutes.  If a transaction times out before it's committed, it's rolled back automatically. DDL statements inside a transaction cause an implicit commit. We recommend  that you run each DDL statement in a separate ExecuteStatement call with  continueAfterTimeout enabled.
+    /// Starts a SQL transaction.  A transaction can run for a maximum of 24 hours. A transaction is terminated and rolled back automatically after 24 hours. A transaction times out if no calls use its transaction ID in three minutes. If a transaction times out before it's committed, it's rolled back automatically. DDL statements inside a transaction cause an implicit commit. We recommend that you run each DDL statement in a separate ExecuteStatement call with continueAfterTimeout enabled.
     public func beginTransaction(_ input: BeginTransactionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BeginTransactionResponse> {
         return self.client.execute(operation: "BeginTransaction", path: "/BeginTransaction", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

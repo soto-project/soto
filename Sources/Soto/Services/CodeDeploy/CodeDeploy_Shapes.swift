@@ -37,9 +37,9 @@ extension CodeDeploy {
 
     public enum BundleType: String, CustomStringConvertible, Codable, _SotoSendable {
         case json = "JSON"
-        case yaml = "YAML"
         case tar
-        case tgz
+        case tarGZip = "tgz"
+        case yaml = "YAML"
         case zip
         public var description: String { return self.rawValue }
     }
@@ -52,19 +52,19 @@ extension CodeDeploy {
     }
 
     public enum DeploymentCreator: String, CustomStringConvertible, Codable, _SotoSendable {
+        case autoscaling
         case cloudFormation = "CloudFormation"
         case cloudFormationRollback = "CloudFormationRollback"
         case codeDeploy = "CodeDeploy"
         case codeDeployAutoUpdate = "CodeDeployAutoUpdate"
-        case autoscaling
         case codeDeployRollback
         case user
         public var description: String { return self.rawValue }
     }
 
     public enum DeploymentOption: String, CustomStringConvertible, Codable, _SotoSendable {
-        case withoutTrafficControl = "WITHOUT_TRAFFIC_CONTROL"
         case withTrafficControl = "WITH_TRAFFIC_CONTROL"
+        case withoutTrafficControl = "WITHOUT_TRAFFIC_CONTROL"
         public var description: String { return self.rawValue }
     }
 
@@ -87,7 +87,7 @@ extension CodeDeploy {
     }
 
     public enum DeploymentTargetType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case cloudFormationTarget = "CloudFormationTarget"
+        case cloudformationTarget = "CloudFormationTarget"
         case ecsTarget = "ECSTarget"
         case instanceTarget = "InstanceTarget"
         case lambdaTarget = "LambdaTarget"
@@ -117,9 +117,9 @@ extension CodeDeploy {
         case agentIssue = "AGENT_ISSUE"
         case alarmActive = "ALARM_ACTIVE"
         case applicationMissing = "APPLICATION_MISSING"
-        case autoscalingValidationError = "AUTOSCALING_VALIDATION_ERROR"
         case autoScalingConfiguration = "AUTO_SCALING_CONFIGURATION"
         case autoScalingIamRolePermissions = "AUTO_SCALING_IAM_ROLE_PERMISSIONS"
+        case autoscalingValidationError = "AUTOSCALING_VALIDATION_ERROR"
         case cloudformationStackFailure = "CLOUDFORMATION_STACK_FAILURE"
         case codedeployResourceCannotBeFound = "CODEDEPLOY_RESOURCE_CANNOT_BE_FOUND"
         case customerApplicationUnhealthy = "CUSTOMER_APPLICATION_UNHEALTHY"
@@ -336,7 +336,7 @@ extension CodeDeploy {
     }
 
     public struct AlarmConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// A list of alarms configured for the deployment group. A maximum of 10 alarms can be added to a deployment group.
+        /// A list of alarms configured for the deployment or deployment group. A maximum of 10 alarms can be added.
         public let alarms: [Alarm]?
         /// Indicates whether the alarm configuration is enabled.
         public let enabled: Bool?
@@ -357,7 +357,7 @@ extension CodeDeploy {
     }
 
     public struct AppSpecContent: AWSEncodableShape & AWSDecodableShape {
-        ///  The YAML-formatted or JSON-formatted revision string.  For an AWS Lambda deployment, the content includes a Lambda function name, the alias for its original version, and the alias for its replacement version. The deployment shifts traffic from the original version of the Lambda function to the replacement version.  For an Amazon ECS deployment, the content includes the task name, information about the load balancer that serves traffic to the container, and more.  For both types of deployments, the content can specify Lambda functions that run at specified hooks, such as BeforeInstall, during a deployment.
+        ///  The YAML-formatted or JSON-formatted revision string.  For an Lambda deployment, the content includes a Lambda function name, the alias for its original version, and the alias for its replacement version. The deployment shifts traffic from the original version of the Lambda function to the replacement version.  For an Amazon ECS deployment, the content includes the task name, information about the load balancer that serves traffic to the container, and more.  For both types of deployments, the content can specify Lambda functions that run at specified hooks, such as BeforeInstall, during a deployment.
         public let content: String?
         ///  The SHA256 hash value of the revision content.
         public let sha256: String?
@@ -441,7 +441,7 @@ extension CodeDeploy {
     }
 
     public struct BatchGetApplicationRevisionsInput: AWSEncodableShape {
-        /// The name of an AWS CodeDeploy application about which to get revision information.
+        /// The name of an CodeDeploy application about which to get revision information.
         public let applicationName: String
         /// An array of RevisionLocation objects that specify information to get about the application revisions, including type and location. The maximum number of RevisionLocation objects you can specify is 25.
         public let revisions: [RevisionLocation]
@@ -517,7 +517,7 @@ extension CodeDeploy {
     }
 
     public struct BatchGetDeploymentGroupsInput: AWSEncodableShape {
-        /// The name of an AWS CodeDeploy application associated with the applicable IAM user or AWS account.
+        /// The name of an CodeDeploy application associated with the applicable IAM or Amazon Web Services account.
         public let applicationName: String
         /// The names of the deployment groups.
         public let deploymentGroupNames: [String]
@@ -596,7 +596,7 @@ extension CodeDeploy {
     public struct BatchGetDeploymentTargetsInput: AWSEncodableShape {
         ///  The unique ID of a deployment.
         public let deploymentId: String?
-        ///  The unique IDs of the deployment targets. The compute platform of the deployment determines the type of the targets and their formats. The maximum number of deployment target IDs you can specify is 25.   For deployments that use the EC2/On-premises compute platform, the target IDs are EC2 or on-premises instances IDs, and their target type is instanceTarget.    For deployments that use the AWS Lambda compute platform, the target IDs are the names of Lambda functions, and their target type is instanceTarget.    For deployments that use the Amazon ECS compute platform, the target IDs are pairs of Amazon ECS clusters and services specified using the format :. Their target type is ecsTarget.    For deployments that are deployed with AWS CloudFormation, the target IDs are CloudFormation stack IDs. Their target type is cloudFormationTarget.
+        ///  The unique IDs of the deployment targets. The compute platform of the deployment determines the type of the targets and their formats. The maximum number of deployment target IDs you can specify is 25.   For deployments that use the EC2/On-premises compute platform, the target IDs are Amazon EC2 or on-premises instances IDs, and their target type is instanceTarget.    For deployments that use the Lambda compute platform, the target IDs are the names of Lambda functions, and their target type is instanceTarget.    For deployments that use the Amazon ECS compute platform, the target IDs are pairs of Amazon ECS clusters and services specified using the format :. Their target type is ecsTarget.    For deployments that are deployed with CloudFormation, the target IDs are CloudFormation stack IDs. Their target type is cloudFormationTarget.
         public let targetIds: [String]?
 
         public init(deploymentId: String? = nil, targetIds: [String]? = nil) {
@@ -611,7 +611,7 @@ extension CodeDeploy {
     }
 
     public struct BatchGetDeploymentTargetsOutput: AWSDecodableShape {
-        ///  A list of target objects for a deployment. Each target object contains details about the target, such as its status and lifecycle events. The type of the target objects depends on the deployment' compute platform.     EC2/On-premises: Each target object is an EC2 or on-premises instance.     AWS Lambda: The target object is a specific version of an AWS Lambda function.     Amazon ECS: The target object is an Amazon ECS service.     CloudFormation: The target object is an AWS CloudFormation blue/green deployment.
+        ///  A list of target objects for a deployment. Each target object contains details about the target, such as its status and lifecycle events. The type of the target objects depends on the deployment' compute platform.     EC2/On-premises: Each target object is an Amazon EC2 or on-premises instance.     Lambda: The target object is a specific version of an Lambda function.     Amazon ECS: The target object is an Amazon ECS service.     CloudFormation: The target object is an CloudFormation blue/green deployment.
         public let deploymentTargets: [DeploymentTarget]?
 
         public init(deploymentTargets: [DeploymentTarget]? = nil) {
@@ -716,19 +716,19 @@ extension CodeDeploy {
     }
 
     public struct CloudFormationTarget: AWSDecodableShape {
-        /// The unique ID of an AWS CloudFormation blue/green deployment.
+        /// The unique ID of an CloudFormation blue/green deployment.
         public let deploymentId: String?
-        ///  The date and time when the target application was updated by an AWS CloudFormation blue/green deployment.
+        ///  The date and time when the target application was updated by an CloudFormation blue/green deployment.
         public let lastUpdatedAt: Date?
-        ///  The lifecycle events of the AWS CloudFormation blue/green deployment to this target application.
+        ///  The lifecycle events of the CloudFormation blue/green deployment to this target application.
         public let lifecycleEvents: [LifecycleEvent]?
-        /// The resource type for the AWS CloudFormation blue/green deployment.
+        /// The resource type for the CloudFormation blue/green deployment.
         public let resourceType: String?
-        ///  The status of an AWS CloudFormation blue/green deployment's target application.
+        ///  The status of an CloudFormation blue/green deployment's target application.
         public let status: TargetStatus?
         ///  The unique ID of a deployment target that has a type of CloudFormationTarget.
         public let targetId: String?
-        /// The percentage of production traffic that the target version of an AWS CloudFormation blue/green deployment receives.
+        /// The percentage of production traffic that the target version of an CloudFormation blue/green deployment receives.
         public let targetVersionWeight: Double?
 
         public init(deploymentId: String? = nil, lastUpdatedAt: Date? = nil, lifecycleEvents: [LifecycleEvent]? = nil, resourceType: String? = nil, status: TargetStatus? = nil, targetId: String? = nil, targetVersionWeight: Double? = nil) {
@@ -770,7 +770,7 @@ extension CodeDeploy {
     }
 
     public struct CreateApplicationInput: AWSEncodableShape {
-        /// The name of the application. This name must be unique with the applicable IAM user or AWS account.
+        /// The name of the application. This name must be unique with the applicable IAM or Amazon Web Services account.
         public let applicationName: String
         ///  The destination platform type for the deployment (Lambda, Server, or ECS).
         public let computePlatform: ComputePlatform?
@@ -813,7 +813,7 @@ extension CodeDeploy {
         public let computePlatform: ComputePlatform?
         /// The name of the deployment configuration to create.
         public let deploymentConfigName: String
-        /// The minimum number of healthy instances that should be available at any time during the deployment. There are two parameters expected in the input: type and value. The type parameter takes either of the following values:   HOST_COUNT: The value parameter represents the minimum number of healthy instances as an absolute value.   FLEET_PERCENT: The value parameter represents the minimum number of healthy instances as a percentage of the total number of instances in the deployment. If you specify FLEET_PERCENT, at the start of the deployment, AWS CodeDeploy converts the percentage to the equivalent number of instances and rounds up fractional instances.   The value parameter takes an integer. For example, to set a minimum of 95% healthy instance, specify a type of FLEET_PERCENT and a value of 95.
+        /// The minimum number of healthy instances that should be available at any time during the deployment. There are two parameters expected in the input: type and value. The type parameter takes either of the following values:   HOST_COUNT: The value parameter represents the minimum number of healthy instances as an absolute value.   FLEET_PERCENT: The value parameter represents the minimum number of healthy instances as a percentage of the total number of instances in the deployment. If you specify FLEET_PERCENT, at the start of the deployment, CodeDeploy converts the percentage to the equivalent number of instances and rounds up fractional instances.   The value parameter takes an integer. For example, to set a minimum of 95% healthy instance, specify a type of FLEET_PERCENT and a value of 95.
         public let minimumHealthyHosts: MinimumHealthyHosts?
         /// The configuration that specifies how the deployment traffic is routed.
         public let trafficRoutingConfig: TrafficRoutingConfig?
@@ -854,7 +854,7 @@ extension CodeDeploy {
     public struct CreateDeploymentGroupInput: AWSEncodableShape {
         /// Information to add about Amazon CloudWatch alarms when the deployment group is created.
         public let alarmConfiguration: AlarmConfiguration?
-        /// The name of an AWS CodeDeploy application associated with the IAM user or AWS account.
+        /// The name of an CodeDeploy application associated with the IAM user or Amazon Web Services account.
         public let applicationName: String
         /// Configuration information for an automatic rollback that is added when a deployment group is created.
         public let autoRollbackConfiguration: AutoRollbackConfiguration?
@@ -862,15 +862,15 @@ extension CodeDeploy {
         public let autoScalingGroups: [String]?
         /// Information about blue/green deployment options for a deployment group.
         public let blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration?
-        /// If specified, the deployment configuration name can be either one of the predefined configurations provided with AWS CodeDeploy or a custom deployment configuration that you create by calling the create deployment configuration operation.  CodeDeployDefault.OneAtATime is the default deployment configuration. It is used if a configuration isn't specified for the deployment or deployment group. For more information about the predefined deployment configurations in AWS CodeDeploy, see Working with Deployment Configurations in CodeDeploy in the AWS CodeDeploy User Guide.
+        /// If specified, the deployment configuration name can be either one of the predefined configurations provided with CodeDeploy or a custom deployment configuration that you create by calling the create deployment configuration operation.  CodeDeployDefault.OneAtATime is the default deployment configuration. It is used if a configuration isn't specified for the deployment or deployment group. For more information about the predefined deployment configurations in CodeDeploy, see Working with Deployment Configurations in CodeDeploy in the CodeDeploy User Guide.
         public let deploymentConfigName: String?
         /// The name of a new deployment group for the specified application.
         public let deploymentGroupName: String
         /// Information about the type of deployment, in-place or blue/green, that you want to run and whether to route deployment traffic behind a load balancer.
         public let deploymentStyle: DeploymentStyle?
-        /// The Amazon EC2 tags on which to filter. The deployment group includes EC2 instances with any of the specified tags. Cannot be used in the same call as ec2TagSet.
+        /// The Amazon EC2 tags on which to filter. The deployment group includes Amazon EC2 instances with any of the specified tags. Cannot be used in the same call as ec2TagSet.
         public let ec2TagFilters: [EC2TagFilter]?
-        /// Information about groups of tags applied to EC2 instances. The deployment group includes only EC2 instances identified by all the tag groups. Cannot be used in the same call as ec2TagFilters.
+        /// Information about groups of tags applied to Amazon EC2 instances. The deployment group includes only Amazon EC2 instances identified by all the tag groups. Cannot be used in the same call as ec2TagFilters.
         public let ec2TagSet: EC2TagSet?
         ///  The target Amazon ECS services in the deployment group. This applies only to deployment groups that use the Amazon ECS compute platform. A target Amazon ECS service is specified as an Amazon ECS cluster and service name pair using the format :.
         public let ecsServices: [ECSService]?
@@ -880,13 +880,13 @@ extension CodeDeploy {
         public let onPremisesInstanceTagFilters: [TagFilter]?
         /// Information about groups of tags applied to on-premises instances. The deployment group includes only on-premises instances identified by all of the tag groups. Cannot be used in the same call as onPremisesInstanceTagFilters.
         public let onPremisesTagSet: OnPremisesTagSet?
-        /// Indicates what happens when new EC2 instances are launched mid-deployment and do not receive the deployed application revision. If this option is set to UPDATE or is unspecified, CodeDeploy initiates one or more 'auto-update outdated instances' deployments to apply the deployed application revision to the new EC2 instances. If this option is set to IGNORE, CodeDeploy does not initiate a deployment to update the new EC2 instances. This may result in instances having different revisions.
+        /// Indicates what happens when new Amazon EC2 instances are launched mid-deployment and do not receive the deployed application revision. If this option is set to UPDATE or is unspecified, CodeDeploy initiates one or more 'auto-update outdated instances' deployments to apply the deployed application revision to the new Amazon EC2 instances. If this option is set to IGNORE, CodeDeploy does not initiate a deployment to update the new Amazon EC2 instances. This may result in instances having different revisions.
         public let outdatedInstancesStrategy: OutdatedInstancesStrategy?
-        /// A service role Amazon Resource Name (ARN) that allows AWS CodeDeploy to act on the user's behalf when interacting with AWS services.
+        /// A service role Amazon Resource Name (ARN) that allows CodeDeploy to act on the user's behalf when interacting with Amazon Web Services services.
         public let serviceRoleArn: String
         ///  The metadata that you apply to CodeDeploy deployment groups to help you organize and categorize them. Each tag consists of a key and an optional value, both of which you define.
         public let tags: [Tag]?
-        /// Information about triggers to create when the deployment group is created. For examples, see Create a Trigger for an AWS CodeDeploy Event in the AWS CodeDeploy User Guide.
+        /// Information about triggers to create when the deployment group is created. For examples, see Create a Trigger for an CodeDeploy Event in the CodeDeploy User Guide.
         public let triggerConfigurations: [TriggerConfig]?
 
         public init(alarmConfiguration: AlarmConfiguration? = nil, applicationName: String, autoRollbackConfiguration: AutoRollbackConfiguration? = nil, autoScalingGroups: [String]? = nil, blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration? = nil, deploymentConfigName: String? = nil, deploymentGroupName: String, deploymentStyle: DeploymentStyle? = nil, ec2TagFilters: [EC2TagFilter]? = nil, ec2TagSet: EC2TagSet? = nil, ecsServices: [ECSService]? = nil, loadBalancerInfo: LoadBalancerInfo? = nil, onPremisesInstanceTagFilters: [TagFilter]? = nil, onPremisesTagSet: OnPremisesTagSet? = nil, outdatedInstancesStrategy: OutdatedInstancesStrategy? = nil, serviceRoleArn: String, tags: [Tag]? = nil, triggerConfigurations: [TriggerConfig]? = nil) {
@@ -955,31 +955,33 @@ extension CodeDeploy {
     }
 
     public struct CreateDeploymentInput: AWSEncodableShape {
-        /// The name of an AWS CodeDeploy application associated with the IAM user or AWS account.
+        /// The name of an CodeDeploy application associated with the IAM user or Amazon Web Services account.
         public let applicationName: String
         /// Configuration information for an automatic rollback that is added when a deployment is created.
         public let autoRollbackConfiguration: AutoRollbackConfiguration?
-        /// The name of a deployment configuration associated with the IAM user or AWS account. If not specified, the value configured in the deployment group is used as the default. If the deployment group does not have a deployment configuration associated with it, CodeDeployDefault.OneAtATime is used by default.
+        /// The name of a deployment configuration associated with the IAM user or Amazon Web Services account. If not specified, the value configured in the deployment group is used as the default. If the deployment group does not have a deployment configuration associated with it, CodeDeployDefault.OneAtATime is used by default.
         public let deploymentConfigName: String?
         /// The name of the deployment group.
         public let deploymentGroupName: String?
         /// A comment about the deployment.
         public let description: String?
-        /// Information about how AWS CodeDeploy handles files that already exist in a deployment target location but weren't part of the previous successful deployment. The fileExistsBehavior parameter takes any of the following values:   DISALLOW: The deployment fails. This is also the default behavior if no option is specified.   OVERWRITE: The version of the file from the application revision currently being deployed replaces the version already on the instance.   RETAIN: The version of the file already on the instance is kept and used as part of the new deployment.
+        /// Information about how CodeDeploy handles files that already exist in a deployment target location but weren't part of the previous successful deployment. The fileExistsBehavior parameter takes any of the following values:   DISALLOW: The deployment fails. This is also the default behavior if no option is specified.   OVERWRITE: The version of the file from the application revision currently being deployed replaces the version already on the instance.   RETAIN: The version of the file already on the instance is kept and used as part of the new deployment.
         public let fileExistsBehavior: FileExistsBehavior?
         ///  If true, then if an ApplicationStop, BeforeBlockTraffic, or AfterBlockTraffic deployment lifecycle event to an instance fails, then the deployment continues to the next deployment lifecycle event. For example, if ApplicationStop fails, the deployment continues with DownloadBundle. If BeforeBlockTraffic fails, the deployment continues with BlockTraffic. If AfterBlockTraffic fails, the deployment continues with ApplicationStop.
         ///  If false or not specified, then if a lifecycle event fails during a deployment to an instance, that deployment fails. If deployment to that instance is part of an overall deployment and the number of healthy hosts is not less than the minimum number of healthy hosts, then a deployment to the next instance is attempted.
-        ///  During a deployment, the AWS CodeDeploy agent runs the scripts specified for ApplicationStop, BeforeBlockTraffic, and AfterBlockTraffic in the AppSpec file from the previous successful deployment. (All other scripts are run from the AppSpec file in the current deployment.) If one of these scripts contains an error and does not run successfully, the deployment can fail.
+        ///  During a deployment, the CodeDeploy agent runs the scripts specified for ApplicationStop, BeforeBlockTraffic, and AfterBlockTraffic in the AppSpec file from the previous successful deployment. (All other scripts are run from the AppSpec file in the current deployment.) If one of these scripts contains an error and does not run successfully, the deployment can fail.
         ///  If the cause of the failure is a script from the last successful deployment that will never run successfully, create a new deployment and use ignoreApplicationStopFailures to specify that the ApplicationStop, BeforeBlockTraffic, and AfterBlockTraffic failures should be ignored.
-        public let ignoreApplicationStopFailures: Bool?
+        public let ignoreApplicationStopFailures: Bool
+        /// Allows you to specify information about alarms associated with a deployment. The alarm configuration that you specify here will override the alarm configuration at the deployment group level. Consider overriding the alarm configuration if you have set up alarms at the deployment group level that are causing deployment failures. In this case, you would call CreateDeployment to create a new deployment that uses a previous application revision that is known to work, and set its alarm configuration to turn off alarm polling. Turning off alarm polling ensures that the new deployment proceeds without being blocked by the alarm that was generated by the previous, failed, deployment.  If you specify an overrideAlarmConfiguration, you need the UpdateDeploymentGroup IAM permission when calling CreateDeployment.
+        public let overrideAlarmConfiguration: AlarmConfiguration?
         ///  The type and location of the revision to deploy.
         public let revision: RevisionLocation?
         ///  Information about the instances that belong to the replacement environment in a blue/green deployment.
         public let targetInstances: TargetInstances?
         ///  Indicates whether to deploy to all instances or only to instances that are not running the latest application revision.
-        public let updateOutdatedInstancesOnly: Bool?
+        public let updateOutdatedInstancesOnly: Bool
 
-        public init(applicationName: String, autoRollbackConfiguration: AutoRollbackConfiguration? = nil, deploymentConfigName: String? = nil, deploymentGroupName: String? = nil, description: String? = nil, fileExistsBehavior: FileExistsBehavior? = nil, ignoreApplicationStopFailures: Bool? = nil, revision: RevisionLocation? = nil, targetInstances: TargetInstances? = nil, updateOutdatedInstancesOnly: Bool? = nil) {
+        public init(applicationName: String, autoRollbackConfiguration: AutoRollbackConfiguration? = nil, deploymentConfigName: String? = nil, deploymentGroupName: String? = nil, description: String? = nil, fileExistsBehavior: FileExistsBehavior? = nil, ignoreApplicationStopFailures: Bool = false, overrideAlarmConfiguration: AlarmConfiguration? = nil, revision: RevisionLocation? = nil, targetInstances: TargetInstances? = nil, updateOutdatedInstancesOnly: Bool = false) {
             self.applicationName = applicationName
             self.autoRollbackConfiguration = autoRollbackConfiguration
             self.deploymentConfigName = deploymentConfigName
@@ -987,6 +989,7 @@ extension CodeDeploy {
             self.description = description
             self.fileExistsBehavior = fileExistsBehavior
             self.ignoreApplicationStopFailures = ignoreApplicationStopFailures
+            self.overrideAlarmConfiguration = overrideAlarmConfiguration
             self.revision = revision
             self.targetInstances = targetInstances
             self.updateOutdatedInstancesOnly = updateOutdatedInstancesOnly
@@ -1009,6 +1012,7 @@ extension CodeDeploy {
             case description
             case fileExistsBehavior
             case ignoreApplicationStopFailures
+            case overrideAlarmConfiguration
             case revision
             case targetInstances
             case updateOutdatedInstancesOnly
@@ -1029,7 +1033,7 @@ extension CodeDeploy {
     }
 
     public struct DeleteApplicationInput: AWSEncodableShape {
-        /// The name of an AWS CodeDeploy application associated with the IAM user or AWS account.
+        /// The name of an CodeDeploy application associated with the IAM user or Amazon Web Services account.
         public let applicationName: String
 
         public init(applicationName: String) {
@@ -1047,7 +1051,7 @@ extension CodeDeploy {
     }
 
     public struct DeleteDeploymentConfigInput: AWSEncodableShape {
-        /// The name of a deployment configuration associated with the IAM user or AWS account.
+        /// The name of a deployment configuration associated with the IAM user or Amazon Web Services account.
         public let deploymentConfigName: String
 
         public init(deploymentConfigName: String) {
@@ -1065,7 +1069,7 @@ extension CodeDeploy {
     }
 
     public struct DeleteDeploymentGroupInput: AWSEncodableShape {
-        /// The name of an AWS CodeDeploy application associated with the IAM user or AWS account.
+        /// The name of an CodeDeploy application associated with the IAM user or Amazon Web Services account.
         public let applicationName: String
         /// The name of a deployment group for the specified application.
         public let deploymentGroupName: String
@@ -1089,7 +1093,7 @@ extension CodeDeploy {
     }
 
     public struct DeleteDeploymentGroupOutput: AWSDecodableShape {
-        /// If the output contains no data, and the corresponding deployment group contained at least one Auto Scaling group, AWS CodeDeploy successfully removed all corresponding Auto Scaling lifecycle event hooks from the Amazon EC2 instances in the Auto Scaling group. If the output contains data, AWS CodeDeploy could not remove some Auto Scaling lifecycle event hooks from the Amazon EC2 instances in the Auto Scaling group.
+        /// If the output contains no data, and the corresponding deployment group contained at least one Auto Scaling group, CodeDeploy successfully removed all corresponding Auto Scaling lifecycle event hooks from the Amazon EC2 instances in the Auto Scaling group. If the output contains data, CodeDeploy could not remove some Auto Scaling lifecycle event hooks from the Amazon EC2 instances in the Auto Scaling group.
         public let hooksNotCleanedUp: [AutoScalingGroup]?
 
         public init(hooksNotCleanedUp: [AutoScalingGroup]? = nil) {
@@ -1155,7 +1159,7 @@ extension CodeDeploy {
         public let deploymentConfigName: String?
         /// Information about the number or percentage of minimum healthy instance.
         public let minimumHealthyHosts: MinimumHealthyHosts?
-        /// The configuration that specifies how the deployment traffic is routed. Used for deployments with a Lambda or ECS compute platform only.
+        /// The configuration that specifies how the deployment traffic is routed. Used for deployments with a Lambda or Amazon ECS compute platform only.
         public let trafficRoutingConfig: TrafficRoutingConfig?
 
         public init(computePlatform: ComputePlatform? = nil, createTime: Date? = nil, deploymentConfigId: String? = nil, deploymentConfigName: String? = nil, minimumHealthyHosts: MinimumHealthyHosts? = nil, trafficRoutingConfig: TrafficRoutingConfig? = nil) {
@@ -1200,7 +1204,7 @@ extension CodeDeploy {
         public let deploymentStyle: DeploymentStyle?
         /// The Amazon EC2 tags on which to filter. The deployment group includes EC2 instances with any of the specified tags.
         public let ec2TagFilters: [EC2TagFilter]?
-        /// Information about groups of tags applied to an EC2 instance. The deployment group includes only EC2 instances identified by all of the tag groups. Cannot be used in the same call as ec2TagFilters.
+        /// Information about groups of tags applied to an Amazon EC2 instance. The deployment group includes only Amazon EC2 instances identified by all of the tag groups. Cannot be used in the same call as ec2TagFilters.
         public let ec2TagSet: EC2TagSet?
         ///  The target Amazon ECS services in the deployment group. This applies only to deployment groups that use the Amazon ECS compute platform. A target Amazon ECS service is specified as an Amazon ECS cluster and service name pair using the format :.
         public let ecsServices: [ECSService]?
@@ -1214,9 +1218,9 @@ extension CodeDeploy {
         public let onPremisesInstanceTagFilters: [TagFilter]?
         /// Information about groups of tags applied to an on-premises instance. The deployment group includes only on-premises instances identified by all the tag groups. Cannot be used in the same call as onPremisesInstanceTagFilters.
         public let onPremisesTagSet: OnPremisesTagSet?
-        /// Indicates what happens when new EC2 instances are launched mid-deployment and do not receive the deployed application revision. If this option is set to UPDATE or is unspecified, CodeDeploy initiates one or more 'auto-update outdated instances' deployments to apply the deployed application revision to the new EC2 instances. If this option is set to IGNORE, CodeDeploy does not initiate a deployment to update the new EC2 instances. This may result in instances having different revisions.
+        /// Indicates what happens when new Amazon EC2 instances are launched mid-deployment and do not receive the deployed application revision. If this option is set to UPDATE or is unspecified, CodeDeploy initiates one or more 'auto-update outdated instances' deployments to apply the deployed application revision to the new Amazon EC2 instances. If this option is set to IGNORE, CodeDeploy does not initiate a deployment to update the new Amazon EC2 instances. This may result in instances having different revisions.
         public let outdatedInstancesStrategy: OutdatedInstancesStrategy?
-        /// A service role Amazon Resource Name (ARN) that grants CodeDeploy permission to make calls to AWS services on your behalf. For more information, see Create a Service Role for AWS CodeDeploy in the AWS CodeDeploy User Guide.
+        /// A service role Amazon Resource Name (ARN) that grants CodeDeploy permission to make calls to Amazon Web Services services on your behalf. For more information, see Create a Service Role for CodeDeploy in the CodeDeploy User Guide.
         public let serviceRoleArn: String?
         /// Information about the deployment group's target revision, including type and location.
         public let targetRevision: RevisionLocation?
@@ -1289,7 +1293,7 @@ extension CodeDeploy {
         public let computePlatform: ComputePlatform?
         /// A timestamp that indicates when the deployment was created.
         public let createTime: Date?
-        /// The means by which the deployment was created:    user: A user created the deployment.    autoscaling: Amazon EC2 Auto Scaling created the deployment.    codeDeployRollback: A rollback process created the deployment.    CodeDeployAutoUpdate: An auto-update process created the deployment when it detected outdated EC2 instances.
+        /// The means by which the deployment was created:    user: A user created the deployment.    autoscaling: Amazon EC2 Auto Scaling created the deployment.    codeDeployRollback: A rollback process created the deployment.    CodeDeployAutoUpdate: An auto-update process created the deployment when it detected outdated Amazon EC2 instances.
         public let creator: DeploymentCreator?
         ///  The deployment configuration name.
         public let deploymentConfigName: String?
@@ -1309,17 +1313,18 @@ extension CodeDeploy {
         public let errorInformation: ErrorInformation?
         /// The unique ID for an external resource (for example, a CloudFormation stack ID) that is linked to this deployment.
         public let externalId: String?
-        /// Information about how AWS CodeDeploy handles files that already exist in a deployment target location but weren't part of the previous successful deployment.    DISALLOW: The deployment fails. This is also the default behavior if no option is specified.    OVERWRITE: The version of the file from the application revision currently being deployed replaces the version already on the instance.    RETAIN: The version of the file already on the instance is kept and used as part of the new deployment.
+        /// Information about how CodeDeploy handles files that already exist in a deployment target location but weren't part of the previous successful deployment.    DISALLOW: The deployment fails. This is also the default behavior if no option is specified.    OVERWRITE: The version of the file from the application revision currently being deployed replaces the version already on the instance.    RETAIN: The version of the file already on the instance is kept and used as part of the new deployment.
         public let fileExistsBehavior: FileExistsBehavior?
         ///  If true, then if an ApplicationStop, BeforeBlockTraffic, or AfterBlockTraffic deployment lifecycle event to an instance fails, then the deployment continues to the next deployment lifecycle event. For example, if ApplicationStop fails, the deployment continues with DownloadBundle. If BeforeBlockTraffic fails, the deployment continues with BlockTraffic. If AfterBlockTraffic fails, the deployment continues with ApplicationStop.
         ///  If false or not specified, then if a lifecycle event fails during a deployment to an instance, that deployment fails. If deployment to that instance is part of an overall deployment and the number of healthy hosts is not less than the minimum number of healthy hosts, then a deployment to the next instance is attempted.
-        ///  During a deployment, the AWS CodeDeploy agent runs the scripts specified for ApplicationStop, BeforeBlockTraffic, and AfterBlockTraffic in the AppSpec file from the previous successful deployment. (All other scripts are run from the AppSpec file in the current deployment.) If one of these scripts contains an error and does not run successfully, the deployment can fail.
+        ///  During a deployment, the CodeDeploy agent runs the scripts specified for ApplicationStop, BeforeBlockTraffic, and AfterBlockTraffic in the AppSpec file from the previous successful deployment. (All other scripts are run from the AppSpec file in the current deployment.) If one of these scripts contains an error and does not run successfully, the deployment can fail.
         ///  If the cause of the failure is a script from the last successful deployment that will never run successfully, create a new deployment and use ignoreApplicationStopFailures to specify that the ApplicationStop, BeforeBlockTraffic, and AfterBlockTraffic failures should be ignored.
         public let ignoreApplicationStopFailures: Bool?
         /// Indicates whether the wait period set for the termination of instances in the original environment has started. Status is 'false' if the KEEP_ALIVE option is specified. Otherwise, 'true' as soon as the termination wait period starts.
         public let instanceTerminationWaitTimeStarted: Bool?
         /// Information about the load balancer used in the deployment.
         public let loadBalancerInfo: LoadBalancerInfo?
+        public let overrideAlarmConfiguration: AlarmConfiguration?
         /// Information about the application revision that was deployed to the deployment group before the most recent successful deployment.
         public let previousRevision: RevisionLocation?
         public let relatedDeployments: RelatedDeployments?
@@ -1336,7 +1341,7 @@ extension CodeDeploy {
         /// Indicates whether only instances that are not running the latest application revision are to be deployed to.
         public let updateOutdatedInstancesOnly: Bool?
 
-        public init(additionalDeploymentStatusInfo: String? = nil, applicationName: String? = nil, autoRollbackConfiguration: AutoRollbackConfiguration? = nil, blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration? = nil, completeTime: Date? = nil, computePlatform: ComputePlatform? = nil, createTime: Date? = nil, creator: DeploymentCreator? = nil, deploymentConfigName: String? = nil, deploymentGroupName: String? = nil, deploymentId: String? = nil, deploymentOverview: DeploymentOverview? = nil, deploymentStatusMessages: [String]? = nil, deploymentStyle: DeploymentStyle? = nil, description: String? = nil, errorInformation: ErrorInformation? = nil, externalId: String? = nil, fileExistsBehavior: FileExistsBehavior? = nil, ignoreApplicationStopFailures: Bool? = nil, instanceTerminationWaitTimeStarted: Bool? = nil, loadBalancerInfo: LoadBalancerInfo? = nil, previousRevision: RevisionLocation? = nil, relatedDeployments: RelatedDeployments? = nil, revision: RevisionLocation? = nil, rollbackInfo: RollbackInfo? = nil, startTime: Date? = nil, status: DeploymentStatus? = nil, targetInstances: TargetInstances? = nil, updateOutdatedInstancesOnly: Bool? = nil) {
+        public init(additionalDeploymentStatusInfo: String? = nil, applicationName: String? = nil, autoRollbackConfiguration: AutoRollbackConfiguration? = nil, blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration? = nil, completeTime: Date? = nil, computePlatform: ComputePlatform? = nil, createTime: Date? = nil, creator: DeploymentCreator? = nil, deploymentConfigName: String? = nil, deploymentGroupName: String? = nil, deploymentId: String? = nil, deploymentOverview: DeploymentOverview? = nil, deploymentStatusMessages: [String]? = nil, deploymentStyle: DeploymentStyle? = nil, description: String? = nil, errorInformation: ErrorInformation? = nil, externalId: String? = nil, fileExistsBehavior: FileExistsBehavior? = nil, ignoreApplicationStopFailures: Bool? = nil, instanceTerminationWaitTimeStarted: Bool? = nil, loadBalancerInfo: LoadBalancerInfo? = nil, overrideAlarmConfiguration: AlarmConfiguration? = nil, previousRevision: RevisionLocation? = nil, relatedDeployments: RelatedDeployments? = nil, revision: RevisionLocation? = nil, rollbackInfo: RollbackInfo? = nil, startTime: Date? = nil, status: DeploymentStatus? = nil, targetInstances: TargetInstances? = nil, updateOutdatedInstancesOnly: Bool? = nil) {
             self.additionalDeploymentStatusInfo = additionalDeploymentStatusInfo
             self.applicationName = applicationName
             self.autoRollbackConfiguration = autoRollbackConfiguration
@@ -1358,6 +1363,7 @@ extension CodeDeploy {
             self.ignoreApplicationStopFailures = ignoreApplicationStopFailures
             self.instanceTerminationWaitTimeStarted = instanceTerminationWaitTimeStarted
             self.loadBalancerInfo = loadBalancerInfo
+            self.overrideAlarmConfiguration = overrideAlarmConfiguration
             self.previousRevision = previousRevision
             self.relatedDeployments = relatedDeployments
             self.revision = revision
@@ -1390,6 +1396,7 @@ extension CodeDeploy {
             case ignoreApplicationStopFailures
             case instanceTerminationWaitTimeStarted
             case loadBalancerInfo
+            case overrideAlarmConfiguration
             case previousRevision
             case relatedDeployments
             case revision
@@ -1476,7 +1483,7 @@ extension CodeDeploy {
         public let ecsTarget: ECSTarget?
         ///  Information about the target for a deployment that uses the EC2/On-premises compute platform.
         public let instanceTarget: InstanceTarget?
-        ///  Information about the target for a deployment that uses the AWS Lambda compute platform.
+        ///  Information about the target for a deployment that uses the Lambda compute platform.
         public let lambdaTarget: LambdaTarget?
 
         public init(cloudFormationTarget: CloudFormationTarget? = nil, deploymentTargetType: DeploymentTargetType? = nil, ecsTarget: ECSTarget? = nil, instanceTarget: InstanceTarget? = nil, lambdaTarget: LambdaTarget? = nil) {
@@ -1512,7 +1519,7 @@ extension CodeDeploy {
     public struct Diagnostics: AWSDecodableShape {
         /// The associated error code:   Success: The specified script ran.   ScriptMissing: The specified script was not found in the specified location.   ScriptNotExecutable: The specified script is not a recognized executable file type.   ScriptTimedOut: The specified script did not finish running in the specified time period.   ScriptFailed: The specified script failed to run as expected.   UnknownError: The specified script did not run for an unknown reason.
         public let errorCode: LifecycleErrorCode?
-        /// The last portion of the diagnostic log. If available, AWS CodeDeploy returns up to the last 4 KB of the diagnostic log.
+        /// The last portion of the diagnostic log. If available, CodeDeploy returns up to the last 4 KB of the diagnostic log.
         public let logTail: String?
         /// The message associated with the error.
         public let message: String?
@@ -1556,7 +1563,7 @@ extension CodeDeploy {
     }
 
     public struct EC2TagSet: AWSEncodableShape & AWSDecodableShape {
-        /// A list that contains other lists of EC2 instance tag groups. For an instance to be included in the deployment group, it must be identified by all of the tag groups in the list.
+        /// A list that contains other lists of Amazon EC2 instance tag groups. For an instance to be included in the deployment group, it must be identified by all of the tag groups in the list.
         public let ec2TagSetList: [[EC2TagFilter]]?
 
         public init(ec2TagSetList: [[EC2TagFilter]]? = nil) {
@@ -1633,7 +1640,7 @@ extension CodeDeploy {
         public let runningCount: Int64?
         ///  The status of the task set. There are three valid task set statuses:     PRIMARY: Indicates the task set is serving production traffic.     ACTIVE: Indicates the task set is not serving production traffic.     DRAINING: Indicates the tasks in the task set are being stopped and their corresponding targets are being deregistered from their target group.
         public let status: String?
-        ///  The target group associated with the task set. The target group is used by AWS CodeDeploy to manage traffic to a task set.
+        ///  The target group associated with the task set. The target group is used by CodeDeploy to manage traffic to a task set.
         public let targetGroup: TargetGroupInfo?
         ///  A label that identifies whether the ECS task set is an original target (BLUE) or a replacement target (GREEN).
         public let taskSetLabel: TargetLabel?
@@ -1677,7 +1684,7 @@ extension CodeDeploy {
     }
 
     public struct ErrorInformation: AWSDecodableShape {
-        /// For more information, see Error Codes for AWS CodeDeploy in the AWS CodeDeploy User Guide. The error code:   APPLICATION_MISSING: The application was missing. This error code is most likely raised if the application is deleted after the deployment is created, but before it is started.   DEPLOYMENT_GROUP_MISSING: The deployment group was missing. This error code is most likely raised if the deployment group is deleted after the deployment is created, but before it is started.   HEALTH_CONSTRAINTS: The deployment failed on too many instances to be successfully deployed within the instance health constraints specified.   HEALTH_CONSTRAINTS_INVALID: The revision cannot be successfully deployed within the instance health constraints specified.   IAM_ROLE_MISSING: The service role cannot be accessed.   IAM_ROLE_PERMISSIONS: The service role does not have the correct permissions.   INTERNAL_ERROR: There was an internal error.   NO_EC2_SUBSCRIPTION: The calling account is not subscribed to Amazon EC2.   NO_INSTANCES: No instances were specified, or no instances can be found.   OVER_MAX_INSTANCES: The maximum number of instances was exceeded.   THROTTLED: The operation was throttled because the calling account exceeded the throttling limits of one or more AWS services.   TIMEOUT: The deployment has timed out.   REVISION_MISSING: The revision ID was missing. This error code is most likely raised if the revision is deleted after the deployment is created, but before it is started.
+        /// For more information, see Error Codes for CodeDeploy in the CodeDeploy User Guide. The error code:   APPLICATION_MISSING: The application was missing. This error code is most likely raised if the application is deleted after the deployment is created, but before it is started.   DEPLOYMENT_GROUP_MISSING: The deployment group was missing. This error code is most likely raised if the deployment group is deleted after the deployment is created, but before it is started.   HEALTH_CONSTRAINTS: The deployment failed on too many instances to be successfully deployed within the instance health constraints specified.   HEALTH_CONSTRAINTS_INVALID: The revision cannot be successfully deployed within the instance health constraints specified.   IAM_ROLE_MISSING: The service role cannot be accessed.   IAM_ROLE_PERMISSIONS: The service role does not have the correct permissions.   INTERNAL_ERROR: There was an internal error.   NO_EC2_SUBSCRIPTION: The calling account is not subscribed to Amazon EC2.   NO_INSTANCES: No instances were specified, or no instances can be found.   OVER_MAX_INSTANCES: The maximum number of instances was exceeded.   THROTTLED: The operation was throttled because the calling account exceeded the throttling limits of one or more Amazon Web Services services.   TIMEOUT: The deployment has timed out.   REVISION_MISSING: The revision ID was missing. This error code is most likely raised if the revision is deleted after the deployment is created, but before it is started.
         public let code: ErrorCode?
         /// An accompanying error message.
         public let message: String?
@@ -1698,11 +1705,11 @@ extension CodeDeploy {
         public let deploymentGroups: [String]?
         /// A comment about the revision.
         public let description: String?
-        /// When the revision was first used by AWS CodeDeploy.
+        /// When the revision was first used by CodeDeploy.
         public let firstUsedTime: Date?
-        /// When the revision was last used by AWS CodeDeploy.
+        /// When the revision was last used by CodeDeploy.
         public let lastUsedTime: Date?
-        /// When the revision was registered with AWS CodeDeploy.
+        /// When the revision was registered with CodeDeploy.
         public let registerTime: Date?
 
         public init(deploymentGroups: [String]? = nil, description: String? = nil, firstUsedTime: Date? = nil, lastUsedTime: Date? = nil, registerTime: Date? = nil) {
@@ -1723,7 +1730,7 @@ extension CodeDeploy {
     }
 
     public struct GetApplicationInput: AWSEncodableShape {
-        /// The name of an AWS CodeDeploy application associated with the IAM user or AWS account.
+        /// The name of an CodeDeploy application associated with the IAM user or Amazon Web Services account.
         public let applicationName: String
 
         public init(applicationName: String) {
@@ -1797,7 +1804,7 @@ extension CodeDeploy {
     }
 
     public struct GetDeploymentConfigInput: AWSEncodableShape {
-        /// The name of a deployment configuration associated with the IAM user or AWS account.
+        /// The name of a deployment configuration associated with the IAM user or Amazon Web Services account.
         public let deploymentConfigName: String
 
         public init(deploymentConfigName: String) {
@@ -1828,7 +1835,7 @@ extension CodeDeploy {
     }
 
     public struct GetDeploymentGroupInput: AWSEncodableShape {
-        /// The name of an AWS CodeDeploy application associated with the IAM user or AWS account.
+        /// The name of an CodeDeploy application associated with the IAM user or Amazon Web Services account.
         public let applicationName: String
         /// The name of a deployment group for the specified application.
         public let deploymentGroupName: String
@@ -1865,7 +1872,7 @@ extension CodeDeploy {
     }
 
     public struct GetDeploymentInput: AWSEncodableShape {
-        ///  The unique ID of a deployment associated with the IAM user or AWS account.
+        ///  The unique ID of a deployment associated with the IAM user or Amazon Web Services account.
         public let deploymentId: String
 
         public init(deploymentId: String) {
@@ -2116,7 +2123,7 @@ extension CodeDeploy {
     public struct LambdaFunctionInfo: AWSDecodableShape {
         ///  The version of a Lambda function that production traffic points to.
         public let currentVersion: String?
-        ///  The alias of a Lambda function. For more information, see AWS Lambda Function Aliases in the AWS Lambda Developer Guide.
+        ///  The alias of a Lambda function. For more information, see Lambda Function Aliases in the Lambda Developer Guide.
         public let functionAlias: String?
         ///  The name of a Lambda function.
         public let functionName: String?
@@ -2151,7 +2158,7 @@ extension CodeDeploy {
         public let lastUpdatedAt: Date?
         ///  The lifecycle events of the deployment to this target Lambda function.
         public let lifecycleEvents: [LifecycleEvent]?
-        ///  The status an AWS Lambda deployment's target Lambda function.
+        ///  The status an Lambda deployment's target Lambda function.
         public let status: TargetStatus?
         ///  The Amazon Resource Name (ARN) of the target.
         public let targetArn: String?
@@ -2234,7 +2241,7 @@ extension CodeDeploy {
     }
 
     public struct ListApplicationRevisionsInput: AWSEncodableShape {
-        ///  The name of an AWS CodeDeploy application associated with the IAM user or AWS account.
+        ///  The name of an CodeDeploy application associated with the IAM user or Amazon Web Services account.
         public let applicationName: String
         ///  Whether to list revisions based on whether the revision is the target revision of a deployment group:     include: List revisions that are target revisions of a deployment group.    exclude: Do not list revisions that are target revisions of a deployment group.    ignore: List all revisions.
         public let deployed: ListStateFilterAction?
@@ -2244,7 +2251,7 @@ extension CodeDeploy {
         public let s3Bucket: String?
         ///  A key prefix for the set of Amazon S3 objects to limit the search for revisions.
         public let s3KeyPrefix: String?
-        /// The column name to use to sort the list results:    registerTime: Sort by the time the revisions were registered with AWS CodeDeploy.    firstUsedTime: Sort by the time the revisions were first used in a deployment.    lastUsedTime: Sort by the time the revisions were last used in a deployment.   If not specified or set to null, the results are returned in an arbitrary order.
+        /// The column name to use to sort the list results:    registerTime: Sort by the time the revisions were registered with CodeDeploy.    firstUsedTime: Sort by the time the revisions were first used in a deployment.    lastUsedTime: Sort by the time the revisions were last used in a deployment.   If not specified or set to null, the results are returned in an arbitrary order.
         public let sortBy: ApplicationRevisionSortBy?
         ///  The order in which to sort the list results:     ascending: ascending order.    descending: descending order.   If not specified, the results are sorted in ascending order. If set to null, the results are sorted in an arbitrary order.
         public let sortOrder: SortOrder?
@@ -2353,7 +2360,7 @@ extension CodeDeploy {
     }
 
     public struct ListDeploymentGroupsInput: AWSEncodableShape {
-        /// The name of an AWS CodeDeploy application associated with the IAM user or AWS account.
+        /// The name of an CodeDeploy application associated with the IAM user or Amazon Web Services account.
         public let applicationName: String
         /// An identifier returned from the previous list deployment groups call. It can be used to return the next set of deployment groups in the list.
         public let nextToken: String?
@@ -2476,7 +2483,7 @@ extension CodeDeploy {
     }
 
     public struct ListDeploymentsInput: AWSEncodableShape {
-        /// The name of an AWS CodeDeploy application associated with the IAM user or AWS account.  If applicationName is specified, then deploymentGroupName must be specified. If it is not specified, then deploymentGroupName must not be specified.
+        /// The name of an CodeDeploy application associated with the IAM user or Amazon Web Services account.  If applicationName is specified, then deploymentGroupName must be specified. If it is not specified, then deploymentGroupName must not be specified.
         public let applicationName: String?
         /// A time range (start and end) for returning a subset of the list of deployments.
         public let createTimeRange: TimeRange?
@@ -2661,7 +2668,7 @@ extension CodeDeploy {
     }
 
     public struct MinimumHealthyHosts: AWSEncodableShape & AWSDecodableShape {
-        /// The minimum healthy instance type:    HOST_COUNT: The minimum number of healthy instances as an absolute value.    FLEET_PERCENT: The minimum number of healthy instances as a percentage of the total number of instances in the deployment.   In an example of nine instances, if a HOST_COUNT of six is specified, deploy to up to three instances at a time. The deployment is successful if six or more instances are deployed to successfully. Otherwise, the deployment fails. If a FLEET_PERCENT of 40 is specified, deploy to up to five instances at a time. The deployment is successful if four or more instances are deployed to successfully. Otherwise, the deployment fails.  In a call to the GetDeploymentConfig, CodeDeployDefault.OneAtATime returns a minimum healthy instance type of MOST_CONCURRENCY and a value of 1. This means a deployment to only one instance at a time. (You cannot set the type to MOST_CONCURRENCY, only to HOST_COUNT or FLEET_PERCENT.) In addition, with CodeDeployDefault.OneAtATime, AWS CodeDeploy attempts to ensure that all instances but one are kept in a healthy state during the deployment. Although this allows one instance at a time to be taken offline for a new deployment, it also means that if the deployment to the last instance fails, the overall deployment is still successful.  For more information, see AWS CodeDeploy Instance Health in the AWS CodeDeploy User Guide.
+        /// The minimum healthy instance type:    HOST_COUNT: The minimum number of healthy instances as an absolute value.    FLEET_PERCENT: The minimum number of healthy instances as a percentage of the total number of instances in the deployment.   In an example of nine instances, if a HOST_COUNT of six is specified, deploy to up to three instances at a time. The deployment is successful if six or more instances are deployed to successfully. Otherwise, the deployment fails. If a FLEET_PERCENT of 40 is specified, deploy to up to five instances at a time. The deployment is successful if four or more instances are deployed to successfully. Otherwise, the deployment fails.  In a call to the GetDeploymentConfig, CodeDeployDefault.OneAtATime returns a minimum healthy instance type of MOST_CONCURRENCY and a value of 1. This means a deployment to only one instance at a time. (You cannot set the type to MOST_CONCURRENCY, only to HOST_COUNT or FLEET_PERCENT.) In addition, with CodeDeployDefault.OneAtATime, CodeDeploy attempts to ensure that all instances but one are kept in a healthy state during the deployment. Although this allows one instance at a time to be taken offline for a new deployment, it also means that if the deployment to the last instance fails, the overall deployment is still successful.  For more information, see CodeDeploy Instance Health in the CodeDeploy User Guide.
         public let type: MinimumHealthyHostsType?
         /// The minimum healthy instance value.
         public let value: Int?
@@ -2695,7 +2702,7 @@ extension CodeDeploy {
         public let deploymentId: String?
         ///  The execution ID of a deployment's lifecycle hook. A deployment lifecycle hook is specified in the hooks section of the AppSpec file.
         public let lifecycleEventHookExecutionId: String?
-        /// The result of a Lambda function that validates a deployment lifecycle event. Succeeded and Failed are the only valid values for status.
+        /// The result of a Lambda function that validates a deployment lifecycle event. The values listed in Valid Values are valid for lifecycle statuses in general; however, only Succeeded and Failed can be passed successfully in your API call.
         public let status: LifecycleEventStatus?
 
         public init(deploymentId: String? = nil, lifecycleEventHookExecutionId: String? = nil, status: LifecycleEventStatus? = nil) {
@@ -2742,7 +2749,7 @@ extension CodeDeploy {
     }
 
     public struct RegisterApplicationRevisionInput: AWSEncodableShape {
-        /// The name of an AWS CodeDeploy application associated with the IAM user or AWS account.
+        /// The name of an CodeDeploy application associated with the IAM user or Amazon Web Services account.
         public let applicationName: String
         /// A comment about the revision.
         public let description: String?
@@ -2840,15 +2847,15 @@ extension CodeDeploy {
     }
 
     public struct RevisionLocation: AWSEncodableShape & AWSDecodableShape {
-        ///  The content of an AppSpec file for an AWS Lambda or Amazon ECS deployment. The content is formatted as JSON or YAML and stored as a RawString.
+        ///  The content of an AppSpec file for an Lambda or Amazon ECS deployment. The content is formatted as JSON or YAML and stored as a RawString.
         public let appSpecContent: AppSpecContent?
         /// Information about the location of application artifacts stored in GitHub.
         public let gitHubLocation: GitHubLocation?
-        /// The type of application revision:   S3: An application revision stored in Amazon S3.   GitHub: An application revision stored in GitHub (EC2/On-premises deployments only).   String: A YAML-formatted or JSON-formatted string (AWS Lambda deployments only).   AppSpecContent: An AppSpecContent object that contains the contents of an AppSpec file for an AWS Lambda or Amazon ECS deployment. The content is formatted as JSON or YAML stored as a RawString.
+        /// The type of application revision:   S3: An application revision stored in Amazon S3.   GitHub: An application revision stored in GitHub (EC2/On-premises deployments only).   String: A YAML-formatted or JSON-formatted string (Lambda deployments only).   AppSpecContent: An AppSpecContent object that contains the contents of an AppSpec file for an Lambda or Amazon ECS deployment. The content is formatted as JSON or YAML stored as a RawString.
         public let revisionType: RevisionLocationType?
         /// Information about the location of a revision stored in Amazon S3.
         public let s3Location: S3Location?
-        /// Information about the location of an AWS Lambda deployment revision stored as a RawString.
+        /// Information about the location of an Lambda deployment revision stored as a RawString.
         public let string: RawString?
 
         public init(appSpecContent: AppSpecContent? = nil, gitHubLocation: GitHubLocation? = nil, revisionType: RevisionLocationType? = nil, s3Location: S3Location? = nil, string: RawString? = nil) {
@@ -3066,7 +3073,7 @@ extension CodeDeploy {
     public struct TargetInstances: AWSEncodableShape & AWSDecodableShape {
         /// The names of one or more Auto Scaling groups to identify a replacement environment for a blue/green deployment.
         public let autoScalingGroups: [String]?
-        /// Information about the groups of EC2 instance tags that an instance must be identified by in order for it to be included in the replacement environment for a blue/green deployment. Cannot be used in the same call as tagFilters.
+        /// Information about the groups of Amazon EC2 instance tags that an instance must be identified by in order for it to be included in the replacement environment for a blue/green deployment. Cannot be used in the same call as tagFilters.
         public let ec2TagSet: EC2TagSet?
         /// The tag filter key, type, and value used to identify Amazon EC2 instances in a replacement environment for a blue/green deployment. Cannot be used in the same call as ec2TagSet.
         public let tagFilters: [EC2TagFilter]?
@@ -3151,7 +3158,7 @@ extension CodeDeploy {
     public struct TrafficRoutingConfig: AWSEncodableShape & AWSDecodableShape {
         /// A configuration that shifts traffic from one version of a Lambda function or ECS task set to another in two increments. The original and target Lambda function versions or ECS task sets are specified in the deployment's AppSpec file.
         public let timeBasedCanary: TimeBasedCanary?
-        /// A configuration that shifts traffic from one version of a Lambda function or ECS task set to another in equal increments, with an equal number of minutes between each increment. The original and target Lambda function versions or ECS task sets are specified in the deployment's AppSpec file.
+        /// A configuration that shifts traffic from one version of a Lambda function or Amazon ECS task set to another in equal increments, with an equal number of minutes between each increment. The original and target Lambda function versions or Amazon ECS task sets are specified in the deployment's AppSpec file.
         public let timeBasedLinear: TimeBasedLinear?
         /// The type of traffic shifting (TimeBasedCanary or TimeBasedLinear) used by a deployment configuration.
         public let type: TrafficRoutingType?
@@ -3247,7 +3254,7 @@ extension CodeDeploy {
         public let applicationName: String
         /// Information for an automatic rollback configuration that is added or changed when a deployment group is updated.
         public let autoRollbackConfiguration: AutoRollbackConfiguration?
-        /// The replacement list of Auto Scaling groups to be included in the deployment group, if you want to change them. To keep the Auto Scaling groups, enter their names. To remove Auto Scaling groups, do not enter any Auto Scaling group names.
+        /// The replacement list of Auto Scaling groups to be included in the deployment group, if you want to change them.   To keep the Auto Scaling groups, enter their names or do not specify this parameter.    To remove Auto Scaling groups, specify a non-null empty list of Auto Scaling group names to detach all CodeDeploy-managed Auto Scaling lifecycle hooks. For examples, see Amazon EC2 instances in an Amazon EC2 Auto Scaling group fail to launch and receive the error "Heartbeat Timeout" in the CodeDeploy User Guide.
         public let autoScalingGroups: [String]?
         /// Information about blue/green deployment options for a deployment group.
         public let blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration?
@@ -3259,7 +3266,7 @@ extension CodeDeploy {
         public let deploymentStyle: DeploymentStyle?
         /// The replacement set of Amazon EC2 tags on which to filter, if you want to change them. To keep the existing tags, enter their names. To remove tags, do not enter any tag names.
         public let ec2TagFilters: [EC2TagFilter]?
-        /// Information about groups of tags applied to on-premises instances. The deployment group includes only EC2 instances identified by all the tag groups.
+        /// Information about groups of tags applied to on-premises instances. The deployment group includes only Amazon EC2 instances identified by all the tag groups.
         public let ec2TagSet: EC2TagSet?
         ///  The target Amazon ECS services in the deployment group. This applies only to deployment groups that use the Amazon ECS compute platform. A target Amazon ECS service is specified as an Amazon ECS cluster and service name pair using the format :.
         public let ecsServices: [ECSService]?
@@ -3271,11 +3278,11 @@ extension CodeDeploy {
         public let onPremisesInstanceTagFilters: [TagFilter]?
         /// Information about an on-premises instance tag set. The deployment group includes only on-premises instances identified by all the tag groups.
         public let onPremisesTagSet: OnPremisesTagSet?
-        /// Indicates what happens when new EC2 instances are launched mid-deployment and do not receive the deployed application revision. If this option is set to UPDATE or is unspecified, CodeDeploy initiates one or more 'auto-update outdated instances' deployments to apply the deployed application revision to the new EC2 instances. If this option is set to IGNORE, CodeDeploy does not initiate a deployment to update the new EC2 instances. This may result in instances having different revisions.
+        /// Indicates what happens when new Amazon EC2 instances are launched mid-deployment and do not receive the deployed application revision. If this option is set to UPDATE or is unspecified, CodeDeploy initiates one or more 'auto-update outdated instances' deployments to apply the deployed application revision to the new Amazon EC2 instances. If this option is set to IGNORE, CodeDeploy does not initiate a deployment to update the new Amazon EC2 instances. This may result in instances having different revisions.
         public let outdatedInstancesStrategy: OutdatedInstancesStrategy?
         /// A replacement ARN for the service role, if you want to change it.
         public let serviceRoleArn: String?
-        /// Information about triggers to change when the deployment group is updated. For examples, see Edit a Trigger in a CodeDeploy Deployment Group in the AWS CodeDeploy User Guide.
+        /// Information about triggers to change when the deployment group is updated. For examples, see Edit a Trigger in a CodeDeploy Deployment Group in the CodeDeploy User Guide.
         public let triggerConfigurations: [TriggerConfig]?
 
         public init(alarmConfiguration: AlarmConfiguration? = nil, applicationName: String, autoRollbackConfiguration: AutoRollbackConfiguration? = nil, autoScalingGroups: [String]? = nil, blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration? = nil, currentDeploymentGroupName: String, deploymentConfigName: String? = nil, deploymentStyle: DeploymentStyle? = nil, ec2TagFilters: [EC2TagFilter]? = nil, ec2TagSet: EC2TagSet? = nil, ecsServices: [ECSService]? = nil, loadBalancerInfo: LoadBalancerInfo? = nil, newDeploymentGroupName: String? = nil, onPremisesInstanceTagFilters: [TagFilter]? = nil, onPremisesTagSet: OnPremisesTagSet? = nil, outdatedInstancesStrategy: OutdatedInstancesStrategy? = nil, serviceRoleArn: String? = nil, triggerConfigurations: [TriggerConfig]? = nil) {
@@ -3333,7 +3340,7 @@ extension CodeDeploy {
     }
 
     public struct UpdateDeploymentGroupOutput: AWSDecodableShape {
-        /// If the output contains no data, and the corresponding deployment group contained at least one Auto Scaling group, AWS CodeDeploy successfully removed all corresponding Auto Scaling lifecycle event hooks from the AWS account. If the output contains data, AWS CodeDeploy could not remove some Auto Scaling lifecycle event hooks from the AWS account.
+        /// If the output contains no data, and the corresponding deployment group contained at least one Auto Scaling group, CodeDeploy successfully removed all corresponding Auto Scaling lifecycle event hooks from the Amazon Web Services account. If the output contains data, CodeDeploy could not remove some Auto Scaling lifecycle event hooks from the Amazon Web Services account.
         public let hooksNotCleanedUp: [AutoScalingGroup]?
 
         public init(hooksNotCleanedUp: [AutoScalingGroup]? = nil) {

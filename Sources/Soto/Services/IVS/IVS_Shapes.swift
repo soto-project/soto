@@ -201,7 +201,7 @@ extension IVS {
         public let recordingConfigurationArn: String?
         /// Array of 1-50 maps, each of the form string:string (key:value). See Tagging Amazon Web Services Resources for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
         public let tags: [String: String]?
-        /// Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable resolution or bitrate, the stream probably will disconnect immediately. Default: STANDARD. Valid values:    STANDARD: Multiple qualities are generated from the original input, to automatically give viewers the best experience for their devices and network conditions. Resolution can be up to 1080p and bitrate can be up to 8.5 Mbps. Audio is transcoded only for renditions 360p and below; above that, audio is passed through.    BASIC: Amazon IVS delivers the original input to viewers. The viewer’s video-quality choice is limited to the original input. Resolution can be up to 480p and bitrate can be up to 1.5 Mbps.
+        /// Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable resolution or bitrate, the stream probably will disconnect immediately. Default: STANDARD. Valid values:    STANDARD: Video is transcoded: multiple qualities are generated from the original input, to automatically give viewers the best experience for their devices and network conditions. Transcoding allows higher playback quality across a range of download speeds. Resolution can be up to 1080p and bitrate can be up to 8.5 Mbps. Audio is transcoded only for renditions 360p and below; above that, audio is passed through. This is the default.    BASIC: Video is transmuxed: Amazon IVS delivers the original input to viewers. The viewer’s video-quality choice is limited to the original input. Resolution can be up to 1080p and bitrate can be up to 1.5 Mbps for 480p and up to 3.5 Mbps for resolutions between 480p and 1080p.
         public let type: ChannelType?
 
         public init(arn: String? = nil, authorized: Bool? = nil, ingestEndpoint: String? = nil, latencyMode: ChannelLatencyMode? = nil, name: String? = nil, playbackUrl: String? = nil, recordingConfigurationArn: String? = nil, tags: [String: String]? = nil, type: ChannelType? = nil) {
@@ -273,7 +273,7 @@ extension IVS {
         public let recordingConfigurationArn: String?
         /// Array of 1-50 maps, each of the form string:string (key:value). See Tagging Amazon Web Services Resources for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
         public let tags: [String: String]?
-        /// Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable resolution or bitrate, the stream probably will disconnect immediately. Default: STANDARD. Valid values:    STANDARD: Multiple qualities are generated from the original input, to automatically give viewers the best experience for their devices and network conditions. Resolution can be up to 1080p and bitrate can be up to 8.5 Mbps. Audio is transcoded only for renditions 360p and below; above that, audio is passed through.    BASIC: Amazon IVS delivers the original input to viewers. The viewer’s video-quality choice is limited to the original input. Resolution can be up to 480p and bitrate can be up to 1.5 Mbps.
+        /// Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable resolution or bitrate, the stream probably will disconnect immediately. Default: STANDARD. Valid values:    STANDARD: Video is transcoded: multiple qualities are generated from the original input, to automatically give viewers the best experience for their devices and network conditions. Transcoding allows higher playback quality across a range of download speeds. Resolution can be up to 1080p and bitrate can be up to 8.5 Mbps. Audio is transcoded only for renditions 360p and below; above that, audio is passed through. This is the default.    BASIC: Video is transmuxed: Amazon IVS delivers the original input to viewers. The viewer’s video-quality choice is limited to the original input. Resolution can be up to 1080p and bitrate can be up to 1.5 Mbps for 480p and up to 3.5 Mbps for resolutions between 480p and 1080p.
         public let type: ChannelType?
 
         public init(authorized: Bool? = nil, latencyMode: ChannelLatencyMode? = nil, name: String? = nil, recordingConfigurationArn: String? = nil, tags: [String: String]? = nil, type: ChannelType? = nil) {
@@ -328,14 +328,17 @@ extension IVS {
         public let destinationConfiguration: DestinationConfiguration
         /// Recording-configuration name. The value does not need to be unique.
         public let name: String?
+        /// If a broadcast disconnects and then reconnects within the specified interval, the multiple streams will be considered a single broadcast and merged together. Default: 0.
+        public let recordingReconnectWindowSeconds: Int?
         /// Array of 1-50 maps, each of the form string:string (key:value). See Tagging Amazon Web Services Resources for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
         public let tags: [String: String]?
         /// A complex type that allows you to enable/disable the recording of thumbnails for a live session and modify the interval at which thumbnails are generated for the live session.
         public let thumbnailConfiguration: ThumbnailConfiguration?
 
-        public init(destinationConfiguration: DestinationConfiguration, name: String? = nil, tags: [String: String]? = nil, thumbnailConfiguration: ThumbnailConfiguration? = nil) {
+        public init(destinationConfiguration: DestinationConfiguration, name: String? = nil, recordingReconnectWindowSeconds: Int? = nil, tags: [String: String]? = nil, thumbnailConfiguration: ThumbnailConfiguration? = nil) {
             self.destinationConfiguration = destinationConfiguration
             self.name = name
+            self.recordingReconnectWindowSeconds = recordingReconnectWindowSeconds
             self.tags = tags
             self.thumbnailConfiguration = thumbnailConfiguration
         }
@@ -344,6 +347,8 @@ extension IVS {
             try self.destinationConfiguration.validate(name: "\(name).destinationConfiguration")
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-_]*$")
+            try self.validate(self.recordingReconnectWindowSeconds, name: "recordingReconnectWindowSeconds", parent: name, max: 300)
+            try self.validate(self.recordingReconnectWindowSeconds, name: "recordingReconnectWindowSeconds", parent: name, min: 0)
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -356,6 +361,7 @@ extension IVS {
         private enum CodingKeys: String, CodingKey {
             case destinationConfiguration
             case name
+            case recordingReconnectWindowSeconds
             case tags
             case thumbnailConfiguration
         }
@@ -1145,6 +1151,8 @@ extension IVS {
         public let destinationConfiguration: DestinationConfiguration
         /// Recording-configuration name. The value does not need to be unique.
         public let name: String?
+        /// If a broadcast disconnects and then reconnects within the specified interval, the multiple streams will be considered a single broadcast and merged together. Default: 0.
+        public let recordingReconnectWindowSeconds: Int?
         /// Indicates the current state of the recording configuration. When the state is ACTIVE, the configuration is ready for recording a channel stream.
         public let state: RecordingConfigurationState
         /// Array of 1-50 maps, each of the form string:string (key:value). See Tagging Amazon Web Services Resources for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
@@ -1152,10 +1160,11 @@ extension IVS {
         /// A complex type that allows you to enable/disable the recording of thumbnails for a live session and modify the interval at which thumbnails are generated for the live session.
         public let thumbnailConfiguration: ThumbnailConfiguration?
 
-        public init(arn: String, destinationConfiguration: DestinationConfiguration, name: String? = nil, state: RecordingConfigurationState, tags: [String: String]? = nil, thumbnailConfiguration: ThumbnailConfiguration? = nil) {
+        public init(arn: String, destinationConfiguration: DestinationConfiguration, name: String? = nil, recordingReconnectWindowSeconds: Int? = nil, state: RecordingConfigurationState, tags: [String: String]? = nil, thumbnailConfiguration: ThumbnailConfiguration? = nil) {
             self.arn = arn
             self.destinationConfiguration = destinationConfiguration
             self.name = name
+            self.recordingReconnectWindowSeconds = recordingReconnectWindowSeconds
             self.state = state
             self.tags = tags
             self.thumbnailConfiguration = thumbnailConfiguration
@@ -1165,6 +1174,7 @@ extension IVS {
             case arn
             case destinationConfiguration
             case name
+            case recordingReconnectWindowSeconds
             case state
             case tags
             case thumbnailConfiguration
@@ -1564,7 +1574,7 @@ extension IVS {
         public let name: String?
         /// Recording-configuration ARN. If this is set to an empty string, recording is disabled. A value other than an empty string indicates that recording is enabled
         public let recordingConfigurationArn: String?
-        /// Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable resolution or bitrate, the stream probably will disconnect immediately. Valid values:    STANDARD: Multiple qualities are generated from the original input, to automatically give viewers the best experience for their devices and network conditions. Resolution can be up to 1080p and bitrate can be up to 8.5 Mbps. Audio is transcoded only for renditions 360p and below; above that, audio is passed through.    BASIC: Amazon IVS delivers the original input to viewers. The viewer’s video-quality choice is limited to the original input. Resolution can be up to 480p and bitrate can be up to 1.5 Mbps.
+        /// Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable resolution or bitrate, the stream probably will disconnect immediately. Valid values:    STANDARD: Video is transcoded: multiple qualities are generated from the original input, to automatically give viewers the best experience for their devices and network conditions. Transcoding allows higher playback quality across a range of download speeds. Resolution can be up to 1080p and bitrate can be up to 8.5 Mbps. Audio is transcoded only for renditions 360p and below; above that, audio is passed through. This is the default.    BASIC: Video is transmuxed: Amazon IVS delivers the original input to viewers. The viewer’s video-quality choice is limited to the original input. Resolution can be up to 1080p and bitrate can be up to 1.5 Mbps for 480p and up to 3.5 Mbps for resolutions between 480p and 1080p.
         public let type: ChannelType?
 
         public init(arn: String, authorized: Bool? = nil, latencyMode: ChannelLatencyMode? = nil, name: String? = nil, recordingConfigurationArn: String? = nil, type: ChannelType? = nil) {

@@ -58,7 +58,7 @@ extension EC2 {
         return try await self.client.execute(operation: "AdvertiseByoipCidr", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Allocates an Elastic IP address to your Amazon Web Services account. After you allocate the Elastic IP address you can associate   it with an instance or network interface. After you release an Elastic IP address, it is released to the IP address  pool and can be allocated to a different Amazon Web Services account. You can allocate an Elastic IP address from an address pool owned by Amazon Web Services or from an address pool created  from a public IPv4 address range that you have brought to Amazon Web Services for use with your Amazon Web Services resources using bring your own  IP addresses (BYOIP). For more information, see Bring Your Own IP Addresses (BYOIP) in the Amazon Elastic Compute Cloud User Guide. [EC2-VPC] If you release an Elastic IP address, you might be able to recover it. You cannot recover an  Elastic IP address that you released after it is allocated to another Amazon Web Services account. You cannot recover an Elastic IP address for EC2-Classic. To attempt to recover an Elastic IP address that you released, specify it in this operation. An Elastic IP address is for use either in the EC2-Classic platform or in a VPC. By default, you can allocate 5 Elastic IP addresses for EC2-Classic per Region and 5 Elastic IP addresses for EC2-VPC per Region. For more information, see Elastic IP Addresses in the Amazon Elastic Compute Cloud User Guide. You can allocate a carrier IP address which is a public IP address from a telecommunication carrier, to a network interface which resides in a subnet in a Wavelength Zone (for example an EC2 instance).   We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
+    /// Allocates an Elastic IP address to your Amazon Web Services account. After you allocate the Elastic IP address you can associate   it with an instance or network interface. After you release an Elastic IP address, it is released to the IP address  pool and can be allocated to a different Amazon Web Services account. You can allocate an Elastic IP address from an address pool owned by Amazon Web Services or from an address pool created  from a public IPv4 address range that you have brought to Amazon Web Services for use with your Amazon Web Services resources using bring your own  IP addresses (BYOIP). For more information, see Bring Your Own IP Addresses (BYOIP) in the Amazon Elastic Compute Cloud User Guide. [EC2-VPC] If you release an Elastic IP address, you might be able to recover it. You cannot recover an  Elastic IP address that you released after it is allocated to another Amazon Web Services account. You cannot recover an Elastic IP address for EC2-Classic. To attempt to recover an Elastic IP address that you released, specify it in this operation. An Elastic IP address is for use either in the EC2-Classic platform or in a VPC. By default, you can allocate 5 Elastic IP addresses for EC2-Classic per Region and 5 Elastic IP addresses for EC2-VPC per Region. For more information, see Elastic IP Addresses in the Amazon Elastic Compute Cloud User Guide. You can allocate a carrier IP address which is a public IP address from a telecommunication carrier, to a network interface which resides in a subnet in a Wavelength Zone (for example an EC2 instance).   We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
     public func allocateAddress(_ input: AllocateAddressRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AllocateAddressResult {
         return try await self.client.execute(operation: "AllocateAddress", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -90,7 +90,7 @@ extension EC2 {
     }
 
     /// Associates an Elastic IP address, or carrier IP address (for instances that are in subnets in Wavelength Zones) with an instance or a network interface. Before you can use an Elastic IP address, you must allocate it to your account. An Elastic IP address is for use in either the EC2-Classic platform or in a VPC.
-    /// 			For more information, see Elastic IP Addresses in the Amazon Elastic Compute Cloud User Guide. [EC2-Classic, VPC in an EC2-VPC-only account] If the Elastic IP address is already associated with a different instance, it is disassociated from that instance and associated with the specified instance. If you associate an Elastic IP address with an instance that has an existing Elastic IP address, the existing address is disassociated from the instance, but remains allocated to your account. [VPC in an EC2-Classic account] If you don't specify a private IP address, the Elastic IP address is associated with the primary IP address. If the Elastic IP address is already associated with a different instance or a network interface, you get an error unless you allow reassociation. You cannot associate an Elastic IP address with an instance or network interface that has an existing Elastic IP address. [Subnets in Wavelength Zones] You can associate an IP address from the telecommunication carrier to the instance or network interface.  You cannot associate an Elastic IP address with an interface in a different network border group.  This is an idempotent operation. If you perform the operation more than once, Amazon EC2 doesn't return an error, and you may be charged for each time the Elastic IP address is remapped to the same instance. For more information, see the Elastic IP Addresses section of Amazon EC2 Pricing.    We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
+    /// 			For more information, see Elastic IP Addresses in the Amazon Elastic Compute Cloud User Guide. [EC2-Classic, VPC in an EC2-VPC-only account] If the Elastic IP address is already associated with a different instance, it is disassociated from that instance and associated with the specified instance. If you associate an Elastic IP address with an instance that has an existing Elastic IP address, the existing address is disassociated from the instance, but remains allocated to your account. [VPC in an EC2-Classic account] If you don't specify a private IP address, the Elastic IP address is associated with the primary IP address. If the Elastic IP address is already associated with a different instance or a network interface, you get an error unless you allow reassociation. You cannot associate an Elastic IP address with an instance or network interface that has an existing Elastic IP address. [Subnets in Wavelength Zones] You can associate an IP address from the telecommunication carrier to the instance or network interface.  You cannot associate an Elastic IP address with an interface in a different network border group.  This is an idempotent operation. If you perform the operation more than once, Amazon EC2 doesn't return an error, and you may be charged for each time the Elastic IP address is remapped to the same instance. For more information, see the Elastic IP Addresses section of Amazon EC2 Pricing.    We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
     public func associateAddress(_ input: AssociateAddressRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AssociateAddressResult {
         return try await self.client.execute(operation: "AssociateAddress", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -112,7 +112,7 @@ extension EC2 {
     /// 					User Guide.
     ///
     /// 		       When the IAM role is associated with the ACM certificate, the certificate, certificate chain, and encrypted
-    /// 			private key are placed in an Amazon S3 bucket that only the associated IAM role can access. The private key of the certificate
+    /// 			private key are placed in an Amazon S3 location that only the associated IAM role can access. The private key of the certificate
     /// 			is encrypted with an Amazon Web Services managed key that has an attached attestation-based key policy.
     ///
     /// 		       To enable the IAM role to access the Amazon S3 object, you must grant it permission to call s3:GetObject
@@ -170,7 +170,7 @@ extension EC2 {
         return try await self.client.execute(operation: "AssociateVpcCidrBlock", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// 	           We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
+    /// 	           We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
     ///
     /// 	        Links an EC2-Classic instance to a ClassicLink-enabled VPC through one or more of the VPC's
     /// 			security groups. You cannot link an EC2-Classic instance to more than one VPC at a time. You
@@ -216,7 +216,7 @@ extension EC2 {
         return try await self.client.execute(operation: "AuthorizeSecurityGroupEgress", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Adds the specified inbound (ingress) rules to a security group. An inbound rule permits instances to receive traffic from the specified IPv4 or IPv6 CIDR address range, or from the instances that are associated with the specified destination security  groups. When specifying an inbound rule for your security group in a VPC, the IpPermissions must include a source for the traffic. You specify a protocol for each rule (for example, TCP).  For TCP and UDP, you must also specify the destination port or port range.  For ICMP/ICMPv6, you must also specify the ICMP/ICMPv6 type and code.  You can use -1 to mean all types or all codes. Rule changes are propagated to instances within the security group as quickly as possible.  However, a small delay might occur. For more information about VPC security group quotas, see Amazon VPC quotas.   We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
+    /// Adds the specified inbound (ingress) rules to a security group. An inbound rule permits instances to receive traffic from the specified IPv4 or IPv6 CIDR address range, or from the instances that are associated with the specified destination security  groups. When specifying an inbound rule for your security group in a VPC, the IpPermissions must include a source for the traffic. You specify a protocol for each rule (for example, TCP).  For TCP and UDP, you must also specify the destination port or port range.  For ICMP/ICMPv6, you must also specify the ICMP/ICMPv6 type and code.  You can use -1 to mean all types or all codes. Rule changes are propagated to instances within the security group as quickly as possible.  However, a small delay might occur. For more information about VPC security group quotas, see Amazon VPC quotas.   We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
     public func authorizeSecurityGroupIngress(_ input: AuthorizeSecurityGroupIngressRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AuthorizeSecurityGroupIngressResult {
         return try await self.client.execute(operation: "AuthorizeSecurityGroupIngress", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -352,6 +352,16 @@ extension EC2 {
         return try await self.client.execute(operation: "CreateClientVpnRoute", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    ///  Creates a range of customer-owned IP addresses.
+    public func createCoipCidr(_ input: CreateCoipCidrRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateCoipCidrResult {
+        return try await self.client.execute(operation: "CreateCoipCidr", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  Creates a pool of customer-owned IP (CoIP) addresses.
+    public func createCoipPool(_ input: CreateCoipPoolRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateCoipPoolResult {
+        return try await self.client.execute(operation: "CreateCoipPool", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Provides information to Amazon Web Services about your customer gateway device. The customer gateway device is the appliance at your end of the VPN connection. You must provide the IP address of the customer gateway device’s external interface. The IP address must be static and can be behind a device performing network address translation (NAT). For devices that use Border Gateway Protocol (BGP), you can also provide the device's BGP Autonomous System Number (ASN). You can use an existing ASN assigned to your network. If you don't have an ASN already, you can use a private ASN. For more information, see  Customer gateway  options for your Site-to-Site VPN connection in the Amazon Web Services Site-to-Site VPN User Guide. To create more than one customer gateway with the same VPN type, IP address, and BGP ASN, specify a unique device name for each customer gateway. An identical request returns information about the existing customer gateway; it doesn't create a new customer gateway.
     public func createCustomerGateway(_ input: CreateCustomerGatewayRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateCustomerGatewayResult {
         return try await self.client.execute(operation: "CreateCustomerGateway", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -375,7 +385,7 @@ extension EC2 {
     /// 			that possible?" in the Default VPCs
     /// 			FAQ.
     ///
-    /// 	           We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
+    /// 	           We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
     ///
     public func createDefaultVpc(_ input: CreateDefaultVpcRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateDefaultVpcResult {
         return try await self.client.execute(operation: "CreateDefaultVpc", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -480,9 +490,19 @@ extension EC2 {
         return try await self.client.execute(operation: "CreateLaunchTemplateVersion", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a static route for the specified local gateway route table.
+    /// Creates a static route for the specified local gateway route table. You must specify one of the  following targets:     LocalGatewayVirtualInterfaceGroupId     NetworkInterfaceId
     public func createLocalGatewayRoute(_ input: CreateLocalGatewayRouteRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateLocalGatewayRouteResult {
         return try await self.client.execute(operation: "CreateLocalGatewayRoute", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  Creates a local gateway route table.
+    public func createLocalGatewayRouteTable(_ input: CreateLocalGatewayRouteTableRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateLocalGatewayRouteTableResult {
+        return try await self.client.execute(operation: "CreateLocalGatewayRouteTable", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  Creates a local gateway route table virtual interface group association.
+    public func createLocalGatewayRouteTableVirtualInterfaceGroupAssociation(_ input: CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationResult {
+        return try await self.client.execute(operation: "CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Associates the specified VPC with the specified local gateway route table.
@@ -528,7 +548,7 @@ extension EC2 {
         return try await self.client.execute(operation: "CreateNetworkInsightsPath", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a network interface in the specified subnet. For more information about network interfaces, see Elastic Network Interfaces  in the Amazon Virtual Private Cloud User Guide.
+    /// Creates a network interface in the specified subnet. The number of IP addresses you can assign to a network interface varies by instance type. For more information, see IP Addresses Per ENI Per Instance Type in the Amazon Virtual Private Cloud User Guide. For more information about network interfaces, see Elastic network interfaces  in the Amazon Elastic Compute Cloud User Guide.
     public func createNetworkInterface(_ input: CreateNetworkInterfaceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateNetworkInterfaceResult {
         return try await self.client.execute(operation: "CreateNetworkInterface", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -596,7 +616,7 @@ extension EC2 {
     /// 					AuthorizeSecurityGroupIngress,
     /// 					AuthorizeSecurityGroupEgress,
     /// 					RevokeSecurityGroupIngress, and
-    /// 					RevokeSecurityGroupEgress. For more information about VPC security group limits, see Amazon VPC Limits.   We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
+    /// 					RevokeSecurityGroupEgress. For more information about VPC security group limits, see Amazon VPC Limits.   We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
     public func createSecurityGroup(_ input: CreateSecurityGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateSecurityGroupResult {
         return try await self.client.execute(operation: "CreateSecurityGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -606,7 +626,7 @@ extension EC2 {
         return try await self.client.execute(operation: "CreateSnapshot", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates crash-consistent snapshots of multiple EBS volumes and stores the data in S3. Volumes are chosen by specifying an instance. Any attached volumes will produce one snapshot each that is crash-consistent across the instance. Boot volumes can be excluded by changing the  parameters.  	 You can create multi-volume snapshots of instances in a Region and instances on an  	Outpost. If you create snapshots from an instance in a Region, the snapshots must be stored  	in the same Region as the instance. If you create snapshots from an instance on an Outpost,  	the snapshots can be stored on the same Outpost as the instance, or in the Region for that  	Outpost.
+    /// Creates crash-consistent snapshots of multiple EBS volumes and stores the data in S3. Volumes are chosen by specifying an instance. Any attached volumes will produce one snapshot each that is crash-consistent across the instance.  You can include all of the volumes currently attached to the instance, or you can exclude  the root volume or specific data (non-root) volumes from the multi-volume snapshot set. 	 You can create multi-volume snapshots of instances in a Region and instances on an  	Outpost. If you create snapshots from an instance in a Region, the snapshots must be stored  	in the same Region as the instance. If you create snapshots from an instance on an Outpost,  	the snapshots can be stored on the same Outpost as the instance, or in the Region for that  	Outpost.
     public func createSnapshots(_ input: CreateSnapshotsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateSnapshotsResult {
         return try await self.client.execute(operation: "CreateSnapshots", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -786,6 +806,16 @@ extension EC2 {
         return try await self.client.execute(operation: "DeleteClientVpnRoute", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    ///  Deletes a range of customer-owned IP addresses.
+    public func deleteCoipCidr(_ input: DeleteCoipCidrRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteCoipCidrResult {
+        return try await self.client.execute(operation: "DeleteCoipCidr", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes a pool of customer-owned IP (CoIP) addresses.
+    public func deleteCoipPool(_ input: DeleteCoipPoolRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteCoipPoolResult {
+        return try await self.client.execute(operation: "DeleteCoipPool", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Deletes the specified customer gateway. You must delete the VPN connection before you can delete the customer gateway.
     public func deleteCustomerGateway(_ input: DeleteCustomerGatewayRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "DeleteCustomerGateway", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -860,6 +890,16 @@ extension EC2 {
     /// Deletes the specified route from the specified local gateway route table.
     public func deleteLocalGatewayRoute(_ input: DeleteLocalGatewayRouteRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteLocalGatewayRouteResult {
         return try await self.client.execute(operation: "DeleteLocalGatewayRoute", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  Deletes a local gateway route table.
+    public func deleteLocalGatewayRouteTable(_ input: DeleteLocalGatewayRouteTableRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteLocalGatewayRouteTableResult {
+        return try await self.client.execute(operation: "DeleteLocalGatewayRouteTable", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  Deletes a local gateway route table virtual interface group association.
+    public func deleteLocalGatewayRouteTableVirtualInterfaceGroupAssociation(_ input: DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationResult {
+        return try await self.client.execute(operation: "DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes the specified association between a VPC and local gateway route table.
@@ -948,7 +988,7 @@ extension EC2 {
     /// Deletes a security group. If you attempt to delete a security group that is associated with an instance, or is
     /// 			  referenced by another security group, the operation fails with
     /// 				InvalidGroup.InUse in EC2-Classic or
-    /// 				DependencyViolation in EC2-VPC.   We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
+    /// 				DependencyViolation in EC2-VPC.   We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
     public func deleteSecurityGroup(_ input: DeleteSecurityGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "DeleteSecurityGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1143,7 +1183,7 @@ extension EC2 {
     }
 
     /// Describes the specified Elastic IP addresses or all of your Elastic IP addresses. An Elastic IP address is for use in either the EC2-Classic platform or in a VPC.
-    /// 				For more information, see Elastic IP Addresses in the Amazon Elastic Compute Cloud User Guide.  We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
+    /// 				For more information, see Elastic IP Addresses in the Amazon Elastic Compute Cloud User Guide.  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
     public func describeAddresses(_ input: DescribeAddressesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeAddressesResult {
         return try await self.client.execute(operation: "DescribeAddresses", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1193,7 +1233,7 @@ extension EC2 {
     /// 			information about EC2-Classic instances linked to a VPC through ClassicLink. You cannot
     /// 			use this request to return information about other instances.
     ///
-    /// 	           We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
+    /// 	           We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
     ///
     public func describeClassicLinkInstances(_ input: DescribeClassicLinkInstancesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeClassicLinkInstancesResult {
         return try await self.client.execute(operation: "DescribeClassicLinkInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -1292,7 +1332,7 @@ extension EC2 {
         return try await self.client.execute(operation: "DescribeFleets", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes one or more flow logs. To view the information in your flow logs (the log streams for the network interfaces), you must use the CloudWatch Logs console or the CloudWatch Logs API.
+    /// Describes one or more flow logs.  To view the published flow log records, you must view the log destination. For example,  the CloudWatch Logs log group, the Amazon S3 bucket, or the Kinesis Data Firehose delivery stream.
     public func describeFlowLogs(_ input: DescribeFlowLogsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeFlowLogsResult {
         return try await self.client.execute(operation: "DescribeFlowLogs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1398,7 +1438,7 @@ extension EC2 {
         return try await self.client.execute(operation: "DescribeInstanceTypes", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes the specified instances or all instances. If you specify instance IDs, the output includes information for only the specified instances. If you specify filters, the output includes information for only those instances that meet the filter criteria. If you do not specify instance IDs or filters, the output includes information for all instances, which can affect performance. We recommend that you use pagination to ensure that the operation returns quickly and successfully. If you specify an instance ID that is not valid, an error is returned. If you specify an instance that you do not own, it is not included in the output. Recently terminated instances might appear in the returned results. This interval is usually less than one hour. If you describe instances in the rare case where an Availability Zone is experiencing a service disruption and you specify instance IDs that are in the affected zone, or do not specify any instance IDs at all, the call fails. If you describe instances and specify only instance IDs that are in an unaffected zone, the call works normally.  We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon EC2 User Guide.
+    /// Describes the specified instances or all instances. If you specify instance IDs, the output includes information for only the specified instances. If you specify filters, the output includes information for only those instances that meet the filter criteria. If you do not specify instance IDs or filters, the output includes information for all instances, which can affect performance. We recommend that you use pagination to ensure that the operation returns quickly and successfully. If you specify an instance ID that is not valid, an error is returned. If you specify an instance that you do not own, it is not included in the output. Recently terminated instances might appear in the returned results. This interval is usually less than one hour. If you describe instances in the rare case where an Availability Zone is experiencing a service disruption and you specify instance IDs that are in the affected zone, or do not specify any instance IDs at all, the call fails. If you describe instances and specify only instance IDs that are in an unaffected zone, the call works normally.
     public func describeInstances(_ input: DescribeInstancesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeInstancesResult {
         return try await self.client.execute(operation: "DescribeInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1562,7 +1602,7 @@ extension EC2 {
     }
 
     /// Describes one or more of the Reserved Instances that you purchased. For more information about Reserved Instances, see Reserved
-    /// 				Instances in the Amazon EC2 User Guide.  We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
+    /// 				Instances in the Amazon EC2 User Guide.
     public func describeReservedInstances(_ input: DescribeReservedInstancesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeReservedInstancesResult {
         return try await self.client.execute(operation: "DescribeReservedInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1575,13 +1615,13 @@ extension EC2 {
         return try await self.client.execute(operation: "DescribeReservedInstancesListings", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes the modifications made to your Reserved Instances. If no parameter is specified, information about all your Reserved Instances modification requests is returned. If a modification ID is specified, only information about the specific modification is returned. 	     For more information, see Modifying Reserved Instances in the Amazon EC2 User Guide.  We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
+    /// Describes the modifications made to your Reserved Instances. If no parameter is specified, information about all your Reserved Instances modification requests is returned. If a modification ID is specified, only information about the specific modification is returned. 	     For more information, see Modifying Reserved Instances in the Amazon EC2 User Guide.
     public func describeReservedInstancesModifications(_ input: DescribeReservedInstancesModificationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeReservedInstancesModificationsResult {
         return try await self.client.execute(operation: "DescribeReservedInstancesModifications", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Describes Reserved Instance offerings that are available for purchase. With Reserved Instances, you purchase the right to launch instances for a period of time. During that time period, you do not receive insufficient capacity errors, and you pay a lower usage rate than the rate charged for On-Demand instances for the actual time used. If you have listed your own Reserved Instances for sale in the Reserved Instance Marketplace, they will be excluded from these results. This is to ensure that you do not purchase your own Reserved Instances. For more information, see Reserved Instance Marketplace
-    /// 				in the Amazon EC2 User Guide.  We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
+    /// 				in the Amazon EC2 User Guide.
     public func describeReservedInstancesOfferings(_ input: DescribeReservedInstancesOfferingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeReservedInstancesOfferingsResult {
         return try await self.client.execute(operation: "DescribeReservedInstancesOfferings", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1593,12 +1633,12 @@ extension EC2 {
         return try await self.client.execute(operation: "DescribeRouteTables", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Finds available schedules that meet the specified criteria. You can search for an available schedule no more than 3 months in advance. You must meet the minimum required duration of 1,200 hours per year. For example, the minimum daily schedule is 4 hours, the minimum weekly schedule is 24 hours, and the minimum monthly schedule is 100 hours. After you find a schedule that meets your needs, call PurchaseScheduledInstances to purchase Scheduled Instances with that schedule.   We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
+    /// Finds available schedules that meet the specified criteria. You can search for an available schedule no more than 3 months in advance. You must meet the minimum required duration of 1,200 hours per year. For example, the minimum daily schedule is 4 hours, the minimum weekly schedule is 24 hours, and the minimum monthly schedule is 100 hours. After you find a schedule that meets your needs, call PurchaseScheduledInstances to purchase Scheduled Instances with that schedule.
     public func describeScheduledInstanceAvailability(_ input: DescribeScheduledInstanceAvailabilityRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeScheduledInstanceAvailabilityResult {
         return try await self.client.execute(operation: "DescribeScheduledInstanceAvailability", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes the specified Scheduled Instances or all your Scheduled Instances.   We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
+    /// Describes the specified Scheduled Instances or all your Scheduled Instances.
     public func describeScheduledInstances(_ input: DescribeScheduledInstancesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeScheduledInstancesResult {
         return try await self.client.execute(operation: "DescribeScheduledInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1618,7 +1658,7 @@ extension EC2 {
     /// 				Amazon EC2 security groups in
     /// 				the Amazon Elastic Compute Cloud User Guide and
     /// 				Security groups for your VPC in the
-    /// 				Amazon Virtual Private Cloud User Guide.  We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
+    /// 				Amazon Virtual Private Cloud User Guide.  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
     public func describeSecurityGroups(_ input: DescribeSecurityGroupsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeSecurityGroupsResult {
         return try await self.client.execute(operation: "DescribeSecurityGroups", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1786,13 +1826,13 @@ extension EC2 {
 
     /// Describes the ClassicLink status of one or more VPCs.
     ///
-    /// 	           We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
+    /// 	           We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
     ///
     public func describeVpcClassicLink(_ input: DescribeVpcClassicLinkRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeVpcClassicLinkResult {
         return try await self.client.execute(operation: "DescribeVpcClassicLink", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.  Describes the ClassicLink DNS support status of one or more VPCs. If enabled, the DNS hostname of a linked EC2-Classic instance resolves to its private IP address when addressed from an instance in the VPC to which it's linked. Similarly, the DNS hostname of an instance in a VPC resolves to its private IP address when addressed from a linked EC2-Classic instance. For more information, see ClassicLink in the Amazon Elastic Compute Cloud User Guide.
+    ///  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.  Describes the ClassicLink DNS support status of one or more VPCs. If enabled, the DNS hostname of a linked EC2-Classic instance resolves to its private IP address when addressed from an instance in the VPC to which it's linked. Similarly, the DNS hostname of an instance in a VPC resolves to its private IP address when addressed from a linked EC2-Classic instance. For more information, see ClassicLink in the Amazon Elastic Compute Cloud User Guide.
     public func describeVpcClassicLinkDnsSupport(_ input: DescribeVpcClassicLinkDnsSupportRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeVpcClassicLinkDnsSupportResult {
         return try await self.client.execute(operation: "DescribeVpcClassicLinkDnsSupport", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1847,7 +1887,7 @@ extension EC2 {
         return try await self.client.execute(operation: "DescribeVpnGateways", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// 	           We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
+    /// 	           We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
     ///
     /// 		       Unlinks (detaches) a linked EC2-Classic instance from a VPC. After the instance has been unlinked, the VPC security groups are no longer associated with it. An instance is automatically unlinked from a VPC when it's stopped.
     public func detachClassicLinkVpc(_ input: DetachClassicLinkVpcRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DetachClassicLinkVpcResult {
@@ -1924,7 +1964,7 @@ extension EC2 {
         return try await self.client.execute(operation: "DisableVgwRoutePropagation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Disables ClassicLink for a VPC. You cannot disable ClassicLink for a VPC that has EC2-Classic instances linked to it.  We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
+    /// Disables ClassicLink for a VPC. You cannot disable ClassicLink for a VPC that has EC2-Classic instances linked to it.  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
     public func disableVpcClassicLink(_ input: DisableVpcClassicLinkRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DisableVpcClassicLinkResult {
         return try await self.client.execute(operation: "DisableVpcClassicLink", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1932,7 +1972,7 @@ extension EC2 {
     /// Disables ClassicLink DNS support for a VPC. If disabled, DNS hostnames resolve to
     /// 			public IP addresses when addressed between a linked EC2-Classic instance and instances
     /// 			in the VPC to which it's linked. For more information, see ClassicLink in the
-    /// 				Amazon Elastic Compute Cloud User Guide. You must specify a VPC ID in the request.   We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
+    /// 				Amazon Elastic Compute Cloud User Guide. You must specify a VPC ID in the request.   We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
     public func disableVpcClassicLinkDnsSupport(_ input: DisableVpcClassicLinkDnsSupportRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DisableVpcClassicLinkDnsSupportResult {
         return try await self.client.execute(operation: "DisableVpcClassicLinkDnsSupport", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1940,7 +1980,7 @@ extension EC2 {
     /// Disassociates an Elastic IP address from the instance or network interface it's associated with.
     /// 			      An Elastic IP address is for use in either the EC2-Classic platform or in a VPC. For more
     /// 			information, see Elastic IP
-    /// 				Addresses in the Amazon Elastic Compute Cloud User Guide.   We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.  This is an idempotent operation. If you perform the operation more than once, Amazon EC2 doesn't return an error.
+    /// 				Addresses in the Amazon Elastic Compute Cloud User Guide.   We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.  This is an idempotent operation. If you perform the operation more than once, Amazon EC2 doesn't return an error.
     public func disassociateAddress(_ input: DisassociateAddressRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "DisassociateAddress", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -2075,7 +2115,7 @@ extension EC2 {
         return try await self.client.execute(operation: "EnableVolumeIO", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.  Enables a VPC for ClassicLink. You can then link EC2-Classic instances to your
+    ///  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.  Enables a VPC for ClassicLink. You can then link EC2-Classic instances to your
     /// 			ClassicLink-enabled VPC to allow communication over private IP addresses. You cannot
     /// 			enable your VPC for ClassicLink if any of your VPC route tables have existing routes for
     /// 			address ranges within the 10.0.0.0/8 IP address range, excluding local
@@ -2086,7 +2126,7 @@ extension EC2 {
         return try await self.client.execute(operation: "EnableVpcClassicLink", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.  Enables a VPC to support DNS hostname resolution for ClassicLink. If enabled, the DNS
+    ///  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.  Enables a VPC to support DNS hostname resolution for ClassicLink. If enabled, the DNS
     /// 			hostname of a linked EC2-Classic instance resolves to its private IP address when
     /// 			addressed from an instance in the VPC to which it's linked. Similarly, the DNS hostname
     /// 			of an instance in a VPC resolves to its private IP address when addressed from a linked
@@ -2317,7 +2357,7 @@ extension EC2 {
         return try await self.client.execute(operation: "ImportClientVpnClientCertificateRevocationList", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Import single or multi-volume disk images or EBS snapshots into an Amazon Machine Image (AMI). For more information, see Importing a  VM as an image using VM Import/Export in the VM Import/Export User Guide.
+    /// Import single or multi-volume disk images or EBS snapshots into an Amazon Machine Image (AMI).  Amazon Web Services VM Import/Export strongly recommends specifying a value for either the --license-type or --usage-operation parameter when you create a new VM Import task. This ensures your operating system is licensed appropriately and your billing is optimized.  For more information, see Importing a  VM as an image using VM Import/Export in the VM Import/Export User Guide.
     public func importImage(_ input: ImportImageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ImportImageResult {
         return try await self.client.execute(operation: "ImportImage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -2493,6 +2533,11 @@ extension EC2 {
         return try await self.client.execute(operation: "ModifyLaunchTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Modifies the specified local gateway route.
+    public func modifyLocalGatewayRoute(_ input: ModifyLocalGatewayRouteRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ModifyLocalGatewayRouteResult {
+        return try await self.client.execute(operation: "ModifyLocalGatewayRoute", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Modifies the specified managed prefix list. Adding or removing entries in a prefix list creates a new version of the prefix list. Changing the name of the prefix list does not affect the version. If you specify a current version number that does not match the true current version number, the request fails.
     public func modifyManagedPrefixList(_ input: ModifyManagedPrefixListRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ModifyManagedPrefixListResult {
         return try await self.client.execute(operation: "ModifyManagedPrefixList", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -2508,9 +2553,9 @@ extension EC2 {
         return try await self.client.execute(operation: "ModifyPrivateDnsNameOptions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Modifies the Availability Zone, instance count, instance type, or network platform (EC2-Classic or EC2-VPC) of your Reserved Instances. The Reserved Instances to be modified must be identical, except for Availability Zone, network platform, and instance type.
+    /// Modifies the configuration of your Reserved Instances, such as the Availability Zone,  instance count, or instance type. The Reserved Instances to be modified must be identical,  except for Availability Zone, network platform, and instance type.
     /// 		       For more information, see Modifying Reserved
-    /// 				Instances in the Amazon EC2 User Guide.   We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
+    /// 				Instances in the Amazon EC2 User Guide.  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
     public func modifyReservedInstances(_ input: ModifyReservedInstancesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ModifyReservedInstancesResult {
         return try await self.client.execute(operation: "ModifyReservedInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -2621,7 +2666,7 @@ extension EC2 {
         return try await self.client.execute(operation: "ModifyVpcEndpointServicePermissions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.  Modifies the VPC peering connection options on one side of a VPC peering connection. You can do the following:   Enable/disable communication over the peering connection between an EC2-Classic instance that's linked to your VPC (using ClassicLink) and instances in the peer VPC.   Enable/disable communication over the peering connection between instances in your VPC and an EC2-Classic instance that's linked to the peer VPC.   Enable/disable the ability to resolve public DNS hostnames to private IP addresses when queried from instances in the peer VPC.   If the peered VPCs are in the same Amazon Web Services account, you can enable DNS resolution  for queries from the local VPC. This ensures that queries from the local VPC resolve to private IP addresses in the peer VPC. This option is not available if the peered VPCs are in different different Amazon Web Services accounts or different Regions. For peered VPCs in different  Amazon Web Services accounts, each Amazon Web Services account owner must initiate a separate request  to modify the peering connection options. For inter-region peering connections, you must use the  Region for the requester VPC to modify the requester VPC peering options and the Region for the  accepter VPC to modify the accepter VPC peering options. To verify which VPCs are the accepter and  the requester for a VPC peering connection, use the DescribeVpcPeeringConnections command.
+    ///  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.  Modifies the VPC peering connection options on one side of a VPC peering connection. You can do the following:   Enable/disable communication over the peering connection between an EC2-Classic instance that's linked to your VPC (using ClassicLink) and instances in the peer VPC.   Enable/disable communication over the peering connection between instances in your VPC and an EC2-Classic instance that's linked to the peer VPC.   Enable/disable the ability to resolve public DNS hostnames to private IP addresses when queried from instances in the peer VPC.   If the peered VPCs are in the same Amazon Web Services account, you can enable DNS resolution  for queries from the local VPC. This ensures that queries from the local VPC resolve to private IP addresses in the peer VPC. This option is not available if the peered VPCs are in different different Amazon Web Services accounts or different Regions. For peered VPCs in different  Amazon Web Services accounts, each Amazon Web Services account owner must initiate a separate request  to modify the peering connection options. For inter-region peering connections, you must use the  Region for the requester VPC to modify the requester VPC peering options and the Region for the  accepter VPC to modify the accepter VPC peering options. To verify which VPCs are the accepter and  the requester for a VPC peering connection, use the DescribeVpcPeeringConnections command.
     public func modifyVpcPeeringConnectionOptions(_ input: ModifyVpcPeeringConnectionOptionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ModifyVpcPeeringConnectionOptionsResult {
         return try await self.client.execute(operation: "ModifyVpcPeeringConnectionOptions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -2659,7 +2704,7 @@ extension EC2 {
         return try await self.client.execute(operation: "MonitorInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Moves an Elastic IP address from the EC2-Classic platform to the EC2-VPC platform. The Elastic IP address must be allocated to your account for more than 24 hours, and it must not be associated with an instance. After the Elastic IP address is moved, it is no longer available for use in the EC2-Classic platform, unless you move it back using the RestoreAddressToClassic request. You cannot move an Elastic IP address that was originally allocated for use in the EC2-VPC platform to the EC2-Classic platform.  We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
+    /// Moves an Elastic IP address from the EC2-Classic platform to the EC2-VPC platform. The Elastic IP address must be allocated to your account for more than 24 hours, and it must not be associated with an instance. After the Elastic IP address is moved, it is no longer available for use in the EC2-Classic platform, unless you move it back using the RestoreAddressToClassic request. You cannot move an Elastic IP address that was originally allocated for use in the EC2-VPC platform to the EC2-Classic platform.  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
     public func moveAddressToVpc(_ input: MoveAddressToVpcRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> MoveAddressToVpcResult {
         return try await self.client.execute(operation: "MoveAddressToVpc", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -2692,12 +2737,12 @@ extension EC2 {
     /// Purchases a Reserved Instance for use with your account. With Reserved Instances, you pay a lower  hourly rate compared to On-Demand instance pricing.
     /// 		       Use DescribeReservedInstancesOfferings to get a list of Reserved Instance offerings
     /// 			that match your specifications. After you've purchased a Reserved Instance, you can check for your
-    /// 			new Reserved Instance with DescribeReservedInstances. To queue a purchase for a future date and time, specify a purchase time. If you do not specify a purchase time, the default is the current time. 	     For more information, see Reserved Instances and  	   Reserved Instance Marketplace  	   in the Amazon EC2 User Guide.
+    /// 			new Reserved Instance with DescribeReservedInstances. To queue a purchase for a future date and time, specify a purchase time. If you do not specify a purchase time, the default is the current time. 	     For more information, see Reserved Instances and  	   Reserved Instance Marketplace  	   in the Amazon EC2 User Guide.  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
     public func purchaseReservedInstancesOffering(_ input: PurchaseReservedInstancesOfferingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PurchaseReservedInstancesOfferingResult {
         return try await self.client.execute(operation: "PurchaseReservedInstancesOffering", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Purchases the Scheduled Instances with the specified schedule. Scheduled Instances enable you to purchase Amazon EC2 compute capacity by the hour for a one-year term. Before you can purchase a Scheduled Instance, you must call DescribeScheduledInstanceAvailability to check for available schedules and obtain a purchase token. After you purchase a Scheduled Instance, you must call RunScheduledInstances during each scheduled time period. After you purchase a Scheduled Instance, you can't cancel, modify, or resell your purchase.
+    ///  You can no longer purchase Scheduled Instances.  Purchases the Scheduled Instances with the specified schedule. Scheduled Instances enable you to purchase Amazon EC2 compute capacity by the hour for a one-year term. Before you can purchase a Scheduled Instance, you must call DescribeScheduledInstanceAvailability to check for available schedules and obtain a purchase token. After you purchase a Scheduled Instance, you must call RunScheduledInstances during each scheduled time period. After you purchase a Scheduled Instance, you can't cancel, modify, or resell your purchase.
     public func purchaseScheduledInstances(_ input: PurchaseScheduledInstancesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PurchaseScheduledInstancesResult {
         return try await self.client.execute(operation: "PurchaseScheduledInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -2759,7 +2804,7 @@ extension EC2 {
 
     /// Releases the specified Elastic IP address. [EC2-Classic, default VPC] Releasing an Elastic IP address automatically disassociates it
     /// 				from any instance that it's associated with. To disassociate an Elastic IP address without
-    /// 				releasing it, use DisassociateAddress.  We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.  [Nondefault VPC] You must use DisassociateAddress to disassociate the Elastic IP address
+    /// 				releasing it, use DisassociateAddress.  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.  [Nondefault VPC] You must use DisassociateAddress to disassociate the Elastic IP address
     /// 			  before you can release it. Otherwise, Amazon EC2 returns an error (InvalidIPAddress.InUse). After releasing an Elastic IP address, it is released to the IP address pool.  Be sure to update your DNS records and any servers or devices that communicate with the address.  If you attempt to release an Elastic IP address that you already released, you'll get an AuthFailure error if the address is already allocated to another Amazon Web Services account. [EC2-VPC] After you release an Elastic IP address for use in a VPC, you might be able to recover it. For more information, see AllocateAddress. For more information, see Elastic IP Addresses in the Amazon Elastic Compute Cloud User Guide.
     public func releaseAddress(_ input: ReleaseAddressRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "ReleaseAddress", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -2819,7 +2864,7 @@ extension EC2 {
         return try await self.client.execute(operation: "RequestSpotFleet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a Spot Instance request. For more information, see Spot Instance requests in the Amazon EC2 User Guide for Linux Instances.   We strongly discourage using the RequestSpotInstances API because it is a legacy API with no planned investment. For options for requesting Spot Instances, see Which is the best Spot request method to use? in the Amazon EC2 User Guide for Linux Instances.   We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon EC2 User Guide for Linux Instances.
+    /// Creates a Spot Instance request. For more information, see Spot Instance requests in the Amazon EC2 User Guide for Linux Instances.   We strongly discourage using the RequestSpotInstances API because it is a legacy API with no planned investment. For options for requesting Spot Instances, see Which is the best Spot request method to use? in the Amazon EC2 User Guide for Linux Instances.   We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon EC2 User Guide for Linux Instances.
     public func requestSpotInstances(_ input: RequestSpotInstancesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> RequestSpotInstancesResult {
         return try await self.client.execute(operation: "RequestSpotInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -2860,7 +2905,7 @@ extension EC2 {
         return try await self.client.execute(operation: "ResetSnapshotAttribute", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Restores an Elastic IP address that was previously moved to the EC2-VPC platform back to the EC2-Classic platform. You cannot move an Elastic IP address that was originally allocated for use in EC2-VPC. The Elastic IP address must not be associated with an instance or network interface.  We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
+    /// Restores an Elastic IP address that was previously moved to the EC2-VPC platform back to the EC2-Classic platform. You cannot move an Elastic IP address that was originally allocated for use in EC2-VPC. The Elastic IP address must not be associated with an instance or network interface.  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
     public func restoreAddressToClassic(_ input: RestoreAddressToClassicRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> RestoreAddressToClassicResult {
         return try await self.client.execute(operation: "RestoreAddressToClassic", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -2899,12 +2944,12 @@ extension EC2 {
 
     /// Removes the specified inbound (ingress) rules from a security group.
     ///  You can specify rules using either rule IDs or security group rule properties. If you use rule properties, the values that you specify (for example, ports) must match the existing rule's  values exactly. Each rule has a protocol, from and to ports, and source (CIDR range,  security group, or prefix list). For the TCP and UDP protocols, you must also specify the  destination port or range of ports. For the ICMP protocol, you must also specify the ICMP type  and code. If the security group rule has a description, you do not need to specify the description  to revoke the rule. [EC2-Classic, default VPC] If the values you specify do not match the existing rule's values, no error is returned, and the output describes the security group rules that were not revoked. Amazon Web Services recommends that you describe the security group to verify that the rules were removed.
-    ///  Rule changes are propagated to instances within the security group as quickly as possible. However, a small delay might occur.   We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
+    ///  Rule changes are propagated to instances within the security group as quickly as possible. However, a small delay might occur.   We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
     public func revokeSecurityGroupIngress(_ input: RevokeSecurityGroupIngressRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> RevokeSecurityGroupIngressResult {
         return try await self.client.execute(operation: "RevokeSecurityGroupIngress", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Launches the specified number of instances using an AMI for which you have permissions. You can specify a number of options, or leave the default options. The following rules apply:   [EC2-VPC] If you don't specify a subnet ID, we choose a default subnet from your default VPC for you. If you don't have a default VPC, you must specify a subnet ID in the request.   [EC2-Classic] If don't specify an Availability Zone, we choose one for you.   Some instance types must be launched into a VPC. If you do not have a default VPC, or if you do not specify a subnet ID, the request fails. For more information, see Instance types available only in a VPC.   [EC2-VPC] All instances have a network interface with a primary private IPv4 address. If you don't specify this address, we choose one from the IPv4 range of your subnet.   Not all instance types support IPv6 addresses. For more information, see Instance types.   If you don't specify a security group ID, we use the default security group. For more information, see Security groups.   If any of the AMIs have a product code attached for which the user has not subscribed, the request fails.   You can create a launch template, which is a resource that contains the parameters to launch an instance. When you launch an instance using RunInstances, you can specify the launch template instead of specifying the launch parameters. To ensure faster instance launches, break up large requests into smaller batches. For example, create five separate launch requests for 100 instances each instead of one launch request for 500 instances. An instance is ready for you to use when it's in the running state. You can check the state of your instance using DescribeInstances. You can tag instances and EBS volumes during launch, after launch, or both. For more information, see CreateTags and Tagging your Amazon EC2 resources. Linux instances have access to the public key of the key pair at boot. You can use this key to provide secure access to the instance. Amazon EC2 public images use this feature to provide secure access without passwords. For more information, see Key pairs. For troubleshooting, see What to do if an instance immediately terminates, and Troubleshooting connecting to your instance.   We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon EC2 User Guide.
+    /// Launches the specified number of instances using an AMI for which you have permissions. You can specify a number of options, or leave the default options. The following rules apply:   [EC2-VPC] If you don't specify a subnet ID, we choose a default subnet from your default VPC for you. If you don't have a default VPC, you must specify a subnet ID in the request.   [EC2-Classic] If don't specify an Availability Zone, we choose one for you.   Some instance types must be launched into a VPC. If you do not have a default VPC, or if you do not specify a subnet ID, the request fails. For more information, see Instance types available only in a VPC.   [EC2-VPC] All instances have a network interface with a primary private IPv4 address. If you don't specify this address, we choose one from the IPv4 range of your subnet.   Not all instance types support IPv6 addresses. For more information, see Instance types.   If you don't specify a security group ID, we use the default security group. For more information, see Security groups.   If any of the AMIs have a product code attached for which the user has not subscribed, the request fails.   You can create a launch template, which is a resource that contains the parameters to launch an instance. When you launch an instance using RunInstances, you can specify the launch template instead of specifying the launch parameters. To ensure faster instance launches, break up large requests into smaller batches. For example, create five separate launch requests for 100 instances each instead of one launch request for 500 instances. An instance is ready for you to use when it's in the running state. You can check the state of your instance using DescribeInstances. You can tag instances and EBS volumes during launch, after launch, or both. For more information, see CreateTags and Tagging your Amazon EC2 resources. Linux instances have access to the public key of the key pair at boot. You can use this key to provide secure access to the instance. Amazon EC2 public images use this feature to provide secure access without passwords. For more information, see Key pairs. For troubleshooting, see What to do if an instance immediately terminates, and Troubleshooting connecting to your instance.  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon EC2 User Guide.
     public func runInstances(_ input: RunInstancesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> Reservation {
         return try await self.client.execute(operation: "RunInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

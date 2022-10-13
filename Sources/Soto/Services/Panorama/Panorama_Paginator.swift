@@ -542,8 +542,12 @@ extension Panorama.ListDevicesJobsRequest: AWSPaginateToken {
 extension Panorama.ListDevicesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Panorama.ListDevicesRequest {
         return .init(
+            deviceAggregatedStatusFilter: self.deviceAggregatedStatusFilter,
             maxResults: self.maxResults,
-            nextToken: token
+            nameFilter: self.nameFilter,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder
         )
     }
 }

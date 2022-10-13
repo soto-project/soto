@@ -1663,7 +1663,7 @@ extension RDS {
         )
     }
 
-    ///  Returns a list of the source Amazon Web Services Regions where the current Amazon Web Services Region can create a read replica,  copy a DB snapshot from, or replicate automated backups from. This API action supports pagination.
+    ///  Returns a list of the source Amazon Web Services Regions where the current Amazon Web Services Region can create a read replica,  copy a DB snapshot from, or replicate automated backups from. Use this operation to determine whether cross-Region features are supported between other Regions  and your current Region. This operation supports pagination. To return information about the Regions that are enabled for your account, or all Regions,  use the EC2 operation DescribeRegions. For more information, see   DescribeRegions in the Amazon EC2 API Reference.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

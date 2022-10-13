@@ -439,12 +439,6 @@ extension IoT {
         public var description: String { return self.rawValue }
     }
 
-    public enum `Protocol`: String, CustomStringConvertible, Codable, _SotoSendable {
-        case http = "HTTP"
-        case mqtt = "MQTT"
-        public var description: String { return self.rawValue }
-    }
-
     public enum ReportType: String, CustomStringConvertible, Codable, _SotoSendable {
         case errors = "ERRORS"
         case results = "RESULTS"
@@ -544,6 +538,12 @@ extension IoT {
         case alarmCleared = "alarm-cleared"
         case alarmInvalidated = "alarm-invalidated"
         case inAlarm = "in-alarm"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum `Protocol`: String, CustomStringConvertible, Codable, _SotoSendable {
+        case http = "HTTP"
+        case mqtt = "MQTT"
         public var description: String { return self.rawValue }
     }
 

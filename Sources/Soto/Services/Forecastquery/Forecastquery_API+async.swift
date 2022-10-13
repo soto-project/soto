@@ -27,6 +27,11 @@ extension Forecastquery {
     public func queryForecast(_ input: QueryForecastRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> QueryForecastResponse {
         return try await self.client.execute(operation: "QueryForecast", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
+
+    /// Retrieves a what-if forecast.
+    public func queryWhatIfForecast(_ input: QueryWhatIfForecastRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> QueryWhatIfForecastResponse {
+        return try await self.client.execute(operation: "QueryWhatIfForecast", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
 }
 
 #endif // compiler(>=5.5.2) && canImport(_Concurrency)

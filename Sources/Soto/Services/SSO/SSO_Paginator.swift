@@ -20,7 +20,7 @@ import SotoCore
 // MARK: Paginators
 
 extension SSO {
-    ///  Lists all roles that are assigned to the user for a given Amazon Web Services account.
+    ///  Lists all roles that are assigned to the user for a given AWS account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -73,7 +73,7 @@ extension SSO {
         )
     }
 
-    ///  Lists all Amazon Web Services accounts assigned to the user. These Amazon Web Services accounts are assigned by the administrator of the account. For more information, see Assign User Access in the Amazon Web Services SSO User Guide. This operation returns a paginated response.
+    ///  Lists all AWS accounts assigned to the user. These AWS accounts are assigned by the administrator of the account. For more information, see Assign User Access in the IAM Identity Center User Guide. This operation returns a paginated response.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

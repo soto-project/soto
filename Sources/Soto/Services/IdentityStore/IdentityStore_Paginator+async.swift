@@ -23,7 +23,51 @@ import SotoCore
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension IdentityStore {
-    ///  Lists the attribute name and value of the group that you specified in the search. We only support DisplayName as a valid filter attribute path currently, and filter is required. This API returns minimum attributes, including GroupId and group DisplayName in the response.
+    ///  For the specified group in the specified identity store, returns the list of all GroupMembership objects and returns results in paginated form.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listGroupMembershipsPaginator(
+        _ input: ListGroupMembershipsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListGroupMembershipsRequest, ListGroupMembershipsResponse> {
+        return .init(
+            input: input,
+            command: listGroupMemberships,
+            inputKey: \ListGroupMembershipsRequest.nextToken,
+            outputKey: \ListGroupMembershipsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  For the specified member in the specified identity store, returns the list of all GroupMembership objects and returns results in paginated form.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listGroupMembershipsForMemberPaginator(
+        _ input: ListGroupMembershipsForMemberRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListGroupMembershipsForMemberRequest, ListGroupMembershipsForMemberResponse> {
+        return .init(
+            input: input,
+            command: listGroupMembershipsForMember,
+            inputKey: \ListGroupMembershipsForMemberRequest.nextToken,
+            outputKey: \ListGroupMembershipsForMemberResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Lists all groups in the identity store. Returns a paginated list of complete Group objects.  Filtering for a Group by the DisplayName attribute is deprecated. Instead, use the GetGroupId API action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -45,7 +89,7 @@ extension IdentityStore {
         )
     }
 
-    ///  Lists the attribute name and value of the user that you specified in the search. We only support UserName as a valid filter attribute path currently, and filter is required. This API returns minimum attributes, including UserId and UserName in the response.
+    ///  Lists all users in the identity store. Returns a paginated list of complete User objects.  Filtering for a User by the UserName attribute is deprecated. Instead, use the GetUserId API action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

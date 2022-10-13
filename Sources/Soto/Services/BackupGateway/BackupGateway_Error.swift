@@ -24,6 +24,7 @@ public struct BackupGatewayErrorType: AWSErrorType {
         case conflictException = "ConflictException"
         case internalServerException = "InternalServerException"
         case resourceNotFoundException = "ResourceNotFoundException"
+        case throttlingException = "ThrottlingException"
         case validationException = "ValidationException"
     }
 
@@ -53,6 +54,8 @@ public struct BackupGatewayErrorType: AWSErrorType {
     public static var internalServerException: Self { .init(.internalServerException) }
     /// A resource that is required for the action wasn't found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// TPS has been limited to protect against intentional or unintentional  high request volumes.
+    public static var throttlingException: Self { .init(.throttlingException) }
     /// The operation did not succeed because a validation error occurred.
     public static var validationException: Self { .init(.validationException) }
 }

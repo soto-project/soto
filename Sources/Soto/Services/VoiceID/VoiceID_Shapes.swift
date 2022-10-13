@@ -66,6 +66,7 @@ extension VoiceID {
 
     public enum FraudDetectionReason: String, CustomStringConvertible, Codable, _SotoSendable {
         case knownFraudster = "KNOWN_FRAUDSTER"
+        case voiceSpoofing = "VOICE_SPOOFING"
         public var description: String { return self.rawValue }
     }
 
@@ -129,7 +130,7 @@ extension VoiceID {
         public let audioAggregationEndedAt: Date?
         /// A timestamp indicating when audio aggregation started for this authentication result.
         public let audioAggregationStartedAt: Date?
-        /// The unique identifier for this authentication result. Because there can be multiple authentications for a given session, this field helps to identify if the returned result is from a previous streaming  activity or a new result. Note that in absence of any new streaming activity,  AcceptanceThreshold changes, or SpeakerId changes, Voice ID  always returns cached Authentication Result for this API.
+        /// The unique identifier for this authentication result. Because there can be multiple authentications for a given session, this field helps to identify if the returned result is from a previous streaming activity or a new result. Note that in absence of any new streaming activity, AcceptanceThreshold changes, or SpeakerId changes, Voice ID always returns cached Authentication Result for this API.
         public let authenticationResultId: String?
         /// The AuthenticationConfiguration used to generate this authentication result.
         public let configuration: AuthenticationConfiguration?
@@ -139,7 +140,7 @@ extension VoiceID {
         public let decision: AuthenticationDecision?
         /// The service-generated identifier for the speaker whose authentication result is produced.
         public let generatedSpeakerId: String?
-        /// The authentication score for the speaker whose authentication result is produced. This value is  only present if the authentication decision is either ACCEPT or REJECT.
+        /// The authentication score for the speaker whose authentication result is produced. This value is only present if the authentication decision is either ACCEPT or REJECT.
         public let score: Int?
 
         public init(audioAggregationEndedAt: Date? = nil, audioAggregationStartedAt: Date? = nil, authenticationResultId: String? = nil, configuration: AuthenticationConfiguration? = nil, customerSpeakerId: String? = nil, decision: AuthenticationDecision? = nil, generatedSpeakerId: String? = nil, score: Int? = nil) {
@@ -166,13 +167,13 @@ extension VoiceID {
     }
 
     public struct CreateDomainRequest: AWSEncodableShape {
-        /// The idempotency token for creating a new domain. If not provided, Amazon Web Services SDK populates  this field.
+        /// The idempotency token for creating a new domain. If not provided, Amazon Web Services SDK populates this field.
         public let clientToken: String?
-        /// A brief description of this domain.
+        /// A brief description of the domain.
         public let description: String?
         /// The name of the domain.
         public let name: String
-        /// The configuration, containing the KMS key identifier, to be used by Voice ID for  the server-side encryption of your data. Refer to  Amazon Connect Voice ID encryption at rest for more details on how the KMS key is used.
+        /// The configuration, containing the KMS key identifier, to be used by Voice ID for the server-side encryption of your data. Refer to  Amazon Connect Voice ID encryption at rest for more details on how the KMS key is used.
         public let serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration
         /// A list of tags you want added to the domain.
         public let tags: [Tag]?
@@ -225,10 +226,6 @@ extension VoiceID {
     }
 
     public struct DeleteDomainRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainId", location: .uri("DomainId"))
-        ]
-
         /// The identifier of the domain you want to delete.
         public let domainId: String
 
@@ -242,15 +239,12 @@ extension VoiceID {
             try self.validate(self.domainId, name: "domainId", parent: name, pattern: "^[a-zA-Z0-9]{22}$")
         }
 
-        private enum CodingKeys: CodingKey {}
+        private enum CodingKeys: String, CodingKey {
+            case domainId = "DomainId"
+        }
     }
 
     public struct DeleteFraudsterRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainId", location: .uri("DomainId")),
-            AWSMemberEncoding(label: "fraudsterId", location: .uri("FraudsterId"))
-        ]
-
         /// The identifier of the domain containing the fraudster.
         public let domainId: String
         /// The identifier of the fraudster you want to delete.
@@ -270,15 +264,13 @@ extension VoiceID {
             try self.validate(self.fraudsterId, name: "fraudsterId", parent: name, pattern: "^id#[a-zA-Z0-9]{22}$")
         }
 
-        private enum CodingKeys: CodingKey {}
+        private enum CodingKeys: String, CodingKey {
+            case domainId = "DomainId"
+            case fraudsterId = "FraudsterId"
+        }
     }
 
     public struct DeleteSpeakerRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainId", location: .uri("DomainId")),
-            AWSMemberEncoding(label: "speakerId", location: .uri("SpeakerId"))
-        ]
-
         /// The identifier of the domain containing the speaker.
         public let domainId: String
         /// The identifier of the speaker you want to delete.
@@ -298,14 +290,13 @@ extension VoiceID {
             try self.validate(self.speakerId, name: "speakerId", parent: name, pattern: "^(id#[a-zA-Z0-9]{22}|[a-zA-Z0-9][a-zA-Z0-9_-]*)$")
         }
 
-        private enum CodingKeys: CodingKey {}
+        private enum CodingKeys: String, CodingKey {
+            case domainId = "DomainId"
+            case speakerId = "SpeakerId"
+        }
     }
 
     public struct DescribeDomainRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainId", location: .uri("DomainId"))
-        ]
-
         /// The identifier of the domain you are describing.
         public let domainId: String
 
@@ -319,7 +310,9 @@ extension VoiceID {
             try self.validate(self.domainId, name: "domainId", parent: name, pattern: "^[a-zA-Z0-9]{22}$")
         }
 
-        private enum CodingKeys: CodingKey {}
+        private enum CodingKeys: String, CodingKey {
+            case domainId = "DomainId"
+        }
     }
 
     public struct DescribeDomainResponse: AWSDecodableShape {
@@ -336,11 +329,6 @@ extension VoiceID {
     }
 
     public struct DescribeFraudsterRegistrationJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainId", location: .uri("DomainId")),
-            AWSMemberEncoding(label: "jobId", location: .uri("JobId"))
-        ]
-
         /// The identifier for the domain containing the fraudster registration job.
         public let domainId: String
         /// The identifier for the fraudster registration job you are describing.
@@ -360,7 +348,10 @@ extension VoiceID {
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^[a-zA-Z0-9]{22}$")
         }
 
-        private enum CodingKeys: CodingKey {}
+        private enum CodingKeys: String, CodingKey {
+            case domainId = "DomainId"
+            case jobId = "JobId"
+        }
     }
 
     public struct DescribeFraudsterRegistrationJobResponse: AWSDecodableShape {
@@ -377,11 +368,6 @@ extension VoiceID {
     }
 
     public struct DescribeFraudsterRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainId", location: .uri("DomainId")),
-            AWSMemberEncoding(label: "fraudsterId", location: .uri("FraudsterId"))
-        ]
-
         /// The identifier of the domain containing the fraudster.
         public let domainId: String
         /// The identifier of the fraudster you are describing.
@@ -401,7 +387,10 @@ extension VoiceID {
             try self.validate(self.fraudsterId, name: "fraudsterId", parent: name, pattern: "^id#[a-zA-Z0-9]{22}$")
         }
 
-        private enum CodingKeys: CodingKey {}
+        private enum CodingKeys: String, CodingKey {
+            case domainId = "DomainId"
+            case fraudsterId = "FraudsterId"
+        }
     }
 
     public struct DescribeFraudsterResponse: AWSDecodableShape {
@@ -418,11 +407,6 @@ extension VoiceID {
     }
 
     public struct DescribeSpeakerEnrollmentJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainId", location: .uri("DomainId")),
-            AWSMemberEncoding(label: "jobId", location: .uri("JobId"))
-        ]
-
         /// The identifier of the domain containing the speaker enrollment job.
         public let domainId: String
         /// The identifier of the speaker enrollment job you are describing.
@@ -442,7 +426,10 @@ extension VoiceID {
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^[a-zA-Z0-9]{22}$")
         }
 
-        private enum CodingKeys: CodingKey {}
+        private enum CodingKeys: String, CodingKey {
+            case domainId = "DomainId"
+            case jobId = "JobId"
+        }
     }
 
     public struct DescribeSpeakerEnrollmentJobResponse: AWSDecodableShape {
@@ -459,11 +446,6 @@ extension VoiceID {
     }
 
     public struct DescribeSpeakerRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainId", location: .uri("DomainId")),
-            AWSMemberEncoding(label: "speakerId", location: .uri("SpeakerId"))
-        ]
-
         /// The identifier of the domain that contains the speaker.
         public let domainId: String
         /// The identifier of the speaker you are describing.
@@ -483,7 +465,10 @@ extension VoiceID {
             try self.validate(self.speakerId, name: "speakerId", parent: name, pattern: "^(id#[a-zA-Z0-9]{22}|[a-zA-Z0-9][a-zA-Z0-9_-]*)$")
         }
 
-        private enum CodingKeys: CodingKey {}
+        private enum CodingKeys: String, CodingKey {
+            case domainId = "DomainId"
+            case speakerId = "SpeakerId"
+        }
     }
 
     public struct DescribeSpeakerResponse: AWSDecodableShape {
@@ -559,7 +544,7 @@ extension VoiceID {
         public let name: String?
         /// The server-side encryption configuration containing the KMS key identifier you want Voice ID to use to encrypt your data.
         public let serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration?
-        /// Details about the most recent server-side encryption configuration update. When the server-side encryption configuration is changed, dependency on the old KMS key is removed through an asynchronous process. When this update is complete, the domain’s data can only be accessed using the new KMS key.
+        /// Details about the most recent server-side encryption configuration update. When the server-side encryption configuration is changed, dependency on the old KMS key is removed through an asynchronous process. When this update is complete, the domain's data can only be accessed using the new KMS key.
         public let serverSideEncryptionUpdateDetails: ServerSideEncryptionUpdateDetails?
         /// The timestamp showing the domain's last update.
         public let updatedAt: Date?
@@ -590,7 +575,7 @@ extension VoiceID {
     }
 
     public struct EnrollmentConfig: AWSEncodableShape & AWSDecodableShape {
-        ///  The action to take when the specified speaker is already enrolled in the specified domain. The default  value is SKIP, which skips the enrollment for the existing speaker. Setting the value to OVERWRITE replaces the existing voice prints and enrollment audio stored for that speaker with new data generated from the latest audio.
+        ///  The action to take when the specified speaker is already enrolled in the specified domain. The default value is SKIP, which skips the enrollment for the existing speaker. Setting the value to OVERWRITE replaces the existing voice prints and enrollment audio stored for that speaker with new data generated from the latest audio.
         public let existingEnrollmentAction: ExistingEnrollmentAction?
         /// The fraud detection configuration to use for the speaker enrollment job.
         public let fraudDetectionConfig: EnrollmentJobFraudDetectionConfig?
@@ -611,7 +596,7 @@ extension VoiceID {
     }
 
     public struct EnrollmentJobFraudDetectionConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The action to take when the given speaker is flagged by the fraud detection system. The default value is FAIL, which fails the speaker enrollment. Changing this value to IGNORE  results in the speaker being enrolled even if they are flagged by the fraud detection system.
+        /// The action to take when the given speaker is flagged by the fraud detection system. The default value is FAIL, which fails the speaker enrollment. Changing this value to IGNORE results in the speaker being enrolled even if they are flagged by the fraud detection system.
         public let fraudDetectionAction: FraudDetectionAction?
         /// Threshold value for determining whether the speaker is a high risk to be fraudulent. If the detected risk score calculated by Voice ID is greater than or equal to the threshold, the speaker is considered a fraudster.
         public let riskThreshold: Int?
@@ -633,11 +618,6 @@ extension VoiceID {
     }
 
     public struct EvaluateSessionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainId", location: .querystring("domainId")),
-            AWSMemberEncoding(label: "sessionNameOrId", location: .uri("SessionNameOrId"))
-        ]
-
         /// The identifier of the domain where the session started.
         public let domainId: String
         /// The session identifier, or name of the session, that you want to evaluate. In Voice ID integration, this is the Contact-Id.
@@ -657,7 +637,10 @@ extension VoiceID {
             try self.validate(self.sessionNameOrId, name: "sessionNameOrId", parent: name, pattern: "^(id#[a-zA-Z0-9]{22}|[a-zA-Z0-9][a-zA-Z0-9_-]*)$")
         }
 
-        private enum CodingKeys: CodingKey {}
+        private enum CodingKeys: String, CodingKey {
+            case domainId = "DomainId"
+            case sessionNameOrId = "SessionNameOrId"
+        }
     }
 
     public struct EvaluateSessionResponse: AWSDecodableShape {
@@ -711,7 +694,7 @@ extension VoiceID {
     }
 
     public struct FraudDetectionConfiguration: AWSDecodableShape {
-        /// Threshold value for determining whether the speaker is a fraudster. If the detected risk score  calculated by Voice ID is higher than the threshold, the speaker is considered a fraudster.
+        /// Threshold value for determining whether the speaker is a fraudster. If the detected risk score calculated by Voice ID is higher than the threshold, the speaker is considered a fraudster.
         public let riskThreshold: Int
 
         public init(riskThreshold: Int) {
@@ -732,11 +715,11 @@ extension VoiceID {
         public let configuration: FraudDetectionConfiguration?
         /// The fraud detection decision produced by Voice ID, processed against the current session state and streamed audio of the speaker.
         public let decision: FraudDetectionDecision?
-        /// The unique identifier for this fraud detection result. Given there can be multiple fraud detections  for a given session, this field helps in identifying if the returned result is from previous streaming  activity or a new result. Note that in the absence of any new streaming activity or risk threshold  changes, Voice ID always returns cached Fraud Detection result for this API.
+        /// The unique identifier for this fraud detection result. Given there can be multiple fraud detections for a given session, this field helps in identifying if the returned result is from previous streaming activity or a new result. Note that in the absence of any new streaming activity or risk threshold changes, Voice ID always returns cached Fraud Detection result for this API.
         public let fraudDetectionResultId: String?
-        /// The reason speaker was flagged by the fraud detection system. This is only be populated if fraud detection Decision is HIGH_RISK, and only has one possible value: KNOWN_FRAUDSTER.
+        /// The reason speaker was flagged by the fraud detection system. This is only be populated if fraud detection Decision is HIGH_RISK, and the following possible values: KNOWN_FRAUDSTER and VOICE_SPOOFING.
         public let reasons: [FraudDetectionReason]?
-        /// Details about each risk analyzed for this speaker.
+        /// Details about each risk analyzed for this speaker. Currently, this contains KnownFraudsterRisk and VoiceSpoofingRisk details.
         public let riskDetails: FraudRiskDetails?
 
         public init(audioAggregationEndedAt: Date? = nil, audioAggregationStartedAt: Date? = nil, configuration: FraudDetectionConfiguration? = nil, decision: FraudDetectionDecision? = nil, fraudDetectionResultId: String? = nil, reasons: [FraudDetectionReason]? = nil, riskDetails: FraudRiskDetails? = nil) {
@@ -763,13 +746,17 @@ extension VoiceID {
     public struct FraudRiskDetails: AWSDecodableShape {
         /// The details resulting from 'Known Fraudster Risk' analysis of the speaker.
         public let knownFraudsterRisk: KnownFraudsterRisk
+        /// The details resulting from 'Voice Spoofing Risk' analysis of the speaker.
+        public let voiceSpoofingRisk: VoiceSpoofingRisk
 
-        public init(knownFraudsterRisk: KnownFraudsterRisk) {
+        public init(knownFraudsterRisk: KnownFraudsterRisk, voiceSpoofingRisk: VoiceSpoofingRisk) {
             self.knownFraudsterRisk = knownFraudsterRisk
+            self.voiceSpoofingRisk = voiceSpoofingRisk
         }
 
         private enum CodingKeys: String, CodingKey {
             case knownFraudsterRisk = "KnownFraudsterRisk"
+            case voiceSpoofingRisk = "VoiceSpoofingRisk"
         }
     }
 
@@ -803,7 +790,7 @@ extension VoiceID {
         public let domainId: String?
         /// A timestamp showing when the fraudster registration job ended.
         public let endedAt: Date?
-        /// Contains details that are populated when an entire batch job fails. In cases of individual registration job failures, the batch job as a whole doesn't fail; it is completed with a JobStatus of COMPLETED_WITH_ERRORS. You can use the job output file to identify the individual  registration requests that failed.
+        /// Contains details that are populated when an entire batch job fails. In cases of individual registration job failures, the batch job as a whole doesn't fail; it is completed with a JobStatus of COMPLETED_WITH_ERRORS. You can use the job output file to identify the individual registration requests that failed.
         public let failureDetails: FailureDetails?
         /// The input data config containing an S3 URI for the input manifest file that contains the list of fraudster registration job requests.
         public let inputDataConfig: InputDataConfig?
@@ -815,9 +802,9 @@ extension VoiceID {
         public let jobProgress: JobProgress?
         /// The current status of the fraudster registration job.
         public let jobStatus: FraudsterRegistrationJobStatus?
-        /// The output data config containing the S3 location where you want Voice ID to write your job output  file; you must also include a KMS key iD in order to encrypt the file.
+        /// The output data config containing the S3 location where you want Voice ID to write your job output file; you must also include a KMS key ID in order to encrypt the file.
         public let outputDataConfig: OutputDataConfig?
-        /// The registration config containing details such as the action to take when a duplicate fraudster is  detected, and the similarity threshold to use for detecting a duplicate fraudster.
+        /// The registration config containing details such as the action to take when a duplicate fraudster is detected, and the similarity threshold to use for detecting a duplicate fraudster.
         public let registrationConfig: RegistrationConfig?
 
         public init(createdAt: Date? = nil, dataAccessRoleArn: String? = nil, domainId: String? = nil, endedAt: Date? = nil, failureDetails: FailureDetails? = nil, inputDataConfig: InputDataConfig? = nil, jobId: String? = nil, jobName: String? = nil, jobProgress: JobProgress? = nil, jobStatus: FraudsterRegistrationJobStatus? = nil, outputDataConfig: OutputDataConfig? = nil, registrationConfig: RegistrationConfig? = nil) {
@@ -858,11 +845,11 @@ extension VoiceID {
         public let domainId: String?
         /// A timestamp showing when the fraudster registration job ended.
         public let endedAt: Date?
-        /// Contains details that are populated when an entire batch job fails. In cases of individual registration job failures, the batch job as a whole doesn't fail; it is completed with a JobStatus of COMPLETED_WITH_ERRORS. You can use the job output file to identify the individual  registration requests that failed.
+        /// Contains details that are populated when an entire batch job fails. In cases of individual registration job failures, the batch job as a whole doesn't fail; it is completed with a JobStatus of COMPLETED_WITH_ERRORS. You can use the job output file to identify the individual registration requests that failed.
         public let failureDetails: FailureDetails?
         /// The service-generated identifier for the fraudster registration job.
         public let jobId: String?
-        /// The client-provied name for the fraudster registration job.
+        /// The client-provided name for the fraudster registration job.
         public let jobName: String?
         /// Shows the completed percentage of registration requests listed in the input file.
         public let jobProgress: JobProgress?
@@ -941,12 +928,7 @@ extension VoiceID {
     }
 
     public struct ListDomainsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
-        /// The maximum number of results that are returned per call. You can use NextToken to obtain further pages of results. The default is 100; the maximum allowed page size is also 100.
+        /// The maximum number of domains to list per API call.
         public let maxResults: Int?
         /// If NextToken is returned, there are more results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours.
         public let nextToken: String?
@@ -963,7 +945,10 @@ extension VoiceID {
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\p{ASCII}{0,8192}$")
         }
 
-        private enum CodingKeys: CodingKey {}
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
     }
 
     public struct ListDomainsResponse: AWSDecodableShape {
@@ -984,13 +969,6 @@ extension VoiceID {
     }
 
     public struct ListFraudsterRegistrationJobsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainId", location: .uri("DomainId")),
-            AWSMemberEncoding(label: "jobStatus", location: .querystring("jobStatus")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The identifier of the domain containing the fraudster registration Jobs.
         public let domainId: String
         /// Provides the status of your fraudster registration job.
@@ -1017,7 +995,12 @@ extension VoiceID {
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\p{ASCII}{0,8192}$")
         }
 
-        private enum CodingKeys: CodingKey {}
+        private enum CodingKeys: String, CodingKey {
+            case domainId = "DomainId"
+            case jobStatus = "JobStatus"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
     }
 
     public struct ListFraudsterRegistrationJobsResponse: AWSDecodableShape {
@@ -1038,13 +1021,6 @@ extension VoiceID {
     }
 
     public struct ListSpeakerEnrollmentJobsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainId", location: .uri("DomainId")),
-            AWSMemberEncoding(label: "jobStatus", location: .querystring("jobStatus")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The identifier of the domain containing the speaker enrollment jobs.
         public let domainId: String
         /// Provides the status of your speaker enrollment Job.
@@ -1071,7 +1047,12 @@ extension VoiceID {
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\p{ASCII}{0,8192}$")
         }
 
-        private enum CodingKeys: CodingKey {}
+        private enum CodingKeys: String, CodingKey {
+            case domainId = "DomainId"
+            case jobStatus = "JobStatus"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
     }
 
     public struct ListSpeakerEnrollmentJobsResponse: AWSDecodableShape {
@@ -1092,12 +1073,6 @@ extension VoiceID {
     }
 
     public struct ListSpeakersRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainId", location: .uri("DomainId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The identifier of the domain.
         public let domainId: String
         /// The maximum number of results that are returned per call. You can use NextToken to obtain further pages of results. The default is 100; the maximum allowed page size is also 100.
@@ -1121,7 +1096,11 @@ extension VoiceID {
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\p{ASCII}{0,8192}$")
         }
 
-        private enum CodingKeys: CodingKey {}
+        private enum CodingKeys: String, CodingKey {
+            case domainId = "DomainId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
     }
 
     public struct ListSpeakersResponse: AWSDecodableShape {
@@ -1142,10 +1121,6 @@ extension VoiceID {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the Voice ID resource for which you want to list the tags.
         public let resourceArn: String
 
@@ -1159,7 +1134,9 @@ extension VoiceID {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(-[^:]+)?:voiceid.+:[0-9]{12}:domain/[a-zA-Z0-9]{22}$")
         }
 
-        private enum CodingKeys: CodingKey {}
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+        }
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
@@ -1176,11 +1153,6 @@ extension VoiceID {
     }
 
     public struct OptOutSpeakerRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainId", location: .uri("DomainId")),
-            AWSMemberEncoding(label: "speakerId", location: .uri("SpeakerId"))
-        ]
-
         /// The identifier of the domain containing the speaker.
         public let domainId: String
         /// The identifier of the speaker you want opted-out.
@@ -1200,7 +1172,10 @@ extension VoiceID {
             try self.validate(self.speakerId, name: "speakerId", parent: name, pattern: "^(id#[a-zA-Z0-9]{22}|[a-zA-Z0-9][a-zA-Z0-9_-]*)$")
         }
 
-        private enum CodingKeys: CodingKey {}
+        private enum CodingKeys: String, CodingKey {
+            case domainId = "DomainId"
+            case speakerId = "SpeakerId"
+        }
     }
 
     public struct OptOutSpeakerResponse: AWSDecodableShape {
@@ -1217,9 +1192,9 @@ extension VoiceID {
     }
 
     public struct OutputDataConfig: AWSEncodableShape & AWSDecodableShape {
-        /// the identifier of the KMS key you want Voice ID to use to encrypt the output file of the fraudster registration job.
+        /// The identifier of the KMS key you want Voice ID to use to encrypt the output file of a speaker enrollment job/fraudster registration job.
         public let kmsKeyId: String?
-        /// The S3 path of the folder where Voice ID writes the job output file. It has a  *.out extension. For example, if the input file name is input-file.json and  the output folder path is s3://output-bucket/output-folder, the full output file path is  s3://output-bucket/output-folder/job-Id/input-file.json.out.
+        /// The S3 path of the folder where Voice ID writes the job output file. It has a *.out extension. For example, if the input file name is input-file.json and the output folder path is s3://output-bucket/output-folder, the full output file path is s3://output-bucket/output-folder/job-Id/input-file.json.out.
         public let s3Uri: String
 
         public init(kmsKeyId: String? = nil, s3Uri: String) {
@@ -1241,9 +1216,9 @@ extension VoiceID {
     }
 
     public struct RegistrationConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The action to take when a fraudster is identified as a duplicate. The default action is  SKIP, which skips registering the duplicate fraudster. Setting the value to REGISTER_AS_NEW always registers a new fraudster into the specified domain.
+        /// The action to take when a fraudster is identified as a duplicate. The default action is SKIP, which skips registering the duplicate fraudster. Setting the value to REGISTER_AS_NEW always registers a new fraudster into the specified domain.
         public let duplicateRegistrationAction: DuplicateRegistrationAction?
-        /// The minimum similarity score between the new and old fraudsters in order to consider the new  fraudster a duplicate.
+        /// The minimum similarity score between the new and old fraudsters in order to consider the new fraudster a duplicate.
         public let fraudsterSimilarityThreshold: Int?
 
         public init(duplicateRegistrationAction: DuplicateRegistrationAction? = nil, fraudsterSimilarityThreshold: Int? = nil) {
@@ -1263,7 +1238,7 @@ extension VoiceID {
     }
 
     public struct ServerSideEncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The identifier of the KMS key you want Voice ID to use to encrypt your data.
+        /// The identifier of the KMS key to use to encrypt data stored by Voice ID. Voice ID doesn't support asymmetric customer managed keys.
         public let kmsKeyId: String
 
         public init(kmsKeyId: String) {
@@ -1349,7 +1324,7 @@ extension VoiceID {
         public let endedAt: Date?
         /// The configuration that defines the action to take when the speaker is already enrolled in Voice ID, and the FraudDetectionConfig to use.
         public let enrollmentConfig: EnrollmentConfig?
-        /// Contains details that are populated when an entire batch job fails. In cases of individual registration job failures, the batch job as a whole doesn't fail; it is completed with a JobStatus of COMPLETED_WITH_ERRORS. You can use the job output file to identify the individual  registration requests that failed.
+        /// Contains details that are populated when an entire batch job fails. In cases of individual registration job failures, the batch job as a whole doesn't fail; it is completed with a JobStatus of COMPLETED_WITH_ERRORS. You can use the job output file to identify the individual registration requests that failed.
         public let failureDetails: FailureDetails?
         /// The input data config containing an S3 URI for the input manifest file that contains the list of speaker enrollment job requests.
         public let inputDataConfig: InputDataConfig?
@@ -1357,11 +1332,11 @@ extension VoiceID {
         public let jobId: String?
         /// The client-provided name for the speaker enrollment job.
         public let jobName: String?
-        /// Provides details on job progress. This field shows the completed percentage of registration  requests listed in the input file.
+        /// Provides details on job progress. This field shows the completed percentage of registration requests listed in the input file.
         public let jobProgress: JobProgress?
         /// The current status of the speaker enrollment job.
         public let jobStatus: SpeakerEnrollmentJobStatus?
-        /// The output data config containing the S3 location where Voice ID writes the job output file; you must  also include a KMS key ID to encrypt the file.
+        /// The output data config containing the S3 location where Voice ID writes the job output file; you must also include a KMS key ID to encrypt the file.
         public let outputDataConfig: OutputDataConfig?
 
         public init(createdAt: Date? = nil, dataAccessRoleArn: String? = nil, domainId: String? = nil, endedAt: Date? = nil, enrollmentConfig: EnrollmentConfig? = nil, failureDetails: FailureDetails? = nil, inputDataConfig: InputDataConfig? = nil, jobId: String? = nil, jobName: String? = nil, jobProgress: JobProgress? = nil, jobStatus: SpeakerEnrollmentJobStatus? = nil, outputDataConfig: OutputDataConfig? = nil) {
@@ -1402,13 +1377,13 @@ extension VoiceID {
         public let domainId: String?
         /// A timestamp showing when the speaker enrollment job ended.
         public let endedAt: Date?
-        /// Contains details that are populated when an entire batch job fails. In cases of individual registration job failures, the batch job as a whole doesn't fail; it is completed with a JobStatus of COMPLETED_WITH_ERRORS. You can use the job output file to identify the individual  registration requests that failed.
+        /// Contains details that are populated when an entire batch job fails. In cases of individual registration job failures, the batch job as a whole doesn't fail; it is completed with a JobStatus of COMPLETED_WITH_ERRORS. You can use the job output file to identify the individual registration requests that failed.
         public let failureDetails: FailureDetails?
         /// The service-generated identifier for the speaker enrollment job.
         public let jobId: String?
         /// The client-provided name for the speaker enrollment job.
         public let jobName: String?
-        /// Provides details regarding job progress. This field shows the completed percentage of enrollment  requests listed in the input file.
+        /// Provides details regarding job progress. This field shows the completed percentage of enrollment requests listed in the input file.
         public let jobProgress: JobProgress?
         /// The current status of the speaker enrollment job.
         public let jobStatus: SpeakerEnrollmentJobStatus?
@@ -1474,11 +1449,7 @@ extension VoiceID {
     }
 
     public struct StartFraudsterRegistrationJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainId", location: .uri("DomainId"))
-        ]
-
-        /// The idempotency token for starting a new fraudster registration job. If not provided, Amazon Web Services  SDK populates this field.
+        /// The idempotency token for starting a new fraudster registration job. If not provided, Amazon Web Services SDK populates this field.
         public let clientToken: String?
         /// The IAM role Amazon Resource Name (ARN) that grants Voice ID permissions to access customer's buckets to read the input manifest file and write the Job output file. Refer to the Create and edit a fraudster watchlist documentation for the permissions needed in this role.
         public let dataAccessRoleArn: String
@@ -1524,6 +1495,7 @@ extension VoiceID {
         private enum CodingKeys: String, CodingKey {
             case clientToken = "ClientToken"
             case dataAccessRoleArn = "DataAccessRoleArn"
+            case domainId = "DomainId"
             case inputDataConfig = "InputDataConfig"
             case jobName = "JobName"
             case outputDataConfig = "OutputDataConfig"
@@ -1545,13 +1517,9 @@ extension VoiceID {
     }
 
     public struct StartSpeakerEnrollmentJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainId", location: .uri("DomainId"))
-        ]
-
-        /// The idempotency token for starting a new speaker enrollment Job. If not provided, Amazon Web Services  SDK populates this field.
+        /// The idempotency token for starting a new speaker enrollment Job. If not provided, Amazon Web Services SDK populates this field.
         public let clientToken: String?
-        /// The IAM role Amazon Resource Name (ARN) that grants Voice ID permissions to access customer's buckets to read the input manifest file and write the job output file. Refer to Batch enrollment using audio data from prior calls documentation for the permissions needed in this role.
+        /// The IAM role Amazon Resource Name (ARN) that grants Voice ID permissions to access customer's buckets to read the input manifest file and write the job output file. Refer to Batch enrollment using audio data from prior calls for the permissions needed in this role.
         public let dataAccessRoleArn: String
         /// The identifier of the domain that contains the speaker enrollment job and in which the speakers are enrolled.
         public let domainId: String
@@ -1595,6 +1563,7 @@ extension VoiceID {
         private enum CodingKeys: String, CodingKey {
             case clientToken = "ClientToken"
             case dataAccessRoleArn = "DataAccessRoleArn"
+            case domainId = "DomainId"
             case enrollmentConfig = "EnrollmentConfig"
             case inputDataConfig = "InputDataConfig"
             case jobName = "JobName"
@@ -1616,9 +1585,9 @@ extension VoiceID {
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
-        /// The first part of a key:value pair that forms a tag associated with a given resource. For example, in the tag ‘Department’:’Sales’, the key is 'Department'.
+        /// The first part of a key:value pair that forms a tag associated with a given resource. For example, in the tag 'Department':'Sales', the key is 'Department'.
         public let key: String
-        /// The second part of a key:value pair that forms a tag associated with a given resource. For example, in the tag ‘Department’:’Sales’, the value is 'Sales'.
+        /// The second part of a key:value pair that forms a tag associated with a given resource. For example, in the tag 'Department':'Sales', the value is 'Sales'.
         public let value: String
 
         public init(key: String, value: String) {
@@ -1641,10 +1610,6 @@ extension VoiceID {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the Voice ID resource you want to tag.
         public let resourceArn: String
         /// The list of tags to assign to the specified resource.
@@ -1666,6 +1631,7 @@ extension VoiceID {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
             case tags = "Tags"
         }
     }
@@ -1675,11 +1641,6 @@ extension VoiceID {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the Voice ID resource you want to remove tags from.
         public let resourceArn: String
         /// The list of tag keys you want to remove from the specified resource.
@@ -1702,7 +1663,10 @@ extension VoiceID {
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
         }
 
-        private enum CodingKeys: CodingKey {}
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tagKeys = "TagKeys"
+        }
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
@@ -1710,17 +1674,13 @@ extension VoiceID {
     }
 
     public struct UpdateDomainRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainId", location: .uri("DomainId"))
-        ]
-
-        /// A brief description about this domain.
+        /// A brief description of the domain.
         public let description: String?
         /// The identifier of the domain to be updated.
         public let domainId: String
         /// The name of the domain.
         public let name: String
-        /// The configuration, containing the KMS key identifier, to be used by Voice ID for the server-side encryption of your data. Note that all the existing data in the domain are still encrypted using the existing key, only the data added to domain after updating the key is encrypted using the new key.
+        /// The configuration, containing the KMS key identifier, to be used by Voice ID for the server-side encryption of your data. Changing the domain's associated KMS key immediately triggers an asynchronous process to remove dependency on the old KMS key, such that the domain's data can only be accessed using the new KMS key. The domain's ServerSideEncryptionUpdateDetails contains the details for this process.
         public let serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration
 
         public init(description: String? = nil, domainId: String, name: String, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration) {
@@ -1745,6 +1705,7 @@ extension VoiceID {
 
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
+            case domainId = "DomainId"
             case name = "Name"
             case serverSideEncryptionConfiguration = "ServerSideEncryptionConfiguration"
         }
@@ -1760,6 +1721,19 @@ extension VoiceID {
 
         private enum CodingKeys: String, CodingKey {
             case domain = "Domain"
+        }
+    }
+
+    public struct VoiceSpoofingRisk: AWSDecodableShape {
+        /// The score indicating the likelihood of speaker’s voice being spoofed.
+        public let riskScore: Int
+
+        public init(riskScore: Int) {
+            self.riskScore = riskScore
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case riskScore = "RiskScore"
         }
     }
 }

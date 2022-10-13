@@ -98,6 +98,12 @@ extension GreengrassV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum InstalledComponentTopologyFilter: String, CustomStringConvertible, Codable, _SotoSendable {
+        case all = "ALL"
+        case root = "ROOT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum IoTJobAbortAction: String, CustomStringConvertible, Codable, _SotoSendable {
         case cancel = "CANCEL"
         public var description: String { return self.rawValue }
@@ -540,7 +546,7 @@ extension GreengrassV2 {
     }
 
     public struct ComponentPlatform: AWSEncodableShape & AWSDecodableShape {
-        /// A dictionary of attributes for the platform. The IoT Greengrass Core software defines the os and platform by default. You can specify additional platform attributes for a core device when you deploy the Greengrass nucleus component. For more information, see the Greengrass nucleus component in the IoT Greengrass V2 Developer Guide.
+        /// A dictionary of attributes for the platform. The IoT Greengrass Core software defines the os and architecture by default. You can specify additional platform attributes for a core device when you deploy the Greengrass nucleus component. For more information, see the Greengrass nucleus component in the IoT Greengrass V2 Developer Guide.
         public let attributes: [String: String]?
         /// The friendly name of the platform. This name helps you identify the platform. If you omit this parameter, IoT Greengrass creates a friendly name from the os and architecture of the platform.
         public let name: String?
@@ -765,6 +771,7 @@ extension GreengrassV2 {
                 try validate($0.key, name: "components.key", parent: name, min: 1)
                 try $0.value.validate(name: "\(name).components[\"\($0.key)\"]")
             }
+            try self.validate(self.deploymentName, name: "deploymentName", parent: name, max: 256)
             try self.validate(self.deploymentName, name: "deploymentName", parent: name, min: 1)
             try self.iotJobConfiguration?.validate(name: "\(name).iotJobConfiguration")
             try self.tags?.forEach {
@@ -1120,10 +1127,12 @@ extension GreengrassV2 {
         public let modifiedTimestamp: Date
         /// The reason code for the update, if the job was updated.
         public let reason: String?
+        /// The status details that explain why a deployment has an error. This response will be null if the deployment is in a success state.
+        public let statusDetails: EffectiveDeploymentStatusDetails?
         /// The ARN of the target IoT thing or thing group.
         public let targetArn: String
 
-        public init(coreDeviceExecutionStatus: EffectiveDeploymentExecutionStatus, creationTimestamp: Date, deploymentId: String, deploymentName: String, description: String? = nil, iotJobArn: String? = nil, iotJobId: String? = nil, modifiedTimestamp: Date, reason: String? = nil, targetArn: String) {
+        public init(coreDeviceExecutionStatus: EffectiveDeploymentExecutionStatus, creationTimestamp: Date, deploymentId: String, deploymentName: String, description: String? = nil, iotJobArn: String? = nil, iotJobId: String? = nil, modifiedTimestamp: Date, reason: String? = nil, statusDetails: EffectiveDeploymentStatusDetails? = nil, targetArn: String) {
             self.coreDeviceExecutionStatus = coreDeviceExecutionStatus
             self.creationTimestamp = creationTimestamp
             self.deploymentId = deploymentId
@@ -1133,6 +1142,7 @@ extension GreengrassV2 {
             self.iotJobId = iotJobId
             self.modifiedTimestamp = modifiedTimestamp
             self.reason = reason
+            self.statusDetails = statusDetails
             self.targetArn = targetArn
         }
 
@@ -1146,7 +1156,25 @@ extension GreengrassV2 {
             case iotJobId
             case modifiedTimestamp
             case reason
+            case statusDetails
             case targetArn
+        }
+    }
+
+    public struct EffectiveDeploymentStatusDetails: AWSDecodableShape {
+        /// Contains an ordered list of short error codes that range from the most generic error to the most specific one. The error codes describe the reason for failure whenever the coreDeviceExecutionStatus is in a failed state. The response will be an empty list if there is no error.
+        public let errorStack: [String]?
+        /// Contains tags which describe the error. You can use the error types to classify errors to assist with remediating the failure. The response will be an empty list if there is no error.
+        public let errorTypes: [String]?
+
+        public init(errorStack: [String]? = nil, errorTypes: [String]? = nil) {
+            self.errorStack = errorStack
+            self.errorTypes = errorTypes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorStack
+            case errorTypes
         }
     }
 
@@ -1433,25 +1461,41 @@ extension GreengrassV2 {
         public let componentVersion: String?
         /// Whether or not the component is a root component.
         public let isRoot: Bool?
+        /// The most recent deployment source that brought the component to the Greengrass core device. For a thing group deployment or thing deployment, the source will be the The ID of the deployment. and for local deployments it will be LOCAL.
+        public let lastInstallationSource: String?
+        /// The last time the Greengrass core device sent a message containing a certain component to the Amazon Web Services Cloud. A component does not need to see a state change for this field to update.
+        public let lastReportedTimestamp: Date?
+        /// The status of how current the data is. This response is based off of component state changes. The status reflects component disruptions and deployments. If a component only sees a configuration update during a deployment, it might not undergo a state change and this status would not be updated.
+        public let lastStatusChangeTimestamp: Date?
         /// The lifecycle state of the component.
         public let lifecycleState: InstalledComponentLifecycleState?
-        /// The details about the lifecycle state of the component.
+        /// A detailed response about the lifecycle state of the component that explains the reason why a component has an error or is broken.
         public let lifecycleStateDetails: String?
+        /// The status codes that indicate the reason for failure whenever the lifecycleState has an error or is in a broken state.  Greengrass nucleus v2.8.0 or later is required to get an accurate lifecycleStatusCodes response. This response can be inaccurate in earlier Greengrass nucleus versions.
+        public let lifecycleStatusCodes: [String]?
 
-        public init(componentName: String? = nil, componentVersion: String? = nil, isRoot: Bool? = nil, lifecycleState: InstalledComponentLifecycleState? = nil, lifecycleStateDetails: String? = nil) {
+        public init(componentName: String? = nil, componentVersion: String? = nil, isRoot: Bool? = nil, lastInstallationSource: String? = nil, lastReportedTimestamp: Date? = nil, lastStatusChangeTimestamp: Date? = nil, lifecycleState: InstalledComponentLifecycleState? = nil, lifecycleStateDetails: String? = nil, lifecycleStatusCodes: [String]? = nil) {
             self.componentName = componentName
             self.componentVersion = componentVersion
             self.isRoot = isRoot
+            self.lastInstallationSource = lastInstallationSource
+            self.lastReportedTimestamp = lastReportedTimestamp
+            self.lastStatusChangeTimestamp = lastStatusChangeTimestamp
             self.lifecycleState = lifecycleState
             self.lifecycleStateDetails = lifecycleStateDetails
+            self.lifecycleStatusCodes = lifecycleStatusCodes
         }
 
         private enum CodingKeys: String, CodingKey {
             case componentName
             case componentVersion
             case isRoot
+            case lastInstallationSource
+            case lastReportedTimestamp
+            case lastStatusChangeTimestamp
             case lifecycleState
             case lifecycleStateDetails
+            case lifecycleStatusCodes
         }
     }
 
@@ -1750,7 +1794,7 @@ extension GreengrassV2 {
             }
             try self.validate(self.componentVersion, name: "componentVersion", parent: name, max: 64)
             try self.validate(self.componentVersion, name: "componentVersion", parent: name, min: 1)
-            try self.validate(self.lambdaArn, name: "lambdaArn", parent: name, pattern: "^arn:[^:]*:lambda:[^:]+:[0-9]+:function:[a-zA-Z0-9-_]+:[0-9]+$")
+            try self.validate(self.lambdaArn, name: "lambdaArn", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2094,7 +2138,8 @@ extension GreengrassV2 {
         public static var _encoding = [
             AWSMemberEncoding(label: "coreDeviceThingName", location: .uri("coreDeviceThingName")),
             AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "topologyFilter", location: .querystring("topologyFilter"))
         ]
 
         /// The name of the core device. This is also the name of the IoT thing.
@@ -2103,11 +2148,14 @@ extension GreengrassV2 {
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
+        /// The filter for the list of components. Choose from the following options:    ALL – The list includes all components installed on the core device.    ROOT – The list includes only root components, which are components that you specify in a deployment. When you choose this option, the list doesn't include components that the core device installs as dependencies of other components.   Default: ROOT
+        public let topologyFilter: InstalledComponentTopologyFilter?
 
-        public init(coreDeviceThingName: String, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(coreDeviceThingName: String, maxResults: Int? = nil, nextToken: String? = nil, topologyFilter: InstalledComponentTopologyFilter? = nil) {
             self.coreDeviceThingName = coreDeviceThingName
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.topologyFilter = topologyFilter
         }
 
         public func validate(name: String) throws {
@@ -2121,7 +2169,7 @@ extension GreengrassV2 {
     }
 
     public struct ListInstalledComponentsResponse: AWSDecodableShape {
-        /// A list that summarizes each component on the core device.
+        /// A list that summarizes each component on the core device.  Greengrass nucleus v2.7.0 or later is required to get an accurate lastStatusChangeTimestamp response. This response can be inaccurate in earlier Greengrass nucleus versions.   Greengrass nucleus v2.8.0 or later is required to get an accurate lastInstallationSource and lastReportedTimestamp response. This response can be inaccurate or null in earlier Greengrass nucleus versions.
         public let installedComponents: [InstalledComponent]?
         /// The token for the next set of results, or null if there are no additional results.
         public let nextToken: String?

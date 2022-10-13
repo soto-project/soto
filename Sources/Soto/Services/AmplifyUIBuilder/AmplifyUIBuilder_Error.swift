@@ -25,6 +25,7 @@ public struct AmplifyUIBuilderErrorType: AWSErrorType {
         case resourceConflictException = "ResourceConflictException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case serviceQuotaExceededException = "ServiceQuotaExceededException"
+        case unauthorizedException = "UnauthorizedException"
     }
 
     private let error: Code
@@ -55,6 +56,8 @@ public struct AmplifyUIBuilderErrorType: AWSErrorType {
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// You exceeded your service quota. Service quotas, also referred to as limits, are the maximum number of service resources or operations for your Amazon Web Services account.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
+    /// You don't have permission to perform this operation.
+    public static var unauthorizedException: Self { .init(.unauthorizedException) }
 }
 
 extension AmplifyUIBuilderErrorType: Equatable {

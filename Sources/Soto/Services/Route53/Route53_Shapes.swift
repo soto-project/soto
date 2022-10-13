@@ -68,6 +68,7 @@ extension Route53 {
         case euWest1 = "eu-west-1"
         case euWest2 = "eu-west-2"
         case euWest3 = "eu-west-3"
+        case meCentral1 = "me-central-1"
         case meSouth1 = "me-south-1"
         case saEast1 = "sa-east-1"
         case usEast1 = "us-east-1"
@@ -224,6 +225,7 @@ extension Route53 {
         case euWest1 = "eu-west-1"
         case euWest2 = "eu-west-2"
         case euWest3 = "eu-west-3"
+        case meCentral1 = "me-central-1"
         case meSouth1 = "me-south-1"
         case saEast1 = "sa-east-1"
         case usEast1 = "us-east-1"
@@ -5352,9 +5354,6 @@ extension Route53 {
         ///
         /// 				           You can't create an alias resource record set in a private hosted zone to
         /// 					route traffic to a CloudFront distribution.
-        ///
-        /// 				           Creating geolocation alias resource record sets or latency alias resource
-        /// 					record sets in a private hosted zone is unsupported.
         ///
         /// 				           For information about creating failover resource record sets in a private
         /// 					hosted zone, see Configuring Failover in a Private Hosted Zone in the

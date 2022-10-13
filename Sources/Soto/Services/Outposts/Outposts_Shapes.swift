@@ -27,6 +27,12 @@ extension Outposts {
         public var description: String { return self.rawValue }
     }
 
+    public enum AssetState: String, CustomStringConvertible, Codable, _SotoSendable {
+        case active = "ACTIVE"
+        case retiring = "RETIRING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AssetType: String, CustomStringConvertible, Codable, _SotoSendable {
         case compute = "COMPUTE"
         public var description: String { return self.rawValue }
@@ -41,6 +47,13 @@ extension Outposts {
     public enum CatalogItemStatus: String, CustomStringConvertible, Codable, _SotoSendable {
         case available = "AVAILABLE"
         case discontinued = "DISCONTINUED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ComputeAssetState: String, CustomStringConvertible, Codable, _SotoSendable {
+        case active = "ACTIVE"
+        case isolated = "ISOLATED"
+        case retiring = "RETIRING"
         public var description: String { return self.rawValue }
     }
 
@@ -74,10 +87,10 @@ extension Outposts {
     public enum OpticalStandard: String, CustomStringConvertible, Codable, _SotoSendable {
         case optic1000BaseLx = "OPTIC_1000BASE_LX"
         case optic1000BaseSx = "OPTIC_1000BASE_SX"
+        case optic100GPsm4Msa = "OPTIC_100G_PSM4_MSA"
         case optic100GbaseCwdm4 = "OPTIC_100GBASE_CWDM4"
         case optic100GbaseLr4 = "OPTIC_100GBASE_LR4"
         case optic100GbaseSr4 = "OPTIC_100GBASE_SR4"
-        case optic100GPsm4Msa = "OPTIC_100G_PSM4_MSA"
         case optic10GbaseIr = "OPTIC_10GBASE_IR"
         case optic10GbaseLr = "OPTIC_10GBASE_LR"
         case optic10GbaseSr = "OPTIC_10GBASE_SR"
@@ -93,8 +106,8 @@ extension Outposts {
         case completed = "COMPLETED"
         case error = "ERROR"
         case fulfilled = "FULFILLED"
-        case installing = "INSTALLING"
         case inProgress = "IN_PROGRESS"
+        case installing = "INSTALLING"
         case pending = "PENDING"
         case preparing = "PREPARING"
         case processing = "PROCESSING"
@@ -116,6 +129,7 @@ extension Outposts {
     }
 
     public enum PaymentTerm: String, CustomStringConvertible, Codable, _SotoSendable {
+        case oneYear = "ONE_YEAR"
         case threeYears = "THREE_YEARS"
         public var description: String { return self.rawValue }
     }
@@ -324,7 +338,7 @@ extension Outposts {
             AWSMemberEncoding(label: "orderId", location: .uri("OrderId"))
         ]
 
-        ///  The ID of the order to cancel.
+        ///  The ID of the order.
         public let orderId: String
 
         public init(orderId: String) {
@@ -382,15 +396,19 @@ extension Outposts {
     }
 
     public struct ComputeAttributes: AWSDecodableShape {
-        ///  The host ID of any Dedicated Hosts on the asset.
+        ///  The host ID of the Dedicated Host on the asset.
         public let hostId: String?
+        /// The state.   ACTIVE - The asset is available and can provide capacity for new compute resources.   ISOLATED - The asset is undergoing maintenance and can't provide capacity for new compute resources. Existing compute resources on the asset are not affected.   RETIRING - The underlying hardware for the asset is degraded. Capacity for new compute resources is reduced. Amazon Web Services sends notifications for resources that must be stopped before the asset can be replaced.
+        public let state: ComputeAssetState?
 
-        public init(hostId: String? = nil) {
+        public init(hostId: String? = nil, state: ComputeAssetState? = nil) {
             self.hostId = hostId
+            self.state = state
         }
 
         private enum CodingKeys: String, CodingKey {
             case hostId = "HostId"
+            case state = "State"
         }
     }
 
@@ -432,9 +450,9 @@ extension Outposts {
         public let lineItems: [LineItemRequest]
         ///  The ID or the Amazon Resource Name (ARN) of the Outpost.
         public let outpostIdentifier: String
-        /// The payment option for the order.
+        /// The payment option.
         public let paymentOption: PaymentOption
-        /// The payment terms for the order.
+        /// The payment terms.
         public let paymentTerm: PaymentTerm?
 
         public init(lineItems: [LineItemRequest], outpostIdentifier: String, paymentOption: PaymentOption, paymentTerm: PaymentTerm? = nil) {
@@ -481,7 +499,7 @@ extension Outposts {
         public let availabilityZoneId: String?
         public let description: String?
         public let name: String
-        ///  The ID or the Amazon Resource Name (ARN) of the site.   In requests, Amazon Web Services Outposts accepts the Amazon Resource Name (ARN) or an ID for Outposts and sites throughout the Outposts Query API. To address backwards compatibility, the parameter names OutpostID or SiteID remain in use. Despite the parameter name,  you can make the request with an ARN.
+        ///  The ID or the Amazon Resource Name (ARN) of the site.
         public let siteId: String
         ///  The type of hardware for this Outpost.
         public let supportedHardwareType: SupportedHardwareType?
@@ -622,7 +640,7 @@ extension Outposts {
             AWSMemberEncoding(label: "outpostId", location: .uri("OutpostId"))
         ]
 
-        ///  The ID or the Amazon Resource Name (ARN) of the Outpost.   In requests, Amazon Web Services Outposts accepts the Amazon Resource Name (ARN) or an ID for Outposts and sites throughout the Outposts Query API. To address backwards compatibility, the parameter names OutpostID or SiteID remain in use. Despite the parameter name,  you can make the request with an ARN.
+        ///  The ID or the Amazon Resource Name (ARN) of the Outpost.
         public let outpostId: String
 
         public init(outpostId: String) {
@@ -647,7 +665,7 @@ extension Outposts {
             AWSMemberEncoding(label: "siteId", location: .uri("SiteId"))
         ]
 
-        ///  The ID or the Amazon Resource Name (ARN) of the site.   In requests, Amazon Web Services Outposts accepts the Amazon Resource Name (ARN) or an ID for Outposts and sites throughout the Outposts Query API. To address backwards compatibility, the parameter names OutpostID or SiteID remain in use. Despite the parameter name,  you can make the request with an ARN.
+        ///  The ID or the Amazon Resource Name (ARN) of the site.
         public let siteId: String
 
         public init(siteId: String) {
@@ -727,7 +745,7 @@ extension Outposts {
             AWSMemberEncoding(label: "connectionId", location: .uri("ConnectionId"))
         ]
 
-        ///  The ID of the connection you request.
+        ///  The ID of the connection.
         public let connectionId: String
 
         public init(connectionId: String) {
@@ -744,9 +762,9 @@ extension Outposts {
     }
 
     public struct GetConnectionResponse: AWSDecodableShape {
-        ///  Information about a connection.
+        ///  Information about the connection.
         public let connectionDetails: ConnectionDetails?
-        ///  The ID of the connection you receive.
+        ///  The ID of the connection.
         public let connectionId: String?
 
         public init(connectionDetails: ConnectionDetails? = nil, connectionId: String? = nil) {
@@ -798,7 +816,7 @@ extension Outposts {
             AWSMemberEncoding(label: "outpostId", location: .uri("OutpostId"))
         ]
 
-        ///  The ID or the Amazon Resource Name (ARN) of the Outpost.   In requests, Amazon Web Services Outposts accepts the Amazon Resource Name (ARN) or an ID for Outposts and sites throughout the Outposts Query API. To address backwards compatibility, the parameter names OutpostID or SiteID remain in use. Despite the parameter name,  you can make the request with an ARN.
+        ///  The ID or the Amazon Resource Name (ARN) of the Outpost.
         public let outpostId: String
 
         public init(outpostId: String) {
@@ -823,7 +841,7 @@ extension Outposts {
 
         public let maxResults: Int?
         public let nextToken: String?
-        ///  The ID or the Amazon Resource Name (ARN) of the Outpost.   In requests, Amazon Web Services Outposts accepts the Amazon Resource Name (ARN) or an ID for Outposts and sites throughout the Outposts Query API. To address backwards compatibility, the parameter names OutpostID or SiteID remain in use. Despite the parameter name,  you can make the request with an ARN.
+        ///  The ID or the Amazon Resource Name (ARN) of the Outpost.
         public let outpostId: String
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, outpostId: String) {
@@ -850,7 +868,7 @@ extension Outposts {
         public let instanceTypes: [InstanceTypeItem]?
         public let nextToken: String?
         public let outpostArn: String?
-        ///  The ID of the Outpost.   In requests, Amazon Web Services Outposts accepts the Amazon Resource Name (ARN) or an ID for Outposts and sites throughout the Outposts Query API. To address backwards compatibility, the parameter names OutpostID or SiteID remain in use. Despite the parameter name,  you can make the request with an ARN.
+        ///  The ID of the Outpost.
         public let outpostId: String?
 
         public init(instanceTypes: [InstanceTypeItem]? = nil, nextToken: String? = nil, outpostArn: String? = nil, outpostId: String? = nil) {
@@ -886,9 +904,9 @@ extension Outposts {
             AWSMemberEncoding(label: "siteId", location: .uri("SiteId"))
         ]
 
-        ///  The type of the address you request.
+        /// The type of the address you request.
         public let addressType: AddressType
-        ///  The ID or the Amazon Resource Name (ARN) of the site.   In requests, Amazon Web Services Outposts accepts the Amazon Resource Name (ARN) or an ID for Outposts and sites throughout the Outposts Query API. To address backwards compatibility, the parameter names OutpostID or SiteID remain in use. Despite the parameter name,  you can make the request with an ARN.
+        ///  The ID or the Amazon Resource Name (ARN) of the site.
         public let siteId: String
 
         public init(addressType: AddressType, siteId: String) {
@@ -908,7 +926,7 @@ extension Outposts {
     public struct GetSiteAddressOutput: AWSDecodableShape {
         ///  Information about the address.
         public let address: Address?
-        ///  The type of the address you receive.
+        /// The type of the address you receive.
         public let addressType: AddressType?
         public let siteId: String?
 
@@ -930,7 +948,7 @@ extension Outposts {
             AWSMemberEncoding(label: "siteId", location: .uri("SiteId"))
         ]
 
-        ///  The ID or the Amazon Resource Name (ARN) of the site.   In requests, Amazon Web Services Outposts accepts the Amazon Resource Name (ARN) or an ID for Outposts and sites throughout the Outposts Query API. To address backwards compatibility, the parameter names OutpostID or SiteID remain in use. Despite the parameter name,  you can make the request with an ARN.
+        ///  The ID or the Amazon Resource Name (ARN) of the site.
         public let siteId: String
 
         public init(siteId: String) {
@@ -1006,7 +1024,7 @@ extension Outposts {
     public struct LineItemAssetInformation: AWSDecodableShape {
         ///  The ID of the asset.
         public let assetId: String?
-        ///  MAC addresses of the asset.
+        ///  The MAC addresses of the asset.
         public let macAddressList: [String]?
 
         public init(assetId: String? = nil, macAddressList: [String]? = nil) {
@@ -1024,9 +1042,9 @@ extension Outposts {
         /// The ID of the catalog item.
         public let catalogItemId: String?
         /// The quantity of a line item request.
-        public let quantity: Int?
+        public let quantity: Int
 
-        public init(catalogItemId: String? = nil, quantity: Int? = nil) {
+        public init(catalogItemId: String? = nil, quantity: Int = 0) {
             self.catalogItemId = catalogItemId
             self.quantity = quantity
         }
@@ -1050,21 +1068,25 @@ extension Outposts {
             AWSMemberEncoding(label: "hostIdFilter", location: .querystring("HostIdFilter")),
             AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
             AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "outpostIdentifier", location: .uri("OutpostIdentifier"))
+            AWSMemberEncoding(label: "outpostIdentifier", location: .uri("OutpostIdentifier")),
+            AWSMemberEncoding(label: "statusFilter", location: .querystring("StatusFilter"))
         ]
 
-        ///  A filter for the host ID of Dedicated Hosts on the Outpost.  Filter values are case sensitive. If you specify multiple  values for a filter, the values are joined with an OR, and the request returns  all results that match any of the specified values.
+        /// Filters the results by the host ID of a Dedicated Host.
         public let hostIdFilter: [String]?
         public let maxResults: Int?
         public let nextToken: String?
         ///  The ID or the Amazon Resource Name (ARN) of the Outpost.
         public let outpostIdentifier: String
+        /// Filters the results by state.
+        public let statusFilter: [AssetState]?
 
-        public init(hostIdFilter: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, outpostIdentifier: String) {
+        public init(hostIdFilter: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, outpostIdentifier: String, statusFilter: [AssetState]? = nil) {
             self.hostIdFilter = hostIdFilter
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.outpostIdentifier = outpostIdentifier
+            self.statusFilter = statusFilter
         }
 
         public func validate(name: String) throws {
@@ -1081,13 +1103,15 @@ extension Outposts {
             try self.validate(self.outpostIdentifier, name: "outpostIdentifier", parent: name, max: 180)
             try self.validate(self.outpostIdentifier, name: "outpostIdentifier", parent: name, min: 1)
             try self.validate(self.outpostIdentifier, name: "outpostIdentifier", parent: name, pattern: "^(arn:aws([a-z-]+)?:outposts:[a-z\\d-]+:\\d{12}:outpost/)?op-[a-f0-9]{17}$")
+            try self.validate(self.statusFilter, name: "statusFilter", parent: name, max: 2)
+            try self.validate(self.statusFilter, name: "statusFilter", parent: name, min: 1)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct ListAssetsOutput: AWSDecodableShape {
-        ///  Information about hardware assets.
+        /// Information about the hardware assets.
         public let assets: [AssetInfo]?
         public let nextToken: String?
 
@@ -1111,13 +1135,13 @@ extension Outposts {
             AWSMemberEncoding(label: "supportedStorageFilter", location: .querystring("SupportedStorageFilter"))
         ]
 
-        ///  A filter for EC2 family options for items in the catalog.  Filter values are case sensitive. If you specify multiple  values for a filter, the values are joined with an OR, and the request returns  all results that match any of the specified values.
+        /// Filters the results by EC2 family (for example, M5).
         public let ec2FamilyFilter: [String]?
-        ///  A filter for the class of items in the catalog.  Filter values are case sensitive. If you specify multiple  values for a filter, the values are joined with an OR, and the request returns  all results that match any of the specified values.
+        /// Filters the results by item class.
         public let itemClassFilter: [CatalogItemClass]?
         public let maxResults: Int?
         public let nextToken: String?
-        ///  A filter for the storage options of items in the catalog.  Filter values are case sensitive. If you specify multiple  values for a filter, the values are joined with an OR, and the request returns  all results that match any of the specified values.
+        /// Filters the results by storage option.
         public let supportedStorageFilter: [SupportedStorageEnum]?
 
         public init(ec2FamilyFilter: [String]? = nil, itemClassFilter: [CatalogItemClass]? = nil, maxResults: Int? = nil, nextToken: String? = nil, supportedStorageFilter: [SupportedStorageEnum]? = nil) {
@@ -1217,11 +1241,11 @@ extension Outposts {
             AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
         ]
 
-        ///  A filter for the Availability Zone (us-east-1a) of the Outpost.   Filter values are case sensitive. If you specify multiple  values for a filter, the values are joined with an OR, and the request returns  all results that match any of the specified values.
+        /// Filters the results by Availability Zone (for example, us-east-1a).
         public let availabilityZoneFilter: [String]?
-        ///  A filter for the AZ IDs (use1-az1) of the Outpost.   Filter values are case sensitive. If you specify multiple  values for a filter, the values are joined with an OR, and the request returns  all results that match any of the specified values.
+        /// Filters the results by AZ ID (for example, use1-az1).
         public let availabilityZoneIdFilter: [String]?
-        ///  A filter for the lifecycle status of the Outpost.   Filter values are case sensitive. If you specify multiple  values for a filter, the values are joined with an OR, and the request returns  all results that match any of the specified values.
+        /// Filters the results by the lifecycle status.
         public let lifeCycleStatusFilter: [String]?
         public let maxResults: Int?
         public let nextToken: String?
@@ -1292,11 +1316,11 @@ extension Outposts {
 
         public let maxResults: Int?
         public let nextToken: String?
-        ///  A filter for the city of the Outpost site.   Filter values are case sensitive. If you specify multiple  values for a filter, the values are joined with an OR, and the request returns  all results that match any of the specified values.
+        /// Filters the results by city.
         public let operatingAddressCityFilter: [String]?
-        ///  A filter for the country code of the Outpost site.  Filter values are case sensitive. If you specify multiple  values for a filter, the values are joined with an OR, and the request returns  all results that match any of the specified values.
+        /// Filters the results by country code.
         public let operatingAddressCountryCodeFilter: [String]?
-        ///  A filter for the state/region of the Outpost site.  Filter values are case sensitive. If you specify multiple  values for a filter, the values are joined with an OR, and the request returns  all results that match any of the specified values.
+        /// Filters the results by state or region.
         public let operatingAddressStateOrRegionFilter: [String]?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, operatingAddressCityFilter: [String]? = nil, operatingAddressCountryCodeFilter: [String]? = nil, operatingAddressStateOrRegionFilter: [String]? = nil) {
@@ -1394,7 +1418,7 @@ extension Outposts {
         public let outpostId: String?
         /// The payment option for the order.
         public let paymentOption: PaymentOption?
-        /// The status of the order.    PREPARING - Order is received and being prepared.    IN_PROGRESS - Order is either being built, shipped, or installed. To get more details, see the LineItem status.    COMPLETED - Order is complete.    CANCELLED - Order is cancelled.    ERROR - Customer should contact support.     The following status are deprecated: RECEIVED, PENDING, PROCESSING, INSTALLING, and FULFILLED.
+        /// The status of the order.    PREPARING - Order is received and being prepared.    IN_PROGRESS - Order is either being built, shipped, or installed. To get more details, see the line item status.    COMPLETED - Order is complete.    CANCELLED - Order is cancelled.    ERROR - Customer should contact support.     The following status are deprecated: RECEIVED, PENDING, PROCESSING, INSTALLING, and FULFILLED.
         public let status: OrderStatus?
 
         public init(lineItems: [LineItem]? = nil, orderFulfilledDate: Date? = nil, orderId: String? = nil, orderSubmissionDate: Date? = nil, outpostId: String? = nil, paymentOption: PaymentOption? = nil, status: OrderStatus? = nil) {
@@ -1421,11 +1445,11 @@ extension Outposts {
     public struct OrderSummary: AWSDecodableShape {
         ///  The status of all line items in the order.
         public let lineItemCountsByStatus: [LineItemStatus: Int]?
-        ///  Fulfilment date for the order.
+        ///  The fulfilment date for the order.
         public let orderFulfilledDate: Date?
         ///  The ID of the order.
         public let orderId: String?
-        ///  Submission date for the order.
+        ///  The submission date for the order.
         public let orderSubmissionDate: Date?
         ///  The type of order.
         public let orderType: OrderType?
@@ -1623,7 +1647,7 @@ extension Outposts {
         ///  The device index of the network interface on the Outpost server.
         public let networkInterfaceDeviceIndex: Int
 
-        public init(assetId: String, clientPublicKey: String, deviceSerialNumber: String, networkInterfaceDeviceIndex: Int) {
+        public init(assetId: String, clientPublicKey: String, deviceSerialNumber: String, networkInterfaceDeviceIndex: Int = 0) {
             self.assetId = assetId
             self.clientPublicKey = clientPublicKey
             self.deviceSerialNumber = deviceSerialNumber
@@ -1749,7 +1773,7 @@ extension Outposts {
 
         public let description: String?
         public let name: String?
-        ///  The ID or the Amazon Resource Name (ARN) of the Outpost.   In requests, Amazon Web Services Outposts accepts the Amazon Resource Name (ARN) or an ID for Outposts and sites throughout the Outposts Query API. To address backwards compatibility, the parameter names OutpostID or SiteID remain in use. Despite the parameter name,  you can make the request with an ARN.
+        ///  The ID or the Amazon Resource Name (ARN) of the Outpost.
         public let outpostId: String
         ///  The type of hardware for this Outpost.
         public let supportedHardwareType: SupportedHardwareType?
@@ -1800,7 +1824,7 @@ extension Outposts {
         public let address: Address
         ///  The type of the address.
         public let addressType: AddressType
-        ///  The ID or the Amazon Resource Name (ARN) of the site.   In requests, Amazon Web Services Outposts accepts the Amazon Resource Name (ARN) or an ID for Outposts and sites throughout the Outposts Query API. To address backwards compatibility, the parameter names OutpostID or SiteID remain in use. Despite the parameter name,  you can make the request with an ARN.
+        ///  The ID or the Amazon Resource Name (ARN) of the site.
         public let siteId: String
 
         public init(address: Address, addressType: AddressType, siteId: String) {
@@ -1846,9 +1870,9 @@ extension Outposts {
 
         public let description: String?
         public let name: String?
-        ///  Notes about a site.
+        /// Notes about a site.
         public let notes: String?
-        ///  The ID or the Amazon Resource Name (ARN) of the site.   In requests, Amazon Web Services Outposts accepts the Amazon Resource Name (ARN) or an ID for Outposts and sites throughout the Outposts Query API. To address backwards compatibility, the parameter names OutpostID or SiteID remain in use. Despite the parameter name,  you can make the request with an ARN.
+        ///  The ID or the Amazon Resource Name (ARN) of the site.
         public let siteId: String
 
         public init(description: String? = nil, name: String? = nil, notes: String? = nil, siteId: String) {
@@ -1897,25 +1921,25 @@ extension Outposts {
             AWSMemberEncoding(label: "siteId", location: .uri("SiteId"))
         ]
 
-        ///  Specify the type of fiber that you will use to attach the Outpost to your network.
+        /// The type of fiber that you will use to attach the Outpost to your network.
         public let fiberOpticCableType: FiberOpticCableType?
-        ///  Specify the maximum rack weight that this site can support. NO_LIMIT is over 2000lbs.
+        /// The maximum rack weight that this site can support. NO_LIMIT is over 2000lbs.
         public let maximumSupportedWeightLbs: MaximumSupportedWeightLbs?
-        /// Specify the type of optical standard that you will use to attach the Outpost to your network. This field is dependent on uplink speed, fiber type, and distance to the upstream device. For more information about networking requirements for racks, see Network  in the Amazon Web Services Outposts User Guide.     OPTIC_10GBASE_SR: 10GBASE-SR    OPTIC_10GBASE_IR: 10GBASE-IR    OPTIC_10GBASE_LR: 10GBASE-LR    OPTIC_40GBASE_SR: 40GBASE-SR    OPTIC_40GBASE_ESR: 40GBASE-ESR    OPTIC_40GBASE_IR4_LR4L: 40GBASE-IR (LR4L)    OPTIC_40GBASE_LR4: 40GBASE-LR4    OPTIC_100GBASE_SR4: 100GBASE-SR4    OPTIC_100GBASE_CWDM4: 100GBASE-CWDM4    OPTIC_100GBASE_LR4: 100GBASE-LR4    OPTIC_100G_PSM4_MSA: 100G PSM4 MSA    OPTIC_1000BASE_LX: 1000Base-LX    OPTIC_1000BASE_SX : 1000Base-SX
+        /// The type of optical standard that you will use to attach the Outpost to your network. This field is dependent on uplink speed, fiber type, and distance to the upstream device. For more information about networking requirements for racks, see Network  in the Amazon Web Services Outposts User Guide.     OPTIC_10GBASE_SR: 10GBASE-SR    OPTIC_10GBASE_IR: 10GBASE-IR    OPTIC_10GBASE_LR: 10GBASE-LR    OPTIC_40GBASE_SR: 40GBASE-SR    OPTIC_40GBASE_ESR: 40GBASE-ESR    OPTIC_40GBASE_IR4_LR4L: 40GBASE-IR (LR4L)    OPTIC_40GBASE_LR4: 40GBASE-LR4    OPTIC_100GBASE_SR4: 100GBASE-SR4    OPTIC_100GBASE_CWDM4: 100GBASE-CWDM4    OPTIC_100GBASE_LR4: 100GBASE-LR4    OPTIC_100G_PSM4_MSA: 100G PSM4 MSA    OPTIC_1000BASE_LX: 1000Base-LX    OPTIC_1000BASE_SX : 1000Base-SX
         public let opticalStandard: OpticalStandard?
-        ///  Specify the power connector that Amazon Web Services should plan to provide for connections to the hardware. Note the correlation between PowerPhase and PowerConnector.    Single-phase AC feed    L6-30P – (common in US); 30A; single phase    IEC309 (blue) – P+N+E, 6hr; 32 A; single phase     Three-phase AC feed    AH530P7W (red) – 3P+N+E, 7hr; 30A; three phase    AH532P6W (red) – 3P+N+E, 6hr; 32A; three phase
+        /// The power connector that Amazon Web Services should plan to provide for connections to the hardware. Note the correlation between PowerPhase and PowerConnector.    Single-phase AC feed    L6-30P – (common in US); 30A; single phase    IEC309 (blue) – P+N+E, 6hr; 32 A; single phase     Three-phase AC feed    AH530P7W (red) – 3P+N+E, 7hr; 30A; three phase    AH532P6W (red) – 3P+N+E, 6hr; 32A; three phase
         public let powerConnector: PowerConnector?
-        /// Specify in kVA the power draw available at the hardware placement position for the rack.
+        /// The power draw, in kVA, available at the hardware placement position for the rack.
         public let powerDrawKva: PowerDrawKva?
-        ///  Specify whether the power feed comes above or below the rack.
+        /// Indicates whether the power feed comes above or below the rack.
         public let powerFeedDrop: PowerFeedDrop?
-        ///  Specify the power option that you can provide for hardware.    Single-phase AC feed: 200 V to 277 V, 50 Hz or 60 Hz   Three-phase AC feed: 346 V to 480 V, 50 Hz or 60 Hz
+        /// The power option that you can provide for hardware.    Single-phase AC feed: 200 V to 277 V, 50 Hz or 60 Hz   Three-phase AC feed: 346 V to 480 V, 50 Hz or 60 Hz
         public let powerPhase: PowerPhase?
-        ///  The ID or the Amazon Resource Name (ARN) of the site.   In requests, Amazon Web Services Outposts accepts the Amazon Resource Name (ARN) or an ID for Outposts and sites throughout the Outposts Query API. To address backwards compatibility, the parameter names OutpostID or SiteID remain in use. Despite the parameter name,  you can make the request with an ARN.
+        ///  The ID or the Amazon Resource Name (ARN) of the site.
         public let siteId: String
         /// Racks come with two Outpost network devices. Depending on the supported uplink speed at the site, the Outpost network devices provide a variable number of uplinks. Specify the number of uplinks for each Outpost network device that you intend to use to connect the rack to your network. Note the correlation between UplinkGbps and UplinkCount.    1Gbps - Uplinks available: 1, 2, 4, 6, 8   10Gbps - Uplinks available: 1, 2, 4, 8, 12, 16   40 and 100 Gbps- Uplinks available: 1, 2, 4
         public let uplinkCount: UplinkCount?
-        ///  Specify the uplink speed the rack should support for the connection to the Region.
+        /// The uplink speed the rack should support for the connection to the Region.
         public let uplinkGbps: UplinkGbps?
 
         public init(fiberOpticCableType: FiberOpticCableType? = nil, maximumSupportedWeightLbs: MaximumSupportedWeightLbs? = nil, opticalStandard: OpticalStandard? = nil, powerConnector: PowerConnector? = nil, powerDrawKva: PowerDrawKva? = nil, powerFeedDrop: PowerFeedDrop? = nil, powerPhase: PowerPhase? = nil, siteId: String, uplinkCount: UplinkCount? = nil, uplinkGbps: UplinkGbps? = nil) {

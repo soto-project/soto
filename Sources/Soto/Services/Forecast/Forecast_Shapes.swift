@@ -36,6 +36,14 @@ extension Forecast {
         public var description: String { return self.rawValue }
     }
 
+    public enum Condition: String, CustomStringConvertible, Codable, _SotoSendable {
+        case equals = "EQUALS"
+        case greaterThan = "GREATER_THAN"
+        case lessThan = "LESS_THAN"
+        case notEquals = "NOT_EQUALS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DatasetType: String, CustomStringConvertible, Codable, _SotoSendable {
         case itemMetadata = "ITEM_METADATA"
         case relatedTimeSeries = "RELATED_TIME_SERIES"
@@ -98,6 +106,14 @@ extension Forecast {
         public var description: String { return self.rawValue }
     }
 
+    public enum Operation: String, CustomStringConvertible, Codable, _SotoSendable {
+        case add = "ADD"
+        case divide = "DIVIDE"
+        case multiply = "MULTIPLY"
+        case subtract = "SUBTRACT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum OptimizationMetric: String, CustomStringConvertible, Codable, _SotoSendable {
         case averageWeightedQuantileLoss = "AverageWeightedQuantileLoss"
         case mape = "MAPE"
@@ -134,6 +150,33 @@ extension Forecast {
     }
 
     // MARK: Shapes
+
+    public struct Action: AWSEncodableShape & AWSDecodableShape {
+        /// The related time series that you are modifying. This value is case insensitive.
+        public let attributeName: String
+        /// The operation that is applied to the provided attribute. Operations include:    ADD - adds Value to all rows of AttributeName.    SUBTRACT - subtracts Value from all rows of AttributeName.    MULTIPLY - multiplies all rows of AttributeName by Value.    DIVIDE - divides all rows of AttributeName by Value.
+        public let operation: Operation
+        /// The value that is applied for the chosen Operation.
+        public let value: Double
+
+        public init(attributeName: String, operation: Operation, value: Double) {
+            self.attributeName = attributeName
+            self.operation = operation
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.attributeName, name: "attributeName", parent: name, max: 63)
+            try self.validate(self.attributeName, name: "attributeName", parent: name, min: 1)
+            try self.validate(self.attributeName, name: "attributeName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeName = "AttributeName"
+            case operation = "Operation"
+            case value = "Value"
+        }
+    }
 
     public struct AdditionalDataset: AWSEncodableShape & AWSDecodableShape {
         ///  Weather Index  To enable the Weather Index, do not specify a value for Configuration.  Holidays
@@ -357,7 +400,7 @@ extension Forecast {
             try self.validate(self.predictorName, name: "predictorName", parent: name, min: 1)
             try self.validate(self.predictorName, name: "predictorName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
             try self.validate(self.referencePredictorArn, name: "referencePredictorArn", parent: name, max: 256)
-            try self.validate(self.referencePredictorArn, name: "referencePredictorArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+            try self.validate(self.referencePredictorArn, name: "referencePredictorArn", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -415,7 +458,7 @@ extension Forecast {
         public func validate(name: String) throws {
             try self.datasetArns?.forEach {
                 try validate($0, name: "datasetArns[]", parent: name, max: 256)
-                try validate($0, name: "datasetArns[]", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+                try validate($0, name: "datasetArns[]", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
             }
             try self.validate(self.datasetGroupName, name: "datasetGroupName", parent: name, max: 63)
             try self.validate(self.datasetGroupName, name: "datasetGroupName", parent: name, min: 1)
@@ -481,7 +524,7 @@ extension Forecast {
 
         public func validate(name: String) throws {
             try self.validate(self.datasetArn, name: "datasetArn", parent: name, max: 256)
-            try self.validate(self.datasetArn, name: "datasetArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+            try self.validate(self.datasetArn, name: "datasetArn", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
             try self.validate(self.datasetImportJobName, name: "datasetImportJobName", parent: name, max: 63)
             try self.validate(self.datasetImportJobName, name: "datasetImportJobName", parent: name, min: 1)
             try self.validate(self.datasetImportJobName, name: "datasetImportJobName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
@@ -613,7 +656,7 @@ extension Forecast {
         public func validate(name: String) throws {
             try self.destination.validate(name: "\(name).destination")
             try self.validate(self.explainabilityArn, name: "explainabilityArn", parent: name, max: 256)
-            try self.validate(self.explainabilityArn, name: "explainabilityArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+            try self.validate(self.explainabilityArn, name: "explainabilityArn", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
             try self.validate(self.explainabilityExportName, name: "explainabilityExportName", parent: name, max: 63)
             try self.validate(self.explainabilityExportName, name: "explainabilityExportName", parent: name, min: 1)
             try self.validate(self.explainabilityExportName, name: "explainabilityExportName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
@@ -685,7 +728,7 @@ extension Forecast {
             try self.validate(self.explainabilityName, name: "explainabilityName", parent: name, min: 1)
             try self.validate(self.explainabilityName, name: "explainabilityName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
             try self.schema?.validate(name: "\(name).schema")
             try self.validate(self.startDateTime, name: "startDateTime", parent: name, max: 19)
             try self.validate(self.startDateTime, name: "startDateTime", parent: name, pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$")
@@ -744,7 +787,7 @@ extension Forecast {
         public func validate(name: String) throws {
             try self.destination.validate(name: "\(name).destination")
             try self.validate(self.forecastArn, name: "forecastArn", parent: name, max: 256)
-            try self.validate(self.forecastArn, name: "forecastArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+            try self.validate(self.forecastArn, name: "forecastArn", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
             try self.validate(self.forecastExportJobName, name: "forecastExportJobName", parent: name, max: 63)
             try self.validate(self.forecastExportJobName, name: "forecastExportJobName", parent: name, min: 1)
             try self.validate(self.forecastExportJobName, name: "forecastExportJobName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
@@ -810,7 +853,7 @@ extension Forecast {
             try self.validate(self.forecastTypes, name: "forecastTypes", parent: name, max: 20)
             try self.validate(self.forecastTypes, name: "forecastTypes", parent: name, min: 1)
             try self.validate(self.predictorArn, name: "predictorArn", parent: name, max: 256)
-            try self.validate(self.predictorArn, name: "predictorArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+            try self.validate(self.predictorArn, name: "predictorArn", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -859,7 +902,7 @@ extension Forecast {
             try self.validate(self.monitorName, name: "monitorName", parent: name, min: 1)
             try self.validate(self.monitorName, name: "monitorName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -910,7 +953,7 @@ extension Forecast {
             try self.validate(self.format, name: "format", parent: name, max: 7)
             try self.validate(self.format, name: "format", parent: name, pattern: "^CSV|PARQUET$")
             try self.validate(self.predictorArn, name: "predictorArn", parent: name, max: 256)
-            try self.validate(self.predictorArn, name: "predictorArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+            try self.validate(self.predictorArn, name: "predictorArn", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
             try self.validate(self.predictorBacktestExportJobName, name: "predictorBacktestExportJobName", parent: name, max: 63)
             try self.validate(self.predictorBacktestExportJobName, name: "predictorBacktestExportJobName", parent: name, min: 1)
             try self.validate(self.predictorBacktestExportJobName, name: "predictorBacktestExportJobName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
@@ -994,7 +1037,7 @@ extension Forecast {
 
         public func validate(name: String) throws {
             try self.validate(self.algorithmArn, name: "algorithmArn", parent: name, max: 256)
-            try self.validate(self.algorithmArn, name: "algorithmArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+            try self.validate(self.algorithmArn, name: "algorithmArn", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
             try self.encryptionConfig?.validate(name: "\(name).encryptionConfig")
             try self.featurizationConfig.validate(name: "\(name).featurizationConfig")
             try self.forecastTypes?.forEach {
@@ -1054,6 +1097,177 @@ extension Forecast {
         }
     }
 
+    public struct CreateWhatIfAnalysisRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the baseline forecast.
+        public let forecastArn: String
+        /// A list of tags to apply to the what if forecast.
+        public let tags: [Tag]?
+        /// Defines the set of time series that are used in the what-if analysis with a TimeSeriesIdentifiers object. What-if analyses are performed only for the time series in this object. The TimeSeriesIdentifiers object needs the following information:    DataSource     Format     Schema
+        public let timeSeriesSelector: TimeSeriesSelector?
+        /// The name of the what-if analysis. Each name must be unique.
+        public let whatIfAnalysisName: String
+
+        public init(forecastArn: String, tags: [Tag]? = nil, timeSeriesSelector: TimeSeriesSelector? = nil, whatIfAnalysisName: String) {
+            self.forecastArn = forecastArn
+            self.tags = tags
+            self.timeSeriesSelector = timeSeriesSelector
+            self.whatIfAnalysisName = whatIfAnalysisName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.forecastArn, name: "forecastArn", parent: name, max: 256)
+            try self.validate(self.forecastArn, name: "forecastArn", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.timeSeriesSelector?.validate(name: "\(name).timeSeriesSelector")
+            try self.validate(self.whatIfAnalysisName, name: "whatIfAnalysisName", parent: name, max: 63)
+            try self.validate(self.whatIfAnalysisName, name: "whatIfAnalysisName", parent: name, min: 1)
+            try self.validate(self.whatIfAnalysisName, name: "whatIfAnalysisName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case forecastArn = "ForecastArn"
+            case tags = "Tags"
+            case timeSeriesSelector = "TimeSeriesSelector"
+            case whatIfAnalysisName = "WhatIfAnalysisName"
+        }
+    }
+
+    public struct CreateWhatIfAnalysisResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the what-if analysis.
+        public let whatIfAnalysisArn: String?
+
+        public init(whatIfAnalysisArn: String? = nil) {
+            self.whatIfAnalysisArn = whatIfAnalysisArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case whatIfAnalysisArn = "WhatIfAnalysisArn"
+        }
+    }
+
+    public struct CreateWhatIfForecastExportRequest: AWSEncodableShape {
+        /// The location where you want to save the forecast and an AWS Identity and Access Management (IAM) role that Amazon Forecast can assume to access the location. The forecast must be exported to an Amazon S3 bucket. If encryption is used, Destination must include an AWS Key Management Service (KMS) key. The IAM role must allow Amazon Forecast permission to access the key.
+        public let destination: DataDestination
+        /// The format of the exported data, CSV or PARQUET.
+        public let format: String?
+        /// A list of tags to apply to the what if forecast.
+        public let tags: [Tag]?
+        /// The list of what-if forecast Amazon Resource Names (ARNs) to export.
+        public let whatIfForecastArns: [String]
+        /// The name of the what-if forecast to export.
+        public let whatIfForecastExportName: String
+
+        public init(destination: DataDestination, format: String? = nil, tags: [Tag]? = nil, whatIfForecastArns: [String], whatIfForecastExportName: String) {
+            self.destination = destination
+            self.format = format
+            self.tags = tags
+            self.whatIfForecastArns = whatIfForecastArns
+            self.whatIfForecastExportName = whatIfForecastExportName
+        }
+
+        public func validate(name: String) throws {
+            try self.destination.validate(name: "\(name).destination")
+            try self.validate(self.format, name: "format", parent: name, max: 7)
+            try self.validate(self.format, name: "format", parent: name, pattern: "^CSV|PARQUET$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.whatIfForecastArns.forEach {
+                try validate($0, name: "whatIfForecastArns[]", parent: name, max: 300)
+                try validate($0, name: "whatIfForecastArns[]", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
+            }
+            try self.validate(self.whatIfForecastArns, name: "whatIfForecastArns", parent: name, max: 50)
+            try self.validate(self.whatIfForecastArns, name: "whatIfForecastArns", parent: name, min: 1)
+            try self.validate(self.whatIfForecastExportName, name: "whatIfForecastExportName", parent: name, max: 63)
+            try self.validate(self.whatIfForecastExportName, name: "whatIfForecastExportName", parent: name, min: 1)
+            try self.validate(self.whatIfForecastExportName, name: "whatIfForecastExportName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destination = "Destination"
+            case format = "Format"
+            case tags = "Tags"
+            case whatIfForecastArns = "WhatIfForecastArns"
+            case whatIfForecastExportName = "WhatIfForecastExportName"
+        }
+    }
+
+    public struct CreateWhatIfForecastExportResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the what-if forecast.
+        public let whatIfForecastExportArn: String?
+
+        public init(whatIfForecastExportArn: String? = nil) {
+            self.whatIfForecastExportArn = whatIfForecastExportArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case whatIfForecastExportArn = "WhatIfForecastExportArn"
+        }
+    }
+
+    public struct CreateWhatIfForecastRequest: AWSEncodableShape {
+        /// A list of tags to apply to the what if forecast.
+        public let tags: [Tag]?
+        /// The replacement time series dataset, which contains the rows that you want to change in the related time series dataset. A replacement time series does not need to contain all rows that are in the baseline related time series. Include only the rows (measure-dimension combinations) that you want to include in the what-if forecast. This dataset is merged with the original time series to create a transformed dataset that is used for the what-if analysis. This dataset should contain the items to modify (such as item_id or workforce_type), any relevant dimensions, the timestamp column, and at least one of the related time series columns. This file should not contain duplicate timestamps for the same time series. Timestamps and item_ids not included in this dataset are not included in the what-if analysis.
+        public let timeSeriesReplacementsDataSource: TimeSeriesReplacementsDataSource?
+        /// The transformations that are applied to the baseline time series. Each transformation contains an action and a set of conditions. An action is applied only when all conditions are met. If no conditions are provided, the action is applied to all items.
+        public let timeSeriesTransformations: [TimeSeriesTransformation]?
+        /// The Amazon Resource Name (ARN) of the what-if analysis.
+        public let whatIfAnalysisArn: String
+        /// The name of the what-if forecast. Names must be unique within each what-if analysis.
+        public let whatIfForecastName: String
+
+        public init(tags: [Tag]? = nil, timeSeriesReplacementsDataSource: TimeSeriesReplacementsDataSource? = nil, timeSeriesTransformations: [TimeSeriesTransformation]? = nil, whatIfAnalysisArn: String, whatIfForecastName: String) {
+            self.tags = tags
+            self.timeSeriesReplacementsDataSource = timeSeriesReplacementsDataSource
+            self.timeSeriesTransformations = timeSeriesTransformations
+            self.whatIfAnalysisArn = whatIfAnalysisArn
+            self.whatIfForecastName = whatIfForecastName
+        }
+
+        public func validate(name: String) throws {
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.timeSeriesReplacementsDataSource?.validate(name: "\(name).timeSeriesReplacementsDataSource")
+            try self.timeSeriesTransformations?.forEach {
+                try $0.validate(name: "\(name).timeSeriesTransformations[]")
+            }
+            try self.validate(self.timeSeriesTransformations, name: "timeSeriesTransformations", parent: name, max: 30)
+            try self.validate(self.whatIfAnalysisArn, name: "whatIfAnalysisArn", parent: name, max: 256)
+            try self.validate(self.whatIfAnalysisArn, name: "whatIfAnalysisArn", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
+            try self.validate(self.whatIfForecastName, name: "whatIfForecastName", parent: name, max: 63)
+            try self.validate(self.whatIfForecastName, name: "whatIfForecastName", parent: name, min: 1)
+            try self.validate(self.whatIfForecastName, name: "whatIfForecastName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+            case timeSeriesReplacementsDataSource = "TimeSeriesReplacementsDataSource"
+            case timeSeriesTransformations = "TimeSeriesTransformations"
+            case whatIfAnalysisArn = "WhatIfAnalysisArn"
+            case whatIfForecastName = "WhatIfForecastName"
+        }
+    }
+
+    public struct CreateWhatIfForecastResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the what-if forecast.
+        public let whatIfForecastArn: String?
+
+        public init(whatIfForecastArn: String? = nil) {
+            self.whatIfForecastArn = whatIfForecastArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case whatIfForecastArn = "WhatIfForecastArn"
+        }
+    }
+
     public struct DataConfig: AWSEncodableShape & AWSDecodableShape {
         /// Additional built-in datasets like Holidays and the Weather Index.
         public let additionalDatasets: [AdditionalDataset]?
@@ -1080,7 +1294,7 @@ extension Forecast {
             try self.validate(self.attributeConfigs, name: "attributeConfigs", parent: name, max: 50)
             try self.validate(self.attributeConfigs, name: "attributeConfigs", parent: name, min: 1)
             try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, max: 256)
-            try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+            try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1229,7 +1443,7 @@ extension Forecast {
 
         public func validate(name: String) throws {
             try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, max: 256)
-            try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+            try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1247,7 +1461,7 @@ extension Forecast {
 
         public func validate(name: String) throws {
             try self.validate(self.datasetImportJobArn, name: "datasetImportJobArn", parent: name, max: 256)
-            try self.validate(self.datasetImportJobArn, name: "datasetImportJobArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+            try self.validate(self.datasetImportJobArn, name: "datasetImportJobArn", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1265,7 +1479,7 @@ extension Forecast {
 
         public func validate(name: String) throws {
             try self.validate(self.datasetArn, name: "datasetArn", parent: name, max: 256)
-            try self.validate(self.datasetArn, name: "datasetArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+            try self.validate(self.datasetArn, name: "datasetArn", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1283,7 +1497,7 @@ extension Forecast {
 
         public func validate(name: String) throws {
             try self.validate(self.explainabilityExportArn, name: "explainabilityExportArn", parent: name, max: 256)
-            try self.validate(self.explainabilityExportArn, name: "explainabilityExportArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+            try self.validate(self.explainabilityExportArn, name: "explainabilityExportArn", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1301,7 +1515,7 @@ extension Forecast {
 
         public func validate(name: String) throws {
             try self.validate(self.explainabilityArn, name: "explainabilityArn", parent: name, max: 256)
-            try self.validate(self.explainabilityArn, name: "explainabilityArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+            try self.validate(self.explainabilityArn, name: "explainabilityArn", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1319,7 +1533,7 @@ extension Forecast {
 
         public func validate(name: String) throws {
             try self.validate(self.forecastExportJobArn, name: "forecastExportJobArn", parent: name, max: 256)
-            try self.validate(self.forecastExportJobArn, name: "forecastExportJobArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+            try self.validate(self.forecastExportJobArn, name: "forecastExportJobArn", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1337,7 +1551,7 @@ extension Forecast {
 
         public func validate(name: String) throws {
             try self.validate(self.forecastArn, name: "forecastArn", parent: name, max: 256)
-            try self.validate(self.forecastArn, name: "forecastArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+            try self.validate(self.forecastArn, name: "forecastArn", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1355,7 +1569,7 @@ extension Forecast {
 
         public func validate(name: String) throws {
             try self.validate(self.monitorArn, name: "monitorArn", parent: name, max: 256)
-            try self.validate(self.monitorArn, name: "monitorArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+            try self.validate(self.monitorArn, name: "monitorArn", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1373,7 +1587,7 @@ extension Forecast {
 
         public func validate(name: String) throws {
             try self.validate(self.predictorBacktestExportJobArn, name: "predictorBacktestExportJobArn", parent: name, max: 256)
-            try self.validate(self.predictorBacktestExportJobArn, name: "predictorBacktestExportJobArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+            try self.validate(self.predictorBacktestExportJobArn, name: "predictorBacktestExportJobArn", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1391,7 +1605,7 @@ extension Forecast {
 
         public func validate(name: String) throws {
             try self.validate(self.predictorArn, name: "predictorArn", parent: name, max: 256)
-            try self.validate(self.predictorArn, name: "predictorArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+            try self.validate(self.predictorArn, name: "predictorArn", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1409,11 +1623,65 @@ extension Forecast {
 
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct DeleteWhatIfAnalysisRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the what-if analysis that you want to delete.
+        public let whatIfAnalysisArn: String
+
+        public init(whatIfAnalysisArn: String) {
+            self.whatIfAnalysisArn = whatIfAnalysisArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.whatIfAnalysisArn, name: "whatIfAnalysisArn", parent: name, max: 256)
+            try self.validate(self.whatIfAnalysisArn, name: "whatIfAnalysisArn", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case whatIfAnalysisArn = "WhatIfAnalysisArn"
+        }
+    }
+
+    public struct DeleteWhatIfForecastExportRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the what-if forecast export that you want to delete.
+        public let whatIfForecastExportArn: String
+
+        public init(whatIfForecastExportArn: String) {
+            self.whatIfForecastExportArn = whatIfForecastExportArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.whatIfForecastExportArn, name: "whatIfForecastExportArn", parent: name, max: 300)
+            try self.validate(self.whatIfForecastExportArn, name: "whatIfForecastExportArn", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case whatIfForecastExportArn = "WhatIfForecastExportArn"
+        }
+    }
+
+    public struct DeleteWhatIfForecastRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the what-if forecast that you want to delete.
+        public let whatIfForecastArn: String
+
+        public init(whatIfForecastArn: String) {
+            self.whatIfForecastArn = whatIfForecastArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.whatIfForecastArn, name: "whatIfForecastArn", parent: name, max: 300)
+            try self.validate(self.whatIfForecastArn, name: "whatIfForecastArn", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case whatIfForecastArn = "WhatIfForecastArn"
         }
     }
 
@@ -1427,7 +1695,7 @@ extension Forecast {
 
         public func validate(name: String) throws {
             try self.validate(self.predictorArn, name: "predictorArn", parent: name, max: 256)
-            try self.validate(self.predictorArn, name: "predictorArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+            try self.validate(self.predictorArn, name: "predictorArn", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1529,7 +1797,7 @@ extension Forecast {
 
         public func validate(name: String) throws {
             try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, max: 256)
-            try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+            try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1584,7 +1852,7 @@ extension Forecast {
 
         public func validate(name: String) throws {
             try self.validate(self.datasetImportJobArn, name: "datasetImportJobArn", parent: name, max: 256)
-            try self.validate(self.datasetImportJobArn, name: "datasetImportJobArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+            try self.validate(self.datasetImportJobArn, name: "datasetImportJobArn", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1675,7 +1943,7 @@ extension Forecast {
 
         public func validate(name: String) throws {
             try self.validate(self.datasetArn, name: "datasetArn", parent: name, max: 256)
-            try self.validate(self.datasetArn, name: "datasetArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+            try self.validate(self.datasetArn, name: "datasetArn", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1742,7 +2010,7 @@ extension Forecast {
 
         public func validate(name: String) throws {
             try self.validate(self.explainabilityExportArn, name: "explainabilityExportArn", parent: name, max: 256)
-            try self.validate(self.explainabilityExportArn, name: "explainabilityExportArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+            try self.validate(self.explainabilityExportArn, name: "explainabilityExportArn", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1804,7 +2072,7 @@ extension Forecast {
 
         public func validate(name: String) throws {
             try self.validate(self.explainabilityArn, name: "explainabilityArn", parent: name, max: 256)
-            try self.validate(self.explainabilityArn, name: "explainabilityArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+            try self.validate(self.explainabilityArn, name: "explainabilityArn", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1885,7 +2153,7 @@ extension Forecast {
 
         public func validate(name: String) throws {
             try self.validate(self.forecastExportJobArn, name: "forecastExportJobArn", parent: name, max: 256)
-            try self.validate(self.forecastExportJobArn, name: "forecastExportJobArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+            try self.validate(self.forecastExportJobArn, name: "forecastExportJobArn", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1948,7 +2216,7 @@ extension Forecast {
 
         public func validate(name: String) throws {
             try self.validate(self.forecastArn, name: "forecastArn", parent: name, max: 256)
-            try self.validate(self.forecastArn, name: "forecastArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+            try self.validate(self.forecastArn, name: "forecastArn", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2019,7 +2287,7 @@ extension Forecast {
 
         public func validate(name: String) throws {
             try self.validate(self.monitorArn, name: "monitorArn", parent: name, max: 256)
-            try self.validate(self.monitorArn, name: "monitorArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+            try self.validate(self.monitorArn, name: "monitorArn", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2090,7 +2358,7 @@ extension Forecast {
 
         public func validate(name: String) throws {
             try self.validate(self.predictorBacktestExportJobArn, name: "predictorBacktestExportJobArn", parent: name, max: 256)
-            try self.validate(self.predictorBacktestExportJobArn, name: "predictorBacktestExportJobArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+            try self.validate(self.predictorBacktestExportJobArn, name: "predictorBacktestExportJobArn", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2152,7 +2420,7 @@ extension Forecast {
 
         public func validate(name: String) throws {
             try self.validate(self.predictorArn, name: "predictorArn", parent: name, max: 256)
-            try self.validate(self.predictorArn, name: "predictorArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+            try self.validate(self.predictorArn, name: "predictorArn", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2265,6 +2533,205 @@ extension Forecast {
         }
     }
 
+    public struct DescribeWhatIfAnalysisRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the what-if analysis that you are interested in.
+        public let whatIfAnalysisArn: String
+
+        public init(whatIfAnalysisArn: String) {
+            self.whatIfAnalysisArn = whatIfAnalysisArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.whatIfAnalysisArn, name: "whatIfAnalysisArn", parent: name, max: 256)
+            try self.validate(self.whatIfAnalysisArn, name: "whatIfAnalysisArn", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case whatIfAnalysisArn = "WhatIfAnalysisArn"
+        }
+    }
+
+    public struct DescribeWhatIfAnalysisResponse: AWSDecodableShape {
+        /// When the what-if analysis was created.
+        public let creationTime: Date?
+        /// The approximate time remaining to complete the what-if analysis, in minutes.
+        public let estimatedTimeRemainingInMinutes: Int64?
+        /// The Amazon Resource Name (ARN) of the what-if forecast.
+        public let forecastArn: String?
+        /// The last time the resource was modified. The timestamp depends on the status of the job:    CREATE_PENDING - The CreationTime.    CREATE_IN_PROGRESS - The current timestamp.    CREATE_STOPPING - The current timestamp.    CREATE_STOPPED - When the job stopped.    ACTIVE or CREATE_FAILED - When the job finished or failed.
+        public let lastModificationTime: Date?
+        /// If an error occurred, an informational message about the error.
+        public let message: String?
+        /// The status of the what-if analysis. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     CREATE_STOPPING, CREATE_STOPPED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     The Status of the what-if analysis must be ACTIVE before you can access the analysis.
+        public let status: String?
+        public let timeSeriesSelector: TimeSeriesSelector?
+        /// The Amazon Resource Name (ARN) of the what-if analysis.
+        public let whatIfAnalysisArn: String?
+        /// The name of the what-if analysis.
+        public let whatIfAnalysisName: String?
+
+        public init(creationTime: Date? = nil, estimatedTimeRemainingInMinutes: Int64? = nil, forecastArn: String? = nil, lastModificationTime: Date? = nil, message: String? = nil, status: String? = nil, timeSeriesSelector: TimeSeriesSelector? = nil, whatIfAnalysisArn: String? = nil, whatIfAnalysisName: String? = nil) {
+            self.creationTime = creationTime
+            self.estimatedTimeRemainingInMinutes = estimatedTimeRemainingInMinutes
+            self.forecastArn = forecastArn
+            self.lastModificationTime = lastModificationTime
+            self.message = message
+            self.status = status
+            self.timeSeriesSelector = timeSeriesSelector
+            self.whatIfAnalysisArn = whatIfAnalysisArn
+            self.whatIfAnalysisName = whatIfAnalysisName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case estimatedTimeRemainingInMinutes = "EstimatedTimeRemainingInMinutes"
+            case forecastArn = "ForecastArn"
+            case lastModificationTime = "LastModificationTime"
+            case message = "Message"
+            case status = "Status"
+            case timeSeriesSelector = "TimeSeriesSelector"
+            case whatIfAnalysisArn = "WhatIfAnalysisArn"
+            case whatIfAnalysisName = "WhatIfAnalysisName"
+        }
+    }
+
+    public struct DescribeWhatIfForecastExportRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the what-if forecast export that you are interested in.
+        public let whatIfForecastExportArn: String
+
+        public init(whatIfForecastExportArn: String) {
+            self.whatIfForecastExportArn = whatIfForecastExportArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.whatIfForecastExportArn, name: "whatIfForecastExportArn", parent: name, max: 300)
+            try self.validate(self.whatIfForecastExportArn, name: "whatIfForecastExportArn", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case whatIfForecastExportArn = "WhatIfForecastExportArn"
+        }
+    }
+
+    public struct DescribeWhatIfForecastExportResponse: AWSDecodableShape {
+        /// When the what-if forecast export was created.
+        public let creationTime: Date?
+        public let destination: DataDestination?
+        /// The approximate time remaining to complete the what-if forecast export, in minutes.
+        public let estimatedTimeRemainingInMinutes: Int64?
+        /// The format of the exported data, CSV or PARQUET.
+        public let format: String?
+        /// The last time the resource was modified. The timestamp depends on the status of the job:    CREATE_PENDING - The CreationTime.    CREATE_IN_PROGRESS - The current timestamp.    CREATE_STOPPING - The current timestamp.    CREATE_STOPPED - When the job stopped.    ACTIVE or CREATE_FAILED - When the job finished or failed.
+        public let lastModificationTime: Date?
+        /// If an error occurred, an informational message about the error.
+        public let message: String?
+        /// The status of the what-if forecast. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     CREATE_STOPPING, CREATE_STOPPED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     The Status of the what-if forecast export must be ACTIVE before you can access the forecast export.
+        public let status: String?
+        /// An array of Amazon Resource Names (ARNs) that represent all of the what-if forecasts exported in this resource.
+        public let whatIfForecastArns: [String]?
+        /// The Amazon Resource Name (ARN) of the what-if forecast export.
+        public let whatIfForecastExportArn: String?
+        /// The name of the what-if forecast export.
+        public let whatIfForecastExportName: String?
+
+        public init(creationTime: Date? = nil, destination: DataDestination? = nil, estimatedTimeRemainingInMinutes: Int64? = nil, format: String? = nil, lastModificationTime: Date? = nil, message: String? = nil, status: String? = nil, whatIfForecastArns: [String]? = nil, whatIfForecastExportArn: String? = nil, whatIfForecastExportName: String? = nil) {
+            self.creationTime = creationTime
+            self.destination = destination
+            self.estimatedTimeRemainingInMinutes = estimatedTimeRemainingInMinutes
+            self.format = format
+            self.lastModificationTime = lastModificationTime
+            self.message = message
+            self.status = status
+            self.whatIfForecastArns = whatIfForecastArns
+            self.whatIfForecastExportArn = whatIfForecastExportArn
+            self.whatIfForecastExportName = whatIfForecastExportName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case destination = "Destination"
+            case estimatedTimeRemainingInMinutes = "EstimatedTimeRemainingInMinutes"
+            case format = "Format"
+            case lastModificationTime = "LastModificationTime"
+            case message = "Message"
+            case status = "Status"
+            case whatIfForecastArns = "WhatIfForecastArns"
+            case whatIfForecastExportArn = "WhatIfForecastExportArn"
+            case whatIfForecastExportName = "WhatIfForecastExportName"
+        }
+    }
+
+    public struct DescribeWhatIfForecastRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the what-if forecast that you are interested in.
+        public let whatIfForecastArn: String
+
+        public init(whatIfForecastArn: String) {
+            self.whatIfForecastArn = whatIfForecastArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.whatIfForecastArn, name: "whatIfForecastArn", parent: name, max: 300)
+            try self.validate(self.whatIfForecastArn, name: "whatIfForecastArn", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case whatIfForecastArn = "WhatIfForecastArn"
+        }
+    }
+
+    public struct DescribeWhatIfForecastResponse: AWSDecodableShape {
+        /// When the what-if forecast was created.
+        public let creationTime: Date?
+        /// The approximate time remaining to complete the what-if forecast, in minutes.
+        public let estimatedTimeRemainingInMinutes: Int64?
+        /// The quantiles at which probabilistic forecasts are generated. You can specify up to 5 quantiles per what-if forecast in the CreateWhatIfForecast operation. If you didn't specify quantiles, the default values are ["0.1", "0.5", "0.9"].
+        public let forecastTypes: [String]?
+        /// The last time the resource was modified. The timestamp depends on the status of the job:    CREATE_PENDING - The CreationTime.    CREATE_IN_PROGRESS - The current timestamp.    CREATE_STOPPING - The current timestamp.    CREATE_STOPPED - When the job stopped.    ACTIVE or CREATE_FAILED - When the job finished or failed.
+        public let lastModificationTime: Date?
+        /// If an error occurred, an informational message about the error.
+        public let message: String?
+        /// The status of the what-if forecast. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     CREATE_STOPPING, CREATE_STOPPED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     The Status of the what-if forecast must be ACTIVE before you can access the forecast.
+        public let status: String?
+        /// An array of S3Config, Schema, and Format elements that describe the replacement time series.
+        public let timeSeriesReplacementsDataSource: TimeSeriesReplacementsDataSource?
+        /// An array of Action and TimeSeriesConditions elements that describe what transformations were applied to which time series.
+        public let timeSeriesTransformations: [TimeSeriesTransformation]?
+        /// The Amazon Resource Name (ARN) of the what-if analysis that contains this forecast.
+        public let whatIfAnalysisArn: String?
+        /// The Amazon Resource Name (ARN) of the what-if forecast.
+        public let whatIfForecastArn: String?
+        /// The name of the what-if forecast.
+        public let whatIfForecastName: String?
+
+        public init(creationTime: Date? = nil, estimatedTimeRemainingInMinutes: Int64? = nil, forecastTypes: [String]? = nil, lastModificationTime: Date? = nil, message: String? = nil, status: String? = nil, timeSeriesReplacementsDataSource: TimeSeriesReplacementsDataSource? = nil, timeSeriesTransformations: [TimeSeriesTransformation]? = nil, whatIfAnalysisArn: String? = nil, whatIfForecastArn: String? = nil, whatIfForecastName: String? = nil) {
+            self.creationTime = creationTime
+            self.estimatedTimeRemainingInMinutes = estimatedTimeRemainingInMinutes
+            self.forecastTypes = forecastTypes
+            self.lastModificationTime = lastModificationTime
+            self.message = message
+            self.status = status
+            self.timeSeriesReplacementsDataSource = timeSeriesReplacementsDataSource
+            self.timeSeriesTransformations = timeSeriesTransformations
+            self.whatIfAnalysisArn = whatIfAnalysisArn
+            self.whatIfForecastArn = whatIfForecastArn
+            self.whatIfForecastName = whatIfForecastName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case estimatedTimeRemainingInMinutes = "EstimatedTimeRemainingInMinutes"
+            case forecastTypes = "ForecastTypes"
+            case lastModificationTime = "LastModificationTime"
+            case message = "Message"
+            case status = "Status"
+            case timeSeriesReplacementsDataSource = "TimeSeriesReplacementsDataSource"
+            case timeSeriesTransformations = "TimeSeriesTransformations"
+            case whatIfAnalysisArn = "WhatIfAnalysisArn"
+            case whatIfForecastArn = "WhatIfForecastArn"
+            case whatIfForecastName = "WhatIfForecastName"
+        }
+    }
+
     public struct EncryptionConfig: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the KMS key.
         public let kmsKeyArn: String
@@ -2280,7 +2747,7 @@ extension Forecast {
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 256)
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:aws:kms:.*:key/")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 256)
-            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2577,7 +3044,7 @@ extension Forecast {
             try self.validate(self.key, name: "key", parent: name, max: 256)
             try self.validate(self.key, name: "key", parent: name, pattern: "^[a-zA-Z0-9\\_]+$")
             try self.validate(self.value, name: "value", parent: name, max: 256)
-            try self.validate(self.value, name: "value", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+            try self.validate(self.value, name: "value", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2679,7 +3146,7 @@ extension Forecast {
 
         public func validate(name: String) throws {
             try self.validate(self.predictorArn, name: "predictorArn", parent: name, max: 256)
-            try self.validate(self.predictorArn, name: "predictorArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+            try self.validate(self.predictorArn, name: "predictorArn", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2742,7 +3209,7 @@ extension Forecast {
 
         public func validate(name: String) throws {
             try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, max: 256)
-            try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+            try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
             try self.supplementaryFeatures?.forEach {
                 try $0.validate(name: "\(name).supplementaryFeatures[]")
             }
@@ -3140,7 +3607,7 @@ extension Forecast {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.monitorArn, name: "monitorArn", parent: name, max: 256)
-            try self.validate(self.monitorArn, name: "monitorArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+            try self.validate(self.monitorArn, name: "monitorArn", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 3000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.+$")
@@ -3328,7 +3795,7 @@ extension Forecast {
 
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3346,6 +3813,153 @@ extension Forecast {
 
         private enum CodingKeys: String, CodingKey {
             case tags = "Tags"
+        }
+    }
+
+    public struct ListWhatIfAnalysesRequest: AWSEncodableShape {
+        /// An array of filters. For each filter, you provide a condition and a match statement. The condition is either IS or IS_NOT, which specifies whether to include or exclude the what-if analysis jobs that match the statement from the list, respectively. The match statement consists of a key and a value.  Filter properties     Condition - The condition to apply. Valid values are IS and IS_NOT. To include the what-if analysis jobs that match the statement, specify IS. To exclude matching what-if analysis jobs, specify IS_NOT.    Key - The name of the parameter to filter on. Valid values are WhatIfAnalysisArn and Status.    Value - The value to match.   For example, to list all jobs that export a forecast named electricityWhatIf, specify the following filter:  "Filters": [ { "Condition": "IS", "Key": "WhatIfAnalysisArn", "Value": "arn:aws:forecast:us-west-2::forecast/electricityWhatIf" } ]
+        public let filters: [Filter]?
+        /// The number of items to return in the response.
+        public let maxResults: Int?
+        /// If the result of the previous request was truncated, the response includes a NextToken. To retrieve the next set of results, use the token in the next request. Tokens expire after 24 hours.
+        public let nextToken: String?
+
+        public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 3000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListWhatIfAnalysesResponse: AWSDecodableShape {
+        /// If the response is truncated, Forecast returns this token. To retrieve the next set of results, use the token in the next request.
+        public let nextToken: String?
+        /// An array of WhatIfAnalysisSummary objects that describe the matched analyses.
+        public let whatIfAnalyses: [WhatIfAnalysisSummary]?
+
+        public init(nextToken: String? = nil, whatIfAnalyses: [WhatIfAnalysisSummary]? = nil) {
+            self.nextToken = nextToken
+            self.whatIfAnalyses = whatIfAnalyses
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case whatIfAnalyses = "WhatIfAnalyses"
+        }
+    }
+
+    public struct ListWhatIfForecastExportsRequest: AWSEncodableShape {
+        /// An array of filters. For each filter, you provide a condition and a match statement. The condition is either IS or IS_NOT, which specifies whether to include or exclude the what-if forecast export jobs that match the statement from the list, respectively. The match statement consists of a key and a value.  Filter properties     Condition - The condition to apply. Valid values are IS and IS_NOT. To include the forecast export jobs that match the statement, specify IS. To exclude matching forecast export jobs, specify IS_NOT.    Key - The name of the parameter to filter on. Valid values are WhatIfForecastExportArn and Status.    Value - The value to match.   For example, to list all jobs that export a forecast named electricityWIFExport, specify the following filter:  "Filters": [ { "Condition": "IS", "Key": "WhatIfForecastExportArn", "Value": "arn:aws:forecast:us-west-2::forecast/electricityWIFExport" } ]
+        public let filters: [Filter]?
+        /// The number of items to return in the response.
+        public let maxResults: Int?
+        /// If the result of the previous request was truncated, the response includes a NextToken. To retrieve the next set of results, use the token in the next  request. Tokens expire after 24 hours.
+        public let nextToken: String?
+
+        public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 3000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListWhatIfForecastExportsResponse: AWSDecodableShape {
+        /// If the response is truncated, Forecast returns this token. To retrieve the next set of results, use the token in the next request.
+        public let nextToken: String?
+        /// An array of WhatIfForecastExports objects that describe the matched forecast exports.
+        public let whatIfForecastExports: [WhatIfForecastExportSummary]?
+
+        public init(nextToken: String? = nil, whatIfForecastExports: [WhatIfForecastExportSummary]? = nil) {
+            self.nextToken = nextToken
+            self.whatIfForecastExports = whatIfForecastExports
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case whatIfForecastExports = "WhatIfForecastExports"
+        }
+    }
+
+    public struct ListWhatIfForecastsRequest: AWSEncodableShape {
+        /// An array of filters. For each filter, you provide a condition and a match statement. The condition is either IS or IS_NOT, which specifies whether to include or exclude the what-if forecast export jobs that match the statement from the list, respectively. The match statement consists of a key and a value.  Filter properties     Condition - The condition to apply. Valid values are IS and IS_NOT. To include the forecast export jobs that match the statement, specify IS. To exclude matching forecast export jobs, specify IS_NOT.    Key - The name of the parameter to filter on. Valid values are WhatIfForecastArn and Status.    Value - The value to match.   For example, to list all jobs that export a forecast named electricityWhatIfForecast, specify the following filter:  "Filters": [ { "Condition": "IS", "Key": "WhatIfForecastArn", "Value": "arn:aws:forecast:us-west-2::forecast/electricityWhatIfForecast" } ]
+        public let filters: [Filter]?
+        /// The number of items to return in the response.
+        public let maxResults: Int?
+        /// If the result of the previous request was truncated, the response includes a NextToken. To retrieve the next set of results, use the token in the next  request. Tokens expire after 24 hours.
+        public let nextToken: String?
+
+        public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 3000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListWhatIfForecastsResponse: AWSDecodableShape {
+        /// If the result of the previous request was truncated, the response includes a NextToken. To retrieve the next set of results, use the token in the next  request. Tokens expire after 24 hours.
+        public let nextToken: String?
+        /// An array of WhatIfForecasts objects that describe the matched forecasts.
+        public let whatIfForecasts: [WhatIfForecastSummary]?
+
+        public init(nextToken: String? = nil, whatIfForecasts: [WhatIfForecastSummary]? = nil) {
+            self.nextToken = nextToken
+            self.whatIfForecasts = whatIfForecasts
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case whatIfForecasts = "WhatIfForecasts"
         }
     }
 
@@ -3749,7 +4363,7 @@ extension Forecast {
 
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3778,7 +4392,7 @@ extension Forecast {
             try self.validate(self.path, name: "path", parent: name, min: 7)
             try self.validate(self.path, name: "path", parent: name, pattern: "^s3://[a-z0-9].+$")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 256)
-            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3899,7 +4513,7 @@ extension Forecast {
 
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3970,7 +4584,7 @@ extension Forecast {
 
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -4044,6 +4658,35 @@ extension Forecast {
         }
     }
 
+    public struct TimeSeriesCondition: AWSEncodableShape & AWSDecodableShape {
+        /// The item_id, dimension name, IM name, or timestamp that you are modifying.
+        public let attributeName: String
+        /// The value that is applied for the chosen Condition.
+        public let attributeValue: String
+        /// The condition to apply. Valid values are EQUALS, NOT_EQUALS, LESS_THAN and GREATER_THAN.
+        public let condition: Condition
+
+        public init(attributeName: String, attributeValue: String, condition: Condition) {
+            self.attributeName = attributeName
+            self.attributeValue = attributeValue
+            self.condition = condition
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.attributeName, name: "attributeName", parent: name, max: 63)
+            try self.validate(self.attributeName, name: "attributeName", parent: name, min: 1)
+            try self.validate(self.attributeName, name: "attributeName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
+            try self.validate(self.attributeValue, name: "attributeValue", parent: name, max: 256)
+            try self.validate(self.attributeValue, name: "attributeValue", parent: name, pattern: "^.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeName = "AttributeName"
+            case attributeValue = "AttributeValue"
+            case condition = "Condition"
+        }
+    }
+
     public struct TimeSeriesIdentifiers: AWSEncodableShape & AWSDecodableShape {
         public let dataSource: DataSource?
         /// The format of the data, either CSV or PARQUET.
@@ -4070,6 +4713,38 @@ extension Forecast {
         }
     }
 
+    public struct TimeSeriesReplacementsDataSource: AWSEncodableShape & AWSDecodableShape {
+        /// The format of the replacement data, CSV or PARQUET.
+        public let format: String?
+        public let s3Config: S3Config
+        public let schema: Schema
+        /// The timestamp format of the replacement data.
+        public let timestampFormat: String?
+
+        public init(format: String? = nil, s3Config: S3Config, schema: Schema, timestampFormat: String? = nil) {
+            self.format = format
+            self.s3Config = s3Config
+            self.schema = schema
+            self.timestampFormat = timestampFormat
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.format, name: "format", parent: name, max: 7)
+            try self.validate(self.format, name: "format", parent: name, pattern: "^CSV|PARQUET$")
+            try self.s3Config.validate(name: "\(name).s3Config")
+            try self.schema.validate(name: "\(name).schema")
+            try self.validate(self.timestampFormat, name: "timestampFormat", parent: name, max: 256)
+            try self.validate(self.timestampFormat, name: "timestampFormat", parent: name, pattern: "^[a-zA-Z0-9\\-\\:\\.\\,\\'\\s]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case format = "Format"
+            case s3Config = "S3Config"
+            case schema = "Schema"
+            case timestampFormat = "TimestampFormat"
+        }
+    }
+
     public struct TimeSeriesSelector: AWSEncodableShape & AWSDecodableShape {
         /// Details about the import file that contains the time series for which you want to create forecasts.
         public let timeSeriesIdentifiers: TimeSeriesIdentifiers?
@@ -4087,6 +4762,31 @@ extension Forecast {
         }
     }
 
+    public struct TimeSeriesTransformation: AWSEncodableShape & AWSDecodableShape {
+        /// An array of actions that define a time series and how it is transformed. These transformations create a new time series that is used for the what-if analysis.
+        public let action: Action?
+        /// An array of conditions that define which members of the related time series are transformed.
+        public let timeSeriesConditions: [TimeSeriesCondition]?
+
+        public init(action: Action? = nil, timeSeriesConditions: [TimeSeriesCondition]? = nil) {
+            self.action = action
+            self.timeSeriesConditions = timeSeriesConditions
+        }
+
+        public func validate(name: String) throws {
+            try self.action?.validate(name: "\(name).action")
+            try self.timeSeriesConditions?.forEach {
+                try $0.validate(name: "\(name).timeSeriesConditions[]")
+            }
+            try self.validate(self.timeSeriesConditions, name: "timeSeriesConditions", parent: name, max: 10)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case timeSeriesConditions = "TimeSeriesConditions"
+        }
+    }
+
     public struct UntagResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags.
         public let resourceArn: String
@@ -4100,7 +4800,7 @@ extension Forecast {
 
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
@@ -4133,10 +4833,10 @@ extension Forecast {
         public func validate(name: String) throws {
             try self.datasetArns.forEach {
                 try validate($0, name: "datasetArns[]", parent: name, max: 256)
-                try validate($0, name: "datasetArns[]", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+                try validate($0, name: "datasetArns[]", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
             }
             try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, max: 256)
-            try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+            try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, pattern: "^arn:([a-z\\d-]+):forecast:.*:.*:.+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4163,6 +4863,121 @@ extension Forecast {
         private enum CodingKeys: String, CodingKey {
             case lossValue = "LossValue"
             case quantile = "Quantile"
+        }
+    }
+
+    public struct WhatIfAnalysisSummary: AWSDecodableShape {
+        /// When the what-if analysis was created.
+        public let creationTime: Date?
+        /// The Amazon Resource Name (ARN) of the baseline forecast that is being used in this what-if analysis.
+        public let forecastArn: String?
+        /// The last time the resource was modified. The timestamp depends on the status of the job:    CREATE_PENDING - The CreationTime.    CREATE_IN_PROGRESS - The current timestamp.    CREATE_STOPPING - The current timestamp.    CREATE_STOPPED - When the job stopped.    ACTIVE or CREATE_FAILED - When the job finished or failed.
+        public let lastModificationTime: Date?
+        /// If an error occurred, an informational message about the error.
+        public let message: String?
+        /// The status of the what-if analysis. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     CREATE_STOPPING, CREATE_STOPPED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     The Status of the what-if analysis must be ACTIVE before you can access the analysis.
+        public let status: String?
+        /// The Amazon Resource Name (ARN) of the what-if analysis.
+        public let whatIfAnalysisArn: String?
+        /// The name of the what-if analysis.
+        public let whatIfAnalysisName: String?
+
+        public init(creationTime: Date? = nil, forecastArn: String? = nil, lastModificationTime: Date? = nil, message: String? = nil, status: String? = nil, whatIfAnalysisArn: String? = nil, whatIfAnalysisName: String? = nil) {
+            self.creationTime = creationTime
+            self.forecastArn = forecastArn
+            self.lastModificationTime = lastModificationTime
+            self.message = message
+            self.status = status
+            self.whatIfAnalysisArn = whatIfAnalysisArn
+            self.whatIfAnalysisName = whatIfAnalysisName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case forecastArn = "ForecastArn"
+            case lastModificationTime = "LastModificationTime"
+            case message = "Message"
+            case status = "Status"
+            case whatIfAnalysisArn = "WhatIfAnalysisArn"
+            case whatIfAnalysisName = "WhatIfAnalysisName"
+        }
+    }
+
+    public struct WhatIfForecastExportSummary: AWSDecodableShape {
+        /// When the what-if forecast export was created.
+        public let creationTime: Date?
+        /// The path to the Amazon Simple Storage Service (Amazon S3) bucket where the forecast is exported.
+        public let destination: DataDestination?
+        /// The last time the resource was modified. The timestamp depends on the status of the job:    CREATE_PENDING - The CreationTime.    CREATE_IN_PROGRESS - The current timestamp.    CREATE_STOPPING - The current timestamp.    CREATE_STOPPED - When the job stopped.    ACTIVE or CREATE_FAILED - When the job finished or failed.
+        public let lastModificationTime: Date?
+        /// If an error occurred, an informational message about the error.
+        public let message: String?
+        /// The status of the what-if forecast export. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     CREATE_STOPPING, CREATE_STOPPED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     The Status of the what-if analysis must be ACTIVE before you can access the analysis.
+        public let status: String?
+        /// An array of Amazon Resource Names (ARNs) that define the what-if forecasts included in the export.
+        public let whatIfForecastArns: [String]?
+        /// The Amazon Resource Name (ARN) of the what-if forecast export.
+        public let whatIfForecastExportArn: String?
+        /// The what-if forecast export name.
+        public let whatIfForecastExportName: String?
+
+        public init(creationTime: Date? = nil, destination: DataDestination? = nil, lastModificationTime: Date? = nil, message: String? = nil, status: String? = nil, whatIfForecastArns: [String]? = nil, whatIfForecastExportArn: String? = nil, whatIfForecastExportName: String? = nil) {
+            self.creationTime = creationTime
+            self.destination = destination
+            self.lastModificationTime = lastModificationTime
+            self.message = message
+            self.status = status
+            self.whatIfForecastArns = whatIfForecastArns
+            self.whatIfForecastExportArn = whatIfForecastExportArn
+            self.whatIfForecastExportName = whatIfForecastExportName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case destination = "Destination"
+            case lastModificationTime = "LastModificationTime"
+            case message = "Message"
+            case status = "Status"
+            case whatIfForecastArns = "WhatIfForecastArns"
+            case whatIfForecastExportArn = "WhatIfForecastExportArn"
+            case whatIfForecastExportName = "WhatIfForecastExportName"
+        }
+    }
+
+    public struct WhatIfForecastSummary: AWSDecodableShape {
+        /// When the what-if forecast was created.
+        public let creationTime: Date?
+        /// The last time the resource was modified. The timestamp depends on the status of the job:    CREATE_PENDING - The CreationTime.    CREATE_IN_PROGRESS - The current timestamp.    CREATE_STOPPING - The current timestamp.    CREATE_STOPPED - When the job stopped.    ACTIVE or CREATE_FAILED - When the job finished or failed.
+        public let lastModificationTime: Date?
+        /// If an error occurred, an informational message about the error.
+        public let message: String?
+        /// The status of the what-if forecast. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     CREATE_STOPPING, CREATE_STOPPED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     The Status of the what-if analysis must be ACTIVE before you can access the analysis.
+        public let status: String?
+        /// The Amazon Resource Name (ARN) of the what-if analysis that contains this what-if forecast.
+        public let whatIfAnalysisArn: String?
+        /// The Amazon Resource Name (ARN) of the what-if forecast.
+        public let whatIfForecastArn: String?
+        /// The name of the what-if forecast.
+        public let whatIfForecastName: String?
+
+        public init(creationTime: Date? = nil, lastModificationTime: Date? = nil, message: String? = nil, status: String? = nil, whatIfAnalysisArn: String? = nil, whatIfForecastArn: String? = nil, whatIfForecastName: String? = nil) {
+            self.creationTime = creationTime
+            self.lastModificationTime = lastModificationTime
+            self.message = message
+            self.status = status
+            self.whatIfAnalysisArn = whatIfAnalysisArn
+            self.whatIfForecastArn = whatIfForecastArn
+            self.whatIfForecastName = whatIfForecastName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case lastModificationTime = "LastModificationTime"
+            case message = "Message"
+            case status = "Status"
+            case whatIfAnalysisArn = "WhatIfAnalysisArn"
+            case whatIfForecastArn = "WhatIfForecastArn"
+            case whatIfForecastName = "WhatIfForecastName"
         }
     }
 

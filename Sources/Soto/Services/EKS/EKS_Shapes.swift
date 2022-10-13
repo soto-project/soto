@@ -52,6 +52,7 @@ extension EKS {
         case degraded = "DEGRADED"
         case deleteFailed = "DELETE_FAILED"
         case deleting = "DELETING"
+        case updateFailed = "UPDATE_FAILED"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
@@ -62,6 +63,16 @@ extension EKS {
         public var description: String { return self.rawValue }
     }
 
+    public enum ClusterIssueCode: String, CustomStringConvertible, Codable, _SotoSendable {
+        case accessDenied = "AccessDenied"
+        case clusterUnreachable = "ClusterUnreachable"
+        case configurationConflict = "ConfigurationConflict"
+        case internalFailure = "InternalFailure"
+        case resourceLimitExceeded = "ResourceLimitExceeded"
+        case resourceNotFound = "ResourceNotFound"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ClusterStatus: String, CustomStringConvertible, Codable, _SotoSendable {
         case active = "ACTIVE"
         case creating = "CREATING"
@@ -69,6 +80,13 @@ extension EKS {
         case failed = "FAILED"
         case pending = "PENDING"
         case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConfigStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case active = "ACTIVE"
+        case creating = "CREATING"
+        case deleting = "DELETING"
         public var description: String { return self.rawValue }
     }
 
@@ -167,6 +185,7 @@ extension EKS {
     public enum ResolveConflicts: String, CustomStringConvertible, Codable, _SotoSendable {
         case none = "NONE"
         case overwrite = "OVERWRITE"
+        case preserve = "PRESERVE"
         public var description: String { return self.rawValue }
     }
 
@@ -224,13 +243,6 @@ extension EKS {
         public var description: String { return self.rawValue }
     }
 
-    public enum ConfigStatus: String, CustomStringConvertible, Codable, _SotoSendable {
-        case active = "ACTIVE"
-        case creating = "CREATING"
-        case deleting = "DELETING"
-        public var description: String { return self.rawValue }
-    }
-
     // MARK: Shapes
 
     public struct Addon: AWSDecodableShape {
@@ -244,7 +256,7 @@ extension EKS {
         public let clusterName: String?
         /// The date and time that the add-on was created.
         public let createdAt: Date?
-        /// An object that represents the health of the add-on.
+        /// An object representing the health of the add-on.
         public let health: AddonHealth?
         /// The date and time that the add-on was last modified.
         public let modifiedAt: Date?
@@ -283,7 +295,7 @@ extension EKS {
     }
 
     public struct AddonHealth: AWSDecodableShape {
-        /// An object that represents the add-on's health issues.
+        /// An object representing the health issues for an add-on.
         public let issues: [AddonIssue]?
 
         public init(issues: [AddonIssue]? = nil) {
@@ -298,7 +310,7 @@ extension EKS {
     public struct AddonInfo: AWSDecodableShape {
         /// The name of the add-on.
         public let addonName: String?
-        /// An object that represents information about available add-on versions and compatible Kubernetes versions.
+        /// An object representing information about available add-on versions and compatible Kubernetes versions.
         public let addonVersions: [AddonVersionInfo]?
         /// The type of the add-on.
         public let type: String?
@@ -342,7 +354,7 @@ extension EKS {
         public let addonVersion: String?
         /// The architectures that the version supports.
         public let architecture: [String]?
-        /// An object that represents the compatibilities of a version.
+        /// An object representing the compatibilities of a version.
         public let compatibilities: [Compatibility]?
 
         public init(addonVersion: String? = nil, architecture: [String]? = nil, compatibilities: [Compatibility]? = nil) {
@@ -407,7 +419,7 @@ extension EKS {
         public let clientRequestToken: String?
         /// The name of the cluster to associate the configuration to.
         public let clusterName: String
-        /// An object that represents an OpenID Connect (OIDC) identity provider configuration.
+        /// An object representing an OpenID Connect (OIDC) identity provider configuration.
         public let oidc: OidcIdentityProviderConfigRequest
         /// The metadata to apply to the configuration to assist with categorization and organization. Each tag consists of a key and an optional value. You define both.
         public let tags: [String: String]?
@@ -494,6 +506,10 @@ extension EKS {
         public let encryptionConfig: [EncryptionConfig]?
         /// The endpoint for your Kubernetes API server.
         public let endpoint: String?
+        /// An object representing the health of your local Amazon EKS cluster on an Amazon Web Services Outpost. This object isn't available for clusters on the Amazon Web Services cloud.
+        public let health: ClusterHealth?
+        /// The ID of your local Amazon EKS cluster on an Amazon Web Services Outpost. This property isn't available for an Amazon EKS cluster on the Amazon Web Services cloud.
+        public let id: String?
         /// The identity provider information for the cluster.
         public let identity: Identity?
         /// The Kubernetes network configuration for the cluster.
@@ -502,6 +518,8 @@ extension EKS {
         public let logging: Logging?
         /// The name of the cluster.
         public let name: String?
+        /// An object representing the configuration of your local Amazon EKS cluster on an Amazon Web Services Outpost. This object isn't available for clusters on the Amazon Web Services cloud.
+        public let outpostConfig: OutpostConfigResponse?
         /// The platform version of your Amazon EKS cluster. For more information, see Platform Versions in the  Amazon EKS User Guide .
         public let platformVersion: String?
         /// The VPC configuration used by the cluster control plane. Amazon EKS VPC resources have specific requirements to work properly with Kubernetes. For more information, see Cluster VPC Considerations and Cluster Security Group Considerations in the Amazon EKS User Guide.
@@ -515,7 +533,7 @@ extension EKS {
         /// The Kubernetes server version for the cluster.
         public let version: String?
 
-        public init(arn: String? = nil, certificateAuthority: Certificate? = nil, clientRequestToken: String? = nil, connectorConfig: ConnectorConfigResponse? = nil, createdAt: Date? = nil, encryptionConfig: [EncryptionConfig]? = nil, endpoint: String? = nil, identity: Identity? = nil, kubernetesNetworkConfig: KubernetesNetworkConfigResponse? = nil, logging: Logging? = nil, name: String? = nil, platformVersion: String? = nil, resourcesVpcConfig: VpcConfigResponse? = nil, roleArn: String? = nil, status: ClusterStatus? = nil, tags: [String: String]? = nil, version: String? = nil) {
+        public init(arn: String? = nil, certificateAuthority: Certificate? = nil, clientRequestToken: String? = nil, connectorConfig: ConnectorConfigResponse? = nil, createdAt: Date? = nil, encryptionConfig: [EncryptionConfig]? = nil, endpoint: String? = nil, health: ClusterHealth? = nil, id: String? = nil, identity: Identity? = nil, kubernetesNetworkConfig: KubernetesNetworkConfigResponse? = nil, logging: Logging? = nil, name: String? = nil, outpostConfig: OutpostConfigResponse? = nil, platformVersion: String? = nil, resourcesVpcConfig: VpcConfigResponse? = nil, roleArn: String? = nil, status: ClusterStatus? = nil, tags: [String: String]? = nil, version: String? = nil) {
             self.arn = arn
             self.certificateAuthority = certificateAuthority
             self.clientRequestToken = clientRequestToken
@@ -523,10 +541,13 @@ extension EKS {
             self.createdAt = createdAt
             self.encryptionConfig = encryptionConfig
             self.endpoint = endpoint
+            self.health = health
+            self.id = id
             self.identity = identity
             self.kubernetesNetworkConfig = kubernetesNetworkConfig
             self.logging = logging
             self.name = name
+            self.outpostConfig = outpostConfig
             self.platformVersion = platformVersion
             self.resourcesVpcConfig = resourcesVpcConfig
             self.roleArn = roleArn
@@ -543,16 +564,53 @@ extension EKS {
             case createdAt
             case encryptionConfig
             case endpoint
+            case health
+            case id
             case identity
             case kubernetesNetworkConfig
             case logging
             case name
+            case outpostConfig
             case platformVersion
             case resourcesVpcConfig
             case roleArn
             case status
             case tags
             case version
+        }
+    }
+
+    public struct ClusterHealth: AWSDecodableShape {
+        /// An object representing the health issues of your local Amazon EKS cluster on an Amazon Web Services Outpost.
+        public let issues: [ClusterIssue]?
+
+        public init(issues: [ClusterIssue]? = nil) {
+            self.issues = issues
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case issues
+        }
+    }
+
+    public struct ClusterIssue: AWSDecodableShape {
+        /// The error code of the issue.
+        public let code: ClusterIssueCode?
+        /// A description of the issue.
+        public let message: String?
+        /// The resource IDs that the issue relates to.
+        public let resourceIds: [String]?
+
+        public init(code: ClusterIssueCode? = nil, message: String? = nil, resourceIds: [String]? = nil) {
+            self.code = code
+            self.message = message
+            self.resourceIds = resourceIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code
+            case message
+            case resourceIds
         }
     }
 
@@ -636,7 +694,7 @@ extension EKS {
         public let clientRequestToken: String?
         /// The name of the cluster to create the add-on for.
         public let clusterName: String
-        /// How to resolve parameter value conflicts when migrating an existing add-on to an Amazon EKS add-on.
+        /// How to resolve field value conflicts for an Amazon EKS add-on. Conflicts are handled based on the value you choose:    None – If the self-managed version of the add-on is installed on your cluster, Amazon EKS doesn't change the value. Creation of the add-on might fail.    Overwrite – If the self-managed version of the add-on is installed on your cluster and the Amazon EKS default value is different than the existing value, Amazon EKS changes the value to the Amazon EKS default value.    Preserve – Not supported. You can set this value when updating an add-on though. For more information, see UpdateAddon.   If you don't currently have the self-managed version of the add-on installed on your cluster, the Amazon EKS add-on is installed. Amazon EKS sets all values to default values, regardless of the option that you specify.
         public let resolveConflicts: ResolveConflicts?
         /// The Amazon Resource Name (ARN) of an existing IAM role to bind to the add-on's service account. The role must be assigned the IAM permissions required by the add-on. If you don't specify an existing IAM role, then the add-on uses the permissions assigned to the node IAM role. For more information, see Amazon EKS node IAM role in the Amazon EKS User Guide.  To specify an existing IAM role, you must have an IAM OpenID Connect (OIDC) provider created for your cluster. For more information, see Enabling IAM roles for service accounts on your cluster in the Amazon EKS User Guide.
         public let serviceAccountRoleArn: String?
@@ -701,21 +759,24 @@ extension EKS {
         public let logging: Logging?
         /// The unique name to give to your cluster.
         public let name: String
+        /// An object representing the configuration of your local Amazon EKS cluster on an Amazon Web Services Outpost. Before creating a local cluster on an Outpost, review Creating an Amazon EKS cluster on an Amazon Web Services Outpost in the Amazon EKS User Guide. This object isn't available for creating Amazon EKS clusters on the Amazon Web Services cloud.
+        public let outpostConfig: OutpostConfigRequest?
         /// The VPC configuration that's used by the cluster control plane. Amazon EKS VPC resources have specific requirements to work properly with Kubernetes. For more information, see Cluster VPC Considerations and Cluster Security Group Considerations in the Amazon EKS User Guide. You must specify at least two subnets. You can specify up to five security groups. However, we recommend that you use a dedicated security group for your cluster control plane.
         public let resourcesVpcConfig: VpcConfigRequest
         /// The Amazon Resource Name (ARN) of the IAM role that provides permissions for the Kubernetes control plane to make calls to Amazon Web Services API operations on your behalf. For more information, see Amazon EKS Service IAM Role in the  Amazon EKS User Guide .
         public let roleArn: String
         /// The metadata to apply to the cluster to assist with categorization and organization. Each tag consists of a key and an optional value. You define both.
         public let tags: [String: String]?
-        /// The desired Kubernetes version for your cluster. If you don't specify a value here, the latest version available in Amazon EKS is used.
+        /// The desired Kubernetes version for your cluster. If you don't specify a value here, the default version available in Amazon EKS is used.  The default version might not be the latest version available.
         public let version: String?
 
-        public init(clientRequestToken: String? = CreateClusterRequest.idempotencyToken(), encryptionConfig: [EncryptionConfig]? = nil, kubernetesNetworkConfig: KubernetesNetworkConfigRequest? = nil, logging: Logging? = nil, name: String, resourcesVpcConfig: VpcConfigRequest, roleArn: String, tags: [String: String]? = nil, version: String? = nil) {
+        public init(clientRequestToken: String? = CreateClusterRequest.idempotencyToken(), encryptionConfig: [EncryptionConfig]? = nil, kubernetesNetworkConfig: KubernetesNetworkConfigRequest? = nil, logging: Logging? = nil, name: String, outpostConfig: OutpostConfigRequest? = nil, resourcesVpcConfig: VpcConfigRequest, roleArn: String, tags: [String: String]? = nil, version: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.encryptionConfig = encryptionConfig
             self.kubernetesNetworkConfig = kubernetesNetworkConfig
             self.logging = logging
             self.name = name
+            self.outpostConfig = outpostConfig
             self.resourcesVpcConfig = resourcesVpcConfig
             self.roleArn = roleArn
             self.tags = tags
@@ -742,6 +803,7 @@ extension EKS {
             case kubernetesNetworkConfig
             case logging
             case name
+            case outpostConfig
             case resourcesVpcConfig
             case roleArn
             case tags
@@ -1256,7 +1318,7 @@ extension EKS {
 
         /// The cluster name that the identity provider configuration is associated to.
         public let clusterName: String
-        /// An object that represents an identity provider configuration.
+        /// An object representing an identity provider configuration.
         public let identityProviderConfig: IdentityProviderConfig
 
         public init(clusterName: String, identityProviderConfig: IdentityProviderConfig) {
@@ -1363,7 +1425,7 @@ extension EKS {
         public let clientRequestToken: String?
         /// The name of the cluster to disassociate an identity provider from.
         public let clusterName: String
-        /// An object that represents an identity provider configuration.
+        /// An object representing an identity provider configuration.
         public let identityProviderConfig: IdentityProviderConfig
 
         public init(clientRequestToken: String? = DisassociateIdentityProviderConfigRequest.idempotencyToken(), clusterName: String, identityProviderConfig: IdentityProviderConfig) {
@@ -1521,7 +1583,7 @@ extension EKS {
     }
 
     public struct IdentityProviderConfigResponse: AWSDecodableShape {
-        /// An object that represents an OpenID Connect (OIDC) identity provider configuration.
+        /// An object representing an OpenID Connect (OIDC) identity provider configuration.
         public let oidc: OidcIdentityProviderConfig?
 
         public init(oidc: OidcIdentityProviderConfig? = nil) {
@@ -1593,11 +1655,11 @@ extension EKS {
     }
 
     public struct LaunchTemplateSpecification: AWSEncodableShape & AWSDecodableShape {
-        /// The ID of the launch template.
+        /// The ID of the launch template. You must specify either the launch template ID or the launch template name in the request, but not both.
         public let id: String?
-        /// The name of the launch template.
+        /// The name of the launch template. You must specify either the launch template name or the launch template ID in the request, but not both.
         public let name: String?
-        /// The version of the launch template to use. If no version is specified, then the template's default version is used.
+        /// The launch template version number, $Latest, or $Default. If the value is $Latest, Amazon EKS uses the latest version of the launch template. If the value is $Default, Amazon EKS uses the default version of the launch template. Default: The default version of the launch template.
         public let version: String?
 
         public init(id: String? = nil, name: String? = nil, version: String? = nil) {
@@ -2253,6 +2315,41 @@ extension EKS {
         }
     }
 
+    public struct OutpostConfigRequest: AWSEncodableShape {
+        /// The Amazon EC2 instance type that you want to use for your local Amazon EKS cluster on Outposts. The instance type that you specify is used for all
+        /// Kubernetes            control plane instances. The instance type can't be changed after cluster creation. Choose an instance type based on the number of nodes that your cluster will have. If your cluster will have:   1–20 nodes, then we recommend specifying a large instance type.   21–100 nodes, then we recommend specifying an xlarge instance type.   101–250 nodes, then we recommend specifying a 2xlarge instance type.   For a list of the available Amazon EC2 instance types, see Compute and storage in Outposts rack features. The control plane is not automatically scaled by Amazon EKS.
+        public let controlPlaneInstanceType: String
+        /// The ARN of the Outpost that you want to use for your local Amazon EKS cluster on Outposts. Only a single Outpost ARN is supported.
+        public let outpostArns: [String]
+
+        public init(controlPlaneInstanceType: String, outpostArns: [String]) {
+            self.controlPlaneInstanceType = controlPlaneInstanceType
+            self.outpostArns = outpostArns
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case controlPlaneInstanceType
+            case outpostArns
+        }
+    }
+
+    public struct OutpostConfigResponse: AWSDecodableShape {
+        /// The Amazon EC2 instance type used for the control plane. The instance type is the same for all control plane instances.
+        public let controlPlaneInstanceType: String
+        /// The ARN of the Outpost that you specified for use with your local Amazon EKS cluster on Outposts.
+        public let outpostArns: [String]
+
+        public init(controlPlaneInstanceType: String, outpostArns: [String]) {
+            self.controlPlaneInstanceType = controlPlaneInstanceType
+            self.outpostArns = outpostArns
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case controlPlaneInstanceType
+            case outpostArns
+        }
+    }
+
     public struct Provider: AWSEncodableShape & AWSDecodableShape {
         /// Amazon Resource Name (ARN) or alias of the KMS key. The KMS key must be symmetric, created in the same region as the cluster, and if the KMS key was created in a different account, the user must have access to the KMS key. For more information, see Allowing Users in Other Accounts to Use a KMS key in the Key Management Service Developer Guide.
         public let keyArn: String?
@@ -2473,7 +2570,7 @@ extension EKS {
         public let clientRequestToken: String?
         /// The name of the cluster.
         public let clusterName: String
-        /// How to resolve parameter value conflicts when applying the new version of the add-on to the cluster.
+        /// How to resolve field value conflicts for an Amazon EKS add-on if you've changed a value from the Amazon EKS default value. Conflicts are handled based on the option you choose:    None – Amazon EKS doesn't change the value. The update might fail.    Overwrite – Amazon EKS overwrites the changed value back to the Amazon EKS default value.    Preserve – Amazon EKS preserves the value. If you choose this option, we recommend that you test any field and value changes on a non-production cluster before updating the add-on on your production cluster.
         public let resolveConflicts: ResolveConflicts?
         /// The Amazon Resource Name (ARN) of an existing IAM role to bind to the add-on's service account. The role must be assigned the IAM permissions required by the add-on. If you don't specify an existing IAM role, then the add-on uses the permissions assigned to the node IAM role. For more information, see Amazon EKS node IAM role in the Amazon EKS User Guide.  To specify an existing IAM role, you must have an IAM OpenID Connect (OIDC) provider created for your cluster. For more information, see Enabling IAM roles for service accounts on your cluster in the Amazon EKS User Guide.
         public let serviceAccountRoleArn: String?

@@ -70,8 +70,8 @@ extension Lightsail {
     }
 
     public enum BehaviorEnum: String, CustomStringConvertible, Codable, _SotoSendable {
-        case cache
-        case dontCache = "dont-cache"
+        case cacheSetting = "cache"
+        case dontCacheSetting = "dont-cache"
         public var description: String { return self.rawValue }
     }
 
@@ -235,12 +235,30 @@ extension Lightsail {
         case cloudFrontForwardedProto = "CloudFront-Forwarded-Proto"
         case cloudFrontIsDesktopViewer = "CloudFront-Is-Desktop-Viewer"
         case cloudFrontIsMobileViewer = "CloudFront-Is-Mobile-Viewer"
-        case cloudFrontIsSmarttvViewer = "CloudFront-Is-SmartTV-Viewer"
+        case cloudFrontIsSmartTVViewer = "CloudFront-Is-SmartTV-Viewer"
         case cloudFrontIsTabletViewer = "CloudFront-Is-Tablet-Viewer"
         case cloudFrontViewerCountry = "CloudFront-Viewer-Country"
         case host = "Host"
         case origin = "Origin"
         case referer = "Referer"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HttpEndpoint: String, CustomStringConvertible, Codable, _SotoSendable {
+        case disabled
+        case enabled
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HttpProtocolIpv6: String, CustomStringConvertible, Codable, _SotoSendable {
+        case disabled
+        case enabled
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HttpTokens: String, CustomStringConvertible, Codable, _SotoSendable {
+        case optional
+        case required
         public var description: String { return self.rawValue }
     }
 
@@ -251,17 +269,17 @@ extension Lightsail {
     }
 
     public enum InstanceHealthReason: String, CustomStringConvertible, Codable, _SotoSendable {
-        case instanceDeregistrationinprogress = "Instance.DeregistrationInProgress"
-        case instanceFailedhealthchecks = "Instance.FailedHealthChecks"
-        case instanceInvalidstate = "Instance.InvalidState"
-        case instanceIpunusable = "Instance.IpUnusable"
-        case instanceNotinuse = "Instance.NotInUse"
-        case instanceNotregistered = "Instance.NotRegistered"
-        case instanceResponsecodemismatch = "Instance.ResponseCodeMismatch"
+        case instanceDeregistrationInProgress = "Instance.DeregistrationInProgress"
+        case instanceFailedHealthChecks = "Instance.FailedHealthChecks"
+        case instanceInvalidState = "Instance.InvalidState"
+        case instanceIpUnusable = "Instance.IpUnusable"
+        case instanceNotInUse = "Instance.NotInUse"
+        case instanceNotRegistered = "Instance.NotRegistered"
+        case instanceResponseCodeMismatch = "Instance.ResponseCodeMismatch"
         case instanceTimeout = "Instance.Timeout"
-        case lbInitialhealthchecking = "Lb.InitialHealthChecking"
-        case lbInternalerror = "Lb.InternalError"
-        case lbRegistrationinprogress = "Lb.RegistrationInProgress"
+        case lbInitialHealthChecking = "Lb.InitialHealthChecking"
+        case lbInternalError = "Lb.InternalError"
+        case lbRegistrationInProgress = "Lb.RegistrationInProgress"
         public var description: String { return self.rawValue }
     }
 
@@ -275,10 +293,17 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
+    public enum InstanceMetadataState: String, CustomStringConvertible, Codable, _SotoSendable {
+        case applied
+        case pending
+        public var description: String { return self.rawValue }
+    }
+
     public enum InstanceMetricName: String, CustomStringConvertible, Codable, _SotoSendable {
         case burstCapacityPercentage = "BurstCapacityPercentage"
         case burstCapacityTime = "BurstCapacityTime"
         case cpuUtilization = "CPUUtilization"
+        case metadataNoToken = "MetadataNoToken"
         case networkIn = "NetworkIn"
         case networkOut = "NetworkOut"
         case statusCheckFailed = "StatusCheckFailed"
@@ -317,13 +342,13 @@ extension Lightsail {
 
     public enum LoadBalancerMetricName: String, CustomStringConvertible, Codable, _SotoSendable {
         case clientTLSNegotiationErrorCount = "ClientTLSNegotiationErrorCount"
+        case healthyHostCount = "HealthyHostCount"
         case httpCodeInstance2XXCount = "HTTPCode_Instance_2XX_Count"
         case httpCodeInstance3XXCount = "HTTPCode_Instance_3XX_Count"
         case httpCodeInstance4XXCount = "HTTPCode_Instance_4XX_Count"
         case httpCodeInstance5XXCount = "HTTPCode_Instance_5XX_Count"
         case httpCodeLB4XXCount = "HTTPCode_LB_4XX_Count"
         case httpCodeLB5XXCount = "HTTPCode_LB_5XX_Count"
-        case healthyHostCount = "HealthyHostCount"
         case instanceResponseTime = "InstanceResponseTime"
         case rejectedConnectionCount = "RejectedConnectionCount"
         case requestCount = "RequestCount"
@@ -371,8 +396,8 @@ extension Lightsail {
     }
 
     public enum LoadBalancerTlsCertificateRevocationReason: String, CustomStringConvertible, Codable, _SotoSendable {
+        case aaCompromise = "A_A_COMPROMISE"
         case affiliationChanged = "AFFILIATION_CHANGED"
-        case aACompromise = "A_A_COMPROMISE"
         case caCompromise = "CA_COMPROMISE"
         case certificateHold = "CERTIFICATE_HOLD"
         case cessationOfOperation = "CESSATION_OF_OPERATION"
@@ -399,18 +424,18 @@ extension Lightsail {
     public enum MetricName: String, CustomStringConvertible, Codable, _SotoSendable {
         case burstCapacityPercentage = "BurstCapacityPercentage"
         case burstCapacityTime = "BurstCapacityTime"
-        case cpuUtilization = "CPUUtilization"
         case clientTLSNegotiationErrorCount = "ClientTLSNegotiationErrorCount"
+        case cpuUtilization = "CPUUtilization"
         case databaseConnections = "DatabaseConnections"
         case diskQueueDepth = "DiskQueueDepth"
         case freeStorageSpace = "FreeStorageSpace"
+        case healthyHostCount = "HealthyHostCount"
         case httpCodeInstance2XXCount = "HTTPCode_Instance_2XX_Count"
         case httpCodeInstance3XXCount = "HTTPCode_Instance_3XX_Count"
         case httpCodeInstance4XXCount = "HTTPCode_Instance_4XX_Count"
         case httpCodeInstance5XXCount = "HTTPCode_Instance_5XX_Count"
         case httpCodeLB4XXCount = "HTTPCode_LB_4XX_Count"
         case httpCodeLB5XXCount = "HTTPCode_LB_5XX_Count"
-        case healthyHostCount = "HealthyHostCount"
         case instanceResponseTime = "InstanceResponseTime"
         case networkIn = "NetworkIn"
         case networkOut = "NetworkOut"
@@ -559,6 +584,7 @@ extension Lightsail {
         case updateDistribution = "UpdateDistribution"
         case updateDistributionBundle = "UpdateDistributionBundle"
         case updateDomainEntry = "UpdateDomainEntry"
+        case updateInstanceMetadataOptions = "UpdateInstanceMetadataOptions"
         case updateLoadBalancerAttribute = "UpdateLoadBalancerAttribute"
         case updateRelationalDatabase = "UpdateRelationalDatabase"
         case updateRelationalDatabaseParameters = "UpdateRelationalDatabaseParameters"
@@ -578,8 +604,8 @@ extension Lightsail {
     }
 
     public enum PortInfoSourceType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case closed = "CLOSED"
         case `default` = "DEFAULT"
+        case closed = "CLOSED"
         case instance = "INSTANCE"
         case none = "NONE"
         public var description: String { return self.rawValue }
@@ -2797,13 +2823,13 @@ extension Lightsail {
         /// The IP address type for the distribution.
         ///  The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6.
         ///  The default value is dualstack.
-        public let ipAddressType: IpAddressType?
+        public let ipAddressType: IpAddressType
         /// An object that describes the origin resource for the distribution, such as a Lightsail instance, bucket, or load balancer. The distribution pulls, caches, and serves content from the origin.
         public let origin: InputOrigin
         /// The tag keys and optional values to add to the distribution during create. Use the TagResource action to tag a resource after it's created.
         public let tags: [Tag]?
 
-        public init(bundleId: String, cacheBehaviors: [CacheBehaviorPerPath]? = nil, cacheBehaviorSettings: CacheSettings? = nil, defaultCacheBehavior: CacheBehavior, distributionName: String, ipAddressType: IpAddressType? = nil, origin: InputOrigin, tags: [Tag]? = nil) {
+        public init(bundleId: String, cacheBehaviors: [CacheBehaviorPerPath]? = nil, cacheBehaviorSettings: CacheSettings? = nil, defaultCacheBehavior: CacheBehavior, distributionName: String, ipAddressType: IpAddressType = .dualstack, origin: InputOrigin, tags: [Tag]? = nil) {
             self.bundleId = bundleId
             self.cacheBehaviors = cacheBehaviors
             self.cacheBehaviorSettings = cacheBehaviorSettings
@@ -2968,7 +2994,7 @@ extension Lightsail {
         /// The IP address type for the instance.
         ///  The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6.
         ///  The default value is dualstack.
-        public let ipAddressType: IpAddressType?
+        public let ipAddressType: IpAddressType
         /// The name for your key pair.
         public let keyPairName: String?
         /// The date of the automatic snapshot to use for the new instance. Use the get auto snapshots operation to identify the dates of the available automatic snapshots. Constraints:   Must be specified in YYYY-MM-DD format.   This parameter cannot be defined together with the use latest restorable auto snapshot parameter. The restore date and use latest restorable auto snapshot parameters are mutually exclusive.   Define this parameter only when creating a new instance from an automatic snapshot. For more information, see the Amazon Lightsail Developer Guide.
@@ -2982,7 +3008,7 @@ extension Lightsail {
         /// You can create a launch script that configures a server with additional user data. For example, apt-get -y update.  Depending on the machine image you choose, the command to get software on your instance varies. Amazon Linux and CentOS use yum, Debian and Ubuntu use apt-get, and FreeBSD uses pkg. For a complete list, see the Amazon Lightsail Developer Guide.
         public let userData: String?
 
-        public init(addOns: [AddOnRequest]? = nil, attachedDiskMapping: [String: [DiskMap]]? = nil, availabilityZone: String, bundleId: String, instanceNames: [String], instanceSnapshotName: String? = nil, ipAddressType: IpAddressType? = nil, keyPairName: String? = nil, restoreDate: String? = nil, sourceInstanceName: String? = nil, tags: [Tag]? = nil, useLatestRestorableAutoSnapshot: Bool? = nil, userData: String? = nil) {
+        public init(addOns: [AddOnRequest]? = nil, attachedDiskMapping: [String: [DiskMap]]? = nil, availabilityZone: String, bundleId: String, instanceNames: [String], instanceSnapshotName: String? = nil, ipAddressType: IpAddressType = .dualstack, keyPairName: String? = nil, restoreDate: String? = nil, sourceInstanceName: String? = nil, tags: [Tag]? = nil, useLatestRestorableAutoSnapshot: Bool? = nil, userData: String? = nil) {
             self.addOns = addOns
             self.attachedDiskMapping = attachedDiskMapping
             self.availabilityZone = availabilityZone
@@ -3056,7 +3082,7 @@ extension Lightsail {
         /// The IP address type for the instance.
         ///  The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6.
         ///  The default value is dualstack.
-        public let ipAddressType: IpAddressType?
+        public let ipAddressType: IpAddressType
         /// The name of your key pair.
         public let keyPairName: String?
         /// The tag keys and optional values to add to the resource during create. Use the TagResource action to tag a resource after it's created.
@@ -3064,7 +3090,7 @@ extension Lightsail {
         /// A launch script you can create that configures a server with additional user data. For example, you might want to run apt-get -y update.  Depending on the machine image you choose, the command to get software on your instance varies. Amazon Linux and CentOS use yum, Debian and Ubuntu use apt-get, and FreeBSD uses pkg. For a complete list, see the Amazon Lightsail Developer Guide.
         public let userData: String?
 
-        public init(addOns: [AddOnRequest]? = nil, availabilityZone: String, blueprintId: String, bundleId: String, instanceNames: [String], ipAddressType: IpAddressType? = nil, keyPairName: String? = nil, tags: [Tag]? = nil, userData: String? = nil) {
+        public init(addOns: [AddOnRequest]? = nil, availabilityZone: String, blueprintId: String, bundleId: String, instanceNames: [String], ipAddressType: IpAddressType = .dualstack, keyPairName: String? = nil, tags: [Tag]? = nil, userData: String? = nil) {
             self.addOns = addOns
             self.availabilityZone = availabilityZone
             self.blueprintId = blueprintId
@@ -3078,7 +3104,7 @@ extension Lightsail {
         }
 
         @available(*, deprecated, message: "Members customImageName have been deprecated")
-        public init(addOns: [AddOnRequest]? = nil, availabilityZone: String, blueprintId: String, bundleId: String, customImageName: String? = nil, instanceNames: [String], ipAddressType: IpAddressType? = nil, keyPairName: String? = nil, tags: [Tag]? = nil, userData: String? = nil) {
+        public init(addOns: [AddOnRequest]? = nil, availabilityZone: String, blueprintId: String, bundleId: String, customImageName: String? = nil, instanceNames: [String], ipAddressType: IpAddressType = .dualstack, keyPairName: String? = nil, tags: [Tag]? = nil, userData: String? = nil) {
             self.addOns = addOns
             self.availabilityZone = availabilityZone
             self.blueprintId = blueprintId
@@ -3188,7 +3214,7 @@ extension Lightsail {
         /// The IP address type for the load balancer.
         ///  The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6.
         ///  The default value is dualstack.
-        public let ipAddressType: IpAddressType?
+        public let ipAddressType: IpAddressType
         /// The name of your load balancer.
         public let loadBalancerName: String
         /// The tag keys and optional values to add to the resource during create. Use the TagResource action to tag a resource after it's created.
@@ -3198,7 +3224,7 @@ extension Lightsail {
         ///  For more information about load balancer TLS policies, see Configuring TLS security policies on your Amazon Lightsail load balancers in the Amazon Lightsail Developer Guide.
         public let tlsPolicyName: String?
 
-        public init(certificateAlternativeNames: [String]? = nil, certificateDomainName: String? = nil, certificateName: String? = nil, healthCheckPath: String? = nil, instancePort: Int, ipAddressType: IpAddressType? = nil, loadBalancerName: String, tags: [Tag]? = nil, tlsPolicyName: String? = nil) {
+        public init(certificateAlternativeNames: [String]? = nil, certificateDomainName: String? = nil, certificateName: String? = nil, healthCheckPath: String? = nil, instancePort: Int = 0, ipAddressType: IpAddressType = .dualstack, loadBalancerName: String, tags: [Tag]? = nil, tlsPolicyName: String? = nil) {
             self.certificateAlternativeNames = certificateAlternativeNames
             self.certificateDomainName = certificateDomainName
             self.certificateName = certificateName
@@ -5089,7 +5115,7 @@ extension Lightsail {
         /// The unit for the metric data request. Valid units depend on the metric data being requested. For the valid units with each available metric, see the metricName parameter.
         public let unit: MetricUnit
 
-        public init(bucketName: String, endTime: Date, metricName: BucketMetricName, period: Int, startTime: Date, statistics: [MetricStatistic], unit: MetricUnit) {
+        public init(bucketName: String, endTime: Date, metricName: BucketMetricName, period: Int = 0, startTime: Date, statistics: [MetricStatistic], unit: MetricUnit) {
             self.bucketName = bucketName
             self.endTime = endTime
             self.metricName = metricName
@@ -5228,9 +5254,9 @@ extension Lightsail {
         /// The status of the certificates for which to return information. For example, specify ISSUED to return only certificates with an ISSUED status. When omitted, the response includes all of your certificates in the Amazon Web Services Region where the request is made, regardless of their current status.
         public let certificateStatuses: [CertificateStatus]?
         /// Indicates whether to include detailed information about the certificates in the response. When omitted, the response includes only the certificate names, Amazon Resource Names (ARNs), domain names, and tags.
-        public let includeCertificateDetails: Bool?
+        public let includeCertificateDetails: Bool
 
-        public init(certificateName: String? = nil, certificateStatuses: [CertificateStatus]? = nil, includeCertificateDetails: Bool? = nil) {
+        public init(certificateName: String? = nil, certificateStatuses: [CertificateStatus]? = nil, includeCertificateDetails: Bool = false) {
             self.certificateName = certificateName
             self.certificateStatuses = certificateStatuses
             self.includeCertificateDetails = includeCertificateDetails
@@ -5495,7 +5521,7 @@ extension Lightsail {
         ///     Minimum - The lowest value observed during the specified period. Use this value to determine low volumes of activity for your application.    Maximum - The highest value observed during the specified period. Use this value to determine high volumes of activity for your application.    Sum - All values submitted for the matching metric added together. You can use this statistic to determine the total volume of a metric.    Average - The value of Sum / SampleCount during the specified period. By comparing this statistic with the Minimum and Maximum values, you can determine the full scope of a metric and how close the average use is to the Minimum and Maximum values. This comparison helps you to know when to increase or decrease your resources.    SampleCount - The count, or number, of data points used for the statistical calculation.
         public let statistics: [MetricStatistic]
 
-        public init(endTime: Date, metricName: ContainerServiceMetricName, period: Int, serviceName: String, startTime: Date, statistics: [MetricStatistic]) {
+        public init(endTime: Date, metricName: ContainerServiceMetricName, period: Int = 0, serviceName: String, startTime: Date, statistics: [MetricStatistic]) {
             self.endTime = endTime
             self.metricName = metricName
             self.period = period
@@ -5758,7 +5784,7 @@ extension Lightsail {
         /// The unit for the metric data request. Valid units depend on the metric data being requested. For the valid units with each available metric, see the metricName parameter.
         public let unit: MetricUnit
 
-        public init(distributionName: String, endTime: Date, metricName: DistributionMetricName, period: Int, startTime: Date, statistics: [MetricStatistic], unit: MetricUnit) {
+        public init(distributionName: String, endTime: Date, metricName: DistributionMetricName, period: Int = 0, startTime: Date, statistics: [MetricStatistic], unit: MetricUnit) {
             self.distributionName = distributionName
             self.endTime = endTime
             self.metricName = metricName
@@ -5965,7 +5991,7 @@ extension Lightsail {
         public let endTime: Date
         /// The name of the instance for which you want to get metrics data.
         public let instanceName: String
-        /// The metric for which you want to return information. Valid instance metric names are listed below, along with the most useful statistics to include in your request, and the published unit value.     BurstCapacityPercentage - The percentage of CPU performance available for your instance to burst above its baseline. Your instance continuously accrues and consumes burst capacity. Burst capacity stops accruing when your instance's BurstCapacityPercentage reaches 100%. For more information, see Viewing instance burst capacity in Amazon Lightsail.  Statistics: The most useful statistics are Maximum and Average.  Unit: The published unit is Percent.     BurstCapacityTime - The available amount of time for your instance to burst at 100% CPU utilization. Your instance continuously accrues and consumes burst capacity. Burst capacity time stops accruing when your instance's BurstCapacityPercentage metric reaches 100%. Burst capacity time is consumed at the full rate only when your instance operates at 100% CPU utilization. For example, if your instance operates at 50% CPU utilization in the burstable zone for a 5-minute period, then it consumes CPU burst capacity minutes at a 50% rate in that period. Your instance consumed 2 minutes and 30 seconds of CPU burst capacity minutes in the 5-minute period. For more information, see Viewing instance burst capacity in Amazon Lightsail.  Statistics: The most useful statistics are Maximum and Average.  Unit: The published unit is Seconds.     CPUUtilization - The percentage of allocated compute units that are currently in use on the instance. This metric identifies the processing power to run the applications on the instance. Tools in your operating system can show a lower percentage than Lightsail when the instance is not allocated a full processor core.  Statistics: The most useful statistics are Maximum and Average.  Unit: The published unit is Percent.     NetworkIn - The number of bytes received on all network interfaces by the instance. This metric identifies the volume of incoming network traffic to the instance. The number reported is the number of bytes received during the period. Because this metric is reported in 5-minute intervals, divide the reported number by 300 to find Bytes/second.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Bytes.     NetworkOut - The number of bytes sent out on all network interfaces by the instance. This metric identifies the volume of outgoing network traffic from the instance. The number reported is the number of bytes sent during the period. Because this metric is reported in 5-minute intervals, divide the reported number by 300 to find Bytes/second.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Bytes.     StatusCheckFailed - Reports whether the instance passed or failed both the instance status check and the system status check. This metric can be either 0 (passed) or 1 (failed). This metric data is available in 1-minute (60 seconds) granularity.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.     StatusCheckFailed_Instance - Reports whether the instance passed or failed the instance status check. This metric can be either 0 (passed) or 1 (failed). This metric data is available in 1-minute (60 seconds) granularity.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.     StatusCheckFailed_System - Reports whether the instance passed or failed the system status check. This metric can be either 0 (passed) or 1 (failed). This metric data is available in 1-minute (60 seconds) granularity.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.
+        /// The metric for which you want to return information. Valid instance metric names are listed below, along with the most useful statistics to include in your request, and the published unit value.     BurstCapacityPercentage - The percentage of CPU performance available for your instance to burst above its baseline. Your instance continuously accrues and consumes burst capacity. Burst capacity stops accruing when your instance's BurstCapacityPercentage reaches 100%. For more information, see Viewing instance burst capacity in Amazon Lightsail.  Statistics: The most useful statistics are Maximum and Average.  Unit: The published unit is Percent.     BurstCapacityTime - The available amount of time for your instance to burst at 100% CPU utilization. Your instance continuously accrues and consumes burst capacity. Burst capacity time stops accruing when your instance's BurstCapacityPercentage metric reaches 100%. Burst capacity time is consumed at the full rate only when your instance operates at 100% CPU utilization. For example, if your instance operates at 50% CPU utilization in the burstable zone for a 5-minute period, then it consumes CPU burst capacity minutes at a 50% rate in that period. Your instance consumed 2 minutes and 30 seconds of CPU burst capacity minutes in the 5-minute period. For more information, see Viewing instance burst capacity in Amazon Lightsail.  Statistics: The most useful statistics are Maximum and Average.  Unit: The published unit is Seconds.     CPUUtilization - The percentage of allocated compute units that are currently in use on the instance. This metric identifies the processing power to run the applications on the instance. Tools in your operating system can show a lower percentage than Lightsail when the instance is not allocated a full processor core.  Statistics: The most useful statistics are Maximum and Average.  Unit: The published unit is Percent.     NetworkIn - The number of bytes received on all network interfaces by the instance. This metric identifies the volume of incoming network traffic to the instance. The number reported is the number of bytes received during the period. Because this metric is reported in 5-minute intervals, divide the reported number by 300 to find Bytes/second.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Bytes.     NetworkOut - The number of bytes sent out on all network interfaces by the instance. This metric identifies the volume of outgoing network traffic from the instance. The number reported is the number of bytes sent during the period. Because this metric is reported in 5-minute intervals, divide the reported number by 300 to find Bytes/second.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Bytes.     StatusCheckFailed - Reports whether the instance passed or failed both the instance status check and the system status check. This metric can be either 0 (passed) or 1 (failed). This metric data is available in 1-minute (60 seconds) granularity.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.     StatusCheckFailed_Instance - Reports whether the instance passed or failed the instance status check. This metric can be either 0 (passed) or 1 (failed). This metric data is available in 1-minute (60 seconds) granularity.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.     StatusCheckFailed_System - Reports whether the instance passed or failed the system status check. This metric can be either 0 (passed) or 1 (failed). This metric data is available in 1-minute (60 seconds) granularity.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.      MetadataNoToken - Reports the number of times that the instance metadata service was successfully accessed without a token. This metric determines if there are any processes accessing instance metadata by using Instance Metadata Service Version 1, which doesn't use a token. If all requests use token-backed sessions, such as Instance Metadata Service Version 2, then the value is 0.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.
         public let metricName: InstanceMetricName
         /// The granularity, in seconds, of the returned data points. The StatusCheckFailed, StatusCheckFailed_Instance, and StatusCheckFailed_System instance metric data is available in 1-minute (60 seconds) granularity. All other instance metric data is available in 5-minute (300 seconds) granularity.
         public let period: Int
@@ -5976,7 +6002,7 @@ extension Lightsail {
         /// The unit for the metric data request. Valid units depend on the metric data being requested. For the valid units to specify with each available metric, see the metricName parameter.
         public let unit: MetricUnit
 
-        public init(endTime: Date, instanceName: String, metricName: InstanceMetricName, period: Int, startTime: Date, statistics: [MetricStatistic], unit: MetricUnit) {
+        public init(endTime: Date, instanceName: String, metricName: InstanceMetricName, period: Int = 0, startTime: Date, statistics: [MetricStatistic], unit: MetricUnit) {
             self.endTime = endTime
             self.instanceName = instanceName
             self.metricName = metricName
@@ -6280,7 +6306,7 @@ extension Lightsail {
         /// The unit for the metric data request. Valid units depend on the metric data being requested. For the valid units with each available metric, see the metricName parameter.
         public let unit: MetricUnit
 
-        public init(endTime: Date, loadBalancerName: String, metricName: LoadBalancerMetricName, period: Int, startTime: Date, statistics: [MetricStatistic], unit: MetricUnit) {
+        public init(endTime: Date, loadBalancerName: String, metricName: LoadBalancerMetricName, period: Int = 0, startTime: Date, statistics: [MetricStatistic], unit: MetricUnit) {
             self.endTime = endTime
             self.loadBalancerName = loadBalancerName
             self.metricName = metricName
@@ -6834,7 +6860,7 @@ extension Lightsail {
         /// The unit for the metric data request. Valid units depend on the metric data being requested. For the valid units with each available metric, see the metricName parameter.
         public let unit: MetricUnit
 
-        public init(endTime: Date, metricName: RelationalDatabaseMetricName, period: Int, relationalDatabaseName: String, startTime: Date, statistics: [MetricStatistic], unit: MetricUnit) {
+        public init(endTime: Date, metricName: RelationalDatabaseMetricName, period: Int = 0, relationalDatabaseName: String, startTime: Date, statistics: [MetricStatistic], unit: MetricUnit) {
             self.endTime = endTime
             self.metricName = metricName
             self.period = period
@@ -7233,6 +7259,8 @@ extension Lightsail {
         public let isStaticIp: Bool?
         /// The region name and Availability Zone where the instance is located.
         public let location: ResourceLocation?
+        /// The metadata options for the Amazon Lightsail instance.
+        public let metadataOptions: InstanceMetadataOptions?
         /// The name the user gave the instance (e.g., Amazon_Linux-1GB-Ohio-1).
         public let name: String?
         /// Information about the public ports and monthly data transfer rates for the instance.
@@ -7254,7 +7282,7 @@ extension Lightsail {
         /// The user name for connecting to the instance (e.g., ec2-user).
         public let username: String?
 
-        public init(addOns: [AddOn]? = nil, arn: String? = nil, blueprintId: String? = nil, blueprintName: String? = nil, bundleId: String? = nil, createdAt: Date? = nil, hardware: InstanceHardware? = nil, ipAddressType: IpAddressType? = nil, ipv6Addresses: [String]? = nil, isStaticIp: Bool? = nil, location: ResourceLocation? = nil, name: String? = nil, networking: InstanceNetworking? = nil, privateIpAddress: String? = nil, publicIpAddress: String? = nil, resourceType: ResourceType? = nil, sshKeyName: String? = nil, state: InstanceState? = nil, supportCode: String? = nil, tags: [Tag]? = nil, username: String? = nil) {
+        public init(addOns: [AddOn]? = nil, arn: String? = nil, blueprintId: String? = nil, blueprintName: String? = nil, bundleId: String? = nil, createdAt: Date? = nil, hardware: InstanceHardware? = nil, ipAddressType: IpAddressType? = nil, ipv6Addresses: [String]? = nil, isStaticIp: Bool? = nil, location: ResourceLocation? = nil, metadataOptions: InstanceMetadataOptions? = nil, name: String? = nil, networking: InstanceNetworking? = nil, privateIpAddress: String? = nil, publicIpAddress: String? = nil, resourceType: ResourceType? = nil, sshKeyName: String? = nil, state: InstanceState? = nil, supportCode: String? = nil, tags: [Tag]? = nil, username: String? = nil) {
             self.addOns = addOns
             self.arn = arn
             self.blueprintId = blueprintId
@@ -7266,6 +7294,7 @@ extension Lightsail {
             self.ipv6Addresses = ipv6Addresses
             self.isStaticIp = isStaticIp
             self.location = location
+            self.metadataOptions = metadataOptions
             self.name = name
             self.networking = networking
             self.privateIpAddress = privateIpAddress
@@ -7290,6 +7319,7 @@ extension Lightsail {
             case ipv6Addresses
             case isStaticIp
             case location
+            case metadataOptions
             case name
             case networking
             case privateIpAddress
@@ -7425,6 +7455,39 @@ extension Lightsail {
             case instanceHealth
             case instanceHealthReason
             case instanceName
+        }
+    }
+
+    public struct InstanceMetadataOptions: AWSDecodableShape {
+        /// Indicates whether the HTTP metadata endpoint on your instances is enabled or disabled.
+        ///  If the value is disabled, you cannot access your instance metadata.
+        public let httpEndpoint: HttpEndpoint?
+        /// Indicates whether the IPv6 endpoint for the instance metadata service is enabled or disabled.
+        public let httpProtocolIpv6: HttpProtocolIpv6?
+        /// The desired HTTP PUT response hop limit for instance metadata requests. A larger number means that the instance metadata requests can travel farther.
+        public let httpPutResponseHopLimit: Int?
+        /// The state of token usage for your instance metadata requests.
+        ///  If the state is optional, you can choose whether to retrieve instance metadata with a signed token header on your request. If you retrieve the IAM role credentials without a token, the version 1.0 role credentials are returned. If you retrieve the IAM role credentials by using a valid signed token, the version 2.0 role credentials are returned.
+        ///  If the state is required, you must send a signed token header with all instance metadata retrieval requests. In this state, retrieving the IAM role credential always returns the version 2.0 credentials. The version 1.0 credentials are not available.
+        ///   Not all instance blueprints in Lightsail support version 2.0 credentials. Use the MetadataNoToken instance metric to track the number of calls to the instance metadata service that are using version 1.0 credentials. For more information, see Viewing instance metrics in Amazon Lightsail in the Amazon Lightsail Developer Guide.
+        public let httpTokens: HttpTokens?
+        /// The state of the metadata option changes. The following states are possible:    pending - The metadata options are being updated. The instance is not yet ready to process metadata traffic with the new selection.    applied - The metadata options have been successfully applied to the instance.
+        public let state: InstanceMetadataState?
+
+        public init(httpEndpoint: HttpEndpoint? = nil, httpProtocolIpv6: HttpProtocolIpv6? = nil, httpPutResponseHopLimit: Int? = nil, httpTokens: HttpTokens? = nil, state: InstanceMetadataState? = nil) {
+            self.httpEndpoint = httpEndpoint
+            self.httpProtocolIpv6 = httpProtocolIpv6
+            self.httpPutResponseHopLimit = httpPutResponseHopLimit
+            self.httpTokens = httpTokens
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case httpEndpoint
+            case httpProtocolIpv6
+            case httpPutResponseHopLimit
+            case httpTokens
+            case state
         }
     }
 
@@ -8382,15 +8445,15 @@ extension Lightsail {
         /// The IPv4 address, or range of IPv4 addresses (in CIDR notation) that are allowed to connect to an instance through the ports, and the protocol.  The ipv6Cidrs parameter lists the IPv6 addresses that are allowed to connect to an instance.  Examples:   To allow the IP address 192.0.2.44, specify 192.0.2.44 or 192.0.2.44/32.    To allow the IP addresses 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24.   For more information about CIDR block notation, see Classless Inter-Domain Routing on Wikipedia.
         public let cidrs: [String]?
         /// The first port in a range of open ports on an instance. Allowed ports:   TCP and UDP - 0 to 65535    ICMP - The ICMP type for IPv4 addresses. For example, specify 8 as the fromPort (ICMP type), and -1 as the toPort (ICMP code), to enable ICMP Ping. For more information, see Control Messages on Wikipedia.   ICMPv6 - The ICMP type for IPv6 addresses. For example, specify 128 as the fromPort (ICMPv6 type), and 0 as toPort (ICMPv6 code). For more information, see Internet Control Message Protocol for IPv6.
-        public let fromPort: Int?
+        public let fromPort: Int
         /// The IPv6 address, or range of IPv6 addresses (in CIDR notation) that are allowed to connect to an instance through the ports, and the protocol. Only devices with an IPv6 address can connect to an instance through IPv6; otherwise, IPv4 should be used.  The cidrs parameter lists the IPv4 addresses that are allowed to connect to an instance.  For more information about CIDR block notation, see Classless Inter-Domain Routing on Wikipedia.
         public let ipv6Cidrs: [String]?
         /// The IP protocol name. The name can be one of the following:    tcp - Transmission Control Protocol (TCP) provides reliable, ordered, and error-checked delivery of streamed data between applications running on hosts communicating by an IP network. If you have an application that doesn't require reliable data stream service, use UDP instead.    all - All transport layer protocol types. For more general information, see Transport layer on Wikipedia.    udp - With User Datagram Protocol (UDP), computer applications can send messages (or datagrams) to other hosts on an Internet Protocol (IP) network. Prior communications are not required to set up transmission channels or data paths. Applications that don't require reliable data stream service can use UDP, which provides a connectionless datagram service that emphasizes reduced latency over reliability. If you do require reliable data stream service, use TCP instead.    icmp - Internet Control Message Protocol (ICMP) is used to send error messages and operational information indicating success or failure when communicating with an instance. For example, an error is indicated when an instance could not be reached. When you specify icmp as the protocol, you must specify the ICMP type using the fromPort parameter, and ICMP code using the toPort parameter.
         public let `protocol`: NetworkProtocol?
         /// The last port in a range of open ports on an instance. Allowed ports:   TCP and UDP - 0 to 65535    ICMP - The ICMP code for IPv4 addresses. For example, specify 8 as the fromPort (ICMP type), and -1 as the toPort (ICMP code), to enable ICMP Ping. For more information, see Control Messages on Wikipedia.   ICMPv6 - The ICMP code for IPv6 addresses. For example, specify 128 as the fromPort (ICMPv6 type), and 0 as toPort (ICMPv6 code). For more information, see Internet Control Message Protocol for IPv6.
-        public let toPort: Int?
+        public let toPort: Int
 
-        public init(cidrListAliases: [String]? = nil, cidrs: [String]? = nil, fromPort: Int? = nil, ipv6Cidrs: [String]? = nil, protocol: NetworkProtocol? = nil, toPort: Int? = nil) {
+        public init(cidrListAliases: [String]? = nil, cidrs: [String]? = nil, fromPort: Int = 0, ipv6Cidrs: [String]? = nil, protocol: NetworkProtocol? = nil, toPort: Int = 0) {
             self.cidrListAliases = cidrListAliases
             self.cidrs = cidrs
             self.fromPort = fromPort
@@ -9930,6 +9993,55 @@ extension Lightsail {
 
         private enum CodingKeys: String, CodingKey {
             case operations
+        }
+    }
+
+    public struct UpdateInstanceMetadataOptionsRequest: AWSEncodableShape {
+        /// Enables or disables the HTTP metadata endpoint on your instances. If this parameter is not specified, the existing state is maintained.
+        ///  If you specify a value of disabled, you cannot access your instance metadata.
+        public let httpEndpoint: HttpEndpoint?
+        /// Enables or disables the IPv6 endpoint for the instance metadata service. This setting applies only when the HTTP metadata endpoint is enabled.
+        ///   This parameter is available only for instances in the Europe (Stockholm) Amazon Web Services Region (eu-north-1).
+        public let httpProtocolIpv6: HttpProtocolIpv6?
+        /// The desired HTTP PUT response hop limit for instance metadata requests. A larger number means that the instance metadata requests can travel farther. If no parameter is specified, the existing state is maintained.
+        public let httpPutResponseHopLimit: Int?
+        /// The state of token usage for your instance metadata requests. If the parameter is not specified in the request, the default state is optional.
+        ///  If the state is optional, you can choose whether to retrieve instance metadata with a signed token header on your request. If you retrieve the IAM role credentials without a token, the version 1.0 role credentials are returned. If you retrieve the IAM role credentials by using a valid signed token, the version 2.0 role credentials are returned.
+        ///  If the state is required, you must send a signed token header with all instance metadata retrieval requests. In this state, retrieving the IAM role credential always returns the version 2.0 credentials. The version 1.0 credentials are not available.
+        public let httpTokens: HttpTokens?
+        /// The name of the instance for which to update metadata parameters.
+        public let instanceName: String
+
+        public init(httpEndpoint: HttpEndpoint? = nil, httpProtocolIpv6: HttpProtocolIpv6? = nil, httpPutResponseHopLimit: Int? = nil, httpTokens: HttpTokens? = nil, instanceName: String) {
+            self.httpEndpoint = httpEndpoint
+            self.httpProtocolIpv6 = httpProtocolIpv6
+            self.httpPutResponseHopLimit = httpPutResponseHopLimit
+            self.httpTokens = httpTokens
+            self.instanceName = instanceName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceName, name: "instanceName", parent: name, pattern: "^\\w[\\w\\-]*\\w$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case httpEndpoint
+            case httpProtocolIpv6
+            case httpPutResponseHopLimit
+            case httpTokens
+            case instanceName
+        }
+    }
+
+    public struct UpdateInstanceMetadataOptionsResult: AWSDecodableShape {
+        public let operation: Operation?
+
+        public init(operation: Operation? = nil) {
+            self.operation = operation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operation
         }
     }
 

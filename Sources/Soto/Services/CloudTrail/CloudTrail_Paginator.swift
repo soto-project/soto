@@ -73,6 +73,59 @@ extension CloudTrail {
         )
     }
 
+    ///   Returns all CloudTrail channels.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listChannelsPaginator<Result>(
+        _ input: ListChannelsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListChannelsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listChannels,
+            inputKey: \ListChannelsRequest.nextToken,
+            outputKey: \ListChannelsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listChannelsPaginator(
+        _ input: ListChannelsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListChannelsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listChannels,
+            inputKey: \ListChannelsRequest.nextToken,
+            outputKey: \ListChannelsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Returns information about all event data stores in the account, in the current region.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -121,6 +174,112 @@ extension CloudTrail {
             command: listEventDataStores,
             inputKey: \ListEventDataStoresRequest.nextToken,
             outputKey: \ListEventDataStoresResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///   Returns a list of failures for the specified import.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listImportFailuresPaginator<Result>(
+        _ input: ListImportFailuresRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListImportFailuresResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listImportFailures,
+            inputKey: \ListImportFailuresRequest.nextToken,
+            outputKey: \ListImportFailuresResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listImportFailuresPaginator(
+        _ input: ListImportFailuresRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListImportFailuresResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listImportFailures,
+            inputKey: \ListImportFailuresRequest.nextToken,
+            outputKey: \ListImportFailuresResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///   Returns information on all imports, or a select set of imports by ImportStatus or Destination.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listImportsPaginator<Result>(
+        _ input: ListImportsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListImportsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listImports,
+            inputKey: \ListImportsRequest.nextToken,
+            outputKey: \ListImportsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listImportsPaginator(
+        _ input: ListImportsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListImportsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listImports,
+            inputKey: \ListImportsRequest.nextToken,
+            outputKey: \ListImportsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -403,9 +562,39 @@ extension CloudTrail.GetQueryResultsRequest: AWSPaginateToken {
     }
 }
 
+extension CloudTrail.ListChannelsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> CloudTrail.ListChannelsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension CloudTrail.ListEventDataStoresRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudTrail.ListEventDataStoresRequest {
         return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension CloudTrail.ListImportFailuresRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> CloudTrail.ListImportFailuresRequest {
+        return .init(
+            importId: self.importId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension CloudTrail.ListImportsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> CloudTrail.ListImportsRequest {
+        return .init(
+            destination: self.destination,
+            importStatus: self.importStatus,
             maxResults: self.maxResults,
             nextToken: token
         )

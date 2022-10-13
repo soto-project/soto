@@ -96,7 +96,7 @@ extension Nimble {
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    /// Wait until a StreamingSessionDeleted. Use this after invoking Deletesession
+    /// Wait until a StreamingSessionDeleted. Use this after invoking DeleteStreamingSession
     public func waitUntilStreamingSessionDeleted(
         _ input: GetStreamingSessionRequest,
         maxWaitTime: TimeAmount? = nil,

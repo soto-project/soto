@@ -78,7 +78,7 @@ extension IoTSiteWise {
         return try await self.client.execute(operation: "CreateAssetModel", path: "/asset-models", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger, on: eventLoop)
     }
 
-    ///  This API operation is in preview release for IoT SiteWise and is subject to change.  We recommend that you use this operation only with test data, and not in production environments.  Defines a job to ingest data to IoT SiteWise from Amazon S3. For more information,  see Create a bulk import job (CLI)  in the Amazon Simple Storage Service User Guide.  You must enable IoT SiteWise to export data to Amazon S3 before you create a bulk import job.  For more information about how to configure storage settings,  see PutStorageConfiguration.
+    /// Defines a job to ingest data to IoT SiteWise from Amazon S3. For more information,  see Create a bulk import job (CLI)  in the Amazon Simple Storage Service User Guide.  You must enable IoT SiteWise to export data to Amazon S3 before you create a bulk import job.  For more information about how to configure storage settings,  see PutStorageConfiguration.
     public func createBulkImportJob(_ input: CreateBulkImportJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateBulkImportJobResponse {
         return try await self.client.execute(operation: "CreateBulkImportJob", path: "/jobs", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "data.", logger: logger, on: eventLoop)
     }
@@ -163,7 +163,7 @@ extension IoTSiteWise {
         return try await self.client.execute(operation: "DescribeAssetProperty", path: "/assets/{assetId}/properties/{propertyId}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger, on: eventLoop)
     }
 
-    ///  This API operation is in preview release for IoT SiteWise and is subject to change.  We recommend that you use this operation only with test data, and not in production environments.  Retrieves information about a bulk import job request. For more information,  see Describe a bulk import job (CLI)  in the Amazon Simple Storage Service User Guide.
+    /// Retrieves information about a bulk import job request. For more information,  see Describe a bulk import job (CLI)  in the Amazon Simple Storage Service User Guide.
     public func describeBulkImportJob(_ input: DescribeBulkImportJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeBulkImportJobResponse {
         return try await self.client.execute(operation: "DescribeBulkImportJob", path: "/jobs/{jobId}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "data.", logger: logger, on: eventLoop)
     }
@@ -268,7 +268,7 @@ extension IoTSiteWise {
         return try await self.client.execute(operation: "ListAssociatedAssets", path: "/assets/{assetId}/hierarchies", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger, on: eventLoop)
     }
 
-    ///  This API operation is in preview release for IoT SiteWise and is subject to change.  We recommend that you use this operation only with test data, and not in production environments.  Retrieves a paginated list of bulk import job requests. For more information,  see List bulk import jobs (CLI)  in the Amazon Simple Storage Service User Guide.
+    /// Retrieves a paginated list of bulk import job requests. For more information,  see List bulk import jobs (CLI)  in the IoT SiteWise User Guide.
     public func listBulkImportJobs(_ input: ListBulkImportJobsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListBulkImportJobsResponse {
         return try await self.client.execute(operation: "ListBulkImportJobs", path: "/jobs", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "data.", logger: logger, on: eventLoop)
     }

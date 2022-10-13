@@ -33,6 +33,11 @@ extension Macie2 {
         return try await self.client.execute(operation: "BatchGetCustomDataIdentifiers", path: "/custom-data-identifiers/get", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates and defines the settings for an allow list.
+    public func createAllowList(_ input: CreateAllowListRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateAllowListResponse {
+        return try await self.client.execute(operation: "CreateAllowList", path: "/allow-lists", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates and defines the settings for a classification job.
     public func createClassificationJob(_ input: CreateClassificationJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateClassificationJobResponse {
         return try await self.client.execute(operation: "CreateClassificationJob", path: "/jobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -66,6 +71,11 @@ extension Macie2 {
     /// Declines Amazon Macie membership invitations that were received from specific accounts.
     public func declineInvitations(_ input: DeclineInvitationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeclineInvitationsResponse {
         return try await self.client.execute(operation: "DeclineInvitations", path: "/invitations/decline", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes an allow list.
+    public func deleteAllowList(_ input: DeleteAllowListRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteAllowListResponse {
+        return try await self.client.execute(operation: "DeleteAllowList", path: "/allow-lists/{id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Soft deletes a custom data identifier.
@@ -143,6 +153,11 @@ extension Macie2 {
         return try await self.client.execute(operation: "GetAdministratorAccount", path: "/administrator", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Retrieves the settings and status of an allow list.
+    public func getAllowList(_ input: GetAllowListRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetAllowListResponse {
+        return try await self.client.execute(operation: "GetAllowList", path: "/allow-lists/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Retrieves (queries) aggregated statistical data about S3 buckets that Amazon Macie monitors and analyzes.
     public func getBucketStatistics(_ input: GetBucketStatisticsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetBucketStatisticsResponse {
         return try await self.client.execute(operation: "GetBucketStatistics", path: "/datasources/s3/statistics", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -198,17 +213,17 @@ extension Macie2 {
         return try await self.client.execute(operation: "GetMember", path: "/members/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves the status and configuration settings for retrieving (revealing) occurrences of sensitive data reported by findings.
+    /// Retrieves the status and configuration settings for retrieving occurrences of sensitive data reported by findings.
     public func getRevealConfiguration(_ input: GetRevealConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetRevealConfigurationResponse {
         return try await self.client.execute(operation: "GetRevealConfiguration", path: "/reveal-configuration", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves (reveals) occurrences of sensitive data reported by a finding.
+    /// Retrieves occurrences of sensitive data reported by a finding.
     public func getSensitiveDataOccurrences(_ input: GetSensitiveDataOccurrencesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetSensitiveDataOccurrencesResponse {
         return try await self.client.execute(operation: "GetSensitiveDataOccurrences", path: "/findings/{findingId}/reveal", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Checks whether occurrences of sensitive data can be retrieved (revealed) for a finding.
+    /// Checks whether occurrences of sensitive data can be retrieved for a finding.
     public func getSensitiveDataOccurrencesAvailability(_ input: GetSensitiveDataOccurrencesAvailabilityRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetSensitiveDataOccurrencesAvailabilityResponse {
         return try await self.client.execute(operation: "GetSensitiveDataOccurrencesAvailability", path: "/findings/{findingId}/reveal/availability", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -221,6 +236,11 @@ extension Macie2 {
     /// Retrieves (queries) aggregated usage data for an account.
     public func getUsageTotals(_ input: GetUsageTotalsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetUsageTotalsResponse {
         return try await self.client.execute(operation: "GetUsageTotals", path: "/usage", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves a subset of information about all the allow lists for an account.
+    public func listAllowLists(_ input: ListAllowListsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListAllowListsResponse {
+        return try await self.client.execute(operation: "ListAllowLists", path: "/allow-lists", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Retrieves a subset of information about one or more classification jobs.
@@ -263,7 +283,7 @@ extension Macie2 {
         return try await self.client.execute(operation: "ListOrganizationAdminAccounts", path: "/admin", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves the tags (keys and values) that are associated with a classification job, custom data identifier, findings filter, or member account.
+    /// Retrieves the tags (keys and values) that are associated with an Amazon Macie resource.
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListTagsForResourceResponse {
         return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -283,7 +303,7 @@ extension Macie2 {
         return try await self.client.execute(operation: "SearchResources", path: "/datasources/search-resources", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Adds or updates one or more tags (keys and values) that are associated with a classification job, custom data identifier, findings filter, or member account.
+    /// Adds or updates one or more tags (keys and values) that are associated with an Amazon Macie resource.
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> TagResourceResponse {
         return try await self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -293,9 +313,14 @@ extension Macie2 {
         return try await self.client.execute(operation: "TestCustomDataIdentifier", path: "/custom-data-identifiers/test", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Removes one or more tags (keys and values) from a classification job, custom data identifier, findings filter, or member account.
+    /// Removes one or more tags (keys and values) from an Amazon Macie resource.
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UntagResourceResponse {
         return try await self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates the settings for an allow list.
+    public func updateAllowList(_ input: UpdateAllowListRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateAllowListResponse {
+        return try await self.client.execute(operation: "UpdateAllowList", path: "/allow-lists/{id}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Changes the status of a classification job.
@@ -323,7 +348,7 @@ extension Macie2 {
         return try await self.client.execute(operation: "UpdateOrganizationConfiguration", path: "/admin/configuration", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates the status and configuration settings for retrieving (revealing) occurrences of sensitive data reported by findings.
+    /// Updates the status and configuration settings for retrieving occurrences of sensitive data reported by findings.
     public func updateRevealConfiguration(_ input: UpdateRevealConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateRevealConfigurationResponse {
         return try await self.client.execute(operation: "UpdateRevealConfiguration", path: "/reveal-configuration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

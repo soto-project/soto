@@ -261,17 +261,20 @@ extension BackupGateway {
         public let hypervisorId: String?
         /// Details showing the last time Backup gateway communicated with the cloud, in Unix format and UTC time.
         public let lastSeenTime: Date?
+        /// Returns your gateway's weekly maintenance start time including the day and time of the week.  Note that values are in terms of the gateway's time zone. Can be weekly or monthly.
+        public let maintenanceStartTime: MaintenanceStartTime?
         /// Details showing the next update availability time of the  gateway.
         public let nextUpdateAvailabilityTime: Date?
         /// The DNS name for the virtual private cloud (VPC) endpoint the gateway  uses to connect to the cloud for backup gateway.
         public let vpcEndpoint: String?
 
-        public init(gatewayArn: String? = nil, gatewayDisplayName: String? = nil, gatewayType: GatewayType? = nil, hypervisorId: String? = nil, lastSeenTime: Date? = nil, nextUpdateAvailabilityTime: Date? = nil, vpcEndpoint: String? = nil) {
+        public init(gatewayArn: String? = nil, gatewayDisplayName: String? = nil, gatewayType: GatewayType? = nil, hypervisorId: String? = nil, lastSeenTime: Date? = nil, maintenanceStartTime: MaintenanceStartTime? = nil, nextUpdateAvailabilityTime: Date? = nil, vpcEndpoint: String? = nil) {
             self.gatewayArn = gatewayArn
             self.gatewayDisplayName = gatewayDisplayName
             self.gatewayType = gatewayType
             self.hypervisorId = hypervisorId
             self.lastSeenTime = lastSeenTime
+            self.maintenanceStartTime = maintenanceStartTime
             self.nextUpdateAvailabilityTime = nextUpdateAvailabilityTime
             self.vpcEndpoint = vpcEndpoint
         }
@@ -282,6 +285,7 @@ extension BackupGateway {
             case gatewayType = "GatewayType"
             case hypervisorId = "HypervisorId"
             case lastSeenTime = "LastSeenTime"
+            case maintenanceStartTime = "MaintenanceStartTime"
             case nextUpdateAvailabilityTime = "NextUpdateAvailabilityTime"
             case vpcEndpoint = "VpcEndpoint"
         }
@@ -316,6 +320,38 @@ extension BackupGateway {
 
         private enum CodingKeys: String, CodingKey {
             case gateway = "Gateway"
+        }
+    }
+
+    public struct GetVirtualMachineInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the virtual machine.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 500)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 50)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):backup-gateway(:[a-zA-Z-0-9]+){3}\\/[a-zA-Z-0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct GetVirtualMachineOutput: AWSDecodableShape {
+        /// This object contains the basic attributes of VirtualMachine contained by the output of  GetVirtualMachine
+        public let virtualMachine: VirtualMachineDetails?
+
+        public init(virtualMachine: VirtualMachineDetails? = nil) {
+            self.virtualMachine = virtualMachine
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case virtualMachine = "VirtualMachine"
         }
     }
 
@@ -534,17 +570,23 @@ extension BackupGateway {
     }
 
     public struct ListVirtualMachinesInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the hypervisor connected to your virtual machine.
+        public let hypervisorArn: String?
         /// The maximum number of virtual machines to list.
         public let maxResults: Int?
         /// The next item following a partial list of returned resources. For example, if a request is made to return maxResults number of resources, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(hypervisorArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.hypervisorArn = hypervisorArn
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.hypervisorArn, name: "hypervisorArn", parent: name, max: 500)
+            try self.validate(self.hypervisorArn, name: "hypervisorArn", parent: name, min: 50)
+            try self.validate(self.hypervisorArn, name: "hypervisorArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):backup-gateway(:[a-zA-Z-0-9]+){3}\\/[a-zA-Z-0-9]+$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
@@ -552,6 +594,7 @@ extension BackupGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case hypervisorArn = "HypervisorArn"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
         }
@@ -571,6 +614,31 @@ extension BackupGateway {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case virtualMachines = "VirtualMachines"
+        }
+    }
+
+    public struct MaintenanceStartTime: AWSDecodableShape {
+        /// The day of the month component of the maintenance start time represented as an ordinal number from  1 to 28, where 1 represents the first day of the month and 28 represents the last day of the month.
+        public let dayOfMonth: Int?
+        /// An ordinal number between 0 and 6 that represents the day of the week, where 0 represents Sunday  and 6 represents Saturday. The day of week is in the time zone of the gateway.
+        public let dayOfWeek: Int?
+        /// The hour component of the maintenance start time represented as hh,  where hh is the hour (0 to 23). The hour of the day is in the time zone of the gateway.
+        public let hourOfDay: Int
+        /// The minute component of the maintenance start time represented as mm, where  mm is the minute (0 to 59). The minute of the hour is in the time zone of the gateway.
+        public let minuteOfHour: Int
+
+        public init(dayOfMonth: Int? = nil, dayOfWeek: Int? = nil, hourOfDay: Int, minuteOfHour: Int) {
+            self.dayOfMonth = dayOfMonth
+            self.dayOfWeek = dayOfWeek
+            self.hourOfDay = hourOfDay
+            self.minuteOfHour = minuteOfHour
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dayOfMonth = "DayOfMonth"
+            case dayOfWeek = "DayOfWeek"
+            case hourOfDay = "HourOfDay"
+            case minuteOfHour = "MinuteOfHour"
         }
     }
 
@@ -922,6 +990,39 @@ extension BackupGateway {
         /// The path of the virtual machine.
         public let path: String?
         /// The Amazon Resource Name (ARN) of the virtual machine. For example, arn:aws:backup-gateway:us-west-1:0000000000000:vm/vm-0000ABCDEFGIJKL.
+        public let resourceArn: String?
+
+        public init(hostName: String? = nil, hypervisorId: String? = nil, lastBackupDate: Date? = nil, name: String? = nil, path: String? = nil, resourceArn: String? = nil) {
+            self.hostName = hostName
+            self.hypervisorId = hypervisorId
+            self.lastBackupDate = lastBackupDate
+            self.name = name
+            self.path = path
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hostName = "HostName"
+            case hypervisorId = "HypervisorId"
+            case lastBackupDate = "LastBackupDate"
+            case name = "Name"
+            case path = "Path"
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct VirtualMachineDetails: AWSDecodableShape {
+        /// The host name of the virtual machine.
+        public let hostName: String?
+        /// The ID of the virtual machine's hypervisor.
+        public let hypervisorId: String?
+        /// The most recent date a virtual machine was backed up, in Unix format and UTC time.
+        public let lastBackupDate: Date?
+        /// The name of the virtual machine.
+        public let name: String?
+        /// The path of the virtual machine.
+        public let path: String?
+        /// The Amazon Resource Name (ARN) of the virtual machine. For example,  arn:aws:backup-gateway:us-west-1:0000000000000:vm/vm-0000ABCDEFGIJKL.
         public let resourceArn: String?
 
         public init(hostName: String? = nil, hypervisorId: String? = nil, lastBackupDate: Date? = nil, name: String? = nil, path: String? = nil, resourceArn: String? = nil) {

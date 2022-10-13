@@ -23,7 +23,7 @@ import SotoCore
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Proton {
-    ///  Get a list of component Infrastructure as Code (IaC) outputs. For more information about components, see Proton components in the Proton Administrator Guide.
+    ///  Get a list of component Infrastructure as Code (IaC) outputs. For more information about components, see Proton components in the Proton User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -45,7 +45,7 @@ extension Proton {
         )
     }
 
-    ///  List provisioned resources for a component with details. For more information about components, see Proton components in the Proton Administrator Guide.
+    ///  List provisioned resources for a component with details. For more information about components, see Proton components in the Proton User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -67,7 +67,7 @@ extension Proton {
         )
     }
 
-    ///  List components with summary data. You can filter the result list by environment, service, or a single service instance. For more information about components, see Proton components in the Proton Administrator Guide.
+    ///  List components with summary data. You can filter the result list by environment, service, or a single service instance. For more information about components, see Proton components in the Proton User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -89,7 +89,7 @@ extension Proton {
         )
     }
 
-    ///  View a list of environment account connections. For more information, see Environment account connections in the Proton Administrator guide.
+    ///  View a list of environment account connections. For more information, see Environment account connections in the Proton User guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -221,7 +221,7 @@ extension Proton {
         )
     }
 
-    ///  List repositories with detail data.
+    ///  List linked repositories with detail data.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -441,7 +441,7 @@ extension Proton {
         )
     }
 
-    ///  List tags for a resource. For more information, see Proton resources and tagging in the Proton Administrator Guide or Proton User Guide.
+    ///  List tags for a resource. For more information, see Proton resources and tagging in the Proton User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

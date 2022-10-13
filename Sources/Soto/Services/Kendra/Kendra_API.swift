@@ -64,12 +64,12 @@ public struct Kendra: AWSService {
 
     // MARK: API Calls
 
-    /// Grants users or groups in your Amazon Web Services SSO identity source access  to your Amazon Kendra experience. You can create an Amazon Kendra experience such as a  search application. For more information on creating a search application  experience, see Building  a search experience with no code.
+    /// Grants users or groups in your IAM Identity Center identity source access  to your Amazon Kendra experience. You can create an Amazon Kendra experience such as a  search application. For more information on creating a search application  experience, see Building  a search experience with no code.
     public func associateEntitiesToExperience(_ input: AssociateEntitiesToExperienceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateEntitiesToExperienceResponse> {
         return self.client.execute(operation: "AssociateEntitiesToExperience", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Defines the specific permissions of users or groups in your Amazon Web Services SSO identity source with access to your Amazon Kendra experience. You can create an Amazon Kendra  experience such as a search application. For more information on creating a  search application experience, see Building  a search experience with no code.
+    /// Defines the specific permissions of users or groups in your IAM Identity Center identity source with access to your Amazon Kendra experience. You can create an Amazon Kendra  experience such as a search application. For more information on creating a  search application experience, see Building  a search experience with no code.
     public func associatePersonasToEntities(_ input: AssociatePersonasToEntitiesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociatePersonasToEntitiesResponse> {
         return self.client.execute(operation: "AssociatePersonasToEntities", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -99,7 +99,7 @@ public struct Kendra: AWSService {
         return self.client.execute(operation: "CreateAccessControlConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a data source connector that you want to use with an Amazon Kendra index. You specify a name, data source connector type and description for your data source. You also specify configuration information for the  data source connector.  CreateDataSource is a synchronous operation. The operation returns 200 if the data source was successfully created. Otherwise, an exception is raised. Amazon S3 and custom data sources are  the only supported data sources in the Amazon Web Services GovCloud (US-West) region. For an example of creating an index and data source using the Python SDK,  see Getting  started with Python SDK. For an example of creating an index and data  source using the Java SDK, see Getting started with Java SDK.
+    /// Creates a data source connector that you want to use with an Amazon Kendra index. You specify a name, data source connector type and description for your data source. You also specify configuration information for the data source connector.  CreateDataSource is a synchronous operation. The operation returns 200 if the data source was successfully created. Otherwise, an exception is raised. Amazon S3 and custom data sources are the only supported data sources in the Amazon Web Services GovCloud (US-West) region. For an example of creating an index and data source using the Python SDK, see Getting started with Python SDK. For an example of creating an index and data source using the Java SDK, see Getting started with Java SDK.
     public func createDataSource(_ input: CreateDataSourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDataSourceResponse> {
         return self.client.execute(operation: "CreateDataSource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -214,12 +214,12 @@ public struct Kendra: AWSService {
         return self.client.execute(operation: "DescribeThesaurus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Prevents users or groups in your Amazon Web Services SSO identity source from accessing your Amazon Kendra experience. You can create an Amazon Kendra experience  such as a search application. For more information on creating a search  application experience, see Building  a search experience with no code.
+    /// Prevents users or groups in your IAM Identity Center identity source from accessing your Amazon Kendra experience. You can create an Amazon Kendra experience  such as a search application. For more information on creating a search  application experience, see Building  a search experience with no code.
     public func disassociateEntitiesFromExperience(_ input: DisassociateEntitiesFromExperienceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateEntitiesFromExperienceResponse> {
         return self.client.execute(operation: "DisassociateEntitiesFromExperience", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Removes the specific permissions of users or groups in your Amazon Web Services SSO  identity source with access to your Amazon Kendra experience. You can create an Amazon Kendra  experience such as a search application. For more information on creating a  search application experience, see Building a  search experience with no code.
+    /// Removes the specific permissions of users or groups in your IAM Identity Center  identity source with access to your Amazon Kendra experience. You can create an Amazon Kendra  experience such as a search application. For more information on creating a  search application experience, see Building a  search experience with no code.
     public func disassociatePersonasFromEntities(_ input: DisassociatePersonasFromEntitiesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociatePersonasFromEntitiesResponse> {
         return self.client.execute(operation: "DisassociatePersonasFromEntities", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -254,7 +254,7 @@ public struct Kendra: AWSService {
         return self.client.execute(operation: "ListEntityPersonas", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists users or groups in your Amazon Web Services SSO identity source that are  granted access to your Amazon Kendra experience. You can create an Amazon Kendra experience  such as a search application. For more information on creating a search  application experience, see Building  a search experience with no code.
+    /// Lists users or groups in your IAM Identity Center identity source that are  granted access to your Amazon Kendra experience. You can create an Amazon Kendra experience  such as a search application. For more information on creating a search  application experience, see Building  a search experience with no code.
     public func listExperienceEntities(_ input: ListExperienceEntitiesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListExperienceEntitiesResponse> {
         return self.client.execute(operation: "ListExperienceEntities", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -309,7 +309,7 @@ public struct Kendra: AWSService {
         return self.client.execute(operation: "StartDataSourceSyncJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Stops a synchronization job that is currently running.  You can't stop a scheduled synchronization job.
+    /// Stops a synchronization job that is currently running. You can't stop a scheduled synchronization job.
     @discardableResult public func stopDataSourceSyncJob(_ input: StopDataSourceSyncJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "StopDataSourceSyncJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

@@ -1741,7 +1741,7 @@ extension Athena {
         }
     }
 
-    public final class QueryStage: AWSDecodableShape {
+    public struct QueryStage: AWSDecodableShape {
         /// Time taken to execute this stage.
         public let executionTime: Int64?
         /// The number of bytes input into the stage for execution.
@@ -1786,7 +1786,7 @@ extension Athena {
         }
     }
 
-    public final class QueryStagePlanNode: AWSDecodableShape {
+    public struct QueryStagePlanNode: AWSDecodableShape {
         /// Stage plan information such as name, identifier, sub plans, and remote sources of child plan nodes/
         public let children: [QueryStagePlanNode]?
         /// Information about the operation this query stage plan node is performing.

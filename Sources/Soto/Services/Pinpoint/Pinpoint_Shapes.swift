@@ -117,6 +117,23 @@ extension Pinpoint {
         public var description: String { return self.rawValue }
     }
 
+    public enum EndpointTypesElement: String, CustomStringConvertible, Codable, _SotoSendable {
+        case adm = "ADM"
+        case apns = "APNS"
+        case apnsSandbox = "APNS_SANDBOX"
+        case apnsVoip = "APNS_VOIP"
+        case apnsVoipSandbox = "APNS_VOIP_SANDBOX"
+        case baidu = "BAIDU"
+        case custom = "CUSTOM"
+        case email = "EMAIL"
+        case gcm = "GCM"
+        case inApp = "IN_APP"
+        case push = "PUSH"
+        case sms = "SMS"
+        case voice = "VOICE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FilterType: String, CustomStringConvertible, Codable, _SotoSendable {
         case endpoint = "ENDPOINT"
         case system = "SYSTEM"
@@ -230,23 +247,6 @@ extension Pinpoint {
         case all = "ALL"
         case any = "ANY"
         case none = "NONE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum EndpointTypesElement: String, CustomStringConvertible, Codable, _SotoSendable {
-        case adm = "ADM"
-        case apns = "APNS"
-        case apnsSandbox = "APNS_SANDBOX"
-        case apnsVoip = "APNS_VOIP"
-        case apnsVoipSandbox = "APNS_VOIP_SANDBOX"
-        case baidu = "BAIDU"
-        case custom = "CUSTOM"
-        case email = "EMAIL"
-        case gcm = "GCM"
-        case inApp = "IN_APP"
-        case push = "PUSH"
-        case sms = "SMS"
-        case voice = "VOICE"
         public var description: String { return self.rawValue }
     }
 

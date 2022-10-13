@@ -48,7 +48,7 @@ extension FSx {
         )
     }
 
-    ///  Returns the description of specific Amazon FSx for Lustre data repository associations, if one or more AssociationIds values are provided in the request, or if filters are used in the request. Data repository associations are supported only for file systems with the Persistent_2 deployment type.  You can use filters to narrow the response to include just data repository associations for specific file systems (use the file-system-id filter with the ID of the file system) or data repository associations for a specific repository type (use the data-repository-type filter with a value of S3). If you don't use filters, the response returns all data repository associations owned by your Amazon Web Services account in the Amazon Web Services Region of the endpoint that you're calling.  When retrieving all data repository associations, you can paginate the response by using the optional MaxResults parameter to limit the number of data repository associations returned in a response. If more data repository associations remain, Amazon FSx returns a NextToken value in the response. In this case, send a later request with the NextToken request parameter set to the value of NextToken from the last response.
+    ///  Returns the description of specific Amazon FSx for Lustre or Amazon File Cache data repository associations, if one or more AssociationIds values are provided in the request, or if filters are used in the request. Data repository associations are supported only for Amazon FSx for Lustre file systems with the Persistent_2 deployment type and for Amazon File Cache resources.  You can use filters to narrow the response to include just data repository associations for specific file systems (use the file-system-id filter with the ID of the file system) or caches (use the file-cache-id filter with the ID of the cache), or data repository associations for a specific repository type (use the data-repository-type filter with a value of S3 or NFS). If you don't use filters, the response returns all data repository associations owned by your Amazon Web Services account in the Amazon Web Services Region of the endpoint that you're calling.  When retrieving all data repository associations, you can paginate the response by using the optional MaxResults parameter to limit the number of data repository associations returned in a response. If more data repository associations remain, a NextToken value is returned in the response. In this case, send a later request with the NextToken request parameter set to the value of NextToken from the last response.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -70,7 +70,7 @@ extension FSx {
         )
     }
 
-    ///  Returns the description of specific Amazon FSx for Lustre data repository tasks, if one or more TaskIds values are provided in the request, or if filters are used in the request.  You can use filters to narrow the response to include just tasks for specific file systems,  or tasks in a specific lifecycle state. Otherwise, it returns all data repository tasks owned  by your Amazon Web Services account in the Amazon Web Services Region of the endpoint that you're calling.  When retrieving all tasks, you can paginate the response by using  the optional MaxResults parameter to limit the number of tasks returned in a response. If more tasks remain, Amazon FSx returns a NextToken value in the response. In this case, send a later request with the NextToken request parameter set to the value of NextToken from the last response.
+    ///  Returns the description of specific Amazon FSx for Lustre or Amazon File Cache data repository tasks, if one or more TaskIds values are provided in the request, or if filters are used in the request.  You can use filters to narrow the response to include just tasks for specific file systems or caches,  or tasks in a specific lifecycle state. Otherwise, it returns all data repository tasks owned  by your Amazon Web Services account in the Amazon Web Services Region of the endpoint that you're calling.  When retrieving all tasks, you can paginate the response by using  the optional MaxResults parameter to limit the number of tasks returned in a response. If more tasks remain, a NextToken value is returned in the response. In this case, send a later request with the NextToken request parameter set to the value of NextToken from the last response.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -87,6 +87,28 @@ extension FSx {
             command: describeDataRepositoryTasks,
             inputKey: \DescribeDataRepositoryTasksRequest.nextToken,
             outputKey: \DescribeDataRepositoryTasksResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Returns the description of a specific Amazon File Cache resource, if a FileCacheIds value is provided for that cache. Otherwise, it returns descriptions of all caches owned by your Amazon Web Services account in the Amazon Web Services Region of the endpoint that you're calling.  When retrieving all cache descriptions, you can optionally specify the MaxResults parameter to limit the number of descriptions in a response. If more cache descriptions remain, the operation returns a NextToken value in the response. In this case, send a later request with the NextToken request parameter set to the value of NextToken from the last response.  This operation is used in an iterative process to retrieve a list of your cache descriptions. DescribeFileCaches is called first without a NextTokenvalue. Then the operation continues to be called with the NextToken parameter set to the value of the last NextToken value until a response has no NextToken.  When using this operation, keep the following in mind:   The implementation might return fewer than MaxResults cache descriptions while still including a NextToken value.   The order of caches returned in the response of one DescribeFileCaches call and the order of caches returned across the responses of a multicall iteration is unspecified.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeFileCachesPaginator(
+        _ input: DescribeFileCachesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeFileCachesRequest, DescribeFileCachesResponse> {
+        return .init(
+            input: input,
+            command: describeFileCaches,
+            inputKey: \DescribeFileCachesRequest.nextToken,
+            outputKey: \DescribeFileCachesResponse.nextToken,
             logger: logger,
             on: eventLoop
         )
@@ -117,8 +139,7 @@ extension FSx {
     ///  Returns the description of specific Amazon FSx file systems, if a FileSystemIds value is provided for that file system. Otherwise, it returns descriptions of all file systems owned by your Amazon Web Services account in the Amazon Web Services Region of the endpoint that you're calling.
     ///   When retrieving all file system descriptions, you can optionally specify the MaxResults parameter to limit the number of descriptions in a response. If more file system descriptions remain, Amazon FSx returns a NextToken value in the response. In this case, send a later request with the NextToken request parameter set to the value of NextToken from the last response.
     ///   This operation is used in an iterative process to retrieve a list of your file system descriptions. DescribeFileSystems is called first without a NextTokenvalue. Then the operation continues to be called with the NextToken parameter set to the value of the last NextToken value until a response has no NextToken.
-    ///   When using this operation, keep the following in mind:   The implementation might return fewer than MaxResults file system descriptions while still including a NextToken value.
-    ///     The order of file systems returned in the response of one DescribeFileSystems call and the order of file systems returned across the responses of a multicall iteration is unspecified.
+    ///   When using this operation, keep the following in mind:   The implementation might return fewer than MaxResults file system descriptions while still including a NextToken value.   The order of file systems returned in the response of one DescribeFileSystems call and the order of file systems returned across the responses of a multicall iteration is unspecified.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

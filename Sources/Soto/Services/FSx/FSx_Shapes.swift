@@ -84,7 +84,8 @@ extension FSx {
     }
 
     public enum DataRepositoryTaskFilterName: String, CustomStringConvertible, Codable, _SotoSendable {
-        case dataRepositoryAssociationId = "data-repository-association-id"
+        case dataRepoAssociationId = "data-repository-association-id"
+        case fileCacheId = "file-cache-id"
         case fileSystemId = "file-system-id"
         case taskLifecycle = "task-lifecycle"
         public var description: String { return self.rawValue }
@@ -101,8 +102,10 @@ extension FSx {
     }
 
     public enum DataRepositoryTaskType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case exportToRepository = "EXPORT_TO_REPOSITORY"
-        case importMetadataFromRepository = "IMPORT_METADATA_FROM_REPOSITORY"
+        case `import` = "IMPORT_METADATA_FROM_REPOSITORY"
+        case autoTriggeredEviction = "AUTO_RELEASE_DATA"
+        case eviction = "RELEASE_DATA_FROM_FILESYSTEM"
+        case export = "EXPORT_TO_REPOSITORY"
         public var description: String { return self.rawValue }
     }
 
@@ -135,6 +138,25 @@ extension FSx {
         public var description: String { return self.rawValue }
     }
 
+    public enum FileCacheLifecycle: String, CustomStringConvertible, Codable, _SotoSendable {
+        case available = "AVAILABLE"
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FileCacheLustreDeploymentType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case cache1 = "CACHE_1"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FileCacheType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case lustre = "LUSTRE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FileSystemLifecycle: String, CustomStringConvertible, Codable, _SotoSendable {
         case available = "AVAILABLE"
         case creating = "CREATING"
@@ -163,6 +185,8 @@ extension FSx {
     public enum FilterName: String, CustomStringConvertible, Codable, _SotoSendable {
         case backupType = "backup-type"
         case dataRepositoryType = "data-repository-type"
+        case fileCacheId = "file-cache-id"
+        case fileCacheType = "file-cache-type"
         case fileSystemId = "file-system-id"
         case fileSystemType = "file-system-type"
         case volumeId = "volume-id"
@@ -189,6 +213,11 @@ extension FSx {
         case persistent2 = "PERSISTENT_2"
         case scratch1 = "SCRATCH_1"
         case scratch2 = "SCRATCH_2"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NfsVersion: String, CustomStringConvertible, Codable, _SotoSendable {
+        case nfs3 = "NFS3"
         public var description: String { return self.rawValue }
     }
 
@@ -501,7 +530,7 @@ extension FSx {
     }
 
     public struct AutoExportPolicy: AWSEncodableShape & AWSDecodableShape {
-        /// The AutoExportPolicy can have the following event values:    NEW - Amazon FSx automatically exports new files and directories to the data repository as they are added to the file system.    CHANGED - Amazon FSx automatically exports changes to files and directories on the file system to the data repository.    DELETED - Files and directories are automatically deleted on the data repository when they are deleted on the file system.   You can define any combination of event types for your AutoExportPolicy.
+        /// The AutoExportPolicy can have the following event values:    NEW - New files and directories are automatically exported to the data repository as they are added to the file system.    CHANGED - Changes to files and directories on the file system are automatically exported to the data repository.    DELETED - Files and directories are automatically deleted on the data repository when they are deleted on the file system.   You can define any combination of event types for your AutoExportPolicy.
         public let events: [EventType]?
 
         public init(events: [EventType]? = nil) {
@@ -807,15 +836,15 @@ extension FSx {
         /// The path to the Amazon S3 data repository that will be linked to the file system. The path can be an S3 bucket or prefix in the format s3://myBucket/myPrefix/. This path specifies where in the S3 data repository files will be imported from or exported to.
         public let dataRepositoryPath: String
         public let fileSystemId: String
-        /// A path on the file system that points to a high-level directory (such as /ns1/) or subdirectory (such as /ns1/subdir/) that will be mapped 1-1 with DataRepositoryPath. The leading forward slash in the name is required. Two data repository associations cannot have overlapping file system paths. For example, if a data repository is associated with file system path /ns1/, then you cannot link another data repository with file system path /ns1/ns2. This path specifies where in your file system files will be exported from or imported to. This file system directory can be linked to only one Amazon S3 bucket, and no other S3 bucket can be linked to the directory.  If you specify only a forward slash (/) as the file system path, you can link only 1 data repository to the file system. You can only specify "/" as the file system path for the first data repository associated with a file system.
-        public let fileSystemPath: String
+        /// A path on the file system that points to a high-level directory (such as /ns1/) or subdirectory (such as /ns1/subdir/) that will be mapped 1-1 with DataRepositoryPath. The leading forward slash in the name is required. Two data repository associations cannot have overlapping file system paths. For example, if a data repository is associated with file system path /ns1/, then you cannot link another data repository with file system path /ns1/ns2. This path specifies where in your file system files will be exported from or imported to. This file system directory can be linked to only one Amazon S3 bucket, and no other S3 bucket can be linked to the directory.  If you specify only a forward slash (/) as the file system path, you can link only one data repository to the file system. You can only specify "/" as the file system path for the first data repository associated with a file system.
+        public let fileSystemPath: String?
         /// For files imported from a data repository, this value determines the stripe count and maximum amount of data per file (in MiB) stored on a single physical disk. The maximum number of disks that a single file can be striped across is limited by the total number of disks that make up the file system.  The default chunk size is 1,024 MiB (1 GiB) and can go as high as 512,000 MiB (500 GiB). Amazon S3 objects have a maximum size of 5 TB.
         public let importedFileChunkSize: Int?
         /// The configuration for an Amazon S3 data repository linked to an Amazon FSx Lustre file system with a data repository association. The configuration defines which file events (new, changed, or deleted files or directories) are automatically imported from the linked data repository to the file system or automatically exported from the file system to the data repository.
         public let s3: S3DataRepositoryConfiguration?
         public let tags: [Tag]?
 
-        public init(batchImportMetaDataOnCreate: Bool? = nil, clientRequestToken: String? = CreateDataRepositoryAssociationRequest.idempotencyToken(), dataRepositoryPath: String, fileSystemId: String, fileSystemPath: String, importedFileChunkSize: Int? = nil, s3: S3DataRepositoryConfiguration? = nil, tags: [Tag]? = nil) {
+        public init(batchImportMetaDataOnCreate: Bool? = nil, clientRequestToken: String? = CreateDataRepositoryAssociationRequest.idempotencyToken(), dataRepositoryPath: String, fileSystemId: String, fileSystemPath: String? = nil, importedFileChunkSize: Int? = nil, s3: S3DataRepositoryConfiguration? = nil, tags: [Tag]? = nil) {
             self.batchImportMetaDataOnCreate = batchImportMetaDataOnCreate
             self.clientRequestToken = clientRequestToken
             self.dataRepositoryPath = dataRepositoryPath
@@ -875,6 +904,8 @@ extension FSx {
     }
 
     public struct CreateDataRepositoryTaskRequest: AWSEncodableShape {
+        /// Specifies the amount of data to release, in GiB, by an Amazon File Cache AUTO_RELEASE_DATA task that automatically releases files from the cache.
+        public let capacityToRelease: Int64?
         public let clientRequestToken: String?
         public let fileSystemId: String
         /// A list of paths for the data repository task to use when the task is processed. If a path that you provide isn't valid, the task fails.   For export tasks, the list contains paths on the Amazon FSx file system from which the files are exported to the Amazon S3 bucket. The default path is the file system root directory. The paths you provide need to be relative to the mount point of the file system. If the mount point is /mnt/fsx and /mnt/fsx/path1 is a directory or file on the file system you want to export, then the path to provide is path1.   For import tasks, the list contains paths in the Amazon S3 bucket from which POSIX metadata changes are imported to the Amazon FSx file system. The path can be an S3 bucket or prefix in the format s3://myBucket/myPrefix (where myPrefix is optional).
@@ -885,7 +916,8 @@ extension FSx {
         /// Specifies the type of data repository task to create.
         public let type: DataRepositoryTaskType
 
-        public init(clientRequestToken: String? = CreateDataRepositoryTaskRequest.idempotencyToken(), fileSystemId: String, paths: [String]? = nil, report: CompletionReport, tags: [Tag]? = nil, type: DataRepositoryTaskType) {
+        public init(capacityToRelease: Int64? = nil, clientRequestToken: String? = CreateDataRepositoryTaskRequest.idempotencyToken(), fileSystemId: String, paths: [String]? = nil, report: CompletionReport, tags: [Tag]? = nil, type: DataRepositoryTaskType) {
+            self.capacityToRelease = capacityToRelease
             self.clientRequestToken = clientRequestToken
             self.fileSystemId = fileSystemId
             self.paths = paths
@@ -895,6 +927,8 @@ extension FSx {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.capacityToRelease, name: "capacityToRelease", parent: name, max: 2_147_483_647)
+            try self.validate(self.capacityToRelease, name: "capacityToRelease", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 63)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[A-za-z0-9_.-]{0,63}$")
@@ -915,6 +949,7 @@ extension FSx {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case capacityToRelease = "CapacityToRelease"
             case clientRequestToken = "ClientRequestToken"
             case fileSystemId = "FileSystemId"
             case paths = "Paths"
@@ -937,6 +972,139 @@ extension FSx {
         }
     }
 
+    public struct CreateFileCacheLustreConfiguration: AWSEncodableShape {
+        /// Specifies the cache deployment type, which must be CACHE_1.
+        public let deploymentType: FileCacheLustreDeploymentType
+        /// The configuration for a Lustre MDT (Metadata Target) storage volume.
+        public let metadataConfiguration: FileCacheLustreMetadataConfiguration
+        /// Provisions the amount of read and write throughput for each 1 tebibyte (TiB) of cache storage capacity, in MB/s/TiB. The only supported value is 1000.
+        public let perUnitStorageThroughput: Int
+        public let weeklyMaintenanceStartTime: String?
+
+        public init(deploymentType: FileCacheLustreDeploymentType, metadataConfiguration: FileCacheLustreMetadataConfiguration, perUnitStorageThroughput: Int, weeklyMaintenanceStartTime: String? = nil) {
+            self.deploymentType = deploymentType
+            self.metadataConfiguration = metadataConfiguration
+            self.perUnitStorageThroughput = perUnitStorageThroughput
+            self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
+        }
+
+        public func validate(name: String) throws {
+            try self.metadataConfiguration.validate(name: "\(name).metadataConfiguration")
+            try self.validate(self.perUnitStorageThroughput, name: "perUnitStorageThroughput", parent: name, max: 1000)
+            try self.validate(self.perUnitStorageThroughput, name: "perUnitStorageThroughput", parent: name, min: 12)
+            try self.validate(self.weeklyMaintenanceStartTime, name: "weeklyMaintenanceStartTime", parent: name, max: 7)
+            try self.validate(self.weeklyMaintenanceStartTime, name: "weeklyMaintenanceStartTime", parent: name, min: 7)
+            try self.validate(self.weeklyMaintenanceStartTime, name: "weeklyMaintenanceStartTime", parent: name, pattern: "^[1-7]:([01]\\d|2[0-3]):?([0-5]\\d)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deploymentType = "DeploymentType"
+            case metadataConfiguration = "MetadataConfiguration"
+            case perUnitStorageThroughput = "PerUnitStorageThroughput"
+            case weeklyMaintenanceStartTime = "WeeklyMaintenanceStartTime"
+        }
+    }
+
+    public struct CreateFileCacheRequest: AWSEncodableShape {
+        /// An idempotency token for resource creation, in a string of up to 64 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK. By using the idempotent operation, you can retry a CreateFileCache operation without the risk of creating an extra cache. This approach can be useful when an initial call fails in a way that makes it unclear whether a cache was created. Examples are if a transport level timeout occurred, or your connection was reset. If you use the same client request token and the initial call created a cache, the client receives success as long as the parameters are the same.
+        public let clientRequestToken: String?
+        /// A boolean flag indicating whether tags for the cache should be copied to data repository associations. This value defaults to false.
+        public let copyTagsToDataRepositoryAssociations: Bool?
+        /// A list of up to 8 configurations for data repository associations (DRAs) to be created during the cache creation. The DRAs link the cache to either an Amazon S3 data repository or a Network File System (NFS) data repository that supports the NFSv3 protocol. The DRA configurations must meet the following requirements:   All configurations on the list must be of the same data repository type, either all S3 or all NFS. A cache can't link to different data repository types at the same time.   An NFS DRA must link to an NFS file system that supports the NFSv3 protocol.    DRA automatic import and automatic export is not supported.
+        public let dataRepositoryAssociations: [FileCacheDataRepositoryAssociation]?
+        /// The type of cache that you're creating, which must be LUSTRE.
+        public let fileCacheType: FileCacheType
+        /// Sets the Lustre version for the cache that you're creating, which must be 2.12.
+        public let fileCacheTypeVersion: String
+        /// Specifies the ID of the Key Management Service (KMS) key to use for encrypting data on an Amazon File Cache. If a KmsKeyId isn't specified, the Amazon FSx-managed KMS key for your account is used. For more information, see Encrypt in the Key Management Service API Reference.
+        public let kmsKeyId: String?
+        /// The configuration for the Amazon File Cache resource being created.
+        public let lustreConfiguration: CreateFileCacheLustreConfiguration?
+        /// A list of IDs specifying the security groups to apply to all network interfaces created for Amazon File Cache access. This list isn't returned in later requests to describe the cache.
+        public let securityGroupIds: [String]?
+        /// The storage capacity of the cache in gibibytes (GiB). Valid values are 1200 GiB, 2400 GiB, and increments of 2400 GiB.
+        public let storageCapacity: Int
+        public let subnetIds: [String]
+        public let tags: [Tag]?
+
+        public init(clientRequestToken: String? = CreateFileCacheRequest.idempotencyToken(), copyTagsToDataRepositoryAssociations: Bool? = nil, dataRepositoryAssociations: [FileCacheDataRepositoryAssociation]? = nil, fileCacheType: FileCacheType, fileCacheTypeVersion: String, kmsKeyId: String? = nil, lustreConfiguration: CreateFileCacheLustreConfiguration? = nil, securityGroupIds: [String]? = nil, storageCapacity: Int, subnetIds: [String], tags: [Tag]? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.copyTagsToDataRepositoryAssociations = copyTagsToDataRepositoryAssociations
+            self.dataRepositoryAssociations = dataRepositoryAssociations
+            self.fileCacheType = fileCacheType
+            self.fileCacheTypeVersion = fileCacheTypeVersion
+            self.kmsKeyId = kmsKeyId
+            self.lustreConfiguration = lustreConfiguration
+            self.securityGroupIds = securityGroupIds
+            self.storageCapacity = storageCapacity
+            self.subnetIds = subnetIds
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 63)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[A-za-z0-9_.-]{0,63}$")
+            try self.dataRepositoryAssociations?.forEach {
+                try $0.validate(name: "\(name).dataRepositoryAssociations[]")
+            }
+            try self.validate(self.dataRepositoryAssociations, name: "dataRepositoryAssociations", parent: name, max: 8)
+            try self.validate(self.fileCacheTypeVersion, name: "fileCacheTypeVersion", parent: name, max: 20)
+            try self.validate(self.fileCacheTypeVersion, name: "fileCacheTypeVersion", parent: name, min: 1)
+            try self.validate(self.fileCacheTypeVersion, name: "fileCacheTypeVersion", parent: name, pattern: "^[0-9](.[0-9]*)*$")
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "^.{1,2048}$")
+            try self.lustreConfiguration?.validate(name: "\(name).lustreConfiguration")
+            try self.securityGroupIds?.forEach {
+                try validate($0, name: "securityGroupIds[]", parent: name, max: 20)
+                try validate($0, name: "securityGroupIds[]", parent: name, min: 11)
+                try validate($0, name: "securityGroupIds[]", parent: name, pattern: "^(sg-[0-9a-f]{8,})$")
+            }
+            try self.validate(self.securityGroupIds, name: "securityGroupIds", parent: name, max: 50)
+            try self.validate(self.storageCapacity, name: "storageCapacity", parent: name, max: 2_147_483_647)
+            try self.validate(self.storageCapacity, name: "storageCapacity", parent: name, min: 0)
+            try self.subnetIds.forEach {
+                try validate($0, name: "subnetIds[]", parent: name, max: 24)
+                try validate($0, name: "subnetIds[]", parent: name, min: 15)
+                try validate($0, name: "subnetIds[]", parent: name, pattern: "^(subnet-[0-9a-f]{8,})$")
+            }
+            try self.validate(self.subnetIds, name: "subnetIds", parent: name, max: 50)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case copyTagsToDataRepositoryAssociations = "CopyTagsToDataRepositoryAssociations"
+            case dataRepositoryAssociations = "DataRepositoryAssociations"
+            case fileCacheType = "FileCacheType"
+            case fileCacheTypeVersion = "FileCacheTypeVersion"
+            case kmsKeyId = "KmsKeyId"
+            case lustreConfiguration = "LustreConfiguration"
+            case securityGroupIds = "SecurityGroupIds"
+            case storageCapacity = "StorageCapacity"
+            case subnetIds = "SubnetIds"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateFileCacheResponse: AWSDecodableShape {
+        /// A description of the cache that was created.
+        public let fileCache: FileCacheCreating?
+
+        public init(fileCache: FileCacheCreating? = nil) {
+            self.fileCache = fileCache
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileCache = "FileCache"
+        }
+    }
+
     public struct CreateFileSystemFromBackupRequest: AWSEncodableShape {
         public let backupId: String
         /// A string of up to 64 ASCII characters that Amazon FSx uses to ensure idempotent creation. This string is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
@@ -949,6 +1117,8 @@ extension FSx {
         public let openZFSConfiguration: CreateFileSystemOpenZFSConfiguration?
         /// A list of IDs for the security groups that apply to the specified network interfaces created for file system access. These security groups apply to all network interfaces. This value isn't returned in later DescribeFileSystem requests.
         public let securityGroupIds: [String]?
+        /// Sets the storage capacity of the OpenZFS file system that you're creating from a backup, in gibibytes (GiB). Valid values are from 64 GiB up to 524,288 GiB (512 TiB). However, the value that you specify must be equal to or greater than the backup's storage capacity value. If you don't use the StorageCapacity parameter, the default is the backup's StorageCapacity value. If used to create a file system other than OpenZFS, you must provide a value that matches the backup's StorageCapacity value. If you provide any other value, Amazon FSx responds with a 400 Bad Request.
+        public let storageCapacity: Int?
         /// Sets the storage type for the Windows or OpenZFS file system that you're creating from a backup. Valid values are SSD and HDD.   Set to SSD to use solid state drive storage. SSD is supported on all Windows and OpenZFS deployment types.   Set to HDD to use hard disk drive storage.  HDD is supported on SINGLE_AZ_2 and MULTI_AZ_1 FSx for Windows File Server file system deployment types.   The default value is SSD.   HDD and SSD storage types have different minimum storage capacity requirements.  A restored file system's storage capacity is tied to the file system that was backed up.  You can create a file system that uses HDD storage from a backup of a file system that  used SSD storage if the original SSD file system had a storage capacity of at least 2000 GiB.
         public let storageType: StorageType?
         /// Specifies the IDs of the subnets that the file system will be accessible from. For Windows MULTI_AZ_1  file system deployment types, provide exactly two subnet IDs, one for the preferred file server  and one for the standby file server. You specify one of these subnets as the preferred subnet  using the WindowsConfiguration > PreferredSubnetID property. Windows SINGLE_AZ_1 and SINGLE_AZ_2 file system deployment types, Lustre file systems, and OpenZFS file systems provide exactly one subnet ID. The file server is launched in that subnet's Availability Zone.
@@ -958,7 +1128,7 @@ extension FSx {
         /// The configuration for this Microsoft Windows file system.
         public let windowsConfiguration: CreateFileSystemWindowsConfiguration?
 
-        public init(backupId: String, clientRequestToken: String? = CreateFileSystemFromBackupRequest.idempotencyToken(), fileSystemTypeVersion: String? = nil, kmsKeyId: String? = nil, lustreConfiguration: CreateFileSystemLustreConfiguration? = nil, openZFSConfiguration: CreateFileSystemOpenZFSConfiguration? = nil, securityGroupIds: [String]? = nil, storageType: StorageType? = nil, subnetIds: [String], tags: [Tag]? = nil, windowsConfiguration: CreateFileSystemWindowsConfiguration? = nil) {
+        public init(backupId: String, clientRequestToken: String? = CreateFileSystemFromBackupRequest.idempotencyToken(), fileSystemTypeVersion: String? = nil, kmsKeyId: String? = nil, lustreConfiguration: CreateFileSystemLustreConfiguration? = nil, openZFSConfiguration: CreateFileSystemOpenZFSConfiguration? = nil, securityGroupIds: [String]? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, subnetIds: [String], tags: [Tag]? = nil, windowsConfiguration: CreateFileSystemWindowsConfiguration? = nil) {
             self.backupId = backupId
             self.clientRequestToken = clientRequestToken
             self.fileSystemTypeVersion = fileSystemTypeVersion
@@ -966,6 +1136,7 @@ extension FSx {
             self.lustreConfiguration = lustreConfiguration
             self.openZFSConfiguration = openZFSConfiguration
             self.securityGroupIds = securityGroupIds
+            self.storageCapacity = storageCapacity
             self.storageType = storageType
             self.subnetIds = subnetIds
             self.tags = tags
@@ -993,6 +1164,8 @@ extension FSx {
                 try validate($0, name: "securityGroupIds[]", parent: name, pattern: "^(sg-[0-9a-f]{8,})$")
             }
             try self.validate(self.securityGroupIds, name: "securityGroupIds", parent: name, max: 50)
+            try self.validate(self.storageCapacity, name: "storageCapacity", parent: name, max: 2_147_483_647)
+            try self.validate(self.storageCapacity, name: "storageCapacity", parent: name, min: 0)
             try self.subnetIds.forEach {
                 try validate($0, name: "subnetIds[]", parent: name, max: 24)
                 try validate($0, name: "subnetIds[]", parent: name, min: 15)
@@ -1015,6 +1188,7 @@ extension FSx {
             case lustreConfiguration = "LustreConfiguration"
             case openZFSConfiguration = "OpenZFSConfiguration"
             case securityGroupIds = "SecurityGroupIds"
+            case storageCapacity = "StorageCapacity"
             case storageType = "StorageType"
             case subnetIds = "SubnetIds"
             case tags = "Tags"
@@ -1442,7 +1616,7 @@ extension FSx {
     public struct CreateOntapVolumeConfiguration: AWSEncodableShape {
         /// Specifies the location in the SVM's namespace where the volume is mounted.  The JunctionPath must have a leading forward slash, such as /vol3.
         public let junctionPath: String
-        /// The security style for the volume. Specify one of the following values:    UNIX if the file system is managed by a UNIX administrator, the majority of users are NFS clients, and an application accessing the data uses a UNIX user as the service account. UNIX is the default.    NTFS if the file system is managed by a Windows administrator, the majority of users are SMB clients, and an application accessing the data uses a Windows user as the service account.    MIXED if the file system is managed by both UNIX and Windows administrators and users consist of both NFS and SMB clients.
+        /// Specifies the security style for the volume. If a volume's security style is not specified,  it is automatically set to the root volume's security style. The security style determines the type of permissions  that FSx for ONTAP uses to control data access. For more information, see  Volume security style  in the Amazon FSx for NetApp ONTAP User Guide. Specify one of the following values:    UNIX if the file system is managed by a UNIX administrator, the majority of users are NFS clients, and an application accessing the data uses a UNIX user as the service account.     NTFS if the file system is managed by a Windows administrator, the majority of users are SMB clients, and an application accessing the data uses a Windows user as the service account.    MIXED if the file system is managed by both UNIX and Windows administrators and users consist of both NFS and SMB clients.
         public let securityStyle: SecurityStyle?
         /// Specifies the size of the volume, in megabytes (MB), that you are creating.
         public let sizeInMegabytes: Int
@@ -1839,34 +2013,46 @@ extension FSx {
     public struct DataRepositoryAssociation: AWSDecodableShape {
         /// The system-generated, unique ID of the data repository association.
         public let associationId: String?
-        /// A boolean flag indicating whether an import data repository task to import metadata should run after the data repository association is created. The task runs if this flag is set to true.
+        /// A boolean flag indicating whether an import data repository task to import metadata should run after the data repository association is created. The task runs if this flag is set to true.   BatchImportMetaDataOnCreate is not supported for data repositories linked to an Amazon File Cache resource.
         public let batchImportMetaDataOnCreate: Bool?
         public let creationTime: Date?
-        /// The path to the Amazon S3 data repository that will be linked to the file system. The path can be an S3 bucket or prefix in the format s3://myBucket/myPrefix/. This path specifies where in the S3 data repository files will be imported from or exported to.
+        /// The path to the data repository that will be linked to the cache or file system.   For Amazon File Cache, the path can be an NFS data repository that will be linked to the cache. The path can be in one of two formats:   If you are not using the DataRepositorySubdirectories parameter, the path is to an NFS Export directory (or one of its subdirectories) in the format nsf://nfs-domain-name/exportpath. You can therefore link a single NFS Export to a single data repository association.   If you are using the DataRepositorySubdirectories parameter, the path is the domain name of the NFS file system in the format nfs://filer-domain-name, which indicates the root of the subdirectories specified with the DataRepositorySubdirectories parameter.     For Amazon File Cache, the path can be an S3 bucket or prefix in the format s3://myBucket/myPrefix/.   For Amazon FSx for Lustre, the path can be an S3 bucket or prefix in the format s3://myBucket/myPrefix/.
         public let dataRepositoryPath: String?
+        /// For Amazon File Cache, a list of NFS Exports that will be linked with an NFS data repository association. All the subdirectories must be on a single NFS file system. The Export paths are in the format /exportpath1. To use this parameter, you must configure DataRepositoryPath as the domain name of the NFS file system. The NFS file system domain name in effect is the root of the subdirectories. Note that DataRepositorySubdirectories is not supported for S3 data repositories.
+        public let dataRepositorySubdirectories: [String]?
         public let failureDetails: DataRepositoryFailureDetails?
+        /// The globally unique ID of the Amazon File Cache resource.
+        public let fileCacheId: String?
+        /// A path on the Amazon File Cache that points to a high-level directory (such as /ns1/) or subdirectory (such as /ns1/subdir/) that will be mapped 1-1 with DataRepositoryPath. The leading forward slash in the path is required. Two data repository associations cannot have overlapping cache paths. For example, if a data repository is associated with cache path /ns1/, then you cannot link another data repository with cache path /ns1/ns2. This path specifies the directory in your cache where files will be exported from. This cache directory can be linked to only one data repository (S3 or NFS) and no other data repository can be linked to the directory.  The cache path can only be set to root (/) on an NFS DRA when DataRepositorySubdirectories is specified. If you specify root (/) as the cache path, you can create only one DRA on the cache. The cache path cannot be set to root (/) for an S3 DRA.
+        public let fileCachePath: String?
         public let fileSystemId: String?
-        /// A path on the file system that points to a high-level directory (such as /ns1/) or subdirectory (such as /ns1/subdir/) that will be mapped 1-1 with DataRepositoryPath. The leading forward slash in the name is required. Two data repository associations cannot have overlapping file system paths. For example, if a data repository is associated with file system path /ns1/, then you cannot link another data repository with file system path /ns1/ns2. This path specifies where in your file system files will be exported from or imported to. This file system directory can be linked to only one Amazon S3 bucket, and no other S3 bucket can be linked to the directory.  If you specify only a forward slash (/) as the file system path, you can link only 1 data repository to the file system. You can only specify "/" as the file system path for the first data repository associated with a file system.
+        /// A path on the Amazon FSx for Lustre file system that points to a high-level directory (such as /ns1/) or subdirectory (such as /ns1/subdir/) that will be mapped 1-1 with DataRepositoryPath. The leading forward slash in the name is required. Two data repository associations cannot have overlapping file system paths. For example, if a data repository is associated with file system path /ns1/, then you cannot link another data repository with file system path /ns1/ns2. This path specifies where in your file system files will be exported from or imported to. This file system directory can be linked to only one Amazon S3 bucket, and no other S3 bucket can be linked to the directory.  If you specify only a forward slash (/) as the file system path, you can link only one data repository to the file system. You can only specify "/" as the file system path for the first data repository associated with a file system.
         public let fileSystemPath: String?
-        /// For files imported from a data repository, this value determines the stripe count and maximum amount of data per file (in MiB) stored on a single physical disk. The maximum number of disks that a single file can be striped across is limited by the total number of disks that make up the file system.  The default chunk size is 1,024 MiB (1 GiB) and can go as high as 512,000 MiB (500 GiB). Amazon S3 objects have a maximum size of 5 TB.
+        /// For files imported from a data repository, this value determines the stripe count and maximum amount of data per file (in MiB) stored on a single physical disk. The maximum number of disks that a single file can be striped across is limited by the total number of disks that make up the file system or cache.  The default chunk size is 1,024 MiB (1 GiB) and can go as high as 512,000 MiB (500 GiB). Amazon S3 objects have a maximum size of 5 TB.
         public let importedFileChunkSize: Int?
-        /// Describes the state of a data repository association. The lifecycle can have the following values:    CREATING - The data repository association between  the FSx file system and the S3 data repository is being created.  The data repository is unavailable.    AVAILABLE - The data repository association is available for use.    MISCONFIGURED - Amazon FSx cannot automatically import updates from the S3 bucket or automatically export updates to the S3 bucket until the data repository association configuration is corrected.    UPDATING - The data repository association is undergoing a customer initiated update that might affect its availability.    DELETING - The data repository association is undergoing a customer initiated deletion.    FAILED - The data repository association is in a terminal state that cannot be recovered.
+        /// Describes the state of a data repository association. The lifecycle can have the following values:    CREATING - The data repository association between  the file system or cache and the data repository is being created.  The data repository is unavailable.    AVAILABLE - The data repository association is available for use.    MISCONFIGURED - The data repository association is misconfigured. Until the configuration is corrected, automatic import and automatic export will not work (only for Amazon FSx for Lustre).    UPDATING - The data repository association is undergoing a customer initiated update that might affect its availability.    DELETING - The data repository association is undergoing a customer initiated deletion.    FAILED - The data repository association is in a terminal state that cannot be recovered.
         public let lifecycle: DataRepositoryLifecycle?
+        /// The configuration for an NFS data repository linked to an Amazon File Cache resource with a data repository association.
+        public let nfs: NFSDataRepositoryConfiguration?
         public let resourceARN: String?
-        /// The configuration for an Amazon S3 data repository linked to an Amazon FSx Lustre file system with a data repository association. The configuration defines which file events (new, changed, or deleted files or directories) are automatically imported from the linked data repository to the file system or automatically exported from the file system to the data repository.
+        /// The configuration for an Amazon S3 data repository linked to an Amazon FSx for Lustre file system with a data repository association.
         public let s3: S3DataRepositoryConfiguration?
         public let tags: [Tag]?
 
-        public init(associationId: String? = nil, batchImportMetaDataOnCreate: Bool? = nil, creationTime: Date? = nil, dataRepositoryPath: String? = nil, failureDetails: DataRepositoryFailureDetails? = nil, fileSystemId: String? = nil, fileSystemPath: String? = nil, importedFileChunkSize: Int? = nil, lifecycle: DataRepositoryLifecycle? = nil, resourceARN: String? = nil, s3: S3DataRepositoryConfiguration? = nil, tags: [Tag]? = nil) {
+        public init(associationId: String? = nil, batchImportMetaDataOnCreate: Bool? = nil, creationTime: Date? = nil, dataRepositoryPath: String? = nil, dataRepositorySubdirectories: [String]? = nil, failureDetails: DataRepositoryFailureDetails? = nil, fileCacheId: String? = nil, fileCachePath: String? = nil, fileSystemId: String? = nil, fileSystemPath: String? = nil, importedFileChunkSize: Int? = nil, lifecycle: DataRepositoryLifecycle? = nil, nfs: NFSDataRepositoryConfiguration? = nil, resourceARN: String? = nil, s3: S3DataRepositoryConfiguration? = nil, tags: [Tag]? = nil) {
             self.associationId = associationId
             self.batchImportMetaDataOnCreate = batchImportMetaDataOnCreate
             self.creationTime = creationTime
             self.dataRepositoryPath = dataRepositoryPath
+            self.dataRepositorySubdirectories = dataRepositorySubdirectories
             self.failureDetails = failureDetails
+            self.fileCacheId = fileCacheId
+            self.fileCachePath = fileCachePath
             self.fileSystemId = fileSystemId
             self.fileSystemPath = fileSystemPath
             self.importedFileChunkSize = importedFileChunkSize
             self.lifecycle = lifecycle
+            self.nfs = nfs
             self.resourceARN = resourceARN
             self.s3 = s3
             self.tags = tags
@@ -1877,11 +2063,15 @@ extension FSx {
             case batchImportMetaDataOnCreate = "BatchImportMetaDataOnCreate"
             case creationTime = "CreationTime"
             case dataRepositoryPath = "DataRepositoryPath"
+            case dataRepositorySubdirectories = "DataRepositorySubdirectories"
             case failureDetails = "FailureDetails"
+            case fileCacheId = "FileCacheId"
+            case fileCachePath = "FileCachePath"
             case fileSystemId = "FileSystemId"
             case fileSystemPath = "FileSystemPath"
             case importedFileChunkSize = "ImportedFileChunkSize"
             case lifecycle = "Lifecycle"
+            case nfs = "NFS"
             case resourceARN = "ResourceARN"
             case s3 = "S3"
             case tags = "Tags"
@@ -1934,32 +2124,39 @@ extension FSx {
     }
 
     public struct DataRepositoryTask: AWSDecodableShape {
+        /// Specifies the amount of data to release, in GiB, by an Amazon File Cache AUTO_RELEASE_DATA task that automatically releases files from the cache.
+        public let capacityToRelease: Int64?
         public let creationTime: Date
-        /// The time that Amazon FSx completed processing the task, populated after the task is complete.
+        /// The time the system completed processing the task, populated after the task is complete.
         public let endTime: Date?
         /// Failure message describing why the task failed, it is populated only when Lifecycle is set to FAILED.
         public let failureDetails: DataRepositoryTaskFailureDetails?
-        public let fileSystemId: String
-        /// The lifecycle status of the data repository task, as follows:    PENDING - Amazon FSx has not started the task.    EXECUTING - Amazon FSx is processing the task.    FAILED -  Amazon FSx was not able to complete the task. For example, there may be files the task failed to process.  The DataRepositoryTaskFailureDetails property provides more information about task failures.    SUCCEEDED - FSx completed the task successfully.    CANCELED - Amazon FSx canceled the task and it did not complete.    CANCELING - FSx is in process of canceling the task.    You cannot delete an FSx for Lustre file system if there are data  repository tasks for the file system in the PENDING or EXECUTING states. Please retry when the data repository task is finished (with a status of CANCELED, SUCCEEDED, or FAILED).  You can use the DescribeDataRepositoryTask action to monitor the task status. Contact the FSx team if you need to delete your file system immediately.
+        /// The system-generated, unique ID of the cache.
+        public let fileCacheId: String?
+        /// The globally unique ID of the file system.
+        public let fileSystemId: String?
+        /// The lifecycle status of the data repository task, as follows:    PENDING - The task has not started.    EXECUTING - The task is in process.    FAILED -  The task was not able to be completed. For example, there may be files the task failed to process.  The DataRepositoryTaskFailureDetails property provides more information about task failures.    SUCCEEDED - The task has completed successfully.    CANCELED - The task was canceled and it did not complete.    CANCELING - The task is in process of being canceled.    You cannot delete an FSx for Lustre file system if there are data  repository tasks for the file system in the PENDING or EXECUTING states. Please retry when the data repository task is finished (with a status of CANCELED, SUCCEEDED, or FAILED).  You can use the DescribeDataRepositoryTask action to monitor the task status. Contact the FSx team if you need to delete your file system immediately.
         public let lifecycle: DataRepositoryTaskLifecycle
-        /// An array of paths on the Amazon FSx for Lustre file system that specify the data for the data repository task to process.  For example, in an EXPORT_TO_REPOSITORY task, the paths specify which data to export to the linked data repository. (Default) If Paths is not specified, Amazon FSx uses the file system root directory.
+        /// An array of paths that specify the data for the data repository task to process.  For example, in an EXPORT_TO_REPOSITORY task, the paths specify which data to export to the linked data repository. (Default) If Paths is not specified, Amazon FSx uses the file system root directory.
         public let paths: [String]?
         public let report: CompletionReport?
         public let resourceARN: String?
-        /// The time that Amazon FSx began processing the task.
+        /// The time the system began processing the task.
         public let startTime: Date?
         /// Provides the status of the number of files that the task has processed successfully and failed to process.
         public let status: DataRepositoryTaskStatus?
         public let tags: [Tag]?
         /// The system-generated, unique 17-digit ID of the data repository task.
         public let taskId: String
-        /// The type of data repository task.   The EXPORT_TO_REPOSITORY data repository task exports from your Lustre file system from to a linked S3 bucket.   The IMPORT_METADATA_FROM_REPOSITORY data repository task imports metadata changes from a linked S3 bucket to your Lustre file system.
+        /// The type of data repository task.    EXPORT_TO_REPOSITORY tasks export from your Amazon FSx for Lustre file system to a linked data repository.    IMPORT_METADATA_FROM_REPOSITORY tasks import metadata changes from a linked S3 bucket to your Amazon FSx for Lustre file system.    AUTO_RELEASE_DATA tasks automatically release files from an Amazon File Cache resource.
         public let type: DataRepositoryTaskType
 
-        public init(creationTime: Date, endTime: Date? = nil, failureDetails: DataRepositoryTaskFailureDetails? = nil, fileSystemId: String, lifecycle: DataRepositoryTaskLifecycle, paths: [String]? = nil, report: CompletionReport? = nil, resourceARN: String? = nil, startTime: Date? = nil, status: DataRepositoryTaskStatus? = nil, tags: [Tag]? = nil, taskId: String, type: DataRepositoryTaskType) {
+        public init(capacityToRelease: Int64? = nil, creationTime: Date, endTime: Date? = nil, failureDetails: DataRepositoryTaskFailureDetails? = nil, fileCacheId: String? = nil, fileSystemId: String? = nil, lifecycle: DataRepositoryTaskLifecycle, paths: [String]? = nil, report: CompletionReport? = nil, resourceARN: String? = nil, startTime: Date? = nil, status: DataRepositoryTaskStatus? = nil, tags: [Tag]? = nil, taskId: String, type: DataRepositoryTaskType) {
+            self.capacityToRelease = capacityToRelease
             self.creationTime = creationTime
             self.endTime = endTime
             self.failureDetails = failureDetails
+            self.fileCacheId = fileCacheId
             self.fileSystemId = fileSystemId
             self.lifecycle = lifecycle
             self.paths = paths
@@ -1973,9 +2170,11 @@ extension FSx {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case capacityToRelease = "CapacityToRelease"
             case creationTime = "CreationTime"
             case endTime = "EndTime"
             case failureDetails = "FailureDetails"
+            case fileCacheId = "FileCacheId"
             case fileSystemId = "FileSystemId"
             case lifecycle = "Lifecycle"
             case paths = "Paths"
@@ -2032,14 +2231,17 @@ extension FSx {
         public let failedCount: Int64?
         /// The time at which the task status was last updated.
         public let lastUpdatedTime: Date?
+        /// The total amount of data, in GiB, released by an Amazon File Cache AUTO_RELEASE_DATA task that automatically releases files from the cache.
+        public let releasedCapacity: Int64?
         /// A running total of the number of files that the task has successfully processed.
         public let succeededCount: Int64?
         /// The total number of files that the task will process. While a task is executing, the sum of  SucceededCount plus FailedCount may not equal TotalCount. When the task is complete,  TotalCount equals the sum of SucceededCount plus FailedCount.
         public let totalCount: Int64?
 
-        public init(failedCount: Int64? = nil, lastUpdatedTime: Date? = nil, succeededCount: Int64? = nil, totalCount: Int64? = nil) {
+        public init(failedCount: Int64? = nil, lastUpdatedTime: Date? = nil, releasedCapacity: Int64? = nil, succeededCount: Int64? = nil, totalCount: Int64? = nil) {
             self.failedCount = failedCount
             self.lastUpdatedTime = lastUpdatedTime
+            self.releasedCapacity = releasedCapacity
             self.succeededCount = succeededCount
             self.totalCount = totalCount
         }
@@ -2047,6 +2249,7 @@ extension FSx {
         private enum CodingKeys: String, CodingKey {
             case failedCount = "FailedCount"
             case lastUpdatedTime = "LastUpdatedTime"
+            case releasedCapacity = "ReleasedCapacity"
             case succeededCount = "SucceededCount"
             case totalCount = "TotalCount"
         }
@@ -2100,9 +2303,9 @@ extension FSx {
         public let associationId: String
         public let clientRequestToken: String?
         /// Set to true to delete the data in the file system that corresponds to the data repository association.
-        public let deleteDataInFileSystem: Bool
+        public let deleteDataInFileSystem: Bool?
 
-        public init(associationId: String, clientRequestToken: String? = DeleteDataRepositoryAssociationRequest.idempotencyToken(), deleteDataInFileSystem: Bool) {
+        public init(associationId: String, clientRequestToken: String? = DeleteDataRepositoryAssociationRequest.idempotencyToken(), deleteDataInFileSystem: Bool? = nil) {
             self.associationId = associationId
             self.clientRequestToken = clientRequestToken
             self.deleteDataInFileSystem = deleteDataInFileSystem
@@ -2141,6 +2344,48 @@ extension FSx {
         private enum CodingKeys: String, CodingKey {
             case associationId = "AssociationId"
             case deleteDataInFileSystem = "DeleteDataInFileSystem"
+            case lifecycle = "Lifecycle"
+        }
+    }
+
+    public struct DeleteFileCacheRequest: AWSEncodableShape {
+        public let clientRequestToken: String?
+        /// The ID of the cache that's being deleted.
+        public let fileCacheId: String
+
+        public init(clientRequestToken: String? = DeleteFileCacheRequest.idempotencyToken(), fileCacheId: String) {
+            self.clientRequestToken = clientRequestToken
+            self.fileCacheId = fileCacheId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 63)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[A-za-z0-9_.-]{0,63}$")
+            try self.validate(self.fileCacheId, name: "fileCacheId", parent: name, max: 21)
+            try self.validate(self.fileCacheId, name: "fileCacheId", parent: name, min: 11)
+            try self.validate(self.fileCacheId, name: "fileCacheId", parent: name, pattern: "^(fc-[0-9a-f]{8,})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case fileCacheId = "FileCacheId"
+        }
+    }
+
+    public struct DeleteFileCacheResponse: AWSDecodableShape {
+        /// The ID of the cache that's being deleted.
+        public let fileCacheId: String?
+        /// The cache lifecycle for the deletion request. If the DeleteFileCache operation is successful, this status is DELETING.
+        public let lifecycle: FileCacheLifecycle?
+
+        public init(fileCacheId: String? = nil, lifecycle: FileCacheLifecycle? = nil) {
+            self.fileCacheId = fileCacheId
+            self.lifecycle = lifecycle
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileCacheId = "FileCacheId"
             case lifecycle = "Lifecycle"
         }
     }
@@ -2638,7 +2883,7 @@ extension FSx {
     }
 
     public struct DescribeDataRepositoryAssociationsResponse: AWSDecodableShape {
-        /// An array of one ore more data repository association descriptions.
+        /// An array of one or more data repository association descriptions.
         public let associations: [DataRepositoryAssociation]?
         public let nextToken: String?
 
@@ -2706,6 +2951,55 @@ extension FSx {
 
         private enum CodingKeys: String, CodingKey {
             case dataRepositoryTasks = "DataRepositoryTasks"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeFileCachesRequest: AWSEncodableShape {
+        /// IDs of the caches whose descriptions you want to retrieve (String).
+        public let fileCacheIds: [String]?
+        public let maxResults: Int?
+        public let nextToken: String?
+
+        public init(fileCacheIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.fileCacheIds = fileCacheIds
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.fileCacheIds?.forEach {
+                try validate($0, name: "fileCacheIds[]", parent: name, max: 21)
+                try validate($0, name: "fileCacheIds[]", parent: name, min: 11)
+                try validate($0, name: "fileCacheIds[]", parent: name, pattern: "^(fc-[0-9a-f]{8,})$")
+            }
+            try self.validate(self.fileCacheIds, name: "fileCacheIds", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 2_147_483_647)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^(?:[A-Za-z0-9+\\/]{4})*(?:[A-Za-z0-9+\\/]{2}==|[A-Za-z0-9+\\/]{3}=)?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileCacheIds = "FileCacheIds"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeFileCachesResponse: AWSDecodableShape {
+        /// The response object for the DescribeFileCaches operation.
+        public let fileCaches: [FileCache]?
+        public let nextToken: String?
+
+        public init(fileCaches: [FileCache]? = nil, nextToken: String? = nil) {
+            self.fileCaches = fileCaches
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileCaches = "FileCaches"
             case nextToken = "NextToken"
         }
     }
@@ -3058,6 +3352,277 @@ extension FSx {
         }
     }
 
+    public struct FileCache: AWSDecodableShape {
+        public let creationTime: Date?
+        /// A list of IDs of data repository associations that are associated with this cache.
+        public let dataRepositoryAssociationIds: [String]?
+        /// The Domain Name System (DNS) name for the cache.
+        public let dnsName: String?
+        /// A structure providing details of any failures that occurred.
+        public let failureDetails: FileCacheFailureDetails?
+        /// The system-generated, unique ID of the cache.
+        public let fileCacheId: String?
+        /// The type of cache, which must be LUSTRE.
+        public let fileCacheType: FileCacheType?
+        /// The Lustre version of the cache, which must be 2.12.
+        public let fileCacheTypeVersion: String?
+        /// Specifies the ID of the Key Management Service (KMS) key to use for encrypting data on an Amazon File Cache. If a KmsKeyId isn't specified, the Amazon FSx-managed KMS key for your account is used. For more information, see Encrypt in the Key Management Service API Reference.
+        public let kmsKeyId: String?
+        /// The lifecycle status of the cache. The following are the possible values and what they mean:     AVAILABLE - The cache is in a healthy state, and is reachable and available for use.    CREATING - The new cache is being created.    DELETING - An existing cache is being deleted.    UPDATING - The cache is undergoing a customer-initiated update.    FAILED - An existing cache has experienced an unrecoverable failure.  When creating a new cache, the cache was unable to be created.
+        public let lifecycle: FileCacheLifecycle?
+        /// The configuration for the Amazon File Cache resource.
+        public let lustreConfiguration: FileCacheLustreConfiguration?
+        public let networkInterfaceIds: [String]?
+        public let ownerId: String?
+        public let resourceARN: String?
+        /// The storage capacity of the cache in gibibytes (GiB).
+        public let storageCapacity: Int?
+        public let subnetIds: [String]?
+        public let vpcId: String?
+
+        public init(creationTime: Date? = nil, dataRepositoryAssociationIds: [String]? = nil, dnsName: String? = nil, failureDetails: FileCacheFailureDetails? = nil, fileCacheId: String? = nil, fileCacheType: FileCacheType? = nil, fileCacheTypeVersion: String? = nil, kmsKeyId: String? = nil, lifecycle: FileCacheLifecycle? = nil, lustreConfiguration: FileCacheLustreConfiguration? = nil, networkInterfaceIds: [String]? = nil, ownerId: String? = nil, resourceARN: String? = nil, storageCapacity: Int? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
+            self.creationTime = creationTime
+            self.dataRepositoryAssociationIds = dataRepositoryAssociationIds
+            self.dnsName = dnsName
+            self.failureDetails = failureDetails
+            self.fileCacheId = fileCacheId
+            self.fileCacheType = fileCacheType
+            self.fileCacheTypeVersion = fileCacheTypeVersion
+            self.kmsKeyId = kmsKeyId
+            self.lifecycle = lifecycle
+            self.lustreConfiguration = lustreConfiguration
+            self.networkInterfaceIds = networkInterfaceIds
+            self.ownerId = ownerId
+            self.resourceARN = resourceARN
+            self.storageCapacity = storageCapacity
+            self.subnetIds = subnetIds
+            self.vpcId = vpcId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case dataRepositoryAssociationIds = "DataRepositoryAssociationIds"
+            case dnsName = "DNSName"
+            case failureDetails = "FailureDetails"
+            case fileCacheId = "FileCacheId"
+            case fileCacheType = "FileCacheType"
+            case fileCacheTypeVersion = "FileCacheTypeVersion"
+            case kmsKeyId = "KmsKeyId"
+            case lifecycle = "Lifecycle"
+            case lustreConfiguration = "LustreConfiguration"
+            case networkInterfaceIds = "NetworkInterfaceIds"
+            case ownerId = "OwnerId"
+            case resourceARN = "ResourceARN"
+            case storageCapacity = "StorageCapacity"
+            case subnetIds = "SubnetIds"
+            case vpcId = "VpcId"
+        }
+    }
+
+    public struct FileCacheCreating: AWSDecodableShape {
+        /// A boolean flag indicating whether tags for the cache should be copied to data repository associations.
+        public let copyTagsToDataRepositoryAssociations: Bool?
+        public let creationTime: Date?
+        /// A list of IDs of data repository associations that are associated with this cache.
+        public let dataRepositoryAssociationIds: [String]?
+        /// The Domain Name System (DNS) name for the cache.
+        public let dnsName: String?
+        /// A structure providing details of any failures that occurred.
+        public let failureDetails: FileCacheFailureDetails?
+        /// The system-generated, unique ID of the cache.
+        public let fileCacheId: String?
+        /// The type of cache, which must be LUSTRE.
+        public let fileCacheType: FileCacheType?
+        /// The Lustre version of the cache, which must be 2.12.
+        public let fileCacheTypeVersion: String?
+        /// Specifies the ID of the Key Management Service (KMS) key to use for encrypting data on an Amazon File Cache. If a KmsKeyId isn't specified, the Amazon FSx-managed KMS key for your account is used. For more information, see Encrypt in the Key Management Service API Reference.
+        public let kmsKeyId: String?
+        /// The lifecycle status of the cache. The following are the possible values and what they mean:     AVAILABLE - The cache is in a healthy state, and is reachable and available for use.    CREATING - The new cache is being created.    DELETING - An existing cache is being deleted.    UPDATING - The cache is undergoing a customer-initiated update.    FAILED - An existing cache has experienced an unrecoverable failure.  When creating a new cache, the cache was unable to be created.
+        public let lifecycle: FileCacheLifecycle?
+        /// The configuration for the Amazon File Cache resource.
+        public let lustreConfiguration: FileCacheLustreConfiguration?
+        public let networkInterfaceIds: [String]?
+        public let ownerId: String?
+        public let resourceARN: String?
+        /// The storage capacity of the cache in gibibytes (GiB).
+        public let storageCapacity: Int?
+        public let subnetIds: [String]?
+        public let tags: [Tag]?
+        public let vpcId: String?
+
+        public init(copyTagsToDataRepositoryAssociations: Bool? = nil, creationTime: Date? = nil, dataRepositoryAssociationIds: [String]? = nil, dnsName: String? = nil, failureDetails: FileCacheFailureDetails? = nil, fileCacheId: String? = nil, fileCacheType: FileCacheType? = nil, fileCacheTypeVersion: String? = nil, kmsKeyId: String? = nil, lifecycle: FileCacheLifecycle? = nil, lustreConfiguration: FileCacheLustreConfiguration? = nil, networkInterfaceIds: [String]? = nil, ownerId: String? = nil, resourceARN: String? = nil, storageCapacity: Int? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, vpcId: String? = nil) {
+            self.copyTagsToDataRepositoryAssociations = copyTagsToDataRepositoryAssociations
+            self.creationTime = creationTime
+            self.dataRepositoryAssociationIds = dataRepositoryAssociationIds
+            self.dnsName = dnsName
+            self.failureDetails = failureDetails
+            self.fileCacheId = fileCacheId
+            self.fileCacheType = fileCacheType
+            self.fileCacheTypeVersion = fileCacheTypeVersion
+            self.kmsKeyId = kmsKeyId
+            self.lifecycle = lifecycle
+            self.lustreConfiguration = lustreConfiguration
+            self.networkInterfaceIds = networkInterfaceIds
+            self.ownerId = ownerId
+            self.resourceARN = resourceARN
+            self.storageCapacity = storageCapacity
+            self.subnetIds = subnetIds
+            self.tags = tags
+            self.vpcId = vpcId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case copyTagsToDataRepositoryAssociations = "CopyTagsToDataRepositoryAssociations"
+            case creationTime = "CreationTime"
+            case dataRepositoryAssociationIds = "DataRepositoryAssociationIds"
+            case dnsName = "DNSName"
+            case failureDetails = "FailureDetails"
+            case fileCacheId = "FileCacheId"
+            case fileCacheType = "FileCacheType"
+            case fileCacheTypeVersion = "FileCacheTypeVersion"
+            case kmsKeyId = "KmsKeyId"
+            case lifecycle = "Lifecycle"
+            case lustreConfiguration = "LustreConfiguration"
+            case networkInterfaceIds = "NetworkInterfaceIds"
+            case ownerId = "OwnerId"
+            case resourceARN = "ResourceARN"
+            case storageCapacity = "StorageCapacity"
+            case subnetIds = "SubnetIds"
+            case tags = "Tags"
+            case vpcId = "VpcId"
+        }
+    }
+
+    public struct FileCacheDataRepositoryAssociation: AWSEncodableShape {
+        /// The path to the S3 or NFS data repository that links to the cache. You must provide one of the following paths:   The path can be an NFS data repository that links to the cache. The path can be in one of two formats:   If you are not using the DataRepositorySubdirectories parameter, the path is to an NFS Export directory (or one of its subdirectories) in the format nsf://nfs-domain-name/exportpath. You can therefore link a single NFS Export to a single data repository association.   If you are using the DataRepositorySubdirectories parameter, the path is the domain name of the NFS file system in the format nfs://filer-domain-name, which indicates the root of the subdirectories specified with the DataRepositorySubdirectories parameter.     The path can be an S3 bucket or prefix in the format s3://myBucket/myPrefix/.
+        public let dataRepositoryPath: String
+        /// A list of NFS Exports that will be linked with this data repository association. The Export paths are in the format /exportpath1. To use this parameter, you must configure DataRepositoryPath as the domain name of the NFS file system. The NFS file system domain name in effect is the root of the subdirectories. Note that DataRepositorySubdirectories is not supported for S3 data repositories.
+        public let dataRepositorySubdirectories: [String]?
+        /// A path on the cache that points to a high-level directory (such as /ns1/) or subdirectory (such as /ns1/subdir/) that will be mapped 1-1 with DataRepositoryPath. The leading forward slash in the name is required. Two data repository associations cannot have overlapping cache paths. For example, if a data repository is associated with cache path /ns1/, then you cannot link another data repository with cache path /ns1/ns2. This path specifies where in your cache files will be exported from. This cache directory can be linked to only one data repository, and no data repository other can be linked to the directory.  The cache path can only be set to root (/) on an NFS DRA when DataRepositorySubdirectories is specified. If you specify root (/) as the cache path, you can create only one DRA on the cache. The cache path cannot be set to root (/) for an S3 DRA.
+        public let fileCachePath: String
+        /// The configuration for a data repository association that links an Amazon File Cache resource to an NFS data repository.
+        public let nfs: FileCacheNFSConfiguration?
+
+        public init(dataRepositoryPath: String, dataRepositorySubdirectories: [String]? = nil, fileCachePath: String, nfs: FileCacheNFSConfiguration? = nil) {
+            self.dataRepositoryPath = dataRepositoryPath
+            self.dataRepositorySubdirectories = dataRepositorySubdirectories
+            self.fileCachePath = fileCachePath
+            self.nfs = nfs
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataRepositoryPath, name: "dataRepositoryPath", parent: name, max: 4357)
+            try self.validate(self.dataRepositoryPath, name: "dataRepositoryPath", parent: name, min: 3)
+            try self.validate(self.dataRepositoryPath, name: "dataRepositoryPath", parent: name, pattern: "^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{3,4357}$")
+            try self.dataRepositorySubdirectories?.forEach {
+                try validate($0, name: "dataRepositorySubdirectories[]", parent: name, max: 4096)
+                try validate($0, name: "dataRepositorySubdirectories[]", parent: name, min: 1)
+                try validate($0, name: "dataRepositorySubdirectories[]", parent: name, pattern: "^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{1,4096}$")
+            }
+            try self.validate(self.dataRepositorySubdirectories, name: "dataRepositorySubdirectories", parent: name, max: 500)
+            try self.validate(self.fileCachePath, name: "fileCachePath", parent: name, max: 4096)
+            try self.validate(self.fileCachePath, name: "fileCachePath", parent: name, min: 1)
+            try self.validate(self.fileCachePath, name: "fileCachePath", parent: name, pattern: "^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{1,4096}$")
+            try self.nfs?.validate(name: "\(name).nfs")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataRepositoryPath = "DataRepositoryPath"
+            case dataRepositorySubdirectories = "DataRepositorySubdirectories"
+            case fileCachePath = "FileCachePath"
+            case nfs = "NFS"
+        }
+    }
+
+    public struct FileCacheFailureDetails: AWSDecodableShape {
+        /// A message describing any failures that occurred.
+        public let message: String?
+
+        public init(message: String? = nil) {
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+        }
+    }
+
+    public struct FileCacheLustreConfiguration: AWSDecodableShape {
+        /// The deployment type of the Amazon File Cache resource, which must be CACHE_1.
+        public let deploymentType: FileCacheLustreDeploymentType?
+        /// The configuration for Lustre logging used to write the enabled logging events for your Amazon File Cache resource to Amazon CloudWatch Logs.
+        public let logConfiguration: LustreLogConfiguration?
+        /// The configuration for a Lustre MDT (Metadata Target) storage volume.
+        public let metadataConfiguration: FileCacheLustreMetadataConfiguration?
+        /// You use the MountName value when mounting the cache. If you pass a cache ID to the DescribeFileCaches operation, it returns the the MountName value as part of the cache's description.
+        public let mountName: String?
+        /// Per unit storage throughput represents the megabytes per second of read or write throughput per 1 tebibyte of storage provisioned. Cache throughput capacity is equal to Storage capacity (TiB) * PerUnitStorageThroughput (MB/s/TiB). The only supported value is 1000.
+        public let perUnitStorageThroughput: Int?
+        public let weeklyMaintenanceStartTime: String?
+
+        public init(deploymentType: FileCacheLustreDeploymentType? = nil, logConfiguration: LustreLogConfiguration? = nil, metadataConfiguration: FileCacheLustreMetadataConfiguration? = nil, mountName: String? = nil, perUnitStorageThroughput: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
+            self.deploymentType = deploymentType
+            self.logConfiguration = logConfiguration
+            self.metadataConfiguration = metadataConfiguration
+            self.mountName = mountName
+            self.perUnitStorageThroughput = perUnitStorageThroughput
+            self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deploymentType = "DeploymentType"
+            case logConfiguration = "LogConfiguration"
+            case metadataConfiguration = "MetadataConfiguration"
+            case mountName = "MountName"
+            case perUnitStorageThroughput = "PerUnitStorageThroughput"
+            case weeklyMaintenanceStartTime = "WeeklyMaintenanceStartTime"
+        }
+    }
+
+    public struct FileCacheLustreMetadataConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The storage capacity of the Lustre MDT (Metadata Target) storage volume in gibibytes (GiB). The only supported value is 2400 GiB.
+        public let storageCapacity: Int
+
+        public init(storageCapacity: Int) {
+            self.storageCapacity = storageCapacity
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.storageCapacity, name: "storageCapacity", parent: name, max: 2_147_483_647)
+            try self.validate(self.storageCapacity, name: "storageCapacity", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case storageCapacity = "StorageCapacity"
+        }
+    }
+
+    public struct FileCacheNFSConfiguration: AWSEncodableShape {
+        /// A list of up to 2 IP addresses of DNS servers used to resolve the NFS file system domain name. The provided IP addresses can either be the IP addresses of a DNS forwarder or resolver that the customer manages and runs inside the customer VPC, or the IP addresses of the on-premises DNS servers.
+        public let dnsIps: [String]?
+        /// The version of the NFS (Network File System) protocol of the NFS data repository. The only supported value is NFS3, which indicates that the data repository must support the NFSv3 protocol.
+        public let version: NfsVersion
+
+        public init(dnsIps: [String]? = nil, version: NfsVersion) {
+            self.dnsIps = dnsIps
+            self.version = version
+        }
+
+        public func validate(name: String) throws {
+            try self.dnsIps?.forEach {
+                try validate($0, name: "dnsIps[]", parent: name, max: 15)
+                try validate($0, name: "dnsIps[]", parent: name, min: 7)
+                try validate($0, name: "dnsIps[]", parent: name, pattern: "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$")
+            }
+            try self.validate(self.dnsIps, name: "dnsIps", parent: name, max: 10)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dnsIps = "DnsIps"
+            case version = "Version"
+        }
+    }
+
     public struct FileSystem: AWSDecodableShape {
         /// A list of administrative actions for the file system that are in process or waiting to be processed. Administrative actions describe changes to the Amazon FSx system that you have initiated using the UpdateFileSystem operation.
         public let administrativeActions: [AdministrativeAction]?
@@ -3184,7 +3749,7 @@ extension FSx {
     }
 
     public struct FileSystemFailureDetails: AWSDecodableShape {
-        /// A message describing any failures that occurred during file system creation.
+        /// A message describing any failures that occurred.
         public let message: String?
 
         public init(message: String? = nil) {
@@ -3340,7 +3905,7 @@ extension FSx {
     public struct LustreLogConfiguration: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) that specifies the destination of the logs. The destination can be any Amazon CloudWatch Logs log group ARN. The destination ARN must be in the same Amazon Web Services partition, Amazon Web Services Region, and Amazon Web Services account as your Amazon FSx file system.
         public let destination: String?
-        /// The data repository events that are logged by Amazon FSx.    WARN_ONLY - only warning events are logged.    ERROR_ONLY - only error events are logged.    WARN_ERROR - both warning events and error events are logged.    DISABLED - logging of data repository events is turned off.
+        /// The data repository events that are logged by Amazon FSx.    WARN_ONLY - only warning events are logged.    ERROR_ONLY - only error events are logged.    WARN_ERROR - both warning events and error events are logged.    DISABLED - logging of data repository events is turned off.   Note that Amazon File Cache uses a default setting of WARN_ERROR, which can't be changed.
         public let level: LustreAccessAuditLogLevel
 
         public init(destination: String? = nil, level: LustreAccessAuditLogLevel) {
@@ -3355,7 +3920,7 @@ extension FSx {
     }
 
     public struct LustreLogCreateConfiguration: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) that specifies the destination of the logs. The destination can be any Amazon CloudWatch Logs log group ARN, with the following requirements:   The destination ARN that you provide must be in the same Amazon Web Services partition, Amazon Web Services Region, and Amazon Web Services account as your Amazon FSx file system.   The name of the Amazon CloudWatch Logs log group must begin with the /aws/fsx prefix.   If you do not provide a destination, Amazon FSx will create and use a log stream in the CloudWatch Logs /aws/fsx/lustre log group.   If Destination is provided and the resource does not exist, the request will fail with a BadRequest error.   If Level is set to DISABLED, you cannot specify a destination in Destination.
+        /// The Amazon Resource Name (ARN) that specifies the destination of the logs. The destination can be any Amazon CloudWatch Logs log group ARN, with the following requirements:   The destination ARN that you provide must be in the same Amazon Web Services partition, Amazon Web Services Region, and Amazon Web Services account as your Amazon FSx file system.   The name of the Amazon CloudWatch Logs log group must begin with the /aws/fsx prefix.   If you do not provide a destination, Amazon FSx will create and use a log stream in the CloudWatch Logs /aws/fsx/lustre log group (for Amazon FSx for Lustre) or /aws/fsx/filecache (for Amazon File Cache).   If Destination is provided and the resource does not exist, the request will fail with a BadRequest error.   If Level is set to DISABLED, you cannot specify a destination in Destination.
         public let destination: String?
         /// Sets which data repository events are logged by Amazon FSx.    WARN_ONLY - only warning events are logged.    ERROR_ONLY - only error events are logged.    WARN_ERROR - both warning events and error events are logged.    DISABLED - logging of data repository events is turned off.
         public let level: LustreAccessAuditLogLevel
@@ -3403,6 +3968,27 @@ extension FSx {
         private enum CodingKeys: String, CodingKey {
             case noSquashNids = "NoSquashNids"
             case rootSquash = "RootSquash"
+        }
+    }
+
+    public struct NFSDataRepositoryConfiguration: AWSDecodableShape {
+        /// This parameter is not supported for Amazon File Cache.
+        public let autoExportPolicy: AutoExportPolicy?
+        /// A list of up to 2 IP addresses of DNS servers used to resolve the NFS file system domain name. The provided IP addresses can either be the IP addresses of a DNS forwarder or resolver that the customer manages and runs inside the customer VPC, or the IP addresses of the on-premises DNS servers.
+        public let dnsIps: [String]?
+        /// The version of the NFS (Network File System) protocol of the NFS data repository. Currently, the only supported value is NFS3, which indicates that the data repository must support the NFSv3 protocol.
+        public let version: NfsVersion
+
+        public init(autoExportPolicy: AutoExportPolicy? = nil, dnsIps: [String]? = nil, version: NfsVersion) {
+            self.autoExportPolicy = autoExportPolicy
+            self.dnsIps = dnsIps
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoExportPolicy = "AutoExportPolicy"
+            case dnsIps = "DnsIps"
+            case version = "Version"
         }
     }
 
@@ -4335,6 +4921,67 @@ extension FSx {
 
         private enum CodingKeys: String, CodingKey {
             case association = "Association"
+        }
+    }
+
+    public struct UpdateFileCacheLustreConfiguration: AWSEncodableShape {
+        public let weeklyMaintenanceStartTime: String?
+
+        public init(weeklyMaintenanceStartTime: String? = nil) {
+            self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.weeklyMaintenanceStartTime, name: "weeklyMaintenanceStartTime", parent: name, max: 7)
+            try self.validate(self.weeklyMaintenanceStartTime, name: "weeklyMaintenanceStartTime", parent: name, min: 7)
+            try self.validate(self.weeklyMaintenanceStartTime, name: "weeklyMaintenanceStartTime", parent: name, pattern: "^[1-7]:([01]\\d|2[0-3]):?([0-5]\\d)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case weeklyMaintenanceStartTime = "WeeklyMaintenanceStartTime"
+        }
+    }
+
+    public struct UpdateFileCacheRequest: AWSEncodableShape {
+        public let clientRequestToken: String?
+        /// The ID of the cache that you are updating.
+        public let fileCacheId: String
+        /// The configuration updates for an Amazon File Cache resource.
+        public let lustreConfiguration: UpdateFileCacheLustreConfiguration?
+
+        public init(clientRequestToken: String? = UpdateFileCacheRequest.idempotencyToken(), fileCacheId: String, lustreConfiguration: UpdateFileCacheLustreConfiguration? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.fileCacheId = fileCacheId
+            self.lustreConfiguration = lustreConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 63)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[A-za-z0-9_.-]{0,63}$")
+            try self.validate(self.fileCacheId, name: "fileCacheId", parent: name, max: 21)
+            try self.validate(self.fileCacheId, name: "fileCacheId", parent: name, min: 11)
+            try self.validate(self.fileCacheId, name: "fileCacheId", parent: name, pattern: "^(fc-[0-9a-f]{8,})$")
+            try self.lustreConfiguration?.validate(name: "\(name).lustreConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case fileCacheId = "FileCacheId"
+            case lustreConfiguration = "LustreConfiguration"
+        }
+    }
+
+    public struct UpdateFileCacheResponse: AWSDecodableShape {
+        /// A description of the cache that was updated.
+        public let fileCache: FileCache?
+
+        public init(fileCache: FileCache? = nil) {
+            self.fileCache = fileCache
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileCache = "FileCache"
         }
     }
 

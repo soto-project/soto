@@ -86,7 +86,7 @@ public struct ComprehendErrorType: AWSErrorType {
     public static var tooManyTagKeysException: Self { .init(.tooManyTagKeysException) }
     /// The request contains more tags than can be associated with a resource (50 tags per resource). The maximum number of tags includes both existing tags and those included in your current request.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
-    /// Amazon Comprehend can't process the language of the input text. For custom entity recognition APIs, only English, Spanish, French, Italian, German, or Portuguese are accepted. For a list of supported languages, see supported-languages.
+    /// Amazon Comprehend can't process the language of the input text. For custom entity recognition APIs, only English, Spanish, French, Italian, German, or Portuguese are accepted. For a list of supported languages, Supported languages in the Comprehend Developer Guide.
     public static var unsupportedLanguageException: Self { .init(.unsupportedLanguageException) }
 }
 

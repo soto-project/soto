@@ -48,6 +48,13 @@ extension IoTWireless {
         public var description: String { return self.rawValue }
     }
 
+    public enum DownlinkMode: String, CustomStringConvertible, Codable, _SotoSendable {
+        case concurrent = "CONCURRENT"
+        case sequential = "SEQUENTIAL"
+        case usingUplinkGateway = "USING_UPLINK_GATEWAY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Event: String, CustomStringConvertible, Codable, _SotoSendable {
         case ack
         case discovered
@@ -544,6 +551,33 @@ extension IoTWireless {
         public init() {}
     }
 
+    public struct Beaconing: AWSEncodableShape & AWSDecodableShape {
+        /// The data rate for gateways that are sending the beacons.
+        public let dataRate: Int?
+        /// The frequency list for the gateways to send the beacons.
+        public let frequencies: [Int]?
+
+        public init(dataRate: Int? = nil, frequencies: [Int]? = nil) {
+            self.dataRate = dataRate
+            self.frequencies = frequencies
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataRate, name: "dataRate", parent: name, max: 15)
+            try self.validate(self.dataRate, name: "dataRate", parent: name, min: 0)
+            try self.frequencies?.forEach {
+                try validate($0, name: "frequencies[]", parent: name, max: 1_000_000_000)
+                try validate($0, name: "frequencies[]", parent: name, min: 100_000_000)
+            }
+            try self.validate(self.frequencies, name: "frequencies", parent: name, max: 10)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataRate = "DataRate"
+            case frequencies = "Frequencies"
+        }
+    }
+
     public struct CancelMulticastGroupSessionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri("Id"))
@@ -586,7 +620,7 @@ extension IoTWireless {
     public struct ConnectionStatusEventConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Connection status event configuration object for enabling or disabling LoRaWAN related event topics.
         public let loRaWAN: LoRaWANConnectionStatusEventNotificationConfigurations?
-        /// Enum to denote whether the wireless gateway ID connection status event topic is enabled or disabled.
+        /// Denotes whether the wireless gateway ID connection status event topic is enabled or disabled.
         public let wirelessGatewayIdEventTopic: EventNotificationTopicStatus?
 
         public init(loRaWAN: LoRaWANConnectionStatusEventNotificationConfigurations? = nil, wirelessGatewayIdEventTopic: EventNotificationTopicStatus? = nil) {
@@ -1523,7 +1557,7 @@ extension IoTWireless {
     public struct DeviceRegistrationStateEventConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Device registration state event configuration object for enabling or disabling Sidewalk related event topics.
         public let sidewalk: SidewalkEventNotificationConfigurations?
-        /// Enum to denote whether the wireless device id device registration state event topic is enabled or disabled.
+        /// Denotes whether the wireless device ID device registration state event topic is enabled or disabled.
         public let wirelessDeviceIdEventTopic: EventNotificationTopicStatus?
 
         public init(sidewalk: SidewalkEventNotificationConfigurations? = nil, wirelessDeviceIdEventTopic: EventNotificationTopicStatus? = nil) {
@@ -1848,6 +1882,29 @@ extension IoTWireless {
             case arn = "Arn"
             case id = "Id"
             case name = "Name"
+        }
+    }
+
+    public struct GatewayListItem: AWSEncodableShape & AWSDecodableShape {
+        /// The frequency to use for the gateways when sending a downlink message to the wireless device.
+        public let downlinkFrequency: Int
+        /// The ID of the wireless gateways that you want to add to the list of gateways when sending downlink messages.
+        public let gatewayId: String
+
+        public init(downlinkFrequency: Int, gatewayId: String) {
+            self.downlinkFrequency = downlinkFrequency
+            self.gatewayId = gatewayId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.downlinkFrequency, name: "downlinkFrequency", parent: name, max: 1_000_000_000)
+            try self.validate(self.downlinkFrequency, name: "downlinkFrequency", parent: name, min: 100_000_000)
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case downlinkFrequency = "DownlinkFrequency"
+            case gatewayId = "GatewayId"
         }
     }
 
@@ -2871,7 +2928,7 @@ extension IoTWireless {
     public struct JoinEventConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Join event configuration object for enabling or disabling LoRaWAN related event topics.
         public let loRaWAN: LoRaWANJoinEventNotificationConfigurations?
-        /// Enum to denote whether the wireless device id join event topic is enabled or disabled.
+        /// Denotes whether the wireless device ID join event topic is enabled or disabled.
         public let wirelessDeviceIdEventTopic: EventNotificationTopicStatus?
 
         public init(loRaWAN: LoRaWANJoinEventNotificationConfigurations? = nil, wirelessDeviceIdEventTopic: EventNotificationTopicStatus? = nil) {
@@ -3564,7 +3621,7 @@ extension IoTWireless {
     }
 
     public struct LoRaWANConnectionStatusEventNotificationConfigurations: AWSEncodableShape & AWSDecodableShape {
-        /// Enum to denote whether the gateway EUI connection status event topic is enabled or disabled.
+        /// Denotes whether the gateway EUI connection status event topic is enabled or disabled.
         public let gatewayEuiEventTopic: EventNotificationTopicStatus?
 
         public init(gatewayEuiEventTopic: EventNotificationTopicStatus? = nil) {
@@ -3577,7 +3634,7 @@ extension IoTWireless {
     }
 
     public struct LoRaWANConnectionStatusResourceTypeEventConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Enum to denote whether the wireless gateway connection status event topic is enabled or disabled.
+        /// Denotes whether the wireless gateway connection status event topic is enabled or disabled.
         public let wirelessGatewayEventTopic: EventNotificationTopicStatus?
 
         public init(wirelessGatewayEventTopic: EventNotificationTopicStatus? = nil) {
@@ -3820,6 +3877,8 @@ extension IoTWireless {
     }
 
     public struct LoRaWANGateway: AWSEncodableShape & AWSDecodableShape {
+        /// Beaconing object information, which consists of the data rate and frequency parameters.
+        public let beaconing: Beaconing?
         /// The gateway's EUI value.
         public let gatewayEui: String?
         public let joinEuiFilters: [[String]]?
@@ -3828,7 +3887,8 @@ extension IoTWireless {
         public let rfRegion: String?
         public let subBands: [Int]?
 
-        public init(gatewayEui: String? = nil, joinEuiFilters: [[String]]? = nil, netIdFilters: [String]? = nil, rfRegion: String? = nil, subBands: [Int]? = nil) {
+        public init(beaconing: Beaconing? = nil, gatewayEui: String? = nil, joinEuiFilters: [[String]]? = nil, netIdFilters: [String]? = nil, rfRegion: String? = nil, subBands: [Int]? = nil) {
+            self.beaconing = beaconing
             self.gatewayEui = gatewayEui
             self.joinEuiFilters = joinEuiFilters
             self.netIdFilters = netIdFilters
@@ -3837,6 +3897,7 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
+            try self.beaconing?.validate(name: "\(name).beaconing")
             try self.validate(self.gatewayEui, name: "gatewayEui", parent: name, pattern: "^(([0-9A-Fa-f]{2}-){7}|([0-9A-Fa-f]{2}:){7}|([0-9A-Fa-f]{2}\\s){7}|([0-9A-Fa-f]{2}){7})([0-9A-Fa-f]{2})$")
             try self.joinEuiFilters?.forEach {
                 try validate($0, name: "joinEuiFilters[]", parent: name, max: 2)
@@ -3856,6 +3917,7 @@ extension IoTWireless {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case beaconing = "Beaconing"
             case gatewayEui = "GatewayEui"
             case joinEuiFilters = "JoinEuiFilters"
             case netIdFilters = "NetIdFilters"
@@ -4014,7 +4076,7 @@ extension IoTWireless {
     }
 
     public struct LoRaWANJoinEventNotificationConfigurations: AWSEncodableShape & AWSDecodableShape {
-        /// Enum to denote whether the Dev EUI join event topic is enabled or disabled.
+        /// Denotes whether the Dev EUI join event topic is enabled or disabled.
         public let devEuiEventTopic: EventNotificationTopicStatus?
 
         public init(devEuiEventTopic: EventNotificationTopicStatus? = nil) {
@@ -4027,7 +4089,7 @@ extension IoTWireless {
     }
 
     public struct LoRaWANJoinResourceTypeEventConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Enum to denote whether the wireless device join event topic is enabled or disabled.
+        /// Denotes whether the wireless device join event topic is enabled or disabled.
         public let wirelessDeviceEventTopic: EventNotificationTopicStatus?
 
         public init(wirelessDeviceEventTopic: EventNotificationTopicStatus? = nil) {
@@ -4138,18 +4200,23 @@ extension IoTWireless {
 
     public struct LoRaWANSendDataToDevice: AWSEncodableShape & AWSDecodableShape {
         public let fPort: Int?
+        /// Choose the gateways that you want to use for the downlink data traffic when the wireless device is running in class B or class C mode.
+        public let participatingGateways: ParticipatingGateways?
 
-        public init(fPort: Int? = nil) {
+        public init(fPort: Int? = nil, participatingGateways: ParticipatingGateways? = nil) {
             self.fPort = fPort
+            self.participatingGateways = participatingGateways
         }
 
         public func validate(name: String) throws {
             try self.validate(self.fPort, name: "fPort", parent: name, max: 223)
             try self.validate(self.fPort, name: "fPort", parent: name, min: 1)
+            try self.participatingGateways?.validate(name: "\(name).participatingGateways")
         }
 
         private enum CodingKeys: String, CodingKey {
             case fPort = "FPort"
+            case participatingGateways = "ParticipatingGateways"
         }
     }
 
@@ -4284,7 +4351,7 @@ extension IoTWireless {
 
     public struct MessageDeliveryStatusEventConfiguration: AWSEncodableShape & AWSDecodableShape {
         public let sidewalk: SidewalkEventNotificationConfigurations?
-        /// Enum to denote whether the wireless device id device registration state event topic is enabled or disabled.
+        /// Denotes whether the wireless device ID device registration state event topic is enabled or disabled.
         public let wirelessDeviceIdEventTopic: EventNotificationTopicStatus?
 
         public init(sidewalk: SidewalkEventNotificationConfigurations? = nil, wirelessDeviceIdEventTopic: EventNotificationTopicStatus? = nil) {
@@ -4426,6 +4493,35 @@ extension IoTWireless {
         }
     }
 
+    public struct ParticipatingGateways: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates whether to send the downlink message in sequential mode or concurrent mode, or to use only the chosen gateways from the previous uplink message transmission.
+        public let downlinkMode: DownlinkMode
+        /// The list of gateways that you want to use for sending the downlink data traffic.
+        public let gatewayList: [GatewayListItem]
+        /// The duration of time for which AWS IoT Core for LoRaWAN will wait before transmitting the payload to the next gateway.
+        public let transmissionInterval: Int
+
+        public init(downlinkMode: DownlinkMode, gatewayList: [GatewayListItem], transmissionInterval: Int) {
+            self.downlinkMode = downlinkMode
+            self.gatewayList = gatewayList
+            self.transmissionInterval = transmissionInterval
+        }
+
+        public func validate(name: String) throws {
+            try self.gatewayList.forEach {
+                try $0.validate(name: "\(name).gatewayList[]")
+            }
+            try self.validate(self.transmissionInterval, name: "transmissionInterval", parent: name, max: 604_800)
+            try self.validate(self.transmissionInterval, name: "transmissionInterval", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case downlinkMode = "DownlinkMode"
+            case gatewayList = "GatewayList"
+            case transmissionInterval = "TransmissionInterval"
+        }
+    }
+
     public struct PositionConfigurationItem: AWSDecodableShape {
         /// The position data destination that describes the AWS IoT rule that processes the device's position data for use by AWS IoT Core for LoRaWAN.
         public let destination: String?
@@ -4507,7 +4603,7 @@ extension IoTWireless {
     public struct ProximityEventConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Proximity event configuration object for enabling or disabling Sidewalk related event topics.
         public let sidewalk: SidewalkEventNotificationConfigurations?
-        /// Enum to denote whether the wireless device id proximity event topic is enabled or disabled.
+        /// Denotes whether the wireless device ID proximity event topic is enabled or disabled.
         public let wirelessDeviceIdEventTopic: EventNotificationTopicStatus?
 
         public init(sidewalk: SidewalkEventNotificationConfigurations? = nil, wirelessDeviceIdEventTopic: EventNotificationTopicStatus? = nil) {
@@ -4937,7 +5033,7 @@ extension IoTWireless {
     }
 
     public struct SidewalkEventNotificationConfigurations: AWSEncodableShape & AWSDecodableShape {
-        /// Enum to denote whether amazon id event topic is enabled or disabled.
+        /// Denotes whether the Amazon ID event topic is enabled or disabled.
         public let amazonIdEventTopic: EventNotificationTopicStatus?
 
         public init(amazonIdEventTopic: EventNotificationTopicStatus? = nil) {
@@ -4975,7 +5071,7 @@ extension IoTWireless {
     }
 
     public struct SidewalkResourceTypeEventConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Enum to denote whether the wireless device join event topic is enabled or disabled.
+        /// Denotes whether the wireless device join event topic is enabled or disabled.
         public let wirelessDeviceEventTopic: EventNotificationTopicStatus?
 
         public init(wirelessDeviceEventTopic: EventNotificationTopicStatus? = nil) {

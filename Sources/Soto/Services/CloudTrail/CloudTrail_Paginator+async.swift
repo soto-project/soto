@@ -45,6 +45,28 @@ extension CloudTrail {
         )
     }
 
+    ///   Returns all CloudTrail channels.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listChannelsPaginator(
+        _ input: ListChannelsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListChannelsRequest, ListChannelsResponse> {
+        return .init(
+            input: input,
+            command: listChannels,
+            inputKey: \ListChannelsRequest.nextToken,
+            outputKey: \ListChannelsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Returns information about all event data stores in the account, in the current region.
     /// Return PaginatorSequence for operation.
     ///
@@ -62,6 +84,50 @@ extension CloudTrail {
             command: listEventDataStores,
             inputKey: \ListEventDataStoresRequest.nextToken,
             outputKey: \ListEventDataStoresResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///   Returns a list of failures for the specified import.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listImportFailuresPaginator(
+        _ input: ListImportFailuresRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListImportFailuresRequest, ListImportFailuresResponse> {
+        return .init(
+            input: input,
+            command: listImportFailures,
+            inputKey: \ListImportFailuresRequest.nextToken,
+            outputKey: \ListImportFailuresResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///   Returns information on all imports, or a select set of imports by ImportStatus or Destination.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listImportsPaginator(
+        _ input: ListImportsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListImportsRequest, ListImportsResponse> {
+        return .init(
+            input: input,
+            command: listImports,
+            inputKey: \ListImportsRequest.nextToken,
+            outputKey: \ListImportsResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

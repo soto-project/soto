@@ -359,6 +359,33 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
+    public enum Eac3AtmosCodingMode: String, CustomStringConvertible, Codable, _SotoSendable {
+        case codingMode514 = "CODING_MODE_5_1_4"
+        case codingMode714 = "CODING_MODE_7_1_4"
+        case codingMode916 = "CODING_MODE_9_1_6"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Eac3AtmosDrcLine: String, CustomStringConvertible, Codable, _SotoSendable {
+        case filmLight = "FILM_LIGHT"
+        case filmStandard = "FILM_STANDARD"
+        case musicLight = "MUSIC_LIGHT"
+        case musicStandard = "MUSIC_STANDARD"
+        case none = "NONE"
+        case speech = "SPEECH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Eac3AtmosDrcRf: String, CustomStringConvertible, Codable, _SotoSendable {
+        case filmLight = "FILM_LIGHT"
+        case filmStandard = "FILM_STANDARD"
+        case musicLight = "MUSIC_LIGHT"
+        case musicStandard = "MUSIC_STANDARD"
+        case none = "NONE"
+        case speech = "SPEECH"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Eac3AttenuationControl: String, CustomStringConvertible, Codable, _SotoSendable {
         case attenuate3Db = "ATTENUATE_3_DB"
         case none = "NONE"
@@ -2037,14 +2064,16 @@ extension MediaLive {
     public struct AudioCodecSettings: AWSEncodableShape & AWSDecodableShape {
         public let aacSettings: AacSettings?
         public let ac3Settings: Ac3Settings?
+        public let eac3AtmosSettings: Eac3AtmosSettings?
         public let eac3Settings: Eac3Settings?
         public let mp2Settings: Mp2Settings?
         public let passThroughSettings: PassThroughSettings?
         public let wavSettings: WavSettings?
 
-        public init(aacSettings: AacSettings? = nil, ac3Settings: Ac3Settings? = nil, eac3Settings: Eac3Settings? = nil, mp2Settings: Mp2Settings? = nil, passThroughSettings: PassThroughSettings? = nil, wavSettings: WavSettings? = nil) {
+        public init(aacSettings: AacSettings? = nil, ac3Settings: Ac3Settings? = nil, eac3AtmosSettings: Eac3AtmosSettings? = nil, eac3Settings: Eac3Settings? = nil, mp2Settings: Mp2Settings? = nil, passThroughSettings: PassThroughSettings? = nil, wavSettings: WavSettings? = nil) {
             self.aacSettings = aacSettings
             self.ac3Settings = ac3Settings
+            self.eac3AtmosSettings = eac3AtmosSettings
             self.eac3Settings = eac3Settings
             self.mp2Settings = mp2Settings
             self.passThroughSettings = passThroughSettings
@@ -2053,12 +2082,14 @@ extension MediaLive {
 
         public func validate(name: String) throws {
             try self.ac3Settings?.validate(name: "\(name).ac3Settings")
+            try self.eac3AtmosSettings?.validate(name: "\(name).eac3AtmosSettings")
             try self.eac3Settings?.validate(name: "\(name).eac3Settings")
         }
 
         private enum CodingKeys: String, CodingKey {
             case aacSettings
             case ac3Settings
+            case eac3AtmosSettings
             case eac3Settings
             case mp2Settings
             case passThroughSettings
@@ -4704,6 +4735,10 @@ extension MediaLive {
         }
     }
 
+    public struct DolbyVision81Settings: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DvbNitSettings: AWSEncodableShape & AWSDecodableShape {
         /// The numeric value placed in the Network Information Table (NIT).
         public let networkId: Int
@@ -4898,6 +4933,49 @@ extension MediaLive {
 
         private enum CodingKeys: String, CodingKey {
             case repInterval
+        }
+    }
+
+    public struct Eac3AtmosSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Average bitrate in bits/second. Valid bitrates depend on the coding mode.
+        /// //  * @affectsRightSizing true
+        public let bitrate: Double?
+        /// Dolby Digital Plus with Dolby Atmos coding mode. Determines number of channels.
+        public let codingMode: Eac3AtmosCodingMode?
+        /// Sets the dialnorm for the output. Default 23.
+        public let dialnorm: Int?
+        /// Sets the Dolby dynamic range compression profile.
+        public let drcLine: Eac3AtmosDrcLine?
+        /// Sets the profile for heavy Dolby dynamic range compression, ensures that the instantaneous signal peaks do not exceed specified levels.
+        public let drcRf: Eac3AtmosDrcRf?
+        /// Height dimensional trim. Sets the maximum amount to attenuate the height channels when the downstream player isn??t configured to handle Dolby Digital Plus with Dolby Atmos and must remix the channels.
+        public let heightTrim: Double?
+        /// Surround dimensional trim. Sets the maximum amount to attenuate the surround channels when the downstream player isn't configured to handle Dolby Digital Plus with Dolby Atmos and must remix the channels.
+        public let surroundTrim: Double?
+
+        public init(bitrate: Double? = nil, codingMode: Eac3AtmosCodingMode? = nil, dialnorm: Int? = nil, drcLine: Eac3AtmosDrcLine? = nil, drcRf: Eac3AtmosDrcRf? = nil, heightTrim: Double? = nil, surroundTrim: Double? = nil) {
+            self.bitrate = bitrate
+            self.codingMode = codingMode
+            self.dialnorm = dialnorm
+            self.drcLine = drcLine
+            self.drcRf = drcRf
+            self.heightTrim = heightTrim
+            self.surroundTrim = surroundTrim
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dialnorm, name: "dialnorm", parent: name, max: 31)
+            try self.validate(self.dialnorm, name: "dialnorm", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bitrate
+            case codingMode
+            case dialnorm
+            case drcLine
+            case drcRf
+            case heightTrim
+            case surroundTrim
         }
     }
 
@@ -5659,12 +5737,14 @@ extension MediaLive {
 
     public struct H265ColorSpaceSettings: AWSEncodableShape & AWSDecodableShape {
         public let colorSpacePassthroughSettings: ColorSpacePassthroughSettings?
+        public let dolbyVision81Settings: DolbyVision81Settings?
         public let hdr10Settings: Hdr10Settings?
         public let rec601Settings: Rec601Settings?
         public let rec709Settings: Rec709Settings?
 
-        public init(colorSpacePassthroughSettings: ColorSpacePassthroughSettings? = nil, hdr10Settings: Hdr10Settings? = nil, rec601Settings: Rec601Settings? = nil, rec709Settings: Rec709Settings? = nil) {
+        public init(colorSpacePassthroughSettings: ColorSpacePassthroughSettings? = nil, dolbyVision81Settings: DolbyVision81Settings? = nil, hdr10Settings: Hdr10Settings? = nil, rec601Settings: Rec601Settings? = nil, rec709Settings: Rec709Settings? = nil) {
             self.colorSpacePassthroughSettings = colorSpacePassthroughSettings
+            self.dolbyVision81Settings = dolbyVision81Settings
             self.hdr10Settings = hdr10Settings
             self.rec601Settings = rec601Settings
             self.rec709Settings = rec709Settings
@@ -5676,6 +5756,7 @@ extension MediaLive {
 
         private enum CodingKeys: String, CodingKey {
             case colorSpacePassthroughSettings
+            case dolbyVision81Settings
             case hdr10Settings
             case rec601Settings
             case rec709Settings

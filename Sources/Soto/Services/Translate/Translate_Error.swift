@@ -32,6 +32,7 @@ public struct TranslateErrorType: AWSErrorType {
         case serviceUnavailableException = "ServiceUnavailableException"
         case textSizeLimitExceededException = "TextSizeLimitExceededException"
         case tooManyRequestsException = "TooManyRequestsException"
+        case tooManyTagsException = "TooManyTagsException"
         case unsupportedDisplayLanguageCodeException = "UnsupportedDisplayLanguageCodeException"
         case unsupportedLanguagePairException = "UnsupportedLanguagePairException"
     }
@@ -78,6 +79,7 @@ public struct TranslateErrorType: AWSErrorType {
     public static var textSizeLimitExceededException: Self { .init(.textSizeLimitExceededException) }
     ///  You have made too many requests within a short period of time. Wait for a short time and then try your request again.
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
+    public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
     /// Requested display language code is not supported.
     public static var unsupportedDisplayLanguageCodeException: Self { .init(.unsupportedDisplayLanguageCodeException) }
     /// Amazon Translate does not support translation from the language of the source text into the requested target language. For more information, see how-to-error-msg.

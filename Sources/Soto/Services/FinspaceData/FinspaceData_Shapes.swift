@@ -114,6 +114,12 @@ extension FinspaceData {
         public var description: String { return self.rawValue }
     }
 
+    public enum LocationType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case ingestion = "INGESTION"
+        case sagemaker = "SAGEMAKER"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PermissionGroupMembershipStatus: String, CustomStringConvertible, Codable, _SotoSendable {
         case additionInProgress = "ADDITION_IN_PROGRESS"
         case additionSuccess = "ADDITION_SUCCESS"
@@ -131,12 +137,6 @@ extension FinspaceData {
     public enum UserType: String, CustomStringConvertible, Codable, _SotoSendable {
         case appUser = "APP_USER"
         case superUser = "SUPER_USER"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum LocationType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case ingestion = "INGESTION"
-        case sagemaker = "SAGEMAKER"
         public var description: String { return self.rawValue }
     }
 

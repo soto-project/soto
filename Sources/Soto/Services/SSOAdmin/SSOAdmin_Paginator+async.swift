@@ -23,7 +23,7 @@ import SotoCore
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension SSOAdmin {
-    ///  Lists the status of the Amazon Web Services account assignment creation requests for a specified Amazon Web Services SSO instance.
+    ///  Lists the status of the AWS account assignment creation requests for a specified IAM Identity Center instance.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -45,7 +45,7 @@ extension SSOAdmin {
         )
     }
 
-    ///  Lists the status of the Amazon Web Services account assignment deletion requests for a specified Amazon Web Services SSO instance.
+    ///  Lists the status of the AWS account assignment deletion requests for a specified IAM Identity Center instance.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -67,7 +67,7 @@ extension SSOAdmin {
         )
     }
 
-    ///  Lists the assignee of the specified Amazon Web Services account with the specified permission set.
+    ///  Lists the assignee of the specified AWS account with the specified permission set.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -89,7 +89,7 @@ extension SSOAdmin {
         )
     }
 
-    ///  Lists all the Amazon Web Services accounts where the specified permission set is provisioned.
+    ///  Lists all the AWS accounts where the specified permission set is provisioned.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -133,7 +133,7 @@ extension SSOAdmin {
         )
     }
 
-    ///  Lists the Amazon Web Services SSO instances that the caller has access to.
+    ///  Lists the IAM Identity Center instances that the caller has access to.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -155,7 +155,7 @@ extension SSOAdmin {
         )
     }
 
-    ///  Lists the Amazon Web Services managed policy that is attached to a specified permission set.
+    ///  Lists the AWS managed policy that is attached to a specified permission set.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -177,7 +177,7 @@ extension SSOAdmin {
         )
     }
 
-    ///  Lists the status of the permission set provisioning requests for a specified Amazon Web Services SSO instance.
+    ///  Lists the status of the permission set provisioning requests for a specified IAM Identity Center instance.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -199,7 +199,7 @@ extension SSOAdmin {
         )
     }
 
-    ///  Lists the PermissionSets in an Amazon Web Services SSO instance.
+    ///  Lists the PermissionSets in an IAM Identity Center instance.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -221,7 +221,7 @@ extension SSOAdmin {
         )
     }
 
-    ///  Lists all the permission sets that are provisioned to a specified Amazon Web Services account.
+    ///  Lists all the permission sets that are provisioned to a specified AWS account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
