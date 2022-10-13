@@ -50,8 +50,7 @@ public struct Amp: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "amp",
-            signingName: "aps",
+            service: "aps",
             serviceProtocol: .restjson,
             apiVersion: "2020-08-01",
             endpoint: endpoint,

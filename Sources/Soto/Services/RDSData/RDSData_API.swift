@@ -50,8 +50,7 @@ public struct RDSData: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "rdsdata",
-            signingName: "rds-data",
+            service: "rds-data",
             serviceProtocol: .restjson,
             apiVersion: "2018-08-01",
             endpoint: endpoint,

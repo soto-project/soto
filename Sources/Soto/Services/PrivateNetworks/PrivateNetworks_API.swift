@@ -50,8 +50,7 @@ public struct PrivateNetworks: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "privatenetworks",
-            signingName: "private-networks",
+            service: "private-networks",
             serviceProtocol: .restjson,
             apiVersion: "2021-12-03",
             endpoint: endpoint,

@@ -50,8 +50,7 @@ public struct LicenseManagerUserSubscriptions: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "licensemanagerusersubscriptions",
-            signingName: "license-manager-user-subscriptions",
+            service: "license-manager-user-subscriptions",
             serviceProtocol: .restjson,
             apiVersion: "2018-05-10",
             endpoint: endpoint,

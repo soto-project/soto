@@ -50,8 +50,7 @@ public struct MWAA: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "mwaa",
-            signingName: "airflow",
+            service: "airflow",
             serviceProtocol: .restjson,
             apiVersion: "2020-07-01",
             endpoint: endpoint,

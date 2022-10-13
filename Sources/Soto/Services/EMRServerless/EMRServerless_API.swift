@@ -50,8 +50,7 @@ public struct EMRServerless: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "emrserverless",
-            signingName: "emr-serverless",
+            service: "emr-serverless",
             serviceProtocol: .restjson,
             apiVersion: "2021-07-13",
             endpoint: endpoint,

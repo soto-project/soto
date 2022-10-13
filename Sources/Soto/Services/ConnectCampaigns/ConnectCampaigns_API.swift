@@ -50,8 +50,7 @@ public struct ConnectCampaigns: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "connectcampaigns",
-            signingName: "connect-campaigns",
+            service: "connect-campaigns",
             serviceProtocol: .restjson,
             apiVersion: "2021-01-30",
             endpoint: endpoint,

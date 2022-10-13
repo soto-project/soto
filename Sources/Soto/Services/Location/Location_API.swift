@@ -50,8 +50,7 @@ public struct Location: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "location",
-            signingName: "geo",
+            service: "geo",
             serviceProtocol: .restjson,
             apiVersion: "2020-11-19",
             endpoint: endpoint,
