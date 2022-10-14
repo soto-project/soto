@@ -186,7 +186,7 @@ extension Proton {
     }
 
     public struct AccountSettings: AWSDecodableShape {
-        /// The repository configured in the Amazon Web Services account for pipeline provisioning. Required it if you have environments configured for self-managed provisioning with services that include pipelines.
+        /// The linked repository for pipeline provisioning. Required if you have environments configured for self-managed provisioning with services that include pipelines. A linked repository is a repository that has been registered with Proton. For more information, see CreateRepository.
         public let pipelineProvisioningRepository: RepositoryBranch?
         /// The Amazon Resource Name (ARN) of the service role you want to use for provisioning pipelines. Assumed by Proton for Amazon Web Services-managed provisioning, and by customer-owned automation for self-managed provisioning.
         public let pipelineServiceRoleArn: String?
@@ -509,7 +509,7 @@ extension Proton {
         public let serviceName: String?
         /// The service spec that you want the component to use to access service inputs. Set this only when you attach the component to a service instance.
         public let serviceSpec: String?
-        /// An optional list of metadata items that you can associate with the Proton component. A tag is a key-value pair. For more information, see Proton resources and tagging in the Proton Administrator Guide or Proton User Guide.
+        /// An optional list of metadata items that you can associate with the Proton component. A tag is a key-value pair. For more information, see Proton resources and tagging in the Proton User Guide.
         public let tags: [Tag]?
         /// A path to the Infrastructure as Code (IaC) file describing infrastructure that a custom component provisions.  Components support a single IaC file, even if you use Terraform as your template language.
         public let templateFile: String
@@ -581,7 +581,7 @@ extension Proton {
     public struct CreateEnvironmentAccountConnectionInput: AWSEncodableShape {
         /// When included, if two identical requests are made with the same client token, Proton returns the environment account connection that the first request created.
         public let clientToken: String?
-        /// The Amazon Resource Name (ARN) of the IAM service role that Proton uses when provisioning directly defined components in the associated environment account. It determines the scope of infrastructure that a component can provision in the account. You must specify componentRoleArn to allow directly defined components to be associated with any environments running in this account. For more information about components, see Proton components in the Proton Administrator Guide.
+        /// The Amazon Resource Name (ARN) of the IAM service role that Proton uses when provisioning directly defined components in the associated environment account. It determines the scope of infrastructure that a component can provision in the account. You must specify componentRoleArn to allow directly defined components to be associated with any environments running in this account. For more information about components, see Proton components in the Proton User Guide.
         public let componentRoleArn: String?
         /// The name of the Proton environment that's created in the associated management account.
         public let environmentName: String
@@ -589,7 +589,7 @@ extension Proton {
         public let managementAccountId: String
         /// The Amazon Resource Name (ARN) of the IAM service role that's created in the environment account. Proton uses this role to provision infrastructure resources in the associated environment account.
         public let roleArn: String
-        /// An optional list of metadata items that you can associate with the Proton environment account connection. A tag is a key-value pair. For more information, see Proton resources and tagging in the Proton Administrator Guide.
+        /// An optional list of metadata items that you can associate with the Proton environment account connection. A tag is a key-value pair. For more information, see Proton resources and tagging in the Proton User Guide.
         public let tags: [Tag]?
 
         public init(clientToken: String? = CreateEnvironmentAccountConnectionInput.idempotencyToken(), componentRoleArn: String? = nil, environmentName: String, managementAccountId: String, roleArn: String, tags: [Tag]? = nil) {
@@ -642,27 +642,27 @@ extension Proton {
     }
 
     public struct CreateEnvironmentInput: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the IAM service role that Proton uses when provisioning directly defined components in this environment. It determines the scope of infrastructure that a component can provision. You must specify componentRoleArn to allow directly defined components to be associated with this environment. For more information about components, see Proton components in the Proton Administrator Guide.
+        /// The Amazon Resource Name (ARN) of the IAM service role that Proton uses when provisioning directly defined components in this environment. It determines the scope of infrastructure that a component can provision. You must specify componentRoleArn to allow directly defined components to be associated with this environment. For more information about components, see Proton components in the Proton User Guide.
         public let componentRoleArn: String?
         /// A description of the environment that's being created and deployed.
         public let description: String?
-        /// The ID of the environment account connection that you provide if you're provisioning your environment infrastructure resources to an environment account. For more information, see Environment account connections in the Proton Administrator guide. To use Amazon Web Services-managed provisioning for the environment, specify either the environmentAccountConnectionId or protonServiceRoleArn parameter and omit the provisioningRepository parameter.
+        /// The ID of the environment account connection that you provide if you're provisioning your environment infrastructure resources to an environment account. For more information, see Environment account connections in the Proton User guide. To use Amazon Web Services-managed provisioning for the environment, specify either the environmentAccountConnectionId or protonServiceRoleArn parameter and omit the provisioningRepository parameter.
         public let environmentAccountConnectionId: String?
         /// The name of the environment.
         public let name: String
         /// The Amazon Resource Name (ARN) of the Proton service role that allows Proton to make calls to other services on your behalf. To use Amazon Web Services-managed provisioning for the environment, specify either the environmentAccountConnectionId or protonServiceRoleArn parameter and omit the provisioningRepository parameter.
         public let protonServiceRoleArn: String?
-        /// The infrastructure repository that you use to host your rendered infrastructure templates for self-managed provisioning. To use self-managed provisioning for the environment, specify this parameter and omit the environmentAccountConnectionId and protonServiceRoleArn parameters.
+        /// The linked repository that you use to host your rendered infrastructure templates for self-managed provisioning. A linked repository is a repository that has been registered with Proton. For more information, see CreateRepository. To use self-managed provisioning for the environment, specify this parameter and omit the environmentAccountConnectionId and protonServiceRoleArn parameters.
         public let provisioningRepository: RepositoryBranchInput?
-        /// A YAML formatted string that provides inputs as defined in the environment template bundle schema file. For more information, see Environments in the Proton Administrator Guide.
+        /// A YAML formatted string that provides inputs as defined in the environment template bundle schema file. For more information, see Environments in the Proton User Guide.
         public let spec: String
-        /// An optional list of metadata items that you can associate with the Proton environment. A tag is a key-value pair. For more information, see Proton resources and tagging in the Proton Administrator Guide or Proton User Guide.
+        /// An optional list of metadata items that you can associate with the Proton environment. A tag is a key-value pair. For more information, see Proton resources and tagging in the Proton User Guide.
         public let tags: [Tag]?
         /// The major version of the environment template.
         public let templateMajorVersion: String
         /// The minor version of the environment template.
         public let templateMinorVersion: String?
-        /// The name of the environment template. For more information, see Environment Templates in the Proton Administrator Guide.
+        /// The name of the environment template. For more information, see Environment Templates in the Proton User Guide.
         public let templateName: String
 
         public init(componentRoleArn: String? = nil, description: String? = nil, environmentAccountConnectionId: String? = nil, name: String, protonServiceRoleArn: String? = nil, provisioningRepository: RepositoryBranchInput? = nil, spec: String, tags: [Tag]? = nil, templateMajorVersion: String, templateMinorVersion: String? = nil, templateName: String) {
@@ -746,7 +746,7 @@ extension Proton {
         public let name: String
         /// When included, indicates that the environment template is for customer provisioned and managed infrastructure.
         public let provisioning: Provisioning?
-        /// An optional list of metadata items that you can associate with the Proton environment template. A tag is a key-value pair. For more information, see Proton resources and tagging in the Proton Administrator Guide or Proton User Guide.
+        /// An optional list of metadata items that you can associate with the Proton environment template. A tag is a key-value pair. For more information, see Proton resources and tagging in the Proton User Guide.
         public let tags: [Tag]?
 
         public init(description: String? = nil, displayName: String? = nil, encryptionKey: String? = nil, name: String, provisioning: Provisioning? = nil, tags: [Tag]? = nil) {
@@ -805,7 +805,7 @@ extension Proton {
         public let majorVersion: String?
         /// An object that includes the template bundle S3 bucket path and name for the new version of an template.
         public let source: TemplateVersionSourceInput
-        /// An optional list of metadata items that you can associate with the Proton environment template version. A tag is a key-value pair. For more information, see Proton resources and tagging in the Proton Administrator Guide or Proton User Guide.
+        /// An optional list of metadata items that you can associate with the Proton environment template version. A tag is a key-value pair. For more information, see Proton resources and tagging in the Proton User Guide.
         public let tags: [Tag]?
         /// The name of the environment template.
         public let templateName: String
@@ -860,7 +860,7 @@ extension Proton {
     }
 
     public struct CreateRepositoryInput: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of your Amazon Web Services CodeStar connection. For more information, see Setting up for Proton in the Proton Administrator Guide.
+        /// The Amazon Resource Name (ARN) of your AWS CodeStar connection that connects Proton to your repository provider account. For more information, see Setting up for Proton in the Proton User Guide.
         public let connectionArn: String
         /// The ARN of your customer Amazon Web Services Key Management Service (Amazon Web Services KMS) key.
         public let encryptionKey: String?
@@ -868,7 +868,7 @@ extension Proton {
         public let name: String
         /// The repository provider.
         public let provider: RepositoryProvider
-        /// An optional list of metadata items that you can associate with the Proton repository. A tag is a key-value pair. For more information, see Proton resources and tagging in the Proton Administrator Guide or Proton User Guide.
+        /// An optional list of metadata items that you can associate with the Proton repository. A tag is a key-value pair. For more information, see Proton resources and tagging in the Proton User Guide.
         public let tags: [Tag]?
 
         public init(connectionArn: String, encryptionKey: String? = nil, name: String, provider: RepositoryProvider, tags: [Tag]? = nil) {
@@ -903,7 +903,7 @@ extension Proton {
     }
 
     public struct CreateRepositoryOutput: AWSDecodableShape {
-        /// The repository detail data that's returned by Proton.
+        /// The repository link's detail data that's returned by Proton.
         public let repository: Repository
 
         public init(repository: Repository) {
@@ -922,13 +922,13 @@ extension Proton {
         public let description: String?
         /// The service name.
         public let name: String
-        /// The Amazon Resource Name (ARN) of the repository connection. For more information, see Set up repository connection in the Proton Administrator Guide and Setting up with Proton in the Proton User Guide. Don't include this parameter if your service template doesn't include a service pipeline.
+        /// The Amazon Resource Name (ARN) of the repository connection. For more information, see Setting up an AWS CodeStar connection in the Proton User Guide. Don't include this parameter if your service template doesn't include a service pipeline.
         public let repositoryConnectionArn: String?
         /// The ID of the code repository. Don't include this parameter if your service template doesn't include a service pipeline.
         public let repositoryId: String?
-        /// A link to a spec file that provides inputs as defined in the service template bundle schema file. The spec file is in YAML format. Don’t include pipeline inputs in the spec if your service template doesn’t include a service pipeline. For more information, see Create a service in the Proton Administrator Guide and Create a service in the Proton User Guide.
+        /// A link to a spec file that provides inputs as defined in the service template bundle schema file. The spec file is in YAML format. Don’t include pipeline inputs in the spec if your service template doesn’t include a service pipeline. For more information, see Create a service in the Proton User Guide.
         public let spec: String
-        /// An optional list of metadata items that you can associate with the Proton service. A tag is a key-value pair. For more information, see Proton resources and tagging in the Proton Administrator Guide or Proton User Guide.
+        /// An optional list of metadata items that you can associate with the Proton service. A tag is a key-value pair. For more information, see Proton resources and tagging in the Proton User Guide.
         public let tags: [Tag]?
         /// The major version of the service template that was used to create the service.
         public let templateMajorVersion: String
@@ -1014,9 +1014,9 @@ extension Proton {
         public let encryptionKey: String?
         /// The name of the service template.
         public let name: String
-        /// By default, Proton provides a service pipeline for your service. When this parameter is included, it indicates that an Proton service pipeline isn't provided for your service. After it's included, it can't be changed. For more information, see Service template bundles in the Proton Administrator Guide.
+        /// By default, Proton provides a service pipeline for your service. When this parameter is included, it indicates that an Proton service pipeline isn't provided for your service. After it's included, it can't be changed. For more information, see Template bundles in the Proton User Guide.
         public let pipelineProvisioning: Provisioning?
-        /// An optional list of metadata items that you can associate with the Proton service template. A tag is a key-value pair. For more information, see Proton resources and tagging in the Proton Administrator Guide or Proton User Guide.
+        /// An optional list of metadata items that you can associate with the Proton service template. A tag is a key-value pair. For more information, see Proton resources and tagging in the Proton User Guide.
         public let tags: [Tag]?
 
         public init(description: String? = nil, displayName: String? = nil, encryptionKey: String? = nil, name: String, pipelineProvisioning: Provisioning? = nil, tags: [Tag]? = nil) {
@@ -1077,9 +1077,9 @@ extension Proton {
         public let majorVersion: String?
         /// An object that includes the template bundle S3 bucket path and name for the new version of a service template.
         public let source: TemplateVersionSourceInput
-        /// An array of supported component sources. Components with supported sources can be attached to service instances based on this service template version. For more information about components, see Proton components in the Proton Administrator Guide.
+        /// An array of supported component sources. Components with supported sources can be attached to service instances based on this service template version. For more information about components, see Proton components in the Proton User Guide.
         public let supportedComponentSources: [ServiceTemplateSupportedComponentSourceType]?
-        /// An optional list of metadata items that you can associate with the Proton service template version. A tag is a key-value pair. For more information, see Proton resources and tagging in the Proton Administrator Guide or Proton User Guide.
+        /// An optional list of metadata items that you can associate with the Proton service template version. A tag is a key-value pair. For more information, see Proton resources and tagging in the Proton User Guide.
         public let tags: [Tag]?
         /// The name of the service template.
         public let templateName: String
@@ -1143,9 +1143,9 @@ extension Proton {
     }
 
     public struct CreateTemplateSyncConfigInput: AWSEncodableShape {
-        /// The branch of the registered repository for your template.
+        /// The repository branch for your template.
         public let branch: String
-        /// The name of your repository (for example, myrepos/myrepo).
+        /// The repository name (for example, myrepos/myrepo).
         public let repositoryName: String
         /// The provider type for your repository.
         public let repositoryProvider: RepositoryProvider
@@ -1374,7 +1374,7 @@ extension Proton {
     }
 
     public struct DeleteRepositoryInput: AWSEncodableShape {
-        /// The name of the repository.
+        /// The repository name.
         public let name: String
         /// The repository provider.
         public let provider: RepositoryProvider
@@ -1397,7 +1397,7 @@ extension Proton {
     }
 
     public struct DeleteRepositoryOutput: AWSDecodableShape {
-        /// The repository detail data that's returned by Proton.
+        /// The deleted repository link's detail data that's returned by Proton.
         public let repository: Repository?
 
         public init(repository: Repository? = nil) {
@@ -1558,7 +1558,7 @@ extension Proton {
     public struct Environment: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the environment.
         public let arn: String
-        /// The Amazon Resource Name (ARN) of the IAM service role that Proton uses when provisioning directly defined components in this environment. It determines the scope of infrastructure that a component can provision. The environment must have a componentRoleArn to allow directly defined components to be associated with the environment. For more information about components, see Proton components in the Proton Administrator Guide.
+        /// The Amazon Resource Name (ARN) of the IAM service role that Proton uses when provisioning directly defined components in this environment. It determines the scope of infrastructure that a component can provision. The environment must have a componentRoleArn to allow directly defined components to be associated with the environment. For more information about components, see Proton components in the Proton User Guide.
         public let componentRoleArn: String?
         /// The time when the environment was created.
         public let createdAt: Date
@@ -1582,7 +1582,7 @@ extension Proton {
         public let protonServiceRoleArn: String?
         /// When included, indicates that the environment template is for customer provisioned and managed infrastructure.
         public let provisioning: Provisioning?
-        /// The infrastructure repository that you use to host your rendered infrastructure templates for self-managed provisioning.
+        /// The linked repository that you use to host your rendered infrastructure templates for self-managed provisioning. A linked repository is a repository that has been registered with Proton. For more information, see CreateRepository.
         public let provisioningRepository: RepositoryBranch?
         /// The environment spec.
         public let spec: String?
@@ -1639,7 +1639,7 @@ extension Proton {
     public struct EnvironmentAccountConnection: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the environment account connection.
         public let arn: String
-        /// The Amazon Resource Name (ARN) of the IAM service role that Proton uses when provisioning directly defined components in the associated environment account. It determines the scope of infrastructure that a component can provision in the account. The environment account connection must have a componentRoleArn to allow directly defined components to be associated with any environments running in the account. For more information about components, see Proton components in the Proton Administrator Guide.
+        /// The Amazon Resource Name (ARN) of the IAM service role that Proton uses when provisioning directly defined components in the associated environment account. It determines the scope of infrastructure that a component can provision in the account. The environment account connection must have a componentRoleArn to allow directly defined components to be associated with any environments running in the account. For more information about components, see Proton components in the Proton User Guide.
         public let componentRoleArn: String?
         /// The environment account that's connected to the environment account connection.
         public let environmentAccountId: String
@@ -1688,7 +1688,7 @@ extension Proton {
     public struct EnvironmentAccountConnectionSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the environment account connection.
         public let arn: String
-        /// The Amazon Resource Name (ARN) of the IAM service role that Proton uses when provisioning directly defined components in the associated environment account. It determines the scope of infrastructure that a component can provision in the account. The environment account connection must have a componentRoleArn to allow directly defined components to be associated with any environments running in the account. For more information about components, see Proton components in the Proton Administrator Guide.
+        /// The Amazon Resource Name (ARN) of the IAM service role that Proton uses when provisioning directly defined components in the associated environment account. It determines the scope of infrastructure that a component can provision in the account. The environment account connection must have a componentRoleArn to allow directly defined components to be associated with any environments running in the account. For more information about components, see Proton components in the Proton User Guide.
         public let componentRoleArn: String?
         /// The ID of the environment account that's connected to the environment account connection.
         public let environmentAccountId: String
@@ -1737,7 +1737,7 @@ extension Proton {
     public struct EnvironmentSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the environment.
         public let arn: String
-        /// The Amazon Resource Name (ARN) of the IAM service role that Proton uses when provisioning directly defined components in this environment. It determines the scope of infrastructure that a component can provision. The environment must have a componentRoleArn to allow directly defined components to be associated with the environment. For more information about components, see Proton components in the Proton Administrator Guide.
+        /// The Amazon Resource Name (ARN) of the IAM service role that Proton uses when provisioning directly defined components in this environment. It determines the scope of infrastructure that a component can provision. The environment must have a componentRoleArn to allow directly defined components to be associated with the environment. For more information about components, see Proton components in the Proton User Guide.
         public let componentRoleArn: String?
         /// The time when the environment was created.
         public let createdAt: Date
@@ -2169,7 +2169,7 @@ extension Proton {
         public let majorVersion: String
         /// To get environment template minor version detail data, include minorVersion.
         public let minorVersion: String
-        /// The name of the environment template a version of which you want to get detailed data for..
+        /// The name of the environment template a version of which you want to get detailed data for.
         public let templateName: String
 
         public init(majorVersion: String, minorVersion: String, templateName: String) {
@@ -2234,7 +2234,7 @@ extension Proton {
     }
 
     public struct GetRepositoryOutput: AWSDecodableShape {
-        /// The repository detail data that's returned by Proton.
+        /// The repository link's detail data that's returned by Proton.
         public let repository: Repository
 
         public init(repository: Repository) {
@@ -2975,7 +2975,7 @@ extension Proton {
     public struct ListRepositoriesOutput: AWSDecodableShape {
         /// A token that indicates the location of the next repository in the array of repositories, after the current requested list of repositories.
         public let nextToken: String?
-        /// An array of repositories.
+        /// An array of repository links.
         public let repositories: [RepositorySummary]
 
         public init(nextToken: String? = nil, repositories: [RepositorySummary]) {
@@ -3515,7 +3515,7 @@ extension Proton {
         public let identifier: String?
         /// The provisioned resource name.
         public let name: String?
-        /// The resource provisioning engine. At this time, CLOUDFORMATION can be used for Amazon Web Services-managed provisioning, and TERRAFORM can be used for self-managed provisioning. For more information, see Self-managed provisioning in the Proton Administrator Guide.
+        /// The resource provisioning engine. At this time, CLOUDFORMATION can be used for Amazon Web Services-managed provisioning, and TERRAFORM can be used for self-managed provisioning. For more information, see Self-managed provisioning in the Proton User Guide.
         public let provisioningEngine: ProvisionedResourceEngine?
 
         public init(identifier: String? = nil, name: String? = nil, provisioningEngine: ProvisionedResourceEngine? = nil) {
@@ -3562,9 +3562,9 @@ extension Proton {
     }
 
     public struct Repository: AWSDecodableShape {
-        /// The repository Amazon Resource Name (ARN).
+        /// The Amazon Resource Name (ARN) of the linked repository.
         public let arn: String
-        /// The repository Amazon Web Services CodeStar connection that connects Proton to your repository.
+        /// The Amazon Resource Name (ARN) of your AWS CodeStar connection that connects Proton to your repository provider account.
         public let connectionArn: String
         /// Your customer Amazon Web Services KMS encryption key.
         public let encryptionKey: String?
@@ -3591,7 +3591,7 @@ extension Proton {
     }
 
     public struct RepositoryBranch: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the repository branch.
+        /// The Amazon Resource Name (ARN) of the linked repository.
         public let arn: String
         /// The repository branch.
         public let branch: String
@@ -3645,7 +3645,7 @@ extension Proton {
     }
 
     public struct RepositorySummary: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) for a repository.
+        /// The Amazon Resource Name (ARN) of the linked repository.
         public let arn: String
         /// The repository name.
         public let name: String
@@ -3863,7 +3863,7 @@ extension Proton {
         public let name: String
         /// The service pipeline detail data.
         public let pipeline: ServicePipeline?
-        /// The Amazon Resource Name (ARN) of the repository connection. For more information, see Set up a repository connection in the Proton Administrator Guide and Setting up with Proton in the Proton User Guide.
+        /// The Amazon Resource Name (ARN) of the repository connection. For more information, see Setting up an AWS CodeStar connection in the Proton User Guide.
         public let repositoryConnectionArn: String?
         /// The ID of the source code repository.
         public let repositoryId: String?
@@ -4226,7 +4226,7 @@ extension Proton {
         public let status: TemplateVersionStatus
         /// A service template version status message.
         public let statusMessage: String?
-        /// An array of supported component sources. Components with supported sources can be attached to service instances based on this service template version. For more information about components, see Proton components in the Proton Administrator Guide.
+        /// An array of supported component sources. Components with supported sources can be attached to service instances based on this service template version. For more information about components, see Proton components in the Proton User Guide.
         public let supportedComponentSources: [ServiceTemplateSupportedComponentSourceType]?
         /// The name of the version of a service template.
         public let templateName: String
@@ -4372,7 +4372,7 @@ extension Proton {
     public struct TemplateSyncConfig: AWSDecodableShape {
         /// The repository branch.
         public let branch: String
-        /// The name of the repository, for example myrepos/myrepo.
+        /// The repository name (for example, myrepos/myrepo).
         public let repositoryName: String
         /// The repository provider.
         public let repositoryProvider: RepositoryProvider
@@ -4437,12 +4437,15 @@ extension Proton {
     }
 
     public struct UpdateAccountSettingsInput: AWSEncodableShape {
-        /// A repository for pipeline provisioning. Specify it if you have environments configured for self-managed provisioning with services that include pipelines.
+        /// Set to true to remove a configured pipeline repository from the account settings. Don't set this field if you are updating the configured pipeline repository.
+        public let deletePipelineProvisioningRepository: Bool?
+        /// A linked repository for pipeline provisioning. Specify it if you have environments configured for self-managed provisioning with services that include pipelines. A linked repository is a repository that has been registered with Proton. For more information, see CreateRepository. To remove a previously configured repository, set deletePipelineProvisioningRepository to true, and don't set pipelineProvisioningRepository.
         public let pipelineProvisioningRepository: RepositoryBranchInput?
-        /// The Amazon Resource Name (ARN) of the service role you want to use for provisioning pipelines. Assumed by Proton for Amazon Web Services-managed provisioning, and by customer-owned automation for self-managed provisioning.
+        /// The Amazon Resource Name (ARN) of the service role you want to use for provisioning pipelines. Assumed by Proton for Amazon Web Services-managed provisioning, and by customer-owned automation for self-managed provisioning. To remove a previously configured ARN, specify an empty string.
         public let pipelineServiceRoleArn: String?
 
-        public init(pipelineProvisioningRepository: RepositoryBranchInput? = nil, pipelineServiceRoleArn: String? = nil) {
+        public init(deletePipelineProvisioningRepository: Bool? = nil, pipelineProvisioningRepository: RepositoryBranchInput? = nil, pipelineServiceRoleArn: String? = nil) {
+            self.deletePipelineProvisioningRepository = deletePipelineProvisioningRepository
             self.pipelineProvisioningRepository = pipelineProvisioningRepository
             self.pipelineServiceRoleArn = pipelineServiceRoleArn
         }
@@ -4454,6 +4457,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case deletePipelineProvisioningRepository
             case pipelineProvisioningRepository
             case pipelineServiceRoleArn
         }
@@ -4538,7 +4542,7 @@ extension Proton {
     }
 
     public struct UpdateEnvironmentAccountConnectionInput: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the IAM service role that Proton uses when provisioning directly defined components in the associated environment account. It determines the scope of infrastructure that a component can provision in the account. The environment account connection must have a componentRoleArn to allow directly defined components to be associated with any environments running in the account. For more information about components, see Proton components in the Proton Administrator Guide.
+        /// The Amazon Resource Name (ARN) of the IAM service role that Proton uses when provisioning directly defined components in the associated environment account. It determines the scope of infrastructure that a component can provision in the account. The environment account connection must have a componentRoleArn to allow directly defined components to be associated with any environments running in the account. For more information about components, see Proton components in the Proton User Guide.
         public let componentRoleArn: String?
         /// The ID of the environment account connection to update.
         public let id: String
@@ -4580,7 +4584,7 @@ extension Proton {
     }
 
     public struct UpdateEnvironmentInput: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the IAM service role that Proton uses when provisioning directly defined components in this environment. It determines the scope of infrastructure that a component can provision. The environment must have a componentRoleArn to allow directly defined components to be associated with the environment. For more information about components, see Proton components in the Proton Administrator Guide.
+        /// The Amazon Resource Name (ARN) of the IAM service role that Proton uses when provisioning directly defined components in this environment. It determines the scope of infrastructure that a component can provision. The environment must have a componentRoleArn to allow directly defined components to be associated with the environment. For more information about components, see Proton components in the Proton User Guide.
         public let componentRoleArn: String?
         /// There are four modes for updating an environment. The deploymentType field defines the mode.     NONE  In this mode, a deployment doesn't occur. Only the requested metadata parameters are updated.     CURRENT_VERSION  In this mode, the environment is deployed and updated with the new spec that you provide. Only requested parameters are updated. Don’t include major or minor version parameters when you use this deployment-type.     MINOR_VERSION  In this mode, the environment is deployed and updated with the published, recommended (latest) minor version of the current major version in use, by default. You can also specify a different minor version of the current major version in use.     MAJOR_VERSION  In this mode, the environment is deployed and updated with the published, recommended (latest) major and minor version of the current template, by default. You can also specify a different major version that is higher than the major version in use and a minor version (optional).
         public let deploymentType: DeploymentUpdateType
@@ -4592,7 +4596,7 @@ extension Proton {
         public let name: String
         /// The Amazon Resource Name (ARN) of the Proton service role that allows Proton to make API calls to other services your behalf.
         public let protonServiceRoleArn: String?
-        /// The infrastructure repository that you use to host your rendered infrastructure templates for self-managed provisioning.
+        /// The linked repository that you use to host your rendered infrastructure templates for self-managed provisioning. A linked repository is a repository that has been registered with Proton. For more information, see CreateRepository.
         public let provisioningRepository: RepositoryBranchInput?
         /// The formatted specification that defines the update.
         public let spec: String?
@@ -4765,7 +4769,7 @@ extension Proton {
         public let description: String?
         /// The name of the service to edit.
         public let name: String
-        /// Lists the service instances to add and the existing service instances to remain. Omit the existing service instances to delete from the list. Don't include edits to the existing service instances or pipeline. For more information, see Edit a service in the Proton Administrator Guide or the Proton User Guide.
+        /// Lists the service instances to add and the existing service instances to remain. Omit the existing service instances to delete from the list. Don't include edits to the existing service instances or pipeline. For more information, see Edit a service in the Proton User Guide.
         public let spec: String?
 
         public init(description: String? = nil, name: String, spec: String? = nil) {
@@ -4976,7 +4980,7 @@ extension Proton {
         public let minorVersion: String
         /// The status of the service template minor version to update.
         public let status: TemplateVersionStatus?
-        /// An array of supported component sources. Components with supported sources can be attached to service instances based on this service template version.  A change to supportedComponentSources doesn't impact existing component attachments to instances based on this template version. A change only affects later associations.  For more information about components, see Proton components in the Proton Administrator Guide.
+        /// An array of supported component sources. Components with supported sources can be attached to service instances based on this service template version.  A change to supportedComponentSources doesn't impact existing component attachments to instances based on this template version. A change only affects later associations.  For more information about components, see Proton components in the Proton User Guide.
         public let supportedComponentSources: [ServiceTemplateSupportedComponentSourceType]?
         /// The name of the service template.
         public let templateName: String
@@ -5034,9 +5038,9 @@ extension Proton {
     }
 
     public struct UpdateTemplateSyncConfigInput: AWSEncodableShape {
-        /// The repository branch.
+        /// The repository branch for your template.
         public let branch: String
-        /// The name of the repository (for example, myrepos/myrepo).
+        /// The repository name (for example, myrepos/myrepo).
         public let repositoryName: String
         /// The repository provider.
         public let repositoryProvider: RepositoryProvider

@@ -2191,7 +2191,7 @@ extension Location {
             AWSMemberEncoding(label: "mapName", location: .uri("MapName"))
         ]
 
-        /// The name of the sprite ﬁle. Use the following ﬁle names for the sprite sheet:    sprites.png     sprites@2x.png for high pixel density displays   For the JSON document contain image offsets. Use the following ﬁle names:    sprites.json     sprites@2x.json for high pixel density displays
+        /// The name of the sprite ﬁle. Use the following ﬁle names for the sprite sheet:    sprites.png     sprites@2x.png for high pixel density displays   For the JSON document containing image offsets. Use the following ﬁle names:    sprites.json     sprites@2x.json for high pixel density displays
         public let fileName: String
         /// The map resource associated with the sprite ﬁle.
         public let mapName: String
@@ -2336,6 +2336,50 @@ extension Location {
         private enum CodingKeys: String, CodingKey {
             case blob = "Blob"
             case contentType = "Content-Type"
+        }
+    }
+
+    public struct GetPlaceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "indexName", location: .uri("IndexName")),
+            AWSMemberEncoding(label: "language", location: .querystring("language")),
+            AWSMemberEncoding(label: "placeId", location: .uri("PlaceId"))
+        ]
+
+        /// The name of the place index resource that you want to use for the search.
+        public let indexName: String
+        /// The preferred language used to return results. The value must be a valid BCP 47 language tag, for example, en for English. This setting affects the languages used in the results, but not the results themselves. If no language is specified, or not supported for a particular result, the partner automatically chooses a language for the result. For an example, we'll use the Greek language. You search for a location around Athens, Greece, with the language parameter set to en. The city in the results will most likely be returned as Athens. If you set the language parameter to el, for Greek, then the city in the results will more likely be returned as Αθήνα. If the data provider does not have a value for Greek, the result will be in a language that the provider does support.
+        public let language: String?
+        /// The identifier of the place to find.
+        public let placeId: String
+
+        public init(indexName: String, language: String? = nil, placeId: String) {
+            self.indexName = indexName
+            self.language = language
+            self.placeId = placeId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.indexName, name: "indexName", parent: name, max: 100)
+            try self.validate(self.indexName, name: "indexName", parent: name, min: 1)
+            try self.validate(self.indexName, name: "indexName", parent: name, pattern: "^[-._\\w]+$")
+            try self.validate(self.language, name: "language", parent: name, max: 35)
+            try self.validate(self.language, name: "language", parent: name, min: 2)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetPlaceResponse: AWSDecodableShape {
+        /// Details about the result, such as its address and position.
+        public let place: Place
+
+        public init(place: Place) {
+            self.place = place
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case place = "Place"
         }
     }
 
@@ -3091,8 +3135,12 @@ extension Location {
         public let subRegion: String?
         /// The time zone in which the Place is located. Returned only when using Here as the selected partner.
         public let timeZone: TimeZone?
+        /// For addresses with multiple units, the unit identifier. Can include numbers and letters, for example 3B or Unit 123.  Returned only for a place index that uses Esri as a data provider. Is not returned for SearchPlaceIndexForPosition.
+        public let unitNumber: String?
+        /// For addresses with a UnitNumber, the type of unit. For example, Apartment.
+        public let unitType: String?
 
-        public init(addressNumber: String? = nil, country: String? = nil, geometry: PlaceGeometry, interpolated: Bool? = nil, label: String? = nil, municipality: String? = nil, neighborhood: String? = nil, postalCode: String? = nil, region: String? = nil, street: String? = nil, subRegion: String? = nil, timeZone: TimeZone? = nil) {
+        public init(addressNumber: String? = nil, country: String? = nil, geometry: PlaceGeometry, interpolated: Bool? = nil, label: String? = nil, municipality: String? = nil, neighborhood: String? = nil, postalCode: String? = nil, region: String? = nil, street: String? = nil, subRegion: String? = nil, timeZone: TimeZone? = nil, unitNumber: String? = nil, unitType: String? = nil) {
             self.addressNumber = addressNumber
             self.country = country
             self.geometry = geometry
@@ -3105,6 +3153,8 @@ extension Location {
             self.street = street
             self.subRegion = subRegion
             self.timeZone = timeZone
+            self.unitNumber = unitNumber
+            self.unitType = unitType
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3120,6 +3170,8 @@ extension Location {
             case street = "Street"
             case subRegion = "SubRegion"
             case timeZone = "TimeZone"
+            case unitNumber = "UnitNumber"
+            case unitType = "UnitType"
         }
     }
 
@@ -3249,27 +3301,35 @@ extension Location {
         public let distance: Double
         /// Details about the search result, such as its address and position.
         public let place: Place
+        /// The unique identifier of the place. You can use this with the GetPlace operation to find the place again later.  For SearchPlaceIndexForPosition operations, the PlaceId is returned only by place indexes that use HERE as a data provider.
+        public let placeId: String?
 
-        public init(distance: Double, place: Place) {
+        public init(distance: Double, place: Place, placeId: String? = nil) {
             self.distance = distance
             self.place = place
+            self.placeId = placeId
         }
 
         private enum CodingKeys: String, CodingKey {
             case distance = "Distance"
             case place = "Place"
+            case placeId = "PlaceId"
         }
     }
 
     public struct SearchForSuggestionsResult: AWSDecodableShape {
+        /// The unique identifier of the place. You can use this with the GetPlace operation to find the place again later.  For SearchPlaceIndexForSuggestions operations, the PlaceId is returned by place indexes that use HERE or Esri as data providers.
+        public let placeId: String?
         /// The text of the place suggestion, typically formatted as an address string.
         public let text: String
 
-        public init(text: String) {
+        public init(placeId: String? = nil, text: String) {
+            self.placeId = placeId
             self.text = text
         }
 
         private enum CodingKeys: String, CodingKey {
+            case placeId = "PlaceId"
             case text = "Text"
         }
     }
@@ -3279,18 +3339,22 @@ extension Location {
         public let distance: Double?
         /// Details about the search result, such as its address and position.
         public let place: Place
+        /// The unique identifier of the place. You can use this with the GetPlace operation to find the place again later.  For SearchPlaceIndexForText operations, the PlaceId is returned only by place indexes that use HERE as a data provider.
+        public let placeId: String?
         /// The relative confidence in the match for a result among the results returned. For example, if more fields for an address match (including house number, street, city, country/region, and postal code), the relevance score is closer to 1. Returned only when the partner selected is Esri.
         public let relevance: Double?
 
-        public init(distance: Double? = nil, place: Place, relevance: Double? = nil) {
+        public init(distance: Double? = nil, place: Place, placeId: String? = nil, relevance: Double? = nil) {
             self.distance = distance
             self.place = place
+            self.placeId = placeId
             self.relevance = relevance
         }
 
         private enum CodingKeys: String, CodingKey {
             case distance = "Distance"
             case place = "Place"
+            case placeId = "PlaceId"
             case relevance = "Relevance"
         }
     }
@@ -3305,11 +3369,11 @@ extension Location {
         /// The preferred language used to return results. The value must be a valid BCP 47 language tag, for example, en for English. This setting affects the languages used in the results, but not the results themselves. If no language is specified, or not supported for a particular result, the partner automatically chooses a language for the result. For an example, we'll use the Greek language. You search for a location around Athens, Greece, with the language parameter set to en. The city in the results will most likely be returned as Athens. If you set the language parameter to el, for Greek, then the city in the results will more likely be returned as Αθήνα. If the data provider does not have a value for Greek, the result will be in a language that the provider does support.
         public let language: String?
         /// An optional parameter. The maximum number of results returned per request. Default value: 50
-        public let maxResults: Int?
+        public let maxResults: Int
         /// Specifies the longitude and latitude of the position to query. This parameter must contain a pair of numbers. The first number represents the X coordinate, or longitude; the second number represents the Y coordinate, or latitude. For example, [-123.1174, 49.2847] represents a position with longitude -123.1174 and latitude 49.2847.
         public let position: [Double]
 
-        public init(indexName: String, language: String? = nil, maxResults: Int? = nil, position: [Double]) {
+        public init(indexName: String, language: String? = nil, maxResults: Int = 0, position: [Double]) {
             self.indexName = indexName
             self.language = language
             self.maxResults = maxResults
@@ -3504,11 +3568,11 @@ extension Location {
         /// The preferred language used to return results. The value must be a valid BCP 47 language tag, for example, en for English. This setting affects the languages used in the results, but not the results themselves. If no language is specified, or not supported for a particular result, the partner automatically chooses a language for the result. For an example, we'll use the Greek language. You search for Athens, Greece, with the language parameter set to en. The result found will most likely be returned as Athens. If you set the language parameter to el, for Greek, then the result found will more likely be returned as Αθήνα. If the data provider does not have a value for Greek, the result will be in a language that the provider does support.
         public let language: String?
         /// An optional parameter. The maximum number of results returned per request.  The default: 50
-        public let maxResults: Int?
+        public let maxResults: Int
         /// The address, name, city, or region to be used in the search in free-form text format. For example, 123 Any Street.
         public let text: String
 
-        public init(biasPosition: [Double]? = nil, filterBBox: [Double]? = nil, filterCountries: [String]? = nil, indexName: String, language: String? = nil, maxResults: Int? = nil, text: String) {
+        public init(biasPosition: [Double]? = nil, filterBBox: [Double]? = nil, filterCountries: [String]? = nil, indexName: String, language: String? = nil, maxResults: Int = 0, text: String) {
             self.biasPosition = biasPosition
             self.filterBBox = filterBBox
             self.filterCountries = filterCountries
@@ -3548,7 +3612,7 @@ extension Location {
     }
 
     public struct SearchPlaceIndexForTextResponse: AWSDecodableShape {
-        /// A list of Places matching the input text. Each result contains additional information about the specific point of interest.  Not all response properties are included with all responses. Some properties may  only be returned by specific data partners.
+        /// A list of Places matching the input text. Each result contains additional information about the specific point of interest.  Not all response properties are included with all responses. Some properties may only be returned by specific data partners.
         public let results: [SearchForTextResult]
         /// Contains a summary of the request. Echoes the input values for BiasPosition, FilterBBox, FilterCountries, Language, MaxResults, and Text. Also includes the DataSource of the place index and the bounding box, ResultBBox, which surrounds the search results.
         public let summary: SearchPlaceIndexForTextSummary

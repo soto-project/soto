@@ -125,8 +125,8 @@ extension DeviceFarm {
     }
 
     public enum DevicePoolType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case curated = "CURATED"
         case `private` = "PRIVATE"
+        case curated = "CURATED"
         public var description: String { return self.rawValue }
     }
 
@@ -150,7 +150,7 @@ extension DeviceFarm {
     public enum ExecutionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
         case completed = "COMPLETED"
         case pending = "PENDING"
-        case pendingConcurrency = "PENDING_CONCURRENCY"
+        case pendingConcurrnecy = "PENDING_CONCURRENCY"
         case pendingDevice = "PENDING_DEVICE"
         case preparing = "PREPARING"
         case processing = "PROCESSING"
@@ -176,8 +176,8 @@ extension DeviceFarm {
     }
 
     public enum NetworkProfileType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case curated = "CURATED"
         case `private` = "PRIVATE"
+        case curated = "CURATED"
         public var description: String { return self.rawValue }
     }
 
@@ -199,11 +199,11 @@ extension DeviceFarm {
     }
 
     public enum RuleOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+        case `in` = "IN"
         case contains = "CONTAINS"
         case equals = "EQUALS"
         case greaterThan = "GREATER_THAN"
         case greaterThanOrEquals = "GREATER_THAN_OR_EQUALS"
-        case `in` = "IN"
         case lessThan = "LESS_THAN"
         case lessThanOrEquals = "LESS_THAN_OR_EQUALS"
         case notIn = "NOT_IN"
@@ -277,8 +277,8 @@ extension DeviceFarm {
     }
 
     public enum UploadCategory: String, CustomStringConvertible, Codable, _SotoSendable {
-        case curated = "CURATED"
         case `private` = "PRIVATE"
+        case curated = "CURATED"
         public var description: String { return self.rawValue }
     }
 
@@ -514,11 +514,11 @@ extension DeviceFarm {
         /// The name of your instance profile.
         public let name: String
         /// When set to true, Device Farm removes app packages after a test run. The default value is false for private devices.
-        public let packageCleanup: Bool?
+        public let packageCleanup: Bool
         /// When set to true, Device Farm reboots the instance after a test run. The default value is true.
-        public let rebootAfterUse: Bool?
+        public let rebootAfterUse: Bool
 
-        public init(description: String? = nil, excludeAppPackagesFromCleanup: [String]? = nil, name: String, packageCleanup: Bool? = nil, rebootAfterUse: Bool? = nil) {
+        public init(description: String? = nil, excludeAppPackagesFromCleanup: [String]? = nil, name: String, packageCleanup: Bool = false, rebootAfterUse: Bool = true) {
             self.description = description
             self.excludeAppPackagesFromCleanup = excludeAppPackagesFromCleanup
             self.name = name
@@ -563,7 +563,7 @@ extension DeviceFarm {
         /// Time variation in the delay of received packets in milliseconds as an integer from 0 to 2000.
         public let downlinkJitterMs: Int64?
         /// Proportion of received packets that fail to arrive from 0 to 100 percent.
-        public let downlinkLossPercent: Int?
+        public let downlinkLossPercent: Int
         /// The name for the new network profile.
         public let name: String
         /// The Amazon Resource Name (ARN) of the project for which you want to create a network profile.
@@ -577,9 +577,9 @@ extension DeviceFarm {
         /// Time variation in the delay of received packets in milliseconds as an integer from 0 to 2000.
         public let uplinkJitterMs: Int64?
         /// Proportion of transmitted packets that fail to arrive from 0 to 100 percent.
-        public let uplinkLossPercent: Int?
+        public let uplinkLossPercent: Int
 
-        public init(description: String? = nil, downlinkBandwidthBits: Int64? = nil, downlinkDelayMs: Int64? = nil, downlinkJitterMs: Int64? = nil, downlinkLossPercent: Int? = nil, name: String, projectArn: String, type: NetworkProfileType? = nil, uplinkBandwidthBits: Int64? = nil, uplinkDelayMs: Int64? = nil, uplinkJitterMs: Int64? = nil, uplinkLossPercent: Int? = nil) {
+        public init(description: String? = nil, downlinkBandwidthBits: Int64? = nil, downlinkDelayMs: Int64? = nil, downlinkJitterMs: Int64? = nil, downlinkLossPercent: Int = 0, name: String, projectArn: String, type: NetworkProfileType? = nil, uplinkBandwidthBits: Int64? = nil, uplinkDelayMs: Int64? = nil, uplinkJitterMs: Int64? = nil, uplinkLossPercent: Int = 0) {
             self.description = description
             self.downlinkBandwidthBits = downlinkBandwidthBits
             self.downlinkDelayMs = downlinkDelayMs
@@ -640,19 +640,24 @@ extension DeviceFarm {
         public let defaultJobTimeoutMinutes: Int?
         /// The project's name.
         public let name: String
+        /// The VPC security groups and subnets that are attached to a project.
+        public let vpcConfig: VpcConfig?
 
-        public init(defaultJobTimeoutMinutes: Int? = nil, name: String) {
+        public init(defaultJobTimeoutMinutes: Int? = nil, name: String, vpcConfig: VpcConfig? = nil) {
             self.defaultJobTimeoutMinutes = defaultJobTimeoutMinutes
             self.name = name
+            self.vpcConfig = vpcConfig
         }
 
         public func validate(name: String) throws {
             try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.vpcConfig?.validate(name: "\(name).vpcConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
             case defaultJobTimeoutMinutes
             case name
+            case vpcConfig
         }
     }
 
@@ -671,11 +676,11 @@ extension DeviceFarm {
 
     public struct CreateRemoteAccessSessionConfiguration: AWSEncodableShape {
         /// The billing method for the remote access session.
-        public let billingMethod: BillingMethod?
+        public let billingMethod: BillingMethod
         /// An array of ARNs included in the VPC endpoint configuration.
         public let vpceConfigurationArns: [String]?
 
-        public init(billingMethod: BillingMethod? = nil, vpceConfigurationArns: [String]? = nil) {
+        public init(billingMethod: BillingMethod = .metered, vpceConfigurationArns: [String]? = nil) {
             self.billingMethod = billingMethod
             self.vpceConfigurationArns = vpceConfigurationArns
         }
@@ -1458,9 +1463,9 @@ extension DeviceFarm {
         /// When set to true, for private devices, Device Farm does not sign your app again. For public devices, Device Farm always signs your apps again. For more information about how Device Farm re-signs your apps, see Do you modify my app? in the AWS Device Farm FAQs.
         public let skipAppResign: Bool?
         /// Set to true to enable video capture. Otherwise, set to false. The default is true.
-        public let videoCapture: Bool?
+        public let videoCapture: Bool
 
-        public init(accountsCleanup: Bool? = nil, appPackagesCleanup: Bool? = nil, jobTimeoutMinutes: Int? = nil, skipAppResign: Bool? = nil, videoCapture: Bool? = nil) {
+        public init(accountsCleanup: Bool? = nil, appPackagesCleanup: Bool? = nil, jobTimeoutMinutes: Int? = nil, skipAppResign: Bool? = nil, videoCapture: Bool = true) {
             self.accountsCleanup = accountsCleanup
             self.appPackagesCleanup = appPackagesCleanup
             self.jobTimeoutMinutes = jobTimeoutMinutes
@@ -3525,12 +3530,15 @@ extension DeviceFarm {
         public let defaultJobTimeoutMinutes: Int?
         /// The project's name.
         public let name: String?
+        /// The VPC security groups and subnets that are attached to a project.
+        public let vpcConfig: VpcConfig?
 
-        public init(arn: String? = nil, created: Date? = nil, defaultJobTimeoutMinutes: Int? = nil, name: String? = nil) {
+        public init(arn: String? = nil, created: Date? = nil, defaultJobTimeoutMinutes: Int? = nil, name: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.arn = arn
             self.created = created
             self.defaultJobTimeoutMinutes = defaultJobTimeoutMinutes
             self.name = name
+            self.vpcConfig = vpcConfig
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3538,6 +3546,7 @@ extension DeviceFarm {
             case created
             case defaultJobTimeoutMinutes
             case name
+            case vpcConfig
         }
     }
 
@@ -3665,8 +3674,10 @@ extension DeviceFarm {
         public let status: ExecutionStatus?
         /// The date and time the remote access session was stopped.
         public let stopped: Date?
+        /// The VPC security groups and subnets that are attached to a project.
+        public let vpcConfig: VpcConfig?
 
-        public init(arn: String? = nil, billingMethod: BillingMethod? = nil, clientId: String? = nil, created: Date? = nil, device: Device? = nil, deviceMinutes: DeviceMinutes? = nil, deviceUdid: String? = nil, endpoint: String? = nil, hostAddress: String? = nil, instanceArn: String? = nil, interactionMode: InteractionMode? = nil, message: String? = nil, name: String? = nil, remoteDebugEnabled: Bool? = nil, remoteRecordAppArn: String? = nil, remoteRecordEnabled: Bool? = nil, result: ExecutionResult? = nil, skipAppResign: Bool? = nil, started: Date? = nil, status: ExecutionStatus? = nil, stopped: Date? = nil) {
+        public init(arn: String? = nil, billingMethod: BillingMethod? = nil, clientId: String? = nil, created: Date? = nil, device: Device? = nil, deviceMinutes: DeviceMinutes? = nil, deviceUdid: String? = nil, endpoint: String? = nil, hostAddress: String? = nil, instanceArn: String? = nil, interactionMode: InteractionMode? = nil, message: String? = nil, name: String? = nil, remoteDebugEnabled: Bool? = nil, remoteRecordAppArn: String? = nil, remoteRecordEnabled: Bool? = nil, result: ExecutionResult? = nil, skipAppResign: Bool? = nil, started: Date? = nil, status: ExecutionStatus? = nil, stopped: Date? = nil, vpcConfig: VpcConfig? = nil) {
             self.arn = arn
             self.billingMethod = billingMethod
             self.clientId = clientId
@@ -3688,6 +3699,7 @@ extension DeviceFarm {
             self.started = started
             self.status = status
             self.stopped = stopped
+            self.vpcConfig = vpcConfig
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3712,6 +3724,7 @@ extension DeviceFarm {
             case started
             case status
             case stopped
+            case vpcConfig
         }
     }
 
@@ -3848,10 +3861,12 @@ extension DeviceFarm {
         public let totalJobs: Int?
         /// The run's type. Must be one of the following values:   BUILTIN_FUZZ   BUILTIN_EXPLORER  For Android, an app explorer that traverses an Android app, interacting with it and capturing screenshots at the same time.    APPIUM_JAVA_JUNIT   APPIUM_JAVA_TESTNG   APPIUM_PYTHON   APPIUM_NODE   APPIUM_RUBY   APPIUM_WEB_JAVA_JUNIT   APPIUM_WEB_JAVA_TESTNG   APPIUM_WEB_PYTHON   APPIUM_WEB_NODE   APPIUM_WEB_RUBY   CALABASH   INSTRUMENTATION   UIAUTOMATION   UIAUTOMATOR   XCTEST   XCTEST_UI
         public let type: TestType?
+        /// The VPC security groups and subnets that are attached to a project.
+        public let vpcConfig: VpcConfig?
         /// The Device Farm console URL for the recording of the run.
         public let webUrl: String?
 
-        public init(appUpload: String? = nil, arn: String? = nil, billingMethod: BillingMethod? = nil, completedJobs: Int? = nil, counters: Counters? = nil, created: Date? = nil, customerArtifactPaths: CustomerArtifactPaths? = nil, deviceMinutes: DeviceMinutes? = nil, devicePoolArn: String? = nil, deviceSelectionResult: DeviceSelectionResult? = nil, eventCount: Int? = nil, jobTimeoutMinutes: Int? = nil, locale: String? = nil, location: Location? = nil, message: String? = nil, name: String? = nil, networkProfile: NetworkProfile? = nil, parsingResultUrl: String? = nil, platform: DevicePlatform? = nil, radios: Radios? = nil, result: ExecutionResult? = nil, resultCode: ExecutionResultCode? = nil, seed: Int? = nil, skipAppResign: Bool? = nil, started: Date? = nil, status: ExecutionStatus? = nil, stopped: Date? = nil, testSpecArn: String? = nil, totalJobs: Int? = nil, type: TestType? = nil, webUrl: String? = nil) {
+        public init(appUpload: String? = nil, arn: String? = nil, billingMethod: BillingMethod? = nil, completedJobs: Int? = nil, counters: Counters? = nil, created: Date? = nil, customerArtifactPaths: CustomerArtifactPaths? = nil, deviceMinutes: DeviceMinutes? = nil, devicePoolArn: String? = nil, deviceSelectionResult: DeviceSelectionResult? = nil, eventCount: Int? = nil, jobTimeoutMinutes: Int? = nil, locale: String? = nil, location: Location? = nil, message: String? = nil, name: String? = nil, networkProfile: NetworkProfile? = nil, parsingResultUrl: String? = nil, platform: DevicePlatform? = nil, radios: Radios? = nil, result: ExecutionResult? = nil, resultCode: ExecutionResultCode? = nil, seed: Int? = nil, skipAppResign: Bool? = nil, started: Date? = nil, status: ExecutionStatus? = nil, stopped: Date? = nil, testSpecArn: String? = nil, totalJobs: Int? = nil, type: TestType? = nil, vpcConfig: VpcConfig? = nil, webUrl: String? = nil) {
             self.appUpload = appUpload
             self.arn = arn
             self.billingMethod = billingMethod
@@ -3882,6 +3897,7 @@ extension DeviceFarm {
             self.testSpecArn = testSpecArn
             self.totalJobs = totalJobs
             self.type = type
+            self.vpcConfig = vpcConfig
             self.webUrl = webUrl
         }
 
@@ -3916,6 +3932,7 @@ extension DeviceFarm {
             case testSpecArn
             case totalJobs
             case type
+            case vpcConfig
             case webUrl
         }
     }
@@ -3945,7 +3962,7 @@ extension DeviceFarm {
         /// A list of upload ARNs for app packages to be installed with your app.
         public let auxiliaryApps: [String]?
         /// Specifies the billing method for a test run: metered or unmetered. If the parameter is not specified, the default value is metered.  If you have purchased unmetered device slots, you must set this parameter to unmetered to make use of them. Otherwise, your run counts against your metered time.
-        public let billingMethod: BillingMethod?
+        public let billingMethod: BillingMethod
         /// Input CustomerArtifactPaths object for the scheduled run configuration.
         public let customerArtifactPaths: CustomerArtifactPaths?
         /// The ARN of the extra data for the run. The extra data is a .zip file that AWS Device Farm extracts to external data for Android or the app's sandbox for iOS.
@@ -3961,7 +3978,7 @@ extension DeviceFarm {
         /// An array of ARNs for your VPC endpoint configurations.
         public let vpceConfigurationArns: [String]?
 
-        public init(auxiliaryApps: [String]? = nil, billingMethod: BillingMethod? = nil, customerArtifactPaths: CustomerArtifactPaths? = nil, extraDataPackageArn: String? = nil, locale: String? = nil, location: Location? = nil, networkProfileArn: String? = nil, radios: Radios? = nil, vpceConfigurationArns: [String]? = nil) {
+        public init(auxiliaryApps: [String]? = nil, billingMethod: BillingMethod = .metered, customerArtifactPaths: CustomerArtifactPaths? = nil, extraDataPackageArn: String? = nil, locale: String? = nil, location: Location? = nil, networkProfileArn: String? = nil, radios: Radios? = nil, vpceConfigurationArns: [String]? = nil) {
             self.auxiliaryApps = auxiliaryApps
             self.billingMethod = billingMethod
             self.customerArtifactPaths = customerArtifactPaths
@@ -4695,11 +4712,11 @@ extension DeviceFarm {
         /// The updated name for your instance profile.
         public let name: String?
         /// The updated choice for whether you want to specify package cleanup. The default value is false for private devices.
-        public let packageCleanup: Bool?
+        public let packageCleanup: Bool
         /// The updated choice for whether you want to reboot the device after use. The default value is true.
         public let rebootAfterUse: Bool?
 
-        public init(arn: String, description: String? = nil, excludeAppPackagesFromCleanup: [String]? = nil, name: String? = nil, packageCleanup: Bool? = nil, rebootAfterUse: Bool? = nil) {
+        public init(arn: String, description: String? = nil, excludeAppPackagesFromCleanup: [String]? = nil, name: String? = nil, packageCleanup: Bool = false, rebootAfterUse: Bool? = nil) {
             self.arn = arn
             self.description = description
             self.excludeAppPackagesFromCleanup = excludeAppPackagesFromCleanup
@@ -4751,7 +4768,7 @@ extension DeviceFarm {
         /// Time variation in the delay of received packets in milliseconds as an integer from 0 to 2000.
         public let downlinkJitterMs: Int64?
         /// Proportion of received packets that fail to arrive from 0 to 100 percent.
-        public let downlinkLossPercent: Int?
+        public let downlinkLossPercent: Int
         /// The name of the network profile about which you are returning information.
         public let name: String?
         /// The type of network profile to return information about. Valid values are listed here.
@@ -4763,9 +4780,9 @@ extension DeviceFarm {
         /// Time variation in the delay of received packets in milliseconds as an integer from 0 to 2000.
         public let uplinkJitterMs: Int64?
         /// Proportion of transmitted packets that fail to arrive from 0 to 100 percent.
-        public let uplinkLossPercent: Int?
+        public let uplinkLossPercent: Int
 
-        public init(arn: String, description: String? = nil, downlinkBandwidthBits: Int64? = nil, downlinkDelayMs: Int64? = nil, downlinkJitterMs: Int64? = nil, downlinkLossPercent: Int? = nil, name: String? = nil, type: NetworkProfileType? = nil, uplinkBandwidthBits: Int64? = nil, uplinkDelayMs: Int64? = nil, uplinkJitterMs: Int64? = nil, uplinkLossPercent: Int? = nil) {
+        public init(arn: String, description: String? = nil, downlinkBandwidthBits: Int64? = nil, downlinkDelayMs: Int64? = nil, downlinkJitterMs: Int64? = nil, downlinkLossPercent: Int = 0, name: String? = nil, type: NetworkProfileType? = nil, uplinkBandwidthBits: Int64? = nil, uplinkDelayMs: Int64? = nil, uplinkJitterMs: Int64? = nil, uplinkLossPercent: Int = 0) {
             self.arn = arn
             self.description = description
             self.downlinkBandwidthBits = downlinkBandwidthBits
@@ -4828,11 +4845,14 @@ extension DeviceFarm {
         public let defaultJobTimeoutMinutes: Int?
         /// A string that represents the new name of the project that you are updating.
         public let name: String?
+        /// The VPC security groups and subnets that are attached to a project.
+        public let vpcConfig: VpcConfig?
 
-        public init(arn: String, defaultJobTimeoutMinutes: Int? = nil, name: String? = nil) {
+        public init(arn: String, defaultJobTimeoutMinutes: Int? = nil, name: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.arn = arn
             self.defaultJobTimeoutMinutes = defaultJobTimeoutMinutes
             self.name = name
+            self.vpcConfig = vpcConfig
         }
 
         public func validate(name: String) throws {
@@ -4840,12 +4860,14 @@ extension DeviceFarm {
             try self.validate(self.arn, name: "arn", parent: name, min: 32)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:.+$")
             try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.vpcConfig?.validate(name: "\(name).vpcConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn
             case defaultJobTimeoutMinutes
             case name
+            case vpcConfig
         }
     }
 
@@ -5086,6 +5108,47 @@ extension DeviceFarm {
             case vpceConfigurationDescription
             case vpceConfigurationName
             case vpceServiceName
+        }
+    }
+
+    public struct VpcConfig: AWSEncodableShape & AWSDecodableShape {
+        /// An array of one or more security groups IDs in your Amazon VPC.
+        public let securityGroupIds: [String]
+        /// An array of one or more subnet IDs in your Amazon VPC.
+        public let subnetIds: [String]
+        /// The ID of the Amazon VPC.
+        public let vpcId: String
+
+        public init(securityGroupIds: [String], subnetIds: [String], vpcId: String) {
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
+            self.vpcId = vpcId
+        }
+
+        public func validate(name: String) throws {
+            try self.securityGroupIds.forEach {
+                try validate($0, name: "securityGroupIds[]", parent: name, max: 4096)
+                try validate($0, name: "securityGroupIds[]", parent: name, min: 1)
+                try validate($0, name: "securityGroupIds[]", parent: name, pattern: "^sg-[0-9a-fA-F]{8,}$")
+            }
+            try self.validate(self.securityGroupIds, name: "securityGroupIds", parent: name, max: 5)
+            try self.validate(self.securityGroupIds, name: "securityGroupIds", parent: name, min: 1)
+            try self.subnetIds.forEach {
+                try validate($0, name: "subnetIds[]", parent: name, max: 4096)
+                try validate($0, name: "subnetIds[]", parent: name, min: 1)
+                try validate($0, name: "subnetIds[]", parent: name, pattern: "^subnet-[0-9a-fA-F]{8,}$")
+            }
+            try self.validate(self.subnetIds, name: "subnetIds", parent: name, max: 8)
+            try self.validate(self.subnetIds, name: "subnetIds", parent: name, min: 1)
+            try self.validate(self.vpcId, name: "vpcId", parent: name, max: 4096)
+            try self.validate(self.vpcId, name: "vpcId", parent: name, min: 1)
+            try self.validate(self.vpcId, name: "vpcId", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityGroupIds
+            case subnetIds
+            case vpcId
         }
     }
 }

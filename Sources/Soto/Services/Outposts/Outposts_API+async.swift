@@ -23,7 +23,7 @@ import SotoCore
 extension Outposts {
     // MARK: Async API Calls
 
-    ///  Cancels an order for an Outpost.
+    /// Cancels the specified order for an Outpost.
     public func cancelOrder(_ input: CancelOrderInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CancelOrderOutput {
         return try await self.client.execute(operation: "CancelOrder", path: "/orders/{OrderId}/cancel", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -33,7 +33,7 @@ extension Outposts {
         return try await self.client.execute(operation: "CreateOrder", path: "/orders", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates an Outpost. You can specify AvailabilityZone or AvailabilityZoneId.
+    /// Creates an Outpost. You can specify either an Availability one or an AZ ID.
     public func createOutpost(_ input: CreateOutpostInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateOutpostOutput {
         return try await self.client.execute(operation: "CreateOutpost", path: "/outposts", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -43,27 +43,27 @@ extension Outposts {
         return try await self.client.execute(operation: "CreateSite", path: "/sites", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes the Outpost.
+    /// Deletes the specified Outpost.
     public func deleteOutpost(_ input: DeleteOutpostInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteOutpostOutput {
         return try await self.client.execute(operation: "DeleteOutpost", path: "/outposts/{OutpostId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes the site.
+    /// Deletes the specified site.
     public func deleteSite(_ input: DeleteSiteInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteSiteOutput {
         return try await self.client.execute(operation: "DeleteSite", path: "/sites/{SiteId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets information about a catalog item.
+    /// Gets information about the specified catalog item.
     public func getCatalogItem(_ input: GetCatalogItemInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetCatalogItemOutput {
         return try await self.client.execute(operation: "GetCatalogItem", path: "/catalog/item/{CatalogItemId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///   Amazon Web Services uses this action to install Outpost servers.   Gets information about a specified connection.   Use CloudTrail to monitor this action or Amazon Web Services managed policy for Amazon Web Services Outposts to secure it. For  more information, see  Amazon Web Services managed policies for Amazon Web Services Outposts and  Logging Amazon Web Services Outposts API calls with Amazon Web Services CloudTrail in the Amazon Web Services Outposts User Guide.
+    ///   Amazon Web Services uses this action to install Outpost servers.   Gets information about the specified connection.   Use CloudTrail to monitor this action or Amazon Web Services managed policy for Amazon Web Services Outposts to secure it. For  more information, see  Amazon Web Services managed policies for Amazon Web Services Outposts and  Logging Amazon Web Services Outposts API calls with Amazon Web Services CloudTrail in the Amazon Web Services Outposts User Guide.
     public func getConnection(_ input: GetConnectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetConnectionResponse {
         return try await self.client.execute(operation: "GetConnection", path: "/connections/{ConnectionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets an order.
+    /// Gets information about the specified order.
     public func getOrder(_ input: GetOrderInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetOrderOutput {
         return try await self.client.execute(operation: "GetOrder", path: "/orders/{OrderId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -78,37 +78,37 @@ extension Outposts {
         return try await self.client.execute(operation: "GetOutpostInstanceTypes", path: "/outposts/{OutpostId}/instanceTypes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Gets information about the specified Outpost site.
+    /// Gets information about the specified Outpost site.
     public func getSite(_ input: GetSiteInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetSiteOutput {
         return try await self.client.execute(operation: "GetSite", path: "/sites/{SiteId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Gets the site address.
+    ///  Gets the site address of the specified site.
     public func getSiteAddress(_ input: GetSiteAddressInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetSiteAddressOutput {
         return try await self.client.execute(operation: "GetSiteAddress", path: "/sites/{SiteId}/address", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Lists the hardware assets in an Outpost. If you are using Dedicated Hosts on  Amazon Web Services Outposts, you can filter your request by host ID to return a list of hardware assets that allocate resources for Dedicated Hosts.
+    /// Lists the hardware assets for the specified Outpost. Use filters to return specific results. If you specify multiple filters, the results include only the resources that match  all of the specified filters. For a filter where you can specify multiple values, the results include  items that match any of the values that you specify for the filter.
     public func listAssets(_ input: ListAssetsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListAssetsOutput {
         return try await self.client.execute(operation: "ListAssets", path: "/outposts/{OutpostIdentifier}/assets", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the items in the catalog. Add filters to your request to return a more specific list of results. Use filters to match an item class, storage option, or EC2 family.  If you specify multiple filters, the filters are joined with an AND, and the request returns only results that match all of the specified filters.
+    /// Lists the items in the catalog. Use filters to return specific results. If you specify multiple filters, the results include only the resources that match  all of the specified filters. For a filter where you can specify multiple values, the results include  items that match any of the values that you specify for the filter.
     public func listCatalogItems(_ input: ListCatalogItemsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListCatalogItemsOutput {
         return try await self.client.execute(operation: "ListCatalogItems", path: "/catalog/items", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the Outpost orders for your Amazon Web Services account. You can filter your request by Outpost to  return a more specific list of results.
+    /// Lists the Outpost orders for your Amazon Web Services account.
     public func listOrders(_ input: ListOrdersInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListOrdersOutput {
         return try await self.client.execute(operation: "ListOrders", path: "/list-orders", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the Outposts for your Amazon Web Services account. Add filters to your request to return a more specific list of results. Use filters to match an Outpost lifecycle status, Availability Zone (us-east-1a), and AZ ID (use1-az1).   If you specify multiple filters, the filters are joined with an AND, and the request returns only  results that match all of the specified filters.
+    /// Lists the Outposts for your Amazon Web Services account. Use filters to return specific results. If you specify multiple filters, the results include only the resources that match  all of the specified filters. For a filter where you can specify multiple values, the results include  items that match any of the values that you specify for the filter.
     public func listOutposts(_ input: ListOutpostsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListOutpostsOutput {
         return try await self.client.execute(operation: "ListOutposts", path: "/outposts", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the Outpost sites for your Amazon Web Services account. Add operating address filters to your request to return a more specific list of results. Use filters to match site city, country code, or state/region of the  operating address.   If you specify multiple filters, the filters are joined with an AND, and the request returns only  results that match all of the specified filters.
+    /// Lists the Outpost sites for your Amazon Web Services account. Use filters to return specific results. Use filters to return specific results. If you specify multiple filters, the results include only the resources that match  all of the specified filters. For a filter where you can specify multiple values, the results include  items that match any of the values that you specify for the filter.
     public func listSites(_ input: ListSitesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListSitesOutput {
         return try await self.client.execute(operation: "ListSites", path: "/sites", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -138,12 +138,12 @@ extension Outposts {
         return try await self.client.execute(operation: "UpdateOutpost", path: "/outposts/{OutpostId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Updates the site.
+    /// Updates the specified site.
     public func updateSite(_ input: UpdateSiteInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateSiteOutput {
         return try await self.client.execute(operation: "UpdateSite", path: "/sites/{SiteId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Updates the site address.    To update a site address with an order IN_PROGRESS, you must wait for the order  to complete or cancel the order.   You  can update the operating address before you place an order at the  site, or after all Outposts that belong to the site have been deactivated.
+    /// Updates the address of the specified site. You can't update a site address if there is an order in progress. You must wait for the order  to complete or cancel the order. You can update the operating address before you place an order at the  site, or after all Outposts that belong to the site have been deactivated.
     public func updateSiteAddress(_ input: UpdateSiteAddressInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateSiteAddressOutput {
         return try await self.client.execute(operation: "UpdateSiteAddress", path: "/sites/{SiteId}/address", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

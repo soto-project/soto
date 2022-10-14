@@ -27,6 +27,12 @@ extension WorkMail {
         public var description: String { return self.rawValue }
     }
 
+    public enum AccessEffect: String, CustomStringConvertible, Codable, _SotoSendable {
+        case allow = "ALLOW"
+        case deny = "DENY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AvailabilityProviderType: String, CustomStringConvertible, Codable, _SotoSendable {
         case ews = "EWS"
         case lambda = "LAMBDA"
@@ -53,6 +59,12 @@ extension WorkMail {
         case inbox = "INBOX"
         case junkEmail = "JUNK_EMAIL"
         case sentItems = "SENT_ITEMS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImpersonationRoleType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case fullAccess = "FULL_ACCESS"
+        case readOnly = "READ_ONLY"
         public var description: String { return self.rawValue }
     }
 
@@ -116,12 +128,16 @@ extension WorkMail {
         public let description: String?
         /// The rule effect.
         public let effect: AccessControlRuleEffect?
+        /// Impersonation role IDs to include in the rule.
+        public let impersonationRoleIds: [String]?
         /// IPv4 CIDR ranges to include in the rule.
         public let ipRanges: [String]?
         /// The rule name.
         public let name: String?
         /// Access protocol actions to exclude from the rule. Valid values include ActiveSync, AutoDiscover, EWS, IMAP, SMTP, WindowsOutlook, and WebMail.
         public let notActions: [String]?
+        /// Impersonation role IDs to exclude from the rule.
+        public let notImpersonationRoleIds: [String]?
         /// IPv4 CIDR ranges to exclude from the rule.
         public let notIpRanges: [String]?
         /// User IDs to exclude from the rule.
@@ -129,15 +145,17 @@ extension WorkMail {
         /// User IDs to include in the rule.
         public let userIds: [String]?
 
-        public init(actions: [String]? = nil, dateCreated: Date? = nil, dateModified: Date? = nil, description: String? = nil, effect: AccessControlRuleEffect? = nil, ipRanges: [String]? = nil, name: String? = nil, notActions: [String]? = nil, notIpRanges: [String]? = nil, notUserIds: [String]? = nil, userIds: [String]? = nil) {
+        public init(actions: [String]? = nil, dateCreated: Date? = nil, dateModified: Date? = nil, description: String? = nil, effect: AccessControlRuleEffect? = nil, impersonationRoleIds: [String]? = nil, ipRanges: [String]? = nil, name: String? = nil, notActions: [String]? = nil, notImpersonationRoleIds: [String]? = nil, notIpRanges: [String]? = nil, notUserIds: [String]? = nil, userIds: [String]? = nil) {
             self.actions = actions
             self.dateCreated = dateCreated
             self.dateModified = dateModified
             self.description = description
             self.effect = effect
+            self.impersonationRoleIds = impersonationRoleIds
             self.ipRanges = ipRanges
             self.name = name
             self.notActions = notActions
+            self.notImpersonationRoleIds = notImpersonationRoleIds
             self.notIpRanges = notIpRanges
             self.notUserIds = notUserIds
             self.userIds = userIds
@@ -149,9 +167,11 @@ extension WorkMail {
             case dateModified = "DateModified"
             case description = "Description"
             case effect = "Effect"
+            case impersonationRoleIds = "ImpersonationRoleIds"
             case ipRanges = "IpRanges"
             case name = "Name"
             case notActions = "NotActions"
+            case notImpersonationRoleIds = "NotImpersonationRoleIds"
             case notIpRanges = "NotIpRanges"
             case notUserIds = "NotUserIds"
             case userIds = "UserIds"
@@ -229,6 +249,49 @@ extension WorkMail {
         public init() {}
     }
 
+    public struct AssumeImpersonationRoleRequest: AWSEncodableShape {
+        /// The impersonation role ID to assume.
+        public let impersonationRoleId: String
+        /// The WorkMail organization under which the impersonation role will be assumed.
+        public let organizationId: String
+
+        public init(impersonationRoleId: String, organizationId: String) {
+            self.impersonationRoleId = impersonationRoleId
+            self.organizationId = organizationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.impersonationRoleId, name: "impersonationRoleId", parent: name, max: 64)
+            try self.validate(self.impersonationRoleId, name: "impersonationRoleId", parent: name, min: 1)
+            try self.validate(self.impersonationRoleId, name: "impersonationRoleId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case impersonationRoleId = "ImpersonationRoleId"
+            case organizationId = "OrganizationId"
+        }
+    }
+
+    public struct AssumeImpersonationRoleResponse: AWSDecodableShape {
+        /// The authentication token's validity, in seconds.
+        public let expiresIn: Int64?
+        /// The authentication token for the impersonation role.
+        public let token: String?
+
+        public init(expiresIn: Int64? = nil, token: String? = nil) {
+            self.expiresIn = expiresIn
+            self.token = token
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expiresIn = "ExpiresIn"
+            case token = "Token"
+        }
+    }
+
     public struct AvailabilityConfiguration: AWSDecodableShape {
         /// The date and time at which the availability configuration was created.
         public let dateCreated: Date?
@@ -236,7 +299,7 @@ extension WorkMail {
         public let dateModified: Date?
         /// Displays the domain to which the provider applies.
         public let domainName: String?
-        /// If ProviderType is EWS, then this field contains RedactedEwsAvailabilityProvider. Otherwise, it is not requried.
+        /// If ProviderType is EWS, then this field contains RedactedEwsAvailabilityProvider. Otherwise, it is not required.
         public let ewsProvider: RedactedEwsAvailabilityProvider?
         /// If ProviderType is LAMBDA then this field contains LambdaAvailabilityProvider. Otherwise, it is not required.
         public let lambdaProvider: LambdaAvailabilityProvider?
@@ -365,7 +428,7 @@ extension WorkMail {
         public let ewsProvider: EwsAvailabilityProvider?
         /// Lambda availability provider definition. The request must contain exactly one provider definition, either EwsProvider or LambdaProvider.
         public let lambdaProvider: LambdaAvailabilityProvider?
-        /// The Amazon WorkMail organization for which the AvailabilityConfiguration will be created.
+        /// The WorkMail organization for which the AvailabilityConfiguration will be created.
         public let organizationId: String
 
         public init(clientToken: String? = CreateAvailabilityConfigurationRequest.idempotencyToken(), domainName: String, ewsProvider: EwsAvailabilityProvider? = nil, lambdaProvider: LambdaAvailabilityProvider? = nil, organizationId: String) {
@@ -442,6 +505,71 @@ extension WorkMail {
         }
     }
 
+    public struct CreateImpersonationRoleRequest: AWSEncodableShape {
+        /// The idempotency token for the client request.
+        public let clientToken: String?
+        /// The description of the new impersonation role.
+        public let description: String?
+        /// The name of the new impersonation role.
+        public let name: String
+        /// The WorkMail organization to create the new impersonation role within.
+        public let organizationId: String
+        /// The list of rules for the impersonation role.
+        public let rules: [ImpersonationRule]
+        /// The impersonation role's type. The available impersonation role types are READ_ONLY or FULL_ACCESS.
+        public let type: ImpersonationRoleType
+
+        public init(clientToken: String? = CreateImpersonationRoleRequest.idempotencyToken(), description: String? = nil, name: String, organizationId: String, rules: [ImpersonationRule], type: ImpersonationRoleType) {
+            self.clientToken = clientToken
+            self.description = description
+            self.name = name
+            self.organizationId = organizationId
+            self.rules = rules
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\x21-\\x7e]+$")
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[^\\x00-\\x09\\x0B\\x0C\\x0E-\\x1F\\x7F\\x3C\\x3E\\x5C]+$")
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[^\\x00-\\x1F\\x7F\\x3C\\x3E\\x5C]+$")
+            try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+            try self.rules.forEach {
+                try $0.validate(name: "\(name).rules[]")
+            }
+            try self.validate(self.rules, name: "rules", parent: name, max: 10)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case description = "Description"
+            case name = "Name"
+            case organizationId = "OrganizationId"
+            case rules = "Rules"
+            case type = "Type"
+        }
+    }
+
+    public struct CreateImpersonationRoleResponse: AWSDecodableShape {
+        /// The new impersonation role ID.
+        public let impersonationRoleId: String?
+
+        public init(impersonationRoleId: String? = nil) {
+            self.impersonationRoleId = impersonationRoleId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case impersonationRoleId = "ImpersonationRoleId"
+        }
+    }
+
     public struct CreateMobileDeviceAccessRuleRequest: AWSEncodableShape {
         /// The idempotency token for the client request.
         public let clientToken: String?
@@ -467,7 +595,7 @@ extension WorkMail {
         public let notDeviceTypes: [String]?
         /// Device user agents that the rule will not match. All other device user agents will match.
         public let notDeviceUserAgents: [String]?
-        /// The Amazon WorkMail organization under which the rule will be created.
+        /// The WorkMail organization under which the rule will be created.
         public let organizationId: String
 
         public init(clientToken: String? = CreateMobileDeviceAccessRuleRequest.idempotencyToken(), description: String? = nil, deviceModels: [String]? = nil, deviceOperatingSystems: [String]? = nil, deviceTypes: [String]? = nil, deviceUserAgents: [String]? = nil, effect: MobileDeviceAccessRuleEffect, name: String, notDeviceModels: [String]? = nil, notDeviceOperatingSystems: [String]? = nil, notDeviceTypes: [String]? = nil, notDeviceUserAgents: [String]? = nil, organizationId: String) {
@@ -596,12 +724,12 @@ extension WorkMail {
         public let directoryId: String?
         /// The email domains to associate with the organization.
         public let domains: [Domain]?
-        /// When true, allows organization interoperability between Amazon WorkMail and Microsoft Exchange. Can only be set to true if an AD Connector directory ID is included in the request.
-        public let enableInteroperability: Bool?
-        /// The Amazon Resource Name (ARN) of a customer managed master key from AWS KMS.
+        /// When true, allows organization interoperability between WorkMail and Microsoft Exchange. If true, you must include a AD Connector directory ID in the request.
+        public let enableInteroperability: Bool
+        /// The Amazon Resource Name (ARN) of a customer managed key from AWS KMS.
         public let kmsKeyArn: String?
 
-        public init(alias: String, clientToken: String? = CreateOrganizationRequest.idempotencyToken(), directoryId: String? = nil, domains: [Domain]? = nil, enableInteroperability: Bool? = nil, kmsKeyArn: String? = nil) {
+        public init(alias: String, clientToken: String? = CreateOrganizationRequest.idempotencyToken(), directoryId: String? = nil, domains: [Domain]? = nil, enableInteroperability: Bool = false, kmsKeyArn: String? = nil) {
             self.alias = alias
             self.clientToken = clientToken
             self.directoryId = directoryId
@@ -831,7 +959,7 @@ extension WorkMail {
     public struct DeleteAvailabilityConfigurationRequest: AWSEncodableShape {
         /// The domain for which the AvailabilityConfiguration will be deleted.
         public let domainName: String
-        /// The Amazon WorkMail organization for which the AvailabilityConfiguration will be deleted.
+        /// The WorkMail organization for which the AvailabilityConfiguration will be deleted.
         public let organizationId: String
 
         public init(domainName: String, organizationId: String) {
@@ -910,6 +1038,36 @@ extension WorkMail {
         public init() {}
     }
 
+    public struct DeleteImpersonationRoleRequest: AWSEncodableShape {
+        /// The ID of the impersonation role to delete.
+        public let impersonationRoleId: String
+        /// The WorkMail organization from which to delete the impersonation role.
+        public let organizationId: String
+
+        public init(impersonationRoleId: String, organizationId: String) {
+            self.impersonationRoleId = impersonationRoleId
+            self.organizationId = organizationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.impersonationRoleId, name: "impersonationRoleId", parent: name, max: 64)
+            try self.validate(self.impersonationRoleId, name: "impersonationRoleId", parent: name, min: 1)
+            try self.validate(self.impersonationRoleId, name: "impersonationRoleId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case impersonationRoleId = "ImpersonationRoleId"
+            case organizationId = "OrganizationId"
+        }
+    }
+
+    public struct DeleteImpersonationRoleResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteMailboxPermissionsRequest: AWSEncodableShape {
         /// The identifier of the member (user or group) that owns the mailbox.
         public let entityId: String
@@ -948,9 +1106,9 @@ extension WorkMail {
     public struct DeleteMobileDeviceAccessOverrideRequest: AWSEncodableShape {
         /// The mobile device for which you delete the override. DeviceId is case insensitive.
         public let deviceId: String
-        /// The Amazon WorkMail organization for which the access override will be deleted.
+        /// The WorkMail organization for which the access override will be deleted.
         public let organizationId: String
-        /// The WorkMail user for which you want to delete the override. Accepts the following types of user identities:   User ID:  12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234     Email address: user@domain.tld    User name: user
+        /// The WorkMail user for which you want to delete the override. Accepts the following types of user identities:   User ID:  12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234    Email address: user@domain.tld    User name: user
         public let userId: String
 
         public init(deviceId: String, organizationId: String, userId: String) {
@@ -985,7 +1143,7 @@ extension WorkMail {
     public struct DeleteMobileDeviceAccessRuleRequest: AWSEncodableShape {
         /// The identifier of the rule to be deleted.
         public let mobileDeviceAccessRuleId: String
-        /// The Amazon WorkMail organization under which the rule will be deleted.
+        /// The WorkMail organization under which the rule will be deleted.
         public let organizationId: String
 
         public init(mobileDeviceAccessRuleId: String, organizationId: String) {
@@ -1020,7 +1178,7 @@ extension WorkMail {
         /// The organization ID.
         public let organizationId: String
 
-        public init(clientToken: String? = DeleteOrganizationRequest.idempotencyToken(), deleteDirectory: Bool, organizationId: String) {
+        public init(clientToken: String? = DeleteOrganizationRequest.idempotencyToken(), deleteDirectory: Bool = false, organizationId: String) {
             self.clientToken = clientToken
             self.deleteDirectory = deleteDirectory
             self.organizationId = organizationId
@@ -1151,7 +1309,7 @@ extension WorkMail {
     public struct DeregisterFromWorkMailRequest: AWSEncodableShape {
         /// The identifier for the member (user or group) to be updated.
         public let entityId: String
-        /// The identifier for the organization under which the Amazon WorkMail entity exists.
+        /// The identifier for the organization under which the WorkMail entity exists.
         public let organizationId: String
 
         public init(entityId: String, organizationId: String) {
@@ -1180,7 +1338,7 @@ extension WorkMail {
     public struct DeregisterMailDomainRequest: AWSEncodableShape {
         /// The domain to deregister in WorkMail and SES.
         public let domainName: String
-        /// The Amazon WorkMail organization for which the domain will be deregistered.
+        /// The WorkMail organization for which the domain will be deregistered.
         public let organizationId: String
 
         public init(domainName: String, organizationId: String) {
@@ -1279,7 +1437,7 @@ extension WorkMail {
         public let groupId: String?
         /// The name of the described group.
         public let name: String?
-        /// The state of the user: enabled (registered to Amazon WorkMail) or disabled (deregistered or never registered to WorkMail).
+        /// The state of the user: enabled (registered to WorkMail) or disabled (deregistered or never registered to WorkMail).
         public let state: EntityState?
 
         public init(disabledDate: Date? = nil, email: String? = nil, enabledDate: Date? = nil, groupId: String? = nil, name: String? = nil, state: EntityState? = nil) {
@@ -1444,7 +1602,7 @@ extension WorkMail {
         public let completedDate: Date?
         /// The default mail domain associated with the organization.
         public let defaultMailDomain: String?
-        /// The identifier for the directory associated with an Amazon WorkMail organization.
+        /// The identifier for the directory associated with an WorkMail organization.
         public let directoryId: String?
         /// The type of directory associated with the WorkMail organization.
         public let directoryType: String?
@@ -1519,7 +1677,7 @@ extension WorkMail {
         public let name: String?
         /// The identifier of the described resource.
         public let resourceId: String?
-        /// The state of the resource: enabled (registered to Amazon WorkMail), disabled (deregistered or never registered to WorkMail), or deleted.
+        /// The state of the resource: enabled (registered to WorkMail), disabled (deregistered or never registered to WorkMail), or deleted.
         public let state: EntityState?
         /// The type of the described resource.
         public let type: ResourceType?
@@ -1573,21 +1731,21 @@ extension WorkMail {
     }
 
     public struct DescribeUserResponse: AWSDecodableShape {
-        /// The date and time at which the user was disabled for Amazon WorkMail usage, in UNIX epoch time format.
+        /// The date and time at which the user was disabled for WorkMail usage, in UNIX epoch time format.
         public let disabledDate: Date?
         /// The display name of the user.
         public let displayName: String?
         /// The email of the user.
         public let email: String?
-        /// The date and time at which the user was enabled for Amazon WorkMail usage, in UNIX epoch time format.
+        /// The date and time at which the user was enabled for WorkMailusage, in UNIX epoch time format.
         public let enabledDate: Date?
         /// The name for the user.
         public let name: String?
-        /// The state of a user: enabled (registered to Amazon WorkMail) or disabled (deregistered or never registered to WorkMail).
+        /// The state of a user: enabled (registered to WorkMail) or disabled (deregistered or never registered to WorkMail).
         public let state: EntityState?
         /// The identifier for the described user.
         public let userId: String?
-        /// In certain cases, other entities are modeled as users. If interoperability is enabled, resources are imported into Amazon WorkMail as users. Because different WorkMail organizations rely on different directory types, administrators can distinguish between an unregistered user (account is disabled and has a user role) and the directory administrators. The values are USER, RESOURCE, and SYSTEM_USER.
+        /// In certain cases, other entities are modeled as users. If interoperability is enabled, resources are imported into WorkMail as users. Because different WorkMail organizations rely on different directory types, administrators can distinguish between an unregistered user (account is disabled and has a user role) and the directory administrators. The values are USER, RESOURCE, and SYSTEM_USER.
         public let userRole: UserRole?
 
         public init(disabledDate: Date? = nil, displayName: String? = nil, email: String? = nil, enabledDate: Date? = nil, name: String? = nil, state: EntityState? = nil, userId: String? = nil, userRole: UserRole? = nil) {
@@ -1790,15 +1948,18 @@ extension WorkMail {
     public struct GetAccessControlEffectRequest: AWSEncodableShape {
         /// The access protocol action. Valid values include ActiveSync, AutoDiscover, EWS, IMAP, SMTP, WindowsOutlook, and WebMail.
         public let action: String
+        /// The impersonation role ID.
+        public let impersonationRoleId: String?
         /// The IPv4 address.
         public let ipAddress: String
         /// The identifier for the organization.
         public let organizationId: String
         /// The user ID.
-        public let userId: String
+        public let userId: String?
 
-        public init(action: String, ipAddress: String, organizationId: String, userId: String) {
+        public init(action: String, impersonationRoleId: String? = nil, ipAddress: String, organizationId: String, userId: String? = nil) {
             self.action = action
+            self.impersonationRoleId = impersonationRoleId
             self.ipAddress = ipAddress
             self.organizationId = organizationId
             self.userId = userId
@@ -1808,6 +1969,9 @@ extension WorkMail {
             try self.validate(self.action, name: "action", parent: name, max: 64)
             try self.validate(self.action, name: "action", parent: name, min: 1)
             try self.validate(self.action, name: "action", parent: name, pattern: "^[a-zA-Z]+$")
+            try self.validate(self.impersonationRoleId, name: "impersonationRoleId", parent: name, max: 64)
+            try self.validate(self.impersonationRoleId, name: "impersonationRoleId", parent: name, min: 1)
+            try self.validate(self.impersonationRoleId, name: "impersonationRoleId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
             try self.validate(self.ipAddress, name: "ipAddress", parent: name, max: 15)
             try self.validate(self.ipAddress, name: "ipAddress", parent: name, min: 1)
             try self.validate(self.ipAddress, name: "ipAddress", parent: name, pattern: "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$")
@@ -1820,6 +1984,7 @@ extension WorkMail {
 
         private enum CodingKeys: String, CodingKey {
             case action = "Action"
+            case impersonationRoleId = "ImpersonationRoleId"
             case ipAddress = "IpAddress"
             case organizationId = "OrganizationId"
             case userId = "UserId"
@@ -1887,10 +2052,127 @@ extension WorkMail {
         }
     }
 
+    public struct GetImpersonationRoleEffectRequest: AWSEncodableShape {
+        /// The impersonation role ID to test.
+        public let impersonationRoleId: String
+        /// The WorkMail organization where the impersonation role is defined.
+        public let organizationId: String
+        /// The WorkMail organization user chosen to test the impersonation role. The following identity formats are available:   User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234    Email address: user@domain.tld    User name: user
+        public let targetUser: String
+
+        public init(impersonationRoleId: String, organizationId: String, targetUser: String) {
+            self.impersonationRoleId = impersonationRoleId
+            self.organizationId = organizationId
+            self.targetUser = targetUser
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.impersonationRoleId, name: "impersonationRoleId", parent: name, max: 64)
+            try self.validate(self.impersonationRoleId, name: "impersonationRoleId", parent: name, min: 1)
+            try self.validate(self.impersonationRoleId, name: "impersonationRoleId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+            try self.validate(self.targetUser, name: "targetUser", parent: name, max: 256)
+            try self.validate(self.targetUser, name: "targetUser", parent: name, min: 1)
+            try self.validate(self.targetUser, name: "targetUser", parent: name, pattern: "^[a-zA-Z0-9._%+@-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case impersonationRoleId = "ImpersonationRoleId"
+            case organizationId = "OrganizationId"
+            case targetUser = "TargetUser"
+        }
+    }
+
+    public struct GetImpersonationRoleEffectResponse: AWSDecodableShape {
+        ///  Effect of the impersonation role on the target user based on its rules. Available effects are ALLOW or DENY.
+        public let effect: AccessEffect?
+        /// A list of the rules that match the input and produce the configured effect.
+        public let matchedRules: [ImpersonationMatchedRule]?
+        /// The impersonation role type.
+        public let type: ImpersonationRoleType?
+
+        public init(effect: AccessEffect? = nil, matchedRules: [ImpersonationMatchedRule]? = nil, type: ImpersonationRoleType? = nil) {
+            self.effect = effect
+            self.matchedRules = matchedRules
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case effect = "Effect"
+            case matchedRules = "MatchedRules"
+            case type = "Type"
+        }
+    }
+
+    public struct GetImpersonationRoleRequest: AWSEncodableShape {
+        /// The impersonation role ID to retrieve.
+        public let impersonationRoleId: String
+        /// The WorkMail organization from which to retrieve the impersonation role.
+        public let organizationId: String
+
+        public init(impersonationRoleId: String, organizationId: String) {
+            self.impersonationRoleId = impersonationRoleId
+            self.organizationId = organizationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.impersonationRoleId, name: "impersonationRoleId", parent: name, max: 64)
+            try self.validate(self.impersonationRoleId, name: "impersonationRoleId", parent: name, min: 1)
+            try self.validate(self.impersonationRoleId, name: "impersonationRoleId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case impersonationRoleId = "ImpersonationRoleId"
+            case organizationId = "OrganizationId"
+        }
+    }
+
+    public struct GetImpersonationRoleResponse: AWSDecodableShape {
+        /// The date when the impersonation role was created.
+        public let dateCreated: Date?
+        /// The date when the impersonation role was last modified.
+        public let dateModified: Date?
+        /// The impersonation role description.
+        public let description: String?
+        /// The impersonation role ID.
+        public let impersonationRoleId: String?
+        /// The impersonation role name.
+        public let name: String?
+        /// The list of rules for the given impersonation role.
+        public let rules: [ImpersonationRule]?
+        /// The impersonation role type.
+        public let type: ImpersonationRoleType?
+
+        public init(dateCreated: Date? = nil, dateModified: Date? = nil, description: String? = nil, impersonationRoleId: String? = nil, name: String? = nil, rules: [ImpersonationRule]? = nil, type: ImpersonationRoleType? = nil) {
+            self.dateCreated = dateCreated
+            self.dateModified = dateModified
+            self.description = description
+            self.impersonationRoleId = impersonationRoleId
+            self.name = name
+            self.rules = rules
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dateCreated = "DateCreated"
+            case dateModified = "DateModified"
+            case description = "Description"
+            case impersonationRoleId = "ImpersonationRoleId"
+            case name = "Name"
+            case rules = "Rules"
+            case type = "Type"
+        }
+    }
+
     public struct GetMailDomainRequest: AWSEncodableShape {
         /// The domain from which you want to retrieve details.
         public let domainName: String
-        /// The Amazon WorkMail organization for which the domain is retrieved.
+        /// The WorkMail organization for which the domain is retrieved.
         public let organizationId: String
 
         public init(domainName: String, organizationId: String) {
@@ -1922,7 +2204,7 @@ extension WorkMail {
         public let isTestDomain: Bool?
         ///  Indicates the status of the domain ownership verification.
         public let ownershipVerificationStatus: DnsRecordVerificationStatus?
-        /// A list of the DNS records that Amazon WorkMail recommends adding in your DNS provider for the best user experience. The records configure your domain with DMARC, SPF, DKIM, and direct incoming  email traffic to SES. See admin guide for more details.
+        /// A list of the DNS records that WorkMail recommends adding in your DNS provider for the best user experience. The records configure your domain with DMARC, SPF, DKIM, and direct incoming  email traffic to SES. See admin guide for more details.
         public let records: [DnsRecord]?
 
         public init(dkimVerificationStatus: DnsRecordVerificationStatus? = nil, isDefault: Bool? = nil, isTestDomain: Bool? = nil, ownershipVerificationStatus: DnsRecordVerificationStatus? = nil, records: [DnsRecord]? = nil) {
@@ -1993,7 +2275,7 @@ extension WorkMail {
         public let deviceType: String?
         /// Device user agent the simulated user will report.
         public let deviceUserAgent: String?
-        /// The Amazon WorkMail organization to simulate the access effect for.
+        /// The WorkMail organization to simulate the access effect for.
         public let organizationId: String
 
         public init(deviceModel: String? = nil, deviceOperatingSystem: String? = nil, deviceType: String? = nil, deviceUserAgent: String? = nil, organizationId: String) {
@@ -2032,7 +2314,7 @@ extension WorkMail {
     }
 
     public struct GetMobileDeviceAccessEffectResponse: AWSDecodableShape {
-        /// The effect of the simulated access, ALLOW or DENY, after evaluating mobile device access rules in the Amazon WorkMail organization for the simulated  user parameters.
+        /// The effect of the simulated access, ALLOW or DENY, after evaluating mobile device access rules in the WorkMail organization for the simulated  user parameters.
         public let effect: MobileDeviceAccessRuleEffect?
         /// A list of the rules which matched the simulated user input and produced the effect.
         public let matchedRules: [MobileDeviceAccessMatchedRule]?
@@ -2051,9 +2333,9 @@ extension WorkMail {
     public struct GetMobileDeviceAccessOverrideRequest: AWSEncodableShape {
         /// The mobile device to which the override applies. DeviceId is case insensitive.
         public let deviceId: String
-        /// The Amazon WorkMail organization to which you want to apply the override.
+        /// The WorkMail organization to which you want to apply the override.
         public let organizationId: String
-        /// Identifies the WorkMail user for the override. Accepts the following types of user identities:    User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234     Email address: user@domain.tld    User name: user
+        /// Identifies the WorkMail user for the override. Accepts the following types of user identities:    User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234    Email address: user@domain.tld    User name: user
         public let userId: String
 
         public init(deviceId: String, organizationId: String, userId: String) {
@@ -2115,11 +2397,11 @@ extension WorkMail {
     }
 
     public struct Group: AWSDecodableShape {
-        /// The date indicating when the group was disabled from Amazon WorkMail use.
+        /// The date indicating when the group was disabled from WorkMail use.
         public let disabledDate: Date?
         /// The email of the group.
         public let email: String?
-        /// The date indicating when the group was enabled for Amazon WorkMail use.
+        /// The date indicating when the group was enabled for WorkMail use.
         public let enabledDate: Date?
         /// The identifier of the group.
         public let id: String?
@@ -2144,6 +2426,111 @@ extension WorkMail {
             case id = "Id"
             case name = "Name"
             case state = "State"
+        }
+    }
+
+    public struct ImpersonationMatchedRule: AWSDecodableShape {
+        /// The ID of the rule that matched the input
+        public let impersonationRuleId: String?
+        /// The name of the rule that matched the input.
+        public let name: String?
+
+        public init(impersonationRuleId: String? = nil, name: String? = nil) {
+            self.impersonationRuleId = impersonationRuleId
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case impersonationRuleId = "ImpersonationRuleId"
+            case name = "Name"
+        }
+    }
+
+    public struct ImpersonationRole: AWSDecodableShape {
+        /// The date when the impersonation role was created.
+        public let dateCreated: Date?
+        /// The date when the impersonation role was last modified.
+        public let dateModified: Date?
+        /// The identifier of the impersonation role.
+        public let impersonationRoleId: String?
+        /// The impersonation role name.
+        public let name: String?
+        /// The impersonation role type.
+        public let type: ImpersonationRoleType?
+
+        public init(dateCreated: Date? = nil, dateModified: Date? = nil, impersonationRoleId: String? = nil, name: String? = nil, type: ImpersonationRoleType? = nil) {
+            self.dateCreated = dateCreated
+            self.dateModified = dateModified
+            self.impersonationRoleId = impersonationRoleId
+            self.name = name
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dateCreated = "DateCreated"
+            case dateModified = "DateModified"
+            case impersonationRoleId = "ImpersonationRoleId"
+            case name = "Name"
+            case type = "Type"
+        }
+    }
+
+    public struct ImpersonationRule: AWSEncodableShape & AWSDecodableShape {
+        /// The rule description.
+        public let description: String?
+        /// The effect of the rule when it matches the input. Allowed effect values are ALLOW or DENY.
+        public let effect: AccessEffect
+        /// The identifier of the rule.
+        public let impersonationRuleId: String
+        /// The rule name.
+        public let name: String?
+        /// A list of user IDs that don't match the rule.
+        public let notTargetUsers: [String]?
+        /// A list of user IDs that match the rule.
+        public let targetUsers: [String]?
+
+        public init(description: String? = nil, effect: AccessEffect, impersonationRuleId: String, name: String? = nil, notTargetUsers: [String]? = nil, targetUsers: [String]? = nil) {
+            self.description = description
+            self.effect = effect
+            self.impersonationRuleId = impersonationRuleId
+            self.name = name
+            self.notTargetUsers = notTargetUsers
+            self.targetUsers = targetUsers
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[^\\x00-\\x09\\x0B\\x0C\\x0E-\\x1F\\x7F\\x3C\\x3E\\x5C]+$")
+            try self.validate(self.impersonationRuleId, name: "impersonationRuleId", parent: name, max: 64)
+            try self.validate(self.impersonationRuleId, name: "impersonationRuleId", parent: name, min: 1)
+            try self.validate(self.impersonationRuleId, name: "impersonationRuleId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[^\\x00-\\x1F\\x7F\\x3C\\x3E\\x5C]+$")
+            try self.notTargetUsers?.forEach {
+                try validate($0, name: "notTargetUsers[]", parent: name, max: 256)
+                try validate($0, name: "notTargetUsers[]", parent: name, min: 1)
+                try validate($0, name: "notTargetUsers[]", parent: name, pattern: "^[a-zA-Z0-9._%+@-]+$")
+            }
+            try self.validate(self.notTargetUsers, name: "notTargetUsers", parent: name, max: 10)
+            try self.validate(self.notTargetUsers, name: "notTargetUsers", parent: name, min: 1)
+            try self.targetUsers?.forEach {
+                try validate($0, name: "targetUsers[]", parent: name, max: 256)
+                try validate($0, name: "targetUsers[]", parent: name, min: 1)
+                try validate($0, name: "targetUsers[]", parent: name, pattern: "^[a-zA-Z0-9._%+@-]+$")
+            }
+            try self.validate(self.targetUsers, name: "targetUsers", parent: name, max: 10)
+            try self.validate(self.targetUsers, name: "targetUsers", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case effect = "Effect"
+            case impersonationRuleId = "ImpersonationRuleId"
+            case name = "Name"
+            case notTargetUsers = "NotTargetUsers"
+            case targetUsers = "TargetUsers"
         }
     }
 
@@ -2258,7 +2645,7 @@ extension WorkMail {
         public let maxResults: Int?
         /// The token to use to retrieve the next page of results. The first call does not require a token.
         public let nextToken: String?
-        /// The Amazon WorkMail organization for which the AvailabilityConfiguration's will be listed.
+        /// The WorkMail organization for which the AvailabilityConfiguration's will be listed.
         public let organizationId: String
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, organizationId: String) {
@@ -2286,7 +2673,7 @@ extension WorkMail {
     }
 
     public struct ListAvailabilityConfigurationsResponse: AWSDecodableShape {
-        /// The list of AvailabilityConfiguration's that exist for the specified Amazon WorkMail organization.
+        /// The list of AvailabilityConfiguration's that exist for the specified WorkMail organization.
         public let availabilityConfigurations: [AvailabilityConfiguration]?
         /// The token to use to retrieve the next page of results. The value is null when there are no further results to return.
         public let nextToken: String?
@@ -2406,12 +2793,61 @@ extension WorkMail {
         }
     }
 
+    public struct ListImpersonationRolesRequest: AWSEncodableShape {
+        /// The maximum number of results returned in a single call.
+        public let maxResults: Int?
+        /// The token used to retrieve the next page of results. The first call doesn't require a token.
+        public let nextToken: String?
+        /// The WorkMail organization to which the listed impersonation roles belong.
+        public let organizationId: String
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, organizationId: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.organizationId = organizationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\S\\s]*|[a-zA-Z0-9/+=]{1,1024}$")
+            try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case organizationId = "OrganizationId"
+        }
+    }
+
+    public struct ListImpersonationRolesResponse: AWSDecodableShape {
+        /// The token to retrieve the next page of results. The value is null when there are no results to return.
+        public let nextToken: String?
+        /// The list of impersonation roles under the given WorkMail organization.
+        public let roles: [ImpersonationRole]?
+
+        public init(nextToken: String? = nil, roles: [ImpersonationRole]? = nil) {
+            self.nextToken = nextToken
+            self.roles = roles
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case roles = "Roles"
+        }
+    }
+
     public struct ListMailDomainsRequest: AWSEncodableShape {
         /// The maximum number of results to return in a single call.
         public let maxResults: Int?
         /// The token to use to retrieve the next page of results. The first call does not require a token.
         public let nextToken: String?
-        /// The Amazon WorkMail organization for which to list domains.
+        /// The WorkMail organization for which to list domains.
         public let organizationId: String
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, organizationId: String) {
@@ -2439,7 +2875,7 @@ extension WorkMail {
     }
 
     public struct ListMailDomainsResponse: AWSDecodableShape {
-        /// The list of mail domain summaries, specifying domains that exist in the specified Amazon WorkMail  organization, along with the information about whether the domain is or isn't the default.
+        /// The list of mail domain summaries, specifying domains that exist in the specified WorkMail organization, along with the information about whether the domain is or isn't the default.
         public let mailDomains: [MailDomainSummary]?
         /// The token to use to retrieve the next page of results. The value becomes null when there are no more results to return.
         public let nextToken: String?
@@ -2566,9 +3002,9 @@ extension WorkMail {
         public let maxResults: Int?
         /// The token to use to retrieve the next page of results. The first call does not require a token.
         public let nextToken: String?
-        /// The Amazon WorkMail organization under which to list mobile device access overrides.
+        /// The WorkMail organization under which to list mobile device access overrides.
         public let organizationId: String
-        /// The WorkMail user under which you list the mobile device access overrides. Accepts the following types of user identities:   User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234     Email address: user@domain.tld    User name: user
+        /// The WorkMail user under which you list the mobile device access overrides. Accepts the following types of user identities:   User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234    Email address: user@domain.tld    User name: user
         public let userId: String?
 
         public init(deviceId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, organizationId: String, userId: String? = nil) {
@@ -2608,7 +3044,7 @@ extension WorkMail {
     public struct ListMobileDeviceAccessOverridesResponse: AWSDecodableShape {
         /// The token to use to retrieve the next page of results. The value is “null” when there are no more results to return.
         public let nextToken: String?
-        /// The list of mobile device access overrides that exist for the specified Amazon WorkMail organization and user.
+        /// The list of mobile device access overrides that exist for the specified WorkMail organization and user.
         public let overrides: [MobileDeviceAccessOverride]?
 
         public init(nextToken: String? = nil, overrides: [MobileDeviceAccessOverride]? = nil) {
@@ -2623,7 +3059,7 @@ extension WorkMail {
     }
 
     public struct ListMobileDeviceAccessRulesRequest: AWSEncodableShape {
-        /// The Amazon WorkMail organization for which to list the rules.
+        /// The WorkMail organization for which to list the rules.
         public let organizationId: String
 
         public init(organizationId: String) {
@@ -2642,7 +3078,7 @@ extension WorkMail {
     }
 
     public struct ListMobileDeviceAccessRulesResponse: AWSDecodableShape {
-        /// The list of mobile device access rules that exist under the specified Amazon WorkMail organization.
+        /// The list of mobile device access rules that exist under the specified WorkMail organization.
         public let rules: [MobileDeviceAccessRule]?
 
         public init(rules: [MobileDeviceAccessRule]? = nil) {
@@ -2943,9 +3379,9 @@ extension WorkMail {
     }
 
     public struct Member: AWSDecodableShape {
-        /// The date indicating when the member was disabled from Amazon WorkMail use.
+        /// The date indicating when the member was disabled from WorkMail use.
         public let disabledDate: Date?
-        /// The date indicating when the member was enabled for Amazon WorkMail use.
+        /// The date indicating when the member was enabled for WorkMail use.
         public let enabledDate: Date?
         /// The identifier of the member.
         public let id: String?
@@ -3147,12 +3583,16 @@ extension WorkMail {
         public let description: String
         /// The rule effect.
         public let effect: AccessControlRuleEffect
+        /// Impersonation role IDs to include in the rule.
+        public let impersonationRoleIds: [String]?
         /// IPv4 CIDR ranges to include in the rule.
         public let ipRanges: [String]?
         /// The rule name.
         public let name: String
         /// Access protocol actions to exclude from the rule. Valid values include ActiveSync, AutoDiscover, EWS, IMAP, SMTP, WindowsOutlook, and WebMail.
         public let notActions: [String]?
+        /// Impersonation role IDs to exclude from the rule.
+        public let notImpersonationRoleIds: [String]?
         /// IPv4 CIDR ranges to exclude from the rule.
         public let notIpRanges: [String]?
         /// User IDs to exclude from the rule.
@@ -3162,13 +3602,15 @@ extension WorkMail {
         /// User IDs to include in the rule.
         public let userIds: [String]?
 
-        public init(actions: [String]? = nil, description: String, effect: AccessControlRuleEffect, ipRanges: [String]? = nil, name: String, notActions: [String]? = nil, notIpRanges: [String]? = nil, notUserIds: [String]? = nil, organizationId: String, userIds: [String]? = nil) {
+        public init(actions: [String]? = nil, description: String, effect: AccessControlRuleEffect, impersonationRoleIds: [String]? = nil, ipRanges: [String]? = nil, name: String, notActions: [String]? = nil, notImpersonationRoleIds: [String]? = nil, notIpRanges: [String]? = nil, notUserIds: [String]? = nil, organizationId: String, userIds: [String]? = nil) {
             self.actions = actions
             self.description = description
             self.effect = effect
+            self.impersonationRoleIds = impersonationRoleIds
             self.ipRanges = ipRanges
             self.name = name
             self.notActions = notActions
+            self.notImpersonationRoleIds = notImpersonationRoleIds
             self.notIpRanges = notIpRanges
             self.notUserIds = notUserIds
             self.organizationId = organizationId
@@ -3184,6 +3626,12 @@ extension WorkMail {
             try self.validate(self.actions, name: "actions", parent: name, max: 10)
             try self.validate(self.description, name: "description", parent: name, max: 255)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\u0020-\\u00FF]+$")
+            try self.impersonationRoleIds?.forEach {
+                try validate($0, name: "impersonationRoleIds[]", parent: name, max: 64)
+                try validate($0, name: "impersonationRoleIds[]", parent: name, min: 1)
+                try validate($0, name: "impersonationRoleIds[]", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            }
+            try self.validate(self.impersonationRoleIds, name: "impersonationRoleIds", parent: name, max: 10)
             try self.ipRanges?.forEach {
                 try validate($0, name: "ipRanges[]", parent: name, max: 18)
                 try validate($0, name: "ipRanges[]", parent: name, min: 1)
@@ -3199,6 +3647,12 @@ extension WorkMail {
                 try validate($0, name: "notActions[]", parent: name, pattern: "^[a-zA-Z]+$")
             }
             try self.validate(self.notActions, name: "notActions", parent: name, max: 10)
+            try self.notImpersonationRoleIds?.forEach {
+                try validate($0, name: "notImpersonationRoleIds[]", parent: name, max: 64)
+                try validate($0, name: "notImpersonationRoleIds[]", parent: name, min: 1)
+                try validate($0, name: "notImpersonationRoleIds[]", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            }
+            try self.validate(self.notImpersonationRoleIds, name: "notImpersonationRoleIds", parent: name, max: 10)
             try self.notIpRanges?.forEach {
                 try validate($0, name: "notIpRanges[]", parent: name, max: 18)
                 try validate($0, name: "notIpRanges[]", parent: name, min: 1)
@@ -3224,9 +3678,11 @@ extension WorkMail {
             case actions = "Actions"
             case description = "Description"
             case effect = "Effect"
+            case impersonationRoleIds = "ImpersonationRoleIds"
             case ipRanges = "IpRanges"
             case name = "Name"
             case notActions = "NotActions"
+            case notImpersonationRoleIds = "NotImpersonationRoleIds"
             case notIpRanges = "NotIpRanges"
             case notUserIds = "NotUserIds"
             case organizationId = "OrganizationId"
@@ -3347,9 +3803,9 @@ extension WorkMail {
         public let deviceId: String
         /// The effect of the override, ALLOW or DENY.
         public let effect: MobileDeviceAccessRuleEffect
-        /// Identifies the Amazon WorkMail organization for which you create the override.
+        /// Identifies the WorkMail organization for which you create the override.
         public let organizationId: String
-        /// The WorkMail user for which you create the override. Accepts the following types of user identities:   User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234     Email address: user@domain.tld    User name: user
+        /// The WorkMail user for which you create the override. Accepts the following types of user identities:   User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234    Email address: user@domain.tld    User name: user
         public let userId: String
 
         public init(description: String? = nil, deviceId: String, effect: MobileDeviceAccessRuleEffect, organizationId: String, userId: String) {
@@ -3458,9 +3914,9 @@ extension WorkMail {
     public struct RegisterMailDomainRequest: AWSEncodableShape {
         /// Idempotency token used when retrying requests.
         public let clientToken: String?
-        /// The name of the mail domain to create in Amazon WorkMail and SES.
+        /// The name of the mail domain to create in WorkMail and SES.
         public let domainName: String
-        /// The Amazon WorkMail organization under which you're creating the domain.
+        /// The WorkMail organization under which you're creating the domain.
         public let organizationId: String
 
         public init(clientToken: String? = RegisterMailDomainRequest.idempotencyToken(), domainName: String, organizationId: String) {
@@ -3564,11 +4020,11 @@ extension WorkMail {
     }
 
     public struct Resource: AWSDecodableShape {
-        /// The date indicating when the resource was disabled from Amazon WorkMail use.
+        /// The date indicating when the resource was disabled from WorkMail use.
         public let disabledDate: Date?
         /// The email of the resource.
         public let email: String?
-        /// The date indicating when the resource was enabled for Amazon WorkMail use.
+        /// The date indicating when the resource was enabled for WorkMail use.
         public let enabledDate: Date?
         /// The identifier of the resource.
         public let id: String?
@@ -3736,7 +4192,7 @@ extension WorkMail {
         public let domainName: String?
         public let ewsProvider: EwsAvailabilityProvider?
         public let lambdaProvider: LambdaAvailabilityProvider?
-        /// The Amazon WorkMail organization where the availability provider will be tested.
+        /// The WorkMail organization where the availability provider will be tested.
         public let organizationId: String
 
         public init(domainName: String? = nil, ewsProvider: EwsAvailabilityProvider? = nil, lambdaProvider: LambdaAvailabilityProvider? = nil, organizationId: String) {
@@ -3820,7 +4276,7 @@ extension WorkMail {
         public let ewsProvider: EwsAvailabilityProvider?
         /// The Lambda availability provider definition. The request must contain exactly one provider definition, either EwsProvider or LambdaProvider. The previously stored provider will be overridden by the one provided.
         public let lambdaProvider: LambdaAvailabilityProvider?
-        /// The Amazon WorkMail organization for which the AvailabilityConfiguration will be updated.
+        /// The WorkMail organization for which the AvailabilityConfiguration will be updated.
         public let organizationId: String
 
         public init(domainName: String, ewsProvider: EwsAvailabilityProvider? = nil, lambdaProvider: LambdaAvailabilityProvider? = nil, organizationId: String) {
@@ -3856,7 +4312,7 @@ extension WorkMail {
     public struct UpdateDefaultMailDomainRequest: AWSEncodableShape {
         /// The domain name that will become the default domain.
         public let domainName: String
-        /// The Amazon WorkMail organization for which to list domains.
+        /// The WorkMail organization for which to list domains.
         public let organizationId: String
 
         public init(domainName: String, organizationId: String) {
@@ -3880,6 +4336,62 @@ extension WorkMail {
     }
 
     public struct UpdateDefaultMailDomainResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateImpersonationRoleRequest: AWSEncodableShape {
+        /// The updated impersonation role description.
+        public let description: String?
+        /// The ID of the impersonation role to update.
+        public let impersonationRoleId: String
+        /// The updated impersonation role name.
+        public let name: String
+        /// The WorkMail organization that contains the impersonation role to update.
+        public let organizationId: String
+        /// The updated list of rules.
+        public let rules: [ImpersonationRule]
+        /// The updated impersonation role type.
+        public let type: ImpersonationRoleType
+
+        public init(description: String? = nil, impersonationRoleId: String, name: String, organizationId: String, rules: [ImpersonationRule], type: ImpersonationRoleType) {
+            self.description = description
+            self.impersonationRoleId = impersonationRoleId
+            self.name = name
+            self.organizationId = organizationId
+            self.rules = rules
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[^\\x00-\\x09\\x0B\\x0C\\x0E-\\x1F\\x7F\\x3C\\x3E\\x5C]+$")
+            try self.validate(self.impersonationRoleId, name: "impersonationRoleId", parent: name, max: 64)
+            try self.validate(self.impersonationRoleId, name: "impersonationRoleId", parent: name, min: 1)
+            try self.validate(self.impersonationRoleId, name: "impersonationRoleId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[^\\x00-\\x1F\\x7F\\x3C\\x3E\\x5C]+$")
+            try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+            try self.rules.forEach {
+                try $0.validate(name: "\(name).rules[]")
+            }
+            try self.validate(self.rules, name: "rules", parent: name, max: 10)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case impersonationRoleId = "ImpersonationRoleId"
+            case name = "Name"
+            case organizationId = "OrganizationId"
+            case rules = "Rules"
+            case type = "Type"
+        }
+    }
+
+    public struct UpdateImpersonationRoleResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -3942,7 +4454,7 @@ extension WorkMail {
         public let notDeviceTypes: [String]?
         /// User agents that the updated rule will not match. All other user agents will match.
         public let notDeviceUserAgents: [String]?
-        /// The Amazon WorkMail organization under which the rule will be updated.
+        /// The WorkMail organization under which the rule will be updated.
         public let organizationId: String
 
         public init(description: String? = nil, deviceModels: [String]? = nil, deviceOperatingSystems: [String]? = nil, deviceTypes: [String]? = nil, deviceUserAgents: [String]? = nil, effect: MobileDeviceAccessRuleEffect, mobileDeviceAccessRuleId: String, name: String, notDeviceModels: [String]? = nil, notDeviceOperatingSystems: [String]? = nil, notDeviceTypes: [String]? = nil, notDeviceUserAgents: [String]? = nil, organizationId: String) {
@@ -4131,13 +4643,13 @@ extension WorkMail {
     }
 
     public struct User: AWSDecodableShape {
-        /// The date indicating when the user was disabled from Amazon WorkMail use.
+        /// The date indicating when the user was disabled from WorkMail use.
         public let disabledDate: Date?
         /// The display name of the user.
         public let displayName: String?
         /// The email of the user.
         public let email: String?
-        /// The date indicating when the user was enabled for Amazon WorkMail use.
+        /// The date indicating when the user was enabled for WorkMail use.
         public let enabledDate: Date?
         /// The identifier of the user.
         public let id: String?

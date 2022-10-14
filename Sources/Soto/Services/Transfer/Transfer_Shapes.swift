@@ -145,14 +145,6 @@ extension Transfer {
         public var description: String { return self.rawValue }
     }
 
-    public enum `Protocol`: String, CustomStringConvertible, Codable, _SotoSendable {
-        case as2 = "AS2"
-        case ftp = "FTP"
-        case ftps = "FTPS"
-        case sftp = "SFTP"
-        public var description: String { return self.rawValue }
-    }
-
     public enum SetStatOption: String, CustomStringConvertible, Codable, _SotoSendable {
         case `default` = "DEFAULT"
         case enableNoOp = "ENABLE_NO_OP"
@@ -193,6 +185,14 @@ extension Transfer {
         public var description: String { return self.rawValue }
     }
 
+    public enum `Protocol`: String, CustomStringConvertible, Codable, _SotoSendable {
+        case as2 = "AS2"
+        case ftp = "FTP"
+        case ftps = "FTPS"
+        case sftp = "SFTP"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct As2ConnectorConfig: AWSEncodableShape & AWSDecodableShape {
@@ -200,17 +200,17 @@ extension Transfer {
         public let compression: CompressionEnum?
         /// The algorithm that is used to encrypt the file.
         public let encryptionAlgorithm: EncryptionAlg?
-        /// A unique identifier for the AS2 process.
+        /// A unique identifier for the AS2 local profile.
         public let localProfileId: String?
         /// Used  for outbound requests (from an Transfer Family server to a partner AS2 server) to determine whether the partner response for transfers is synchronous or asynchronous. Specify either of the following values:    SYNC: The system expects a synchronous MDN response, confirming that the file was transferred successfully (or not).    NONE: Specifies that no MDN response is required.
         public let mdnResponse: MdnResponse?
-        /// The signing algorithm for the MDN response.
+        /// The signing algorithm for the MDN response.  If set to DEFAULT (or not set at all), the value for SigningAlogorithm is used.
         public let mdnSigningAlgorithm: MdnSigningAlg?
-        /// A short description to help identify the connector.
+        /// Used as the Subject HTTP header attribute in AS2 messages that are being sent with the connector.
         public let messageSubject: String?
-        /// A unique identifier for the partner for the connector.
+        /// A unique identifier for the partner profile for the connector.
         public let partnerProfileId: String?
-        /// The algorithm that is used to sign the AS2 transfers for this partner profile.
+        /// The algorithm that is used to sign the AS2 messages sent with the connector.
         public let signingAlgorithm: SigningAlg?
 
         public init(compression: CompressionEnum? = nil, encryptionAlgorithm: EncryptionAlg? = nil, localProfileId: String? = nil, mdnResponse: MdnResponse? = nil, mdnSigningAlgorithm: MdnSigningAlg? = nil, messageSubject: String? = nil, partnerProfileId: String? = nil, signingAlgorithm: SigningAlg? = nil) {
@@ -362,7 +362,7 @@ extension Transfer {
     }
 
     public struct CreateAgreementRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that grants access to at least the  HomeDirectory of your users' Amazon S3 buckets.
+        /// With AS2, you can send files by calling StartFileTransfer and specifying the file paths in the request parameter, SendFilePaths. We use the file’s parent directory (for example, for --send-file-paths /bucket/dir/file.txt, parent directory is /bucket/dir/) to temporarily store a processed AS2 message file, store the MDN when we receive them from the partner, and write a final JSON file containing relevant metadata of the transmission. So, the AccessRole needs to provide read and write access to the parent directory of the file location used in the StartFileTransfer request. Additionally, you need to provide read and write access to the parent directory of the files that you intend to send with StartFileTransfer.
         public let accessRole: String
         /// The landing directory (folder) for files transferred by using the AS2 protocol. A BaseDirectory example is /DOC-EXAMPLE-BUCKET/home/mydirectory .
         public let baseDirectory: String
@@ -499,7 +499,7 @@ extension Transfer {
     }
 
     public struct CreateProfileRequest: AWSEncodableShape {
-        /// The As2Id is the AS2-name, as defined in the  defined in the RFC 4130. For inbound transfers, this is the AS2-From header for the AS2 messages sent from the partner. For outbound connectors, this is the AS2-To header for the AS2 messages sent to the partner using the StartFileTransfer API operation. This ID cannot include spaces.
+        /// The As2Id is the AS2-name, as defined in the  RFC 4130. For inbound transfers, this is the AS2-From header for the AS2 messages sent from the partner. For outbound connectors, this is the AS2-To header for the AS2 messages sent to the partner using the StartFileTransfer API operation. This ID cannot include spaces.
         public let as2Id: String
         /// An array of identifiers for the imported certificates. You use this identifier for working with profiles and partner profiles.
         public let certificateIds: [String]?
@@ -585,8 +585,7 @@ extension Transfer {
         public let preAuthenticationLoginBanner: String?
         /// The protocol settings that are configured for your server.    To indicate passive mode (for FTP and FTPS protocols), use the PassiveIp parameter. Enter a single dotted-quad IPv4 address, such as the external IP address of a firewall, router, or load balancer.    To ignore the error that is generated when the client attempts to use the SETSTAT command on a file that you are  uploading to an Amazon S3 bucket, use the SetStatOption parameter. To have the Transfer Family server ignore the  SETSTAT command and upload files without needing to make any changes to your SFTP client, set the value to  ENABLE_NO_OP. If you set the SetStatOption parameter to ENABLE_NO_OP, Transfer Family  generates a log entry to Amazon CloudWatch Logs, so that you can determine when the client is making a SETSTAT  call.   To determine whether your Transfer Family server resumes recent, negotiated sessions through a unique session ID, use the  TlsSessionResumptionMode parameter.    As2Transports indicates the transport method for the AS2 messages. Currently, only HTTP is supported.
         public let protocolDetails: ProtocolDetails?
-        /// Specifies the file transfer protocol or protocols over which your file transfer protocol client can connect to your server's endpoint. The available protocols are:
-        ///     SFTP (Secure Shell (SSH) File Transfer Protocol): File transfer over SSH    FTPS (File Transfer Protocol Secure): File transfer with TLS encryption    FTP (File Transfer Protocol): Unencrypted file transfer    AS2 (Applicability Statement 2): used for transporting structured business-to-business data
+        /// Specifies the file transfer protocol or protocols over which your file transfer protocol client can connect to your server's endpoint. The available protocols are:    SFTP (Secure Shell (SSH) File Transfer Protocol): File transfer over SSH    FTPS (File Transfer Protocol Secure): File transfer with TLS encryption    FTP (File Transfer Protocol): Unencrypted file transfer    AS2 (Applicability Statement 2): used for transporting structured business-to-business data
         ///     If you select FTPS, you must choose a certificate stored in Certificate Manager (ACM)  which is used to identify your server when clients connect to it over FTPS.   If Protocol includes either FTP or FTPS, then the EndpointType must be VPC and the IdentityProviderType must be AWS_DIRECTORY_SERVICE or API_GATEWAY.   If Protocol includes FTP, then AddressAllocationIds cannot be associated.   If Protocol is set only to SFTP, the EndpointType can be set to PUBLIC and the IdentityProviderType can be set to SERVICE_MANAGED.   If Protocol includes AS2, then the EndpointType must be VPC, and domain must be Amazon S3.
         public let protocols: [`Protocol`]?
         /// Specifies the name of the security policy that is attached to the server.
@@ -956,6 +955,32 @@ extension Transfer {
         }
     }
 
+    public struct DeleteHostKeyRequest: AWSEncodableShape {
+        /// The ID of the host key that you are deleting.
+        public let hostKeyId: String
+        /// Provide the ID of the server that contains the host key that you are deleting.
+        public let serverId: String
+
+        public init(hostKeyId: String, serverId: String) {
+            self.hostKeyId = hostKeyId
+            self.serverId = serverId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.hostKeyId, name: "hostKeyId", parent: name, max: 25)
+            try self.validate(self.hostKeyId, name: "hostKeyId", parent: name, min: 25)
+            try self.validate(self.hostKeyId, name: "hostKeyId", parent: name, pattern: "^hostkey-[0-9a-f]{17}$")
+            try self.validate(self.serverId, name: "serverId", parent: name, max: 19)
+            try self.validate(self.serverId, name: "serverId", parent: name, min: 19)
+            try self.validate(self.serverId, name: "serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hostKeyId = "HostKeyId"
+            case serverId = "ServerId"
+        }
+    }
+
     public struct DeleteProfileRequest: AWSEncodableShape {
         /// The ID of the profile that you are deleting.
         public let profileId: String
@@ -1287,6 +1312,45 @@ extension Transfer {
         }
     }
 
+    public struct DescribeHostKeyRequest: AWSEncodableShape {
+        /// Provide the ID of the host key that you want described.
+        public let hostKeyId: String
+        /// Provide the ID of the server that contains the host key that you want described.
+        public let serverId: String
+
+        public init(hostKeyId: String, serverId: String) {
+            self.hostKeyId = hostKeyId
+            self.serverId = serverId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.hostKeyId, name: "hostKeyId", parent: name, max: 25)
+            try self.validate(self.hostKeyId, name: "hostKeyId", parent: name, min: 25)
+            try self.validate(self.hostKeyId, name: "hostKeyId", parent: name, pattern: "^hostkey-[0-9a-f]{17}$")
+            try self.validate(self.serverId, name: "serverId", parent: name, max: 19)
+            try self.validate(self.serverId, name: "serverId", parent: name, min: 19)
+            try self.validate(self.serverId, name: "serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hostKeyId = "HostKeyId"
+            case serverId = "ServerId"
+        }
+    }
+
+    public struct DescribeHostKeyResponse: AWSDecodableShape {
+        /// Returns the details for the specified host key.
+        public let hostKey: DescribedHostKey
+
+        public init(hostKey: DescribedHostKey) {
+            self.hostKey = hostKey
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hostKey = "HostKey"
+        }
+    }
+
     public struct DescribeProfileRequest: AWSEncodableShape {
         /// The identifier of the profile that you want described.
         public let profileId: String
@@ -1496,7 +1560,7 @@ extension Transfer {
     }
 
     public struct DescribedAgreement: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that grants access to at least the  HomeDirectory of your users' Amazon S3 buckets.
+        /// With AS2, you can send files by calling StartFileTransfer and specifying the file paths in the request parameter, SendFilePaths. We use the file’s parent directory (for example, for --send-file-paths /bucket/dir/file.txt, parent directory is /bucket/dir/) to temporarily store a processed AS2 message file, store the MDN when we receive them from the partner, and write a final JSON file containing relevant metadata of the transmission. So, the AccessRole needs to provide read and write access to the parent directory of the file location used in the StartFileTransfer request. Additionally, you need to provide read and write access to the parent directory of the files that you intend to send with StartFileTransfer.
         public let accessRole: String?
         /// A unique identifier for the agreement. This identifier is returned when you create an agreement.
         public let agreementId: String?
@@ -1506,9 +1570,9 @@ extension Transfer {
         public let baseDirectory: String?
         /// The name or short description that's used to identify the agreement.
         public let description: String?
-        /// A unique identifier for the AS2 process.
+        /// A unique identifier for the AS2 local profile.
         public let localProfileId: String?
-        /// A unique identifier for the partner in the agreement.
+        /// A unique identifier for the partner profile used in the agreement.
         public let partnerProfileId: String?
         /// A system-assigned unique identifier for a server instance. This identifier indicates the specific server that the agreement uses.
         public let serverId: String?
@@ -1686,10 +1750,47 @@ extension Transfer {
         }
     }
 
+    public struct DescribedHostKey: AWSDecodableShape {
+        /// The unique Amazon Resource Name (ARN) for the host key.
+        public let arn: String
+        /// The date on which the host key was added to the server.
+        public let dateImported: Date?
+        /// The text description for this host key.
+        public let description: String?
+        /// The public key fingerprint, which is a short sequence of bytes used to identify the longer public key.
+        public let hostKeyFingerprint: String?
+        /// A unique identifier for the host key.
+        public let hostKeyId: String?
+        /// Key-value pairs that can be used to group and search for host keys.
+        public let tags: [Tag]?
+        /// The encryption algorithm used for the host key. The Type is one of the following values:   ssh-rsa   ssh-ed25519   ecdsa-sha2-nistp256    ecdsa-sha2-nistp384   ecdsa-sha2-nistp521
+        public let type: String?
+
+        public init(arn: String, dateImported: Date? = nil, description: String? = nil, hostKeyFingerprint: String? = nil, hostKeyId: String? = nil, tags: [Tag]? = nil, type: String? = nil) {
+            self.arn = arn
+            self.dateImported = dateImported
+            self.description = description
+            self.hostKeyFingerprint = hostKeyFingerprint
+            self.hostKeyId = hostKeyId
+            self.tags = tags
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case dateImported = "DateImported"
+            case description = "Description"
+            case hostKeyFingerprint = "HostKeyFingerprint"
+            case hostKeyId = "HostKeyId"
+            case tags = "Tags"
+            case type = "Type"
+        }
+    }
+
     public struct DescribedProfile: AWSDecodableShape {
         /// The unique Amazon Resource Name (ARN) for the profile.
         public let arn: String
-        /// The unique identifier for the AS2 process.
+        /// The As2Id is the AS2-name, as defined in the  RFC 4130. For inbound transfers, this is the AS2-From header for the AS2 messages sent from the partner. For outbound connectors, this is the AS2-To header for the AS2 messages sent to the partner using the StartFileTransfer API operation. This ID cannot include spaces.
         public let as2Id: String?
         /// An array of identifiers for the imported certificates. You use this identifier for working with profiles and partner profiles.
         public let certificateIds: [String]?
@@ -1775,10 +1876,10 @@ extension Transfer {
         public let postAuthenticationLoginBanner: String?
         /// Specifies a string to display when users connect to a server. This string is displayed before the user authenticates. For example, the following banner displays details about using the system:   This system is for the use of authorized users only. Individuals using this computer system without authority, or in excess of their authority, are subject to having all of their activities on this system monitored and recorded by system personnel.
         public let preAuthenticationLoginBanner: String?
-        ///  The protocol settings that are configured for your server.   Use the PassiveIp parameter to indicate passive mode. Enter a single IPv4 address, such as the public IP address of a firewall, router, or load balancer.
+        /// The protocol settings that are configured for your server.    To indicate passive mode (for FTP and FTPS protocols), use the PassiveIp parameter. Enter a single dotted-quad IPv4 address, such as the external IP address of a firewall, router, or load balancer.    To ignore the error that is generated when the client attempts to use the SETSTAT command on a file that you are  uploading to an Amazon S3 bucket, use the SetStatOption parameter. To have the Transfer Family server ignore the  SETSTAT command and upload files without needing to make any changes to your SFTP client, set the value to  ENABLE_NO_OP. If you set the SetStatOption parameter to ENABLE_NO_OP, Transfer Family  generates a log entry to Amazon CloudWatch Logs, so that you can determine when the client is making a SETSTAT  call.   To determine whether your Transfer Family server resumes recent, negotiated sessions through a unique session ID, use the  TlsSessionResumptionMode parameter.    As2Transports indicates the transport method for the AS2 messages. Currently, only HTTP is supported.
         public let protocolDetails: ProtocolDetails?
-        /// Specifies the file transfer protocol or protocols over which your file transfer protocol client can connect to your server's endpoint. The available protocols are:
-        ///     SFTP (Secure Shell (SSH) File Transfer Protocol): File transfer over SSH    FTPS (File Transfer Protocol Secure): File transfer with TLS encryption    FTP (File Transfer Protocol): Unencrypted file transfer
+        /// Specifies the file transfer protocol or protocols over which your file transfer protocol client can connect to your server's endpoint. The available protocols are:    SFTP (Secure Shell (SSH) File Transfer Protocol): File transfer over SSH    FTPS (File Transfer Protocol Secure): File transfer with TLS encryption    FTP (File Transfer Protocol): Unencrypted file transfer    AS2 (Applicability Statement 2): used for transporting structured business-to-business data
+        ///     If you select FTPS, you must choose a certificate stored in Certificate Manager (ACM)  which is used to identify your server when clients connect to it over FTPS.   If Protocol includes either FTP or FTPS, then the EndpointType must be VPC and the IdentityProviderType must be AWS_DIRECTORY_SERVICE or API_GATEWAY.   If Protocol includes FTP, then AddressAllocationIds cannot be associated.   If Protocol is set only to SFTP, the EndpointType can be set to PUBLIC and the IdentityProviderType can be set to SERVICE_MANAGED.   If Protocol includes AS2, then the EndpointType must be VPC, and domain must be Amazon S3.
         public let protocols: [`Protocol`]?
         /// Specifies the name of the security policy that is attached to the server.
         public let securityPolicyName: String?
@@ -2202,6 +2303,62 @@ extension Transfer {
         }
     }
 
+    public struct ImportHostKeyRequest: AWSEncodableShape {
+        /// Enter a text description to identify this host key.
+        public let description: String?
+        /// The public key portion of an SSH key pair. Transfer Family accepts RSA, ECDSA, and ED25519 keys.
+        public let hostKeyBody: String
+        /// Provide the ID of the server that contains the host key that you are importing.
+        public let serverId: String
+        /// Key-value pairs that can be used to group and search for host keys.
+        public let tags: [Tag]?
+
+        public init(description: String? = nil, hostKeyBody: String, serverId: String, tags: [Tag]? = nil) {
+            self.description = description
+            self.hostKeyBody = hostKeyBody
+            self.serverId = serverId
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\p{Print}]*$")
+            try self.validate(self.hostKeyBody, name: "hostKeyBody", parent: name, max: 4096)
+            try self.validate(self.serverId, name: "serverId", parent: name, max: 19)
+            try self.validate(self.serverId, name: "serverId", parent: name, min: 19)
+            try self.validate(self.serverId, name: "serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case hostKeyBody = "HostKeyBody"
+            case serverId = "ServerId"
+            case tags = "Tags"
+        }
+    }
+
+    public struct ImportHostKeyResponse: AWSDecodableShape {
+        /// Returns the host key ID for the imported key.
+        public let hostKeyId: String
+        /// Returns the server ID that contains the imported key.
+        public let serverId: String
+
+        public init(hostKeyId: String, serverId: String) {
+            self.hostKeyId = hostKeyId
+            self.serverId = serverId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hostKeyId = "HostKeyId"
+            case serverId = "ServerId"
+        }
+    }
+
     public struct ImportSshPublicKeyRequest: AWSEncodableShape {
         /// A system-assigned unique identifier for a server.
         public let serverId: String
@@ -2507,6 +2664,58 @@ extension Transfer {
             case executions = "Executions"
             case nextToken = "NextToken"
             case workflowId = "WorkflowId"
+        }
+    }
+
+    public struct ListHostKeysRequest: AWSEncodableShape {
+        /// The maximum number of host keys to return.
+        public let maxResults: Int?
+        /// When there are additional results that were not returned, a NextToken parameter is returned. You can use that value for a subsequent call to ListHostKeys to continue listing results.
+        public let nextToken: String?
+        /// Provide the ID of the server that contains the host keys that you want to view.
+        public let serverId: String
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, serverId: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.serverId = serverId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 6144)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.serverId, name: "serverId", parent: name, max: 19)
+            try self.validate(self.serverId, name: "serverId", parent: name, min: 19)
+            try self.validate(self.serverId, name: "serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case serverId = "ServerId"
+        }
+    }
+
+    public struct ListHostKeysResponse: AWSDecodableShape {
+        /// Returns an array, where each item contains the details of a host key.
+        public let hostKeys: [ListedHostKey]
+        /// Returns a token that you can use to call ListHostKeys again and receive additional results, if there are any.
+        public let nextToken: String?
+        /// Returns the server ID that contains the listed host keys.
+        public let serverId: String
+
+        public init(hostKeys: [ListedHostKey], nextToken: String? = nil, serverId: String) {
+            self.hostKeys = hostKeys
+            self.nextToken = nextToken
+            self.serverId = serverId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hostKeys = "HostKeys"
+            case nextToken = "NextToken"
+            case serverId = "ServerId"
         }
     }
 
@@ -2816,9 +3025,9 @@ extension Transfer {
         public let arn: String?
         /// The current description for the agreement. You can change it by calling the UpdateAgreement operation and providing a new description.
         public let description: String?
-        /// A unique identifier for the AS2 process.
+        /// A unique identifier for the AS2 local profile.
         public let localProfileId: String?
-        /// A unique identifier for the partner process.
+        /// A unique identifier for the partner profile.
         public let partnerProfileId: String?
         /// The unique identifier for the agreement.
         public let serverId: String?
@@ -2933,10 +3142,42 @@ extension Transfer {
         }
     }
 
+    public struct ListedHostKey: AWSDecodableShape {
+        /// Specifies the unique Amazon Resource Name (ARN) of the host key.
+        public let arn: String
+        /// The date on which the host key was added to the server.
+        public let dateImported: Date?
+        /// The current description for the host key. You can change it by calling the UpdateHostKey operation and providing a new description.
+        public let description: String?
+        /// The public key fingerprint, which is a short sequence of bytes used to identify the longer public key.
+        public let fingerprint: String?
+        public let hostKeyId: String?
+        /// The encryption algorithm used for the host key. The Type is one of the following values:   ssh-rsa   ssh-ed25519   ecdsa-sha2-nistp256    ecdsa-sha2-nistp384   ecdsa-sha2-nistp521
+        public let type: String?
+
+        public init(arn: String, dateImported: Date? = nil, description: String? = nil, fingerprint: String? = nil, hostKeyId: String? = nil, type: String? = nil) {
+            self.arn = arn
+            self.dateImported = dateImported
+            self.description = description
+            self.fingerprint = fingerprint
+            self.hostKeyId = hostKeyId
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case dateImported = "DateImported"
+            case description = "Description"
+            case fingerprint = "Fingerprint"
+            case hostKeyId = "HostKeyId"
+            case type = "Type"
+        }
+    }
+
     public struct ListedProfile: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the specified profile.
         public let arn: String?
-        /// The unique identifier for the AS2 process.
+        /// The As2Id is the AS2-name, as defined in the  RFC 4130. For inbound transfers, this is the AS2-From header for the AS2 messages sent from the partner. For outbound connectors, this is the AS2-To header for the AS2 messages sent to the partner using the StartFileTransfer API operation. This ID cannot include spaces.
         public let as2Id: String?
         /// A unique identifier for the local or partner AS2 profile.
         public let profileId: String?
@@ -3628,7 +3869,7 @@ extension Transfer {
     }
 
     public struct UpdateAgreementRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that grants access to at least the  HomeDirectory of your users' Amazon S3 buckets.
+        /// With AS2, you can send files by calling StartFileTransfer and specifying the file paths in the request parameter, SendFilePaths. We use the file’s parent directory (for example, for --send-file-paths /bucket/dir/file.txt, parent directory is /bucket/dir/) to temporarily store a processed AS2 message file, store the MDN when we receive them from the partner, and write a final JSON file containing relevant metadata of the transmission. So, the AccessRole needs to provide read and write access to the parent directory of the file location used in the StartFileTransfer request. Additionally, you need to provide read and write access to the parent directory of the files that you intend to send with StartFileTransfer.
         public let accessRole: String?
         /// A unique identifier for the agreement. This identifier is returned when you create an agreement.
         public let agreementId: String
@@ -3636,9 +3877,9 @@ extension Transfer {
         public let baseDirectory: String?
         /// To replace the existing description, provide a short description for the agreement.
         public let description: String?
-        /// To change the local profile identifier, provide a new value here.
+        /// A unique identifier for the AS2 local profile. To change the local profile identifier, provide a new value here.
         public let localProfileId: String?
-        /// To change the partner profile identifier, provide a new value here.
+        /// A unique identifier for the partner profile. To change the partner profile identifier, provide a new value here.
         public let partnerProfileId: String?
         /// A system-assigned unique identifier for a server instance. This is the specific server that the agreement uses.
         public let serverId: String
@@ -3807,6 +4048,55 @@ extension Transfer {
         }
     }
 
+    public struct UpdateHostKeyRequest: AWSEncodableShape {
+        /// Provide an updated description for the host key.
+        public let description: String
+        /// Provide the ID of the host key that you are updating.
+        public let hostKeyId: String
+        /// Provide the ID of the server that contains the host key that you are updating.
+        public let serverId: String
+
+        public init(description: String, hostKeyId: String, serverId: String) {
+            self.description = description
+            self.hostKeyId = hostKeyId
+            self.serverId = serverId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\p{Print}]*$")
+            try self.validate(self.hostKeyId, name: "hostKeyId", parent: name, max: 25)
+            try self.validate(self.hostKeyId, name: "hostKeyId", parent: name, min: 25)
+            try self.validate(self.hostKeyId, name: "hostKeyId", parent: name, pattern: "^hostkey-[0-9a-f]{17}$")
+            try self.validate(self.serverId, name: "serverId", parent: name, max: 19)
+            try self.validate(self.serverId, name: "serverId", parent: name, min: 19)
+            try self.validate(self.serverId, name: "serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case hostKeyId = "HostKeyId"
+            case serverId = "ServerId"
+        }
+    }
+
+    public struct UpdateHostKeyResponse: AWSDecodableShape {
+        /// Returns the host key ID for the updated host key.
+        public let hostKeyId: String
+        /// Returns the server ID for the server that contains the updated host key.
+        public let serverId: String
+
+        public init(hostKeyId: String, serverId: String) {
+            self.hostKeyId = hostKeyId
+            self.serverId = serverId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hostKeyId = "HostKeyId"
+            case serverId = "ServerId"
+        }
+    }
+
     public struct UpdateProfileRequest: AWSEncodableShape {
         /// An array of identifiers for the imported certificates. You use this identifier for working with profiles and partner profiles.
         public let certificateIds: [String]?
@@ -3876,12 +4166,8 @@ extension Transfer {
         public let preAuthenticationLoginBanner: String?
         /// The protocol settings that are configured for your server.    To indicate passive mode (for FTP and FTPS protocols), use the PassiveIp parameter. Enter a single dotted-quad IPv4 address, such as the external IP address of a firewall, router, or load balancer.    To ignore the error that is generated when the client attempts to use the SETSTAT command on a file that you are  uploading to an Amazon S3 bucket, use the SetStatOption parameter. To have the Transfer Family server ignore the  SETSTAT command and upload files without needing to make any changes to your SFTP client, set the value to  ENABLE_NO_OP. If you set the SetStatOption parameter to ENABLE_NO_OP, Transfer Family  generates a log entry to Amazon CloudWatch Logs, so that you can determine when the client is making a SETSTAT  call.   To determine whether your Transfer Family server resumes recent, negotiated sessions through a unique session ID, use the  TlsSessionResumptionMode parameter.    As2Transports indicates the transport method for the AS2 messages. Currently, only HTTP is supported.
         public let protocolDetails: ProtocolDetails?
-        /// Specifies the file transfer protocol or protocols over which your file transfer protocol client can connect to your server's endpoint. The available protocols are:
-        ///    Secure Shell (SSH) File Transfer Protocol (SFTP): File transfer over SSH   File Transfer Protocol Secure (FTPS): File transfer with TLS encryption   File Transfer Protocol (FTP): Unencrypted file transfer
-        ///   If you select FTPS, you must choose a certificate stored in Amazon Web ServicesCertificate Manager (ACM) which will be used to identify your server when clients connect to it over FTPS.
-        ///   If Protocol includes either FTP or FTPS, then the EndpointType must be VPC and the IdentityProviderType must be AWS_DIRECTORY_SERVICE or API_GATEWAY.
-        ///  If Protocol includes FTP, then AddressAllocationIds cannot be associated.
-        ///  If Protocol is set only to SFTP, the EndpointType can be set to PUBLIC and the IdentityProviderType can be set to SERVICE_MANAGED.
+        /// Specifies the file transfer protocol or protocols over which your file transfer protocol client can connect to your server's endpoint. The available protocols are:    SFTP (Secure Shell (SSH) File Transfer Protocol): File transfer over SSH    FTPS (File Transfer Protocol Secure): File transfer with TLS encryption    FTP (File Transfer Protocol): Unencrypted file transfer    AS2 (Applicability Statement 2): used for transporting structured business-to-business data
+        ///     If you select FTPS, you must choose a certificate stored in Certificate Manager (ACM)  which is used to identify your server when clients connect to it over FTPS.   If Protocol includes either FTP or FTPS, then the EndpointType must be VPC and the IdentityProviderType must be AWS_DIRECTORY_SERVICE or API_GATEWAY.   If Protocol includes FTP, then AddressAllocationIds cannot be associated.   If Protocol is set only to SFTP, the EndpointType can be set to PUBLIC and the IdentityProviderType can be set to SERVICE_MANAGED.   If Protocol includes AS2, then the EndpointType must be VPC, and domain must be Amazon S3.
         public let protocols: [`Protocol`]?
         /// Specifies the name of the security policy that is attached to the server.
         public let securityPolicyName: String?

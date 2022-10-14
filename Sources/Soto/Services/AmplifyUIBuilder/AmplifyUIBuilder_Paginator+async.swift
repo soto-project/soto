@@ -45,6 +45,28 @@ extension AmplifyUIBuilder {
         )
     }
 
+    ///  Exports form configurations to code that is ready to integrate into an Amplify app.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func exportFormsPaginator(
+        _ input: ExportFormsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ExportFormsRequest, ExportFormsResponse> {
+        return .init(
+            input: input,
+            command: exportForms,
+            inputKey: \ExportFormsRequest.nextToken,
+            outputKey: \ExportFormsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Exports theme configurations to code that is ready to integrate into an Amplify app.
     /// Return PaginatorSequence for operation.
     ///
@@ -84,6 +106,28 @@ extension AmplifyUIBuilder {
             command: listComponents,
             inputKey: \ListComponentsRequest.nextToken,
             outputKey: \ListComponentsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Retrieves a list of forms for a specified Amplify app and backend environment.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listFormsPaginator(
+        _ input: ListFormsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListFormsRequest, ListFormsResponse> {
+        return .init(
+            input: input,
+            command: listForms,
+            inputKey: \ListFormsRequest.nextToken,
+            outputKey: \ListFormsResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

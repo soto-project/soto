@@ -54,9 +54,9 @@ extension WorkSpaces {
 
     public enum Compute: String, CustomStringConvertible, Codable, _SotoSendable {
         case graphics = "GRAPHICS"
+        case graphicsG4Dn = "GRAPHICS_G4DN"
         case graphicspro = "GRAPHICSPRO"
         case graphicsproG4Dn = "GRAPHICSPRO_G4DN"
-        case graphicsG4Dn = "GRAPHICS_G4DN"
         case performance = "PERFORMANCE"
         case power = "POWER"
         case powerpro = "POWERPRO"
@@ -109,6 +109,12 @@ extension WorkSpaces {
         public var description: String { return self.rawValue }
     }
 
+    public enum LogUploadEnum: String, CustomStringConvertible, Codable, _SotoSendable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ModificationResourceEnum: String, CustomStringConvertible, Codable, _SotoSendable {
         case computeType = "COMPUTE_TYPE"
         case rootVolume = "ROOT_VOLUME"
@@ -117,8 +123,8 @@ extension WorkSpaces {
     }
 
     public enum ModificationStateEnum: String, CustomStringConvertible, Codable, _SotoSendable {
-        case updateInitiated = "UPDATE_INITIATED"
         case updateInProgress = "UPDATE_IN_PROGRESS"
+        case updateInitiated = "UPDATE_INITIATED"
         public var description: String { return self.rawValue }
     }
 
@@ -176,16 +182,16 @@ extension WorkSpaces {
 
     public enum WorkspaceImageIngestionProcess: String, CustomStringConvertible, Codable, _SotoSendable {
         case byolGraphics = "BYOL_GRAPHICS"
-        case byolGraphicspro = "BYOL_GRAPHICSPRO"
         case byolGraphicsG4Dn = "BYOL_GRAPHICS_G4DN"
+        case byolGraphicspro = "BYOL_GRAPHICSPRO"
         case byolRegular = "BYOL_REGULAR"
         case byolRegularWsp = "BYOL_REGULAR_WSP"
         public var description: String { return self.rawValue }
     }
 
     public enum WorkspaceImageRequiredTenancy: String, CustomStringConvertible, Codable, _SotoSendable {
-        case dedicated = "DEDICATED"
         case `default` = "DEFAULT"
+        case dedicated = "DEDICATED"
         public var description: String { return self.rawValue }
     }
 
@@ -345,14 +351,18 @@ extension WorkSpaces {
     }
 
     public struct ClientProperties: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether users can upload diagnostic log files of Amazon WorkSpaces client directly to  WorkSpaces to troubleshoot issues when using the WorkSpaces client.  When enabled, the log files will be sent to WorkSpaces automatically and will be applied to all  users in the specified directory.
+        public let logUploadEnabled: LogUploadEnum?
         /// Specifies whether users can cache their credentials on the Amazon WorkSpaces client. When enabled, users can choose to reconnect to their WorkSpaces without re-entering their credentials.
         public let reconnectEnabled: ReconnectEnum?
 
-        public init(reconnectEnabled: ReconnectEnum? = nil) {
+        public init(logUploadEnabled: LogUploadEnum? = nil, reconnectEnabled: ReconnectEnum? = nil) {
+            self.logUploadEnabled = logUploadEnabled
             self.reconnectEnabled = reconnectEnabled
         }
 
         private enum CodingKeys: String, CodingKey {
+            case logUploadEnabled = "LogUploadEnabled"
             case reconnectEnabled = "ReconnectEnabled"
         }
     }
@@ -863,7 +873,7 @@ extension WorkSpaces {
         public let name: String?
         /// The operating system that the image is running.
         public let operatingSystem: OperatingSystem?
-        /// The identifier of the AWS account that owns the image.
+        /// The identifier of the Amazon Web Services account that owns the image.
         public let ownerAccountId: String?
         /// Specifies whether the image is running on dedicated hardware.  When Bring Your Own License (BYOL) is enabled, this value is set  to DEDICATED. For more information, see   Bring Your Own Windows Desktop Images.
         public let requiredTenancy: WorkspaceImageRequiredTenancy?

@@ -314,9 +314,9 @@ extension Redshift {
     }
 
     public struct AquaConfiguration: AWSDecodableShape {
-        /// The value represents how the cluster is configured to use AQUA. Possible values include the following.   enabled - Use AQUA if it is available for the current Amazon Web Services Region and Amazon Redshift node type.   disabled - Don't use AQUA.    auto - Amazon Redshift determines whether to use AQUA.
+        /// This field is retired. Amazon Redshift automatically determines whether to use AQUA (Advanced Query Accelerator).
         public let aquaConfigurationStatus: AquaConfigurationStatus?
-        /// The value indicates the status of AQUA on the cluster. Possible values include the following.   enabled - AQUA is enabled.   disabled - AQUA is not enabled.    applying - AQUA status is being applied.
+        /// This field is retired. Amazon Redshift automatically determines whether to use AQUA (Advanced Query Accelerator).
         public let aquaStatus: AquaStatus?
 
         public init(aquaConfigurationStatus: AquaConfigurationStatus? = nil, aquaStatus: AquaStatus? = nil) {
@@ -675,7 +675,7 @@ extension Redshift {
 
         /// A boolean value that, if true, indicates that major version upgrades will be applied automatically to the cluster during the maintenance window.
         public let allowVersionUpgrade: Bool?
-        /// The AQUA (Advanced Query Accelerator) configuration of the cluster.
+        /// This field is retired. Amazon Redshift automatically determines whether to use AQUA (Advanced Query Accelerator).
         public let aquaConfiguration: AquaConfiguration?
         /// The number of days that automatic cluster snapshots are retained.
         public let automatedSnapshotRetentionPeriod: Int?
@@ -1484,7 +1484,7 @@ extension Redshift {
         public let additionalInfo: String?
         /// If true, major version upgrades can be applied during the maintenance window to the Amazon Redshift engine that is running on the cluster. When a new major version of the Amazon Redshift engine is released, you can request that the service automatically apply upgrades during the maintenance window to the Amazon Redshift engine that is running on your cluster. Default: true
         public let allowVersionUpgrade: Bool?
-        /// The value represents how the cluster is configured to use AQUA (Advanced Query Accelerator) when it is created. Possible values include the following.   enabled - Use AQUA if it is available for the current Amazon Web Services Region and Amazon Redshift node type.   disabled - Don't use AQUA.    auto - Amazon Redshift determines whether to use AQUA.
+        /// This parameter is retired. It does not set the AQUA configuration status. Amazon Redshift automatically determines whether to use AQUA (Advanced Query Accelerator).
         public let aquaConfigurationStatus: AquaConfigurationStatus?
         /// The number of days that automated snapshots are retained. If the value is 0, automated snapshots are disabled. Even if automated snapshots are disabled, you can still create manual snapshots when you want with CreateClusterSnapshot.   You can't disable automated snapshots for RA3 node types. Set the automated retention period from 1-35 days. Default: 1  Constraints: Must be a value from 0 to 35.
         public let automatedSnapshotRetentionPeriod: Int?
@@ -1510,7 +1510,7 @@ extension Redshift {
         public let dbName: String?
         /// The Amazon Resource Name (ARN) for the IAM role that was set as default for the cluster when the cluster was created.
         public let defaultIamRoleArn: String?
-        /// The Elastic IP (EIP) address for the cluster. You don't have to specify the EIP for a  publicly accessible cluster with AvailabilityZoneRelocation turned on. Constraints: The cluster must be provisioned in EC2-VPC and publicly-accessible through an Internet gateway. For more information about provisioning clusters in EC2-VPC, go to Supported Platforms to Launch Your Cluster in the Amazon Redshift Cluster Management Guide.
+        /// The Elastic IP (EIP) address for the cluster. Constraints: The cluster must be provisioned in EC2-VPC and publicly-accessible through an Internet gateway. For more information about provisioning clusters in EC2-VPC, go to Supported Platforms to Launch Your Cluster in the Amazon Redshift Cluster Management Guide.
         public let elasticIp: String?
         /// If true, the data in the cluster is encrypted at rest.  Default: false
         public let encrypted: Bool?
@@ -4842,9 +4842,9 @@ extension Redshift {
         /// A list of the names of existing database groups that the user named in DbUser will join for the current session, in addition to any group memberships for an existing user. If not specified, a new user is added only to PUBLIC. Database group name constraints   Must be 1 to 64 alphanumeric characters or hyphens   Must contain only lowercase letters, numbers, underscore, plus sign, period (dot), at symbol (@), or hyphen.   First character must be a letter.   Must not contain a colon ( : ) or slash ( / ).    Cannot be a reserved word. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide.
         @OptionalCustomCoding<ArrayCoder<_DbGroupsEncoding, String>>
         public var dbGroups: [String]?
-        /// The name of a database that DbUser is authorized to log on to. If DbName is not specified, DbUser can log on to any existing database. Constraints:   Must be 1 to 64 alphanumeric characters or hyphens   Must contain only lowercase letters, numbers, underscore, plus sign, period (dot), at symbol (@), or hyphen.   First character must be a letter.   Must not contain a colon ( : ) or slash ( / ).    Cannot be a reserved word. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide.
+        /// The name of a database that DbUser is authorized to log on to. If DbName is not specified, DbUser can log on to any existing database. Constraints:   Must be 1 to 64 alphanumeric characters or hyphens   Must contain uppercase or lowercase letters, numbers, underscore, plus sign, period (dot), at symbol (@), or hyphen.   First character must be a letter.   Must not contain a colon ( : ) or slash ( / ).    Cannot be a reserved word. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide.
         public let dbName: String?
-        /// The name of a database user. If a user name matching DbUser exists in the database, the temporary user credentials have the same permissions as the existing user. If DbUser doesn't exist in the database and Autocreate is True, a new user is created using the value for DbUser with PUBLIC permissions. If a database user matching the value for DbUser doesn't exist and Autocreate is False, then the command succeeds but the connection attempt will fail because the user doesn't exist in the database. For more information, see CREATE USER in the Amazon Redshift Database Developer Guide.  Constraints:   Must be 1 to 64 alphanumeric characters or hyphens. The user name can't be PUBLIC.   Must contain only lowercase letters, numbers, underscore, plus sign, period (dot), at symbol (@), or hyphen.   First character must be a letter.   Must not contain a colon ( : ) or slash ( / ).    Cannot be a reserved word. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide.
+        /// The name of a database user. If a user name matching DbUser exists in the database, the temporary user credentials have the same permissions as the existing user. If DbUser doesn't exist in the database and Autocreate is True, a new user is created using the value for DbUser with PUBLIC permissions. If a database user matching the value for DbUser doesn't exist and Autocreate is False, then the command succeeds but the connection attempt will fail because the user doesn't exist in the database. For more information, see CREATE USER in the Amazon Redshift Database Developer Guide.  Constraints:   Must be 1 to 64 alphanumeric characters or hyphens. The user name can't be PUBLIC.   Must contain uppercase or lowercase letters, numbers, underscore, plus sign, period (dot), at symbol (@), or hyphen.   First character must be a letter.   Must not contain a colon ( : ) or slash ( / ).    Cannot be a reserved word. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide.
         public let dbUser: String
         /// The number of seconds until the returned temporary password expires. Constraint: minimum 900, maximum 3600. Default: 900
         public let durationSeconds: Int?
@@ -5212,7 +5212,7 @@ extension Redshift {
     }
 
     public struct ModifyAquaInputMessage: AWSEncodableShape {
-        /// The new value of AQUA configuration status. Possible values include the following.   enabled - Use AQUA if it is available for the current Amazon Web Services Region and Amazon Redshift node type.   disabled - Don't use AQUA.    auto - Amazon Redshift determines whether to use AQUA.
+        /// This parameter is retired. Amazon Redshift automatically  determines whether to use AQUA (Advanced Query Accelerator).
         public let aquaConfigurationStatus: AquaConfigurationStatus?
         /// The identifier of the cluster to be modified.
         public let clusterIdentifier: String
@@ -5233,7 +5233,7 @@ extension Redshift {
     }
 
     public struct ModifyAquaOutputMessage: AWSDecodableShape {
-        /// The updated AQUA configuration of the cluster.
+        /// This parameter is retired. Amazon Redshift automatically determines whether to use AQUA (Advanced Query Accelerator).
         public let aquaConfiguration: AquaConfiguration?
 
         public init(aquaConfiguration: AquaConfiguration? = nil) {
@@ -6822,7 +6822,7 @@ extension Redshift {
         public let additionalInfo: String?
         /// If true, major version upgrades can be applied during the maintenance window to the Amazon Redshift engine that is running on the cluster.  Default: true
         public let allowVersionUpgrade: Bool?
-        /// The value represents how the cluster is configured to use AQUA (Advanced Query Accelerator) after the cluster is restored. Possible values include the following.   enabled - Use AQUA if it is available for the current Amazon Web Services Region and Amazon Redshift node type.   disabled - Don't use AQUA.    auto - Amazon Redshift determines whether to use AQUA.
+        /// This parameter is retired. It does not set the AQUA configuration status. Amazon Redshift automatically determines whether to use AQUA (Advanced Query Accelerator).
         public let aquaConfigurationStatus: AquaConfigurationStatus?
         /// The number of days that automated snapshots are retained. If the value is 0, automated snapshots are disabled. Even if automated snapshots are disabled, you can still create manual snapshots when you want with CreateClusterSnapshot.   You can't disable automated snapshots for RA3 node types. Set the automated retention period from 1-35 days. Default: The value selected for the cluster from which the snapshot was taken. Constraints: Must be a value from 0 to 35.
         public let automatedSnapshotRetentionPeriod: Int?
@@ -6841,7 +6841,7 @@ extension Redshift {
         public let clusterSubnetGroupName: String?
         /// The Amazon Resource Name (ARN) for the IAM role that was set as default for the cluster when the cluster was last modified while it was restored from a snapshot.
         public let defaultIamRoleArn: String?
-        /// The elastic IP (EIP) address for the cluster. You don't have to specify the EIP for a  publicly accessible cluster with AvailabilityZoneRelocation turned on.
+        /// The elastic IP (EIP) address for the cluster.
         public let elasticIp: String?
         /// Enables support for restoring an unencrypted snapshot to a cluster encrypted  with Key Management Service (KMS) and a customer managed key.
         public let encrypted: Bool?
@@ -6874,11 +6874,11 @@ extension Redshift {
         public let publiclyAccessible: Bool?
         /// The identifier of the target reserved node offering.
         public let reservedNodeId: String?
-        /// The Amazon Resource Name (ARN) of the snapshot associated with the message to restore from a cluster.
+        /// The Amazon Resource Name (ARN) of the snapshot associated with the message to restore from a cluster. You can specify this parameter or snapshotIdentifier, but not both.
         public let snapshotArn: String?
         /// The name of the cluster the source snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name.
         public let snapshotClusterIdentifier: String?
-        /// The name of the snapshot from which to create the new cluster. This parameter isn't case sensitive. Example: my-snapshot-id
+        /// The name of the snapshot from which to create the new cluster. This parameter isn't case sensitive. You can specify this parameter or snapshotArn, but not both. Example: my-snapshot-id
         public let snapshotIdentifier: String?
         /// A unique identifier for the snapshot schedule.
         public let snapshotScheduleIdentifier: String?

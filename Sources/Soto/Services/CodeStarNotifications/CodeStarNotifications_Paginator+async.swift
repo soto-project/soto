@@ -45,7 +45,7 @@ extension CodeStarNotifications {
         )
     }
 
-    ///  Returns a list of the notification rules for an AWS account.
+    ///  Returns a list of the notification rules for an Amazon Web Services account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -67,7 +67,7 @@ extension CodeStarNotifications {
         )
     }
 
-    ///  Returns a list of the notification rule targets for an AWS account.
+    ///  Returns a list of the notification rule targets for an Amazon Web Services account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

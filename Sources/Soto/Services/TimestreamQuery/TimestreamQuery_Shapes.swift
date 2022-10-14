@@ -215,7 +215,7 @@ extension TimestreamQuery {
         }
     }
 
-    public final class Datum: AWSDecodableShape {
+    public struct Datum: AWSDecodableShape {
         ///  Indicates if the data point is an array.
         public let arrayValue: [Datum]?
         ///  Indicates if the data point is null.

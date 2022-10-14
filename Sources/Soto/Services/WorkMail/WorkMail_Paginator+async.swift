@@ -111,7 +111,29 @@ extension WorkMail {
         )
     }
 
-    ///  Lists the mail domains in a given Amazon WorkMail organization.
+    ///  Lists all the impersonation roles for the given WorkMail organization.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listImpersonationRolesPaginator(
+        _ input: ListImpersonationRolesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListImpersonationRolesRequest, ListImpersonationRolesResponse> {
+        return .init(
+            input: input,
+            command: listImpersonationRoles,
+            inputKey: \ListImpersonationRolesRequest.nextToken,
+            outputKey: \ListImpersonationRolesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Lists the mail domains in a given WorkMail organization.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

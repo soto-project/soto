@@ -69,6 +69,11 @@ public struct Forecastquery: AWSService {
     public func queryForecast(_ input: QueryForecastRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<QueryForecastResponse> {
         return self.client.execute(operation: "QueryForecast", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
+
+    /// Retrieves a what-if forecast.
+    public func queryWhatIfForecast(_ input: QueryWhatIfForecastRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<QueryWhatIfForecastResponse> {
+        return self.client.execute(operation: "QueryWhatIfForecast", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
 }
 
 extension Forecastquery {

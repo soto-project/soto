@@ -298,6 +298,11 @@ extension LexModelsV2 {
         return try await self.client.execute(operation: "StartImport", path: "/imports", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Stop an already running Bot Recommendation request.
+    public func stopBotRecommendation(_ input: StopBotRecommendationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StopBotRecommendationResponse {
+        return try await self.client.execute(operation: "StopBotRecommendation", path: "/bots/{botId}/botversions/{botVersion}/botlocales/{localeId}/botrecommendations/{botRecommendationId}/stopbotrecommendation", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Adds the specified tags to the specified resource. If a tag key already exists, the existing value is replaced with the new value.
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> TagResourceResponse {
         return try await self.client.execute(operation: "TagResource", path: "/tags/{resourceARN}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

@@ -78,7 +78,7 @@ public struct WorkMailErrorType: AWSErrorType {
     public static var entityStateException: Self { .init(.entityStateException) }
     /// The configuration for a resource isn't valid. A resource must either be able to auto-respond to requests or have at least one delegate associated that can do so on its behalf.
     public static var invalidConfigurationException: Self { .init(.invalidConfigurationException) }
-    /// You SES configuration has customizations that Amazon WorkMail cannot save. The error message lists the invalid setting. For examples of invalid settings, refer to  CreateReceiptRule.
+    /// You SES configuration has customizations that WorkMail cannot save. The error message lists the invalid setting. For examples of invalid settings, refer to  CreateReceiptRule.
     public static var invalidCustomSesConfigurationException: Self { .init(.invalidCustomSesConfigurationException) }
     /// One or more of the input parameters don't match the service's restrictions.
     public static var invalidParameterException: Self { .init(.invalidParameterException) }
@@ -92,13 +92,13 @@ public struct WorkMailErrorType: AWSErrorType {
     public static var mailDomainNotFoundException: Self { .init(.mailDomainNotFoundException) }
     /// After a domain has been added to the organization, it must be verified. The domain is not yet verified.
     public static var mailDomainStateException: Self { .init(.mailDomainStateException) }
-    /// The user, group, or resource name isn't unique in Amazon WorkMail.
+    /// The user, group, or resource name isn't unique in WorkMail.
     public static var nameAvailabilityException: Self { .init(.nameAvailabilityException) }
     /// An operation received a valid organization identifier that either doesn't belong or exist in the system.
     public static var organizationNotFoundException: Self { .init(.organizationNotFoundException) }
     /// The organization must have a valid state to perform certain operations on the organization or its members.
     public static var organizationStateException: Self { .init(.organizationStateException) }
-    /// This user, group, or resource name is not allowed in Amazon WorkMail.
+    /// This user, group, or resource name is not allowed in WorkMail.
     public static var reservedNameException: Self { .init(.reservedNameException) }
     /// The resource cannot be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }

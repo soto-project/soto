@@ -158,12 +158,6 @@ extension AccessAnalyzer {
         public var description: String { return self.rawValue }
     }
 
-    public enum `Type`: String, CustomStringConvertible, Codable, _SotoSendable {
-        case account = "ACCOUNT"
-        case organization = "ORGANIZATION"
-        public var description: String { return self.rawValue }
-    }
-
     public enum ValidatePolicyFindingType: String, CustomStringConvertible, Codable, _SotoSendable {
         case error = "ERROR"
         case securityWarning = "SECURITY_WARNING"
@@ -173,10 +167,17 @@ extension AccessAnalyzer {
     }
 
     public enum ValidatePolicyResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case awsIAMAssumerolepolicydocument = "AWS::IAM::AssumeRolePolicyDocument"
         case awsS3Accesspoint = "AWS::S3::AccessPoint"
         case awsS3Bucket = "AWS::S3::Bucket"
         case awsS3Multiregionaccesspoint = "AWS::S3::MultiRegionAccessPoint"
         case awsS3ObjectlambdaAccesspoint = "AWS::S3ObjectLambda::AccessPoint"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum `Type`: String, CustomStringConvertible, Codable, _SotoSendable {
+        case account = "ACCOUNT"
+        case organization = "ORGANIZATION"
         public var description: String { return self.rawValue }
     }
 

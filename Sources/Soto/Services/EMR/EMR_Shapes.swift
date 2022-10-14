@@ -1108,7 +1108,7 @@ extension EMR {
         }
     }
 
-    public final class Configuration: AWSEncodableShape & AWSDecodableShape {
+    public struct Configuration: AWSEncodableShape & AWSDecodableShape {
         /// The classification within a configuration.
         public let classification: String?
         /// A list of additional configurations to apply within a configuration object.

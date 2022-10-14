@@ -803,7 +803,7 @@ extension IoTTwinMaker {
         }
     }
 
-    public final class DataValue: AWSEncodableShape & AWSDecodableShape {
+    public struct DataValue: AWSEncodableShape & AWSDecodableShape {
         /// A Boolean value.
         public let booleanValue: Bool?
         /// A double value.

@@ -201,6 +201,13 @@ extension SecurityHub {
         public var description: String { return self.rawValue }
     }
 
+    public enum VulnerabilityFixAvailable: String, CustomStringConvertible, Codable, _SotoSendable {
+        case no = "NO"
+        case partial = "PARTIAL"
+        case yes = "YES"
+        public var description: String { return self.rawValue }
+    }
+
     public enum WorkflowState: String, CustomStringConvertible, Codable, _SotoSendable {
         case assigned = "ASSIGNED"
         case deferred = "DEFERRED"
@@ -1069,7 +1076,7 @@ extension SecurityHub {
         public let createdTime: String?
         /// The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before it checks the health status of an EC2 instance that has come into service.
         public let healthCheckGracePeriod: Int?
-        /// The service to use for the health checks.
+        /// The service to use for the health checks. Valid values are EC2 or ELB.
         public let healthCheckType: String?
         /// The name of the launch configuration.
         public let launchConfigurationName: String?
@@ -1169,13 +1176,14 @@ extension SecurityHub {
     }
 
     public struct AwsAutoScalingAutoScalingGroupMixedInstancesPolicyInstancesDistributionDetails: AWSEncodableShape & AWSDecodableShape {
-        /// How to allocate instance types to fulfill On-Demand capacity.
+        /// How to allocate instance types to fulfill On-Demand capacity. The valid value is prioritized.
         public let onDemandAllocationStrategy: String?
         /// The minimum amount of the Auto Scaling group's capacity that must be fulfilled by On-Demand Instances.
         public let onDemandBaseCapacity: Int?
         /// The percentage of On-Demand Instances and Spot Instances for additional capacity beyond OnDemandBaseCapacity.
         public let onDemandPercentageAboveBaseCapacity: Int?
-        /// How to allocate instances across Spot Instance pools.
+        /// How to allocate instances across Spot Instance pools. Valid values are as follows:
+        /// 	           lowest-price     capacity-optimized     capacity-optimized-prioritized
         public let spotAllocationStrategy: String?
         /// The number of Spot Instance pools across which to allocate your Spot Instances.
         public let spotInstancePools: Int?
@@ -1322,7 +1330,7 @@ extension SecurityHub {
         public let snapshotId: String?
         /// The volume size, in GiBs. The following are the supported volumes sizes for each volume type:   gp2 and gp3: 1-16,384   io1: 4-16,384   st1 and sc1: 125-16,384   standard: 1-1,024   You must specify either SnapshotId or VolumeSize. If you specify both SnapshotId and VolumeSize, the volume size must be equal or greater than the size of the snapshot.
         public let volumeSize: Int?
-        /// The volume type.
+        /// The volume type. Valid values are as follows: 	        gp2     gp3     io1     sc1     st1     standard
         public let volumeType: String?
 
         public init(deleteOnTermination: Bool? = nil, encrypted: Bool? = nil, iops: Int? = nil, snapshotId: String? = nil, volumeSize: Int? = nil, volumeType: String? = nil) {
@@ -1495,6 +1503,444 @@ extension SecurityHub {
             case httpEndpoint = "HttpEndpoint"
             case httpPutResponseHopLimit = "HttpPutResponseHopLimit"
             case httpTokens = "HttpTokens"
+        }
+    }
+
+    public struct AwsBackupBackupPlanAdvancedBackupSettingsDetails: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the backup option for a selected resource. This option is only available for Windows
+        /// Volume Shadow Copy Service (VSS) backup jobs. Valid values are as follows:   Set to WindowsVSS: enabled to enable the WindowsVSS backup option and create a Windows VSS backup.   Set to WindowsVSS: disabled to create a regular backup. The WindowsVSS option is not enabled by default.
+        public let backupOptions: [String: String]?
+        /// The name of a resource type. The only supported resource type is Amazon EC2 instances with Windows VSS. The only valid value is EC2.
+        public let resourceType: String?
+
+        public init(backupOptions: [String: String]? = nil, resourceType: String? = nil) {
+            self.backupOptions = backupOptions
+            self.resourceType = resourceType
+        }
+
+        public func validate(name: String) throws {
+            try self.backupOptions?.forEach {
+                try validate($0.key, name: "backupOptions.key", parent: name, pattern: "\\S")
+                try validate($0.value, name: "backupOptions[\"\($0.key)\"]", parent: name, pattern: "\\S")
+            }
+            try self.validate(self.resourceType, name: "resourceType", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backupOptions = "BackupOptions"
+            case resourceType = "ResourceType"
+        }
+    }
+
+    public struct AwsBackupBackupPlanBackupPlanDetails: AWSEncodableShape & AWSDecodableShape {
+        /// A list of backup options for each resource type.
+        public let advancedBackupSettings: [AwsBackupBackupPlanAdvancedBackupSettingsDetails]?
+        /// The display name of a backup plan.
+        public let backupPlanName: String?
+        /// An array of BackupRule objects, each of which specifies a scheduled task that is used to back up a selection of resources.
+        public let backupPlanRule: [AwsBackupBackupPlanRuleDetails]?
+
+        public init(advancedBackupSettings: [AwsBackupBackupPlanAdvancedBackupSettingsDetails]? = nil, backupPlanName: String? = nil, backupPlanRule: [AwsBackupBackupPlanRuleDetails]? = nil) {
+            self.advancedBackupSettings = advancedBackupSettings
+            self.backupPlanName = backupPlanName
+            self.backupPlanRule = backupPlanRule
+        }
+
+        public func validate(name: String) throws {
+            try self.advancedBackupSettings?.forEach {
+                try $0.validate(name: "\(name).advancedBackupSettings[]")
+            }
+            try self.validate(self.backupPlanName, name: "backupPlanName", parent: name, pattern: "\\S")
+            try self.backupPlanRule?.forEach {
+                try $0.validate(name: "\(name).backupPlanRule[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case advancedBackupSettings = "AdvancedBackupSettings"
+            case backupPlanName = "BackupPlanName"
+            case backupPlanRule = "BackupPlanRule"
+        }
+    }
+
+    public struct AwsBackupBackupPlanDetails: AWSEncodableShape & AWSDecodableShape {
+        /// Uniquely identifies the backup plan to be associated with the selection of resources.
+        public let backupPlan: AwsBackupBackupPlanBackupPlanDetails?
+        /// An Amazon Resource Name (ARN) that uniquely identifies the backup plan.
+        public let backupPlanArn: String?
+        /// A unique ID for the backup plan.
+        public let backupPlanId: String?
+        /// Unique, randomly generated, Unicode, UTF-8 encoded strings. Version IDs cannot be edited.
+        public let versionId: String?
+
+        public init(backupPlan: AwsBackupBackupPlanBackupPlanDetails? = nil, backupPlanArn: String? = nil, backupPlanId: String? = nil, versionId: String? = nil) {
+            self.backupPlan = backupPlan
+            self.backupPlanArn = backupPlanArn
+            self.backupPlanId = backupPlanId
+            self.versionId = versionId
+        }
+
+        public func validate(name: String) throws {
+            try self.backupPlan?.validate(name: "\(name).backupPlan")
+            try self.validate(self.backupPlanArn, name: "backupPlanArn", parent: name, pattern: "\\S")
+            try self.validate(self.backupPlanId, name: "backupPlanId", parent: name, pattern: "\\S")
+            try self.validate(self.versionId, name: "versionId", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backupPlan = "BackupPlan"
+            case backupPlanArn = "BackupPlanArn"
+            case backupPlanId = "BackupPlanId"
+            case versionId = "VersionId"
+        }
+    }
+
+    public struct AwsBackupBackupPlanLifecycleDetails: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the number of days after creation that a recovery point is deleted. Must be greater than 90 days plus MoveToColdStorageAfterDays.
+        public let deleteAfterDays: Int64?
+        /// Specifies the number of days after creation that a recovery point is moved to cold storage.
+        public let moveToColdStorageAfterDays: Int64?
+
+        public init(deleteAfterDays: Int64? = nil, moveToColdStorageAfterDays: Int64? = nil) {
+            self.deleteAfterDays = deleteAfterDays
+            self.moveToColdStorageAfterDays = moveToColdStorageAfterDays
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deleteAfterDays = "DeleteAfterDays"
+            case moveToColdStorageAfterDays = "MoveToColdStorageAfterDays"
+        }
+    }
+
+    public struct AwsBackupBackupPlanRuleCopyActionsDetails: AWSEncodableShape & AWSDecodableShape {
+        /// An Amazon Resource Name (ARN) that uniquely identifies the destination backup vault for the copied backup.
+        public let destinationBackupVaultArn: String?
+        /// Defines when a protected resource is transitioned to cold storage and when it expires. Backup transitions and expires backups automatically according to the lifecycle that you define. If you do not specify a lifecycle, Backup applies the lifecycle policy of the source backup to the destination backup. Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days.
+        public let lifecycle: AwsBackupBackupPlanLifecycleDetails?
+
+        public init(destinationBackupVaultArn: String? = nil, lifecycle: AwsBackupBackupPlanLifecycleDetails? = nil) {
+            self.destinationBackupVaultArn = destinationBackupVaultArn
+            self.lifecycle = lifecycle
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.destinationBackupVaultArn, name: "destinationBackupVaultArn", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationBackupVaultArn = "DestinationBackupVaultArn"
+            case lifecycle = "Lifecycle"
+        }
+    }
+
+    public struct AwsBackupBackupPlanRuleDetails: AWSEncodableShape & AWSDecodableShape {
+        /// A value in minutes after a backup job is successfully started before it must be completed, or it is canceled by Backup.
+        public let completionWindowMinutes: Int64?
+        /// An array of CopyAction objects, which contains the details of the copy operation.
+        public let copyActions: [AwsBackupBackupPlanRuleCopyActionsDetails]?
+        /// Specifies whether Backup creates continuous backups capable of point-in-time restore (PITR).
+        public let enableContinuousBackup: Bool?
+        /// Defines when a protected resource is transitioned to cold storage and when it expires. Backup transitions and expires backups automatically according to the lifecycle that you define. If you do not specify a lifecycle, Backup applies the lifecycle policy of the source backup to the destination backup. Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days.
+        public let lifecycle: AwsBackupBackupPlanLifecycleDetails?
+        /// Uniquely identifies a rule that is used to schedule the backup of a selection of resources.
+        public let ruleId: String?
+        /// A display name for a backup rule. Must contain 1 to 50 alphanumeric or '-_.' characters.
+        public let ruleName: String?
+        /// A cron expression in UTC specifying when Backup initiates a backup job.
+        public let scheduleExpression: String?
+        /// A value in minutes after a backup is scheduled before a job will be canceled if it doesn't start successfully.
+        public let startWindowMinutes: Int64?
+        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the Amazon Web Services account used to create them and the Amazon Web Services Region where they are created. They consist of letters, numbers, and hyphens.
+        public let targetBackupVault: String?
+
+        public init(completionWindowMinutes: Int64? = nil, copyActions: [AwsBackupBackupPlanRuleCopyActionsDetails]? = nil, enableContinuousBackup: Bool? = nil, lifecycle: AwsBackupBackupPlanLifecycleDetails? = nil, ruleId: String? = nil, ruleName: String? = nil, scheduleExpression: String? = nil, startWindowMinutes: Int64? = nil, targetBackupVault: String? = nil) {
+            self.completionWindowMinutes = completionWindowMinutes
+            self.copyActions = copyActions
+            self.enableContinuousBackup = enableContinuousBackup
+            self.lifecycle = lifecycle
+            self.ruleId = ruleId
+            self.ruleName = ruleName
+            self.scheduleExpression = scheduleExpression
+            self.startWindowMinutes = startWindowMinutes
+            self.targetBackupVault = targetBackupVault
+        }
+
+        public func validate(name: String) throws {
+            try self.copyActions?.forEach {
+                try $0.validate(name: "\(name).copyActions[]")
+            }
+            try self.validate(self.ruleId, name: "ruleId", parent: name, pattern: "\\S")
+            try self.validate(self.ruleName, name: "ruleName", parent: name, pattern: "\\S")
+            try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, pattern: "\\S")
+            try self.validate(self.targetBackupVault, name: "targetBackupVault", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case completionWindowMinutes = "CompletionWindowMinutes"
+            case copyActions = "CopyActions"
+            case enableContinuousBackup = "EnableContinuousBackup"
+            case lifecycle = "Lifecycle"
+            case ruleId = "RuleId"
+            case ruleName = "RuleName"
+            case scheduleExpression = "ScheduleExpression"
+            case startWindowMinutes = "StartWindowMinutes"
+            case targetBackupVault = "TargetBackupVault"
+        }
+    }
+
+    public struct AwsBackupBackupVaultDetails: AWSEncodableShape & AWSDecodableShape {
+        /// A resource-based policy that is used to manage access permissions on the target backup vault.
+        public let accessPolicy: String?
+        /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault.
+        public let backupVaultArn: String?
+        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the
+        /// Amazon Web Services account used to create them and the Amazon Web Services Region where they are created.
+        /// They consist of lowercase letters, numbers, and hyphens.
+        public let backupVaultName: String?
+        /// The unique ARN associated with the server-side encryption key. You can specify a key to encrypt your backups from services that support
+        /// full Backup management. If you do not specify a key, Backup creates an KMS key for you by default.
+        public let encryptionKeyArn: String?
+        /// The Amazon SNS event notifications for the specified backup vault.
+        public let notifications: AwsBackupBackupVaultNotificationsDetails?
+
+        public init(accessPolicy: String? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, encryptionKeyArn: String? = nil, notifications: AwsBackupBackupVaultNotificationsDetails? = nil) {
+            self.accessPolicy = accessPolicy
+            self.backupVaultArn = backupVaultArn
+            self.backupVaultName = backupVaultName
+            self.encryptionKeyArn = encryptionKeyArn
+            self.notifications = notifications
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accessPolicy, name: "accessPolicy", parent: name, pattern: "\\S")
+            try self.validate(self.backupVaultArn, name: "backupVaultArn", parent: name, pattern: "\\S")
+            try self.validate(self.backupVaultName, name: "backupVaultName", parent: name, pattern: "\\S")
+            try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, pattern: "\\S")
+            try self.notifications?.validate(name: "\(name).notifications")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessPolicy = "AccessPolicy"
+            case backupVaultArn = "BackupVaultArn"
+            case backupVaultName = "BackupVaultName"
+            case encryptionKeyArn = "EncryptionKeyArn"
+            case notifications = "Notifications"
+        }
+    }
+
+    public struct AwsBackupBackupVaultNotificationsDetails: AWSEncodableShape & AWSDecodableShape {
+        /// An array of events that indicate the status of jobs to back up resources to the backup vault.
+        /// The following events are supported:    BACKUP_JOB_STARTED | BACKUP_JOB_COMPLETED     COPY_JOB_STARTED | COPY_JOB_SUCCESSFUL | COPY_JOB_FAILED     RESTORE_JOB_STARTED | RESTORE_JOB_COMPLETED | RECOVERY_POINT_MODIFIED     S3_BACKUP_OBJECT_FAILED | S3_RESTORE_OBJECT_FAILED
+        public let backupVaultEvents: [String]?
+        /// An ARN that uniquely identifies the Amazon SNS topic for a backup vault’s events.
+        public let snsTopicArn: String?
+
+        public init(backupVaultEvents: [String]? = nil, snsTopicArn: String? = nil) {
+            self.backupVaultEvents = backupVaultEvents
+            self.snsTopicArn = snsTopicArn
+        }
+
+        public func validate(name: String) throws {
+            try self.backupVaultEvents?.forEach {
+                try validate($0, name: "backupVaultEvents[]", parent: name, pattern: "\\S")
+            }
+            try self.validate(self.snsTopicArn, name: "snsTopicArn", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backupVaultEvents = "BackupVaultEvents"
+            case snsTopicArn = "SnsTopicArn"
+        }
+    }
+
+    public struct AwsBackupRecoveryPointCalculatedLifecycleDetails: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the number of days after creation that a recovery point is deleted. Must be greater
+        /// than 90 days plus MoveToColdStorageAfterDays.
+        public let deleteAt: String?
+        /// Specifies the number of days after creation that a recovery point is moved to cold storage.
+        public let moveToColdStorageAt: String?
+
+        public init(deleteAt: String? = nil, moveToColdStorageAt: String? = nil) {
+            self.deleteAt = deleteAt
+            self.moveToColdStorageAt = moveToColdStorageAt
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.deleteAt, name: "deleteAt", parent: name, pattern: "\\S")
+            try self.validate(self.moveToColdStorageAt, name: "moveToColdStorageAt", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deleteAt = "DeleteAt"
+            case moveToColdStorageAt = "MoveToColdStorageAt"
+        }
+    }
+
+    public struct AwsBackupRecoveryPointCreatedByDetails: AWSEncodableShape & AWSDecodableShape {
+        /// An Amazon Resource Name (ARN) that uniquely identifies a backup plan.
+        public let backupPlanArn: String?
+        /// Uniquely identifies a backup plan.
+        public let backupPlanId: String?
+        /// Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most
+        /// 1,024 bytes long. Version IDs cannot be edited.
+        public let backupPlanVersion: String?
+        /// Uniquely identifies a rule used to schedule the backup of a selection of resources.
+        public let backupRuleId: String?
+
+        public init(backupPlanArn: String? = nil, backupPlanId: String? = nil, backupPlanVersion: String? = nil, backupRuleId: String? = nil) {
+            self.backupPlanArn = backupPlanArn
+            self.backupPlanId = backupPlanId
+            self.backupPlanVersion = backupPlanVersion
+            self.backupRuleId = backupRuleId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.backupPlanArn, name: "backupPlanArn", parent: name, pattern: "\\S")
+            try self.validate(self.backupPlanId, name: "backupPlanId", parent: name, pattern: "\\S")
+            try self.validate(self.backupPlanVersion, name: "backupPlanVersion", parent: name, pattern: "\\S")
+            try self.validate(self.backupRuleId, name: "backupRuleId", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backupPlanArn = "BackupPlanArn"
+            case backupPlanId = "BackupPlanId"
+            case backupPlanVersion = "BackupPlanVersion"
+            case backupRuleId = "BackupRuleId"
+        }
+    }
+
+    public struct AwsBackupRecoveryPointDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The size, in bytes, of a backup.
+        public let backupSizeInBytes: Int64?
+        /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault.
+        public let backupVaultArn: String?
+        /// The name of a logical container where backups are stored. Backup vaults are identified by names
+        /// that are unique to the Amazon Web Services account used to create them and the Amazon Web Services Region
+        /// where they are created. They consist of lowercase letters, numbers, and hyphens.
+        public let backupVaultName: String?
+        /// A CalculatedLifecycle object containing DeleteAt and MoveToColdStorageAt timestamps.
+        public let calculatedLifecycle: AwsBackupRecoveryPointCalculatedLifecycleDetails?
+        /// The date and time that a job to create a recovery point is completed, in Unix format and UTC.
+        /// The value of CompletionDate is accurate to milliseconds. For example, the value 1516925490.087
+        /// represents Friday, January 26, 2018 12:11:30.087 AM.
+        public let completionDate: String?
+        /// Contains identifying information about the creation of a recovery point, including the
+        /// BackupPlanArn, BackupPlanId, BackupPlanVersion, and BackupRuleId
+        /// of the backup plan that is used to create it.
+        public let createdBy: AwsBackupRecoveryPointCreatedByDetails?
+        /// The date and time a recovery point is created, in Unix format and UTC. The value of CreationDate
+        /// is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public let creationDate: String?
+        /// The ARN for the server-side encryption key that is used to protect your backups.
+        public let encryptionKeyArn: String?
+        /// Specifies the IAM role ARN used to create the target recovery point
+        public let iamRoleArn: String?
+        /// A Boolean value that is returned as TRUE if the specified recovery point is
+        /// encrypted, or FALSE if the recovery point is not encrypted.
+        public let isEncrypted: Bool?
+        /// The date and time that a recovery point was last restored, in Unix format and UTC. The value of
+        /// LastRestoreTime is accurate to milliseconds. For example, the value 1516925490.087 represents
+        /// Friday, January 26, 2018 12:11:30.087 AM.
+        public let lastRestoreTime: String?
+        /// The lifecycle defines when a protected resource is transitioned to cold storage and when it
+        /// expires. Backup transitions and expires backups automatically according to the lifecycle that
+        /// you define
+        public let lifecycle: AwsBackupRecoveryPointLifecycleDetails?
+        /// An ARN that uniquely identifies a recovery point.
+        public let recoveryPointArn: String?
+        /// An ARN that uniquely identifies a resource. The format of the ARN depends on the resource type.
+        public let resourceArn: String?
+        /// The type of Amazon Web Services resource saved as a recovery point, such as an Amazon EBS volume or an Amazon RDS database.
+        public let resourceType: String?
+        /// The ARN for the backup vault where the recovery point was originally copied from. If the recovery
+        /// point is restored to the same account, this value will be null.
+        public let sourceBackupVaultArn: String?
+        /// A status code specifying the state of the recovery point. Valid values are as follows:    COMPLETED     DELETING     EXPIRED     PARTIAL
+        public let status: String?
+        /// A message explaining the reason of the recovery point deletion failure.
+        public let statusMessage: String?
+        /// Specifies the storage class of the recovery point. Valid values are as follows:    COLD     DELETED     WARM
+        public let storageClass: String?
+
+        public init(backupSizeInBytes: Int64? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, calculatedLifecycle: AwsBackupRecoveryPointCalculatedLifecycleDetails? = nil, completionDate: String? = nil, createdBy: AwsBackupRecoveryPointCreatedByDetails? = nil, creationDate: String? = nil, encryptionKeyArn: String? = nil, iamRoleArn: String? = nil, isEncrypted: Bool? = nil, lastRestoreTime: String? = nil, lifecycle: AwsBackupRecoveryPointLifecycleDetails? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil, sourceBackupVaultArn: String? = nil, status: String? = nil, statusMessage: String? = nil, storageClass: String? = nil) {
+            self.backupSizeInBytes = backupSizeInBytes
+            self.backupVaultArn = backupVaultArn
+            self.backupVaultName = backupVaultName
+            self.calculatedLifecycle = calculatedLifecycle
+            self.completionDate = completionDate
+            self.createdBy = createdBy
+            self.creationDate = creationDate
+            self.encryptionKeyArn = encryptionKeyArn
+            self.iamRoleArn = iamRoleArn
+            self.isEncrypted = isEncrypted
+            self.lastRestoreTime = lastRestoreTime
+            self.lifecycle = lifecycle
+            self.recoveryPointArn = recoveryPointArn
+            self.resourceArn = resourceArn
+            self.resourceType = resourceType
+            self.sourceBackupVaultArn = sourceBackupVaultArn
+            self.status = status
+            self.statusMessage = statusMessage
+            self.storageClass = storageClass
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.backupVaultArn, name: "backupVaultArn", parent: name, pattern: "\\S")
+            try self.validate(self.backupVaultName, name: "backupVaultName", parent: name, pattern: "\\S")
+            try self.calculatedLifecycle?.validate(name: "\(name).calculatedLifecycle")
+            try self.validate(self.completionDate, name: "completionDate", parent: name, pattern: "\\S")
+            try self.createdBy?.validate(name: "\(name).createdBy")
+            try self.validate(self.creationDate, name: "creationDate", parent: name, pattern: "\\S")
+            try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, pattern: "\\S")
+            try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, pattern: "\\S")
+            try self.validate(self.lastRestoreTime, name: "lastRestoreTime", parent: name, pattern: "\\S")
+            try self.validate(self.recoveryPointArn, name: "recoveryPointArn", parent: name, pattern: "\\S")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "\\S")
+            try self.validate(self.resourceType, name: "resourceType", parent: name, pattern: "\\S")
+            try self.validate(self.sourceBackupVaultArn, name: "sourceBackupVaultArn", parent: name, pattern: "\\S")
+            try self.validate(self.status, name: "status", parent: name, pattern: "\\S")
+            try self.validate(self.statusMessage, name: "statusMessage", parent: name, pattern: "\\S")
+            try self.validate(self.storageClass, name: "storageClass", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backupSizeInBytes = "BackupSizeInBytes"
+            case backupVaultArn = "BackupVaultArn"
+            case backupVaultName = "BackupVaultName"
+            case calculatedLifecycle = "CalculatedLifecycle"
+            case completionDate = "CompletionDate"
+            case createdBy = "CreatedBy"
+            case creationDate = "CreationDate"
+            case encryptionKeyArn = "EncryptionKeyArn"
+            case iamRoleArn = "IamRoleArn"
+            case isEncrypted = "IsEncrypted"
+            case lastRestoreTime = "LastRestoreTime"
+            case lifecycle = "Lifecycle"
+            case recoveryPointArn = "RecoveryPointArn"
+            case resourceArn = "ResourceArn"
+            case resourceType = "ResourceType"
+            case sourceBackupVaultArn = "SourceBackupVaultArn"
+            case status = "Status"
+            case statusMessage = "StatusMessage"
+            case storageClass = "StorageClass"
+        }
+    }
+
+    public struct AwsBackupRecoveryPointLifecycleDetails: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the number of days after creation that a recovery point is deleted. Must be greater
+        /// than 90 days plus MoveToColdStorageAfterDays.
+        public let deleteAfterDays: Int64?
+        /// Specifies the number of days after creation that a recovery point is moved to cold storage.
+        public let moveToColdStorageAfterDays: Int64?
+
+        public init(deleteAfterDays: Int64? = nil, moveToColdStorageAfterDays: Int64? = nil) {
+            self.deleteAfterDays = deleteAfterDays
+            self.moveToColdStorageAfterDays = moveToColdStorageAfterDays
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deleteAfterDays = "DeleteAfterDays"
+            case moveToColdStorageAfterDays = "MoveToColdStorageAfterDays"
         }
     }
 
@@ -1740,7 +2186,7 @@ extension SecurityHub {
         public let domainValidationOptions: [AwsCertificateManagerCertificateDomainValidationOption]?
         /// The status of the Certificate Manager managed renewal of the certificate. Valid values: PENDING_AUTO_RENEWAL | PENDING_VALIDATION | SUCCESS | FAILED
         public let renewalStatus: String?
-        /// The reason that a renewal request was unsuccessful. Valid values: NO_AVAILABLE_CONTACTS | ADDITIONAL_VERIFICATION_REQUIRED | DOMAIN_NOT_ALLOWED | INVALID_PUBLIC_DOMAIN | DOMAIN_VALIDATION_DENIED | CAA_ERROR | PCA_LIMIT_EXCEEDED | PCA_INVALID_ARN | PCA_INVALID_STATE | PCA_REQUEST_FAILED | PCA_NAME_CONSTRAINTS_VALIDATION | PCA_RESOURCE_NOT_FOUND | PCA_INVALID_ARGS | PCA_INVALID_DURATION | PCA_ACCESS_DENIED | SLR_NOT_FOUND | OTHER
+        /// The reason that a renewal request was unsuccessful. This attribute is used only when RenewalStatus is FAILED. Valid values: NO_AVAILABLE_CONTACTS | ADDITIONAL_VERIFICATION_REQUIRED | DOMAIN_NOT_ALLOWED | INVALID_PUBLIC_DOMAIN | DOMAIN_VALIDATION_DENIED | CAA_ERROR | PCA_LIMIT_EXCEEDED | PCA_INVALID_ARN | PCA_INVALID_STATE | PCA_REQUEST_FAILED | PCA_NAME_CONSTRAINTS_VALIDATION | PCA_RESOURCE_NOT_FOUND | PCA_INVALID_ARGS | PCA_INVALID_DURATION | PCA_ACCESS_DENIED | SLR_NOT_FOUND | OTHER
         public let renewalStatusReason: String?
         /// Indicates when the renewal summary was last updated. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
         public let updatedAt: String?
@@ -3038,7 +3484,8 @@ extension SecurityHub {
         public let tableName: String?
         /// The total size of the table in bytes.
         public let tableSizeBytes: Int64?
-        /// The current status of the table.
+        /// The current status of the table. Valid values are as follows:
+        /// 		          ACTIVE     ARCHIVED     ARCHIVING     CREATING     DELETING     INACCESSIBLE_ENCRYPTION_CREDENTIALS     UPDATING
         public let tableStatus: String?
 
         public init(attributeDefinitions: [AwsDynamoDbTableAttributeDefinition]? = nil, billingModeSummary: AwsDynamoDbTableBillingModeSummary? = nil, creationDateTime: String? = nil, globalSecondaryIndexes: [AwsDynamoDbTableGlobalSecondaryIndex]? = nil, globalTableVersion: String? = nil, itemCount: Int? = nil, keySchema: [AwsDynamoDbTableKeySchema]? = nil, latestStreamArn: String? = nil, latestStreamLabel: String? = nil, localSecondaryIndexes: [AwsDynamoDbTableLocalSecondaryIndex]? = nil, provisionedThroughput: AwsDynamoDbTableProvisionedThroughput? = nil, replicas: [AwsDynamoDbTableReplica]? = nil, restoreSummary: AwsDynamoDbTableRestoreSummary? = nil, sseDescription: AwsDynamoDbTableSseDescription? = nil, streamSpecification: AwsDynamoDbTableStreamSpecification? = nil, tableId: String? = nil, tableName: String? = nil, tableSizeBytes: Int64? = nil, tableStatus: String? = nil) {
@@ -3125,7 +3572,7 @@ extension SecurityHub {
         public let indexName: String?
         /// The total size in bytes of the index.
         public let indexSizeBytes: Int64?
-        /// The current status of the index.
+        /// The current status of the index. 	        ACTIVE     CREATING     DELETING     UPDATING
         public let indexStatus: String?
         /// The number of items in the index.
         public let itemCount: Int?
@@ -3175,7 +3622,7 @@ extension SecurityHub {
     public struct AwsDynamoDbTableKeySchema: AWSEncodableShape & AWSDecodableShape {
         /// The name of the key schema attribute.
         public let attributeName: String?
-        /// The type of key used for the key schema attribute.
+        /// The type of key used for the key schema attribute. Valid values are HASH or RANGE.
         public let keyType: String?
 
         public init(attributeName: String? = nil, keyType: String? = nil) {
@@ -3231,7 +3678,7 @@ extension SecurityHub {
     public struct AwsDynamoDbTableProjection: AWSEncodableShape & AWSDecodableShape {
         /// The nonkey attributes that are projected into the index. For each attribute, provide the attribute name.
         public let nonKeyAttributes: [String]?
-        /// The types of attributes that are projected into the index.
+        /// The types of attributes that are projected into the index. Valid values are as follows: 	        ALL     INCLUDE     KEYS_ONLY
         public let projectionType: String?
 
         public init(nonKeyAttributes: [String]? = nil, projectionType: String? = nil) {
@@ -3308,7 +3755,7 @@ extension SecurityHub {
         public let provisionedThroughputOverride: AwsDynamoDbTableProvisionedThroughputOverride?
         /// The name of the Region where the replica is located.
         public let regionName: String?
-        /// The current status of the replica.
+        /// The current status of the replica. Valid values are as follows: 	        ACTIVE     CREATING     CREATION_FAILED     DELETING     UPDATING
         public let replicaStatus: String?
         /// Detailed information about the replica status.
         public let replicaStatusDescription: String?
@@ -4134,7 +4581,7 @@ extension SecurityHub {
         public let mapPublicIpOnLaunch: Bool?
         /// The identifier of the Amazon Web Services account that owns the subnet.
         public let ownerId: String?
-        /// The current state of the subnet.
+        /// The current state of the subnet. Valid values are available or pending.
         public let state: String?
         /// The ARN of the subnet.
         public let subnetArn: String?
@@ -4270,7 +4717,7 @@ extension SecurityHub {
         public let deleteOnTermination: Bool?
         /// The identifier of the EC2 instance.
         public let instanceId: String?
-        /// The attachment state of the volume.
+        /// The attachment state of the volume. Valid values are as follows: 	        attaching     attached     busy     detaching     detached
         public let status: String?
 
         public init(attachTime: String? = nil, deleteOnTermination: Bool? = nil, instanceId: String? = nil, status: String? = nil) {
@@ -4309,7 +4756,7 @@ extension SecurityHub {
         public let size: Int?
         /// The snapshot from which the volume was created.
         public let snapshotId: String?
-        /// The volume state.
+        /// The volume state. Valid values are as follows: 	        available     creating     deleted     deleting     error     in-use
         public let status: String?
         /// The ID of the volume.
         public let volumeId: String?
@@ -4368,7 +4815,7 @@ extension SecurityHub {
         public let dhcpOptionsId: String?
         /// Information about the IPv6 CIDR blocks associated with the VPC.
         public let ipv6CidrBlockAssociationSet: [Ipv6CidrBlockAssociation]?
-        /// The current state of the VPC.
+        /// The current state of the VPC. Valid values are available or pending.
         public let state: String?
 
         public init(cidrBlockAssociationSet: [CidrBlockAssociation]? = nil, dhcpOptionsId: String? = nil, ipv6CidrBlockAssociationSet: [Ipv6CidrBlockAssociation]? = nil, state: String? = nil) {
@@ -4416,7 +4863,7 @@ extension SecurityHub {
         public let serviceId: String?
         /// The name of the service.
         public let serviceName: String?
-        /// The current state of the service.
+        /// The current state of the service. Valid values are as follows: 	        Available     Deleted     Deleting     Failed     Pending
         public let serviceState: String?
         /// The types for the service.
         public let serviceType: [AwsEc2VpcEndpointServiceServiceTypeDetails]?
@@ -4609,7 +5056,7 @@ extension SecurityHub {
         public let options: AwsEc2VpnConnectionOptionsDetails?
         /// The static routes that are associated with the VPN connection.
         public let routes: [AwsEc2VpnConnectionRoutesDetails]?
-        /// The current state of the VPN connection.
+        /// The current state of the VPN connection. Valid values are as follows: 	        available     deleted     deleting     pending
         public let state: String?
         /// The identifier of the transit gateway that is associated with the VPN connection.
         public let transitGatewayId: String?
@@ -4817,7 +5264,7 @@ extension SecurityHub {
         public let lastStatusChange: String?
         /// The Internet-routable IP address of the virtual private gateway's outside interface.
         public let outsideIpAddress: String?
-        /// The status of the VPN tunnel.
+        /// The status of the VPN tunnel. Valid values are DOWN or UP.
         public let status: String?
         /// If an error occurs, a description of the error.
         public let statusMessage: String?
@@ -4850,7 +5297,7 @@ extension SecurityHub {
     }
 
     public struct AwsEcrContainerImageDetails: AWSEncodableShape & AWSDecodableShape {
-        /// The architecture of the image.
+        /// The architecture of the image. Valid values are as follows: 	        arm64     i386     x86_64
         public let architecture: String?
         /// The sha256 digest of the image manifest.
         public let imageDigest: String?
@@ -4898,7 +5345,7 @@ extension SecurityHub {
         public let arn: String?
         /// The image scanning configuration for a repository.
         public let imageScanningConfiguration: AwsEcrRepositoryImageScanningConfigurationDetails?
-        /// The tag mutability setting for the repository.
+        /// The tag mutability setting for the repository. Valid values are IMMUTABLE or MUTABLE.
         public let imageTagMutability: String?
         /// Information about the lifecycle policy for the repository.
         public let lifecyclePolicy: AwsEcrRepositoryLifecyclePolicyDetails?
@@ -4970,9 +5417,9 @@ extension SecurityHub {
     }
 
     public struct AwsEcsClusterClusterSettingsDetails: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the setting.
+        /// The name of the setting. The valid value is containerInsights.
         public let name: String?
-        /// The value of the setting.
+        /// The value of the setting. Valid values are disabled or enabled.
         public let value: String?
 
         public init(name: String? = nil, value: String? = nil) {
@@ -5555,7 +6002,7 @@ extension SecurityHub {
     }
 
     public struct AwsEcsTaskDefinitionContainerDefinitionsDependsOnDetails: AWSEncodableShape & AWSDecodableShape {
-        /// The dependency condition of the dependent container. Indicates the required status of the dependent container before the current container can start.
+        /// The dependency condition of the dependent container. Indicates the required status of the dependent container before the current container can start. Valid values are as follows: 	        COMPLETE     HEALTHY     SUCCESS     START
         public let condition: String?
         /// The name of the dependent container.
         public let containerName: String?
@@ -5832,7 +6279,7 @@ extension SecurityHub {
     }
 
     public struct AwsEcsTaskDefinitionContainerDefinitionsEnvironmentFilesDetails: AWSEncodableShape & AWSDecodableShape {
-        /// The type of environment file.
+        /// The type of environment file. The valid value is s3.
         public let type: String?
         /// The ARN of the S3 object that contains the environment variable file.
         public let value: String?
@@ -5878,7 +6325,7 @@ extension SecurityHub {
     public struct AwsEcsTaskDefinitionContainerDefinitionsFirelensConfigurationDetails: AWSEncodableShape & AWSDecodableShape {
         /// The options to use to configure the log router. The valid option keys are as follows:    enable-ecs-log-metadata. The value can be true or false.    config-file-type. The value can be s3 or file.    config-file-value. The value is either an S3 ARN or a file path.
         public let options: [String: String]?
-        /// The log router to use.
+        /// The log router to use. Valid values are fluentbit or fluentd.
         public let type: String?
 
         public init(options: [String: String]? = nil, type: String? = nil) {
@@ -5936,9 +6383,9 @@ extension SecurityHub {
     }
 
     public struct AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersCapabilitiesDetails: AWSEncodableShape & AWSDecodableShape {
-        /// The Linux capabilities for the container that are added to the default configuration provided by Docker.
+        /// The Linux capabilities for the container that are added to the default configuration provided by Docker. Valid values are as follows: 	     Valid values: "ALL" | "AUDIT_CONTROL" | "AUDIT_WRITE" | 		"BLOCK_SUSPEND" | "CHOWN" | "DAC_OVERRIDE" | 		"DAC_READ_SEARCH" | "FOWNER" | "FSETID" | 		"IPC_LOCK" | "IPC_OWNER" | "KILL" | 		"LEASE" | "LINUX_IMMUTABLE" | "MAC_ADMIN" | 			"MAC_OVERRIDE" | "MKNOD" | "NET_ADMIN" | 		"NET_BIND_SERVICE" | "NET_BROADCAST" | "NET_RAW" | 		"SETFCAP" | "SETGID" | "SETPCAP" | 		"SETUID" | "SYS_ADMIN" | "SYS_BOOT" | 		"SYS_CHROOT" | "SYS_MODULE" | "SYS_NICE" | 		"SYS_PACCT" | "SYS_PTRACE" | "SYS_RAWIO" | 		"SYS_RESOURCE" | "SYS_TIME" | "SYS_TTY_CONFIG" | 		"SYSLOG" | "WAKE_ALARM"
         public let add: [String]?
-        /// The Linux capabilities for the container that are dropped from the default configuration provided by Docker.
+        /// The Linux capabilities for the container that are dropped from the default configuration provided by Docker. 	     Valid values: "ALL" | "AUDIT_CONTROL" | "AUDIT_WRITE" | 		"BLOCK_SUSPEND" | "CHOWN" | "DAC_OVERRIDE" | 		"DAC_READ_SEARCH" | "FOWNER" | "FSETID" | 		"IPC_LOCK" | "IPC_OWNER" | "KILL" | 		"LEASE" | "LINUX_IMMUTABLE" | "MAC_ADMIN" | 			"MAC_OVERRIDE" | "MKNOD" | "NET_ADMIN" | 		"NET_BIND_SERVICE" | "NET_BROADCAST" | "NET_RAW" | 		"SETFCAP" | "SETGID" | "SETPCAP" | 		"SETUID" | "SYS_ADMIN" | "SYS_BOOT" | 		"SYS_CHROOT" | "SYS_MODULE" | "SYS_NICE" | 		"SYS_PACCT" | "SYS_PTRACE" | "SYS_RAWIO" | 		"SYS_RESOURCE" | "SYS_TIME" | "SYS_TTY_CONFIG" | 		"SYSLOG" | "WAKE_ALARM"
         public let drop: [String]?
 
         public init(add: [String]? = nil, drop: [String]? = nil) {
@@ -6040,7 +6487,7 @@ extension SecurityHub {
     public struct AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersTmpfsDetails: AWSEncodableShape & AWSDecodableShape {
         /// The absolute file path where the tmpfs volume is to be mounted.
         public let containerPath: String?
-        /// The list of tmpfs volume mount options.
+        /// The list of tmpfs volume mount options. 	     Valid values: "defaults" | "ro" | "rw" | "suid" | 		"nosuid" | "dev" | "nodev" | "exec" | 		"noexec" | "sync" | "async" | "dirsync" 		| "remount" | "mand" | "nomand" | "atime" 		| "noatime" | "diratime" | "nodiratime" | 		"bind" | "rbind" | "unbindable" | 		"runbindable" | "private" | "rprivate" | 		"shared" | "rshared" | "slave" | 		"rslave" | "relatime" | "norelatime" | 		"strictatime" | "nostrictatime" | "mode" | 		"uid" | "gid" | "nr_inodes" | 			"nr_blocks" | "mpol"
         public let mountOptions: [String]?
         /// The maximum size (in MiB) of the tmpfs volume.
         public let size: Int?
@@ -6066,7 +6513,7 @@ extension SecurityHub {
     }
 
     public struct AwsEcsTaskDefinitionContainerDefinitionsLogConfigurationDetails: AWSEncodableShape & AWSDecodableShape {
-        /// The log driver to use for the container.
+        /// The log driver to use for the container. 	     Valid values on Fargate are as follows: 	        awsfirelens     awslogs     splunk    	     Valid values on Amazon EC2 are as follows: 	        awsfirelens     awslogs     fluentd     gelf     journald     json-file     logentries     splunk     syslog
         public let logDriver: String?
         /// The configuration options to send to the log driver. Requires version 1.19 of the Docker Remote API or greater on your container instance.
         public let options: [String: String]?
@@ -6188,7 +6635,7 @@ extension SecurityHub {
     }
 
     public struct AwsEcsTaskDefinitionContainerDefinitionsResourceRequirementsDetails: AWSEncodableShape & AWSDecodableShape {
-        /// The type of resource to assign to a container.
+        /// The type of resource to assign to a container. Valid values are GPU or InferenceAccelerator.
         public let type: String?
         /// The value for the specified resource type. For GPU, the value is the number of physical GPUs the Amazon ECS container agent reserves for the container. For InferenceAccelerator, the value should match the DeviceName attribute of an entry in InferenceAccelerators.
         public let value: String?
@@ -6256,7 +6703,7 @@ extension SecurityHub {
     public struct AwsEcsTaskDefinitionContainerDefinitionsUlimitsDetails: AWSEncodableShape & AWSDecodableShape {
         /// The hard limit for the ulimit type.
         public let hardLimit: Int?
-        /// The type of the ulimit.
+        /// The type of the ulimit. Valid values are as follows: 	        core     cpu     data     fsize     locks     memlock     msgqueue     nice     nofile     nproc     rss     rtprio     rttime     sigpending     stack
         public let name: String?
         /// The soft limit for the ulimit type.
         public let softLimit: Int?
@@ -6302,7 +6749,7 @@ extension SecurityHub {
     public struct AwsEcsTaskDefinitionDetails: AWSEncodableShape & AWSDecodableShape {
         /// The container definitions that describe the containers that make up the task.
         public let containerDefinitions: [AwsEcsTaskDefinitionContainerDefinitionsDetails]?
-        /// The number of CPU units used by the task.
+        /// The number of CPU units used by the task.Valid values are as follows: 	        256 (.25 vCPU)     512 (.5 vCPU)     1024 (1 vCPU)     2048 (2 vCPU)     4096 (4 vCPU)
         public let cpu: String?
         /// The ARN of the task execution role that grants the container agent permission to make API calls on behalf of the container user.
         public let executionRoleArn: String?
@@ -6310,13 +6757,13 @@ extension SecurityHub {
         public let family: String?
         /// The Elastic Inference accelerators to use for the containers in the task.
         public let inferenceAccelerators: [AwsEcsTaskDefinitionInferenceAcceleratorsDetails]?
-        /// The IPC resource namespace to use for the containers in the task.
+        /// The inter-process communication (IPC) resource namespace to use for the containers in the task. Valid values are as follows: 	        host     none     task
         public let ipcMode: String?
-        /// The amount (in MiB) of memory used by the task.
+        /// The amount (in MiB) of memory used by the task.  For tasks that are hosted on Amazon EC2, you can provide a task-level memory value or a container-level memory value. For tasks that are hosted on Fargate, you must use one of the specified values in the  Amazon Elastic Container Service Developer Guide , which determines your range of supported values for the Cpu and Memory parameters.
         public let memory: String?
-        /// The Docker networking mode to use for the containers in the task.
+        /// The Docker networking mode to use for the containers in the task. Valid values are as follows: 	        awsvpc     bridge     host     none
         public let networkMode: String?
-        /// The process namespace to use for the containers in the task.
+        /// The process namespace to use for the containers in the task. Valid values are host or task.
         public let pidMode: String?
         /// The placement constraint objects to use for tasks.
         public let placementConstraints: [AwsEcsTaskDefinitionPlacementConstraintsDetails]?
@@ -6527,7 +6974,8 @@ extension SecurityHub {
         public let driverOpts: [String: String]?
         /// Custom metadata to add to the Docker volume.
         public let labels: [String: String]?
-        /// The scope for the Docker volume that determines its lifecycle. Docker volumes that are scoped to a task are provisioned automatically when the task starts and destroyed when the task stops. Docker volumes that are shared persist after the task stops.
+        /// The scope for the Docker volume that determines its lifecycle. Docker volumes that are scoped to a task are provisioned
+        /// automatically when the task starts and destroyed when the task stops. Docker volumes that are shared persist after the task stops. Valid values are shared or task.
         public let scope: String?
 
         public init(autoprovision: Bool? = nil, driver: String? = nil, driverOpts: [String: String]? = nil, labels: [String: String]? = nil, scope: String? = nil) {
@@ -6869,7 +7317,7 @@ extension SecurityHub {
         public let arn: String?
         /// The certificate authority data for the cluster.
         public let certificateAuthorityData: String?
-        /// The status of the cluster.
+        /// The status of the cluster. Valid values are as follows: 	        ACTIVE     CREATING     DELETING     FAILED     PENDING     UPDATING
         public let clusterStatus: String?
         /// The endpoint for the Amazon EKS API server.
         public let endpoint: String?
@@ -6924,7 +7372,7 @@ extension SecurityHub {
     public struct AwsEksClusterLoggingClusterLoggingDetails: AWSEncodableShape & AWSDecodableShape {
         /// Whether the logging types that are listed in Types are enabled.
         public let enabled: Bool?
-        /// A list of logging types.
+        /// A list of logging types. Valid values are as follows: 	        api     audit     authenticator     controllerManager     scheduler
         public let types: [String]?
 
         public init(enabled: Bool? = nil, types: [String]? = nil) {
@@ -7016,7 +7464,7 @@ extension SecurityHub {
         public let platformArn: String?
         /// The name of the solution stack that is deployed with the environment.
         public let solutionStackName: String?
-        /// The current operational status of the environment.
+        /// The current operational status of the environment. Valid values are as follows: 	        Aborting     Launching     LinkingFrom     LinkingTo     Ready     Terminated     Terminating     Updating
         public let status: String?
         /// The tier of the environment.
         public let tier: AwsElasticBeanstalkEnvironmentTier?
@@ -7140,9 +7588,9 @@ extension SecurityHub {
     }
 
     public struct AwsElasticBeanstalkEnvironmentTier: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the environment tier.
+        /// The name of the environment tier. Valid values are WebServer or Worker.
         public let name: String?
-        /// The type of environment tier.
+        /// The type of environment tier. Valid values are Standard or SQS/HTTP.
         public let type: String?
         /// The version of the environment tier.
         public let version: String?
@@ -7271,11 +7719,11 @@ extension SecurityHub {
         public let dedicatedMasterCount: Int?
         /// Whether to use a dedicated master node for the Elasticsearch domain. A dedicated master node performs cluster management tasks, but doesn't hold data or respond to data upload requests.
         public let dedicatedMasterEnabled: Bool?
-        /// The hardware configuration of the computer that hosts the dedicated master node. For example, m3.medium.elasticsearch. If this attribute is specified, then DedicatedMasterEnabled must be true.
+        /// The hardware configuration of the computer that hosts the dedicated master node. A sample value is m3.medium.elasticsearch. If this attribute is specified, then DedicatedMasterEnabled must be true. 	     For a list of valid values, see Supported instance types in Amazon OpenSearch Service in the Amazon OpenSearch Service Developer Guide.
         public let dedicatedMasterType: String?
         /// The number of data nodes to use in the Elasticsearch domain.
         public let instanceCount: Int?
-        /// The instance type for your data nodes. For example, m3.medium.elasticsearch.
+        /// The instance type for your data nodes. For example, m3.medium.elasticsearch. 	     For a list of valid values, see Supported instance types in Amazon OpenSearch Service in the Amazon OpenSearch Service Developer Guide.
         public let instanceType: String?
         /// Configuration options for zone awareness. Provided if ZoneAwarenessEnabled is true.
         public let zoneAwarenessConfig: AwsElasticsearchDomainElasticsearchClusterConfigZoneAwarenessConfigDetails?
@@ -7415,7 +7863,7 @@ extension SecurityHub {
         public let newVersion: String?
         /// Whether a service software update is available for the domain.
         public let updateAvailable: Bool?
-        /// The status of the service software update.
+        /// The status of the service software update. Valid values are as follows: 	        COMPLETED     ELIGIBLE     IN_PROGRESS     NOT_ELIGIBLE     PENDING_UPDATE
         public let updateStatus: String?
 
         public init(automatedUpdateDate: String? = nil, cancellable: Bool? = nil, currentVersion: String? = nil, description: String? = nil, newVersion: String? = nil, updateAvailable: Bool? = nil, updateStatus: String? = nil) {
@@ -8718,7 +9166,7 @@ extension SecurityHub {
         public let keyManager: String?
         /// Whether the key has key rotation enabled.
         public let keyRotationStatus: Bool?
-        /// The state of the KMS key.
+        /// The state of the KMS key. Valid values are as follows: 	        Disabled     Enabled     PendingDeletion     PendingImport     Unavailable
         public let keyState: String?
         /// The source of the KMS key material. When this value is AWS_KMS, KMS created the key material. When this value is EXTERNAL, the key material was imported from your existing key management infrastructure or the KMS key lacks key material. When this value is AWS_CLOUDHSM, the key material was created in the CloudHSM cluster associated with a custom key store.
         public let origin: String?
@@ -9268,7 +9716,7 @@ extension SecurityHub {
         public let dedicatedMasterType: String?
         /// The number of data nodes to use in the OpenSearch domain.
         public let instanceCount: Int?
-        /// The instance type for your data nodes.
+        /// The instance type for your data nodes. 	     For a list of valid values, see Supported instance types in Amazon OpenSearch Service in the Amazon OpenSearch Service Developer Guide.
         public let instanceType: String?
         /// The number of UltraWarm instances.
         public let warmCount: Int?
@@ -9315,7 +9763,7 @@ extension SecurityHub {
     }
 
     public struct AwsOpenSearchServiceDomainClusterConfigZoneAwarenessConfigDetails: AWSEncodableShape & AWSDecodableShape {
-        /// The number of Availability Zones that the domain uses. Valid values are 2 and 3. The default is 2.
+        /// The number of Availability Zones that the domain uses. Valid values are 2 or 3. The default is 2.
         public let availabilityZoneCount: Int?
 
         public init(availabilityZoneCount: Int? = nil) {
@@ -9575,7 +10023,7 @@ extension SecurityHub {
         public let optionalDeployment: Bool?
         /// Whether a service software update is available for the domain.
         public let updateAvailable: Bool?
-        /// The status of the service software update.
+        /// The status of the service software update. Valid values are as follows: 	        COMPLETED     ELIGIBLE     IN_PROGRESS     NOT_ELIGIBLE     PENDING_UPDATE
         public let updateStatus: String?
 
         public init(automatedUpdateDate: String? = nil, cancellable: Bool? = nil, currentVersion: String? = nil, description: String? = nil, newVersion: String? = nil, optionalDeployment: Bool? = nil, updateAvailable: Bool? = nil, updateStatus: String? = nil) {
@@ -9638,7 +10086,7 @@ extension SecurityHub {
     public struct AwsRdsDbClusterAssociatedRole: AWSEncodableShape & AWSDecodableShape {
         /// The ARN of the IAM role.
         public let roleArn: String?
-        /// The status of the association between the IAM role and the DB cluster.
+        /// The status of the association between the IAM role and the DB cluster. Valid values are as follows:    ACTIVE     INVALID     PENDING
         public let status: String?
 
         public init(roleArn: String? = nil, status: String? = nil) {
@@ -9658,7 +10106,7 @@ extension SecurityHub {
     }
 
     public struct AwsRdsDbClusterDetails: AWSEncodableShape & AWSDecodableShape {
-        /// The status of the database activity stream.
+        /// The status of the database activity stream. Valid values are as follows: 	        started     starting     stopped     stopping
         public let activityStreamStatus: String?
         /// For all database engines except Aurora, specifies the allocated storage size in gibibytes (GiB).
         public let allocatedStorage: Int?
@@ -9698,9 +10146,9 @@ extension SecurityHub {
         public let enabledCloudWatchLogsExports: [String]?
         /// The connection endpoint for the primary instance of the DB cluster.
         public let endpoint: String?
-        /// The name of the database engine to use for this DB cluster.
+        /// The name of the database engine to use for this DB cluster. Valid values are as follows:    aurora     aurora-mysql     aurora-postgresql
         public let engine: String?
-        /// The database engine mode of the DB cluster.
+        /// The database engine mode of the DB cluster.Valid values are as follows:    global     multimaster     parallelquery     provisioned     serverless
         public let engineMode: String?
         /// The version number of the database engine to use.
         public let engineVersion: String?
@@ -10551,7 +10999,7 @@ extension SecurityHub {
     }
 
     public struct AwsRdsDbProcessorFeature: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the processor feature.
+        /// The name of the processor feature. Valid values are coreCount or threadsPerCore.
         public let name: String?
         /// The value of the processor feature.
         public let value: String?
@@ -10690,7 +11138,7 @@ extension SecurityHub {
         public let dbSnapshotIdentifier: String?
         /// Whether the DB snapshot is encrypted.
         public let encrypted: Bool?
-        /// The name of the database engine to use for this DB instance.
+        /// The name of the database engine to use for this DB instance. Valid values are as follows:    aurora     aurora-mysql     aurora-postgresql     c     mariadb     mysql     oracle-ee     oracle-se     oracle-se1     oracle-se2     sqlserver-ee     sqlserver-ex     sqlserver-se     sqlserver-web
         public let engine: String?
         /// The version of the database engine.
         public let engineVersion: String?
@@ -10724,7 +11172,7 @@ extension SecurityHub {
         public let sourceRegion: String?
         /// The status of this DB snapshot.
         public let status: String?
-        /// The storage type associated with the DB snapshot.
+        /// The storage type associated with the DB snapshot. Valid values are as follows:    gp2     io1     standard
         public let storageType: String?
         /// The ARN from the key store with which to associate the instance for TDE encryption.
         public let tdeCredentialArn: String?
@@ -11856,6 +12304,7 @@ extension SecurityHub {
         /// A tag filter.
         public let tag: AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateTagDetails?
         /// Whether to use AND or OR to join the operands.
+        /// Valid values are LifecycleAndOperator or LifecycleOrOperator.
         public let type: String?
 
         public init(operands: [AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateOperandsDetails]? = nil, prefix: String? = nil, tag: AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateTagDetails? = nil, type: String? = nil) {
@@ -11888,6 +12337,7 @@ extension SecurityHub {
         /// A tag that is assigned to matching objects.
         public let tag: AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateOperandsTagDetails?
         /// The type of filter value.
+        /// Valid values are LifecyclePrefixPredicate or LifecycleTagPredicate.
         public let type: String?
 
         public init(prefix: String? = nil, tag: AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateOperandsTagDetails? = nil, type: String? = nil) {
@@ -11979,7 +12429,7 @@ extension SecurityHub {
         public let date: String?
         /// The number of days after which to transition the object to the specified storage class. If you provide Days, you cannot provide Date.
         public let days: Int?
-        /// The storage class to transition the object to.
+        /// The storage class to transition the object to. Valid values are as follows:    DEEP_ARCHIVE     GLACIER     INTELLIGENT_TIERING     ONEZONE_IA     STANDARD_IA
         public let storageClass: String?
 
         public init(date: String? = nil, days: Int? = nil, storageClass: String? = nil) {
@@ -12003,7 +12453,7 @@ extension SecurityHub {
     public struct AwsS3BucketBucketVersioningConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Specifies whether MFA delete is currently enabled in the S3 bucket versioning configuration. If the S3 bucket was never configured with MFA delete, then this attribute is not included.
         public let isMfaDeleteEnabled: Bool?
-        /// The versioning status of the S3 bucket.
+        /// The versioning status of the S3 bucket. Valid values are Enabled or Suspended.
         public let status: String?
 
         public init(isMfaDeleteEnabled: Bool? = nil, status: String? = nil) {
@@ -12140,7 +12590,7 @@ extension SecurityHub {
         public let events: [String]?
         /// The filters that determine which S3 buckets generate notifications.
         public let filter: AwsS3BucketNotificationConfigurationFilter?
-        /// Indicates the type of notification. Notifications can be generated using Lambda functions, Amazon SQS queues or Amazon SNS topics.
+        /// Indicates the type of notification. Notifications can be generated using Lambda functions, Amazon SQS queues, or Amazon SNS topics, with corresponding valid values as follows:    LambdaConfiguration     QueueConfiguration     TopicConfiguration
         public let type: String?
 
         public init(destination: String? = nil, events: [String]? = nil, filter: AwsS3BucketNotificationConfigurationFilter? = nil, type: String? = nil) {
@@ -12227,7 +12677,8 @@ extension SecurityHub {
     public struct AwsS3BucketServerSideEncryptionByDefault: AWSEncodableShape & AWSDecodableShape {
         /// KMS key ID to use for the default encryption.
         public let kmsMasterKeyID: String?
-        /// Server-side encryption algorithm to use for the default encryption.
+        /// Server-side encryption algorithm to use for the default encryption. Valid values are
+        /// aws: kms or AES256.
         public let sseAlgorithm: String?
 
         public init(kmsMasterKeyID: String? = nil, sseAlgorithm: String? = nil) {
@@ -12319,7 +12770,7 @@ extension SecurityHub {
     public struct AwsS3BucketWebsiteConfigurationRedirectTo: AWSEncodableShape & AWSDecodableShape {
         /// The name of the host to redirect requests to.
         public let hostname: String?
-        /// The protocol to use when redirecting requests. By default, uses the same protocol as the original request.
+        /// The protocol to use when redirecting requests. By default, this field uses the same protocol as the original request. Valid values are http or https.
         public let `protocol`: String?
 
         public init(hostname: String? = nil, protocol: String? = nil) {
@@ -13670,13 +14121,13 @@ extension SecurityHub {
         public let nonCompliantMediumCount: Int?
         /// For the patches that are noncompliant, the number that have a severity of UNSPECIFIED.
         public let nonCompliantUnspecifiedCount: Int?
-        /// The highest severity for the patches.
+        /// The highest severity for the patches. Valid values are as follows:    CRITICAL     HIGH     MEDIUM     LOW     INFORMATIONAL     UNSPECIFIED
         public let overallSeverity: String?
         /// The identifier of the patch baseline. The patch baseline lists the patches that are approved for installation.
         public let patchBaselineId: String?
         /// The identifier of the patch group for which compliance was determined. A patch group uses tags to group EC2 instances that should have the same patch compliance.
         public let patchGroup: String?
-        /// The current patch compliance status. The possible status values are:    COMPLIANT     NON_COMPLIANT     UNSPECIFIED_DATA
+        /// The current patch compliance status. Valid values are as follows:    COMPLIANT     NON_COMPLIANT     UNSPECIFIED_DATA
         public let status: String?
 
         public init(complianceType: String? = nil, compliantCriticalCount: Int? = nil, compliantHighCount: Int? = nil, compliantInformationalCount: Int? = nil, compliantLowCount: Int? = nil, compliantMediumCount: Int? = nil, compliantUnspecifiedCount: Int? = nil, executionType: String? = nil, nonCompliantCriticalCount: Int? = nil, nonCompliantHighCount: Int? = nil, nonCompliantInformationalCount: Int? = nil, nonCompliantLowCount: Int? = nil, nonCompliantMediumCount: Int? = nil, nonCompliantUnspecifiedCount: Int? = nil, overallSeverity: String? = nil, patchBaselineId: String? = nil, patchGroup: String? = nil, status: String? = nil) {
@@ -13813,7 +14264,7 @@ extension SecurityHub {
         public let dataId: String?
         /// If set to true, then the rule actions are performed on requests that match the predicate settings. If set to false, then the rule actions are performed on all requests except those that match the predicate settings.
         public let negated: Bool?
-        /// The type of predicate.
+        /// The type of predicate. Valid values are as follows:    ByteMatch     GeoMatch     IPMatch     RegexMatch     SizeConstraint     SqlInjectionMatch     XssMatch
         public let type: String?
 
         public init(dataId: String? = nil, negated: Bool? = nil, type: String? = nil) {
@@ -13882,7 +14333,7 @@ extension SecurityHub {
         public let dataId: String?
         /// If set to true, then the rule actions are performed on requests that match the predicate settings. If set to false, then the rule actions are performed on all requests except those that match the predicate settings.
         public let negated: Bool?
-        /// The type of predicate.
+        /// The type of predicate. Valid values are as follows:    ByteMatch     GeoMatch     IPMatch     RegexMatch     SizeConstraint     SqlInjectionMatch     XssMatch
         public let type: String?
 
         public init(dataId: String? = nil, negated: Bool? = nil, type: String? = nil) {
@@ -14381,9 +14832,9 @@ extension SecurityHub {
     public struct AwsXrayEncryptionConfigDetails: AWSEncodableShape & AWSDecodableShape {
         /// The identifier of the KMS key that is used for encryption. Provided if Type is KMS.
         public let keyId: String?
-        /// The current status of the encryption configuration. When Status is UPDATING, X-Ray might use both the old and new encryption.
+        /// The current status of the encryption configuration. Valid values are ACTIVE or UPDATING. When Status is equal to UPDATING, X-Ray might use both the old and new encryption.
         public let status: String?
-        /// The type of encryption. KMS indicates that the encryption uses KMS keys. NONE indicates to use the default encryption.
+        /// The type of encryption. KMS indicates that the encryption uses KMS keys. NONE indicates the default encryption.
         public let type: String?
 
         public init(keyId: String? = nil, status: String? = nil, type: String? = nil) {
@@ -14603,7 +15054,9 @@ extension SecurityHub {
     }
 
     public struct BatchUpdateFindingsUnprocessedFinding: AWSDecodableShape {
-        /// The code associated with the error. Possible values are:    ConcurrentUpdateError - Another process or request attempted to update the finding while this request was being processed    DuplicatedFindingIdentifier - The request included two or more findings with the same FindingIdentifier     FindingNotFound - The FindingIdentifier included in the request did not match an existing finding    FindingSizeExceeded - The finding size was greater than the permissible value of 240 KB    InternalFailure - An internal service failure occurred when updating the finding    InvalidInput - The finding update contained an invalid value that did not satisfy the Amazon Web Services Security Finding Format syntax
+        /// The code associated with the error. Possible values are:    ConcurrentUpdateError - Another request attempted to update the finding while this request was being processed.
+        /// This error may also occur if you call  BatchUpdateFindings
+        /// and  BatchImportFindings at the same time.    DuplicatedFindingIdentifier - The request included two or more findings with the same FindingIdentifier.    FindingNotFound - The FindingIdentifier included in the request did not match an existing finding.    FindingSizeExceeded - The finding size was greater than the permissible value of 240 KB.    InternalFailure - An internal service failure occurred when updating the finding.    InvalidInput - The finding update contained an invalid value that did not satisfy the Amazon Web Services Security Finding Format syntax.
         public let errorCode: String
         /// The message associated with the error. Possible values are:    Concurrent finding updates detected     Finding Identifier is duplicated     Finding Not Found     Finding size exceeded 240 KB     Internal service failure     Invalid Input
         public let errorMessage: String
@@ -16574,7 +17027,8 @@ extension SecurityHub {
     public struct Ipv6CidrBlockAssociation: AWSEncodableShape & AWSDecodableShape {
         /// The association ID for the IPv6 CIDR block.
         public let associationId: String?
-        /// Information about the state of the CIDR block.
+        /// Information about the state of the CIDR block. Valid values are as follows:
+        /// 		          associating     associated     disassociating     disassociated     failed     failing
         public let cidrBlockState: String?
         /// The IPv6 CIDR block.
         public let ipv6CidrBlock: String?
@@ -17704,6 +18158,12 @@ extension SecurityHub {
         public let awsAutoScalingAutoScalingGroup: AwsAutoScalingAutoScalingGroupDetails?
         /// Provides details about a launch configuration.
         public let awsAutoScalingLaunchConfiguration: AwsAutoScalingLaunchConfigurationDetails?
+        /// Provides details about an Backup backup plan.
+        public let awsBackupBackupPlan: AwsBackupBackupPlanDetails?
+        /// Provides details about an Backup backup vault.
+        public let awsBackupBackupVault: AwsBackupBackupVaultDetails?
+        /// Provides details about an Backup backup, or recovery point.
+        public let awsBackupRecoveryPoint: AwsBackupRecoveryPointDetails?
         /// Provides details about an Certificate Manager certificate.
         public let awsCertificateManagerCertificate: AwsCertificateManagerCertificateDetails?
         /// Details about an CloudFormation stack. A stack is a collection of Amazon Web Services resources that you can manage as a single unit.
@@ -17846,13 +18306,16 @@ extension SecurityHub {
         /// Details about a resource that are not available in a type-specific details object. Use the Other object in the following cases.   The type-specific object does not contain all of the fields that you want to populate. In this case, first use the type-specific object to populate those fields. Use the Other object to populate the fields that are missing from the type-specific object.   The resource type does not have a corresponding object. This includes resources for which the type is Other.
         public let other: [String: String]?
 
-        public init(awsApiGatewayRestApi: AwsApiGatewayRestApiDetails? = nil, awsApiGatewayStage: AwsApiGatewayStageDetails? = nil, awsApiGatewayV2Api: AwsApiGatewayV2ApiDetails? = nil, awsApiGatewayV2Stage: AwsApiGatewayV2StageDetails? = nil, awsAutoScalingAutoScalingGroup: AwsAutoScalingAutoScalingGroupDetails? = nil, awsAutoScalingLaunchConfiguration: AwsAutoScalingLaunchConfigurationDetails? = nil, awsCertificateManagerCertificate: AwsCertificateManagerCertificateDetails? = nil, awsCloudFormationStack: AwsCloudFormationStackDetails? = nil, awsCloudFrontDistribution: AwsCloudFrontDistributionDetails? = nil, awsCloudTrailTrail: AwsCloudTrailTrailDetails? = nil, awsCloudWatchAlarm: AwsCloudWatchAlarmDetails? = nil, awsCodeBuildProject: AwsCodeBuildProjectDetails? = nil, awsDynamoDbTable: AwsDynamoDbTableDetails? = nil, awsEc2Eip: AwsEc2EipDetails? = nil, awsEc2Instance: AwsEc2InstanceDetails? = nil, awsEc2NetworkAcl: AwsEc2NetworkAclDetails? = nil, awsEc2NetworkInterface: AwsEc2NetworkInterfaceDetails? = nil, awsEc2SecurityGroup: AwsEc2SecurityGroupDetails? = nil, awsEc2Subnet: AwsEc2SubnetDetails? = nil, awsEc2TransitGateway: AwsEc2TransitGatewayDetails? = nil, awsEc2Volume: AwsEc2VolumeDetails? = nil, awsEc2Vpc: AwsEc2VpcDetails? = nil, awsEc2VpcEndpointService: AwsEc2VpcEndpointServiceDetails? = nil, awsEc2VpcPeeringConnection: AwsEc2VpcPeeringConnectionDetails? = nil, awsEc2VpnConnection: AwsEc2VpnConnectionDetails? = nil, awsEcrContainerImage: AwsEcrContainerImageDetails? = nil, awsEcrRepository: AwsEcrRepositoryDetails? = nil, awsEcsCluster: AwsEcsClusterDetails? = nil, awsEcsContainer: AwsEcsContainerDetails? = nil, awsEcsService: AwsEcsServiceDetails? = nil, awsEcsTask: AwsEcsTaskDetails? = nil, awsEcsTaskDefinition: AwsEcsTaskDefinitionDetails? = nil, awsEfsAccessPoint: AwsEfsAccessPointDetails? = nil, awsEksCluster: AwsEksClusterDetails? = nil, awsElasticBeanstalkEnvironment: AwsElasticBeanstalkEnvironmentDetails? = nil, awsElasticsearchDomain: AwsElasticsearchDomainDetails? = nil, awsElbLoadBalancer: AwsElbLoadBalancerDetails? = nil, awsElbv2LoadBalancer: AwsElbv2LoadBalancerDetails? = nil, awsIamAccessKey: AwsIamAccessKeyDetails? = nil, awsIamGroup: AwsIamGroupDetails? = nil, awsIamPolicy: AwsIamPolicyDetails? = nil, awsIamRole: AwsIamRoleDetails? = nil, awsIamUser: AwsIamUserDetails? = nil, awsKinesisStream: AwsKinesisStreamDetails? = nil, awsKmsKey: AwsKmsKeyDetails? = nil, awsLambdaFunction: AwsLambdaFunctionDetails? = nil, awsLambdaLayerVersion: AwsLambdaLayerVersionDetails? = nil, awsNetworkFirewallFirewall: AwsNetworkFirewallFirewallDetails? = nil, awsNetworkFirewallFirewallPolicy: AwsNetworkFirewallFirewallPolicyDetails? = nil, awsNetworkFirewallRuleGroup: AwsNetworkFirewallRuleGroupDetails? = nil, awsOpenSearchServiceDomain: AwsOpenSearchServiceDomainDetails? = nil, awsRdsDbCluster: AwsRdsDbClusterDetails? = nil, awsRdsDbClusterSnapshot: AwsRdsDbClusterSnapshotDetails? = nil, awsRdsDbInstance: AwsRdsDbInstanceDetails? = nil, awsRdsDbSecurityGroup: AwsRdsDbSecurityGroupDetails? = nil, awsRdsDbSnapshot: AwsRdsDbSnapshotDetails? = nil, awsRdsEventSubscription: AwsRdsEventSubscriptionDetails? = nil, awsRedshiftCluster: AwsRedshiftClusterDetails? = nil, awsS3AccountPublicAccessBlock: AwsS3AccountPublicAccessBlockDetails? = nil, awsS3Bucket: AwsS3BucketDetails? = nil, awsS3Object: AwsS3ObjectDetails? = nil, awsSecretsManagerSecret: AwsSecretsManagerSecretDetails? = nil, awsSnsTopic: AwsSnsTopicDetails? = nil, awsSqsQueue: AwsSqsQueueDetails? = nil, awsSsmPatchCompliance: AwsSsmPatchComplianceDetails? = nil, awsWafRateBasedRule: AwsWafRateBasedRuleDetails? = nil, awsWafRegionalRateBasedRule: AwsWafRegionalRateBasedRuleDetails? = nil, awsWafRegionalRule: AwsWafRegionalRuleDetails? = nil, awsWafRegionalRuleGroup: AwsWafRegionalRuleGroupDetails? = nil, awsWafRegionalWebAcl: AwsWafRegionalWebAclDetails? = nil, awsWafRule: AwsWafRuleDetails? = nil, awsWafRuleGroup: AwsWafRuleGroupDetails? = nil, awsWafWebAcl: AwsWafWebAclDetails? = nil, awsXrayEncryptionConfig: AwsXrayEncryptionConfigDetails? = nil, container: ContainerDetails? = nil, other: [String: String]? = nil) {
+        public init(awsApiGatewayRestApi: AwsApiGatewayRestApiDetails? = nil, awsApiGatewayStage: AwsApiGatewayStageDetails? = nil, awsApiGatewayV2Api: AwsApiGatewayV2ApiDetails? = nil, awsApiGatewayV2Stage: AwsApiGatewayV2StageDetails? = nil, awsAutoScalingAutoScalingGroup: AwsAutoScalingAutoScalingGroupDetails? = nil, awsAutoScalingLaunchConfiguration: AwsAutoScalingLaunchConfigurationDetails? = nil, awsBackupBackupPlan: AwsBackupBackupPlanDetails? = nil, awsBackupBackupVault: AwsBackupBackupVaultDetails? = nil, awsBackupRecoveryPoint: AwsBackupRecoveryPointDetails? = nil, awsCertificateManagerCertificate: AwsCertificateManagerCertificateDetails? = nil, awsCloudFormationStack: AwsCloudFormationStackDetails? = nil, awsCloudFrontDistribution: AwsCloudFrontDistributionDetails? = nil, awsCloudTrailTrail: AwsCloudTrailTrailDetails? = nil, awsCloudWatchAlarm: AwsCloudWatchAlarmDetails? = nil, awsCodeBuildProject: AwsCodeBuildProjectDetails? = nil, awsDynamoDbTable: AwsDynamoDbTableDetails? = nil, awsEc2Eip: AwsEc2EipDetails? = nil, awsEc2Instance: AwsEc2InstanceDetails? = nil, awsEc2NetworkAcl: AwsEc2NetworkAclDetails? = nil, awsEc2NetworkInterface: AwsEc2NetworkInterfaceDetails? = nil, awsEc2SecurityGroup: AwsEc2SecurityGroupDetails? = nil, awsEc2Subnet: AwsEc2SubnetDetails? = nil, awsEc2TransitGateway: AwsEc2TransitGatewayDetails? = nil, awsEc2Volume: AwsEc2VolumeDetails? = nil, awsEc2Vpc: AwsEc2VpcDetails? = nil, awsEc2VpcEndpointService: AwsEc2VpcEndpointServiceDetails? = nil, awsEc2VpcPeeringConnection: AwsEc2VpcPeeringConnectionDetails? = nil, awsEc2VpnConnection: AwsEc2VpnConnectionDetails? = nil, awsEcrContainerImage: AwsEcrContainerImageDetails? = nil, awsEcrRepository: AwsEcrRepositoryDetails? = nil, awsEcsCluster: AwsEcsClusterDetails? = nil, awsEcsContainer: AwsEcsContainerDetails? = nil, awsEcsService: AwsEcsServiceDetails? = nil, awsEcsTask: AwsEcsTaskDetails? = nil, awsEcsTaskDefinition: AwsEcsTaskDefinitionDetails? = nil, awsEfsAccessPoint: AwsEfsAccessPointDetails? = nil, awsEksCluster: AwsEksClusterDetails? = nil, awsElasticBeanstalkEnvironment: AwsElasticBeanstalkEnvironmentDetails? = nil, awsElasticsearchDomain: AwsElasticsearchDomainDetails? = nil, awsElbLoadBalancer: AwsElbLoadBalancerDetails? = nil, awsElbv2LoadBalancer: AwsElbv2LoadBalancerDetails? = nil, awsIamAccessKey: AwsIamAccessKeyDetails? = nil, awsIamGroup: AwsIamGroupDetails? = nil, awsIamPolicy: AwsIamPolicyDetails? = nil, awsIamRole: AwsIamRoleDetails? = nil, awsIamUser: AwsIamUserDetails? = nil, awsKinesisStream: AwsKinesisStreamDetails? = nil, awsKmsKey: AwsKmsKeyDetails? = nil, awsLambdaFunction: AwsLambdaFunctionDetails? = nil, awsLambdaLayerVersion: AwsLambdaLayerVersionDetails? = nil, awsNetworkFirewallFirewall: AwsNetworkFirewallFirewallDetails? = nil, awsNetworkFirewallFirewallPolicy: AwsNetworkFirewallFirewallPolicyDetails? = nil, awsNetworkFirewallRuleGroup: AwsNetworkFirewallRuleGroupDetails? = nil, awsOpenSearchServiceDomain: AwsOpenSearchServiceDomainDetails? = nil, awsRdsDbCluster: AwsRdsDbClusterDetails? = nil, awsRdsDbClusterSnapshot: AwsRdsDbClusterSnapshotDetails? = nil, awsRdsDbInstance: AwsRdsDbInstanceDetails? = nil, awsRdsDbSecurityGroup: AwsRdsDbSecurityGroupDetails? = nil, awsRdsDbSnapshot: AwsRdsDbSnapshotDetails? = nil, awsRdsEventSubscription: AwsRdsEventSubscriptionDetails? = nil, awsRedshiftCluster: AwsRedshiftClusterDetails? = nil, awsS3AccountPublicAccessBlock: AwsS3AccountPublicAccessBlockDetails? = nil, awsS3Bucket: AwsS3BucketDetails? = nil, awsS3Object: AwsS3ObjectDetails? = nil, awsSecretsManagerSecret: AwsSecretsManagerSecretDetails? = nil, awsSnsTopic: AwsSnsTopicDetails? = nil, awsSqsQueue: AwsSqsQueueDetails? = nil, awsSsmPatchCompliance: AwsSsmPatchComplianceDetails? = nil, awsWafRateBasedRule: AwsWafRateBasedRuleDetails? = nil, awsWafRegionalRateBasedRule: AwsWafRegionalRateBasedRuleDetails? = nil, awsWafRegionalRule: AwsWafRegionalRuleDetails? = nil, awsWafRegionalRuleGroup: AwsWafRegionalRuleGroupDetails? = nil, awsWafRegionalWebAcl: AwsWafRegionalWebAclDetails? = nil, awsWafRule: AwsWafRuleDetails? = nil, awsWafRuleGroup: AwsWafRuleGroupDetails? = nil, awsWafWebAcl: AwsWafWebAclDetails? = nil, awsXrayEncryptionConfig: AwsXrayEncryptionConfigDetails? = nil, container: ContainerDetails? = nil, other: [String: String]? = nil) {
             self.awsApiGatewayRestApi = awsApiGatewayRestApi
             self.awsApiGatewayStage = awsApiGatewayStage
             self.awsApiGatewayV2Api = awsApiGatewayV2Api
             self.awsApiGatewayV2Stage = awsApiGatewayV2Stage
             self.awsAutoScalingAutoScalingGroup = awsAutoScalingAutoScalingGroup
             self.awsAutoScalingLaunchConfiguration = awsAutoScalingLaunchConfiguration
+            self.awsBackupBackupPlan = awsBackupBackupPlan
+            self.awsBackupBackupVault = awsBackupBackupVault
+            self.awsBackupRecoveryPoint = awsBackupRecoveryPoint
             self.awsCertificateManagerCertificate = awsCertificateManagerCertificate
             self.awsCloudFormationStack = awsCloudFormationStack
             self.awsCloudFrontDistribution = awsCloudFrontDistribution
@@ -17932,6 +18395,9 @@ extension SecurityHub {
             try self.awsApiGatewayV2Stage?.validate(name: "\(name).awsApiGatewayV2Stage")
             try self.awsAutoScalingAutoScalingGroup?.validate(name: "\(name).awsAutoScalingAutoScalingGroup")
             try self.awsAutoScalingLaunchConfiguration?.validate(name: "\(name).awsAutoScalingLaunchConfiguration")
+            try self.awsBackupBackupPlan?.validate(name: "\(name).awsBackupBackupPlan")
+            try self.awsBackupBackupVault?.validate(name: "\(name).awsBackupBackupVault")
+            try self.awsBackupRecoveryPoint?.validate(name: "\(name).awsBackupRecoveryPoint")
             try self.awsCertificateManagerCertificate?.validate(name: "\(name).awsCertificateManagerCertificate")
             try self.awsCloudFormationStack?.validate(name: "\(name).awsCloudFormationStack")
             try self.awsCloudFrontDistribution?.validate(name: "\(name).awsCloudFrontDistribution")
@@ -18013,6 +18479,9 @@ extension SecurityHub {
             case awsApiGatewayV2Stage = "AwsApiGatewayV2Stage"
             case awsAutoScalingAutoScalingGroup = "AwsAutoScalingAutoScalingGroup"
             case awsAutoScalingLaunchConfiguration = "AwsAutoScalingLaunchConfiguration"
+            case awsBackupBackupPlan = "AwsBackupBackupPlan"
+            case awsBackupBackupVault = "AwsBackupBackupVault"
+            case awsBackupRecoveryPoint = "AwsBackupRecoveryPoint"
             case awsCertificateManagerCertificate = "AwsCertificateManagerCertificate"
             case awsCloudFormationStack = "AwsCloudFormationStack"
             case awsCloudFrontDistribution = "AwsCloudFrontDistribution"
@@ -18693,22 +19162,28 @@ extension SecurityHub {
         public let epoch: String?
         /// The file system path to the package manager inventory file.
         public let filePath: String?
+        /// The version of the software package in which the vulnerability has been resolved.
+        public let fixedInVersion: String?
         /// The name of the software package.
         public let name: String?
         /// The source of the package.
         public let packageManager: String?
         /// The release of the software package.
         public let release: String?
+        /// Describes the actions a customer can take to resolve the vulnerability in the software package.
+        public let remediation: String?
         /// The version of the software package.
         public let version: String?
 
-        public init(architecture: String? = nil, epoch: String? = nil, filePath: String? = nil, name: String? = nil, packageManager: String? = nil, release: String? = nil, version: String? = nil) {
+        public init(architecture: String? = nil, epoch: String? = nil, filePath: String? = nil, fixedInVersion: String? = nil, name: String? = nil, packageManager: String? = nil, release: String? = nil, remediation: String? = nil, version: String? = nil) {
             self.architecture = architecture
             self.epoch = epoch
             self.filePath = filePath
+            self.fixedInVersion = fixedInVersion
             self.name = name
             self.packageManager = packageManager
             self.release = release
+            self.remediation = remediation
             self.version = version
         }
 
@@ -18716,9 +19191,11 @@ extension SecurityHub {
             try self.validate(self.architecture, name: "architecture", parent: name, pattern: "\\S")
             try self.validate(self.epoch, name: "epoch", parent: name, pattern: "\\S")
             try self.validate(self.filePath, name: "filePath", parent: name, pattern: "\\S")
+            try self.validate(self.fixedInVersion, name: "fixedInVersion", parent: name, pattern: "\\S")
             try self.validate(self.name, name: "name", parent: name, pattern: "\\S")
             try self.validate(self.packageManager, name: "packageManager", parent: name, pattern: "\\S")
             try self.validate(self.release, name: "release", parent: name, pattern: "\\S")
+            try self.validate(self.remediation, name: "remediation", parent: name, pattern: "\\S")
             try self.validate(self.version, name: "version", parent: name, pattern: "\\S")
         }
 
@@ -18726,9 +19203,11 @@ extension SecurityHub {
             case architecture = "Architecture"
             case epoch = "Epoch"
             case filePath = "FilePath"
+            case fixedInVersion = "FixedInVersion"
             case name = "Name"
             case packageManager = "PackageManager"
             case release = "Release"
+            case remediation = "Remediation"
             case version = "Version"
         }
     }
@@ -19447,6 +19926,11 @@ extension SecurityHub {
     public struct Vulnerability: AWSEncodableShape & AWSDecodableShape {
         /// CVSS scores from the advisory related to the vulnerability.
         public let cvss: [Cvss]?
+        /// Specifies if all vulnerable packages in a finding have a value for FixedInVersion
+        /// and Remediation.
+        /// This field is evaluated for each vulnerability Id based on the number of vulnerable packages that have a value for both
+        /// FixedInVersion and Remediation. Valid values are as follows:    YES if all vulnerable packages have a value for both FixedInVersion and Remediation     NO if no vulnerable packages have a value for FixedInVersion and Remediation     PARTIAL otherwise
+        public let fixAvailable: VulnerabilityFixAvailable?
         /// The identifier of the vulnerability.
         public let id: String
         /// A list of URLs that provide additional information about the vulnerability.
@@ -19458,8 +19942,9 @@ extension SecurityHub {
         /// List of software packages that have the vulnerability.
         public let vulnerablePackages: [SoftwarePackage]?
 
-        public init(cvss: [Cvss]? = nil, id: String, referenceUrls: [String]? = nil, relatedVulnerabilities: [String]? = nil, vendor: VulnerabilityVendor? = nil, vulnerablePackages: [SoftwarePackage]? = nil) {
+        public init(cvss: [Cvss]? = nil, fixAvailable: VulnerabilityFixAvailable? = nil, id: String, referenceUrls: [String]? = nil, relatedVulnerabilities: [String]? = nil, vendor: VulnerabilityVendor? = nil, vulnerablePackages: [SoftwarePackage]? = nil) {
             self.cvss = cvss
+            self.fixAvailable = fixAvailable
             self.id = id
             self.referenceUrls = referenceUrls
             self.relatedVulnerabilities = relatedVulnerabilities
@@ -19486,6 +19971,7 @@ extension SecurityHub {
 
         private enum CodingKeys: String, CodingKey {
             case cvss = "Cvss"
+            case fixAvailable = "FixAvailable"
             case id = "Id"
             case referenceUrls = "ReferenceUrls"
             case relatedVulnerabilities = "RelatedVulnerabilities"

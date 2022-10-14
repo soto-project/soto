@@ -185,8 +185,8 @@ extension Kendra {
         case indexed = "INDEXED"
         case notFound = "NOT_FOUND"
         case processing = "PROCESSING"
-        case updated = "UPDATED"
         case updateFailed = "UPDATE_FAILED"
+        case updated = "UPDATED"
         public var description: String { return self.rawValue }
     }
 
@@ -379,9 +379,9 @@ extension Kendra {
     }
 
     public enum SalesforceStandardObjectName: String, CustomStringConvertible, Codable, _SotoSendable {
+        case `case` = "CASE"
         case account = "ACCOUNT"
         case campaign = "CAMPAIGN"
-        case `case` = "CASE"
         case contact = "CONTACT"
         case contract = "CONTRACT"
         case document = "DOCUMENT"
@@ -429,6 +429,7 @@ extension Kendra {
     public enum SharePointVersion: String, CustomStringConvertible, Codable, _SotoSendable {
         case sharepoint2013 = "SHAREPOINT_2013"
         case sharepoint2016 = "SHAREPOINT_2016"
+        case sharepoint2019 = "SHAREPOINT_2019"
         case sharepointOnline = "SHAREPOINT_ONLINE"
         public var description: String { return self.rawValue }
     }
@@ -457,12 +458,6 @@ extension Kendra {
         public var description: String { return self.rawValue }
     }
 
-    public enum `Type`: String, CustomStringConvertible, Codable, _SotoSendable {
-        case onPremise = "ON_PREMISE"
-        case saas = "SAAS"
-        public var description: String { return self.rawValue }
-    }
-
     public enum UserContextPolicy: String, CustomStringConvertible, Codable, _SotoSendable {
         case attributeFilter = "ATTRIBUTE_FILTER"
         case userToken = "USER_TOKEN"
@@ -484,6 +479,12 @@ extension Kendra {
         case everything = "EVERYTHING"
         case hostOnly = "HOST_ONLY"
         case subdomains = "SUBDOMAINS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum `Type`: String, CustomStringConvertible, Codable, _SotoSendable {
+        case onPremise = "ON_PREMISE"
+        case saas = "SAAS"
         public var description: String { return self.rawValue }
     }
 
@@ -676,7 +677,7 @@ extension Kendra {
     }
 
     public struct AssociateEntitiesToExperienceRequest: AWSEncodableShape {
-        /// Lists users or groups in your Amazon Web Services SSO identity source.
+        /// Lists users or groups in your IAM Identity Center identity source.
         public let entityList: [EntityConfiguration]
         /// The identifier of your Amazon Kendra experience.
         public let id: String
@@ -711,7 +712,7 @@ extension Kendra {
     }
 
     public struct AssociateEntitiesToExperienceResponse: AWSDecodableShape {
-        /// Lists the users or groups in your Amazon Web Services SSO identity source that  failed to properly configure with your Amazon Kendra experience.
+        /// Lists the users or groups in your IAM Identity Center identity source that  failed to properly configure with your Amazon Kendra experience.
         public let failedEntityList: [FailedEntity]?
 
         public init(failedEntityList: [FailedEntity]? = nil) {
@@ -728,7 +729,7 @@ extension Kendra {
         public let id: String
         /// The identifier of the index for your Amazon Kendra experience.
         public let indexId: String
-        /// The personas that define the specific permissions of users or groups in  your Amazon Web Services SSO identity source. The available personas or access  roles are Owner and Viewer. For more information  on these personas, see Providing  access to your search page.
+        /// The personas that define the specific permissions of users or groups in  your IAM Identity Center identity source. The available personas or access  roles are Owner and Viewer. For more information  on these personas, see Providing  access to your search page.
         public let personas: [EntityPersonaConfiguration]
 
         public init(id: String, indexId: String, personas: [EntityPersonaConfiguration]) {
@@ -759,7 +760,7 @@ extension Kendra {
     }
 
     public struct AssociatePersonasToEntitiesResponse: AWSDecodableShape {
-        /// Lists the users or groups in your Amazon Web Services SSO identity source that  failed to properly configure with your Amazon Kendra experience.
+        /// Lists the users or groups in your IAM Identity Center identity source that  failed to properly configure with your Amazon Kendra experience.
         public let failedEntityList: [FailedEntity]?
 
         public init(failedEntityList: [FailedEntity]? = nil) {
@@ -774,19 +775,19 @@ extension Kendra {
     public final class AttributeFilter: AWSEncodableShape {
         /// Performs a logical AND operation on all supplied filters.
         public let andAllFilters: [AttributeFilter]?
-        /// Returns true when a document contains all of the specified document attributes. This filter is only applicable to StringListValue metadata.
+        /// Returns true when a document contains all of the specified document attributes or metadata fields. This filter is only applicable to StringListValue metadata.
         public let containsAll: DocumentAttribute?
-        /// Returns true when a document contains any of the specified document attributes. This filter is only applicable to StringListValue metadata.
+        /// Returns true when a document contains any of the specified document attributes or metadata fields. This filter is only applicable to StringListValue metadata.
         public let containsAny: DocumentAttribute?
-        /// Performs an equals operation on two document attributes.
+        /// Performs an equals operation on two document attributes or metadata fields.
         public let equalsTo: DocumentAttribute?
-        /// Performs a greater than operation on two document attributes. Use with a document attribute of type Date or Long.
+        /// Performs a greater than operation on two document attributes or metadata fields. Use with a document attribute of type Date or Long.
         public let greaterThan: DocumentAttribute?
-        /// Performs a greater or equals than operation on two document attributes. Use with a document attribute of type Date or Long.
+        /// Performs a greater or equals than operation on two document attributes or metadata fields. Use with a document attribute of type Date or Long.
         public let greaterThanOrEquals: DocumentAttribute?
-        /// Performs a less than operation on two document attributes. Use with a document attribute of type Date or Long.
+        /// Performs a less than operation on two document attributes or metadata fields. Use with a document attribute of type Date or Long.
         public let lessThan: DocumentAttribute?
-        /// Performs a less than or equals operation on two document attributes. Use with a document attribute of type Date or Long.
+        /// Performs a less than or equals operation on two document attributes or metadata fields. Use with a document attribute of type Date or Long.
         public let lessThanOrEquals: DocumentAttribute?
         /// Performs a logical NOT operation on all supplied filters.
         public let notFilter: AttributeFilter?
@@ -1197,9 +1198,9 @@ extension Kendra {
     }
 
     public struct CapacityUnitsConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The amount of extra query capacity for an index and  GetQuerySuggestions  capacity. A single extra capacity unit for an index provides 0.1 queries per second or approximately  8,000 queries per day. You can add up to 100 extra capacity units.  GetQuerySuggestions capacity is five times the  provisioned query capacity for an index, or the base capacity of 2.5 calls per second,  whichever is higher. For example, the base capacity for an index is 0.1 queries per  second, and GetQuerySuggestions capacity has a base of 2.5 calls per second.  If you add another 0.1 queries per second to total 0.2 queries per second for an index, the  GetQuerySuggestions capacity is 2.5 calls per second  (higher than five times 0.2 queries per second).
+        /// The amount of extra query capacity for an index and GetQuerySuggestions capacity. A single extra capacity unit for an index provides 0.1 queries per second or approximately 8,000 queries per day. You can add up to 100 extra capacity units.  GetQuerySuggestions capacity is five times the provisioned query capacity for an index, or the base capacity of 2.5 calls per second, whichever is higher. For example, the base capacity for an index is 0.1 queries per second, and GetQuerySuggestions capacity has a base of 2.5 calls per second. If you add another 0.1 queries per second to total 0.2 queries per second for an index, the GetQuerySuggestions capacity is 2.5 calls per second (higher than five times 0.2 queries per second).
         public let queryCapacityUnits: Int
-        /// The amount of extra storage capacity for an index.  A single capacity unit provides 30 GB of storage space or 100,000 documents,  whichever is reached first. You can add up to 100 extra capacity units.
+        /// The amount of extra storage capacity for an index. A single capacity unit provides 30 GB of storage space or 100,000 documents, whichever is reached first. You can add up to 100 extra capacity units.
         public let storageCapacityUnits: Int
 
         public init(queryCapacityUnits: Int, storageCapacityUnits: Int) {
@@ -1637,7 +1638,7 @@ extension Kendra {
         public let databaseName: String
         /// The port that the database uses for connections.
         public let databasePort: Int
-        /// The Amazon Resource Name (ARN) of credentials stored in Secrets Manager. The credentials should be a user/password pair. For more information, see Using a Database Data Source. For more information about  Secrets Manager, see  What Is  Secrets Manager in the  Secrets Manager user guide.
+        /// The Amazon Resource Name (ARN) of credentials stored in Secrets Manager. The credentials should be a user/password pair. For more information, see Using a Database Data Source. For more information about Secrets Manager, see What Is Secrets Manager in the  Secrets Manager user guide.
         public let secretArn: String
         /// The name of the table that contains the document data.
         public let tableName: String
@@ -1806,7 +1807,7 @@ extension Kendra {
     }
 
     public struct CreateDataSourceRequest: AWSEncodableShape {
-        /// A token that you provide to identify the request to create a data source connector. Multiple calls to the CreateDataSource API  with the same client token will create only one data source connector.
+        /// A token that you provide to identify the request to create a data source connector. Multiple calls to the CreateDataSource API with the same client token will create only one data source connector.
         public let clientToken: String?
         /// Configuration information to connect to your data source repository. You can't specify the Configuration parameter when the Type parameter is set to CUSTOM. If you do, you receive a ValidationException exception. The Configuration parameter is required for all other data sources.
         public let configuration: DataSourceConfiguration?
@@ -1820,15 +1821,15 @@ extension Kendra {
         public let languageCode: String?
         /// A name for the data source connector.
         public let name: String
-        /// The Amazon Resource Name (ARN) of a role with permission to access the data source and required resources. For more information, see  IAM roles for Amazon Kendra. You can't specify the RoleArn parameter when the Type parameter is set to CUSTOM. If you do, you receive a ValidationException exception. The RoleArn parameter is required for all other data sources.
+        /// The Amazon Resource Name (ARN) of a role with permission to access the data source and required resources. For more information, see IAM roles for Amazon Kendra. You can't specify the RoleArn parameter when the Type parameter is set to CUSTOM. If you do, you receive a ValidationException exception. The RoleArn parameter is required for all other data sources.
         public let roleArn: String?
-        /// Sets the frequency for Amazon Kendra to check the documents in your data source repository and update the index. If you don't set a schedule  Amazon Kendra will not periodically update the index. You can call the StartDataSourceSyncJob API to update the index. You can't specify the Schedule parameter when the Type parameter is set to CUSTOM. If you do, you receive a ValidationException exception.
+        /// Sets the frequency for Amazon Kendra to check the documents in your data source repository and update the index. If you don't set a schedule Amazon Kendra will not periodically update the index. You can call the StartDataSourceSyncJob API to update the index. You can't specify the Schedule parameter when the Type parameter is set to CUSTOM. If you do, you receive a ValidationException exception.
         public let schedule: String?
         /// A list of key-value pairs that identify the data source connector. You can use the tags to identify and organize your resources and to control access to resources.
         public let tags: [Tag]?
         /// The type of data source repository. For example, SHAREPOINT.
         public let type: DataSourceType
-        /// Configuration information for an Amazon Virtual Private Cloud to connect to your  data source. For more information, see Configuring a VPC.
+        /// Configuration information for an Amazon Virtual Private Cloud to connect to your data source. For more information, see Configuring a VPC.
         public let vpcConfiguration: DataSourceVpcConfiguration?
 
         public init(clientToken: String? = CreateDataSourceRequest.idempotencyToken(), configuration: DataSourceConfiguration? = nil, customDocumentEnrichmentConfiguration: CustomDocumentEnrichmentConfiguration? = nil, description: String? = nil, indexId: String, languageCode: String? = nil, name: String, roleArn: String? = nil, schedule: String? = nil, tags: [Tag]? = nil, type: DataSourceType, vpcConfiguration: DataSourceVpcConfiguration? = nil) {
@@ -1911,7 +1912,7 @@ extension Kendra {
         public let indexId: String
         /// A name for your Amazon Kendra experience.
         public let name: String
-        /// The Amazon Resource Name (ARN) of a role with permission to access Query API, QuerySuggestions API, SubmitFeedback API, and Amazon Web Services SSO that stores your user and group information.  For more information, see IAM roles for Amazon Kendra.
+        /// The Amazon Resource Name (ARN) of a role with permission to access Query API, QuerySuggestions API, SubmitFeedback API, and IAM Identity Center that stores your user and group information.  For more information, see IAM roles for Amazon Kendra.
         public let roleArn: String?
 
         public init(clientToken: String? = CreateExperienceRequest.idempotencyToken(), configuration: ExperienceConfiguration? = nil, description: String? = nil, indexId: String, name: String, roleArn: String? = nil) {
@@ -2049,7 +2050,7 @@ extension Kendra {
         /// A description for the index.
         public let description: String?
         /// The Amazon Kendra edition to use for the index. Choose DEVELOPER_EDITION for indexes intended for development, testing, or proof of concept. Use ENTERPRISE_EDITION for your production databases. Once you set the edition for an index, it can't be changed. The Edition parameter is optional. If you don't supply a value, the default is ENTERPRISE_EDITION. For more information on quota limits for enterprise and developer editions,  see Quotas.
-        public let edition: IndexEdition?
+        public let edition: IndexEdition
         /// A name for the index.
         public let name: String
         /// An Identity and Access Management (IAM) role that gives Amazon Kendra permissions to access your Amazon CloudWatch logs and metrics. This is also the role you use when you call the BatchPutDocument API to index documents from an Amazon S3 bucket.
@@ -2060,12 +2061,12 @@ extension Kendra {
         public let tags: [Tag]?
         /// The user context policy.  ATTRIBUTE_FILTER  All indexed content is searchable and displayable for all users. If you want to filter search results on  user context, you can use the attribute filters of _user_id and _group_ids or you can provide user and group information in UserContext.   USER_TOKEN  Enables token-based user access control to filter  search results on user context. All documents with no  access control and all documents accessible to the user  will be searchable and displayable.
         public let userContextPolicy: UserContextPolicy?
-        /// Enables fetching access levels of groups and users from an Amazon Web Services Single Sign On  identity source. To configure this, see  UserGroupResolutionConfiguration.
+        /// Enables fetching access levels of groups and users from an IAM Identity Center (successor to Single Sign-On)  identity source. To configure this, see  UserGroupResolutionConfiguration.
         public let userGroupResolutionConfiguration: UserGroupResolutionConfiguration?
         /// The user token configuration.
         public let userTokenConfigurations: [UserTokenConfiguration]?
 
-        public init(clientToken: String? = CreateIndexRequest.idempotencyToken(), description: String? = nil, edition: IndexEdition? = nil, name: String, roleArn: String, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, tags: [Tag]? = nil, userContextPolicy: UserContextPolicy? = nil, userGroupResolutionConfiguration: UserGroupResolutionConfiguration? = nil, userTokenConfigurations: [UserTokenConfiguration]? = nil) {
+        public init(clientToken: String? = CreateIndexRequest.idempotencyToken(), description: String? = nil, edition: IndexEdition = .enterpriseEdition, name: String, roleArn: String, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, tags: [Tag]? = nil, userContextPolicy: UserContextPolicy? = nil, userGroupResolutionConfiguration: UserGroupResolutionConfiguration? = nil, userTokenConfigurations: [UserTokenConfiguration]? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.edition = edition
@@ -2303,40 +2304,40 @@ extension Kendra {
     }
 
     public struct DataSourceConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Provides the configuration information to connect to Alfresco as your  data source.
+        /// Provides the configuration information to connect to Alfresco as your data source.
         public let alfrescoConfiguration: AlfrescoConfiguration?
         /// Provides the configuration information to connect to Box as your data source.
         public let boxConfiguration: BoxConfiguration?
-        /// Provides the configuration information to connect to Confluence  as your data source.
+        /// Provides the configuration information to connect to Confluence as your data source.
         public let confluenceConfiguration: ConfluenceConfiguration?
-        /// Provides the configuration information to connect to a database as  your data source.
+        /// Provides the configuration information to connect to a database as your data source.
         public let databaseConfiguration: DatabaseConfiguration?
-        /// Provides the configuration information to connect to Amazon FSx as  your data source.
+        /// Provides the configuration information to connect to Amazon FSx as your data source.
         public let fsxConfiguration: FsxConfiguration?
-        /// Provides the configuration information to connect to GitHub as  your data source.
+        /// Provides the configuration information to connect to GitHub as your data source.
         public let gitHubConfiguration: GitHubConfiguration?
         /// Provides the configuration information to connect to Google Drive as your data source.
         public let googleDriveConfiguration: GoogleDriveConfiguration?
-        /// Provides the configuration information to connect to Jira as your  data source.
+        /// Provides the configuration information to connect to Jira as your data source.
         public let jiraConfiguration: JiraConfiguration?
         /// Provides the configuration information to connect to Microsoft OneDrive as your data source.
         public let oneDriveConfiguration: OneDriveConfiguration?
-        /// Provides the configuration information to connect to Quip as your  data source.
+        /// Provides the configuration information to connect to Quip as your data source.
         public let quipConfiguration: QuipConfiguration?
-        /// Provides the configuration information to connect to an Amazon S3  bucket as your data source.
+        /// Provides the configuration information to connect to an Amazon S3 bucket as your data source.
         public let s3Configuration: S3DataSourceConfiguration?
-        /// Provides the configuration information to connect to  Salesforce as your data source.
+        /// Provides the configuration information to connect to Salesforce as your data source.
         public let salesforceConfiguration: SalesforceConfiguration?
         /// Provides the configuration information to connect to ServiceNow as your data source.
         public let serviceNowConfiguration: ServiceNowConfiguration?
-        /// Provides the configuration information to connect to Microsoft SharePoint  as your data source.
+        /// Provides the configuration information to connect to Microsoft SharePoint as your data source.
         public let sharePointConfiguration: SharePointConfiguration?
-        /// Provides the configuration information to connect to Slack as your  data source.
+        /// Provides the configuration information to connect to Slack as your data source.
         public let slackConfiguration: SlackConfiguration?
-        /// Provides a template for the configuration information to connect  to your data source.
+        /// Provides a template for the configuration information to connect to your data source.
         public let templateConfiguration: TemplateConfiguration?
         public let webCrawlerConfiguration: WebCrawlerConfiguration?
-        /// Provides the configuration information to connect to Amazon WorkDocs  as your data source.
+        /// Provides the configuration information to connect to Amazon WorkDocs as your data source.
         public let workDocsConfiguration: WorkDocsConfiguration?
 
         public init(alfrescoConfiguration: AlfrescoConfiguration? = nil, boxConfiguration: BoxConfiguration? = nil, confluenceConfiguration: ConfluenceConfiguration? = nil, databaseConfiguration: DatabaseConfiguration? = nil, fsxConfiguration: FsxConfiguration? = nil, gitHubConfiguration: GitHubConfiguration? = nil, googleDriveConfiguration: GoogleDriveConfiguration? = nil, jiraConfiguration: JiraConfiguration? = nil, oneDriveConfiguration: OneDriveConfiguration? = nil, quipConfiguration: QuipConfiguration? = nil, s3Configuration: S3DataSourceConfiguration? = nil, salesforceConfiguration: SalesforceConfiguration? = nil, serviceNowConfiguration: ServiceNowConfiguration? = nil, sharePointConfiguration: SharePointConfiguration? = nil, slackConfiguration: SlackConfiguration? = nil, templateConfiguration: TemplateConfiguration? = nil, webCrawlerConfiguration: WebCrawlerConfiguration? = nil, workDocsConfiguration: WorkDocsConfiguration? = nil) {
@@ -2468,9 +2469,9 @@ extension Kendra {
     public struct DataSourceSyncJob: AWSDecodableShape {
         /// If the reason that the synchronization failed is due to an error with the underlying data source, this field contains a code that identifies the error.
         public let dataSourceErrorCode: String?
-        /// The UNIX datetime that the synchronization job  completed.
+        /// The UNIX datetime that the synchronization job completed.
         public let endTime: Date?
-        /// If the Status field is set to FAILED, the ErrorCode field indicates the reason the  synchronization failed.
+        /// If the Status field is set to FAILED, the ErrorCode field indicates the reason the synchronization failed.
         public let errorCode: ErrorCode?
         /// If the Status field is set to ERROR, the ErrorMessage field contains a description of the error that caused the synchronization to fail.
         public let errorMessage: String?
@@ -2509,7 +2510,7 @@ extension Kendra {
     public struct DataSourceSyncJobMetricTarget: AWSEncodableShape {
         /// The ID of the data source that is running the sync job.
         public let dataSourceId: String
-        /// The ID of the sync job that is running on the data source. If the ID of a sync job is not provided and there is a sync job  running, then the ID of this sync job is used and metrics are  generated for this sync job. If the ID of a sync job is not provided and there is no sync job  running, then no metrics are generated and documents are   indexed/deleted at the index level without sync job metrics included.
+        /// The ID of the sync job that is running on the data source. If the ID of a sync job is not provided and there is a sync job running, then the ID of this sync job is used and metrics are generated for this sync job. If the ID of a sync job is not provided and there is no sync job running, then no metrics are generated and documents are indexed/deleted at the index level without sync job metrics included.
         public let dataSourceSyncJobId: String?
 
         public init(dataSourceId: String, dataSourceSyncJobId: String? = nil) {
@@ -2971,7 +2972,7 @@ extension Kendra {
     }
 
     public struct DescribeDataSourceResponse: AWSDecodableShape {
-        /// Configuration details for the data source connector. This shows how the  data source is configured. The configuration options for a data  source depend on the data source provider.
+        /// Configuration details for the data source connector. This shows how the data source is configured. The configuration options for a data source depend on the data source provider.
         public let configuration: DataSourceConfiguration?
         /// The Unix timestamp of when the data source connector was created.
         public let createdAt: Date?
@@ -2989,7 +2990,7 @@ extension Kendra {
         public let languageCode: String?
         /// The name for the data source connector.
         public let name: String?
-        /// The Amazon Resource Name (ARN) of the role with permission to access  the data source and required resources.
+        /// The Amazon Resource Name (ARN) of the role with permission to access the data source and required resources.
         public let roleArn: String?
         /// The schedule for Amazon Kendra to update the index.
         public let schedule: String?
@@ -2999,7 +3000,7 @@ extension Kendra {
         public let type: DataSourceType?
         /// The Unix timestamp of when the data source connector was last updated.
         public let updatedAt: Date?
-        /// Configuration information for an Amazon Virtual Private Cloud to connect to your  data source. For more information, see Configuring a VPC.
+        /// Configuration information for an Amazon Virtual Private Cloud to connect to your data source. For more information, see Configuring a VPC.
         public let vpcConfiguration: DataSourceVpcConfiguration?
 
         public init(configuration: DataSourceConfiguration? = nil, createdAt: Date? = nil, customDocumentEnrichmentConfiguration: CustomDocumentEnrichmentConfiguration? = nil, description: String? = nil, errorMessage: String? = nil, id: String? = nil, indexId: String? = nil, languageCode: String? = nil, name: String? = nil, roleArn: String? = nil, schedule: String? = nil, status: DataSourceStatus? = nil, type: DataSourceType? = nil, updatedAt: Date? = nil, vpcConfiguration: DataSourceVpcConfiguration? = nil) {
@@ -3082,7 +3083,7 @@ extension Kendra {
         public let indexId: String?
         /// Shows the name of your Amazon Kendra experience.
         public let name: String?
-        /// Shows the Amazon Resource Name (ARN) of a role with permission to access  Query API, QuerySuggestions API,  SubmitFeedback API, and Amazon Web Services SSO that stores  your user and group information.
+        /// Shows the Amazon Resource Name (ARN) of a role with permission to access  Query API, QuerySuggestions API,  SubmitFeedback API, and IAM Identity Center that stores  your user and group information.
         public let roleArn: String?
         /// The current processing status of your Amazon Kendra experience. When the status  is ACTIVE, your Amazon Kendra experience is ready to use. When the  status is FAILED, the ErrorMessage field contains  the reason that this failed.
         public let status: ExperienceStatus?
@@ -3248,7 +3249,7 @@ extension Kendra {
         public let updatedAt: Date?
         /// The user context policy for the Amazon Kendra index.
         public let userContextPolicy: UserContextPolicy?
-        /// Whether you have enabled the configuration for fetching access  levels of groups and users from an Amazon Web Services Single Sign On identity source.
+        /// Whether you have enabled the configuration for fetching access  levels of groups and users from an IAM Identity Center (successor to Single Sign-On) identity source.
         public let userGroupResolutionConfiguration: UserGroupResolutionConfiguration?
         /// The user token configuration for the Amazon Kendra index.
         public let userTokenConfigurations: [UserTokenConfiguration]?
@@ -3584,7 +3585,7 @@ extension Kendra {
     }
 
     public struct DisassociateEntitiesFromExperienceRequest: AWSEncodableShape {
-        /// Lists users or groups in your Amazon Web Services SSO identity source.
+        /// Lists users or groups in your IAM Identity Center identity source.
         public let entityList: [EntityConfiguration]
         /// The identifier of your Amazon Kendra experience.
         public let id: String
@@ -3619,7 +3620,7 @@ extension Kendra {
     }
 
     public struct DisassociateEntitiesFromExperienceResponse: AWSDecodableShape {
-        /// Lists the users or groups in your Amazon Web Services SSO identity source that  failed to properly remove access to your Amazon Kendra experience.
+        /// Lists the users or groups in your IAM Identity Center identity source that  failed to properly remove access to your Amazon Kendra experience.
         public let failedEntityList: [FailedEntity]?
 
         public init(failedEntityList: [FailedEntity]? = nil) {
@@ -3632,7 +3633,7 @@ extension Kendra {
     }
 
     public struct DisassociatePersonasFromEntitiesRequest: AWSEncodableShape {
-        /// The identifiers of users or groups in your Amazon Web Services SSO identity  source. For example, user IDs could be user emails.
+        /// The identifiers of users or groups in your IAM Identity Center identity  source. For example, user IDs could be user emails.
         public let entityIds: [String]
         /// The identifier of your Amazon Kendra experience.
         public let id: String
@@ -3669,7 +3670,7 @@ extension Kendra {
     }
 
     public struct DisassociatePersonasFromEntitiesResponse: AWSDecodableShape {
-        /// Lists the users or groups in your Amazon Web Services SSO identity source that  failed to properly remove access to your Amazon Kendra experience.
+        /// Lists the users or groups in your IAM Identity Center identity source that  failed to properly remove access to your Amazon Kendra experience.
         public let failedEntityList: [FailedEntity]?
 
         public init(failedEntityList: [FailedEntity]? = nil) {
@@ -3682,19 +3683,19 @@ extension Kendra {
     }
 
     public struct Document: AWSEncodableShape {
-        /// The identifier of the access control configuration that you want  to apply to the document.
+        /// The identifier of the access control configuration that you want to apply to the document.
         public let accessControlConfigurationId: String?
-        /// Information on principals (users and/or groups) and which documents  they should have access to. This is useful for user context filtering,  where search results are filtered based on the user or their group  access to documents.
+        /// Information on principals (users and/or groups) and which documents they should have access to. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents.
         public let accessControlList: [Principal]?
-        /// Custom attributes to apply to the document. Use the custom attributes to provide additional information for searching, to provide facets for refining searches, and to provide additional information in the query response. For example, 'DataSourceId' and 'DataSourceSyncJobId' are custom  attributes that provide information on the synchronization  of documents running on a data source. Note,  'DataSourceSyncJobId' could be an optional custom attribute  as Amazon Kendra will use the ID of a running sync job.
+        /// Custom attributes to apply to the document. Use the custom attributes to provide additional information for searching, to provide facets for refining searches, and to provide additional information in the query response. For example, 'DataSourceId' and 'DataSourceSyncJobId' are custom attributes that provide information on the synchronization of documents running on a data source. Note, 'DataSourceSyncJobId' could be an optional custom attribute as Amazon Kendra will use the ID of a running sync job.
         public let attributes: [DocumentAttribute]?
         /// The contents of the document.  Documents passed to the Blob parameter must be base64 encoded. Your code might not need to encode the document file bytes if you're using an Amazon Web Services SDK to call Amazon Kendra APIs. If you are calling the Amazon Kendra endpoint directly using REST, you must base64 encode the contents before sending.
         public let blob: AWSBase64Data?
         /// The file type of the document in the Blob field.
         public let contentType: ContentType?
-        /// The list of principal lists  that define the hierarchy for which documents users should have access to.
+        /// The list of principal lists that define the hierarchy for which documents users should have access to.
         public let hierarchicalAccessControlList: [HierarchicalPrincipal]?
-        /// A unique identifier of the document in the index. Note, each document ID must be unique per index. You cannot create a data source  to index your documents with their unique IDs and then use the  BatchPutDocument API to index the same documents, or vice versa. You  can delete a data source and then use the BatchPutDocument API to index  the same documents, or vice versa.
+        /// A unique identifier of the document in the index. Note, each document ID must be unique per index. You cannot create a data source to index your documents with their unique IDs and then use the BatchPutDocument API to index the same documents, or vice versa. You can delete a data source and then use the BatchPutDocument API to index the same documents, or vice versa.
         public let id: String
         public let s3Path: S3Path?
         /// The title of the document.
@@ -3826,7 +3827,7 @@ extension Kendra {
     }
 
     public struct DocumentAttributeValue: AWSEncodableShape & AWSDecodableShape {
-        /// A date expressed as an ISO 8601 string. It is important for the time zone to be included  in the ISO 8601 date-time format. For example,  2012-03-25T12:30:10+01:00 is the ISO 8601 date-time format  for March 25th 2012 at 12:30PM (plus 10 seconds) in  Central European Time.
+        /// A date expressed as an ISO 8601 string. It is important for the time zone to be included in the ISO 8601 date-time format. For example, 2012-03-25T12:30:10+01:00 is the ISO 8601 date-time format for March 25th 2012 at 12:30PM (plus 10 seconds) in Central European Time.
         public let dateValue: Date?
         /// A long integer value.
         public let longValue: Int64?
@@ -3864,7 +3865,7 @@ extension Kendra {
         public let count: Int?
         /// The value of the attribute. For example, "HR".
         public let documentAttributeValue: DocumentAttributeValue?
-        /// Contains the results of a document attribute that is a nested facet.  A FacetResult contains the counts for each facet nested  within a facet. For example, the document attribute or facet "Department" includes a  value called "Engineering". In addition, the document attribute  or facet "SubDepartment" includes the values "Frontend" and "Backend"  for documents assigned to "Engineering". You can display nested facets  in the search results so that documents can be searched not only by  department but also by a sub department within a department. The counts  for documents that belong to "Frontend" and "Backend" within "Engineering"  are returned for a query.
+        /// Contains the results of a document attribute that is a nested facet. A FacetResult contains the counts for each facet nested within a facet. For example, the document attribute or facet "Department" includes a value called "Engineering". In addition, the document attribute or facet "SubDepartment" includes the values "Frontend" and "Backend" for documents assigned to "Engineering". You can display nested facets in the search results so that documents can be searched not only by department but also by a sub department within a department. The counts for documents that belong to "Frontend" and "Backend" within "Engineering" are returned for a query.
         public let facetResults: [FacetResult]?
 
         public init(count: Int? = nil, documentAttributeValue: DocumentAttributeValue? = nil, facetResults: [FacetResult]? = nil) {
@@ -3978,7 +3979,7 @@ extension Kendra {
     }
 
     public struct EntityConfiguration: AWSEncodableShape {
-        /// The identifier of a user or group in your Amazon Web Services SSO identity  source. For example, a user ID could be an email.
+        /// The identifier of a user or group in your IAM Identity Center identity  source. For example, a user ID could be an email.
         public let entityId: String
         /// Specifies whether you are configuring a User or a Group.
         public let entityType: EntityType
@@ -4030,9 +4031,9 @@ extension Kendra {
     }
 
     public struct EntityPersonaConfiguration: AWSEncodableShape {
-        /// The identifier of a user or group in your Amazon Web Services SSO identity  source. For example, a user ID could be an email.
+        /// The identifier of a user or group in your IAM Identity Center identity  source. For example, a user ID could be an email.
         public let entityId: String
-        /// The persona that defines the specific permissions of the user or group  in your Amazon Web Services SSO identity source. The available personas or  access roles are Owner and Viewer. For more  information on these personas, see Providing  access to your search page.
+        /// The persona that defines the specific permissions of the user or group  in your IAM Identity Center identity source. The available personas or  access roles are Owner and Viewer. For more  information on these personas, see Providing  access to your search page.
         public let persona: Persona
 
         public init(entityId: String, persona: Persona) {
@@ -4055,7 +4056,7 @@ extension Kendra {
     public struct ExperienceConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The identifiers of your data sources and FAQs. Or, you can specify  that you want to use documents indexed via the BatchPutDocument  API. This is the content you want to use for your Amazon Kendra experience.
         public let contentSourceConfiguration: ContentSourceConfiguration?
-        /// The Amazon Web Services SSO field name that contains the identifiers of your users,  such as their emails.
+        /// The IAM Identity Center field name that contains the identifiers of your users,  such as their emails.
         public let userIdentityConfiguration: UserIdentityConfiguration?
 
         public init(contentSourceConfiguration: ContentSourceConfiguration? = nil, userIdentityConfiguration: UserIdentityConfiguration? = nil) {
@@ -4094,7 +4095,7 @@ extension Kendra {
     public struct ExperienceEntitiesSummary: AWSDecodableShape {
         /// Information about the user entity.
         public let displayData: EntityDisplayData?
-        /// The identifier of a user or group in your Amazon Web Services SSO identity source.  For example, a user ID could be an email.
+        /// The identifier of a user or group in your IAM Identity Center identity source.  For example, a user ID could be an email.
         public let entityId: String?
         /// Shows the type as User or Group.
         public let entityType: EntityType?
@@ -4141,15 +4142,15 @@ extension Kendra {
         }
     }
 
-    public final class Facet: AWSEncodableShape {
+    public struct Facet: AWSEncodableShape {
         /// The unique key for the document attribute.
         public let documentAttributeKey: String?
         /// An array of document attributes that are nested facets within a facet. For example, the document attribute or facet "Department" includes a  value called "Engineering". In addition, the document attribute or  facet "SubDepartment" includes the values "Frontend" and "Backend" for documents  assigned to "Engineering". You can display nested facets in the search results  so that documents can be searched not only by department but also by a sub  department within a department. This helps your users further narrow their  search. You can only have one nested facet within a facet. If you want to increase  this limit, contact Support.
         public let facets: [Facet]?
         /// Maximum number of facet values per facet. The default is 10. You can use  this to limit the number of facet values to less than 10. If you want to  increase the default, contact Support.
-        public let maxResults: Int?
+        public let maxResults: Int
 
-        public init(documentAttributeKey: String? = nil, facets: [Facet]? = nil, maxResults: Int? = nil) {
+        public init(documentAttributeKey: String? = nil, facets: [Facet]? = nil, maxResults: Int = 0) {
             self.documentAttributeKey = documentAttributeKey
             self.facets = facets
             self.maxResults = maxResults
@@ -4195,9 +4196,9 @@ extension Kendra {
     }
 
     public struct FailedEntity: AWSDecodableShape {
-        /// The identifier of the user or group in your Amazon Web Services SSO identity  source. For example, a user ID could be an email.
+        /// The identifier of the user or group in your IAM Identity Center identity  source. For example, a user ID could be an email.
         public let entityId: String?
-        /// The reason the user or group in your Amazon Web Services SSO identity source  failed to properly configure with your Amazon Kendra experience.
+        /// The reason the user or group in your IAM Identity Center identity source  failed to properly configure with your Amazon Kendra experience.
         public let errorMessage: String?
 
         public init(entityId: String? = nil, errorMessage: String? = nil) {
@@ -4800,7 +4801,7 @@ extension Kendra {
     }
 
     public struct HierarchicalPrincipal: AWSEncodableShape & AWSDecodableShape {
-        /// A list of principal lists  that define the hierarchy for which documents users should have access to.  Each hierarchical list specifies which user or group has allow or deny  access for each document.
+        /// A list of principal lists that define the hierarchy for which documents users should have access to. Each hierarchical list specifies which user or group has allow or deny access for each document.
         public let principalList: [Principal]
 
         public init(principalList: [Principal]) {
@@ -5213,7 +5214,7 @@ extension Kendra {
         public let indexId: String
         /// The maximum number of synchronization jobs to return in the response. If there are fewer results in the list, this response contains only the actual results.
         public let maxResults: Int?
-        /// If the previous response was incomplete (because there is more data to retrieve),  Amazon Kendra returns a pagination token in the response. You can use this pagination token  to retrieve the next set of jobs.
+        /// If the previous response was incomplete (because there is more data to retrieve), Amazon Kendra returns a pagination token in the response. You can use this pagination token to retrieve the next set of jobs.
         public let nextToken: String?
         /// When specified, the synchronization jobs returned in the list are limited to jobs between the specified dates.
         public let startTimeFilter: TimeRange?
@@ -5255,7 +5256,7 @@ extension Kendra {
     public struct ListDataSourceSyncJobsResponse: AWSDecodableShape {
         /// A history of synchronization jobs for the data source connector.
         public let history: [DataSourceSyncJob]?
-        /// If the response is truncated, Amazon Kendra returns this token that you  can use in the subsequent request to retrieve the next set of jobs.
+        /// If the response is truncated, Amazon Kendra returns this token that you can use in the subsequent request to retrieve the next set of jobs.
         public let nextToken: String?
 
         public init(history: [DataSourceSyncJob]? = nil, nextToken: String? = nil) {
@@ -5825,11 +5826,11 @@ extension Kendra {
     public struct OneDriveConfiguration: AWSEncodableShape & AWSDecodableShape {
         ///  TRUE to disable local groups information.
         public let disableLocalGroups: Bool?
-        /// A list of regular expression patterns to exclude certain documents  in your OneDrive. Documents that match the patterns are excluded from the index. Documents that don't match the patterns are included in the index. If a document matches both an inclusion and exclusion pattern, the exclusion pattern takes  precedence and the document isn't included in the index. The pattern is applied to the file name.
+        /// A list of regular expression patterns to exclude certain documents in your OneDrive. Documents that match the patterns are excluded from the index. Documents that don't match the patterns are included in the index. If a document matches both an inclusion and exclusion pattern, the exclusion pattern takes precedence and the document isn't included in the index. The pattern is applied to the file name.
         public let exclusionPatterns: [String]?
-        /// A list of DataSourceToIndexFieldMapping objects that map OneDrive data  source attributes or field names to Amazon Kendra index field names. To create  custom fields, use the UpdateIndex API before you map to OneDrive fields.  For more information, see Mapping data source fields.  The OneDrive data source field names must exist in your OneDrive custom metadata.
+        /// A list of DataSourceToIndexFieldMapping objects that map OneDrive data source attributes or field names to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to OneDrive fields. For more information, see Mapping data source fields. The OneDrive data source field names must exist in your OneDrive custom metadata.
         public let fieldMappings: [DataSourceToIndexFieldMapping]?
-        /// A list of regular expression patterns to include certain documents  in your OneDrive. Documents that match the patterns are included in the index. Documents that don't match the patterns are excluded from the index. If a document matches both an inclusion and exclusion pattern, the exclusion pattern takes  precedence and the document isn't included in the index. The pattern is applied to the file name.
+        /// A list of regular expression patterns to include certain documents in your OneDrive. Documents that match the patterns are included in the index. Documents that don't match the patterns are excluded from the index. If a document matches both an inclusion and exclusion pattern, the exclusion pattern takes precedence and the document isn't included in the index. The pattern is applied to the file name.
         public let inclusionPatterns: [String]?
         /// A list of user accounts whose documents should be indexed.
         public let oneDriveUsers: OneDriveUsers
@@ -5915,9 +5916,9 @@ extension Kendra {
     public struct PersonasSummary: AWSDecodableShape {
         /// The date-time the summary information was created.
         public let createdAt: Date?
-        /// The identifier of a user or group in your Amazon Web Services SSO identity source.  For example, a user ID could be an email.
+        /// The identifier of a user or group in your IAM Identity Center identity source.  For example, a user ID could be an email.
         public let entityId: String?
-        /// The persona that defines the specific permissions of the user or group in  your Amazon Web Services SSO identity source. The available personas or access  roles are Owner and Viewer. For more information on  these personas, see Providing  access to your search page.
+        /// The persona that defines the specific permissions of the user or group in  your IAM Identity Center identity source. The available personas or access  roles are Owner and Viewer. For more information on  these personas, see Providing  access to your search page.
         public let persona: Persona?
         /// The date-time the summary information was last updated.
         public let updatedAt: Date?
@@ -5940,7 +5941,7 @@ extension Kendra {
     public struct Principal: AWSEncodableShape & AWSDecodableShape {
         /// Whether to allow or deny document access to the principal.
         public let access: ReadAccessType
-        /// The identifier of the data source the principal should  access documents from.
+        /// The identifier of the data source the principal should access documents from.
         public let dataSourceId: String?
         /// The name of the user or group.
         public let name: String
@@ -6424,9 +6425,9 @@ extension Kendra {
         /// The name of the bucket that contains the documents.
         public let bucketName: String
         public let documentsMetadataConfiguration: DocumentsMetadataConfiguration?
-        /// A list of glob patterns for documents that should not be indexed. If a document that matches an inclusion prefix or inclusion pattern also matches an exclusion pattern, the document is not indexed. Some examples  are:    *.png , *.jpg will exclude  all PNG and JPEG image files in a directory  (files with the extensions .png and .jpg).    *internal* will exclude all  files in a directory that contain 'internal' in the file name,  such as 'internal', 'internal_only', 'company_internal'.    **/*internal* will exclude  all internal-related files in a directory and its subdirectories.
+        /// A list of glob patterns for documents that should not be indexed. If a document that matches an inclusion prefix or inclusion pattern also matches an exclusion pattern, the document is not indexed. Some examples are:    *.png , *.jpg will exclude all PNG and JPEG image files in a directory (files with the extensions .png and .jpg).    *internal* will exclude all files in a directory that contain 'internal' in the file name, such as 'internal', 'internal_only', 'company_internal'.    **/*internal* will exclude all internal-related files in a directory and its subdirectories.
         public let exclusionPatterns: [String]?
-        /// A list of glob patterns for documents that should be indexed. If a document that matches an inclusion pattern also matches an exclusion pattern, the document is not indexed. Some examples  are:    *.txt will include all text files  in a directory (files with the extension .txt).    **/*.txt will include all text  files in a directory and its subdirectories.    *tax* will include all files in  a directory that contain 'tax' in the file name, such as 'tax',  'taxes', 'income_tax'.
+        /// A list of glob patterns for documents that should be indexed. If a document that matches an inclusion pattern also matches an exclusion pattern, the document is not indexed. Some examples are:    *.txt will include all text files in a directory (files with the extension .txt).    **/*.txt will include all text files in a directory and its subdirectories.    *tax* will include all files in a directory that contain 'tax' in the file name, such as 'tax', 'taxes', 'income_tax'.
         public let inclusionPatterns: [String]?
         /// A list of S3 prefixes for the documents that should be included in the index.
         public let inclusionPrefixes: [String]?
@@ -6570,9 +6571,9 @@ extension Kendra {
         public let chatterFeedConfiguration: SalesforceChatterFeedConfiguration?
         /// Indicates whether Amazon Kendra should index attachments to Salesforce objects.
         public let crawlAttachments: Bool?
-        /// A list of regular expression patterns to exclude certain documents in your Salesforce. Documents that match the patterns are excluded from the index. Documents that don't match the patterns are included in the index. If a document matches both an inclusion and exclusion pattern, the exclusion pattern takes precedence and the  document isn't included in the index. The pattern is applied to the name of the attached file.
+        /// A list of regular expression patterns to exclude certain documents in your Salesforce. Documents that match the patterns are excluded from the index. Documents that don't match the patterns are included in the index. If a document matches both an inclusion and exclusion pattern, the exclusion pattern takes precedence and the document isn't included in the index. The pattern is applied to the name of the attached file.
         public let excludeAttachmentFilePatterns: [String]?
-        /// A list of regular expression patterns to include certain documents in your Salesforce. Documents that match the patterns are included in the index. Documents that don't match the patterns are excluded from the index. If a document matches both an inclusion and exclusion pattern, the exclusion pattern takes precedence and the  document isn't included in the index. The pattern is applied to the name of the attached file.
+        /// A list of regular expression patterns to include certain documents in your Salesforce. Documents that match the patterns are included in the index. Documents that don't match the patterns are excluded from the index. If a document matches both an inclusion and exclusion pattern, the exclusion pattern takes precedence and the document isn't included in the index. The pattern is applied to the name of the attached file.
         public let includeAttachmentFilePatterns: [String]?
         /// Configuration information for the knowledge article types that Amazon Kendra indexes. Amazon Kendra indexes standard knowledge articles and the standard fields of knowledge articles, or the custom fields of custom knowledge articles, but not both.
         public let knowledgeArticleConfiguration: SalesforceKnowledgeArticleConfiguration?
@@ -6642,7 +6643,7 @@ extension Kendra {
         public let documentDataFieldName: String
         /// The name of the field in the custom knowledge article that contains the document title.
         public let documentTitleFieldName: String?
-        /// Maps attributes or field names of the custom knowledge article to Amazon Kendra  index field names. To create custom fields, use the UpdateIndex API  before you map to Salesforce fields.  For more information, see Mapping data source fields.  The Salesforce data source field names must exist in your Salesforce custom metadata.
+        /// Maps attributes or field names of the custom knowledge article to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to Salesforce fields. For more information, see Mapping data source fields. The Salesforce data source field names must exist in your Salesforce custom metadata.
         public let fieldMappings: [DataSourceToIndexFieldMapping]?
         /// The name of the configuration.
         public let name: String
@@ -6716,7 +6717,7 @@ extension Kendra {
         public let documentDataFieldName: String
         /// The name of the field that contains the document title.
         public let documentTitleFieldName: String?
-        /// Maps attributes or field names of the knowledge article to Amazon Kendra  index field names. To create custom fields, use the UpdateIndex API  before you map to Salesforce fields.  For more information, see Mapping data source fields.  The Salesforce data source field names must exist in your Salesforce custom metadata.
+        /// Maps attributes or field names of the knowledge article to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to Salesforce fields. For more information, see Mapping data source fields. The Salesforce data source field names must exist in your Salesforce custom metadata.
         public let fieldMappings: [DataSourceToIndexFieldMapping]?
 
         public init(documentDataFieldName: String, documentTitleFieldName: String? = nil, fieldMappings: [DataSourceToIndexFieldMapping]? = nil) {
@@ -6779,7 +6780,7 @@ extension Kendra {
         public let documentDataFieldName: String
         /// The name of the field in the standard object table that contains the document title.
         public let documentTitleFieldName: String?
-        /// Maps attributes or field names of the standard object to Amazon Kendra  index field names. To create custom fields, use the UpdateIndex API  before you map to Salesforce fields.  For more information, see Mapping data source fields.  The Salesforce data source field names must exist in your Salesforce custom metadata.
+        /// Maps attributes or field names of the standard object to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to Salesforce fields. For more information, see Mapping data source fields. The Salesforce data source field names must exist in your Salesforce custom metadata.
         public let fieldMappings: [DataSourceToIndexFieldMapping]?
         /// The name of the standard object.
         public let name: SalesforceStandardObjectName
@@ -6896,13 +6897,13 @@ extension Kendra {
     }
 
     public struct ServiceNowConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The type of authentication used to connect to the ServiceNow instance. If you choose HTTP_BASIC, Amazon Kendra is authenticated using the user name and password provided in the  Secrets Manager secret in the SecretArn field. If you choose OAUTH2, Amazon Kendra is authenticated using the  credentials of client ID, client secret, user name and password. When you use OAUTH2 authentication, you must generate a token and a client secret using the ServiceNow console. For more information, see Using a ServiceNow data source.
+        /// The type of authentication used to connect to the ServiceNow instance. If you choose HTTP_BASIC, Amazon Kendra is authenticated using the user name and password provided in the Secrets Manager secret in the SecretArn field. If you choose OAUTH2, Amazon Kendra is authenticated using the credentials of client ID, client secret, user name and password. When you use OAUTH2 authentication, you must generate a token and a client secret using the ServiceNow console. For more information, see Using a ServiceNow data source.
         public let authenticationType: ServiceNowAuthenticationType?
         /// The ServiceNow instance that the data source connects to. The host endpoint should look like the following: {instance}.service-now.com.
         public let hostUrl: String
         /// Configuration information for crawling knowledge articles in the ServiceNow site.
         public let knowledgeArticleConfiguration: ServiceNowKnowledgeArticleConfiguration?
-        /// The Amazon Resource Name (ARN) of the Secrets Manager secret that contains the user name and password required to connect to the ServiceNow instance. You can also provide OAuth authentication credentials  of user name, password, client ID, and client secret. For more information,  see Authentication  for a ServiceNow data source.
+        /// The Amazon Resource Name (ARN) of the Secrets Manager secret that contains the user name and password required to connect to the ServiceNow instance. You can also provide OAuth authentication credentials of user name, password, client ID, and client secret. For more information, see Authentication for a ServiceNow data source.
         public let secretArn: String
         /// Configuration information for crawling service catalogs in the ServiceNow site.
         public let serviceCatalogConfiguration: ServiceNowServiceCatalogConfiguration?
@@ -6946,13 +6947,13 @@ extension Kendra {
         public let documentDataFieldName: String
         /// The name of the ServiceNow field that is mapped to the index document title field.
         public let documentTitleFieldName: String?
-        /// A list of regular expression patterns to exclude certain attachments of knowledge articles in  your ServiceNow. Item that match the patterns are excluded from the index. Items that don't match the patterns are included in the index. If an item matches both an inclusion and exclusion pattern, the exclusion pattern takes precedence and the  item isn't included in the index. The regex is applied to the field specified in the PatternTargetField.
+        /// A list of regular expression patterns to exclude certain attachments of knowledge articles in your ServiceNow. Item that match the patterns are excluded from the index. Items that don't match the patterns are included in the index. If an item matches both an inclusion and exclusion pattern, the exclusion pattern takes precedence and the item isn't included in the index. The regex is applied to the field specified in the PatternTargetField.
         public let excludeAttachmentFilePatterns: [String]?
-        /// Maps attributes or field names of knoweldge articles to Amazon Kendra index  field names. To create custom fields, use the UpdateIndex API before  you map to ServiceNow fields.  For more information, see Mapping data source fields.  The ServiceNow data source field names must exist in your ServiceNow custom metadata.
+        /// Maps attributes or field names of knoweldge articles to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to ServiceNow fields. For more information, see Mapping data source fields. The ServiceNow data source field names must exist in your ServiceNow custom metadata.
         public let fieldMappings: [DataSourceToIndexFieldMapping]?
         /// A query that selects the knowledge articles to index. The query can return articles from multiple knowledge bases, and the knowledge bases can be public or private. The query string must be one generated by the ServiceNow console. For more information, see Specifying documents to index with a query.
         public let filterQuery: String?
-        /// A list of regular expression patterns to include certain attachments of knowledge articles in  your ServiceNow. Item that match the patterns are included in the index. Items that don't match the patterns are excluded from the index. If an item matches both an inclusion and exclusion pattern, the exclusion pattern takes precedence and the  item isn't included in the index. The regex is applied to the field specified in the PatternTargetField.
+        /// A list of regular expression patterns to include certain attachments of knowledge articles in your ServiceNow. Item that match the patterns are included in the index. Items that don't match the patterns are excluded from the index. If an item matches both an inclusion and exclusion pattern, the exclusion pattern takes precedence and the item isn't included in the index. The regex is applied to the field specified in the PatternTargetField.
         public let includeAttachmentFilePatterns: [String]?
 
         public init(crawlAttachments: Bool? = nil, documentDataFieldName: String, documentTitleFieldName: String? = nil, excludeAttachmentFilePatterns: [String]? = nil, fieldMappings: [DataSourceToIndexFieldMapping]? = nil, filterQuery: String? = nil, includeAttachmentFilePatterns: [String]? = nil) {
@@ -7010,11 +7011,11 @@ extension Kendra {
         public let documentDataFieldName: String
         /// The name of the ServiceNow field that is mapped to the index document title field.
         public let documentTitleFieldName: String?
-        /// A list of regular expression patterns to exclude certain attachments of catalogs in  your ServiceNow. Item that match the patterns are excluded from the index. Items that don't match the patterns are included in the index. If an item matches both an inclusion and exclusion pattern, the exclusion pattern takes precedence and the  item isn't included in the index. The regex is applied to the file name of the attachment.
+        /// A list of regular expression patterns to exclude certain attachments of catalogs in your ServiceNow. Item that match the patterns are excluded from the index. Items that don't match the patterns are included in the index. If an item matches both an inclusion and exclusion pattern, the exclusion pattern takes precedence and the item isn't included in the index. The regex is applied to the file name of the attachment.
         public let excludeAttachmentFilePatterns: [String]?
-        /// Maps attributes or field names of catalogs to Amazon Kendra index  field names. To create custom fields, use the UpdateIndex API before  you map to ServiceNow fields.  For more information, see Mapping data source fields.  The ServiceNow data source field names must exist in your ServiceNow custom metadata.
+        /// Maps attributes or field names of catalogs to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to ServiceNow fields. For more information, see Mapping data source fields. The ServiceNow data source field names must exist in your ServiceNow custom metadata.
         public let fieldMappings: [DataSourceToIndexFieldMapping]?
-        /// A list of regular expression patterns to include certain attachments of catalogs in  your ServiceNow. Item that match the patterns are included in the index. Items that don't match the patterns are excluded from the index. If an item matches both an inclusion and exclusion pattern, the exclusion pattern takes precedence and the  item isn't included in the index. The regex is applied to the file name of the attachment.
+        /// A list of regular expression patterns to include certain attachments of catalogs in your ServiceNow. Item that match the patterns are included in the index. Items that don't match the patterns are excluded from the index. If an item matches both an inclusion and exclusion pattern, the exclusion pattern takes precedence and the item isn't included in the index. The regex is applied to the file name of the attachment.
         public let includeAttachmentFilePatterns: [String]?
 
         public init(crawlAttachments: Bool? = nil, documentDataFieldName: String, documentTitleFieldName: String? = nil, excludeAttachmentFilePatterns: [String]? = nil, fieldMappings: [DataSourceToIndexFieldMapping]? = nil, includeAttachmentFilePatterns: [String]? = nil) {
@@ -7061,7 +7062,7 @@ extension Kendra {
     }
 
     public struct SharePointConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Whether you want to connect to SharePoint using basic authentication of  user name and password, or OAuth authentication of user name, password,  client ID, and client secret. You can use OAuth authentication for  SharePoint Online.
+        /// Whether you want to connect to SharePoint using basic authentication of user name and password, or OAuth authentication of user name, password, client ID, and client secret. You can use OAuth authentication for SharePoint Online.
         public let authenticationType: SharePointOnlineAuthenticationType?
         ///  TRUE to index document attachments.
         public let crawlAttachments: Bool?
@@ -7069,25 +7070,25 @@ extension Kendra {
         public let disableLocalGroups: Bool?
         /// The Microsoft SharePoint attribute field that contains the title of the document.
         public let documentTitleFieldName: String?
-        /// A list of regular expression patterns to exclude certain documents in your SharePoint. Documents that match the patterns are excluded from the index. Documents that don't match the patterns are included in the index. If a document matches both an inclusion and exclusion pattern, the exclusion pattern takes precedence and the  document isn't included in the index. The regex applies to the display URL of the SharePoint document.
+        /// A list of regular expression patterns to exclude certain documents in your SharePoint. Documents that match the patterns are excluded from the index. Documents that don't match the patterns are included in the index. If a document matches both an inclusion and exclusion pattern, the exclusion pattern takes precedence and the document isn't included in the index. The regex applies to the display URL of the SharePoint document.
         public let exclusionPatterns: [String]?
-        /// A list of DataSourceToIndexFieldMapping objects that map SharePoint data  source attributes or field names to Amazon Kendra index field names. To create  custom fields, use the UpdateIndex API before you map to SharePoint fields.  For more information, see Mapping data source fields.  The SharePoint data source field names must exist in your SharePoint custom metadata.
+        /// A list of DataSourceToIndexFieldMapping objects that map SharePoint data source attributes or field names to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to SharePoint fields. For more information, see Mapping data source fields. The SharePoint data source field names must exist in your SharePoint custom metadata.
         public let fieldMappings: [DataSourceToIndexFieldMapping]?
-        /// A list of regular expression patterns to include certain documents in your SharePoint. Documents that match the patterns are included in the index. Documents that don't match the patterns are excluded from the index. If a document matches both an inclusion and exclusion pattern, the exclusion pattern takes precedence and the  document isn't included in the index. The regex applies to the display URL of the SharePoint document.
+        /// A list of regular expression patterns to include certain documents in your SharePoint. Documents that match the patterns are included in the index. Documents that don't match the patterns are excluded from the index. If a document matches both an inclusion and exclusion pattern, the exclusion pattern takes precedence and the document isn't included in the index. The regex applies to the display URL of the SharePoint document.
         public let inclusionPatterns: [String]?
-        /// Configuration information to connect to your Microsoft SharePoint site URLs  via instance via a web proxy. You can use this option for SharePoint Server. You must provide the website host name and port number. For example, the host name of  https://a.example.com/page1.html is "a.example.com" and the port  is 443, the standard port for HTTPS. Web proxy credentials are optional and you can use them to connect to a web proxy  server that requires basic authentication of user name and password. To store web  proxy credentials, you use a secret in Secrets Manager. It is recommended that you follow best security practices when configuring your  web proxy. This includes setting up throttling, setting up logging and monitoring,  and applying security patches on a regular basis. If you use your web proxy with  multiple data sources, sync jobs that occur at the same time could strain the load  on your proxy. It is recommended you prepare your proxy beforehand for any security  and load requirements.
+        /// Configuration information to connect to your Microsoft SharePoint site URLs via instance via a web proxy. You can use this option for SharePoint Server. You must provide the website host name and port number. For example, the host name of https://a.example.com/page1.html is "a.example.com" and the port is 443, the standard port for HTTPS. Web proxy credentials are optional and you can use them to connect to a web proxy server that requires basic authentication of user name and password. To store web proxy credentials, you use a secret in Secrets Manager. It is recommended that you follow best security practices when configuring your web proxy. This includes setting up throttling, setting up logging and monitoring, and applying security patches on a regular basis. If you use your web proxy with multiple data sources, sync jobs that occur at the same time could strain the load on your proxy. It is recommended you prepare your proxy beforehand for any security and load requirements.
         public let proxyConfiguration: ProxyConfiguration?
-        /// The Amazon Resource Name (ARN) of an Secrets Manager  secret that contains the user name and password required to  connect to the SharePoint instance.   If you use SharePoint Server, you also need to provide the sever  domain name as part of the credentials. For more information, see Using a Microsoft SharePoint Data Source. You can also provide OAuth authentication credentials of user name,  password, client ID, and client secret. For more information, see  Authentication  for a SharePoint data source.
+        /// The Amazon Resource Name (ARN) of an Secrets Manager secret that contains the user name and password required to connect to the SharePoint instance. If you use SharePoint Server, you also need to provide the sever domain name as part of the credentials. For more information, see Using a Microsoft SharePoint Data Source. You can also provide OAuth authentication credentials of user name, password, client ID, and client secret. For more information, see Authentication for a SharePoint data source.
         public let secretArn: String
         /// The version of Microsoft SharePoint that you use.
         public let sharePointVersion: SharePointVersion
-        /// The path to the SSL certificate stored in an Amazon S3 bucket. You  use this to connect to SharePoint Server if you require a secure SSL  connection. You can simply generate a self-signed X509 certificate on any computer using  OpenSSL. For an example of using OpenSSL to create an X509 certificate, see  Create and sign  an X509 certificate.
+        /// The path to the SSL certificate stored in an Amazon S3 bucket. You use this to connect to SharePoint Server if you require a secure SSL connection. You can simply generate a self-signed X509 certificate on any computer using OpenSSL. For an example of using OpenSSL to create an X509 certificate, see Create and sign an X509 certificate.
         public let sslCertificateS3Path: S3Path?
         /// The Microsoft SharePoint site URLs for the documents you want to index.
         public let urls: [String]
-        ///  TRUE to use the SharePoint change log to determine which documents require updating in the index. Depending on the change log's size, it may take longer for Amazon Kendra to use the change log than to  scan all of your documents in SharePoint.
+        ///  TRUE to use the SharePoint change log to determine which documents require updating in the index. Depending on the change log's size, it may take longer for Amazon Kendra to use the change log than to scan all of your documents in SharePoint.
         public let useChangeLog: Bool?
-        /// Configuration information for an Amazon Virtual Private Cloud to connect  to your Microsoft SharePoint. For more information, see  Configuring  a VPC.
+        /// Configuration information for an Amazon Virtual Private Cloud to connect to your Microsoft SharePoint. For more information, see Configuring a VPC.
         public let vpcConfiguration: DataSourceVpcConfiguration?
 
         public init(authenticationType: SharePointOnlineAuthenticationType? = nil, crawlAttachments: Bool? = nil, disableLocalGroups: Bool? = nil, documentTitleFieldName: String? = nil, exclusionPatterns: [String]? = nil, fieldMappings: [DataSourceToIndexFieldMapping]? = nil, inclusionPatterns: [String]? = nil, proxyConfiguration: ProxyConfiguration? = nil, secretArn: String, sharePointVersion: SharePointVersion, sslCertificateS3Path: S3Path? = nil, urls: [String], useChangeLog: Bool? = nil, vpcConfiguration: DataSourceVpcConfiguration? = nil) {
@@ -7330,7 +7331,7 @@ extension Kendra {
         ///  TRUE to suggest spell corrections for queries.
         public let includeQuerySpellCheckSuggestions: Bool
 
-        public init(includeQuerySpellCheckSuggestions: Bool) {
+        public init(includeQuerySpellCheckSuggestions: Bool = false) {
             self.includeQuerySpellCheckSuggestions = includeQuerySpellCheckSuggestions
         }
 
@@ -7600,7 +7601,7 @@ extension Kendra {
     }
 
     public struct TemplateConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The template schema used for the data source. The following links to the template schema for data sources  where templates are supported:    Zendesk  template schema
+        /// The template schema used for the data source, where templates schemas are supported. See Data source template schemas.
         public let template: String?
 
         public init(template: String? = nil) {
@@ -7797,11 +7798,11 @@ extension Kendra {
         public let languageCode: String?
         /// A new name for the data source connector.
         public let name: String?
-        /// The Amazon Resource Name (ARN) of a role with permission to access  the data source and required resources. For more information, see IAM roles for  Amazon Kendra.
+        /// The Amazon Resource Name (ARN) of a role with permission to access the data source and required resources. For more information, see IAM roles for Amazon Kendra.
         public let roleArn: String?
         /// The sync schedule you want to update for the data source connector.
         public let schedule: String?
-        /// Configuration information for an Amazon Virtual Private Cloud to connect to your  data source. For more information, see Configuring a VPC.
+        /// Configuration information for an Amazon Virtual Private Cloud to connect to your data source. For more information, see Configuring a VPC.
         public let vpcConfiguration: DataSourceVpcConfiguration?
 
         public init(configuration: DataSourceConfiguration? = nil, customDocumentEnrichmentConfiguration: CustomDocumentEnrichmentConfiguration? = nil, description: String? = nil, id: String, indexId: String, languageCode: String? = nil, name: String? = nil, roleArn: String? = nil, schedule: String? = nil, vpcConfiguration: DataSourceVpcConfiguration? = nil) {
@@ -7864,7 +7865,7 @@ extension Kendra {
         public let indexId: String
         /// A new name for your Amazon Kendra experience.
         public let name: String?
-        /// The Amazon Resource Name (ARN) of a role with permission to access Query API, QuerySuggestions API, SubmitFeedback API, and Amazon Web Services SSO that stores your user and group information.  For more information, see IAM roles for Amazon Kendra.
+        /// The Amazon Resource Name (ARN) of a role with permission to access Query API, QuerySuggestions API, SubmitFeedback API, and IAM Identity Center that stores your user and group information.  For more information, see IAM roles for Amazon Kendra.
         public let roleArn: String?
 
         public init(configuration: ExperienceConfiguration? = nil, description: String? = nil, id: String, indexId: String, name: String? = nil, roleArn: String? = nil) {
@@ -7918,7 +7919,7 @@ extension Kendra {
         public let roleArn: String?
         /// The user context policy.
         public let userContextPolicy: UserContextPolicy?
-        /// Enables fetching access levels of groups and users from an Amazon Web Services Single Sign On  identity source. To configure this, see  UserGroupResolutionConfiguration.
+        /// Enables fetching access levels of groups and users from an IAM Identity Center (successor to Single Sign-On)  identity source. To configure this, see  UserGroupResolutionConfiguration.
         public let userGroupResolutionConfiguration: UserGroupResolutionConfiguration?
         /// The user token configuration.
         public let userTokenConfigurations: [UserTokenConfiguration]?
@@ -8181,7 +8182,7 @@ extension Kendra {
     }
 
     public struct UserGroupResolutionConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The identity store provider (mode) you want to use to fetch access levels of groups and users. Amazon Web Services Single Sign On is currently the only available mode. Your users and groups must exist in an Amazon Web Services SSO identity source in order to use this mode.
+        /// The identity store provider (mode) you want to use to fetch access levels of groups and users. IAM Identity Center (successor to Single Sign-On) is currently the only available mode. Your users and groups must exist in an IAM Identity Center identity source in order to use this mode.
         public let userGroupResolutionMode: UserGroupResolutionMode
 
         public init(userGroupResolutionMode: UserGroupResolutionMode) {
@@ -8194,7 +8195,7 @@ extension Kendra {
     }
 
     public struct UserIdentityConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Web Services SSO field name that contains the identifiers of your users,  such as their emails. This is used for user context filtering  and for granting access to your Amazon Kendra experience. You must set up Amazon Web Services SSO  with Amazon Kendra. You must include your users and groups in your Access Control List when  you ingest documents into your index. For more information, see  Getting  started with an Amazon Web Services SSO identity source.
+        /// The IAM Identity Center field name that contains the identifiers of your users,  such as their emails. This is used for user context filtering  and for granting access to your Amazon Kendra experience. You must set up IAM Identity Center  with Amazon Kendra. You must include your users and groups in your Access Control List when  you ingest documents into your index. For more information, see  Getting  started with an IAM Identity Center identity source.
         public let identityAttributeName: String?
 
         public init(identityAttributeName: String? = nil) {

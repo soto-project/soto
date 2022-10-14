@@ -68,6 +68,11 @@ public struct AmplifyUIBuilder: AWSService {
         return self.client.execute(operation: "CreateComponent", path: "/app/{appId}/environment/{environmentName}/components", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates a new form for an Amplify app.
+    public func createForm(_ input: CreateFormRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateFormResponse> {
+        return self.client.execute(operation: "CreateForm", path: "/app/{appId}/environment/{environmentName}/forms", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates a theme to apply to the components in an Amplify app.
     public func createTheme(_ input: CreateThemeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateThemeResponse> {
         return self.client.execute(operation: "CreateTheme", path: "/app/{appId}/environment/{environmentName}/themes", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -76,6 +81,11 @@ public struct AmplifyUIBuilder: AWSService {
     /// Deletes a component from an Amplify app.
     @discardableResult public func deleteComponent(_ input: DeleteComponentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteComponent", path: "/app/{appId}/environment/{environmentName}/components/{id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes a form from an Amplify app.
+    @discardableResult public func deleteForm(_ input: DeleteFormRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteForm", path: "/app/{appId}/environment/{environmentName}/forms/{id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes a theme from an Amplify app.
@@ -93,6 +103,11 @@ public struct AmplifyUIBuilder: AWSService {
         return self.client.execute(operation: "ExportComponents", path: "/export/app/{appId}/environment/{environmentName}/components", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Exports form configurations to code that is ready to integrate into an Amplify app.
+    public func exportForms(_ input: ExportFormsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ExportFormsResponse> {
+        return self.client.execute(operation: "ExportForms", path: "/export/app/{appId}/environment/{environmentName}/forms", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Exports theme configurations to code that is ready to integrate into an Amplify app.
     public func exportThemes(_ input: ExportThemesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ExportThemesResponse> {
         return self.client.execute(operation: "ExportThemes", path: "/export/app/{appId}/environment/{environmentName}/themes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -101,6 +116,16 @@ public struct AmplifyUIBuilder: AWSService {
     /// Returns an existing component for an Amplify app.
     public func getComponent(_ input: GetComponentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetComponentResponse> {
         return self.client.execute(operation: "GetComponent", path: "/app/{appId}/environment/{environmentName}/components/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns an existing form for an Amplify app.
+    public func getForm(_ input: GetFormRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetFormResponse> {
+        return self.client.execute(operation: "GetForm", path: "/app/{appId}/environment/{environmentName}/forms/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns existing metadata for an Amplify app.
+    public func getMetadata(_ input: GetMetadataRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMetadataResponse> {
+        return self.client.execute(operation: "GetMetadata", path: "/app/{appId}/environment/{environmentName}/metadata", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns an existing theme for an Amplify app.
@@ -113,9 +138,19 @@ public struct AmplifyUIBuilder: AWSService {
         return self.client.execute(operation: "ListComponents", path: "/app/{appId}/environment/{environmentName}/components", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Retrieves a list of forms for a specified Amplify app and backend environment.
+    public func listForms(_ input: ListFormsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListFormsResponse> {
+        return self.client.execute(operation: "ListForms", path: "/app/{appId}/environment/{environmentName}/forms", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Retrieves a list of themes for a specified Amplify app and backend environment.
     public func listThemes(_ input: ListThemesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListThemesResponse> {
         return self.client.execute(operation: "ListThemes", path: "/app/{appId}/environment/{environmentName}/themes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Stores the metadata information about a feature on a form or view.
+    @discardableResult public func putMetadataFlag(_ input: PutMetadataFlagRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "PutMetadataFlag", path: "/app/{appId}/environment/{environmentName}/metadata/features/{featureName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Refreshes a previously issued access token that might have expired.
@@ -126,6 +161,11 @@ public struct AmplifyUIBuilder: AWSService {
     /// Updates an existing component.
     public func updateComponent(_ input: UpdateComponentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateComponentResponse> {
         return self.client.execute(operation: "UpdateComponent", path: "/app/{appId}/environment/{environmentName}/components/{id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates an existing form.
+    public func updateForm(_ input: UpdateFormRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateFormResponse> {
+        return self.client.execute(operation: "UpdateForm", path: "/app/{appId}/environment/{environmentName}/forms/{id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates an existing theme.

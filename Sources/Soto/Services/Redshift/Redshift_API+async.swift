@@ -528,7 +528,7 @@ extension Redshift {
         return try await self.client.execute(operation: "GetReservedNodeExchangeOfferings", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Modifies whether a cluster can use AQUA (Advanced Query Accelerator).
+    /// This operation is retired. Calling this operation does not change AQUA configuration. Amazon Redshift automatically determines whether to use AQUA (Advanced Query Accelerator).
     public func modifyAquaConfiguration(_ input: ModifyAquaInputMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ModifyAquaOutputMessage {
         return try await self.client.execute(operation: "ModifyAquaConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

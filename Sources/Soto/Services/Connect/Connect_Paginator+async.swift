@@ -134,7 +134,7 @@ extension Connect {
         )
     }
 
-    ///  This API is in preview release for Amazon Connect and is subject to change. For the specified version of Amazon Lex, returns a paginated list of all the Amazon Lex bots currently associated with the instance.
+    ///  This API is in preview release for Amazon Connect and is subject to change. For the specified version of Amazon Lex, returns a paginated list of all the Amazon Lex bots currently associated with the instance. Use this API to returns both Amazon Lex V1 and V2 bots.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -377,7 +377,7 @@ extension Connect {
         )
     }
 
-    ///  This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all the Amazon Lex bots currently associated with the instance.
+    ///  This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all the Amazon Lex V1 bots currently associated with the instance. To return both Amazon Lex V1 and V2 bots, use the ListBots API.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -746,6 +746,50 @@ extension Connect {
             command: searchAvailablePhoneNumbers,
             inputKey: \SearchAvailablePhoneNumbersRequest.nextToken,
             outputKey: \SearchAvailablePhoneNumbersResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  This API is in preview release for Amazon Connect and is subject to change. Searches queues in an Amazon Connect instance, with optional filtering.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func searchQueuesPaginator(
+        _ input: SearchQueuesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<SearchQueuesRequest, SearchQueuesResponse> {
+        return .init(
+            input: input,
+            command: searchQueues,
+            inputKey: \SearchQueuesRequest.nextToken,
+            outputKey: \SearchQueuesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  This API is in preview release for Amazon Connect and is subject to change. Searches routing profiles in an Amazon Connect instance, with optional filtering.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func searchRoutingProfilesPaginator(
+        _ input: SearchRoutingProfilesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<SearchRoutingProfilesRequest, SearchRoutingProfilesResponse> {
+        return .init(
+            input: input,
+            command: searchRoutingProfiles,
+            inputKey: \SearchRoutingProfilesRequest.nextToken,
+            outputKey: \SearchRoutingProfilesResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

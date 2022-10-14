@@ -2003,7 +2003,7 @@ extension IoTSiteWise {
         public let assetDescription: String?
         /// The ID of the asset model from which to create the asset.
         public let assetModelId: String
-        /// A unique, friendly name for the asset.
+        /// A friendly name for the asset.
         public let assetName: String
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
@@ -6016,13 +6016,16 @@ extension IoTSiteWise {
         public let propertyId: String
         /// The MQTT notification state (enabled or disabled) for this asset property. When the notification state is enabled, IoT SiteWise publishes property value updates to a unique MQTT topic. For more information, see Interacting with other services in the IoT SiteWise User Guide. If you omit this parameter, the notification state is set to DISABLED.
         public let propertyNotificationState: PropertyNotificationState?
+        /// The unit of measure (such as Newtons or RPM) of the asset property. If you don't specify a value for this parameter, the service uses the  value of the assetModelProperty in the asset model.
+        public let propertyUnit: String?
 
-        public init(assetId: String, clientToken: String? = UpdateAssetPropertyRequest.idempotencyToken(), propertyAlias: String? = nil, propertyId: String, propertyNotificationState: PropertyNotificationState? = nil) {
+        public init(assetId: String, clientToken: String? = UpdateAssetPropertyRequest.idempotencyToken(), propertyAlias: String? = nil, propertyId: String, propertyNotificationState: PropertyNotificationState? = nil, propertyUnit: String? = nil) {
             self.assetId = assetId
             self.clientToken = clientToken
             self.propertyAlias = propertyAlias
             self.propertyId = propertyId
             self.propertyNotificationState = propertyNotificationState
+            self.propertyUnit = propertyUnit
         }
 
         public func validate(name: String) throws {
@@ -6037,12 +6040,16 @@ extension IoTSiteWise {
             try self.validate(self.propertyId, name: "propertyId", parent: name, max: 36)
             try self.validate(self.propertyId, name: "propertyId", parent: name, min: 36)
             try self.validate(self.propertyId, name: "propertyId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.propertyUnit, name: "propertyUnit", parent: name, max: 256)
+            try self.validate(self.propertyUnit, name: "propertyUnit", parent: name, min: 1)
+            try self.validate(self.propertyUnit, name: "propertyUnit", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientToken
             case propertyAlias
             case propertyNotificationState
+            case propertyUnit
         }
     }
 
@@ -6055,7 +6062,7 @@ extension IoTSiteWise {
         public let assetDescription: String?
         /// The ID of the asset to update.
         public let assetId: String
-        /// A unique, friendly name for the asset.
+        /// A friendly name for the asset.
         public let assetName: String
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?

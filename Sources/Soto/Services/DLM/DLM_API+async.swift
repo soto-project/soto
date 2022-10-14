@@ -31,6 +31,8 @@ extension DLM {
 
     /// Deletes the specified lifecycle policy and halts the automated operations that the
     /// 			policy specified.
+    /// 		       For more information about deleting a policy, see Delete lifecycle
+    /// 			policies.
     public func deleteLifecyclePolicy(_ input: DeleteLifecyclePolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteLifecyclePolicyResponse {
         return try await self.client.execute(operation: "DeleteLifecyclePolicy", path: "/policies/{PolicyId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -62,6 +64,8 @@ extension DLM {
     }
 
     /// Updates the specified lifecycle policy.
+    /// 		       For more information about updating a policy, see Modify lifecycle
+    /// 			policies.
     public func updateLifecyclePolicy(_ input: UpdateLifecyclePolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateLifecyclePolicyResponse {
         return try await self.client.execute(operation: "UpdateLifecyclePolicy", path: "/policies/{PolicyId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

@@ -285,7 +285,7 @@ extension EMRServerless {
         }
     }
 
-    public final class Configuration: AWSEncodableShape & AWSDecodableShape {
+    public struct Configuration: AWSEncodableShape & AWSDecodableShape {
         /// The classification within a configuration.
         public let classification: String
         /// A list of additional configurations to apply within a configuration object.
@@ -507,6 +507,47 @@ extension EMRServerless {
 
         private enum CodingKeys: String, CodingKey {
             case application
+        }
+    }
+
+    public struct GetDashboardForJobRunRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "applicationId", location: .uri("applicationId")),
+            AWSMemberEncoding(label: "jobRunId", location: .uri("jobRunId"))
+        ]
+
+        /// The ID of the application.
+        public let applicationId: String
+        /// The ID of the job run.
+        public let jobRunId: String
+
+        public init(applicationId: String, jobRunId: String) {
+            self.applicationId = applicationId
+            self.jobRunId = jobRunId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 64)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 1)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[0-9a-z]+$")
+            try self.validate(self.jobRunId, name: "jobRunId", parent: name, max: 64)
+            try self.validate(self.jobRunId, name: "jobRunId", parent: name, min: 1)
+            try self.validate(self.jobRunId, name: "jobRunId", parent: name, pattern: "^[0-9a-z]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetDashboardForJobRunResponse: AWSDecodableShape {
+        /// The URL to view job run's dashboard.
+        public let url: String?
+
+        public init(url: String? = nil) {
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case url
         }
     }
 

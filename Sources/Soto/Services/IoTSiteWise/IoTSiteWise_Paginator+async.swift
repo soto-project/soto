@@ -265,7 +265,7 @@ extension IoTSiteWise {
         )
     }
 
-    ///   This API operation is in preview release for IoT SiteWise and is subject to change.  We recommend that you use this operation only with test data, and not in production environments.  Retrieves a paginated list of bulk import job requests. For more information,  see List bulk import jobs (CLI)  in the Amazon Simple Storage Service User Guide.
+    ///  Retrieves a paginated list of bulk import job requests. For more information,  see List bulk import jobs (CLI)  in the IoT SiteWise User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

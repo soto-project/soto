@@ -27,6 +27,13 @@ extension IAM {
         public var description: String { return self.rawValue }
     }
 
+    public enum AssignmentStatusType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case any = "Any"
+        case assigned = "Assigned"
+        case unassigned = "Unassigned"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ContextKeyTypeEnum: String, CustomStringConvertible, Codable, _SotoSendable {
         case binary
         case binaryList
@@ -51,12 +58,31 @@ extension IAM {
         public var description: String { return self.rawValue }
     }
 
+    public enum EncodingType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case pem = "PEM"
+        case ssh = "SSH"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EntityType: String, CustomStringConvertible, Codable, _SotoSendable {
         case awsManagedPolicy = "AWSManagedPolicy"
         case group = "Group"
         case localManagedPolicy = "LocalManagedPolicy"
         case role = "Role"
         case user = "User"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GlobalEndpointTokenVersion: String, CustomStringConvertible, Codable, _SotoSendable {
+        case v1Token
+        case v2Token
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobStatusType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
@@ -72,6 +98,20 @@ extension IAM {
         public var description: String { return self.rawValue }
     }
 
+    public enum PolicyOwnerEntityType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case group = "GROUP"
+        case role = "ROLE"
+        case user = "USER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PolicyScopeType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case aws = "AWS"
+        case all = "All"
+        case local = "Local"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PolicySourceType: String, CustomStringConvertible, Codable, _SotoSendable {
         case iamPolicy = "IAM Policy"
         case awsManaged = "aws-managed"
@@ -81,6 +121,12 @@ extension IAM {
         case role
         case user
         case userManaged = "user-managed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PolicyType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case inline = "INLINE"
+        case managed = "MANAGED"
         public var description: String { return self.rawValue }
     }
 
@@ -99,52 +145,6 @@ extension IAM {
         case complete = "COMPLETE"
         case inprogress = "INPROGRESS"
         case started = "STARTED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AssignmentStatusType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case any = "Any"
-        case assigned = "Assigned"
-        case unassigned = "Unassigned"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum EncodingType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case pem = "PEM"
-        case ssh = "SSH"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum GlobalEndpointTokenVersion: String, CustomStringConvertible, Codable, _SotoSendable {
-        case v1Token
-        case v2Token
-        public var description: String { return self.rawValue }
-    }
-
-    public enum JobStatusType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case completed = "COMPLETED"
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum PolicyOwnerEntityType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case group = "GROUP"
-        case role = "ROLE"
-        case user = "USER"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum PolicyScopeType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case aws = "AWS"
-        case all = "All"
-        case local = "Local"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum PolicyType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case inline = "INLINE"
-        case managed = "MANAGED"
         public var description: String { return self.rawValue }
     }
 
@@ -6200,7 +6200,7 @@ extension IAM {
         /// A list of ARNs of Amazon Web Services resources to include in the simulation. If this parameter is not provided, then the value defaults to * (all resources). Each API in the ActionNames parameter is evaluated for each resource in this list. The simulation determines the access result (allowed or denied) of each combination and reports it in the response. You can simulate resources that don't exist in your account. The simulation does not automatically retrieve policies for the specified resources. If you want to include a resource policy in the simulation, then you must include the policy as a string in the ResourcePolicy parameter. If you include a ResourcePolicy, then it must be applicable to all of the resources included in the simulation or you receive an invalid input error. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         @OptionalCustomCoding<StandardArrayCoder>
         public var resourceArns: [String]?
-        /// Specifies the type of simulation to run. Different API operations that support resource-based policies require different combinations of resources. By specifying the type of simulation to run, you enable the policy simulator to enforce the presence of the required resources to ensure reliable simulation results. If your simulation does not match one of the following scenarios, then you can omit this parameter. The following list shows each of the supported scenario values and the resources that you must define to run the simulation. Each of the EC2 scenarios requires that you specify instance, image, and security-group resources. If your scenario includes an EBS volume, then you must specify that volume as a resource. If the EC2 scenario includes VPC, then you must supply the network-interface resource. If it includes an IP subnet, then you must specify the subnet resource. For more information on the EC2 scenario options, see Supported platforms in the Amazon EC2 User Guide.    EC2-Classic-InstanceStore  instance, image, security-group    EC2-Classic-EBS  instance, image, security-group, volume    EC2-VPC-InstanceStore  instance, image, security-group, network-interface    EC2-VPC-InstanceStore-Subnet  instance, image, security-group, network-interface, subnet    EC2-VPC-EBS  instance, image, security-group, network-interface, volume    EC2-VPC-EBS-Subnet  instance, image, security-group, network-interface, subnet, volume
+        /// Specifies the type of simulation to run. Different API operations that support resource-based policies require different combinations of resources. By specifying the type of simulation to run, you enable the policy simulator to enforce the presence of the required resources to ensure reliable simulation results. If your simulation does not match one of the following scenarios, then you can omit this parameter. The following list shows each of the supported scenario values and the resources that you must define to run the simulation. Each of the EC2 scenarios requires that you specify instance, image, and security group resources. If your scenario includes an EBS volume, then you must specify that volume as a resource. If the EC2 scenario includes VPC, then you must supply the network interface resource. If it includes an IP subnet, then you must specify the subnet resource. For more information on the EC2 scenario options, see Supported platforms in the Amazon EC2 User Guide.    EC2-VPC-InstanceStore  instance, image, security group, network interface    EC2-VPC-InstanceStore-Subnet  instance, image, security group, network interface, subnet    EC2-VPC-EBS  instance, image, security group, network interface, volume    EC2-VPC-EBS-Subnet  instance, image, security group, network interface, subnet, volume
         public let resourceHandlingOption: String?
         /// An ARN representing the Amazon Web Services account ID that specifies the owner of any simulated resource that does not identify its owner in the resource ARN. Examples of resource ARNs include an S3 bucket or object. If ResourceOwner is specified, it is also used as the account owner of any ResourcePolicy included in the simulation. If the ResourceOwner parameter is not specified, then the owner of the resources and the resource policy defaults to the account of the identity provided in CallerArn. This parameter is required only if you specify a resource-based policy and account that owns the resource is different from the account that owns the simulated calling user CallerArn. The ARN for an account uses the following syntax: arn:aws:iam::AWS-account-ID:root. For example, to represent the account with the 112233445566 ID, use the following ARN: arn:aws:iam::112233445566-ID:root.
         public let resourceOwner: String?
@@ -6320,7 +6320,7 @@ extension IAM {
         /// A list of ARNs of Amazon Web Services resources to include in the simulation. If this parameter is not provided, then the value defaults to * (all resources). Each API in the ActionNames parameter is evaluated for each resource in this list. The simulation determines the access result (allowed or denied) of each combination and reports it in the response. You can simulate resources that don't exist in your account. The simulation does not automatically retrieve policies for the specified resources. If you want to include a resource policy in the simulation, then you must include the policy as a string in the ResourcePolicy parameter. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         @OptionalCustomCoding<StandardArrayCoder>
         public var resourceArns: [String]?
-        /// Specifies the type of simulation to run. Different API operations that support resource-based policies require different combinations of resources. By specifying the type of simulation to run, you enable the policy simulator to enforce the presence of the required resources to ensure reliable simulation results. If your simulation does not match one of the following scenarios, then you can omit this parameter. The following list shows each of the supported scenario values and the resources that you must define to run the simulation. Each of the EC2 scenarios requires that you specify instance, image, and security group resources. If your scenario includes an EBS volume, then you must specify that volume as a resource. If the EC2 scenario includes VPC, then you must supply the network interface resource. If it includes an IP subnet, then you must specify the subnet resource. For more information on the EC2 scenario options, see Supported platforms in the Amazon EC2 User Guide.    EC2-Classic-InstanceStore  instance, image, security group    EC2-Classic-EBS  instance, image, security group, volume    EC2-VPC-InstanceStore  instance, image, security group, network interface    EC2-VPC-InstanceStore-Subnet  instance, image, security group, network interface, subnet    EC2-VPC-EBS  instance, image, security group, network interface, volume    EC2-VPC-EBS-Subnet  instance, image, security group, network interface, subnet, volume
+        /// Specifies the type of simulation to run. Different API operations that support resource-based policies require different combinations of resources. By specifying the type of simulation to run, you enable the policy simulator to enforce the presence of the required resources to ensure reliable simulation results. If your simulation does not match one of the following scenarios, then you can omit this parameter. The following list shows each of the supported scenario values and the resources that you must define to run the simulation. Each of the EC2 scenarios requires that you specify instance, image, and security group resources. If your scenario includes an EBS volume, then you must specify that volume as a resource. If the EC2 scenario includes VPC, then you must supply the network interface resource. If it includes an IP subnet, then you must specify the subnet resource. For more information on the EC2 scenario options, see Supported platforms in the Amazon EC2 User Guide.    EC2-VPC-InstanceStore  instance, image, security group, network interface    EC2-VPC-InstanceStore-Subnet  instance, image, security group, network interface, subnet    EC2-VPC-EBS  instance, image, security group, network interface, volume    EC2-VPC-EBS-Subnet  instance, image, security group, network interface, subnet, volume
         public let resourceHandlingOption: String?
         /// An Amazon Web Services account ID that specifies the owner of any simulated resource that does not identify its owner in the resource ARN. Examples of resource ARNs include an S3 bucket or object. If ResourceOwner is specified, it is also used as the account owner of any ResourcePolicy included in the simulation. If the ResourceOwner parameter is not specified, then the owner of the resources and the resource policy defaults to the account of the identity provided in CallerArn. This parameter is required only if you specify a resource-based policy and account that owns the resource is different from the account that owns the simulated calling user CallerArn.
         public let resourceOwner: String?

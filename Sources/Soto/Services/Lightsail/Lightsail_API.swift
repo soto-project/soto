@@ -857,6 +857,11 @@ public struct Lightsail: AWSService {
         return self.client.execute(operation: "UpdateDomainEntry", path: "/ls/api/2016-11-28/UpdateDomainEntry", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Modifies the Amazon Lightsail instance metadata parameters on a running or stopped instance. When you modify the parameters on a running instance, the GetInstance or GetInstances API operation initially responds with a state of pending. After the parameter modifications are successfully applied, the state changes to applied in subsequent GetInstance or GetInstances API calls. For more information, see Use IMDSv2 with an Amazon Lightsail instance in the Amazon Lightsail Developer Guide.
+    public func updateInstanceMetadataOptions(_ input: UpdateInstanceMetadataOptionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateInstanceMetadataOptionsResult> {
+        return self.client.execute(operation: "UpdateInstanceMetadataOptions", path: "/ls/api/2016-11-28/UpdateInstanceMetadataOptions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Updates the specified attribute for a load balancer. You can only update one attribute at a time. The update load balancer attribute operation supports tag-based access control via resource tags applied to the resource identified by load balancer name. For more information, see the Amazon Lightsail Developer Guide.
     public func updateLoadBalancerAttribute(_ input: UpdateLoadBalancerAttributeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateLoadBalancerAttributeResult> {
         return self.client.execute(operation: "UpdateLoadBalancerAttribute", path: "/ls/api/2016-11-28/UpdateLoadBalancerAttribute", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

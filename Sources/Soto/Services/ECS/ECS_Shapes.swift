@@ -993,7 +993,7 @@ extension ECS {
         /// 				0, which Windows interprets as 1% of one CPU.
         public let cpu: Int?
         /// The dependencies defined for container startup and shutdown. A container can contain
-        /// 			multiple dependencies. When a dependency is defined for container startup, for container
+        /// 			multiple dependencies on other containers in a task definition. When a dependency is defined for container startup, for container
         /// 			shutdown it is reversed.
         /// 		       For tasks using the EC2 launch type, the container instances require at
         /// 			least version 1.26.0 of the container agent to turn on container dependencies. However,
@@ -1254,8 +1254,10 @@ extension ECS {
         /// 			300 MiB. This configuration would allow the container to only reserve 128 MiB of memory
         /// 			from the remaining resources on the container instance, but also allow the container to
         /// 			consume more memory resources when needed.
-        /// 		       The Docker daemon reserves a minimum of 4 MiB of memory for a container. Therefore, we
-        /// 			recommend that you specify fewer than 4 MiB of memory for your containers.
+        /// 		       The Docker 20.10.0 or later daemon reserves a minimum of 6 MiB of memory for a
+        /// 			container. So, don't specify less than 6 MiB of memory for your containers.
+        /// 		       The Docker 19.03.13-ce or earlier daemon reserves a minimum of 4 MiB of memory for a
+        /// 			container. So, don't specify less than 4 MiB of memory for your containers.
         public let memoryReservation: Int?
         /// The mount points for data volumes in your container.
         /// 		       This parameter maps to Volumes in the Create a container
@@ -1957,11 +1959,11 @@ extension ECS {
         /// Specifies whether to turn on Amazon ECS managed tags for the tasks within the service. For
         /// 			more information, see Tagging your Amazon ECS
         /// 				resources in the Amazon Elastic Container Service Developer Guide.
-        public let enableECSManagedTags: Bool?
+        public let enableECSManagedTags: Bool
         /// Determines whether the execute command functionality is enabled for the service. If
         /// 				true, this enables execute command functionality on all containers in
         /// 			the service tasks.
-        public let enableExecuteCommand: Bool?
+        public let enableExecuteCommand: Bool
         /// The period of time, in seconds, that the Amazon ECS service scheduler ignores unhealthy
         /// 			Elastic Load Balancing target health checks after a task has first started. This is only used when your
         /// 			service is configured to use a load balancer. If your service has a load balancer
@@ -2124,7 +2126,7 @@ extension ECS {
         /// 				CODE_DEPLOY deployment controllers.
         public let taskDefinition: String?
 
-        public init(capacityProviderStrategy: [CapacityProviderStrategyItem]? = nil, clientToken: String? = nil, cluster: String? = nil, deploymentConfiguration: DeploymentConfiguration? = nil, deploymentController: DeploymentController? = nil, desiredCount: Int? = nil, enableECSManagedTags: Bool? = nil, enableExecuteCommand: Bool? = nil, healthCheckGracePeriodSeconds: Int? = nil, launchType: LaunchType? = nil, loadBalancers: [LoadBalancer]? = nil, networkConfiguration: NetworkConfiguration? = nil, placementConstraints: [PlacementConstraint]? = nil, placementStrategy: [PlacementStrategy]? = nil, platformVersion: String? = nil, propagateTags: PropagateTags? = nil, role: String? = nil, schedulingStrategy: SchedulingStrategy? = nil, serviceName: String, serviceRegistries: [ServiceRegistry]? = nil, tags: [Tag]? = nil, taskDefinition: String? = nil) {
+        public init(capacityProviderStrategy: [CapacityProviderStrategyItem]? = nil, clientToken: String? = nil, cluster: String? = nil, deploymentConfiguration: DeploymentConfiguration? = nil, deploymentController: DeploymentController? = nil, desiredCount: Int? = nil, enableECSManagedTags: Bool = false, enableExecuteCommand: Bool = false, healthCheckGracePeriodSeconds: Int? = nil, launchType: LaunchType? = nil, loadBalancers: [LoadBalancer]? = nil, networkConfiguration: NetworkConfiguration? = nil, placementConstraints: [PlacementConstraint]? = nil, placementStrategy: [PlacementStrategy]? = nil, platformVersion: String? = nil, propagateTags: PropagateTags? = nil, role: String? = nil, schedulingStrategy: SchedulingStrategy? = nil, serviceName: String, serviceRegistries: [ServiceRegistry]? = nil, tags: [Tag]? = nil, taskDefinition: String? = nil) {
             self.capacityProviderStrategy = capacityProviderStrategy
             self.clientToken = clientToken
             self.cluster = cluster
@@ -3487,7 +3489,7 @@ extension ECS {
         /// The Amazon Resource Name (ARN) or ID of the task the container is part of.
         public let task: String
 
-        public init(cluster: String? = nil, command: String, container: String? = nil, interactive: Bool, task: String) {
+        public init(cluster: String? = nil, command: String, container: String? = nil, interactive: Bool = false, task: String) {
             self.cluster = cluster
             self.command = command
             self.container = container
@@ -3634,9 +3636,9 @@ extension ECS {
 
     public struct HealthCheck: AWSEncodableShape & AWSDecodableShape {
         /// A string array representing the command that the container runs to determine if it is
-        /// 			healthy. The string array must start with CMD to execute the command
-        /// 			arguments directly, or CMD-SHELL to run the command with the container's
-        /// 			default shell.
+        /// 			healthy. The string array must start with CMD to run the command arguments
+        /// 			directly, or CMD-SHELL to run the command with the container's default
+        /// 			shell.
         /// 		        When you use the Amazon Web Services Management Console JSON panel, the Command Line Interface, or the APIs, enclose the list
         /// 			of commands in brackets.
         ///
@@ -3941,7 +3943,7 @@ extension ECS {
         /// 			settings for the root user or the default setting for the principalArn are
         /// 			returned. If false, the account settings for the principalArn
         /// 			are returned if they're set. Otherwise, no account settings are returned.
-        public let effectiveSettings: Bool?
+        public let effectiveSettings: Bool
         /// The maximum number of account setting results returned by
         /// 				ListAccountSettings in paginated output. When this parameter is used,
         /// 				ListAccountSettings only returns maxResults results in a
@@ -3952,7 +3954,7 @@ extension ECS {
         /// 			parameter isn't used, then ListAccountSettings returns up to
         /// 			10 results and a nextToken value
         /// 			if applicable.
-        public let maxResults: Int?
+        public let maxResults: Int
         /// The name of the account setting you want to list the settings for.
         public let name: SettingName?
         /// The nextToken value returned from a ListAccountSettings
@@ -3973,7 +3975,7 @@ extension ECS {
         /// 			account setting name to use this parameter.
         public let value: String?
 
-        public init(effectiveSettings: Bool? = nil, maxResults: Int? = nil, name: SettingName? = nil, nextToken: String? = nil, principalArn: String? = nil, value: String? = nil) {
+        public init(effectiveSettings: Bool = false, maxResults: Int = 0, name: SettingName? = nil, nextToken: String? = nil, principalArn: String? = nil, value: String? = nil) {
             self.effectiveSettings = effectiveSettings
             self.maxResults = maxResults
             self.name = name
@@ -4911,10 +4913,6 @@ extension ECS {
         /// 			used. Do not attempt to specify a host port in the ephemeral port range as these are
         /// 			reserved for automatic assignment. In general, ports below 32768 are outside of the
         /// 			ephemeral port range.
-        ///
-        /// 			         The default ephemeral port range from 49153 through 65535 is always used for
-        /// 				Docker versions before 1.6.0.
-        ///
         /// 		       The default reserved ports are 22 for SSH, the Docker ports 2375 and 2376, and the
         /// 			Amazon ECS container agent ports 51678-51680. Any host port that was previously specified in
         /// 			a running task is also reserved while the task is running. That is, after a task stops,
@@ -5001,6 +4999,10 @@ extension ECS {
         /// 				awsvpcTrunking is specified, the ENI limit for your Amazon ECS container
         /// 			instances is affected. If containerInsights is specified, the default
         /// 			setting for CloudWatch Container Insights for your clusters is affected.
+        /// 		       Fargate is transitioning from task count-based quotas to vCPU-based quotas. You can set
+        /// 			the name to fargateVCPULimit to opt in or opt out of the vCPU-based quotas.
+        /// 			For information about the opt in timeline, see Fargate vCPU-based quotas timeline in the
+        /// 				Amazon ECS Developer Guide.
         public let name: SettingName
         /// The account setting value for the specified principal ARN. Accepted values are
         /// 				enabled and disabled.
@@ -5264,15 +5266,16 @@ extension ECS {
         /// 			         Task-level CPU and memory parameters are ignored for Windows containers. We
         /// 				recommend specifying container-level resources for Windows containers.
         ///
-        /// 		       If you're using the EC2 launch type, this field is optional. Supported
-        /// 			values are between 128 CPU units (0.125 vCPUs) and
-        /// 				10240 CPU units (10 vCPUs).
+        /// 		       If you're using the EC2 launch type, this field is optional. Supported values
+        /// 			are between 128 CPU units (0.125 vCPUs) and 10240
+        /// 			CPU units (10 vCPUs). If you do not specify a value, the parameter is
+        /// 			ignored.
         /// 		       If you're using the Fargate launch type, this field is required and you
         /// 			must use one of the following values, which determines your range of supported values
         /// 			for the memory parameter:
         /// 		       The CPU units cannot be less than 1 vCPU when you use Windows containers on
         /// 			Fargate.
-        /// 		         256 (.25 vCPU) - Available memory values: 512 (0.5 GB), 1024 (1 GB), 2048 (2 GB)   512 (.5 vCPU) - Available memory values: 1024 (1 GB), 2048 (2 GB), 3072 (3 GB), 4096 (4 GB)   1024 (1 vCPU) - Available memory values: 2048 (2 GB), 3072 (3 GB), 4096 (4 GB), 5120 (5 GB), 6144 (6 GB), 7168 (7 GB), 8192 (8 GB)   2048 (2 vCPU) - Available memory values: Between 4096 (4 GB) and 16384 (16 GB) in increments of 1024 (1 GB)   4096 (4 vCPU) - Available memory values: Between 8192 (8 GB) and 30720 (30 GB) in increments of 1024 (1 GB)
+        /// 		         256 (.25 vCPU) - Available memory values: 512 (0.5 GB), 1024 (1 GB), 2048 (2 GB)   512 (.5 vCPU) - Available memory values: 1024 (1 GB), 2048 (2 GB), 3072 (3 GB), 4096 (4 GB)   1024 (1 vCPU) - Available memory values: 2048 (2 GB), 3072 (3 GB), 4096 (4 GB), 5120 (5 GB), 6144 (6 GB), 7168 (7 GB), 8192 (8 GB)   2048 (2 vCPU) - Available memory values: 4096 (4 GB) and 16384 (16 GB) in increments of 1024 (1 GB)   4096 (4 vCPU) - Available memory values: 8192 (8 GB) and 30720 (30 GB) in increments of 1024 (1 GB)   8192 (8 vCPU)  - Available memory values: 16 GB and 60 GB in 4 GB increments  This option requires Linux platform 1.4.0 or later.   16384 (16vCPU)  - Available memory values: 32GB and 120 GB in 8 GB increments This option requires Linux platform 1.4.0 or later.
         public let cpu: String?
         /// The amount of ephemeral storage to allocate for the task. This parameter is used to
         /// 			expand the total amount of ephemeral storage available, beyond the default amount, for
@@ -5283,8 +5286,6 @@ extension ECS {
         /// 				the following platform versions:
         ///
         /// 					             Linux platform version 1.4.0 or later.
-        ///
-        /// 					             Windows platform version 1.0.0 or later.
         ///
         ///
         public let ephemeralStorage: EphemeralStorage?
@@ -5313,7 +5314,7 @@ extension ECS {
         /// 				cpu parameter.
         /// 		       The CPU units cannot be less than 1 vCPU when you use Windows containers on
         /// 			Fargate.
-        /// 		         512 (0.5 GB), 1024 (1 GB), 2048 (2 GB) - Available cpu values: 256 (.25 vCPU)   1024 (1 GB), 2048 (2 GB), 3072 (3 GB), 4096 (4 GB) - Available cpu values: 512 (.5 vCPU)   2048 (2 GB), 3072 (3 GB), 4096 (4 GB), 5120 (5 GB), 6144 (6 GB), 7168 (7 GB), 8192 (8 GB) - Available cpu values: 1024 (1 vCPU)   Between 4096 (4 GB) and 16384 (16 GB) in increments of 1024 (1 GB) - Available cpu values: 2048 (2 vCPU)   Between 8192 (8 GB) and 30720 (30 GB) in increments of 1024 (1 GB) - Available cpu values: 4096 (4 vCPU)
+        /// 		         512 (0.5 GB), 1024 (1 GB), 2048 (2 GB) - Available cpu values: 256 (.25 vCPU)   1024 (1 GB), 2048 (2 GB), 3072 (3 GB), 4096 (4 GB) - Available cpu values: 512 (.5 vCPU)   2048 (2 GB), 3072 (3 GB), 4096 (4 GB), 5120 (5 GB), 6144 (6 GB), 7168 (7 GB), 8192 (8 GB) - Available cpu values: 1024 (1 vCPU)   Between 4096 (4 GB) and 16384 (16 GB) in increments of 1024 (1 GB) - Available cpu values: 2048 (2 vCPU)   Between 8192 (8 GB) and 30720 (30 GB) in increments of 1024 (1 GB) - Available cpu values: 4096 (4 vCPU)   Between 16 GB and 60 GB in 4 GB increments - Available cpu values: 8192 (8 vCPU) This option requires Linux platform 1.4.0 or later.   Between 32GB and 120 GB in 8 GB increments - Available cpu values: 16384 (16 vCPU) This option requires Linux platform 1.4.0 or later.
         public let memory: String?
         /// The Docker networking mode to use for the containers in the task. The valid values are none, bridge, awsvpc, and host. If no network mode is specified, the default is bridge. For Amazon ECS tasks on Fargate, the awsvpc network mode is required.  For Amazon ECS tasks on Amazon EC2 Linux instances, any network mode can be used.  For Amazon ECS tasks on Amazon EC2 Windows instances,  or awsvpc can be used. If the network mode is set to none, you cannot specify port mappings in your container definitions, and the tasks containers do not have external connectivity. The host and awsvpc network modes offer the highest networking performance for containers because they use the EC2 network stack instead of the virtualized network stack provided by the bridge mode. With the host and awsvpc network modes, exposed container ports are mapped directly to the corresponding host port (for the host network mode) or the attached elastic network interface port (for the awsvpc network mode), so you cannot take advantage of dynamic host port mappings.   When using the host network mode, you should not run containers using the root user (UID 0). It is considered best practice to use a non-root user.  If the network mode is awsvpc, the task is allocated an elastic network interface, and you must specify a NetworkConfiguration value when you create a service or run a task with the task definition. For more information, see Task Networking in the Amazon Elastic Container Service Developer Guide. If the network mode is host, you cannot run multiple instantiations of the same task on a single container instance when port mappings are used. For more information, see Network settings in the Docker run reference.
         public let networkMode: NetworkMode?
@@ -5523,13 +5524,13 @@ extension ECS {
         /// Specifies whether to use Amazon ECS managed tags for the task. For more information, see
         /// 				Tagging Your Amazon ECS
         /// 				Resources in the Amazon Elastic Container Service Developer Guide.
-        public let enableECSManagedTags: Bool?
+        public let enableECSManagedTags: Bool
         /// Determines whether to use the execute command functionality for the containers in this
         /// 			task. If true, this enables execute command functionality on all containers
         /// 			in the task.
         /// 		       If true, then the task definition must have a task role, or you must
         /// 			provide one as an override.
-        public let enableExecuteCommand: Bool?
+        public let enableExecuteCommand: Bool
         /// The name of the task group to associate with the task. The default value is the family
         /// 			name of the task definition (for example, family:my-family-name).
         public let group: String?
@@ -5624,7 +5625,7 @@ extension ECS {
         /// 		       For more information, see Policy Resources for Amazon ECS in the Amazon Elastic Container Service developer Guide.
         public let taskDefinition: String
 
-        public init(capacityProviderStrategy: [CapacityProviderStrategyItem]? = nil, cluster: String? = nil, count: Int? = nil, enableECSManagedTags: Bool? = nil, enableExecuteCommand: Bool? = nil, group: String? = nil, launchType: LaunchType? = nil, networkConfiguration: NetworkConfiguration? = nil, overrides: TaskOverride? = nil, placementConstraints: [PlacementConstraint]? = nil, placementStrategy: [PlacementStrategy]? = nil, platformVersion: String? = nil, propagateTags: PropagateTags? = nil, referenceId: String? = nil, startedBy: String? = nil, tags: [Tag]? = nil, taskDefinition: String) {
+        public init(capacityProviderStrategy: [CapacityProviderStrategyItem]? = nil, cluster: String? = nil, count: Int? = nil, enableECSManagedTags: Bool = false, enableExecuteCommand: Bool = false, group: String? = nil, launchType: LaunchType? = nil, networkConfiguration: NetworkConfiguration? = nil, overrides: TaskOverride? = nil, placementConstraints: [PlacementConstraint]? = nil, placementStrategy: [PlacementStrategy]? = nil, platformVersion: String? = nil, propagateTags: PropagateTags? = nil, referenceId: String? = nil, startedBy: String? = nil, tags: [Tag]? = nil, taskDefinition: String) {
             self.capacityProviderStrategy = capacityProviderStrategy
             self.cluster = cluster
             self.count = count
@@ -6064,11 +6065,11 @@ extension ECS {
         /// Specifies whether to use Amazon ECS managed tags for the task. For more information, see
         /// 				Tagging Your Amazon ECS
         /// 				Resources in the Amazon Elastic Container Service Developer Guide.
-        public let enableECSManagedTags: Bool?
+        public let enableECSManagedTags: Bool
         /// Whether or not the execute command functionality is enabled for the task. If
         /// 				true, this enables execute command functionality on all containers in
         /// 			the task.
-        public let enableExecuteCommand: Bool?
+        public let enableExecuteCommand: Bool
         /// The name of the task group to associate with the task. The default value is the family
         /// 			name of the task definition (for example, family:my-family-name).
         public let group: String?
@@ -6108,7 +6109,7 @@ extension ECS {
         /// 			the latest ACTIVE revision is used.
         public let taskDefinition: String
 
-        public init(cluster: String? = nil, containerInstances: [String], enableECSManagedTags: Bool? = nil, enableExecuteCommand: Bool? = nil, group: String? = nil, networkConfiguration: NetworkConfiguration? = nil, overrides: TaskOverride? = nil, propagateTags: PropagateTags? = nil, referenceId: String? = nil, startedBy: String? = nil, tags: [Tag]? = nil, taskDefinition: String) {
+        public init(cluster: String? = nil, containerInstances: [String], enableECSManagedTags: Bool = false, enableExecuteCommand: Bool = false, group: String? = nil, networkConfiguration: NetworkConfiguration? = nil, overrides: TaskOverride? = nil, propagateTags: PropagateTags? = nil, referenceId: String? = nil, startedBy: String? = nil, tags: [Tag]? = nil, taskDefinition: String) {
             self.cluster = cluster
             self.containerInstances = containerInstances
             self.enableECSManagedTags = enableECSManagedTags
@@ -6459,7 +6460,7 @@ extension ECS {
         /// 			the memory parameter:
         /// 		       The CPU units cannot be less than 1 vCPU when you use Windows containers on
         /// 			Fargate.
-        /// 		         256 (.25 vCPU) - Available memory values: 512 (0.5 GB), 1024 (1 GB), 2048 (2 GB)   512 (.5 vCPU) - Available memory values: 1024 (1 GB), 2048 (2 GB), 3072 (3 GB), 4096 (4 GB)   1024 (1 vCPU) - Available memory values: 2048 (2 GB), 3072 (3 GB), 4096 (4 GB), 5120 (5 GB), 6144 (6 GB), 7168 (7 GB), 8192 (8 GB)   2048 (2 vCPU) - Available memory values: Between 4096 (4 GB) and 16384 (16 GB) in increments of 1024 (1 GB)   4096 (4 vCPU) - Available memory values: Between 8192 (8 GB) and 30720 (30 GB) in increments of 1024 (1 GB)
+        /// 		         256 (.25 vCPU) - Available memory values: 512 (0.5 GB), 1024 (1 GB), 2048 (2 GB)   512 (.5 vCPU) - Available memory values: 1024 (1 GB), 2048 (2 GB), 3072 (3 GB), 4096 (4 GB)   1024 (1 vCPU) - Available memory values: 2048 (2 GB), 3072 (3 GB), 4096 (4 GB), 5120 (5 GB), 6144 (6 GB), 7168 (7 GB), 8192 (8 GB)   2048 (2 vCPU) - Available memory values: 4096 (4 GB) and 16384 (16 GB) in increments of 1024 (1 GB)   4096 (4 vCPU) - Available memory values: 8192 (8 GB) and 30720 (30 GB) in increments of 1024 (1 GB)   8192 (8 vCPU)  - Available memory values: 16 GB and 60 GB in 4 GB increments  This option requires Linux platform 1.4.0 or later.   16384 (16vCPU)  - Available memory values: 32GB and 120 GB in 8 GB increments This option requires Linux platform 1.4.0 or later.
         public let cpu: String?
         /// The Unix timestamp for the time when the task was created. More specifically, it's for
         /// 			the time when the task entered the PENDING state.
@@ -6508,7 +6509,7 @@ extension ECS {
         /// 		       If you use the Fargate launch type, this field is required. You must use
         /// 			one of the following values. The value that you choose determines the range of supported
         /// 			values for the cpu parameter.
-        /// 		         512 (0.5 GB), 1024 (1 GB), 2048 (2 GB) - Available cpu values: 256 (.25 vCPU)   1024 (1 GB), 2048 (2 GB), 3072 (3 GB), 4096 (4 GB) - Available cpu values: 512 (.5 vCPU)   2048 (2 GB), 3072 (3 GB), 4096 (4 GB), 5120 (5 GB), 6144 (6 GB), 7168 (7 GB), 8192 (8 GB) - Available cpu values: 1024 (1 vCPU)   Between 4096 (4 GB) and 16384 (16 GB) in increments of 1024 (1 GB) - Available cpu values: 2048 (2 vCPU)   Between 8192 (8 GB) and 30720 (30 GB) in increments of 1024 (1 GB) - Available cpu values: 4096 (4 vCPU)
+        /// 		         512 (0.5 GB), 1024 (1 GB), 2048 (2 GB) - Available cpu values: 256 (.25 vCPU)   1024 (1 GB), 2048 (2 GB), 3072 (3 GB), 4096 (4 GB) - Available cpu values: 512 (.5 vCPU)   2048 (2 GB), 3072 (3 GB), 4096 (4 GB), 5120 (5 GB), 6144 (6 GB), 7168 (7 GB), 8192 (8 GB) - Available cpu values: 1024 (1 vCPU)   Between 4096 (4 GB) and 16384 (16 GB) in increments of 1024 (1 GB) - Available cpu values: 2048 (2 vCPU)   Between 8192 (8 GB) and 30720 (30 GB) in increments of 1024 (1 GB) - Available cpu values: 4096 (4 vCPU)   Between 16 GB and 60 GB in 4 GB increments - Available cpu values: 8192 (8 vCPU) This option requires Linux platform 1.4.0 or later.   Between 32GB and 120 GB in 8 GB increments - Available cpu values: 16384 (16 vCPU) This option requires Linux platform 1.4.0 or later.
         public let memory: String?
         /// One or more container overrides.
         public let overrides: TaskOverride?
@@ -6673,7 +6674,7 @@ extension ECS {
         /// 			determines your range of valid values for the memory parameter.
         /// 		       The CPU units cannot be less than 1 vCPU when you use Windows containers on
         /// 			Fargate.
-        /// 		         256 (.25 vCPU) - Available memory values: 512 (0.5 GB), 1024 (1 GB), 2048 (2 GB)   512 (.5 vCPU) - Available memory values: 1024 (1 GB), 2048 (2 GB), 3072 (3 GB), 4096 (4 GB)   1024 (1 vCPU) - Available memory values: 2048 (2 GB), 3072 (3 GB), 4096 (4 GB), 5120 (5 GB), 6144 (6 GB), 7168 (7 GB), 8192 (8 GB)   2048 (2 vCPU) - Available memory values: Between 4096 (4 GB) and 16384 (16 GB) in increments of 1024 (1 GB)   4096 (4 vCPU) - Available memory values: Between 8192 (8 GB) and 30720 (30 GB) in increments of 1024 (1 GB)
+        /// 		         256 (.25 vCPU) - Available memory values: 512 (0.5 GB), 1024 (1 GB), 2048 (2 GB)   512 (.5 vCPU) - Available memory values: 1024 (1 GB), 2048 (2 GB), 3072 (3 GB), 4096 (4 GB)   1024 (1 vCPU) - Available memory values: 2048 (2 GB), 3072 (3 GB), 4096 (4 GB), 5120 (5 GB), 6144 (6 GB), 7168 (7 GB), 8192 (8 GB)   2048 (2 vCPU) - Available memory values: 4096 (4 GB) and 16384 (16 GB) in increments of 1024 (1 GB)   4096 (4 vCPU) - Available memory values: 8192 (8 GB) and 30720 (30 GB) in increments of 1024 (1 GB)   8192 (8 vCPU)  - Available memory values: 16 GB and 60 GB in 4 GB increments  This option requires Linux platform 1.4.0 or later.   16384 (16vCPU)  - Available memory values: 32GB and 120 GB in 8 GB increments This option requires Linux platform 1.4.0 or later.
         public let cpu: String?
         /// The Unix timestamp for the time when the task definition was deregistered.
         public let deregisteredAt: Date?
@@ -6701,7 +6702,7 @@ extension ECS {
         /// 		       If your tasks runs on Fargate, this field is required. You must use one of the
         /// 			following values. The value you choose determines your range of valid values for the
         /// 				cpu parameter.
-        /// 		         512 (0.5 GB), 1024 (1 GB), 2048 (2 GB) - Available cpu values: 256 (.25 vCPU)   1024 (1 GB), 2048 (2 GB), 3072 (3 GB), 4096 (4 GB) - Available cpu values: 512 (.5 vCPU)   2048 (2 GB), 3072 (3 GB), 4096 (4 GB), 5120 (5 GB), 6144 (6 GB), 7168 (7 GB), 8192 (8 GB) - Available cpu values: 1024 (1 vCPU)   Between 4096 (4 GB) and 16384 (16 GB) in increments of 1024 (1 GB) - Available cpu values: 2048 (2 vCPU)   Between 8192 (8 GB) and 30720 (30 GB) in increments of 1024 (1 GB) - Available cpu values: 4096 (4 vCPU)
+        /// 		         512 (0.5 GB), 1024 (1 GB), 2048 (2 GB) - Available cpu values: 256 (.25 vCPU)   1024 (1 GB), 2048 (2 GB), 3072 (3 GB), 4096 (4 GB) - Available cpu values: 512 (.5 vCPU)   2048 (2 GB), 3072 (3 GB), 4096 (4 GB), 5120 (5 GB), 6144 (6 GB), 7168 (7 GB), 8192 (8 GB) - Available cpu values: 1024 (1 vCPU)   Between 4096 (4 GB) and 16384 (16 GB) in increments of 1024 (1 GB) - Available cpu values: 2048 (2 vCPU)   Between 8192 (8 GB) and 30720 (30 GB) in increments of 1024 (1 GB) - Available cpu values: 4096 (4 vCPU)   Between 16 GB and 60 GB in 4 GB increments - Available cpu values: 8192 (8 vCPU) This option requires Linux platform 1.4.0 or later.   Between 32GB and 120 GB in 8 GB increments - Available cpu values: 16384 (16 vCPU) This option requires Linux platform 1.4.0 or later.
         public let memory: String?
         /// The Docker networking mode to use for the containers in the task. The valid values are none, bridge, awsvpc, and host. If no network mode is specified, the default is bridge. For Amazon ECS tasks on Fargate, the awsvpc network mode is required.  For Amazon ECS tasks on Amazon EC2 Linux instances, any network mode can be used.  For Amazon ECS tasks on Amazon EC2 Windows instances,  or awsvpc can be used. If the network mode is set to none, you cannot specify port mappings in your container definitions, and the tasks containers do not have external connectivity. The host and awsvpc network modes offer the highest networking performance for containers because they use the EC2 network stack instead of the virtualized network stack provided by the bridge mode. With the host and awsvpc network modes, exposed container ports are mapped directly to the corresponding host port (for the host network mode) or the attached elastic network interface port (for the awsvpc network mode), so you cannot take advantage of dynamic host port mappings.   When using the host network mode, you should not run containers using the root user (UID 0). It is considered best practice to use a non-root user.  If the network mode is awsvpc, the task is allocated an elastic network interface, and you must specify a NetworkConfiguration value when you create a service or run a task with the task definition. For more information, see Task Networking in the Amazon Elastic Container Service Developer Guide. If the network mode is host, you cannot run multiple instantiations of the same task on a single container instance when port mappings are used. For more information, see Network settings in the Docker run reference.
         public let networkMode: NetworkMode?
@@ -7392,7 +7393,7 @@ extension ECS {
         /// 			definition changes. For example, you can update a service's tasks to use a newer Docker
         /// 			image with the same image/tag combination (my_image:latest) or to roll
         /// 			Fargate tasks onto a newer platform version.
-        public let forceNewDeployment: Bool?
+        public let forceNewDeployment: Bool
         /// The period of time, in seconds, that the Amazon ECS service scheduler ignores unhealthy
         /// 			Elastic Load Balancing target health checks after a task has first started. This is only valid if your
         /// 			service is configured to use a load balancer. If your service's tasks take a while to
@@ -7470,7 +7471,7 @@ extension ECS {
         /// 			the task definition and then stops an old task after the new version is running.
         public let taskDefinition: String?
 
-        public init(capacityProviderStrategy: [CapacityProviderStrategyItem]? = nil, cluster: String? = nil, deploymentConfiguration: DeploymentConfiguration? = nil, desiredCount: Int? = nil, enableECSManagedTags: Bool? = nil, enableExecuteCommand: Bool? = nil, forceNewDeployment: Bool? = nil, healthCheckGracePeriodSeconds: Int? = nil, loadBalancers: [LoadBalancer]? = nil, networkConfiguration: NetworkConfiguration? = nil, placementConstraints: [PlacementConstraint]? = nil, placementStrategy: [PlacementStrategy]? = nil, platformVersion: String? = nil, propagateTags: PropagateTags? = nil, service: String, serviceRegistries: [ServiceRegistry]? = nil, taskDefinition: String? = nil) {
+        public init(capacityProviderStrategy: [CapacityProviderStrategyItem]? = nil, cluster: String? = nil, deploymentConfiguration: DeploymentConfiguration? = nil, desiredCount: Int? = nil, enableECSManagedTags: Bool? = nil, enableExecuteCommand: Bool? = nil, forceNewDeployment: Bool = false, healthCheckGracePeriodSeconds: Int? = nil, loadBalancers: [LoadBalancer]? = nil, networkConfiguration: NetworkConfiguration? = nil, placementConstraints: [PlacementConstraint]? = nil, placementStrategy: [PlacementStrategy]? = nil, platformVersion: String? = nil, propagateTags: PropagateTags? = nil, service: String, serviceRegistries: [ServiceRegistry]? = nil, taskDefinition: String? = nil) {
             self.capacityProviderStrategy = capacityProviderStrategy
             self.cluster = cluster
             self.deploymentConfiguration = deploymentConfiguration

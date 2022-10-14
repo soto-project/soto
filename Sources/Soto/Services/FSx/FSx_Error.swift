@@ -30,6 +30,7 @@ public struct FSxErrorType: AWSErrorType {
         case dataRepositoryTaskEnded = "DataRepositoryTaskEnded"
         case dataRepositoryTaskExecuting = "DataRepositoryTaskExecuting"
         case dataRepositoryTaskNotFound = "DataRepositoryTaskNotFound"
+        case fileCacheNotFound = "FileCacheNotFound"
         case fileSystemNotFound = "FileSystemNotFound"
         case incompatibleParameterError = "IncompatibleParameterError"
         case incompatibleRegionForMultiAZ = "IncompatibleRegionForMultiAZ"
@@ -42,6 +43,7 @@ public struct FSxErrorType: AWSErrorType {
         case invalidPerUnitStorageThroughput = "InvalidPerUnitStorageThroughput"
         case invalidRegion = "InvalidRegion"
         case invalidSourceKmsKey = "InvalidSourceKmsKey"
+        case missingFileCacheConfiguration = "MissingFileCacheConfiguration"
         case missingFileSystemConfiguration = "MissingFileSystemConfiguration"
         case missingVolumeConfiguration = "MissingVolumeConfiguration"
         case notServiceResourceError = "NotServiceResourceError"
@@ -93,6 +95,8 @@ public struct FSxErrorType: AWSErrorType {
     public static var dataRepositoryTaskExecuting: Self { .init(.dataRepositoryTaskExecuting) }
     /// The data repository task or tasks you specified could not be found.
     public static var dataRepositoryTaskNotFound: Self { .init(.dataRepositoryTaskNotFound) }
+    /// No caches were found based upon supplied parameters.
+    public static var fileCacheNotFound: Self { .init(.fileCacheNotFound) }
     /// No Amazon FSx file systems were found based upon supplied parameters.
     public static var fileSystemNotFound: Self { .init(.fileSystemNotFound) }
     /// The error returned when a second request is received with the same client request token but different parameters settings. A client request token should always uniquely identify a single request.
@@ -117,6 +121,8 @@ public struct FSxErrorType: AWSErrorType {
     public static var invalidRegion: Self { .init(.invalidRegion) }
     /// The Key Management Service (KMS) key of the source backup is not valid.
     public static var invalidSourceKmsKey: Self { .init(.invalidSourceKmsKey) }
+    /// A cache configuration is required for this operation.
+    public static var missingFileCacheConfiguration: Self { .init(.missingFileCacheConfiguration) }
     /// A file system configuration is required for this operation.
     public static var missingFileSystemConfiguration: Self { .init(.missingFileSystemConfiguration) }
     /// A volume configuration is required for this operation.

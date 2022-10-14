@@ -227,6 +227,27 @@ extension Comprehend {
         public var description: String { return self.rawValue }
     }
 
+    public enum TargetedSentimentEntityType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case attribute = "ATTRIBUTE"
+        case book = "BOOK"
+        case brand = "BRAND"
+        case commercialItem = "COMMERCIAL_ITEM"
+        case date = "DATE"
+        case event = "EVENT"
+        case facility = "FACILITY"
+        case game = "GAME"
+        case location = "LOCATION"
+        case movie = "MOVIE"
+        case music = "MUSIC"
+        case organization = "ORGANIZATION"
+        case other = "OTHER"
+        case person = "PERSON"
+        case personalTitle = "PERSONAL_TITLE"
+        case quantity = "QUANTITY"
+        case software = "SOFTWARE"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct AugmentedManifestsListItem: AWSEncodableShape & AWSDecodableShape {
@@ -294,7 +315,7 @@ extension Comprehend {
     }
 
     public struct BatchDetectDominantLanguageRequest: AWSEncodableShape {
-        /// A list containing the text of the input documents. The list can contain a maximum of 25 documents. Each document should contain at least 20 characters and must contain fewer than 5,000 bytes of UTF-8 encoded characters.
+        /// A list containing the UTF-8 encoded text of the input documents. The list can contain a maximum of 25 documents. Each document should contain at least 20 characters. The maximum size of each document is 5 KB.
         public let textList: [String]
 
         public init(textList: [String]) {
@@ -350,7 +371,7 @@ extension Comprehend {
     public struct BatchDetectEntitiesRequest: AWSEncodableShape {
         /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend. All documents must be in the same language.
         public let languageCode: LanguageCode
-        /// A list containing the text of the input documents. The list can contain a maximum of 25 documents. Each document must contain fewer than 5,000 bytes of UTF-8 encoded characters.
+        /// A list containing the UTF-8 encoded text of the input documents. The list can contain a maximum of 25 documents. The maximum size of each document is 5 KB.
         public let textList: [String]
 
         public init(languageCode: LanguageCode, textList: [String]) {
@@ -408,7 +429,7 @@ extension Comprehend {
     public struct BatchDetectKeyPhrasesRequest: AWSEncodableShape {
         /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend. All documents must be in the same language.
         public let languageCode: LanguageCode
-        /// A list containing the text of the input documents. The list can contain a maximum of 25 documents. Each document must contain fewer than 5,000 bytes of UTF-8 encoded characters.
+        /// A list containing the UTF-8 encoded text of the input documents. The list can contain a maximum of 25 documents. The maximum size of each document is 5 KB.
         public let textList: [String]
 
         public init(languageCode: LanguageCode, textList: [String]) {
@@ -470,7 +491,7 @@ extension Comprehend {
     public struct BatchDetectSentimentRequest: AWSEncodableShape {
         /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend. All documents must be in the same language.
         public let languageCode: LanguageCode
-        /// A list containing the text of the input documents. The list can contain a maximum of 25 documents. Each document must contain fewer that 5,000 bytes of UTF-8 encoded characters.
+        /// A list containing the UTF-8 encoded text of the input documents. The list can contain a maximum of 25 documents. The maximum size of each document is 5 KB.   Amazon Comprehend performs real-time sentiment analysis on the first 500 characters of the input text and ignores any additional text in the input.
         public let textList: [String]
 
         public init(languageCode: LanguageCode, textList: [String]) {
@@ -528,7 +549,7 @@ extension Comprehend {
     public struct BatchDetectSyntaxRequest: AWSEncodableShape {
         /// The language of the input documents. You can specify any of the following languages supported by Amazon Comprehend: German ("de"), English ("en"), Spanish ("es"), French ("fr"), Italian ("it"), or Portuguese ("pt"). All documents must be in the same language.
         public let languageCode: SyntaxLanguageCode
-        /// A list containing the text of the input documents. The list can contain a maximum of 25 documents. Each document must contain fewer that 5,000 bytes of UTF-8 encoded characters.
+        /// A list containing the UTF-8 encoded text of the input documents. The list can contain a maximum of 25 documents. The maximum size for each document is 5 KB.
         public let textList: [String]
 
         public init(languageCode: SyntaxLanguageCode, textList: [String]) {
@@ -556,6 +577,64 @@ extension Comprehend {
         public let resultList: [BatchDetectSyntaxItemResult]
 
         public init(errorList: [BatchItemError], resultList: [BatchDetectSyntaxItemResult]) {
+            self.errorList = errorList
+            self.resultList = resultList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorList = "ErrorList"
+            case resultList = "ResultList"
+        }
+    }
+
+    public struct BatchDetectTargetedSentimentItemResult: AWSDecodableShape {
+        /// An array of targeted sentiment entities.
+        public let entities: [TargetedSentimentEntity]?
+        /// The zero-based index of this result in the input list.
+        public let index: Int?
+
+        public init(entities: [TargetedSentimentEntity]? = nil, index: Int? = nil) {
+            self.entities = entities
+            self.index = index
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entities = "Entities"
+            case index = "Index"
+        }
+    }
+
+    public struct BatchDetectTargetedSentimentRequest: AWSEncodableShape {
+        /// The language of the input documents. Currently, English is the only supported language.
+        public let languageCode: LanguageCode
+        /// A list containing the UTF-8 encoded text of the input documents. The list can contain a maximum of 25 documents. The maximum size of each document is 5 KB.
+        public let textList: [String]
+
+        public init(languageCode: LanguageCode, textList: [String]) {
+            self.languageCode = languageCode
+            self.textList = textList
+        }
+
+        public func validate(name: String) throws {
+            try self.textList.forEach {
+                try validate($0, name: "textList[]", parent: name, min: 1)
+            }
+            try self.validate(self.textList, name: "textList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case languageCode = "LanguageCode"
+            case textList = "TextList"
+        }
+    }
+
+    public struct BatchDetectTargetedSentimentResponse: AWSDecodableShape {
+        /// List of errors that the operation can return.
+        public let errorList: [BatchItemError]
+        /// A list of objects containing the results of the operation. The results are sorted in ascending order by the Index field and match the order of the documents in the input list. If all of the documents contain an error, the ResultList is empty.
+        public let resultList: [BatchDetectTargetedSentimentItemResult]
+
+        public init(errorList: [BatchItemError], resultList: [BatchDetectTargetedSentimentItemResult]) {
             self.errorList = errorList
             self.resultList = resultList
         }
@@ -696,7 +775,7 @@ extension Comprehend {
     public struct ContainsPiiEntitiesRequest: AWSEncodableShape {
         /// The language of the input documents. Currently, English is the only valid language.
         public let languageCode: LanguageCode
-        /// Creates a new document classification request to analyze a single document in real-time, returning personally identifiable information (PII) entity labels.
+        /// A UTF-8 text string. The maximum string size is 100 KB.
         public let text: String
 
         public init(languageCode: LanguageCode, text: String) {
@@ -1499,7 +1578,7 @@ extension Comprehend {
     }
 
     public struct DetectDominantLanguageRequest: AWSEncodableShape {
-        /// A UTF-8 text string. Each string should contain at least 20 characters and must contain fewer that 5,000 bytes of UTF-8 encoded characters.
+        /// A UTF-8 text string. The string must contain at least 20 characters. The maximum string size is 100 KB.
         public let text: String
 
         public init(text: String) {
@@ -1533,7 +1612,7 @@ extension Comprehend {
         public let endpointArn: String?
         /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend. All documents must be in the same language. If your request includes the endpoint for a custom entity recognition model, Amazon Comprehend uses the language of your custom model, and it ignores any language code that you specify here.
         public let languageCode: LanguageCode?
-        /// A UTF-8 text string. Each string must contain fewer that 5,000 bytes of UTF-8 encoded characters.
+        /// A UTF-8 text string. The maximum string size is 100 KB.
         public let text: String
 
         public init(endpointArn: String? = nil, languageCode: LanguageCode? = nil, text: String) {
@@ -1556,7 +1635,7 @@ extension Comprehend {
     }
 
     public struct DetectEntitiesResponse: AWSDecodableShape {
-        /// A collection of entities identified in the input text. For each entity, the response provides the entity text, entity type, where the entity text begins and ends, and the level of confidence that Amazon Comprehend has in the detection.  If your request uses a custom entity recognition model, Amazon Comprehend detects the entities that the model is trained to recognize. Otherwise, it detects the default entity types. For a list of default entity types, see how-entities.
+        /// A collection of entities identified in the input text. For each entity, the response provides the entity text, entity type, where the entity text begins and ends, and the level of confidence that Amazon Comprehend has in the detection.  If your request uses a custom entity recognition model, Amazon Comprehend detects the entities that the model is trained to recognize. Otherwise, it detects the default entity types. For a list of default entity types, see Entities in the Comprehend Developer Guide.
         public let entities: [Entity]?
 
         public init(entities: [Entity]? = nil) {
@@ -1571,7 +1650,7 @@ extension Comprehend {
     public struct DetectKeyPhrasesRequest: AWSEncodableShape {
         /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend. All documents must be in the same language.
         public let languageCode: LanguageCode
-        /// A UTF-8 text string. Each string must contain fewer that 5,000 bytes of UTF-8 encoded characters.
+        /// A UTF-8 text string. The string must contain less than 100 KB of UTF-8 encoded characters.
         public let text: String
 
         public init(languageCode: LanguageCode, text: String) {
@@ -1605,7 +1684,7 @@ extension Comprehend {
     public struct DetectPiiEntitiesRequest: AWSEncodableShape {
         /// The language of the input documents. Currently, English is the only valid language.
         public let languageCode: LanguageCode
-        /// A UTF-8 text string. Each string must contain fewer that 5,000 bytes of UTF-8 encoded characters.
+        /// A UTF-8 text string. The maximum string size is 100 KB.
         public let text: String
 
         public init(languageCode: LanguageCode, text: String) {
@@ -1639,7 +1718,7 @@ extension Comprehend {
     public struct DetectSentimentRequest: AWSEncodableShape {
         /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend. All documents must be in the same language.
         public let languageCode: LanguageCode
-        /// A UTF-8 text string. Each string must contain fewer that 5,000 bytes of UTF-8 encoded characters.
+        /// A UTF-8 text string. The maximum string size is 5 KB.  Amazon Comprehend performs real-time sentiment analysis on the first 500 characters of the input text and ignores any additional text in the input.
         public let text: String
 
         public init(languageCode: LanguageCode, text: String) {
@@ -1677,7 +1756,7 @@ extension Comprehend {
     public struct DetectSyntaxRequest: AWSEncodableShape {
         /// The language code of the input documents. You can specify any of the following languages supported by Amazon Comprehend: German ("de"), English ("en"), Spanish ("es"), French ("fr"), Italian ("it"), or Portuguese ("pt").
         public let languageCode: SyntaxLanguageCode
-        /// A UTF-8 string. Each string must contain fewer that 5,000 bytes of UTF encoded characters.
+        /// A UTF-8 string. The maximum string size is 5 KB.
         public let text: String
 
         public init(languageCode: SyntaxLanguageCode, text: String) {
@@ -1696,7 +1775,7 @@ extension Comprehend {
     }
 
     public struct DetectSyntaxResponse: AWSDecodableShape {
-        /// A collection of syntax tokens describing the text. For each token, the response provides the text, the token type, where the text begins and ends, and the level of confidence that Amazon Comprehend has that the token is correct. For a list of token types, see how-syntax.
+        /// A collection of syntax tokens describing the text. For each token, the response provides the text, the token type, where the text begins and ends, and the level of confidence that Amazon Comprehend has that the token is correct. For a list of token types, see Syntax in the Comprehend Developer Guide.
         public let syntaxTokens: [SyntaxToken]?
 
         public init(syntaxTokens: [SyntaxToken]? = nil) {
@@ -1705,6 +1784,40 @@ extension Comprehend {
 
         private enum CodingKeys: String, CodingKey {
             case syntaxTokens = "SyntaxTokens"
+        }
+    }
+
+    public struct DetectTargetedSentimentRequest: AWSEncodableShape {
+        /// The language of the input documents. Currently, English is the only supported language.
+        public let languageCode: LanguageCode
+        /// A UTF-8 text string. The maximum string length is 5 KB.
+        public let text: String
+
+        public init(languageCode: LanguageCode, text: String) {
+            self.languageCode = languageCode
+            self.text = text
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.text, name: "text", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case languageCode = "LanguageCode"
+            case text = "Text"
+        }
+    }
+
+    public struct DetectTargetedSentimentResponse: AWSDecodableShape {
+        /// Targeted sentiment analysis for each of the entities identified in the input text.
+        public let entities: [TargetedSentimentEntity]?
+
+        public init(entities: [TargetedSentimentEntity]? = nil) {
+            self.entities = entities
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entities = "Entities"
         }
     }
 
@@ -1856,7 +1969,7 @@ extension Comprehend {
         public let labelDelimiter: String?
         /// The Amazon S3 URI for the input data. The S3 bucket must be in the same region as the API endpoint that you are calling. The URI can point to a single input file or it can provide the prefix for a collection of input files. For example, if you use the URI S3://bucketName/prefix, if the prefix is a single file, Amazon Comprehend uses that file as input. If more than one file begins with the prefix, Amazon Comprehend uses all of them as input. This parameter is required if you set DataFormat to COMPREHEND_CSV.
         public let s3Uri: String?
-        /// The Amazon S3 URI for the input data. The Amazon S3 bucket must be in the same AWS Region as the API endpoint that you are calling. The URI can point to a single input file or it can provide the prefix for a collection of input files.
+        /// This specifies the Amazon S3 location where the test annotations for an entity recognizer are located. The URI must be in the same AWS Region as the API endpoint that you are calling.
         public let testS3Uri: String?
 
         public init(augmentedManifests: [AugmentedManifestsListItem]? = nil, dataFormat: DocumentClassifierDataFormat? = nil, labelDelimiter: String? = nil, s3Uri: String? = nil, testS3Uri: String? = nil) {
@@ -2351,9 +2464,9 @@ extension Comprehend {
     }
 
     public struct Entity: AWSDecodableShape {
-        /// A character offset in the input text that shows where the entity begins (the first character is at position 0). The offset returns the position of each UTF-8 code point in the string. A code point is the abstract character from a particular graphical representation. For example, a multi-byte UTF-8 character maps to a single code point.
+        /// The zero-based offset from the beginning of the source text to the first character in the entity.
         public let beginOffset: Int?
-        /// A character offset in the input text that shows where the entity ends. The offset returns the position of each UTF-8 code point in the string. A code point is the abstract character from a particular graphical representation. For example, a multi-byte UTF-8 character maps to a single code point.
+        /// The zero-based offset from the beginning of the source text to the last character in the entity.
         public let endOffset: Int?
         /// The level of confidence that Amazon Comprehend has in the accuracy of the detection.
         public let score: Float?
@@ -2399,7 +2512,7 @@ extension Comprehend {
     public struct EntityRecognizerAnnotations: AWSEncodableShape & AWSDecodableShape {
         ///  Specifies the Amazon S3 location where the annotations for an entity recognizer are located. The URI must be in the same region as the API endpoint that you are calling.
         public let s3Uri: String
-        /// This specifies the Amazon S3 location where the test annotations for an entity recognizer are located. The URI must be in the same AWS Region as the API endpoint that you are calling.
+        ///  Specifies the Amazon S3 location where the test annotations for an entity recognizer are located. The URI must be in the same region as the API endpoint that you are calling.
         public let testS3Uri: String?
 
         public init(s3Uri: String, testS3Uri: String? = nil) {
@@ -2467,7 +2580,7 @@ extension Comprehend {
     }
 
     public struct EntityRecognizerEvaluationMetrics: AWSDecodableShape {
-        /// A measure of how accurate the recognizer results are for the test data. It is derived from the Precision and Recall values. The F1Score is the harmonic average of the two scores. For plain text entity recognizer models, the range is 0 to 100,  where 100 is the best score. For PDF/Word entity recognizer models, the range is 0 to 1,  where 1 is the best score.
+        /// A measure of how accurate the recognizer results are for the test data. It is derived from the Precision and Recall values. The F1Score is the harmonic average of the two scores. For plain text entity recognizer models, the range is 0 to 100, where 100 is the best score. For PDF/Word entity recognizer models, the range is 0 to 1, where 1 is the best score.
         public let f1Score: Double?
         /// A measure of the usefulness of the recognizer results in the test data. High precision means that the recognizer returned substantially more relevant results than irrelevant ones.
         public let precision: Double?
@@ -2928,9 +3041,9 @@ extension Comprehend {
     }
 
     public struct KeyPhrase: AWSDecodableShape {
-        /// A character offset in the input text that shows where the key phrase begins (the first character is at position 0). The offset returns the position of each UTF-8 code point in the string. A code point is the abstract character from a particular graphical representation. For example, a multi-byte UTF-8 character maps to a single code point.
+        /// The zero-based offset from the beginning of the source text to the first character in the key phrase.
         public let beginOffset: Int?
-        /// A character offset in the input text where the key phrase ends. The offset returns the position of each UTF-8 code point in the string. A code point is the abstract character from a particular graphical representation. For example, a multi-byte UTF-8 character maps to a single code point.
+        /// The zero-based offset from the beginning of the source text to the last character in the key phrase.
         public let endOffset: Int?
         /// The level of confidence that Amazon Comprehend has in the accuracy of the detection.
         public let score: Float?
@@ -3699,10 +3812,26 @@ extension Comprehend {
         }
     }
 
+    public struct MentionSentiment: AWSDecodableShape {
+        /// The sentiment of the mention.
+        public let sentiment: SentimentType?
+        public let sentimentScore: SentimentScore?
+
+        public init(sentiment: SentimentType? = nil, sentimentScore: SentimentScore? = nil) {
+            self.sentiment = sentiment
+            self.sentimentScore = sentimentScore
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sentiment = "Sentiment"
+            case sentimentScore = "SentimentScore"
+        }
+    }
+
     public struct OutputDataConfig: AWSEncodableShape & AWSDecodableShape {
         /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt the output results from an analysis job. The KmsKeyId can be one of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"    KMS Key Alias: "alias/ExampleAlias"    ARN of a KMS Key Alias: "arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias"
         public let kmsKeyId: String?
-        /// When you use the OutputDataConfig object with asynchronous operations, you specify the Amazon S3 location where you want to write the output data. The URI must be in the same region as the API endpoint that you are calling. The location is used as the prefix for the actual location of the output file. When the topic detection job is finished, the service creates an output file in a directory specific to the job. The S3Uri field contains the location of the output file, called output.tar.gz. It is a compressed archive that contains the ouput of the operation.  For a PII entity detection job, the output file is plain text, not a compressed archive.  The output file name is the same as the input file, with .out appended at the end.
+        /// When you use the OutputDataConfig object with asynchronous operations, you specify the Amazon S3 location where you want to write the output data. The URI must be in the same region as the API endpoint that you are calling. The location is used as the prefix for the actual location of the output file. When the topic detection job is finished, the service creates an output file in a directory specific to the job. The S3Uri field contains the location of the output file, called output.tar.gz. It is a compressed archive that contains the ouput of the operation.  For a PII entity detection job, the output file is plain text, not a compressed archive. The output file name is the same as the input file, with .out appended at the end.
         public let s3Uri: String
 
         public init(kmsKeyId: String? = nil, s3Uri: String) {
@@ -3833,9 +3962,9 @@ extension Comprehend {
     }
 
     public struct PiiEntity: AWSDecodableShape {
-        /// A character offset in the input text that shows where the PII entity begins (the first character is at position 0). The offset returns the position of each UTF-8 code point in the string. A code point is the abstract character from a particular graphical representation. For example, a multi-byte UTF-8 character maps to a single code point.
+        /// The zero-based offset from the beginning of the source text to the first character in the entity.
         public let beginOffset: Int?
-        /// A character offset in the input text that shows where the PII entity ends. The offset returns the position of each UTF-8 code point in the string. A code point is the abstract character from a particular graphical representation. For example, a multi-byte UTF-8 character maps to a single code point.
+        /// The zero-based offset from the beginning of the source text to the last character in the entity.
         public let endOffset: Int?
         /// The level of confidence that Amazon Comprehend has in the accuracy of the detection.
         public let score: Float?
@@ -3860,7 +3989,7 @@ extension Comprehend {
     public struct PiiOutputDataConfig: AWSDecodableShape {
         /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt the output results from an analysis job.
         public let kmsKeyId: String?
-        /// When you use the PiiOutputDataConfig object with asynchronous operations, you specify the Amazon S3 location where you want to write the output data.   For a PII entity detection job, the output file is plain text, not a compressed archive.  The output file name is the same as the input file, with .out appended at the end.
+        /// When you use the PiiOutputDataConfig object with asynchronous operations, you specify the Amazon S3 location where you want to write the output data.   For a PII entity detection job, the output file is plain text, not a compressed archive. The output file name is the same as the input file, with .out appended at the end.
         public let s3Uri: String
 
         public init(kmsKeyId: String? = nil, s3Uri: String) {
@@ -4673,7 +4802,7 @@ extension Comprehend {
         public let inputDataConfig: InputDataConfig
         /// The identifier of the job.
         public let jobName: String?
-        /// The language of the input documents. Currently, English is the only valid language.
+        /// The language of the input documents. Currently, English is the only supported language.
         public let languageCode: LanguageCode
         /// Specifies where to send the output files.
         public let outputDataConfig: OutputDataConfig
@@ -5138,7 +5267,7 @@ extension Comprehend {
         public let beginOffset: Int?
         /// The zero-based offset from the beginning of the source text to the last character in the word.
         public let endOffset: Int?
-        /// Provides the part of speech label and the confidence level that Amazon Comprehend has that the part of speech was correctly identified. For more information, see how-syntax.
+        /// Provides the part of speech label and the confidence level that Amazon Comprehend has that the part of speech was correctly identified. For more information, see Syntax in the Comprehend Developer Guide.
         public let partOfSpeech: PartOfSpeechTag?
         /// The word that was recognized in the source text.
         public let text: String?
@@ -5266,7 +5395,7 @@ extension Comprehend {
         public let outputDataConfig: OutputDataConfig?
         /// The time that the targeted sentiment detection job was submitted for processing.
         public let submitTime: Date?
-        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the   targeted sentiment detection job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
+        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the targeted sentiment detection job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
         public let volumeKmsKeyId: String?
         public let vpcConfig: VpcConfig?
 
@@ -5300,6 +5429,60 @@ extension Comprehend {
             case submitTime = "SubmitTime"
             case volumeKmsKeyId = "VolumeKmsKeyId"
             case vpcConfig = "VpcConfig"
+        }
+    }
+
+    public struct TargetedSentimentEntity: AWSDecodableShape {
+        /// One or more index into the Mentions array that provides the best name for the entity group.
+        public let descriptiveMentionIndex: [Int]?
+        /// An array of mentions of the entity in the document. The array represents a co-reference group. See  Co-reference group for an example.
+        public let mentions: [TargetedSentimentMention]?
+
+        public init(descriptiveMentionIndex: [Int]? = nil, mentions: [TargetedSentimentMention]? = nil) {
+            self.descriptiveMentionIndex = descriptiveMentionIndex
+            self.mentions = mentions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case descriptiveMentionIndex = "DescriptiveMentionIndex"
+            case mentions = "Mentions"
+        }
+    }
+
+    public struct TargetedSentimentMention: AWSDecodableShape {
+        /// The offset into the document text where the mention begins.
+        public let beginOffset: Int?
+        /// The offset into the document text where the mention ends.
+        public let endOffset: Int?
+        /// The confidence that all the entities mentioned in the group relate to the same entity.
+        public let groupScore: Float?
+        /// Contains the sentiment and sentiment score for the mention.
+        public let mentionSentiment: MentionSentiment?
+        /// Model confidence that the entity is relevant. Value range is zero to one, where one is highest confidence.
+        public let score: Float?
+        /// The text in the document that identifies the entity.
+        public let text: String?
+        /// The type of the entity. Amazon Comprehend supports a variety of entity types.
+        public let type: TargetedSentimentEntityType?
+
+        public init(beginOffset: Int? = nil, endOffset: Int? = nil, groupScore: Float? = nil, mentionSentiment: MentionSentiment? = nil, score: Float? = nil, text: String? = nil, type: TargetedSentimentEntityType? = nil) {
+            self.beginOffset = beginOffset
+            self.endOffset = endOffset
+            self.groupScore = groupScore
+            self.mentionSentiment = mentionSentiment
+            self.score = score
+            self.text = text
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case beginOffset = "BeginOffset"
+            case endOffset = "EndOffset"
+            case groupScore = "GroupScore"
+            case mentionSentiment = "MentionSentiment"
+            case score = "Score"
+            case text = "Text"
+            case type = "Type"
         }
     }
 

@@ -48,6 +48,8 @@ extension Nimble {
         case encryptionKeyAccessDenied = "ENCRYPTION_KEY_ACCESS_DENIED"
         case encryptionKeyNotFound = "ENCRYPTION_KEY_NOT_FOUND"
         case internalError = "INTERNAL_ERROR"
+        case invalidInstanceTypesProvided = "INVALID_INSTANCE_TYPES_PROVIDED"
+        case invalidSubnetsCombination = "INVALID_SUBNETS_COMBINATION"
         case invalidSubnetsProvided = "INVALID_SUBNETS_PROVIDED"
         case launchProfileCreated = "LAUNCH_PROFILE_CREATED"
         case launchProfileCreateInProgress = "LAUNCH_PROFILE_CREATE_IN_PROGRESS"
@@ -126,12 +128,19 @@ extension Nimble {
     }
 
     public enum StreamingInstanceType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case g34Xlarge = "g3.4xlarge"
+        case g3sXlarge = "g3s.xlarge"
         case g4dn12Xlarge = "g4dn.12xlarge"
         case g4dn16Xlarge = "g4dn.16xlarge"
         case g4dn2Xlarge = "g4dn.2xlarge"
         case g4dn4Xlarge = "g4dn.4xlarge"
         case g4dn8Xlarge = "g4dn.8xlarge"
         case g4dnXlarge = "g4dn.xlarge"
+        case g516Xlarge = "g5.16xlarge"
+        case g52Xlarge = "g5.2xlarge"
+        case g54Xlarge = "g5.4xlarge"
+        case g58Xlarge = "g5.8xlarge"
+        case g5Xlarge = "g5.xlarge"
         public var description: String { return self.rawValue }
     }
 
@@ -369,7 +378,7 @@ extension Nimble {
         public let clientToken: String?
         /// The EULA ID.
         public let eulaIds: [String]?
-        /// A collection of EULA IDs.
+        /// The studio ID.
         public let studioId: String
 
         public init(clientToken: String? = AcceptEulasRequest.idempotencyToken(), eulaIds: [String]? = nil, studioId: String) {
@@ -676,13 +685,13 @@ extension Nimble {
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// The expiration time in seconds.
-        public let expirationInSeconds: Int?
+        public let expirationInSeconds: Int
         /// The streaming session ID.
         public let sessionId: String
         /// The studio ID.
         public let studioId: String
 
-        public init(clientToken: String? = CreateStreamingSessionStreamRequest.idempotencyToken(), expirationInSeconds: Int? = nil, sessionId: String, studioId: String) {
+        public init(clientToken: String? = CreateStreamingSessionStreamRequest.idempotencyToken(), expirationInSeconds: Int = 0, sessionId: String, studioId: String) {
             self.clientToken = clientToken
             self.expirationInSeconds = expirationInSeconds
             self.sessionId = sessionId
@@ -886,7 +895,7 @@ extension Nimble {
         public let clientToken: String?
         /// The Launch Profile ID.
         public let launchProfileId: String
-        /// The principal ID. This currently supports a Amazon Web Services SSO UserId.
+        /// The principal ID. This currently supports a IAM Identity Center UserId.
         public let principalId: String
         /// The studio ID.
         public let studioId: String
@@ -1083,7 +1092,7 @@ extension Nimble {
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
-        /// The principal ID. This currently supports a Amazon Web Services SSO UserId.
+        /// The principal ID. This currently supports a IAM Identity Center UserId.
         public let principalId: String
         /// The studio ID.
         public let studioId: String
@@ -1325,7 +1334,7 @@ extension Nimble {
 
         /// The Launch Profile ID.
         public let launchProfileId: String
-        /// The principal ID. This currently supports a Amazon Web Services SSO UserId.
+        /// The principal ID. This currently supports a IAM Identity Center UserId.
         public let principalId: String
         /// The studio ID.
         public let studioId: String
@@ -1522,7 +1531,7 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// The principal ID. This currently supports a Amazon Web Services SSO UserId.
+        /// The principal ID. This currently supports a IAM Identity Center UserId.
         public let principalId: String
         /// The studio ID.
         public let studioId: String
@@ -1891,13 +1900,13 @@ extension Nimble {
         /// The Launch Profile ID.
         public let launchProfileId: String
         /// The max number of results to return in the response.
-        public let maxResults: Int?
+        public let maxResults: Int
         /// The token to request the next page of results.
         public let nextToken: String?
         /// The studio ID.
         public let studioId: String
 
-        public init(launchProfileId: String, maxResults: Int? = nil, nextToken: String? = nil, studioId: String) {
+        public init(launchProfileId: String, maxResults: Int = 0, nextToken: String? = nil, studioId: String) {
             self.launchProfileId = launchProfileId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1939,17 +1948,17 @@ extension Nimble {
         ]
 
         /// The max number of results to return in the response.
-        public let maxResults: Int?
+        public let maxResults: Int
         /// The token to request the next page of results.
         public let nextToken: String?
-        /// The principal ID. This currently supports a Amazon Web Services SSO UserId.
+        /// The principal ID. This currently supports a IAM Identity Center UserId.
         public let principalId: String?
         /// Filter this request to launch profiles in any of the given states.
         public let states: [LaunchProfileState]?
         /// The studio ID.
         public let studioId: String
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil, principalId: String? = nil, states: [LaunchProfileState]? = nil, studioId: String) {
+        public init(maxResults: Int = 0, nextToken: String? = nil, principalId: String? = nil, states: [LaunchProfileState]? = nil, studioId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.principalId = principalId
@@ -2080,7 +2089,7 @@ extension Nimble {
         ]
 
         /// The max number of results to return in the response.
-        public let maxResults: Int?
+        public let maxResults: Int
         /// The token to request the next page of results.
         public let nextToken: String?
         /// Filters the request to studio components that are in one of the given states.
@@ -2090,7 +2099,7 @@ extension Nimble {
         /// Filters the request to studio components that are of one of the given types.
         public let types: [StudioComponentType]?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil, states: [StudioComponentState]? = nil, studioId: String, types: [StudioComponentType]? = nil) {
+        public init(maxResults: Int = 0, nextToken: String? = nil, states: [StudioComponentState]? = nil, studioId: String, types: [StudioComponentType]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.states = states
@@ -2131,13 +2140,13 @@ extension Nimble {
         ]
 
         /// The max number of results to return in the response.
-        public let maxResults: Int?
+        public let maxResults: Int
         /// The token to request the next page of results.
         public let nextToken: String?
         /// The studio ID.
         public let studioId: String
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil, studioId: String) {
+        public init(maxResults: Int = 0, nextToken: String? = nil, studioId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.studioId = studioId
@@ -2560,15 +2569,15 @@ extension Nimble {
         /// The EC2 instance types that users can select from when launching a streaming session with this launch profile.
         public let ec2InstanceTypes: [StreamingInstanceType]
         /// The length of time, in minutes, that a streaming session can be active before it is stopped or terminated. After this point, Nimble Studio automatically terminates or stops the session. The default length of time is 690 minutes, and the maximum length of time is 30 days.
-        public let maxSessionLengthInMinutes: Int?
+        public let maxSessionLengthInMinutes: Int
         /// Integer that determines if you can start and stop your sessions and how long a session can stay in the STOPPED state. The default value is 0. The maximum value is 5760. If the value is missing or set to 0, your sessions can’t be stopped. If you then call StopStreamingSession, the session fails. If the time that a session stays in the READY state exceeds the maxSessionLengthInMinutes value, the session will automatically be terminated (instead of stopped). If the value is set to a positive number, the session can be stopped. You can call StopStreamingSession to stop sessions in the READY state. If the time that a session stays in the READY state exceeds the maxSessionLengthInMinutes value, the session will automatically be stopped (instead of terminated).
-        public let maxStoppedSessionLengthInMinutes: Int?
+        public let maxStoppedSessionLengthInMinutes: Int
         /// (Optional) The upload storage for a streaming workstation that is created using this launch profile.
         public let sessionStorage: StreamConfigurationSessionStorage?
         /// The streaming images that users can select from when launching a streaming session with this launch profile.
         public let streamingImageIds: [String]
 
-        public init(clipboardMode: StreamingClipboardMode, ec2InstanceTypes: [StreamingInstanceType], maxSessionLengthInMinutes: Int? = nil, maxStoppedSessionLengthInMinutes: Int? = nil, sessionStorage: StreamConfigurationSessionStorage? = nil, streamingImageIds: [String]) {
+        public init(clipboardMode: StreamingClipboardMode, ec2InstanceTypes: [StreamingInstanceType], maxSessionLengthInMinutes: Int = 0, maxStoppedSessionLengthInMinutes: Int = 0, sessionStorage: StreamConfigurationSessionStorage? = nil, streamingImageIds: [String]) {
             self.clipboardMode = clipboardMode
             self.ec2InstanceTypes = ec2InstanceTypes
             self.maxSessionLengthInMinutes = maxSessionLengthInMinutes
@@ -2879,7 +2888,7 @@ extension Nimble {
         public let displayName: String?
         /// The Amazon Web Services Region where the studio resource is located.
         public let homeRegion: String?
-        /// The Amazon Web Services SSO application client ID used to integrate with Amazon Web Services SSO to enable Amazon Web Services SSO users to log in to Nimble Studio portal.
+        /// The IAM Identity Center application client ID used to integrate with IAM Identity Center to enable IAM Identity Center users to log in to Nimble Studio portal.
         public let ssoClientId: String?
         /// The current state of the studio resource.
         public let state: StudioState?
@@ -3220,7 +3229,7 @@ extension Nimble {
         public let launchProfileId: String
         /// The persona.
         public let persona: LaunchProfilePersona
-        /// The principal ID. This currently supports a Amazon Web Services SSO UserId.
+        /// The principal ID. This currently supports a IAM Identity Center UserId.
         public let principalId: String
         /// The studio ID.
         public let studioId: String

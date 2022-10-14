@@ -80,7 +80,9 @@ extension ACM.ListCertificatesRequest: AWSPaginateToken {
             certificateStatuses: self.certificateStatuses,
             includes: self.includes,
             maxItems: self.maxItems,
-            nextToken: token
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder
         )
     }
 }

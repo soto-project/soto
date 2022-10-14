@@ -21,8 +21,10 @@ import SotoCore
 public struct IdentityStoreErrorType: AWSErrorType {
     enum Code: String {
         case accessDeniedException = "AccessDeniedException"
+        case conflictException = "ConflictException"
         case internalServerException = "InternalServerException"
         case resourceNotFoundException = "ResourceNotFoundException"
+        case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case throttlingException = "ThrottlingException"
         case validationException = "ValidationException"
     }
@@ -47,10 +49,14 @@ public struct IdentityStoreErrorType: AWSErrorType {
 
     /// You do not have sufficient access to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// This request cannot be completed for one of the following reasons:   Performing the requested operation would violate an existing uniqueness claim in the identity store. Resolve the conflict before retrying this request.   The requested resource was being concurrently modified by another request.
+    public static var conflictException: Self { .init(.conflictException) }
     /// The request processing has failed because of an unknown error, exception or failure with an internal server.
     public static var internalServerException: Self { .init(.internalServerException) }
     /// Indicates that a requested resource is not found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// The request would cause the number of users or groups in the identity store to exceed the maximum allowed.
+    public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// Indicates that the principal has crossed the throttling limits of the API operations.
     public static var throttlingException: Self { .init(.throttlingException) }
     /// The request failed because it contains a syntax error.

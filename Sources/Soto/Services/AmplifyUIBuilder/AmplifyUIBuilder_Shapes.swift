@@ -21,6 +21,32 @@ import SotoCore
 extension AmplifyUIBuilder {
     // MARK: Enums
 
+    public enum FixedPosition: String, CustomStringConvertible, Codable, _SotoSendable {
+        case first
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FormActionType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case create
+        case update
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FormButtonsPosition: String, CustomStringConvertible, Codable, _SotoSendable {
+        case bottom
+        case top
+        case topAndBottom = "top_and_bottom"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FormDataSourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+        /// Will use passed in hooks to use when creating a form from scratch
+        case custom = "Custom"
+        /// Will use a provided Amplify DataStore enabled API
+        case dataStore = "DataStore"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SortDirection: String, CustomStringConvertible, Codable, _SotoSendable {
         case asc = "ASC"
         case desc = "DESC"
@@ -31,6 +57,96 @@ extension AmplifyUIBuilder {
         /// The figma token provider.
         case figma
         public var description: String { return self.rawValue }
+    }
+
+    public enum FieldPosition: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+        /// The field position is below the field specified by the string.
+        case below(String)
+        /// The field position is fixed and doesn't change in relation to other fields.
+        case fixed(FixedPosition)
+        /// The field position is to the right of the field specified by the string.
+        case rightOf(String)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .below:
+                let value = try container.decode(String.self, forKey: .below)
+                self = .below(value)
+            case .fixed:
+                let value = try container.decode(FixedPosition.self, forKey: .fixed)
+                self = .fixed(value)
+            case .rightOf:
+                let value = try container.decode(String.self, forKey: .rightOf)
+                self = .rightOf(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .below(let value):
+                try container.encode(value, forKey: .below)
+            case .fixed(let value):
+                try container.encode(value, forKey: .fixed)
+            case .rightOf(let value):
+                try container.encode(value, forKey: .rightOf)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case below
+            case fixed
+            case rightOf
+        }
+    }
+
+    public enum FormStyleConfig: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+        /// A reference to a design token to use to bind the form's style properties to an existing theme.
+        case tokenReference(String)
+        /// The value of the style setting.
+        case value(String)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .tokenReference:
+                let value = try container.decode(String.self, forKey: .tokenReference)
+                self = .tokenReference(value)
+            case .value:
+                let value = try container.decode(String.self, forKey: .value)
+                self = .value(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .tokenReference(let value):
+                try container.encode(value, forKey: .tokenReference)
+            case .value(let value):
+                try container.encode(value, forKey: .value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tokenReference
+            case value
+        }
     }
 
     // MARK: Shapes
@@ -191,16 +307,19 @@ extension AmplifyUIBuilder {
         public let model: String?
         /// A list of predicates for binding a component's properties to data.
         public let predicates: [Predicate]?
+        /// The name of a component slot.
+        public let slotName: String?
         /// An authenticated user attribute.
         public let userAttribute: String?
 
-        public init(bucket: String? = nil, defaultValue: String? = nil, field: String? = nil, key: String? = nil, model: String? = nil, predicates: [Predicate]? = nil, userAttribute: String? = nil) {
+        public init(bucket: String? = nil, defaultValue: String? = nil, field: String? = nil, key: String? = nil, model: String? = nil, predicates: [Predicate]? = nil, slotName: String? = nil, userAttribute: String? = nil) {
             self.bucket = bucket
             self.defaultValue = defaultValue
             self.field = field
             self.key = key
             self.model = model
             self.predicates = predicates
+            self.slotName = slotName
             self.userAttribute = userAttribute
         }
 
@@ -211,11 +330,12 @@ extension AmplifyUIBuilder {
             case key
             case model
             case predicates
+            case slotName
             case userAttribute
         }
     }
 
-    public final class ComponentChild: AWSEncodableShape & AWSDecodableShape {
+    public struct ComponentChild: AWSEncodableShape & AWSDecodableShape {
         /// The list of ComponentChild instances for this component.
         public let children: [ComponentChild]?
         /// The type of the child component.
@@ -584,6 +704,113 @@ extension AmplifyUIBuilder {
         }
     }
 
+    public struct CreateFormData: AWSEncodableShape {
+        /// The FormCTA object that stores the call to action configuration for the form.
+        public let cta: FormCTA?
+        /// The type of data source to use to create the form.
+        public let dataType: FormDataTypeConfig
+        /// The configuration information for the form's fields.
+        public let fields: [String: FieldConfig]
+        /// Specifies whether to perform a create or update action on the form.
+        public let formActionType: FormActionType
+        /// The name of the form.
+        public let name: String
+        /// The schema version of the form.
+        public let schemaVersion: String
+        /// The configuration information for the visual helper elements for the form. These elements are not associated with any data.
+        public let sectionalElements: [String: SectionalElement]
+        /// The configuration for the form's style.
+        public let style: FormStyle
+        /// One or more key-value pairs to use when tagging the form data.
+        public let tags: [String: String]?
+
+        public init(cta: FormCTA? = nil, dataType: FormDataTypeConfig, fields: [String: FieldConfig], formActionType: FormActionType, name: String, schemaVersion: String, sectionalElements: [String: SectionalElement], style: FormStyle, tags: [String: String]? = nil) {
+            self.cta = cta
+            self.dataType = dataType
+            self.fields = fields
+            self.formActionType = formActionType
+            self.name = name
+            self.schemaVersion = schemaVersion
+            self.sectionalElements = sectionalElements
+            self.style = style
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cta
+            case dataType
+            case fields
+            case formActionType
+            case name
+            case schemaVersion
+            case sectionalElements
+            case style
+            case tags
+        }
+    }
+
+    public struct CreateFormRequest: AWSEncodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "formToCreate"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri("appId")),
+            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken")),
+            AWSMemberEncoding(label: "environmentName", location: .uri("environmentName"))
+        ]
+
+        /// The unique ID of the Amplify app to associate with the form.
+        public let appId: String
+        /// The unique client token.
+        public let clientToken: String?
+        /// The name of the backend environment that is a part of the Amplify app.
+        public let environmentName: String
+        /// Represents the configuration of the form to create.
+        public let formToCreate: CreateFormData
+
+        public init(appId: String, clientToken: String? = CreateFormRequest.idempotencyToken(), environmentName: String, formToCreate: CreateFormData) {
+            self.appId = appId
+            self.clientToken = clientToken
+            self.environmentName = environmentName
+            self.formToCreate = formToCreate
+        }
+
+        public func validate(name: String) throws {
+            try self.formToCreate.validate(name: "\(name).formToCreate")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case formToCreate
+        }
+    }
+
+    public struct CreateFormResponse: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "entity"
+
+        /// Describes the configuration of the new form.
+        public let entity: Form?
+
+        public init(entity: Form? = nil) {
+            self.entity = entity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entity
+        }
+    }
+
     public struct CreateThemeData: AWSEncodableShape {
         /// The name of the theme.
         public let name: String
@@ -683,6 +910,29 @@ extension AmplifyUIBuilder {
         /// The name of the backend environment that is a part of the Amplify app.
         public let environmentName: String
         /// The unique ID of the component to delete.
+        public let id: String
+
+        public init(appId: String, environmentName: String, id: String) {
+            self.appId = appId
+            self.environmentName = environmentName
+            self.id = id
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteFormRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri("appId")),
+            AWSMemberEncoding(label: "environmentName", location: .uri("environmentName")),
+            AWSMemberEncoding(label: "id", location: .uri("id"))
+        ]
+
+        /// The unique ID of the Amplify app associated with the form to delete.
+        public let appId: String
+        /// The name of the backend environment that is a part of the Amplify app.
+        public let environmentName: String
+        /// The unique ID of the form to delete.
         public let id: String
 
         public init(appId: String, environmentName: String, id: String) {
@@ -817,6 +1067,46 @@ extension AmplifyUIBuilder {
         }
     }
 
+    public struct ExportFormsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri("appId")),
+            AWSMemberEncoding(label: "environmentName", location: .uri("environmentName")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
+        ]
+
+        /// The unique ID of the Amplify app to export forms to.
+        public let appId: String
+        /// The name of the backend environment that is a part of the Amplify app.
+        public let environmentName: String
+        /// The token to request the next page of results.
+        public let nextToken: String?
+
+        public init(appId: String, environmentName: String, nextToken: String? = nil) {
+            self.appId = appId
+            self.environmentName = environmentName
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ExportFormsResponse: AWSDecodableShape {
+        /// Represents the configuration of the exported forms.
+        public let entities: [Form]
+        /// The pagination token that's included if more results are available.
+        public let nextToken: String?
+
+        public init(entities: [Form], nextToken: String? = nil) {
+            self.entities = entities
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entities
+            case nextToken
+        }
+    }
+
     public struct ExportThemesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "appId", location: .uri("appId")),
@@ -857,6 +1147,182 @@ extension AmplifyUIBuilder {
         }
     }
 
+    public struct FieldConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether to hide a field.
+        public let excluded: Bool?
+        /// Describes the configuration for the default input value to display for a field.
+        public let inputType: FieldInputConfig?
+        /// The label for the field.
+        public let label: String?
+        /// Specifies the field position.
+        public let position: FieldPosition?
+        /// The validations to perform on the value in the field.
+        public let validations: [FieldValidationConfiguration]?
+
+        public init(excluded: Bool? = nil, inputType: FieldInputConfig? = nil, label: String? = nil, position: FieldPosition? = nil, validations: [FieldValidationConfiguration]? = nil) {
+            self.excluded = excluded
+            self.inputType = inputType
+            self.label = label
+            self.position = position
+            self.validations = validations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case excluded
+            case inputType
+            case label
+            case position
+            case validations
+        }
+    }
+
+    public struct FieldInputConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether a field has a default value.
+        public let defaultChecked: Bool?
+        /// The default country code for a phone number.
+        public let defaultCountryCode: String?
+        /// The default value for the field.
+        public let defaultValue: String?
+        /// The text to display to describe the field.
+        public let descriptiveText: String?
+        /// The maximum value to display for the field.
+        public let maxValue: Float?
+        /// The minimum value to display for the field.
+        public let minValue: Float?
+        /// The name of the field.
+        public let name: String?
+        /// The text to display as a placeholder for the field.
+        public let placeholder: String?
+        /// Specifies a read only field.
+        public let readOnly: Bool?
+        /// Specifies a field that requires input.
+        public let required: Bool?
+        /// The stepping increment for a numeric value in a field.
+        public let step: Float?
+        /// The input type for the field.
+        public let type: String
+        /// The value for the field.
+        public let value: String?
+        /// The information to use to customize the input fields with data at runtime.
+        public let valueMappings: ValueMappings?
+
+        public init(defaultChecked: Bool? = nil, defaultCountryCode: String? = nil, defaultValue: String? = nil, descriptiveText: String? = nil, maxValue: Float? = nil, minValue: Float? = nil, name: String? = nil, placeholder: String? = nil, readOnly: Bool? = nil, required: Bool? = nil, step: Float? = nil, type: String, value: String? = nil, valueMappings: ValueMappings? = nil) {
+            self.defaultChecked = defaultChecked
+            self.defaultCountryCode = defaultCountryCode
+            self.defaultValue = defaultValue
+            self.descriptiveText = descriptiveText
+            self.maxValue = maxValue
+            self.minValue = minValue
+            self.name = name
+            self.placeholder = placeholder
+            self.readOnly = readOnly
+            self.required = required
+            self.step = step
+            self.type = type
+            self.value = value
+            self.valueMappings = valueMappings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultChecked
+            case defaultCountryCode
+            case defaultValue
+            case descriptiveText
+            case maxValue
+            case minValue
+            case name
+            case placeholder
+            case readOnly
+            case required
+            case step
+            case type
+            case value
+            case valueMappings
+        }
+    }
+
+    public struct FieldValidationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The validation to perform on a number value.
+        public let numValues: [Int]?
+        /// The validation to perform on a string value.
+        public let strValues: [String]?
+        /// The validation to perform on an object type.
+        public let type: String
+        /// The validation message to display.
+        public let validationMessage: String?
+
+        public init(numValues: [Int]? = nil, strValues: [String]? = nil, type: String, validationMessage: String? = nil) {
+            self.numValues = numValues
+            self.strValues = strValues
+            self.type = type
+            self.validationMessage = validationMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case numValues
+            case strValues
+            case type
+            case validationMessage
+        }
+    }
+
+    public struct Form: AWSDecodableShape {
+        /// The unique ID of the Amplify app associated with the form.
+        public let appId: String
+        /// Stores the call to action configuration for the form.
+        public let cta: FormCTA?
+        /// The type of data source to use to create the form.
+        public let dataType: FormDataTypeConfig
+        /// The name of the backend environment that is a part of the Amplify app.
+        public let environmentName: String
+        /// Stores the information about the form's fields.
+        public let fields: [String: FieldConfig]
+        /// The operation to perform on the specified form.
+        public let formActionType: FormActionType
+        /// The unique ID of the form.
+        public let id: String
+        /// The name of the form.
+        public let name: String
+        /// The schema version of the form when it was imported.
+        public let schemaVersion: String
+        /// Stores the visual helper elements for the form that are not associated with any data.
+        public let sectionalElements: [String: SectionalElement]
+        /// Stores the configuration for the form's style.
+        public let style: FormStyle
+        /// One or more key-value pairs to use when tagging the form.
+        public let tags: [String: String]?
+
+        public init(appId: String, cta: FormCTA? = nil, dataType: FormDataTypeConfig, environmentName: String, fields: [String: FieldConfig], formActionType: FormActionType, id: String, name: String, schemaVersion: String, sectionalElements: [String: SectionalElement], style: FormStyle, tags: [String: String]? = nil) {
+            self.appId = appId
+            self.cta = cta
+            self.dataType = dataType
+            self.environmentName = environmentName
+            self.fields = fields
+            self.formActionType = formActionType
+            self.id = id
+            self.name = name
+            self.schemaVersion = schemaVersion
+            self.sectionalElements = sectionalElements
+            self.style = style
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appId
+            case cta
+            case dataType
+            case environmentName
+            case fields
+            case formActionType
+            case id
+            case name
+            case schemaVersion
+            case sectionalElements
+            case style
+            case tags
+        }
+    }
+
     public struct FormBindingElement: AWSEncodableShape & AWSDecodableShape {
         /// The name of the component to retrieve a value from.
         public let element: String
@@ -871,6 +1337,136 @@ extension AmplifyUIBuilder {
         private enum CodingKeys: String, CodingKey {
             case element
             case property
+        }
+    }
+
+    public struct FormButton: AWSEncodableShape & AWSDecodableShape {
+        /// Describes the button's properties.
+        public let children: String?
+        /// Specifies whether the button is visible on the form.
+        public let excluded: Bool?
+        /// The position of the button.
+        public let position: FieldPosition?
+
+        public init(children: String? = nil, excluded: Bool? = nil, position: FieldPosition? = nil) {
+            self.children = children
+            self.excluded = excluded
+            self.position = position
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case children
+            case excluded
+            case position
+        }
+    }
+
+    public struct FormCTA: AWSEncodableShape & AWSDecodableShape {
+        /// Displays a cancel button.
+        public let cancel: FormButton?
+        /// Displays a clear button.
+        public let clear: FormButton?
+        /// The position of the button.
+        public let position: FormButtonsPosition?
+        /// Displays a submit button.
+        public let submit: FormButton?
+
+        public init(cancel: FormButton? = nil, clear: FormButton? = nil, position: FormButtonsPosition? = nil, submit: FormButton? = nil) {
+            self.cancel = cancel
+            self.clear = clear
+            self.position = position
+            self.submit = submit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cancel
+            case clear
+            case position
+            case submit
+        }
+    }
+
+    public struct FormDataTypeConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The data source type, either an Amplify DataStore model or a custom data type.
+        public let dataSourceType: FormDataSourceType
+        /// The unique name of the data type you are using as the data source for the form.
+        public let dataTypeName: String
+
+        public init(dataSourceType: FormDataSourceType, dataTypeName: String) {
+            self.dataSourceType = dataSourceType
+            self.dataTypeName = dataTypeName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceType
+            case dataTypeName
+        }
+    }
+
+    public struct FormInputValueProperty: AWSEncodableShape & AWSDecodableShape {
+        /// The value to assign to the input field.
+        public let value: String?
+
+        public init(value: String? = nil) {
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case value
+        }
+    }
+
+    public struct FormStyle: AWSEncodableShape & AWSDecodableShape {
+        /// The spacing for the horizontal gap.
+        public let horizontalGap: FormStyleConfig?
+        /// The size of the outer padding for the form.
+        public let outerPadding: FormStyleConfig?
+        /// The spacing for the vertical gap.
+        public let verticalGap: FormStyleConfig?
+
+        public init(horizontalGap: FormStyleConfig? = nil, outerPadding: FormStyleConfig? = nil, verticalGap: FormStyleConfig? = nil) {
+            self.horizontalGap = horizontalGap
+            self.outerPadding = outerPadding
+            self.verticalGap = verticalGap
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case horizontalGap
+            case outerPadding
+            case verticalGap
+        }
+    }
+
+    public struct FormSummary: AWSDecodableShape {
+        /// The unique ID for the app associated with the form summary.
+        public let appId: String
+        /// The form's data source type.
+        public let dataType: FormDataTypeConfig
+        /// The name of the backend environment that is part of the Amplify app.
+        public let environmentName: String
+        /// The type of operation to perform on the form.
+        public let formActionType: FormActionType
+        /// The ID of the form.
+        public let id: String
+        /// The name of the form.
+        public let name: String
+
+        public init(appId: String, dataType: FormDataTypeConfig, environmentName: String, formActionType: FormActionType, id: String, name: String) {
+            self.appId = appId
+            self.dataType = dataType
+            self.environmentName = environmentName
+            self.formActionType = formActionType
+            self.id = id
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appId
+            case dataType
+            case environmentName
+            case formActionType
+            case id
+            case name
         }
     }
 
@@ -910,6 +1506,77 @@ extension AmplifyUIBuilder {
 
         private enum CodingKeys: String, CodingKey {
             case component
+        }
+    }
+
+    public struct GetFormRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri("appId")),
+            AWSMemberEncoding(label: "environmentName", location: .uri("environmentName")),
+            AWSMemberEncoding(label: "id", location: .uri("id"))
+        ]
+
+        /// The unique ID of the Amplify app.
+        public let appId: String
+        /// The name of the backend environment that is part of the Amplify app.
+        public let environmentName: String
+        /// The unique ID of the form.
+        public let id: String
+
+        public init(appId: String, environmentName: String, id: String) {
+            self.appId = appId
+            self.environmentName = environmentName
+            self.id = id
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetFormResponse: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "form"
+
+        /// Represents the configuration settings for the form.
+        public let form: Form?
+
+        public init(form: Form? = nil) {
+            self.form = form
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case form
+        }
+    }
+
+    public struct GetMetadataRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri("appId")),
+            AWSMemberEncoding(label: "environmentName", location: .uri("environmentName"))
+        ]
+
+        /// The unique ID of the Amplify app.
+        public let appId: String
+        /// The name of the backend environment that is part of the Amplify app.
+        public let environmentName: String
+
+        public init(appId: String, environmentName: String) {
+            self.appId = appId
+            self.environmentName = environmentName
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetMetadataResponse: AWSDecodableShape {
+        /// Represents the configuration settings for the features metadata.
+        public let features: [String: String]
+
+        public init(features: [String: String]) {
+            self.features = features
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case features
         }
     }
 
@@ -965,11 +1632,11 @@ extension AmplifyUIBuilder {
         /// The name of the backend environment that is a part of the Amplify app.
         public let environmentName: String
         /// The maximum number of components to retrieve.
-        public let maxResults: Int?
+        public let maxResults: Int
         /// The token to request the next page of results.
         public let nextToken: String?
 
-        public init(appId: String, environmentName: String, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(appId: String, environmentName: String, maxResults: Int = 0, nextToken: String? = nil) {
             self.appId = appId
             self.environmentName = environmentName
             self.maxResults = maxResults
@@ -1001,6 +1668,55 @@ extension AmplifyUIBuilder {
         }
     }
 
+    public struct ListFormsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri("appId")),
+            AWSMemberEncoding(label: "environmentName", location: .uri("environmentName")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
+        ]
+
+        /// The unique ID for the Amplify app.
+        public let appId: String
+        /// The name of the backend environment that is a part of the Amplify app.
+        public let environmentName: String
+        /// The maximum number of forms to retrieve.
+        public let maxResults: Int
+        /// The token to request the next page of results.
+        public let nextToken: String?
+
+        public init(appId: String, environmentName: String, maxResults: Int = 0, nextToken: String? = nil) {
+            self.appId = appId
+            self.environmentName = environmentName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListFormsResponse: AWSDecodableShape {
+        /// The list of forms for the Amplify app.
+        public let entities: [FormSummary]
+        /// The pagination token that's included if more results are available.
+        public let nextToken: String?
+
+        public init(entities: [FormSummary], nextToken: String? = nil) {
+            self.entities = entities
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entities
+            case nextToken
+        }
+    }
+
     public struct ListThemesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "appId", location: .uri("appId")),
@@ -1014,11 +1730,11 @@ extension AmplifyUIBuilder {
         /// The name of the backend environment that is a part of the Amplify app.
         public let environmentName: String
         /// The maximum number of theme results to return in the response.
-        public let maxResults: Int?
+        public let maxResults: Int
         /// The token to request the next page of results.
         public let nextToken: String?
 
-        public init(appId: String, environmentName: String, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(appId: String, environmentName: String, maxResults: Int = 0, nextToken: String? = nil) {
             self.appId = appId
             self.environmentName = environmentName
             self.maxResults = maxResults
@@ -1071,7 +1787,7 @@ extension AmplifyUIBuilder {
         }
     }
 
-    public final class Predicate: AWSEncodableShape & AWSDecodableShape {
+    public struct Predicate: AWSEncodableShape & AWSDecodableShape {
         /// A list of predicates to combine logically.
         public let and: [Predicate]?
         /// The field to query.
@@ -1097,6 +1813,49 @@ extension AmplifyUIBuilder {
             case operand
             case `operator`
             case or
+        }
+    }
+
+    public struct PutMetadataFlagBody: AWSEncodableShape {
+        /// The new information to store.
+        public let newValue: String
+
+        public init(newValue: String) {
+            self.newValue = newValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case newValue
+        }
+    }
+
+    public struct PutMetadataFlagRequest: AWSEncodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "body"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri("appId")),
+            AWSMemberEncoding(label: "environmentName", location: .uri("environmentName")),
+            AWSMemberEncoding(label: "featureName", location: .uri("featureName"))
+        ]
+
+        /// The unique ID for the Amplify app.
+        public let appId: String
+        /// The metadata information to store.
+        public let body: PutMetadataFlagBody
+        /// The name of the backend environment that is part of the Amplify app.
+        public let environmentName: String
+        /// The name of the feature associated with the metadata.
+        public let featureName: String
+
+        public init(appId: String, body: PutMetadataFlagBody, environmentName: String, featureName: String) {
+            self.appId = appId
+            self.body = body
+            self.environmentName = environmentName
+            self.featureName = featureName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case body
         }
     }
 
@@ -1149,6 +1908,35 @@ extension AmplifyUIBuilder {
         private enum CodingKeys: String, CodingKey {
             case accessToken
             case expiresIn
+        }
+    }
+
+    public struct SectionalElement: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the size of the font for a Heading sectional element. Valid values are 1 | 2 | 3 | 4 | 5 | 6.
+        public let level: Int?
+        /// Specifies the orientation for a Divider sectional element. Valid values are horizontal or vertical.
+        public let orientation: String?
+        /// Specifies the position of the text in a field for a Text sectional element.
+        public let position: FieldPosition?
+        /// The text for a Text sectional element.
+        public let text: String?
+        /// The type of sectional element. Valid values are Heading, Text, and Divider.
+        public let type: String
+
+        public init(level: Int? = nil, orientation: String? = nil, position: FieldPosition? = nil, text: String? = nil, type: String) {
+            self.level = level
+            self.orientation = orientation
+            self.position = position
+            self.text = text
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case level
+            case orientation
+            case position
+            case text
+            case type
         }
     }
 
@@ -1391,6 +2179,106 @@ extension AmplifyUIBuilder {
         }
     }
 
+    public struct UpdateFormData: AWSEncodableShape {
+        /// The FormCTA object that stores the call to action configuration for the form.
+        public let cta: FormCTA?
+        /// The type of data source to use to create the form.
+        public let dataType: FormDataTypeConfig?
+        /// The configuration information for the form's fields.
+        public let fields: [String: FieldConfig]?
+        /// Specifies whether to perform a create or update action on the form.
+        public let formActionType: FormActionType?
+        /// The name of the form.
+        public let name: String?
+        /// The schema version of the form.
+        public let schemaVersion: String?
+        /// The configuration information for the visual helper elements for the form. These elements are not associated with any data.
+        public let sectionalElements: [String: SectionalElement]?
+        /// The configuration for the form's style.
+        public let style: FormStyle?
+
+        public init(cta: FormCTA? = nil, dataType: FormDataTypeConfig? = nil, fields: [String: FieldConfig]? = nil, formActionType: FormActionType? = nil, name: String? = nil, schemaVersion: String? = nil, sectionalElements: [String: SectionalElement]? = nil, style: FormStyle? = nil) {
+            self.cta = cta
+            self.dataType = dataType
+            self.fields = fields
+            self.formActionType = formActionType
+            self.name = name
+            self.schemaVersion = schemaVersion
+            self.sectionalElements = sectionalElements
+            self.style = style
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cta
+            case dataType
+            case fields
+            case formActionType
+            case name
+            case schemaVersion
+            case sectionalElements
+            case style
+        }
+    }
+
+    public struct UpdateFormRequest: AWSEncodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "updatedForm"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri("appId")),
+            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken")),
+            AWSMemberEncoding(label: "environmentName", location: .uri("environmentName")),
+            AWSMemberEncoding(label: "id", location: .uri("id"))
+        ]
+
+        /// The unique ID for the Amplify app.
+        public let appId: String
+        /// The unique client token.
+        public let clientToken: String?
+        /// The name of the backend environment that is part of the Amplify app.
+        public let environmentName: String
+        /// The unique ID for the form.
+        public let id: String
+        /// The request accepts the following data in JSON format.
+        public let updatedForm: UpdateFormData
+
+        public init(appId: String, clientToken: String? = UpdateFormRequest.idempotencyToken(), environmentName: String, id: String, updatedForm: UpdateFormData) {
+            self.appId = appId
+            self.clientToken = clientToken
+            self.environmentName = environmentName
+            self.id = id
+            self.updatedForm = updatedForm
+        }
+
+        public func validate(name: String) throws {
+            try self.updatedForm.validate(name: "\(name).updatedForm")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case updatedForm
+        }
+    }
+
+    public struct UpdateFormResponse: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "entity"
+
+        /// Describes the configuration of the updated form.
+        public let entity: Form?
+
+        public init(entity: Form? = nil) {
+            self.entity = entity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entity
+        }
+    }
+
     public struct UpdateThemeData: AWSEncodableShape {
         /// The unique ID of the theme to update.
         public let id: String?
@@ -1472,6 +2360,36 @@ extension AmplifyUIBuilder {
 
         private enum CodingKeys: String, CodingKey {
             case entity
+        }
+    }
+
+    public struct ValueMapping: AWSEncodableShape & AWSDecodableShape {
+        /// The value to display for the complex object.
+        public let displayValue: FormInputValueProperty?
+        /// The complex object.
+        public let value: FormInputValueProperty
+
+        public init(displayValue: FormInputValueProperty? = nil, value: FormInputValueProperty) {
+            self.displayValue = displayValue
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayValue
+            case value
+        }
+    }
+
+    public struct ValueMappings: AWSEncodableShape & AWSDecodableShape {
+        /// The value and display value pairs.
+        public let values: [ValueMapping]
+
+        public init(values: [ValueMapping]) {
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case values
         }
     }
 }

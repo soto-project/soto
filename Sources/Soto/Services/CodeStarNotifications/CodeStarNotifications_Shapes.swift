@@ -66,24 +66,24 @@ extension CodeStarNotifications {
     // MARK: Shapes
 
     public struct CreateNotificationRuleRequest: AWSEncodableShape {
-        /// A unique, client-generated idempotency token that, when provided in a request, ensures the request cannot be repeated with a changed parameter. If a request with the same parameters is received and a token is included, the request returns information about the initial request that used that token.  The AWS SDKs prepopulate client request tokens. If you are using an AWS SDK, an idempotency token is created for you.
+        /// A unique, client-generated idempotency token that, when provided in a request, ensures the request cannot be repeated with a changed parameter. If a request with the same parameters is received and a token is included, the request returns information about the initial request that used that token.  The Amazon Web Services SDKs prepopulate client request tokens. If you are using an Amazon Web Services SDK, an idempotency token is created for you.
         public let clientRequestToken: String?
-        /// The level of detail to include in the notifications for this resource. BASIC will include only the  contents of the event as it would appear in AWS CloudWatch. FULL will include any supplemental information provided by AWS CodeStar Notifications and/or the service for the resource for which the notification is created.
+        /// The level of detail to include in the notifications for this resource. BASIC will include only the  contents of the event as it would appear in Amazon CloudWatch. FULL will include any supplemental information provided by AWS CodeStar Notifications and/or the service for the resource for which the notification is created.
         public let detailType: DetailType
         /// A list of event types associated with this notification rule. For a list of allowed events, see EventTypeSummary.
         public let eventTypeIds: [String]
-        /// The name for the notification rule. Notifictaion rule names must be unique in your AWS account.
+        /// The name for the notification rule. Notification rule names must be unique in your Amazon Web Services account.
         public let name: String
-        /// The Amazon Resource Name (ARN) of the resource to associate with the notification rule. Supported resources include pipelines in AWS CodePipeline, repositories in AWS CodeCommit, and build projects in AWS CodeBuild.
+        /// The Amazon Resource Name (ARN) of the resource to associate with the notification rule. Supported resources include pipelines in CodePipeline, repositories in CodeCommit, and build projects in CodeBuild.
         public let resource: String
         /// The status of the notification rule. The default value is ENABLED. If the status is set to DISABLED, notifications aren't sent for the notification rule.
-        public let status: NotificationRuleStatus?
+        public let status: NotificationRuleStatus
         /// A list of tags to apply to this notification rule. Key names cannot start with "aws".
         public let tags: [String: String]?
-        /// A list of Amazon Resource Names (ARNs) of SNS topics to associate with the notification rule.
+        /// A list of Amazon Resource Names (ARNs) of Amazon Simple Notification Service topics and Chatbot clients to associate with the notification rule.
         public let targets: [Target]
 
-        public init(clientRequestToken: String? = CreateNotificationRuleRequest.idempotencyToken(), detailType: DetailType, eventTypeIds: [String], name: String, resource: String, status: NotificationRuleStatus? = nil, tags: [String: String]? = nil, targets: [Target]) {
+        public init(clientRequestToken: String? = CreateNotificationRuleRequest.idempotencyToken(), detailType: DetailType, eventTypeIds: [String], name: String, resource: String, status: NotificationRuleStatus = .enabled, tags: [String: String]? = nil, targets: [Target]) {
             self.clientRequestToken = clientRequestToken
             self.detailType = detailType
             self.eventTypeIds = eventTypeIds
@@ -104,7 +104,7 @@ extension CodeStarNotifications {
             }
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "[A-Za-z0-9\\-_ ]+$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9\\-_ ]+$")
             try self.validate(self.resource, name: "resource", parent: name, pattern: "^arn:aws[^:\\s]*:[^:\\s]*:[^:\\s]*:[0-9]{12}:[^\\s]+$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
@@ -175,12 +175,12 @@ extension CodeStarNotifications {
     }
 
     public struct DeleteTargetRequest: AWSEncodableShape {
-        /// A Boolean value that can be used to delete all associations with this SNS topic. The default value is FALSE. If set to TRUE, all associations between that target and every notification rule in your AWS account are deleted.
-        public let forceUnsubscribeAll: Bool?
-        /// The Amazon Resource Name (ARN) of the SNS topic to delete.
+        /// A Boolean value that can be used to delete all associations with this Chatbot topic. The default value is FALSE. If set to TRUE, all associations between that target and every notification rule in your Amazon Web Services account are deleted.
+        public let forceUnsubscribeAll: Bool
+        /// The Amazon Resource Name (ARN) of the Chatbot topic or Chatbot client to delete.
         public let targetAddress: String
 
-        public init(forceUnsubscribeAll: Bool? = nil, targetAddress: String) {
+        public init(forceUnsubscribeAll: Bool = false, targetAddress: String) {
             self.forceUnsubscribeAll = forceUnsubscribeAll
             self.targetAddress = targetAddress
         }
@@ -224,7 +224,7 @@ extension CodeStarNotifications {
         public let createdBy: String?
         /// The date and time the notification rule was created, in timestamp format.
         public let createdTimestamp: Date?
-        /// The level of detail included in the notifications for this resource. BASIC will include only the  contents of the event as it would appear in AWS CloudWatch. FULL will include any supplemental information provided by AWS CodeStar Notifications and/or the service for the resource for which the notification is created.
+        /// The level of detail included in the notifications for this resource. BASIC will include only the  contents of the event as it would appear in Amazon CloudWatch. FULL will include any supplemental information provided by AWS CodeStar Notifications and/or the service for the resource for which the notification is created.
         public let detailType: DetailType?
         /// A list of the event types associated with the notification rule.
         public let eventTypes: [EventTypeSummary]?
@@ -238,7 +238,7 @@ extension CodeStarNotifications {
         public let status: NotificationRuleStatus?
         /// The tags associated with the notification rule.
         public let tags: [String: String]?
-        /// A list of the SNS topics associated with the notification rule.
+        /// A list of the Chatbot topics and Chatbot clients associated with the notification rule.
         public let targets: [TargetSummary]?
 
         public init(arn: String, createdBy: String? = nil, createdTimestamp: Date? = nil, detailType: DetailType? = nil, eventTypes: [EventTypeSummary]? = nil, lastModifiedTimestamp: Date? = nil, name: String? = nil, resource: String? = nil, status: NotificationRuleStatus? = nil, tags: [String: String]? = nil, targets: [TargetSummary]? = nil) {
@@ -271,7 +271,7 @@ extension CodeStarNotifications {
     }
 
     public struct EventTypeSummary: AWSDecodableShape {
-        /// The system-generated ID of the event.
+        /// The system-generated ID of the event. For a complete list of event types and IDs, see  Notification concepts in the Developer Tools Console User Guide.
         public let eventTypeId: String?
         /// The name of the event.
         public let eventTypeName: String?
@@ -359,12 +359,16 @@ extension CodeStarNotifications {
     public struct ListNotificationRulesFilter: AWSEncodableShape {
         /// The name of the attribute you want to use to filter the returned notification rules.
         public let name: ListNotificationRulesFilterName
-        /// The value of the attribute you want to use to filter the returned notification rules. For example, if you specify filtering by RESOURCE  in Name, you might specify the ARN of a pipeline in AWS CodePipeline for the value.
+        /// The value of the attribute you want to use to filter the returned notification rules. For example, if you specify filtering by RESOURCE  in Name, you might specify the ARN of a pipeline in CodePipeline for the value.
         public let value: String
 
         public init(name: ListNotificationRulesFilterName, value: String) {
             self.name = name
             self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.value, name: "value", parent: name, max: 2048)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -388,6 +392,9 @@ extension CodeStarNotifications {
         }
 
         public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\w/+=]+$")
@@ -403,7 +410,7 @@ extension CodeStarNotifications {
     public struct ListNotificationRulesResult: AWSDecodableShape {
         /// An enumeration token that can be used in a request to return the next batch of the results.
         public let nextToken: String?
-        /// The list of notification rules for the AWS account, by Amazon Resource Name (ARN) and ID.
+        /// The list of notification rules for the Amazon Web Services account, by Amazon Resource Name (ARN) and ID.
         public let notificationRules: [NotificationRuleSummary]?
 
         public init(nextToken: String? = nil, notificationRules: [NotificationRuleSummary]? = nil) {
@@ -458,6 +465,10 @@ extension CodeStarNotifications {
             self.value = value
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.value, name: "value", parent: name, max: 2048)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case value = "Value"
@@ -479,6 +490,9 @@ extension CodeStarNotifications {
         }
 
         public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\w/+=]+$")
@@ -608,9 +622,9 @@ extension CodeStarNotifications {
     }
 
     public struct Target: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the SNS topic.
+        /// The Amazon Resource Name (ARN) of the Chatbot topic or Chatbot client.
         public let targetAddress: String?
-        /// The target type. Can be an Amazon SNS topic.
+        /// The target type. Can be an Chatbot topic or Chatbot client.   Chatbot topics are specified as SNS.   Chatbot clients are specified as AWSChatbotSlack.
         public let targetType: String?
 
         public init(targetAddress: String? = nil, targetType: String? = nil) {
@@ -631,11 +645,11 @@ extension CodeStarNotifications {
     }
 
     public struct TargetSummary: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the SNS topic.
+        /// The Amazon Resource Name (ARN) of the Chatbot topic or Chatbot client.
         public let targetAddress: String?
         /// The status of the target.
         public let targetStatus: TargetStatus?
-        /// The type of the target (for example, SNS).
+        /// The type of the target (for example, SNS).   Chatbot topics are specified as SNS.   Chatbot clients are specified as AWSChatbotSlack.
         public let targetType: String?
 
         public init(targetAddress: String? = nil, targetStatus: TargetStatus? = nil, targetType: String? = nil) {
@@ -654,7 +668,7 @@ extension CodeStarNotifications {
     public struct UnsubscribeRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the notification rule.
         public let arn: String
-        /// The ARN of the SNS topic to unsubscribe from the notification rule.
+        /// The ARN of the Chatbot topic to unsubscribe from the notification rule.
         public let targetAddress: String
 
         public init(arn: String, targetAddress: String) {
@@ -688,6 +702,11 @@ extension CodeStarNotifications {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "arn", location: .uri("Arn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
+        ]
+
         /// The Amazon Resource Name (ARN) of the notification rule from which to remove the tags.
         public let arn: String
         /// The key names of the tags to remove.
@@ -707,10 +726,7 @@ extension CodeStarNotifications {
             }
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case arn = "Arn"
-            case tagKeys = "TagKeys"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UntagResourceResult: AWSDecodableShape {
@@ -720,9 +736,9 @@ extension CodeStarNotifications {
     public struct UpdateNotificationRuleRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the notification rule.
         public let arn: String
-        /// The level of detail to include in the notifications for this resource. BASIC will include only the  contents of the event as it would appear in AWS CloudWatch. FULL will include any supplemental information provided by AWS CodeStar Notifications and/or the service for the resource for which the notification is created.
+        /// The level of detail to include in the notifications for this resource. BASIC will include only the  contents of the event as it would appear in Amazon CloudWatch. FULL will include any supplemental information provided by AWS CodeStar Notifications and/or the service for the resource for which the notification is created.
         public let detailType: DetailType?
-        /// A list of event types associated with this notification rule.
+        /// A list of event types associated with this notification rule. For a complete list of event types and IDs, see  Notification concepts in the Developer Tools Console User Guide.
         public let eventTypeIds: [String]?
         /// The name of the notification rule.
         public let name: String?
@@ -748,7 +764,7 @@ extension CodeStarNotifications {
             }
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "[A-Za-z0-9\\-_ ]+$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9\\-_ ]+$")
             try self.targets?.forEach {
                 try $0.validate(name: "\(name).targets[]")
             }

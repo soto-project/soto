@@ -539,6 +539,8 @@ extension Evidently {
     }
 
     public struct CreateProjectRequest: AWSEncodableShape {
+        /// Use this parameter if the project will use client-side evaluation powered by AppConfig. Client-side evaluation allows your application to assign variations to user sessions locally instead of by calling the EvaluateFeature operation. This  mitigates the latency and availability risks that come with an API call. For more information,  see  Client-side evaluation - powered by AppConfig.  This parameter is a structure that contains information about the AppConfig application and environment that will be used as for client-side evaluation. To create a project that uses client-side evaluation, you must have the evidently:ExportProjectAsConfiguration permission.
+        public let appConfigResource: ProjectAppConfigResourceConfig?
         /// A structure that contains information about where Evidently is to store evaluation events for longer term storage, if you choose to do so. If you choose not to store these events, Evidently deletes them after using them to produce metrics and other experiment results that you can view.
         public let dataDelivery: ProjectDataDeliveryConfig?
         /// An optional description of the project.
@@ -548,7 +550,8 @@ extension Evidently {
         /// Assigns one or more tags (key-value pairs) to the project. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters.  You can associate as many as 50 tags with a project. For more information, see Tagging Amazon Web Services resources.
         public let tags: [String: String]?
 
-        public init(dataDelivery: ProjectDataDeliveryConfig? = nil, description: String? = nil, name: String, tags: [String: String]? = nil) {
+        public init(appConfigResource: ProjectAppConfigResourceConfig? = nil, dataDelivery: ProjectDataDeliveryConfig? = nil, description: String? = nil, name: String, tags: [String: String]? = nil) {
+            self.appConfigResource = appConfigResource
             self.dataDelivery = dataDelivery
             self.description = description
             self.name = name
@@ -556,6 +559,7 @@ extension Evidently {
         }
 
         public func validate(name: String) throws {
+            try self.appConfigResource?.validate(name: "\(name).appConfigResource")
             try self.dataDelivery?.validate(name: "\(name).dataDelivery")
             try self.validate(self.description, name: "description", parent: name, max: 160)
             try self.validate(self.description, name: "description", parent: name, pattern: ".*")
@@ -571,6 +575,7 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case appConfigResource
             case dataDelivery
             case description
             case name
@@ -1285,7 +1290,7 @@ extension Evidently {
         /// The names of the experiment metrics that you want to see the results of.
         public let metricNames: [String]
         /// In seconds, the amount of time to aggregate results together.
-        public let period: Int64?
+        public let period: Int64
         /// The name or ARN of the project that contains the experiment that you want to see the results of.
         public let project: String
         /// The names of the report types that you want to see. Currently, BayesianInference is the only valid value.
@@ -1297,7 +1302,7 @@ extension Evidently {
         /// The names of the experiment treatments that you want to see the results for.
         public let treatmentNames: [String]
 
-        public init(baseStat: ExperimentBaseStat? = nil, endTime: Date? = nil, experiment: String, metricNames: [String], period: Int64? = nil, project: String, reportNames: [ExperimentReportName]? = nil, resultStats: [ExperimentResultRequestType]? = nil, startTime: Date? = nil, treatmentNames: [String]) {
+        public init(baseStat: ExperimentBaseStat? = nil, endTime: Date? = nil, experiment: String, metricNames: [String], period: Int64 = 0, project: String, reportNames: [ExperimentReportName]? = nil, resultStats: [ExperimentResultRequestType]? = nil, startTime: Date? = nil, treatmentNames: [String]) {
             self.baseStat = baseStat
             self.endTime = endTime
             self.experiment = experiment
@@ -2191,6 +2196,8 @@ extension Evidently {
         public let activeExperimentCount: Int64?
         /// The number of ongoing launches currently in the project.
         public let activeLaunchCount: Int64?
+        /// This structure defines the configuration of how your application  integrates with AppConfig to run client-side evaluation.
+        public let appConfigResource: ProjectAppConfigResource?
         /// The name or ARN of the project.
         public let arn: String
         /// The date and time that the project is created.
@@ -2214,9 +2221,10 @@ extension Evidently {
         /// The list of tag keys and values associated with this project.
         public let tags: [String: String]?
 
-        public init(activeExperimentCount: Int64? = nil, activeLaunchCount: Int64? = nil, arn: String, createdTime: Date, dataDelivery: ProjectDataDelivery? = nil, description: String? = nil, experimentCount: Int64? = nil, featureCount: Int64? = nil, lastUpdatedTime: Date, launchCount: Int64? = nil, name: String, status: ProjectStatus, tags: [String: String]? = nil) {
+        public init(activeExperimentCount: Int64? = nil, activeLaunchCount: Int64? = nil, appConfigResource: ProjectAppConfigResource? = nil, arn: String, createdTime: Date, dataDelivery: ProjectDataDelivery? = nil, description: String? = nil, experimentCount: Int64? = nil, featureCount: Int64? = nil, lastUpdatedTime: Date, launchCount: Int64? = nil, name: String, status: ProjectStatus, tags: [String: String]? = nil) {
             self.activeExperimentCount = activeExperimentCount
             self.activeLaunchCount = activeLaunchCount
+            self.appConfigResource = appConfigResource
             self.arn = arn
             self.createdTime = createdTime
             self.dataDelivery = dataDelivery
@@ -2233,6 +2241,7 @@ extension Evidently {
         private enum CodingKeys: String, CodingKey {
             case activeExperimentCount
             case activeLaunchCount
+            case appConfigResource
             case arn
             case createdTime
             case dataDelivery
@@ -2244,6 +2253,49 @@ extension Evidently {
             case name
             case status
             case tags
+        }
+    }
+
+    public struct ProjectAppConfigResource: AWSDecodableShape {
+        /// The ID of the AppConfig application to use for client-side evaluation.
+        public let applicationId: String
+        /// The ID of the AppConfig profile to use for client-side evaluation.
+        public let configurationProfileId: String
+        /// The ID of the AppConfig environment to use for client-side evaluation. This must be an  environment that is within the application that you specify for applicationId.
+        public let environmentId: String
+
+        public init(applicationId: String, configurationProfileId: String, environmentId: String) {
+            self.applicationId = applicationId
+            self.configurationProfileId = configurationProfileId
+            self.environmentId = environmentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId
+            case configurationProfileId
+            case environmentId
+        }
+    }
+
+    public struct ProjectAppConfigResourceConfig: AWSEncodableShape {
+        /// The ID of the AppConfig application to use for client-side evaluation.
+        public let applicationId: String?
+        /// The ID of the AppConfig environment to use for client-side evaluation. This must be an  environment that is within the application that you specify for applicationId.
+        public let environmentId: String?
+
+        public init(applicationId: String? = nil, environmentId: String? = nil) {
+            self.applicationId = applicationId
+            self.environmentId = environmentId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "[a-z0-9]{4,7}")
+            try self.validate(self.environmentId, name: "environmentId", parent: name, pattern: "[a-z0-9]{4,7}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId
+            case environmentId
         }
     }
 
@@ -2593,6 +2645,7 @@ extension Evidently {
         public let launchCount: Int64?
         /// The name of the segment.
         public let name: String
+        /// The pattern that defines the attributes to use to evalute whether a user session will be in the segment.  For more information about the pattern syntax, see  Segment rule pattern syntax.
         public let pattern: String
         /// The list of tag keys and values associated with this launch.
         public let tags: [String: String]?
@@ -3026,7 +3079,7 @@ extension Evidently {
         /// When Evidently assigns a particular user session to an experiment, it must use a randomization ID to determine which variation the user session is served. This randomization ID is a combination of the entity ID and randomizationSalt. If you omit randomizationSalt, Evidently uses the experiment name as the randomizationSalt.
         public let randomizationSalt: String?
         /// Removes a segment from being used in an experiment. You can't use this parameter if the experiment is currently running.
-        public let removeSegment: Bool?
+        public let removeSegment: Bool
         /// The portion of the available audience that you want to allocate to this experiment, in thousandths of a percent. The available audience is the total audience minus the audience that you have allocated to overrides or current launches of this feature. This is represented in thousandths of a percent. For example, specify 20,000 to allocate 20% of the available audience.
         public let samplingRate: Int64?
         /// Adds an audience segment to an experiment. When a segment is used in an experiment, only user sessions that match the segment pattern are used in the experiment. You can't use this parameter if the  experiment is currently running.
@@ -3034,7 +3087,7 @@ extension Evidently {
         /// An array of structures that define the variations being tested in the experiment.
         public let treatments: [TreatmentConfig]?
 
-        public init(description: String? = nil, experiment: String, metricGoals: [MetricGoalConfig]? = nil, onlineAbConfig: OnlineAbConfig? = nil, project: String, randomizationSalt: String? = nil, removeSegment: Bool? = nil, samplingRate: Int64? = nil, segment: String? = nil, treatments: [TreatmentConfig]? = nil) {
+        public init(description: String? = nil, experiment: String, metricGoals: [MetricGoalConfig]? = nil, onlineAbConfig: OnlineAbConfig? = nil, project: String, randomizationSalt: String? = nil, removeSegment: Bool = false, samplingRate: Int64? = nil, segment: String? = nil, treatments: [TreatmentConfig]? = nil) {
             self.description = description
             self.experiment = experiment
             self.metricGoals = metricGoals
@@ -3312,17 +3365,21 @@ extension Evidently {
             AWSMemberEncoding(label: "project", location: .uri("project"))
         ]
 
+        /// Use this parameter if the project will use client-side evaluation powered by AppConfig. Client-side evaluation allows your application to assign variations to user sessions locally instead of by calling the EvaluateFeature operation. This  mitigates the latency and availability risks that come with an API call. allows you to This parameter is a structure that contains information about the AppConfig application that will be used for client-side evaluation.
+        public let appConfigResource: ProjectAppConfigResourceConfig?
         /// An optional description of the project.
         public let description: String?
         /// The name or ARN of the project to update.
         public let project: String
 
-        public init(description: String? = nil, project: String) {
+        public init(appConfigResource: ProjectAppConfigResourceConfig? = nil, description: String? = nil, project: String) {
+            self.appConfigResource = appConfigResource
             self.description = description
             self.project = project
         }
 
         public func validate(name: String) throws {
+            try self.appConfigResource?.validate(name: "\(name).appConfigResource")
             try self.validate(self.description, name: "description", parent: name, max: 160)
             try self.validate(self.description, name: "description", parent: name, pattern: ".*")
             try self.validate(self.project, name: "project", parent: name, max: 2048)
@@ -3330,6 +3387,7 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case appConfigResource
             case description
         }
     }

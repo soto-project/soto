@@ -31,19 +31,19 @@ extension SSOOIDC {
         /// The authorization code received from the authorization service. This parameter is required to perform an authorization grant request to get access to a token.
         public let code: String?
         /// Used only when calling this API for the device code grant type. This short-term code is used to identify this authentication attempt. This should come from an in-memory reference to the result of the StartDeviceAuthorization API.
-        public let deviceCode: String
+        public let deviceCode: String?
         /// Supports grant types for the authorization code, refresh token, and device code request. For device code requests, specify the following value:
         ///   urn:ietf:params:oauth:grant-type:device_code
         ///  For information about how to obtain the device code, see the StartDeviceAuthorization topic.
         public let grantType: String
         /// The location of the application that will receive the authorization code. Users authorize the service to send the request to this location.
         public let redirectUri: String?
-        /// Currently, refreshToken is not yet implemented and is not supported. For more information about the features and limitations of the current Amazon Web Services SSO OIDC implementation, see Considerations for Using this Guide in the Amazon Web Services SSO OIDC API Reference. The token used to obtain an access token in the event that the access token is invalid or expired.
+        /// Currently, refreshToken is not yet implemented and is not supported. For more information about the features and limitations of the current IAM Identity Center OIDC implementation, see Considerations for Using this Guide in the IAM Identity Center OIDC API Reference. The token used to obtain an access token in the event that the access token is invalid or expired.
         public let refreshToken: String?
         /// The list of scopes that is defined by the client. Upon authorization, this list is used to restrict permissions when granting an access token.
         public let scope: [String]?
 
-        public init(clientId: String, clientSecret: String, code: String? = nil, deviceCode: String, grantType: String, redirectUri: String? = nil, refreshToken: String? = nil, scope: [String]? = nil) {
+        public init(clientId: String, clientSecret: String, code: String? = nil, deviceCode: String? = nil, grantType: String, redirectUri: String? = nil, refreshToken: String? = nil, scope: [String]? = nil) {
             self.clientId = clientId
             self.clientSecret = clientSecret
             self.code = code
@@ -67,13 +67,13 @@ extension SSOOIDC {
     }
 
     public struct CreateTokenResponse: AWSDecodableShape {
-        /// An opaque token to access Amazon Web Services SSO resources assigned to a user.
+        /// An opaque token to access IAM Identity Center resources assigned to a user.
         public let accessToken: String?
         /// Indicates the time in seconds when an access token will expire.
         public let expiresIn: Int?
-        /// Currently, idToken is not yet implemented and is not supported. For more information about the features and limitations of the current Amazon Web Services SSO OIDC implementation, see Considerations for Using this Guide in the Amazon Web Services SSO OIDC API Reference. The identifier of the user that associated with the access token, if present.
+        /// Currently, idToken is not yet implemented and is not supported. For more information about the features and limitations of the current IAM Identity Center OIDC implementation, see Considerations for Using this Guide in the IAM Identity Center OIDC API Reference. The identifier of the user that associated with the access token, if present.
         public let idToken: String?
-        /// Currently, refreshToken is not yet implemented and is not supported. For more information about the features and limitations of the current Amazon Web Services SSO OIDC implementation, see Considerations for Using this Guide in the Amazon Web Services SSO OIDC API Reference. A token that, if present, can be used to refresh a previously issued access token that might have expired.
+        /// Currently, refreshToken is not yet implemented and is not supported. For more information about the features and limitations of the current IAM Identity Center OIDC implementation, see Considerations for Using this Guide in the IAM Identity Center OIDC API Reference. A token that, if present, can be used to refresh a previously issued access token that might have expired.
         public let refreshToken: String?
         /// Used to notify the client that the returned token is an access token. The supported type is BearerToken.
         public let tokenType: String?
@@ -150,11 +150,11 @@ extension SSOOIDC {
     }
 
     public struct StartDeviceAuthorizationRequest: AWSEncodableShape {
-        /// The unique identifier string for the client that is registered with Amazon Web Services SSO. This value should come from the persisted result of the RegisterClient API operation.
+        /// The unique identifier string for the client that is registered with IAM Identity Center. This value should come from the persisted result of the RegisterClient API operation.
         public let clientId: String
         /// A secret string that is generated for the client. This value should come from the persisted result of the RegisterClient API operation.
         public let clientSecret: String
-        /// The URL for the AWS access portal. For more information, see Using the AWS access portal in the Amazon Web Services SSO User Guide.
+        /// The URL for the AWS access portal. For more information, see Using the AWS access portal in the IAM Identity Center User Guide.
         public let startUrl: String
 
         public init(clientId: String, clientSecret: String, startUrl: String) {

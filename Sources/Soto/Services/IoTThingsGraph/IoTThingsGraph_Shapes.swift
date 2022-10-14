@@ -152,7 +152,7 @@ extension IoTThingsGraph {
             try self.validate(self.entityId, name: "entityId", parent: name, pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
             try self.validate(self.thingName, name: "thingName", parent: name, max: 128)
             try self.validate(self.thingName, name: "thingName", parent: name, min: 1)
-            try self.validate(self.thingName, name: "thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
+            try self.validate(self.thingName, name: "thingName", parent: name, pattern: "^[a-zA-Z0-9:_-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -557,7 +557,7 @@ extension IoTThingsGraph {
         public func validate(name: String) throws {
             try self.validate(self.thingName, name: "thingName", parent: name, max: 128)
             try self.validate(self.thingName, name: "thingName", parent: name, min: 1)
-            try self.validate(self.thingName, name: "thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
+            try self.validate(self.thingName, name: "thingName", parent: name, pattern: "^[a-zA-Z0-9:_-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {

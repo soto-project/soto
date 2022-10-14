@@ -85,6 +85,7 @@ extension LexRuntimeV2 {
     }
 
     public enum Shape: String, CustomStringConvertible, Codable, _SotoSendable {
+        case composite = "Composite"
         case list = "List"
         case scalar = "Scalar"
         public var description: String { return self.rawValue }
@@ -439,7 +440,7 @@ extension LexRuntimeV2 {
         /// The message that Amazon Lex V2 returns in the response can be either text or speech based on the responseContentType value.   If the value is text/plain;charset=utf-8, Amazon Lex V2 returns text in the response.   If the value begins with audio/, Amazon Lex V2 returns speech in the response. Amazon Lex V2 uses Amazon Polly to generate the speech using the configuration that you specified in the requestContentType parameter. For example, if you specify audio/mpeg as the value, Amazon Lex V2 returns speech in the MPEG format.   If the value is audio/pcm, the speech returned is audio/pcm in 16-bit, little-endian format.   The following are the accepted values:   audio/mpeg   audio/ogg   audio/pcm   audio/* (defaults to mpeg)   text/plain; charset=utf-8
         public let responseContentType: String
         public let sessionState: SessionState?
-        /// A list of messages to send to the user.
+        /// A list of messages to send to the user. If you set the welcomeMessage field, you must also set the  DialogAction structure's  type field.
         public let welcomeMessages: [Message]?
 
         public init(clientTimestampMillis: Int64? = nil, disablePlayback: Bool? = nil, eventId: String? = nil, requestAttributes: [String: String]? = nil, responseContentType: String, sessionState: SessionState? = nil, welcomeMessages: [Message]? = nil) {
@@ -599,22 +600,27 @@ extension LexRuntimeV2 {
         public let slotElicitationStyle: StyleType?
         /// The name of the slot that should be elicited from the user.
         public let slotToElicit: String?
-        /// The next action that the bot should take in its interaction with the user. The possible values are:    Close - Indicates that there will not be a response from the user. For example, the statement "Your order has been placed" does not require a response.    ConfirmIntent - The next action is asking the user if the intent is complete and ready to be fulfilled. This is a yes/no question such as "Place the order?"    Delegate - The next action is determined by Amazon Lex V2.    ElicitSlot - The next action is to elicit a slot value from the user.
+        /// The name of the constituent sub slot of the composite slot  specified in slotToElicit that should be elicited from the user.
+        public let subSlotToElicit: ElicitSubSlot?
+        /// The next action that the bot should take in its interaction with the user. The possible values are:    Close - Indicates that there will not be a response from the user. For example, the statement "Your order has been placed" does not require a response.    ConfirmIntent - The next action is asking the user if the intent is complete and ready to be fulfilled. This is a yes/no question such as "Place the order?"    Delegate - The next action is determined by Amazon Lex V2.    ElicitIntent - The next action is to elicit an intent from the user.    ElicitSlot - The next action is to elicit a slot value from the user.
         public let type: DialogActionType
 
-        public init(slotElicitationStyle: StyleType? = nil, slotToElicit: String? = nil, type: DialogActionType) {
+        public init(slotElicitationStyle: StyleType? = nil, slotToElicit: String? = nil, subSlotToElicit: ElicitSubSlot? = nil, type: DialogActionType) {
             self.slotElicitationStyle = slotElicitationStyle
             self.slotToElicit = slotToElicit
+            self.subSlotToElicit = subSlotToElicit
             self.type = type
         }
 
         public func validate(name: String) throws {
             try self.validate(self.slotToElicit, name: "slotToElicit", parent: name, min: 1)
+            try self.subSlotToElicit?.validate(name: "\(name).subSlotToElicit")
         }
 
         private enum CodingKeys: String, CodingKey {
             case slotElicitationStyle
             case slotToElicit
+            case subSlotToElicit
             case type
         }
     }
@@ -639,6 +645,28 @@ extension LexRuntimeV2 {
         private enum CodingKeys: String, CodingKey {
             case clientTimestampMillis
             case eventId
+        }
+    }
+
+    public final class ElicitSubSlot: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the slot that should be elicited from the user.
+        public let name: String
+        /// The field is not supported.
+        public let subSlotToElicit: ElicitSubSlot?
+
+        public init(name: String, subSlotToElicit: ElicitSubSlot? = nil) {
+            self.name = name
+            self.subSlotToElicit = subSlotToElicit
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.subSlotToElicit?.validate(name: "\(name).subSlotToElicit")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name
+            case subSlotToElicit
         }
     }
 
@@ -1250,22 +1278,32 @@ extension LexRuntimeV2 {
 
     public struct RuntimeHintDetails: AWSEncodableShape & AWSDecodableShape {
         /// One or more strings that Amazon Lex V2 should look for in the input to the bot. Each phrase is given preference when deciding on slot values.
-        public let runtimeHintValues: [RuntimeHintValue]
+        public let runtimeHintValues: [RuntimeHintValue]?
+        /// A map of constituent sub slot names inside a composite slot in the intent and the phrases  that should be added for each sub slot. Inside each composite slot hints, this structure provides  a mechanism to add granular sub slot phrases. Only sub slot hints are supported for composite slots.  The intent name, composite slot name and the constituent sub slot names must exist.
+        public let subSlotHints: [String: RuntimeHintDetails]?
 
-        public init(runtimeHintValues: [RuntimeHintValue]) {
+        public init(runtimeHintValues: [RuntimeHintValue]? = nil, subSlotHints: [String: RuntimeHintDetails]? = nil) {
             self.runtimeHintValues = runtimeHintValues
+            self.subSlotHints = subSlotHints
         }
 
         public func validate(name: String) throws {
-            try self.runtimeHintValues.forEach {
+            try self.runtimeHintValues?.forEach {
                 try $0.validate(name: "\(name).runtimeHintValues[]")
             }
             try self.validate(self.runtimeHintValues, name: "runtimeHintValues", parent: name, max: 100)
             try self.validate(self.runtimeHintValues, name: "runtimeHintValues", parent: name, min: 1)
+            try self.subSlotHints?.forEach {
+                try validate($0.key, name: "subSlotHints.key", parent: name, max: 100)
+                try validate($0.key, name: "subSlotHints.key", parent: name, min: 1)
+                try validate($0.key, name: "subSlotHints.key", parent: name, pattern: "^([0-9a-zA-Z][_-]?)+$")
+                try $0.value.validate(name: "\(name).subSlotHints[\"\($0.key)\"]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case runtimeHintValues
+            case subSlotHints
         }
     }
 
@@ -1358,7 +1396,7 @@ extension LexRuntimeV2 {
         public let intent: Intent?
         /// A unique identifier for a specific request.
         public let originatingRequestId: String?
-        /// Hints for phrases that a customer is likely to use  for a slot. Amazon Lex V2 uses the hints to help determine the correct value of a slot.
+        /// Hints for phrases that a customer is likely to use for a slot. Amazon Lex V2 uses the hints to help determine the correct value of a slot.
         public let runtimeHints: RuntimeHints?
         /// Map of key/value pairs representing session-specific context information. It contains application information passed between Amazon Lex V2 and a client application.
         public let sessionAttributes: [String: String]?
@@ -1396,21 +1434,28 @@ extension LexRuntimeV2 {
         }
     }
 
-    public final class Slot: AWSEncodableShape & AWSDecodableShape {
+    public struct Slot: AWSEncodableShape & AWSDecodableShape {
         /// When the shape value is List, it indicates that the values field contains a list of slot values. When the value is Scalar, it indicates that the value field contains a single value.
         public let shape: Shape?
+        /// The constituent sub slots of a composite slot.
+        public let subSlots: [String: Slot]?
         /// The current value of the slot.
         public let value: Value?
         /// A list of one or more values that the user provided for the slot. For example, if a for a slot that elicits pizza toppings, the values might be "pepperoni" and "pineapple."
         public let values: [Slot]?
 
-        public init(shape: Shape? = nil, value: Value? = nil, values: [Slot]? = nil) {
+        public init(shape: Shape? = nil, subSlots: [String: Slot]? = nil, value: Value? = nil, values: [Slot]? = nil) {
             self.shape = shape
+            self.subSlots = subSlots
             self.value = value
             self.values = values
         }
 
         public func validate(name: String) throws {
+            try self.subSlots?.forEach {
+                try validate($0.key, name: "subSlots.key", parent: name, min: 1)
+                try $0.value.validate(name: "\(name).subSlots[\"\($0.key)\"]")
+            }
             try self.value?.validate(name: "\(name).value")
             try self.values?.forEach {
                 try $0.validate(name: "\(name).values[]")
@@ -1419,6 +1464,7 @@ extension LexRuntimeV2 {
 
         private enum CodingKeys: String, CodingKey {
             case shape
+            case subSlots
             case value
             case values
         }

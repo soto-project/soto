@@ -73,7 +73,7 @@ extension Outposts {
         )
     }
 
-    ///   Lists the hardware assets in an Outpost. If you are using Dedicated Hosts on  Amazon Web Services Outposts, you can filter your request by host ID to return a list of hardware assets that allocate resources for Dedicated Hosts.
+    ///  Lists the hardware assets for the specified Outpost. Use filters to return specific results. If you specify multiple filters, the results include only the resources that match  all of the specified filters. For a filter where you can specify multiple values, the results include  items that match any of the values that you specify for the filter.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -126,7 +126,7 @@ extension Outposts {
         )
     }
 
-    ///  Lists the items in the catalog. Add filters to your request to return a more specific list of results. Use filters to match an item class, storage option, or EC2 family.  If you specify multiple filters, the filters are joined with an AND, and the request returns only results that match all of the specified filters.
+    ///  Lists the items in the catalog. Use filters to return specific results. If you specify multiple filters, the results include only the resources that match  all of the specified filters. For a filter where you can specify multiple values, the results include  items that match any of the values that you specify for the filter.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -179,7 +179,7 @@ extension Outposts {
         )
     }
 
-    ///  Lists the Outpost orders for your Amazon Web Services account. You can filter your request by Outpost to  return a more specific list of results.
+    ///  Lists the Outpost orders for your Amazon Web Services account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -232,7 +232,7 @@ extension Outposts {
         )
     }
 
-    ///  Lists the Outposts for your Amazon Web Services account. Add filters to your request to return a more specific list of results. Use filters to match an Outpost lifecycle status, Availability Zone (us-east-1a), and AZ ID (use1-az1).   If you specify multiple filters, the filters are joined with an AND, and the request returns only  results that match all of the specified filters.
+    ///  Lists the Outposts for your Amazon Web Services account. Use filters to return specific results. If you specify multiple filters, the results include only the resources that match  all of the specified filters. For a filter where you can specify multiple values, the results include  items that match any of the values that you specify for the filter.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -285,7 +285,7 @@ extension Outposts {
         )
     }
 
-    ///  Lists the Outpost sites for your Amazon Web Services account. Add operating address filters to your request to return a more specific list of results. Use filters to match site city, country code, or state/region of the  operating address.   If you specify multiple filters, the filters are joined with an AND, and the request returns only  results that match all of the specified filters.
+    ///  Lists the Outpost sites for your Amazon Web Services account. Use filters to return specific results. Use filters to return specific results. If you specify multiple filters, the results include only the resources that match  all of the specified filters. For a filter where you can specify multiple values, the results include  items that match any of the values that you specify for the filter.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -355,7 +355,8 @@ extension Outposts.ListAssetsInput: AWSPaginateToken {
             hostIdFilter: self.hostIdFilter,
             maxResults: self.maxResults,
             nextToken: token,
-            outpostIdentifier: self.outpostIdentifier
+            outpostIdentifier: self.outpostIdentifier,
+            statusFilter: self.statusFilter
         )
     }
 }

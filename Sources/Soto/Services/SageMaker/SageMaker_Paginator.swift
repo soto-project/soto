@@ -3969,7 +3969,8 @@ extension SageMaker.ListTrainingJobsRequest: AWSPaginateToken {
             nextToken: token,
             sortBy: self.sortBy,
             sortOrder: self.sortOrder,
-            statusEquals: self.statusEquals
+            statusEquals: self.statusEquals,
+            warmPoolStatusEquals: self.warmPoolStatusEquals
         )
     }
 }

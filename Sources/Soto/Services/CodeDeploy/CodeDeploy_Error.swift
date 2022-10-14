@@ -151,9 +151,9 @@ public struct CodeDeployErrorType: AWSErrorType {
 
     /// The maximum number of alarms for a deployment group (10) was exceeded.
     public static var alarmsLimitExceededException: Self { .init(.alarmsLimitExceededException) }
-    /// An application with the specified name with the IAM user or AWS account already exists.
+    /// An application with the specified name with the IAM user or Amazon Web Services account already exists.
     public static var applicationAlreadyExistsException: Self { .init(.applicationAlreadyExistsException) }
-    /// The application does not exist with the IAM user or AWS account.
+    /// The application does not exist with the IAM user or Amazon Web Services account.
     public static var applicationDoesNotExistException: Self { .init(.applicationDoesNotExistException) }
     /// More applications were attempted to be created than are allowed.
     public static var applicationLimitExceededException: Self { .init(.applicationLimitExceededException) }
@@ -167,9 +167,9 @@ public struct CodeDeployErrorType: AWSErrorType {
     public static var bucketNameFilterRequiredException: Self { .init(.bucketNameFilterRequiredException) }
     /// The deployment is already complete.
     public static var deploymentAlreadyCompletedException: Self { .init(.deploymentAlreadyCompletedException) }
-    /// A deployment configuration with the specified name with the IAM user or AWS account already exists.
+    /// A deployment configuration with the specified name with the IAM user or Amazon Web Services account already exists.
     public static var deploymentConfigAlreadyExistsException: Self { .init(.deploymentConfigAlreadyExistsException) }
-    /// The deployment configuration does not exist with the IAM user or AWS account.
+    /// The deployment configuration does not exist with the IAM user or Amazon Web Services account.
     public static var deploymentConfigDoesNotExistException: Self { .init(.deploymentConfigDoesNotExistException) }
     /// The deployment configuration is still in use.
     public static var deploymentConfigInUseException: Self { .init(.deploymentConfigInUseException) }
@@ -177,11 +177,11 @@ public struct CodeDeployErrorType: AWSErrorType {
     public static var deploymentConfigLimitExceededException: Self { .init(.deploymentConfigLimitExceededException) }
     /// The deployment configuration name was not specified.
     public static var deploymentConfigNameRequiredException: Self { .init(.deploymentConfigNameRequiredException) }
-    /// The deployment with the IAM user or AWS account does not exist.
+    /// The deployment with the IAM user or Amazon Web Services account does not exist.
     public static var deploymentDoesNotExistException: Self { .init(.deploymentDoesNotExistException) }
-    /// A deployment group with the specified name with the IAM user or AWS account already exists.
+    /// A deployment group with the specified name with the IAM user or Amazon Web Services account already exists.
     public static var deploymentGroupAlreadyExistsException: Self { .init(.deploymentGroupAlreadyExistsException) }
-    /// The named deployment group with the IAM user or AWS account does not exist.
+    /// The named deployment group with the IAM user or Amazon Web Services account does not exist.
     public static var deploymentGroupDoesNotExistException: Self { .init(.deploymentGroupDoesNotExistException) }
     ///  The deployment groups limit was exceeded.
     public static var deploymentGroupLimitExceededException: Self { .init(.deploymentGroupLimitExceededException) }
@@ -199,7 +199,7 @@ public struct CodeDeployErrorType: AWSErrorType {
     public static var deploymentTargetDoesNotExistException: Self { .init(.deploymentTargetDoesNotExistException) }
     ///  A deployment target ID was not provided.
     public static var deploymentTargetIdRequiredException: Self { .init(.deploymentTargetIdRequiredException) }
-    ///  The maximum number of targets that can be associated with an Amazon ECS or AWS Lambda deployment was exceeded. The target list of both types of deployments must have exactly one item. This exception does not apply to EC2/On-premises deployments.
+    ///  The maximum number of targets that can be associated with an Amazon ECS or Lambda deployment was exceeded. The target list of both types of deployments must have exactly one item. This exception does not apply to EC2/On-premises deployments.
     public static var deploymentTargetListSizeExceededException: Self { .init(.deploymentTargetListSizeExceededException) }
     /// The description is too long.
     public static var descriptionTooLongException: Self { .init(.descriptionTooLongException) }
@@ -271,7 +271,7 @@ public struct CodeDeployErrorType: AWSErrorType {
     public static var invalidECSServiceException: Self { .init(.invalidECSServiceException) }
     /// The external ID was specified in an invalid format.
     public static var invalidExternalIdException: Self { .init(.invalidExternalIdException) }
-    /// An invalid fileExistsBehavior option was specified to determine how AWS CodeDeploy handles files or directories that already exist in a deployment target location, but weren't part of the previous successful deployment. Valid values include "DISALLOW," "OVERWRITE," and "RETAIN."
+    /// An invalid fileExistsBehavior option was specified to determine how CodeDeploy handles files or directories that already exist in a deployment target location, but weren't part of the previous successful deployment. Valid values include "DISALLOW," "OVERWRITE," and "RETAIN."
     public static var invalidFileExistsBehaviorException: Self { .init(.invalidFileExistsBehaviorException) }
     /// The GitHub token is not valid.
     public static var invalidGitHubAccountTokenException: Self { .init(.invalidGitHubAccountTokenException) }
@@ -281,7 +281,7 @@ public struct CodeDeployErrorType: AWSErrorType {
     public static var invalidIamSessionArnException: Self { .init(.invalidIamSessionArnException) }
     /// The IAM user ARN was specified in an invalid format.
     public static var invalidIamUserArnException: Self { .init(.invalidIamUserArnException) }
-    /// The IgnoreApplicationStopFailures value is invalid. For AWS Lambda deployments, false is expected. For EC2/On-premises deployments, true or false is expected.
+    /// The IgnoreApplicationStopFailures value is invalid. For Lambda deployments, false is expected. For EC2/On-premises deployments, true or false is expected.
     public static var invalidIgnoreApplicationStopFailuresValueException: Self { .init(.invalidIgnoreApplicationStopFailuresValueException) }
     /// The input was specified in an invalid format.
     public static var invalidInputException: Self { .init(.invalidInputException) }
@@ -335,7 +335,7 @@ public struct CodeDeployErrorType: AWSErrorType {
     public static var invalidTrafficRoutingConfigurationException: Self { .init(.invalidTrafficRoutingConfigurationException) }
     /// The trigger was specified in an invalid format.
     public static var invalidTriggerConfigException: Self { .init(.invalidTriggerConfigException) }
-    /// The UpdateOutdatedInstancesOnly value is invalid. For AWS Lambda deployments, false is expected. For EC2/On-premises deployments, true or false is expected.
+    /// The UpdateOutdatedInstancesOnly value is invalid. For Lambda deployments, false is expected. For EC2/On-premises deployments, true or false is expected.
     public static var invalidUpdateOutdatedInstancesOnlyValueException: Self { .init(.invalidUpdateOutdatedInstancesOnlyValueException) }
     /// An attempt to return the status of an already completed lifecycle event occurred.
     public static var lifecycleEventAlreadyCompletedException: Self { .init(.lifecycleEventAlreadyCompletedException) }
@@ -349,7 +349,7 @@ public struct CodeDeployErrorType: AWSErrorType {
     public static var resourceArnRequiredException: Self { .init(.resourceArnRequiredException) }
     /// The specified resource could not be validated.
     public static var resourceValidationException: Self { .init(.resourceValidationException) }
-    /// The named revision does not exist with the IAM user or AWS account.
+    /// The named revision does not exist with the IAM user or Amazon Web Services account.
     public static var revisionDoesNotExistException: Self { .init(.revisionDoesNotExistException) }
     /// The revision ID was not specified.
     public static var revisionRequiredException: Self { .init(.revisionRequiredException) }

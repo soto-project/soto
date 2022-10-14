@@ -37,7 +37,7 @@ extension Translate {
         case ko
         case pt
         case zh
-        case zhTW = "zh-TW"
+        case zhTw = "zh-TW"
         public var description: String { return self.rawValue }
     }
 
@@ -57,8 +57,8 @@ extension Translate {
         case completedWithError = "COMPLETED_WITH_ERROR"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
-        case stopped = "STOPPED"
         case stopRequested = "STOP_REQUESTED"
+        case stopped = "STOPPED"
         case submitted = "SUBMITTED"
         public var description: String { return self.rawValue }
     }
@@ -125,13 +125,15 @@ extension Translate {
         public let name: String
         /// Specifies the format and S3 location of the parallel data input file.
         public let parallelDataConfig: ParallelDataConfig
+        public let tags: [Tag]?
 
-        public init(clientToken: String = CreateParallelDataRequest.idempotencyToken(), description: String? = nil, encryptionKey: EncryptionKey? = nil, name: String, parallelDataConfig: ParallelDataConfig) {
+        public init(clientToken: String = CreateParallelDataRequest.idempotencyToken(), description: String? = nil, encryptionKey: EncryptionKey? = nil, name: String, parallelDataConfig: ParallelDataConfig, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.encryptionKey = encryptionKey
             self.name = name
             self.parallelDataConfig = parallelDataConfig
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -145,6 +147,10 @@ extension Translate {
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^([A-Za-z0-9-]_?)+$")
             try self.parallelDataConfig.validate(name: "\(name).parallelDataConfig")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -153,6 +159,7 @@ extension Translate {
             case encryptionKey = "EncryptionKey"
             case name = "Name"
             case parallelDataConfig = "ParallelDataConfig"
+            case tags = "Tags"
         }
     }
 
@@ -380,14 +387,16 @@ extension Translate {
         public let mergeStrategy: MergeStrategy
         /// The name of the custom terminology being imported.
         public let name: String
+        public let tags: [Tag]?
         /// The terminology data for the custom terminology being imported.
         public let terminologyData: TerminologyData
 
-        public init(description: String? = nil, encryptionKey: EncryptionKey? = nil, mergeStrategy: MergeStrategy, name: String, terminologyData: TerminologyData) {
+        public init(description: String? = nil, encryptionKey: EncryptionKey? = nil, mergeStrategy: MergeStrategy, name: String, tags: [Tag]? = nil, terminologyData: TerminologyData) {
             self.description = description
             self.encryptionKey = encryptionKey
             self.mergeStrategy = mergeStrategy
             self.name = name
+            self.tags = tags
             self.terminologyData = terminologyData
         }
 
@@ -398,6 +407,10 @@ extension Translate {
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^([A-Za-z0-9-]_?)+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.terminologyData.validate(name: "\(name).terminologyData")
         }
 
@@ -406,6 +419,7 @@ extension Translate {
             case encryptionKey = "EncryptionKey"
             case mergeStrategy = "MergeStrategy"
             case name = "Name"
+            case tags = "Tags"
             case terminologyData = "TerminologyData"
         }
     }
@@ -576,6 +590,35 @@ extension Translate {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case parallelDataPropertiesList = "ParallelDataPropertiesList"
+        }
+    }
+
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 512)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
+        public let tags: [Tag]?
+
+        public init(tags: [Tag]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
         }
     }
 
@@ -861,7 +904,6 @@ extension Translate {
                 try validate($0, name: "targetLanguageCodes[]", parent: name, max: 5)
                 try validate($0, name: "targetLanguageCodes[]", parent: name, min: 2)
             }
-            try self.validate(self.targetLanguageCodes, name: "targetLanguageCodes", parent: name, max: 1)
             try self.validate(self.targetLanguageCodes, name: "targetLanguageCodes", parent: name, min: 1)
             try self.terminologyNames?.forEach {
                 try validate($0, name: "terminologyNames[]", parent: name, max: 256)
@@ -935,6 +977,55 @@ extension Translate {
             case jobId = "JobId"
             case jobStatus = "JobStatus"
         }
+    }
+
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
+        public let key: String
+        public let value: String
+
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 128)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.value, name: "value", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct TagResourceRequest: AWSEncodableShape {
+        public let resourceArn: String
+        public let tags: [Tag]
+
+        public init(resourceArn: String, tags: [Tag]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 512)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tags = "Tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct Term: AWSDecodableShape {
@@ -1249,6 +1340,35 @@ extension Translate {
             case formality = "Formality"
             case profanity = "Profanity"
         }
+    }
+
+    public struct UntagResourceRequest: AWSEncodableShape {
+        public let resourceArn: String
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 512)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+            }
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct UpdateParallelDataRequest: AWSEncodableShape {

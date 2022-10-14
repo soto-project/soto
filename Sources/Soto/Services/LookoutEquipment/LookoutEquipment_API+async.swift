@@ -33,6 +33,16 @@ extension LookoutEquipment {
         return try await self.client.execute(operation: "CreateInferenceScheduler", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates a label for an event.
+    public func createLabel(_ input: CreateLabelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateLabelResponse {
+        return try await self.client.execute(operation: "CreateLabel", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a group of labels.
+    public func createLabelGroup(_ input: CreateLabelGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateLabelGroupResponse {
+        return try await self.client.execute(operation: "CreateLabelGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates an ML model for data inference.  A machine-learning (ML) model is a mathematical model that finds patterns in your data. In Amazon Lookout for Equipment, the model learns the patterns of normal behavior and detects abnormal behavior that could be potential equipment failure (or maintenance events). The models are made by analyzing normal data and abnormalities in machine behavior that have already occurred. Your model is trained using a portion of the data from your dataset and uses that data to learn patterns of normal behavior and abnormal patterns that lead to equipment failure. Another portion of the data is used to evaluate the model's accuracy.
     public func createModel(_ input: CreateModelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateModelResponse {
         return try await self.client.execute(operation: "CreateModel", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -46,6 +56,16 @@ extension LookoutEquipment {
     /// Deletes an inference scheduler that has been set up. Already processed output results are not affected.
     public func deleteInferenceScheduler(_ input: DeleteInferenceSchedulerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "DeleteInferenceScheduler", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes a label.
+    public func deleteLabel(_ input: DeleteLabelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
+        return try await self.client.execute(operation: "DeleteLabel", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes a group of labels.
+    public func deleteLabelGroup(_ input: DeleteLabelGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
+        return try await self.client.execute(operation: "DeleteLabelGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes an ML model currently available for Amazon Lookout for Equipment. This will prevent it from being used with an inference scheduler, even one that is already set up.
@@ -66,6 +86,16 @@ extension LookoutEquipment {
     ///  Specifies information about the inference scheduler being used, including name, model, status, and associated metadata
     public func describeInferenceScheduler(_ input: DescribeInferenceSchedulerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeInferenceSchedulerResponse {
         return try await self.client.execute(operation: "DescribeInferenceScheduler", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns the name of the label.
+    public func describeLabel(_ input: DescribeLabelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeLabelResponse {
+        return try await self.client.execute(operation: "DescribeLabel", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns information about the label group.
+    public func describeLabelGroup(_ input: DescribeLabelGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeLabelGroupResponse {
+        return try await self.client.execute(operation: "DescribeLabelGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Provides a JSON containing the overall information about a specific ML model, including model name and ARN, dataset, training and evaluation information, status, and so on.
@@ -96,6 +126,16 @@ extension LookoutEquipment {
     /// Retrieves a list of all inference schedulers currently available for your account.
     public func listInferenceSchedulers(_ input: ListInferenceSchedulersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListInferenceSchedulersResponse {
         return try await self.client.execute(operation: "ListInferenceSchedulers", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns a list of the label groups.
+    public func listLabelGroups(_ input: ListLabelGroupsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListLabelGroupsResponse {
+        return try await self.client.execute(operation: "ListLabelGroups", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Provides a list of labels.
+    public func listLabels(_ input: ListLabelsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListLabelsResponse {
+        return try await self.client.execute(operation: "ListLabels", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Generates a list of all models in the account, including model name and ARN, dataset, and status.
@@ -141,6 +181,11 @@ extension LookoutEquipment {
     /// Updates an inference scheduler.
     public func updateInferenceScheduler(_ input: UpdateInferenceSchedulerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "UpdateInferenceScheduler", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates the label group.
+    public func updateLabelGroup(_ input: UpdateLabelGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
+        return try await self.client.execute(operation: "UpdateLabelGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 }
 

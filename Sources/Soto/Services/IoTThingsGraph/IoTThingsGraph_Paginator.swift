@@ -32,6 +32,7 @@ extension IoTThingsGraph {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "since: 2022-08-30")
     public func getFlowTemplateRevisionsPaginator<Result>(
         _ input: GetFlowTemplateRevisionsRequest,
         _ initialValue: Result,
@@ -57,6 +58,7 @@ extension IoTThingsGraph {
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "since: 2022-08-30")
     public func getFlowTemplateRevisionsPaginator(
         _ input: GetFlowTemplateRevisionsRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -85,6 +87,7 @@ extension IoTThingsGraph {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "since: 2022-08-30")
     public func getSystemTemplateRevisionsPaginator<Result>(
         _ input: GetSystemTemplateRevisionsRequest,
         _ initialValue: Result,
@@ -110,6 +113,7 @@ extension IoTThingsGraph {
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "since: 2022-08-30")
     public func getSystemTemplateRevisionsPaginator(
         _ input: GetSystemTemplateRevisionsRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -138,6 +142,7 @@ extension IoTThingsGraph {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "since: 2022-08-30")
     public func listFlowExecutionMessagesPaginator<Result>(
         _ input: ListFlowExecutionMessagesRequest,
         _ initialValue: Result,
@@ -163,6 +168,7 @@ extension IoTThingsGraph {
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "since: 2022-08-30")
     public func listFlowExecutionMessagesPaginator(
         _ input: ListFlowExecutionMessagesRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -191,6 +197,7 @@ extension IoTThingsGraph {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "since: 2022-08-30")
     public func listTagsForResourcePaginator<Result>(
         _ input: ListTagsForResourceRequest,
         _ initialValue: Result,
@@ -216,6 +223,7 @@ extension IoTThingsGraph {
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "since: 2022-08-30")
     public func listTagsForResourcePaginator(
         _ input: ListTagsForResourceRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -244,6 +252,7 @@ extension IoTThingsGraph {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "since: 2022-08-30")
     public func searchEntitiesPaginator<Result>(
         _ input: SearchEntitiesRequest,
         _ initialValue: Result,
@@ -269,6 +278,7 @@ extension IoTThingsGraph {
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "since: 2022-08-30")
     public func searchEntitiesPaginator(
         _ input: SearchEntitiesRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -297,6 +307,7 @@ extension IoTThingsGraph {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "since: 2022-08-30")
     public func searchFlowExecutionsPaginator<Result>(
         _ input: SearchFlowExecutionsRequest,
         _ initialValue: Result,
@@ -322,6 +333,7 @@ extension IoTThingsGraph {
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "since: 2022-08-30")
     public func searchFlowExecutionsPaginator(
         _ input: SearchFlowExecutionsRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -350,6 +362,7 @@ extension IoTThingsGraph {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "since: 2022-08-30")
     public func searchFlowTemplatesPaginator<Result>(
         _ input: SearchFlowTemplatesRequest,
         _ initialValue: Result,
@@ -375,6 +388,7 @@ extension IoTThingsGraph {
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "since: 2022-08-30")
     public func searchFlowTemplatesPaginator(
         _ input: SearchFlowTemplatesRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -403,6 +417,7 @@ extension IoTThingsGraph {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "since: 2022-08-30")
     public func searchSystemInstancesPaginator<Result>(
         _ input: SearchSystemInstancesRequest,
         _ initialValue: Result,
@@ -428,6 +443,7 @@ extension IoTThingsGraph {
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "since: 2022-08-30")
     public func searchSystemInstancesPaginator(
         _ input: SearchSystemInstancesRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -456,6 +472,7 @@ extension IoTThingsGraph {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "since: 2022-08-30")
     public func searchSystemTemplatesPaginator<Result>(
         _ input: SearchSystemTemplatesRequest,
         _ initialValue: Result,
@@ -481,6 +498,7 @@ extension IoTThingsGraph {
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "since: 2022-08-30")
     public func searchSystemTemplatesPaginator(
         _ input: SearchSystemTemplatesRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -509,6 +527,7 @@ extension IoTThingsGraph {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "since: 2022-08-30")
     public func searchThingsPaginator<Result>(
         _ input: SearchThingsRequest,
         _ initialValue: Result,
@@ -534,6 +553,7 @@ extension IoTThingsGraph {
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "since: 2022-08-30")
     public func searchThingsPaginator(
         _ input: SearchThingsRequest,
         logger: Logger = AWSClient.loggingDisabled,

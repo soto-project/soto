@@ -264,6 +264,72 @@ extension Forecast {
             on: eventLoop
         )
     }
+
+    ///  Returns a list of what-if analyses created using the CreateWhatIfAnalysis operation. For each what-if analysis, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve the complete set of properties by using the what-if analysis ARN with the DescribeWhatIfAnalysis operation.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listWhatIfAnalysesPaginator(
+        _ input: ListWhatIfAnalysesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListWhatIfAnalysesRequest, ListWhatIfAnalysesResponse> {
+        return .init(
+            input: input,
+            command: listWhatIfAnalyses,
+            inputKey: \ListWhatIfAnalysesRequest.nextToken,
+            outputKey: \ListWhatIfAnalysesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Returns a list of what-if forecast exports created using the CreateWhatIfForecastExport operation. For each what-if forecast export, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve the complete set of properties by using the what-if forecast export ARN with the DescribeWhatIfForecastExport operation.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listWhatIfForecastExportsPaginator(
+        _ input: ListWhatIfForecastExportsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListWhatIfForecastExportsRequest, ListWhatIfForecastExportsResponse> {
+        return .init(
+            input: input,
+            command: listWhatIfForecastExports,
+            inputKey: \ListWhatIfForecastExportsRequest.nextToken,
+            outputKey: \ListWhatIfForecastExportsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Returns a list of what-if forecasts created using the CreateWhatIfForecast operation. For each what-if forecast, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve the complete set of properties by using the what-if forecast ARN with the DescribeWhatIfForecast operation.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listWhatIfForecastsPaginator(
+        _ input: ListWhatIfForecastsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListWhatIfForecastsRequest, ListWhatIfForecastsResponse> {
+        return .init(
+            input: input,
+            command: listWhatIfForecasts,
+            inputKey: \ListWhatIfForecastsRequest.nextToken,
+            outputKey: \ListWhatIfForecastsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
 }
 
 #endif // compiler(>=5.5.2) && canImport(_Concurrency)

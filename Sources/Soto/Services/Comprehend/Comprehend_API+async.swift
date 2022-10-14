@@ -28,7 +28,7 @@ extension Comprehend {
         return try await self.client.execute(operation: "BatchDetectDominantLanguage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Inspects the text of a batch of documents for named entities and returns information about them. For more information about named entities, see how-entities
+    /// Inspects the text of a batch of documents for named entities and returns information about them. For more information about named entities, see Entities in the Comprehend Developer Guide.
     public func batchDetectEntities(_ input: BatchDetectEntitiesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> BatchDetectEntitiesResponse {
         return try await self.client.execute(operation: "BatchDetectEntities", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -43,9 +43,14 @@ extension Comprehend {
         return try await self.client.execute(operation: "BatchDetectSentiment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Inspects the text of a batch of documents for the syntax and part of speech of the words in the document and returns information about them. For more information, see how-syntax.
+    /// Inspects the text of a batch of documents for the syntax and part of speech of the words in the document and returns information about them. For more information, see Syntax in the Comprehend Developer Guide.
     public func batchDetectSyntax(_ input: BatchDetectSyntaxRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> BatchDetectSyntaxResponse {
         return try await self.client.execute(operation: "BatchDetectSyntax", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Inspects a batch of documents and returns a sentiment analysis for each entity identified in the documents. For more information about targeted sentiment, see Targeted sentiment.
+    public func batchDetectTargetedSentiment(_ input: BatchDetectTargetedSentimentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> BatchDetectTargetedSentimentResponse {
+        return try await self.client.execute(operation: "BatchDetectTargetedSentiment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates a new document classification request to analyze a single document in real-time, using a previously created and trained custom model and an endpoint.
@@ -58,7 +63,7 @@ extension Comprehend {
         return try await self.client.execute(operation: "ContainsPiiEntities", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a new document classifier that you can use to categorize documents. To create a classifier, you provide a set of training documents that labeled with the categories that you want to use. After the classifier is trained you can use it to categorize a set of labeled documents into the categories. For more information, see how-document-classification.
+    /// Creates a new document classifier that you can use to categorize documents. To create a classifier, you provide a set of training documents that labeled with the categories that you want to use. After the classifier is trained you can use it to categorize a set of labeled documents into the categories. For more information, see Document Classification in the Comprehend Developer Guide.
     public func createDocumentClassifier(_ input: CreateDocumentClassifierRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateDocumentClassifierResponse {
         return try await self.client.execute(operation: "CreateDocumentClassifier", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -148,7 +153,7 @@ extension Comprehend {
         return try await self.client.execute(operation: "DescribeSentimentDetectionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets the properties associated with a targeted sentiment detection job. Use this operation  to get the status of the job.
+    /// Gets the properties associated with a targeted sentiment detection job. Use this operation to get the status of the job.
     public func describeTargetedSentimentDetectionJob(_ input: DescribeTargetedSentimentDetectionJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeTargetedSentimentDetectionJobResponse {
         return try await self.client.execute(operation: "DescribeTargetedSentimentDetectionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -163,7 +168,7 @@ extension Comprehend {
         return try await self.client.execute(operation: "DetectDominantLanguage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Inspects text for named entities, and returns information about them. For more information, about named entities, see how-entities.
+    /// Inspects text for named entities, and returns information about them. For more information, about named entities, see Entities in the Comprehend Developer Guide.
     public func detectEntities(_ input: DetectEntitiesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DetectEntitiesResponse {
         return try await self.client.execute(operation: "DetectEntities", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -183,9 +188,14 @@ extension Comprehend {
         return try await self.client.execute(operation: "DetectSentiment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Inspects text for syntax and the part of speech of words in the document. For more information, how-syntax.
+    /// Inspects text for syntax and the part of speech of words in the document. For more information, see Syntax in the Comprehend Developer Guide.
     public func detectSyntax(_ input: DetectSyntaxRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DetectSyntaxResponse {
         return try await self.client.execute(operation: "DetectSyntax", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Inspects the input text and returns a sentiment analysis for each entity identified in the text. For more information about targeted sentiment, see Targeted sentiment.
+    public func detectTargetedSentiment(_ input: DetectTargetedSentimentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DetectTargetedSentimentResponse {
+        return try await self.client.execute(operation: "DetectTargetedSentiment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates a new custom model that replicates a source custom model that you import. The source model can be in your AWS account or another one. If the source model is in another AWS account, then it must have a resource-based policy that authorizes you to import it. The source model must be in the same AWS region that you're using when you import. You can't import a model that's in a different region.

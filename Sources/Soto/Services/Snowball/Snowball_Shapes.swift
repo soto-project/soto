@@ -40,22 +40,22 @@ extension Snowball {
         case cancelled = "Cancelled"
         case complete = "Complete"
         case inProgress = "InProgress"
-        case inTransitToAWS = "InTransitToAWS"
+        case inTransitToAws = "InTransitToAWS"
         case inTransitToCustomer = "InTransitToCustomer"
         case listing = "Listing"
         case new = "New"
         case pending = "Pending"
         case preparingAppliance = "PreparingAppliance"
         case preparingShipment = "PreparingShipment"
-        case withAWS = "WithAWS"
-        case withAWSSortingFacility = "WithAWSSortingFacility"
+        case withAws = "WithAWS"
+        case withAwsSortingFacility = "WithAWSSortingFacility"
         case withCustomer = "WithCustomer"
         public var description: String { return self.rawValue }
     }
 
     public enum JobType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case export = "EXPORT"
         case `import` = "IMPORT"
+        case export = "EXPORT"
         case localUse = "LOCAL_USE"
         public var description: String { return self.rawValue }
     }
@@ -98,6 +98,7 @@ extension Snowball {
         case noPreference = "NoPreference"
         case t100 = "T100"
         case t14 = "T14"
+        case t32 = "T32"
         case t42 = "T42"
         case t50 = "T50"
         case t8 = "T8"
@@ -114,6 +115,7 @@ extension Snowball {
         case snc1Hdd = "SNC1_HDD"
         case snc1Ssd = "SNC1_SSD"
         case standard = "STANDARD"
+        case v35C = "V3_5C"
         public var description: String { return self.rawValue }
     }
 
@@ -123,8 +125,8 @@ extension Snowball {
     }
 
     public enum TransferOption: String, CustomStringConvertible, Codable, _SotoSendable {
-        case export = "EXPORT"
         case `import` = "IMPORT"
+        case export = "EXPORT"
         case localUse = "LOCAL_USE"
         public var description: String { return self.rawValue }
     }
@@ -450,7 +452,7 @@ extension Snowball {
         /// The shipping speed for each node in this cluster. This speed doesn't dictate how soon you'll get each Snowball Edge device, rather it represents how quickly each device moves to its destination while in transit. Regional shipping speeds are as follows:    In Australia, you have access to express shipping. Typically, Snow devices shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snow devices shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, Snow devices are delivered in one to seven days.   In the United States of America (US), you have access to one-day shipping and two-day shipping.
         ///    In Australia, you have access to express shipping. Typically, devices shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snow devices shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, Snow devices are delivered in one to seven days.   In the US, you have access to one-day shipping and two-day shipping.
         public let shippingOption: ShippingOption
-        /// The type of Snow Family Devices to use for this cluster.   For cluster jobs, Amazon Web Services Snow Family currently supports only the EDGE device type.   For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide.
+        /// The type of Snow Family devices to use for this cluster.   For cluster jobs, Amazon Web Services Snow Family currently supports only the EDGE device type.   For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide.
         public let snowballType: SnowballType
         /// The tax documents required in your Amazon Web Services Region.
         public let taxDocuments: TaxDocuments?
@@ -555,7 +557,7 @@ extension Snowball {
         public let shippingOption: ShippingOption?
         /// If your job is being created in one of the US regions, you have the option of specifying what size Snow device you'd like for this job. In all other regions, Snowballs come with 80 TB in storage capacity.  For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide.
         public let snowballCapacityPreference: SnowballCapacity?
-        /// The type of Snow Family Devices to use for this job.   For cluster jobs, Amazon Web Services Snow Family currently supports only the EDGE device type.  The type of Amazon Web Services Snow device to use for this job. Currently, the only supported device type for cluster jobs is EDGE. For more information, see Snowball Edge Device Options in the Snowball Edge Developer Guide.  For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide.
+        /// The type of Snow Family devices to use for this job.   For cluster jobs, Amazon Web Services Snow Family currently supports only the EDGE device type.  The type of Amazon Web Services Snow device to use for this job. Currently, the only supported device type for cluster jobs is EDGE. For more information, see Snowball Edge Device Options in the Snowball Edge Developer Guide.  For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide.
         public let snowballType: SnowballType?
         /// The tax documents required in your Amazon Web Services Region.
         public let taxDocuments: TaxDocuments?
@@ -641,11 +643,11 @@ extension Snowball {
     }
 
     public struct CreateLongTermPricingRequest: AWSEncodableShape {
-        /// Specifies whether the current long-term pricing type for the device should be renewed.
+        /// snowballty Specifies whether the current long-term pricing type for the device should be renewed.
         public let isLongTermPricingAutoRenew: Bool?
         /// The type of long-term pricing option you want for the device, either 1-year or 3-year long-term pricing.
         public let longTermPricingType: LongTermPricingType
-        /// The type of Snow Family Devices to use for the long-term pricing job.
+        /// The type of Snow Family devices to use for the long-term pricing job.
         public let snowballType: SnowballType?
 
         public init(isLongTermPricingAutoRenew: Bool? = nil, longTermPricingType: LongTermPricingType, snowballType: SnowballType? = nil) {
@@ -1584,7 +1586,7 @@ extension Snowball {
         public let longTermPricingType: LongTermPricingType?
         /// A new device that replaces a device that is ordered with long-term pricing.
         public let replacementJob: String?
-        /// The type of Snow Family Devices associated with this long-term pricing job.
+        /// The type of Snow Family devices associated with this long-term pricing job.
         public let snowballType: SnowballType?
 
         public init(currentActiveJob: String? = nil, isLongTermPricingAutoRenew: Bool? = nil, jobIds: [String]? = nil, longTermPricingEndDate: Date? = nil, longTermPricingId: String? = nil, longTermPricingStartDate: Date? = nil, longTermPricingStatus: String? = nil, longTermPricingType: LongTermPricingType? = nil, replacementJob: String? = nil, snowballType: SnowballType? = nil) {

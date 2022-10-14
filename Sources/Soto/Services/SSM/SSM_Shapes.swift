@@ -47,12 +47,12 @@ extension SSM {
     public enum AssociationFilterKey: String, CustomStringConvertible, Codable, _SotoSendable {
         case associationId = "AssociationId"
         case associationName = "AssociationName"
-        case associationStatusName = "AssociationStatusName"
         case instanceId = "InstanceId"
         case lastExecutedAfter = "LastExecutedAfter"
         case lastExecutedBefore = "LastExecutedBefore"
         case name = "Name"
         case resourceGroupName = "ResourceGroupName"
+        case status = "AssociationStatusName"
         public var description: String { return self.rawValue }
     }
 
@@ -113,15 +113,15 @@ extension SSM {
         case completedWithFailure = "CompletedWithFailure"
         case completedWithSuccess = "CompletedWithSuccess"
         case failed = "Failed"
-        case inProgress = "InProgress"
+        case inprogress = "InProgress"
         case pending = "Pending"
         case pendingApproval = "PendingApproval"
         case pendingChangeCalendarOverride = "PendingChangeCalendarOverride"
         case rejected = "Rejected"
-        case runbookInProgress = "RunbookInProgress"
+        case runbookInprogress = "RunbookInProgress"
         case scheduled = "Scheduled"
         case success = "Success"
-        case timedOut = "TimedOut"
+        case timedout = "TimedOut"
         case waiting = "Waiting"
         public var description: String { return self.rawValue }
     }
@@ -292,9 +292,11 @@ extension SSM {
         case applicationConfiguration = "ApplicationConfiguration"
         case applicationConfigurationSchema = "ApplicationConfigurationSchema"
         case automation = "Automation"
-        case automationChangetemplate = "Automation.ChangeTemplate"
         case changeCalendar = "ChangeCalendar"
+        case changeTemplate = "Automation.ChangeTemplate"
+        case cloudFormation = "CloudFormation"
         case command = "Command"
+        case conformancePackTemplate = "ConformancePackTemplate"
         case deploymentStrategy = "DeploymentStrategy"
         case package = "Package"
         case policy = "Policy"
@@ -307,6 +309,12 @@ extension SSM {
     public enum ExecutionMode: String, CustomStringConvertible, Codable, _SotoSendable {
         case auto = "Auto"
         case interactive = "Interactive"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExternalAlarmState: String, CustomStringConvertible, Codable, _SotoSendable {
+        case alarm = "ALARM"
+        case unknown = "UNKNOWN"
         public var description: String { return self.rawValue }
     }
 
@@ -367,7 +375,7 @@ extension SSM {
 
     public enum LastResourceDataSyncStatus: String, CustomStringConvertible, Codable, _SotoSendable {
         case failed = "Failed"
-        case inProgress = "InProgress"
+        case inprogress = "InProgress"
         case successful = "Successful"
         public var description: String { return self.rawValue }
     }
@@ -423,9 +431,9 @@ extension SSM {
     public enum OperatingSystem: String, CustomStringConvertible, Codable, _SotoSendable {
         case amazonLinux = "AMAZON_LINUX"
         case amazonLinux2 = "AMAZON_LINUX_2"
-        case centos = "CENTOS"
+        case centOS = "CENTOS"
         case debian = "DEBIAN"
-        case macos = "MACOS"
+        case macOS = "MACOS"
         case oracleLinux = "ORACLE_LINUX"
         case raspbian = "RASPBIAN"
         case redhatEnterpriseLinux = "REDHAT_ENTERPRISE_LINUX"
@@ -453,7 +461,7 @@ extension SSM {
     }
 
     public enum OpsItemEventFilterKey: String, CustomStringConvertible, Codable, _SotoSendable {
-        case opsItemId = "OpsItemId"
+        case opsitemId = "OpsItemId"
         public var description: String { return self.rawValue }
     }
 
@@ -467,21 +475,21 @@ extension SSM {
         case actualStartTime = "ActualStartTime"
         case automationId = "AutomationId"
         case category = "Category"
-        case changeRequestByApproverArn = "ChangeRequestByApproverArn"
-        case changeRequestByApproverName = "ChangeRequestByApproverName"
-        case changeRequestByRequesterArn = "ChangeRequestByRequesterArn"
-        case changeRequestByRequesterName = "ChangeRequestByRequesterName"
-        case changeRequestByTargetsResourceGroup = "ChangeRequestByTargetsResourceGroup"
-        case changeRequestByTemplate = "ChangeRequestByTemplate"
+        case changeRequestApproverArn = "ChangeRequestByApproverArn"
+        case changeRequestApproverName = "ChangeRequestByApproverName"
+        case changeRequestRequesterArn = "ChangeRequestByRequesterArn"
+        case changeRequestRequesterName = "ChangeRequestByRequesterName"
+        case changeRequestTargetsResourceGroup = "ChangeRequestByTargetsResourceGroup"
+        case changeRequestTemplate = "ChangeRequestByTemplate"
         case createdBy = "CreatedBy"
         case createdTime = "CreatedTime"
-        case insightByType = "InsightByType"
+        case insightType = "InsightByType"
         case lastModifiedTime = "LastModifiedTime"
         case operationalData = "OperationalData"
         case operationalDataKey = "OperationalDataKey"
         case operationalDataValue = "OperationalDataValue"
-        case opsItemId = "OpsItemId"
-        case opsItemType = "OpsItemType"
+        case opsitemId = "OpsItemId"
+        case opsitemType = "OpsItemType"
         case plannedEndTime = "PlannedEndTime"
         case plannedStartTime = "PlannedStartTime"
         case priority = "Priority"
@@ -622,12 +630,12 @@ extension SSM {
     }
 
     public enum PatchProperty: String, CustomStringConvertible, Codable, _SotoSendable {
-        case classification = "CLASSIFICATION"
-        case msrcSeverity = "MSRC_SEVERITY"
-        case priority = "PRIORITY"
+        case patchClassification = "CLASSIFICATION"
+        case patchMsrcSeverity = "MSRC_SEVERITY"
+        case patchPriority = "PRIORITY"
+        case patchProductFamily = "PRODUCT_FAMILY"
+        case patchSeverity = "SEVERITY"
         case product = "PRODUCT"
-        case productFamily = "PRODUCT_FAMILY"
-        case severity = "SEVERITY"
         public var description: String { return self.rawValue }
     }
 
@@ -646,7 +654,7 @@ extension SSM {
 
     public enum PlatformType: String, CustomStringConvertible, Codable, _SotoSendable {
         case linux = "Linux"
-        case macOS = "MacOS"
+        case macos = "MacOS"
         case windows = "Windows"
         public var description: String { return self.rawValue }
     }
@@ -658,7 +666,7 @@ extension SSM {
     }
 
     public enum ResourceDataSyncS3Format: String, CustomStringConvertible, Codable, _SotoSendable {
-        case jsonSerDe = "JsonSerDe"
+        case jsonSerde = "JsonSerDe"
         public var description: String { return self.rawValue }
     }
 
@@ -670,12 +678,13 @@ extension SSM {
     }
 
     public enum ResourceTypeForTagging: String, CustomStringConvertible, Codable, _SotoSendable {
+        case association = "Association"
         case automation = "Automation"
         case document = "Document"
         case maintenanceWindow = "MaintenanceWindow"
         case managedInstance = "ManagedInstance"
         case opsItem = "OpsItem"
-        case opsMetadata = "OpsMetadata"
+        case opsmetadata = "OpsMetadata"
         case parameter = "Parameter"
         case patchBaseline = "PatchBaseline"
         public var description: String { return self.rawValue }
@@ -695,7 +704,7 @@ extension SSM {
         case owner = "Owner"
         case sessionId = "SessionId"
         case status = "Status"
-        case target = "Target"
+        case targetId = "Target"
         public var description: String { return self.rawValue }
     }
 
@@ -725,9 +734,9 @@ extension SSM {
     }
 
     public enum SourceType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case awsEC2Instance = "AWS::EC2::Instance"
+        case awsEc2Instance = "AWS::EC2::Instance"
         case awsIotThing = "AWS::IoT::Thing"
-        case awsSSMManagedinstance = "AWS::SSM::ManagedInstance"
+        case awsSsmManagedinstance = "AWS::SSM::ManagedInstance"
         public var description: String { return self.rawValue }
     }
 
@@ -847,6 +856,67 @@ extension SSM {
         public init() {}
     }
 
+    public struct Alarm: AWSEncodableShape & AWSDecodableShape {
+        /// The name of your CloudWatch alarm.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^(?!\\s*$).+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct AlarmConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the CloudWatch alarm specified in the configuration.
+        public let alarms: [Alarm]
+        /// If you specify true for this value, your automation or command continue to run even if we can't gather information about the state of your CloudWatch alarm. The default value is false.
+        public let ignorePollAlarmFailure: Bool?
+
+        public init(alarms: [Alarm], ignorePollAlarmFailure: Bool? = nil) {
+            self.alarms = alarms
+            self.ignorePollAlarmFailure = ignorePollAlarmFailure
+        }
+
+        public func validate(name: String) throws {
+            try self.alarms.forEach {
+                try $0.validate(name: "\(name).alarms[]")
+            }
+            try self.validate(self.alarms, name: "alarms", parent: name, max: 1)
+            try self.validate(self.alarms, name: "alarms", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alarms = "Alarms"
+            case ignorePollAlarmFailure = "IgnorePollAlarmFailure"
+        }
+    }
+
+    public struct AlarmStateInformation: AWSDecodableShape {
+        /// The name of your CloudWatch alarm.
+        public let name: String
+        /// The state of your CloudWatch alarm.
+        public let state: ExternalAlarmState
+
+        public init(name: String, state: ExternalAlarmState) {
+            self.name = name
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case state = "State"
+        }
+    }
+
     public struct AssociateOpsItemRelatedItemRequest: AWSEncodableShape {
         /// The type of association that you want to create between an OpsItem and a resource. OpsCenter supports IsParentOf and RelatesTo association types.
         public let associationType: String
@@ -948,6 +1018,7 @@ extension SSM {
     }
 
     public struct AssociationDescription: AWSDecodableShape {
+        public let alarmConfiguration: AlarmConfiguration?
         /// By default, when you create a new associations, the system runs it immediately after it is created and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you create it. This parameter isn't supported for rate expressions.
         public let applyOnlyAtCronInterval: Bool?
         /// The association ID.
@@ -1000,8 +1071,11 @@ extension SSM {
         public let targetMaps: [[String: [String]]]?
         /// The managed nodes targeted by the request.
         public let targets: [Target]?
+        /// The CloudWatch alarm that was invoked during the association.
+        public let triggeredAlarms: [AlarmStateInformation]?
 
-        public init(applyOnlyAtCronInterval: Bool? = nil, associationId: String? = nil, associationName: String? = nil, associationVersion: String? = nil, automationTargetParameterName: String? = nil, calendarNames: [String]? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, date: Date? = nil, documentVersion: String? = nil, instanceId: String? = nil, lastExecutionDate: Date? = nil, lastSuccessfulExecutionDate: Date? = nil, lastUpdateAssociationDate: Date? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, overview: AssociationOverview? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, scheduleOffset: Int? = nil, status: AssociationStatus? = nil, syncCompliance: AssociationSyncCompliance? = nil, targetLocations: [TargetLocation]? = nil, targetMaps: [[String: [String]]]? = nil, targets: [Target]? = nil) {
+        public init(alarmConfiguration: AlarmConfiguration? = nil, applyOnlyAtCronInterval: Bool? = nil, associationId: String? = nil, associationName: String? = nil, associationVersion: String? = nil, automationTargetParameterName: String? = nil, calendarNames: [String]? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, date: Date? = nil, documentVersion: String? = nil, instanceId: String? = nil, lastExecutionDate: Date? = nil, lastSuccessfulExecutionDate: Date? = nil, lastUpdateAssociationDate: Date? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, overview: AssociationOverview? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, scheduleOffset: Int? = nil, status: AssociationStatus? = nil, syncCompliance: AssociationSyncCompliance? = nil, targetLocations: [TargetLocation]? = nil, targetMaps: [[String: [String]]]? = nil, targets: [Target]? = nil, triggeredAlarms: [AlarmStateInformation]? = nil) {
+            self.alarmConfiguration = alarmConfiguration
             self.applyOnlyAtCronInterval = applyOnlyAtCronInterval
             self.associationId = associationId
             self.associationName = associationName
@@ -1028,9 +1102,11 @@ extension SSM {
             self.targetLocations = targetLocations
             self.targetMaps = targetMaps
             self.targets = targets
+            self.triggeredAlarms = triggeredAlarms
         }
 
         private enum CodingKeys: String, CodingKey {
+            case alarmConfiguration = "AlarmConfiguration"
             case applyOnlyAtCronInterval = "ApplyOnlyAtCronInterval"
             case associationId = "AssociationId"
             case associationName = "AssociationName"
@@ -1057,10 +1133,12 @@ extension SSM {
             case targetLocations = "TargetLocations"
             case targetMaps = "TargetMaps"
             case targets = "Targets"
+            case triggeredAlarms = "TriggeredAlarms"
         }
     }
 
     public struct AssociationExecution: AWSDecodableShape {
+        public let alarmConfiguration: AlarmConfiguration?
         /// The association ID.
         public let associationId: String?
         /// The association version.
@@ -1077,8 +1155,11 @@ extension SSM {
         public let resourceCountByStatus: String?
         /// The status of the association execution.
         public let status: String?
+        /// The CloudWatch alarms that were invoked by the association.
+        public let triggeredAlarms: [AlarmStateInformation]?
 
-        public init(associationId: String? = nil, associationVersion: String? = nil, createdTime: Date? = nil, detailedStatus: String? = nil, executionId: String? = nil, lastExecutionDate: Date? = nil, resourceCountByStatus: String? = nil, status: String? = nil) {
+        public init(alarmConfiguration: AlarmConfiguration? = nil, associationId: String? = nil, associationVersion: String? = nil, createdTime: Date? = nil, detailedStatus: String? = nil, executionId: String? = nil, lastExecutionDate: Date? = nil, resourceCountByStatus: String? = nil, status: String? = nil, triggeredAlarms: [AlarmStateInformation]? = nil) {
+            self.alarmConfiguration = alarmConfiguration
             self.associationId = associationId
             self.associationVersion = associationVersion
             self.createdTime = createdTime
@@ -1087,9 +1168,11 @@ extension SSM {
             self.lastExecutionDate = lastExecutionDate
             self.resourceCountByStatus = resourceCountByStatus
             self.status = status
+            self.triggeredAlarms = triggeredAlarms
         }
 
         private enum CodingKeys: String, CodingKey {
+            case alarmConfiguration = "AlarmConfiguration"
             case associationId = "AssociationId"
             case associationVersion = "AssociationVersion"
             case createdTime = "CreatedTime"
@@ -1098,6 +1181,7 @@ extension SSM {
             case lastExecutionDate = "LastExecutionDate"
             case resourceCountByStatus = "ResourceCountByStatus"
             case status = "Status"
+            case triggeredAlarms = "TriggeredAlarms"
         }
     }
 
@@ -1424,6 +1508,8 @@ extension SSM {
     }
 
     public struct AutomationExecution: AWSDecodableShape {
+        /// The details for the CloudWatch alarm applied to your automation.
+        public let alarmConfiguration: AlarmConfiguration?
         /// The ID of a State Manager association used in the Automation operation.
         public let associationId: String?
         /// The execution ID.
@@ -1486,8 +1572,11 @@ extension SSM {
         public let targetParameterName: String?
         /// The specified targets.
         public let targets: [Target]?
+        /// The CloudWatch alarm that was invoked by the automation.
+        public let triggeredAlarms: [AlarmStateInformation]?
 
-        public init(associationId: String? = nil, automationExecutionId: String? = nil, automationExecutionStatus: AutomationExecutionStatus? = nil, automationSubtype: AutomationSubtype? = nil, changeRequestName: String? = nil, currentAction: String? = nil, currentStepName: String? = nil, documentName: String? = nil, documentVersion: String? = nil, executedBy: String? = nil, executionEndTime: Date? = nil, executionStartTime: Date? = nil, failureMessage: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, mode: ExecutionMode? = nil, opsItemId: String? = nil, outputs: [String: [String]]? = nil, parameters: [String: [String]]? = nil, parentAutomationExecutionId: String? = nil, progressCounters: ProgressCounters? = nil, resolvedTargets: ResolvedTargets? = nil, runbooks: [Runbook]? = nil, scheduledTime: Date? = nil, stepExecutions: [StepExecution]? = nil, stepExecutionsTruncated: Bool? = nil, target: String? = nil, targetLocations: [TargetLocation]? = nil, targetMaps: [[String: [String]]]? = nil, targetParameterName: String? = nil, targets: [Target]? = nil) {
+        public init(alarmConfiguration: AlarmConfiguration? = nil, associationId: String? = nil, automationExecutionId: String? = nil, automationExecutionStatus: AutomationExecutionStatus? = nil, automationSubtype: AutomationSubtype? = nil, changeRequestName: String? = nil, currentAction: String? = nil, currentStepName: String? = nil, documentName: String? = nil, documentVersion: String? = nil, executedBy: String? = nil, executionEndTime: Date? = nil, executionStartTime: Date? = nil, failureMessage: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, mode: ExecutionMode? = nil, opsItemId: String? = nil, outputs: [String: [String]]? = nil, parameters: [String: [String]]? = nil, parentAutomationExecutionId: String? = nil, progressCounters: ProgressCounters? = nil, resolvedTargets: ResolvedTargets? = nil, runbooks: [Runbook]? = nil, scheduledTime: Date? = nil, stepExecutions: [StepExecution]? = nil, stepExecutionsTruncated: Bool? = nil, target: String? = nil, targetLocations: [TargetLocation]? = nil, targetMaps: [[String: [String]]]? = nil, targetParameterName: String? = nil, targets: [Target]? = nil, triggeredAlarms: [AlarmStateInformation]? = nil) {
+            self.alarmConfiguration = alarmConfiguration
             self.associationId = associationId
             self.automationExecutionId = automationExecutionId
             self.automationExecutionStatus = automationExecutionStatus
@@ -1519,9 +1608,11 @@ extension SSM {
             self.targetMaps = targetMaps
             self.targetParameterName = targetParameterName
             self.targets = targets
+            self.triggeredAlarms = triggeredAlarms
         }
 
         private enum CodingKeys: String, CodingKey {
+            case alarmConfiguration = "AlarmConfiguration"
             case associationId = "AssociationId"
             case automationExecutionId = "AutomationExecutionId"
             case automationExecutionStatus = "AutomationExecutionStatus"
@@ -1553,6 +1644,7 @@ extension SSM {
             case targetMaps = "TargetMaps"
             case targetParameterName = "TargetParameterName"
             case targets = "Targets"
+            case triggeredAlarms = "TriggeredAlarms"
         }
     }
 
@@ -1583,6 +1675,8 @@ extension SSM {
     }
 
     public struct AutomationExecutionMetadata: AWSDecodableShape {
+        /// The details for the CloudWatch alarm applied to your automation.
+        public let alarmConfiguration: AlarmConfiguration?
         /// The ID of a State Manager association used in the Automation operation.
         public let associationId: String?
         /// The execution ID.
@@ -1639,8 +1733,11 @@ extension SSM {
         public let targetParameterName: String?
         /// The targets defined by the user when starting the automation.
         public let targets: [Target]?
+        /// The CloudWatch alarm that was invoked by the automation.
+        public let triggeredAlarms: [AlarmStateInformation]?
 
-        public init(associationId: String? = nil, automationExecutionId: String? = nil, automationExecutionStatus: AutomationExecutionStatus? = nil, automationSubtype: AutomationSubtype? = nil, automationType: AutomationType? = nil, changeRequestName: String? = nil, currentAction: String? = nil, currentStepName: String? = nil, documentName: String? = nil, documentVersion: String? = nil, executedBy: String? = nil, executionEndTime: Date? = nil, executionStartTime: Date? = nil, failureMessage: String? = nil, logFile: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, mode: ExecutionMode? = nil, opsItemId: String? = nil, outputs: [String: [String]]? = nil, parentAutomationExecutionId: String? = nil, resolvedTargets: ResolvedTargets? = nil, runbooks: [Runbook]? = nil, scheduledTime: Date? = nil, target: String? = nil, targetMaps: [[String: [String]]]? = nil, targetParameterName: String? = nil, targets: [Target]? = nil) {
+        public init(alarmConfiguration: AlarmConfiguration? = nil, associationId: String? = nil, automationExecutionId: String? = nil, automationExecutionStatus: AutomationExecutionStatus? = nil, automationSubtype: AutomationSubtype? = nil, automationType: AutomationType? = nil, changeRequestName: String? = nil, currentAction: String? = nil, currentStepName: String? = nil, documentName: String? = nil, documentVersion: String? = nil, executedBy: String? = nil, executionEndTime: Date? = nil, executionStartTime: Date? = nil, failureMessage: String? = nil, logFile: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, mode: ExecutionMode? = nil, opsItemId: String? = nil, outputs: [String: [String]]? = nil, parentAutomationExecutionId: String? = nil, resolvedTargets: ResolvedTargets? = nil, runbooks: [Runbook]? = nil, scheduledTime: Date? = nil, target: String? = nil, targetMaps: [[String: [String]]]? = nil, targetParameterName: String? = nil, targets: [Target]? = nil, triggeredAlarms: [AlarmStateInformation]? = nil) {
+            self.alarmConfiguration = alarmConfiguration
             self.associationId = associationId
             self.automationExecutionId = automationExecutionId
             self.automationExecutionStatus = automationExecutionStatus
@@ -1669,9 +1766,11 @@ extension SSM {
             self.targetMaps = targetMaps
             self.targetParameterName = targetParameterName
             self.targets = targets
+            self.triggeredAlarms = triggeredAlarms
         }
 
         private enum CodingKeys: String, CodingKey {
+            case alarmConfiguration = "AlarmConfiguration"
             case associationId = "AssociationId"
             case automationExecutionId = "AutomationExecutionId"
             case automationExecutionStatus = "AutomationExecutionStatus"
@@ -1700,6 +1799,7 @@ extension SSM {
             case targetMaps = "TargetMaps"
             case targetParameterName = "TargetParameterName"
             case targets = "Targets"
+            case triggeredAlarms = "TriggeredAlarms"
         }
     }
 
@@ -1710,7 +1810,7 @@ extension SSM {
         /// Defines the compliance level for approved patches. When an approved patch is reported as missing, this value describes the severity of the compliance violation.
         public let approvedPatchesComplianceLevel: PatchComplianceLevel?
         /// Indicates whether the list of approved patches includes non-security updates that should be applied to the managed nodes. The default value is false. Applies to Linux managed nodes only.
-        public let approvedPatchesEnableNonSecurity: Bool?
+        public let approvedPatchesEnableNonSecurity: Bool
         public let globalFilters: PatchFilterGroup?
         /// The operating system rule used by the patch baseline override.
         public let operatingSystem: OperatingSystem?
@@ -1721,7 +1821,7 @@ extension SSM {
         /// Information about the patches to use to update the managed nodes, including target operating systems and source repositories. Applies to Linux managed nodes only.
         public let sources: [PatchSource]?
 
-        public init(approvalRules: PatchRuleGroup? = nil, approvedPatches: [String]? = nil, approvedPatchesComplianceLevel: PatchComplianceLevel? = nil, approvedPatchesEnableNonSecurity: Bool? = nil, globalFilters: PatchFilterGroup? = nil, operatingSystem: OperatingSystem? = nil, rejectedPatches: [String]? = nil, rejectedPatchesAction: PatchAction? = nil, sources: [PatchSource]? = nil) {
+        public init(approvalRules: PatchRuleGroup? = nil, approvedPatches: [String]? = nil, approvedPatchesComplianceLevel: PatchComplianceLevel? = nil, approvedPatchesEnableNonSecurity: Bool = false, globalFilters: PatchFilterGroup? = nil, operatingSystem: OperatingSystem? = nil, rejectedPatches: [String]? = nil, rejectedPatchesAction: PatchAction? = nil, sources: [PatchSource]? = nil) {
             self.approvalRules = approvalRules
             self.approvedPatches = approvedPatches
             self.approvedPatchesComplianceLevel = approvedPatchesComplianceLevel
@@ -1850,6 +1950,8 @@ extension SSM {
     }
 
     public struct Command: AWSDecodableShape {
+        /// The details for the CloudWatch alarm applied to your command.
+        public let alarmConfiguration: AlarmConfiguration?
         /// Amazon CloudWatch Logs information where you want Amazon Web Services Systems Manager to send the command output.
         public let cloudWatchOutputConfig: CloudWatchOutputConfig?
         /// A unique identifier for this command.
@@ -1898,8 +2000,11 @@ extension SSM {
         public let targets: [Target]?
         /// The TimeoutSeconds value specified for a command.
         public let timeoutSeconds: Int?
+        /// The CloudWatch alarm that was invoked by the command.
+        public let triggeredAlarms: [AlarmStateInformation]?
 
-        public init(cloudWatchOutputConfig: CloudWatchOutputConfig? = nil, commandId: String? = nil, comment: String? = nil, completedCount: Int? = nil, deliveryTimedOutCount: Int? = nil, documentName: String? = nil, documentVersion: String? = nil, errorCount: Int? = nil, expiresAfter: Date? = nil, instanceIds: [String]? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, notificationConfig: NotificationConfig? = nil, outputS3BucketName: String? = nil, outputS3KeyPrefix: String? = nil, outputS3Region: String? = nil, parameters: [String: [String]]? = nil, requestedDateTime: Date? = nil, serviceRole: String? = nil, status: CommandStatus? = nil, statusDetails: String? = nil, targetCount: Int? = nil, targets: [Target]? = nil, timeoutSeconds: Int? = nil) {
+        public init(alarmConfiguration: AlarmConfiguration? = nil, cloudWatchOutputConfig: CloudWatchOutputConfig? = nil, commandId: String? = nil, comment: String? = nil, completedCount: Int? = nil, deliveryTimedOutCount: Int? = nil, documentName: String? = nil, documentVersion: String? = nil, errorCount: Int? = nil, expiresAfter: Date? = nil, instanceIds: [String]? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, notificationConfig: NotificationConfig? = nil, outputS3BucketName: String? = nil, outputS3KeyPrefix: String? = nil, outputS3Region: String? = nil, parameters: [String: [String]]? = nil, requestedDateTime: Date? = nil, serviceRole: String? = nil, status: CommandStatus? = nil, statusDetails: String? = nil, targetCount: Int? = nil, targets: [Target]? = nil, timeoutSeconds: Int? = nil, triggeredAlarms: [AlarmStateInformation]? = nil) {
+            self.alarmConfiguration = alarmConfiguration
             self.cloudWatchOutputConfig = cloudWatchOutputConfig
             self.commandId = commandId
             self.comment = comment
@@ -1924,9 +2029,11 @@ extension SSM {
             self.targetCount = targetCount
             self.targets = targets
             self.timeoutSeconds = timeoutSeconds
+            self.triggeredAlarms = triggeredAlarms
         }
 
         private enum CodingKeys: String, CodingKey {
+            case alarmConfiguration = "AlarmConfiguration"
             case cloudWatchOutputConfig = "CloudWatchOutputConfig"
             case commandId = "CommandId"
             case comment = "Comment"
@@ -1951,6 +2058,7 @@ extension SSM {
             case targetCount = "TargetCount"
             case targets = "Targets"
             case timeoutSeconds = "TimeoutSeconds"
+            case triggeredAlarms = "TriggeredAlarms"
         }
     }
 
@@ -2372,6 +2480,7 @@ extension SSM {
     }
 
     public struct CreateAssociationBatchRequestEntry: AWSEncodableShape & AWSDecodableShape {
+        public let alarmConfiguration: AlarmConfiguration?
         /// By default, when you create a new associations, the system runs it immediately after it is created and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you create it. This parameter isn't supported for rate expressions.
         public let applyOnlyAtCronInterval: Bool?
         /// Specify a descriptive name for the association.
@@ -2409,7 +2518,8 @@ extension SSM {
         /// The managed nodes targeted by the request.
         public let targets: [Target]?
 
-        public init(applyOnlyAtCronInterval: Bool? = nil, associationName: String? = nil, automationTargetParameterName: String? = nil, calendarNames: [String]? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, instanceId: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, scheduleOffset: Int? = nil, syncCompliance: AssociationSyncCompliance? = nil, targetLocations: [TargetLocation]? = nil, targetMaps: [[String: [String]]]? = nil, targets: [Target]? = nil) {
+        public init(alarmConfiguration: AlarmConfiguration? = nil, applyOnlyAtCronInterval: Bool? = nil, associationName: String? = nil, automationTargetParameterName: String? = nil, calendarNames: [String]? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, instanceId: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, scheduleOffset: Int? = nil, syncCompliance: AssociationSyncCompliance? = nil, targetLocations: [TargetLocation]? = nil, targetMaps: [[String: [String]]]? = nil, targets: [Target]? = nil) {
+            self.alarmConfiguration = alarmConfiguration
             self.applyOnlyAtCronInterval = applyOnlyAtCronInterval
             self.associationName = associationName
             self.automationTargetParameterName = automationTargetParameterName
@@ -2431,6 +2541,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.alarmConfiguration?.validate(name: "\(name).alarmConfiguration")
             try self.validate(self.associationName, name: "associationName", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
             try self.validate(self.automationTargetParameterName, name: "automationTargetParameterName", parent: name, max: 50)
             try self.validate(self.automationTargetParameterName, name: "automationTargetParameterName", parent: name, min: 1)
@@ -2465,6 +2576,7 @@ extension SSM {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case alarmConfiguration = "AlarmConfiguration"
             case applyOnlyAtCronInterval = "ApplyOnlyAtCronInterval"
             case associationName = "AssociationName"
             case automationTargetParameterName = "AutomationTargetParameterName"
@@ -2504,8 +2616,9 @@ extension SSM {
     }
 
     public struct CreateAssociationRequest: AWSEncodableShape {
+        public let alarmConfiguration: AlarmConfiguration?
         /// By default, when you create a new association, the system runs it immediately after it is created and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you create it. This parameter isn't supported for rate expressions.
-        public let applyOnlyAtCronInterval: Bool?
+        public let applyOnlyAtCronInterval: Bool
         /// Specify a descriptive name for the association.
         public let associationName: String?
         /// Choose the parameter that will define how your automation will branch out. This target is required for associations that use an Automation runbook and target resources by using rate controls. Automation is a capability of Amazon Web Services Systems Manager.
@@ -2534,6 +2647,8 @@ extension SSM {
         public let scheduleOffset: Int?
         /// The mode for generating association compliance. You can specify AUTO or MANUAL. In AUTO mode, the system uses the status of the association execution to determine the compliance status. If the association execution runs successfully, then the association is COMPLIANT. If the association execution doesn't run successfully, the association is NON-COMPLIANT. In MANUAL mode, you must specify the AssociationId as a parameter for the PutComplianceItems API operation. In this case, compliance data isn't managed by State Manager. It is managed by your direct call to the PutComplianceItems API operation. By default, all associations use AUTO mode.
         public let syncCompliance: AssociationSyncCompliance?
+        /// Optional metadata that you assign to a resource. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag an association to identify the type of resource to which it applies, the environment, or the purpose of the association.
+        public let tags: [Tag]?
         /// A location is a combination of Amazon Web Services Regions and Amazon Web Services accounts where you want to run the association. Use this action to create an association in multiple Regions and multiple accounts.
         public let targetLocations: [TargetLocation]?
         /// A key-value mapping of document parameters to target resources. Both Targets and TargetMaps can't be specified together.
@@ -2541,7 +2656,8 @@ extension SSM {
         /// The targets for the association. You can target managed nodes by using tags, Amazon Web Services resource groups, all managed nodes in an Amazon Web Services account, or individual managed node IDs. You can target all managed nodes in an Amazon Web Services account by specifying the InstanceIds key with a value of *. For more information about choosing targets for an association, see Using targets and rate controls with State Manager associations in the Amazon Web Services Systems Manager User Guide.
         public let targets: [Target]?
 
-        public init(applyOnlyAtCronInterval: Bool? = nil, associationName: String? = nil, automationTargetParameterName: String? = nil, calendarNames: [String]? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, instanceId: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, scheduleOffset: Int? = nil, syncCompliance: AssociationSyncCompliance? = nil, targetLocations: [TargetLocation]? = nil, targetMaps: [[String: [String]]]? = nil, targets: [Target]? = nil) {
+        public init(alarmConfiguration: AlarmConfiguration? = nil, applyOnlyAtCronInterval: Bool = false, associationName: String? = nil, automationTargetParameterName: String? = nil, calendarNames: [String]? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, instanceId: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, scheduleOffset: Int? = nil, syncCompliance: AssociationSyncCompliance? = nil, tags: [Tag]? = nil, targetLocations: [TargetLocation]? = nil, targetMaps: [[String: [String]]]? = nil, targets: [Target]? = nil) {
+            self.alarmConfiguration = alarmConfiguration
             self.applyOnlyAtCronInterval = applyOnlyAtCronInterval
             self.associationName = associationName
             self.automationTargetParameterName = automationTargetParameterName
@@ -2557,12 +2673,14 @@ extension SSM {
             self.scheduleExpression = scheduleExpression
             self.scheduleOffset = scheduleOffset
             self.syncCompliance = syncCompliance
+            self.tags = tags
             self.targetLocations = targetLocations
             self.targetMaps = targetMaps
             self.targets = targets
         }
 
         public func validate(name: String) throws {
+            try self.alarmConfiguration?.validate(name: "\(name).alarmConfiguration")
             try self.validate(self.associationName, name: "associationName", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
             try self.validate(self.automationTargetParameterName, name: "automationTargetParameterName", parent: name, max: 50)
             try self.validate(self.automationTargetParameterName, name: "automationTargetParameterName", parent: name, min: 1)
@@ -2580,6 +2698,10 @@ extension SSM {
             try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, min: 1)
             try self.validate(self.scheduleOffset, name: "scheduleOffset", parent: name, max: 6)
             try self.validate(self.scheduleOffset, name: "scheduleOffset", parent: name, min: 1)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 1000)
             try self.targetLocations?.forEach {
                 try $0.validate(name: "\(name).targetLocations[]")
             }
@@ -2597,6 +2719,7 @@ extension SSM {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case alarmConfiguration = "AlarmConfiguration"
             case applyOnlyAtCronInterval = "ApplyOnlyAtCronInterval"
             case associationName = "AssociationName"
             case automationTargetParameterName = "AutomationTargetParameterName"
@@ -2612,6 +2735,7 @@ extension SSM {
             case scheduleExpression = "ScheduleExpression"
             case scheduleOffset = "ScheduleOffset"
             case syncCompliance = "SyncCompliance"
+            case tags = "Tags"
             case targetLocations = "TargetLocations"
             case targetMaps = "TargetMaps"
             case targets = "Targets"
@@ -2642,7 +2766,7 @@ extension SSM {
         public let documentFormat: DocumentFormat?
         /// The type of document to create.  The DeploymentStrategy document type is an internal-use-only document type reserved for AppConfig.
         public let documentType: DocumentType?
-        /// A name for the SSM document.  You can't use the following strings as document name prefixes. These are reserved by Amazon Web Services for use as document name prefixes:    aws-     amazon     amzn
+        /// A name for the SSM document.  You can't use the following strings as document name prefixes. These are reserved by Amazon Web Services for use as document name prefixes:    aws     amazon     amzn
         public let name: String
         /// A list of SSM documents required by a document. This parameter is used exclusively by AppConfig. When a user creates an AppConfig configuration in an SSM document, the user must also specify a required document for validation purposes. In this case, an ApplicationConfiguration document requires an ApplicationConfigurationSchema document for validation purposes. For more information, see What is AppConfig? in the AppConfig User Guide.
         public let requires: [DocumentRequires]?
@@ -2741,7 +2865,7 @@ extension SSM {
         /// Optional metadata that you assign to a resource. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag a maintenance window to identify the type of tasks it will run, the types of targets, and the environment it will run in. In this case, you could specify the following key-value pairs:    Key=TaskType,Value=AgentUpdate     Key=OS,Value=Windows     Key=Environment,Value=Production     To add tags to an existing maintenance window, use the AddTagsToResource operation.
         public let tags: [Tag]?
 
-        public init(allowUnassociatedTargets: Bool, clientToken: String? = CreateMaintenanceWindowRequest.idempotencyToken(), cutoff: Int, description: String? = nil, duration: Int, endDate: String? = nil, name: String, schedule: String, scheduleOffset: Int? = nil, scheduleTimezone: String? = nil, startDate: String? = nil, tags: [Tag]? = nil) {
+        public init(allowUnassociatedTargets: Bool = false, clientToken: String? = CreateMaintenanceWindowRequest.idempotencyToken(), cutoff: Int = 0, description: String? = nil, duration: Int = 0, endDate: String? = nil, name: String, schedule: String, scheduleOffset: Int? = nil, scheduleTimezone: String? = nil, startDate: String? = nil, tags: [Tag]? = nil) {
             self.allowUnassociatedTargets = allowUnassociatedTargets
             self.clientToken = clientToken
             self.cutoff = cutoff
@@ -3169,13 +3293,13 @@ extension SSM {
         /// The version of the document that you want to delete. If not provided, all versions of the document are deleted.
         public let documentVersion: String?
         /// Some SSM document types require that you specify a Force flag before you can delete the document. For example, you must specify a Force flag to delete a document of type ApplicationConfigurationSchema. You can restrict access to the Force flag in an Identity and Access Management (IAM) policy.
-        public let force: Bool?
+        public let force: Bool
         /// The name of the document.
         public let name: String
         /// The version name of the document that you want to delete. If not provided, all versions of the document are deleted.
         public let versionName: String?
 
-        public init(documentVersion: String? = nil, force: Bool? = nil, name: String, versionName: String? = nil) {
+        public init(documentVersion: String? = nil, force: Bool = false, name: String, versionName: String? = nil) {
             self.documentVersion = documentVersion
             self.force = force
             self.name = name
@@ -3204,13 +3328,13 @@ extension SSM {
         /// User-provided idempotency token.
         public let clientToken: String?
         /// Use this option to view a summary of the deletion request without deleting any data or the data type. This option is useful when you only want to understand what will be deleted. Once you validate that the data to be deleted is what you intend to delete, you can run the same command without specifying the DryRun option.
-        public let dryRun: Bool?
+        public let dryRun: Bool
         /// Use the SchemaDeleteOption to delete a custom inventory type (schema). If you don't choose this option, the system only deletes existing inventory data associated with the custom inventory type. Choose one of the following options: DisableSchema: If you choose this option, the system ignores all inventory data for the specified version, and any earlier versions. To enable this schema again, you must call the PutInventory operation for a version greater than the disabled version. DeleteSchema: This option deletes the specified custom type from the Inventory service. You can recreate the schema later, if you want.
         public let schemaDeleteOption: InventorySchemaDeleteOption?
         /// The name of the custom inventory type for which you want to delete either all previously collected data or the inventory type itself.
         public let typeName: String
 
-        public init(clientToken: String? = DeleteInventoryRequest.idempotencyToken(), dryRun: Bool? = nil, schemaDeleteOption: InventorySchemaDeleteOption? = nil, typeName: String) {
+        public init(clientToken: String? = DeleteInventoryRequest.idempotencyToken(), dryRun: Bool = false, schemaDeleteOption: InventorySchemaDeleteOption? = nil, typeName: String) {
             self.clientToken = clientToken
             self.dryRun = dryRun
             self.schemaDeleteOption = schemaDeleteOption
@@ -4180,7 +4304,7 @@ extension SSM {
     }
 
     public struct DescribeInstanceInformationRequest: AWSEncodableShape {
-        /// One or more filters. Use a filter to return a more specific list of managed nodes. You can filter based on tags applied to EC2 instances. Use this Filters data type instead of InstanceInformationFilterList, which is deprecated.
+        /// One or more filters. Use a filter to return a more specific list of managed nodes. You can filter based on tags applied to your managed nodes. Use this Filters data type instead of InstanceInformationFilterList, which is deprecated.
         public let filters: [InstanceInformationStringFilter]?
         /// This is a legacy method. We recommend that you don't use this method. Instead, use the Filters data type. Filters enables you to return node information by filtering based on tags applied to managed nodes.  Attempting to use InstanceInformationFilterList and Filters leads to an exception error.
         public let instanceInformationFilterList: [InstanceInformationFilter]?
@@ -6225,7 +6349,7 @@ extension SSM {
 
     public struct GetInventorySchemaRequest: AWSEncodableShape {
         /// Returns inventory schemas that support aggregation. For example, this call returns the AWS:InstanceInformation type, because it supports aggregation based on the PlatformName, PlatformType, and PlatformVersion attributes.
-        public let aggregator: Bool?
+        public let aggregator: Bool
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
         public let maxResults: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
@@ -6235,7 +6359,7 @@ extension SSM {
         /// The type of inventory item to return.
         public let typeName: String?
 
-        public init(aggregator: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, subType: Bool? = nil, typeName: String? = nil) {
+        public init(aggregator: Bool = false, maxResults: Int? = nil, nextToken: String? = nil, subType: Bool? = nil, typeName: String? = nil) {
             self.aggregator = aggregator
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -6444,6 +6568,8 @@ extension SSM {
     }
 
     public struct GetMaintenanceWindowExecutionTaskResult: AWSDecodableShape {
+        /// The details for the CloudWatch alarm you applied to your maintenance window task.
+        public let alarmConfiguration: AlarmConfiguration?
         /// The time the task execution completed.
         public let endTime: Date?
         /// The defined maximum number of task executions that could be run in parallel.
@@ -6466,12 +6592,15 @@ extension SSM {
         public let taskExecutionId: String?
         /// The parameters passed to the task when it was run.   TaskParameters has been deprecated. To specify parameters to pass to a task when it runs, instead use the Parameters option in the TaskInvocationParameters structure. For information about how Systems Manager handles these options for the supported maintenance window task types, see MaintenanceWindowTaskInvocationParameters.  The map has the following format:    Key: string, between 1 and 255 characters    Value: an array of strings, each between 1 and 255 characters
         public let taskParameters: [[String: MaintenanceWindowTaskParameterValueExpression]]?
+        /// The CloudWatch alarms that were invoked by the maintenance window task.
+        public let triggeredAlarms: [AlarmStateInformation]?
         /// The type of task that was run.
         public let type: MaintenanceWindowTaskType?
         /// The ID of the maintenance window execution that includes the task.
         public let windowExecutionId: String?
 
-        public init(endTime: Date? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, priority: Int? = nil, serviceRole: String? = nil, startTime: Date? = nil, status: MaintenanceWindowExecutionStatus? = nil, statusDetails: String? = nil, taskArn: String? = nil, taskExecutionId: String? = nil, taskParameters: [[String: MaintenanceWindowTaskParameterValueExpression]]? = nil, type: MaintenanceWindowTaskType? = nil, windowExecutionId: String? = nil) {
+        public init(alarmConfiguration: AlarmConfiguration? = nil, endTime: Date? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, priority: Int? = nil, serviceRole: String? = nil, startTime: Date? = nil, status: MaintenanceWindowExecutionStatus? = nil, statusDetails: String? = nil, taskArn: String? = nil, taskExecutionId: String? = nil, taskParameters: [[String: MaintenanceWindowTaskParameterValueExpression]]? = nil, triggeredAlarms: [AlarmStateInformation]? = nil, type: MaintenanceWindowTaskType? = nil, windowExecutionId: String? = nil) {
+            self.alarmConfiguration = alarmConfiguration
             self.endTime = endTime
             self.maxConcurrency = maxConcurrency
             self.maxErrors = maxErrors
@@ -6483,11 +6612,13 @@ extension SSM {
             self.taskArn = taskArn
             self.taskExecutionId = taskExecutionId
             self.taskParameters = taskParameters
+            self.triggeredAlarms = triggeredAlarms
             self.type = type
             self.windowExecutionId = windowExecutionId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case alarmConfiguration = "AlarmConfiguration"
             case endTime = "EndTime"
             case maxConcurrency = "MaxConcurrency"
             case maxErrors = "MaxErrors"
@@ -6499,6 +6630,7 @@ extension SSM {
             case taskArn = "TaskArn"
             case taskExecutionId = "TaskExecutionId"
             case taskParameters = "TaskParameters"
+            case triggeredAlarms = "TriggeredAlarms"
             case type = "Type"
             case windowExecutionId = "WindowExecutionId"
         }
@@ -6619,6 +6751,8 @@ extension SSM {
     }
 
     public struct GetMaintenanceWindowTaskResult: AWSDecodableShape {
+        /// The details for the CloudWatch alarm you applied to your maintenance window task.
+        public let alarmConfiguration: AlarmConfiguration?
         /// The action to take on tasks when the maintenance window cutoff time is reached. CONTINUE_TASK means that tasks continue to run. For Automation, Lambda, Step Functions tasks, CANCEL_TASK means that currently running task invocations continue, but no new task invocations are started. For Run Command tasks, CANCEL_TASK means the system attempts to stop the task by sending a CancelCommand operation.
         public let cutoffBehavior: MaintenanceWindowTaskCutoffBehavior?
         /// The retrieved task description.
@@ -6651,7 +6785,8 @@ extension SSM {
         /// The retrieved maintenance window task ID.
         public let windowTaskId: String?
 
-        public init(cutoffBehavior: MaintenanceWindowTaskCutoffBehavior? = nil, description: String? = nil, loggingInfo: LoggingInfo? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, priority: Int? = nil, serviceRoleArn: String? = nil, targets: [Target]? = nil, taskArn: String? = nil, taskInvocationParameters: MaintenanceWindowTaskInvocationParameters? = nil, taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]? = nil, taskType: MaintenanceWindowTaskType? = nil, windowId: String? = nil, windowTaskId: String? = nil) {
+        public init(alarmConfiguration: AlarmConfiguration? = nil, cutoffBehavior: MaintenanceWindowTaskCutoffBehavior? = nil, description: String? = nil, loggingInfo: LoggingInfo? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, priority: Int? = nil, serviceRoleArn: String? = nil, targets: [Target]? = nil, taskArn: String? = nil, taskInvocationParameters: MaintenanceWindowTaskInvocationParameters? = nil, taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]? = nil, taskType: MaintenanceWindowTaskType? = nil, windowId: String? = nil, windowTaskId: String? = nil) {
+            self.alarmConfiguration = alarmConfiguration
             self.cutoffBehavior = cutoffBehavior
             self.description = description
             self.loggingInfo = loggingInfo
@@ -6670,6 +6805,7 @@ extension SSM {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case alarmConfiguration = "AlarmConfiguration"
             case cutoffBehavior = "CutoffBehavior"
             case description = "Description"
             case loggingInfo = "LoggingInfo"
@@ -7437,7 +7573,7 @@ extension SSM {
     }
 
     public struct InstanceInformationStringFilter: AWSEncodableShape {
-        /// The filter key name to describe your managed nodes. For example: "InstanceIds"|"AgentVersion"|"PingStatus"|"PlatformTypes"|"ActivationIds"|"IamRole"|"ResourceType"|"AssociationStatus"|"Tag Key"   Tag key isn't a valid filter. You must specify either tag-key or tag:keyname and a string. Here are some valid examples: tag-key, tag:123, tag:al!, tag:Windows. Here are some invalid examples: tag-keys, Tag Key, tag:, tagKey, abc:keyname.
+        /// The filter key name to describe your managed nodes. For example: "InstanceIds" | "AgentVersion" | "PingStatus" | "PlatformTypes" | "ActivationIds" | "IamRole" | "ResourceType" | "AssociationStatus" | "tag-key" | "tag:{keyname}    Tag Key isn't a valid filter. You must specify either tag-key or tag:{keyname} and a string. Here are some valid examples: tag-key, tag:123, tag:al!, tag:Windows. Here are some invalid examples: tag-keys, Tag Key, tag:, tagKey, abc:keyname.
         public let key: String
         /// The filter values.
         public let values: [String]
@@ -7587,7 +7723,7 @@ extension SSM {
         }
     }
 
-    public final class InventoryAggregator: AWSEncodableShape {
+    public struct InventoryAggregator: AWSEncodableShape {
         /// Nested aggregators to further refine aggregation for an inventory type.
         public let aggregators: [InventoryAggregator]?
         /// The inventory type and attribute name for aggregation.
@@ -8041,7 +8177,7 @@ extension SSM {
         /// (Optional) The invocations for a specific command ID.
         public let commandId: String?
         /// (Optional) If set this returns the response of the command executions and any command output. The default value is false.
-        public let details: Bool?
+        public let details: Bool
         /// (Optional) One or more filters. Use a filter to return a more specific list of results.
         public let filters: [CommandFilter]?
         /// (Optional) The command execution details for a specific managed node ID.
@@ -8051,7 +8187,7 @@ extension SSM {
         /// (Optional) The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
 
-        public init(commandId: String? = nil, details: Bool? = nil, filters: [CommandFilter]? = nil, instanceId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(commandId: String? = nil, details: Bool = false, filters: [CommandFilter]? = nil, instanceId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.commandId = commandId
             self.details = details
             self.filters = filters
@@ -8862,6 +8998,8 @@ extension SSM {
     }
 
     public struct MaintenanceWindowExecutionTaskIdentity: AWSDecodableShape {
+        /// The details for the CloudWatch alarm applied to your maintenance window task.
+        public let alarmConfiguration: AlarmConfiguration?
         /// The time the task execution finished.
         public let endTime: Date?
         /// The time the task execution started.
@@ -8876,10 +9014,13 @@ extension SSM {
         public let taskExecutionId: String?
         /// The type of task that ran.
         public let taskType: MaintenanceWindowTaskType?
+        /// The CloudWatch alarm that was invoked by the maintenance window task.
+        public let triggeredAlarms: [AlarmStateInformation]?
         /// The ID of the maintenance window execution that ran the task.
         public let windowExecutionId: String?
 
-        public init(endTime: Date? = nil, startTime: Date? = nil, status: MaintenanceWindowExecutionStatus? = nil, statusDetails: String? = nil, taskArn: String? = nil, taskExecutionId: String? = nil, taskType: MaintenanceWindowTaskType? = nil, windowExecutionId: String? = nil) {
+        public init(alarmConfiguration: AlarmConfiguration? = nil, endTime: Date? = nil, startTime: Date? = nil, status: MaintenanceWindowExecutionStatus? = nil, statusDetails: String? = nil, taskArn: String? = nil, taskExecutionId: String? = nil, taskType: MaintenanceWindowTaskType? = nil, triggeredAlarms: [AlarmStateInformation]? = nil, windowExecutionId: String? = nil) {
+            self.alarmConfiguration = alarmConfiguration
             self.endTime = endTime
             self.startTime = startTime
             self.status = status
@@ -8887,10 +9028,12 @@ extension SSM {
             self.taskArn = taskArn
             self.taskExecutionId = taskExecutionId
             self.taskType = taskType
+            self.triggeredAlarms = triggeredAlarms
             self.windowExecutionId = windowExecutionId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case alarmConfiguration = "AlarmConfiguration"
             case endTime = "EndTime"
             case startTime = "StartTime"
             case status = "Status"
@@ -8898,6 +9041,7 @@ extension SSM {
             case taskArn = "TaskArn"
             case taskExecutionId = "TaskExecutionId"
             case taskType = "TaskType"
+            case triggeredAlarms = "TriggeredAlarms"
             case windowExecutionId = "WindowExecutionId"
         }
     }
@@ -9214,6 +9358,8 @@ extension SSM {
     }
 
     public struct MaintenanceWindowTask: AWSDecodableShape {
+        /// The details for the CloudWatch alarm applied to your maintenance window task.
+        public let alarmConfiguration: AlarmConfiguration?
         /// The specification for whether tasks should continue to run after the cutoff time specified in the maintenance windows is reached.
         public let cutoffBehavior: MaintenanceWindowTaskCutoffBehavior?
         /// A description of the task.
@@ -9244,7 +9390,8 @@ extension SSM {
         /// The task ID.
         public let windowTaskId: String?
 
-        public init(cutoffBehavior: MaintenanceWindowTaskCutoffBehavior? = nil, description: String? = nil, loggingInfo: LoggingInfo? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, priority: Int? = nil, serviceRoleArn: String? = nil, targets: [Target]? = nil, taskArn: String? = nil, taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]? = nil, type: MaintenanceWindowTaskType? = nil, windowId: String? = nil, windowTaskId: String? = nil) {
+        public init(alarmConfiguration: AlarmConfiguration? = nil, cutoffBehavior: MaintenanceWindowTaskCutoffBehavior? = nil, description: String? = nil, loggingInfo: LoggingInfo? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, priority: Int? = nil, serviceRoleArn: String? = nil, targets: [Target]? = nil, taskArn: String? = nil, taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]? = nil, type: MaintenanceWindowTaskType? = nil, windowId: String? = nil, windowTaskId: String? = nil) {
+            self.alarmConfiguration = alarmConfiguration
             self.cutoffBehavior = cutoffBehavior
             self.description = description
             self.loggingInfo = loggingInfo
@@ -9262,6 +9409,7 @@ extension SSM {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case alarmConfiguration = "AlarmConfiguration"
             case cutoffBehavior = "CutoffBehavior"
             case description = "Description"
             case loggingInfo = "LoggingInfo"
@@ -9434,7 +9582,7 @@ extension SSM {
         }
     }
 
-    public final class OpsAggregator: AWSEncodableShape {
+    public struct OpsAggregator: AWSEncodableShape {
         /// A nested aggregator for viewing counts of OpsData.
         public let aggregators: [OpsAggregator]?
         /// Either a Range or Count aggregator for limiting an OpsData summary.
@@ -10986,6 +11134,8 @@ extension SSM {
     }
 
     public struct RegisterTaskWithMaintenanceWindowRequest: AWSEncodableShape {
+        /// The CloudWatch alarm you want to apply to your maintenance window task.
+        public let alarmConfiguration: AlarmConfiguration?
         /// User-provided idempotency token.
         public let clientToken: String?
         /// Indicates whether tasks should continue to run after the cutoff time specified in the maintenance windows is reached.     CONTINUE_TASK: When the cutoff time is reached, any tasks that are running continue. The default value.    CANCEL_TASK:   For Automation, Lambda, Step Functions tasks: When the cutoff time is reached, any task invocations that are already running continue, but no new task invocations are started.   For Run Command tasks: When the cutoff time is reached, the system sends a CancelCommand operation that attempts to cancel the command associated with the task. However, there is no guarantee that the command will be terminated and the underlying process stopped.   The status for tasks that are not completed is TIMED_OUT.
@@ -11017,7 +11167,8 @@ extension SSM {
         /// The ID of the maintenance window the task should be added to.
         public let windowId: String
 
-        public init(clientToken: String? = RegisterTaskWithMaintenanceWindowRequest.idempotencyToken(), cutoffBehavior: MaintenanceWindowTaskCutoffBehavior? = nil, description: String? = nil, loggingInfo: LoggingInfo? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, priority: Int? = nil, serviceRoleArn: String? = nil, targets: [Target]? = nil, taskArn: String, taskInvocationParameters: MaintenanceWindowTaskInvocationParameters? = nil, taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]? = nil, taskType: MaintenanceWindowTaskType, windowId: String) {
+        public init(alarmConfiguration: AlarmConfiguration? = nil, clientToken: String? = RegisterTaskWithMaintenanceWindowRequest.idempotencyToken(), cutoffBehavior: MaintenanceWindowTaskCutoffBehavior? = nil, description: String? = nil, loggingInfo: LoggingInfo? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, priority: Int? = nil, serviceRoleArn: String? = nil, targets: [Target]? = nil, taskArn: String, taskInvocationParameters: MaintenanceWindowTaskInvocationParameters? = nil, taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]? = nil, taskType: MaintenanceWindowTaskType, windowId: String) {
+            self.alarmConfiguration = alarmConfiguration
             self.clientToken = clientToken
             self.cutoffBehavior = cutoffBehavior
             self.description = description
@@ -11036,6 +11187,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.alarmConfiguration?.validate(name: "\(name).alarmConfiguration")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 128)
@@ -11069,6 +11221,7 @@ extension SSM {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case alarmConfiguration = "AlarmConfiguration"
             case clientToken = "ClientToken"
             case cutoffBehavior = "CutoffBehavior"
             case description = "Description"
@@ -11424,15 +11577,15 @@ extension SSM {
         /// Information about the AwsOrganizationsSource resource data sync source. A sync source of this type can synchronize data from Organizations.
         public let awsOrganizationsSource: ResourceDataSyncAwsOrganizationsSource?
         /// When you create a resource data sync, if you choose one of the Organizations options, then Systems Manager automatically enables all OpsData sources in the selected Amazon Web Services Regions for all Amazon Web Services accounts in your organization (or in the selected organization units). For more information, see About multiple account and Region resource data syncs in the Amazon Web Services Systems Manager User Guide.
-        public let enableAllOpsDataSources: Bool?
+        public let enableAllOpsDataSources: Bool
         /// Whether to automatically synchronize and aggregate data from new Amazon Web Services Regions when those Regions come online.
-        public let includeFutureRegions: Bool?
+        public let includeFutureRegions: Bool
         /// The SyncSource Amazon Web Services Regions included in the resource data sync.
         public let sourceRegions: [String]
         /// The type of data source for the resource data sync. SourceType is either AwsOrganizations (if an organization is present in Organizations) or SingleAccountMultiRegions.
         public let sourceType: String
 
-        public init(awsOrganizationsSource: ResourceDataSyncAwsOrganizationsSource? = nil, enableAllOpsDataSources: Bool? = nil, includeFutureRegions: Bool? = nil, sourceRegions: [String], sourceType: String) {
+        public init(awsOrganizationsSource: ResourceDataSyncAwsOrganizationsSource? = nil, enableAllOpsDataSources: Bool = false, includeFutureRegions: Bool = false, sourceRegions: [String], sourceType: String) {
             self.awsOrganizationsSource = awsOrganizationsSource
             self.enableAllOpsDataSources = enableAllOpsDataSources
             self.includeFutureRegions = includeFutureRegions
@@ -11753,6 +11906,8 @@ extension SSM {
     }
 
     public struct SendCommandRequest: AWSEncodableShape {
+        /// The CloudWatch alarm you want to apply to your command.
+        public let alarmConfiguration: AlarmConfiguration?
         /// Enables Amazon Web Services Systems Manager to send Run Command output to Amazon CloudWatch Logs. Run Command is a capability of Amazon Web Services Systems Manager.
         public let cloudWatchOutputConfig: CloudWatchOutputConfig?
         /// User-specified information about the command, such as a brief description of what the command should do.
@@ -11781,14 +11936,15 @@ extension SSM {
         public let outputS3Region: String?
         /// The required and optional parameters specified in the document being run.
         public let parameters: [String: [String]]?
-        /// The ARN of the Identity and Access Management (IAM) service role to use to publish Amazon Simple Notification Service (Amazon SNS) notifications for Run Command commands.
+        /// The ARN of the Identity and Access Management (IAM) service role to use to publish Amazon Simple Notification Service (Amazon SNS) notifications for Run Command commands. This role must provide the sns:Publish permission for your notification topic. For information about creating and using this service role, see Monitoring Systems Manager status changes using Amazon SNS notifications in the Amazon Web Services Systems Manager User Guide.
         public let serviceRoleArn: String?
         /// An array of search criteria that targets managed nodes using a Key,Value combination that you specify. Specifying targets is most useful when you want to send a command to a large number of managed nodes at once. Using Targets, which accepts tag key-value pairs to identify managed nodes, you can send a command to tens, hundreds, or thousands of nodes at once. To send a command to a smaller number of managed nodes, you can use the InstanceIds option instead. For more information about how to use targets, see Sending commands to a fleet in the Amazon Web Services Systems Manager User Guide.
         public let targets: [Target]?
         /// If this time is reached and the command hasn't already started running, it won't run.
         public let timeoutSeconds: Int?
 
-        public init(cloudWatchOutputConfig: CloudWatchOutputConfig? = nil, comment: String? = nil, documentHash: String? = nil, documentHashType: DocumentHashType? = nil, documentName: String, documentVersion: String? = nil, instanceIds: [String]? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, notificationConfig: NotificationConfig? = nil, outputS3BucketName: String? = nil, outputS3KeyPrefix: String? = nil, outputS3Region: String? = nil, parameters: [String: [String]]? = nil, serviceRoleArn: String? = nil, targets: [Target]? = nil, timeoutSeconds: Int? = nil) {
+        public init(alarmConfiguration: AlarmConfiguration? = nil, cloudWatchOutputConfig: CloudWatchOutputConfig? = nil, comment: String? = nil, documentHash: String? = nil, documentHashType: DocumentHashType? = nil, documentName: String, documentVersion: String? = nil, instanceIds: [String]? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, notificationConfig: NotificationConfig? = nil, outputS3BucketName: String? = nil, outputS3KeyPrefix: String? = nil, outputS3Region: String? = nil, parameters: [String: [String]]? = nil, serviceRoleArn: String? = nil, targets: [Target]? = nil, timeoutSeconds: Int? = nil) {
+            self.alarmConfiguration = alarmConfiguration
             self.cloudWatchOutputConfig = cloudWatchOutputConfig
             self.comment = comment
             self.documentHash = documentHash
@@ -11809,6 +11965,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.alarmConfiguration?.validate(name: "\(name).alarmConfiguration")
             try self.cloudWatchOutputConfig?.validate(name: "\(name).cloudWatchOutputConfig")
             try self.validate(self.comment, name: "comment", parent: name, max: 100)
             try self.validate(self.documentHash, name: "documentHash", parent: name, max: 256)
@@ -11838,6 +11995,7 @@ extension SSM {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case alarmConfiguration = "AlarmConfiguration"
             case cloudWatchOutputConfig = "CloudWatchOutputConfig"
             case comment = "Comment"
             case documentHash = "DocumentHash"
@@ -12055,6 +12213,8 @@ extension SSM {
     }
 
     public struct StartAutomationExecutionRequest: AWSEncodableShape {
+        /// The CloudWatch alarm you want to apply to your automation.
+        public let alarmConfiguration: AlarmConfiguration?
         /// User-provided idempotency token. The token must be unique, is case insensitive, enforces the UUID format, and can't be reused.
         public let clientToken: String?
         /// The name of the SSM document to run. This can be a public document or a custom document. To run a shared document belonging to another account, specify the document ARN. For more information about how to use shared documents, see Using shared SSM documents in the Amazon Web Services Systems Manager User Guide.
@@ -12080,7 +12240,8 @@ extension SSM {
         /// A key-value mapping to target resources. Required if you specify TargetParameterName.
         public let targets: [Target]?
 
-        public init(clientToken: String? = nil, documentName: String, documentVersion: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, mode: ExecutionMode? = nil, parameters: [String: [String]]? = nil, tags: [Tag]? = nil, targetLocations: [TargetLocation]? = nil, targetMaps: [[String: [String]]]? = nil, targetParameterName: String? = nil, targets: [Target]? = nil) {
+        public init(alarmConfiguration: AlarmConfiguration? = nil, clientToken: String? = nil, documentName: String, documentVersion: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, mode: ExecutionMode? = nil, parameters: [String: [String]]? = nil, tags: [Tag]? = nil, targetLocations: [TargetLocation]? = nil, targetMaps: [[String: [String]]]? = nil, targetParameterName: String? = nil, targets: [Target]? = nil) {
+            self.alarmConfiguration = alarmConfiguration
             self.clientToken = clientToken
             self.documentName = documentName
             self.documentVersion = documentVersion
@@ -12096,6 +12257,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.alarmConfiguration?.validate(name: "\(name).alarmConfiguration")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$")
@@ -12137,6 +12299,7 @@ extension SSM {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case alarmConfiguration = "AlarmConfiguration"
             case clientToken = "ClientToken"
             case documentName = "DocumentName"
             case documentVersion = "DocumentVersion"
@@ -12167,7 +12330,7 @@ extension SSM {
 
     public struct StartChangeRequestExecutionRequest: AWSEncodableShape {
         /// Indicates whether the change request can be approved automatically without the need for manual approvals. If AutoApprovable is enabled in a change template, then setting AutoApprove to true in StartChangeRequestExecution creates a change request that bypasses approver review.  Change Calendar restrictions are not bypassed in this scenario. If the state of an associated calendar is CLOSED, change freeze approvers must still grant permission for this change request to run. If they don't, the change won't be processed until the calendar state is again OPEN.
-        public let autoApprove: Bool?
+        public let autoApprove: Bool
         /// User-provided details about the change. If no details are provided, content specified in the Template information section of the associated change template is added.
         public let changeDetails: String?
         /// The name of the change request associated with the runbook workflow to be run.
@@ -12189,7 +12352,7 @@ extension SSM {
         /// Optional metadata that you assign to a resource. You can specify a maximum of five tags for a change request. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag a change request to identify an environment or target Amazon Web Services Region. In this case, you could specify the following key-value pairs:    Key=Environment,Value=Production     Key=Region,Value=us-east-2
         public let tags: [Tag]?
 
-        public init(autoApprove: Bool? = nil, changeDetails: String? = nil, changeRequestName: String? = nil, clientToken: String? = nil, documentName: String, documentVersion: String? = nil, parameters: [String: [String]]? = nil, runbooks: [Runbook], scheduledEndTime: Date? = nil, scheduledTime: Date? = nil, tags: [Tag]? = nil) {
+        public init(autoApprove: Bool = false, changeDetails: String? = nil, changeRequestName: String? = nil, clientToken: String? = nil, documentName: String, documentVersion: String? = nil, parameters: [String: [String]]? = nil, runbooks: [Runbook], scheduledEndTime: Date? = nil, scheduledTime: Date? = nil, tags: [Tag]? = nil) {
             self.autoApprove = autoApprove
             self.changeDetails = changeDetails
             self.changeRequestName = changeRequestName
@@ -12304,7 +12467,7 @@ extension SSM {
         /// 						Amazon Web Services Region supported by Amazon Web Services Systems Manager, such as us-east-2 for the US East (Ohio) Region.
         /// 						For a list of supported region values, see the Region column in Systems Manager service endpoints in the Amazon Web Services General Reference.  session-id represents the ID of a Session Manager session, such as 1a2b3c4dEXAMPLE.
         public let streamUrl: String?
-        /// An encrypted token value containing session and caller information. Used to authenticate the connection to the managed node.
+        /// An encrypted token value containing session and caller information. This token is used to authenticate the connection to the managed node, and is valid only long enough to ensure the connection is successful. Never share your session's token.
         public let tokenValue: String?
 
         public init(sessionId: String? = nil, streamUrl: String? = nil, tokenValue: String? = nil) {
@@ -12601,9 +12764,9 @@ extension SSM {
         /// The name of the parameter from which you want to delete one or more labels.
         public let name: String
         /// The specific version of the parameter which you want to delete one or more labels from. If it isn't present, the call will fail.
-        public let parameterVersion: Int64
+        public let parameterVersion: Int64?
 
-        public init(labels: [String], name: String, parameterVersion: Int64) {
+        public init(labels: [String], name: String, parameterVersion: Int64? = nil) {
             self.labels = labels
             self.name = name
             self.parameterVersion = parameterVersion
@@ -12645,9 +12808,10 @@ extension SSM {
     }
 
     public struct UpdateAssociationRequest: AWSEncodableShape {
+        public let alarmConfiguration: AlarmConfiguration?
         /// By default, when you update an association, the system runs it immediately after it is updated and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you update it. This parameter isn't supported for rate expressions.
         ///  If you chose this option when you created an association and later you edit that association or you make changes to the SSM document on which that association is based (by using the Documents page in the console), State Manager applies the association at the next specified cron interval. For example, if you chose the Latest version of an SSM document when you created an association and you edit the association by choosing a different document version on the Documents page, State Manager applies the association at the next specified cron interval if you previously selected this option. If this option wasn't selected, State Manager immediately runs the association. You can reset this option. To do so, specify the no-apply-only-at-cron-interval parameter when you update the association from the command line. This parameter forces the association to run immediately after updating it and according to the interval specified.
-        public let applyOnlyAtCronInterval: Bool?
+        public let applyOnlyAtCronInterval: Bool
         /// The ID of the association you want to update.
         public let associationId: String
         /// The name of the association that you want to update.
@@ -12685,7 +12849,8 @@ extension SSM {
         /// The targets of the association.
         public let targets: [Target]?
 
-        public init(applyOnlyAtCronInterval: Bool? = nil, associationId: String, associationName: String? = nil, associationVersion: String? = nil, automationTargetParameterName: String? = nil, calendarNames: [String]? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, scheduleOffset: Int? = nil, syncCompliance: AssociationSyncCompliance? = nil, targetLocations: [TargetLocation]? = nil, targetMaps: [[String: [String]]]? = nil, targets: [Target]? = nil) {
+        public init(alarmConfiguration: AlarmConfiguration? = nil, applyOnlyAtCronInterval: Bool = false, associationId: String, associationName: String? = nil, associationVersion: String? = nil, automationTargetParameterName: String? = nil, calendarNames: [String]? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, scheduleOffset: Int? = nil, syncCompliance: AssociationSyncCompliance? = nil, targetLocations: [TargetLocation]? = nil, targetMaps: [[String: [String]]]? = nil, targets: [Target]? = nil) {
+            self.alarmConfiguration = alarmConfiguration
             self.applyOnlyAtCronInterval = applyOnlyAtCronInterval
             self.associationId = associationId
             self.associationName = associationName
@@ -12708,6 +12873,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.alarmConfiguration?.validate(name: "\(name).alarmConfiguration")
             try self.validate(self.associationId, name: "associationId", parent: name, pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
             try self.validate(self.associationName, name: "associationName", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
             try self.validate(self.associationVersion, name: "associationVersion", parent: name, pattern: "^([$]LATEST)|([1-9][0-9]*)$")
@@ -12743,6 +12909,7 @@ extension SSM {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case alarmConfiguration = "AlarmConfiguration"
             case applyOnlyAtCronInterval = "ApplyOnlyAtCronInterval"
             case associationId = "AssociationId"
             case associationName = "AssociationName"
@@ -13181,6 +13348,8 @@ extension SSM {
     }
 
     public struct UpdateMaintenanceWindowTaskRequest: AWSEncodableShape {
+        /// The CloudWatch alarm you want to apply to your maintenance window task.
+        public let alarmConfiguration: AlarmConfiguration?
         /// Indicates whether tasks should continue to run after the cutoff time specified in the maintenance windows is reached.     CONTINUE_TASK: When the cutoff time is reached, any tasks that are running continue. The default value.    CANCEL_TASK:   For Automation, Lambda, Step Functions tasks: When the cutoff time is reached, any task invocations that are already running continue, but no new task invocations are started.   For Run Command tasks: When the cutoff time is reached, the system sends a CancelCommand operation that attempts to cancel the command associated with the task. However, there is no guarantee that the command will be terminated and the underlying process stopped.   The status for tasks that are not completed is TIMED_OUT.
         public let cutoffBehavior: MaintenanceWindowTaskCutoffBehavior?
         /// The new task description to specify.
@@ -13212,7 +13381,8 @@ extension SSM {
         /// The task ID to modify.
         public let windowTaskId: String
 
-        public init(cutoffBehavior: MaintenanceWindowTaskCutoffBehavior? = nil, description: String? = nil, loggingInfo: LoggingInfo? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, priority: Int? = nil, replace: Bool? = nil, serviceRoleArn: String? = nil, targets: [Target]? = nil, taskArn: String? = nil, taskInvocationParameters: MaintenanceWindowTaskInvocationParameters? = nil, taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]? = nil, windowId: String, windowTaskId: String) {
+        public init(alarmConfiguration: AlarmConfiguration? = nil, cutoffBehavior: MaintenanceWindowTaskCutoffBehavior? = nil, description: String? = nil, loggingInfo: LoggingInfo? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, priority: Int? = nil, replace: Bool? = nil, serviceRoleArn: String? = nil, targets: [Target]? = nil, taskArn: String? = nil, taskInvocationParameters: MaintenanceWindowTaskInvocationParameters? = nil, taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]? = nil, windowId: String, windowTaskId: String) {
+            self.alarmConfiguration = alarmConfiguration
             self.cutoffBehavior = cutoffBehavior
             self.description = description
             self.loggingInfo = loggingInfo
@@ -13231,6 +13401,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.alarmConfiguration?.validate(name: "\(name).alarmConfiguration")
             try self.validate(self.description, name: "description", parent: name, max: 128)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.loggingInfo?.validate(name: "\(name).loggingInfo")
@@ -13265,6 +13436,7 @@ extension SSM {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case alarmConfiguration = "AlarmConfiguration"
             case cutoffBehavior = "CutoffBehavior"
             case description = "Description"
             case loggingInfo = "LoggingInfo"
@@ -13284,6 +13456,8 @@ extension SSM {
     }
 
     public struct UpdateMaintenanceWindowTaskResult: AWSDecodableShape {
+        /// The details for the CloudWatch alarm you applied to your maintenance window task.
+        public let alarmConfiguration: AlarmConfiguration?
         /// The specification for whether tasks should continue to run after the cutoff time specified in the maintenance windows is reached.
         public let cutoffBehavior: MaintenanceWindowTaskCutoffBehavior?
         /// The updated task description.
@@ -13314,7 +13488,8 @@ extension SSM {
         /// The task ID of the maintenance window that was updated.
         public let windowTaskId: String?
 
-        public init(cutoffBehavior: MaintenanceWindowTaskCutoffBehavior? = nil, description: String? = nil, loggingInfo: LoggingInfo? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, priority: Int? = nil, serviceRoleArn: String? = nil, targets: [Target]? = nil, taskArn: String? = nil, taskInvocationParameters: MaintenanceWindowTaskInvocationParameters? = nil, taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]? = nil, windowId: String? = nil, windowTaskId: String? = nil) {
+        public init(alarmConfiguration: AlarmConfiguration? = nil, cutoffBehavior: MaintenanceWindowTaskCutoffBehavior? = nil, description: String? = nil, loggingInfo: LoggingInfo? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, priority: Int? = nil, serviceRoleArn: String? = nil, targets: [Target]? = nil, taskArn: String? = nil, taskInvocationParameters: MaintenanceWindowTaskInvocationParameters? = nil, taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]? = nil, windowId: String? = nil, windowTaskId: String? = nil) {
+            self.alarmConfiguration = alarmConfiguration
             self.cutoffBehavior = cutoffBehavior
             self.description = description
             self.loggingInfo = loggingInfo
@@ -13332,6 +13507,7 @@ extension SSM {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case alarmConfiguration = "AlarmConfiguration"
             case cutoffBehavior = "CutoffBehavior"
             case description = "Description"
             case loggingInfo = "LoggingInfo"

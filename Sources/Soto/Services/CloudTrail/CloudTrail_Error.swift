@@ -20,6 +20,9 @@ import SotoCore
 /// Error enum for CloudTrail
 public struct CloudTrailErrorType: AWSErrorType {
     enum Code: String {
+        case accountHasOngoingImportException = "AccountHasOngoingImportException"
+        case channelARNInvalidException = "ChannelARNInvalidException"
+        case channelNotFoundException = "ChannelNotFoundException"
         case cloudTrailARNInvalidException = "CloudTrailARNInvalidException"
         case cloudTrailAccessNotEnabledException = "CloudTrailAccessNotEnabledException"
         case cloudTrailInvalidClientTokenIdException = "CloudTrailInvalidClientTokenIdException"
@@ -27,9 +30,11 @@ public struct CloudTrailErrorType: AWSErrorType {
         case conflictException = "ConflictException"
         case eventDataStoreARNInvalidException = "EventDataStoreARNInvalidException"
         case eventDataStoreAlreadyExistsException = "EventDataStoreAlreadyExistsException"
+        case eventDataStoreHasOngoingImportException = "EventDataStoreHasOngoingImportException"
         case eventDataStoreMaxLimitExceededException = "EventDataStoreMaxLimitExceededException"
         case eventDataStoreNotFoundException = "EventDataStoreNotFoundException"
         case eventDataStoreTerminationProtectedException = "EventDataStoreTerminationProtectedException"
+        case importNotFoundException = "ImportNotFoundException"
         case inactiveEventDataStoreException = "InactiveEventDataStoreException"
         case inactiveQueryException = "InactiveQueryException"
         case insightNotEnabledException = "InsightNotEnabledException"
@@ -41,9 +46,11 @@ public struct CloudTrailErrorType: AWSErrorType {
         case invalidCloudWatchLogsRoleArnException = "InvalidCloudWatchLogsRoleArnException"
         case invalidDateRangeException = "InvalidDateRangeException"
         case invalidEventCategoryException = "InvalidEventCategoryException"
+        case invalidEventDataStoreCategoryException = "InvalidEventDataStoreCategoryException"
         case invalidEventDataStoreStatusException = "InvalidEventDataStoreStatusException"
         case invalidEventSelectorsException = "InvalidEventSelectorsException"
         case invalidHomeRegionException = "InvalidHomeRegionException"
+        case invalidImportSourceException = "InvalidImportSourceException"
         case invalidInsightSelectorsException = "InvalidInsightSelectorsException"
         case invalidKmsKeyIdException = "InvalidKmsKeyIdException"
         case invalidLookupAttributesException = "InvalidLookupAttributesException"
@@ -98,6 +105,12 @@ public struct CloudTrailErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    ///  This exception is thrown when you start a new import and a  previous import is still in progress.
+    public static var accountHasOngoingImportException: Self { .init(.accountHasOngoingImportException) }
+    ///  The specified channel ARN is not valid or does not map to a channel in your account.
+    public static var channelARNInvalidException: Self { .init(.channelARNInvalidException) }
+    ///  The specified channel was not found.
+    public static var channelNotFoundException: Self { .init(.channelNotFoundException) }
     /// This exception is thrown when an operation is called with a trail ARN that is not valid. The following is the format of a trail ARN.  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
     public static var cloudTrailARNInvalidException: Self { .init(.cloudTrailARNInvalidException) }
     /// This exception is thrown when trusted access has not been enabled between CloudTrail and Organizations. For more information,  see Enabling Trusted Access with Other Amazon Web Services Services and Prepare For Creating a Trail For Your Organization.
@@ -112,12 +125,16 @@ public struct CloudTrailErrorType: AWSErrorType {
     public static var eventDataStoreARNInvalidException: Self { .init(.eventDataStoreARNInvalidException) }
     /// An event data store with that name already exists.
     public static var eventDataStoreAlreadyExistsException: Self { .init(.eventDataStoreAlreadyExistsException) }
+    ///  This exception is thrown when you try to update or delete an event data store that currently has an import in progress.
+    public static var eventDataStoreHasOngoingImportException: Self { .init(.eventDataStoreHasOngoingImportException) }
     /// Your account has used the maximum number of event data stores.
     public static var eventDataStoreMaxLimitExceededException: Self { .init(.eventDataStoreMaxLimitExceededException) }
     /// The specified event data store was not found.
     public static var eventDataStoreNotFoundException: Self { .init(.eventDataStoreNotFoundException) }
     /// The event data store cannot be deleted because termination protection is enabled for it.
     public static var eventDataStoreTerminationProtectedException: Self { .init(.eventDataStoreTerminationProtectedException) }
+    ///  The specified import was not found.
+    public static var importNotFoundException: Self { .init(.importNotFoundException) }
     /// The event data store is inactive.
     public static var inactiveEventDataStoreException: Self { .init(.inactiveEventDataStoreException) }
     /// The specified query cannot be canceled because it is in the FINISHED, FAILED, TIMED_OUT, or CANCELLED state.
@@ -140,12 +157,16 @@ public struct CloudTrailErrorType: AWSErrorType {
     public static var invalidDateRangeException: Self { .init(.invalidDateRangeException) }
     /// Occurs if an event category that is not valid is specified as a value of EventCategory.
     public static var invalidEventCategoryException: Self { .init(.invalidEventCategoryException) }
+    ///  This exception is thrown when the event data store category is not valid for the import.
+    public static var invalidEventDataStoreCategoryException: Self { .init(.invalidEventDataStoreCategoryException) }
     /// The event data store is not in a status that supports the operation.
     public static var invalidEventDataStoreStatusException: Self { .init(.invalidEventDataStoreStatusException) }
     /// This exception is thrown when the PutEventSelectors operation is called with a number of event  selectors, advanced event selectors, or data resources that is not valid. The combination of event selectors or advanced event selectors and  data resources is not valid. A trail can have up to 5 event selectors. If a trail uses advanced event selectors, a maximum  of 500 total values for all conditions in all advanced event selectors is allowed. A trail is limited to 250 data resources. These data resources can be distributed across event selectors, but the overall total cannot exceed 250. You can:   Specify a valid number of event selectors (1 to 5) for a trail.   Specify a valid number of data resources (1 to 250) for an event selector.  The limit of number of resources on an individual event selector is configurable up to 250.  However, this upper limit is allowed only if the total number of data resources does not  exceed 250 across all event selectors for a trail.   Specify up to 500 values for all conditions in all advanced event selectors for a trail.   Specify a valid value for a parameter. For example, specifying the ReadWriteType  parameter with a value of read-only is not valid.
     public static var invalidEventSelectorsException: Self { .init(.invalidEventSelectorsException) }
     /// This exception is thrown when an operation is called on a trail from a region other than the region in which the trail was created.
     public static var invalidHomeRegionException: Self { .init(.invalidHomeRegionException) }
+    ///  This exception is thrown when the provided source S3 bucket is not valid for import.
+    public static var invalidImportSourceException: Self { .init(.invalidImportSourceException) }
     /// The formatting or syntax of the InsightSelectors JSON statement in your PutInsightSelectors or GetInsightSelectors request  is not valid, or the specified insight type in the InsightSelectors statement is not a valid insight type.
     public static var invalidInsightSelectorsException: Self { .init(.invalidInsightSelectorsException) }
     /// This exception is thrown when the KMS key ARN is not valid.

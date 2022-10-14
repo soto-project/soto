@@ -29,11 +29,29 @@ extension MediaPackage {
         public var description: String { return self.rawValue }
     }
 
+    public enum AdTriggersElement: String, CustomStringConvertible, Codable, _SotoSendable {
+        case `break` = "BREAK"
+        case distributorAdvertisement = "DISTRIBUTOR_ADVERTISEMENT"
+        case distributorOverlayPlacementOpportunity = "DISTRIBUTOR_OVERLAY_PLACEMENT_OPPORTUNITY"
+        case distributorPlacementOpportunity = "DISTRIBUTOR_PLACEMENT_OPPORTUNITY"
+        case providerAdvertisement = "PROVIDER_ADVERTISEMENT"
+        case providerOverlayPlacementOpportunity = "PROVIDER_OVERLAY_PLACEMENT_OPPORTUNITY"
+        case providerPlacementOpportunity = "PROVIDER_PLACEMENT_OPPORTUNITY"
+        case spliceInsert = "SPLICE_INSERT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AdsOnDeliveryRestrictions: String, CustomStringConvertible, Codable, _SotoSendable {
         case both = "BOTH"
         case none = "NONE"
         case restricted = "RESTRICTED"
         case unrestricted = "UNRESTRICTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CmafEncryptionMethod: String, CustomStringConvertible, Codable, _SotoSendable {
+        case aesCtr = "AES_CTR"
+        case sampleAes = "SAMPLE_AES"
         public var description: String { return self.rawValue }
     }
 
@@ -52,6 +70,11 @@ extension MediaPackage {
     public enum Origination: String, CustomStringConvertible, Codable, _SotoSendable {
         case allow = "ALLOW"
         case deny = "DENY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PeriodTriggersElement: String, CustomStringConvertible, Codable, _SotoSendable {
+        case ads = "ADS"
         public var description: String { return self.rawValue }
     }
 
@@ -122,23 +145,6 @@ extension MediaPackage {
         public var description: String { return self.rawValue }
     }
 
-    public enum AdTriggersElement: String, CustomStringConvertible, Codable, _SotoSendable {
-        case `break` = "BREAK"
-        case distributorAdvertisement = "DISTRIBUTOR_ADVERTISEMENT"
-        case distributorOverlayPlacementOpportunity = "DISTRIBUTOR_OVERLAY_PLACEMENT_OPPORTUNITY"
-        case distributorPlacementOpportunity = "DISTRIBUTOR_PLACEMENT_OPPORTUNITY"
-        case providerAdvertisement = "PROVIDER_ADVERTISEMENT"
-        case providerOverlayPlacementOpportunity = "PROVIDER_OVERLAY_PLACEMENT_OPPORTUNITY"
-        case providerPlacementOpportunity = "PROVIDER_PLACEMENT_OPPORTUNITY"
-        case spliceInsert = "SPLICE_INSERT"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum PeriodTriggersElement: String, CustomStringConvertible, Codable, _SotoSendable {
-        case ads = "ADS"
-        public var description: String { return self.rawValue }
-    }
-
     // MARK: Shapes
 
     public struct Authorization: AWSEncodableShape & AWSDecodableShape {
@@ -194,18 +200,21 @@ extension MediaPackage {
     public struct CmafEncryption: AWSEncodableShape & AWSDecodableShape {
         /// An optional 128-bit, 16-byte hex value represented by a 32-character string, used in conjunction with the key for encrypting blocks. If you don't specify a value, then MediaPackage creates the constant initialization vector (IV).
         public let constantInitializationVector: String?
+        public let encryptionMethod: CmafEncryptionMethod?
         /// Time (in seconds) between each encryption key rotation.
         public let keyRotationIntervalSeconds: Int?
         public let spekeKeyProvider: SpekeKeyProvider
 
-        public init(constantInitializationVector: String? = nil, keyRotationIntervalSeconds: Int? = nil, spekeKeyProvider: SpekeKeyProvider) {
+        public init(constantInitializationVector: String? = nil, encryptionMethod: CmafEncryptionMethod? = nil, keyRotationIntervalSeconds: Int? = nil, spekeKeyProvider: SpekeKeyProvider) {
             self.constantInitializationVector = constantInitializationVector
+            self.encryptionMethod = encryptionMethod
             self.keyRotationIntervalSeconds = keyRotationIntervalSeconds
             self.spekeKeyProvider = spekeKeyProvider
         }
 
         private enum CodingKeys: String, CodingKey {
             case constantInitializationVector
+            case encryptionMethod
             case keyRotationIntervalSeconds
             case spekeKeyProvider
         }
@@ -1045,6 +1054,8 @@ extension MediaPackage {
         /// in HLS and CMAF manifests. For this option, you must set a programDateTimeIntervalSeconds value
         /// that is greater than 0.
         public let adMarkers: AdMarkers?
+        public let adsOnDeliveryRestrictions: AdsOnDeliveryRestrictions?
+        public let adTriggers: [AdTriggersElement]?
         /// The ID of the manifest. The ID must be unique within the OriginEndpoint and it cannot be changed after it is created.
         public let id: String
         /// When enabled, an I-Frame only stream will be included in the output.
@@ -1070,8 +1081,10 @@ extension MediaPackage {
         /// The URL of the packaged OriginEndpoint for consumption.
         public let url: String?
 
-        public init(adMarkers: AdMarkers? = nil, id: String, includeIframeOnlyStream: Bool? = nil, manifestName: String? = nil, playlistType: PlaylistType? = nil, playlistWindowSeconds: Int? = nil, programDateTimeIntervalSeconds: Int? = nil, url: String? = nil) {
+        public init(adMarkers: AdMarkers? = nil, adsOnDeliveryRestrictions: AdsOnDeliveryRestrictions? = nil, adTriggers: [AdTriggersElement]? = nil, id: String, includeIframeOnlyStream: Bool? = nil, manifestName: String? = nil, playlistType: PlaylistType? = nil, playlistWindowSeconds: Int? = nil, programDateTimeIntervalSeconds: Int? = nil, url: String? = nil) {
             self.adMarkers = adMarkers
+            self.adsOnDeliveryRestrictions = adsOnDeliveryRestrictions
+            self.adTriggers = adTriggers
             self.id = id
             self.includeIframeOnlyStream = includeIframeOnlyStream
             self.manifestName = manifestName
@@ -1083,6 +1096,8 @@ extension MediaPackage {
 
         private enum CodingKeys: String, CodingKey {
             case adMarkers
+            case adsOnDeliveryRestrictions
+            case adTriggers
             case id
             case includeIframeOnlyStream
             case manifestName

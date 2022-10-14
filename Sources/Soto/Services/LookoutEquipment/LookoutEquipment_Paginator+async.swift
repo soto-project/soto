@@ -133,6 +133,50 @@ extension LookoutEquipment {
         )
     }
 
+    ///  Returns a list of the label groups.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listLabelGroupsPaginator(
+        _ input: ListLabelGroupsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListLabelGroupsRequest, ListLabelGroupsResponse> {
+        return .init(
+            input: input,
+            command: listLabelGroups,
+            inputKey: \ListLabelGroupsRequest.nextToken,
+            outputKey: \ListLabelGroupsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Provides a list of labels.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listLabelsPaginator(
+        _ input: ListLabelsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListLabelsRequest, ListLabelsResponse> {
+        return .init(
+            input: input,
+            command: listLabels,
+            inputKey: \ListLabelsRequest.nextToken,
+            outputKey: \ListLabelsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Generates a list of all models in the account, including model name and ARN, dataset, and status.
     /// Return PaginatorSequence for operation.
     ///

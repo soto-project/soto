@@ -232,7 +232,60 @@ extension WorkMail {
         )
     }
 
-    ///  Lists the mail domains in a given Amazon WorkMail organization.
+    ///  Lists all the impersonation roles for the given WorkMail organization.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listImpersonationRolesPaginator<Result>(
+        _ input: ListImpersonationRolesRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListImpersonationRolesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listImpersonationRoles,
+            inputKey: \ListImpersonationRolesRequest.nextToken,
+            outputKey: \ListImpersonationRolesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listImpersonationRolesPaginator(
+        _ input: ListImpersonationRolesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListImpersonationRolesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listImpersonationRoles,
+            inputKey: \ListImpersonationRolesRequest.nextToken,
+            outputKey: \ListImpersonationRolesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Lists the mail domains in a given WorkMail organization.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -691,6 +744,16 @@ extension WorkMail.ListGroupMembersRequest: AWSPaginateToken {
 
 extension WorkMail.ListGroupsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> WorkMail.ListGroupsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            organizationId: self.organizationId
+        )
+    }
+}
+
+extension WorkMail.ListImpersonationRolesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> WorkMail.ListImpersonationRolesRequest {
         return .init(
             maxResults: self.maxResults,
             nextToken: token,

@@ -50,8 +50,7 @@ public struct SSMIncidents: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "ssmincidents",
-            signingName: "ssm-incidents",
+            service: "ssm-incidents",
             serviceProtocol: .restjson,
             apiVersion: "2018-05-10",
             endpoint: endpoint,

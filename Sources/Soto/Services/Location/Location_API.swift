@@ -50,8 +50,7 @@ public struct Location: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "location",
-            signingName: "geo",
+            service: "geo",
             serviceProtocol: .restjson,
             apiVersion: "2020-11-19",
             endpoint: endpoint,
@@ -222,6 +221,11 @@ public struct Location: AWSService {
     /// Retrieves a vector data tile from the map resource. Map tiles are used by clients to render a map. they're addressed using a grid arrangement with an X coordinate, Y coordinate, and Z (zoom) level.  The origin (0, 0) is the top left of the map. Increasing the zoom level by 1 doubles both the X and Y dimensions, so a tile containing data for the entire world at (0/0/0) will be split into 4 tiles at zoom 1 (1/0/0, 1/0/1, 1/1/0, 1/1/1).
     public func getMapTile(_ input: GetMapTileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMapTileResponse> {
         return self.client.execute(operation: "GetMapTile", path: "/maps/v0/maps/{MapName}/tiles/{Z}/{X}/{Y}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "maps.", logger: logger, on: eventLoop)
+    }
+
+    /// Finds a place by its unique ID. A PlaceId is returned by other search operations.  A PlaceId is valid only if all of the following are the same in the original search request and the call to GetPlace.   Customer AWS account   AWS Region   Data provider specified in the place index resource
+    public func getPlace(_ input: GetPlaceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPlaceResponse> {
+        return self.client.execute(operation: "GetPlace", path: "/places/v0/indexes/{IndexName}/places/{PlaceId}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "places.", logger: logger, on: eventLoop)
     }
 
     /// A batch request to retrieve all device positions.

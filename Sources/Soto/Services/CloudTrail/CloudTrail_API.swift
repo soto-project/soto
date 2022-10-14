@@ -105,14 +105,24 @@ public struct CloudTrail: AWSService {
         return self.client.execute(operation: "DescribeTrails", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    ///  Returns the specified CloudTrail service-linked channel. Amazon Web Services services create service-linked channels to view CloudTrail events.
+    public func getChannel(_ input: GetChannelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetChannelResponse> {
+        return self.client.execute(operation: "GetChannel", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns information about an event data store specified as either an ARN or the ID portion of the ARN.
     public func getEventDataStore(_ input: GetEventDataStoreRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetEventDataStoreResponse> {
         return self.client.execute(operation: "GetEventDataStore", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes the settings for the event selectors that you configured for your trail. The information returned for your event selectors includes the following:   If your event selector includes read-only events, write-only events, or all events. This applies to both management events and data events.   If your event selector includes management events.   If your event selector includes data events, the resources on which you are logging data events.   For more information, see Logging Data and Management Events for Trails in the CloudTrail User Guide.
+    /// Describes the settings for the event selectors that you configured for your trail. The information returned for your event selectors includes the following:   If your event selector includes read-only events, write-only events, or all events. This applies to both management events and data events.   If your event selector includes management events.   If your event selector includes data events, the resources on which you are logging data events.   For more information about logging management and data events, see the following topics in the CloudTrail User Guide:    Logging management events for trails      Logging data events for trails
     public func getEventSelectors(_ input: GetEventSelectorsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetEventSelectorsResponse> {
         return self.client.execute(operation: "GetEventSelectors", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  Returns information for the specified import.
+    public func getImport(_ input: GetImportRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetImportResponse> {
+        return self.client.execute(operation: "GetImport", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Describes the settings for the Insights event selectors that you configured for your trail. GetInsightSelectors shows  if CloudTrail Insights event logging is enabled on the trail, and if it is, which insight types are enabled.  If you run GetInsightSelectors on a trail that does not have Insights events enabled, the operation throws the exception InsightNotEnabledException  For more information, see Logging CloudTrail Insights Events for Trails in the CloudTrail User Guide.
@@ -135,9 +145,24 @@ public struct CloudTrail: AWSService {
         return self.client.execute(operation: "GetTrailStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    ///  Returns all CloudTrail channels.
+    public func listChannels(_ input: ListChannelsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListChannelsResponse> {
+        return self.client.execute(operation: "ListChannels", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns information about all event data stores in the account, in the current region.
     public func listEventDataStores(_ input: ListEventDataStoresRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListEventDataStoresResponse> {
         return self.client.execute(operation: "ListEventDataStores", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  Returns a list of failures for the specified import.
+    public func listImportFailures(_ input: ListImportFailuresRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListImportFailuresResponse> {
+        return self.client.execute(operation: "ListImportFailures", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  Returns information on all imports, or a select set of imports by ImportStatus or Destination.
+    public func listImports(_ input: ListImportsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListImportsResponse> {
+        return self.client.execute(operation: "ListImports", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns all public keys whose private keys were used to sign the digest files within the specified time range. The public key is needed to validate digest files that were signed with its corresponding private key.  CloudTrail uses different private and public key pairs per region. Each digest file is signed with a private key  unique to its region. When you validate a digest file from a specific region, you must look in the same region for its  corresponding public key.
@@ -165,7 +190,7 @@ public struct CloudTrail: AWSService {
         return self.client.execute(operation: "LookupEvents", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Configures an event selector or advanced event selectors for your trail.  Use event selectors or advanced event selectors to specify management and data event settings for your trail. By default, trails created without specific event selectors are configured to log all read and  write management events, and no data events. When an event occurs in your account, CloudTrail evaluates the event selectors or advanced event selectors in all trails. For each trail, if the event matches  any event selector, the trail processes and logs the event. If the event doesn't match any event selector, the trail doesn't log the event. Example   You create an event selector for a trail and specify that you want write-only events.   The EC2 GetConsoleOutput and RunInstances API operations occur in your account.   CloudTrail evaluates whether the events match your event selectors.   The RunInstances is a write-only event and it matches your event selector. The trail logs the event.   The GetConsoleOutput is a read-only event that doesn't match your event selector. The trail doesn't log the event.    The PutEventSelectors operation must be called from the region in which the trail was created; otherwise, an InvalidHomeRegionException exception is thrown. You can configure up to five event selectors for each trail. For more information, see Logging data and management events for trails and Quotas in CloudTrail  in the CloudTrail User Guide. You can add advanced event selectors, and conditions for your advanced  event selectors, up to a maximum of 500 values for all conditions and selectors on a trail.  You can use either AdvancedEventSelectors or EventSelectors, but not both. If you apply AdvancedEventSelectors  to a trail, any existing EventSelectors are overwritten. For more information about  advanced event selectors, see  Logging  data events for trails in the CloudTrail User Guide.
+    /// Configures an event selector or advanced event selectors for your trail.  Use event selectors or advanced event selectors to specify management and data event settings for your trail. By default, trails created without specific event selectors are configured to log all read and  write management events, and no data events. When an event occurs in your account, CloudTrail evaluates the event selectors or advanced event selectors in all trails. For each trail, if the event matches  any event selector, the trail processes and logs the event. If the event doesn't match any event selector, the trail doesn't log the event. Example   You create an event selector for a trail and specify that you want write-only events.   The EC2 GetConsoleOutput and RunInstances API operations occur in your account.   CloudTrail evaluates whether the events match your event selectors.   The RunInstances is a write-only event and it matches your event selector. The trail logs the event.   The GetConsoleOutput is a read-only event that doesn't match your event selector. The trail doesn't log the event.    The PutEventSelectors operation must be called from the region in which the trail was created; otherwise, an InvalidHomeRegionException exception is thrown. You can configure up to five event selectors for each trail. For more information, see Logging management events for trails , Logging data events for trails , and Quotas in CloudTrail  in the CloudTrail User Guide. You can add advanced event selectors, and conditions for your advanced  event selectors, up to a maximum of 500 values for all conditions and selectors on a trail.  You can use either AdvancedEventSelectors or EventSelectors, but not both. If you apply AdvancedEventSelectors  to a trail, any existing EventSelectors are overwritten. For more information about  advanced event selectors, see  Logging  data events for trails in the CloudTrail User Guide.
     public func putEventSelectors(_ input: PutEventSelectorsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutEventSelectorsResponse> {
         return self.client.execute(operation: "PutEventSelectors", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -185,6 +210,11 @@ public struct CloudTrail: AWSService {
         return self.client.execute(operation: "RestoreEventDataStore", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    ///  Starts an import of logged trail events from a source S3 bucket to a destination event data store.    When you start a new import, the Destinations and  ImportSource parameters are required. Before starting a new import, disable any access control lists (ACLs) attached to the source S3 bucket.  For more information about disabling ACLs, see Controlling ownership of objects and disabling ACLs for your bucket.   When you retry an import, the ImportID parameter is required.
+    public func startImport(_ input: StartImportRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartImportResponse> {
+        return self.client.execute(operation: "StartImport", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Starts the recording of Amazon Web Services API calls and log file delivery for a trail. For a trail that is enabled in all regions, this operation must be called from the region in which the trail was created. This operation cannot be called on the shadow trails (replicated trails in other regions) of a trail that is enabled in all regions.
     public func startLogging(_ input: StartLoggingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartLoggingResponse> {
         return self.client.execute(operation: "StartLogging", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -195,12 +225,17 @@ public struct CloudTrail: AWSService {
         return self.client.execute(operation: "StartQuery", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    ///  Stops a specified import.
+    public func stopImport(_ input: StopImportRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopImportResponse> {
+        return self.client.execute(operation: "StopImport", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Suspends the recording of Amazon Web Services API calls and log file delivery for the specified trail. Under most circumstances, there is no need to use this action. You can update a trail without stopping it first. This action is the only way to stop recording. For a trail enabled in all regions, this operation must be called from the region in which the trail was created, or an InvalidHomeRegionException will occur. This operation cannot be called on the shadow trails (replicated trails in other regions) of a trail enabled in all regions.
     public func stopLogging(_ input: StopLoggingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopLoggingResponse> {
         return self.client.execute(operation: "StopLogging", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates an event data store. The required EventDataStore value is an ARN or the ID portion of the ARN.  Other parameters are optional, but at least one optional parameter must be specified, or CloudTrail throws an error.  RetentionPeriod is in days, and valid values are integers between 90 and 2555.  By default, TerminationProtection is enabled. AdvancedEventSelectors includes or excludes management  and data events in your event data store; for more information about AdvancedEventSelectors, see  PutEventSelectorsRequest$AdvancedEventSelectors.
+    /// Updates an event data store. The required EventDataStore value is an ARN or the ID portion of the ARN.  Other parameters are optional, but at least one optional parameter must be specified, or CloudTrail throws an error.  RetentionPeriod is in days, and valid values are integers between 90 and 2557.  By default, TerminationProtection is enabled. AdvancedEventSelectors includes or excludes management  and data events in your event data store; for more information about AdvancedEventSelectors, see  PutEventSelectorsRequest$AdvancedEventSelectors.
     public func updateEventDataStore(_ input: UpdateEventDataStoreRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateEventDataStoreResponse> {
         return self.client.execute(operation: "UpdateEventDataStore", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

@@ -31,6 +31,8 @@ extension EC2 {
 
     public enum AcceleratorName: String, CustomStringConvertible, Codable, _SotoSendable {
         case a100
+        case inferentia
+        case k520
         case k80
         case m60
         case radeonProV520 = "radeon-pro-v520"
@@ -93,6 +95,11 @@ extension EC2 {
         case capacityOptimizedPrioritized
         case diversified
         case lowestPrice
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AllocationType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case used
         public var description: String { return self.rawValue }
     }
 
@@ -202,7 +209,7 @@ extension EC2 {
         case active
         case cancelled
         case cancelledRunning = "cancelled_running"
-        case cancelledTerminating = "cancelled_terminating"
+        case cancelledTerminatingInstances = "cancelled_terminating"
         case failed
         case modifying
         case submitted
@@ -288,23 +295,23 @@ extension EC2 {
     }
 
     public enum CapacityReservationInstancePlatform: String, CustomStringConvertible, Codable, _SotoSendable {
-        case linuxWithSQLServerEnterprise = "Linux with SQL Server Enterprise"
-        case linuxWithSQLServerStandard = "Linux with SQL Server Standard"
-        case linuxWithSQLServerWeb = "Linux with SQL Server Web"
-        case linuxUNIX = "Linux/UNIX"
-        case rhelWithHA = "RHEL with HA"
-        case rhelWithHAAndSQLServerEnterprise = "RHEL with HA and SQL Server Enterprise"
-        case rhelWithHAAndSQLServerStandard = "RHEL with HA and SQL Server Standard"
-        case rhelWithSQLServerEnterprise = "RHEL with SQL Server Enterprise"
-        case rhelWithSQLServerStandard = "RHEL with SQL Server Standard"
-        case rhelWithSQLServerWeb = "RHEL with SQL Server Web"
+        case linuxUnix = "Linux/UNIX"
+        case linuxWithSqlServerEnterprise = "Linux with SQL Server Enterprise"
+        case linuxWithSqlServerStandard = "Linux with SQL Server Standard"
+        case linuxWithSqlServerWeb = "Linux with SQL Server Web"
         case redHatEnterpriseLinux = "Red Hat Enterprise Linux"
+        case rhelWithHa = "RHEL with HA"
+        case rhelWithHaAndSqlServerEnterprise = "RHEL with HA and SQL Server Enterprise"
+        case rhelWithHaAndSqlServerStandard = "RHEL with HA and SQL Server Standard"
+        case rhelWithSqlServerEnterprise = "RHEL with SQL Server Enterprise"
+        case rhelWithSqlServerStandard = "RHEL with SQL Server Standard"
+        case rhelWithSqlServerWeb = "RHEL with SQL Server Web"
         case suseLinux = "SUSE Linux"
         case windows = "Windows"
-        case windowsWithSQLServer = "Windows with SQL Server"
-        case windowsWithSQLServerEnterprise = "Windows with SQL Server Enterprise"
-        case windowsWithSQLServerStandard = "Windows with SQL Server Standard"
-        case windowsWithSQLServerWeb = "Windows with SQL Server Web"
+        case windowsWithSqlServer = "Windows with SQL Server"
+        case windowsWithSqlServerEnterprise = "Windows with SQL Server Enterprise"
+        case windowsWithSqlServerStandard = "Windows with SQL Server Standard"
+        case windowsWithSqlServerWeb = "Windows with SQL Server Web"
         public var description: String { return self.rawValue }
     }
 
@@ -324,8 +331,8 @@ extension EC2 {
     }
 
     public enum CapacityReservationTenancy: String, CustomStringConvertible, Codable, _SotoSendable {
-        case dedicated
         case `default`
+        case dedicated
         public var description: String { return self.rawValue }
     }
 
@@ -593,8 +600,8 @@ extension EC2 {
     }
 
     public enum EventType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case batchChange = "fleetRequestChange"
         case error
-        case fleetRequestChange
         case information
         case instanceChange
         public var description: String { return self.rawValue }
@@ -704,7 +711,7 @@ extension EC2 {
         case active
         case deleted
         case deletedRunning = "deleted_running"
-        case deletedTerminating = "deleted_terminating"
+        case deletedTerminatingInstances = "deleted_terminating"
         case failed
         case modifying
         case submitted
@@ -804,6 +811,7 @@ extension EC2 {
         case blockDeviceMapping
         case bootMode
         case description
+        case imdsSupport
         case kernel
         case lastLaunchedTime
         case launchPermission
@@ -830,6 +838,11 @@ extension EC2 {
         case kernel
         case machine
         case ramdisk
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImdsSupportValues: String, CustomStringConvertible, Codable, _SotoSendable {
+        case v20 = "v2.0"
         public var description: String { return self.rawValue }
     }
 
@@ -874,8 +887,8 @@ extension EC2 {
     }
 
     public enum InstanceHealthStatus: String, CustomStringConvertible, Codable, _SotoSendable {
-        case healthy
-        case unhealthy
+        case healthyStatus = "healthy"
+        case unhealthyStatus = "unhealthy"
         public var description: String { return self.rawValue }
     }
 
@@ -1057,6 +1070,16 @@ extension EC2 {
         public static var c6iLarge: Self { .init(rawValue: "c6i.large") }
         public static var c6iMetal: Self { .init(rawValue: "c6i.metal") }
         public static var c6iXlarge: Self { .init(rawValue: "c6i.xlarge") }
+        public static var c6id12Xlarge: Self { .init(rawValue: "c6id.12xlarge") }
+        public static var c6id16Xlarge: Self { .init(rawValue: "c6id.16xlarge") }
+        public static var c6id24Xlarge: Self { .init(rawValue: "c6id.24xlarge") }
+        public static var c6id2Xlarge: Self { .init(rawValue: "c6id.2xlarge") }
+        public static var c6id32Xlarge: Self { .init(rawValue: "c6id.32xlarge") }
+        public static var c6id4Xlarge: Self { .init(rawValue: "c6id.4xlarge") }
+        public static var c6id8Xlarge: Self { .init(rawValue: "c6id.8xlarge") }
+        public static var c6idLarge: Self { .init(rawValue: "c6id.large") }
+        public static var c6idMetal: Self { .init(rawValue: "c6id.metal") }
+        public static var c6idXlarge: Self { .init(rawValue: "c6id.xlarge") }
         public static var c7g12Xlarge: Self { .init(rawValue: "c7g.12xlarge") }
         public static var c7g16Xlarge: Self { .init(rawValue: "c7g.16xlarge") }
         public static var c7g2Xlarge: Self { .init(rawValue: "c7g.2xlarge") }
@@ -1284,6 +1307,16 @@ extension EC2 {
         public static var m6iLarge: Self { .init(rawValue: "m6i.large") }
         public static var m6iMetal: Self { .init(rawValue: "m6i.metal") }
         public static var m6iXlarge: Self { .init(rawValue: "m6i.xlarge") }
+        public static var m6id12Xlarge: Self { .init(rawValue: "m6id.12xlarge") }
+        public static var m6id16Xlarge: Self { .init(rawValue: "m6id.16xlarge") }
+        public static var m6id24Xlarge: Self { .init(rawValue: "m6id.24xlarge") }
+        public static var m6id2Xlarge: Self { .init(rawValue: "m6id.2xlarge") }
+        public static var m6id32Xlarge: Self { .init(rawValue: "m6id.32xlarge") }
+        public static var m6id4Xlarge: Self { .init(rawValue: "m6id.4xlarge") }
+        public static var m6id8Xlarge: Self { .init(rawValue: "m6id.8xlarge") }
+        public static var m6idLarge: Self { .init(rawValue: "m6id.large") }
+        public static var m6idMetal: Self { .init(rawValue: "m6id.metal") }
+        public static var m6idXlarge: Self { .init(rawValue: "m6id.xlarge") }
         public static var mac1Metal: Self { .init(rawValue: "mac1.metal") }
         public static var mac2Metal: Self { .init(rawValue: "mac2.metal") }
         public static var p216Xlarge: Self { .init(rawValue: "p2.16xlarge") }
@@ -1294,6 +1327,7 @@ extension EC2 {
         public static var p38Xlarge: Self { .init(rawValue: "p3.8xlarge") }
         public static var p3dn24Xlarge: Self { .init(rawValue: "p3dn.24xlarge") }
         public static var p4d24Xlarge: Self { .init(rawValue: "p4d.24xlarge") }
+        public static var p4de24Xlarge: Self { .init(rawValue: "p4de.24xlarge") }
         public static var r32Xlarge: Self { .init(rawValue: "r3.2xlarge") }
         public static var r34Xlarge: Self { .init(rawValue: "r3.4xlarge") }
         public static var r38Xlarge: Self { .init(rawValue: "r3.8xlarge") }
@@ -1366,6 +1400,17 @@ extension EC2 {
         public static var r5nLarge: Self { .init(rawValue: "r5n.large") }
         public static var r5nMetal: Self { .init(rawValue: "r5n.metal") }
         public static var r5nXlarge: Self { .init(rawValue: "r5n.xlarge") }
+        public static var r6a12Xlarge: Self { .init(rawValue: "r6a.12xlarge") }
+        public static var r6a16Xlarge: Self { .init(rawValue: "r6a.16xlarge") }
+        public static var r6a24Xlarge: Self { .init(rawValue: "r6a.24xlarge") }
+        public static var r6a2Xlarge: Self { .init(rawValue: "r6a.2xlarge") }
+        public static var r6a32Xlarge: Self { .init(rawValue: "r6a.32xlarge") }
+        public static var r6a48Xlarge: Self { .init(rawValue: "r6a.48xlarge") }
+        public static var r6a4Xlarge: Self { .init(rawValue: "r6a.4xlarge") }
+        public static var r6a8Xlarge: Self { .init(rawValue: "r6a.8xlarge") }
+        public static var r6aLarge: Self { .init(rawValue: "r6a.large") }
+        public static var r6aMetal: Self { .init(rawValue: "r6a.metal") }
+        public static var r6aXlarge: Self { .init(rawValue: "r6a.xlarge") }
         public static var r6g12Xlarge: Self { .init(rawValue: "r6g.12xlarge") }
         public static var r6g16Xlarge: Self { .init(rawValue: "r6g.16xlarge") }
         public static var r6g2Xlarge: Self { .init(rawValue: "r6g.2xlarge") }
@@ -1394,6 +1439,16 @@ extension EC2 {
         public static var r6iLarge: Self { .init(rawValue: "r6i.large") }
         public static var r6iMetal: Self { .init(rawValue: "r6i.metal") }
         public static var r6iXlarge: Self { .init(rawValue: "r6i.xlarge") }
+        public static var r6id12Xlarge: Self { .init(rawValue: "r6id.12xlarge") }
+        public static var r6id16Xlarge: Self { .init(rawValue: "r6id.16xlarge") }
+        public static var r6id24Xlarge: Self { .init(rawValue: "r6id.24xlarge") }
+        public static var r6id2Xlarge: Self { .init(rawValue: "r6id.2xlarge") }
+        public static var r6id32Xlarge: Self { .init(rawValue: "r6id.32xlarge") }
+        public static var r6id4Xlarge: Self { .init(rawValue: "r6id.4xlarge") }
+        public static var r6id8Xlarge: Self { .init(rawValue: "r6id.8xlarge") }
+        public static var r6idLarge: Self { .init(rawValue: "r6id.large") }
+        public static var r6idMetal: Self { .init(rawValue: "r6id.metal") }
+        public static var r6idXlarge: Self { .init(rawValue: "r6id.xlarge") }
         public static var t1Micro: Self { .init(rawValue: "t1.micro") }
         public static var t22Xlarge: Self { .init(rawValue: "t2.2xlarge") }
         public static var t2Large: Self { .init(rawValue: "t2.large") }
@@ -1427,6 +1482,7 @@ extension EC2 {
         public static var u12Tb1Metal: Self { .init(rawValue: "u-12tb1.metal") }
         public static var u18Tb1Metal: Self { .init(rawValue: "u-18tb1.metal") }
         public static var u24Tb1Metal: Self { .init(rawValue: "u-24tb1.metal") }
+        public static var u3Tb156Xlarge: Self { .init(rawValue: "u-3tb1.56xlarge") }
         public static var u6Tb1112Xlarge: Self { .init(rawValue: "u-6tb1.112xlarge") }
         public static var u6Tb156Xlarge: Self { .init(rawValue: "u-6tb1.56xlarge") }
         public static var u6Tb1Metal: Self { .init(rawValue: "u-6tb1.metal") }
@@ -1717,9 +1773,15 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum LocalGatewayRouteTableMode: String, CustomStringConvertible, Codable, _SotoSendable {
+        case coip
+        case directVpcRouting = "direct-vpc-routing"
+        public var description: String { return self.rawValue }
+    }
+
     public enum LocalGatewayRouteType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case propagated
         case `static`
+        case propagated
         public var description: String { return self.rawValue }
     }
 
@@ -1745,6 +1807,7 @@ extension EC2 {
 
     public enum LogDestinationType: String, CustomStringConvertible, Codable, _SotoSendable {
         case cloudWatchLogs = "cloud-watch-logs"
+        case kinesisDataFirehose = "kinesis-data-firehose"
         case s3
         public var description: String { return self.rawValue }
     }
@@ -1755,8 +1818,8 @@ extension EC2 {
     }
 
     public enum MembershipType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case igmp
         case `static`
+        case igmp
         public var description: String { return self.rawValue }
     }
 
@@ -1960,12 +2023,6 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum `Protocol`: String, CustomStringConvertible, Codable, _SotoSendable {
-        case tcp
-        case udp
-        public var description: String { return self.rawValue }
-    }
-
     public enum ProtocolValue: String, CustomStringConvertible, Codable, _SotoSendable {
         case gre
         public var description: String { return self.rawValue }
@@ -2052,6 +2109,7 @@ extension EC2 {
         case capacityReservationFleet = "capacity-reservation-fleet"
         case carrierGateway = "carrier-gateway"
         case clientVpnEndpoint = "client-vpn-endpoint"
+        case coipPool = "coip-pool"
         case customerGateway = "customer-gateway"
         case dedicatedHost = "dedicated-host"
         case dhcpOptions = "dhcp-options"
@@ -2115,11 +2173,14 @@ extension EC2 {
         case volume
         case vpc
         case vpcEndpoint = "vpc-endpoint"
+        case vpcEndpointConnection = "vpc-endpoint-connection"
         case vpcEndpointConnectionDeviceType = "vpc-endpoint-connection-device-type"
         case vpcEndpointService = "vpc-endpoint-service"
+        case vpcEndpointServicePermission = "vpc-endpoint-service-permission"
         case vpcFlowLog = "vpc-flow-log"
         case vpcPeeringConnection = "vpc-peering-connection"
         case vpnConnection = "vpn-connection"
+        case vpnConnectionDeviceType = "vpn-connection-device-type"
         case vpnGateway = "vpn-gateway"
         public var description: String { return self.rawValue }
     }
@@ -2155,6 +2216,12 @@ extension EC2 {
     public enum RuleAction: String, CustomStringConvertible, Codable, _SotoSendable {
         case allow
         case deny
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Scope: String, CustomStringConvertible, Codable, _SotoSendable {
+        case availabilityZone = "Availability Zone"
+        case regional = "Region"
         public var description: String { return self.rawValue }
     }
 
@@ -2337,8 +2404,8 @@ extension EC2 {
     }
 
     public enum Tenancy: String, CustomStringConvertible, Codable, _SotoSendable {
-        case dedicated
         case `default`
+        case dedicated
         case host
         public var description: String { return self.rawValue }
     }
@@ -2368,9 +2435,9 @@ extension EC2 {
     }
 
     public enum TrafficMirrorFilterRuleField: String, CustomStringConvertible, Codable, _SotoSendable {
+        case `protocol`
         case description
         case destinationPortRange = "destination-port-range"
-        case `protocol`
         case sourcePortRange = "source-port-range"
         public var description: String { return self.rawValue }
     }
@@ -2527,8 +2594,8 @@ extension EC2 {
     }
 
     public enum TransitGatewayRouteType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case propagated
         case `static`
+        case propagated
         public var description: String { return self.rawValue }
     }
 
@@ -2563,9 +2630,9 @@ extension EC2 {
 
     public enum UnsuccessfulInstanceCreditSpecificationErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
         case incorrectInstanceState = "IncorrectInstanceState"
-        case instanceCreditSpecificationNotsupported = "InstanceCreditSpecification.NotSupported"
-        case invalidInstanceIDMalformed = "InvalidInstanceID.Malformed"
-        case invalidInstanceIDNotfound = "InvalidInstanceID.NotFound"
+        case instanceCreditSpecificationNotSupported = "InstanceCreditSpecification.NotSupported"
+        case instanceNotFound = "InvalidInstanceID.NotFound"
+        case invalidInstanceId = "InvalidInstanceID.Malformed"
         public var description: String { return self.rawValue }
     }
 
@@ -2641,6 +2708,7 @@ extension EC2 {
     public enum VpcAttributeName: String, CustomStringConvertible, Codable, _SotoSendable {
         case enableDnsHostnames
         case enableDnsSupport
+        case enableNetworkAddressUsageMetrics
         public var description: String { return self.rawValue }
     }
 
@@ -2720,9 +2788,9 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum Scope: String, CustomStringConvertible, Codable, _SotoSendable {
-        case availabilityZone = "Availability Zone"
-        case region = "Region"
+    public enum `Protocol`: String, CustomStringConvertible, Codable, _SotoSendable {
+        case tcp
+        case udp
         public var description: String { return self.rawValue }
     }
 
@@ -2803,13 +2871,13 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The IDs of the Convertible Reserved Instances to exchange for another Convertible Reserved Instance of the same or higher value.
-        @CustomCoding<ArrayCoder<_ReservedInstanceIdsEncoding, String>>
-        public var reservedInstanceIds: [String]
+        @OptionalCustomCoding<ArrayCoder<_ReservedInstanceIdsEncoding, String>>
+        public var reservedInstanceIds: [String]?
         /// The configuration of the target Convertible Reserved Instance to exchange for your current Convertible Reserved Instances.
         @OptionalCustomCoding<ArrayCoder<_TargetConfigurationsEncoding, TargetConfigurationRequest>>
         public var targetConfigurations: [TargetConfigurationRequest]?
 
-        public init(dryRun: Bool? = nil, reservedInstanceIds: [String], targetConfigurations: [TargetConfigurationRequest]? = nil) {
+        public init(dryRun: Bool? = nil, reservedInstanceIds: [String]? = nil, targetConfigurations: [TargetConfigurationRequest]? = nil) {
             self.dryRun = dryRun
             self.reservedInstanceIds = reservedInstanceIds
             self.targetConfigurations = targetConfigurations
@@ -2879,9 +2947,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the transit gateway attachment.
-        public let transitGatewayAttachmentId: String
+        public let transitGatewayAttachmentId: String?
 
-        public init(dryRun: Bool? = nil, transitGatewayAttachmentId: String) {
+        public init(dryRun: Bool? = nil, transitGatewayAttachmentId: String? = nil) {
             self.dryRun = dryRun
             self.transitGatewayAttachmentId = transitGatewayAttachmentId
         }
@@ -2909,9 +2977,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the attachment.
-        public let transitGatewayAttachmentId: String
+        public let transitGatewayAttachmentId: String?
 
-        public init(dryRun: Bool? = nil, transitGatewayAttachmentId: String) {
+        public init(dryRun: Bool? = nil, transitGatewayAttachmentId: String? = nil) {
             self.dryRun = dryRun
             self.transitGatewayAttachmentId = transitGatewayAttachmentId
         }
@@ -2941,12 +3009,12 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the VPC endpoint service.
-        public let serviceId: String
+        public let serviceId: String?
         /// The IDs of one or more interface VPC endpoints.
-        @CustomCoding<ArrayCoder<_VpcEndpointIdsEncoding, String>>
-        public var vpcEndpointIds: [String]
+        @OptionalCustomCoding<ArrayCoder<_VpcEndpointIdsEncoding, String>>
+        public var vpcEndpointIds: [String]?
 
-        public init(dryRun: Bool? = nil, serviceId: String, vpcEndpointIds: [String]) {
+        public init(dryRun: Bool? = nil, serviceId: String? = nil, vpcEndpointIds: [String]? = nil) {
             self.dryRun = dryRun
             self.serviceId = serviceId
             self.vpcEndpointIds = vpcEndpointIds
@@ -3155,11 +3223,11 @@ extension EC2 {
 
     public struct AddPrefixListEntry: AWSEncodableShape {
         /// The CIDR block.
-        public let cidr: String
+        public let cidr: String?
         /// A description for the entry. Constraints: Up to 255 characters in length.
         public let description: String?
 
-        public init(cidr: String, description: String? = nil) {
+        public init(cidr: String? = nil, description: String? = nil) {
             self.cidr = cidr
             self.description = description
         }
@@ -3167,6 +3235,31 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case cidr = "Cidr"
             case description = "Description"
+        }
+    }
+
+    public struct AddedPrincipal: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the principal.
+        public let principal: String?
+        /// The type of principal.
+        public let principalType: PrincipalType?
+        /// The ID of the service.
+        public let serviceId: String?
+        /// The ID of the service permission.
+        public let servicePermissionId: String?
+
+        public init(principal: String? = nil, principalType: PrincipalType? = nil, serviceId: String? = nil, servicePermissionId: String? = nil) {
+            self.principal = principal
+            self.principalType = principalType
+            self.serviceId = serviceId
+            self.servicePermissionId = servicePermissionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case principal
+            case principalType
+            case serviceId
+            case servicePermissionId
         }
     }
 
@@ -3283,11 +3376,11 @@ extension EC2 {
 
     public struct AdvertiseByoipCidrRequest: AWSEncodableShape {
         /// The address range, in CIDR notation. This must be the exact range that you provisioned.  You can't advertise only a portion of the provisioned range.
-        public let cidr: String
+        public let cidr: String?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
-        public init(cidr: String, dryRun: Bool? = nil) {
+        public init(cidr: String? = nil, dryRun: Bool? = nil) {
             self.cidr = cidr
             self.dryRun = dryRun
         }
@@ -3400,7 +3493,7 @@ extension EC2 {
         ///  Default: on
         public let autoPlacement: AutoPlacement?
         /// The Availability Zone in which to allocate the Dedicated Host.
-        public let availabilityZone: String
+        public let availabilityZone: String?
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see Ensuring Idempotency.
         public let clientToken: String?
         /// Indicates whether to enable or disable host recovery for the Dedicated Host.
@@ -3425,12 +3518,12 @@ extension EC2 {
         /// The Amazon Resource Name (ARN) of the Amazon Web Services Outpost on which to allocate the Dedicated Host.
         public let outpostArn: String?
         /// The number of Dedicated Hosts to allocate to your account with these parameters.
-        public let quantity: Int
+        public let quantity: Int?
         /// The tags to apply to the Dedicated Host during creation.
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
-        public init(autoPlacement: AutoPlacement? = nil, availabilityZone: String, clientToken: String? = nil, hostRecovery: HostRecovery? = nil, instanceFamily: String? = nil, instanceType: String? = nil, outpostArn: String? = nil, quantity: Int, tagSpecifications: [TagSpecification]? = nil) {
+        public init(autoPlacement: AutoPlacement? = nil, availabilityZone: String? = nil, clientToken: String? = nil, hostRecovery: HostRecovery? = nil, instanceFamily: String? = nil, instanceType: String? = nil, outpostArn: String? = nil, quantity: Int? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.autoPlacement = autoPlacement
             self.availabilityZone = availabilityZone
             self.clientToken = clientToken
@@ -3481,19 +3574,19 @@ extension EC2 {
         public let clientToken: String?
         /// A description for the allocation.
         public let description: String?
-        /// Exclude a particular CIDR range from being returned by the pool.
+        /// Exclude a particular CIDR range from being returned by the pool. Disallowed CIDRs are only allowed if using netmask length for allocation.
         @OptionalCustomCoding<ArrayCoder<_DisallowedCidrsEncoding, String>>
         public var disallowedCidrs: [String]?
         /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the IPAM pool from which you would like to allocate a CIDR.
-        public let ipamPoolId: String
+        public let ipamPoolId: String?
         /// The netmask length of the CIDR you would like to allocate from the IPAM pool. Note the following:   If there is no DefaultNetmaskLength allocation rule set on the pool, you must specify either the NetmaskLength or the CIDR.   If the DefaultNetmaskLength allocation rule is set on the pool, you can specify either the NetmaskLength or the CIDR and the DefaultNetmaskLength allocation rule will be ignored.   Possible netmask lengths for IPv4 addresses are 0 - 32. Possible netmask lengths for IPv6 addresses are 0 - 128.
         public let netmaskLength: Int?
         /// A preview of the next available CIDR in a pool.
         public let previewNextCidr: Bool?
 
-        public init(cidr: String? = nil, clientToken: String? = AllocateIpamPoolCidrRequest.idempotencyToken(), description: String? = nil, disallowedCidrs: [String]? = nil, dryRun: Bool? = nil, ipamPoolId: String, netmaskLength: Int? = nil, previewNextCidr: Bool? = nil) {
+        public init(cidr: String? = nil, clientToken: String? = AllocateIpamPoolCidrRequest.idempotencyToken(), description: String? = nil, disallowedCidrs: [String]? = nil, dryRun: Bool? = nil, ipamPoolId: String? = nil, netmaskLength: Int? = nil, previewNextCidr: Bool? = nil) {
             self.cidr = cidr
             self.clientToken = clientToken
             self.description = description
@@ -3530,19 +3623,34 @@ extension EC2 {
     }
 
     public struct AllowedPrincipal: AWSDecodableShape {
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
+
         /// The Amazon Resource Name (ARN) of the principal.
         public let principal: String?
         /// The type of principal.
         public let principalType: PrincipalType?
+        /// The ID of the service.
+        public let serviceId: String?
+        /// The ID of the service permission.
+        public let servicePermissionId: String?
+        /// The tags.
+        @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
 
-        public init(principal: String? = nil, principalType: PrincipalType? = nil) {
+        public init(principal: String? = nil, principalType: PrincipalType? = nil, serviceId: String? = nil, servicePermissionId: String? = nil, tags: [Tag]? = nil) {
             self.principal = principal
             self.principalType = principalType
+            self.serviceId = serviceId
+            self.servicePermissionId = servicePermissionId
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case principal
             case principalType
+            case serviceId
+            case servicePermissionId
+            case tags = "tagSet"
         }
     }
 
@@ -3714,12 +3822,14 @@ extension EC2 {
         public let networkInterfaceId: String?
         /// Describes how the route was created. The following are the possible values:   CreateRouteTable - The route was automatically created when the route table was created.   CreateRoute - The route was manually added to the route table.   EnableVgwRoutePropagation - The route was propagated by route propagation.
         public let origin: String?
+        /// The state. The following are the possible values:   active   blackhole
+        public let state: String?
         /// The ID of a transit gateway.
         public let transitGatewayId: String?
         /// The ID of a VPC peering connection.
         public let vpcPeeringConnectionId: String?
 
-        public init(destinationCidr: String? = nil, destinationPrefixListId: String? = nil, egressOnlyInternetGatewayId: String? = nil, gatewayId: String? = nil, instanceId: String? = nil, natGatewayId: String? = nil, networkInterfaceId: String? = nil, origin: String? = nil, transitGatewayId: String? = nil, vpcPeeringConnectionId: String? = nil) {
+        public init(destinationCidr: String? = nil, destinationPrefixListId: String? = nil, egressOnlyInternetGatewayId: String? = nil, gatewayId: String? = nil, instanceId: String? = nil, natGatewayId: String? = nil, networkInterfaceId: String? = nil, origin: String? = nil, state: String? = nil, transitGatewayId: String? = nil, vpcPeeringConnectionId: String? = nil) {
             self.destinationCidr = destinationCidr
             self.destinationPrefixListId = destinationPrefixListId
             self.egressOnlyInternetGatewayId = egressOnlyInternetGatewayId
@@ -3728,6 +3838,7 @@ extension EC2 {
             self.natGatewayId = natGatewayId
             self.networkInterfaceId = networkInterfaceId
             self.origin = origin
+            self.state = state
             self.transitGatewayId = transitGatewayId
             self.vpcPeeringConnectionId = vpcPeeringConnectionId
         }
@@ -3741,6 +3852,7 @@ extension EC2 {
             case natGatewayId
             case networkInterfaceId
             case origin
+            case state
             case transitGatewayId
             case vpcPeeringConnectionId
         }
@@ -3783,17 +3895,17 @@ extension EC2 {
         public struct _SecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "item" }
 
         /// The ID of the Client VPN endpoint.
-        public let clientVpnEndpointId: String
+        public let clientVpnEndpointId: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The IDs of the security groups to apply to the associated target network. Up to 5 security groups can
         /// 			be applied to an associated target network.
-        @CustomCoding<ArrayCoder<_SecurityGroupIdsEncoding, String>>
-        public var securityGroupIds: [String]
+        @OptionalCustomCoding<ArrayCoder<_SecurityGroupIdsEncoding, String>>
+        public var securityGroupIds: [String]?
         /// The ID of the VPC in which the associated target network is located.
-        public let vpcId: String
+        public let vpcId: String?
 
-        public init(clientVpnEndpointId: String, dryRun: Bool? = nil, securityGroupIds: [String], vpcId: String) {
+        public init(clientVpnEndpointId: String? = nil, dryRun: Bool? = nil, securityGroupIds: [String]? = nil, vpcId: String? = nil) {
             self.clientVpnEndpointId = clientVpnEndpointId
             self.dryRun = dryRun
             self.securityGroupIds = securityGroupIds
@@ -3830,7 +3942,7 @@ extension EC2 {
 
         /// The number of additional IPv6 addresses to assign to the network interface.  		The specified number of IPv6 addresses are assigned in addition to the  		existing IPv6 addresses that are already assigned to the network interface.  		Amazon EC2 automatically selects the IPv6 addresses from the subnet range. You  		can't use this option if specifying specific IPv6 addresses.
         public let ipv6AddressCount: Int?
-        /// One or more specific IPv6 addresses to be assigned to the network interface. You can't use this option if you're specifying a number of IPv6 addresses.
+        /// The IPv6 addresses to be assigned to the network interface. You can't use this option if you're specifying a number of IPv6 addresses.
         @OptionalCustomCoding<ArrayCoder<_Ipv6AddressesEncoding, String>>
         public var ipv6Addresses: [String]?
         /// The number of IPv6 prefixes that Amazon Web Services automatically assigns to the network interface. You cannot use this option if you use the Ipv6Prefixes option.
@@ -3839,9 +3951,9 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_Ipv6PrefixesEncoding, String>>
         public var ipv6Prefixes: [String]?
         /// The ID of the network interface.
-        public let networkInterfaceId: String
+        public let networkInterfaceId: String?
 
-        public init(ipv6AddressCount: Int? = nil, ipv6Addresses: [String]? = nil, ipv6PrefixCount: Int? = nil, ipv6Prefixes: [String]? = nil, networkInterfaceId: String) {
+        public init(ipv6AddressCount: Int? = nil, ipv6Addresses: [String]? = nil, ipv6PrefixCount: Int? = nil, ipv6Prefixes: [String]? = nil, networkInterfaceId: String? = nil) {
             self.ipv6AddressCount = ipv6AddressCount
             self.ipv6Addresses = ipv6Addresses
             self.ipv6PrefixCount = ipv6PrefixCount
@@ -3896,14 +4008,14 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_Ipv4PrefixesEncoding, String>>
         public var ipv4Prefixes: [String]?
         /// The ID of the network interface.
-        public let networkInterfaceId: String
-        /// One or more IP addresses to be assigned as a secondary private IP address to the network interface. You can't specify this parameter when also specifying a number of secondary IP addresses. If you don't specify an IP address, Amazon EC2 automatically selects an IP address within the subnet range.
+        public let networkInterfaceId: String?
+        /// The IP addresses to be assigned as a secondary private IP address to the network interface. You can't specify this parameter when also specifying a number of secondary IP addresses. If you don't specify an IP address, Amazon EC2 automatically selects an IP address within the subnet range.
         @OptionalCustomCoding<ArrayCoder<_PrivateIpAddressesEncoding, String>>
         public var privateIpAddresses: [String]?
         /// The number of secondary IP addresses to assign to the network interface. You can't specify this parameter when also specifying private IP addresses.
         public let secondaryPrivateIpAddressCount: Int?
 
-        public init(allowReassignment: Bool? = nil, ipv4PrefixCount: Int? = nil, ipv4Prefixes: [String]? = nil, networkInterfaceId: String, privateIpAddresses: [String]? = nil, secondaryPrivateIpAddressCount: Int? = nil) {
+        public init(allowReassignment: Bool? = nil, ipv4PrefixCount: Int? = nil, ipv4Prefixes: [String]? = nil, networkInterfaceId: String? = nil, privateIpAddresses: [String]? = nil, secondaryPrivateIpAddressCount: Int? = nil) {
             self.allowReassignment = allowReassignment
             self.ipv4PrefixCount = ipv4PrefixCount
             self.ipv4Prefixes = ipv4Prefixes
@@ -4015,13 +4127,13 @@ extension EC2 {
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to ensure idempotency.
         public let clientToken: String?
         /// The ID of the Client VPN endpoint.
-        public let clientVpnEndpointId: String
+        public let clientVpnEndpointId: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the subnet to associate with the Client VPN endpoint.
-        public let subnetId: String
+        public let subnetId: String?
 
-        public init(clientToken: String? = AssociateClientVpnTargetNetworkRequest.idempotencyToken(), clientVpnEndpointId: String, dryRun: Bool? = nil, subnetId: String) {
+        public init(clientToken: String? = AssociateClientVpnTargetNetworkRequest.idempotencyToken(), clientVpnEndpointId: String? = nil, dryRun: Bool? = nil, subnetId: String? = nil) {
             self.clientToken = clientToken
             self.clientVpnEndpointId = clientVpnEndpointId
             self.dryRun = dryRun
@@ -4055,13 +4167,13 @@ extension EC2 {
 
     public struct AssociateDhcpOptionsRequest: AWSEncodableShape {
         /// The ID of the DHCP options set, or default to associate  no DHCP options with the VPC.
-        public let dhcpOptionsId: String
+        public let dhcpOptionsId: String?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the VPC.
-        public let vpcId: String
+        public let vpcId: String?
 
-        public init(dhcpOptionsId: String, dryRun: Bool? = nil, vpcId: String) {
+        public init(dhcpOptionsId: String? = nil, dryRun: Bool? = nil, vpcId: String? = nil) {
             self.dhcpOptionsId = dhcpOptionsId
             self.dryRun = dryRun
             self.vpcId = vpcId
@@ -4127,11 +4239,11 @@ extension EC2 {
 
     public struct AssociateIamInstanceProfileRequest: AWSEncodableShape {
         /// The IAM instance profile.
-        public let iamInstanceProfile: IamInstanceProfileSpecification
+        public let iamInstanceProfile: IamInstanceProfileSpecification?
         /// The ID of the instance.
-        public let instanceId: String
+        public let instanceId: String?
 
-        public init(iamInstanceProfile: IamInstanceProfileSpecification, instanceId: String) {
+        public init(iamInstanceProfile: IamInstanceProfileSpecification? = nil, instanceId: String? = nil) {
             self.iamInstanceProfile = iamInstanceProfile
             self.instanceId = instanceId
         }
@@ -4157,13 +4269,13 @@ extension EC2 {
 
     public struct AssociateInstanceEventWindowRequest: AWSEncodableShape {
         /// One or more targets associated with the specified event window.
-        public let associationTarget: InstanceEventWindowAssociationRequest
+        public let associationTarget: InstanceEventWindowAssociationRequest?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the event window.
-        public let instanceEventWindowId: String
+        public let instanceEventWindowId: String?
 
-        public init(associationTarget: InstanceEventWindowAssociationRequest, dryRun: Bool? = nil, instanceEventWindowId: String) {
+        public init(associationTarget: InstanceEventWindowAssociationRequest? = nil, dryRun: Bool? = nil, instanceEventWindowId: String? = nil) {
             self.associationTarget = associationTarget
             self.dryRun = dryRun
             self.instanceEventWindowId = instanceEventWindowId
@@ -4195,11 +4307,11 @@ extension EC2 {
         /// The ID of the internet gateway or virtual private gateway.
         public let gatewayId: String?
         /// The ID of the route table.
-        public let routeTableId: String
+        public let routeTableId: String?
         /// The ID of the subnet.
         public let subnetId: String?
 
-        public init(dryRun: Bool? = nil, gatewayId: String? = nil, routeTableId: String, subnetId: String? = nil) {
+        public init(dryRun: Bool? = nil, gatewayId: String? = nil, routeTableId: String? = nil, subnetId: String? = nil) {
             self.dryRun = dryRun
             self.gatewayId = gatewayId
             self.routeTableId = routeTableId
@@ -4234,11 +4346,11 @@ extension EC2 {
 
     public struct AssociateSubnetCidrBlockRequest: AWSEncodableShape {
         /// The IPv6 CIDR block for your subnet. The subnet must have a /64 prefix length.
-        public let ipv6CidrBlock: String
+        public let ipv6CidrBlock: String?
         /// The ID of your subnet.
-        public let subnetId: String
+        public let subnetId: String?
 
-        public init(ipv6CidrBlock: String, subnetId: String) {
+        public init(ipv6CidrBlock: String? = nil, subnetId: String? = nil) {
             self.ipv6CidrBlock = ipv6CidrBlock
             self.subnetId = subnetId
         }
@@ -4311,11 +4423,11 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the transit gateway attachment to associate with the policy table.
-        public let transitGatewayAttachmentId: String
+        public let transitGatewayAttachmentId: String?
         /// The ID of the transit gateway policy table to associate with the transit gateway attachment.
-        public let transitGatewayPolicyTableId: String
+        public let transitGatewayPolicyTableId: String?
 
-        public init(dryRun: Bool? = nil, transitGatewayAttachmentId: String, transitGatewayPolicyTableId: String) {
+        public init(dryRun: Bool? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayPolicyTableId: String? = nil) {
             self.dryRun = dryRun
             self.transitGatewayAttachmentId = transitGatewayAttachmentId
             self.transitGatewayPolicyTableId = transitGatewayPolicyTableId
@@ -4345,11 +4457,11 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the attachment.
-        public let transitGatewayAttachmentId: String
+        public let transitGatewayAttachmentId: String?
         /// The ID of the transit gateway route table.
-        public let transitGatewayRouteTableId: String
+        public let transitGatewayRouteTableId: String?
 
-        public init(dryRun: Bool? = nil, transitGatewayAttachmentId: String, transitGatewayRouteTableId: String) {
+        public init(dryRun: Bool? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayRouteTableId: String? = nil) {
             self.dryRun = dryRun
             self.transitGatewayAttachmentId = transitGatewayAttachmentId
             self.transitGatewayRouteTableId = transitGatewayRouteTableId
@@ -4377,7 +4489,7 @@ extension EC2 {
 
     public struct AssociateTrunkInterfaceRequest: AWSEncodableShape {
         /// The ID of the branch network interface.
-        public let branchInterfaceId: String
+        public let branchInterfaceId: String?
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
         public let clientToken: String?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
@@ -4385,11 +4497,11 @@ extension EC2 {
         /// The application key. This applies to the GRE protocol.
         public let greKey: Int?
         /// The ID of the trunk network interface.
-        public let trunkInterfaceId: String
+        public let trunkInterfaceId: String?
         /// The ID of the VLAN. This applies to the VLAN protocol.
         public let vlanId: Int?
 
-        public init(branchInterfaceId: String, clientToken: String? = AssociateTrunkInterfaceRequest.idempotencyToken(), dryRun: Bool? = nil, greKey: Int? = nil, trunkInterfaceId: String, vlanId: Int? = nil) {
+        public init(branchInterfaceId: String? = nil, clientToken: String? = AssociateTrunkInterfaceRequest.idempotencyToken(), dryRun: Bool? = nil, greKey: Int? = nil, trunkInterfaceId: String? = nil, vlanId: Int? = nil) {
             self.branchInterfaceId = branchInterfaceId
             self.clientToken = clientToken
             self.dryRun = dryRun
@@ -4445,9 +4557,9 @@ extension EC2 {
         /// The ID of an IPv6 address pool from which to allocate the IPv6 CIDR block.
         public let ipv6Pool: String?
         /// The ID of the VPC.
-        public let vpcId: String
+        public let vpcId: String?
 
-        public init(amazonProvidedIpv6CidrBlock: Bool? = nil, cidrBlock: String? = nil, ipv4IpamPoolId: String? = nil, ipv4NetmaskLength: Int? = nil, ipv6CidrBlock: String? = nil, ipv6CidrBlockNetworkBorderGroup: String? = nil, ipv6IpamPoolId: String? = nil, ipv6NetmaskLength: Int? = nil, ipv6Pool: String? = nil, vpcId: String) {
+        public init(amazonProvidedIpv6CidrBlock: Bool? = nil, cidrBlock: String? = nil, ipv4IpamPoolId: String? = nil, ipv4NetmaskLength: Int? = nil, ipv6CidrBlock: String? = nil, ipv6CidrBlockNetworkBorderGroup: String? = nil, ipv6IpamPoolId: String? = nil, ipv6NetmaskLength: Int? = nil, ipv6Pool: String? = nil, vpcId: String? = nil) {
             self.amazonProvidedIpv6CidrBlock = amazonProvidedIpv6CidrBlock
             self.cidrBlock = cidrBlock
             self.ipv4IpamPoolId = ipv4IpamPoolId
@@ -4558,15 +4670,15 @@ extension EC2 {
 
     public struct AthenaIntegration: AWSEncodableShape {
         /// The location in Amazon S3 to store the generated CloudFormation template.
-        public let integrationResultS3DestinationArn: String
+        public let integrationResultS3DestinationArn: String?
         /// The end date for the partition.
         public let partitionEndDate: Date?
         /// The schedule for adding new partitions to the table.
-        public let partitionLoadFrequency: PartitionLoadFrequency
+        public let partitionLoadFrequency: PartitionLoadFrequency?
         /// The start date for the partition.
         public let partitionStartDate: Date?
 
-        public init(integrationResultS3DestinationArn: String, partitionEndDate: Date? = nil, partitionLoadFrequency: PartitionLoadFrequency, partitionStartDate: Date? = nil) {
+        public init(integrationResultS3DestinationArn: String? = nil, partitionEndDate: Date? = nil, partitionLoadFrequency: PartitionLoadFrequency? = nil, partitionStartDate: Date? = nil) {
             self.integrationResultS3DestinationArn = integrationResultS3DestinationArn
             self.partitionEndDate = partitionEndDate
             self.partitionLoadFrequency = partitionLoadFrequency
@@ -4587,14 +4699,14 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of one or more of the VPC's security groups. You cannot specify security groups from a different VPC.
-        @CustomCoding<ArrayCoder<_GroupsEncoding, String>>
-        public var groups: [String]
+        @OptionalCustomCoding<ArrayCoder<_GroupsEncoding, String>>
+        public var groups: [String]?
         /// The ID of an EC2-Classic instance to link to the ClassicLink-enabled VPC.
-        public let instanceId: String
+        public let instanceId: String?
         /// The ID of a ClassicLink-enabled VPC.
-        public let vpcId: String
+        public let vpcId: String?
 
-        public init(dryRun: Bool? = nil, groups: [String], instanceId: String, vpcId: String) {
+        public init(dryRun: Bool? = nil, groups: [String]? = nil, instanceId: String? = nil, vpcId: String? = nil) {
             self.dryRun = dryRun
             self.groups = groups
             self.instanceId = instanceId
@@ -4626,11 +4738,11 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the internet gateway.
-        public let internetGatewayId: String
+        public let internetGatewayId: String?
         /// The ID of the VPC.
-        public let vpcId: String
+        public let vpcId: String?
 
-        public init(dryRun: Bool? = nil, internetGatewayId: String, vpcId: String) {
+        public init(dryRun: Bool? = nil, internetGatewayId: String? = nil, vpcId: String? = nil) {
             self.dryRun = dryRun
             self.internetGatewayId = internetGatewayId
             self.vpcId = vpcId
@@ -4645,17 +4757,17 @@ extension EC2 {
 
     public struct AttachNetworkInterfaceRequest: AWSEncodableShape {
         /// The index of the device for the network interface attachment.
-        public let deviceIndex: Int
+        public let deviceIndex: Int?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the instance.
-        public let instanceId: String
+        public let instanceId: String?
         /// The index of the network card. Some instance types support multiple network cards.  The primary network interface must be assigned to network card index 0.  The default is network card index 0.
         public let networkCardIndex: Int?
         /// The ID of the network interface.
-        public let networkInterfaceId: String
+        public let networkInterfaceId: String?
 
-        public init(deviceIndex: Int, dryRun: Bool? = nil, instanceId: String, networkCardIndex: Int? = nil, networkInterfaceId: String) {
+        public init(deviceIndex: Int? = nil, dryRun: Bool? = nil, instanceId: String? = nil, networkCardIndex: Int? = nil, networkInterfaceId: String? = nil) {
             self.deviceIndex = deviceIndex
             self.dryRun = dryRun
             self.instanceId = instanceId
@@ -4691,15 +4803,15 @@ extension EC2 {
 
     public struct AttachVolumeRequest: AWSEncodableShape {
         /// The device name (for example, /dev/sdh or xvdh).
-        public let device: String
+        public let device: String?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the instance.
-        public let instanceId: String
+        public let instanceId: String?
         /// The ID of the EBS volume. The volume and instance must be within the same Availability Zone.
-        public let volumeId: String
+        public let volumeId: String?
 
-        public init(device: String, dryRun: Bool? = nil, instanceId: String, volumeId: String) {
+        public init(device: String? = nil, dryRun: Bool? = nil, instanceId: String? = nil, volumeId: String? = nil) {
             self.device = device
             self.dryRun = dryRun
             self.instanceId = instanceId
@@ -4718,11 +4830,11 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the VPC.
-        public let vpcId: String
+        public let vpcId: String?
         /// The ID of the virtual private gateway.
-        public let vpnGatewayId: String
+        public let vpnGatewayId: String?
 
-        public init(dryRun: Bool? = nil, vpcId: String, vpnGatewayId: String) {
+        public init(dryRun: Bool? = nil, vpcId: String? = nil, vpnGatewayId: String? = nil) {
             self.dryRun = dryRun
             self.vpcId = vpcId
             self.vpnGatewayId = vpnGatewayId
@@ -4815,15 +4927,15 @@ extension EC2 {
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to ensure idempotency.
         public let clientToken: String?
         /// The ID of the Client VPN endpoint.
-        public let clientVpnEndpointId: String
+        public let clientVpnEndpointId: String?
         /// A brief description of the authorization rule.
         public let description: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The IPv4 address range, in CIDR notation, of the network for which access is being authorized.
-        public let targetNetworkCidr: String
+        public let targetNetworkCidr: String?
 
-        public init(accessGroupId: String? = nil, authorizeAllGroups: Bool? = nil, clientToken: String? = AuthorizeClientVpnIngressRequest.idempotencyToken(), clientVpnEndpointId: String, description: String? = nil, dryRun: Bool? = nil, targetNetworkCidr: String) {
+        public init(accessGroupId: String? = nil, authorizeAllGroups: Bool? = nil, clientToken: String? = AuthorizeClientVpnIngressRequest.idempotencyToken(), clientVpnEndpointId: String? = nil, description: String? = nil, dryRun: Bool? = nil, targetNetworkCidr: String? = nil) {
             self.accessGroupId = accessGroupId
             self.authorizeAllGroups = authorizeAllGroups
             self.clientToken = clientToken
@@ -4868,7 +4980,7 @@ extension EC2 {
         /// Not supported. Use a set of IP permissions to specify the port.
         public let fromPort: Int?
         /// The ID of the security group.
-        public let groupId: String
+        public let groupId: String?
         /// The sets of IP permissions. You can't specify a destination security group and a CIDR IP address range in the same set of permissions.
         @OptionalCustomCoding<ArrayCoder<_IpPermissionsEncoding, IpPermission>>
         public var ipPermissions: [IpPermission]?
@@ -4884,7 +4996,7 @@ extension EC2 {
         /// Not supported. Use a set of IP permissions to specify the port.
         public let toPort: Int?
 
-        public init(cidrIp: String? = nil, dryRun: Bool? = nil, fromPort: Int? = nil, groupId: String, ipPermissions: [IpPermission]? = nil, ipProtocol: String? = nil, sourceSecurityGroupName: String? = nil, sourceSecurityGroupOwnerId: String? = nil, tagSpecifications: [TagSpecification]? = nil, toPort: Int? = nil) {
+        public init(cidrIp: String? = nil, dryRun: Bool? = nil, fromPort: Int? = nil, groupId: String? = nil, ipPermissions: [IpPermission]? = nil, ipProtocol: String? = nil, sourceSecurityGroupName: String? = nil, sourceSecurityGroupOwnerId: String? = nil, tagSpecifications: [TagSpecification]? = nil, toPort: Int? = nil) {
             self.cidrIp = cidrIp
             self.dryRun = dryRun
             self.fromPort = fromPort
@@ -4947,8 +5059,7 @@ extension EC2 {
         /// 			security group name in the request. For security groups in a nondefault VPC, you must
         /// 			specify the security group ID.
         public let groupId: String?
-        /// [EC2-Classic, default VPC] The name of the security group. You must specify either the
-        /// 			security group ID or the security group name in the request.
+        /// [EC2-Classic, default VPC] The name of the security group. You must specify either the security group ID or the security group name in the request. For security groups in a nondefault VPC, you must specify the security group ID.
         public let groupName: String?
         /// The sets of IP permissions.
         @OptionalCustomCoding<ArrayCoder<_IpPermissionsEncoding, IpPermission>>
@@ -5182,11 +5293,11 @@ extension EC2 {
         /// 			DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the instance to bundle. Type: String Default: None Required: Yes
-        public let instanceId: String
+        public let instanceId: String?
         /// The bucket in which to store the AMI. You can specify a bucket that you already own or a new bucket that Amazon EC2 creates on your behalf. If you specify a bucket that belongs to someone else, Amazon EC2 returns an error.
-        public let storage: Storage
+        public let storage: Storage?
 
-        public init(dryRun: Bool? = nil, instanceId: String, storage: Storage) {
+        public init(dryRun: Bool? = nil, instanceId: String? = nil, storage: Storage? = nil) {
             self.dryRun = dryRun
             self.instanceId = instanceId
             self.storage = storage
@@ -5297,13 +5408,13 @@ extension EC2 {
 
     public struct CancelBundleTaskRequest: AWSEncodableShape {
         /// The ID of the bundle task.
-        public let bundleId: String
+        public let bundleId: String?
         /// Checks whether you have the required permissions for the action, without actually making the request,
         /// 			and provides an error response. If you have the required permissions, the error response is
         /// 			DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
-        public init(bundleId: String, dryRun: Bool? = nil) {
+        public init(bundleId: String? = nil, dryRun: Bool? = nil) {
             self.bundleId = bundleId
             self.dryRun = dryRun
         }
@@ -5348,12 +5459,12 @@ extension EC2 {
         public struct _CapacityReservationFleetIdsEncoding: ArrayCoderProperties { public static let member = "item" }
 
         /// The IDs of the Capacity Reservation Fleets to cancel.
-        @CustomCoding<ArrayCoder<_CapacityReservationFleetIdsEncoding, String>>
-        public var capacityReservationFleetIds: [String]
+        @OptionalCustomCoding<ArrayCoder<_CapacityReservationFleetIdsEncoding, String>>
+        public var capacityReservationFleetIds: [String]?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
-        public init(capacityReservationFleetIds: [String], dryRun: Bool? = nil) {
+        public init(capacityReservationFleetIds: [String]? = nil, dryRun: Bool? = nil) {
             self.capacityReservationFleetIds = capacityReservationFleetIds
             self.dryRun = dryRun
         }
@@ -5388,11 +5499,11 @@ extension EC2 {
 
     public struct CancelCapacityReservationRequest: AWSEncodableShape {
         /// The ID of the Capacity Reservation to be cancelled.
-        public let capacityReservationId: String
+        public let capacityReservationId: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
-        public init(capacityReservationId: String, dryRun: Bool? = nil) {
+        public init(capacityReservationId: String? = nil, dryRun: Bool? = nil) {
             self.capacityReservationId = capacityReservationId
             self.dryRun = dryRun
         }
@@ -5418,13 +5529,13 @@ extension EC2 {
 
     public struct CancelConversionRequest: AWSEncodableShape {
         /// The ID of the conversion task.
-        public let conversionTaskId: String
+        public let conversionTaskId: String?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The reason for canceling the conversion task.
         public let reasonMessage: String?
 
-        public init(conversionTaskId: String, dryRun: Bool? = nil, reasonMessage: String? = nil) {
+        public init(conversionTaskId: String? = nil, dryRun: Bool? = nil, reasonMessage: String? = nil) {
             self.conversionTaskId = conversionTaskId
             self.dryRun = dryRun
             self.reasonMessage = reasonMessage
@@ -5439,9 +5550,9 @@ extension EC2 {
 
     public struct CancelExportTaskRequest: AWSEncodableShape {
         /// The ID of the export task. This is the ID returned by CreateInstanceExportTask.
-        public let exportTaskId: String
+        public let exportTaskId: String?
 
-        public init(exportTaskId: String) {
+        public init(exportTaskId: String? = nil) {
             self.exportTaskId = exportTaskId
         }
 
@@ -5494,9 +5605,9 @@ extension EC2 {
 
     public struct CancelReservedInstancesListingRequest: AWSEncodableShape {
         /// The ID of the Reserved Instance listing.
-        public let reservedInstancesListingId: String
+        public let reservedInstancesListingId: String?
 
-        public init(reservedInstancesListingId: String) {
+        public init(reservedInstancesListingId: String? = nil) {
             self.reservedInstancesListingId = reservedInstancesListingId
         }
 
@@ -5561,12 +5672,12 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The IDs of the Spot Fleet requests.
-        @CustomCoding<ArrayCoder<_SpotFleetRequestIdsEncoding, String>>
-        public var spotFleetRequestIds: [String]
+        @OptionalCustomCoding<ArrayCoder<_SpotFleetRequestIdsEncoding, String>>
+        public var spotFleetRequestIds: [String]?
         /// Indicates whether to terminate instances for a Spot Fleet request if it is canceled successfully.
-        public let terminateInstances: Bool
+        public let terminateInstances: Bool?
 
-        public init(dryRun: Bool? = nil, spotFleetRequestIds: [String], terminateInstances: Bool) {
+        public init(dryRun: Bool? = nil, spotFleetRequestIds: [String]? = nil, terminateInstances: Bool? = nil) {
             self.dryRun = dryRun
             self.spotFleetRequestIds = spotFleetRequestIds
             self.terminateInstances = terminateInstances
@@ -5628,10 +5739,10 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more Spot Instance request IDs.
-        @CustomCoding<ArrayCoder<_SpotInstanceRequestIdsEncoding, String>>
-        public var spotInstanceRequestIds: [String]
+        @OptionalCustomCoding<ArrayCoder<_SpotInstanceRequestIdsEncoding, String>>
+        public var spotInstanceRequestIds: [String]?
 
-        public init(dryRun: Bool? = nil, spotInstanceRequestIds: [String]) {
+        public init(dryRun: Bool? = nil, spotInstanceRequestIds: [String]? = nil) {
             self.dryRun = dryRun
             self.spotInstanceRequestIds = spotInstanceRequestIds
         }
@@ -5675,7 +5786,27 @@ extension EC2 {
         }
     }
 
+    public struct CapacityAllocation: AWSDecodableShape {
+        /// The usage type. used indicates that the instance capacity is
+        /// 			in use by instances that are running in the Capacity Reservation.
+        public let allocationType: AllocationType?
+        /// The amount of instance capacity associated with the usage. For example a value of
+        /// 			4 indicates that instance capacity for 4 instances is currently in use.
+        public let count: Int?
+
+        public init(allocationType: AllocationType? = nil, count: Int? = nil) {
+            self.allocationType = allocationType
+            self.count = count
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allocationType
+            case count
+        }
+    }
+
     public struct CapacityReservation: AWSDecodableShape {
+        public struct _CapacityAllocationsEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
 
         /// The Availability Zone in which the capacity is reserved.
@@ -5684,6 +5815,9 @@ extension EC2 {
         public let availabilityZoneId: String?
         /// The remaining capacity. Indicates the number of instances that can be launched in the Capacity Reservation.
         public let availableInstanceCount: Int?
+        /// Information about instance capacity usage.
+        @OptionalCustomCoding<ArrayCoder<_CapacityAllocationsEncoding, CapacityAllocation>>
+        public var capacityAllocations: [CapacityAllocation]?
         /// The Amazon Resource Name (ARN) of the Capacity Reservation.
         public let capacityReservationArn: String?
         /// The ID of the Capacity Reservation Fleet to which the Capacity Reservation belongs.
@@ -5750,10 +5884,11 @@ extension EC2 {
         /// The total number of instances for which the Capacity Reservation reserves capacity.
         public let totalInstanceCount: Int?
 
-        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, availableInstanceCount: Int? = nil, capacityReservationArn: String? = nil, capacityReservationFleetId: String? = nil, capacityReservationId: String? = nil, createDate: Date? = nil, ebsOptimized: Bool? = nil, endDate: Date? = nil, endDateType: EndDateType? = nil, ephemeralStorage: Bool? = nil, instanceMatchCriteria: InstanceMatchCriteria? = nil, instancePlatform: CapacityReservationInstancePlatform? = nil, instanceType: String? = nil, outpostArn: String? = nil, ownerId: String? = nil, placementGroupArn: String? = nil, startDate: Date? = nil, state: CapacityReservationState? = nil, tags: [Tag]? = nil, tenancy: CapacityReservationTenancy? = nil, totalInstanceCount: Int? = nil) {
+        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, availableInstanceCount: Int? = nil, capacityAllocations: [CapacityAllocation]? = nil, capacityReservationArn: String? = nil, capacityReservationFleetId: String? = nil, capacityReservationId: String? = nil, createDate: Date? = nil, ebsOptimized: Bool? = nil, endDate: Date? = nil, endDateType: EndDateType? = nil, ephemeralStorage: Bool? = nil, instanceMatchCriteria: InstanceMatchCriteria? = nil, instancePlatform: CapacityReservationInstancePlatform? = nil, instanceType: String? = nil, outpostArn: String? = nil, ownerId: String? = nil, placementGroupArn: String? = nil, startDate: Date? = nil, state: CapacityReservationState? = nil, tags: [Tag]? = nil, tenancy: CapacityReservationTenancy? = nil, totalInstanceCount: Int? = nil) {
             self.availabilityZone = availabilityZone
             self.availabilityZoneId = availabilityZoneId
             self.availableInstanceCount = availableInstanceCount
+            self.capacityAllocations = capacityAllocations
             self.capacityReservationArn = capacityReservationArn
             self.capacityReservationFleetId = capacityReservationFleetId
             self.capacityReservationId = capacityReservationId
@@ -5779,6 +5914,7 @@ extension EC2 {
             case availabilityZone
             case availabilityZoneId
             case availableInstanceCount
+            case capacityAllocations = "capacityAllocationSet"
             case capacityReservationArn
             case capacityReservationFleetId
             case capacityReservationId
@@ -6110,11 +6246,11 @@ extension EC2 {
 
     public struct CidrAuthorizationContext: AWSEncodableShape {
         /// The plain-text authorization message for the prefix and account.
-        public let message: String
+        public let message: String?
         /// The signed authorization message for the prefix and account.
-        public let signature: String
+        public let signature: String?
 
-        public init(message: String, signature: String) {
+        public init(message: String? = nil, signature: String? = nil) {
             self.message = message
             self.signature = signature
         }
@@ -6810,6 +6946,27 @@ extension EC2 {
         }
     }
 
+    public struct CoipCidr: AWSDecodableShape {
+        ///  An address range in a customer-owned IP address space.
+        public let cidr: String?
+        ///  The ID of the address pool.
+        public let coipPoolId: String?
+        ///  The ID of the local gateway route table.
+        public let localGatewayRouteTableId: String?
+
+        public init(cidr: String? = nil, coipPoolId: String? = nil, localGatewayRouteTableId: String? = nil) {
+            self.cidr = cidr
+            self.coipPoolId = coipPoolId
+            self.localGatewayRouteTableId = localGatewayRouteTableId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cidr
+            case coipPoolId
+            case localGatewayRouteTableId
+        }
+    }
+
     public struct CoipPool: AWSDecodableShape {
         public struct _PoolCidrsEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
@@ -6848,11 +7005,11 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the instance.
-        public let instanceId: String
+        public let instanceId: String?
         /// The product code. This must be a product code that you own.
-        public let productCode: String
+        public let productCode: String?
 
-        public init(dryRun: Bool? = nil, instanceId: String, productCode: String) {
+        public init(dryRun: Bool? = nil, instanceId: String? = nil, productCode: String? = nil) {
             self.dryRun = dryRun
             self.instanceId = instanceId
             self.productCode = productCode
@@ -7014,11 +7171,11 @@ extension EC2 {
         /// The name for the new AFI. The default is the name of the source AFI.
         public let name: String?
         /// The ID of the source AFI.
-        public let sourceFpgaImageId: String
+        public let sourceFpgaImageId: String?
         /// The Region that contains the source AFI.
-        public let sourceRegion: String
+        public let sourceRegion: String?
 
-        public init(clientToken: String? = nil, description: String? = nil, dryRun: Bool? = nil, name: String? = nil, sourceFpgaImageId: String, sourceRegion: String) {
+        public init(clientToken: String? = nil, description: String? = nil, dryRun: Bool? = nil, name: String? = nil, sourceFpgaImageId: String? = nil, sourceRegion: String? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.dryRun = dryRun
@@ -7066,13 +7223,13 @@ extension EC2 {
         /// The identifier of the symmetric Key Management Service (KMS) KMS key to use when creating 		encrypted volumes. If this parameter is not specified, your Amazon Web Services managed KMS key for Amazon EBS is used.  		If you specify a KMS key, you must also set the encrypted state to true. 	     You can specify a KMS key using any of the following: 	       			         Key ID. For example, 1234abcd-12ab-34cd-56ef-1234567890ab. 		         	           Key alias. For example, alias/ExampleAlias. 	          	           Key ARN. For example, arn:aws:kms:us-east-1:012345678910:key/1234abcd-12ab-34cd-56ef-1234567890ab. 		         		          Alias ARN. For example, arn:aws:kms:us-east-1:012345678910:alias/ExampleAlias. 		         	     Amazon Web Services authenticates the KMS key asynchronously. Therefore, if you specify an identifier that is not valid, the action can appear to complete, but eventually fails. 	     The specified KMS key must exist in the destination Region. 	     Amazon EBS does not support asymmetric KMS keys.
         public let kmsKeyId: String?
         /// The name of the new AMI in the destination Region.
-        public let name: String
+        public let name: String?
         /// The ID of the AMI to copy.
-        public let sourceImageId: String
+        public let sourceImageId: String?
         /// The name of the Region that contains the AMI to copy.
-        public let sourceRegion: String
+        public let sourceRegion: String?
 
-        public init(clientToken: String? = nil, description: String? = nil, destinationOutpostArn: String? = nil, dryRun: Bool? = nil, encrypted: Bool? = nil, kmsKeyId: String? = nil, name: String, sourceImageId: String, sourceRegion: String) {
+        public init(clientToken: String? = nil, description: String? = nil, destinationOutpostArn: String? = nil, dryRun: Bool? = nil, encrypted: Bool? = nil, kmsKeyId: String? = nil, name: String? = nil, sourceImageId: String? = nil, sourceRegion: String? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.destinationOutpostArn = destinationOutpostArn
@@ -7132,14 +7289,14 @@ extension EC2 {
         /// When you copy an encrypted source snapshot using the Amazon EC2 Query API, you must supply a pre-signed URL. This parameter is optional for unencrypted snapshots. For more information, see Query requests. The PresignedUrl should use the snapshot source endpoint, the CopySnapshot action, and include the SourceRegion, SourceSnapshotId, and DestinationRegion parameters. The PresignedUrl must be signed using Amazon Web Services Signature Version 4. Because EBS snapshots are stored in Amazon S3, the signing algorithm for this parameter uses the same logic that is described in Authenticating Requests: Using Query Parameters (Amazon Web Services Signature Version 4) in the Amazon Simple Storage Service API Reference. An invalid or improperly signed PresignedUrl will cause the copy operation to fail asynchronously, and the snapshot will move to an error state.
         public let presignedUrl: String?
         /// The ID of the Region that contains the snapshot to be copied.
-        public let sourceRegion: String
+        public let sourceRegion: String?
         /// The ID of the EBS snapshot to copy.
-        public let sourceSnapshotId: String
+        public let sourceSnapshotId: String?
         /// The tags to apply to the new snapshot.
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
-        public init(description: String? = nil, destinationOutpostArn: String? = nil, destinationRegion: String? = nil, dryRun: Bool? = nil, encrypted: Bool? = nil, kmsKeyId: String? = nil, presignedUrl: String? = nil, sourceRegion: String, sourceSnapshotId: String, tagSpecifications: [TagSpecification]? = nil) {
+        public init(description: String? = nil, destinationOutpostArn: String? = nil, destinationRegion: String? = nil, dryRun: Bool? = nil, encrypted: Bool? = nil, kmsKeyId: String? = nil, presignedUrl: String? = nil, sourceRegion: String? = nil, sourceSnapshotId: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.description = description
             self.destinationOutpostArn = destinationOutpostArn
             self.destinationRegion = destinationRegion
@@ -7250,8 +7407,8 @@ extension EC2 {
         /// 			explicitly target a Capacity Reservation Fleet to use its reserved capacity.
         public let instanceMatchCriteria: FleetInstanceMatchCriteria?
         /// Information about the instance types for which to reserve the capacity.
-        @CustomCoding<StandardArrayCoder>
-        public var instanceTypeSpecifications: [ReservationFleetInstanceSpecification]
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var instanceTypeSpecifications: [ReservationFleetInstanceSpecification]?
         /// The tags to assign to the Capacity Reservation Fleet. The tags are automatically assigned
         /// 			to the Capacity Reservations in the Fleet.
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
@@ -7274,9 +7431,9 @@ extension EC2 {
         /// 			the Fleet determine the number of instances for which the Fleet reserves capacity. Both values
         /// 			are based on units that make sense for your workload. For more information, see
         /// 				Total target capacity in the Amazon EC2 User Guide.
-        public let totalTargetCapacity: Int
+        public let totalTargetCapacity: Int?
 
-        public init(allocationStrategy: String? = nil, clientToken: String? = CreateCapacityReservationFleetRequest.idempotencyToken(), dryRun: Bool? = nil, endDate: Date? = nil, instanceMatchCriteria: FleetInstanceMatchCriteria? = nil, instanceTypeSpecifications: [ReservationFleetInstanceSpecification], tagSpecifications: [TagSpecification]? = nil, tenancy: FleetCapacityReservationTenancy? = nil, totalTargetCapacity: Int) {
+        public init(allocationStrategy: String? = nil, clientToken: String? = CreateCapacityReservationFleetRequest.idempotencyToken(), dryRun: Bool? = nil, endDate: Date? = nil, instanceMatchCriteria: FleetInstanceMatchCriteria? = nil, instanceTypeSpecifications: [ReservationFleetInstanceSpecification]? = nil, tagSpecifications: [TagSpecification]? = nil, tenancy: FleetCapacityReservationTenancy? = nil, totalTargetCapacity: Int? = nil) {
             self.allocationStrategy = allocationStrategy
             self.clientToken = clientToken
             self.dryRun = dryRun
@@ -7289,7 +7446,7 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.instanceTypeSpecifications.forEach {
+            try self.instanceTypeSpecifications?.forEach {
                 try $0.validate(name: "\(name).instanceTypeSpecifications[]")
             }
         }
@@ -7403,7 +7560,7 @@ extension EC2 {
         public let ephemeralStorage: Bool?
         /// The number of instances for which to reserve capacity.
         /// 	  	     Valid range: 1 - 1000
-        public let instanceCount: Int
+        public let instanceCount: Int?
         /// Indicates the type of instance launches that the Capacity Reservation accepts. The options
         /// 			include:
         /// 		          open - The Capacity Reservation automatically matches all instances that have matching attributes (instance type, platform,
@@ -7414,9 +7571,9 @@ extension EC2 {
         /// 		       Default: open
         public let instanceMatchCriteria: InstanceMatchCriteria?
         /// The type of operating system for which to reserve capacity.
-        public let instancePlatform: CapacityReservationInstancePlatform
+        public let instancePlatform: CapacityReservationInstancePlatform?
         /// The instance type for which to reserve capacity. For more information, see Instance types in the Amazon EC2 User Guide.
-        public let instanceType: String
+        public let instanceType: String?
         /// The Amazon Resource Name (ARN) of the Outpost on which to create the Capacity Reservation.
         public let outpostArn: String?
         /// The Amazon Resource Name (ARN) of the cluster placement group in which
@@ -7432,7 +7589,7 @@ extension EC2 {
         /// 		          default - The Capacity Reservation is created on hardware that is shared with other Amazon Web Services accounts.    dedicated - The Capacity Reservation is created on single-tenant hardware that is dedicated to a single Amazon Web Services account.
         public let tenancy: CapacityReservationTenancy?
 
-        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, clientToken: String? = nil, dryRun: Bool? = nil, ebsOptimized: Bool? = nil, endDate: Date? = nil, endDateType: EndDateType? = nil, ephemeralStorage: Bool? = nil, instanceCount: Int, instanceMatchCriteria: InstanceMatchCriteria? = nil, instancePlatform: CapacityReservationInstancePlatform, instanceType: String, outpostArn: String? = nil, placementGroupArn: String? = nil, tagSpecifications: [TagSpecification]? = nil, tenancy: CapacityReservationTenancy? = nil) {
+        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, clientToken: String? = nil, dryRun: Bool? = nil, ebsOptimized: Bool? = nil, endDate: Date? = nil, endDateType: EndDateType? = nil, ephemeralStorage: Bool? = nil, instanceCount: Int? = nil, instanceMatchCriteria: InstanceMatchCriteria? = nil, instancePlatform: CapacityReservationInstancePlatform? = nil, instanceType: String? = nil, outpostArn: String? = nil, placementGroupArn: String? = nil, tagSpecifications: [TagSpecification]? = nil, tenancy: CapacityReservationTenancy? = nil) {
             self.availabilityZone = availabilityZone
             self.availabilityZoneId = availabilityZoneId
             self.clientToken = clientToken
@@ -7500,9 +7657,9 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
         /// The ID of the VPC to associate with the carrier gateway.
-        public let vpcId: String
+        public let vpcId: String?
 
-        public init(clientToken: String? = CreateCarrierGatewayRequest.idempotencyToken(), dryRun: Bool? = nil, tagSpecifications: [TagSpecification]? = nil, vpcId: String) {
+        public init(clientToken: String? = CreateCarrierGatewayRequest.idempotencyToken(), dryRun: Bool? = nil, tagSpecifications: [TagSpecification]? = nil, vpcId: String? = nil) {
             self.clientToken = clientToken
             self.dryRun = dryRun
             self.tagSpecifications = tagSpecifications
@@ -7536,10 +7693,10 @@ extension EC2 {
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
 
         /// Information about the authentication method to be used to authenticate clients.
-        @CustomCoding<StandardArrayCoder>
-        public var authenticationOptions: [ClientVpnAuthenticationRequest]
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var authenticationOptions: [ClientVpnAuthenticationRequest]?
         /// The IPv4 address range, in CIDR notation, from which to assign client IP addresses. The address range cannot overlap with the local CIDR of the VPC in which the associated subnet is located, or the routes that you add manually. The address range cannot be changed after the Client VPN endpoint has been created. The CIDR block should be /22 or greater.
-        public let clientCidrBlock: String
+        public let clientCidrBlock: String?
         /// The options for managing connection authorization for new client connections.
         public let clientConnectOptions: ClientConnectOptions?
         /// Options for enabling a customizable text banner that will be displayed on
@@ -7551,7 +7708,7 @@ extension EC2 {
         /// 		       If you enable client connection logging, data about client connections is sent to a
         /// 			Cloudwatch Logs log stream. The following information is logged:
         /// 		         Client connection requests   Client connection results (successful and unsuccessful)   Reasons for unsuccessful client connection requests   Client connection termination time
-        public let connectionLogOptions: ConnectionLogOptions
+        public let connectionLogOptions: ConnectionLogOptions?
         /// A brief description of the Client VPN endpoint.
         public let description: String?
         /// Information about the DNS servers to be used for DNS resolution. A Client VPN endpoint can
@@ -7567,7 +7724,7 @@ extension EC2 {
         public let selfServicePortal: SelfServicePortal?
         /// The ARN of the server certificate. For more information, see
         /// 			the Certificate Manager User Guide.
-        public let serverCertificateArn: String
+        public let serverCertificateArn: String?
         /// The maximum VPN session duration time in hours.
         /// 		       Valid values: 8 | 10 | 12 | 24
         /// 		       Default value: 24
@@ -7590,7 +7747,7 @@ extension EC2 {
         /// 	        Default Value: 443
         public let vpnPort: Int?
 
-        public init(authenticationOptions: [ClientVpnAuthenticationRequest], clientCidrBlock: String, clientConnectOptions: ClientConnectOptions? = nil, clientLoginBannerOptions: ClientLoginBannerOptions? = nil, clientToken: String? = CreateClientVpnEndpointRequest.idempotencyToken(), connectionLogOptions: ConnectionLogOptions, description: String? = nil, dnsServers: [String]? = nil, dryRun: Bool? = nil, securityGroupIds: [String]? = nil, selfServicePortal: SelfServicePortal? = nil, serverCertificateArn: String, sessionTimeoutHours: Int? = nil, splitTunnel: Bool? = nil, tagSpecifications: [TagSpecification]? = nil, transportProtocol: TransportProtocol? = nil, vpcId: String? = nil, vpnPort: Int? = nil) {
+        public init(authenticationOptions: [ClientVpnAuthenticationRequest]? = nil, clientCidrBlock: String? = nil, clientConnectOptions: ClientConnectOptions? = nil, clientLoginBannerOptions: ClientLoginBannerOptions? = nil, clientToken: String? = CreateClientVpnEndpointRequest.idempotencyToken(), connectionLogOptions: ConnectionLogOptions? = nil, description: String? = nil, dnsServers: [String]? = nil, dryRun: Bool? = nil, securityGroupIds: [String]? = nil, selfServicePortal: SelfServicePortal? = nil, serverCertificateArn: String? = nil, sessionTimeoutHours: Int? = nil, splitTunnel: Bool? = nil, tagSpecifications: [TagSpecification]? = nil, transportProtocol: TransportProtocol? = nil, vpcId: String? = nil, vpnPort: Int? = nil) {
             self.authenticationOptions = authenticationOptions
             self.clientCidrBlock = clientCidrBlock
             self.clientConnectOptions = clientConnectOptions
@@ -7658,20 +7815,20 @@ extension EC2 {
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to ensure idempotency.
         public let clientToken: String?
         /// The ID of the Client VPN endpoint to which to add the route.
-        public let clientVpnEndpointId: String
+        public let clientVpnEndpointId: String?
         /// A brief description of the route.
         public let description: String?
         /// The IPv4 address range, in CIDR notation, of the route destination. For example:
         /// 		         To add a route for Internet access, enter 0.0.0.0/0    To add a route for a peered VPC, enter the peered VPC's IPv4 CIDR range   To add a route for an on-premises network, enter the Amazon Web Services Site-to-Site VPN connection's IPv4 CIDR range   To add a route for the local network, enter the client CIDR range
-        public let destinationCidrBlock: String
+        public let destinationCidrBlock: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the subnet through which you want to route traffic. The specified subnet must be
         /// 			an existing target network of the Client VPN endpoint.
         /// 	        Alternatively, if you're adding a route for the local network, specify local.
-        public let targetVpcSubnetId: String
+        public let targetVpcSubnetId: String?
 
-        public init(clientToken: String? = CreateClientVpnRouteRequest.idempotencyToken(), clientVpnEndpointId: String, description: String? = nil, destinationCidrBlock: String, dryRun: Bool? = nil, targetVpcSubnetId: String) {
+        public init(clientToken: String? = CreateClientVpnRouteRequest.idempotencyToken(), clientVpnEndpointId: String? = nil, description: String? = nil, destinationCidrBlock: String? = nil, dryRun: Bool? = nil, targetVpcSubnetId: String? = nil) {
             self.clientToken = clientToken
             self.clientVpnEndpointId = clientVpnEndpointId
             self.description = description
@@ -7703,11 +7860,81 @@ extension EC2 {
         }
     }
 
+    public struct CreateCoipCidrRequest: AWSEncodableShape {
+        ///  A customer-owned IP address range to create.
+        public let cidr: String?
+        ///  The ID of the address pool.
+        public let coipPoolId: String?
+        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+
+        public init(cidr: String? = nil, coipPoolId: String? = nil, dryRun: Bool? = nil) {
+            self.cidr = cidr
+            self.coipPoolId = coipPoolId
+            self.dryRun = dryRun
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cidr = "Cidr"
+            case coipPoolId = "CoipPoolId"
+            case dryRun = "DryRun"
+        }
+    }
+
+    public struct CreateCoipCidrResult: AWSDecodableShape {
+        ///  Information about a range of customer-owned IP addresses.
+        public let coipCidr: CoipCidr?
+
+        public init(coipCidr: CoipCidr? = nil) {
+            self.coipCidr = coipCidr
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case coipCidr
+        }
+    }
+
+    public struct CreateCoipPoolRequest: AWSEncodableShape {
+        public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        ///  The ID of the local gateway route table.
+        public let localGatewayRouteTableId: String?
+        ///  The tags to assign to the CoIP address pool.
+        @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
+        public var tagSpecifications: [TagSpecification]?
+
+        public init(dryRun: Bool? = nil, localGatewayRouteTableId: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
+            self.dryRun = dryRun
+            self.localGatewayRouteTableId = localGatewayRouteTableId
+            self.tagSpecifications = tagSpecifications
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case localGatewayRouteTableId = "LocalGatewayRouteTableId"
+            case tagSpecifications = "TagSpecification"
+        }
+    }
+
+    public struct CreateCoipPoolResult: AWSDecodableShape {
+        public let coipPool: CoipPool?
+
+        public init(coipPool: CoipPool? = nil) {
+            self.coipPool = coipPool
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case coipPool
+        }
+    }
+
     public struct CreateCustomerGatewayRequest: AWSEncodableShape {
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
 
         /// For devices that support BGP, the customer gateway's BGP ASN. Default: 65000
-        public let bgpAsn: Int
+        public let bgpAsn: Int?
         /// The Amazon Resource Name (ARN) for the customer gateway certificate.
         public let certificateArn: String?
         /// A name for the customer gateway device. Length Constraints: Up to 255 characters.
@@ -7722,9 +7949,9 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
         /// The type of VPN connection that this customer gateway supports (ipsec.1).
-        public let type: GatewayType
+        public let type: GatewayType?
 
-        public init(bgpAsn: Int, certificateArn: String? = nil, deviceName: String? = nil, dryRun: Bool? = nil, ipAddress: String? = nil, publicIp: String? = nil, tagSpecifications: [TagSpecification]? = nil, type: GatewayType) {
+        public init(bgpAsn: Int? = nil, certificateArn: String? = nil, deviceName: String? = nil, dryRun: Bool? = nil, ipAddress: String? = nil, publicIp: String? = nil, tagSpecifications: [TagSpecification]? = nil, type: GatewayType? = nil) {
             self.bgpAsn = bgpAsn
             self.certificateArn = certificateArn
             self.deviceName = deviceName
@@ -7762,13 +7989,13 @@ extension EC2 {
 
     public struct CreateDefaultSubnetRequest: AWSEncodableShape {
         /// The Availability Zone in which to create the default subnet.
-        public let availabilityZone: String
+        public let availabilityZone: String?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// Indicates whether to create an IPv6 only subnet. If you already have a default subnet for this Availability Zone, you must delete it before you can create an IPv6 only subnet.
         public let ipv6Native: Bool?
 
-        public init(availabilityZone: String, dryRun: Bool? = nil, ipv6Native: Bool? = nil) {
+        public init(availabilityZone: String? = nil, dryRun: Bool? = nil, ipv6Native: Bool? = nil) {
             self.availabilityZone = availabilityZone
             self.dryRun = dryRun
             self.ipv6Native = ipv6Native
@@ -7825,15 +8052,15 @@ extension EC2 {
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
 
         /// A DHCP configuration option.
-        @CustomCoding<ArrayCoder<_DhcpConfigurationsEncoding, NewDhcpConfiguration>>
-        public var dhcpConfigurations: [NewDhcpConfiguration]
+        @OptionalCustomCoding<ArrayCoder<_DhcpConfigurationsEncoding, NewDhcpConfiguration>>
+        public var dhcpConfigurations: [NewDhcpConfiguration]?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The tags to assign to the DHCP option.
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
-        public init(dhcpConfigurations: [NewDhcpConfiguration], dryRun: Bool? = nil, tagSpecifications: [TagSpecification]? = nil) {
+        public init(dhcpConfigurations: [NewDhcpConfiguration]? = nil, dryRun: Bool? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.dhcpConfigurations = dhcpConfigurations
             self.dryRun = dryRun
             self.tagSpecifications = tagSpecifications
@@ -7872,9 +8099,9 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
         /// The ID of the VPC for which to create the egress-only internet gateway.
-        public let vpcId: String
+        public let vpcId: String?
 
-        public init(clientToken: String? = nil, dryRun: Bool? = nil, tagSpecifications: [TagSpecification]? = nil, vpcId: String) {
+        public init(clientToken: String? = nil, dryRun: Bool? = nil, tagSpecifications: [TagSpecification]? = nil, vpcId: String? = nil) {
             self.clientToken = clientToken
             self.dryRun = dryRun
             self.tagSpecifications = tagSpecifications
@@ -7977,8 +8204,8 @@ extension EC2 {
         /// Indicates whether running instances should be terminated if the total target capacity of the EC2 Fleet is decreased below the current size of the EC2 Fleet.
         public let excessCapacityTerminationPolicy: FleetExcessCapacityTerminationPolicy?
         /// The configuration for the EC2 Fleet.
-        @CustomCoding<ArrayCoder<_LaunchTemplateConfigsEncoding, FleetLaunchTemplateConfigRequest>>
-        public var launchTemplateConfigs: [FleetLaunchTemplateConfigRequest]
+        @OptionalCustomCoding<ArrayCoder<_LaunchTemplateConfigsEncoding, FleetLaunchTemplateConfigRequest>>
+        public var launchTemplateConfigs: [FleetLaunchTemplateConfigRequest]?
         /// Describes the configuration of On-Demand Instances in an EC2 Fleet.
         public let onDemandOptions: OnDemandOptionsRequest?
         /// Indicates whether EC2 Fleet should replace unhealthy Spot Instances. Supported only for fleets of type maintain. For more information, see EC2 Fleet health checks in the Amazon EC2 User Guide.
@@ -7989,7 +8216,7 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
         /// The number of units to request.
-        public let targetCapacitySpecification: TargetCapacitySpecificationRequest
+        public let targetCapacitySpecification: TargetCapacitySpecificationRequest?
         /// Indicates whether running instances should be terminated when the EC2 Fleet expires.
         public let terminateInstancesWithExpiration: Bool?
         /// The fleet type. The default value is maintain.    maintain - The EC2 Fleet places an asynchronous request for your desired capacity, and continues to maintain your desired Spot capacity by replenishing interrupted Spot Instances.    request - The EC2 Fleet places an asynchronous one-time request for your desired capacity, but does submit Spot requests in alternative capacity pools if Spot capacity is unavailable, and does not maintain Spot capacity if Spot Instances are interrupted.    instant - The EC2 Fleet places a synchronous one-time request for your desired capacity, and returns errors for any instances that could not be launched.   For more information, see EC2 Fleet request types in the Amazon EC2 User Guide.
@@ -7999,7 +8226,7 @@ extension EC2 {
         /// The end date and time of the request, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ). At this point, no new EC2 Fleet requests are placed or able to fulfill the request. If no value is specified, the request remains until you cancel it.
         public let validUntil: Date?
 
-        public init(clientToken: String? = nil, context: String? = nil, dryRun: Bool? = nil, excessCapacityTerminationPolicy: FleetExcessCapacityTerminationPolicy? = nil, launchTemplateConfigs: [FleetLaunchTemplateConfigRequest], onDemandOptions: OnDemandOptionsRequest? = nil, replaceUnhealthyInstances: Bool? = nil, spotOptions: SpotOptionsRequest? = nil, tagSpecifications: [TagSpecification]? = nil, targetCapacitySpecification: TargetCapacitySpecificationRequest, terminateInstancesWithExpiration: Bool? = nil, type: FleetType? = nil, validFrom: Date? = nil, validUntil: Date? = nil) {
+        public init(clientToken: String? = nil, context: String? = nil, dryRun: Bool? = nil, excessCapacityTerminationPolicy: FleetExcessCapacityTerminationPolicy? = nil, launchTemplateConfigs: [FleetLaunchTemplateConfigRequest]? = nil, onDemandOptions: OnDemandOptionsRequest? = nil, replaceUnhealthyInstances: Bool? = nil, spotOptions: SpotOptionsRequest? = nil, tagSpecifications: [TagSpecification]? = nil, targetCapacitySpecification: TargetCapacitySpecificationRequest? = nil, terminateInstancesWithExpiration: Bool? = nil, type: FleetType? = nil, validFrom: Date? = nil, validUntil: Date? = nil) {
             self.clientToken = clientToken
             self.context = context
             self.dryRun = dryRun
@@ -8017,7 +8244,7 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.launchTemplateConfigs.forEach {
+            try self.launchTemplateConfigs?.forEach {
                 try $0.validate(name: "\(name).launchTemplateConfigs[]")
             }
             try self.validate(self.launchTemplateConfigs, name: "launchTemplateConfigs", parent: name, max: 50)
@@ -8073,35 +8300,38 @@ extension EC2 {
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to ensure idempotency.
         public let clientToken: String?
-        /// The ARN for the IAM role that permits Amazon EC2 to publish flow logs to a CloudWatch Logs log group  in your account. If you specify LogDestinationType as s3, do not specify  DeliverLogsPermissionArn or LogGroupName.
+        /// The ARN of the IAM role that allows Amazon EC2 to publish flow logs across accounts.
+        public let deliverCrossAccountRole: String?
+        /// The ARN of the IAM role that allows Amazon EC2 to publish flow logs to a CloudWatch Logs log group in your account. This parameter is required if the destination type is cloud-watch-logs and unsupported otherwise.
         public let deliverLogsPermissionArn: String?
         /// The destination options.
         public let destinationOptions: DestinationOptionsRequest?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// The destination to which the flow log data is to be published. Flow log data can be published  to a CloudWatch Logs log group or an Amazon S3 bucket. The value specified for this parameter depends on the value specified for LogDestinationType. If LogDestinationType is not specified or cloud-watch-logs, specify the Amazon Resource Name (ARN) of the CloudWatch Logs log group. For example, to publish to a log group called my-logs, specify arn:aws:logs:us-east-1:123456789012:log-group:my-logs. Alternatively, use LogGroupName instead.  If LogDestinationType is s3, specify the ARN of the Amazon S3 bucket. You can also specify a  subfolder in the bucket. To specify a subfolder in the bucket, use the following  ARN format:  bucket_ARN/subfolder_name/. For example, to specify a subfolder named my-logs in a  bucket named my-bucket, use the following ARN: arn:aws:s3:::my-bucket/my-logs/. You  cannot use AWSLogs as a subfolder name. This is a reserved term.
+        /// The destination for the flow log data. The meaning of this parameter depends on the destination type.   If the destination type is cloud-watch-logs, specify the ARN of a CloudWatch Logs log group. For example:  arn:aws:logs:region:account_id:log-group:my_group  Alternatively, use the LogGroupName parameter.    If the destination type is s3, specify the ARN of an S3 bucket. For example:  arn:aws:s3:::my_bucket/my_subfolder/  The subfolder is optional. Note that you can't use AWSLogs as a subfolder name.   If the destination type is kinesis-data-firehose, specify the ARN of a Kinesis Data Firehose delivery stream. For example: arn:aws:firehose:region:account_id:deliverystream:my_stream
         public let logDestination: String?
-        /// The type of destination to which the flow log data is to be published. Flow log data can be  published to CloudWatch Logs or Amazon S3. To publish flow log data to CloudWatch Logs, specify cloud-watch-logs. To  publish flow log data to Amazon S3, specify s3. If you specify LogDestinationType as s3, do not specify  DeliverLogsPermissionArn or LogGroupName. Default: cloud-watch-logs
+        /// The type of destination for the flow log data. Default: cloud-watch-logs
         public let logDestinationType: LogDestinationType?
-        /// The fields to include in the flow log record, in the order in which they should appear. For a list of available fields, see Flow log records. If you omit this parameter, the flow log is created using the default format. If you specify this parameter,  you must specify at least one field. Specify the fields using the ${field-id} format, separated by spaces. For the CLI, surround this parameter value with single quotes on Linux or double quotes on Windows.
+        /// The fields to include in the flow log record. List the fields in the order in which they should appear. For more information about the available fields, see Flow log records. If you omit this parameter, the flow log is created using the default format. If you specify this parameter, you must include at least one field. Specify the fields using the ${field-id} format, separated by spaces. For the CLI, surround this parameter value with single quotes on Linux or double quotes on Windows.
         public let logFormat: String?
-        /// The name of a new or existing CloudWatch Logs log group where Amazon EC2 publishes your flow logs. If you specify LogDestinationType as s3, do not specify  DeliverLogsPermissionArn or LogGroupName.
+        /// The name of a new or existing CloudWatch Logs log group where Amazon EC2 publishes your flow logs. This parameter is valid only if the destination type is cloud-watch-logs.
         public let logGroupName: String?
         /// The maximum interval of time during which a flow of packets is captured and aggregated into a flow log record. You can specify 60 seconds (1 minute) or 600 seconds (10 minutes). When a network interface is attached to a Nitro-based instance, the aggregation interval is always 60 seconds or less, regardless of the value that you specify. Default: 600
         public let maxAggregationInterval: Int?
-        /// The ID of the subnet, network interface, or VPC for which you want to create a flow log. Constraints: Maximum of 1000 resources
-        @CustomCoding<ArrayCoder<_ResourceIdsEncoding, String>>
-        public var resourceIds: [String]
-        /// The type of resource for which to create the flow log. For example, if you specified a VPC ID for  the ResourceId property, specify VPC for this property.
-        public let resourceType: FlowLogsResourceType
+        /// The IDs of the resources to monitor. For example, if the resource type is VPC, specify the IDs of the VPCs. Constraints: Maximum of 1000 resources
+        @OptionalCustomCoding<ArrayCoder<_ResourceIdsEncoding, String>>
+        public var resourceIds: [String]?
+        /// The type of resource to monitor.
+        public let resourceType: FlowLogsResourceType?
         /// The tags to apply to the flow logs.
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
-        /// The type of traffic to log. You can log traffic that the resource accepts or rejects, or all traffic.
+        /// The type of traffic to monitor (accepted traffic, rejected traffic, or all traffic).
         public let trafficType: TrafficType?
 
-        public init(clientToken: String? = nil, deliverLogsPermissionArn: String? = nil, destinationOptions: DestinationOptionsRequest? = nil, dryRun: Bool? = nil, logDestination: String? = nil, logDestinationType: LogDestinationType? = nil, logFormat: String? = nil, logGroupName: String? = nil, maxAggregationInterval: Int? = nil, resourceIds: [String], resourceType: FlowLogsResourceType, tagSpecifications: [TagSpecification]? = nil, trafficType: TrafficType? = nil) {
+        public init(clientToken: String? = nil, deliverCrossAccountRole: String? = nil, deliverLogsPermissionArn: String? = nil, destinationOptions: DestinationOptionsRequest? = nil, dryRun: Bool? = nil, logDestination: String? = nil, logDestinationType: LogDestinationType? = nil, logFormat: String? = nil, logGroupName: String? = nil, maxAggregationInterval: Int? = nil, resourceIds: [String]? = nil, resourceType: FlowLogsResourceType? = nil, tagSpecifications: [TagSpecification]? = nil, trafficType: TrafficType? = nil) {
             self.clientToken = clientToken
+            self.deliverCrossAccountRole = deliverCrossAccountRole
             self.deliverLogsPermissionArn = deliverLogsPermissionArn
             self.destinationOptions = destinationOptions
             self.dryRun = dryRun
@@ -8118,6 +8348,7 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "ClientToken"
+            case deliverCrossAccountRole = "DeliverCrossAccountRole"
             case deliverLogsPermissionArn = "DeliverLogsPermissionArn"
             case destinationOptions = "DestinationOptions"
             case dryRun = "DryRun"
@@ -8169,7 +8400,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The location of the encrypted design checkpoint in Amazon S3. The input must be a tarball.
-        public let inputStorageLocation: StorageLocation
+        public let inputStorageLocation: StorageLocation?
         /// The location in Amazon S3 for the output logs.
         public let logsStorageLocation: StorageLocation?
         /// A name for the AFI.
@@ -8178,7 +8409,7 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
-        public init(clientToken: String? = nil, description: String? = nil, dryRun: Bool? = nil, inputStorageLocation: StorageLocation, logsStorageLocation: StorageLocation? = nil, name: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
+        public init(clientToken: String? = nil, description: String? = nil, dryRun: Bool? = nil, inputStorageLocation: StorageLocation? = nil, logsStorageLocation: StorageLocation? = nil, name: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.dryRun = dryRun
@@ -8230,9 +8461,9 @@ extension EC2 {
         /// 			DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the instance.
-        public let instanceId: String
+        public let instanceId: String?
         /// A name for the new image. Constraints: 3-128 alphanumeric characters, parentheses (()), square brackets ([]), spaces ( ), periods (.), slashes (/), dashes (-), single quotes ('), at-signs (@), or underscores(_)
-        public let name: String
+        public let name: String?
         /// By default, when Amazon EC2 creates the new AMI, it reboots the instance so that it can
         /// 					take snapshots of the attached volumes while data is at rest, in order to ensure a consistent
         /// 					state. You can set the NoReboot parameter to true in the API request,
@@ -8247,7 +8478,7 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
-        public init(blockDeviceMappings: [BlockDeviceMapping]? = nil, description: String? = nil, dryRun: Bool? = nil, instanceId: String, name: String, noReboot: Bool? = nil, tagSpecifications: [TagSpecification]? = nil) {
+        public init(blockDeviceMappings: [BlockDeviceMapping]? = nil, description: String? = nil, dryRun: Bool? = nil, instanceId: String? = nil, name: String? = nil, noReboot: Bool? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.blockDeviceMappings = blockDeviceMappings
             self.description = description
             self.dryRun = dryRun
@@ -8339,16 +8570,16 @@ extension EC2 {
         /// A description for the conversion task or the resource being exported. The maximum length is 255 characters.
         public let description: String?
         /// The format and location for an export instance task.
-        public let exportToS3Task: ExportToS3TaskSpecification
+        public let exportToS3Task: ExportToS3TaskSpecification?
         /// The ID of the instance.
-        public let instanceId: String
+        public let instanceId: String?
         /// The tags to apply to the export instance task during creation.
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
         /// The target virtualization environment.
-        public let targetEnvironment: ExportEnvironment
+        public let targetEnvironment: ExportEnvironment?
 
-        public init(description: String? = nil, exportToS3Task: ExportToS3TaskSpecification, instanceId: String, tagSpecifications: [TagSpecification]? = nil, targetEnvironment: ExportEnvironment) {
+        public init(description: String? = nil, exportToS3Task: ExportToS3TaskSpecification? = nil, instanceId: String? = nil, tagSpecifications: [TagSpecification]? = nil, targetEnvironment: ExportEnvironment? = nil) {
             self.description = description
             self.exportToS3Task = exportToS3Task
             self.instanceId = instanceId
@@ -8416,7 +8647,7 @@ extension EC2 {
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
 
         /// The IP protocol assigned to this IPAM pool. You must choose either IPv4 or IPv6 protocol for a pool.
-        public let addressFamily: AddressFamily
+        public let addressFamily: AddressFamily?
         /// The default netmask length for allocations added to this pool. If, for example, the CIDR assigned to this pool is 10.0.0.0/8 and you enter 16 here,  new allocations will default to 10.0.0.0/16.
         public let allocationDefaultNetmaskLength: Int?
         /// The maximum netmask length possible for CIDR allocations in this IPAM pool to be compliant. The maximum netmask length must be  greater than the minimum netmask length. Possible netmask lengths for IPv4 addresses are 0 - 32. Possible netmask lengths for IPv6 addresses are  0 - 128.
@@ -8437,7 +8668,7 @@ extension EC2 {
         /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the scope in which you would like to create the IPAM pool.
-        public let ipamScopeId: String
+        public let ipamScopeId: String?
         /// In IPAM, the locale is the Amazon Web Services Region where you want to make an IPAM pool available for allocations. Only resources in the same Region as the locale of the pool can get IP address allocations from the pool. You can only allocate a CIDR for a VPC, for example, from an IPAM pool that shares a locale with the VPC’s Region. Note that once you choose a Locale for a pool, you cannot modify it. If you do not choose a locale, resources in Regions others than the IPAM's home region cannot use CIDRs from this pool. Possible values: Any Amazon Web Services Region, such as us-east-1.
         public let locale: String?
         /// Determines if the pool is publicly advertisable. This option is not available for pools with AddressFamily set to ipv4.
@@ -8448,7 +8679,7 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
-        public init(addressFamily: AddressFamily, allocationDefaultNetmaskLength: Int? = nil, allocationMaxNetmaskLength: Int? = nil, allocationMinNetmaskLength: Int? = nil, allocationResourceTags: [RequestIpamResourceTag]? = nil, autoImport: Bool? = nil, awsService: IpamPoolAwsService? = nil, clientToken: String? = CreateIpamPoolRequest.idempotencyToken(), description: String? = nil, dryRun: Bool? = nil, ipamScopeId: String, locale: String? = nil, publiclyAdvertisable: Bool? = nil, sourceIpamPoolId: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
+        public init(addressFamily: AddressFamily? = nil, allocationDefaultNetmaskLength: Int? = nil, allocationMaxNetmaskLength: Int? = nil, allocationMinNetmaskLength: Int? = nil, allocationResourceTags: [RequestIpamResourceTag]? = nil, autoImport: Bool? = nil, awsService: IpamPoolAwsService? = nil, clientToken: String? = CreateIpamPoolRequest.idempotencyToken(), description: String? = nil, dryRun: Bool? = nil, ipamScopeId: String? = nil, locale: String? = nil, publiclyAdvertisable: Bool? = nil, sourceIpamPoolId: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.addressFamily = addressFamily
             self.allocationDefaultNetmaskLength = allocationDefaultNetmaskLength
             self.allocationMaxNetmaskLength = allocationMaxNetmaskLength
@@ -8567,12 +8798,12 @@ extension EC2 {
         /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the IPAM for which you're creating this scope.
-        public let ipamId: String
+        public let ipamId: String?
         /// The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
-        public init(clientToken: String? = CreateIpamScopeRequest.idempotencyToken(), description: String? = nil, dryRun: Bool? = nil, ipamId: String, tagSpecifications: [TagSpecification]? = nil) {
+        public init(clientToken: String? = CreateIpamScopeRequest.idempotencyToken(), description: String? = nil, dryRun: Bool? = nil, ipamId: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.dryRun = dryRun
@@ -8611,14 +8842,14 @@ extension EC2 {
         public let keyFormat: KeyFormat?
         /// A unique name for the key pair.
         /// 	        Constraints: Up to 255 ASCII characters
-        public let keyName: String
+        public let keyName: String?
         /// The type of key pair. Note that ED25519 keys are not supported for Windows instances. Default: rsa
         public let keyType: KeyType?
         /// The tags to apply to the new key pair.
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
-        public init(dryRun: Bool? = nil, keyFormat: KeyFormat? = nil, keyName: String, keyType: KeyType? = nil, tagSpecifications: [TagSpecification]? = nil) {
+        public init(dryRun: Bool? = nil, keyFormat: KeyFormat? = nil, keyName: String? = nil, keyType: KeyType? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.dryRun = dryRun
             self.keyFormat = keyFormat
             self.keyName = keyName
@@ -8643,16 +8874,16 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The information for the launch template.
-        public let launchTemplateData: RequestLaunchTemplateData
+        public let launchTemplateData: RequestLaunchTemplateData?
         /// A name for the launch template.
-        public let launchTemplateName: String
+        public let launchTemplateName: String?
         /// The tags to apply to the launch template on creation. To tag the launch template, the resource type must be launch-template.  To specify the tags for the resources that are created when an instance is launched, you must use the TagSpecifications parameter in the  launch template data structure.
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
         /// A description for the first version of the launch template.
         public let versionDescription: String?
 
-        public init(clientToken: String? = nil, dryRun: Bool? = nil, launchTemplateData: RequestLaunchTemplateData, launchTemplateName: String, tagSpecifications: [TagSpecification]? = nil, versionDescription: String? = nil) {
+        public init(clientToken: String? = nil, dryRun: Bool? = nil, launchTemplateData: RequestLaunchTemplateData? = nil, launchTemplateName: String? = nil, tagSpecifications: [TagSpecification]? = nil, versionDescription: String? = nil) {
             self.clientToken = clientToken
             self.dryRun = dryRun
             self.launchTemplateData = launchTemplateData
@@ -8662,7 +8893,7 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.launchTemplateData.validate(name: "\(name).launchTemplateData")
+            try self.launchTemplateData?.validate(name: "\(name).launchTemplateData")
             try self.validate(self.launchTemplateName, name: "launchTemplateName", parent: name, max: 128)
             try self.validate(self.launchTemplateName, name: "launchTemplateName", parent: name, min: 3)
             try self.validate(self.launchTemplateName, name: "launchTemplateName", parent: name, pattern: "^[a-zA-Z0-9\\(\\)\\.\\-/_]+$")
@@ -8702,7 +8933,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The information for the launch template.
-        public let launchTemplateData: RequestLaunchTemplateData
+        public let launchTemplateData: RequestLaunchTemplateData?
         /// The ID of the launch template. You must specify either the LaunchTemplateId or the LaunchTemplateName, but not both.
         public let launchTemplateId: String?
         /// The name of the launch template. You must specify the LaunchTemplateName or the LaunchTemplateId, but not both.
@@ -8712,7 +8943,7 @@ extension EC2 {
         /// A description for the version of the launch template.
         public let versionDescription: String?
 
-        public init(clientToken: String? = nil, dryRun: Bool? = nil, launchTemplateData: RequestLaunchTemplateData, launchTemplateId: String? = nil, launchTemplateName: String? = nil, sourceVersion: String? = nil, versionDescription: String? = nil) {
+        public init(clientToken: String? = nil, dryRun: Bool? = nil, launchTemplateData: RequestLaunchTemplateData? = nil, launchTemplateId: String? = nil, launchTemplateName: String? = nil, sourceVersion: String? = nil, versionDescription: String? = nil) {
             self.clientToken = clientToken
             self.dryRun = dryRun
             self.launchTemplateData = launchTemplateData
@@ -8723,7 +8954,7 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.launchTemplateData.validate(name: "\(name).launchTemplateData")
+            try self.launchTemplateData?.validate(name: "\(name).launchTemplateData")
             try self.validate(self.launchTemplateName, name: "launchTemplateName", parent: name, max: 128)
             try self.validate(self.launchTemplateName, name: "launchTemplateName", parent: name, min: 3)
             try self.validate(self.launchTemplateName, name: "launchTemplateName", parent: name, pattern: "^[a-zA-Z0-9\\(\\)\\.\\-/_]+$")
@@ -8760,19 +8991,22 @@ extension EC2 {
 
     public struct CreateLocalGatewayRouteRequest: AWSEncodableShape {
         /// The CIDR range used for destination matches. Routing decisions are based on  the most specific match.
-        public let destinationCidrBlock: String
+        public let destinationCidrBlock: String?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the local gateway route table.
-        public let localGatewayRouteTableId: String
+        public let localGatewayRouteTableId: String?
         /// The ID of the virtual interface group.
-        public let localGatewayVirtualInterfaceGroupId: String
+        public let localGatewayVirtualInterfaceGroupId: String?
+        /// The ID of the network interface.
+        public let networkInterfaceId: String?
 
-        public init(destinationCidrBlock: String, dryRun: Bool? = nil, localGatewayRouteTableId: String, localGatewayVirtualInterfaceGroupId: String) {
+        public init(destinationCidrBlock: String? = nil, dryRun: Bool? = nil, localGatewayRouteTableId: String? = nil, localGatewayVirtualInterfaceGroupId: String? = nil, networkInterfaceId: String? = nil) {
             self.destinationCidrBlock = destinationCidrBlock
             self.dryRun = dryRun
             self.localGatewayRouteTableId = localGatewayRouteTableId
             self.localGatewayVirtualInterfaceGroupId = localGatewayVirtualInterfaceGroupId
+            self.networkInterfaceId = networkInterfaceId
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8780,6 +9014,7 @@ extension EC2 {
             case dryRun = "DryRun"
             case localGatewayRouteTableId = "LocalGatewayRouteTableId"
             case localGatewayVirtualInterfaceGroupId = "LocalGatewayVirtualInterfaceGroupId"
+            case networkInterfaceId = "NetworkInterfaceId"
         }
     }
 
@@ -8796,20 +9031,100 @@ extension EC2 {
         }
     }
 
+    public struct CreateLocalGatewayRouteTableRequest: AWSEncodableShape {
+        public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        ///  The ID of the local gateway.
+        public let localGatewayId: String?
+        ///  The mode of the local gateway route table.
+        public let mode: LocalGatewayRouteTableMode?
+        ///  The tags assigned to the local gateway route table.
+        @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
+        public var tagSpecifications: [TagSpecification]?
+
+        public init(dryRun: Bool? = nil, localGatewayId: String? = nil, mode: LocalGatewayRouteTableMode? = nil, tagSpecifications: [TagSpecification]? = nil) {
+            self.dryRun = dryRun
+            self.localGatewayId = localGatewayId
+            self.mode = mode
+            self.tagSpecifications = tagSpecifications
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case localGatewayId = "LocalGatewayId"
+            case mode = "Mode"
+            case tagSpecifications = "TagSpecification"
+        }
+    }
+
+    public struct CreateLocalGatewayRouteTableResult: AWSDecodableShape {
+        public let localGatewayRouteTable: LocalGatewayRouteTable?
+
+        public init(localGatewayRouteTable: LocalGatewayRouteTable? = nil) {
+            self.localGatewayRouteTable = localGatewayRouteTable
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case localGatewayRouteTable
+        }
+    }
+
+    public struct CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationRequest: AWSEncodableShape {
+        public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        ///  The ID of the local gateway route table.
+        public let localGatewayRouteTableId: String?
+        ///  The ID of the local gateway route table virtual interface group association.
+        public let localGatewayVirtualInterfaceGroupId: String?
+        ///  The tags assigned to the local gateway route table virtual interface group association.
+        @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
+        public var tagSpecifications: [TagSpecification]?
+
+        public init(dryRun: Bool? = nil, localGatewayRouteTableId: String? = nil, localGatewayVirtualInterfaceGroupId: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
+            self.dryRun = dryRun
+            self.localGatewayRouteTableId = localGatewayRouteTableId
+            self.localGatewayVirtualInterfaceGroupId = localGatewayVirtualInterfaceGroupId
+            self.tagSpecifications = tagSpecifications
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case localGatewayRouteTableId = "LocalGatewayRouteTableId"
+            case localGatewayVirtualInterfaceGroupId = "LocalGatewayVirtualInterfaceGroupId"
+            case tagSpecifications = "TagSpecification"
+        }
+    }
+
+    public struct CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationResult: AWSDecodableShape {
+        public let localGatewayRouteTableVirtualInterfaceGroupAssociation: LocalGatewayRouteTableVirtualInterfaceGroupAssociation?
+
+        public init(localGatewayRouteTableVirtualInterfaceGroupAssociation: LocalGatewayRouteTableVirtualInterfaceGroupAssociation? = nil) {
+            self.localGatewayRouteTableVirtualInterfaceGroupAssociation = localGatewayRouteTableVirtualInterfaceGroupAssociation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case localGatewayRouteTableVirtualInterfaceGroupAssociation
+        }
+    }
+
     public struct CreateLocalGatewayRouteTableVpcAssociationRequest: AWSEncodableShape {
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the local gateway route table.
-        public let localGatewayRouteTableId: String
+        public let localGatewayRouteTableId: String?
         /// The tags to assign to the local gateway route table VPC association.
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
         /// The ID of the VPC.
-        public let vpcId: String
+        public let vpcId: String?
 
-        public init(dryRun: Bool? = nil, localGatewayRouteTableId: String, tagSpecifications: [TagSpecification]? = nil, vpcId: String) {
+        public init(dryRun: Bool? = nil, localGatewayRouteTableId: String? = nil, tagSpecifications: [TagSpecification]? = nil, vpcId: String? = nil) {
             self.dryRun = dryRun
             self.localGatewayRouteTableId = localGatewayRouteTableId
             self.tagSpecifications = tagSpecifications
@@ -8841,7 +9156,7 @@ extension EC2 {
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
 
         /// The IP address type. Valid Values: IPv4 | IPv6
-        public let addressFamily: String
+        public let addressFamily: String?
         /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request. For more information, see Ensuring Idempotency. Constraints: Up to 255 UTF-8 characters in length.
         public let clientToken: String?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
@@ -8850,14 +9165,14 @@ extension EC2 {
         @OptionalCustomCoding<StandardArrayCoder>
         public var entries: [AddPrefixListEntry]?
         /// The maximum number of entries for the prefix list.
-        public let maxEntries: Int
+        public let maxEntries: Int?
         /// A name for the prefix list. Constraints: Up to 255 characters in length. The name cannot start with com.amazonaws.
-        public let prefixListName: String
+        public let prefixListName: String?
         /// The tags to apply to the prefix list during creation.
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
-        public init(addressFamily: String, clientToken: String? = CreateManagedPrefixListRequest.idempotencyToken(), dryRun: Bool? = nil, entries: [AddPrefixListEntry]? = nil, maxEntries: Int, prefixListName: String, tagSpecifications: [TagSpecification]? = nil) {
+        public init(addressFamily: String? = nil, clientToken: String? = CreateManagedPrefixListRequest.idempotencyToken(), dryRun: Bool? = nil, entries: [AddPrefixListEntry]? = nil, maxEntries: Int? = nil, prefixListName: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.addressFamily = addressFamily
             self.clientToken = clientToken
             self.dryRun = dryRun
@@ -8909,12 +9224,12 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The subnet in which to create the NAT gateway.
-        public let subnetId: String
+        public let subnetId: String?
         /// The tags to assign to the NAT gateway.
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
-        public init(allocationId: String? = nil, clientToken: String? = CreateNatGatewayRequest.idempotencyToken(), connectivityType: ConnectivityType? = nil, dryRun: Bool? = nil, subnetId: String, tagSpecifications: [TagSpecification]? = nil) {
+        public init(allocationId: String? = nil, clientToken: String? = CreateNatGatewayRequest.idempotencyToken(), connectivityType: ConnectivityType? = nil, dryRun: Bool? = nil, subnetId: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.allocationId = allocationId
             self.clientToken = clientToken
             self.connectivityType = connectivityType
@@ -8957,14 +9272,14 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// Indicates whether this is an egress rule (rule is applied to traffic leaving the subnet).
-        public let egress: Bool
+        public let egress: Bool?
         /// ICMP protocol: The ICMP or ICMPv6 type and code. Required if specifying protocol
         /// 		        1 (ICMP) or protocol 58 (ICMPv6) with an IPv6 CIDR block.
         public let icmpTypeCode: IcmpTypeCode?
         /// The IPv6 network range to allow or deny, in CIDR notation (for example 2001:db8:1234:1a00::/64).
         public let ipv6CidrBlock: String?
         /// The ID of the network ACL.
-        public let networkAclId: String
+        public let networkAclId: String?
         /// TCP or UDP protocols: The range of ports the rule applies to.
         /// 		        Required if specifying protocol 6 (TCP) or 17 (UDP).
         public let portRange: PortRange?
@@ -8973,13 +9288,13 @@ extension EC2 {
         /// 			protocol "58" (ICMPv6) and specify an IPv4 CIDR block, traffic for all ICMP types and
         /// 			codes allowed, regardless of any that you specify. If you specify protocol "58" (ICMPv6)
         /// 			and specify an IPv6 CIDR block, you must specify an ICMP type and code.
-        public let `protocol`: String
+        public let `protocol`: String?
         /// Indicates whether to allow or deny the traffic that matches the rule.
-        public let ruleAction: RuleAction
+        public let ruleAction: RuleAction?
         /// The rule number for the entry (for example, 100). ACL entries are processed in ascending order by rule number. Constraints: Positive integer from 1 to 32766. The range 32767 to 65535 is reserved for internal use.
-        public let ruleNumber: Int
+        public let ruleNumber: Int?
 
-        public init(cidrBlock: String? = nil, dryRun: Bool? = nil, egress: Bool, icmpTypeCode: IcmpTypeCode? = nil, ipv6CidrBlock: String? = nil, networkAclId: String, portRange: PortRange? = nil, protocol: String, ruleAction: RuleAction, ruleNumber: Int) {
+        public init(cidrBlock: String? = nil, dryRun: Bool? = nil, egress: Bool? = nil, icmpTypeCode: IcmpTypeCode? = nil, ipv6CidrBlock: String? = nil, networkAclId: String? = nil, portRange: PortRange? = nil, protocol: String? = nil, ruleAction: RuleAction? = nil, ruleNumber: Int? = nil) {
             self.cidrBlock = cidrBlock
             self.dryRun = dryRun
             self.egress = egress
@@ -9015,9 +9330,9 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
         /// The ID of the VPC.
-        public let vpcId: String
+        public let vpcId: String?
 
-        public init(dryRun: Bool? = nil, tagSpecifications: [TagSpecification]? = nil, vpcId: String) {
+        public init(dryRun: Bool? = nil, tagSpecifications: [TagSpecification]? = nil, vpcId: String? = nil) {
             self.dryRun = dryRun
             self.tagSpecifications = tagSpecifications
             self.vpcId = vpcId
@@ -9049,7 +9364,7 @@ extension EC2 {
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information,  see How to ensure idempotency.
-        public let clientToken: String
+        public let clientToken: String?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The paths to exclude.
@@ -9062,7 +9377,7 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
-        public init(clientToken: String = CreateNetworkInsightsAccessScopeRequest.idempotencyToken(), dryRun: Bool? = nil, excludePaths: [AccessScopePathRequest]? = nil, matchPaths: [AccessScopePathRequest]? = nil, tagSpecifications: [TagSpecification]? = nil) {
+        public init(clientToken: String? = nil, dryRun: Bool? = nil, excludePaths: [AccessScopePathRequest]? = nil, matchPaths: [AccessScopePathRequest]? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.clientToken = clientToken
             self.dryRun = dryRun
             self.excludePaths = excludePaths
@@ -9100,9 +9415,9 @@ extension EC2 {
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information,  see How to ensure idempotency.
-        public let clientToken: String
+        public let clientToken: String?
         /// The Amazon Web Services resource that is the destination of the path.
-        public let destination: String
+        public let destination: String?
         /// The IP address of the Amazon Web Services resource that is the destination of the path.
         public let destinationIp: String?
         /// The destination port.
@@ -9110,16 +9425,16 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The protocol.
-        public let `protocol`: `Protocol`
+        public let `protocol`: `Protocol`?
         /// The Amazon Web Services resource that is the source of the path.
-        public let source: String
+        public let source: String?
         /// The IP address of the Amazon Web Services resource that is the source of the path.
         public let sourceIp: String?
         /// The tags to add to the path.
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
-        public init(clientToken: String = CreateNetworkInsightsPathRequest.idempotencyToken(), destination: String, destinationIp: String? = nil, destinationPort: Int? = nil, dryRun: Bool? = nil, protocol: `Protocol`, source: String, sourceIp: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
+        public init(clientToken: String? = nil, destination: String? = nil, destinationIp: String? = nil, destinationPort: Int? = nil, dryRun: Bool? = nil, protocol: `Protocol`? = nil, source: String? = nil, sourceIp: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.clientToken = clientToken
             self.destination = destination
             self.destinationIp = destinationIp
@@ -9135,7 +9450,7 @@ extension EC2 {
             try self.validate(self.destinationIp, name: "destinationIp", parent: name, max: 15)
             try self.validate(self.destinationIp, name: "destinationIp", parent: name, pattern: "^([0-9]{1,3}.){3}[0-9]{1,3}$")
             try self.validate(self.destinationPort, name: "destinationPort", parent: name, max: 65535)
-            try self.validate(self.destinationPort, name: "destinationPort", parent: name, min: 1)
+            try self.validate(self.destinationPort, name: "destinationPort", parent: name, min: 0)
             try self.validate(self.sourceIp, name: "sourceIp", parent: name, max: 15)
             try self.validate(self.sourceIp, name: "sourceIp", parent: name, pattern: "^([0-9]{1,3}.){3}[0-9]{1,3}$")
         }
@@ -9176,11 +9491,11 @@ extension EC2 {
         /// 			Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the network interface.
-        public let networkInterfaceId: String
+        public let networkInterfaceId: String?
         /// The type of permission to grant.
-        public let permission: InterfacePermissionType
+        public let permission: InterfacePermissionType?
 
-        public init(awsAccountId: String? = nil, awsService: String? = nil, dryRun: Bool? = nil, networkInterfaceId: String, permission: InterfacePermissionType) {
+        public init(awsAccountId: String? = nil, awsService: String? = nil, dryRun: Bool? = nil, networkInterfaceId: String? = nil, permission: InterfacePermissionType? = nil) {
             self.awsAccountId = awsAccountId
             self.awsService = awsService
             self.dryRun = dryRun
@@ -9227,38 +9542,37 @@ extension EC2 {
         /// The IDs of one or more security groups.
         @OptionalCustomCoding<ArrayCoder<_GroupsEncoding, String>>
         public var groups: [String]?
-        /// The type of network interface. The default is interface.
-        /// 	        The only supported values are efa and trunk.
+        /// The type of network interface. The default is interface. The only supported values are efa and trunk.
         public let interfaceType: NetworkInterfaceCreationType?
-        /// The number of IPv4 prefixes that Amazon Web Services automatically assigns to the network interface. You cannot use this option if you use the Ipv4 Prefixes option.
+        /// The number of IPv4 prefixes that Amazon Web Services automatically assigns to the network interface.  You can't specify a count of IPv4 prefixes if you've specified one of the following: specific IPv4 prefixes, specific private IPv4 addresses, or a count of private IPv4 addresses.
         public let ipv4PrefixCount: Int?
-        /// One or more IPv4 prefixes assigned to the network interface. You cannot use this option if you use the Ipv4PrefixCount option.
+        /// The IPv4 prefixes assigned to the network interface. You can't specify IPv4 prefixes if you've specified one of the following: a count of IPv4 prefixes, specific private IPv4 addresses, or a count of private IPv4 addresses.
         @OptionalCustomCoding<ArrayCoder<_Ipv4PrefixesEncoding, Ipv4PrefixSpecificationRequest>>
         public var ipv4Prefixes: [Ipv4PrefixSpecificationRequest]?
-        /// The number of IPv6 addresses to assign to a network interface. Amazon EC2 automatically selects the IPv6 addresses from the subnet range. You can't use this option if specifying specific IPv6 addresses. If your subnet has the AssignIpv6AddressOnCreation attribute set to true, you can specify 0 to override this setting.
+        /// The number of IPv6 addresses to assign to a network interface. Amazon EC2 automatically selects the IPv6 addresses from the subnet range.  You can't specify a count of IPv6 addresses using this parameter if you've specified  one of the following: specific IPv6 addresses, specific IPv6 prefixes, or a count of IPv6 prefixes. If your subnet has the AssignIpv6AddressOnCreation attribute set, you can override that setting by specifying 0 as the IPv6 address count.
         public let ipv6AddressCount: Int?
-        /// One or more specific IPv6 addresses from the IPv6 CIDR block range of your subnet. You can't use this option if you're specifying a number of IPv6 addresses.
+        /// The IPv6 addresses from the IPv6 CIDR block range of your subnet.  You can't specify IPv6 addresses using this parameter if you've specified one of the  following: a count of IPv6 addresses, specific IPv6 prefixes, or a count of IPv6 prefixes.
         @OptionalCustomCoding<ArrayCoder<_Ipv6AddressesEncoding, InstanceIpv6Address>>
         public var ipv6Addresses: [InstanceIpv6Address]?
-        /// The number of IPv6 prefixes that Amazon Web Services automatically assigns to the network interface. You cannot use this option if you use the Ipv6Prefixes option.
+        /// The number of IPv6 prefixes that Amazon Web Services automatically assigns to the network interface.  You can't specify a count of IPv6 prefixes if you've specified one of the following: specific IPv6 prefixes, specific IPv6 addresses, or a count of IPv6 addresses.
         public let ipv6PrefixCount: Int?
-        /// One or more IPv6 prefixes assigned to the network interface. You cannot use this option if you use the Ipv6PrefixCount option.
+        /// The IPv6 prefixes assigned to the network interface. You can't specify IPv6 prefixes if you've specified one of the following: a count of IPv6 prefixes, specific IPv6 addresses, or a count of IPv6 addresses.
         @OptionalCustomCoding<ArrayCoder<_Ipv6PrefixesEncoding, Ipv6PrefixSpecificationRequest>>
         public var ipv6Prefixes: [Ipv6PrefixSpecificationRequest]?
         /// The primary private IPv4 address of the network interface. If you don't specify an IPv4 address, Amazon EC2 selects one for you from the subnet's IPv4 CIDR range. If you specify an IP address, you cannot indicate any IP addresses specified in privateIpAddresses as primary (only one IP address can be designated as primary).
         public let privateIpAddress: String?
-        /// One or more private IPv4 addresses.
+        /// The private IPv4 addresses. You can't specify private IPv4 addresses if you've specified one of the following: a count of private IPv4 addresses, specific IPv4 prefixes, or a count of IPv4 prefixes.
         @OptionalCustomCoding<ArrayCoder<_PrivateIpAddressesEncoding, PrivateIpAddressSpecification>>
         public var privateIpAddresses: [PrivateIpAddressSpecification]?
-        /// The number of secondary private IPv4 addresses to assign to a network interface. When you specify a number of secondary IPv4 addresses, Amazon EC2 selects these IP addresses within the subnet's IPv4 CIDR range. You can't specify this option and specify more than one private IP address using privateIpAddresses. The number of IP addresses you can assign to a network interface varies by instance type. For more information, see IP Addresses Per ENI Per Instance Type in the Amazon Virtual Private Cloud User Guide.
+        /// The number of secondary private IPv4 addresses to assign to a network interface. When you specify a number of secondary IPv4 addresses, Amazon EC2 selects these IP addresses within the subnet's IPv4 CIDR range. You can't specify this option and specify more than one private IP address using privateIpAddresses. You can't specify a count of private IPv4 addresses if you've specified one of the following: specific private IPv4 addresses, specific IPv4 prefixes, or a count of IPv4 prefixes.
         public let secondaryPrivateIpAddressCount: Int?
         /// The ID of the subnet to associate with the network interface.
-        public let subnetId: String
+        public let subnetId: String?
         /// The tags to apply to the new network interface.
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
-        public init(clientToken: String? = CreateNetworkInterfaceRequest.idempotencyToken(), description: String? = nil, dryRun: Bool? = nil, groups: [String]? = nil, interfaceType: NetworkInterfaceCreationType? = nil, ipv4PrefixCount: Int? = nil, ipv4Prefixes: [Ipv4PrefixSpecificationRequest]? = nil, ipv6AddressCount: Int? = nil, ipv6Addresses: [InstanceIpv6Address]? = nil, ipv6PrefixCount: Int? = nil, ipv6Prefixes: [Ipv6PrefixSpecificationRequest]? = nil, privateIpAddress: String? = nil, privateIpAddresses: [PrivateIpAddressSpecification]? = nil, secondaryPrivateIpAddressCount: Int? = nil, subnetId: String, tagSpecifications: [TagSpecification]? = nil) {
+        public init(clientToken: String? = CreateNetworkInterfaceRequest.idempotencyToken(), description: String? = nil, dryRun: Bool? = nil, groups: [String]? = nil, interfaceType: NetworkInterfaceCreationType? = nil, ipv4PrefixCount: Int? = nil, ipv4Prefixes: [Ipv4PrefixSpecificationRequest]? = nil, ipv6AddressCount: Int? = nil, ipv6Addresses: [InstanceIpv6Address]? = nil, ipv6PrefixCount: Int? = nil, ipv6Prefixes: [Ipv6PrefixSpecificationRequest]? = nil, privateIpAddress: String? = nil, privateIpAddresses: [PrivateIpAddressSpecification]? = nil, secondaryPrivateIpAddressCount: Int? = nil, subnetId: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.dryRun = dryRun
@@ -9403,14 +9717,14 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the instance for which to replace the root volume.
-        public let instanceId: String
+        public let instanceId: String?
         /// The ID of the snapshot from which to restore the replacement root volume. If you want to  restore the volume to the initial launch state, omit this parameter.
         public let snapshotId: String?
         /// The tags to apply to the root volume replacement task.
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
-        public init(clientToken: String? = CreateReplaceRootVolumeTaskRequest.idempotencyToken(), dryRun: Bool? = nil, instanceId: String, snapshotId: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
+        public init(clientToken: String? = CreateReplaceRootVolumeTaskRequest.idempotencyToken(), dryRun: Bool? = nil, instanceId: String? = nil, snapshotId: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.clientToken = clientToken
             self.dryRun = dryRun
             self.instanceId = instanceId
@@ -9446,16 +9760,16 @@ extension EC2 {
         /// Unique, case-sensitive identifier you provide to ensure idempotency of your
         /// 				listings. This helps avoid duplicate listings. For more information, see
         /// 				Ensuring Idempotency.
-        public let clientToken: String
+        public let clientToken: String?
         /// The number of instances that are a part of a Reserved Instance account to be listed in the Reserved Instance Marketplace. This number should be less than or equal to the instance count associated with the Reserved Instance ID specified in this call.
-        public let instanceCount: Int
+        public let instanceCount: Int?
         /// A list specifying the price of the Standard Reserved Instance for each month remaining in the Reserved Instance term.
-        @CustomCoding<ArrayCoder<_PriceSchedulesEncoding, PriceScheduleSpecification>>
-        public var priceSchedules: [PriceScheduleSpecification]
+        @OptionalCustomCoding<ArrayCoder<_PriceSchedulesEncoding, PriceScheduleSpecification>>
+        public var priceSchedules: [PriceScheduleSpecification]?
         /// The ID of the active Standard Reserved Instance.
-        public let reservedInstancesId: String
+        public let reservedInstancesId: String?
 
-        public init(clientToken: String, instanceCount: Int, priceSchedules: [PriceScheduleSpecification], reservedInstancesId: String) {
+        public init(clientToken: String? = nil, instanceCount: Int? = nil, priceSchedules: [PriceScheduleSpecification]? = nil, reservedInstancesId: String? = nil) {
             self.clientToken = clientToken
             self.instanceCount = instanceCount
             self.priceSchedules = priceSchedules
@@ -9490,7 +9804,7 @@ extension EC2 {
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
 
         /// The name of the Amazon S3 bucket that contains the stored AMI object.
-        public let bucket: String
+        public let bucket: String?
         /// Checks whether you have the required permissions for the action, without actually making the request,
         /// 			and provides an error response. If you have the required permissions, the error response is
         /// 			DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -9498,12 +9812,12 @@ extension EC2 {
         /// The name for the restored AMI. The name must be unique for AMIs in the Region for this account. If you do not provide a name, the new AMI gets the same name as the original AMI.
         public let name: String?
         /// The name of the stored AMI object in the bucket.
-        public let objectKey: String
+        public let objectKey: String?
         /// The tags to apply to the AMI and snapshots on restoration. You can tag the AMI, the snapshots, or both.   To tag the AMI, the value for ResourceType must be image.   To tag the snapshots, the value for ResourceType must be snapshot. The same tag is applied to all of the snapshots that are created.
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
-        public init(bucket: String, dryRun: Bool? = nil, name: String? = nil, objectKey: String, tagSpecifications: [TagSpecification]? = nil) {
+        public init(bucket: String? = nil, dryRun: Bool? = nil, name: String? = nil, objectKey: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.bucket = bucket
             self.dryRun = dryRun
             self.name = name
@@ -9560,7 +9874,7 @@ extension EC2 {
         /// The ID of a network interface.
         public let networkInterfaceId: String?
         /// The ID of the route table for the route.
-        public let routeTableId: String
+        public let routeTableId: String?
         /// The ID of a transit gateway.
         public let transitGatewayId: String?
         /// The ID of a VPC endpoint. Supported for Gateway Load Balancer endpoints only.
@@ -9568,7 +9882,7 @@ extension EC2 {
         /// The ID of a VPC peering connection.
         public let vpcPeeringConnectionId: String?
 
-        public init(carrierGatewayId: String? = nil, coreNetworkArn: String? = nil, destinationCidrBlock: String? = nil, destinationIpv6CidrBlock: String? = nil, destinationPrefixListId: String? = nil, dryRun: Bool? = nil, egressOnlyInternetGatewayId: String? = nil, gatewayId: String? = nil, instanceId: String? = nil, localGatewayId: String? = nil, natGatewayId: String? = nil, networkInterfaceId: String? = nil, routeTableId: String, transitGatewayId: String? = nil, vpcEndpointId: String? = nil, vpcPeeringConnectionId: String? = nil) {
+        public init(carrierGatewayId: String? = nil, coreNetworkArn: String? = nil, destinationCidrBlock: String? = nil, destinationIpv6CidrBlock: String? = nil, destinationPrefixListId: String? = nil, dryRun: Bool? = nil, egressOnlyInternetGatewayId: String? = nil, gatewayId: String? = nil, instanceId: String? = nil, localGatewayId: String? = nil, natGatewayId: String? = nil, networkInterfaceId: String? = nil, routeTableId: String? = nil, transitGatewayId: String? = nil, vpcEndpointId: String? = nil, vpcPeeringConnectionId: String? = nil) {
             self.carrierGatewayId = carrierGatewayId
             self.coreNetworkArn = coreNetworkArn
             self.destinationCidrBlock = destinationCidrBlock
@@ -9629,9 +9943,9 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
         /// The ID of the VPC.
-        public let vpcId: String
+        public let vpcId: String?
 
-        public init(dryRun: Bool? = nil, tagSpecifications: [TagSpecification]? = nil, vpcId: String) {
+        public init(dryRun: Bool? = nil, tagSpecifications: [TagSpecification]? = nil, vpcId: String? = nil) {
             self.dryRun = dryRun
             self.tagSpecifications = tagSpecifications
             self.vpcId = vpcId
@@ -9664,18 +9978,18 @@ extension EC2 {
         /// 		       Constraints: Up to 255 characters in length
         /// 		       Constraints for EC2-Classic: ASCII characters
         /// 		       Constraints for EC2-VPC: a-z, A-Z, 0-9, spaces, and ._-:/()#,@[]+=&;{}!$*
-        public let description: String
+        public let description: String?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The name of the security group. Constraints: Up to 255 characters in length. Cannot start with sg-. Constraints for EC2-Classic: ASCII characters Constraints for EC2-VPC: a-z, A-Z, 0-9, spaces, and ._-:/()#,@[]+=&;{}!$*
-        public let groupName: String
+        public let groupName: String?
         /// The tags to assign to the security group.
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
         /// [EC2-VPC] The ID of the VPC. Required for EC2-VPC.
         public let vpcId: String?
 
-        public init(description: String, dryRun: Bool? = nil, groupName: String, tagSpecifications: [TagSpecification]? = nil, vpcId: String? = nil) {
+        public init(description: String? = nil, dryRun: Bool? = nil, groupName: String? = nil, tagSpecifications: [TagSpecification]? = nil, vpcId: String? = nil) {
             self.description = description
             self.dryRun = dryRun
             self.groupName = groupName
@@ -9725,9 +10039,9 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
         /// The ID of the Amazon EBS volume.
-        public let volumeId: String
+        public let volumeId: String?
 
-        public init(description: String? = nil, dryRun: Bool? = nil, outpostArn: String? = nil, tagSpecifications: [TagSpecification]? = nil, volumeId: String) {
+        public init(description: String? = nil, dryRun: Bool? = nil, outpostArn: String? = nil, tagSpecifications: [TagSpecification]? = nil, volumeId: String? = nil) {
             self.description = description
             self.dryRun = dryRun
             self.outpostArn = outpostArn
@@ -9754,14 +10068,14 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The instance to specify which volumes should be included in the snapshots.
-        public let instanceSpecification: InstanceSpecification
+        public let instanceSpecification: InstanceSpecification?
         /// The Amazon Resource Name (ARN) of the Outpost on which to create the local   		snapshots. 	        			          To create snapshots from an instance in a Region, omit this parameter. The  				snapshots are created in the same Region as the instance. 		          			          To create snapshots from an instance on an Outpost and store the snapshots  				in the Region, omit this parameter. The snapshots are created in the Region  				for the Outpost. 		          			          To create snapshots from an instance on an Outpost and store the snapshots  				on an Outpost, specify the ARN of the destination Outpost. The snapshots must  				be created on the same Outpost as the instance. 		          	      For more information, see  		Create multi-volume local snapshots from instances on an Outpost in the  		Amazon Elastic Compute Cloud User Guide.
         public let outpostArn: String?
         /// Tags to apply to every snapshot specified by the instance.
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
-        public init(copyTagsFromSource: CopyTagsFromSource? = nil, description: String? = nil, dryRun: Bool? = nil, instanceSpecification: InstanceSpecification, outpostArn: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
+        public init(copyTagsFromSource: CopyTagsFromSource? = nil, description: String? = nil, dryRun: Bool? = nil, instanceSpecification: InstanceSpecification? = nil, outpostArn: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.copyTagsFromSource = copyTagsFromSource
             self.description = description
             self.dryRun = dryRun
@@ -9798,13 +10112,13 @@ extension EC2 {
 
     public struct CreateSpotDatafeedSubscriptionRequest: AWSEncodableShape {
         /// The name of the Amazon S3 bucket in which to store the Spot Instance data feed. For more information about bucket names, see Rules for bucket naming in the Amazon S3 Developer Guide.
-        public let bucket: String
+        public let bucket: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The prefix for the data feed file names.
         public let prefix: String?
 
-        public init(bucket: String, dryRun: Bool? = nil, prefix: String? = nil) {
+        public init(bucket: String? = nil, dryRun: Bool? = nil, prefix: String? = nil) {
             self.bucket = bucket
             self.dryRun = dryRun
             self.prefix = prefix
@@ -9834,18 +10148,18 @@ extension EC2 {
         public struct _S3ObjectTagsEncoding: ArrayCoderProperties { public static let member = "item" }
 
         /// The name of the Amazon S3 bucket in which the AMI object will be stored. The bucket must be in the Region in which the request is being made. The AMI object appears in the bucket only after the upload task has completed.
-        public let bucket: String
+        public let bucket: String?
         /// Checks whether you have the required permissions for the action, without actually making the request,
         /// 			and provides an error response. If you have the required permissions, the error response is
         /// 			DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the AMI.
-        public let imageId: String
+        public let imageId: String?
         /// The tags to apply to the AMI object that will be stored in the Amazon S3 bucket.
         @OptionalCustomCoding<ArrayCoder<_S3ObjectTagsEncoding, S3ObjectTag>>
         public var s3ObjectTags: [S3ObjectTag]?
 
-        public init(bucket: String, dryRun: Bool? = nil, imageId: String, s3ObjectTags: [S3ObjectTag]? = nil) {
+        public init(bucket: String? = nil, dryRun: Bool? = nil, imageId: String? = nil, s3ObjectTags: [S3ObjectTag]? = nil) {
             self.bucket = bucket
             self.dryRun = dryRun
             self.imageId = imageId
@@ -9877,20 +10191,20 @@ extension EC2 {
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
 
         /// The IPv4 or IPV6 CIDR range to reserve.
-        public let cidr: String
+        public let cidr: String?
         /// The description to assign to the subnet CIDR reservation.
         public let description: String?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The type of reservation. The following are valid values:    prefix: The Amazon EC2 Prefix Delegation feature assigns the IP addresses to network interfaces that are associated with an instance. For information about Prefix Delegation, see Prefix Delegation for Amazon EC2 network interfaces in the Amazon Elastic Compute Cloud User Guide.    explicit: You manually assign the IP addresses to resources that reside in your subnet.
-        public let reservationType: SubnetCidrReservationType
+        public let reservationType: SubnetCidrReservationType?
         /// The ID of the subnet.
-        public let subnetId: String
+        public let subnetId: String?
         /// The tags to assign to the subnet CIDR reservation.
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
-        public init(cidr: String, description: String? = nil, dryRun: Bool? = nil, reservationType: SubnetCidrReservationType, subnetId: String, tagSpecifications: [TagSpecification]? = nil) {
+        public init(cidr: String? = nil, description: String? = nil, dryRun: Bool? = nil, reservationType: SubnetCidrReservationType? = nil, subnetId: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.cidr = cidr
             self.description = description
             self.dryRun = dryRun
@@ -9943,9 +10257,9 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
         /// The ID of the VPC.
-        public let vpcId: String
+        public let vpcId: String?
 
-        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, cidrBlock: String? = nil, dryRun: Bool? = nil, ipv6CidrBlock: String? = nil, ipv6Native: Bool? = nil, outpostArn: String? = nil, tagSpecifications: [TagSpecification]? = nil, vpcId: String) {
+        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, cidrBlock: String? = nil, dryRun: Bool? = nil, ipv6CidrBlock: String? = nil, ipv6Native: Bool? = nil, outpostArn: String? = nil, tagSpecifications: [TagSpecification]? = nil, vpcId: String? = nil) {
             self.availabilityZone = availabilityZone
             self.availabilityZoneId = availabilityZoneId
             self.cidrBlock = cidrBlock
@@ -9989,13 +10303,13 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The IDs of the resources, separated by spaces. 	     Constraints: Up to 1000 resource IDs. We recommend breaking up this request into smaller batches.
-        @CustomCoding<StandardArrayCoder>
-        public var resources: [String]
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var resources: [String]?
         /// The tags. The value parameter is required, but if you don't want the tag to have a value, specify the parameter with no value, and we set the value to an empty string.
-        @CustomCoding<ArrayCoder<_TagsEncoding, Tag>>
-        public var tags: [Tag]
+        @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
 
-        public init(dryRun: Bool? = nil, resources: [String], tags: [Tag]) {
+        public init(dryRun: Bool? = nil, resources: [String]? = nil, tags: [Tag]? = nil) {
             self.dryRun = dryRun
             self.resources = resources
             self.tags = tags
@@ -10059,7 +10373,7 @@ extension EC2 {
         /// The description of the Traffic Mirror rule.
         public let description: String?
         /// The destination CIDR block to assign to the Traffic Mirror rule.
-        public let destinationCidrBlock: String
+        public let destinationCidrBlock: String?
         /// The destination port range.
         public let destinationPortRange: TrafficMirrorPortRangeRequest?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
@@ -10067,19 +10381,19 @@ extension EC2 {
         /// The protocol, for example UDP, to assign to the Traffic Mirror rule. For information about the protocol value, see Protocol Numbers on the  Internet Assigned Numbers Authority (IANA) website.
         public let `protocol`: Int?
         /// The action to take on the filtered traffic.
-        public let ruleAction: TrafficMirrorRuleAction
+        public let ruleAction: TrafficMirrorRuleAction?
         /// The number of the Traffic Mirror rule. This number must be unique for each Traffic Mirror rule in a given direction. The rules are processed in ascending order by rule number.
-        public let ruleNumber: Int
+        public let ruleNumber: Int?
         /// The source CIDR block to assign to the Traffic Mirror rule.
-        public let sourceCidrBlock: String
+        public let sourceCidrBlock: String?
         /// The source port range.
         public let sourcePortRange: TrafficMirrorPortRangeRequest?
         /// The type of traffic.
-        public let trafficDirection: TrafficDirection
+        public let trafficDirection: TrafficDirection?
         /// The ID of the filter that this rule is associated with.
-        public let trafficMirrorFilterId: String
+        public let trafficMirrorFilterId: String?
 
-        public init(clientToken: String? = CreateTrafficMirrorFilterRuleRequest.idempotencyToken(), description: String? = nil, destinationCidrBlock: String, destinationPortRange: TrafficMirrorPortRangeRequest? = nil, dryRun: Bool? = nil, protocol: Int? = nil, ruleAction: TrafficMirrorRuleAction, ruleNumber: Int, sourceCidrBlock: String, sourcePortRange: TrafficMirrorPortRangeRequest? = nil, trafficDirection: TrafficDirection, trafficMirrorFilterId: String) {
+        public init(clientToken: String? = CreateTrafficMirrorFilterRuleRequest.idempotencyToken(), description: String? = nil, destinationCidrBlock: String? = nil, destinationPortRange: TrafficMirrorPortRangeRequest? = nil, dryRun: Bool? = nil, protocol: Int? = nil, ruleAction: TrafficMirrorRuleAction? = nil, ruleNumber: Int? = nil, sourceCidrBlock: String? = nil, sourcePortRange: TrafficMirrorPortRangeRequest? = nil, trafficDirection: TrafficDirection? = nil, trafficMirrorFilterId: String? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.destinationCidrBlock = destinationCidrBlock
@@ -10137,22 +10451,22 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the source network interface.
-        public let networkInterfaceId: String
+        public let networkInterfaceId: String?
         /// The number of bytes in each packet to mirror. These are bytes after the VXLAN header. Do not specify this parameter when you want to mirror the entire packet. To mirror a subset of the packet, set this to the length (in bytes) that you want to mirror. For example, if you set this value to 100, then the first 100 bytes that meet the filter criteria are copied to the target. If you do not want to mirror the entire packet, use the PacketLength parameter to specify the number of bytes in each packet to mirror.
         public let packetLength: Int?
         /// The session number determines the order in which sessions are evaluated when an interface is used by multiple sessions. The first session with a matching filter is the one that mirrors the packets. Valid values are 1-32766.
-        public let sessionNumber: Int
+        public let sessionNumber: Int?
         /// The tags to assign to a Traffic Mirror session.
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
         /// The ID of the Traffic Mirror filter.
-        public let trafficMirrorFilterId: String
+        public let trafficMirrorFilterId: String?
         /// The ID of the Traffic Mirror target.
-        public let trafficMirrorTargetId: String
+        public let trafficMirrorTargetId: String?
         /// The VXLAN ID for the Traffic Mirror session. For more information about the VXLAN protocol, see RFC 7348. If you do not specify a VirtualNetworkId, an account-wide unique id is chosen at random.
         public let virtualNetworkId: Int?
 
-        public init(clientToken: String? = CreateTrafficMirrorSessionRequest.idempotencyToken(), description: String? = nil, dryRun: Bool? = nil, networkInterfaceId: String, packetLength: Int? = nil, sessionNumber: Int, tagSpecifications: [TagSpecification]? = nil, trafficMirrorFilterId: String, trafficMirrorTargetId: String, virtualNetworkId: Int? = nil) {
+        public init(clientToken: String? = CreateTrafficMirrorSessionRequest.idempotencyToken(), description: String? = nil, dryRun: Bool? = nil, networkInterfaceId: String? = nil, packetLength: Int? = nil, sessionNumber: Int? = nil, tagSpecifications: [TagSpecification]? = nil, trafficMirrorFilterId: String? = nil, trafficMirrorTargetId: String? = nil, virtualNetworkId: Int? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.dryRun = dryRun
@@ -10262,19 +10576,19 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The range of inside IP addresses that are used for BGP peering. You must specify a size /29 IPv4 CIDR block from the 169.254.0.0/16 range. The first address from the range must be configured on the appliance as the BGP IP address. You can also optionally specify a size /125 IPv6 CIDR block from the fd00::/8 range.
-        @CustomCoding<ArrayCoder<_InsideCidrBlocksEncoding, String>>
-        public var insideCidrBlocks: [String]
+        @OptionalCustomCoding<ArrayCoder<_InsideCidrBlocksEncoding, String>>
+        public var insideCidrBlocks: [String]?
         /// The peer IP address (GRE outer IP address) on the appliance side of the Connect peer.
-        public let peerAddress: String
+        public let peerAddress: String?
         /// The tags to apply to the Connect peer.
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
         /// The peer IP address (GRE outer IP address) on the transit gateway side of the Connect peer, which must be specified from a transit gateway CIDR block. If not specified, Amazon automatically assigns the first available IP address from the transit gateway CIDR block.
         public let transitGatewayAddress: String?
         /// The ID of the Connect attachment.
-        public let transitGatewayAttachmentId: String
+        public let transitGatewayAttachmentId: String?
 
-        public init(bgpOptions: TransitGatewayConnectRequestBgpOptions? = nil, dryRun: Bool? = nil, insideCidrBlocks: [String], peerAddress: String, tagSpecifications: [TagSpecification]? = nil, transitGatewayAddress: String? = nil, transitGatewayAttachmentId: String) {
+        public init(bgpOptions: TransitGatewayConnectRequestBgpOptions? = nil, dryRun: Bool? = nil, insideCidrBlocks: [String]? = nil, peerAddress: String? = nil, tagSpecifications: [TagSpecification]? = nil, transitGatewayAddress: String? = nil, transitGatewayAttachmentId: String? = nil) {
             self.bgpOptions = bgpOptions
             self.dryRun = dryRun
             self.insideCidrBlocks = insideCidrBlocks
@@ -10314,14 +10628,14 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The Connect attachment options.
-        public let options: CreateTransitGatewayConnectRequestOptions
+        public let options: CreateTransitGatewayConnectRequestOptions?
         /// The tags to apply to the Connect attachment.
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
         /// The ID of the transit gateway attachment. You can specify a VPC attachment or Amazon Web Services Direct Connect attachment.
-        public let transportTransitGatewayAttachmentId: String
+        public let transportTransitGatewayAttachmentId: String?
 
-        public init(dryRun: Bool? = nil, options: CreateTransitGatewayConnectRequestOptions, tagSpecifications: [TagSpecification]? = nil, transportTransitGatewayAttachmentId: String) {
+        public init(dryRun: Bool? = nil, options: CreateTransitGatewayConnectRequestOptions? = nil, tagSpecifications: [TagSpecification]? = nil, transportTransitGatewayAttachmentId: String? = nil) {
             self.dryRun = dryRun
             self.options = options
             self.tagSpecifications = tagSpecifications
@@ -10338,9 +10652,9 @@ extension EC2 {
 
     public struct CreateTransitGatewayConnectRequestOptions: AWSEncodableShape {
         /// The tunnel protocol.
-        public let `protocol`: ProtocolValue
+        public let `protocol`: ProtocolValue?
 
-        public init(protocol: ProtocolValue) {
+        public init(protocol: ProtocolValue? = nil) {
             self.`protocol` = `protocol`
         }
 
@@ -10373,9 +10687,9 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
         /// The ID of the transit gateway.
-        public let transitGatewayId: String
+        public let transitGatewayId: String?
 
-        public init(dryRun: Bool? = nil, options: CreateTransitGatewayMulticastDomainRequestOptions? = nil, tagSpecifications: [TagSpecification]? = nil, transitGatewayId: String) {
+        public init(dryRun: Bool? = nil, options: CreateTransitGatewayMulticastDomainRequestOptions? = nil, tagSpecifications: [TagSpecification]? = nil, transitGatewayId: String? = nil) {
             self.dryRun = dryRun
             self.options = options
             self.tagSpecifications = tagSpecifications
@@ -10432,18 +10746,18 @@ extension EC2 {
         /// Requests a transit gateway peering attachment.
         public let options: CreateTransitGatewayPeeringAttachmentRequestOptions?
         /// The ID of the Amazon Web Services account that owns the peer transit gateway.
-        public let peerAccountId: String
+        public let peerAccountId: String?
         /// The Region where the peer transit gateway is located.
-        public let peerRegion: String
+        public let peerRegion: String?
         /// The ID of the peer transit gateway with which to create the peering attachment.
-        public let peerTransitGatewayId: String
+        public let peerTransitGatewayId: String?
         /// The tags to apply to the transit gateway peering attachment.
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
         /// The ID of the transit gateway.
-        public let transitGatewayId: String
+        public let transitGatewayId: String?
 
-        public init(dryRun: Bool? = nil, options: CreateTransitGatewayPeeringAttachmentRequestOptions? = nil, peerAccountId: String, peerRegion: String, peerTransitGatewayId: String, tagSpecifications: [TagSpecification]? = nil, transitGatewayId: String) {
+        public init(dryRun: Bool? = nil, options: CreateTransitGatewayPeeringAttachmentRequestOptions? = nil, peerAccountId: String? = nil, peerRegion: String? = nil, peerTransitGatewayId: String? = nil, tagSpecifications: [TagSpecification]? = nil, transitGatewayId: String? = nil) {
             self.dryRun = dryRun
             self.options = options
             self.peerAccountId = peerAccountId
@@ -10499,9 +10813,9 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
         /// The ID of the transit gateway used for the policy table.
-        public let transitGatewayId: String
+        public let transitGatewayId: String?
 
-        public init(dryRun: Bool? = nil, tagSpecifications: [TagSpecification]? = nil, transitGatewayId: String) {
+        public init(dryRun: Bool? = nil, tagSpecifications: [TagSpecification]? = nil, transitGatewayId: String? = nil) {
             self.dryRun = dryRun
             self.tagSpecifications = tagSpecifications
             self.transitGatewayId = transitGatewayId
@@ -10533,13 +10847,13 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the prefix list that is used for destination matches.
-        public let prefixListId: String
+        public let prefixListId: String?
         /// The ID of the attachment to which traffic is routed.
         public let transitGatewayAttachmentId: String?
         /// The ID of the transit gateway route table.
-        public let transitGatewayRouteTableId: String
+        public let transitGatewayRouteTableId: String?
 
-        public init(blackhole: Bool? = nil, dryRun: Bool? = nil, prefixListId: String, transitGatewayAttachmentId: String? = nil, transitGatewayRouteTableId: String) {
+        public init(blackhole: Bool? = nil, dryRun: Bool? = nil, prefixListId: String? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayRouteTableId: String? = nil) {
             self.blackhole = blackhole
             self.dryRun = dryRun
             self.prefixListId = prefixListId
@@ -10614,15 +10928,15 @@ extension EC2 {
         /// Indicates whether to drop traffic that matches this route.
         public let blackhole: Bool?
         /// The CIDR range used for destination matches. Routing decisions are based on the most specific match.
-        public let destinationCidrBlock: String
+        public let destinationCidrBlock: String?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the attachment.
         public let transitGatewayAttachmentId: String?
         /// The ID of the transit gateway route table.
-        public let transitGatewayRouteTableId: String
+        public let transitGatewayRouteTableId: String?
 
-        public init(blackhole: Bool? = nil, destinationCidrBlock: String, dryRun: Bool? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayRouteTableId: String) {
+        public init(blackhole: Bool? = nil, destinationCidrBlock: String? = nil, dryRun: Bool? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayRouteTableId: String? = nil) {
             self.blackhole = blackhole
             self.destinationCidrBlock = destinationCidrBlock
             self.dryRun = dryRun
@@ -10658,14 +10972,14 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the peering attachment.
-        public let peeringAttachmentId: String
+        public let peeringAttachmentId: String?
         /// The tags specifications applied to the transit gateway route table announcement.
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
         /// The ID of the transit gateway route table.
-        public let transitGatewayRouteTableId: String
+        public let transitGatewayRouteTableId: String?
 
-        public init(dryRun: Bool? = nil, peeringAttachmentId: String, tagSpecifications: [TagSpecification]? = nil, transitGatewayRouteTableId: String) {
+        public init(dryRun: Bool? = nil, peeringAttachmentId: String? = nil, tagSpecifications: [TagSpecification]? = nil, transitGatewayRouteTableId: String? = nil) {
             self.dryRun = dryRun
             self.peeringAttachmentId = peeringAttachmentId
             self.tagSpecifications = tagSpecifications
@@ -10702,9 +11016,9 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
         /// The ID of the transit gateway.
-        public let transitGatewayId: String
+        public let transitGatewayId: String?
 
-        public init(dryRun: Bool? = nil, tagSpecifications: [TagSpecification]? = nil, transitGatewayId: String) {
+        public init(dryRun: Bool? = nil, tagSpecifications: [TagSpecification]? = nil, transitGatewayId: String? = nil) {
             self.dryRun = dryRun
             self.tagSpecifications = tagSpecifications
             self.transitGatewayId = transitGatewayId
@@ -10739,17 +11053,17 @@ extension EC2 {
         /// The VPC attachment options.
         public let options: CreateTransitGatewayVpcAttachmentRequestOptions?
         /// The IDs of one or more subnets. You can specify only one subnet per Availability Zone.  You must specify at least one subnet, but we recommend that you specify two subnets for better availability. The transit gateway uses one IP address from each specified subnet.
-        @CustomCoding<ArrayCoder<_SubnetIdsEncoding, String>>
-        public var subnetIds: [String]
+        @OptionalCustomCoding<ArrayCoder<_SubnetIdsEncoding, String>>
+        public var subnetIds: [String]?
         /// The tags to apply to the VPC attachment.
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
         /// The ID of the transit gateway.
-        public let transitGatewayId: String
+        public let transitGatewayId: String?
         /// The ID of the VPC.
-        public let vpcId: String
+        public let vpcId: String?
 
-        public init(dryRun: Bool? = nil, options: CreateTransitGatewayVpcAttachmentRequestOptions? = nil, subnetIds: [String], tagSpecifications: [TagSpecification]? = nil, transitGatewayId: String, vpcId: String) {
+        public init(dryRun: Bool? = nil, options: CreateTransitGatewayVpcAttachmentRequestOptions? = nil, subnetIds: [String]? = nil, tagSpecifications: [TagSpecification]? = nil, transitGatewayId: String? = nil, vpcId: String? = nil) {
             self.dryRun = dryRun
             self.options = options
             self.subnetIds = subnetIds
@@ -10845,7 +11159,7 @@ extension EC2 {
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
 
         /// The Availability Zone in which to create the volume.
-        public let availabilityZone: String
+        public let availabilityZone: String?
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency  of the request. For more information, see Ensure  Idempotency.
         public let clientToken: String?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
@@ -10873,7 +11187,7 @@ extension EC2 {
         /// The volume type. This parameter can be one of the following values:   General Purpose SSD: gp2 | gp3    Provisioned IOPS SSD: io1 | io2    Throughput Optimized HDD: st1    Cold HDD: sc1    Magnetic: standard    For more information, see Amazon EBS volume types in the Amazon Elastic Compute Cloud User Guide. Default: gp2
         public let volumeType: VolumeType?
 
-        public init(availabilityZone: String, clientToken: String? = CreateVolumeRequest.idempotencyToken(), dryRun: Bool? = nil, encrypted: Bool? = nil, iops: Int? = nil, kmsKeyId: String? = nil, multiAttachEnabled: Bool? = nil, outpostArn: String? = nil, size: Int? = nil, snapshotId: String? = nil, tagSpecifications: [TagSpecification]? = nil, throughput: Int? = nil, volumeType: VolumeType? = nil) {
+        public init(availabilityZone: String? = nil, clientToken: String? = CreateVolumeRequest.idempotencyToken(), dryRun: Bool? = nil, encrypted: Bool? = nil, iops: Int? = nil, kmsKeyId: String? = nil, multiAttachEnabled: Bool? = nil, outpostArn: String? = nil, size: Int? = nil, snapshotId: String? = nil, tagSpecifications: [TagSpecification]? = nil, throughput: Int? = nil, volumeType: VolumeType? = nil) {
             self.availabilityZone = availabilityZone
             self.clientToken = clientToken
             self.dryRun = dryRun
@@ -10912,10 +11226,10 @@ extension EC2 {
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to ensure idempotency.
         public let clientToken: String?
         /// One or more endpoint events for which to receive notifications. Valid values are Accept, Connect, Delete, and Reject.
-        @CustomCoding<ArrayCoder<_ConnectionEventsEncoding, String>>
-        public var connectionEvents: [String]
+        @OptionalCustomCoding<ArrayCoder<_ConnectionEventsEncoding, String>>
+        public var connectionEvents: [String]?
         /// The ARN of the SNS topic for the notifications.
-        public let connectionNotificationArn: String
+        public let connectionNotificationArn: String?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the endpoint service.
@@ -10923,7 +11237,7 @@ extension EC2 {
         /// The ID of the endpoint.
         public let vpcEndpointId: String?
 
-        public init(clientToken: String? = nil, connectionEvents: [String], connectionNotificationArn: String, dryRun: Bool? = nil, serviceId: String? = nil, vpcEndpointId: String? = nil) {
+        public init(clientToken: String? = nil, connectionEvents: [String]? = nil, connectionNotificationArn: String? = nil, dryRun: Bool? = nil, serviceId: String? = nil, vpcEndpointId: String? = nil) {
             self.clientToken = clientToken
             self.connectionEvents = connectionEvents
             self.connectionNotificationArn = connectionNotificationArn
@@ -10984,7 +11298,7 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_SecurityGroupIdsEncoding, String>>
         public var securityGroupIds: [String]?
         /// The service name. To get a list of available services, use the DescribeVpcEndpointServices request, or get the name from the service provider.
-        public let serviceName: String
+        public let serviceName: String?
         /// (Interface and Gateway Load Balancer endpoints) The ID of one or more subnets in which to create an endpoint network interface. For a Gateway Load Balancer endpoint, you can specify one subnet only.
         @OptionalCustomCoding<ArrayCoder<_SubnetIdsEncoding, String>>
         public var subnetIds: [String]?
@@ -10994,9 +11308,9 @@ extension EC2 {
         /// The type of endpoint. Default: Gateway
         public let vpcEndpointType: VpcEndpointType?
         /// The ID of the VPC in which the endpoint will be used.
-        public let vpcId: String
+        public let vpcId: String?
 
-        public init(clientToken: String? = nil, dnsOptions: DnsOptionsSpecification? = nil, dryRun: Bool? = nil, ipAddressType: IpAddressType? = nil, policyDocument: String? = nil, privateDnsEnabled: Bool? = nil, routeTableIds: [String]? = nil, securityGroupIds: [String]? = nil, serviceName: String, subnetIds: [String]? = nil, tagSpecifications: [TagSpecification]? = nil, vpcEndpointType: VpcEndpointType? = nil, vpcId: String) {
+        public init(clientToken: String? = nil, dnsOptions: DnsOptionsSpecification? = nil, dryRun: Bool? = nil, ipAddressType: IpAddressType? = nil, policyDocument: String? = nil, privateDnsEnabled: Bool? = nil, routeTableIds: [String]? = nil, securityGroupIds: [String]? = nil, serviceName: String? = nil, subnetIds: [String]? = nil, tagSpecifications: [TagSpecification]? = nil, vpcEndpointType: VpcEndpointType? = nil, vpcId: String? = nil) {
             self.clientToken = clientToken
             self.dnsOptions = dnsOptions
             self.dryRun = dryRun
@@ -11243,7 +11557,7 @@ extension EC2 {
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
 
         /// The ID of the customer gateway.
-        public let customerGatewayId: String
+        public let customerGatewayId: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The options for the VPN connection.
@@ -11254,11 +11568,11 @@ extension EC2 {
         /// The ID of the transit gateway. If you specify a transit gateway, you cannot specify a virtual private gateway.
         public let transitGatewayId: String?
         /// The type of VPN connection (ipsec.1).
-        public let type: String
+        public let type: String?
         /// The ID of the virtual private gateway. If you specify a virtual private gateway, you cannot specify a transit gateway.
         public let vpnGatewayId: String?
 
-        public init(customerGatewayId: String, dryRun: Bool? = nil, options: VpnConnectionOptionsSpecification? = nil, tagSpecifications: [TagSpecification]? = nil, transitGatewayId: String? = nil, type: String, vpnGatewayId: String? = nil) {
+        public init(customerGatewayId: String? = nil, dryRun: Bool? = nil, options: VpnConnectionOptionsSpecification? = nil, tagSpecifications: [TagSpecification]? = nil, transitGatewayId: String? = nil, type: String? = nil, vpnGatewayId: String? = nil) {
             self.customerGatewayId = customerGatewayId
             self.dryRun = dryRun
             self.options = options
@@ -11294,11 +11608,11 @@ extension EC2 {
 
     public struct CreateVpnConnectionRouteRequest: AWSEncodableShape {
         /// The CIDR block associated with the local subnet of the customer network.
-        public let destinationCidrBlock: String
+        public let destinationCidrBlock: String?
         /// The ID of the VPN connection.
-        public let vpnConnectionId: String
+        public let vpnConnectionId: String?
 
-        public init(destinationCidrBlock: String, vpnConnectionId: String) {
+        public init(destinationCidrBlock: String? = nil, vpnConnectionId: String? = nil) {
             self.destinationCidrBlock = destinationCidrBlock
             self.vpnConnectionId = vpnConnectionId
         }
@@ -11322,9 +11636,9 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
         /// The type of VPN connection this virtual private gateway supports.
-        public let type: GatewayType
+        public let type: GatewayType?
 
-        public init(amazonSideAsn: Int64? = nil, availabilityZone: String? = nil, dryRun: Bool? = nil, tagSpecifications: [TagSpecification]? = nil, type: GatewayType) {
+        public init(amazonSideAsn: Int64? = nil, availabilityZone: String? = nil, dryRun: Bool? = nil, tagSpecifications: [TagSpecification]? = nil, type: GatewayType? = nil) {
             self.amazonSideAsn = amazonSideAsn
             self.availabilityZone = availabilityZone
             self.dryRun = dryRun
@@ -11369,9 +11683,9 @@ extension EC2 {
 
     public struct CreditSpecificationRequest: AWSEncodableShape {
         /// The credit option for CPU usage of a T instance. Valid values: standard | unlimited
-        public let cpuCredits: String
+        public let cpuCredits: String?
 
-        public init(cpuCredits: String) {
+        public init(cpuCredits: String? = nil) {
             self.cpuCredits = cpuCredits
         }
 
@@ -11426,11 +11740,11 @@ extension EC2 {
 
     public struct DeleteCarrierGatewayRequest: AWSEncodableShape {
         /// The ID of the carrier gateway.
-        public let carrierGatewayId: String
+        public let carrierGatewayId: String?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
-        public init(carrierGatewayId: String, dryRun: Bool? = nil) {
+        public init(carrierGatewayId: String? = nil, dryRun: Bool? = nil) {
             self.carrierGatewayId = carrierGatewayId
             self.dryRun = dryRun
         }
@@ -11456,11 +11770,11 @@ extension EC2 {
 
     public struct DeleteClientVpnEndpointRequest: AWSEncodableShape {
         /// The ID of the Client VPN to be deleted.
-        public let clientVpnEndpointId: String
+        public let clientVpnEndpointId: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
-        public init(clientVpnEndpointId: String, dryRun: Bool? = nil) {
+        public init(clientVpnEndpointId: String? = nil, dryRun: Bool? = nil) {
             self.clientVpnEndpointId = clientVpnEndpointId
             self.dryRun = dryRun
         }
@@ -11486,15 +11800,15 @@ extension EC2 {
 
     public struct DeleteClientVpnRouteRequest: AWSEncodableShape {
         /// The ID of the Client VPN endpoint from which the route is to be deleted.
-        public let clientVpnEndpointId: String
+        public let clientVpnEndpointId: String?
         /// The IPv4 address range, in CIDR notation, of the route to be deleted.
-        public let destinationCidrBlock: String
+        public let destinationCidrBlock: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the target subnet used by the route.
         public let targetVpcSubnetId: String?
 
-        public init(clientVpnEndpointId: String, destinationCidrBlock: String, dryRun: Bool? = nil, targetVpcSubnetId: String? = nil) {
+        public init(clientVpnEndpointId: String? = nil, destinationCidrBlock: String? = nil, dryRun: Bool? = nil, targetVpcSubnetId: String? = nil) {
             self.clientVpnEndpointId = clientVpnEndpointId
             self.destinationCidrBlock = destinationCidrBlock
             self.dryRun = dryRun
@@ -11522,13 +11836,76 @@ extension EC2 {
         }
     }
 
+    public struct DeleteCoipCidrRequest: AWSEncodableShape {
+        ///  A customer-owned IP address range that you want to delete.
+        public let cidr: String?
+        ///  The ID of the customer-owned address pool.
+        public let coipPoolId: String?
+        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+
+        public init(cidr: String? = nil, coipPoolId: String? = nil, dryRun: Bool? = nil) {
+            self.cidr = cidr
+            self.coipPoolId = coipPoolId
+            self.dryRun = dryRun
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cidr = "Cidr"
+            case coipPoolId = "CoipPoolId"
+            case dryRun = "DryRun"
+        }
+    }
+
+    public struct DeleteCoipCidrResult: AWSDecodableShape {
+        ///  Information about a range of customer-owned IP addresses.
+        public let coipCidr: CoipCidr?
+
+        public init(coipCidr: CoipCidr? = nil) {
+            self.coipCidr = coipCidr
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case coipCidr
+        }
+    }
+
+    public struct DeleteCoipPoolRequest: AWSEncodableShape {
+        /// The ID of the CoIP pool that you want to delete.
+        public let coipPoolId: String?
+        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+
+        public init(coipPoolId: String? = nil, dryRun: Bool? = nil) {
+            self.coipPoolId = coipPoolId
+            self.dryRun = dryRun
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case coipPoolId = "CoipPoolId"
+            case dryRun = "DryRun"
+        }
+    }
+
+    public struct DeleteCoipPoolResult: AWSDecodableShape {
+        public let coipPool: CoipPool?
+
+        public init(coipPool: CoipPool? = nil) {
+            self.coipPool = coipPool
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case coipPool
+        }
+    }
+
     public struct DeleteCustomerGatewayRequest: AWSEncodableShape {
         /// The ID of the customer gateway.
-        public let customerGatewayId: String
+        public let customerGatewayId: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
-        public init(customerGatewayId: String, dryRun: Bool? = nil) {
+        public init(customerGatewayId: String? = nil, dryRun: Bool? = nil) {
             self.customerGatewayId = customerGatewayId
             self.dryRun = dryRun
         }
@@ -11541,11 +11918,11 @@ extension EC2 {
 
     public struct DeleteDhcpOptionsRequest: AWSEncodableShape {
         /// The ID of the DHCP options set.
-        public let dhcpOptionsId: String
+        public let dhcpOptionsId: String?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
-        public init(dhcpOptionsId: String, dryRun: Bool? = nil) {
+        public init(dhcpOptionsId: String? = nil, dryRun: Bool? = nil) {
             self.dhcpOptionsId = dhcpOptionsId
             self.dryRun = dryRun
         }
@@ -11560,9 +11937,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the egress-only internet gateway.
-        public let egressOnlyInternetGatewayId: String
+        public let egressOnlyInternetGatewayId: String?
 
-        public init(dryRun: Bool? = nil, egressOnlyInternetGatewayId: String) {
+        public init(dryRun: Bool? = nil, egressOnlyInternetGatewayId: String? = nil) {
             self.dryRun = dryRun
             self.egressOnlyInternetGatewayId = egressOnlyInternetGatewayId
         }
@@ -11645,12 +12022,12 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The IDs of the EC2 Fleets.
-        @CustomCoding<StandardArrayCoder>
-        public var fleetIds: [String]
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var fleetIds: [String]?
         /// Indicates whether to terminate the instances when the EC2 Fleet is deleted. The default is to terminate the instances. To let the instances continue to run after the EC2 Fleet is deleted, specify NoTerminateInstances. Supported only for fleets of type maintain and request. For instant fleets, you cannot specify NoTerminateInstances. A deleted instant fleet with running instances is not supported.
-        public let terminateInstances: Bool
+        public let terminateInstances: Bool?
 
-        public init(dryRun: Bool? = nil, fleetIds: [String], terminateInstances: Bool) {
+        public init(dryRun: Bool? = nil, fleetIds: [String]? = nil, terminateInstances: Bool? = nil) {
             self.dryRun = dryRun
             self.fleetIds = fleetIds
             self.terminateInstances = terminateInstances
@@ -11691,10 +12068,10 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more flow log IDs. Constraint: Maximum of 1000 flow log IDs.
-        @CustomCoding<ArrayCoder<_FlowLogIdsEncoding, String>>
-        public var flowLogIds: [String]
+        @OptionalCustomCoding<ArrayCoder<_FlowLogIdsEncoding, String>>
+        public var flowLogIds: [String]?
 
-        public init(dryRun: Bool? = nil, flowLogIds: [String]) {
+        public init(dryRun: Bool? = nil, flowLogIds: [String]? = nil) {
             self.dryRun = dryRun
             self.flowLogIds = flowLogIds
         }
@@ -11725,9 +12102,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the AFI.
-        public let fpgaImageId: String
+        public let fpgaImageId: String?
 
-        public init(dryRun: Bool? = nil, fpgaImageId: String) {
+        public init(dryRun: Bool? = nil, fpgaImageId: String? = nil) {
             self.dryRun = dryRun
             self.fpgaImageId = fpgaImageId
         }
@@ -11757,9 +12134,9 @@ extension EC2 {
         /// Specify true to force delete the event window. Use the force delete parameter if the event window is currently associated with targets.
         public let forceDelete: Bool?
         /// The ID of the event window.
-        public let instanceEventWindowId: String
+        public let instanceEventWindowId: String?
 
-        public init(dryRun: Bool? = nil, forceDelete: Bool? = nil, instanceEventWindowId: String) {
+        public init(dryRun: Bool? = nil, forceDelete: Bool? = nil, instanceEventWindowId: String? = nil) {
             self.dryRun = dryRun
             self.forceDelete = forceDelete
             self.instanceEventWindowId = instanceEventWindowId
@@ -11789,9 +12166,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the internet gateway.
-        public let internetGatewayId: String
+        public let internetGatewayId: String?
 
-        public init(dryRun: Bool? = nil, internetGatewayId: String) {
+        public init(dryRun: Bool? = nil, internetGatewayId: String? = nil) {
             self.dryRun = dryRun
             self.internetGatewayId = internetGatewayId
         }
@@ -11806,9 +12183,9 @@ extension EC2 {
         /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the pool to delete.
-        public let ipamPoolId: String
+        public let ipamPoolId: String?
 
-        public init(dryRun: Bool? = nil, ipamPoolId: String) {
+        public init(dryRun: Bool? = nil, ipamPoolId: String? = nil) {
             self.dryRun = dryRun
             self.ipamPoolId = ipamPoolId
         }
@@ -11838,9 +12215,9 @@ extension EC2 {
         /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the IPAM to delete.
-        public let ipamId: String
+        public let ipamId: String?
 
-        public init(cascade: Bool? = nil, dryRun: Bool? = nil, ipamId: String) {
+        public init(cascade: Bool? = nil, dryRun: Bool? = nil, ipamId: String? = nil) {
             self.cascade = cascade
             self.dryRun = dryRun
             self.ipamId = ipamId
@@ -11870,9 +12247,9 @@ extension EC2 {
         /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the scope to delete.
-        public let ipamScopeId: String
+        public let ipamScopeId: String?
 
-        public init(dryRun: Bool? = nil, ipamScopeId: String) {
+        public init(dryRun: Bool? = nil, ipamScopeId: String? = nil) {
             self.dryRun = dryRun
             self.ipamScopeId = ipamScopeId
         }
@@ -11967,10 +12344,10 @@ extension EC2 {
         /// The name of the launch template. You must specify either the LaunchTemplateName or the LaunchTemplateId, but not both.
         public let launchTemplateName: String?
         /// The version numbers of one or more launch template versions to delete.
-        @CustomCoding<ArrayCoder<_VersionsEncoding, String>>
-        public var versions: [String]
+        @OptionalCustomCoding<ArrayCoder<_VersionsEncoding, String>>
+        public var versions: [String]?
 
-        public init(dryRun: Bool? = nil, launchTemplateId: String? = nil, launchTemplateName: String? = nil, versions: [String]) {
+        public init(dryRun: Bool? = nil, launchTemplateId: String? = nil, launchTemplateName: String? = nil, versions: [String]? = nil) {
             self.dryRun = dryRun
             self.launchTemplateId = launchTemplateId
             self.launchTemplateName = launchTemplateName
@@ -12061,13 +12438,13 @@ extension EC2 {
 
     public struct DeleteLocalGatewayRouteRequest: AWSEncodableShape {
         /// The CIDR range for the route. This must match the CIDR for the route exactly.
-        public let destinationCidrBlock: String
+        public let destinationCidrBlock: String?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the local gateway route table.
-        public let localGatewayRouteTableId: String
+        public let localGatewayRouteTableId: String?
 
-        public init(destinationCidrBlock: String, dryRun: Bool? = nil, localGatewayRouteTableId: String) {
+        public init(destinationCidrBlock: String? = nil, dryRun: Bool? = nil, localGatewayRouteTableId: String? = nil) {
             self.destinationCidrBlock = destinationCidrBlock
             self.dryRun = dryRun
             self.localGatewayRouteTableId = localGatewayRouteTableId
@@ -12093,13 +12470,71 @@ extension EC2 {
         }
     }
 
+    public struct DeleteLocalGatewayRouteTableRequest: AWSEncodableShape {
+        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        ///  The ID of the local gateway route table.
+        public let localGatewayRouteTableId: String?
+
+        public init(dryRun: Bool? = nil, localGatewayRouteTableId: String? = nil) {
+            self.dryRun = dryRun
+            self.localGatewayRouteTableId = localGatewayRouteTableId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case localGatewayRouteTableId = "LocalGatewayRouteTableId"
+        }
+    }
+
+    public struct DeleteLocalGatewayRouteTableResult: AWSDecodableShape {
+        public let localGatewayRouteTable: LocalGatewayRouteTable?
+
+        public init(localGatewayRouteTable: LocalGatewayRouteTable? = nil) {
+            self.localGatewayRouteTable = localGatewayRouteTable
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case localGatewayRouteTable
+        }
+    }
+
+    public struct DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationRequest: AWSEncodableShape {
+        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        ///  The ID of the local gateway route table virtual interface group association.
+        public let localGatewayRouteTableVirtualInterfaceGroupAssociationId: String?
+
+        public init(dryRun: Bool? = nil, localGatewayRouteTableVirtualInterfaceGroupAssociationId: String? = nil) {
+            self.dryRun = dryRun
+            self.localGatewayRouteTableVirtualInterfaceGroupAssociationId = localGatewayRouteTableVirtualInterfaceGroupAssociationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case localGatewayRouteTableVirtualInterfaceGroupAssociationId = "LocalGatewayRouteTableVirtualInterfaceGroupAssociationId"
+        }
+    }
+
+    public struct DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationResult: AWSDecodableShape {
+        public let localGatewayRouteTableVirtualInterfaceGroupAssociation: LocalGatewayRouteTableVirtualInterfaceGroupAssociation?
+
+        public init(localGatewayRouteTableVirtualInterfaceGroupAssociation: LocalGatewayRouteTableVirtualInterfaceGroupAssociation? = nil) {
+            self.localGatewayRouteTableVirtualInterfaceGroupAssociation = localGatewayRouteTableVirtualInterfaceGroupAssociation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case localGatewayRouteTableVirtualInterfaceGroupAssociation
+        }
+    }
+
     public struct DeleteLocalGatewayRouteTableVpcAssociationRequest: AWSEncodableShape {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the association.
-        public let localGatewayRouteTableVpcAssociationId: String
+        public let localGatewayRouteTableVpcAssociationId: String?
 
-        public init(dryRun: Bool? = nil, localGatewayRouteTableVpcAssociationId: String) {
+        public init(dryRun: Bool? = nil, localGatewayRouteTableVpcAssociationId: String? = nil) {
             self.dryRun = dryRun
             self.localGatewayRouteTableVpcAssociationId = localGatewayRouteTableVpcAssociationId
         }
@@ -12127,9 +12562,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the prefix list.
-        public let prefixListId: String
+        public let prefixListId: String?
 
-        public init(dryRun: Bool? = nil, prefixListId: String) {
+        public init(dryRun: Bool? = nil, prefixListId: String? = nil) {
             self.dryRun = dryRun
             self.prefixListId = prefixListId
         }
@@ -12157,9 +12592,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the NAT gateway.
-        public let natGatewayId: String
+        public let natGatewayId: String?
 
-        public init(dryRun: Bool? = nil, natGatewayId: String) {
+        public init(dryRun: Bool? = nil, natGatewayId: String? = nil) {
             self.dryRun = dryRun
             self.natGatewayId = natGatewayId
         }
@@ -12187,13 +12622,13 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// Indicates whether the rule is an egress rule.
-        public let egress: Bool
+        public let egress: Bool?
         /// The ID of the network ACL.
-        public let networkAclId: String
+        public let networkAclId: String?
         /// The rule number of the entry to delete.
-        public let ruleNumber: Int
+        public let ruleNumber: Int?
 
-        public init(dryRun: Bool? = nil, egress: Bool, networkAclId: String, ruleNumber: Int) {
+        public init(dryRun: Bool? = nil, egress: Bool? = nil, networkAclId: String? = nil, ruleNumber: Int? = nil) {
             self.dryRun = dryRun
             self.egress = egress
             self.networkAclId = networkAclId
@@ -12212,9 +12647,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the network ACL.
-        public let networkAclId: String
+        public let networkAclId: String?
 
-        public init(dryRun: Bool? = nil, networkAclId: String) {
+        public init(dryRun: Bool? = nil, networkAclId: String? = nil) {
             self.dryRun = dryRun
             self.networkAclId = networkAclId
         }
@@ -12229,9 +12664,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the Network Access Scope analysis.
-        public let networkInsightsAccessScopeAnalysisId: String
+        public let networkInsightsAccessScopeAnalysisId: String?
 
-        public init(dryRun: Bool? = nil, networkInsightsAccessScopeAnalysisId: String) {
+        public init(dryRun: Bool? = nil, networkInsightsAccessScopeAnalysisId: String? = nil) {
             self.dryRun = dryRun
             self.networkInsightsAccessScopeAnalysisId = networkInsightsAccessScopeAnalysisId
         }
@@ -12259,9 +12694,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the Network Access Scope.
-        public let networkInsightsAccessScopeId: String
+        public let networkInsightsAccessScopeId: String?
 
-        public init(dryRun: Bool? = nil, networkInsightsAccessScopeId: String) {
+        public init(dryRun: Bool? = nil, networkInsightsAccessScopeId: String? = nil) {
             self.dryRun = dryRun
             self.networkInsightsAccessScopeId = networkInsightsAccessScopeId
         }
@@ -12289,9 +12724,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the network insights analysis.
-        public let networkInsightsAnalysisId: String
+        public let networkInsightsAnalysisId: String?
 
-        public init(dryRun: Bool? = nil, networkInsightsAnalysisId: String) {
+        public init(dryRun: Bool? = nil, networkInsightsAnalysisId: String? = nil) {
             self.dryRun = dryRun
             self.networkInsightsAnalysisId = networkInsightsAnalysisId
         }
@@ -12319,9 +12754,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the path.
-        public let networkInsightsPathId: String
+        public let networkInsightsPathId: String?
 
-        public init(dryRun: Bool? = nil, networkInsightsPathId: String) {
+        public init(dryRun: Bool? = nil, networkInsightsPathId: String? = nil) {
             self.dryRun = dryRun
             self.networkInsightsPathId = networkInsightsPathId
         }
@@ -12354,9 +12789,9 @@ extension EC2 {
         /// 			attached to an instance.
         public let force: Bool?
         /// The ID of the network interface permission.
-        public let networkInterfacePermissionId: String
+        public let networkInterfacePermissionId: String?
 
-        public init(dryRun: Bool? = nil, force: Bool? = nil, networkInterfacePermissionId: String) {
+        public init(dryRun: Bool? = nil, force: Bool? = nil, networkInterfacePermissionId: String? = nil) {
             self.dryRun = dryRun
             self.force = force
             self.networkInterfacePermissionId = networkInterfacePermissionId
@@ -12386,9 +12821,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the network interface.
-        public let networkInterfaceId: String
+        public let networkInterfaceId: String?
 
-        public init(dryRun: Bool? = nil, networkInterfaceId: String) {
+        public init(dryRun: Bool? = nil, networkInterfaceId: String? = nil) {
             self.dryRun = dryRun
             self.networkInterfaceId = networkInterfaceId
         }
@@ -12403,9 +12838,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The name of the placement group.
-        public let groupName: String
+        public let groupName: String?
 
-        public init(dryRun: Bool? = nil, groupName: String) {
+        public init(dryRun: Bool? = nil, groupName: String? = nil) {
             self.dryRun = dryRun
             self.groupName = groupName
         }
@@ -12420,9 +12855,9 @@ extension EC2 {
         /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the public IPv4 pool you want to delete.
-        public let poolId: String
+        public let poolId: String?
 
-        public init(dryRun: Bool? = nil, poolId: String) {
+        public init(dryRun: Bool? = nil, poolId: String? = nil) {
             self.dryRun = dryRun
             self.poolId = poolId
         }
@@ -12469,10 +12904,10 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The IDs of the Reserved Instances.
-        @CustomCoding<ArrayCoder<_ReservedInstancesIdsEncoding, String>>
-        public var reservedInstancesIds: [String]
+        @OptionalCustomCoding<ArrayCoder<_ReservedInstancesIdsEncoding, String>>
+        public var reservedInstancesIds: [String]?
 
-        public init(dryRun: Bool? = nil, reservedInstancesIds: [String]) {
+        public init(dryRun: Bool? = nil, reservedInstancesIds: [String]? = nil) {
             self.dryRun = dryRun
             self.reservedInstancesIds = reservedInstancesIds
         }
@@ -12520,9 +12955,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the route table.
-        public let routeTableId: String
+        public let routeTableId: String?
 
-        public init(destinationCidrBlock: String? = nil, destinationIpv6CidrBlock: String? = nil, destinationPrefixListId: String? = nil, dryRun: Bool? = nil, routeTableId: String) {
+        public init(destinationCidrBlock: String? = nil, destinationIpv6CidrBlock: String? = nil, destinationPrefixListId: String? = nil, dryRun: Bool? = nil, routeTableId: String? = nil) {
             self.destinationCidrBlock = destinationCidrBlock
             self.destinationIpv6CidrBlock = destinationIpv6CidrBlock
             self.destinationPrefixListId = destinationPrefixListId
@@ -12543,9 +12978,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the route table.
-        public let routeTableId: String
+        public let routeTableId: String?
 
-        public init(dryRun: Bool? = nil, routeTableId: String) {
+        public init(dryRun: Bool? = nil, routeTableId: String? = nil) {
             self.dryRun = dryRun
             self.routeTableId = routeTableId
         }
@@ -12561,7 +12996,7 @@ extension EC2 {
         public let dryRun: Bool?
         /// The ID of the security group. Required for a nondefault VPC.
         public let groupId: String?
-        /// [EC2-Classic, default VPC] The name of the security group. You can specify either the security group name or the security group ID.
+        /// [EC2-Classic, default VPC] The name of the security group. You can specify either the security group name or the security group ID. For security groups in a nondefault VPC, you must specify the security group ID.
         public let groupName: String?
 
         public init(dryRun: Bool? = nil, groupId: String? = nil, groupName: String? = nil) {
@@ -12581,9 +13016,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the EBS snapshot.
-        public let snapshotId: String
+        public let snapshotId: String?
 
-        public init(dryRun: Bool? = nil, snapshotId: String) {
+        public init(dryRun: Bool? = nil, snapshotId: String? = nil) {
             self.dryRun = dryRun
             self.snapshotId = snapshotId
         }
@@ -12611,9 +13046,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the subnet CIDR reservation.
-        public let subnetCidrReservationId: String
+        public let subnetCidrReservationId: String?
 
-        public init(dryRun: Bool? = nil, subnetCidrReservationId: String) {
+        public init(dryRun: Bool? = nil, subnetCidrReservationId: String? = nil) {
             self.dryRun = dryRun
             self.subnetCidrReservationId = subnetCidrReservationId
         }
@@ -12641,9 +13076,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the subnet.
-        public let subnetId: String
+        public let subnetId: String?
 
-        public init(dryRun: Bool? = nil, subnetId: String) {
+        public init(dryRun: Bool? = nil, subnetId: String? = nil) {
             self.dryRun = dryRun
             self.subnetId = subnetId
         }
@@ -12660,13 +13095,13 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The IDs of the resources, separated by spaces. 	     Constraints: Up to 1000 resource IDs. We recommend breaking up this request into smaller batches.
-        @CustomCoding<StandardArrayCoder>
-        public var resources: [String]
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var resources: [String]?
         /// The tags to delete. Specify a tag key and an optional tag value to delete specific tags. If you specify a tag key without a tag value, we delete any tag with this key regardless of its value. If you specify a tag key with an empty string as the tag value, we delete the tag only if its value is an empty string. If you omit this parameter, we delete all user-defined tags for the specified resources. We do not delete Amazon Web Services-generated tags (tags that have the aws: prefix). Constraints: Up to 1000 tags.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
-        public init(dryRun: Bool? = nil, resources: [String], tags: [Tag]? = nil) {
+        public init(dryRun: Bool? = nil, resources: [String]? = nil, tags: [Tag]? = nil) {
             self.dryRun = dryRun
             self.resources = resources
             self.tags = tags
@@ -12683,9 +13118,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the Traffic Mirror filter.
-        public let trafficMirrorFilterId: String
+        public let trafficMirrorFilterId: String?
 
-        public init(dryRun: Bool? = nil, trafficMirrorFilterId: String) {
+        public init(dryRun: Bool? = nil, trafficMirrorFilterId: String? = nil) {
             self.dryRun = dryRun
             self.trafficMirrorFilterId = trafficMirrorFilterId
         }
@@ -12713,9 +13148,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the Traffic Mirror rule.
-        public let trafficMirrorFilterRuleId: String
+        public let trafficMirrorFilterRuleId: String?
 
-        public init(dryRun: Bool? = nil, trafficMirrorFilterRuleId: String) {
+        public init(dryRun: Bool? = nil, trafficMirrorFilterRuleId: String? = nil) {
             self.dryRun = dryRun
             self.trafficMirrorFilterRuleId = trafficMirrorFilterRuleId
         }
@@ -12743,9 +13178,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the Traffic Mirror session.
-        public let trafficMirrorSessionId: String
+        public let trafficMirrorSessionId: String?
 
-        public init(dryRun: Bool? = nil, trafficMirrorSessionId: String) {
+        public init(dryRun: Bool? = nil, trafficMirrorSessionId: String? = nil) {
             self.dryRun = dryRun
             self.trafficMirrorSessionId = trafficMirrorSessionId
         }
@@ -12773,9 +13208,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the Traffic Mirror target.
-        public let trafficMirrorTargetId: String
+        public let trafficMirrorTargetId: String?
 
-        public init(dryRun: Bool? = nil, trafficMirrorTargetId: String) {
+        public init(dryRun: Bool? = nil, trafficMirrorTargetId: String? = nil) {
             self.dryRun = dryRun
             self.trafficMirrorTargetId = trafficMirrorTargetId
         }
@@ -12803,9 +13238,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the Connect peer.
-        public let transitGatewayConnectPeerId: String
+        public let transitGatewayConnectPeerId: String?
 
-        public init(dryRun: Bool? = nil, transitGatewayConnectPeerId: String) {
+        public init(dryRun: Bool? = nil, transitGatewayConnectPeerId: String? = nil) {
             self.dryRun = dryRun
             self.transitGatewayConnectPeerId = transitGatewayConnectPeerId
         }
@@ -12833,9 +13268,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the Connect attachment.
-        public let transitGatewayAttachmentId: String
+        public let transitGatewayAttachmentId: String?
 
-        public init(dryRun: Bool? = nil, transitGatewayAttachmentId: String) {
+        public init(dryRun: Bool? = nil, transitGatewayAttachmentId: String? = nil) {
             self.dryRun = dryRun
             self.transitGatewayAttachmentId = transitGatewayAttachmentId
         }
@@ -12863,9 +13298,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the transit gateway multicast domain.
-        public let transitGatewayMulticastDomainId: String
+        public let transitGatewayMulticastDomainId: String?
 
-        public init(dryRun: Bool? = nil, transitGatewayMulticastDomainId: String) {
+        public init(dryRun: Bool? = nil, transitGatewayMulticastDomainId: String? = nil) {
             self.dryRun = dryRun
             self.transitGatewayMulticastDomainId = transitGatewayMulticastDomainId
         }
@@ -12893,9 +13328,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the transit gateway peering attachment.
-        public let transitGatewayAttachmentId: String
+        public let transitGatewayAttachmentId: String?
 
-        public init(dryRun: Bool? = nil, transitGatewayAttachmentId: String) {
+        public init(dryRun: Bool? = nil, transitGatewayAttachmentId: String? = nil) {
             self.dryRun = dryRun
             self.transitGatewayAttachmentId = transitGatewayAttachmentId
         }
@@ -12923,9 +13358,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The transit gateway policy table to delete.
-        public let transitGatewayPolicyTableId: String
+        public let transitGatewayPolicyTableId: String?
 
-        public init(dryRun: Bool? = nil, transitGatewayPolicyTableId: String) {
+        public init(dryRun: Bool? = nil, transitGatewayPolicyTableId: String? = nil) {
             self.dryRun = dryRun
             self.transitGatewayPolicyTableId = transitGatewayPolicyTableId
         }
@@ -12953,11 +13388,11 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the prefix list.
-        public let prefixListId: String
+        public let prefixListId: String?
         /// The ID of the route table.
-        public let transitGatewayRouteTableId: String
+        public let transitGatewayRouteTableId: String?
 
-        public init(dryRun: Bool? = nil, prefixListId: String, transitGatewayRouteTableId: String) {
+        public init(dryRun: Bool? = nil, prefixListId: String? = nil, transitGatewayRouteTableId: String? = nil) {
             self.dryRun = dryRun
             self.prefixListId = prefixListId
             self.transitGatewayRouteTableId = transitGatewayRouteTableId
@@ -12987,9 +13422,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the transit gateway.
-        public let transitGatewayId: String
+        public let transitGatewayId: String?
 
-        public init(dryRun: Bool? = nil, transitGatewayId: String) {
+        public init(dryRun: Bool? = nil, transitGatewayId: String? = nil) {
             self.dryRun = dryRun
             self.transitGatewayId = transitGatewayId
         }
@@ -13015,13 +13450,13 @@ extension EC2 {
 
     public struct DeleteTransitGatewayRouteRequest: AWSEncodableShape {
         /// The CIDR range for the route. This must match the CIDR for the route exactly.
-        public let destinationCidrBlock: String
+        public let destinationCidrBlock: String?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the transit gateway route table.
-        public let transitGatewayRouteTableId: String
+        public let transitGatewayRouteTableId: String?
 
-        public init(destinationCidrBlock: String, dryRun: Bool? = nil, transitGatewayRouteTableId: String) {
+        public init(destinationCidrBlock: String? = nil, dryRun: Bool? = nil, transitGatewayRouteTableId: String? = nil) {
             self.destinationCidrBlock = destinationCidrBlock
             self.dryRun = dryRun
             self.transitGatewayRouteTableId = transitGatewayRouteTableId
@@ -13051,9 +13486,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The transit gateway route table ID that's being deleted.
-        public let transitGatewayRouteTableAnnouncementId: String
+        public let transitGatewayRouteTableAnnouncementId: String?
 
-        public init(dryRun: Bool? = nil, transitGatewayRouteTableAnnouncementId: String) {
+        public init(dryRun: Bool? = nil, transitGatewayRouteTableAnnouncementId: String? = nil) {
             self.dryRun = dryRun
             self.transitGatewayRouteTableAnnouncementId = transitGatewayRouteTableAnnouncementId
         }
@@ -13081,9 +13516,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the transit gateway route table.
-        public let transitGatewayRouteTableId: String
+        public let transitGatewayRouteTableId: String?
 
-        public init(dryRun: Bool? = nil, transitGatewayRouteTableId: String) {
+        public init(dryRun: Bool? = nil, transitGatewayRouteTableId: String? = nil) {
             self.dryRun = dryRun
             self.transitGatewayRouteTableId = transitGatewayRouteTableId
         }
@@ -13111,9 +13546,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the attachment.
-        public let transitGatewayAttachmentId: String
+        public let transitGatewayAttachmentId: String?
 
-        public init(dryRun: Bool? = nil, transitGatewayAttachmentId: String) {
+        public init(dryRun: Bool? = nil, transitGatewayAttachmentId: String? = nil) {
             self.dryRun = dryRun
             self.transitGatewayAttachmentId = transitGatewayAttachmentId
         }
@@ -13141,9 +13576,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the volume.
-        public let volumeId: String
+        public let volumeId: String?
 
-        public init(dryRun: Bool? = nil, volumeId: String) {
+        public init(dryRun: Bool? = nil, volumeId: String? = nil) {
             self.dryRun = dryRun
             self.volumeId = volumeId
         }
@@ -13158,12 +13593,12 @@ extension EC2 {
         public struct _ConnectionNotificationIdsEncoding: ArrayCoderProperties { public static let member = "item" }
 
         /// One or more notification IDs.
-        @CustomCoding<ArrayCoder<_ConnectionNotificationIdsEncoding, String>>
-        public var connectionNotificationIds: [String]
+        @OptionalCustomCoding<ArrayCoder<_ConnectionNotificationIdsEncoding, String>>
+        public var connectionNotificationIds: [String]?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
-        public init(connectionNotificationIds: [String], dryRun: Bool? = nil) {
+        public init(connectionNotificationIds: [String]? = nil, dryRun: Bool? = nil) {
             self.connectionNotificationIds = connectionNotificationIds
             self.dryRun = dryRun
         }
@@ -13196,10 +13631,10 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The IDs of one or more services.
-        @CustomCoding<ArrayCoder<_ServiceIdsEncoding, String>>
-        public var serviceIds: [String]
+        @OptionalCustomCoding<ArrayCoder<_ServiceIdsEncoding, String>>
+        public var serviceIds: [String]?
 
-        public init(dryRun: Bool? = nil, serviceIds: [String]) {
+        public init(dryRun: Bool? = nil, serviceIds: [String]? = nil) {
             self.dryRun = dryRun
             self.serviceIds = serviceIds
         }
@@ -13232,10 +13667,10 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more VPC endpoint IDs.
-        @CustomCoding<ArrayCoder<_VpcEndpointIdsEncoding, String>>
-        public var vpcEndpointIds: [String]
+        @OptionalCustomCoding<ArrayCoder<_VpcEndpointIdsEncoding, String>>
+        public var vpcEndpointIds: [String]?
 
-        public init(dryRun: Bool? = nil, vpcEndpointIds: [String]) {
+        public init(dryRun: Bool? = nil, vpcEndpointIds: [String]? = nil) {
             self.dryRun = dryRun
             self.vpcEndpointIds = vpcEndpointIds
         }
@@ -13266,9 +13701,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the VPC peering connection.
-        public let vpcPeeringConnectionId: String
+        public let vpcPeeringConnectionId: String?
 
-        public init(dryRun: Bool? = nil, vpcPeeringConnectionId: String) {
+        public init(dryRun: Bool? = nil, vpcPeeringConnectionId: String? = nil) {
             self.dryRun = dryRun
             self.vpcPeeringConnectionId = vpcPeeringConnectionId
         }
@@ -13296,9 +13731,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the VPC.
-        public let vpcId: String
+        public let vpcId: String?
 
-        public init(dryRun: Bool? = nil, vpcId: String) {
+        public init(dryRun: Bool? = nil, vpcId: String? = nil) {
             self.dryRun = dryRun
             self.vpcId = vpcId
         }
@@ -13313,9 +13748,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the VPN connection.
-        public let vpnConnectionId: String
+        public let vpnConnectionId: String?
 
-        public init(dryRun: Bool? = nil, vpnConnectionId: String) {
+        public init(dryRun: Bool? = nil, vpnConnectionId: String? = nil) {
             self.dryRun = dryRun
             self.vpnConnectionId = vpnConnectionId
         }
@@ -13328,11 +13763,11 @@ extension EC2 {
 
     public struct DeleteVpnConnectionRouteRequest: AWSEncodableShape {
         /// The CIDR block associated with the local subnet of the customer network.
-        public let destinationCidrBlock: String
+        public let destinationCidrBlock: String?
         /// The ID of the VPN connection.
-        public let vpnConnectionId: String
+        public let vpnConnectionId: String?
 
-        public init(destinationCidrBlock: String, vpnConnectionId: String) {
+        public init(destinationCidrBlock: String? = nil, vpnConnectionId: String? = nil) {
             self.destinationCidrBlock = destinationCidrBlock
             self.vpnConnectionId = vpnConnectionId
         }
@@ -13347,9 +13782,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the virtual private gateway.
-        public let vpnGatewayId: String
+        public let vpnGatewayId: String?
 
-        public init(dryRun: Bool? = nil, vpnGatewayId: String) {
+        public init(dryRun: Bool? = nil, vpnGatewayId: String? = nil) {
             self.dryRun = dryRun
             self.vpnGatewayId = vpnGatewayId
         }
@@ -13362,11 +13797,11 @@ extension EC2 {
 
     public struct DeprovisionByoipCidrRequest: AWSEncodableShape {
         /// The address range, in CIDR notation. The prefix must be the same prefix  that you specified when you provisioned the address range.
-        public let cidr: String
+        public let cidr: String?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
-        public init(cidr: String, dryRun: Bool? = nil) {
+        public init(cidr: String? = nil, dryRun: Bool? = nil) {
             self.cidr = cidr
             self.dryRun = dryRun
         }
@@ -13396,9 +13831,9 @@ extension EC2 {
         /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the pool that has the CIDR you want to deprovision.
-        public let ipamPoolId: String
+        public let ipamPoolId: String?
 
-        public init(cidr: String? = nil, dryRun: Bool? = nil, ipamPoolId: String) {
+        public init(cidr: String? = nil, dryRun: Bool? = nil, ipamPoolId: String? = nil) {
             self.cidr = cidr
             self.dryRun = dryRun
             self.ipamPoolId = ipamPoolId
@@ -13426,13 +13861,13 @@ extension EC2 {
 
     public struct DeprovisionPublicIpv4PoolCidrRequest: AWSEncodableShape {
         /// The CIDR you want to deprovision from the pool.
-        public let cidr: String
+        public let cidr: String?
         /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the pool that you want to deprovision the CIDR from.
-        public let poolId: String
+        public let poolId: String?
 
-        public init(cidr: String, dryRun: Bool? = nil, poolId: String) {
+        public init(cidr: String? = nil, dryRun: Bool? = nil, poolId: String? = nil) {
             self.cidr = cidr
             self.dryRun = dryRun
             self.poolId = poolId
@@ -13471,9 +13906,9 @@ extension EC2 {
         /// 			DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the AMI.
-        public let imageId: String
+        public let imageId: String?
 
-        public init(dryRun: Bool? = nil, imageId: String) {
+        public init(dryRun: Bool? = nil, imageId: String? = nil) {
             self.dryRun = dryRun
             self.imageId = imageId
         }
@@ -13891,11 +14326,11 @@ extension EC2 {
         public let dryRun: Bool?
         /// The maximum number of results to return with a single call.
         /// 	To retrieve the remaining results, make another call with the returned nextToken value.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// The token for the next page of results.
         public let nextToken: String?
 
-        public init(dryRun: Bool? = nil, maxResults: Int, nextToken: String? = nil) {
+        public init(dryRun: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -14220,7 +14655,7 @@ extension EC2 {
         public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
         /// The ID of the Client VPN endpoint.
-        public let clientVpnEndpointId: String
+        public let clientVpnEndpointId: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters. Filter names and values are case-sensitive.
@@ -14232,7 +14667,7 @@ extension EC2 {
         /// The token to retrieve the next page of results.
         public let nextToken: String?
 
-        public init(clientVpnEndpointId: String, dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(clientVpnEndpointId: String? = nil, dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.clientVpnEndpointId = clientVpnEndpointId
             self.dryRun = dryRun
             self.filters = filters
@@ -14278,7 +14713,7 @@ extension EC2 {
         public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
         /// The ID of the Client VPN endpoint.
-        public let clientVpnEndpointId: String
+        public let clientVpnEndpointId: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters. Filter names and values are case-sensitive.
@@ -14290,7 +14725,7 @@ extension EC2 {
         /// The token to retrieve the next page of results.
         public let nextToken: String?
 
-        public init(clientVpnEndpointId: String, dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(clientVpnEndpointId: String? = nil, dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.clientVpnEndpointId = clientVpnEndpointId
             self.dryRun = dryRun
             self.filters = filters
@@ -14396,7 +14831,7 @@ extension EC2 {
         public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
         /// The ID of the Client VPN endpoint.
-        public let clientVpnEndpointId: String
+        public let clientVpnEndpointId: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters. Filter names and values are case-sensitive.
@@ -14408,7 +14843,7 @@ extension EC2 {
         /// The token to retrieve the next page of results.
         public let nextToken: String?
 
-        public init(clientVpnEndpointId: String, dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(clientVpnEndpointId: String? = nil, dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.clientVpnEndpointId = clientVpnEndpointId
             self.dryRun = dryRun
             self.filters = filters
@@ -14458,7 +14893,7 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_AssociationIdsEncoding, String>>
         public var associationIds: [String]?
         /// The ID of the Client VPN endpoint.
-        public let clientVpnEndpointId: String
+        public let clientVpnEndpointId: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters. Filter names and values are case-sensitive.
@@ -14470,7 +14905,7 @@ extension EC2 {
         /// The token to retrieve the next page of results.
         public let nextToken: String?
 
-        public init(associationIds: [String]? = nil, clientVpnEndpointId: String, dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(associationIds: [String]? = nil, clientVpnEndpointId: String? = nil, dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.associationIds = associationIds
             self.clientVpnEndpointId = clientVpnEndpointId
             self.dryRun = dryRun
@@ -15206,15 +15641,15 @@ extension EC2 {
         /// The type of events to describe. By default, all events are described.
         public let eventType: FleetEventType?
         /// The ID of the EC2 Fleet.
-        public let fleetId: String
+        public let fleetId: String?
         /// The maximum number of results to return in a single call. Specify a value between 1 and 1000. The default value is 1000. To retrieve the remaining results, make another call with the returned NextToken value.
         public let maxResults: Int?
         /// The token for the next set of results.
         public let nextToken: String?
         /// The start date and time for the events, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
-        public let startTime: Date
+        public let startTime: Date?
 
-        public init(dryRun: Bool? = nil, eventType: FleetEventType? = nil, fleetId: String, maxResults: Int? = nil, nextToken: String? = nil, startTime: Date) {
+        public init(dryRun: Bool? = nil, eventType: FleetEventType? = nil, fleetId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, startTime: Date? = nil) {
             self.dryRun = dryRun
             self.eventType = eventType
             self.fleetId = fleetId
@@ -15274,13 +15709,13 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The ID of the EC2 Fleet.
-        public let fleetId: String
+        public let fleetId: String?
         /// The maximum number of results to return in a single call. Specify a value between 1 and 1000. The default value is 1000. To retrieve the remaining results, make another call with the returned NextToken value.
         public let maxResults: Int?
         /// The token for the next set of results.
         public let nextToken: String?
 
-        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, fleetId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, fleetId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
             self.fleetId = fleetId
@@ -15412,7 +15847,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// One or more filters.    deliver-log-status - The status of the logs delivery (SUCCESS | FAILED).    log-destination-type - The type of destination to which the flow log publishes data. Possible destination types include cloud-watch-logs and s3.    flow-log-id - The ID of the flow log.    log-group-name - The name of the log group.    resource-id - The ID of the VPC, subnet, or network interface.    traffic-type - The type of traffic (ACCEPT | REJECT | ALL).    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.
+        /// One or more filters.    deliver-log-status - The status of the logs delivery (SUCCESS | FAILED).    log-destination-type - The type of destination for the flow log data (cloud-watch-logs | s3 | kinesis-data-firehose).    flow-log-id - The ID of the flow log.    log-group-name - The name of the log group.    resource-id - The ID of the VPC, subnet, or network interface.    traffic-type - The type of traffic (ACCEPT | REJECT | ALL).    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.
         @OptionalCustomCoding<ArrayCoder<_FilterEncoding, Filter>>
         public var filter: [Filter]?
         /// One or more flow log IDs. Constraint: Maximum of 1000 flow log IDs.
@@ -15463,13 +15898,13 @@ extension EC2 {
 
     public struct DescribeFpgaImageAttributeRequest: AWSEncodableShape {
         /// The AFI attribute.
-        public let attribute: FpgaImageAttributeName
+        public let attribute: FpgaImageAttributeName?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the AFI.
-        public let fpgaImageId: String
+        public let fpgaImageId: String?
 
-        public init(attribute: FpgaImageAttributeName, dryRun: Bool? = nil, fpgaImageId: String) {
+        public init(attribute: FpgaImageAttributeName? = nil, dryRun: Bool? = nil, fpgaImageId: String? = nil) {
             self.attribute = attribute
             self.dryRun = dryRun
             self.fpgaImageId = fpgaImageId
@@ -15810,11 +16245,11 @@ extension EC2 {
 
     public struct DescribeIdentityIdFormatRequest: AWSEncodableShape {
         /// The ARN of the principal, which can be an IAM role, IAM user, or the root user.
-        public let principalArn: String
+        public let principalArn: String?
         /// The type of resource: bundle | conversion-task | customer-gateway | dhcp-options | elastic-ip-allocation | elastic-ip-association | export-task | flow-log | image | import-task | instance | internet-gateway | network-acl | network-acl-association | network-interface | network-interface-attachment | prefix-list | reservation | route-table | route-table-association | security-group | snapshot | subnet | subnet-cidr-block-association | volume | vpc | vpc-cidr-block-association | vpc-endpoint | vpc-peering-connection | vpn-connection | vpn-gateway
         public let resource: String?
 
-        public init(principalArn: String, resource: String? = nil) {
+        public init(principalArn: String? = nil, resource: String? = nil) {
             self.principalArn = principalArn
             self.resource = resource
         }
@@ -15843,15 +16278,15 @@ extension EC2 {
 
     public struct DescribeImageAttributeRequest: AWSEncodableShape {
         /// The AMI attribute. 	      Note: The blockDeviceMapping attribute is deprecated.  	    Using this attribute returns the Client.AuthFailure error. To get information about  	    the block device mappings for an AMI, use the DescribeImages action.
-        public let attribute: ImageAttributeName
+        public let attribute: ImageAttributeName?
         /// Checks whether you have the required permissions for the action, without actually making the request,
         /// 			and provides an error response. If you have the required permissions, the error response is
         /// 			DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the AMI.
-        public let imageId: String
+        public let imageId: String?
 
-        public init(attribute: ImageAttributeName, dryRun: Bool? = nil, imageId: String) {
+        public init(attribute: ImageAttributeName? = nil, dryRun: Bool? = nil, imageId: String? = nil) {
             self.attribute = attribute
             self.dryRun = dryRun
             self.imageId = imageId
@@ -15884,7 +16319,7 @@ extension EC2 {
         /// The image IDs. Default: Describes all images available to you.
         @OptionalCustomCoding<ArrayCoder<_ImageIdsEncoding, String>>
         public var imageIds: [String]?
-        /// If true, all deprecated AMIs are included in the response. If false, no deprecated AMIs are included in the response. If no value is specified, the default value is false.  If you are the AMI owner, all deprecated AMIs appear in the response regardless of the value (true or false) that you set for this parameter.
+        /// Specifies whether to include deprecated AMIs. Default: No deprecated AMIs are included in the response.  If you are the AMI owner, all deprecated AMIs appear in the response regardless of what you specify for this parameter.
         public let includeDeprecated: Bool?
         /// Scopes the results to images with the specified owners. You can specify a combination of   Amazon Web Services account IDs, self, amazon, and aws-marketplace.  If you omit this parameter, the results include all images for which you have launch permissions,  regardless of ownership.
         @OptionalCustomCoding<ArrayCoder<_OwnersEncoding, String>>
@@ -16035,13 +16470,13 @@ extension EC2 {
 
     public struct DescribeInstanceAttributeRequest: AWSEncodableShape {
         /// The instance attribute. Note: The enaSupport attribute is not supported at this time.
-        public let attribute: InstanceAttributeName
+        public let attribute: InstanceAttributeName?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the instance.
-        public let instanceId: String
+        public let instanceId: String?
 
-        public init(attribute: InstanceAttributeName, dryRun: Bool? = nil, instanceId: String) {
+        public init(attribute: InstanceAttributeName? = nil, dryRun: Bool? = nil, instanceId: String? = nil) {
             self.attribute = attribute
             self.dryRun = dryRun
             self.instanceId = instanceId
@@ -17703,7 +18138,7 @@ extension EC2 {
         public let analysisStartTime: Date?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// The filters. The following are the possible values:   PathFound - A Boolean value that indicates whether a feasible path is found.   Status - The status of the analysis (running | succeeded | failed).
+        /// The filters. The following are the possible values:   path-found - A Boolean value that indicates whether a feasible path is found.   status - The status of the analysis (running | succeeded | failed).
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
@@ -17770,7 +18205,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// The filters. The following are the possible values:   Destination - The ID of the resource.   DestinationPort - The destination port.   Name - The path name.   Protocol - The protocol.   Source - The ID of the resource.
+        /// The filters. The following are the possible values:   destination - The ID of the resource.   destination-port - The destination port.   protocol - The protocol.   source - The ID of the resource.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
@@ -17829,9 +18264,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the network interface.
-        public let networkInterfaceId: String
+        public let networkInterfaceId: String?
 
-        public init(attribute: NetworkInterfaceAttribute? = nil, dryRun: Bool? = nil, networkInterfaceId: String) {
+        public init(attribute: NetworkInterfaceAttribute? = nil, dryRun: Bool? = nil, networkInterfaceId: String? = nil) {
             self.attribute = attribute
             self.dryRun = dryRun
             self.networkInterfaceId = networkInterfaceId
@@ -17898,7 +18333,7 @@ extension EC2 {
         /// The maximum number of results to return in a single call. To retrieve the remaining results,
         /// 			make another call with the returned NextToken value. If this parameter is not specified, up to 50 results are returned by default.
         public let maxResults: Int?
-        /// One or more network interface permission IDs.
+        /// The network interface permission IDs.
         @OptionalCustomCoding<StandardArrayCoder>
         public var networkInterfacePermissionIds: [String]?
         /// The token to request the next page of results.
@@ -18033,7 +18468,7 @@ extension EC2 {
         public var filters: [Filter]?
         /// The maximum number of items to return for this request. The request returns a token that you can specify in a subsequent call to get the next set of results. You cannot specify this parameter and the network interface IDs parameter in the same request.
         public let maxResults: Int?
-        /// One or more network interface IDs.
+        /// The network interface IDs.
         /// 		       Default: Describes all your network interfaces.
         @OptionalCustomCoding<ArrayCoder<_NetworkInterfaceIdsEncoding, String>>
         public var networkInterfaceIds: [String]?
@@ -18742,7 +19177,7 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The time period for the first schedule to start.
-        public let firstSlotStartTimeRange: SlotDateTimeRangeRequest
+        public let firstSlotStartTimeRange: SlotDateTimeRangeRequest?
         /// The maximum number of results to return in a single call.  This value can be between 5 and 300. The default value is 300. To retrieve the remaining results, make another call with the returned NextToken value.
         public let maxResults: Int?
         /// The maximum available duration, in hours. This value must be greater than MinSlotDurationInHours and less than 1,720.
@@ -18752,9 +19187,9 @@ extension EC2 {
         /// The token for the next set of results.
         public let nextToken: String?
         /// The schedule recurrence.
-        public let recurrence: ScheduledInstanceRecurrenceRequest
+        public let recurrence: ScheduledInstanceRecurrenceRequest?
 
-        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, firstSlotStartTimeRange: SlotDateTimeRangeRequest, maxResults: Int? = nil, maxSlotDurationInHours: Int? = nil, minSlotDurationInHours: Int? = nil, nextToken: String? = nil, recurrence: ScheduledInstanceRecurrenceRequest) {
+        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, firstSlotStartTimeRange: SlotDateTimeRangeRequest? = nil, maxResults: Int? = nil, maxSlotDurationInHours: Int? = nil, minSlotDurationInHours: Int? = nil, nextToken: String? = nil, recurrence: ScheduledInstanceRecurrenceRequest? = nil) {
             self.dryRun = dryRun
             self.filters = filters
             self.firstSlotStartTimeRange = firstSlotStartTimeRange
@@ -18866,10 +19301,10 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The IDs of the security groups in your account.
-        @CustomCoding<ArrayCoder<_GroupIdEncoding, String>>
-        public var groupId: [String]
+        @OptionalCustomCoding<ArrayCoder<_GroupIdEncoding, String>>
+        public var groupId: [String]?
 
-        public init(dryRun: Bool? = nil, groupId: [String]) {
+        public init(dryRun: Bool? = nil, groupId: [String]? = nil) {
             self.dryRun = dryRun
             self.groupId = groupId
         }
@@ -19026,13 +19461,13 @@ extension EC2 {
 
     public struct DescribeSnapshotAttributeRequest: AWSEncodableShape {
         /// The snapshot attribute you would like to view.
-        public let attribute: SnapshotAttributeName
+        public let attribute: SnapshotAttributeName?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the EBS snapshot.
-        public let snapshotId: String
+        public let snapshotId: String?
 
-        public init(attribute: SnapshotAttributeName, dryRun: Bool? = nil, snapshotId: String) {
+        public init(attribute: SnapshotAttributeName? = nil, dryRun: Bool? = nil, snapshotId: String? = nil) {
             self.attribute = attribute
             self.dryRun = dryRun
             self.snapshotId = snapshotId
@@ -19220,9 +19655,9 @@ extension EC2 {
         /// The token for the next set of results.
         public let nextToken: String?
         /// The ID of the Spot Fleet request.
-        public let spotFleetRequestId: String
+        public let spotFleetRequestId: String?
 
-        public init(dryRun: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, spotFleetRequestId: String) {
+        public init(dryRun: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, spotFleetRequestId: String? = nil) {
             self.dryRun = dryRun
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -19276,11 +19711,11 @@ extension EC2 {
         /// The token for the next set of results.
         public let nextToken: String?
         /// The ID of the Spot Fleet request.
-        public let spotFleetRequestId: String
+        public let spotFleetRequestId: String?
         /// The starting date and time for the events, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
-        public let startTime: Date
+        public let startTime: Date?
 
-        public init(dryRun: Bool? = nil, eventType: EventType? = nil, maxResults: Int? = nil, nextToken: String? = nil, spotFleetRequestId: String, startTime: Date) {
+        public init(dryRun: Bool? = nil, eventType: EventType? = nil, maxResults: Int? = nil, nextToken: String? = nil, spotFleetRequestId: String? = nil, startTime: Date? = nil) {
             self.dryRun = dryRun
             self.eventType = eventType
             self.maxResults = maxResults
@@ -19516,9 +19951,9 @@ extension EC2 {
         /// The token for the next set of items to return. (You received this token from a prior call.)
         public let nextToken: String?
         /// The ID of the VPC.
-        public let vpcId: String
+        public let vpcId: String?
 
-        public init(dryRun: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, vpcId: String) {
+        public init(dryRun: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, vpcId: String? = nil) {
             self.dryRun = dryRun
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -19627,7 +20062,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// One or more filters.    availability-zone - The Availability Zone for the subnet. You can also use availabilityZone as the filter name.    availability-zone-id - The ID of the Availability Zone for the subnet. You can also use availabilityZoneId as the filter name.    available-ip-address-count - The number of IPv4 addresses in the subnet that are available.    cidr-block - The IPv4 CIDR block of the subnet. The CIDR block you specify must exactly match the subnet's CIDR block for information to be returned for the subnet. You can also use cidr or cidrBlock as the filter names.    default-for-az - Indicates whether this is the default subnet for the Availability Zone (true | false). You can also use  defaultForAz as the filter name.    ipv6-cidr-block-association.ipv6-cidr-block - An IPv6 CIDR block associated with the subnet.    ipv6-cidr-block-association.association-id - An association ID for an IPv6 CIDR block associated with the subnet.    ipv6-cidr-block-association.state - The state of an IPv6 CIDR block associated with the subnet.    ipv6-native - Indicates whether this is an IPv6 only subnet (true | false).    outpost-arn - The Amazon Resource Name (ARN) of the Outpost.    owner-id - The ID of the Amazon Web Services account that owns the subnet.    state - The state of the subnet (pending | available).    subnet-arn - The Amazon Resource Name (ARN) of the subnet.    subnet-id - The ID of the subnet.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    vpc-id - The ID of the VPC for the subnet.
+        /// One or more filters.    availability-zone - The Availability Zone for the subnet. You can also use availabilityZone as the filter name.    availability-zone-id - The ID of the Availability Zone for the subnet. You can also use availabilityZoneId as the filter name.    available-ip-address-count - The number of IPv4 addresses in the subnet that are available.    cidr-block - The IPv4 CIDR block of the subnet. The CIDR block you specify must exactly match the subnet's CIDR block for information to be returned for the subnet. You can also use cidr or cidrBlock as the filter names.    customer-owned-ipv4-pool - The customer-owned IPv4 address pool associated with the subnet.    default-for-az - Indicates whether this is the default subnet for the Availability Zone (true | false). You can also use defaultForAz as the filter name.    enable-dns64 - Indicates whether DNS queries made to the Amazon-provided DNS Resolver in this subnet should return synthetic IPv6 addresses for IPv4-only destinations.    enable-lni-at-device-index - Indicates the device position for local network interfaces in this subnet. For example, 1 indicates local network interfaces in this subnet are the secondary network interface (eth1).     ipv6-cidr-block-association.ipv6-cidr-block - An IPv6 CIDR block associated with the subnet.    ipv6-cidr-block-association.association-id - An association ID for an IPv6 CIDR block associated with the subnet.    ipv6-cidr-block-association.state - The state of an IPv6 CIDR block associated with the subnet.    ipv6-native - Indicates whether this is an IPv6 only subnet (true | false).    map-customer-owned-ip-on-launch - Indicates whether a network interface created in this subnet (including a network interface created by RunInstances) receives a customer-owned IPv4 address.    map-public-ip-on-launch - Indicates whether instances launched in this subnet receive a public IPv4 address.    outpost-arn - The Amazon Resource Name (ARN) of the Outpost.    owner-id - The ID of the Amazon Web Services account that owns the subnet.    private-dns-name-options-on-launch.hostname-type - The type of hostname to assign to instances in the subnet at launch. For IPv4-only and dual-stack (IPv4 and IPv6) subnets, an instance DNS name can be based on the instance IPv4 address (ip-name) or the instance ID (resource-name). For IPv6 only subnets, an instance DNS name must be based on the instance ID (resource-name).    private-dns-name-options-on-launch.enable-resource-name-dns-a-record - Indicates whether to respond to DNS queries for instance hostnames with DNS A records.    private-dns-name-options-on-launch.enable-resource-name-dns-aaaa-record - Indicates whether to respond to DNS queries for instance hostnames with DNS AAAA records.    state - The state of the subnet (pending | available).    subnet-arn - The Amazon Resource Name (ARN) of the subnet.    subnet-id - The ID of the subnet.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    vpc-id - The ID of the VPC for the subnet.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The maximum number of results to return with a single call.
@@ -20568,13 +21003,13 @@ extension EC2 {
 
     public struct DescribeVolumeAttributeRequest: AWSEncodableShape {
         /// The attribute of the volume. This parameter is required.
-        public let attribute: VolumeAttributeName
+        public let attribute: VolumeAttributeName?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the volume.
-        public let volumeId: String
+        public let volumeId: String?
 
-        public init(attribute: VolumeAttributeName, dryRun: Bool? = nil, volumeId: String) {
+        public init(attribute: VolumeAttributeName? = nil, dryRun: Bool? = nil, volumeId: String? = nil) {
             self.attribute = attribute
             self.dryRun = dryRun
             self.volumeId = volumeId
@@ -20775,13 +21210,13 @@ extension EC2 {
 
     public struct DescribeVpcAttributeRequest: AWSEncodableShape {
         /// The VPC attribute.
-        public let attribute: VpcAttributeName
+        public let attribute: VpcAttributeName?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the VPC.
-        public let vpcId: String
+        public let vpcId: String?
 
-        public init(attribute: VpcAttributeName, dryRun: Bool? = nil, vpcId: String) {
+        public init(attribute: VpcAttributeName? = nil, dryRun: Bool? = nil, vpcId: String? = nil) {
             self.attribute = attribute
             self.dryRun = dryRun
             self.vpcId = vpcId
@@ -20804,18 +21239,22 @@ extension EC2 {
         /// 				resolves DNS hostnames for your instances to their corresponding
         /// 				IP addresses; otherwise, it does not.
         public let enableDnsSupport: AttributeBooleanValue?
+        /// Indicates whether Network Address Usage metrics are enabled for your VPC.
+        public let enableNetworkAddressUsageMetrics: AttributeBooleanValue?
         /// The ID of the VPC.
         public let vpcId: String?
 
-        public init(enableDnsHostnames: AttributeBooleanValue? = nil, enableDnsSupport: AttributeBooleanValue? = nil, vpcId: String? = nil) {
+        public init(enableDnsHostnames: AttributeBooleanValue? = nil, enableDnsSupport: AttributeBooleanValue? = nil, enableNetworkAddressUsageMetrics: AttributeBooleanValue? = nil, vpcId: String? = nil) {
             self.enableDnsHostnames = enableDnsHostnames
             self.enableDnsSupport = enableDnsSupport
+            self.enableNetworkAddressUsageMetrics = enableNetworkAddressUsageMetrics
             self.vpcId = vpcId
         }
 
         private enum CodingKeys: String, CodingKey {
             case enableDnsHostnames
             case enableDnsSupport
+            case enableNetworkAddressUsageMetrics
             case vpcId
         }
     }
@@ -21119,9 +21558,9 @@ extension EC2 {
         /// The token to retrieve the next page of results.
         public let nextToken: String?
         /// The ID of the service.
-        public let serviceId: String
+        public let serviceId: String?
 
-        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, serviceId: String) {
+        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, serviceId: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
             self.maxResults = maxResults
@@ -21523,11 +21962,11 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the instance to unlink from the VPC.
-        public let instanceId: String
+        public let instanceId: String?
         /// The ID of the VPC to which the instance is linked.
-        public let vpcId: String
+        public let vpcId: String?
 
-        public init(dryRun: Bool? = nil, instanceId: String, vpcId: String) {
+        public init(dryRun: Bool? = nil, instanceId: String? = nil, vpcId: String? = nil) {
             self.dryRun = dryRun
             self.instanceId = instanceId
             self.vpcId = vpcId
@@ -21557,11 +21996,11 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the internet gateway.
-        public let internetGatewayId: String
+        public let internetGatewayId: String?
         /// The ID of the VPC.
-        public let vpcId: String
+        public let vpcId: String?
 
-        public init(dryRun: Bool? = nil, internetGatewayId: String, vpcId: String) {
+        public init(dryRun: Bool? = nil, internetGatewayId: String? = nil, vpcId: String? = nil) {
             self.dryRun = dryRun
             self.internetGatewayId = internetGatewayId
             self.vpcId = vpcId
@@ -21576,13 +22015,13 @@ extension EC2 {
 
     public struct DetachNetworkInterfaceRequest: AWSEncodableShape {
         /// The ID of the attachment.
-        public let attachmentId: String
+        public let attachmentId: String?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// Specifies whether to force a detachment.    Use the Force parameter only as a last resort to detach a network interface from a failed instance.    If you use the Force parameter to detach a network interface, you might not be able to attach a different network interface to the same index on the instance without first stopping and starting the instance.   If you force the detachment of a network interface, the instance metadata might not get updated. This means that the attributes associated with the detached network interface might still be visible. The instance metadata will get updated when you stop and start the instance.
         public let force: Bool?
 
-        public init(attachmentId: String, dryRun: Bool? = nil, force: Bool? = nil) {
+        public init(attachmentId: String? = nil, dryRun: Bool? = nil, force: Bool? = nil) {
             self.attachmentId = attachmentId
             self.dryRun = dryRun
             self.force = force
@@ -21605,9 +22044,9 @@ extension EC2 {
         /// The ID of the instance. If you are detaching a Multi-Attach enabled volume, you must specify an instance ID.
         public let instanceId: String?
         /// The ID of the volume.
-        public let volumeId: String
+        public let volumeId: String?
 
-        public init(device: String? = nil, dryRun: Bool? = nil, force: Bool? = nil, instanceId: String? = nil, volumeId: String) {
+        public init(device: String? = nil, dryRun: Bool? = nil, force: Bool? = nil, instanceId: String? = nil, volumeId: String? = nil) {
             self.device = device
             self.dryRun = dryRun
             self.force = force
@@ -21628,11 +22067,11 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the VPC.
-        public let vpcId: String
+        public let vpcId: String?
         /// The ID of the virtual private gateway.
-        public let vpnGatewayId: String
+        public let vpnGatewayId: String?
 
-        public init(dryRun: Bool? = nil, vpcId: String, vpnGatewayId: String) {
+        public init(dryRun: Bool? = nil, vpcId: String? = nil, vpnGatewayId: String? = nil) {
             self.dryRun = dryRun
             self.vpcId = vpcId
             self.vpnGatewayId = vpnGatewayId
@@ -21756,9 +22195,9 @@ extension EC2 {
         /// 			any errors that are encountered while cleaning up resources in your account.
         public let force: Bool?
         /// The ID of the image for which you’re turning off faster launching, and removing pre-provisioned snapshots.
-        public let imageId: String
+        public let imageId: String?
 
-        public init(dryRun: Bool? = nil, force: Bool? = nil, imageId: String) {
+        public init(dryRun: Bool? = nil, force: Bool? = nil, imageId: String? = nil) {
             self.dryRun = dryRun
             self.force = force
             self.imageId = imageId
@@ -21930,15 +22369,15 @@ extension EC2 {
         public struct _SourceSnapshotIdsEncoding: ArrayCoderProperties { public static let member = "SnapshotId" }
 
         /// One or more Availability Zones. For example, us-east-2a.
-        @CustomCoding<ArrayCoder<_AvailabilityZonesEncoding, String>>
-        public var availabilityZones: [String]
+        @OptionalCustomCoding<ArrayCoder<_AvailabilityZonesEncoding, String>>
+        public var availabilityZones: [String]?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The IDs of one or more snapshots. For example, snap-1234567890abcdef0.
-        @CustomCoding<ArrayCoder<_SourceSnapshotIdsEncoding, String>>
-        public var sourceSnapshotIds: [String]
+        @OptionalCustomCoding<ArrayCoder<_SourceSnapshotIdsEncoding, String>>
+        public var sourceSnapshotIds: [String]?
 
-        public init(availabilityZones: [String], dryRun: Bool? = nil, sourceSnapshotIds: [String]) {
+        public init(availabilityZones: [String]? = nil, dryRun: Bool? = nil, sourceSnapshotIds: [String]? = nil) {
             self.availabilityZones = availabilityZones
             self.dryRun = dryRun
             self.sourceSnapshotIds = sourceSnapshotIds
@@ -21979,9 +22418,9 @@ extension EC2 {
         /// 			DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the AMI.
-        public let imageId: String
+        public let imageId: String?
 
-        public init(dryRun: Bool? = nil, imageId: String) {
+        public init(dryRun: Bool? = nil, imageId: String? = nil) {
             self.dryRun = dryRun
             self.imageId = imageId
         }
@@ -22007,11 +22446,11 @@ extension EC2 {
 
     public struct DisableIpamOrganizationAdminAccountRequest: AWSEncodableShape {
         /// The Organizations member account ID that you want to disable as IPAM account.
-        public let delegatedAdminAccountId: String
+        public let delegatedAdminAccountId: String?
         /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
-        public init(delegatedAdminAccountId: String, dryRun: Bool? = nil) {
+        public init(delegatedAdminAccountId: String? = nil, dryRun: Bool? = nil) {
             self.delegatedAdminAccountId = delegatedAdminAccountId
             self.dryRun = dryRun
         }
@@ -22071,9 +22510,9 @@ extension EC2 {
         /// The ID of the route table announcement.
         public let transitGatewayRouteTableAnnouncementId: String?
         /// The ID of the propagation route table.
-        public let transitGatewayRouteTableId: String
+        public let transitGatewayRouteTableId: String?
 
-        public init(dryRun: Bool? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayRouteTableAnnouncementId: String? = nil, transitGatewayRouteTableId: String) {
+        public init(dryRun: Bool? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayRouteTableAnnouncementId: String? = nil, transitGatewayRouteTableId: String? = nil) {
             self.dryRun = dryRun
             self.transitGatewayAttachmentId = transitGatewayAttachmentId
             self.transitGatewayRouteTableAnnouncementId = transitGatewayRouteTableAnnouncementId
@@ -22105,11 +22544,11 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the virtual private gateway.
-        public let gatewayId: String
+        public let gatewayId: String?
         /// The ID of the route table.
-        public let routeTableId: String
+        public let routeTableId: String?
 
-        public init(dryRun: Bool? = nil, gatewayId: String, routeTableId: String) {
+        public init(dryRun: Bool? = nil, gatewayId: String? = nil, routeTableId: String? = nil) {
             self.dryRun = dryRun
             self.gatewayId = gatewayId
             self.routeTableId = routeTableId
@@ -22152,9 +22591,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the VPC.
-        public let vpcId: String
+        public let vpcId: String?
 
-        public init(dryRun: Bool? = nil, vpcId: String) {
+        public init(dryRun: Bool? = nil, vpcId: String? = nil) {
             self.dryRun = dryRun
             self.vpcId = vpcId
         }
@@ -22201,13 +22640,13 @@ extension EC2 {
 
     public struct DisassociateClientVpnTargetNetworkRequest: AWSEncodableShape {
         /// The ID of the target network association.
-        public let associationId: String
+        public let associationId: String?
         /// The ID of the Client VPN endpoint from which to disassociate the target network.
-        public let clientVpnEndpointId: String
+        public let clientVpnEndpointId: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
-        public init(associationId: String, clientVpnEndpointId: String, dryRun: Bool? = nil) {
+        public init(associationId: String? = nil, clientVpnEndpointId: String? = nil, dryRun: Bool? = nil) {
             self.associationId = associationId
             self.clientVpnEndpointId = clientVpnEndpointId
             self.dryRun = dryRun
@@ -22280,9 +22719,9 @@ extension EC2 {
 
     public struct DisassociateIamInstanceProfileRequest: AWSEncodableShape {
         /// The ID of the IAM instance profile association.
-        public let associationId: String
+        public let associationId: String?
 
-        public init(associationId: String) {
+        public init(associationId: String? = nil) {
             self.associationId = associationId
         }
 
@@ -22306,13 +22745,13 @@ extension EC2 {
 
     public struct DisassociateInstanceEventWindowRequest: AWSEncodableShape {
         /// One or more targets to disassociate from the specified event window.
-        public let associationTarget: InstanceEventWindowDisassociationRequest
+        public let associationTarget: InstanceEventWindowDisassociationRequest?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the event window.
-        public let instanceEventWindowId: String
+        public let instanceEventWindowId: String?
 
-        public init(associationTarget: InstanceEventWindowDisassociationRequest, dryRun: Bool? = nil, instanceEventWindowId: String) {
+        public init(associationTarget: InstanceEventWindowDisassociationRequest? = nil, dryRun: Bool? = nil, instanceEventWindowId: String? = nil) {
             self.associationTarget = associationTarget
             self.dryRun = dryRun
             self.instanceEventWindowId = instanceEventWindowId
@@ -22340,11 +22779,11 @@ extension EC2 {
 
     public struct DisassociateRouteTableRequest: AWSEncodableShape {
         /// The association ID representing the current association between the route table and subnet or gateway.
-        public let associationId: String
+        public let associationId: String?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
-        public init(associationId: String, dryRun: Bool? = nil) {
+        public init(associationId: String? = nil, dryRun: Bool? = nil) {
             self.associationId = associationId
             self.dryRun = dryRun
         }
@@ -22357,9 +22796,9 @@ extension EC2 {
 
     public struct DisassociateSubnetCidrBlockRequest: AWSEncodableShape {
         /// The association ID for the CIDR block.
-        public let associationId: String
+        public let associationId: String?
 
-        public init(associationId: String) {
+        public init(associationId: String? = nil) {
             self.associationId = associationId
         }
 
@@ -22430,11 +22869,11 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the transit gateway attachment to disassociate from the policy table.
-        public let transitGatewayAttachmentId: String
+        public let transitGatewayAttachmentId: String?
         /// The ID of the disassociated policy table.
-        public let transitGatewayPolicyTableId: String
+        public let transitGatewayPolicyTableId: String?
 
-        public init(dryRun: Bool? = nil, transitGatewayAttachmentId: String, transitGatewayPolicyTableId: String) {
+        public init(dryRun: Bool? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayPolicyTableId: String? = nil) {
             self.dryRun = dryRun
             self.transitGatewayAttachmentId = transitGatewayAttachmentId
             self.transitGatewayPolicyTableId = transitGatewayPolicyTableId
@@ -22464,11 +22903,11 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the attachment.
-        public let transitGatewayAttachmentId: String
+        public let transitGatewayAttachmentId: String?
         /// The ID of the transit gateway route table.
-        public let transitGatewayRouteTableId: String
+        public let transitGatewayRouteTableId: String?
 
-        public init(dryRun: Bool? = nil, transitGatewayAttachmentId: String, transitGatewayRouteTableId: String) {
+        public init(dryRun: Bool? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayRouteTableId: String? = nil) {
             self.dryRun = dryRun
             self.transitGatewayAttachmentId = transitGatewayAttachmentId
             self.transitGatewayRouteTableId = transitGatewayRouteTableId
@@ -22496,13 +22935,13 @@ extension EC2 {
 
     public struct DisassociateTrunkInterfaceRequest: AWSEncodableShape {
         /// The ID of the association
-        public let associationId: String
+        public let associationId: String?
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
         public let clientToken: String?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
-        public init(associationId: String, clientToken: String? = DisassociateTrunkInterfaceRequest.idempotencyToken(), dryRun: Bool? = nil) {
+        public init(associationId: String? = nil, clientToken: String? = DisassociateTrunkInterfaceRequest.idempotencyToken(), dryRun: Bool? = nil) {
             self.associationId = associationId
             self.clientToken = clientToken
             self.dryRun = dryRun
@@ -22534,9 +22973,9 @@ extension EC2 {
 
     public struct DisassociateVpcCidrBlockRequest: AWSEncodableShape {
         /// The association ID for the CIDR block.
-        public let associationId: String
+        public let associationId: String?
 
-        public init(associationId: String) {
+        public init(associationId: String? = nil) {
             self.associationId = associationId
         }
 
@@ -22614,13 +23053,13 @@ extension EC2 {
 
     public struct DiskImageDetail: AWSEncodableShape {
         /// The size of the disk image, in GiB.
-        public let bytes: Int64
+        public let bytes: Int64?
         /// The disk image format.
-        public let format: DiskImageFormat
+        public let format: DiskImageFormat?
         /// A presigned URL for the import manifest stored in Amazon S3 and presented here as an Amazon S3 presigned URL. For information about creating a presigned URL for an Amazon S3 object, read the "Query String Request Authentication Alternative" section of the Authenticating REST Requests topic in the Amazon Simple Storage Service Developer Guide. For information about the import manifest referenced by this API action, see VM Import Manifest.
-        public let importManifestUrl: String
+        public let importManifestUrl: String?
 
-        public init(bytes: Int64, format: DiskImageFormat, importManifestUrl: String) {
+        public init(bytes: Int64? = nil, format: DiskImageFormat? = nil, importManifestUrl: String? = nil) {
             self.bytes = bytes
             self.format = format
             self.importManifestUrl = importManifestUrl
@@ -22774,7 +23213,7 @@ extension EC2 {
             case deleteOnTermination
             case encrypted
             case iops
-            case kmsKeyId = "KmsKeyId"
+            case kmsKeyId
             case outpostArn
             case snapshotId
             case throughput
@@ -22962,9 +23401,9 @@ extension EC2 {
 
     public struct ElasticGpuSpecification: AWSEncodableShape {
         /// The type of Elastic Graphics accelerator. For more information about the values to specify for Type, see Elastic Graphics Basics, specifically the Elastic Graphics accelerator column, in the  Amazon Elastic Compute Cloud User Guide for Windows Instances.
-        public let type: String
+        public let type: String?
 
-        public init(type: String) {
+        public init(type: String? = nil) {
             self.type = type
         }
 
@@ -23030,9 +23469,9 @@ extension EC2 {
         ///  The number of elastic inference accelerators to attach to the instance.   Default: 1
         public let count: Int?
         ///  	The type of elastic inference accelerator. The possible values are eia1.medium, eia1.large, eia1.xlarge, eia2.medium, eia2.large, and eia2.xlarge.
-        public let type: String
+        public let type: String?
 
-        public init(count: Int? = nil, type: String) {
+        public init(count: Int? = nil, type: String? = nil) {
             self.count = count
             self.type = type
         }
@@ -23104,7 +23543,7 @@ extension EC2 {
         /// 			DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the image for which you’re enabling faster launching.
-        public let imageId: String
+        public let imageId: String?
         /// The launch template to use when launching Windows instances from pre-provisioned
         /// 			snapshots. Launch template parameters can include either the name or ID of the launch
         /// 			template, but not both.
@@ -23119,7 +23558,7 @@ extension EC2 {
         /// 			must be snapshot.
         public let snapshotConfiguration: FastLaunchSnapshotConfigurationRequest?
 
-        public init(dryRun: Bool? = nil, imageId: String, launchTemplate: FastLaunchLaunchTemplateSpecificationRequest? = nil, maxParallelLaunches: Int? = nil, resourceType: String? = nil, snapshotConfiguration: FastLaunchSnapshotConfigurationRequest? = nil) {
+        public init(dryRun: Bool? = nil, imageId: String? = nil, launchTemplate: FastLaunchLaunchTemplateSpecificationRequest? = nil, maxParallelLaunches: Int? = nil, resourceType: String? = nil, snapshotConfiguration: FastLaunchSnapshotConfigurationRequest? = nil) {
             self.dryRun = dryRun
             self.imageId = imageId
             self.launchTemplate = launchTemplate
@@ -23297,15 +23736,15 @@ extension EC2 {
         public struct _SourceSnapshotIdsEncoding: ArrayCoderProperties { public static let member = "SnapshotId" }
 
         /// One or more Availability Zones. For example, us-east-2a.
-        @CustomCoding<ArrayCoder<_AvailabilityZonesEncoding, String>>
-        public var availabilityZones: [String]
+        @OptionalCustomCoding<ArrayCoder<_AvailabilityZonesEncoding, String>>
+        public var availabilityZones: [String]?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The IDs of one or more snapshots. For example, snap-1234567890abcdef0. You can specify a snapshot that was shared with you from another Amazon Web Services account.
-        @CustomCoding<ArrayCoder<_SourceSnapshotIdsEncoding, String>>
-        public var sourceSnapshotIds: [String]
+        @OptionalCustomCoding<ArrayCoder<_SourceSnapshotIdsEncoding, String>>
+        public var sourceSnapshotIds: [String]?
 
-        public init(availabilityZones: [String], dryRun: Bool? = nil, sourceSnapshotIds: [String]) {
+        public init(availabilityZones: [String]? = nil, dryRun: Bool? = nil, sourceSnapshotIds: [String]? = nil) {
             self.availabilityZones = availabilityZones
             self.dryRun = dryRun
             self.sourceSnapshotIds = sourceSnapshotIds
@@ -23342,15 +23781,15 @@ extension EC2 {
 
     public struct EnableImageDeprecationRequest: AWSEncodableShape {
         /// The date and time to deprecate the AMI, in UTC, in the following format: YYYY-MM-DDTHH:MM:SSZ. If you specify a value for seconds, Amazon EC2 rounds the seconds to the nearest minute. You can’t specify a date in the past. The upper limit for DeprecateAt is 10 years from now.
-        public let deprecateAt: Date
+        public let deprecateAt: Date?
         /// Checks whether you have the required permissions for the action, without actually making the request,
         /// 			and provides an error response. If you have the required permissions, the error response is
         /// 			DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the AMI.
-        public let imageId: String
+        public let imageId: String?
 
-        public init(deprecateAt: Date, dryRun: Bool? = nil, imageId: String) {
+        public init(deprecateAt: Date? = nil, dryRun: Bool? = nil, imageId: String? = nil) {
             self.deprecateAt = deprecateAt
             self.dryRun = dryRun
             self.imageId = imageId
@@ -23378,11 +23817,11 @@ extension EC2 {
 
     public struct EnableIpamOrganizationAdminAccountRequest: AWSEncodableShape {
         /// The Organizations member account ID that you want to enable as the IPAM account.
-        public let delegatedAdminAccountId: String
+        public let delegatedAdminAccountId: String?
         /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
-        public init(delegatedAdminAccountId: String, dryRun: Bool? = nil) {
+        public init(delegatedAdminAccountId: String? = nil, dryRun: Bool? = nil) {
             self.delegatedAdminAccountId = delegatedAdminAccountId
             self.dryRun = dryRun
         }
@@ -23442,9 +23881,9 @@ extension EC2 {
         /// The ID of the transit gateway route table announcement.
         public let transitGatewayRouteTableAnnouncementId: String?
         /// The ID of the propagation route table.
-        public let transitGatewayRouteTableId: String
+        public let transitGatewayRouteTableId: String?
 
-        public init(dryRun: Bool? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayRouteTableAnnouncementId: String? = nil, transitGatewayRouteTableId: String) {
+        public init(dryRun: Bool? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayRouteTableAnnouncementId: String? = nil, transitGatewayRouteTableId: String? = nil) {
             self.dryRun = dryRun
             self.transitGatewayAttachmentId = transitGatewayAttachmentId
             self.transitGatewayRouteTableAnnouncementId = transitGatewayRouteTableAnnouncementId
@@ -23476,11 +23915,11 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the virtual private gateway that is attached to a VPC. The virtual private gateway must be attached to the same VPC that the routing tables are associated with.
-        public let gatewayId: String
+        public let gatewayId: String?
         /// The ID of the route table. The routing table must be associated with the same VPC that the virtual private gateway is attached to.
-        public let routeTableId: String
+        public let routeTableId: String?
 
-        public init(dryRun: Bool? = nil, gatewayId: String, routeTableId: String) {
+        public init(dryRun: Bool? = nil, gatewayId: String? = nil, routeTableId: String? = nil) {
             self.dryRun = dryRun
             self.gatewayId = gatewayId
             self.routeTableId = routeTableId
@@ -23497,9 +23936,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the volume.
-        public let volumeId: String
+        public let volumeId: String?
 
-        public init(dryRun: Bool? = nil, volumeId: String) {
+        public init(dryRun: Bool? = nil, volumeId: String? = nil) {
             self.dryRun = dryRun
             self.volumeId = volumeId
         }
@@ -23540,9 +23979,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the VPC.
-        public let vpcId: String
+        public let vpcId: String?
 
-        public init(dryRun: Bool? = nil, vpcId: String) {
+        public init(dryRun: Bool? = nil, vpcId: String? = nil) {
             self.dryRun = dryRun
             self.vpcId = vpcId
         }
@@ -23643,6 +24082,10 @@ extension EC2 {
         public let classicLoadBalancerListener: AnalysisLoadBalancerListener?
         /// The component.
         public let component: AnalysisComponent?
+        /// The Amazon Web Services account for the component.
+        public let componentAccount: String?
+        /// The Region for the component.
+        public let componentRegion: String?
         /// The customer gateway.
         public let customerGateway: AnalysisComponent?
         /// The destination.
@@ -23728,7 +24171,7 @@ extension EC2 {
         /// The VPN gateway.
         public let vpnGateway: AnalysisComponent?
 
-        public init(acl: AnalysisComponent? = nil, aclRule: AnalysisAclRule? = nil, address: String? = nil, addresses: [String]? = nil, attachedTo: AnalysisComponent? = nil, availabilityZones: [String]? = nil, cidrs: [String]? = nil, classicLoadBalancerListener: AnalysisLoadBalancerListener? = nil, component: AnalysisComponent? = nil, customerGateway: AnalysisComponent? = nil, destination: AnalysisComponent? = nil, destinationVpc: AnalysisComponent? = nil, direction: String? = nil, elasticLoadBalancerListener: AnalysisComponent? = nil, explanationCode: String? = nil, ingressRouteTable: AnalysisComponent? = nil, internetGateway: AnalysisComponent? = nil, loadBalancerArn: String? = nil, loadBalancerListenerPort: Int? = nil, loadBalancerTarget: AnalysisLoadBalancerTarget? = nil, loadBalancerTargetGroup: AnalysisComponent? = nil, loadBalancerTargetGroups: [AnalysisComponent]? = nil, loadBalancerTargetPort: Int? = nil, missingComponent: String? = nil, natGateway: AnalysisComponent? = nil, networkInterface: AnalysisComponent? = nil, packetField: String? = nil, port: Int? = nil, portRanges: [PortRange]? = nil, prefixList: AnalysisComponent? = nil, protocols: [String]? = nil, routeTable: AnalysisComponent? = nil, routeTableRoute: AnalysisRouteTableRoute? = nil, securityGroup: AnalysisComponent? = nil, securityGroupRule: AnalysisSecurityGroupRule? = nil, securityGroups: [AnalysisComponent]? = nil, sourceVpc: AnalysisComponent? = nil, state: String? = nil, subnet: AnalysisComponent? = nil, subnetRouteTable: AnalysisComponent? = nil, transitGateway: AnalysisComponent? = nil, transitGatewayAttachment: AnalysisComponent? = nil, transitGatewayRouteTable: AnalysisComponent? = nil, transitGatewayRouteTableRoute: TransitGatewayRouteTableRoute? = nil, vpc: AnalysisComponent? = nil, vpcEndpoint: AnalysisComponent? = nil, vpcPeeringConnection: AnalysisComponent? = nil, vpnConnection: AnalysisComponent? = nil, vpnGateway: AnalysisComponent? = nil) {
+        public init(acl: AnalysisComponent? = nil, aclRule: AnalysisAclRule? = nil, address: String? = nil, addresses: [String]? = nil, attachedTo: AnalysisComponent? = nil, availabilityZones: [String]? = nil, cidrs: [String]? = nil, classicLoadBalancerListener: AnalysisLoadBalancerListener? = nil, component: AnalysisComponent? = nil, componentAccount: String? = nil, componentRegion: String? = nil, customerGateway: AnalysisComponent? = nil, destination: AnalysisComponent? = nil, destinationVpc: AnalysisComponent? = nil, direction: String? = nil, elasticLoadBalancerListener: AnalysisComponent? = nil, explanationCode: String? = nil, ingressRouteTable: AnalysisComponent? = nil, internetGateway: AnalysisComponent? = nil, loadBalancerArn: String? = nil, loadBalancerListenerPort: Int? = nil, loadBalancerTarget: AnalysisLoadBalancerTarget? = nil, loadBalancerTargetGroup: AnalysisComponent? = nil, loadBalancerTargetGroups: [AnalysisComponent]? = nil, loadBalancerTargetPort: Int? = nil, missingComponent: String? = nil, natGateway: AnalysisComponent? = nil, networkInterface: AnalysisComponent? = nil, packetField: String? = nil, port: Int? = nil, portRanges: [PortRange]? = nil, prefixList: AnalysisComponent? = nil, protocols: [String]? = nil, routeTable: AnalysisComponent? = nil, routeTableRoute: AnalysisRouteTableRoute? = nil, securityGroup: AnalysisComponent? = nil, securityGroupRule: AnalysisSecurityGroupRule? = nil, securityGroups: [AnalysisComponent]? = nil, sourceVpc: AnalysisComponent? = nil, state: String? = nil, subnet: AnalysisComponent? = nil, subnetRouteTable: AnalysisComponent? = nil, transitGateway: AnalysisComponent? = nil, transitGatewayAttachment: AnalysisComponent? = nil, transitGatewayRouteTable: AnalysisComponent? = nil, transitGatewayRouteTableRoute: TransitGatewayRouteTableRoute? = nil, vpc: AnalysisComponent? = nil, vpcEndpoint: AnalysisComponent? = nil, vpcPeeringConnection: AnalysisComponent? = nil, vpnConnection: AnalysisComponent? = nil, vpnGateway: AnalysisComponent? = nil) {
             self.acl = acl
             self.aclRule = aclRule
             self.address = address
@@ -23738,6 +24181,8 @@ extension EC2 {
             self.cidrs = cidrs
             self.classicLoadBalancerListener = classicLoadBalancerListener
             self.component = component
+            self.componentAccount = componentAccount
+            self.componentRegion = componentRegion
             self.customerGateway = customerGateway
             self.destination = destination
             self.destinationVpc = destinationVpc
@@ -23790,6 +24235,8 @@ extension EC2 {
             case cidrs = "cidrSet"
             case classicLoadBalancerListener
             case component
+            case componentAccount
+            case componentRegion
             case customerGateway
             case destination
             case destinationVpc
@@ -23835,11 +24282,11 @@ extension EC2 {
 
     public struct ExportClientVpnClientCertificateRevocationListRequest: AWSEncodableShape {
         /// The ID of the Client VPN endpoint.
-        public let clientVpnEndpointId: String
+        public let clientVpnEndpointId: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
-        public init(clientVpnEndpointId: String, dryRun: Bool? = nil) {
+        public init(clientVpnEndpointId: String? = nil, dryRun: Bool? = nil) {
             self.clientVpnEndpointId = clientVpnEndpointId
             self.dryRun = dryRun
         }
@@ -23869,11 +24316,11 @@ extension EC2 {
 
     public struct ExportClientVpnClientConfigurationRequest: AWSEncodableShape {
         /// The ID of the Client VPN endpoint.
-        public let clientVpnEndpointId: String
+        public let clientVpnEndpointId: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
-        public init(clientVpnEndpointId: String, dryRun: Bool? = nil) {
+        public init(clientVpnEndpointId: String? = nil, dryRun: Bool? = nil) {
             self.clientVpnEndpointId = clientVpnEndpointId
             self.dryRun = dryRun
         }
@@ -23905,20 +24352,20 @@ extension EC2 {
         /// A description of the image being exported. The maximum length is 255 characters.
         public let description: String?
         /// The disk image format.
-        public let diskImageFormat: DiskImageFormat
+        public let diskImageFormat: DiskImageFormat?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the image.
-        public let imageId: String
+        public let imageId: String?
         /// The name of the role that grants VM Import/Export permission to export images to your Amazon S3 bucket. If this parameter is not specified, the default role is named 'vmimport'.
         public let roleName: String?
         /// The Amazon S3 bucket for the destination image. The destination bucket must exist.
-        public let s3ExportLocation: ExportTaskS3LocationRequest
+        public let s3ExportLocation: ExportTaskS3LocationRequest?
         /// The tags to apply to the export image task during creation.
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
-        public init(clientToken: String? = ExportImageRequest.idempotencyToken(), description: String? = nil, diskImageFormat: DiskImageFormat, dryRun: Bool? = nil, imageId: String, roleName: String? = nil, s3ExportLocation: ExportTaskS3LocationRequest, tagSpecifications: [TagSpecification]? = nil) {
+        public init(clientToken: String? = ExportImageRequest.idempotencyToken(), description: String? = nil, diskImageFormat: DiskImageFormat? = nil, dryRun: Bool? = nil, imageId: String? = nil, roleName: String? = nil, s3ExportLocation: ExportTaskS3LocationRequest? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.diskImageFormat = diskImageFormat
@@ -24096,11 +24543,11 @@ extension EC2 {
 
     public struct ExportTaskS3LocationRequest: AWSEncodableShape {
         /// The destination Amazon S3 bucket.
-        public let s3Bucket: String
+        public let s3Bucket: String?
         /// The prefix (logical hierarchy) in the bucket.
         public let s3Prefix: String?
 
-        public init(s3Bucket: String, s3Prefix: String? = nil) {
+        public init(s3Bucket: String? = nil, s3Prefix: String? = nil) {
             self.s3Bucket = s3Bucket
             self.s3Prefix = s3Prefix
         }
@@ -24170,11 +24617,11 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The name of the S3 bucket.
-        public let s3Bucket: String
+        public let s3Bucket: String?
         /// The ID of the route table.
-        public let transitGatewayRouteTableId: String
+        public let transitGatewayRouteTableId: String?
 
-        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, s3Bucket: String, transitGatewayRouteTableId: String) {
+        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, s3Bucket: String? = nil, transitGatewayRouteTableId: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
             self.s3Bucket = s3Bucket
@@ -24242,9 +24689,9 @@ extension EC2 {
         /// The name of the launch template to use for faster launching for a Windows AMI.
         public let launchTemplateName: String?
         /// The version of the launch template to use for faster launching for a Windows AMI.
-        public let version: String
+        public let version: String?
 
-        public init(launchTemplateId: String? = nil, launchTemplateName: String? = nil, version: String) {
+        public init(launchTemplateId: String? = nil, launchTemplateName: String? = nil, version: String? = nil) {
             self.launchTemplateId = launchTemplateId
             self.launchTemplateName = launchTemplateName
             self.version = version
@@ -24569,9 +25016,11 @@ extension EC2 {
     public struct FleetLaunchTemplateOverrides: AWSDecodableShape {
         /// The Availability Zone in which to launch the instances.
         public let availabilityZone: String?
-        /// The attributes for the instance types. When you specify instance attributes, Amazon EC2 will identify instance types with those attributes.  If you specify InstanceRequirements, you can't specify InstanceTypes.
+        /// The ID of the AMI. An AMI is required to launch an instance. The AMI ID must be specified here or in the launch template.
+        public let imageId: String?
+        /// The attributes for the instance types. When you specify instance attributes, Amazon EC2 will identify instance types with those attributes.  If you specify InstanceRequirements, you can't specify InstanceType.
         public let instanceRequirements: InstanceRequirements?
-        /// The instance type.  If you specify InstanceTypes, you can't specify InstanceRequirements.
+        /// The instance type.  If you specify InstanceType, you can't specify InstanceRequirements.
         public let instanceType: InstanceType?
         /// The maximum price per unit hour that you are willing to pay for a Spot Instance. We do not recommend using this parameter because it can lead to increased interruptions. If you do not specify this parameter, you will pay the current Spot price.   If you specify a maximum price, your instances will be interrupted more frequently than if you do not specify this parameter.
         public let maxPrice: String?
@@ -24584,8 +25033,9 @@ extension EC2 {
         /// The number of units provided by the specified instance type.
         public let weightedCapacity: Double?
 
-        public init(availabilityZone: String? = nil, instanceRequirements: InstanceRequirements? = nil, instanceType: InstanceType? = nil, maxPrice: String? = nil, placement: PlacementResponse? = nil, priority: Double? = nil, subnetId: String? = nil, weightedCapacity: Double? = nil) {
+        public init(availabilityZone: String? = nil, imageId: String? = nil, instanceRequirements: InstanceRequirements? = nil, instanceType: InstanceType? = nil, maxPrice: String? = nil, placement: PlacementResponse? = nil, priority: Double? = nil, subnetId: String? = nil, weightedCapacity: Double? = nil) {
             self.availabilityZone = availabilityZone
+            self.imageId = imageId
             self.instanceRequirements = instanceRequirements
             self.instanceType = instanceType
             self.maxPrice = maxPrice
@@ -24597,6 +25047,7 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case availabilityZone
+            case imageId
             case instanceRequirements
             case instanceType
             case maxPrice
@@ -24610,9 +25061,11 @@ extension EC2 {
     public struct FleetLaunchTemplateOverridesRequest: AWSEncodableShape {
         /// The Availability Zone in which to launch the instances.
         public let availabilityZone: String?
-        /// The attributes for the instance types. When you specify instance attributes, Amazon EC2 will identify instance types with those attributes.  If you specify InstanceRequirements, you can't specify InstanceTypes.
+        /// The ID of the AMI. An AMI is required to launch an instance. The AMI ID must be specified here or in the launch template.
+        public let imageId: String?
+        /// The attributes for the instance types. When you specify instance attributes, Amazon EC2 will identify instance types with those attributes.  If you specify InstanceRequirements, you can't specify InstanceType.
         public let instanceRequirements: InstanceRequirementsRequest?
-        /// The instance type.  If you specify InstanceTypes, you can't specify InstanceRequirements.
+        /// The instance type.  If you specify InstanceType, you can't specify InstanceRequirements.
         public let instanceType: InstanceType?
         /// The maximum price per unit hour that you are willing to pay for a Spot Instance. We do not recommend using this parameter because it can lead to increased interruptions. If you do not specify this parameter, you will pay the current Spot price.   If you specify a maximum price, your instances will be interrupted more frequently than if you do not specify this parameter.
         public let maxPrice: String?
@@ -24625,8 +25078,9 @@ extension EC2 {
         /// The number of units provided by the specified instance type.
         public let weightedCapacity: Double?
 
-        public init(availabilityZone: String? = nil, instanceRequirements: InstanceRequirementsRequest? = nil, instanceType: InstanceType? = nil, maxPrice: String? = nil, placement: Placement? = nil, priority: Double? = nil, subnetId: String? = nil, weightedCapacity: Double? = nil) {
+        public init(availabilityZone: String? = nil, imageId: String? = nil, instanceRequirements: InstanceRequirementsRequest? = nil, instanceType: InstanceType? = nil, maxPrice: String? = nil, placement: Placement? = nil, priority: Double? = nil, subnetId: String? = nil, weightedCapacity: Double? = nil) {
             self.availabilityZone = availabilityZone
+            self.imageId = imageId
             self.instanceRequirements = instanceRequirements
             self.instanceType = instanceType
             self.maxPrice = maxPrice
@@ -24642,6 +25096,7 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case availabilityZone = "AvailabilityZone"
+            case imageId = "ImageId"
             case instanceRequirements = "InstanceRequirements"
             case instanceType = "InstanceType"
             case maxPrice = "MaxPrice"
@@ -24771,21 +25226,23 @@ extension EC2 {
 
         /// The date and time the flow log was created.
         public let creationTime: Date?
+        /// The ARN of the IAM role that allows the service to publish flow logs across accounts.
+        public let deliverCrossAccountRole: String?
         /// Information about the error that occurred. Rate limited indicates that CloudWatch Logs throttling has been applied for one or more network interfaces, or that you've reached the limit on the number of log groups that you can create. Access error indicates that the IAM role associated with the flow log does not have sufficient permissions to publish to CloudWatch Logs. Unknown error indicates an internal error.
         public let deliverLogsErrorMessage: String?
-        /// The ARN of the IAM role that posts logs to CloudWatch Logs.
+        /// The ARN of the IAM role allows the service to publish logs to CloudWatch Logs.
         public let deliverLogsPermissionArn: String?
         /// The status of the logs delivery (SUCCESS | FAILED).
         public let deliverLogsStatus: String?
         /// The destination options.
         public let destinationOptions: DestinationOptionsResponse?
-        /// The flow log ID.
+        /// The ID of the flow log.
         public let flowLogId: String?
         /// The status of the flow log (ACTIVE).
         public let flowLogStatus: String?
-        /// The destination to which the flow log data is published. Flow log data can be published to an CloudWatch Logs log group or an Amazon S3 bucket. If the flow log publishes to CloudWatch Logs, this element indicates the Amazon Resource Name (ARN) of the CloudWatch Logs log group to which the data is published. If the flow log publishes to Amazon S3, this element indicates the ARN of the Amazon S3 bucket to which the data is published.
+        /// The Amazon Resource Name (ARN) of the destination for the flow log data.
         public let logDestination: String?
-        /// The type of destination to which the flow log data is published. Flow log data can be  published to CloudWatch Logs or Amazon S3.
+        /// The type of destination for the flow log data.
         public let logDestinationType: LogDestinationType?
         /// The format of the flow log record.
         public let logFormat: String?
@@ -24793,7 +25250,7 @@ extension EC2 {
         public let logGroupName: String?
         /// The maximum interval of time, in seconds, during which a flow of packets is captured and aggregated into a flow log record. When a network interface is attached to a Nitro-based instance, the aggregation interval is always 60 seconds (1 minute) or less, regardless of the specified value. Valid Values: 60 | 600
         public let maxAggregationInterval: Int?
-        /// The ID of the resource on which the flow log was created.
+        /// The ID of the resource being monitored.
         public let resourceId: String?
         /// The tags for the flow log.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
@@ -24801,8 +25258,9 @@ extension EC2 {
         /// The type of traffic captured for the flow log.
         public let trafficType: TrafficType?
 
-        public init(creationTime: Date? = nil, deliverLogsErrorMessage: String? = nil, deliverLogsPermissionArn: String? = nil, deliverLogsStatus: String? = nil, destinationOptions: DestinationOptionsResponse? = nil, flowLogId: String? = nil, flowLogStatus: String? = nil, logDestination: String? = nil, logDestinationType: LogDestinationType? = nil, logFormat: String? = nil, logGroupName: String? = nil, maxAggregationInterval: Int? = nil, resourceId: String? = nil, tags: [Tag]? = nil, trafficType: TrafficType? = nil) {
+        public init(creationTime: Date? = nil, deliverCrossAccountRole: String? = nil, deliverLogsErrorMessage: String? = nil, deliverLogsPermissionArn: String? = nil, deliverLogsStatus: String? = nil, destinationOptions: DestinationOptionsResponse? = nil, flowLogId: String? = nil, flowLogStatus: String? = nil, logDestination: String? = nil, logDestinationType: LogDestinationType? = nil, logFormat: String? = nil, logGroupName: String? = nil, maxAggregationInterval: Int? = nil, resourceId: String? = nil, tags: [Tag]? = nil, trafficType: TrafficType? = nil) {
             self.creationTime = creationTime
+            self.deliverCrossAccountRole = deliverCrossAccountRole
             self.deliverLogsErrorMessage = deliverLogsErrorMessage
             self.deliverLogsPermissionArn = deliverLogsPermissionArn
             self.deliverLogsStatus = deliverLogsStatus
@@ -24821,6 +25279,7 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case creationTime
+            case deliverCrossAccountRole
             case deliverLogsErrorMessage
             case deliverLogsPermissionArn
             case deliverLogsStatus
@@ -25070,9 +25529,9 @@ extension EC2 {
         /// The token for the next page of results.
         public let nextToken: String?
         /// The ID of the IPv6 address pool.
-        public let poolId: String
+        public let poolId: String?
 
-        public init(dryRun: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, poolId: String) {
+        public init(dryRun: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, poolId: String? = nil) {
             self.dryRun = dryRun
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -25114,7 +25573,7 @@ extension EC2 {
 
     public struct GetCapacityReservationUsageRequest: AWSEncodableShape {
         /// The ID of the Capacity Reservation.
-        public let capacityReservationId: String
+        public let capacityReservationId: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The maximum number of results to return for the request in a single page. The remaining results can be seen by sending another request with the returned nextToken value. This value can be between 5 and 500. If maxResults is given a larger value than 500, you receive an error.
@@ -25123,7 +25582,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results.
         public let nextToken: String?
 
-        public init(capacityReservationId: String, dryRun: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(capacityReservationId: String? = nil, dryRun: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.capacityReservationId = capacityReservationId
             self.dryRun = dryRun
             self.maxResults = maxResults
@@ -25203,9 +25662,9 @@ extension EC2 {
         /// The token for the next page of results.
         public let nextToken: String?
         /// The ID of the address pool.
-        public let poolId: String
+        public let poolId: String?
 
-        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, poolId: String) {
+        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, poolId: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
             self.maxResults = maxResults
@@ -25255,11 +25714,11 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the instance.
-        public let instanceId: String
+        public let instanceId: String?
         /// When enabled, retrieves the latest console output for the instance. Default: disabled (false)
         public let latest: Bool?
 
-        public init(dryRun: Bool? = nil, instanceId: String, latest: Bool? = nil) {
+        public init(dryRun: Bool? = nil, instanceId: String? = nil, latest: Bool? = nil) {
             self.dryRun = dryRun
             self.instanceId = instanceId
             self.latest = latest
@@ -25297,11 +25756,11 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the instance.
-        public let instanceId: String
+        public let instanceId: String?
         /// When set to true, acts as keystroke input and wakes up an instance that's in standby or "sleep" mode.
         public let wakeUp: Bool?
 
-        public init(dryRun: Bool? = nil, instanceId: String, wakeUp: Bool? = nil) {
+        public init(dryRun: Bool? = nil, instanceId: String? = nil, wakeUp: Bool? = nil) {
             self.dryRun = dryRun
             self.instanceId = instanceId
             self.wakeUp = wakeUp
@@ -25335,9 +25794,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The instance family.
-        public let instanceFamily: UnlimitedSupportedInstanceFamily
+        public let instanceFamily: UnlimitedSupportedInstanceFamily?
 
-        public init(dryRun: Bool? = nil, instanceFamily: UnlimitedSupportedInstanceFamily) {
+        public init(dryRun: Bool? = nil, instanceFamily: UnlimitedSupportedInstanceFamily? = nil) {
             self.dryRun = dryRun
             self.instanceFamily = instanceFamily
         }
@@ -25415,15 +25874,15 @@ extension EC2 {
 
     public struct GetFlowLogsIntegrationTemplateRequest: AWSEncodableShape {
         /// To store the CloudFormation template in Amazon S3, specify the location in Amazon S3.
-        public let configDeliveryS3DestinationArn: String
+        public let configDeliveryS3DestinationArn: String?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the flow log.
-        public let flowLogId: String
+        public let flowLogId: String?
         /// Information about the service integration.
-        public let integrateServices: IntegrateServices
+        public let integrateServices: IntegrateServices?
 
-        public init(configDeliveryS3DestinationArn: String, dryRun: Bool? = nil, flowLogId: String, integrateServices: IntegrateServices) {
+        public init(configDeliveryS3DestinationArn: String? = nil, dryRun: Bool? = nil, flowLogId: String? = nil, integrateServices: IntegrateServices? = nil) {
             self.configDeliveryS3DestinationArn = configDeliveryS3DestinationArn
             self.dryRun = dryRun
             self.flowLogId = flowLogId
@@ -25431,7 +25890,7 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.integrateServices.validate(name: "\(name).integrateServices")
+            try self.integrateServices?.validate(name: "\(name).integrateServices")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -25457,7 +25916,7 @@ extension EC2 {
 
     public struct GetGroupsForCapacityReservationRequest: AWSEncodableShape {
         /// The ID of the Capacity Reservation.
-        public let capacityReservationId: String
+        public let capacityReservationId: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The maximum number of results to return for the request in a single page. The remaining results can be seen by sending another request with the returned nextToken value. This value can be between 5 and 500. If maxResults is given a larger value than 500, you receive an error.
@@ -25465,7 +25924,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results.
         public let nextToken: String?
 
-        public init(capacityReservationId: String, dryRun: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(capacityReservationId: String? = nil, dryRun: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.capacityReservationId = capacityReservationId
             self.dryRun = dryRun
             self.maxResults = maxResults
@@ -25509,12 +25968,12 @@ extension EC2 {
         public struct _HostIdSetEncoding: ArrayCoderProperties { public static let member = "item" }
 
         /// The IDs of the Dedicated Hosts with which the reservation is associated.
-        @CustomCoding<ArrayCoder<_HostIdSetEncoding, String>>
-        public var hostIdSet: [String]
+        @OptionalCustomCoding<ArrayCoder<_HostIdSetEncoding, String>>
+        public var hostIdSet: [String]?
         /// The offering ID of the reservation.
-        public let offeringId: String
+        public let offeringId: String?
 
-        public init(hostIdSet: [String], offeringId: String) {
+        public init(hostIdSet: [String]? = nil, offeringId: String? = nil) {
             self.hostIdSet = hostIdSet
             self.offeringId = offeringId
         }
@@ -25558,21 +26017,21 @@ extension EC2 {
         public struct _VirtualizationTypesEncoding: ArrayCoderProperties { public static let member = "item" }
 
         /// The processor architecture type.
-        @CustomCoding<ArrayCoder<_ArchitectureTypesEncoding, ArchitectureType>>
-        public var architectureTypes: [ArchitectureType]
+        @OptionalCustomCoding<ArrayCoder<_ArchitectureTypesEncoding, ArchitectureType>>
+        public var architectureTypes: [ArchitectureType]?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The attributes required for the instance types.
-        public let instanceRequirements: InstanceRequirementsRequest
+        public let instanceRequirements: InstanceRequirementsRequest?
         /// The maximum number of results to return in a single call. Specify a value between 1 and   1000. The default value is 1000. To retrieve the remaining results, make another call with   the returned NextToken value.
         public let maxResults: Int?
         /// The token for the next set of results.
         public let nextToken: String?
         /// The virtualization type.
-        @CustomCoding<ArrayCoder<_VirtualizationTypesEncoding, VirtualizationType>>
-        public var virtualizationTypes: [VirtualizationType]
+        @OptionalCustomCoding<ArrayCoder<_VirtualizationTypesEncoding, VirtualizationType>>
+        public var virtualizationTypes: [VirtualizationType]?
 
-        public init(architectureTypes: [ArchitectureType], dryRun: Bool? = nil, instanceRequirements: InstanceRequirementsRequest, maxResults: Int? = nil, nextToken: String? = nil, virtualizationTypes: [VirtualizationType]) {
+        public init(architectureTypes: [ArchitectureType]? = nil, dryRun: Bool? = nil, instanceRequirements: InstanceRequirementsRequest? = nil, maxResults: Int? = nil, nextToken: String? = nil, virtualizationTypes: [VirtualizationType]? = nil) {
             self.architectureTypes = architectureTypes
             self.dryRun = dryRun
             self.instanceRequirements = instanceRequirements
@@ -25583,7 +26042,7 @@ extension EC2 {
 
         public func validate(name: String) throws {
             try self.validate(self.architectureTypes, name: "architectureTypes", parent: name, max: 3)
-            try self.instanceRequirements.validate(name: "\(name).instanceRequirements")
+            try self.instanceRequirements?.validate(name: "\(name).instanceRequirements")
             try self.validate(self.virtualizationTypes, name: "virtualizationTypes", parent: name, max: 2)
         }
 
@@ -25621,9 +26080,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the instance from which to retrieve the UEFI data.
-        public let instanceId: String
+        public let instanceId: String?
 
-        public init(dryRun: Bool? = nil, instanceId: String) {
+        public init(dryRun: Bool? = nil, instanceId: String? = nil) {
             self.dryRun = dryRun
             self.instanceId = instanceId
         }
@@ -25653,13 +26112,13 @@ extension EC2 {
 
     public struct GetIpamAddressHistoryRequest: AWSEncodableShape {
         /// The CIDR you want the history of. The CIDR can be an IPv4 or IPv6 IP address range.  If you enter a /16 IPv4 CIDR, you will get records that match it exactly. You will not get records for any subnets within the /16 CIDR.
-        public let cidr: String
+        public let cidr: String?
         /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The end of the time period for which you are looking for history. If you omit this option, it will default to the current time.
         public let endTime: Date?
         /// The ID of the IPAM scope that the CIDR is in.
-        public let ipamScopeId: String
+        public let ipamScopeId: String?
         /// The maximum number of historical results you would like returned per page. Defaults to 100.
         public let maxResults: Int?
         /// The token for the next page of results.
@@ -25669,7 +26128,7 @@ extension EC2 {
         /// The ID of the VPC you want your history records filtered by.
         public let vpcId: String?
 
-        public init(cidr: String, dryRun: Bool? = nil, endTime: Date? = nil, ipamScopeId: String, maxResults: Int? = nil, nextToken: String? = nil, startTime: Date? = nil, vpcId: String? = nil) {
+        public init(cidr: String? = nil, dryRun: Bool? = nil, endTime: Date? = nil, ipamScopeId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, startTime: Date? = nil, vpcId: String? = nil) {
             self.cidr = cidr
             self.dryRun = dryRun
             self.endTime = endTime
@@ -25728,13 +26187,13 @@ extension EC2 {
         /// The ID of the allocation.
         public let ipamPoolAllocationId: String?
         /// The ID of the IPAM pool you want to see the allocations for.
-        public let ipamPoolId: String
+        public let ipamPoolId: String?
         /// The maximum number of results you would like returned per page.
         public let maxResults: Int?
         /// The token for the next page of results.
         public let nextToken: String?
 
-        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, ipamPoolAllocationId: String? = nil, ipamPoolId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, ipamPoolAllocationId: String? = nil, ipamPoolId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
             self.ipamPoolAllocationId = ipamPoolAllocationId
@@ -25787,13 +26246,13 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The ID of the IPAM pool you want the CIDR for.
-        public let ipamPoolId: String
+        public let ipamPoolId: String?
         /// The maximum number of results to return in the request.
         public let maxResults: Int?
         /// The token for the next page of results.
         public let nextToken: String?
 
-        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, ipamPoolId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, ipamPoolId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
             self.ipamPoolId = ipamPoolId
@@ -25846,7 +26305,7 @@ extension EC2 {
         /// The ID of the IPAM pool that the resource is in.
         public let ipamPoolId: String?
         /// The ID of the scope that the resource is in.
-        public let ipamScopeId: String
+        public let ipamScopeId: String?
         /// The maximum number of results to return in the request.
         public let maxResults: Int?
         /// The token for the next page of results.
@@ -25859,7 +26318,7 @@ extension EC2 {
         /// The resource type.
         public let resourceType: IpamResourceType?
 
-        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, ipamPoolId: String? = nil, ipamScopeId: String, maxResults: Int? = nil, nextToken: String? = nil, resourceId: String? = nil, resourceOwner: String? = nil, resourceTag: RequestIpamResourceTag? = nil, resourceType: IpamResourceType? = nil) {
+        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, ipamPoolId: String? = nil, ipamScopeId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceId: String? = nil, resourceOwner: String? = nil, resourceTag: RequestIpamResourceTag? = nil, resourceType: IpamResourceType? = nil) {
             self.dryRun = dryRun
             self.filters = filters
             self.ipamPoolId = ipamPoolId
@@ -25915,9 +26374,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the instance.
-        public let instanceId: String
+        public let instanceId: String?
 
-        public init(dryRun: Bool? = nil, instanceId: String) {
+        public init(dryRun: Bool? = nil, instanceId: String? = nil) {
             self.dryRun = dryRun
             self.instanceId = instanceId
         }
@@ -25950,9 +26409,9 @@ extension EC2 {
         /// The token for the next page of results.
         public let nextToken: String?
         /// The ID of the prefix list.
-        public let prefixListId: String
+        public let prefixListId: String?
 
-        public init(dryRun: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, prefixListId: String) {
+        public init(dryRun: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, prefixListId: String? = nil) {
             self.dryRun = dryRun
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -26001,11 +26460,11 @@ extension EC2 {
         /// The token for the next page of results.
         public let nextToken: String?
         /// The ID of the prefix list.
-        public let prefixListId: String
+        public let prefixListId: String?
         /// The version of the prefix list for which to return the entries. The default is the current version.
         public let targetVersion: Int64?
 
-        public init(dryRun: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, prefixListId: String, targetVersion: Int64? = nil) {
+        public init(dryRun: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, prefixListId: String? = nil, targetVersion: Int64? = nil) {
             self.dryRun = dryRun
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -26053,11 +26512,11 @@ extension EC2 {
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
         public let maxResults: Int?
         /// The ID of the Network Access Scope analysis.
-        public let networkInsightsAccessScopeAnalysisId: String
+        public let networkInsightsAccessScopeAnalysisId: String?
         /// The token for the next page of results.
         public let nextToken: String?
 
-        public init(dryRun: Bool? = nil, maxResults: Int? = nil, networkInsightsAccessScopeAnalysisId: String, nextToken: String? = nil) {
+        public init(dryRun: Bool? = nil, maxResults: Int? = nil, networkInsightsAccessScopeAnalysisId: String? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.maxResults = maxResults
             self.networkInsightsAccessScopeAnalysisId = networkInsightsAccessScopeAnalysisId
@@ -26109,9 +26568,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the Network Access Scope.
-        public let networkInsightsAccessScopeId: String
+        public let networkInsightsAccessScopeId: String?
 
-        public init(dryRun: Bool? = nil, networkInsightsAccessScopeId: String) {
+        public init(dryRun: Bool? = nil, networkInsightsAccessScopeId: String? = nil) {
             self.dryRun = dryRun
             self.networkInsightsAccessScopeId = networkInsightsAccessScopeId
         }
@@ -26139,9 +26598,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the Windows instance.
-        public let instanceId: String
+        public let instanceId: String?
 
-        public init(dryRun: Bool? = nil, instanceId: String) {
+        public init(dryRun: Bool? = nil, instanceId: String? = nil) {
             self.dryRun = dryRun
             self.instanceId = instanceId
         }
@@ -26180,13 +26639,13 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The IDs of the Convertible Reserved Instances to exchange.
-        @CustomCoding<ArrayCoder<_ReservedInstanceIdsEncoding, String>>
-        public var reservedInstanceIds: [String]
+        @OptionalCustomCoding<ArrayCoder<_ReservedInstanceIdsEncoding, String>>
+        public var reservedInstanceIds: [String]?
         /// The configuration of the target Convertible Reserved Instance to exchange for your current Convertible Reserved Instances.
         @OptionalCustomCoding<ArrayCoder<_TargetConfigurationsEncoding, TargetConfigurationRequest>>
         public var targetConfigurations: [TargetConfigurationRequest]?
 
-        public init(dryRun: Bool? = nil, reservedInstanceIds: [String], targetConfigurations: [TargetConfigurationRequest]? = nil) {
+        public init(dryRun: Bool? = nil, reservedInstanceIds: [String]? = nil, targetConfigurations: [TargetConfigurationRequest]? = nil) {
             self.dryRun = dryRun
             self.reservedInstanceIds = reservedInstanceIds
             self.targetConfigurations = targetConfigurations
@@ -26295,11 +26754,11 @@ extension EC2 {
         /// Specify true so that the response returns a list of scored Availability Zones. Otherwise, the response returns a list of scored Regions. A list of scored Availability Zones is useful if you want to launch all of your Spot capacity into a single Availability Zone.
         public let singleAvailabilityZone: Bool?
         /// The target capacity.
-        public let targetCapacity: Int
+        public let targetCapacity: Int?
         /// The unit for the target capacity. Default: units (translates to number of instances)
         public let targetCapacityUnitType: TargetCapacityUnitType?
 
-        public init(dryRun: Bool? = nil, instanceRequirementsWithMetadata: InstanceRequirementsWithMetadataRequest? = nil, instanceTypes: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, regionNames: [String]? = nil, singleAvailabilityZone: Bool? = nil, targetCapacity: Int, targetCapacityUnitType: TargetCapacityUnitType? = nil) {
+        public init(dryRun: Bool? = nil, instanceRequirementsWithMetadata: InstanceRequirementsWithMetadataRequest? = nil, instanceTypes: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, regionNames: [String]? = nil, singleAvailabilityZone: Bool? = nil, targetCapacity: Int? = nil, targetCapacityUnitType: TargetCapacityUnitType? = nil) {
             self.dryRun = dryRun
             self.instanceRequirementsWithMetadata = instanceRequirementsWithMetadata
             self.instanceTypes = instanceTypes
@@ -26368,9 +26827,9 @@ extension EC2 {
         /// The token for the next page of results.
         public let nextToken: String?
         /// The ID of the subnet.
-        public let subnetId: String
+        public let subnetId: String?
 
-        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, subnetId: String) {
+        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, subnetId: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
             self.maxResults = maxResults
@@ -26432,9 +26891,9 @@ extension EC2 {
         /// The token for the next page of results.
         public let nextToken: String?
         /// The ID of the attachment.
-        public let transitGatewayAttachmentId: String
+        public let transitGatewayAttachmentId: String?
 
-        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, transitGatewayAttachmentId: String) {
+        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, transitGatewayAttachmentId: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
             self.maxResults = maxResults
@@ -26548,9 +27007,9 @@ extension EC2 {
         /// The token for the next page of results.
         public let nextToken: String?
         /// The ID of the transit gateway policy table.
-        public let transitGatewayPolicyTableId: String
+        public let transitGatewayPolicyTableId: String?
 
-        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, transitGatewayPolicyTableId: String) {
+        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, transitGatewayPolicyTableId: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
             self.maxResults = maxResults
@@ -26606,9 +27065,9 @@ extension EC2 {
         /// The token for the next page of results.
         public let nextToken: String?
         /// The ID of the transit gateway policy table.
-        public let transitGatewayPolicyTableId: String
+        public let transitGatewayPolicyTableId: String?
 
-        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, transitGatewayPolicyTableId: String) {
+        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, transitGatewayPolicyTableId: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
             self.maxResults = maxResults
@@ -26660,9 +27119,9 @@ extension EC2 {
         /// The token for the next page of results.
         public let nextToken: String?
         /// The ID of the transit gateway route table.
-        public let transitGatewayRouteTableId: String
+        public let transitGatewayRouteTableId: String?
 
-        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, transitGatewayRouteTableId: String) {
+        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, transitGatewayRouteTableId: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
             self.maxResults = maxResults
@@ -26718,9 +27177,9 @@ extension EC2 {
         /// The token for the next page of results.
         public let nextToken: String?
         /// The ID of the transit gateway route table.
-        public let transitGatewayRouteTableId: String
+        public let transitGatewayRouteTableId: String?
 
-        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, transitGatewayRouteTableId: String) {
+        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, transitGatewayRouteTableId: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
             self.maxResults = maxResults
@@ -26776,9 +27235,9 @@ extension EC2 {
         /// The token for the next page of results.
         public let nextToken: String?
         /// The ID of the transit gateway route table.
-        public let transitGatewayRouteTableId: String
+        public let transitGatewayRouteTableId: String?
 
-        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, transitGatewayRouteTableId: String) {
+        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, transitGatewayRouteTableId: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
             self.maxResults = maxResults
@@ -26826,11 +27285,11 @@ extension EC2 {
         /// The IKE version to be used in the sample configuration file for your customer gateway device. You can specify one of the following versions: ikev1 or ikev2.
         public let internetKeyExchangeVersion: String?
         /// Device identifier provided by the GetVpnConnectionDeviceTypes API.
-        public let vpnConnectionDeviceTypeId: String
+        public let vpnConnectionDeviceTypeId: String?
         /// The VpnConnectionId specifies the Site-to-Site VPN connection used for the sample configuration.
-        public let vpnConnectionId: String
+        public let vpnConnectionId: String?
 
-        public init(dryRun: Bool? = nil, internetKeyExchangeVersion: String? = nil, vpnConnectionDeviceTypeId: String, vpnConnectionId: String) {
+        public init(dryRun: Bool? = nil, internetKeyExchangeVersion: String? = nil, vpnConnectionDeviceTypeId: String? = nil, vpnConnectionId: String? = nil) {
             self.dryRun = dryRun
             self.internetKeyExchangeVersion = internetKeyExchangeVersion
             self.vpnConnectionDeviceTypeId = vpnConnectionDeviceTypeId
@@ -27451,6 +27910,8 @@ extension EC2 {
         public let imageOwnerAlias: String?
         /// The type of image.
         public let imageType: ImageTypeValues?
+        /// If v2.0, it indicates that IMDSv2 is specified in the AMI. Instances launched from this AMI will have HttpTokens automatically set to required so that, by default, the instance requires that IMDSv2 is used when requesting instance metadata. In addition, HttpPutResponseHopLimit is set to 2. For more information, see Configure the AMI in the Amazon Elastic Compute Cloud User Guide.
+        public let imdsSupport: ImdsSupportValues?
         /// The kernel associated with the image, if any. Only applicable for machine images.
         public let kernelId: String?
         /// The name of the AMI that was provided during image creation.
@@ -27490,7 +27951,7 @@ extension EC2 {
         /// The type of virtualization of the AMI.
         public let virtualizationType: VirtualizationType?
 
-        public init(architecture: ArchitectureValues? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, bootMode: BootModeValues? = nil, creationDate: String? = nil, deprecationTime: String? = nil, description: String? = nil, enaSupport: Bool? = nil, hypervisor: HypervisorType? = nil, imageId: String? = nil, imageLocation: String? = nil, imageOwnerAlias: String? = nil, imageType: ImageTypeValues? = nil, kernelId: String? = nil, name: String? = nil, ownerId: String? = nil, platform: PlatformValues? = nil, platformDetails: String? = nil, productCodes: [ProductCode]? = nil, public: Bool? = nil, ramdiskId: String? = nil, rootDeviceName: String? = nil, rootDeviceType: DeviceType? = nil, sriovNetSupport: String? = nil, state: ImageState? = nil, stateReason: StateReason? = nil, tags: [Tag]? = nil, tpmSupport: TpmSupportValues? = nil, usageOperation: String? = nil, virtualizationType: VirtualizationType? = nil) {
+        public init(architecture: ArchitectureValues? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, bootMode: BootModeValues? = nil, creationDate: String? = nil, deprecationTime: String? = nil, description: String? = nil, enaSupport: Bool? = nil, hypervisor: HypervisorType? = nil, imageId: String? = nil, imageLocation: String? = nil, imageOwnerAlias: String? = nil, imageType: ImageTypeValues? = nil, imdsSupport: ImdsSupportValues? = nil, kernelId: String? = nil, name: String? = nil, ownerId: String? = nil, platform: PlatformValues? = nil, platformDetails: String? = nil, productCodes: [ProductCode]? = nil, public: Bool? = nil, ramdiskId: String? = nil, rootDeviceName: String? = nil, rootDeviceType: DeviceType? = nil, sriovNetSupport: String? = nil, state: ImageState? = nil, stateReason: StateReason? = nil, tags: [Tag]? = nil, tpmSupport: TpmSupportValues? = nil, usageOperation: String? = nil, virtualizationType: VirtualizationType? = nil) {
             self.architecture = architecture
             self.blockDeviceMappings = blockDeviceMappings
             self.bootMode = bootMode
@@ -27503,6 +27964,7 @@ extension EC2 {
             self.imageLocation = imageLocation
             self.imageOwnerAlias = imageOwnerAlias
             self.imageType = imageType
+            self.imdsSupport = imdsSupport
             self.kernelId = kernelId
             self.name = name
             self.ownerId = ownerId
@@ -27535,6 +27997,7 @@ extension EC2 {
             case imageLocation
             case imageOwnerAlias
             case imageType
+            case imdsSupport
             case kernelId
             case name
             case ownerId = "imageOwnerId"
@@ -27569,6 +28032,8 @@ extension EC2 {
         public let description: AttributeValue?
         /// The ID of the AMI.
         public let imageId: String?
+        /// If v2.0, it indicates that IMDSv2 is specified in the AMI. Instances launched from this AMI will have HttpTokens automatically set to required so that, by default, the instance requires that IMDSv2 is used when requesting instance metadata. In addition, HttpPutResponseHopLimit is set to 2. For more information, see Configure the AMI in the Amazon Elastic Compute Cloud User Guide.
+        public let imdsSupport: AttributeValue?
         /// The kernel ID.
         public let kernelId: AttributeValue?
         /// The date and time, in ISO 8601 date-time format, when the AMI was last used to launch an EC2 instance. When the AMI is used to launch an instance, there is a 24-hour delay before that usage is reported.   lastLaunchedTime data is available starting April 2017.
@@ -27588,11 +28053,12 @@ extension EC2 {
         /// Base64 representation of the non-volatile UEFI variable store. To retrieve the UEFI data, use the GetInstanceUefiData command. You can inspect and modify the UEFI data by using the python-uefivars tool on GitHub. For more information, see UEFI Secure Boot in the Amazon Elastic Compute Cloud User Guide.
         public let uefiData: AttributeValue?
 
-        public init(blockDeviceMappings: [BlockDeviceMapping]? = nil, bootMode: AttributeValue? = nil, description: AttributeValue? = nil, imageId: String? = nil, kernelId: AttributeValue? = nil, lastLaunchedTime: AttributeValue? = nil, launchPermissions: [LaunchPermission]? = nil, productCodes: [ProductCode]? = nil, ramdiskId: AttributeValue? = nil, sriovNetSupport: AttributeValue? = nil, tpmSupport: AttributeValue? = nil, uefiData: AttributeValue? = nil) {
+        public init(blockDeviceMappings: [BlockDeviceMapping]? = nil, bootMode: AttributeValue? = nil, description: AttributeValue? = nil, imageId: String? = nil, imdsSupport: AttributeValue? = nil, kernelId: AttributeValue? = nil, lastLaunchedTime: AttributeValue? = nil, launchPermissions: [LaunchPermission]? = nil, productCodes: [ProductCode]? = nil, ramdiskId: AttributeValue? = nil, sriovNetSupport: AttributeValue? = nil, tpmSupport: AttributeValue? = nil, uefiData: AttributeValue? = nil) {
             self.blockDeviceMappings = blockDeviceMappings
             self.bootMode = bootMode
             self.description = description
             self.imageId = imageId
+            self.imdsSupport = imdsSupport
             self.kernelId = kernelId
             self.lastLaunchedTime = lastLaunchedTime
             self.launchPermissions = launchPermissions
@@ -27608,6 +28074,7 @@ extension EC2 {
             case bootMode
             case description
             case imageId
+            case imdsSupport
             case kernelId = "kernel"
             case lastLaunchedTime
             case launchPermissions = "launchPermission"
@@ -27684,13 +28151,13 @@ extension EC2 {
     public struct ImportClientVpnClientCertificateRevocationListRequest: AWSEncodableShape {
         /// The client certificate revocation list file. For more information, see Generate a Client Certificate Revocation List in the
         /// 				Client VPN Administrator Guide.
-        public let certificateRevocationList: String
+        public let certificateRevocationList: String?
         /// The ID of the Client VPN endpoint to which the client certificate revocation list applies.
-        public let clientVpnEndpointId: String
+        public let clientVpnEndpointId: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
-        public init(certificateRevocationList: String, clientVpnEndpointId: String, dryRun: Bool? = nil) {
+        public init(certificateRevocationList: String? = nil, clientVpnEndpointId: String? = nil, dryRun: Bool? = nil) {
             self.certificateRevocationList = certificateRevocationList
             self.clientVpnEndpointId = clientVpnEndpointId
             self.dryRun = dryRun
@@ -27771,7 +28238,7 @@ extension EC2 {
         /// The ARNs of the license configurations.
         @OptionalCustomCoding<ArrayCoder<_LicenseSpecificationsEncoding, ImportImageLicenseConfigurationRequest>>
         public var licenseSpecifications: [ImportImageLicenseConfigurationRequest]?
-        /// The license type to be used for the Amazon Machine Image (AMI) after importing. By default, we detect the source-system operating system (OS) and apply the appropriate license. Specify AWS to replace the source-system license with an Amazon Web Services license, if appropriate. Specify BYOL to retain the source-system license, if appropriate. To use BYOL, you must have existing licenses with rights to use these licenses in a third party cloud, such as Amazon Web Services. For more information, see Prerequisites in the VM Import/Export User Guide.
+        /// The license type to be used for the Amazon Machine Image (AMI) after importing. Specify AWS to replace the source-system license with an Amazon Web Services license or BYOL to retain the source-system license. Leaving this parameter undefined is the same as choosing AWS when importing a Windows Server operating system, and the same as choosing BYOL when importing a Windows client operating system (such as Windows 10) or a Linux operating system. To use BYOL, you must have existing licenses with rights to use these licenses in a third party cloud, such as Amazon Web Services. For more information, see Prerequisites in the VM Import/Export User Guide.
         public let licenseType: String?
         /// The operating system of the virtual machine. Valid values: Windows | Linux
         public let platform: String?
@@ -28055,9 +28522,9 @@ extension EC2 {
         /// The launch specification.
         public let launchSpecification: ImportInstanceLaunchSpecification?
         /// The instance operating system.
-        public let platform: PlatformValues
+        public let platform: PlatformValues?
 
-        public init(description: String? = nil, diskImages: [DiskImage]? = nil, dryRun: Bool? = nil, launchSpecification: ImportInstanceLaunchSpecification? = nil, platform: PlatformValues) {
+        public init(description: String? = nil, diskImages: [DiskImage]? = nil, dryRun: Bool? = nil, launchSpecification: ImportInstanceLaunchSpecification? = nil, platform: PlatformValues? = nil) {
             self.description = description
             self.diskImages = diskImages
             self.dryRun = dryRun
@@ -28158,14 +28625,14 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// A unique name for the key pair.
-        public let keyName: String
+        public let keyName: String?
         /// The public key. For API calls, the text must be base64-encoded. For command line tools, base64 encoding is performed for you.
-        public let publicKeyMaterial: AWSBase64Data
+        public let publicKeyMaterial: AWSBase64Data?
         /// The tags to apply to the imported key pair.
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
-        public init(dryRun: Bool? = nil, keyName: String, publicKeyMaterial: AWSBase64Data, tagSpecifications: [TagSpecification]? = nil) {
+        public init(dryRun: Bool? = nil, keyName: String? = nil, publicKeyMaterial: AWSBase64Data? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.dryRun = dryRun
             self.keyName = keyName
             self.publicKeyMaterial = publicKeyMaterial
@@ -28314,17 +28781,17 @@ extension EC2 {
 
     public struct ImportVolumeRequest: AWSEncodableShape {
         /// The Availability Zone for the resulting EBS volume.
-        public let availabilityZone: String
+        public let availabilityZone: String?
         /// A description of the volume.
         public let description: String?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The disk image.
-        public let image: DiskImageDetail
+        public let image: DiskImageDetail?
         /// The volume size.
-        public let volume: VolumeDetail
+        public let volume: VolumeDetail?
 
-        public init(availabilityZone: String, description: String? = nil, dryRun: Bool? = nil, image: DiskImageDetail, volume: VolumeDetail) {
+        public init(availabilityZone: String? = nil, description: String? = nil, dryRun: Bool? = nil, image: DiskImageDetail? = nil, volume: VolumeDetail? = nil) {
             self.availabilityZone = availabilityZone
             self.description = description
             self.dryRun = dryRun
@@ -29202,7 +29669,7 @@ extension EC2 {
         public let httpProtocolIpv6: InstanceMetadataProtocolState?
         /// The desired HTTP PUT response hop limit for instance metadata requests. The larger the number, the further instance metadata requests can travel. Default: 1 Possible values: Integers from 1 to 64
         public let httpPutResponseHopLimit: Int?
-        /// The state of token usage for your instance metadata requests. If the state is optional, you can choose to retrieve instance metadata with or without a signed token header on your request. If you retrieve the IAM role credentials without a token, the version 1.0 role credentials are returned. If you retrieve the IAM role credentials using a valid signed token, the version 2.0 role credentials are returned. If the state is required, you must send a signed token header with any instance metadata retrieval requests. In this state, retrieving the IAM role credentials always returns the version 2.0 credentials; the version 1.0 credentials are not available. Default: optional
+        /// The state of token usage for your instance metadata requests. If the state is optional, you can choose to retrieve instance metadata with or without a session token on your request. If you retrieve the IAM role credentials without a token, the version 1.0 role credentials are returned. If you retrieve the IAM role credentials using a valid session token, the version 2.0 role credentials are returned. If the state is required, you must send a session token with any instance metadata retrieval requests. In this state, retrieving the IAM role credentials always returns the version 2.0 credentials; the version 1.0 credentials are not available. Default: optional
         public let httpTokens: HttpTokensState?
         /// Set to enabled to allow access to instance tags from the instance metadata. Set to disabled to turn off access to instance tags from the instance metadata. For more information, see Work with instance tags using the instance metadata. Default: disabled
         public let instanceMetadataTags: InstanceMetadataTagsState?
@@ -29231,7 +29698,7 @@ extension EC2 {
         public let httpProtocolIpv6: InstanceMetadataProtocolState?
         /// The desired HTTP PUT response hop limit for instance metadata requests. The larger the number, the further instance metadata requests can travel. Default: 1 Possible values: Integers from 1 to 64
         public let httpPutResponseHopLimit: Int?
-        /// The state of token usage for your instance metadata requests. If the state is optional, you can choose to retrieve instance metadata with or without a signed token header on your request. If you retrieve the IAM role credentials without a token, the version 1.0 role credentials are returned. If you retrieve the IAM role credentials using a valid signed token, the version 2.0 role credentials are returned. If the state is required, you must send a signed token header with any instance metadata retrieval requests. In this state, retrieving the IAM role credential always returns the version 2.0 credentials; the version 1.0 credentials are not available. Default: optional
+        /// The state of token usage for your instance metadata requests. If the state is optional, you can choose to retrieve instance metadata with or without a session token on your request. If you retrieve the IAM role credentials without a token, the version 1.0 role credentials are returned. If you retrieve the IAM role credentials using a valid session token, the version 2.0 role credentials are returned. If the state is required, you must send a session token with any instance metadata retrieval requests. In this state, retrieving the IAM role credentials always returns the version 2.0 credentials; the version 1.0 credentials are not available. Default: optional
         public let httpTokens: HttpTokensState?
         /// Indicates whether access to instance tags from the instance metadata is enabled or disabled. For more information, see Work with instance tags using the instance metadata.
         public let instanceMetadataTags: InstanceMetadataTagsState?
@@ -29287,7 +29754,7 @@ extension EC2 {
         public let attachment: InstanceNetworkInterfaceAttachment?
         /// The description.
         public let description: String?
-        /// One or more security groups.
+        /// The security groups.
         @OptionalCustomCoding<ArrayCoder<_GroupsEncoding, GroupIdentifier>>
         public var groups: [GroupIdentifier]?
         /// The type of network interface.
@@ -29296,7 +29763,7 @@ extension EC2 {
         /// The IPv4 delegated prefixes that are assigned to the network interface.
         @OptionalCustomCoding<ArrayCoder<_Ipv4PrefixesEncoding, InstanceIpv4Prefix>>
         public var ipv4Prefixes: [InstanceIpv4Prefix]?
-        /// One or more IPv6 addresses associated with the network interface.
+        /// The IPv6 addresses associated with the network interface.
         @OptionalCustomCoding<ArrayCoder<_Ipv6AddressesEncoding, InstanceIpv6Address>>
         public var ipv6Addresses: [InstanceIpv6Address]?
         /// The IPv6 delegated prefixes that are assigned to the network interface.
@@ -29312,7 +29779,7 @@ extension EC2 {
         public let privateDnsName: String?
         /// The IPv4 address of the network interface within the subnet.
         public let privateIpAddress: String?
-        /// One or more private IPv4 addresses associated with the network interface.
+        /// The private IPv4 addresses associated with the network interface.
         @OptionalCustomCoding<ArrayCoder<_PrivateIpAddressesEncoding, InstancePrivateIpAddress>>
         public var privateIpAddresses: [InstancePrivateIpAddress]?
         /// Indicates whether source/destination checking is enabled.
@@ -29454,17 +29921,17 @@ extension EC2 {
         public let interfaceType: String?
         /// The number of IPv4 delegated prefixes to be automatically assigned to the network interface.  You cannot use this option if you use the Ipv4Prefix option.
         public let ipv4PrefixCount: Int?
-        /// One or more IPv4 delegated prefixes to be assigned to the network interface. You cannot  use this option if you use the Ipv4PrefixCount option.
+        /// The IPv4 delegated prefixes to be assigned to the network interface. You cannot  use this option if you use the Ipv4PrefixCount option.
         @OptionalCustomCoding<ArrayCoder<_Ipv4PrefixesEncoding, Ipv4PrefixSpecificationRequest>>
         public var ipv4Prefixes: [Ipv4PrefixSpecificationRequest]?
         /// A number of IPv6 addresses to assign to the network interface. Amazon EC2 chooses the IPv6 addresses from the range of the subnet. You cannot specify this option and the option to assign specific IPv6 addresses in the same request. You can specify this option if you've specified a minimum number of instances to launch.
         public let ipv6AddressCount: Int?
-        /// One or more IPv6 addresses to assign to the network interface. You cannot specify this option and the option to assign a number of IPv6 addresses in the same request. You cannot specify this option if you've specified a minimum number of instances to launch.
+        /// The IPv6 addresses to assign to the network interface. You cannot specify this option and the option to assign a number of IPv6 addresses in the same request. You cannot specify this option if you've specified a minimum number of instances to launch.
         @OptionalCustomCoding<ArrayCoder<_Ipv6AddressesEncoding, InstanceIpv6Address>>
         public var ipv6Addresses: [InstanceIpv6Address]?
         /// The number of IPv6 delegated prefixes to be automatically assigned to the network interface.  You cannot use this option if you use the Ipv6Prefix option.
         public let ipv6PrefixCount: Int?
-        /// One or more IPv6 delegated prefixes to be assigned to the network interface. You cannot  use this option if you use the Ipv6PrefixCount option.
+        /// The IPv6 delegated prefixes to be assigned to the network interface. You cannot  use this option if you use the Ipv6PrefixCount option.
         @OptionalCustomCoding<ArrayCoder<_Ipv6PrefixesEncoding, Ipv6PrefixSpecificationRequest>>
         public var ipv6Prefixes: [Ipv6PrefixSpecificationRequest]?
         /// The index of the network card. Some instance types support multiple network cards.  The primary network interface must be assigned to network card index 0.  The default is network card index 0. If you are using RequestSpotInstances to create Spot Instances, omit this parameter because you can’t specify the network card index when using this API. To specify the network card index, use RunInstances.
@@ -29473,7 +29940,7 @@ extension EC2 {
         public let networkInterfaceId: String?
         /// The private IPv4 address of the network interface. Applies only if creating a network interface when launching an instance. You cannot specify this option if you're launching 	more than one instance in a RunInstances request.
         public let privateIpAddress: String?
-        /// One or more private IPv4 addresses to assign to the network interface. Only one private IPv4 address can be designated as primary. You cannot specify this option if you're 	launching more than one instance in a RunInstances request.
+        /// The private IPv4 addresses to assign to the network interface. Only one private IPv4 address can be designated as primary. You cannot specify this option if you're 	launching more than one instance in a RunInstances request.
         @OptionalCustomCoding<ArrayCoder<_PrivateIpAddressesEncoding, PrivateIpAddressSpecification>>
         public var privateIpAddresses: [PrivateIpAddressSpecification]?
         /// The number of secondary private IPv4 addresses. You can't specify this option and specify more than one private IP address using the private IP addresses option. You cannot specify this option if you're 	launching more than one instance in a RunInstances request.
@@ -29565,7 +30032,7 @@ extension EC2 {
         /// Indicates whether instance types must have accelerators by specific manufacturers.   For instance types with NVIDIA devices, specify nvidia.   For instance types with AMD devices, specify amd.   For instance types with Amazon Web Services devices, specify amazon-web-services.   For instance types with Xilinx devices, specify xilinx.   Default: Any manufacturer
         @OptionalCustomCoding<ArrayCoder<_AcceleratorManufacturersEncoding, AcceleratorManufacturer>>
         public var acceleratorManufacturers: [AcceleratorManufacturer]?
-        /// The accelerators that must be on the instance type.   For instance types with NVIDIA A100 GPUs, specify a100.   For instance types with NVIDIA V100 GPUs, specify v100.   For instance types with NVIDIA K80 GPUs, specify k80.   For instance types with NVIDIA T4 GPUs, specify t4.   For instance types with NVIDIA M60 GPUs, specify m60.   For instance types with AMD Radeon Pro V520 GPUs, specify radeon-pro-v520.   For instance types with Xilinx VU9P FPGAs, specify vu9p.   Default: Any accelerator
+        /// The accelerators that must be on the instance type.   For instance types with NVIDIA A100 GPUs, specify a100.   For instance types with NVIDIA V100 GPUs, specify v100.   For instance types with NVIDIA K80 GPUs, specify k80.   For instance types with NVIDIA T4 GPUs, specify t4.   For instance types with NVIDIA M60 GPUs, specify m60.   For instance types with AMD Radeon Pro V520 GPUs, specify radeon-pro-v520.   For instance types with Xilinx VU9P FPGAs, specify vu9p.   For instance types with Amazon Web Services Inferentia chips, specify inferentia.   For instance types with NVIDIA GRID K520 GPUs, specify k520.   Default: Any accelerator
         @OptionalCustomCoding<ArrayCoder<_AcceleratorNamesEncoding, AcceleratorName>>
         public var acceleratorNames: [AcceleratorName]?
         /// The minimum and maximum amount of total accelerator memory, in MiB. Default: No minimum or maximum limits
@@ -29682,7 +30149,7 @@ extension EC2 {
         /// Indicates whether instance types must have accelerators by specific manufacturers.   For instance types with NVIDIA devices, specify nvidia.   For instance types with AMD devices, specify amd.   For instance types with Amazon Web Services devices, specify amazon-web-services.   For instance types with Xilinx devices, specify xilinx.   Default: Any manufacturer
         @OptionalCustomCoding<ArrayCoder<_AcceleratorManufacturersEncoding, AcceleratorManufacturer>>
         public var acceleratorManufacturers: [AcceleratorManufacturer]?
-        /// The accelerators that must be on the instance type.   For instance types with NVIDIA A100 GPUs, specify a100.   For instance types with NVIDIA V100 GPUs, specify v100.   For instance types with NVIDIA K80 GPUs, specify k80.   For instance types with NVIDIA T4 GPUs, specify t4.   For instance types with NVIDIA M60 GPUs, specify m60.   For instance types with AMD Radeon Pro V520 GPUs, specify radeon-pro-v520.   For instance types with Xilinx VU9P FPGAs, specify  vu9p.   Default: Any accelerator
+        /// The accelerators that must be on the instance type.   For instance types with NVIDIA A100 GPUs, specify a100.   For instance types with NVIDIA V100 GPUs, specify v100.   For instance types with NVIDIA K80 GPUs, specify k80.   For instance types with NVIDIA T4 GPUs, specify t4.   For instance types with NVIDIA M60 GPUs, specify m60.   For instance types with AMD Radeon Pro V520 GPUs, specify radeon-pro-v520.   For instance types with Xilinx VU9P FPGAs, specify  vu9p.   For instance types with Amazon Web Services Inferentia chips, specify inferentia.   For instance types with NVIDIA GRID K520 GPUs, specify k520.   Default: Any accelerator
         @OptionalCustomCoding<ArrayCoder<_AcceleratorNamesEncoding, AcceleratorName>>
         public var acceleratorNames: [AcceleratorName]?
         /// The minimum and maximum amount of total accelerator memory, in MiB. Default: No minimum or maximum limits
@@ -29713,7 +30180,7 @@ extension EC2 {
         /// The minimum and maximum amount of memory per vCPU, in GiB. Default: No minimum or maximum limits
         public let memoryGiBPerVCpu: MemoryGiBPerVCpuRequest?
         /// The minimum and maximum amount of memory, in MiB.
-        public let memoryMiB: MemoryMiBRequest
+        public let memoryMiB: MemoryMiBRequest?
         /// The minimum and maximum number of network interfaces. Default: No minimum or maximum limits
         public let networkInterfaceCount: NetworkInterfaceCountRequest?
         /// The price protection threshold for On-Demand Instances. This is the maximum you’ll pay for an On-Demand Instance, expressed as a percentage above the least expensive current generation M, C, or R instance type with your specified attributes. When Amazon EC2 selects instance types with your attributes, it excludes instance types priced above your threshold. The parameter accepts an integer, which Amazon EC2 interprets as a percentage. To turn off price protection, specify a high value, such as 999999. This parameter is not supported for GetSpotPlacementScores and GetInstanceTypesFromInstanceRequirements.  If you set TargetCapacityUnitType to vcpu or memory-mib, the price protection threshold is applied based on the per-vCPU or per-memory price instead of the per-instance price.  Default: 20
@@ -29725,9 +30192,9 @@ extension EC2 {
         /// The minimum and maximum amount of total local storage, in GB. Default: No minimum or maximum limits
         public let totalLocalStorageGB: TotalLocalStorageGBRequest?
         /// The minimum and maximum number of vCPUs.
-        public let vCpuCount: VCpuCountRangeRequest
+        public let vCpuCount: VCpuCountRangeRequest?
 
-        public init(acceleratorCount: AcceleratorCountRequest? = nil, acceleratorManufacturers: [AcceleratorManufacturer]? = nil, acceleratorNames: [AcceleratorName]? = nil, acceleratorTotalMemoryMiB: AcceleratorTotalMemoryMiBRequest? = nil, acceleratorTypes: [AcceleratorType]? = nil, bareMetal: BareMetal? = nil, baselineEbsBandwidthMbps: BaselineEbsBandwidthMbpsRequest? = nil, burstablePerformance: BurstablePerformance? = nil, cpuManufacturers: [CpuManufacturer]? = nil, excludedInstanceTypes: [String]? = nil, instanceGenerations: [InstanceGeneration]? = nil, localStorage: LocalStorage? = nil, localStorageTypes: [LocalStorageType]? = nil, memoryGiBPerVCpu: MemoryGiBPerVCpuRequest? = nil, memoryMiB: MemoryMiBRequest, networkInterfaceCount: NetworkInterfaceCountRequest? = nil, onDemandMaxPricePercentageOverLowestPrice: Int? = nil, requireHibernateSupport: Bool? = nil, spotMaxPricePercentageOverLowestPrice: Int? = nil, totalLocalStorageGB: TotalLocalStorageGBRequest? = nil, vCpuCount: VCpuCountRangeRequest) {
+        public init(acceleratorCount: AcceleratorCountRequest? = nil, acceleratorManufacturers: [AcceleratorManufacturer]? = nil, acceleratorNames: [AcceleratorName]? = nil, acceleratorTotalMemoryMiB: AcceleratorTotalMemoryMiBRequest? = nil, acceleratorTypes: [AcceleratorType]? = nil, bareMetal: BareMetal? = nil, baselineEbsBandwidthMbps: BaselineEbsBandwidthMbpsRequest? = nil, burstablePerformance: BurstablePerformance? = nil, cpuManufacturers: [CpuManufacturer]? = nil, excludedInstanceTypes: [String]? = nil, instanceGenerations: [InstanceGeneration]? = nil, localStorage: LocalStorage? = nil, localStorageTypes: [LocalStorageType]? = nil, memoryGiBPerVCpu: MemoryGiBPerVCpuRequest? = nil, memoryMiB: MemoryMiBRequest? = nil, networkInterfaceCount: NetworkInterfaceCountRequest? = nil, onDemandMaxPricePercentageOverLowestPrice: Int? = nil, requireHibernateSupport: Bool? = nil, spotMaxPricePercentageOverLowestPrice: Int? = nil, totalLocalStorageGB: TotalLocalStorageGBRequest? = nil, vCpuCount: VCpuCountRangeRequest? = nil) {
             self.acceleratorCount = acceleratorCount
             self.acceleratorManufacturers = acceleratorManufacturers
             self.acceleratorNames = acceleratorNames
@@ -29822,6 +30289,7 @@ extension EC2 {
 
         /// Excludes the root volume from being snapshotted.
         public let excludeBootVolume: Bool?
+        /// The IDs of the data (non-root) volumes to exclude from the multi-volume snapshot set.  If you specify the ID of the root volume, the request fails. To exclude the root volume,  use ExcludeBootVolume. You can specify up to 40 volume IDs per request.
         @OptionalCustomCoding<ArrayCoder<_ExcludeDataVolumeIdsEncoding, String>>
         public var excludeDataVolumeIds: [String]?
         /// The instance to specify which volumes should be snapshotted.
@@ -30830,7 +31298,7 @@ extension EC2 {
     }
 
     public struct Ipv4PrefixSpecificationResponse: AWSDecodableShape {
-        /// One or more IPv4 delegated prefixes assigned to the network interface.
+        /// The IPv4 delegated prefixes assigned to the network interface.
         public let ipv4Prefix: String?
 
         public init(ipv4Prefix: String? = nil) {
@@ -30929,7 +31397,7 @@ extension EC2 {
     }
 
     public struct Ipv6PrefixSpecificationResponse: AWSDecodableShape {
-        /// One or more IPv6 delegated prefixes assigned to the network interface.
+        /// The IPv6 delegated prefixes assigned to the network interface.
         public let ipv6Prefix: String?
 
         public init(ipv6Prefix: String? = nil) {
@@ -31457,9 +31925,9 @@ extension EC2 {
         ///  The number of elastic inference accelerators to attach to the instance.  Default: 1
         public let count: Int?
         ///  The type of elastic inference accelerator. The possible values are eia1.medium, eia1.large, and eia1.xlarge.
-        public let type: String
+        public let type: String?
 
-        public init(count: Int? = nil, type: String) {
+        public init(count: Int? = nil, type: String? = nil) {
             self.count = count
             self.type = type
         }
@@ -31920,7 +32388,7 @@ extension EC2 {
     public struct LaunchTemplateOverrides: AWSEncodableShape & AWSDecodableShape {
         /// The Availability Zone in which to launch the instances.
         public let availabilityZone: String?
-        /// The instance requirements. When you specify instance requirements, Amazon EC2 will identify instance types with the provided requirements, and then use your On-Demand and Spot allocation strategies to launch instances from these instance types, in the same way as when you specify a list of instance types.  If you specify InstanceRequirements, you can't specify InstanceTypes.
+        /// The instance requirements. When you specify instance requirements, Amazon EC2 will identify instance types with the provided requirements, and then use your On-Demand and Spot allocation strategies to launch instances from these instance types, in the same way as when you specify a list of instance types.  If you specify InstanceRequirements, you can't specify InstanceType.
         public let instanceRequirements: InstanceRequirements?
         /// The instance type.
         public let instanceType: InstanceType?
@@ -32515,6 +32983,8 @@ extension EC2 {
     }
 
     public struct LocalGatewayRoute: AWSDecodableShape {
+        /// The ID of the customer-owned address pool.
+        public let coipPoolId: String?
         /// The CIDR block used for destination matches.
         public let destinationCidrBlock: String?
         /// The Amazon Resource Name (ARN) of the local gateway route table.
@@ -32523,30 +32993,40 @@ extension EC2 {
         public let localGatewayRouteTableId: String?
         /// The ID of the virtual interface group.
         public let localGatewayVirtualInterfaceGroupId: String?
+        /// The ID of the network interface.
+        public let networkInterfaceId: String?
         /// The ID of the Amazon Web Services account that owns the local gateway route.
         public let ownerId: String?
         /// The state of the route.
         public let state: LocalGatewayRouteState?
+        /// The ID of the subnet.
+        public let subnetId: String?
         /// The route type.
         public let type: LocalGatewayRouteType?
 
-        public init(destinationCidrBlock: String? = nil, localGatewayRouteTableArn: String? = nil, localGatewayRouteTableId: String? = nil, localGatewayVirtualInterfaceGroupId: String? = nil, ownerId: String? = nil, state: LocalGatewayRouteState? = nil, type: LocalGatewayRouteType? = nil) {
+        public init(coipPoolId: String? = nil, destinationCidrBlock: String? = nil, localGatewayRouteTableArn: String? = nil, localGatewayRouteTableId: String? = nil, localGatewayVirtualInterfaceGroupId: String? = nil, networkInterfaceId: String? = nil, ownerId: String? = nil, state: LocalGatewayRouteState? = nil, subnetId: String? = nil, type: LocalGatewayRouteType? = nil) {
+            self.coipPoolId = coipPoolId
             self.destinationCidrBlock = destinationCidrBlock
             self.localGatewayRouteTableArn = localGatewayRouteTableArn
             self.localGatewayRouteTableId = localGatewayRouteTableId
             self.localGatewayVirtualInterfaceGroupId = localGatewayVirtualInterfaceGroupId
+            self.networkInterfaceId = networkInterfaceId
             self.ownerId = ownerId
             self.state = state
+            self.subnetId = subnetId
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
+            case coipPoolId
             case destinationCidrBlock
             case localGatewayRouteTableArn
             case localGatewayRouteTableId
             case localGatewayVirtualInterfaceGroupId
+            case networkInterfaceId
             case ownerId
             case state
+            case subnetId
             case type
         }
     }
@@ -32560,23 +33040,28 @@ extension EC2 {
         public let localGatewayRouteTableArn: String?
         /// The ID of the local gateway route table.
         public let localGatewayRouteTableId: String?
+        /// The mode of the local gateway route table.
+        public let mode: LocalGatewayRouteTableMode?
         /// The Amazon Resource Name (ARN) of the Outpost.
         public let outpostArn: String?
         /// The ID of the Amazon Web Services account that owns the local gateway route table.
         public let ownerId: String?
         /// The state of the local gateway route table.
         public let state: String?
+        public let stateReason: StateReason?
         /// The tags assigned to the local gateway route table.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
-        public init(localGatewayId: String? = nil, localGatewayRouteTableArn: String? = nil, localGatewayRouteTableId: String? = nil, outpostArn: String? = nil, ownerId: String? = nil, state: String? = nil, tags: [Tag]? = nil) {
+        public init(localGatewayId: String? = nil, localGatewayRouteTableArn: String? = nil, localGatewayRouteTableId: String? = nil, mode: LocalGatewayRouteTableMode? = nil, outpostArn: String? = nil, ownerId: String? = nil, state: String? = nil, stateReason: StateReason? = nil, tags: [Tag]? = nil) {
             self.localGatewayId = localGatewayId
             self.localGatewayRouteTableArn = localGatewayRouteTableArn
             self.localGatewayRouteTableId = localGatewayRouteTableId
+            self.mode = mode
             self.outpostArn = outpostArn
             self.ownerId = ownerId
             self.state = state
+            self.stateReason = stateReason
             self.tags = tags
         }
 
@@ -32584,9 +33069,11 @@ extension EC2 {
             case localGatewayId
             case localGatewayRouteTableArn
             case localGatewayRouteTableId
+            case mode
             case outpostArn
             case ownerId
             case state
+            case stateReason
             case tags = "tagSet"
         }
     }
@@ -32881,9 +33368,9 @@ extension EC2 {
         /// The maximum amount of memory, in MiB. To specify no maximum limit, omit this parameter.
         public let max: Int?
         /// The minimum amount of memory, in MiB. To specify no minimum limit, specify 0.
-        public let min: Int
+        public let min: Int?
 
-        public init(max: Int? = nil, min: Int) {
+        public init(max: Int? = nil, min: Int? = nil) {
             self.max = max
             self.min = min
         }
@@ -32896,13 +33383,13 @@ extension EC2 {
 
     public struct ModifyAddressAttributeRequest: AWSEncodableShape {
         /// [EC2-VPC] The allocation ID.
-        public let allocationId: String
+        public let allocationId: String?
         /// The domain name to modify for the IP address.
         public let domainName: String?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
-        public init(allocationId: String, domainName: String? = nil, dryRun: Bool? = nil) {
+        public init(allocationId: String? = nil, domainName: String? = nil, dryRun: Bool? = nil) {
             self.allocationId = allocationId
             self.domainName = domainName
             self.dryRun = dryRun
@@ -32932,11 +33419,11 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The name of the Availability Zone group, Local Zone group, or Wavelength Zone group.
-        public let groupName: String
+        public let groupName: String?
         /// Indicates whether you are opted in to the Local Zone group or Wavelength Zone group. The only valid value is opted-in. You must contact Amazon Web Services Support to opt out of a Local Zone or Wavelength Zone group.
-        public let optInStatus: ModifyAvailabilityZoneOptInStatus
+        public let optInStatus: ModifyAvailabilityZoneOptInStatus?
 
-        public init(dryRun: Bool? = nil, groupName: String, optInStatus: ModifyAvailabilityZoneOptInStatus) {
+        public init(dryRun: Bool? = nil, groupName: String? = nil, optInStatus: ModifyAvailabilityZoneOptInStatus? = nil) {
             self.dryRun = dryRun
             self.groupName = groupName
             self.optInStatus = optInStatus
@@ -32964,7 +33451,7 @@ extension EC2 {
 
     public struct ModifyCapacityReservationFleetRequest: AWSEncodableShape {
         /// The ID of the Capacity Reservation Fleet to modify.
-        public let capacityReservationFleetId: String
+        public let capacityReservationFleetId: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The date and time at which the Capacity Reservation Fleet expires. When the Capacity Reservation
@@ -32989,7 +33476,7 @@ extension EC2 {
         /// 			in the Amazon EC2 User Guide.
         public let totalTargetCapacity: Int?
 
-        public init(capacityReservationFleetId: String, dryRun: Bool? = nil, endDate: Date? = nil, removeEndDate: Bool? = nil, totalTargetCapacity: Int? = nil) {
+        public init(capacityReservationFleetId: String? = nil, dryRun: Bool? = nil, endDate: Date? = nil, removeEndDate: Bool? = nil, totalTargetCapacity: Int? = nil) {
             self.capacityReservationFleetId = capacityReservationFleetId
             self.dryRun = dryRun
             self.endDate = endDate
@@ -33025,7 +33512,7 @@ extension EC2 {
         /// Reserved for future use.
         public let additionalInfo: String?
         /// The ID of the Capacity Reservation.
-        public let capacityReservationId: String
+        public let capacityReservationId: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The date and time at which the Capacity Reservation expires. When a Capacity Reservation expires, the reserved capacity
@@ -33049,7 +33536,7 @@ extension EC2 {
         /// 		    	decreased by more than 1000 in a single request.
         public let instanceCount: Int?
 
-        public init(accept: Bool? = nil, additionalInfo: String? = nil, capacityReservationId: String, dryRun: Bool? = nil, endDate: Date? = nil, endDateType: EndDateType? = nil, instanceCount: Int? = nil) {
+        public init(accept: Bool? = nil, additionalInfo: String? = nil, capacityReservationId: String? = nil, dryRun: Bool? = nil, endDate: Date? = nil, endDateType: EndDateType? = nil, instanceCount: Int? = nil) {
             self.accept = accept
             self.additionalInfo = additionalInfo
             self.capacityReservationId = capacityReservationId
@@ -33092,7 +33579,7 @@ extension EC2 {
         /// 			Amazon Web Services provided clients when a VPN session is established.
         public let clientLoginBannerOptions: ClientLoginBannerOptions?
         /// The ID of the Client VPN endpoint to modify.
-        public let clientVpnEndpointId: String
+        public let clientVpnEndpointId: String?
         /// Information about the client connection logging options.
         /// 		       If you enable client connection logging, data about client connections is sent to a
         /// 			Cloudwatch Logs log stream. The following information is logged:
@@ -33126,7 +33613,7 @@ extension EC2 {
         /// 	        Default Value: 443
         public let vpnPort: Int?
 
-        public init(clientConnectOptions: ClientConnectOptions? = nil, clientLoginBannerOptions: ClientLoginBannerOptions? = nil, clientVpnEndpointId: String, connectionLogOptions: ConnectionLogOptions? = nil, description: String? = nil, dnsServers: DnsServersOptionsModifyStructure? = nil, dryRun: Bool? = nil, securityGroupIds: [String]? = nil, selfServicePortal: SelfServicePortal? = nil, serverCertificateArn: String? = nil, sessionTimeoutHours: Int? = nil, splitTunnel: Bool? = nil, vpcId: String? = nil, vpnPort: Int? = nil) {
+        public init(clientConnectOptions: ClientConnectOptions? = nil, clientLoginBannerOptions: ClientLoginBannerOptions? = nil, clientVpnEndpointId: String? = nil, connectionLogOptions: ConnectionLogOptions? = nil, description: String? = nil, dnsServers: DnsServersOptionsModifyStructure? = nil, dryRun: Bool? = nil, securityGroupIds: [String]? = nil, selfServicePortal: SelfServicePortal? = nil, serverCertificateArn: String? = nil, sessionTimeoutHours: Int? = nil, splitTunnel: Bool? = nil, vpcId: String? = nil, vpnPort: Int? = nil) {
             self.clientConnectOptions = clientConnectOptions
             self.clientLoginBannerOptions = clientLoginBannerOptions
             self.clientVpnEndpointId = clientVpnEndpointId
@@ -33176,13 +33663,13 @@ extension EC2 {
 
     public struct ModifyDefaultCreditSpecificationRequest: AWSEncodableShape {
         /// The credit option for CPU usage of the instance family. Valid Values: standard | unlimited
-        public let cpuCredits: String
+        public let cpuCredits: String?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The instance family.
-        public let instanceFamily: UnlimitedSupportedInstanceFamily
+        public let instanceFamily: UnlimitedSupportedInstanceFamily?
 
-        public init(cpuCredits: String, dryRun: Bool? = nil, instanceFamily: UnlimitedSupportedInstanceFamily) {
+        public init(cpuCredits: String? = nil, dryRun: Bool? = nil, instanceFamily: UnlimitedSupportedInstanceFamily? = nil) {
             self.cpuCredits = cpuCredits
             self.dryRun = dryRun
             self.instanceFamily = instanceFamily
@@ -33212,9 +33699,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The identifier of the Key Management Service (KMS) KMS key to use for Amazon EBS encryption. If this parameter is not specified, your KMS key for Amazon EBS is used. If KmsKeyId is specified, the encrypted state must be true. You can specify the KMS key using any of the following:   Key ID. For example, 1234abcd-12ab-34cd-56ef-1234567890ab.   Key alias. For example, alias/ExampleAlias.   Key ARN. For example, arn:aws:kms:us-east-1:012345678910:key/1234abcd-12ab-34cd-56ef-1234567890ab.   Alias ARN. For example, arn:aws:kms:us-east-1:012345678910:alias/ExampleAlias.   Amazon Web Services authenticates the KMS key asynchronously. Therefore, if you specify an ID, alias, or ARN that is not valid,  the action can appear to complete, but eventually fails.   Amazon EBS does not support asymmetric KMS keys.
-        public let kmsKeyId: String
+        public let kmsKeyId: String?
 
-        public init(dryRun: Bool? = nil, kmsKeyId: String) {
+        public init(dryRun: Bool? = nil, kmsKeyId: String? = nil) {
             self.dryRun = dryRun
             self.kmsKeyId = kmsKeyId
         }
@@ -33248,14 +33735,14 @@ extension EC2 {
         /// Indicates whether running instances should be terminated if the total target capacity of the EC2 Fleet is decreased below the current size of the EC2 Fleet.
         public let excessCapacityTerminationPolicy: FleetExcessCapacityTerminationPolicy?
         /// The ID of the EC2 Fleet.
-        public let fleetId: String
+        public let fleetId: String?
         /// The launch template and overrides.
         @OptionalCustomCoding<ArrayCoder<_LaunchTemplateConfigsEncoding, FleetLaunchTemplateConfigRequest>>
         public var launchTemplateConfigs: [FleetLaunchTemplateConfigRequest]?
         /// The size of the EC2 Fleet.
         public let targetCapacitySpecification: TargetCapacitySpecificationRequest?
 
-        public init(context: String? = nil, dryRun: Bool? = nil, excessCapacityTerminationPolicy: FleetExcessCapacityTerminationPolicy? = nil, fleetId: String, launchTemplateConfigs: [FleetLaunchTemplateConfigRequest]? = nil, targetCapacitySpecification: TargetCapacitySpecificationRequest? = nil) {
+        public init(context: String? = nil, dryRun: Bool? = nil, excessCapacityTerminationPolicy: FleetExcessCapacityTerminationPolicy? = nil, fleetId: String? = nil, launchTemplateConfigs: [FleetLaunchTemplateConfigRequest]? = nil, targetCapacitySpecification: TargetCapacitySpecificationRequest? = nil) {
             self.context = context
             self.dryRun = dryRun
             self.excessCapacityTerminationPolicy = excessCapacityTerminationPolicy
@@ -33306,7 +33793,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the AFI.
-        public let fpgaImageId: String
+        public let fpgaImageId: String?
         /// The load permission for the AFI.
         public let loadPermission: LoadPermissionModifications?
         /// A name for the AFI.
@@ -33324,7 +33811,7 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_UserIdsEncoding, String>>
         public var userIds: [String]?
 
-        public init(attribute: FpgaImageAttributeName? = nil, description: String? = nil, dryRun: Bool? = nil, fpgaImageId: String, loadPermission: LoadPermissionModifications? = nil, name: String? = nil, operationType: OperationType? = nil, productCodes: [String]? = nil, userGroups: [String]? = nil, userIds: [String]? = nil) {
+        public init(attribute: FpgaImageAttributeName? = nil, description: String? = nil, dryRun: Bool? = nil, fpgaImageId: String? = nil, loadPermission: LoadPermissionModifications? = nil, name: String? = nil, operationType: OperationType? = nil, productCodes: [String]? = nil, userGroups: [String]? = nil, userIds: [String]? = nil) {
             self.attribute = attribute
             self.description = description
             self.dryRun = dryRun
@@ -33370,8 +33857,8 @@ extension EC2 {
         /// Specify whether to enable or disable auto-placement.
         public let autoPlacement: AutoPlacement?
         /// The IDs of the Dedicated Hosts to modify.
-        @CustomCoding<ArrayCoder<_HostIdsEncoding, String>>
-        public var hostIds: [String]
+        @OptionalCustomCoding<ArrayCoder<_HostIdsEncoding, String>>
+        public var hostIds: [String]?
         /// Indicates whether to enable or disable host recovery for the Dedicated Host. For more information,
         /// 			see
         /// 				Host recovery in the Amazon EC2 User Guide.
@@ -33394,7 +33881,7 @@ extension EC2 {
         /// 			InstanceFamily in the same request.
         public let instanceType: String?
 
-        public init(autoPlacement: AutoPlacement? = nil, hostIds: [String], hostRecovery: HostRecovery? = nil, instanceFamily: String? = nil, instanceType: String? = nil) {
+        public init(autoPlacement: AutoPlacement? = nil, hostIds: [String]? = nil, hostRecovery: HostRecovery? = nil, instanceFamily: String? = nil, instanceType: String? = nil) {
             self.autoPlacement = autoPlacement
             self.hostIds = hostIds
             self.hostRecovery = hostRecovery
@@ -33435,11 +33922,11 @@ extension EC2 {
 
     public struct ModifyIdFormatRequest: AWSEncodableShape {
         /// The type of resource: bundle | conversion-task | customer-gateway | dhcp-options | elastic-ip-allocation | elastic-ip-association | export-task | flow-log | image | import-task | internet-gateway | network-acl | network-acl-association | network-interface | network-interface-attachment | prefix-list | route-table | route-table-association | security-group | subnet | subnet-cidr-block-association | vpc | vpc-cidr-block-association | vpc-endpoint | vpc-peering-connection | vpn-connection | vpn-gateway. Alternatively, use the all-current option to include all resource types that are currently within their opt-in period for longer IDs.
-        public let resource: String
+        public let resource: String?
         /// Indicate whether the resource should use longer IDs (17-character IDs).
-        public let useLongIds: Bool
+        public let useLongIds: Bool?
 
-        public init(resource: String, useLongIds: Bool) {
+        public init(resource: String? = nil, useLongIds: Bool? = nil) {
             self.resource = resource
             self.useLongIds = useLongIds
         }
@@ -33452,13 +33939,13 @@ extension EC2 {
 
     public struct ModifyIdentityIdFormatRequest: AWSEncodableShape {
         /// The ARN of the principal, which can be an IAM user, IAM role, or the root user. Specify all to modify the ID format for all IAM users, IAM roles, and the root user of the account.
-        public let principalArn: String
+        public let principalArn: String?
         /// The type of resource: bundle | conversion-task | customer-gateway | dhcp-options | elastic-ip-allocation | elastic-ip-association | export-task | flow-log | image | import-task | internet-gateway | network-acl | network-acl-association | network-interface | network-interface-attachment | prefix-list | route-table | route-table-association | security-group | subnet | subnet-cidr-block-association | vpc | vpc-cidr-block-association | vpc-endpoint | vpc-peering-connection | vpn-connection | vpn-gateway. Alternatively, use the all-current option to include all resource types that are currently within their opt-in period for longer IDs.
-        public let resource: String
+        public let resource: String?
         /// Indicates whether the resource should use longer IDs (17-character IDs)
-        public let useLongIds: Bool
+        public let useLongIds: Bool?
 
-        public init(principalArn: String, resource: String, useLongIds: Bool) {
+        public init(principalArn: String? = nil, resource: String? = nil, useLongIds: Bool? = nil) {
             self.principalArn = principalArn
             self.resource = resource
             self.useLongIds = useLongIds
@@ -33487,7 +33974,7 @@ extension EC2 {
         /// 			DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the AMI.
-        public let imageId: String
+        public let imageId: String?
         /// A new launch permission for the AMI.
         public let launchPermission: LaunchPermissionModifications?
         /// The operation type.  This parameter can be used only when the Attribute parameter is launchPermission.
@@ -33510,7 +33997,7 @@ extension EC2 {
         /// The value of the attribute being modified.  This parameter can be used only when the Attribute parameter is description.
         public let value: String?
 
-        public init(attribute: String? = nil, description: AttributeValue? = nil, dryRun: Bool? = nil, imageId: String, launchPermission: LaunchPermissionModifications? = nil, operationType: OperationType? = nil, organizationalUnitArns: [String]? = nil, organizationArns: [String]? = nil, productCodes: [String]? = nil, userGroups: [String]? = nil, userIds: [String]? = nil, value: String? = nil) {
+        public init(attribute: String? = nil, description: AttributeValue? = nil, dryRun: Bool? = nil, imageId: String? = nil, launchPermission: LaunchPermissionModifications? = nil, operationType: OperationType? = nil, organizationalUnitArns: [String]? = nil, organizationArns: [String]? = nil, productCodes: [String]? = nil, userGroups: [String]? = nil, userIds: [String]? = nil, value: String? = nil) {
             self.attribute = attribute
             self.description = description
             self.dryRun = dryRun
@@ -33545,7 +34032,7 @@ extension EC2 {
         public struct _BlockDeviceMappingsEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _GroupsEncoding: ArrayCoderProperties { public static let member = "groupId" }
 
-        /// The name of the attribute.
+        /// The name of the attribute to modify.  You can modify the following attributes only: disableApiTermination | instanceType |  kernel | ramdisk | instanceInitiatedShutdownBehavior | blockDeviceMapping |  userData | sourceDestCheck | groupSet | ebsOptimized | sriovNetSupport |  enaSupport | nvmeSupport | disableApiStop | enclaveOptions
         public let attribute: InstanceAttributeName?
         /// Modifies the DeleteOnTermination attribute for volumes that are currently attached. The volume must be owned by the caller. If no value is specified for DeleteOnTermination, the default is true and the volume is deleted when the instance is terminated. To add instance store volumes to an Amazon EBS-backed instance, you must add them when you launch the instance. For more information, see Update the block device mapping when launching an instance in the Amazon EC2 User Guide.
         @OptionalCustomCoding<ArrayCoder<_BlockDeviceMappingsEncoding, InstanceBlockDeviceMappingSpecification>>
@@ -33564,7 +34051,7 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_GroupsEncoding, String>>
         public var groups: [String]?
         /// The ID of the instance.
-        public let instanceId: String
+        public let instanceId: String?
         /// Specifies whether an instance stops or terminates when you initiate shutdown from the instance (using the operating system command for system shutdown).
         public let instanceInitiatedShutdownBehavior: AttributeValue?
         /// Changes the instance type to the specified value. For more information, see Instance types in the Amazon EC2 User Guide. If the instance type is not valid, the error returned is InvalidInstanceAttributeValue.
@@ -33582,7 +34069,7 @@ extension EC2 {
         /// A new value for the attribute. Use only with the kernel, ramdisk, userData, disableApiTermination, or instanceInitiatedShutdownBehavior attribute.
         public let value: String?
 
-        public init(attribute: InstanceAttributeName? = nil, blockDeviceMappings: [InstanceBlockDeviceMappingSpecification]? = nil, disableApiStop: AttributeBooleanValue? = nil, disableApiTermination: AttributeBooleanValue? = nil, dryRun: Bool? = nil, ebsOptimized: AttributeBooleanValue? = nil, enaSupport: AttributeBooleanValue? = nil, groups: [String]? = nil, instanceId: String, instanceInitiatedShutdownBehavior: AttributeValue? = nil, instanceType: AttributeValue? = nil, kernel: AttributeValue? = nil, ramdisk: AttributeValue? = nil, sourceDestCheck: AttributeBooleanValue? = nil, sriovNetSupport: AttributeValue? = nil, userData: BlobAttributeValue? = nil, value: String? = nil) {
+        public init(attribute: InstanceAttributeName? = nil, blockDeviceMappings: [InstanceBlockDeviceMappingSpecification]? = nil, disableApiStop: AttributeBooleanValue? = nil, disableApiTermination: AttributeBooleanValue? = nil, dryRun: Bool? = nil, ebsOptimized: AttributeBooleanValue? = nil, enaSupport: AttributeBooleanValue? = nil, groups: [String]? = nil, instanceId: String? = nil, instanceInitiatedShutdownBehavior: AttributeValue? = nil, instanceType: AttributeValue? = nil, kernel: AttributeValue? = nil, ramdisk: AttributeValue? = nil, sourceDestCheck: AttributeBooleanValue? = nil, sriovNetSupport: AttributeValue? = nil, userData: BlobAttributeValue? = nil, value: String? = nil) {
             self.attribute = attribute
             self.blockDeviceMappings = blockDeviceMappings
             self.disableApiStop = disableApiStop
@@ -33625,13 +34112,13 @@ extension EC2 {
 
     public struct ModifyInstanceCapacityReservationAttributesRequest: AWSEncodableShape {
         /// Information about the Capacity Reservation targeting option.
-        public let capacityReservationSpecification: CapacityReservationSpecification
+        public let capacityReservationSpecification: CapacityReservationSpecification?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the instance to be modified.
-        public let instanceId: String
+        public let instanceId: String?
 
-        public init(capacityReservationSpecification: CapacityReservationSpecification, dryRun: Bool? = nil, instanceId: String) {
+        public init(capacityReservationSpecification: CapacityReservationSpecification? = nil, dryRun: Bool? = nil, instanceId: String? = nil) {
             self.capacityReservationSpecification = capacityReservationSpecification
             self.dryRun = dryRun
             self.instanceId = instanceId
@@ -33665,10 +34152,10 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// Information about the credit option for CPU usage.
-        @CustomCoding<ArrayCoder<_InstanceCreditSpecificationsEncoding, InstanceCreditSpecificationRequest>>
-        public var instanceCreditSpecifications: [InstanceCreditSpecificationRequest]
+        @OptionalCustomCoding<ArrayCoder<_InstanceCreditSpecificationsEncoding, InstanceCreditSpecificationRequest>>
+        public var instanceCreditSpecifications: [InstanceCreditSpecificationRequest]?
 
-        public init(clientToken: String? = nil, dryRun: Bool? = nil, instanceCreditSpecifications: [InstanceCreditSpecificationRequest]) {
+        public init(clientToken: String? = nil, dryRun: Bool? = nil, instanceCreditSpecifications: [InstanceCreditSpecificationRequest]? = nil) {
             self.clientToken = clientToken
             self.dryRun = dryRun
             self.instanceCreditSpecifications = instanceCreditSpecifications
@@ -33707,13 +34194,13 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the event whose date and time you are modifying.
-        public let instanceEventId: String
+        public let instanceEventId: String?
         /// The ID of the instance with the scheduled event.
-        public let instanceId: String
+        public let instanceId: String?
         /// The new date and time when the event will take place.
-        public let notBefore: Date
+        public let notBefore: Date?
 
-        public init(dryRun: Bool? = nil, instanceEventId: String, instanceId: String, notBefore: Date) {
+        public init(dryRun: Bool? = nil, instanceEventId: String? = nil, instanceId: String? = nil, notBefore: Date? = nil) {
             self.dryRun = dryRun
             self.instanceEventId = instanceEventId
             self.instanceId = instanceId
@@ -33746,14 +34233,14 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the event window.
-        public let instanceEventWindowId: String
+        public let instanceEventWindowId: String?
         /// The name of the event window.
         public let name: String?
         /// The time ranges of the event window.
         @OptionalCustomCoding<StandardArrayCoder>
         public var timeRanges: [InstanceEventWindowTimeRangeRequest]?
 
-        public init(cronExpression: String? = nil, dryRun: Bool? = nil, instanceEventWindowId: String, name: String? = nil, timeRanges: [InstanceEventWindowTimeRangeRequest]? = nil) {
+        public init(cronExpression: String? = nil, dryRun: Bool? = nil, instanceEventWindowId: String? = nil, name: String? = nil, timeRanges: [InstanceEventWindowTimeRangeRequest]? = nil) {
             self.cronExpression = cronExpression
             self.dryRun = dryRun
             self.instanceEventWindowId = instanceEventWindowId
@@ -33795,9 +34282,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the instance.
-        public let instanceId: String
+        public let instanceId: String?
 
-        public init(autoRecovery: InstanceAutoRecoveryState? = nil, dryRun: Bool? = nil, instanceId: String) {
+        public init(autoRecovery: InstanceAutoRecoveryState? = nil, dryRun: Bool? = nil, instanceId: String? = nil) {
             self.autoRecovery = autoRecovery
             self.dryRun = dryRun
             self.instanceId = instanceId
@@ -33836,14 +34323,14 @@ extension EC2 {
         public let httpProtocolIpv6: InstanceMetadataProtocolState?
         /// The desired HTTP PUT response hop limit for instance metadata requests. The larger the number, the further instance metadata requests can travel. If no parameter is specified, the existing state is maintained. Possible values: Integers from 1 to 64
         public let httpPutResponseHopLimit: Int?
-        /// The state of token usage for your instance metadata requests. If the parameter is not specified in the request, the default state is optional. If the state is optional, you can choose to retrieve instance metadata with or without a signed token header on your request. If you retrieve the IAM role credentials without a token, the version 1.0 role credentials are returned. If you retrieve the IAM role credentials using a valid signed token, the version 2.0 role credentials are returned. If the state is required, you must send a signed token header with any instance metadata retrieval requests. In this state, retrieving the IAM role credential always returns the version 2.0 credentials; the version 1.0 credentials are not available.
+        /// The state of token usage for your instance metadata requests. If the parameter is not specified in the request, the default state is optional. If the state is optional, you can choose to retrieve instance metadata with or without a session token on your request. If you retrieve the IAM role credentials without a token, the version 1.0 role credentials are returned. If you retrieve the IAM role credentials using a valid session token, the version 2.0 role credentials are returned. If the state is required, you must send a session token with any instance metadata retrieval requests. In this state, retrieving the IAM role credentials always returns the version 2.0 credentials; the version 1.0 credentials are not available.
         public let httpTokens: HttpTokensState?
         /// The ID of the instance.
-        public let instanceId: String
+        public let instanceId: String?
         /// Set to enabled to allow access to instance tags from the instance metadata. Set to disabled to turn off access to instance tags from the instance metadata. For more information, see Work with instance tags using the instance metadata. Default: disabled
         public let instanceMetadataTags: InstanceMetadataTagsState?
 
-        public init(dryRun: Bool? = nil, httpEndpoint: InstanceMetadataEndpointState? = nil, httpProtocolIpv6: InstanceMetadataProtocolState? = nil, httpPutResponseHopLimit: Int? = nil, httpTokens: HttpTokensState? = nil, instanceId: String, instanceMetadataTags: InstanceMetadataTagsState? = nil) {
+        public init(dryRun: Bool? = nil, httpEndpoint: InstanceMetadataEndpointState? = nil, httpProtocolIpv6: InstanceMetadataProtocolState? = nil, httpPutResponseHopLimit: Int? = nil, httpTokens: HttpTokensState? = nil, instanceId: String? = nil, instanceMetadataTags: InstanceMetadataTagsState? = nil) {
             self.dryRun = dryRun
             self.httpEndpoint = httpEndpoint
             self.httpProtocolIpv6 = httpProtocolIpv6
@@ -33891,13 +34378,13 @@ extension EC2 {
         /// The ARN of the host resource group in which to place the instance.
         public let hostResourceGroupArn: String?
         /// The ID of the instance that you are modifying.
-        public let instanceId: String
+        public let instanceId: String?
         /// The number of the partition in which to place the instance. Valid only if the placement group strategy is set to partition.
         public let partitionNumber: Int?
         /// The tenancy for the instance.   For T3 instances, you can't change the tenancy from dedicated  to host, or from host to dedicated.  Attempting to make one of these unsupported tenancy changes results in the  InvalidTenancy error code.
         public let tenancy: HostTenancy?
 
-        public init(affinity: Affinity? = nil, groupName: String? = nil, hostId: String? = nil, hostResourceGroupArn: String? = nil, instanceId: String, partitionNumber: Int? = nil, tenancy: HostTenancy? = nil) {
+        public init(affinity: Affinity? = nil, groupName: String? = nil, hostId: String? = nil, hostResourceGroupArn: String? = nil, instanceId: String? = nil, partitionNumber: Int? = nil, tenancy: HostTenancy? = nil) {
             self.affinity = affinity
             self.groupName = groupName
             self.hostId = hostId
@@ -33953,12 +34440,12 @@ extension EC2 {
         /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the IPAM pool you want to modify.
-        public let ipamPoolId: String
+        public let ipamPoolId: String?
         /// Remove tag allocation rules from a pool.
         @OptionalCustomCoding<ArrayCoder<_RemoveAllocationResourceTagsEncoding, RequestIpamResourceTag>>
         public var removeAllocationResourceTags: [RequestIpamResourceTag]?
 
-        public init(addAllocationResourceTags: [RequestIpamResourceTag]? = nil, allocationDefaultNetmaskLength: Int? = nil, allocationMaxNetmaskLength: Int? = nil, allocationMinNetmaskLength: Int? = nil, autoImport: Bool? = nil, clearAllocationDefaultNetmaskLength: Bool? = nil, description: String? = nil, dryRun: Bool? = nil, ipamPoolId: String, removeAllocationResourceTags: [RequestIpamResourceTag]? = nil) {
+        public init(addAllocationResourceTags: [RequestIpamResourceTag]? = nil, allocationDefaultNetmaskLength: Int? = nil, allocationMaxNetmaskLength: Int? = nil, allocationMinNetmaskLength: Int? = nil, autoImport: Bool? = nil, clearAllocationDefaultNetmaskLength: Bool? = nil, description: String? = nil, dryRun: Bool? = nil, ipamPoolId: String? = nil, removeAllocationResourceTags: [RequestIpamResourceTag]? = nil) {
             self.addAllocationResourceTags = addAllocationResourceTags
             self.allocationDefaultNetmaskLength = allocationDefaultNetmaskLength
             self.allocationMaxNetmaskLength = allocationMaxNetmaskLength
@@ -34016,12 +34503,12 @@ extension EC2 {
         /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the IPAM you want to modify.
-        public let ipamId: String
+        public let ipamId: String?
         /// The operating Regions to remove.
         @OptionalCustomCoding<StandardArrayCoder>
         public var removeOperatingRegions: [RemoveIpamOperatingRegion]?
 
-        public init(addOperatingRegions: [AddIpamOperatingRegion]? = nil, description: String? = nil, dryRun: Bool? = nil, ipamId: String, removeOperatingRegions: [RemoveIpamOperatingRegion]? = nil) {
+        public init(addOperatingRegions: [AddIpamOperatingRegion]? = nil, description: String? = nil, dryRun: Bool? = nil, ipamId: String? = nil, removeOperatingRegions: [RemoveIpamOperatingRegion]? = nil) {
             self.addOperatingRegions = addOperatingRegions
             self.description = description
             self.dryRun = dryRun
@@ -34045,21 +34532,21 @@ extension EC2 {
 
     public struct ModifyIpamResourceCidrRequest: AWSEncodableShape {
         /// The ID of the current scope that the resource CIDR is in.
-        public let currentIpamScopeId: String
+        public let currentIpamScopeId: String?
         /// The ID of the scope you want to transfer the resource CIDR to.
         public let destinationIpamScopeId: String?
         /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// Determines if the resource is monitored by IPAM. If a resource is monitored, the resource is discovered by IPAM and you can view details about the resource’s CIDR.
-        public let monitored: Bool
+        public let monitored: Bool?
         /// The CIDR of the resource you want to modify.
-        public let resourceCidr: String
+        public let resourceCidr: String?
         /// The ID of the resource you want to modify.
-        public let resourceId: String
+        public let resourceId: String?
         /// The Amazon Web Services Region of the resource you want to modify.
-        public let resourceRegion: String
+        public let resourceRegion: String?
 
-        public init(currentIpamScopeId: String, destinationIpamScopeId: String? = nil, dryRun: Bool? = nil, monitored: Bool, resourceCidr: String, resourceId: String, resourceRegion: String) {
+        public init(currentIpamScopeId: String? = nil, destinationIpamScopeId: String? = nil, dryRun: Bool? = nil, monitored: Bool? = nil, resourceCidr: String? = nil, resourceId: String? = nil, resourceRegion: String? = nil) {
             self.currentIpamScopeId = currentIpamScopeId
             self.destinationIpamScopeId = destinationIpamScopeId
             self.dryRun = dryRun
@@ -34111,9 +34598,9 @@ extension EC2 {
         /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the scope you want to modify.
-        public let ipamScopeId: String
+        public let ipamScopeId: String?
 
-        public init(description: String? = nil, dryRun: Bool? = nil, ipamScopeId: String) {
+        public init(description: String? = nil, dryRun: Bool? = nil, ipamScopeId: String? = nil) {
             self.description = description
             self.dryRun = dryRun
             self.ipamScopeId = ipamScopeId
@@ -34187,6 +34674,47 @@ extension EC2 {
         }
     }
 
+    public struct ModifyLocalGatewayRouteRequest: AWSEncodableShape {
+        /// The CIDR block used for destination matches. The value that you provide must match the CIDR of an existing route in the table.
+        public let destinationCidrBlock: String?
+        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the local gateway route table.
+        public let localGatewayRouteTableId: String?
+        ///  The ID of the virtual interface group.
+        public let localGatewayVirtualInterfaceGroupId: String?
+        /// The ID of the network interface.
+        public let networkInterfaceId: String?
+
+        public init(destinationCidrBlock: String? = nil, dryRun: Bool? = nil, localGatewayRouteTableId: String? = nil, localGatewayVirtualInterfaceGroupId: String? = nil, networkInterfaceId: String? = nil) {
+            self.destinationCidrBlock = destinationCidrBlock
+            self.dryRun = dryRun
+            self.localGatewayRouteTableId = localGatewayRouteTableId
+            self.localGatewayVirtualInterfaceGroupId = localGatewayVirtualInterfaceGroupId
+            self.networkInterfaceId = networkInterfaceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationCidrBlock = "DestinationCidrBlock"
+            case dryRun = "DryRun"
+            case localGatewayRouteTableId = "LocalGatewayRouteTableId"
+            case localGatewayVirtualInterfaceGroupId = "LocalGatewayVirtualInterfaceGroupId"
+            case networkInterfaceId = "NetworkInterfaceId"
+        }
+    }
+
+    public struct ModifyLocalGatewayRouteResult: AWSDecodableShape {
+        public let route: LocalGatewayRoute?
+
+        public init(route: LocalGatewayRoute? = nil) {
+            self.route = route
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case route
+        }
+    }
+
     public struct ModifyManagedPrefixListRequest: AWSEncodableShape {
         /// One or more entries to add to the prefix list.
         @OptionalCustomCoding<StandardArrayCoder>
@@ -34198,14 +34726,14 @@ extension EC2 {
         /// The maximum number of entries for the prefix list. You cannot modify the entries   of a prefix list and modify the size of a prefix list at the same time. If any of the resources that reference the prefix list cannot support the new maximum size, the modify operation fails. Check the state message for the IDs of  the first ten resources that do not support the new maximum size.
         public let maxEntries: Int?
         /// The ID of the prefix list.
-        public let prefixListId: String
+        public let prefixListId: String?
         /// A name for the prefix list.
         public let prefixListName: String?
         /// One or more entries to remove from the prefix list.
         @OptionalCustomCoding<StandardArrayCoder>
         public var removeEntries: [RemovePrefixListEntry]?
 
-        public init(addEntries: [AddPrefixListEntry]? = nil, currentVersion: Int64? = nil, dryRun: Bool? = nil, maxEntries: Int? = nil, prefixListId: String, prefixListName: String? = nil, removeEntries: [RemovePrefixListEntry]? = nil) {
+        public init(addEntries: [AddPrefixListEntry]? = nil, currentVersion: Int64? = nil, dryRun: Bool? = nil, maxEntries: Int? = nil, prefixListId: String? = nil, prefixListName: String? = nil, removeEntries: [RemovePrefixListEntry]? = nil) {
             self.addEntries = addEntries
             self.currentVersion = currentVersion
             self.dryRun = dryRun
@@ -34257,11 +34785,11 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_GroupsEncoding, String>>
         public var groups: [String]?
         /// The ID of the network interface.
-        public let networkInterfaceId: String
+        public let networkInterfaceId: String?
         /// Enable or disable source/destination checks, which ensure that the instance is either the source or the destination of any traffic that it receives. If the value is true, source/destination checks are enabled; otherwise, they are disabled. The default value is true.  You must disable source/destination checks if the instance runs services  such as network address translation, routing, or firewalls.
         public let sourceDestCheck: AttributeBooleanValue?
 
-        public init(attachment: NetworkInterfaceAttachmentChanges? = nil, description: AttributeValue? = nil, dryRun: Bool? = nil, groups: [String]? = nil, networkInterfaceId: String, sourceDestCheck: AttributeBooleanValue? = nil) {
+        public init(attachment: NetworkInterfaceAttachmentChanges? = nil, description: AttributeValue? = nil, dryRun: Bool? = nil, groups: [String]? = nil, networkInterfaceId: String? = nil, sourceDestCheck: AttributeBooleanValue? = nil) {
             self.attachment = attachment
             self.description = description
             self.dryRun = dryRun
@@ -34329,13 +34857,13 @@ extension EC2 {
         /// A unique, case-sensitive token you provide to ensure idempotency of your modification request. For more information, see  		Ensuring Idempotency.
         public let clientToken: String?
         /// The IDs of the Reserved Instances to modify.
-        @CustomCoding<ArrayCoder<_ReservedInstancesIdsEncoding, String>>
-        public var reservedInstancesIds: [String]
+        @OptionalCustomCoding<ArrayCoder<_ReservedInstancesIdsEncoding, String>>
+        public var reservedInstancesIds: [String]?
         /// The configuration settings for the Reserved Instances to modify.
-        @CustomCoding<ArrayCoder<_TargetConfigurationsEncoding, ReservedInstancesConfiguration>>
-        public var targetConfigurations: [ReservedInstancesConfiguration]
+        @OptionalCustomCoding<ArrayCoder<_TargetConfigurationsEncoding, ReservedInstancesConfiguration>>
+        public var targetConfigurations: [ReservedInstancesConfiguration]?
 
-        public init(clientToken: String? = nil, reservedInstancesIds: [String], targetConfigurations: [ReservedInstancesConfiguration]) {
+        public init(clientToken: String? = nil, reservedInstancesIds: [String]? = nil, targetConfigurations: [ReservedInstancesConfiguration]? = nil) {
             self.clientToken = clientToken
             self.reservedInstancesIds = reservedInstancesIds
             self.targetConfigurations = targetConfigurations
@@ -34367,12 +34895,12 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the security group.
-        public let groupId: String
+        public let groupId: String?
         /// Information about the security group properties to update.
-        @CustomCoding<ArrayCoder<_SecurityGroupRulesEncoding, SecurityGroupRuleUpdate>>
-        public var securityGroupRules: [SecurityGroupRuleUpdate]
+        @OptionalCustomCoding<ArrayCoder<_SecurityGroupRulesEncoding, SecurityGroupRuleUpdate>>
+        public var securityGroupRules: [SecurityGroupRuleUpdate]?
 
-        public init(dryRun: Bool? = nil, groupId: String, securityGroupRules: [SecurityGroupRuleUpdate]) {
+        public init(dryRun: Bool? = nil, groupId: String? = nil, securityGroupRules: [SecurityGroupRuleUpdate]? = nil) {
             self.dryRun = dryRun
             self.groupId = groupId
             self.securityGroupRules = securityGroupRules
@@ -34414,12 +34942,12 @@ extension EC2 {
         /// The type of operation to perform to the attribute.
         public let operationType: OperationType?
         /// The ID of the snapshot.
-        public let snapshotId: String
+        public let snapshotId: String?
         /// The account ID to modify for the snapshot.
         @OptionalCustomCoding<ArrayCoder<_UserIdsEncoding, String>>
         public var userIds: [String]?
 
-        public init(attribute: SnapshotAttributeName? = nil, createVolumePermission: CreateVolumePermissionModifications? = nil, dryRun: Bool? = nil, groupNames: [String]? = nil, operationType: OperationType? = nil, snapshotId: String, userIds: [String]? = nil) {
+        public init(attribute: SnapshotAttributeName? = nil, createVolumePermission: CreateVolumePermissionModifications? = nil, dryRun: Bool? = nil, groupNames: [String]? = nil, operationType: OperationType? = nil, snapshotId: String? = nil, userIds: [String]? = nil) {
             self.attribute = attribute
             self.createVolumePermission = createVolumePermission
             self.dryRun = dryRun
@@ -34444,11 +34972,11 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the snapshot.
-        public let snapshotId: String
+        public let snapshotId: String?
         /// The name of the storage tier. You must specify archive.
         public let storageTier: TargetStorageTier?
 
-        public init(dryRun: Bool? = nil, snapshotId: String, storageTier: TargetStorageTier? = nil) {
+        public init(dryRun: Bool? = nil, snapshotId: String? = nil, storageTier: TargetStorageTier? = nil) {
             self.dryRun = dryRun
             self.snapshotId = snapshotId
             self.storageTier = storageTier
@@ -34491,11 +35019,11 @@ extension EC2 {
         /// The number of On-Demand Instances in the fleet.
         public let onDemandTargetCapacity: Int?
         /// The ID of the Spot Fleet request.
-        public let spotFleetRequestId: String
+        public let spotFleetRequestId: String?
         /// The size of the fleet.
         public let targetCapacity: Int?
 
-        public init(context: String? = nil, excessCapacityTerminationPolicy: ExcessCapacityTerminationPolicy? = nil, launchTemplateConfigs: [LaunchTemplateConfig]? = nil, onDemandTargetCapacity: Int? = nil, spotFleetRequestId: String, targetCapacity: Int? = nil) {
+        public init(context: String? = nil, excessCapacityTerminationPolicy: ExcessCapacityTerminationPolicy? = nil, launchTemplateConfigs: [LaunchTemplateConfig]? = nil, onDemandTargetCapacity: Int? = nil, spotFleetRequestId: String? = nil, targetCapacity: Int? = nil) {
             self.context = context
             self.excessCapacityTerminationPolicy = excessCapacityTerminationPolicy
             self.launchTemplateConfigs = launchTemplateConfigs
@@ -34555,9 +35083,9 @@ extension EC2 {
         /// The type of hostname to assign to instances in the subnet at launch. For IPv4-only and dual-stack (IPv4 and IPv6) subnets, an instance DNS name can be based on the instance IPv4 address (ip-name) or the instance ID (resource-name). For IPv6 only subnets, an instance DNS name must be based on the instance ID (resource-name).
         public let privateDnsHostnameTypeOnLaunch: HostnameType?
         /// The ID of the subnet.
-        public let subnetId: String
+        public let subnetId: String?
 
-        public init(assignIpv6AddressOnCreation: AttributeBooleanValue? = nil, customerOwnedIpv4Pool: String? = nil, disableLniAtDeviceIndex: AttributeBooleanValue? = nil, enableDns64: AttributeBooleanValue? = nil, enableLniAtDeviceIndex: Int? = nil, enableResourceNameDnsAAAARecordOnLaunch: AttributeBooleanValue? = nil, enableResourceNameDnsARecordOnLaunch: AttributeBooleanValue? = nil, mapCustomerOwnedIpOnLaunch: AttributeBooleanValue? = nil, mapPublicIpOnLaunch: AttributeBooleanValue? = nil, privateDnsHostnameTypeOnLaunch: HostnameType? = nil, subnetId: String) {
+        public init(assignIpv6AddressOnCreation: AttributeBooleanValue? = nil, customerOwnedIpv4Pool: String? = nil, disableLniAtDeviceIndex: AttributeBooleanValue? = nil, enableDns64: AttributeBooleanValue? = nil, enableLniAtDeviceIndex: Int? = nil, enableResourceNameDnsAAAARecordOnLaunch: AttributeBooleanValue? = nil, enableResourceNameDnsARecordOnLaunch: AttributeBooleanValue? = nil, mapCustomerOwnedIpOnLaunch: AttributeBooleanValue? = nil, mapPublicIpOnLaunch: AttributeBooleanValue? = nil, privateDnsHostnameTypeOnLaunch: HostnameType? = nil, subnetId: String? = nil) {
             self.assignIpv6AddressOnCreation = assignIpv6AddressOnCreation
             self.customerOwnedIpv4Pool = customerOwnedIpv4Pool
             self.disableLniAtDeviceIndex = disableLniAtDeviceIndex
@@ -34599,9 +35127,9 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_RemoveNetworkServicesEncoding, TrafficMirrorNetworkService>>
         public var removeNetworkServices: [TrafficMirrorNetworkService]?
         /// The ID of the Traffic Mirror filter.
-        public let trafficMirrorFilterId: String
+        public let trafficMirrorFilterId: String?
 
-        public init(addNetworkServices: [TrafficMirrorNetworkService]? = nil, dryRun: Bool? = nil, removeNetworkServices: [TrafficMirrorNetworkService]? = nil, trafficMirrorFilterId: String) {
+        public init(addNetworkServices: [TrafficMirrorNetworkService]? = nil, dryRun: Bool? = nil, removeNetworkServices: [TrafficMirrorNetworkService]? = nil, trafficMirrorFilterId: String? = nil) {
             self.addNetworkServices = addNetworkServices
             self.dryRun = dryRun
             self.removeNetworkServices = removeNetworkServices
@@ -34654,9 +35182,9 @@ extension EC2 {
         /// The type of traffic to assign to the rule.
         public let trafficDirection: TrafficDirection?
         /// The ID of the Traffic Mirror rule.
-        public let trafficMirrorFilterRuleId: String
+        public let trafficMirrorFilterRuleId: String?
 
-        public init(description: String? = nil, destinationCidrBlock: String? = nil, destinationPortRange: TrafficMirrorPortRangeRequest? = nil, dryRun: Bool? = nil, protocol: Int? = nil, removeFields: [TrafficMirrorFilterRuleField]? = nil, ruleAction: TrafficMirrorRuleAction? = nil, ruleNumber: Int? = nil, sourceCidrBlock: String? = nil, sourcePortRange: TrafficMirrorPortRangeRequest? = nil, trafficDirection: TrafficDirection? = nil, trafficMirrorFilterRuleId: String) {
+        public init(description: String? = nil, destinationCidrBlock: String? = nil, destinationPortRange: TrafficMirrorPortRangeRequest? = nil, dryRun: Bool? = nil, protocol: Int? = nil, removeFields: [TrafficMirrorFilterRuleField]? = nil, ruleAction: TrafficMirrorRuleAction? = nil, ruleNumber: Int? = nil, sourceCidrBlock: String? = nil, sourcePortRange: TrafficMirrorPortRangeRequest? = nil, trafficDirection: TrafficDirection? = nil, trafficMirrorFilterRuleId: String? = nil) {
             self.description = description
             self.destinationCidrBlock = destinationCidrBlock
             self.destinationPortRange = destinationPortRange
@@ -34715,13 +35243,13 @@ extension EC2 {
         /// The ID of the Traffic Mirror filter.
         public let trafficMirrorFilterId: String?
         /// The ID of the Traffic Mirror session.
-        public let trafficMirrorSessionId: String
+        public let trafficMirrorSessionId: String?
         /// The Traffic Mirror target. The target must be in the same VPC as the source, or have a VPC peering connection with the source.
         public let trafficMirrorTargetId: String?
         /// The virtual network ID of the Traffic Mirror session.
         public let virtualNetworkId: Int?
 
-        public init(description: String? = nil, dryRun: Bool? = nil, packetLength: Int? = nil, removeFields: [TrafficMirrorSessionField]? = nil, sessionNumber: Int? = nil, trafficMirrorFilterId: String? = nil, trafficMirrorSessionId: String, trafficMirrorTargetId: String? = nil, virtualNetworkId: Int? = nil) {
+        public init(description: String? = nil, dryRun: Bool? = nil, packetLength: Int? = nil, removeFields: [TrafficMirrorSessionField]? = nil, sessionNumber: Int? = nil, trafficMirrorFilterId: String? = nil, trafficMirrorSessionId: String? = nil, trafficMirrorTargetId: String? = nil, virtualNetworkId: Int? = nil) {
             self.description = description
             self.dryRun = dryRun
             self.packetLength = packetLength
@@ -34766,7 +35294,7 @@ extension EC2 {
         /// Adds IPv4 or IPv6 CIDR blocks for the transit gateway. Must be a size /24 CIDR block or larger for IPv4, or a size /64 CIDR block or larger for IPv6.
         @OptionalCustomCoding<ArrayCoder<_AddTransitGatewayCidrBlocksEncoding, String>>
         public var addTransitGatewayCidrBlocks: [String]?
-        /// A private Autonomous System Number (ASN) for the Amazon side of a BGP session.  The range is 64512 to 65534 for 16-bit ASNs and 4200000000 to 4294967294 for 32-bit ASNs.
+        /// A private Autonomous System Number (ASN) for the Amazon side of a BGP session.  The range is 64512 to 65534 for 16-bit ASNs and 4200000000 to 4294967294 for 32-bit ASNs. The modify ASN operation is not allowed on a transit gateway with active BGP sessions. You must first delete all transit gateway attachments that have BGP configured prior to modifying the ASN on the transit gateway.
         public let amazonSideAsn: Int64?
         /// The ID of the default association route table.
         public let associationDefaultRouteTableId: String?
@@ -34819,13 +35347,13 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the prefix list.
-        public let prefixListId: String
+        public let prefixListId: String?
         /// The ID of the attachment to which traffic is routed.
         public let transitGatewayAttachmentId: String?
         /// The ID of the transit gateway route table.
-        public let transitGatewayRouteTableId: String
+        public let transitGatewayRouteTableId: String?
 
-        public init(blackhole: Bool? = nil, dryRun: Bool? = nil, prefixListId: String, transitGatewayAttachmentId: String? = nil, transitGatewayRouteTableId: String) {
+        public init(blackhole: Bool? = nil, dryRun: Bool? = nil, prefixListId: String? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayRouteTableId: String? = nil) {
             self.blackhole = blackhole
             self.dryRun = dryRun
             self.prefixListId = prefixListId
@@ -34863,9 +35391,9 @@ extension EC2 {
         /// The options to modify.
         public let options: ModifyTransitGatewayOptions?
         /// The ID of the transit gateway.
-        public let transitGatewayId: String
+        public let transitGatewayId: String?
 
-        public init(description: String? = nil, dryRun: Bool? = nil, options: ModifyTransitGatewayOptions? = nil, transitGatewayId: String) {
+        public init(description: String? = nil, dryRun: Bool? = nil, options: ModifyTransitGatewayOptions? = nil, transitGatewayId: String? = nil) {
             self.description = description
             self.dryRun = dryRun
             self.options = options
@@ -34907,9 +35435,9 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_RemoveSubnetIdsEncoding, String>>
         public var removeSubnetIds: [String]?
         /// The ID of the attachment.
-        public let transitGatewayAttachmentId: String
+        public let transitGatewayAttachmentId: String?
 
-        public init(addSubnetIds: [String]? = nil, dryRun: Bool? = nil, options: ModifyTransitGatewayVpcAttachmentRequestOptions? = nil, removeSubnetIds: [String]? = nil, transitGatewayAttachmentId: String) {
+        public init(addSubnetIds: [String]? = nil, dryRun: Bool? = nil, options: ModifyTransitGatewayVpcAttachmentRequestOptions? = nil, removeSubnetIds: [String]? = nil, transitGatewayAttachmentId: String? = nil) {
             self.addSubnetIds = addSubnetIds
             self.dryRun = dryRun
             self.options = options
@@ -34966,9 +35494,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the volume.
-        public let volumeId: String
+        public let volumeId: String?
 
-        public init(autoEnableIO: AttributeBooleanValue? = nil, dryRun: Bool? = nil, volumeId: String) {
+        public init(autoEnableIO: AttributeBooleanValue? = nil, dryRun: Bool? = nil, volumeId: String? = nil) {
             self.autoEnableIO = autoEnableIO
             self.dryRun = dryRun
             self.volumeId = volumeId
@@ -34998,11 +35526,11 @@ extension EC2 {
         /// The target throughput of the volume, in MiB/s. This parameter is valid only for gp3 volumes.  The maximum value is 1,000. Default: The existing value is retained if the source and target volume type is gp3. Otherwise, the default value is 125. 	      Valid Range: Minimum value of 125. Maximum value of 1000.
         public let throughput: Int?
         /// The ID of the volume.
-        public let volumeId: String
+        public let volumeId: String?
         /// The target EBS volume type of the volume. For more information, see Amazon EBS volume types in the Amazon Elastic Compute Cloud User Guide. Default: The existing type is retained.
         public let volumeType: VolumeType?
 
-        public init(dryRun: Bool? = nil, iops: Int? = nil, multiAttachEnabled: Bool? = nil, size: Int? = nil, throughput: Int? = nil, volumeId: String, volumeType: VolumeType? = nil) {
+        public init(dryRun: Bool? = nil, iops: Int? = nil, multiAttachEnabled: Bool? = nil, size: Int? = nil, throughput: Int? = nil, volumeId: String? = nil, volumeType: VolumeType? = nil) {
             self.dryRun = dryRun
             self.iops = iops
             self.multiAttachEnabled = multiAttachEnabled
@@ -35045,18 +35573,22 @@ extension EC2 {
         /// 			provided DNS service in the VPC that resolves public DNS hostnames to IP addresses is
         /// 			not enabled. You cannot modify the DNS resolution and DNS hostnames attributes in the same request. Use separate requests for each attribute.
         public let enableDnsSupport: AttributeBooleanValue?
+        /// Indicates whether Network Address Usage metrics are enabled for your VPC.
+        public let enableNetworkAddressUsageMetrics: AttributeBooleanValue?
         /// The ID of the VPC.
-        public let vpcId: String
+        public let vpcId: String?
 
-        public init(enableDnsHostnames: AttributeBooleanValue? = nil, enableDnsSupport: AttributeBooleanValue? = nil, vpcId: String) {
+        public init(enableDnsHostnames: AttributeBooleanValue? = nil, enableDnsSupport: AttributeBooleanValue? = nil, enableNetworkAddressUsageMetrics: AttributeBooleanValue? = nil, vpcId: String? = nil) {
             self.enableDnsHostnames = enableDnsHostnames
             self.enableDnsSupport = enableDnsSupport
+            self.enableNetworkAddressUsageMetrics = enableNetworkAddressUsageMetrics
             self.vpcId = vpcId
         }
 
         private enum CodingKeys: String, CodingKey {
             case enableDnsHostnames = "EnableDnsHostnames"
             case enableDnsSupport = "EnableDnsSupport"
+            case enableNetworkAddressUsageMetrics = "EnableNetworkAddressUsageMetrics"
             case vpcId
         }
     }
@@ -35070,11 +35602,11 @@ extension EC2 {
         /// The ARN for the SNS topic for the notification.
         public let connectionNotificationArn: String?
         /// The ID of the notification.
-        public let connectionNotificationId: String
+        public let connectionNotificationId: String?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
-        public init(connectionEvents: [String]? = nil, connectionNotificationArn: String? = nil, connectionNotificationId: String, dryRun: Bool? = nil) {
+        public init(connectionEvents: [String]? = nil, connectionNotificationArn: String? = nil, connectionNotificationId: String? = nil, dryRun: Bool? = nil) {
             self.connectionEvents = connectionEvents
             self.connectionNotificationArn = connectionNotificationArn
             self.connectionNotificationId = connectionNotificationId
@@ -35141,9 +35673,9 @@ extension EC2 {
         /// (Gateway endpoint) Specify true to reset the policy document to the default policy. The default policy allows full access to the service.
         public let resetPolicy: Bool?
         /// The ID of the endpoint.
-        public let vpcEndpointId: String
+        public let vpcEndpointId: String?
 
-        public init(addRouteTableIds: [String]? = nil, addSecurityGroupIds: [String]? = nil, addSubnetIds: [String]? = nil, dnsOptions: DnsOptionsSpecification? = nil, dryRun: Bool? = nil, ipAddressType: IpAddressType? = nil, policyDocument: String? = nil, privateDnsEnabled: Bool? = nil, removeRouteTableIds: [String]? = nil, removeSecurityGroupIds: [String]? = nil, removeSubnetIds: [String]? = nil, resetPolicy: Bool? = nil, vpcEndpointId: String) {
+        public init(addRouteTableIds: [String]? = nil, addSecurityGroupIds: [String]? = nil, addSubnetIds: [String]? = nil, dnsOptions: DnsOptionsSpecification? = nil, dryRun: Bool? = nil, ipAddressType: IpAddressType? = nil, policyDocument: String? = nil, privateDnsEnabled: Bool? = nil, removeRouteTableIds: [String]? = nil, removeSecurityGroupIds: [String]? = nil, removeSubnetIds: [String]? = nil, resetPolicy: Bool? = nil, vpcEndpointId: String? = nil) {
             self.addRouteTableIds = addRouteTableIds
             self.addSecurityGroupIds = addSecurityGroupIds
             self.addSubnetIds = addSubnetIds
@@ -35224,9 +35756,9 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_RemoveSupportedIpAddressTypesEncoding, String>>
         public var removeSupportedIpAddressTypes: [String]?
         /// The ID of the service.
-        public let serviceId: String
+        public let serviceId: String?
 
-        public init(acceptanceRequired: Bool? = nil, addGatewayLoadBalancerArns: [String]? = nil, addNetworkLoadBalancerArns: [String]? = nil, addSupportedIpAddressTypes: [String]? = nil, dryRun: Bool? = nil, privateDnsName: String? = nil, removeGatewayLoadBalancerArns: [String]? = nil, removeNetworkLoadBalancerArns: [String]? = nil, removePrivateDnsName: Bool? = nil, removeSupportedIpAddressTypes: [String]? = nil, serviceId: String) {
+        public init(acceptanceRequired: Bool? = nil, addGatewayLoadBalancerArns: [String]? = nil, addNetworkLoadBalancerArns: [String]? = nil, addSupportedIpAddressTypes: [String]? = nil, dryRun: Bool? = nil, privateDnsName: String? = nil, removeGatewayLoadBalancerArns: [String]? = nil, removeNetworkLoadBalancerArns: [String]? = nil, removePrivateDnsName: Bool? = nil, removeSupportedIpAddressTypes: [String]? = nil, serviceId: String? = nil) {
             self.acceptanceRequired = acceptanceRequired
             self.addGatewayLoadBalancerArns = addGatewayLoadBalancerArns
             self.addNetworkLoadBalancerArns = addNetworkLoadBalancerArns
@@ -35272,11 +35804,11 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The entity that is responsible for the endpoint costs. The default is the endpoint owner. If you set the payer responsibility to the service owner, you cannot set it back to the endpoint owner.
-        public let payerResponsibility: PayerResponsibility
+        public let payerResponsibility: PayerResponsibility?
         /// The ID of the service.
-        public let serviceId: String
+        public let serviceId: String?
 
-        public init(dryRun: Bool? = nil, payerResponsibility: PayerResponsibility, serviceId: String) {
+        public init(dryRun: Bool? = nil, payerResponsibility: PayerResponsibility? = nil, serviceId: String? = nil) {
             self.dryRun = dryRun
             self.payerResponsibility = payerResponsibility
             self.serviceId = serviceId
@@ -35318,9 +35850,9 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_RemoveAllowedPrincipalsEncoding, String>>
         public var removeAllowedPrincipals: [String]?
         /// The ID of the service.
-        public let serviceId: String
+        public let serviceId: String?
 
-        public init(addAllowedPrincipals: [String]? = nil, dryRun: Bool? = nil, removeAllowedPrincipals: [String]? = nil, serviceId: String) {
+        public init(addAllowedPrincipals: [String]? = nil, dryRun: Bool? = nil, removeAllowedPrincipals: [String]? = nil, serviceId: String? = nil) {
             self.addAllowedPrincipals = addAllowedPrincipals
             self.dryRun = dryRun
             self.removeAllowedPrincipals = removeAllowedPrincipals
@@ -35336,14 +35868,21 @@ extension EC2 {
     }
 
     public struct ModifyVpcEndpointServicePermissionsResult: AWSDecodableShape {
+        public struct _AddedPrincipalsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Information about the added principals.
+        @OptionalCustomCoding<ArrayCoder<_AddedPrincipalsEncoding, AddedPrincipal>>
+        public var addedPrincipals: [AddedPrincipal]?
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let returnValue: Bool?
 
-        public init(returnValue: Bool? = nil) {
+        public init(addedPrincipals: [AddedPrincipal]? = nil, returnValue: Bool? = nil) {
+            self.addedPrincipals = addedPrincipals
             self.returnValue = returnValue
         }
 
         private enum CodingKeys: String, CodingKey {
+            case addedPrincipals = "addedPrincipalSet"
             case returnValue = "return"
         }
     }
@@ -35356,9 +35895,9 @@ extension EC2 {
         /// The VPC peering connection options for the requester VPC.
         public let requesterPeeringConnectionOptions: PeeringConnectionOptionsRequest?
         /// The ID of the VPC peering connection.
-        public let vpcPeeringConnectionId: String
+        public let vpcPeeringConnectionId: String?
 
-        public init(accepterPeeringConnectionOptions: PeeringConnectionOptionsRequest? = nil, dryRun: Bool? = nil, requesterPeeringConnectionOptions: PeeringConnectionOptionsRequest? = nil, vpcPeeringConnectionId: String) {
+        public init(accepterPeeringConnectionOptions: PeeringConnectionOptionsRequest? = nil, dryRun: Bool? = nil, requesterPeeringConnectionOptions: PeeringConnectionOptionsRequest? = nil, vpcPeeringConnectionId: String? = nil) {
             self.accepterPeeringConnectionOptions = accepterPeeringConnectionOptions
             self.dryRun = dryRun
             self.requesterPeeringConnectionOptions = requesterPeeringConnectionOptions
@@ -35394,11 +35933,11 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The instance tenancy attribute for the VPC.
-        public let instanceTenancy: VpcTenancy
+        public let instanceTenancy: VpcTenancy?
         /// The ID of the VPC.
-        public let vpcId: String
+        public let vpcId: String?
 
-        public init(dryRun: Bool? = nil, instanceTenancy: VpcTenancy, vpcId: String) {
+        public init(dryRun: Bool? = nil, instanceTenancy: VpcTenancy? = nil, vpcId: String? = nil) {
             self.dryRun = dryRun
             self.instanceTenancy = instanceTenancy
             self.vpcId = vpcId
@@ -35436,9 +35975,9 @@ extension EC2 {
         /// The IPv6 CIDR on the Amazon Web Services side of the VPN connection. Default: ::/0
         public let remoteIpv6NetworkCidr: String?
         /// The ID of the Site-to-Site VPN connection.
-        public let vpnConnectionId: String
+        public let vpnConnectionId: String?
 
-        public init(dryRun: Bool? = nil, localIpv4NetworkCidr: String? = nil, localIpv6NetworkCidr: String? = nil, remoteIpv4NetworkCidr: String? = nil, remoteIpv6NetworkCidr: String? = nil, vpnConnectionId: String) {
+        public init(dryRun: Bool? = nil, localIpv4NetworkCidr: String? = nil, localIpv6NetworkCidr: String? = nil, remoteIpv4NetworkCidr: String? = nil, remoteIpv6NetworkCidr: String? = nil, vpnConnectionId: String? = nil) {
             self.dryRun = dryRun
             self.localIpv4NetworkCidr = localIpv4NetworkCidr
             self.localIpv6NetworkCidr = localIpv6NetworkCidr
@@ -35477,11 +36016,11 @@ extension EC2 {
         /// The ID of the transit gateway.
         public let transitGatewayId: String?
         /// The ID of the VPN connection.
-        public let vpnConnectionId: String
+        public let vpnConnectionId: String?
         /// The ID of the virtual private gateway at the Amazon Web Services side of the VPN connection.
         public let vpnGatewayId: String?
 
-        public init(customerGatewayId: String? = nil, dryRun: Bool? = nil, transitGatewayId: String? = nil, vpnConnectionId: String, vpnGatewayId: String? = nil) {
+        public init(customerGatewayId: String? = nil, dryRun: Bool? = nil, transitGatewayId: String? = nil, vpnConnectionId: String? = nil, vpnGatewayId: String? = nil) {
             self.customerGatewayId = customerGatewayId
             self.dryRun = dryRun
             self.transitGatewayId = transitGatewayId
@@ -35514,11 +36053,11 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the Amazon Web Services Site-to-Site VPN connection.
-        public let vpnConnectionId: String
+        public let vpnConnectionId: String?
         /// The external IP address of the VPN tunnel.
-        public let vpnTunnelOutsideIpAddress: String
+        public let vpnTunnelOutsideIpAddress: String?
 
-        public init(dryRun: Bool? = nil, vpnConnectionId: String, vpnTunnelOutsideIpAddress: String) {
+        public init(dryRun: Bool? = nil, vpnConnectionId: String? = nil, vpnTunnelOutsideIpAddress: String? = nil) {
             self.dryRun = dryRun
             self.vpnConnectionId = vpnConnectionId
             self.vpnTunnelOutsideIpAddress = vpnTunnelOutsideIpAddress
@@ -35547,13 +36086,13 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The tunnel options to modify.
-        public let tunnelOptions: ModifyVpnTunnelOptionsSpecification
+        public let tunnelOptions: ModifyVpnTunnelOptionsSpecification?
         /// The ID of the Amazon Web Services Site-to-Site VPN connection.
-        public let vpnConnectionId: String
+        public let vpnConnectionId: String?
         /// The external IP address of the VPN tunnel.
-        public let vpnTunnelOutsideIpAddress: String
+        public let vpnTunnelOutsideIpAddress: String?
 
-        public init(dryRun: Bool? = nil, tunnelOptions: ModifyVpnTunnelOptionsSpecification, vpnConnectionId: String, vpnTunnelOutsideIpAddress: String) {
+        public init(dryRun: Bool? = nil, tunnelOptions: ModifyVpnTunnelOptionsSpecification? = nil, vpnConnectionId: String? = nil, vpnTunnelOutsideIpAddress: String? = nil) {
             self.dryRun = dryRun
             self.tunnelOptions = tunnelOptions
             self.vpnConnectionId = vpnConnectionId
@@ -35686,10 +36225,10 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The IDs of the instances.
-        @CustomCoding<ArrayCoder<_InstanceIdsEncoding, String>>
-        public var instanceIds: [String]
+        @OptionalCustomCoding<ArrayCoder<_InstanceIdsEncoding, String>>
+        public var instanceIds: [String]?
 
-        public init(dryRun: Bool? = nil, instanceIds: [String]) {
+        public init(dryRun: Bool? = nil, instanceIds: [String]? = nil) {
             self.dryRun = dryRun
             self.instanceIds = instanceIds
         }
@@ -35733,9 +36272,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The Elastic IP address.
-        public let publicIp: String
+        public let publicIp: String?
 
-        public init(dryRun: Bool? = nil, publicIp: String) {
+        public init(dryRun: Bool? = nil, publicIp: String? = nil) {
             self.dryRun = dryRun
             self.publicIp = publicIp
         }
@@ -35765,15 +36304,15 @@ extension EC2 {
 
     public struct MoveByoipCidrToIpamRequest: AWSEncodableShape {
         /// The BYOIP CIDR.
-        public let cidr: String
+        public let cidr: String?
         /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The IPAM pool ID.
-        public let ipamPoolId: String
+        public let ipamPoolId: String?
         /// The Amazon Web Services account ID of the owner of the IPAM pool.
-        public let ipamPoolOwner: String
+        public let ipamPoolOwner: String?
 
-        public init(cidr: String, dryRun: Bool? = nil, ipamPoolId: String, ipamPoolOwner: String) {
+        public init(cidr: String? = nil, dryRun: Bool? = nil, ipamPoolId: String? = nil, ipamPoolOwner: String? = nil) {
             self.cidr = cidr
             self.dryRun = dryRun
             self.ipamPoolId = ipamPoolId
@@ -36870,6 +37409,7 @@ extension EC2 {
 
     public struct PathComponent: AWSDecodableShape {
         public struct _AdditionalDetailsEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _ExplanationsEncoding: ArrayCoderProperties { public static let member = "item" }
 
         /// The network ACL rule.
         public let aclRule: AnalysisAclRule?
@@ -36882,6 +37422,11 @@ extension EC2 {
         public let component: AnalysisComponent?
         /// The destination VPC.
         public let destinationVpc: AnalysisComponent?
+        /// The load balancer listener.
+        public let elasticLoadBalancerListener: AnalysisComponent?
+        /// The explanation codes.
+        @OptionalCustomCoding<ArrayCoder<_ExplanationsEncoding, Explanation>>
+        public var explanations: [Explanation]?
         /// The inbound header.
         public let inboundHeader: AnalysisPacketHeader?
         /// The outbound header.
@@ -36903,12 +37448,14 @@ extension EC2 {
         /// The component VPC.
         public let vpc: AnalysisComponent?
 
-        public init(aclRule: AnalysisAclRule? = nil, additionalDetails: [AdditionalDetail]? = nil, attachedTo: AnalysisComponent? = nil, component: AnalysisComponent? = nil, destinationVpc: AnalysisComponent? = nil, inboundHeader: AnalysisPacketHeader? = nil, outboundHeader: AnalysisPacketHeader? = nil, routeTableRoute: AnalysisRouteTableRoute? = nil, securityGroupRule: AnalysisSecurityGroupRule? = nil, sequenceNumber: Int? = nil, sourceVpc: AnalysisComponent? = nil, subnet: AnalysisComponent? = nil, transitGateway: AnalysisComponent? = nil, transitGatewayRouteTableRoute: TransitGatewayRouteTableRoute? = nil, vpc: AnalysisComponent? = nil) {
+        public init(aclRule: AnalysisAclRule? = nil, additionalDetails: [AdditionalDetail]? = nil, attachedTo: AnalysisComponent? = nil, component: AnalysisComponent? = nil, destinationVpc: AnalysisComponent? = nil, elasticLoadBalancerListener: AnalysisComponent? = nil, explanations: [Explanation]? = nil, inboundHeader: AnalysisPacketHeader? = nil, outboundHeader: AnalysisPacketHeader? = nil, routeTableRoute: AnalysisRouteTableRoute? = nil, securityGroupRule: AnalysisSecurityGroupRule? = nil, sequenceNumber: Int? = nil, sourceVpc: AnalysisComponent? = nil, subnet: AnalysisComponent? = nil, transitGateway: AnalysisComponent? = nil, transitGatewayRouteTableRoute: TransitGatewayRouteTableRoute? = nil, vpc: AnalysisComponent? = nil) {
             self.aclRule = aclRule
             self.additionalDetails = additionalDetails
             self.attachedTo = attachedTo
             self.component = component
             self.destinationVpc = destinationVpc
+            self.elasticLoadBalancerListener = elasticLoadBalancerListener
+            self.explanations = explanations
             self.inboundHeader = inboundHeader
             self.outboundHeader = outboundHeader
             self.routeTableRoute = routeTableRoute
@@ -36927,6 +37474,8 @@ extension EC2 {
             case attachedTo
             case component
             case destinationVpc
+            case elasticLoadBalancerListener
+            case explanations = "explanationSet"
             case inboundHeader
             case outboundHeader
             case routeTableRoute
@@ -37647,7 +38196,7 @@ extension EC2 {
     public struct PrivateIpAddressSpecification: AWSEncodableShape & AWSDecodableShape {
         /// Indicates whether the private IPv4 address is the primary private IPv4 address. Only one IPv4 address can be designated as primary.
         public let primary: Bool?
-        /// The private IPv4 addresses.
+        /// The private IPv4 address.
         public let privateIpAddress: String?
 
         public init(primary: Bool? = nil, privateIpAddress: String? = nil) {
@@ -37715,7 +38264,7 @@ extension EC2 {
         public struct _PoolTagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
 
         /// The public IPv4 or IPv6 address range, in CIDR notation. The most specific IPv4 prefix that you can  specify is /24. The most specific IPv6 prefix you can specify is /56. The address range cannot overlap with another address range that you've  brought to this or another Region.
-        public let cidr: String
+        public let cidr: String?
         /// A signed document that proves that you are authorized to bring the specified IP address  range to Amazon using BYOIP.
         public let cidrAuthorizationContext: CidrAuthorizationContext?
         /// A description for the address range and the address pool.
@@ -37730,7 +38279,7 @@ extension EC2 {
         /// (IPv6 only) Indicate whether the address range will be publicly advertised to the internet. Default: true
         public let publiclyAdvertisable: Bool?
 
-        public init(cidr: String, cidrAuthorizationContext: CidrAuthorizationContext? = nil, description: String? = nil, dryRun: Bool? = nil, multiRegion: Bool? = nil, poolTagSpecifications: [TagSpecification]? = nil, publiclyAdvertisable: Bool? = nil) {
+        public init(cidr: String? = nil, cidrAuthorizationContext: CidrAuthorizationContext? = nil, description: String? = nil, dryRun: Bool? = nil, multiRegion: Bool? = nil, poolTagSpecifications: [TagSpecification]? = nil, publiclyAdvertisable: Bool? = nil) {
             self.cidr = cidr
             self.cidrAuthorizationContext = cidrAuthorizationContext
             self.description = description
@@ -37772,9 +38321,9 @@ extension EC2 {
         /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the IPAM pool to which you want to assign a CIDR.
-        public let ipamPoolId: String
+        public let ipamPoolId: String?
 
-        public init(cidr: String? = nil, cidrAuthorizationContext: IpamCidrAuthorizationContext? = nil, dryRun: Bool? = nil, ipamPoolId: String) {
+        public init(cidr: String? = nil, cidrAuthorizationContext: IpamCidrAuthorizationContext? = nil, dryRun: Bool? = nil, ipamPoolId: String? = nil) {
             self.cidr = cidr
             self.cidrAuthorizationContext = cidrAuthorizationContext
             self.dryRun = dryRun
@@ -37806,13 +38355,13 @@ extension EC2 {
         /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the IPAM pool you would like to use to allocate this CIDR.
-        public let ipamPoolId: String
+        public let ipamPoolId: String?
         /// The netmask length of the CIDR you would like to allocate to the public IPv4 pool.
-        public let netmaskLength: Int
+        public let netmaskLength: Int?
         /// The ID of the public IPv4 pool you would like to use for this CIDR.
-        public let poolId: String
+        public let poolId: String?
 
-        public init(dryRun: Bool? = nil, ipamPoolId: String, netmaskLength: Int, poolId: String) {
+        public init(dryRun: Bool? = nil, ipamPoolId: String? = nil, netmaskLength: Int? = nil, poolId: String? = nil) {
             self.dryRun = dryRun
             self.ipamPoolId = ipamPoolId
             self.netmaskLength = netmaskLength
@@ -38013,17 +38562,17 @@ extension EC2 {
         /// The currency in which the totalUpfrontPrice, LimitPrice, and totalHourlyPrice amounts are specified. At this time, the only supported currency is USD.
         public let currencyCode: CurrencyCodeValues?
         /// The IDs of the Dedicated Hosts with which the reservation will be associated.
-        @CustomCoding<ArrayCoder<_HostIdSetEncoding, String>>
-        public var hostIdSet: [String]
+        @OptionalCustomCoding<ArrayCoder<_HostIdSetEncoding, String>>
+        public var hostIdSet: [String]?
         /// The specified limit is checked against the total upfront cost of the reservation (calculated as the offering's upfront cost multiplied by the host count). If the total upfront cost is greater than the specified price limit, the request fails. This is used to ensure that the purchase does not exceed the expected upfront cost of the purchase. At this time, the only supported currency is USD. For example, to indicate a limit price of USD 100, specify 100.00.
         public let limitPrice: String?
         /// The ID of the offering.
-        public let offeringId: String
+        public let offeringId: String?
         /// The tags to apply to the Dedicated Host Reservation during purchase.
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
-        public init(clientToken: String? = nil, currencyCode: CurrencyCodeValues? = nil, hostIdSet: [String], limitPrice: String? = nil, offeringId: String, tagSpecifications: [TagSpecification]? = nil) {
+        public init(clientToken: String? = nil, currencyCode: CurrencyCodeValues? = nil, hostIdSet: [String]? = nil, limitPrice: String? = nil, offeringId: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.clientToken = clientToken
             self.currencyCode = currencyCode
             self.hostIdSet = hostIdSet
@@ -38076,11 +38625,11 @@ extension EC2 {
 
     public struct PurchaseRequest: AWSEncodableShape {
         /// The number of instances.
-        public let instanceCount: Int
+        public let instanceCount: Int?
         /// The purchase token.
-        public let purchaseToken: String
+        public let purchaseToken: String?
 
-        public init(instanceCount: Int, purchaseToken: String) {
+        public init(instanceCount: Int? = nil, purchaseToken: String? = nil) {
             self.instanceCount = instanceCount
             self.purchaseToken = purchaseToken
         }
@@ -38095,15 +38644,15 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The number of Reserved Instances to purchase.
-        public let instanceCount: Int
+        public let instanceCount: Int?
         /// Specified for Reserved Instance Marketplace offerings to limit the total order and ensure that the Reserved Instances are not purchased at unexpected prices.
         public let limitPrice: ReservedInstanceLimitPrice?
         /// The time at which to purchase the Reserved Instance, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
         public let purchaseTime: Date?
         /// The ID of the Reserved Instance offering to purchase.
-        public let reservedInstancesOfferingId: String
+        public let reservedInstancesOfferingId: String?
 
-        public init(dryRun: Bool? = nil, instanceCount: Int, limitPrice: ReservedInstanceLimitPrice? = nil, purchaseTime: Date? = nil, reservedInstancesOfferingId: String) {
+        public init(dryRun: Bool? = nil, instanceCount: Int? = nil, limitPrice: ReservedInstanceLimitPrice? = nil, purchaseTime: Date? = nil, reservedInstancesOfferingId: String? = nil) {
             self.dryRun = dryRun
             self.instanceCount = instanceCount
             self.limitPrice = limitPrice
@@ -38141,10 +38690,10 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The purchase requests.
-        @CustomCoding<ArrayCoder<_PurchaseRequestsEncoding, PurchaseRequest>>
-        public var purchaseRequests: [PurchaseRequest]
+        @OptionalCustomCoding<ArrayCoder<_PurchaseRequestsEncoding, PurchaseRequest>>
+        public var purchaseRequests: [PurchaseRequest]?
 
-        public init(clientToken: String? = PurchaseScheduledInstancesRequest.idempotencyToken(), dryRun: Bool? = nil, purchaseRequests: [PurchaseRequest]) {
+        public init(clientToken: String? = PurchaseScheduledInstancesRequest.idempotencyToken(), dryRun: Bool? = nil, purchaseRequests: [PurchaseRequest]? = nil) {
             self.clientToken = clientToken
             self.dryRun = dryRun
             self.purchaseRequests = purchaseRequests
@@ -38183,10 +38732,10 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The instance IDs.
-        @CustomCoding<ArrayCoder<_InstanceIdsEncoding, String>>
-        public var instanceIds: [String]
+        @OptionalCustomCoding<ArrayCoder<_InstanceIdsEncoding, String>>
+        public var instanceIds: [String]?
 
-        public init(dryRun: Bool? = nil, instanceIds: [String]) {
+        public init(dryRun: Bool? = nil, instanceIds: [String]? = nil) {
             self.dryRun = dryRun
             self.instanceIds = instanceIds
         }
@@ -38288,10 +38837,12 @@ extension EC2 {
         public let enaSupport: Bool?
         /// The full path to your AMI manifest in Amazon S3 storage. The specified bucket must have the  		aws-exec-read canned access control list (ACL) to ensure that it can be accessed  		by Amazon EC2. For more information, see Canned ACLs in the  		Amazon S3 Service Developer Guide.
         public let imageLocation: String?
+        /// Set to v2.0 to indicate that IMDSv2 is specified in the AMI. Instances launched from this AMI will have HttpTokens automatically set to required so that, by default, the instance requires that IMDSv2 is used when requesting instance metadata. In addition, HttpPutResponseHopLimit is set to 2. For more information, see Configure the AMI in the Amazon Elastic Compute Cloud User Guide.  If you set the value to v2.0, make sure that your AMI software can support IMDSv2.
+        public let imdsSupport: ImdsSupportValues?
         /// The ID of the kernel.
         public let kernelId: String?
         /// A name for your AMI. Constraints: 3-128 alphanumeric characters, parentheses (()), square brackets ([]), spaces ( ), periods (.), slashes (/), dashes (-), single quotes ('), at-signs (@), or underscores(_)
-        public let name: String
+        public let name: String?
         /// The ID of the RAM disk.
         public let ramdiskId: String?
         /// The device name of the root device volume (for example, /dev/sda1).
@@ -38305,7 +38856,7 @@ extension EC2 {
         /// The type of virtualization (hvm | paravirtual). Default: paravirtual
         public let virtualizationType: String?
 
-        public init(architecture: ArchitectureValues? = nil, billingProducts: [String]? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, bootMode: BootModeValues? = nil, description: String? = nil, dryRun: Bool? = nil, enaSupport: Bool? = nil, imageLocation: String? = nil, kernelId: String? = nil, name: String, ramdiskId: String? = nil, rootDeviceName: String? = nil, sriovNetSupport: String? = nil, tpmSupport: TpmSupportValues? = nil, uefiData: String? = nil, virtualizationType: String? = nil) {
+        public init(architecture: ArchitectureValues? = nil, billingProducts: [String]? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, bootMode: BootModeValues? = nil, description: String? = nil, dryRun: Bool? = nil, enaSupport: Bool? = nil, imageLocation: String? = nil, imdsSupport: ImdsSupportValues? = nil, kernelId: String? = nil, name: String? = nil, ramdiskId: String? = nil, rootDeviceName: String? = nil, sriovNetSupport: String? = nil, tpmSupport: TpmSupportValues? = nil, uefiData: String? = nil, virtualizationType: String? = nil) {
             self.architecture = architecture
             self.billingProducts = billingProducts
             self.blockDeviceMappings = blockDeviceMappings
@@ -38314,6 +38865,7 @@ extension EC2 {
             self.dryRun = dryRun
             self.enaSupport = enaSupport
             self.imageLocation = imageLocation
+            self.imdsSupport = imdsSupport
             self.kernelId = kernelId
             self.name = name
             self.ramdiskId = ramdiskId
@@ -38337,6 +38889,7 @@ extension EC2 {
             case dryRun
             case enaSupport
             case imageLocation = "ImageLocation"
+            case imdsSupport = "ImdsSupport"
             case kernelId
             case name
             case ramdiskId
@@ -38537,9 +39090,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the transit gateway peering attachment.
-        public let transitGatewayAttachmentId: String
+        public let transitGatewayAttachmentId: String?
 
-        public init(dryRun: Bool? = nil, transitGatewayAttachmentId: String) {
+        public init(dryRun: Bool? = nil, transitGatewayAttachmentId: String? = nil) {
             self.dryRun = dryRun
             self.transitGatewayAttachmentId = transitGatewayAttachmentId
         }
@@ -38567,9 +39120,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the attachment.
-        public let transitGatewayAttachmentId: String
+        public let transitGatewayAttachmentId: String?
 
-        public init(dryRun: Bool? = nil, transitGatewayAttachmentId: String) {
+        public init(dryRun: Bool? = nil, transitGatewayAttachmentId: String? = nil) {
             self.dryRun = dryRun
             self.transitGatewayAttachmentId = transitGatewayAttachmentId
         }
@@ -38599,12 +39152,12 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the service.
-        public let serviceId: String
+        public let serviceId: String?
         /// The IDs of one or more VPC endpoints.
-        @CustomCoding<ArrayCoder<_VpcEndpointIdsEncoding, String>>
-        public var vpcEndpointIds: [String]
+        @OptionalCustomCoding<ArrayCoder<_VpcEndpointIdsEncoding, String>>
+        public var vpcEndpointIds: [String]?
 
-        public init(dryRun: Bool? = nil, serviceId: String, vpcEndpointIds: [String]) {
+        public init(dryRun: Bool? = nil, serviceId: String? = nil, vpcEndpointIds: [String]? = nil) {
             self.dryRun = dryRun
             self.serviceId = serviceId
             self.vpcEndpointIds = vpcEndpointIds
@@ -38637,9 +39190,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the VPC peering connection.
-        public let vpcPeeringConnectionId: String
+        public let vpcPeeringConnectionId: String?
 
-        public init(dryRun: Bool? = nil, vpcPeeringConnectionId: String) {
+        public init(dryRun: Bool? = nil, vpcPeeringConnectionId: String? = nil) {
             self.dryRun = dryRun
             self.vpcPeeringConnectionId = vpcPeeringConnectionId
         }
@@ -38692,10 +39245,10 @@ extension EC2 {
         public struct _HostIdsEncoding: ArrayCoderProperties { public static let member = "item" }
 
         /// The IDs of the Dedicated Hosts to release.
-        @CustomCoding<ArrayCoder<_HostIdsEncoding, String>>
-        public var hostIds: [String]
+        @OptionalCustomCoding<ArrayCoder<_HostIdsEncoding, String>>
+        public var hostIds: [String]?
 
-        public init(hostIds: [String]) {
+        public init(hostIds: [String]? = nil) {
             self.hostIds = hostIds
         }
 
@@ -38728,15 +39281,15 @@ extension EC2 {
 
     public struct ReleaseIpamPoolAllocationRequest: AWSEncodableShape {
         /// The CIDR of the allocation you want to release.
-        public let cidr: String
+        public let cidr: String?
         /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the allocation.
-        public let ipamPoolAllocationId: String
+        public let ipamPoolAllocationId: String?
         /// The ID of the IPAM pool which contains the allocation you want to release.
-        public let ipamPoolId: String
+        public let ipamPoolId: String?
 
-        public init(cidr: String, dryRun: Bool? = nil, ipamPoolAllocationId: String, ipamPoolId: String) {
+        public init(cidr: String? = nil, dryRun: Bool? = nil, ipamPoolAllocationId: String? = nil, ipamPoolId: String? = nil) {
             self.cidr = cidr
             self.dryRun = dryRun
             self.ipamPoolAllocationId = ipamPoolAllocationId
@@ -38779,9 +39332,9 @@ extension EC2 {
 
     public struct RemovePrefixListEntry: AWSEncodableShape {
         /// The CIDR block.
-        public let cidr: String
+        public let cidr: String?
 
-        public init(cidr: String) {
+        public init(cidr: String? = nil) {
             self.cidr = cidr
         }
 
@@ -38792,11 +39345,11 @@ extension EC2 {
 
     public struct ReplaceIamInstanceProfileAssociationRequest: AWSEncodableShape {
         /// The ID of the existing IAM instance profile association.
-        public let associationId: String
+        public let associationId: String?
         /// The IAM instance profile.
-        public let iamInstanceProfile: IamInstanceProfileSpecification
+        public let iamInstanceProfile: IamInstanceProfileSpecification?
 
-        public init(associationId: String, iamInstanceProfile: IamInstanceProfileSpecification) {
+        public init(associationId: String? = nil, iamInstanceProfile: IamInstanceProfileSpecification? = nil) {
             self.associationId = associationId
             self.iamInstanceProfile = iamInstanceProfile
         }
@@ -38822,13 +39375,13 @@ extension EC2 {
 
     public struct ReplaceNetworkAclAssociationRequest: AWSEncodableShape {
         /// The ID of the current association between the original network ACL and the subnet.
-        public let associationId: String
+        public let associationId: String?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the new network ACL to associate with the subnet.
-        public let networkAclId: String
+        public let networkAclId: String?
 
-        public init(associationId: String, dryRun: Bool? = nil, networkAclId: String) {
+        public init(associationId: String? = nil, dryRun: Bool? = nil, networkAclId: String? = nil) {
             self.associationId = associationId
             self.dryRun = dryRun
             self.networkAclId = networkAclId
@@ -38861,25 +39414,25 @@ extension EC2 {
         public let dryRun: Bool?
         /// Indicates whether to replace the egress rule.
         /// 		       Default: If no value is specified, we replace the ingress rule.
-        public let egress: Bool
+        public let egress: Bool?
         /// ICMP protocol: The ICMP or ICMPv6 type and code. Required if specifying protocol
         /// 		        1 (ICMP) or protocol 58 (ICMPv6) with an IPv6 CIDR block.
         public let icmpTypeCode: IcmpTypeCode?
         /// The IPv6 network range to allow or deny, in CIDR notation (for example 2001:bd8:1234:1a00::/64).
         public let ipv6CidrBlock: String?
         /// The ID of the ACL.
-        public let networkAclId: String
+        public let networkAclId: String?
         /// TCP or UDP protocols: The range of ports the rule applies to.
         /// 		        Required if specifying protocol 6 (TCP) or 17 (UDP).
         public let portRange: PortRange?
         /// The protocol number. A value of "-1" means all protocols. If you specify "-1" or a protocol number other than "6" (TCP), "17" (UDP), or "1" (ICMP), traffic on all ports is  allowed, regardless of any ports or ICMP types or codes that you specify. If you specify  protocol "58" (ICMPv6) and specify an IPv4 CIDR block, traffic for all ICMP types and  codes allowed, regardless of any that you specify. If you specify protocol "58" (ICMPv6)  and specify an IPv6 CIDR block, you must specify an ICMP type and code.
-        public let `protocol`: String
+        public let `protocol`: String?
         /// Indicates whether to allow or deny the traffic that matches the rule.
-        public let ruleAction: RuleAction
+        public let ruleAction: RuleAction?
         /// The rule number of the entry to replace.
-        public let ruleNumber: Int
+        public let ruleNumber: Int?
 
-        public init(cidrBlock: String? = nil, dryRun: Bool? = nil, egress: Bool, icmpTypeCode: IcmpTypeCode? = nil, ipv6CidrBlock: String? = nil, networkAclId: String, portRange: PortRange? = nil, protocol: String, ruleAction: RuleAction, ruleNumber: Int) {
+        public init(cidrBlock: String? = nil, dryRun: Bool? = nil, egress: Bool? = nil, icmpTypeCode: IcmpTypeCode? = nil, ipv6CidrBlock: String? = nil, networkAclId: String? = nil, portRange: PortRange? = nil, protocol: String? = nil, ruleAction: RuleAction? = nil, ruleNumber: Int? = nil) {
             self.cidrBlock = cidrBlock
             self.dryRun = dryRun
             self.egress = egress
@@ -38972,7 +39525,7 @@ extension EC2 {
         /// The ID of a network interface.
         public let networkInterfaceId: String?
         /// The ID of the route table.
-        public let routeTableId: String
+        public let routeTableId: String?
         /// The ID of a transit gateway.
         public let transitGatewayId: String?
         /// The ID of a VPC endpoint. Supported for Gateway Load Balancer endpoints only.
@@ -38980,7 +39533,7 @@ extension EC2 {
         /// The ID of a VPC peering connection.
         public let vpcPeeringConnectionId: String?
 
-        public init(carrierGatewayId: String? = nil, coreNetworkArn: String? = nil, destinationCidrBlock: String? = nil, destinationIpv6CidrBlock: String? = nil, destinationPrefixListId: String? = nil, dryRun: Bool? = nil, egressOnlyInternetGatewayId: String? = nil, gatewayId: String? = nil, instanceId: String? = nil, localGatewayId: String? = nil, localTarget: Bool? = nil, natGatewayId: String? = nil, networkInterfaceId: String? = nil, routeTableId: String, transitGatewayId: String? = nil, vpcEndpointId: String? = nil, vpcPeeringConnectionId: String? = nil) {
+        public init(carrierGatewayId: String? = nil, coreNetworkArn: String? = nil, destinationCidrBlock: String? = nil, destinationIpv6CidrBlock: String? = nil, destinationPrefixListId: String? = nil, dryRun: Bool? = nil, egressOnlyInternetGatewayId: String? = nil, gatewayId: String? = nil, instanceId: String? = nil, localGatewayId: String? = nil, localTarget: Bool? = nil, natGatewayId: String? = nil, networkInterfaceId: String? = nil, routeTableId: String? = nil, transitGatewayId: String? = nil, vpcEndpointId: String? = nil, vpcPeeringConnectionId: String? = nil) {
             self.carrierGatewayId = carrierGatewayId
             self.coreNetworkArn = coreNetworkArn
             self.destinationCidrBlock = destinationCidrBlock
@@ -39023,13 +39576,13 @@ extension EC2 {
 
     public struct ReplaceRouteTableAssociationRequest: AWSEncodableShape {
         /// The association ID.
-        public let associationId: String
+        public let associationId: String?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the new route table to associate with the subnet.
-        public let routeTableId: String
+        public let routeTableId: String?
 
-        public init(associationId: String, dryRun: Bool? = nil, routeTableId: String) {
+        public init(associationId: String? = nil, dryRun: Bool? = nil, routeTableId: String? = nil) {
             self.associationId = associationId
             self.dryRun = dryRun
             self.routeTableId = routeTableId
@@ -39063,15 +39616,15 @@ extension EC2 {
         /// Indicates whether traffic matching this route is to be dropped.
         public let blackhole: Bool?
         /// The CIDR range used for the destination match. Routing decisions are based on the most specific match.
-        public let destinationCidrBlock: String
+        public let destinationCidrBlock: String?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the attachment.
         public let transitGatewayAttachmentId: String?
         /// The ID of the route table.
-        public let transitGatewayRouteTableId: String
+        public let transitGatewayRouteTableId: String?
 
-        public init(blackhole: Bool? = nil, destinationCidrBlock: String, dryRun: Bool? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayRouteTableId: String) {
+        public init(blackhole: Bool? = nil, destinationCidrBlock: String? = nil, dryRun: Bool? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayRouteTableId: String? = nil) {
             self.blackhole = blackhole
             self.destinationCidrBlock = destinationCidrBlock
             self.dryRun = dryRun
@@ -39112,17 +39665,17 @@ extension EC2 {
         /// The time at which the reported instance health state ended.
         public let endTime: Date?
         /// The instances.
-        @CustomCoding<ArrayCoder<_InstancesEncoding, String>>
-        public var instances: [String]
+        @OptionalCustomCoding<ArrayCoder<_InstancesEncoding, String>>
+        public var instances: [String]?
         /// The reason codes that describe the health state of your instance.    instance-stuck-in-state: My instance is stuck in a state.    unresponsive: My instance is unresponsive.    not-accepting-credentials: My instance is not accepting my credentials.    password-not-available: A password is not available for my instance.    performance-network: My instance is experiencing performance problems that I believe are network related.    performance-instance-store: My instance is experiencing performance problems that I believe are related to the instance stores.    performance-ebs-volume: My instance is experiencing performance problems that I believe are related to an EBS volume.    performance-other: My instance is experiencing performance problems.    other: [explain using the description parameter]
-        @CustomCoding<ArrayCoder<_ReasonCodesEncoding, ReportInstanceReasonCodes>>
-        public var reasonCodes: [ReportInstanceReasonCodes]
+        @OptionalCustomCoding<ArrayCoder<_ReasonCodesEncoding, ReportInstanceReasonCodes>>
+        public var reasonCodes: [ReportInstanceReasonCodes]?
         /// The time at which the reported instance health state began.
         public let startTime: Date?
         /// The status of all instances listed.
-        public let status: ReportStatusType
+        public let status: ReportStatusType?
 
-        public init(description: String? = nil, dryRun: Bool? = nil, endTime: Date? = nil, instances: [String], reasonCodes: [ReportInstanceReasonCodes], startTime: Date? = nil, status: ReportStatusType) {
+        public init(description: String? = nil, dryRun: Bool? = nil, endTime: Date? = nil, instances: [String]? = nil, reasonCodes: [ReportInstanceReasonCodes]? = nil, startTime: Date? = nil, status: ReportStatusType? = nil) {
             self.description = description
             self.dryRun = dryRun
             self.endTime = endTime
@@ -39203,9 +39756,9 @@ extension EC2 {
         public let instanceInitiatedShutdownBehavior: ShutdownBehavior?
         /// The market (purchasing) option for the instances.
         public let instanceMarketOptions: LaunchTemplateInstanceMarketOptionsRequest?
-        /// The attributes for the instance types. When you specify instance attributes, Amazon EC2 will identify instance types with these attributes. If you specify InstanceRequirements, you can't specify InstanceTypes.
+        /// The attributes for the instance types. When you specify instance attributes, Amazon EC2 will identify instance types with these attributes. If you specify InstanceRequirements, you can't specify InstanceType.
         public let instanceRequirements: InstanceRequirementsRequest?
-        /// The instance type. For more information, see Instance types in the Amazon Elastic Compute Cloud User Guide. If you specify InstanceTypes, you can't specify InstanceRequirements.
+        /// The instance type. For more information, see Instance types in the Amazon Elastic Compute Cloud User Guide. If you specify InstanceType, you can't specify InstanceRequirements.
         public let instanceType: InstanceType?
         /// The ID of the kernel.  We recommend that you use PV-GRUB instead of kernels and RAM disks. For more information, see User provided kernels in the Amazon Elastic Compute Cloud User Guide.
         public let kernelId: String?
@@ -39322,15 +39875,15 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The configuration for the Spot Fleet request.
-        public let spotFleetRequestConfig: SpotFleetRequestConfigData
+        public let spotFleetRequestConfig: SpotFleetRequestConfigData?
 
-        public init(dryRun: Bool? = nil, spotFleetRequestConfig: SpotFleetRequestConfigData) {
+        public init(dryRun: Bool? = nil, spotFleetRequestConfig: SpotFleetRequestConfigData? = nil) {
             self.dryRun = dryRun
             self.spotFleetRequestConfig = spotFleetRequestConfig
         }
 
         public func validate(name: String) throws {
-            try self.spotFleetRequestConfig.validate(name: "\(name).spotFleetRequestConfig")
+            try self.spotFleetRequestConfig?.validate(name: "\(name).spotFleetRequestConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -39994,13 +40547,13 @@ extension EC2 {
 
     public struct ResetAddressAttributeRequest: AWSEncodableShape {
         /// [EC2-VPC] The allocation ID.
-        public let allocationId: String
+        public let allocationId: String?
         /// The attribute of the IP address.
-        public let attribute: AddressAttributeName
+        public let attribute: AddressAttributeName?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
-        public init(allocationId: String, attribute: AddressAttributeName, dryRun: Bool? = nil) {
+        public init(allocationId: String? = nil, attribute: AddressAttributeName? = nil, dryRun: Bool? = nil) {
             self.allocationId = allocationId
             self.attribute = attribute
             self.dryRun = dryRun
@@ -40058,9 +40611,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the AFI.
-        public let fpgaImageId: String
+        public let fpgaImageId: String?
 
-        public init(attribute: ResetFpgaImageAttributeName? = nil, dryRun: Bool? = nil, fpgaImageId: String) {
+        public init(attribute: ResetFpgaImageAttributeName? = nil, dryRun: Bool? = nil, fpgaImageId: String? = nil) {
             self.attribute = attribute
             self.dryRun = dryRun
             self.fpgaImageId = fpgaImageId
@@ -40088,15 +40641,15 @@ extension EC2 {
 
     public struct ResetImageAttributeRequest: AWSEncodableShape {
         /// The attribute to reset (currently you can only reset the launch permission attribute).
-        public let attribute: ResetImageAttributeName
+        public let attribute: ResetImageAttributeName?
         /// Checks whether you have the required permissions for the action, without actually making the request,
         /// 			and provides an error response. If you have the required permissions, the error response is
         /// 			DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the AMI.
-        public let imageId: String
+        public let imageId: String?
 
-        public init(attribute: ResetImageAttributeName, dryRun: Bool? = nil, imageId: String) {
+        public init(attribute: ResetImageAttributeName? = nil, dryRun: Bool? = nil, imageId: String? = nil) {
             self.attribute = attribute
             self.dryRun = dryRun
             self.imageId = imageId
@@ -40111,13 +40664,13 @@ extension EC2 {
 
     public struct ResetInstanceAttributeRequest: AWSEncodableShape {
         /// The attribute to reset.  You can only reset the following attributes: kernel | ramdisk | sourceDestCheck.
-        public let attribute: InstanceAttributeName
+        public let attribute: InstanceAttributeName?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the instance.
-        public let instanceId: String
+        public let instanceId: String?
 
-        public init(attribute: InstanceAttributeName, dryRun: Bool? = nil, instanceId: String) {
+        public init(attribute: InstanceAttributeName? = nil, dryRun: Bool? = nil, instanceId: String? = nil) {
             self.attribute = attribute
             self.dryRun = dryRun
             self.instanceId = instanceId
@@ -40134,11 +40687,11 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the network interface.
-        public let networkInterfaceId: String
+        public let networkInterfaceId: String?
         /// The source/destination checking attribute. Resets the value to true.
         public let sourceDestCheck: String?
 
-        public init(dryRun: Bool? = nil, networkInterfaceId: String, sourceDestCheck: String? = nil) {
+        public init(dryRun: Bool? = nil, networkInterfaceId: String? = nil, sourceDestCheck: String? = nil) {
             self.dryRun = dryRun
             self.networkInterfaceId = networkInterfaceId
             self.sourceDestCheck = sourceDestCheck
@@ -40153,13 +40706,13 @@ extension EC2 {
 
     public struct ResetSnapshotAttributeRequest: AWSEncodableShape {
         /// The attribute to reset. Currently, only the attribute for permission to create volumes can be reset.
-        public let attribute: SnapshotAttributeName
+        public let attribute: SnapshotAttributeName?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the snapshot.
-        public let snapshotId: String
+        public let snapshotId: String?
 
-        public init(attribute: SnapshotAttributeName, dryRun: Bool? = nil, snapshotId: String) {
+        public init(attribute: SnapshotAttributeName? = nil, dryRun: Bool? = nil, snapshotId: String? = nil) {
             self.attribute = attribute
             self.dryRun = dryRun
             self.snapshotId = snapshotId
@@ -40387,9 +40940,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The Elastic IP address.
-        public let publicIp: String
+        public let publicIp: String?
 
-        public init(dryRun: Bool? = nil, publicIp: String) {
+        public init(dryRun: Bool? = nil, publicIp: String? = nil) {
             self.dryRun = dryRun
             self.publicIp = publicIp
         }
@@ -40423,9 +40976,9 @@ extension EC2 {
         /// 			DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the AMI to restore.
-        public let imageId: String
+        public let imageId: String?
 
-        public init(dryRun: Bool? = nil, imageId: String) {
+        public init(dryRun: Bool? = nil, imageId: String? = nil) {
             self.dryRun = dryRun
             self.imageId = imageId
         }
@@ -40451,15 +41004,15 @@ extension EC2 {
 
     public struct RestoreManagedPrefixListVersionRequest: AWSEncodableShape {
         /// The current version number for the prefix list.
-        public let currentVersion: Int64
+        public let currentVersion: Int64?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the prefix list.
-        public let prefixListId: String
+        public let prefixListId: String?
         /// The version to restore.
-        public let previousVersion: Int64
+        public let previousVersion: Int64?
 
-        public init(currentVersion: Int64, dryRun: Bool? = nil, prefixListId: String, previousVersion: Int64) {
+        public init(currentVersion: Int64? = nil, dryRun: Bool? = nil, prefixListId: String? = nil, previousVersion: Int64? = nil) {
             self.currentVersion = currentVersion
             self.dryRun = dryRun
             self.prefixListId = prefixListId
@@ -40491,9 +41044,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the snapshot to restore.
-        public let snapshotId: String
+        public let snapshotId: String?
 
-        public init(dryRun: Bool? = nil, snapshotId: String) {
+        public init(dryRun: Bool? = nil, snapshotId: String? = nil) {
             self.dryRun = dryRun
             self.snapshotId = snapshotId
         }
@@ -40559,11 +41112,11 @@ extension EC2 {
         /// Indicates whether to permanently restore an archived snapshot. To permanently restore  an archived snapshot, specify true and omit the  RestoreSnapshotTierRequest$TemporaryRestoreDays parameter.
         public let permanentRestore: Bool?
         /// The ID of the snapshot to restore.
-        public let snapshotId: String
+        public let snapshotId: String?
         /// Specifies the number of days for which to temporarily restore an archived snapshot.  Required for temporary restores only. The snapshot will be automatically re-archived  after this period. To temporarily restore an archived snapshot, specify the number of days and omit  the PermanentRestore parameter or set it to  false.
         public let temporaryRestoreDays: Int?
 
-        public init(dryRun: Bool? = nil, permanentRestore: Bool? = nil, snapshotId: String, temporaryRestoreDays: Int? = nil) {
+        public init(dryRun: Bool? = nil, permanentRestore: Bool? = nil, snapshotId: String? = nil, temporaryRestoreDays: Int? = nil) {
             self.dryRun = dryRun
             self.permanentRestore = permanentRestore
             self.snapshotId = snapshotId
@@ -40607,15 +41160,15 @@ extension EC2 {
         /// The ID of the Active Directory group for which to revoke access.
         public let accessGroupId: String?
         /// The ID of the Client VPN endpoint with which the authorization rule is associated.
-        public let clientVpnEndpointId: String
+        public let clientVpnEndpointId: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// Indicates whether access should be revoked for all clients.
         public let revokeAllGroups: Bool?
         /// The IPv4 address range, in CIDR notation, of the network for which access is being removed.
-        public let targetNetworkCidr: String
+        public let targetNetworkCidr: String?
 
-        public init(accessGroupId: String? = nil, clientVpnEndpointId: String, dryRun: Bool? = nil, revokeAllGroups: Bool? = nil, targetNetworkCidr: String) {
+        public init(accessGroupId: String? = nil, clientVpnEndpointId: String? = nil, dryRun: Bool? = nil, revokeAllGroups: Bool? = nil, targetNetworkCidr: String? = nil) {
             self.accessGroupId = accessGroupId
             self.clientVpnEndpointId = clientVpnEndpointId
             self.dryRun = dryRun
@@ -40656,7 +41209,7 @@ extension EC2 {
         /// Not supported. Use a set of IP permissions to specify the port.
         public let fromPort: Int?
         /// The ID of the security group.
-        public let groupId: String
+        public let groupId: String?
         /// The sets of IP permissions. You can't specify a destination security group and a CIDR IP address range in the same set of permissions.
         @OptionalCustomCoding<ArrayCoder<_IpPermissionsEncoding, IpPermission>>
         public var ipPermissions: [IpPermission]?
@@ -40672,7 +41225,7 @@ extension EC2 {
         /// Not supported. Use a set of IP permissions to specify the port.
         public let toPort: Int?
 
-        public init(cidrIp: String? = nil, dryRun: Bool? = nil, fromPort: Int? = nil, groupId: String, ipPermissions: [IpPermission]? = nil, ipProtocol: String? = nil, securityGroupRuleIds: [String]? = nil, sourceSecurityGroupName: String? = nil, sourceSecurityGroupOwnerId: String? = nil, toPort: Int? = nil) {
+        public init(cidrIp: String? = nil, dryRun: Bool? = nil, fromPort: Int? = nil, groupId: String? = nil, ipPermissions: [IpPermission]? = nil, ipProtocol: String? = nil, securityGroupRuleIds: [String]? = nil, sourceSecurityGroupName: String? = nil, sourceSecurityGroupOwnerId: String? = nil, toPort: Int? = nil) {
             self.cidrIp = cidrIp
             self.dryRun = dryRun
             self.fromPort = fromPort
@@ -40731,7 +41284,7 @@ extension EC2 {
         public let fromPort: Int?
         /// The ID of the security group. You must specify either the security group ID or the security group name in the request. For security groups in a nondefault VPC, you must specify the security group ID.
         public let groupId: String?
-        /// [EC2-Classic, default VPC] The name of the security group. You must specify either the security group ID or the security group name in the request.
+        /// [EC2-Classic, default VPC] The name of the security group. You must specify either the security group ID or the security group name in the request. For security groups in a nondefault VPC, you must specify the security group ID.
         public let groupName: String?
         /// The sets of IP permissions. You can't specify a source security group and a CIDR IP address range in the same set of permissions.
         @OptionalCustomCoding<ArrayCoder<_IpPermissionsEncoding, IpPermission>>
@@ -40970,9 +41523,9 @@ extension EC2 {
 
     public struct RunInstancesMonitoringEnabled: AWSEncodableShape & AWSDecodableShape {
         /// Indicates whether detailed monitoring is enabled. Otherwise, basic monitoring is enabled.
-        public let enabled: Bool
+        public let enabled: Bool?
 
-        public init(enabled: Bool) {
+        public init(enabled: Bool? = nil) {
             self.enabled = enabled
         }
 
@@ -41051,11 +41604,11 @@ extension EC2 {
         /// The maintenance and recovery options for the instance.
         public let maintenanceOptions: InstanceMaintenanceOptionsRequest?
         /// The maximum number of instances to launch. If you specify more instances than Amazon EC2 can launch in the target Availability Zone, Amazon EC2 launches the largest possible number of instances above MinCount. Constraints: Between 1 and the maximum number you're allowed for the specified instance type. For more information about the default limits, and how to request an increase, see How many instances can I run in Amazon EC2 in the Amazon EC2 FAQ.
-        public let maxCount: Int
+        public let maxCount: Int?
         /// The metadata options for the instance. For more information, see Instance metadata and user data.
         public let metadataOptions: InstanceMetadataOptionsRequest?
         /// The minimum number of instances to launch. If you specify a minimum that is more instances than Amazon EC2 can launch in the target Availability Zone, Amazon EC2 launches no instances. Constraints: Between 1 and the maximum number you're allowed for the specified instance type. For more information about the default limits, and how to request an increase, see How many instances can I run in Amazon EC2 in the Amazon EC2 General FAQ.
-        public let minCount: Int
+        public let minCount: Int?
         /// Specifies whether detailed monitoring is enabled for the instance.
         public let monitoring: RunInstancesMonitoringEnabled?
         /// The network interfaces to associate with the instance. If you specify a network interface, you must specify any security groups and subnets as part of the network interface.
@@ -41083,7 +41636,7 @@ extension EC2 {
         /// The user data script to make available to the instance. For more information, see Run commands on your Linux instance at launch and Run commands on your Windows instance at launch. If you are using a command line tool, base64-encoding is performed for you, and you can load the text from a file. Otherwise, you must provide base64-encoded text. User data is limited to 16 KB.
         public let userData: String?
 
-        public init(additionalInfo: String? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, capacityReservationSpecification: CapacityReservationSpecification? = nil, clientToken: String? = RunInstancesRequest.idempotencyToken(), cpuOptions: CpuOptionsRequest? = nil, creditSpecification: CreditSpecificationRequest? = nil, disableApiStop: Bool? = nil, disableApiTermination: Bool? = nil, dryRun: Bool? = nil, ebsOptimized: Bool? = nil, elasticGpuSpecification: [ElasticGpuSpecification]? = nil, elasticInferenceAccelerators: [ElasticInferenceAccelerator]? = nil, enclaveOptions: EnclaveOptionsRequest? = nil, hibernationOptions: HibernationOptionsRequest? = nil, iamInstanceProfile: IamInstanceProfileSpecification? = nil, imageId: String? = nil, instanceInitiatedShutdownBehavior: ShutdownBehavior? = nil, instanceMarketOptions: InstanceMarketOptionsRequest? = nil, instanceType: InstanceType? = nil, ipv6AddressCount: Int? = nil, ipv6Addresses: [InstanceIpv6Address]? = nil, kernelId: String? = nil, keyName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, licenseSpecifications: [LicenseConfigurationRequest]? = nil, maintenanceOptions: InstanceMaintenanceOptionsRequest? = nil, maxCount: Int, metadataOptions: InstanceMetadataOptionsRequest? = nil, minCount: Int, monitoring: RunInstancesMonitoringEnabled? = nil, networkInterfaces: [InstanceNetworkInterfaceSpecification]? = nil, placement: Placement? = nil, privateDnsNameOptions: PrivateDnsNameOptionsRequest? = nil, privateIpAddress: String? = nil, ramdiskId: String? = nil, securityGroupIds: [String]? = nil, securityGroups: [String]? = nil, subnetId: String? = nil, tagSpecifications: [TagSpecification]? = nil, userData: String? = nil) {
+        public init(additionalInfo: String? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, capacityReservationSpecification: CapacityReservationSpecification? = nil, clientToken: String? = RunInstancesRequest.idempotencyToken(), cpuOptions: CpuOptionsRequest? = nil, creditSpecification: CreditSpecificationRequest? = nil, disableApiStop: Bool? = nil, disableApiTermination: Bool? = nil, dryRun: Bool? = nil, ebsOptimized: Bool? = nil, elasticGpuSpecification: [ElasticGpuSpecification]? = nil, elasticInferenceAccelerators: [ElasticInferenceAccelerator]? = nil, enclaveOptions: EnclaveOptionsRequest? = nil, hibernationOptions: HibernationOptionsRequest? = nil, iamInstanceProfile: IamInstanceProfileSpecification? = nil, imageId: String? = nil, instanceInitiatedShutdownBehavior: ShutdownBehavior? = nil, instanceMarketOptions: InstanceMarketOptionsRequest? = nil, instanceType: InstanceType? = nil, ipv6AddressCount: Int? = nil, ipv6Addresses: [InstanceIpv6Address]? = nil, kernelId: String? = nil, keyName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, licenseSpecifications: [LicenseConfigurationRequest]? = nil, maintenanceOptions: InstanceMaintenanceOptionsRequest? = nil, maxCount: Int? = nil, metadataOptions: InstanceMetadataOptionsRequest? = nil, minCount: Int? = nil, monitoring: RunInstancesMonitoringEnabled? = nil, networkInterfaces: [InstanceNetworkInterfaceSpecification]? = nil, placement: Placement? = nil, privateDnsNameOptions: PrivateDnsNameOptionsRequest? = nil, privateIpAddress: String? = nil, ramdiskId: String? = nil, securityGroupIds: [String]? = nil, securityGroups: [String]? = nil, subnetId: String? = nil, tagSpecifications: [TagSpecification]? = nil, userData: String? = nil) {
             self.additionalInfo = additionalInfo
             self.blockDeviceMappings = blockDeviceMappings
             self.capacityReservationSpecification = capacityReservationSpecification
@@ -41184,11 +41737,11 @@ extension EC2 {
         /// The number of instances. Default: 1
         public let instanceCount: Int?
         /// The launch specification. You must match the instance type, Availability Zone,  network, and platform of the schedule that you purchased.
-        public let launchSpecification: ScheduledInstancesLaunchSpecification
+        public let launchSpecification: ScheduledInstancesLaunchSpecification?
         /// The Scheduled Instance ID.
-        public let scheduledInstanceId: String
+        public let scheduledInstanceId: String?
 
-        public init(clientToken: String? = RunScheduledInstancesRequest.idempotencyToken(), dryRun: Bool? = nil, instanceCount: Int? = nil, launchSpecification: ScheduledInstancesLaunchSpecification, scheduledInstanceId: String) {
+        public init(clientToken: String? = RunScheduledInstancesRequest.idempotencyToken(), dryRun: Bool? = nil, instanceCount: Int? = nil, launchSpecification: ScheduledInstancesLaunchSpecification? = nil, scheduledInstanceId: String? = nil) {
             self.clientToken = clientToken
             self.dryRun = dryRun
             self.instanceCount = instanceCount
@@ -41562,7 +42115,7 @@ extension EC2 {
         /// The IAM instance profile.
         public let iamInstanceProfile: ScheduledInstancesIamInstanceProfile?
         /// The ID of the Amazon Machine Image (AMI).
-        public let imageId: String
+        public let imageId: String?
         /// The instance type.
         public let instanceType: String?
         /// The ID of the kernel.
@@ -41586,7 +42139,7 @@ extension EC2 {
         /// The base64-encoded MIME user data.
         public let userData: String?
 
-        public init(blockDeviceMappings: [ScheduledInstancesBlockDeviceMapping]? = nil, ebsOptimized: Bool? = nil, iamInstanceProfile: ScheduledInstancesIamInstanceProfile? = nil, imageId: String, instanceType: String? = nil, kernelId: String? = nil, keyName: String? = nil, monitoring: ScheduledInstancesMonitoring? = nil, networkInterfaces: [ScheduledInstancesNetworkInterface]? = nil, placement: ScheduledInstancesPlacement? = nil, ramdiskId: String? = nil, securityGroupIds: [String]? = nil, subnetId: String? = nil, userData: String? = nil) {
+        public init(blockDeviceMappings: [ScheduledInstancesBlockDeviceMapping]? = nil, ebsOptimized: Bool? = nil, iamInstanceProfile: ScheduledInstancesIamInstanceProfile? = nil, imageId: String? = nil, instanceType: String? = nil, kernelId: String? = nil, keyName: String? = nil, monitoring: ScheduledInstancesMonitoring? = nil, networkInterfaces: [ScheduledInstancesNetworkInterface]? = nil, placement: ScheduledInstancesPlacement? = nil, ramdiskId: String? = nil, securityGroupIds: [String]? = nil, subnetId: String? = nil, userData: String? = nil) {
             self.blockDeviceMappings = blockDeviceMappings
             self.ebsOptimized = ebsOptimized
             self.iamInstanceProfile = iamInstanceProfile
@@ -41741,14 +42294,14 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The ID of the local gateway route table.
-        public let localGatewayRouteTableId: String
+        public let localGatewayRouteTableId: String?
         /// The maximum number of results to return with a single call.
         /// 	To retrieve the remaining results, make another call with the returned nextToken value.
         public let maxResults: Int?
         /// The token for the next page of results.
         public let nextToken: String?
 
-        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, localGatewayRouteTableId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, localGatewayRouteTableId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
             self.localGatewayRouteTableId = localGatewayRouteTableId
@@ -41849,14 +42402,14 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters. The possible values are:    attachment.transit-gateway-attachment-id- The id of the transit gateway attachment.    attachment.resource-id - The resource id of the transit gateway attachment.    attachment.resource-type - The attachment resource type. Valid values are vpc | vpn | direct-connect-gateway | peering | connect.    prefix-list-id - The ID of the prefix list.    route-search.exact-match - The exact match of the specified filter.    route-search.longest-prefix-match - The longest prefix that matches the route.    route-search.subnet-of-match - The routes with a subnet that match the specified CIDR filter.    route-search.supernet-of-match - The routes with a CIDR that encompass the CIDR filter. For example, if you have 10.0.1.0/29 and 10.0.1.0/31 routes in your route table and you specify supernet-of-match as 10.0.1.0/30, then the result returns 10.0.1.0/29.    state - The state of the route (active | blackhole).    type - The type of route (propagated | static).
-        @CustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
-        public var filters: [Filter]
+        @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
         /// The maximum number of routes to return.
         public let maxResults: Int?
         /// The ID of the transit gateway route table.
-        public let transitGatewayRouteTableId: String
+        public let transitGatewayRouteTableId: String?
 
-        public init(dryRun: Bool? = nil, filters: [Filter], maxResults: Int? = nil, transitGatewayRouteTableId: String) {
+        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, transitGatewayRouteTableId: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
             self.maxResults = maxResults
@@ -42125,9 +42678,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the instance.
-        public let instanceId: String
+        public let instanceId: String?
 
-        public init(dryRun: Bool? = nil, instanceId: String) {
+        public init(dryRun: Bool? = nil, instanceId: String? = nil) {
             self.dryRun = dryRun
             self.instanceId = instanceId
         }
@@ -42319,11 +42872,11 @@ extension EC2 {
 
     public struct SlotDateTimeRangeRequest: AWSEncodableShape {
         /// The earliest date and time, in UTC, for the Scheduled Instance to start.
-        public let earliestTime: Date
+        public let earliestTime: Date?
         /// The latest date and time, in UTC, for the Scheduled Instance to start. This value must be later than or equal to the earliest date and at most three months in the future.
-        public let latestTime: Date
+        public let latestTime: Date?
 
-        public init(earliestTime: Date, latestTime: Date) {
+        public init(earliestTime: Date? = nil, latestTime: Date? = nil) {
             self.earliestTime = earliestTime
             self.latestTime = latestTime
         }
@@ -42766,7 +43319,7 @@ extension EC2 {
         public let iamInstanceProfile: IamInstanceProfileSpecification?
         /// The ID of the AMI.
         public let imageId: String?
-        /// The attributes for the instance types. When you specify instance attributes, Amazon EC2 will identify instance types with those attributes.  If you specify InstanceRequirements, you can't specify InstanceTypes.
+        /// The attributes for the instance types. When you specify instance attributes, Amazon EC2 will identify instance types with those attributes.  If you specify InstanceRequirements, you can't specify InstanceType.
         public let instanceRequirements: InstanceRequirements?
         /// The instance type.
         public let instanceType: InstanceType?
@@ -42901,7 +43454,7 @@ extension EC2 {
         public struct _LaunchTemplateConfigsEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// Indicates how to allocate the target Spot Instance capacity across the Spot Instance pools specified by the Spot Fleet request. If the allocation strategy is lowestPrice, Spot Fleet launches instances from the Spot Instance pools with the lowest price. This is the default allocation strategy. If the allocation strategy is diversified, Spot Fleet launches instances from all the Spot Instance pools that you specify. If the allocation strategy is capacityOptimized (recommended), Spot Fleet launches instances from Spot Instance pools with optimal capacity for the number of instances that are launching. To give certain instance types a higher chance of launching first, use capacityOptimizedPrioritized. Set a priority for each instance type by using the Priority parameter for LaunchTemplateOverrides. You can assign the same priority to different LaunchTemplateOverrides. EC2 implements the priorities on a best-effort basis, but optimizes for capacity first. capacityOptimizedPrioritized is supported only if your Spot Fleet uses a launch template. Note that if the OnDemandAllocationStrategy is set to prioritized, the same priority is applied when fulfilling On-Demand capacity.
+        /// The strategy that determines how to allocate the target Spot Instance capacity across the Spot Instance pools specified by the Spot Fleet launch configuration. For more information, see Allocation strategies for Spot Instances in the Amazon EC2 User Guide for Linux Instances.  lowestPrice - Spot Fleet launches instances from the lowest-price Spot Instance pool that has available capacity. If the cheapest pool doesn't have available capacity, the Spot Instances come from the next cheapest pool that has available capacity. If a pool runs out of capacity before fulfilling your desired capacity, Spot Fleet will continue to fulfill your request by drawing from the next cheapest pool. To ensure that your desired capacity is met, you might receive Spot Instances from several pools.  diversified - Spot Fleet launches instances from all of the Spot Instance pools that you specify.  capacityOptimized (recommended) - Spot Fleet launches instances from Spot Instance pools with optimal capacity for the number of instances that are launching. To give certain instance types a higher chance of launching first, use capacityOptimizedPrioritized. Set a priority for each instance type by using the Priority parameter for LaunchTemplateOverrides. You can assign the same priority to different LaunchTemplateOverrides. EC2 implements the priorities on a best-effort basis, but optimizes for capacity first. capacityOptimizedPrioritized is supported only if your Spot Fleet uses a launch template. Note that if the OnDemandAllocationStrategy is set to prioritized, the same priority is applied when fulfilling On-Demand capacity. Default: lowestPrice
         public let allocationStrategy: AllocationStrategy?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of your listings. This helps to avoid duplicate listings. For more information, see Ensuring Idempotency.
         public let clientToken: String?
@@ -42912,7 +43465,7 @@ extension EC2 {
         /// The number of units fulfilled by this request compared to the set target capacity. You cannot set this value.
         public let fulfilledCapacity: Double?
         /// The Amazon Resource Name (ARN) of an Identity and Access Management (IAM) role that grants the Spot Fleet the permission to request, launch, terminate, and tag instances on your behalf. For more information, see Spot Fleet prerequisites in the Amazon EC2 User Guide for Linux Instances. Spot Fleet can terminate Spot Instances on your behalf when you cancel its Spot Fleet request using CancelSpotFleetRequests or when the Spot Fleet request expires, if you set TerminateInstancesWithExpiration.
-        public let iamFleetRole: String
+        public let iamFleetRole: String?
         /// The behavior when a Spot Instance is interrupted. The default is terminate.
         public let instanceInterruptionBehavior: InstanceInterruptionBehavior?
         /// The number of Spot pools across which to allocate your target Spot capacity. Valid only when Spot AllocationStrategy is set to lowest-price. Spot Fleet selects the cheapest Spot pools and evenly allocates your target Spot capacity across the number of Spot pools that you specify. Note that Spot Fleet attempts to draw Spot Instances from the number of pools that you specify on a best effort basis. If a pool runs out of Spot capacity before fulfilling your target capacity, Spot Fleet will continue to fulfill your request by drawing from the next cheapest pool. To ensure that your target capacity is met, you might receive Spot Instances from more than the number of pools that you specified. Similarly, if most of the pools have no Spot capacity, you might receive your full target capacity from fewer than the number of pools that you specified.
@@ -42945,7 +43498,7 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
         /// The number of units to request for the Spot Fleet. You can choose to set the target capacity in terms of instances or a performance characteristic that is important to your application workload, such as vCPUs, memory, or I/O. If the request type is maintain, you can specify a target capacity of 0 and add capacity later.
-        public let targetCapacity: Int
+        public let targetCapacity: Int?
         /// The unit for the target capacity. Default: units (translates to number of instances)
         public let targetCapacityUnitType: TargetCapacityUnitType?
         /// Indicates whether running Spot Instances are terminated when the Spot Fleet request expires.
@@ -42957,7 +43510,7 @@ extension EC2 {
         /// The end date and time of the request, in UTC format (YYYY-MM-DDTHH:MM:SSZ). After the end date and time, no new Spot Instance requests are placed or able to fulfill the request. If no value is specified, the Spot Fleet request remains until you cancel it.
         public let validUntil: Date?
 
-        public init(allocationStrategy: AllocationStrategy? = nil, clientToken: String? = nil, context: String? = nil, excessCapacityTerminationPolicy: ExcessCapacityTerminationPolicy? = nil, fulfilledCapacity: Double? = nil, iamFleetRole: String, instanceInterruptionBehavior: InstanceInterruptionBehavior? = nil, instancePoolsToUseCount: Int? = nil, launchSpecifications: [SpotFleetLaunchSpecification]? = nil, launchTemplateConfigs: [LaunchTemplateConfig]? = nil, loadBalancersConfig: LoadBalancersConfig? = nil, onDemandAllocationStrategy: OnDemandAllocationStrategy? = nil, onDemandFulfilledCapacity: Double? = nil, onDemandMaxTotalPrice: String? = nil, onDemandTargetCapacity: Int? = nil, replaceUnhealthyInstances: Bool? = nil, spotMaintenanceStrategies: SpotMaintenanceStrategies? = nil, spotMaxTotalPrice: String? = nil, spotPrice: String? = nil, tagSpecifications: [TagSpecification]? = nil, targetCapacity: Int, targetCapacityUnitType: TargetCapacityUnitType? = nil, terminateInstancesWithExpiration: Bool? = nil, type: FleetType? = nil, validFrom: Date? = nil, validUntil: Date? = nil) {
+        public init(allocationStrategy: AllocationStrategy? = nil, clientToken: String? = nil, context: String? = nil, excessCapacityTerminationPolicy: ExcessCapacityTerminationPolicy? = nil, fulfilledCapacity: Double? = nil, iamFleetRole: String? = nil, instanceInterruptionBehavior: InstanceInterruptionBehavior? = nil, instancePoolsToUseCount: Int? = nil, launchSpecifications: [SpotFleetLaunchSpecification]? = nil, launchTemplateConfigs: [LaunchTemplateConfig]? = nil, loadBalancersConfig: LoadBalancersConfig? = nil, onDemandAllocationStrategy: OnDemandAllocationStrategy? = nil, onDemandFulfilledCapacity: Double? = nil, onDemandMaxTotalPrice: String? = nil, onDemandTargetCapacity: Int? = nil, replaceUnhealthyInstances: Bool? = nil, spotMaintenanceStrategies: SpotMaintenanceStrategies? = nil, spotMaxTotalPrice: String? = nil, spotPrice: String? = nil, tagSpecifications: [TagSpecification]? = nil, targetCapacity: Int? = nil, targetCapacityUnitType: TargetCapacityUnitType? = nil, terminateInstancesWithExpiration: Bool? = nil, type: FleetType? = nil, validFrom: Date? = nil, validUntil: Date? = nil) {
             self.allocationStrategy = allocationStrategy
             self.clientToken = clientToken
             self.context = context
@@ -43215,7 +43768,7 @@ extension EC2 {
     }
 
     public struct SpotOptions: AWSDecodableShape {
-        /// The strategy that determines how to allocate the target Spot Instance capacity across the Spot Instance pools specified by the EC2 Fleet.  lowest-price - EC2 Fleet launches instances from the Spot Instance pools with the lowest price.  diversified - EC2 Fleet launches instances from all of the Spot Instance pools that you specify.  capacity-optimized (recommended) - EC2 Fleet launches instances from Spot Instance pools with optimal capacity for the number of instances that are launching. To give certain instance types a higher chance of launching first, use capacity-optimized-prioritized. Set a priority for each instance type by using the Priority parameter for LaunchTemplateOverrides. You can assign the same priority to different LaunchTemplateOverrides. EC2 implements the priorities on a best-effort basis, but optimizes for capacity first. capacity-optimized-prioritized is supported only if your fleet uses a launch template. Note that if the On-Demand AllocationStrategy is set to prioritized, the same priority is applied when fulfilling On-Demand capacity. Default: lowest-price
+        /// The strategy that determines how to allocate the target Spot Instance capacity across the Spot Instance pools specified by the EC2 Fleet launch configuration. For more information, see Allocation strategies for Spot Instances in the Amazon EC2 User Guide.  lowest-price - EC2 Fleet launches instances from the lowest-price Spot Instance pool that has available capacity. If the cheapest pool doesn't have available capacity, the Spot Instances come from the next cheapest pool that has available capacity. If a pool runs out of capacity before fulfilling your desired capacity, EC2 Fleet will continue to fulfill your request by drawing from the next cheapest pool. To ensure that your desired capacity is met, you might receive Spot Instances from several pools.  diversified - EC2 Fleet launches instances from all of the Spot Instance pools that you specify.  capacity-optimized (recommended) - EC2 Fleet launches instances from Spot Instance pools with optimal capacity for the number of instances that are launching. To give certain instance types a higher chance of launching first, use capacity-optimized-prioritized. Set a priority for each instance type by using the Priority parameter for LaunchTemplateOverrides. You can assign the same priority to different LaunchTemplateOverrides. EC2 implements the priorities on a best-effort basis, but optimizes for capacity first. capacity-optimized-prioritized is supported only if your fleet uses a launch template. Note that if the On-Demand AllocationStrategy is set to prioritized, the same priority is applied when fulfilling On-Demand capacity. Default: lowest-price
         public let allocationStrategy: SpotAllocationStrategy?
         /// The behavior when a Spot Instance is interrupted. Default: terminate
         public let instanceInterruptionBehavior: SpotInstanceInterruptionBehavior?
@@ -43256,7 +43809,7 @@ extension EC2 {
     }
 
     public struct SpotOptionsRequest: AWSEncodableShape {
-        /// The strategy that determines how to allocate the target Spot Instance capacity across the Spot Instance pools specified by the EC2 Fleet.  lowest-price - EC2 Fleet launches instances from the Spot Instance pools with the lowest price.  diversified - EC2 Fleet launches instances from all of the Spot Instance pools that you specify.  capacity-optimized (recommended) - EC2 Fleet launches instances from Spot Instance pools with optimal capacity for the number of instances that are launching. To give certain instance types a higher chance of launching first, use capacity-optimized-prioritized. Set a priority for each instance type by using the Priority parameter for LaunchTemplateOverrides. You can assign the same priority to different LaunchTemplateOverrides. EC2 implements the priorities on a best-effort basis, but optimizes for capacity first. capacity-optimized-prioritized is supported only if your fleet uses a launch template. Note that if the On-Demand AllocationStrategy is set to prioritized, the same priority is applied when fulfilling On-Demand capacity. Default: lowest-price
+        /// The strategy that determines how to allocate the target Spot Instance capacity across the Spot Instance pools specified by the EC2 Fleet launch configuration. For more information, see Allocation strategies for Spot Instances in the Amazon EC2 User Guide.  lowest-price - EC2 Fleet launches instances from the lowest-price Spot Instance pool that has available capacity. If the cheapest pool doesn't have available capacity, the Spot Instances come from the next cheapest pool that has available capacity. If a pool runs out of capacity before fulfilling your desired capacity, EC2 Fleet will continue to fulfill your request by drawing from the next cheapest pool. To ensure that your desired capacity is met, you might receive Spot Instances from several pools.  diversified - EC2 Fleet launches instances from all of the Spot Instance pools that you specify.  capacity-optimized (recommended) - EC2 Fleet launches instances from Spot Instance pools with optimal capacity for the number of instances that are launching. To give certain instance types a higher chance of launching first, use capacity-optimized-prioritized. Set a priority for each instance type by using the Priority parameter for LaunchTemplateOverrides. You can assign the same priority to different LaunchTemplateOverrides. EC2 implements the priorities on a best-effort basis, but optimizes for capacity first. capacity-optimized-prioritized is supported only if your fleet uses a launch template. Note that if the On-Demand AllocationStrategy is set to prioritized, the same priority is applied when fulfilling On-Demand capacity. Default: lowest-price
         public let allocationStrategy: SpotAllocationStrategy?
         /// The behavior when a Spot Instance is interrupted. Default: terminate
         public let instanceInterruptionBehavior: SpotInstanceInterruptionBehavior?
@@ -43453,10 +44006,10 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The IDs of the instances.
-        @CustomCoding<ArrayCoder<_InstanceIdsEncoding, String>>
-        public var instanceIds: [String]
+        @OptionalCustomCoding<ArrayCoder<_InstanceIdsEncoding, String>>
+        public var instanceIds: [String]?
 
-        public init(additionalInfo: String? = nil, dryRun: Bool? = nil, instanceIds: [String]) {
+        public init(additionalInfo: String? = nil, dryRun: Bool? = nil, instanceIds: [String]? = nil) {
             self.additionalInfo = additionalInfo
             self.dryRun = dryRun
             self.instanceIds = instanceIds
@@ -43489,16 +44042,16 @@ extension EC2 {
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information,  see How to ensure idempotency.
-        public let clientToken: String
+        public let clientToken: String?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the Network Access Scope.
-        public let networkInsightsAccessScopeId: String
+        public let networkInsightsAccessScopeId: String?
         /// The tags to apply.
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
-        public init(clientToken: String = StartNetworkInsightsAccessScopeAnalysisRequest.idempotencyToken(), dryRun: Bool? = nil, networkInsightsAccessScopeId: String, tagSpecifications: [TagSpecification]? = nil) {
+        public init(clientToken: String? = nil, dryRun: Bool? = nil, networkInsightsAccessScopeId: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.clientToken = clientToken
             self.dryRun = dryRun
             self.networkInsightsAccessScopeId = networkInsightsAccessScopeId
@@ -43531,19 +44084,19 @@ extension EC2 {
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information,  see How to ensure idempotency.
-        public let clientToken: String
+        public let clientToken: String?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The Amazon Resource Names (ARN) of the resources that the path must traverse.
         @OptionalCustomCoding<ArrayCoder<_FilterInArnsEncoding, String>>
         public var filterInArns: [String]?
         /// The ID of the path.
-        public let networkInsightsPathId: String
+        public let networkInsightsPathId: String?
         /// The tags to apply.
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
-        public init(clientToken: String = StartNetworkInsightsAnalysisRequest.idempotencyToken(), dryRun: Bool? = nil, filterInArns: [String]? = nil, networkInsightsPathId: String, tagSpecifications: [TagSpecification]? = nil) {
+        public init(clientToken: String? = nil, dryRun: Bool? = nil, filterInArns: [String]? = nil, networkInsightsPathId: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.clientToken = clientToken
             self.dryRun = dryRun
             self.filterInArns = filterInArns
@@ -43584,9 +44137,9 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the endpoint service.
-        public let serviceId: String
+        public let serviceId: String?
 
-        public init(dryRun: Bool? = nil, serviceId: String) {
+        public init(dryRun: Bool? = nil, serviceId: String? = nil) {
             self.dryRun = dryRun
             self.serviceId = serviceId
         }
@@ -43637,10 +44190,10 @@ extension EC2 {
         /// Hibernates the instance if the instance was enabled for hibernation at launch. If the instance cannot hibernate successfully, a normal shutdown occurs. For more information, see Hibernate your instance in the Amazon EC2 User Guide. Default: false
         public let hibernate: Bool?
         /// The IDs of the instances.
-        @CustomCoding<ArrayCoder<_InstanceIdsEncoding, String>>
-        public var instanceIds: [String]
+        @OptionalCustomCoding<ArrayCoder<_InstanceIdsEncoding, String>>
+        public var instanceIds: [String]?
 
-        public init(dryRun: Bool? = nil, force: Bool? = nil, hibernate: Bool? = nil, instanceIds: [String]) {
+        public init(dryRun: Bool? = nil, force: Bool? = nil, hibernate: Bool? = nil, instanceIds: [String]? = nil) {
             self.dryRun = dryRun
             self.force = force
             self.hibernate = hibernate
@@ -44059,9 +44612,9 @@ extension EC2 {
         /// The unit for the target capacity. Default: units (translates to number of instances)
         public let targetCapacityUnitType: TargetCapacityUnitType?
         /// The number of units to request, filled using DefaultTargetCapacityType.
-        public let totalTargetCapacity: Int
+        public let totalTargetCapacity: Int?
 
-        public init(defaultTargetCapacityType: DefaultTargetCapacityType? = nil, onDemandTargetCapacity: Int? = nil, spotTargetCapacity: Int? = nil, targetCapacityUnitType: TargetCapacityUnitType? = nil, totalTargetCapacity: Int) {
+        public init(defaultTargetCapacityType: DefaultTargetCapacityType? = nil, onDemandTargetCapacity: Int? = nil, spotTargetCapacity: Int? = nil, targetCapacityUnitType: TargetCapacityUnitType? = nil, totalTargetCapacity: Int? = nil) {
             self.defaultTargetCapacityType = defaultTargetCapacityType
             self.onDemandTargetCapacity = onDemandTargetCapacity
             self.spotTargetCapacity = spotTargetCapacity
@@ -44099,9 +44652,9 @@ extension EC2 {
         /// The number of instances the Convertible Reserved Instance offering can be applied to. This parameter is reserved and cannot  be specified in a request
         public let instanceCount: Int?
         /// The Convertible Reserved Instance offering ID.
-        public let offeringId: String
+        public let offeringId: String?
 
-        public init(instanceCount: Int? = nil, offeringId: String) {
+        public init(instanceCount: Int? = nil, offeringId: String? = nil) {
             self.instanceCount = instanceCount
             self.offeringId = offeringId
         }
@@ -44201,7 +44754,7 @@ extension EC2 {
 
     public struct TerminateClientVpnConnectionsRequest: AWSEncodableShape {
         /// The ID of the Client VPN endpoint to which the client is connected.
-        public let clientVpnEndpointId: String
+        public let clientVpnEndpointId: String?
         /// The ID of the client connection to be terminated.
         public let connectionId: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -44210,7 +44763,7 @@ extension EC2 {
         /// 			the specified user. This option can only be used if the user has established up to five connections.
         public let username: String?
 
-        public init(clientVpnEndpointId: String, connectionId: String? = nil, dryRun: Bool? = nil, username: String? = nil) {
+        public init(clientVpnEndpointId: String? = nil, connectionId: String? = nil, dryRun: Bool? = nil, username: String? = nil) {
             self.clientVpnEndpointId = clientVpnEndpointId
             self.connectionId = connectionId
             self.dryRun = dryRun
@@ -44276,10 +44829,10 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The IDs of the instances. Constraints: Up to 1000 instance IDs. We recommend breaking up this request into smaller batches.
-        @CustomCoding<ArrayCoder<_InstanceIdsEncoding, String>>
-        public var instanceIds: [String]
+        @OptionalCustomCoding<ArrayCoder<_InstanceIdsEncoding, String>>
+        public var instanceIds: [String]?
 
-        public init(dryRun: Bool? = nil, instanceIds: [String]) {
+        public init(dryRun: Bool? = nil, instanceIds: [String]? = nil) {
             self.dryRun = dryRun
             self.instanceIds = instanceIds
         }
@@ -46036,13 +46589,13 @@ extension EC2 {
         /// The IPv6 addresses to unassign from the network interface.
         @OptionalCustomCoding<ArrayCoder<_Ipv6AddressesEncoding, String>>
         public var ipv6Addresses: [String]?
-        /// One or more IPv6 prefixes to unassign from the network interface.
+        /// The IPv6 prefixes to unassign from the network interface.
         @OptionalCustomCoding<ArrayCoder<_Ipv6PrefixesEncoding, String>>
         public var ipv6Prefixes: [String]?
         /// The ID of the network interface.
-        public let networkInterfaceId: String
+        public let networkInterfaceId: String?
 
-        public init(ipv6Addresses: [String]? = nil, ipv6Prefixes: [String]? = nil, networkInterfaceId: String) {
+        public init(ipv6Addresses: [String]? = nil, ipv6Prefixes: [String]? = nil, networkInterfaceId: String? = nil) {
             self.ipv6Addresses = ipv6Addresses
             self.ipv6Prefixes = ipv6Prefixes
             self.networkInterfaceId = networkInterfaceId
@@ -46089,12 +46642,12 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_Ipv4PrefixesEncoding, String>>
         public var ipv4Prefixes: [String]?
         /// The ID of the network interface.
-        public let networkInterfaceId: String
+        public let networkInterfaceId: String?
         /// The secondary private IP addresses to unassign from the network interface. You can specify this option multiple times to unassign more than one IP address.
         @OptionalCustomCoding<ArrayCoder<_PrivateIpAddressesEncoding, String>>
         public var privateIpAddresses: [String]?
 
-        public init(ipv4Prefixes: [String]? = nil, networkInterfaceId: String, privateIpAddresses: [String]? = nil) {
+        public init(ipv4Prefixes: [String]? = nil, networkInterfaceId: String? = nil, privateIpAddresses: [String]? = nil) {
             self.ipv4Prefixes = ipv4Prefixes
             self.networkInterfaceId = networkInterfaceId
             self.privateIpAddresses = privateIpAddresses
@@ -46113,10 +46666,10 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The IDs of the instances.
-        @CustomCoding<ArrayCoder<_InstanceIdsEncoding, String>>
-        public var instanceIds: [String]
+        @OptionalCustomCoding<ArrayCoder<_InstanceIdsEncoding, String>>
+        public var instanceIds: [String]?
 
-        public init(dryRun: Bool? = nil, instanceIds: [String]) {
+        public init(dryRun: Bool? = nil, instanceIds: [String]? = nil) {
             self.dryRun = dryRun
             self.instanceIds = instanceIds
         }
@@ -46272,8 +46825,7 @@ extension EC2 {
         /// 			security group name in the request. For security groups in a nondefault VPC, you must
         /// 			specify the security group ID.
         public let groupId: String?
-        /// [EC2-Classic, default VPC] The name of the security group. You must specify either the
-        /// 			security group ID or the security group name in the request.
+        /// [EC2-Classic, default VPC] The name of the security group. You must specify either the security group ID or the security group name in the request. For security groups in a nondefault VPC, you must specify the security group ID.
         public let groupName: String?
         /// The IP permissions for the security group rule. You must specify either IP permissions
         /// 		    or a description.
@@ -46419,9 +46971,9 @@ extension EC2 {
         /// The maximum number of vCPUs. To specify no maximum limit, omit this parameter.
         public let max: Int?
         /// The minimum number of vCPUs. To specify no minimum limit, specify 0.
-        public let min: Int
+        public let min: Int?
 
-        public init(max: Int? = nil, min: Int) {
+        public init(max: Int? = nil, min: Int? = nil) {
             self.max = max
             self.min = min
         }
@@ -46645,9 +47197,9 @@ extension EC2 {
 
     public struct VolumeDetail: AWSEncodableShape {
         /// The size of the volume, in GiB.
-        public let size: Int64
+        public let size: Int64?
 
-        public init(size: Int64) {
+        public init(size: Int64? = nil) {
             self.size = size
         }
 
@@ -47122,6 +47674,7 @@ extension EC2 {
         public struct _DnsEntriesEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _GatewayLoadBalancerArnsEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _NetworkLoadBalancerArnsEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
 
         /// The date and time that the VPC endpoint was created.
         public let creationTimestamp: Date?
@@ -47138,6 +47691,11 @@ extension EC2 {
         public var networkLoadBalancerArns: [String]?
         /// The ID of the service to which the endpoint is connected.
         public let serviceId: String?
+        /// The tags.
+        @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
+        /// The ID of the VPC endpoint connection.
+        public let vpcEndpointConnectionId: String?
         /// The ID of the VPC endpoint.
         public let vpcEndpointId: String?
         /// The ID of the Amazon Web Services account that owns the VPC endpoint.
@@ -47145,13 +47703,15 @@ extension EC2 {
         /// The state of the VPC endpoint.
         public let vpcEndpointState: State?
 
-        public init(creationTimestamp: Date? = nil, dnsEntries: [DnsEntry]? = nil, gatewayLoadBalancerArns: [String]? = nil, ipAddressType: IpAddressType? = nil, networkLoadBalancerArns: [String]? = nil, serviceId: String? = nil, vpcEndpointId: String? = nil, vpcEndpointOwner: String? = nil, vpcEndpointState: State? = nil) {
+        public init(creationTimestamp: Date? = nil, dnsEntries: [DnsEntry]? = nil, gatewayLoadBalancerArns: [String]? = nil, ipAddressType: IpAddressType? = nil, networkLoadBalancerArns: [String]? = nil, serviceId: String? = nil, tags: [Tag]? = nil, vpcEndpointConnectionId: String? = nil, vpcEndpointId: String? = nil, vpcEndpointOwner: String? = nil, vpcEndpointState: State? = nil) {
             self.creationTimestamp = creationTimestamp
             self.dnsEntries = dnsEntries
             self.gatewayLoadBalancerArns = gatewayLoadBalancerArns
             self.ipAddressType = ipAddressType
             self.networkLoadBalancerArns = networkLoadBalancerArns
             self.serviceId = serviceId
+            self.tags = tags
+            self.vpcEndpointConnectionId = vpcEndpointConnectionId
             self.vpcEndpointId = vpcEndpointId
             self.vpcEndpointOwner = vpcEndpointOwner
             self.vpcEndpointState = vpcEndpointState
@@ -47164,6 +47724,8 @@ extension EC2 {
             case ipAddressType
             case networkLoadBalancerArns = "networkLoadBalancerArnSet"
             case serviceId
+            case tags = "tagSet"
+            case vpcEndpointConnectionId
             case vpcEndpointId
             case vpcEndpointOwner
             case vpcEndpointState
@@ -47709,11 +48271,11 @@ extension EC2 {
 
     public struct WithdrawByoipCidrRequest: AWSEncodableShape {
         /// The address range, in CIDR notation.
-        public let cidr: String
+        public let cidr: String?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
-        public init(cidr: String, dryRun: Bool? = nil) {
+        public init(cidr: String? = nil, dryRun: Bool? = nil) {
             self.cidr = cidr
             self.dryRun = dryRun
         }

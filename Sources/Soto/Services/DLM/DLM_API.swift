@@ -23,9 +23,9 @@
 /// 		       With Amazon Data Lifecycle Manager, you can manage the lifecycle of your Amazon Web Services resources. You create
 /// 			lifecycle policies, which are used to automate operations on the specified
 /// 			resources.
-/// 		       Amazon DLM supports Amazon EBS volumes and snapshots. For information about using Amazon DLM
-/// 			with Amazon EBS, see Automating the Amazon EBS
-/// 				Snapshot Lifecycle in the Amazon EC2 User Guide.
+/// 		       Amazon Data Lifecycle Manager supports Amazon EBS volumes and snapshots. For information about using Amazon Data Lifecycle Manager
+/// 			with Amazon EBS, see
+/// 				Amazon Data Lifecycle Manager in the Amazon EC2 User Guide.
 public struct DLM: AWSService {
     // MARK: Member variables
 
@@ -77,6 +77,8 @@ public struct DLM: AWSService {
 
     /// Deletes the specified lifecycle policy and halts the automated operations that the
     /// 			policy specified.
+    /// 		       For more information about deleting a policy, see Delete lifecycle
+    /// 			policies.
     public func deleteLifecyclePolicy(_ input: DeleteLifecyclePolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteLifecyclePolicyResponse> {
         return self.client.execute(operation: "DeleteLifecyclePolicy", path: "/policies/{PolicyId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -108,6 +110,8 @@ public struct DLM: AWSService {
     }
 
     /// Updates the specified lifecycle policy.
+    /// 		       For more information about updating a policy, see Modify lifecycle
+    /// 			policies.
     public func updateLifecyclePolicy(_ input: UpdateLifecyclePolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateLifecyclePolicyResponse> {
         return self.client.execute(operation: "UpdateLifecyclePolicy", path: "/policies/{PolicyId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

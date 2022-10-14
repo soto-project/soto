@@ -50,8 +50,7 @@ public struct EMRServerless: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "emrserverless",
-            signingName: "emr-serverless",
+            service: "emr-serverless",
             serviceProtocol: .restjson,
             apiVersion: "2021-07-13",
             endpoint: endpoint,
@@ -82,6 +81,11 @@ public struct EMRServerless: AWSService {
     /// Displays detailed information about a specified application.
     public func getApplication(_ input: GetApplicationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetApplicationResponse> {
         return self.client.execute(operation: "GetApplication", path: "/applications/{applicationId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns a URL to access the job run dashboard.
+    public func getDashboardForJobRun(_ input: GetDashboardForJobRunRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDashboardForJobRunResponse> {
+        return self.client.execute(operation: "GetDashboardForJobRun", path: "/applications/{applicationId}/jobruns/{jobRunId}/dashboard", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Displays detailed information about a job run.

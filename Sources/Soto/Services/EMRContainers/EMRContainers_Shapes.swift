@@ -158,7 +158,7 @@ extension EMRContainers {
         }
     }
 
-    public final class Configuration: AWSEncodableShape & AWSDecodableShape {
+    public struct Configuration: AWSEncodableShape & AWSDecodableShape {
         /// The classification within a configuration.
         public let classification: String
         /// A list of additional configurations to apply within a configuration object.
@@ -256,7 +256,7 @@ extension EMRContainers {
             AWSMemberEncoding(label: "virtualClusterId", location: .uri("virtualClusterId"))
         ]
 
-        /// The certificate ARN provided by users for the managed endpoint. This fiedd is under deprecation and will be removed in future releases.
+        /// The certificate ARN provided by users for the managed endpoint. This field is under deprecation and will be removed in future releases.
         public let certificateArn: String?
         /// The client idempotency token for this create call.
         public let clientToken: String
@@ -753,18 +753,23 @@ extension EMRContainers {
     }
 
     public struct JobDriver: AWSEncodableShape & AWSDecodableShape {
+        /// The job driver for job type.
+        public let sparkSqlJobDriver: SparkSqlJobDriver?
         /// The job driver parameters specified for spark submit.
         public let sparkSubmitJobDriver: SparkSubmitJobDriver?
 
-        public init(sparkSubmitJobDriver: SparkSubmitJobDriver? = nil) {
+        public init(sparkSqlJobDriver: SparkSqlJobDriver? = nil, sparkSubmitJobDriver: SparkSubmitJobDriver? = nil) {
+            self.sparkSqlJobDriver = sparkSqlJobDriver
             self.sparkSubmitJobDriver = sparkSubmitJobDriver
         }
 
         public func validate(name: String) throws {
+            try self.sparkSqlJobDriver?.validate(name: "\(name).sparkSqlJobDriver")
             try self.sparkSubmitJobDriver?.validate(name: "\(name).sparkSubmitJobDriver")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case sparkSqlJobDriver
             case sparkSubmitJobDriver
         }
     }
@@ -1136,6 +1141,32 @@ extension EMRContainers {
         }
     }
 
+    public struct SparkSqlJobDriver: AWSEncodableShape & AWSDecodableShape {
+        /// The SQL file to be executed.
+        public let entryPoint: String?
+        /// The Spark parameters to be included in the Spark SQL command.
+        public let sparkSqlParameters: String?
+
+        public init(entryPoint: String? = nil, sparkSqlParameters: String? = nil) {
+            self.entryPoint = entryPoint
+            self.sparkSqlParameters = sparkSqlParameters
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.entryPoint, name: "entryPoint", parent: name, max: 256)
+            try self.validate(self.entryPoint, name: "entryPoint", parent: name, min: 1)
+            try self.validate(self.entryPoint, name: "entryPoint", parent: name, pattern: "\\S")
+            try self.validate(self.sparkSqlParameters, name: "sparkSqlParameters", parent: name, max: 102_400)
+            try self.validate(self.sparkSqlParameters, name: "sparkSqlParameters", parent: name, min: 1)
+            try self.validate(self.sparkSqlParameters, name: "sparkSqlParameters", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entryPoint
+            case sparkSqlParameters
+        }
+    }
+
     public struct SparkSubmitJobDriver: AWSEncodableShape & AWSDecodableShape {
         /// The entry point of job application.
         public let entryPoint: String
@@ -1153,15 +1184,15 @@ extension EMRContainers {
         public func validate(name: String) throws {
             try self.validate(self.entryPoint, name: "entryPoint", parent: name, max: 256)
             try self.validate(self.entryPoint, name: "entryPoint", parent: name, min: 1)
-            try self.validate(self.entryPoint, name: "entryPoint", parent: name, pattern: "^(?!\\s*$)(^[^';|\\u0026\\u003C\\u003E*?`$(){}\\[\\]!#\\\\]*$)$")
+            try self.validate(self.entryPoint, name: "entryPoint", parent: name, pattern: "\\S")
             try self.entryPointArguments?.forEach {
                 try validate($0, name: "entryPointArguments[]", parent: name, max: 10280)
                 try validate($0, name: "entryPointArguments[]", parent: name, min: 1)
-                try validate($0, name: "entryPointArguments[]", parent: name, pattern: "^(?!\\s*$)(^[^';|\\u0026\\u003C\\u003E*?`$(){}\\[\\]!#\\\\]*$)$")
+                try validate($0, name: "entryPointArguments[]", parent: name, pattern: "\\S")
             }
             try self.validate(self.sparkSubmitParameters, name: "sparkSubmitParameters", parent: name, max: 102_400)
             try self.validate(self.sparkSubmitParameters, name: "sparkSubmitParameters", parent: name, min: 1)
-            try self.validate(self.sparkSubmitParameters, name: "sparkSubmitParameters", parent: name, pattern: "^(?!\\s*$)(^[^';|\\u0026\\u003C\\u003E*?`$(){}\\[\\]!#\\\\]*$)$")
+            try self.validate(self.sparkSubmitParameters, name: "sparkSubmitParameters", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {

@@ -40,6 +40,11 @@ extension MediaPackageVod {
         public var description: String { return self.rawValue }
     }
 
+    public enum PeriodTriggersElement: String, CustomStringConvertible, Codable, _SotoSendable {
+        case ads = "ADS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Profile: String, CustomStringConvertible, Codable, _SotoSendable {
         case hbbtv15 = "HBBTV_1_5"
         case none = "NONE"
@@ -63,11 +68,6 @@ extension MediaPackageVod {
         case original = "ORIGINAL"
         case videoBitrateAscending = "VIDEO_BITRATE_ASCENDING"
         case videoBitrateDescending = "VIDEO_BITRATE_DESCENDING"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum PeriodTriggersElement: String, CustomStringConvertible, Codable, _SotoSendable {
-        case ads = "ADS"
         public var description: String { return self.rawValue }
     }
 

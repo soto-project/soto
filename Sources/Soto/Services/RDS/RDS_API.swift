@@ -474,7 +474,7 @@ public struct RDS: AWSService {
         return self.client.execute(operation: "DescribeReservedDBInstancesOfferings", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns a list of the source Amazon Web Services Regions where the current Amazon Web Services Region can create a read replica,  copy a DB snapshot from, or replicate automated backups from. This API action supports pagination.
+    /// Returns a list of the source Amazon Web Services Regions where the current Amazon Web Services Region can create a read replica,  copy a DB snapshot from, or replicate automated backups from. Use this operation to determine whether cross-Region features are supported between other Regions  and your current Region. This operation supports pagination. To return information about the Regions that are enabled for your account, or all Regions,  use the EC2 operation DescribeRegions. For more information, see   DescribeRegions in the Amazon EC2 API Reference.
     public func describeSourceRegions(_ input: DescribeSourceRegionsMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SourceRegionMessage> {
         return self.client.execute(operation: "DescribeSourceRegions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -742,6 +742,11 @@ public struct RDS: AWSService {
     /// Stops automated backup replication for a DB instance. This command doesn't apply to RDS Custom, Aurora MySQL, and Aurora PostgreSQL. For more information, see  Replicating Automated Backups to Another Amazon Web Services Region in the Amazon RDS User Guide.
     public func stopDBInstanceAutomatedBackupsReplication(_ input: StopDBInstanceAutomatedBackupsReplicationMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopDBInstanceAutomatedBackupsReplicationResult> {
         return self.client.execute(operation: "StopDBInstanceAutomatedBackupsReplication", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Switches over an Oracle standby database in an Oracle Data Guard environment, making it the new primary database. Issue this command in the Region that hosts the current standby database.
+    public func switchoverReadReplica(_ input: SwitchoverReadReplicaMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SwitchoverReadReplicaResult> {
+        return self.client.execute(operation: "SwitchoverReadReplica", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 }
 

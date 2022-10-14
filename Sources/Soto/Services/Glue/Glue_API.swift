@@ -976,6 +976,13 @@ public struct Glue: AWSService {
         return self.client.execute(operation: "UpdateJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Synchronizes a job from the source control repository. This operation takes the job artifacts that are located in the remote repository and updates the Glue internal stores with these artifacts.
+    ///
+    /// 	        This API supports optional parameters which take in the repository information.
+    public func updateJobFromSourceControl(_ input: UpdateJobFromSourceControlRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateJobFromSourceControlResponse> {
+        return self.client.execute(operation: "UpdateJobFromSourceControl", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Updates an existing machine learning transform. Call this operation to tune the algorithm parameters to achieve better results.
     /// 	 After calling this operation, you can call the StartMLEvaluationTaskRun operation to assess how well your new parameters achieved your goals (such as improving the quality of your machine learning transform, or making it more cost-effective).
     public func updateMLTransform(_ input: UpdateMLTransformRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateMLTransformResponse> {
@@ -997,6 +1004,12 @@ public struct Glue: AWSService {
     /// 	        This update will happen only if the schema is in the AVAILABLE state.
     public func updateSchema(_ input: UpdateSchemaInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateSchemaResponse> {
         return self.client.execute(operation: "UpdateSchema", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Synchronizes a job to the source control repository. This operation takes the job artifacts from the Glue internal stores and makes a commit to the remote repository that is configured on the job.
+    /// 	        This API supports optional parameters which take in the repository information.
+    public func updateSourceControlFromJob(_ input: UpdateSourceControlFromJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateSourceControlFromJobResponse> {
+        return self.client.execute(operation: "UpdateSourceControlFromJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates a metadata table in the Data Catalog.

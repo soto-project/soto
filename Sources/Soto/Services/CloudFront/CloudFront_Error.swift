@@ -40,10 +40,12 @@ public struct CloudFrontErrorType: AWSErrorType {
         case functionSizeLimitExceeded = "FunctionSizeLimitExceeded"
         case illegalDelete = "IllegalDelete"
         case illegalFieldLevelEncryptionConfigAssociationWithCacheBehavior = "IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior"
+        case illegalOriginAccessConfiguration = "IllegalOriginAccessConfiguration"
         case illegalUpdate = "IllegalUpdate"
         case inconsistentQuantities = "InconsistentQuantities"
         case invalidArgument = "InvalidArgument"
         case invalidDefaultRootObject = "InvalidDefaultRootObject"
+        case invalidDomainNameForOriginAccessControl = "InvalidDomainNameForOriginAccessControl"
         case invalidErrorCode = "InvalidErrorCode"
         case invalidForwardCookies = "InvalidForwardCookies"
         case invalidFunctionAssociation = "InvalidFunctionAssociation"
@@ -54,6 +56,7 @@ public struct CloudFrontErrorType: AWSErrorType {
         case invalidLocationCode = "InvalidLocationCode"
         case invalidMinimumProtocolVersion = "InvalidMinimumProtocolVersion"
         case invalidOrigin = "InvalidOrigin"
+        case invalidOriginAccessControl = "InvalidOriginAccessControl"
         case invalidOriginAccessIdentity = "InvalidOriginAccessIdentity"
         case invalidOriginKeepaliveTimeout = "InvalidOriginKeepaliveTimeout"
         case invalidOriginReadTimeout = "InvalidOriginReadTimeout"
@@ -68,6 +71,7 @@ public struct CloudFrontErrorType: AWSErrorType {
         case invalidWebACLId = "InvalidWebACLId"
         case keyGroupAlreadyExists = "KeyGroupAlreadyExists"
         case missingBody = "MissingBody"
+        case monitoringSubscriptionAlreadyExists = "MonitoringSubscriptionAlreadyExists"
         case noSuchCachePolicy = "NoSuchCachePolicy"
         case noSuchCloudFrontOriginAccessIdentity = "NoSuchCloudFrontOriginAccessIdentity"
         case noSuchDistribution = "NoSuchDistribution"
@@ -75,13 +79,17 @@ public struct CloudFrontErrorType: AWSErrorType {
         case noSuchFieldLevelEncryptionProfile = "NoSuchFieldLevelEncryptionProfile"
         case noSuchFunctionExists = "NoSuchFunctionExists"
         case noSuchInvalidation = "NoSuchInvalidation"
+        case noSuchMonitoringSubscription = "NoSuchMonitoringSubscription"
         case noSuchOrigin = "NoSuchOrigin"
+        case noSuchOriginAccessControl = "NoSuchOriginAccessControl"
         case noSuchOriginRequestPolicy = "NoSuchOriginRequestPolicy"
         case noSuchPublicKey = "NoSuchPublicKey"
         case noSuchRealtimeLogConfig = "NoSuchRealtimeLogConfig"
         case noSuchResource = "NoSuchResource"
         case noSuchResponseHeadersPolicy = "NoSuchResponseHeadersPolicy"
         case noSuchStreamingDistribution = "NoSuchStreamingDistribution"
+        case originAccessControlAlreadyExists = "OriginAccessControlAlreadyExists"
+        case originAccessControlInUse = "OriginAccessControlInUse"
         case originRequestPolicyAlreadyExists = "OriginRequestPolicyAlreadyExists"
         case originRequestPolicyInUse = "OriginRequestPolicyInUse"
         case preconditionFailed = "PreconditionFailed"
@@ -111,6 +119,7 @@ public struct CloudFrontErrorType: AWSErrorType {
         case tooManyDistributionsAssociatedToCachePolicy = "TooManyDistributionsAssociatedToCachePolicy"
         case tooManyDistributionsAssociatedToFieldLevelEncryptionConfig = "TooManyDistributionsAssociatedToFieldLevelEncryptionConfig"
         case tooManyDistributionsAssociatedToKeyGroup = "TooManyDistributionsAssociatedToKeyGroup"
+        case tooManyDistributionsAssociatedToOriginAccessControl = "TooManyDistributionsAssociatedToOriginAccessControl"
         case tooManyDistributionsAssociatedToOriginRequestPolicy = "TooManyDistributionsAssociatedToOriginRequestPolicy"
         case tooManyDistributionsAssociatedToResponseHeadersPolicy = "TooManyDistributionsAssociatedToResponseHeadersPolicy"
         case tooManyDistributionsWithFunctionAssociations = "TooManyDistributionsWithFunctionAssociations"
@@ -131,6 +140,7 @@ public struct CloudFrontErrorType: AWSErrorType {
         case tooManyKeyGroups = "TooManyKeyGroups"
         case tooManyKeyGroupsAssociatedToDistribution = "TooManyKeyGroupsAssociatedToDistribution"
         case tooManyLambdaFunctionAssociations = "TooManyLambdaFunctionAssociations"
+        case tooManyOriginAccessControls = "TooManyOriginAccessControls"
         case tooManyOriginCustomHeaders = "TooManyOriginCustomHeaders"
         case tooManyOriginGroupsPerDistribution = "TooManyOriginGroupsPerDistribution"
         case tooManyOriginRequestPolicies = "TooManyOriginRequestPolicies"
@@ -217,6 +227,9 @@ public struct CloudFrontErrorType: AWSErrorType {
     public static var illegalDelete: Self { .init(.illegalDelete) }
     /// The specified configuration for field-level encryption can't be associated with the specified cache behavior.
     public static var illegalFieldLevelEncryptionConfigAssociationWithCacheBehavior: Self { .init(.illegalFieldLevelEncryptionConfigAssociationWithCacheBehavior) }
+    /// An origin cannot contain both an origin access control (OAC) and an origin access identity
+    /// 			(OAI).
+    public static var illegalOriginAccessConfiguration: Self { .init(.illegalOriginAccessConfiguration) }
     /// The update contains modifications that are not allowed.
     public static var illegalUpdate: Self { .init(.illegalUpdate) }
     /// The value of Quantity and the size of Items don't match.
@@ -225,6 +238,9 @@ public struct CloudFrontErrorType: AWSErrorType {
     public static var invalidArgument: Self { .init(.invalidArgument) }
     /// The default root object file name is too big or contains an invalid character.
     public static var invalidDefaultRootObject: Self { .init(.invalidDefaultRootObject) }
+    /// An origin access control is associated with an origin whose domain name is not
+    /// 			supported.
+    public static var invalidDomainNameForOriginAccessControl: Self { .init(.invalidDomainNameForOriginAccessControl) }
     /// An invalid error code was specified.
     public static var invalidErrorCode: Self { .init(.invalidErrorCode) }
     /// Your request contains forward cookies option which doesn't match with the expectation for the whitelisted
@@ -246,6 +262,8 @@ public struct CloudFrontErrorType: AWSErrorType {
     public static var invalidMinimumProtocolVersion: Self { .init(.invalidMinimumProtocolVersion) }
     /// The Amazon S3 origin server specified does not refer to a valid Amazon S3 bucket.
     public static var invalidOrigin: Self { .init(.invalidOrigin) }
+    /// The origin access control is not valid.
+    public static var invalidOriginAccessControl: Self { .init(.invalidOriginAccessControl) }
     /// The origin access identity is not valid or doesn't exist.
     public static var invalidOriginAccessIdentity: Self { .init(.invalidOriginAccessIdentity) }
     /// The keep alive timeout specified for the origin is not valid.
@@ -281,6 +299,8 @@ public struct CloudFrontErrorType: AWSErrorType {
     public static var keyGroupAlreadyExists: Self { .init(.keyGroupAlreadyExists) }
     /// This operation requires a body. Ensure that the body is present and the Content-Type header is set.
     public static var missingBody: Self { .init(.missingBody) }
+    /// A monitoring subscription already exists for the specified distribution.
+    public static var monitoringSubscriptionAlreadyExists: Self { .init(.monitoringSubscriptionAlreadyExists) }
     /// The cache policy does not exist.
     public static var noSuchCachePolicy: Self { .init(.noSuchCachePolicy) }
     /// The specified origin access identity does not exist.
@@ -295,8 +315,12 @@ public struct CloudFrontErrorType: AWSErrorType {
     public static var noSuchFunctionExists: Self { .init(.noSuchFunctionExists) }
     /// The specified invalidation does not exist.
     public static var noSuchInvalidation: Self { .init(.noSuchInvalidation) }
+    /// A monitoring subscription does not exist for the specified distribution.
+    public static var noSuchMonitoringSubscription: Self { .init(.noSuchMonitoringSubscription) }
     /// No origin exists with the specified Origin Id.
     public static var noSuchOrigin: Self { .init(.noSuchOrigin) }
+    /// The origin access control does not exist.
+    public static var noSuchOriginAccessControl: Self { .init(.noSuchOriginAccessControl) }
     /// The origin request policy does not exist.
     public static var noSuchOriginRequestPolicy: Self { .init(.noSuchOriginRequestPolicy) }
     /// The specified public key doesn't exist.
@@ -309,6 +333,11 @@ public struct CloudFrontErrorType: AWSErrorType {
     public static var noSuchResponseHeadersPolicy: Self { .init(.noSuchResponseHeadersPolicy) }
     /// The specified streaming distribution does not exist.
     public static var noSuchStreamingDistribution: Self { .init(.noSuchStreamingDistribution) }
+    /// An origin access control with the specified parameters already exists.
+    public static var originAccessControlAlreadyExists: Self { .init(.originAccessControlAlreadyExists) }
+    /// Cannot delete the origin access control because it's in use by one or more
+    /// 			distributions.
+    public static var originAccessControlInUse: Self { .init(.originAccessControlInUse) }
     /// An origin request policy with this name already exists. You must provide a unique
     /// 			name. To modify an existing origin request policy, use
     /// 			UpdateOriginRequestPolicy.
@@ -395,6 +424,11 @@ public struct CloudFrontErrorType: AWSErrorType {
     /// 			Amazon CloudFront Developer Guide.
     public static var tooManyDistributionsAssociatedToKeyGroup: Self { .init(.tooManyDistributionsAssociatedToKeyGroup) }
     /// The maximum number of distributions have been associated with the specified origin
+    /// 			access control.
+    /// 		       For more information, see Quotas (formerly known as limits) in the
+    /// 			Amazon CloudFront Developer Guide.
+    public static var tooManyDistributionsAssociatedToOriginAccessControl: Self { .init(.tooManyDistributionsAssociatedToOriginAccessControl) }
+    /// The maximum number of distributions have been associated with the specified origin
     /// 			request policy. For more information, see Quotas (formerly known as limits) in the
     /// 			Amazon CloudFront Developer Guide.
     public static var tooManyDistributionsAssociatedToOriginRequestPolicy: Self { .init(.tooManyDistributionsAssociatedToOriginRequestPolicy) }
@@ -455,6 +489,11 @@ public struct CloudFrontErrorType: AWSErrorType {
     public static var tooManyKeyGroupsAssociatedToDistribution: Self { .init(.tooManyKeyGroupsAssociatedToDistribution) }
     /// Your request contains more Lambda@Edge function associations than are allowed per distribution.
     public static var tooManyLambdaFunctionAssociations: Self { .init(.tooManyLambdaFunctionAssociations) }
+    /// The number of origin access controls in your Amazon Web Services account exceeds the maximum
+    /// 			allowed.
+    /// 		       For more information, see Quotas (formerly known as limits) in the
+    /// 			Amazon CloudFront Developer Guide.
+    public static var tooManyOriginAccessControls: Self { .init(.tooManyOriginAccessControls) }
     /// Your request contains too many origin custom headers.
     public static var tooManyOriginCustomHeaders: Self { .init(.tooManyOriginCustomHeaders) }
     /// Processing your request would cause you to exceed the maximum number of origin groups allowed.

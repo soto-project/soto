@@ -98,6 +98,11 @@ extension LookoutMetrics {
         public var description: String { return self.rawValue }
     }
 
+    public enum FilterOperation: String, CustomStringConvertible, Codable, _SotoSendable {
+        case equals = "EQUALS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Frequency: String, CustomStringConvertible, Codable, _SotoSendable {
         case p1d = "P1D"
         case pt10m = "PT10M"
@@ -882,6 +887,8 @@ extension LookoutMetrics {
     public struct CreateMetricSetRequest: AWSEncodableShape {
         /// The ARN of the anomaly detector that will use the dataset.
         public let anomalyDetectorArn: String
+        /// A list of filters that specify which data is kept for anomaly detection.
+        public let dimensionFilterList: [MetricSetDimensionFilter]?
         /// A list of the fields you want to treat as dimensions.
         public let dimensionList: [String]?
         /// A list of metrics that the dataset will contain.
@@ -903,8 +910,9 @@ extension LookoutMetrics {
         /// The time zone in which your source data was recorded.
         public let timezone: String?
 
-        public init(anomalyDetectorArn: String, dimensionList: [String]? = nil, metricList: [Metric], metricSetDescription: String? = nil, metricSetFrequency: Frequency? = nil, metricSetName: String, metricSource: MetricSource, offset: Int? = nil, tags: [String: String]? = nil, timestampColumn: TimestampColumn? = nil, timezone: String? = nil) {
+        public init(anomalyDetectorArn: String, dimensionFilterList: [MetricSetDimensionFilter]? = nil, dimensionList: [String]? = nil, metricList: [Metric], metricSetDescription: String? = nil, metricSetFrequency: Frequency? = nil, metricSetName: String, metricSource: MetricSource, offset: Int? = nil, tags: [String: String]? = nil, timestampColumn: TimestampColumn? = nil, timezone: String? = nil) {
             self.anomalyDetectorArn = anomalyDetectorArn
+            self.dimensionFilterList = dimensionFilterList
             self.dimensionList = dimensionList
             self.metricList = metricList
             self.metricSetDescription = metricSetDescription
@@ -920,6 +928,9 @@ extension LookoutMetrics {
         public func validate(name: String) throws {
             try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, max: 256)
             try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, pattern: "^arn:([a-z\\d-]+):.*:.*:.*:.+$")
+            try self.dimensionFilterList?.forEach {
+                try $0.validate(name: "\(name).dimensionFilterList[]")
+            }
             try self.dimensionList?.forEach {
                 try validate($0, name: "dimensionList[]", parent: name, max: 63)
                 try validate($0, name: "dimensionList[]", parent: name, min: 1)
@@ -953,6 +964,7 @@ extension LookoutMetrics {
 
         private enum CodingKeys: String, CodingKey {
             case anomalyDetectorArn = "AnomalyDetectorArn"
+            case dimensionFilterList = "DimensionFilterList"
             case dimensionList = "DimensionList"
             case metricList = "MetricList"
             case metricSetDescription = "MetricSetDescription"
@@ -1292,6 +1304,8 @@ extension LookoutMetrics {
         public let anomalyDetectorArn: String?
         /// The time at which the dataset was created.
         public let creationTime: Date?
+        /// The dimensions and their values that were used to filter the dataset.
+        public let dimensionFilterList: [MetricSetDimensionFilter]?
         /// A list of the dimensions chosen for analysis.
         public let dimensionList: [String]?
         /// The time at which the dataset was last modified.
@@ -1315,9 +1329,10 @@ extension LookoutMetrics {
         /// The time zone in which the dataset's data was recorded.
         public let timezone: String?
 
-        public init(anomalyDetectorArn: String? = nil, creationTime: Date? = nil, dimensionList: [String]? = nil, lastModificationTime: Date? = nil, metricList: [Metric]? = nil, metricSetArn: String? = nil, metricSetDescription: String? = nil, metricSetFrequency: Frequency? = nil, metricSetName: String? = nil, metricSource: MetricSource? = nil, offset: Int? = nil, timestampColumn: TimestampColumn? = nil, timezone: String? = nil) {
+        public init(anomalyDetectorArn: String? = nil, creationTime: Date? = nil, dimensionFilterList: [MetricSetDimensionFilter]? = nil, dimensionList: [String]? = nil, lastModificationTime: Date? = nil, metricList: [Metric]? = nil, metricSetArn: String? = nil, metricSetDescription: String? = nil, metricSetFrequency: Frequency? = nil, metricSetName: String? = nil, metricSource: MetricSource? = nil, offset: Int? = nil, timestampColumn: TimestampColumn? = nil, timezone: String? = nil) {
             self.anomalyDetectorArn = anomalyDetectorArn
             self.creationTime = creationTime
+            self.dimensionFilterList = dimensionFilterList
             self.dimensionList = dimensionList
             self.lastModificationTime = lastModificationTime
             self.metricList = metricList
@@ -1334,6 +1349,7 @@ extension LookoutMetrics {
         private enum CodingKeys: String, CodingKey {
             case anomalyDetectorArn = "AnomalyDetectorArn"
             case creationTime = "CreationTime"
+            case dimensionFilterList = "DimensionFilterList"
             case dimensionList = "DimensionList"
             case lastModificationTime = "LastModificationTime"
             case metricList = "MetricList"
@@ -1635,6 +1651,23 @@ extension LookoutMetrics {
         private enum CodingKeys: String, CodingKey {
             case csvFormatDescriptor = "CsvFormatDescriptor"
             case jsonFormatDescriptor = "JsonFormatDescriptor"
+        }
+    }
+
+    public struct Filter: AWSEncodableShape & AWSDecodableShape {
+        /// The value that you want to include in the filter.
+        public let dimensionValue: String?
+        /// The condition to apply.
+        public let filterOperation: FilterOperation?
+
+        public init(dimensionValue: String? = nil, filterOperation: FilterOperation? = nil) {
+            self.dimensionValue = dimensionValue
+            self.filterOperation = filterOperation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimensionValue = "DimensionValue"
+            case filterOperation = "FilterOperation"
         }
     }
 
@@ -2314,6 +2347,30 @@ extension LookoutMetrics {
         }
     }
 
+    public struct MetricSetDimensionFilter: AWSEncodableShape & AWSDecodableShape {
+        /// The list of filters that you are applying.
+        public let filterList: [Filter]?
+        /// The dimension that you want to filter on.
+        public let name: String?
+
+        public init(filterList: [Filter]? = nil, name: String? = nil) {
+            self.filterList = filterList
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.filterList, name: "filterList", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 63)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filterList = "FilterList"
+            case name = "Name"
+        }
+    }
+
     public struct MetricSetSummary: AWSDecodableShape {
         /// The ARN of the detector to which the dataset belongs.
         public let anomalyDetectorArn: String?
@@ -2894,6 +2951,8 @@ extension LookoutMetrics {
     }
 
     public struct UpdateMetricSetRequest: AWSEncodableShape {
+        /// Describes a list of filters for choosing specific dimensions and specific values. Each filter consists of the dimension and one of its values that you want to include. When multiple dimensions or values are specified, the dimensions are joined with an AND operation and the values are joined with an OR operation.
+        public let dimensionFilterList: [MetricSetDimensionFilter]?
         /// The dimension list.
         public let dimensionList: [String]?
         /// The metric list.
@@ -2910,7 +2969,8 @@ extension LookoutMetrics {
         /// The timestamp column.
         public let timestampColumn: TimestampColumn?
 
-        public init(dimensionList: [String]? = nil, metricList: [Metric]? = nil, metricSetArn: String, metricSetDescription: String? = nil, metricSetFrequency: Frequency? = nil, metricSource: MetricSource? = nil, offset: Int? = nil, timestampColumn: TimestampColumn? = nil) {
+        public init(dimensionFilterList: [MetricSetDimensionFilter]? = nil, dimensionList: [String]? = nil, metricList: [Metric]? = nil, metricSetArn: String, metricSetDescription: String? = nil, metricSetFrequency: Frequency? = nil, metricSource: MetricSource? = nil, offset: Int? = nil, timestampColumn: TimestampColumn? = nil) {
+            self.dimensionFilterList = dimensionFilterList
             self.dimensionList = dimensionList
             self.metricList = metricList
             self.metricSetArn = metricSetArn
@@ -2922,6 +2982,9 @@ extension LookoutMetrics {
         }
 
         public func validate(name: String) throws {
+            try self.dimensionFilterList?.forEach {
+                try $0.validate(name: "\(name).dimensionFilterList[]")
+            }
             try self.dimensionList?.forEach {
                 try validate($0, name: "dimensionList[]", parent: name, max: 63)
                 try validate($0, name: "dimensionList[]", parent: name, min: 1)
@@ -2944,6 +3007,7 @@ extension LookoutMetrics {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dimensionFilterList = "DimensionFilterList"
             case dimensionList = "DimensionList"
             case metricList = "MetricList"
             case metricSetArn = "MetricSetArn"

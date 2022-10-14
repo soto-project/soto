@@ -93,6 +93,7 @@ public struct SSMErrorType: AWSErrorType {
         case invalidResultAttributeException = "InvalidResultAttributeException"
         case invalidRole = "InvalidRole"
         case invalidSchedule = "InvalidSchedule"
+        case invalidTag = "InvalidTag"
         case invalidTarget = "InvalidTarget"
         case invalidTargetMaps = "InvalidTargetMaps"
         case invalidTypeNameException = "InvalidTypeNameException"
@@ -309,6 +310,8 @@ public struct SSMErrorType: AWSErrorType {
     public static var invalidRole: Self { .init(.invalidRole) }
     /// The schedule is invalid. Verify your cron or rate expression and try again.
     public static var invalidSchedule: Self { .init(.invalidSchedule) }
+    /// The tag key or value isn't valid.
+    public static var invalidTag: Self { .init(.invalidTag) }
     /// The target isn't valid or doesn't exist. It might not be configured for Systems Manager or you might not have permission to perform the operation.
     public static var invalidTarget: Self { .init(.invalidTarget) }
     /// TargetMap parameter isn't valid.
