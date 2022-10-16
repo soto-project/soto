@@ -52,11 +52,11 @@ Please ensure the dates are correct in the header.
 
 `Soto` is built using code generation. There are a few steps to generate the modules, and also a process to "patch" updates or fixes when we find them to be necessary to work correctly.
 
-The Soto shape, api and error service files are generated from the json files in the [`models`](https://github.com/soto-project/soto/tree/master/models) folder. We get these from Amazon via the [`aws-sdk-go-v2`](https://github.com/aws/aws-sdk-go-v2) GitHub repository.
+The Soto shape, api and error service files are generated from the json files in the [`models`](https://github.com/soto-project/soto/tree/main/models) folder. We get these from Amazon via the [`aws-sdk-go-v2`](https://github.com/aws/aws-sdk-go-v2) GitHub repository.
 
 The application to do this conversion from model file to Soto services files can be found in the [`SotoCodeGenerator`](https://github.com/soto-project/soto-codegenerator) repository.
 
-The model files are not always correct, so we have to patch them before generating the Soto service files. This patch process is part of the `SotoCodeGenerator` and is run prior to parsing the dictionaries that have been loaded from the model json. The code for this can be found in [`patch.swift`](https://github.com/soto-project/soto-codegenerator/blob/main/Sources/SotoCodeGeneratorLib/Model+patch.swift).
+The model files are not always correct, so we have to patch them before generating the Soto service files. This patch process is part of the `SotoCodeGenerator` and is run prior to parsing the dictionaries that have been loaded from the model json. The code for this can be found in [`Model+Patch.swift`](https://github.com/soto-project/soto-codegenerator/blob/main/Sources/SotoCodeGeneratorLib/Model%2BPatch.swift).
 
 To help make it easier to review the contents of a response (to identify what might need to get patched), you can add the `AWSLoggingMiddleware` to the AWSClient to provide debug output. This should help you work out what the issue is. When you create your client you add the logging middleware as follows.
 
