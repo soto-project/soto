@@ -1094,11 +1094,28 @@ extension KMS {
         /// Specifies the length of the data key in bytes. For example, use the value 64 to generate a 512-bit data key (64 bytes is 512 bits). For 128-bit (16-byte) and 256-bit (32-byte) data keys, use the KeySpec parameter. You must specify either the KeySpec or the NumberOfBytes parameter (but not both) in every GenerateDataKey request.
         public let numberOfBytes: Int?
 
+        @available(*, deprecated, message: "This method has been replaced with `init(encryptionContext:grantTokens:keyId:keySpec:)` and `init(encryptionContext:grantTokens:keyId:numberOfBytes:)`, as KMS requires exactly one of `keySpec` and `numberOfBytes` be provided")
         public init(encryptionContext: [String: String]? = nil, grantTokens: [String]? = nil, keyId: String, keySpec: DataKeySpec? = nil, numberOfBytes: Int? = nil) {
             self.encryptionContext = encryptionContext
             self.grantTokens = grantTokens
             self.keyId = keyId
             self.keySpec = keySpec
+            self.numberOfBytes = numberOfBytes
+        }
+
+        public init(encryptionContext: [String: String]? = nil, grantTokens: [String]? = nil, keyId: String, keySpec: DataKeySpec) {
+            self.encryptionContext = encryptionContext
+            self.grantTokens = grantTokens
+            self.keyId = keyId
+            self.keySpec = keySpec
+            self.numberOfBytes = nil
+        }
+
+        public init(encryptionContext: [String: String]? = nil, grantTokens: [String]? = nil, keyId: String, numberOfBytes: Int) {
+            self.encryptionContext = encryptionContext
+            self.grantTokens = grantTokens
+            self.keyId = keyId
+            self.keySpec = nil
             self.numberOfBytes = numberOfBytes
         }
 
@@ -1159,11 +1176,28 @@ extension KMS {
         /// The length of the data key in bytes. For example, use the value 64 to generate a 512-bit data key (64 bytes is 512 bits). For common key lengths (128-bit and 256-bit symmetric keys), we recommend that you use the KeySpec field instead of this one.
         public let numberOfBytes: Int?
 
+        @available(*, deprecated, message: "This method has been replaced with `init(encryptionContext:grantTokens:keyId:keySpec:)` and `init(encryptionContext:grantTokens:keyId:numberOfBytes:)`, as KMS requires exactly one of `keySpec` and `numberOfBytes` be provided")
         public init(encryptionContext: [String: String]? = nil, grantTokens: [String]? = nil, keyId: String, keySpec: DataKeySpec? = nil, numberOfBytes: Int? = nil) {
             self.encryptionContext = encryptionContext
             self.grantTokens = grantTokens
             self.keyId = keyId
             self.keySpec = keySpec
+            self.numberOfBytes = numberOfBytes
+        }
+
+        public init(encryptionContext: [String: String]? = nil, grantTokens: [String]? = nil, keyId: String, keySpec: DataKeySpec) {
+            self.encryptionContext = encryptionContext
+            self.grantTokens = grantTokens
+            self.keyId = keyId
+            self.keySpec = keySpec
+            self.numberOfBytes = nil
+        }
+
+        public init(encryptionContext: [String: String]? = nil, grantTokens: [String]? = nil, keyId: String, numberOfBytes: Int) {
+            self.encryptionContext = encryptionContext
+            self.grantTokens = grantTokens
+            self.keyId = keyId
+            self.keySpec = nil
             self.numberOfBytes = numberOfBytes
         }
 
