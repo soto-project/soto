@@ -33,7 +33,7 @@
 struct UnsafeTransfer<Wrapped> {
     @usableFromInline
     var wrappedValue: Wrapped
-    
+
     @inlinable
     init(_ wrappedValue: Wrapped) {
         self.wrappedValue = wrappedValue
@@ -54,12 +54,13 @@ extension UnsafeTransfer: Hashable where Wrapped: Hashable {}
 final class UnsafeMutableTransferBox<Wrapped> {
     @usableFromInline
     var wrappedValue: Wrapped
-    
+
     @inlinable
     init(_ wrappedValue: Wrapped) {
         self.wrappedValue = wrappedValue
     }
 }
+
 #if swift(>=5.5) && canImport(_Concurrency)
 extension UnsafeMutableTransferBox: @unchecked Sendable {}
 #endif
