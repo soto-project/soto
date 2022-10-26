@@ -953,7 +953,7 @@ extension Location {
     }
 
     public struct CreateMapRequest: AWSEncodableShape {
-        /// Specifies the map style selected from an available data provider.
+        /// Specifies the MapConfiguration, including the map style, for the  map resource that you create. The map style defines the look of maps and the data  provider for your map resource.
         public let configuration: MapConfiguration
         /// An optional description for the map resource.
         public let description: String?
@@ -1010,7 +1010,7 @@ extension Location {
         /// The timestamp for when the map resource was created in ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ.
         @CustomCoding<ISO8601DateCoder>
         public var createTime: Date
-        /// The Amazon Resource Name (ARN) for the map resource. Used to specify a resource across all AWS.   Format example: arn:aws:geo:region:account-id:maps/ExampleMap
+        /// The Amazon Resource Name (ARN) for the map resource. Used to specify a resource across all AWS.   Format example: arn:aws:geo:region:account-id:map/ExampleMap
         public let mapArn: String
         /// The name of the map resource.
         public let mapName: String
@@ -1520,7 +1520,7 @@ extension Location {
         public let dataSource: String
         /// The optional description for the map resource.
         public let description: String
-        /// The Amazon Resource Name (ARN) for the map resource. Used to specify a resource across all AWS.   Format example: arn:aws:geo:region:account-id:maps/ExampleMap
+        /// The Amazon Resource Name (ARN) for the map resource. Used to specify a resource across all AWS.   Format example: arn:aws:geo:region:account-id:map/ExampleMap
         public let mapArn: String
         /// The map style selected from an available provider.
         public let mapName: String
@@ -1921,7 +1921,7 @@ extension Location {
     public struct GeofenceGeometry: AWSEncodableShape & AWSDecodableShape {
         /// A circle on the earth, as defined by a center point and a radius.
         public let circle: Circle?
-        /// An array of 1 or more linear rings. A linear ring is an array of 4 or more vertices, where the first and last vertex are the same to form a closed boundary. Each vertex is a 2-dimensional point of the form: [longitude, latitude].  The first linear ring is an outer ring, describing the polygon's boundary. Subsequent linear rings may be inner or outer rings to describe holes and islands. Outer rings must list their vertices in counter-clockwise order around the ring's center, where the left side is the polygon's exterior. Inner rings must list their vertices in clockwise order, where the left side is the polygon's interior. A geofence polygon can consist of between 4 and 1,000 vertices.
+        /// A polygon is a list of linear rings which are each made up of a list of vertices. Each vertex is a 2-dimensional point of the form: [longitude, latitude]. This is represented as an array of doubles of length 2 (so [double, double]). An array of 4 or more vertices, where the first and last vertex are the same (to form a closed boundary), is called a linear ring. The linear ring vertices must be listed in counter-clockwise order around the ring’s interior. The linear ring is represented as an array of vertices, or an array of arrays of doubles ([[double, double], ...]). A geofence consists of a single linear ring. To allow for future expansion, the Polygon parameter takes an array of linear rings, which is represented as an array of arrays of arrays of doubles ([[[double, double], ...], ...]). A linear ring for use in geofences can consist of between 4 and 1,000 vertices.
         public let polygon: [[[Double]]]?
 
         public init(circle: Circle? = nil, polygon: [[[Double]]]? = nil) {
@@ -2138,7 +2138,7 @@ extension Location {
             AWSMemberEncoding(label: "mapName", location: .uri("MapName"))
         ]
 
-        /// A comma-separated list of fonts to load glyphs from in order of preference. For example, Noto Sans Regular, Arial Unicode. Valid fonts stacks for Esri styles:    VectorEsriDarkGrayCanvas – Ubuntu Medium Italic | Ubuntu Medium | Ubuntu Italic | Ubuntu Regular | Ubuntu Bold    VectorEsriLightGrayCanvas – Ubuntu Italic | Ubuntu Regular | Ubuntu Light | Ubuntu Bold    VectorEsriTopographic – Noto Sans Italic | Noto Sans Regular | Noto Sans Bold | Noto Serif Regular | Roboto Condensed Light Italic    VectorEsriStreets – Arial Regular | Arial Italic | Arial Bold    VectorEsriNavigation – Arial Regular | Arial Italic | Arial Bold    Valid font stacks for HERE Technologies styles:    VectorHereContrast – Fira  GO Regular | Fira GO Bold    VectorHereExplore, VectorHereExploreTruck – Firo GO Italic |  Fira GO Map | Fira GO Map Bold | Noto Sans CJK  JP Bold | Noto Sans CJK JP Light | Noto Sans CJK  JP Regular
+        /// A comma-separated list of fonts to load glyphs from in order of preference. For example, Noto Sans Regular, Arial Unicode. Valid fonts stacks for Esri styles:    VectorEsriDarkGrayCanvas – Ubuntu Medium Italic | Ubuntu Medium | Ubuntu Italic | Ubuntu Regular | Ubuntu Bold    VectorEsriLightGrayCanvas – Ubuntu Italic | Ubuntu Regular | Ubuntu Light | Ubuntu Bold    VectorEsriTopographic – Noto Sans Italic | Noto Sans Regular | Noto Sans Bold | Noto Serif Regular | Roboto Condensed Light Italic    VectorEsriStreets – Arial Regular | Arial Italic | Arial Bold    VectorEsriNavigation – Arial Regular | Arial Italic | Arial Bold    Valid font stacks for HERE Technologies styles:    VectorHereContrast – Fira  GO Regular | Fira GO Bold    VectorHereExplore, VectorHereExploreTruck, HybridHereExploreSatellite –  Fira GO Italic | Fira GO Map |  Fira GO Map Bold | Noto Sans CJK JP Bold |  Noto Sans CJK JP Light |  Noto Sans CJK JP Regular
         public let fontStack: String
         /// A Unicode range of characters to download glyphs for. Each response will contain 256 characters. For example, 0–255 includes all characters from range U+0000 to 00FF. Must be aligned to multiples of 256.
         public let fontUnicodeRange: String
@@ -3093,7 +3093,7 @@ extension Location {
     }
 
     public struct MapConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies the map style selected from an available data provider. Valid Esri map styles:    VectorEsriDarkGrayCanvas – The Esri Dark Gray Canvas map style. A vector basemap with a dark gray, neutral background with minimal colors, labels, and features that's designed to draw attention to your thematic content.     RasterEsriImagery – The Esri Imagery map style. A raster basemap that provides one meter or better satellite and aerial imagery in many parts of the world and lower resolution satellite imagery worldwide.     VectorEsriLightGrayCanvas – The Esri Light Gray Canvas map style, which provides a detailed vector basemap with a light gray, neutral background style with minimal colors, labels, and features that's designed to draw attention to your thematic content.     VectorEsriTopographic – The Esri Light map style, which provides a detailed vector basemap with a classic Esri map style.    VectorEsriStreets – The Esri World Streets map style, which provides a detailed vector basemap for the world symbolized with a classic Esri street map style. The vector tile layer is similar in content and style to the World Street Map raster map.    VectorEsriNavigation – The Esri World Navigation map style, which provides a detailed basemap for the world symbolized with a custom navigation map style that's designed for use during the day in mobile devices.   Valid HERE Technologies map styles:    VectorHereContrast – The HERE Contrast (Berlin) map style is a high contrast detailed base map of the world that blends 3D and 2D rendering.    VectorHereExplore – A default HERE map style containing a  neutral, global map and its features including roads, buildings, landmarks,  and water features. It also now includes a fully designed map of Japan.    VectorHereExploreTruck – A global map containing truck  restrictions and attributes (e.g. width / height / HAZMAT) symbolized with  highlighted segments and icons on top of HERE Explore to support use cases  within transport and logistics.    The VectorHereContrast style has been renamed from VectorHereBerlin.  VectorHereBerlin has been deprecated, but will continue to work in  applications that use it.
+        /// Specifies the map style selected from an available data provider. Valid Esri map styles:    VectorEsriDarkGrayCanvas – The Esri Dark Gray Canvas map style. A vector basemap with a dark gray, neutral background with minimal colors, labels, and features that's designed to draw attention to your thematic content.     RasterEsriImagery – The Esri Imagery map style. A raster basemap that provides one meter or better satellite and aerial imagery in many parts of the world and lower resolution satellite imagery worldwide.     VectorEsriLightGrayCanvas – The Esri Light Gray Canvas map style, which provides a detailed vector basemap with a light gray, neutral background style with minimal colors, labels, and features that's designed to draw attention to your thematic content.     VectorEsriTopographic – The Esri Light map style, which provides a detailed vector basemap with a classic Esri map style.    VectorEsriStreets – The Esri World Streets map style, which provides a detailed vector basemap for the world symbolized with a classic Esri street map style. The vector tile layer is similar in content and style to the World Street Map raster map.    VectorEsriNavigation – The Esri World Navigation map style, which provides a detailed basemap for the world symbolized with a custom navigation map style that's designed for use during the day in mobile devices.   Valid HERE Technologies map styles:    VectorHereContrast – The HERE Contrast (Berlin) map style is a high contrast detailed base map of the world that blends 3D and 2D rendering.  The VectorHereContrast style has been renamed from VectorHereBerlin.  VectorHereBerlin has been deprecated, but will continue to work in  applications that use it.     VectorHereExplore – A default HERE map style containing a  neutral, global map and its features including roads, buildings, landmarks,  and water features. It also now includes a fully designed map of Japan.    VectorHereExploreTruck – A global map containing truck  restrictions and attributes (e.g. width / height / HAZMAT) symbolized with  highlighted segments and icons on top of HERE Explore to support use cases  within transport and logistics.    RasterHereExploreSatellite – A global map containing high resolution satellite imagery.    HybridHereExploreSatellite – A global map displaying the road  network, street names, and city labels over satellite imagery. This style  will automatically retrieve both raster and vector tiles, and your charges  will be based on total tiles retrieved.  Hybrid styles use both vector and raster tiles when rendering the  map that you see. This means that more tiles are retrieved than when using  either vector or raster tiles alone. Your charges will include all tiles  retrieved.
         public let style: String
 
         public init(style: String) {
@@ -3133,7 +3133,7 @@ extension Location {
         public let street: String?
         /// A country, or an area that's part of a larger region. For example, Metro Vancouver.
         public let subRegion: String?
-        /// The time zone in which the Place is located. Returned only when using Here as the selected partner.
+        /// The time zone in which the Place is located. Returned only when using HERE as the selected partner.
         public let timeZone: TimeZone?
         /// For addresses with multiple units, the unit identifier. Can include numbers and letters, for example 3B or Unit 123.  Returned only for a place index that uses Esri as a data provider. Is not returned for SearchPlaceIndexForPosition.
         public let unitNumber: String?
@@ -3930,7 +3930,7 @@ extension Location {
     }
 
     public struct UpdateMapResponse: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the updated map resource. Used to specify a resource across AWS.   Format example: arn:aws:geo:region:account-id:maps/ExampleMap
+        /// The Amazon Resource Name (ARN) of the updated map resource. Used to specify a resource across AWS.   Format example: arn:aws:geo:region:account-id:map/ExampleMap
         public let mapArn: String
         /// The name of the updated map resource.
         public let mapName: String

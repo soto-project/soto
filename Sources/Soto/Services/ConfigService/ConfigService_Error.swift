@@ -93,20 +93,20 @@ public struct ConfigServiceErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// You have specified a template that is not valid or supported.
+    /// You have specified a template that is invalid or supported.
     public static var conformancePackTemplateValidationException: Self { .init(.conformancePackTemplateValidationException) }
     /// Your Amazon S3 bucket policy does not permit Config to
     /// 			write to it.
     public static var insufficientDeliveryPolicyException: Self { .init(.insufficientDeliveryPolicyException) }
     /// Indicates one of the following errors:
-    /// 		         For PutConfigRule, the rule cannot be created because the IAM role assigned to Config lacks permissions to perform the config:Put* action.   For PutConfigRule, the Lambda function cannot be invoked. Check the function ARN, and check the function's permissions.   For PutOrganizationConfigRule, organization Config rule cannot be created because you do not have permissions to call IAM GetRole action or create a service-linked role.   For PutConformancePack and PutOrganizationConformancePack, a conformance pack cannot be created because you do not have permissions:
-    /// 				             To call IAM GetRole action or create a service-linked role.   To read Amazon S3 bucket or call SSM:GetDocument.
+    /// 		         For PutConfigRule, the rule cannot be created because the IAM role assigned to Config lacks permissions to perform the config:Put* action.   For PutConfigRule, the Lambda function cannot be invoked. Check the function ARN, and check the function's permissions.   For PutOrganizationConfigRule, organization Config rule cannot be created because you do not have permissions to call IAM GetRole action or create a service-linked role.   For PutConformancePack and PutOrganizationConformancePack, a conformance pack cannot be created because you do not have the following permissions:
+    /// 				             You do not have permission to call IAM GetRole action or create a service-linked role.   You do not have permission to read Amazon S3 bucket or call SSM:GetDocument.
     ///
     public static var insufficientPermissionsException: Self { .init(.insufficientPermissionsException) }
     /// You have provided a configuration recorder name that is not
     /// 			valid.
     public static var invalidConfigurationRecorderNameException: Self { .init(.invalidConfigurationRecorderNameException) }
-    /// The specified delivery channel name is not valid.
+    /// The specified delivery channel name is invalid.
     public static var invalidDeliveryChannelNameException: Self { .init(.invalidDeliveryChannelNameException) }
     /// The syntax of the query is incorrect.
     public static var invalidExpressionException: Self { .init(.invalidExpressionException) }
@@ -125,13 +125,13 @@ public struct ConfigServiceErrorType: AWSErrorType {
     public static var invalidResultTokenException: Self { .init(.invalidResultTokenException) }
     /// You have provided a null or empty role ARN.
     public static var invalidRoleException: Self { .init(.invalidRoleException) }
-    /// The specified Amazon S3 key prefix is not valid.
+    /// The specified Amazon S3 key prefix is invalid.
     public static var invalidS3KeyPrefixException: Self { .init(.invalidS3KeyPrefixException) }
-    /// The specified Amazon KMS Key ARN is not valid.
+    /// The specified Amazon KMS Key ARN is invalid.
     public static var invalidS3KmsKeyArnException: Self { .init(.invalidS3KmsKeyArnException) }
     /// The specified Amazon SNS topic does not exist.
     public static var invalidSNSTopicARNException: Self { .init(.invalidSNSTopicARNException) }
-    /// The specified time range is not valid. The earlier time is not
+    /// The specified time range is invalid. The earlier time is not
     /// 			chronologically before the later time.
     public static var invalidTimeRangeException: Self { .init(.invalidTimeRangeException) }
     /// You cannot delete the delivery channel you specified because
@@ -144,8 +144,8 @@ public struct ConfigServiceErrorType: AWSErrorType {
     /// 			is thrown if the number of accounts and aggregators exceeds the
     /// 			limit.
     public static var limitExceededException: Self { .init(.limitExceededException) }
-    /// You have reached the limit (100,000) of active custom resource types in your account.
-    /// 			Delete unused resources using DeleteResourceConfig.
+    /// You have reached the limit of active custom resource types in your account. There is a limit of 100,000.
+    /// 			Delete unused resources using DeleteResourceConfig .
     public static var maxActiveResourcesExceededException: Self { .init(.maxActiveResourcesExceededException) }
     /// Failed to add the Config rule because the account already
     /// 			contains the maximum number of 150 rules. Consider deleting any
@@ -154,14 +154,14 @@ public struct ConfigServiceErrorType: AWSErrorType {
     /// You have reached the limit of the number of recorders you can
     /// 			create.
     public static var maxNumberOfConfigurationRecordersExceededException: Self { .init(.maxNumberOfConfigurationRecordersExceededException) }
-    /// You have reached the limit (6) of the number of conformance packs in an account (6 conformance pack with 25 Config rules per pack).
+    /// You have reached the limit of the number of conformance packs you can create in an account. For more information, see  Service Limits in the Config Developer Guide.
     public static var maxNumberOfConformancePacksExceededException: Self { .init(.maxNumberOfConformancePacksExceededException) }
     /// You have reached the limit of the number of delivery channels
     /// 			you can create.
     public static var maxNumberOfDeliveryChannelsExceededException: Self { .init(.maxNumberOfDeliveryChannelsExceededException) }
-    /// You have reached the limit of the number of organization Config rules you can create.
+    /// You have reached the limit of the number of organization Config rules you can create. For more information, see see  Service Limits in the Config Developer Guide.
     public static var maxNumberOfOrganizationConfigRulesExceededException: Self { .init(.maxNumberOfOrganizationConfigRulesExceededException) }
-    /// You have reached the limit (6) of the number of organization conformance packs in an account (6 conformance pack with 25 Config rules per pack per account).
+    /// You have reached the limit of the number of organization conformance packs you can create in an account. For more information, see  Service Limits in the Config Developer Guide.
     public static var maxNumberOfOrganizationConformancePacksExceededException: Self { .init(.maxNumberOfOrganizationConformancePacksExceededException) }
     /// Failed to add the retention configuration because a retention configuration with that name already exists.
     public static var maxNumberOfRetentionConfigurationsExceededException: Self { .init(.maxNumberOfRetentionConfigurationsExceededException) }
@@ -178,7 +178,7 @@ public struct ConfigServiceErrorType: AWSErrorType {
     public static var noRunningConfigurationRecorderException: Self { .init(.noRunningConfigurationRecorderException) }
     /// The specified Amazon S3 bucket does not exist.
     public static var noSuchBucketException: Self { .init(.noSuchBucketException) }
-    /// The Config rule in the request is not valid. Verify that the rule is an Config Custom Policy rule, that the rule name is correct, and that valid Amazon Resouce Names (ARNs) are used before trying again.
+    /// The Config rule in the request is invalid. Verify that the rule is an Config Custom Policy rule, that the rule name is correct, and that valid Amazon Resouce Names (ARNs) are used before trying again.
     public static var noSuchConfigRuleException: Self { .init(.noSuchConfigRuleException) }
     /// Config rule that you passed in the filter does not exist.
     public static var noSuchConfigRuleInConformancePackException: Self { .init(.noSuchConfigRuleInConformancePackException) }
@@ -192,7 +192,7 @@ public struct ConfigServiceErrorType: AWSErrorType {
     /// You have specified a delivery channel that does not
     /// 			exist.
     public static var noSuchDeliveryChannelException: Self { .init(.noSuchDeliveryChannelException) }
-    /// The Config rule in the request is not valid. Verify that the rule is an organization Config Custom Policy rule, that the rule name is correct, and that valid Amazon Resouce Names (ARNs) are used before trying again.
+    /// The Config rule in the request is invalid. Verify that the rule is an organization Config Custom Policy rule, that the rule name is correct, and that valid Amazon Resouce Names (ARNs) are used before trying again.
     public static var noSuchOrganizationConfigRuleException: Self { .init(.noSuchOrganizationConfigRuleException) }
     /// Config organization conformance pack that you passed in the filter does not exist.
     /// 		       For DeleteOrganizationConformancePack, you tried to delete an organization conformance pack that does not exist.
@@ -208,11 +208,11 @@ public struct ConfigServiceErrorType: AWSErrorType {
     /// 				Delete this aggregator and create a new one with the current Amazon Web Services Organization.   The configuration aggregator is associated with a previous Amazon Web Services Organization and Config cannot aggregate data with current Amazon Web Services Organization.
     /// 				Delete this aggregator and create a new one with the current Amazon Web Services Organization.   You are not a registered delegated administrator for Config with permissions to call ListDelegatedAdministrators API.
     /// 			Ensure that the management account registers delagated administrator for Config service principle name before the delegated administrator creates an aggregator.
-    /// 		       For all OrganizationConfigRule and OrganizationConformancePack APIs, Config throws an exception if APIs are called from member accounts. All APIs must be called from organization master account.
+    /// 		       For all OrganizationConfigRule and OrganizationConformancePack APIs, Config throws an exception if APIs are called from member accounts. All APIs must be called from organization management account.
     public static var organizationAccessDeniedException: Self { .init(.organizationAccessDeniedException) }
     /// Config resource cannot be created because your organization does not have all features enabled.
     public static var organizationAllFeaturesNotEnabledException: Self { .init(.organizationAllFeaturesNotEnabledException) }
-    /// You have specified a template that is not valid or supported.
+    /// You have specified a template that is invalid or supported.
     public static var organizationConformancePackTemplateValidationException: Self { .init(.organizationConformancePackTemplateValidationException) }
     /// The configuration item size is outside the allowable range.
     public static var oversizedConfigurationItemException: Self { .init(.oversizedConfigurationItemException) }
@@ -228,9 +228,10 @@ public struct ConfigServiceErrorType: AWSErrorType {
     public static var resourceNotDiscoveredException: Self { .init(.resourceNotDiscoveredException) }
     /// You have specified a resource that does not exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    /// You have reached the limit of the number of tags you can use. You have more than 50 tags.
+    /// You have reached the limit of the number of tags you can use.
+    /// 			For more information, see  Service Limits in the Config Developer Guide.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
-    /// The requested action is not valid.
+    /// The requested action is invalid.
     /// 		       For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries.
     /// 		       For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
     public static var validationException: Self { .init(.validationException) }

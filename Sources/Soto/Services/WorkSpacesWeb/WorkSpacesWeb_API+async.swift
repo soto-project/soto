@@ -38,6 +38,11 @@ extension WorkSpacesWeb {
         return try await self.client.execute(operation: "AssociateTrustStore", path: "/portals/{portalArn+}/trustStores", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Associates a user access logging settings resource with a web portal.
+    public func associateUserAccessLoggingSettings(_ input: AssociateUserAccessLoggingSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AssociateUserAccessLoggingSettingsResponse {
+        return try await self.client.execute(operation: "AssociateUserAccessLoggingSettings", path: "/portals/{portalArn+}/userAccessLoggingSettings", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Associates a user settings resource with a web portal.
     public func associateUserSettings(_ input: AssociateUserSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AssociateUserSettingsResponse {
         return try await self.client.execute(operation: "AssociateUserSettings", path: "/portals/{portalArn+}/userSettings", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -66,6 +71,11 @@ extension WorkSpacesWeb {
     /// Creates a trust store that can be associated with a web portal. A trust store contains certificate authority (CA) certificates. Once associated with a web portal, the browser in a streaming session will recognize certificates that have been issued using any of the CAs in the trust store. If your organization has internal websites that use certificates issued by private CAs, you should add the private CA certificate to the trust store.
     public func createTrustStore(_ input: CreateTrustStoreRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateTrustStoreResponse {
         return try await self.client.execute(operation: "CreateTrustStore", path: "/trustStores", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a user access logging settings resource that can be associated with a web portal.
+    public func createUserAccessLoggingSettings(_ input: CreateUserAccessLoggingSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateUserAccessLoggingSettingsResponse {
+        return try await self.client.execute(operation: "CreateUserAccessLoggingSettings", path: "/userAccessLoggingSettings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates a user settings resource that can be associated with a web portal. Once associated with a web portal, user settings control how users can transfer data between a streaming session and the their local devices.
@@ -98,6 +108,11 @@ extension WorkSpacesWeb {
         return try await self.client.execute(operation: "DeleteTrustStore", path: "/trustStores/{trustStoreArn+}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Deletes user access logging settings.
+    public func deleteUserAccessLoggingSettings(_ input: DeleteUserAccessLoggingSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteUserAccessLoggingSettingsResponse {
+        return try await self.client.execute(operation: "DeleteUserAccessLoggingSettings", path: "/userAccessLoggingSettings/{userAccessLoggingSettingsArn+}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Deletes user settings.
     public func deleteUserSettings(_ input: DeleteUserSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteUserSettingsResponse {
         return try await self.client.execute(operation: "DeleteUserSettings", path: "/userSettings/{userSettingsArn+}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -116,6 +131,11 @@ extension WorkSpacesWeb {
     /// Disassociates a trust store from a web portal.
     public func disassociateTrustStore(_ input: DisassociateTrustStoreRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DisassociateTrustStoreResponse {
         return try await self.client.execute(operation: "DisassociateTrustStore", path: "/portals/{portalArn+}/trustStores", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Disassociates user access logging settings from a web portal.
+    public func disassociateUserAccessLoggingSettings(_ input: DisassociateUserAccessLoggingSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DisassociateUserAccessLoggingSettingsResponse {
+        return try await self.client.execute(operation: "DisassociateUserAccessLoggingSettings", path: "/portals/{portalArn+}/userAccessLoggingSettings", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Disassociates user settings from a web portal.
@@ -158,6 +178,11 @@ extension WorkSpacesWeb {
         return try await self.client.execute(operation: "GetTrustStoreCertificate", path: "/trustStores/{trustStoreArn+}/certificate", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Gets user access logging settings.
+    public func getUserAccessLoggingSettings(_ input: GetUserAccessLoggingSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetUserAccessLoggingSettingsResponse {
+        return try await self.client.execute(operation: "GetUserAccessLoggingSettings", path: "/userAccessLoggingSettings/{userAccessLoggingSettingsArn+}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Gets user settings.
     public func getUserSettings(_ input: GetUserSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetUserSettingsResponse {
         return try await self.client.execute(operation: "GetUserSettings", path: "/userSettings/{userSettingsArn+}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -198,6 +223,11 @@ extension WorkSpacesWeb {
         return try await self.client.execute(operation: "ListTrustStores", path: "/trustStores", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Retrieves a list of user access logging settings.
+    public func listUserAccessLoggingSettings(_ input: ListUserAccessLoggingSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListUserAccessLoggingSettingsResponse {
+        return try await self.client.execute(operation: "ListUserAccessLoggingSettings", path: "/userAccessLoggingSettings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Retrieves a list of user settings.
     public func listUserSettings(_ input: ListUserSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListUserSettingsResponse {
         return try await self.client.execute(operation: "ListUserSettings", path: "/userSettings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -236,6 +266,11 @@ extension WorkSpacesWeb {
     /// Updates the trust store.
     public func updateTrustStore(_ input: UpdateTrustStoreRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateTrustStoreResponse {
         return try await self.client.execute(operation: "UpdateTrustStore", path: "/trustStores/{trustStoreArn+}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates the user access logging settings.
+    public func updateUserAccessLoggingSettings(_ input: UpdateUserAccessLoggingSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateUserAccessLoggingSettingsResponse {
+        return try await self.client.execute(operation: "UpdateUserAccessLoggingSettings", path: "/userAccessLoggingSettings/{userAccessLoggingSettingsArn+}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates the user settings.

@@ -120,7 +120,7 @@ public struct WorkSpaces: AWSService {
         return self.client.execute(operation: "CreateWorkspaceImage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates one or more WorkSpaces. This operation is asynchronous and returns before the WorkSpaces are created.
+    /// Creates one or more WorkSpaces. This operation is asynchronous and returns before the WorkSpaces are created.  The MANUAL running mode value is only supported by Amazon WorkSpaces Core. Contact your account team to be allow-listed to use this value. For more information, see Amazon WorkSpaces Core.
     public func createWorkspaces(_ input: CreateWorkspacesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateWorkspacesResult> {
         return self.client.execute(operation: "CreateWorkspaces", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -260,7 +260,7 @@ public struct WorkSpaces: AWSService {
         return self.client.execute(operation: "ImportClientBranding", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Imports the specified Windows 10 Bring Your Own License (BYOL) image into Amazon WorkSpaces. The image must be an already licensed Amazon EC2 image that is in your Amazon Web Services account, and you must own the image. For more information about creating BYOL images, see  Bring Your Own Windows Desktop Licenses.
+    /// Imports the specified Windows 10 Bring Your Own License (BYOL) or Windows Server 2016 BYOL  image into Amazon WorkSpaces. The image must be an already licensed Amazon EC2 image that is  in your Amazon Web Services account, and you must own the image. For more information about  creating BYOL images, see  Bring Your Own Windows Desktop Licenses.
     public func importWorkspaceImage(_ input: ImportWorkspaceImageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ImportWorkspaceImageResult> {
         return self.client.execute(operation: "ImportWorkspaceImage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -305,7 +305,7 @@ public struct WorkSpaces: AWSService {
         return self.client.execute(operation: "ModifyWorkspaceCreationProperties", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Modifies the specified WorkSpace properties. For important information about how to modify the size of the root and user volumes, see  Modify a WorkSpace.
+    /// Modifies the specified WorkSpace properties. For important information about how to modify the size of the root and user volumes, see  Modify a WorkSpace.   The MANUAL running mode value is only supported by Amazon WorkSpaces Core. Contact your account team to be allow-listed to use this value. For more information, see Amazon WorkSpaces Core.
     public func modifyWorkspaceProperties(_ input: ModifyWorkspacePropertiesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ModifyWorkspacePropertiesResult> {
         return self.client.execute(operation: "ModifyWorkspaceProperties", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

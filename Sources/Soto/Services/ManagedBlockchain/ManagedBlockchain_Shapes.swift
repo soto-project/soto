@@ -21,6 +21,18 @@ import SotoCore
 extension ManagedBlockchain {
     // MARK: Enums
 
+    public enum AccessorStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case available = "AVAILABLE"
+        case deleted = "DELETED"
+        case pendingDeletion = "PENDING_DELETION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AccessorType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case billingToken = "BILLING_TOKEN"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Edition: String, CustomStringConvertible, Codable, _SotoSendable {
         case standard = "STANDARD"
         case starter = "STARTER"
@@ -104,8 +116,72 @@ extension ManagedBlockchain {
 
     // MARK: Shapes
 
+    public struct Accessor: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the accessor. For more information about  ARNs and their format, see Amazon Resource  Names (ARNs) in the Amazon Web Services General Reference.
+        public let arn: String?
+        /// The billing token is a property of the accessor. Use this token to make Ethereum API calls to your  Ethereum node. The billing token is used to track your accessor object for billing Ethereum API  requests made to your Ethereum nodes.
+        public let billingToken: String?
+        /// The creation date and time of the accessor.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationDate: Date?
+        /// The unique identifier of the accessor.
+        public let id: String?
+        /// The current status of the accessor.
+        public let status: AccessorStatus?
+        /// The type of the accessor.  Currently accessor type is restricted to BILLING_TOKEN.
+        public let type: AccessorType?
+
+        public init(arn: String? = nil, billingToken: String? = nil, creationDate: Date? = nil, id: String? = nil, status: AccessorStatus? = nil, type: AccessorType? = nil) {
+            self.arn = arn
+            self.billingToken = billingToken
+            self.creationDate = creationDate
+            self.id = id
+            self.status = status
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case billingToken = "BillingToken"
+            case creationDate = "CreationDate"
+            case id = "Id"
+            case status = "Status"
+            case type = "Type"
+        }
+    }
+
+    public struct AccessorSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the accessor. For more information about  ARNs and their format, see Amazon Resource  Names (ARNs) in the Amazon Web Services General Reference.
+        public let arn: String?
+        /// The creation date and time of the accessor.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationDate: Date?
+        /// The unique identifier of the accessor.
+        public let id: String?
+        /// The current status of the accessor.
+        public let status: AccessorStatus?
+        /// The type of the accessor.  Currently accessor type is restricted to BILLING_TOKEN.
+        public let type: AccessorType?
+
+        public init(arn: String? = nil, creationDate: Date? = nil, id: String? = nil, status: AccessorStatus? = nil, type: AccessorType? = nil) {
+            self.arn = arn
+            self.creationDate = creationDate
+            self.id = id
+            self.status = status
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationDate = "CreationDate"
+            case id = "Id"
+            case status = "Status"
+            case type = "Type"
+        }
+    }
+
     public struct ApprovalThresholdPolicy: AWSEncodableShape & AWSDecodableShape {
-        /// The duration from the time that a proposal is created until it expires. If members cast neither the required number of YES votes to approve the proposal nor the number of NO votes required to reject it before the duration expires, the proposal is EXPIRED and ProposalActions are not carried out.
+        /// The duration from the time that a proposal is created until it expires. If members cast neither the required number of YES votes to approve the proposal nor the number of NO votes required to reject it before the duration expires, the proposal is EXPIRED and ProposalActions aren't carried out.
         public let proposalDurationInHours: Int?
         /// Determines whether the vote percentage must be greater than the ThresholdPercentage or must be greater than or equal to the ThreholdPercentage to be approved.
         public let thresholdComparator: ThresholdComparator?
@@ -132,12 +208,51 @@ extension ManagedBlockchain {
         }
     }
 
+    public struct CreateAccessorInput: AWSEncodableShape {
+        /// The type of accessor.  Currently accessor type is restricted to BILLING_TOKEN.
+        public let accessorType: AccessorType
+        /// This is a unique, case-sensitive identifier that you provide to ensure the idempotency of  the operation. An idempotent operation completes no more than once. This  identifier is required only if you make a service request directly using  an HTTP client. It is generated automatically if you use an Amazon Web Services SDK or the  Amazon Web Services CLI.
+        public let clientRequestToken: String
+
+        public init(accessorType: AccessorType, clientRequestToken: String = CreateAccessorInput.idempotencyToken()) {
+            self.accessorType = accessorType
+            self.clientRequestToken = clientRequestToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessorType = "AccessorType"
+            case clientRequestToken = "ClientRequestToken"
+        }
+    }
+
+    public struct CreateAccessorOutput: AWSDecodableShape {
+        /// The unique identifier of the accessor.
+        public let accessorId: String?
+        /// The billing token is a property of the Accessor. Use this token to make Ethereum API calls to your Ethereum node. The billing token is used to track your accessor object for billing Ethereum  API requests made to your Ethereum nodes.
+        public let billingToken: String?
+
+        public init(accessorId: String? = nil, billingToken: String? = nil) {
+            self.accessorId = accessorId
+            self.billingToken = billingToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessorId = "AccessorId"
+            case billingToken = "BillingToken"
+        }
+    }
+
     public struct CreateMemberInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "networkId", location: .uri("NetworkId"))
         ]
 
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than one time. This identifier is required only if you make a service request directly using an HTTP client. It is generated automatically if you use an AWS SDK or the AWS CLI.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than one time. This identifier is required only if you make a service request directly using an HTTP client. It is generated automatically if you use an Amazon Web Services SDK or the CLI.
         public let clientRequestToken: String
         /// The unique identifier of the invitation that is sent to the member to join the network.
         public let invitationId: String
@@ -184,7 +299,7 @@ extension ManagedBlockchain {
     }
 
     public struct CreateNetworkInput: AWSEncodableShape {
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than one time. This identifier is required only if you make a service request directly using an HTTP client. It is generated automatically if you use an AWS SDK or the AWS CLI.
+        /// This is a unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than once. This identifier is required only  if you make a service request directly using an HTTP client. It is generated automatically if you  use an Amazon Web Services SDK or the Amazon Web Services CLI.
         public let clientRequestToken: String
         /// An optional description for the network.
         public let description: String?
@@ -269,7 +384,7 @@ extension ManagedBlockchain {
             AWSMemberEncoding(label: "networkId", location: .uri("NetworkId"))
         ]
 
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than one time. This identifier is required only if you make a service request directly using an HTTP client. It is generated automatically if you use an AWS SDK or the AWS CLI.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than one time. This identifier is required only if you make a service request directly using an HTTP client. It is generated automatically if you use an Amazon Web Services SDK or the CLI.
         public let clientRequestToken: String
         /// The unique identifier of the member that owns this node. Applies only to Hyperledger Fabric.
         public let memberId: String?
@@ -331,11 +446,11 @@ extension ManagedBlockchain {
 
         /// The type of actions proposed, such as inviting a member or removing a member. The types of Actions in a proposal are mutually exclusive. For example, a proposal with Invitations actions cannot also contain Removals actions.
         public let actions: ProposalActions
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than one time. This identifier is required only if you make a service request directly using an HTTP client. It is generated automatically if you use an AWS SDK or the AWS CLI.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than one time. This identifier is required only if you make a service request directly using an HTTP client. It is generated automatically if you use an Amazon Web Services SDK or the CLI.
         public let clientRequestToken: String
         /// A description for the proposal that is visible to voting members, for example, "Proposal to add Example Corp. as member."
         public let description: String?
-        /// The unique identifier of the member that is creating the proposal. This identifier is especially useful for identifying the member making the proposal when multiple members exist in a single AWS account.
+        /// The unique identifier of the member that is creating the proposal. This  identifier is especially useful for identifying the member making the proposal  when multiple members exist in a single Amazon Web Services account.
         public let memberId: String
         ///  The unique identifier of the network for which the proposal is made.
         public let networkId: String
@@ -388,6 +503,30 @@ extension ManagedBlockchain {
         private enum CodingKeys: String, CodingKey {
             case proposalId = "ProposalId"
         }
+    }
+
+    public struct DeleteAccessorInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "accessorId", location: .uri("AccessorId"))
+        ]
+
+        /// The unique identifier of the accessor.
+        public let accessorId: String
+
+        public init(accessorId: String) {
+            self.accessorId = accessorId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accessorId, name: "accessorId", parent: name, max: 32)
+            try self.validate(self.accessorId, name: "accessorId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteAccessorOutput: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DeleteMemberInput: AWSEncodableShape {
@@ -454,6 +593,39 @@ extension ManagedBlockchain {
 
     public struct DeleteNodeOutput: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct GetAccessorInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "accessorId", location: .uri("AccessorId"))
+        ]
+
+        /// The unique identifier of the accessor.
+        public let accessorId: String
+
+        public init(accessorId: String) {
+            self.accessorId = accessorId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accessorId, name: "accessorId", parent: name, max: 32)
+            try self.validate(self.accessorId, name: "accessorId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetAccessorOutput: AWSDecodableShape {
+        /// The properties of the accessor.
+        public let accessor: Accessor?
+
+        public init(accessor: Accessor? = nil) {
+            self.accessor = accessor
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessor = "Accessor"
+        }
     }
 
     public struct GetMemberInput: AWSEncodableShape {
@@ -613,7 +785,7 @@ extension ManagedBlockchain {
     }
 
     public struct Invitation: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the invitation. For more information about ARNs and their format, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        /// The Amazon Resource Name (ARN) of the invitation. For more information about ARNs and their format, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let arn: String?
         /// The date and time that the invitation was created.
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -624,7 +796,7 @@ extension ManagedBlockchain {
         /// The unique identifier for the invitation.
         public let invitationId: String?
         public let networkSummary: NetworkSummary?
-        /// The status of the invitation:    PENDING - The invitee has not created a member to join the network, and the invitation has not yet expired.    ACCEPTING - The invitee has begun creating a member, and creation has not yet completed.    ACCEPTED - The invitee created a member and joined the network using the InvitationID.    REJECTED - The invitee rejected the invitation.    EXPIRED - The invitee neither created a member nor rejected the invitation before the ExpirationDate.
+        /// The status of the invitation:    PENDING - The invitee hasn't created a member to join the network, and the invitation hasn't yet expired.    ACCEPTING - The invitee has begun creating a member, and creation hasn't yet completed.    ACCEPTED - The invitee created a member and joined the network using the InvitationID.    REJECTED - The invitee rejected the invitation.    EXPIRED - The invitee neither created a member nor rejected the invitation before the ExpirationDate.
         public let status: InvitationStatus?
 
         public init(arn: String? = nil, creationDate: Date? = nil, expirationDate: Date? = nil, invitationId: String? = nil, networkSummary: NetworkSummary? = nil, status: InvitationStatus? = nil) {
@@ -647,7 +819,7 @@ extension ManagedBlockchain {
     }
 
     public struct InviteAction: AWSEncodableShape & AWSDecodableShape {
-        /// The AWS account ID to invite.
+        /// The Amazon Web Services account ID to invite.
         public let principal: String
 
         public init(principal: String) {
@@ -656,6 +828,48 @@ extension ManagedBlockchain {
 
         private enum CodingKeys: String, CodingKey {
             case principal = "Principal"
+        }
+    }
+
+    public struct ListAccessorsInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
+        ]
+
+        ///  The maximum number of accessors to list.
+        public let maxResults: Int?
+        ///  The pagination token that indicates the next set of results to retrieve.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 128)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAccessorsOutput: AWSDecodableShape {
+        /// An array of AccessorSummary objects that contain configuration properties for  each accessor.
+        public let accessors: [AccessorSummary]?
+        ///  The pagination token that indicates the next set of results to retrieve.
+        public let nextToken: String?
+
+        public init(accessors: [AccessorSummary]? = nil, nextToken: String? = nil) {
+            self.accessors = accessors
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessors = "Accessors"
+            case nextToken = "NextToken"
         }
     }
 
@@ -711,7 +925,7 @@ extension ManagedBlockchain {
             AWSMemberEncoding(label: "status", location: .querystring("status"))
         ]
 
-        /// An optional Boolean value. If provided, the request is limited either to members that the current AWS account owns (true) or that other AWS accounts own (false). If omitted, all members are listed.
+        /// An optional Boolean value. If provided, the request is limited either to members that the current Amazon Web Services account owns (true) or that other Amazon Web Services accountsn own (false). If omitted, all members are listed.
         public let isOwned: Bool?
         /// The maximum number of members to return in the request.
         public let maxResults: Int?
@@ -980,7 +1194,7 @@ extension ManagedBlockchain {
             AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
-        /// The Amazon Resource Name (ARN) of the resource. For more information about ARNs and their format, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        /// The Amazon Resource Name (ARN) of the resource. For more information about ARNs and their format, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let resourceArn: String
 
         public init(resourceArn: String) {
@@ -1036,7 +1250,7 @@ extension ManagedBlockchain {
     }
 
     public struct Member: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the member. For more information about ARNs and their format, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        /// The Amazon Resource Name (ARN) of the member. For more information about ARNs and their format, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let arn: String?
         /// The date and time that the member was created.
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -1047,7 +1261,7 @@ extension ManagedBlockchain {
         public let frameworkAttributes: MemberFrameworkAttributes?
         /// The unique identifier of the member.
         public let id: String?
-        /// The Amazon Resource Name (ARN) of the customer managed key in AWS Key Management Service (AWS KMS) that the member uses for encryption at rest. If the value of this parameter is "AWS Owned KMS Key", the member uses an AWS owned KMS key for encryption. This parameter is inherited by the nodes that this member owns.
+        /// The Amazon Resource Name (ARN) of the customer managed key in Key Management Service (KMS) that the member uses for encryption at rest. If the value of this parameter is "AWS Owned KMS Key", the member uses an Amazon Web Services owned KMS key for encryption. This parameter is inherited by the nodes that this member owns. For more information, see Encryption at Rest in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
         public let kmsKeyArn: String?
         /// Configuration properties for logging events associated with a member.
         public let logPublishingConfiguration: MemberLogPublishingConfiguration?
@@ -1055,7 +1269,7 @@ extension ManagedBlockchain {
         public let name: String?
         /// The unique identifier of the network to which the member belongs.
         public let networkId: String?
-        /// The status of a member.    CREATING - The AWS account is in the process of creating a member.    AVAILABLE - The member has been created and can participate in the network.    CREATE_FAILED - The AWS account attempted to create a member and creation failed.    UPDATING - The member is in the process of being updated.    DELETING - The member and all associated resources are in the process of being deleted. Either the AWS account that owns the member deleted it, or the member is being deleted as the result of an APPROVED  PROPOSAL to remove the member.    DELETED - The member can no longer participate on the network and all associated resources are deleted. Either the AWS account that owns the member deleted it, or the member is being deleted as the result of an APPROVED  PROPOSAL to remove the member.    INACCESSIBLE_ENCRYPTION_KEY - The member is impaired and might not function as expected because it cannot access the specified customer managed key in AWS KMS for encryption at rest. Either the KMS key was disabled or deleted, or the grants on the key were revoked. The effect of disabling or deleting a key, or revoking a grant is not immediate. The member resource might take some time to find that the key is inaccessible. When a resource is in this state, we recommend deleting and recreating the resource.
+        /// The status of a member.    CREATING - The Amazon Web Services account is in the process of creating a member.    AVAILABLE - The member has been created and can participate in the network.    CREATE_FAILED - The Amazon Web Services account attempted to create a member and creation failed.    UPDATING - The member is in the process of being updated.    DELETING - The member and all associated resources are in the process of being deleted. Either the Amazon Web Services account that owns the member deleted it, or the member is being deleted as the result of an APPROVED  PROPOSAL to remove the member.    DELETED - The member can no longer participate on the network and all associated resources are deleted. Either the Amazon Web Services account that owns the member deleted it, or the member is being deleted as the result of an APPROVED  PROPOSAL to remove the member.    INACCESSIBLE_ENCRYPTION_KEY - The member is impaired and might not function as expected because it cannot access the specified customer managed key in KMS for encryption at rest. Either the KMS key was disabled or deleted, or the grants on the key were revoked. The effect of disabling or deleting a key or of revoking a grant isn't immediate. It might take some time for the member resource to discover that the key is inaccessible. When a resource is in this state, we recommend deleting and recreating the resource.
         public let status: MemberStatus?
         /// Tags assigned to the member. Tags consist of a key and optional value. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
         public let tags: [String: String]?
@@ -1094,7 +1308,7 @@ extension ManagedBlockchain {
         public let description: String?
         /// Configuration properties of the blockchain framework relevant to the member.
         public let frameworkConfiguration: MemberFrameworkConfiguration
-        /// The Amazon Resource Name (ARN) of the customer managed key in AWS Key Management Service (AWS KMS) to use for encryption at rest in the member. This parameter is inherited by any nodes that this member creates. Use one of the following options to specify this parameter:    Undefined or empty string - The member uses an AWS owned KMS key for encryption by default.    A valid symmetric customer managed KMS key - The member uses the specified key for encryption. Amazon Managed Blockchain doesn't support asymmetric keys. For more information, see Using symmetric and asymmetric keys in the AWS Key Management Service Developer Guide. The following is an example of a KMS key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+        /// The Amazon Resource Name (ARN) of the customer managed key in Key Management Service (KMS) to use for encryption at rest in the member. This parameter is inherited by any nodes that this member creates. For more information, see Encryption at Rest in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide. Use one of the following options to specify this parameter:    Undefined or empty string - By default, use an KMS key that is owned and managed by Amazon Web Services on your behalf.    A valid symmetric customer managed KMS key - Use the specified KMS key in your account that you create, own, and manage. Amazon Managed Blockchain doesn't support asymmetric keys. For more information, see Using symmetric and asymmetric keys in the Key Management Service Developer Guide. The following is an example of a KMS key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
         public let kmsKeyArn: String?
         /// Configuration properties for logging events associated with a member of a Managed Blockchain network.
         public let logPublishingConfiguration: MemberLogPublishingConfiguration?
@@ -1239,7 +1453,7 @@ extension ManagedBlockchain {
     }
 
     public struct MemberSummary: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the member. For more information about ARNs and their format, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        /// The Amazon Resource Name (ARN) of the member. For more information about ARNs and their format, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let arn: String?
         /// The date and time that the member was created.
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -1248,11 +1462,11 @@ extension ManagedBlockchain {
         public let description: String?
         /// The unique identifier of the member.
         public let id: String?
-        /// An indicator of whether the member is owned by your AWS account or a different AWS account.
+        /// An indicator of whether the member is owned by your Amazon Web Services account or a different Amazon Web Services account.
         public let isOwned: Bool?
         /// The name of the member.
         public let name: String?
-        /// The status of the member.    CREATING - The AWS account is in the process of creating a member.    AVAILABLE - The member has been created and can participate in the network.    CREATE_FAILED - The AWS account attempted to create a member and creation failed.    UPDATING - The member is in the process of being updated.    DELETING - The member and all associated resources are in the process of being deleted. Either the AWS account that owns the member deleted it, or the member is being deleted as the result of an APPROVED  PROPOSAL to remove the member.    DELETED - The member can no longer participate on the network and all associated resources are deleted. Either the AWS account that owns the member deleted it, or the member is being deleted as the result of an APPROVED  PROPOSAL to remove the member.    INACCESSIBLE_ENCRYPTION_KEY - The member is impaired and might not function as expected because it cannot access the specified customer managed key in AWS Key Management Service (AWS KMS) for encryption at rest. Either the KMS key was disabled or deleted, or the grants on the key were revoked. The effect of disabling or deleting a key, or revoking a grant is not immediate. The member resource might take some time to find that the key is inaccessible. When a resource is in this state, we recommend deleting and recreating the resource.
+        /// The status of the member.    CREATING - The Amazon Web Services account is in the process of creating a member.    AVAILABLE - The member has been created and can participate in the network.    CREATE_FAILED - The Amazon Web Services account attempted to create a member and creation failed.    UPDATING - The member is in the process of being updated.    DELETING - The member and all associated resources are in the process of being deleted. Either the Amazon Web Services account that owns the member deleted it, or the member is being deleted as the result of an APPROVED  PROPOSAL to remove the member.    DELETED - The member can no longer participate on the network and all associated resources are deleted. Either the Amazon Web Services account that owns the member deleted it, or the member is being deleted as the result of an APPROVED  PROPOSAL to remove the member.    INACCESSIBLE_ENCRYPTION_KEY - The member is impaired and might not function as expected because it cannot access the specified customer managed key in Key Management Service (KMS) for encryption at rest. Either the KMS key was disabled or deleted, or the grants on the key were revoked. The effect of disabling or deleting a key or of revoking a grant isn't immediate. It might take some time for the member resource to discover that the key is inaccessible. When a resource is in this state, we recommend deleting and recreating the resource.
         public let status: MemberStatus?
 
         public init(arn: String? = nil, creationDate: Date? = nil, description: String? = nil, id: String? = nil, isOwned: Bool? = nil, name: String? = nil, status: MemberStatus? = nil) {
@@ -1277,7 +1491,7 @@ extension ManagedBlockchain {
     }
 
     public struct Network: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the network. For more information about ARNs and their format, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        /// The Amazon Resource Name (ARN) of the network. For more information about ARNs and their format, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let arn: String?
         /// The date and time that the network was created.
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -1408,7 +1622,7 @@ extension ManagedBlockchain {
     }
 
     public struct NetworkSummary: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the network. For more information about ARNs and their format, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        /// The Amazon Resource Name (ARN) of the network. For more information about ARNs and their format, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let arn: String?
         /// The date and time that the network was created.
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -1450,7 +1664,7 @@ extension ManagedBlockchain {
     }
 
     public struct Node: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the node. For more information about ARNs and their format, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        /// The Amazon Resource Name (ARN) of the node. For more information about ARNs and their format, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let arn: String?
         /// The Availability Zone in which the node exists. Required for Ethereum nodes.
         public let availabilityZone: String?
@@ -1463,7 +1677,7 @@ extension ManagedBlockchain {
         public let id: String?
         /// The instance type of the node.
         public let instanceType: String?
-        /// The Amazon Resource Name (ARN) of the customer managed key in AWS Key Management Service (AWS KMS) that the node uses for encryption at rest. If the value of this parameter is "AWS Owned KMS Key", the node uses an AWS owned KMS key for encryption. The node inherits this parameter from the member that it belongs to. Applies only to Hyperledger Fabric.
+        /// The Amazon Resource Name (ARN) of the customer managed key in Key Management Service (KMS) that the node uses for encryption at rest. If the value of this parameter is "AWS Owned KMS Key", the node uses an Amazon Web Services owned KMS key for encryption. The node inherits this parameter from the member that it belongs to. For more information, see Encryption at Rest in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide. Applies only to Hyperledger Fabric.
         public let kmsKeyArn: String?
         /// Configuration properties for logging events associated with a peer node on a Hyperledger Fabric network on Managed Blockchain.
         public let logPublishingConfiguration: NodeLogPublishingConfiguration?
@@ -1473,7 +1687,7 @@ extension ManagedBlockchain {
         public let networkId: String?
         /// The state database that the node uses. Values are LevelDB or CouchDB. Applies only to Hyperledger Fabric.
         public let stateDB: StateDBType?
-        /// The status of the node.    CREATING - The AWS account is in the process of creating a node.    AVAILABLE - The node has been created and can participate in the network.    UNHEALTHY - The node is impaired and might not function as expected. Amazon Managed Blockchain automatically finds nodes in this state and tries to recover them. If a node is recoverable, it returns to AVAILABLE. Otherwise, it moves to FAILED status.    CREATE_FAILED - The AWS account attempted to create a node and creation failed.    UPDATING - The node is in the process of being updated.    DELETING - The node is in the process of being deleted.    DELETED - The node can no longer participate on the network.    FAILED - The node is no longer functional, cannot be recovered, and must be deleted.    INACCESSIBLE_ENCRYPTION_KEY - The node is impaired and might not function as expected because it cannot access the specified customer managed key in AWS KMS for encryption at rest. Either the KMS key was disabled or deleted, or the grants on the key were revoked. The effect of disabling or deleting a key, or revoking a grant is not immediate. The node resource might take some time to find that the key is inaccessible. When a resource is in this state, we recommend deleting and recreating the resource.
+        /// The status of the node.    CREATING - The Amazon Web Services account is in the process of creating a node.    AVAILABLE - The node has been created and can participate in the network.    UNHEALTHY - The node is impaired and might not function as expected. Amazon Managed Blockchain automatically finds nodes in this state and tries to recover them. If a node is recoverable, it returns to AVAILABLE. Otherwise, it moves to FAILED status.    CREATE_FAILED - The Amazon Web Services account attempted to create a node and creation failed.    UPDATING - The node is in the process of being updated.    DELETING - The node is in the process of being deleted.    DELETED - The node can no longer participate on the network.    FAILED - The node is no longer functional, cannot be recovered, and must be deleted.    INACCESSIBLE_ENCRYPTION_KEY - The node is impaired and might not function as expected because it cannot access the specified customer managed key in KMS for encryption at rest. Either the KMS key was disabled or deleted, or the grants on the key were revoked. The effect of disabling or deleting a key or of revoking a grant isn't immediate. It might take some time for the node resource to discover that the key is inaccessible. When a resource is in this state, we recommend deleting and recreating the resource.
         public let status: NodeStatus?
         /// Tags assigned to the node. Each tag consists of a key and optional value. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer Guide, or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
         public let tags: [String: String]?
@@ -1537,7 +1751,7 @@ extension ManagedBlockchain {
     }
 
     public struct NodeEthereumAttributes: AWSDecodableShape {
-        /// The endpoint on which the Ethereum node listens to run Ethereum JSON-RPC methods over HTTP connections from a client. Use this endpoint in client code for smart contracts when using an HTTP connection. Connections to this endpoint are authenticated using Signature Version 4.
+        /// The endpoint on which the Ethereum node listens to run Ethereum API methods over HTTP connections from a client. Use this endpoint in client code for smart contracts when using an HTTP connection. Connections to this endpoint are authenticated using Signature Version 4.
         public let httpEndpoint: String?
         /// The endpoint on which the Ethereum node listens to run Ethereum JSON-RPC methods over WebSockets connections from a client. Use this endpoint in client code for smart contracts when using a WebSockets connection. Connections to this endpoint are authenticated using Signature Version 4.
         public let webSocketEndpoint: String?
@@ -1618,7 +1832,7 @@ extension ManagedBlockchain {
     }
 
     public struct NodeSummary: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the node. For more information about ARNs and their format, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        /// The Amazon Resource Name (ARN) of the node. For more information about ARNs and their format, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let arn: String?
         /// The Availability Zone in which the node exists.
         public let availabilityZone: String?
@@ -1654,14 +1868,14 @@ extension ManagedBlockchain {
     public struct Proposal: AWSDecodableShape {
         /// The actions to perform on the network if the proposal is APPROVED.
         public let actions: ProposalActions?
-        /// The Amazon Resource Name (ARN) of the proposal. For more information about ARNs and their format, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        /// The Amazon Resource Name (ARN) of the proposal. For more information about ARNs and their format, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let arn: String?
         ///  The date and time that the proposal was created.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var creationDate: Date?
         /// The description of the proposal.
         public let description: String?
-        ///  The date and time that the proposal expires. This is the CreationDate plus the ProposalDurationInHours that is specified in the ProposalThresholdPolicy. After this date and time, if members have not cast enough votes to determine the outcome according to the voting policy, the proposal is EXPIRED and Actions are not carried out.
+        ///  The date and time that the proposal expires. This is the CreationDate plus the ProposalDurationInHours that is specified in the ProposalThresholdPolicy. After this date and time, if members haven't cast enough votes to determine the outcome according to the voting policy, the proposal is EXPIRED and Actions aren't carried out.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var expirationDate: Date?
         /// The unique identifier of the network for which the proposal is made.
@@ -1676,7 +1890,7 @@ extension ManagedBlockchain {
         public let proposedByMemberId: String?
         /// The name of the member that created the proposal.
         public let proposedByMemberName: String?
-        /// The status of the proposal. Values are as follows:    IN_PROGRESS - The proposal is active and open for member voting.    APPROVED - The proposal was approved with sufficient YES votes among members according to the VotingPolicy specified for the Network. The specified proposal actions are carried out.    REJECTED - The proposal was rejected with insufficient YES votes among members according to the VotingPolicy specified for the Network. The specified ProposalActions are not carried out.    EXPIRED - Members did not cast the number of votes required to determine the proposal outcome before the proposal expired. The specified ProposalActions are not carried out.    ACTION_FAILED - One or more of the specified ProposalActions in a proposal that was approved could not be completed because of an error. The ACTION_FAILED status occurs even if only one ProposalAction fails and other actions are successful.
+        /// The status of the proposal. Values are as follows:    IN_PROGRESS - The proposal is active and open for member voting.    APPROVED - The proposal was approved with sufficient YES votes among members according to the VotingPolicy specified for the Network. The specified proposal actions are carried out.    REJECTED - The proposal was rejected with insufficient YES votes among members according to the VotingPolicy specified for the Network. The specified ProposalActions aren't carried out.    EXPIRED - Members didn't cast the number of votes required to determine the proposal outcome before the proposal expired. The specified ProposalActions aren't carried out.    ACTION_FAILED - One or more of the specified ProposalActions in a proposal that was approved couldn't be completed because of an error. The ACTION_FAILED status occurs even if only one ProposalAction fails and other actions are successful.
         public let status: ProposalStatus?
         /// Tags assigned to the proposal. Each tag consists of a key and optional value. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer Guide, or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
         public let tags: [String: String]?
@@ -1719,7 +1933,7 @@ extension ManagedBlockchain {
     }
 
     public struct ProposalActions: AWSEncodableShape & AWSDecodableShape {
-        ///  The actions to perform for an APPROVED proposal to invite an AWS account to create a member and join the network.
+        ///  The actions to perform for an APPROVED proposal to invite an Amazon Web Services account to create a member and join the network.
         public let invitations: [InviteAction]?
         ///  The actions to perform for an APPROVED proposal to remove a member from the network, which deletes the member and all associated member resources from the network.
         public let removals: [RemoveAction]?
@@ -1742,14 +1956,14 @@ extension ManagedBlockchain {
     }
 
     public struct ProposalSummary: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the proposal. For more information about ARNs and their format, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        /// The Amazon Resource Name (ARN) of the proposal. For more information about ARNs and their format, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let arn: String?
         ///  The date and time that the proposal was created.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var creationDate: Date?
         ///  The description of the proposal.
         public let description: String?
-        ///  The date and time that the proposal expires. This is the CreationDate plus the ProposalDurationInHours that is specified in the ProposalThresholdPolicy.  After this date and time, if members have not cast enough votes to determine the outcome according to the voting policy, the proposal is EXPIRED and Actions are not carried out.
+        ///  The date and time that the proposal expires. This is the CreationDate plus the ProposalDurationInHours that is specified in the ProposalThresholdPolicy.  After this date and time, if members haven't cast enough votes to determine the outcome according to the voting policy, the proposal is EXPIRED and Actions aren't carried out.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var expirationDate: Date?
         ///  The unique identifier of the proposal.
@@ -1758,7 +1972,7 @@ extension ManagedBlockchain {
         public let proposedByMemberId: String?
         ///  The name of the member that created the proposal.
         public let proposedByMemberName: String?
-        /// The status of the proposal. Values are as follows:    IN_PROGRESS - The proposal is active and open for member voting.    APPROVED - The proposal was approved with sufficient YES votes among members according to the VotingPolicy specified for the Network. The specified proposal actions are carried out.    REJECTED - The proposal was rejected with insufficient YES votes among members according to the VotingPolicy specified for the Network. The specified ProposalActions are not carried out.    EXPIRED - Members did not cast the number of votes required to determine the proposal outcome before the proposal expired. The specified ProposalActions are not carried out.    ACTION_FAILED - One or more of the specified ProposalActions in a proposal that was approved could not be completed because of an error.
+        /// The status of the proposal. Values are as follows:    IN_PROGRESS - The proposal is active and open for member voting.    APPROVED - The proposal was approved with sufficient YES votes among members according to the VotingPolicy specified for the Network. The specified proposal actions are carried out.    REJECTED - The proposal was rejected with insufficient YES votes among members according to the VotingPolicy specified for the Network. The specified ProposalActions aren't carried out.    EXPIRED - Members didn't cast the number of votes required to determine the proposal outcome before the proposal expired. The specified ProposalActions aren't carried out.    ACTION_FAILED - One or more of the specified ProposalActions in a proposal that was approved couldn't be completed because of an error.
         public let status: ProposalStatus?
 
         public init(arn: String? = nil, creationDate: Date? = nil, description: String? = nil, expirationDate: Date? = nil, proposalId: String? = nil, proposedByMemberId: String? = nil, proposedByMemberName: String? = nil, status: ProposalStatus? = nil) {
@@ -1831,7 +2045,7 @@ extension ManagedBlockchain {
             AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
-        /// The Amazon Resource Name (ARN) of the resource. For more information about ARNs and their format, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        /// The Amazon Resource Name (ARN) of the resource. For more information about ARNs and their format, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let resourceArn: String
         /// The tags to assign to the specified resource. Tag values can be empty, for example, "MyTagKey" : "". You can specify multiple key-value pairs in a single request, with an overall maximum of 50 tags added to each resource.
         public let tags: [String: String]
@@ -1868,7 +2082,7 @@ extension ManagedBlockchain {
             AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
-        /// The Amazon Resource Name (ARN) of the resource. For more information about ARNs and their format, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        /// The Amazon Resource Name (ARN) of the resource. For more information about ARNs and their format, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let resourceArn: String
         /// The tag keys.
         public let tagKeys: [String]

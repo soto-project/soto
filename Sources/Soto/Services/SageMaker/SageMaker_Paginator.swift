@@ -1345,6 +1345,59 @@ extension SageMaker {
         )
     }
 
+    ///  Returns a list of the subtasks for an Inference Recommender job. The supported subtasks are benchmarks, which evaluate the performance of your model on different instance types.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listInferenceRecommendationsJobStepsPaginator<Result>(
+        _ input: ListInferenceRecommendationsJobStepsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListInferenceRecommendationsJobStepsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listInferenceRecommendationsJobSteps,
+            inputKey: \ListInferenceRecommendationsJobStepsRequest.nextToken,
+            outputKey: \ListInferenceRecommendationsJobStepsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listInferenceRecommendationsJobStepsPaginator(
+        _ input: ListInferenceRecommendationsJobStepsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListInferenceRecommendationsJobStepsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listInferenceRecommendationsJobSteps,
+            inputKey: \ListInferenceRecommendationsJobStepsRequest.nextToken,
+            outputKey: \ListInferenceRecommendationsJobStepsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Lists recommendation jobs that satisfy various filters.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -3571,6 +3624,18 @@ extension SageMaker.ListImagesRequest: AWSPaginateToken {
             nextToken: token,
             sortBy: self.sortBy,
             sortOrder: self.sortOrder
+        )
+    }
+}
+
+extension SageMaker.ListInferenceRecommendationsJobStepsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListInferenceRecommendationsJobStepsRequest {
+        return .init(
+            jobName: self.jobName,
+            maxResults: self.maxResults,
+            nextToken: token,
+            status: self.status,
+            stepType: self.stepType
         )
     }
 }

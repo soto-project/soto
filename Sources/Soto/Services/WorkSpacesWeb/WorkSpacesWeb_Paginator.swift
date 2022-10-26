@@ -338,6 +338,59 @@ extension WorkSpacesWeb {
         )
     }
 
+    ///  Retrieves a list of user access logging settings.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listUserAccessLoggingSettingsPaginator<Result>(
+        _ input: ListUserAccessLoggingSettingsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListUserAccessLoggingSettingsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listUserAccessLoggingSettings,
+            inputKey: \ListUserAccessLoggingSettingsRequest.nextToken,
+            outputKey: \ListUserAccessLoggingSettingsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listUserAccessLoggingSettingsPaginator(
+        _ input: ListUserAccessLoggingSettingsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListUserAccessLoggingSettingsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listUserAccessLoggingSettings,
+            inputKey: \ListUserAccessLoggingSettingsRequest.nextToken,
+            outputKey: \ListUserAccessLoggingSettingsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Retrieves a list of user settings.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -441,6 +494,15 @@ extension WorkSpacesWeb.ListTrustStoreCertificatesRequest: AWSPaginateToken {
 
 extension WorkSpacesWeb.ListTrustStoresRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> WorkSpacesWeb.ListTrustStoresRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension WorkSpacesWeb.ListUserAccessLoggingSettingsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> WorkSpacesWeb.ListUserAccessLoggingSettingsRequest {
         return .init(
             maxResults: self.maxResults,
             nextToken: token

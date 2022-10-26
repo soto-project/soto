@@ -287,7 +287,7 @@ public struct ChimeSDKMessaging: AWSService {
         return self.client.execute(operation: "RedactChannelMessage", path: "/channels/{ChannelArn}/messages/{MessageId}?operation=redact", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Allows an AppInstanceUser to search the channels that they belong to. The AppInstanceUser can search by membership or external ID.  An AppInstanceAdmin can search across all channels within the AppInstance.
+    /// Allows ChimeBearer to search channels by channel members. AppInstanceUsers can search across the channels that they belong to. AppInstanceAdmins can search across all channels.
     public func searchChannels(_ input: SearchChannelsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchChannelsResponse> {
         return self.client.execute(operation: "SearchChannels", path: "/channels?operation=search", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

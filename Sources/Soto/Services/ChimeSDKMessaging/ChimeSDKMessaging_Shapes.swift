@@ -86,8 +86,8 @@ extension ChimeSDKMessaging {
     }
 
     public enum FallbackAction: String, CustomStringConvertible, Codable, _SotoSendable {
-        case abort = "ABORT"
         case `continue` = "CONTINUE"
+        case abort = "ABORT"
         public var description: String { return self.rawValue }
     }
 
@@ -457,9 +457,9 @@ extension ChimeSDKMessaging {
         /// Stores information about the processed message.
         public let channelMessage: ChannelMessageCallback
         /// When a processor determines that a message needs to be DENIED, pass this parameter with a value of true.
-        public let deleteResource: Bool?
+        public let deleteResource: Bool
 
-        public init(callbackId: String = ChannelFlowCallbackRequest.idempotencyToken(), channelArn: String, channelMessage: ChannelMessageCallback, deleteResource: Bool? = nil) {
+        public init(callbackId: String = ChannelFlowCallbackRequest.idempotencyToken(), channelArn: String, channelMessage: ChannelMessageCallback, deleteResource: Bool = false) {
             self.callbackId = callbackId
             self.channelArn = channelArn
             self.channelMessage = channelMessage
@@ -846,7 +846,7 @@ extension ChimeSDKMessaging {
     public struct ChannelSummary: AWSDecodableShape {
         /// The ARN of the channel.
         public let channelArn: String?
-        /// The time at which the last message in a channel was sent.
+        /// The time at which the last persistent message in a channel was sent.
         public let lastMessageTimestamp: Date?
         /// The metadata of the channel.
         public let metadata: String?

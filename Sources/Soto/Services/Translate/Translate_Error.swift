@@ -79,10 +79,11 @@ public struct TranslateErrorType: AWSErrorType {
     public static var textSizeLimitExceededException: Self { .init(.textSizeLimitExceededException) }
     ///  You have made too many requests within a short period of time. Wait for a short time and then try your request again.
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
+    /// You have added too many tags to this resource. The maximum is 50 tags.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
     /// Requested display language code is not supported.
     public static var unsupportedDisplayLanguageCodeException: Self { .init(.unsupportedDisplayLanguageCodeException) }
-    /// Amazon Translate does not support translation from the language of the source text into the requested target language. For more information, see how-to-error-msg.
+    /// Amazon Translate does not support translation from the language of the source text into the requested target language. For more information, see Error messages.
     public static var unsupportedLanguagePairException: Self { .init(.unsupportedLanguagePairException) }
 }
 

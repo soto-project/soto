@@ -23,7 +23,7 @@ import SotoCore
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension GuardDuty {
-    ///  Returns a list of malware scans.
+    ///  Returns a list of malware scans. Each member account can view the malware scans for their  own accounts. An administrator can view the malware scans for all the member accounts.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

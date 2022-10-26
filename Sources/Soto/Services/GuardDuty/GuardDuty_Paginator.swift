@@ -20,7 +20,7 @@ import SotoCore
 // MARK: Paginators
 
 extension GuardDuty {
-    ///  Returns a list of malware scans.
+    ///  Returns a list of malware scans. Each member account can view the malware scans for their  own accounts. An administrator can view the malware scans for all the member accounts.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

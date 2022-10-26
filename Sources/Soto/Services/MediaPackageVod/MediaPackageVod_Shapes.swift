@@ -45,6 +45,29 @@ extension MediaPackageVod {
         public var description: String { return self.rawValue }
     }
 
+    public enum PresetSpeke20Audio: String, CustomStringConvertible, Codable, _SotoSendable {
+        case presetAudio1 = "PRESET-AUDIO-1"
+        case presetAudio2 = "PRESET-AUDIO-2"
+        case presetAudio3 = "PRESET-AUDIO-3"
+        case shared = "SHARED"
+        case unencrypted = "UNENCRYPTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PresetSpeke20Video: String, CustomStringConvertible, Codable, _SotoSendable {
+        case presetVideo1 = "PRESET-VIDEO-1"
+        case presetVideo2 = "PRESET-VIDEO-2"
+        case presetVideo3 = "PRESET-VIDEO-3"
+        case presetVideo4 = "PRESET-VIDEO-4"
+        case presetVideo5 = "PRESET-VIDEO-5"
+        case presetVideo6 = "PRESET-VIDEO-6"
+        case presetVideo7 = "PRESET-VIDEO-7"
+        case presetVideo8 = "PRESET-VIDEO-8"
+        case shared = "SHARED"
+        case unencrypted = "UNENCRYPTED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Profile: String, CustomStringConvertible, Codable, _SotoSendable {
         case hbbtv15 = "HBBTV_1_5"
         case none = "NONE"
@@ -742,6 +765,23 @@ extension MediaPackageVod {
         }
     }
 
+    public struct EncryptionContractConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// A collection of audio encryption presets.
+        public let presetSpeke20Audio: PresetSpeke20Audio
+        /// A collection of video encryption presets.
+        public let presetSpeke20Video: PresetSpeke20Video
+
+        public init(presetSpeke20Audio: PresetSpeke20Audio, presetSpeke20Video: PresetSpeke20Video) {
+            self.presetSpeke20Audio = presetSpeke20Audio
+            self.presetSpeke20Video = presetSpeke20Video
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case presetSpeke20Audio
+            case presetSpeke20Video
+        }
+    }
+
     public struct HlsEncryption: AWSEncodableShape & AWSDecodableShape {
         /// A constant initialization vector for encryption (optional).
         /// When not specified the initialization vector will be periodically rotated.
@@ -845,13 +885,13 @@ extension MediaPackageVod {
         ]
 
         /// Upper bound on number of records to return.
-        public let maxResults: Int?
+        public let maxResults: Int
         /// A token used to resume pagination from the end of a previous request.
         public let nextToken: String?
         /// Returns Assets associated with the specified PackagingGroup.
         public let packagingGroupId: String?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil, packagingGroupId: String? = nil) {
+        public init(maxResults: Int = 0, nextToken: String? = nil, packagingGroupId: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.packagingGroupId = packagingGroupId
@@ -890,13 +930,13 @@ extension MediaPackageVod {
         ]
 
         /// Upper bound on number of records to return.
-        public let maxResults: Int?
+        public let maxResults: Int
         /// A token used to resume pagination from the end of a previous request.
         public let nextToken: String?
         /// Returns MediaPackage VOD PackagingConfigurations associated with the specified PackagingGroup.
         public let packagingGroupId: String?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil, packagingGroupId: String? = nil) {
+        public init(maxResults: Int = 0, nextToken: String? = nil, packagingGroupId: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.packagingGroupId = packagingGroupId
@@ -934,11 +974,11 @@ extension MediaPackageVod {
         ]
 
         /// Upper bound on number of records to return.
-        public let maxResults: Int?
+        public let maxResults: Int
         /// A token used to resume pagination from the end of a previous request.
         public let nextToken: String?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int = 0, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -1111,6 +1151,7 @@ extension MediaPackageVod {
     }
 
     public struct SpekeKeyProvider: AWSEncodableShape & AWSDecodableShape {
+        public let encryptionContractConfiguration: EncryptionContractConfiguration?
         /// An Amazon Resource Name (ARN) of an IAM role that AWS Elemental
         /// MediaPackage will assume when accessing the key provider service.
         public let roleArn: String
@@ -1119,13 +1160,15 @@ extension MediaPackageVod {
         /// The URL of the external key provider service.
         public let url: String
 
-        public init(roleArn: String, systemIds: [String], url: String) {
+        public init(encryptionContractConfiguration: EncryptionContractConfiguration? = nil, roleArn: String, systemIds: [String], url: String) {
+            self.encryptionContractConfiguration = encryptionContractConfiguration
             self.roleArn = roleArn
             self.systemIds = systemIds
             self.url = url
         }
 
         private enum CodingKeys: String, CodingKey {
+            case encryptionContractConfiguration
             case roleArn
             case systemIds
             case url

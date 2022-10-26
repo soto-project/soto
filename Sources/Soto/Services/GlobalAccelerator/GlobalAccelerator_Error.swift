@@ -38,6 +38,7 @@ public struct GlobalAcceleratorErrorType: AWSErrorType {
         case invalidPortRangeException = "InvalidPortRangeException"
         case limitExceededException = "LimitExceededException"
         case listenerNotFoundException = "ListenerNotFoundException"
+        case transactionInProgressException = "TransactionInProgressException"
     }
 
     private let error: Code
@@ -97,6 +98,8 @@ public struct GlobalAcceleratorErrorType: AWSErrorType {
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// The listener that you specified doesn't exist.
     public static var listenerNotFoundException: Self { .init(.listenerNotFoundException) }
+    /// There's already a transaction in progress. Another transaction can't be processed.
+    public static var transactionInProgressException: Self { .init(.transactionInProgressException) }
 }
 
 extension GlobalAcceleratorErrorType: Equatable {

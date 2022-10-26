@@ -39,8 +39,8 @@ extension S3 {
     }
 
     public enum BucketCannedACL: String, CustomStringConvertible, Codable, _SotoSendable {
-        case authenticatedRead = "authenticated-read"
         case `private`
+        case authenticatedRead = "authenticated-read"
         case publicRead = "public-read"
         case publicReadWrite = "public-read-write"
         public var description: String { return self.rawValue }
@@ -53,7 +53,6 @@ extension S3 {
             self.rawValue = rawValue
         }
 
-        public static var eu: Self { .init(rawValue: "EU") }
         public static var afSouth1: Self { .init(rawValue: "af-south-1") }
         public static var apEast1: Self { .init(rawValue: "ap-east-1") }
         public static var apNortheast1: Self { .init(rawValue: "ap-northeast-1") }
@@ -62,9 +61,11 @@ extension S3 {
         public static var apSouth1: Self { .init(rawValue: "ap-south-1") }
         public static var apSoutheast1: Self { .init(rawValue: "ap-southeast-1") }
         public static var apSoutheast2: Self { .init(rawValue: "ap-southeast-2") }
+        public static var apSoutheast3: Self { .init(rawValue: "ap-southeast-3") }
         public static var caCentral1: Self { .init(rawValue: "ca-central-1") }
         public static var cnNorth1: Self { .init(rawValue: "cn-north-1") }
         public static var cnNorthwest1: Self { .init(rawValue: "cn-northwest-1") }
+        public static var eu: Self { .init(rawValue: "EU") }
         public static var euCentral1: Self { .init(rawValue: "eu-central-1") }
         public static var euNorth1: Self { .init(rawValue: "eu-north-1") }
         public static var euSouth1: Self { .init(rawValue: "eu-south-1") }
@@ -266,7 +267,7 @@ extension S3 {
 
     public enum ObjectAttributes: String, CustomStringConvertible, Codable, _SotoSendable {
         case checksum = "Checksum"
-        case eTag = "ETag"
+        case etag = "ETag"
         case objectParts = "ObjectParts"
         case objectSize = "ObjectSize"
         case storageClass = "StorageClass"
@@ -274,11 +275,11 @@ extension S3 {
     }
 
     public enum ObjectCannedACL: String, CustomStringConvertible, Codable, _SotoSendable {
+        case `private`
         case authenticatedRead = "authenticated-read"
         case awsExecRead = "aws-exec-read"
         case bucketOwnerFullControl = "bucket-owner-full-control"
         case bucketOwnerRead = "bucket-owner-read"
-        case `private`
         case publicRead = "public-read"
         case publicReadWrite = "public-read-write"
         public var description: String { return self.rawValue }
@@ -1071,7 +1072,7 @@ extension S3 {
 
     public struct CSVInput: AWSEncodableShape {
         /// Specifies that CSV field values may contain quoted record delimiters and such records should be allowed. Default value is FALSE. Setting this value to TRUE may lower performance.
-        public let allowQuotedRecordDelimiter: Bool?
+        public let allowQuotedRecordDelimiter: Bool
         /// A single character used to indicate that a row should be ignored when the character is present at the start of that row. You can specify any character to indicate a comment line.
         public let comments: String?
         /// A single character used to separate individual fields in a record. You can specify an arbitrary delimiter.
@@ -1085,7 +1086,7 @@ extension S3 {
         /// A single character used to separate individual records in the input. Instead of the default value, you can specify an arbitrary delimiter.
         public let recordDelimiter: String?
 
-        public init(allowQuotedRecordDelimiter: Bool? = nil, comments: String? = nil, fieldDelimiter: String? = nil, fileHeaderInfo: FileHeaderInfo? = nil, quoteCharacter: String? = nil, quoteEscapeCharacter: String? = nil, recordDelimiter: String? = nil) {
+        public init(allowQuotedRecordDelimiter: Bool = false, comments: String? = nil, fieldDelimiter: String? = nil, fileHeaderInfo: FileHeaderInfo? = nil, quoteCharacter: String? = nil, quoteEscapeCharacter: String? = nil, recordDelimiter: String? = nil) {
             self.allowQuotedRecordDelimiter = allowQuotedRecordDelimiter
             self.comments = comments
             self.fieldDelimiter = fieldDelimiter
@@ -1341,9 +1342,9 @@ extension S3 {
         /// Entity tag returned when the part was uploaded.
         public let eTag: String?
         /// Part number that identifies the part. This is a positive integer between 1 and 10,000.
-        public let partNumber: Int?
+        public let partNumber: Int
 
-        public init(checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, eTag: String? = nil, partNumber: Int? = nil) {
+        public init(checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, eTag: String? = nil, partNumber: Int = 0) {
             self.checksumCRC32 = checksumCRC32
             self.checksumCRC32C = checksumCRC32C
             self.checksumSHA1 = checksumSHA1
@@ -1501,7 +1502,7 @@ extension S3 {
         /// The name of the destination bucket. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide. When using this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see Using Amazon S3 on Outposts in the Amazon S3 User Guide.
         public let bucket: String
         /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using AWS KMS (SSE-KMS). Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS.  Specifying this header with a COPY action doesn’t affect bucket-level settings for S3 Bucket Key.
-        public let bucketKeyEnabled: Bool?
+        public let bucketKeyEnabled: Bool
         /// Specifies caching behavior along the request/reply chain.
         public let cacheControl: String?
         /// Indicates the algorithm you want Amazon S3 to use to create the checksum for the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
@@ -1582,7 +1583,7 @@ extension S3 {
         /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
         public let websiteRedirectLocation: String?
 
-        public init(acl: ObjectCannedACL? = nil, bucket: String, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumAlgorithm: ChecksumAlgorithm? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentType: String? = nil, copySource: String, copySourceIfMatch: String? = nil, copySourceIfModifiedSince: Date? = nil, copySourceIfNoneMatch: String? = nil, copySourceIfUnmodifiedSince: Date? = nil, copySourceSSECustomerAlgorithm: String? = nil, copySourceSSECustomerKey: String? = nil, copySourceSSECustomerKeyMD5: String? = nil, expectedBucketOwner: String? = nil, expectedSourceBucketOwner: String? = nil, expires: Date? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, key: String, metadata: [String: String]? = nil, metadataDirective: MetadataDirective? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsEncryptionContext: String? = nil, ssekmsKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, taggingDirective: TaggingDirective? = nil, websiteRedirectLocation: String? = nil) {
+        public init(acl: ObjectCannedACL? = nil, bucket: String, bucketKeyEnabled: Bool = false, cacheControl: String? = nil, checksumAlgorithm: ChecksumAlgorithm? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentType: String? = nil, copySource: String, copySourceIfMatch: String? = nil, copySourceIfModifiedSince: Date? = nil, copySourceIfNoneMatch: String? = nil, copySourceIfUnmodifiedSince: Date? = nil, copySourceSSECustomerAlgorithm: String? = nil, copySourceSSECustomerKey: String? = nil, copySourceSSECustomerKeyMD5: String? = nil, expectedBucketOwner: String? = nil, expectedSourceBucketOwner: String? = nil, expires: Date? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, key: String, metadata: [String: String]? = nil, metadataDirective: MetadataDirective? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsEncryptionContext: String? = nil, ssekmsKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, taggingDirective: TaggingDirective? = nil, websiteRedirectLocation: String? = nil) {
             self.acl = acl
             self.bucket = bucket
             self.bucketKeyEnabled = bucketKeyEnabled
@@ -1763,10 +1764,10 @@ extension S3 {
         /// Allows grantee to write the ACL for the applicable bucket.
         public let grantWriteACP: String?
         /// Specifies whether you want S3 Object Lock to be enabled for the new bucket.
-        public let objectLockEnabledForBucket: Bool?
+        public let objectLockEnabledForBucket: Bool
         public let objectOwnership: ObjectOwnership?
 
-        public init(acl: BucketCannedACL? = nil, bucket: String, createBucketConfiguration: CreateBucketConfiguration? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWrite: String? = nil, grantWriteACP: String? = nil, objectLockEnabledForBucket: Bool? = nil, objectOwnership: ObjectOwnership? = nil) {
+        public init(acl: BucketCannedACL? = nil, bucket: String, createBucketConfiguration: CreateBucketConfiguration? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWrite: String? = nil, grantWriteACP: String? = nil, objectLockEnabledForBucket: Bool = false, objectOwnership: ObjectOwnership? = nil) {
             self.acl = acl
             self.bucket = bucket
             self.createBucketConfiguration = createBucketConfiguration
@@ -1898,7 +1899,7 @@ extension S3 {
         /// The name of the bucket to which to initiate the upload When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide. When using this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see Using Amazon S3 on Outposts in the Amazon S3 User Guide.
         public let bucket: String
         /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using AWS KMS (SSE-KMS). Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS. Specifying this header with an object action doesn’t affect bucket-level settings for S3 Bucket Key.
-        public let bucketKeyEnabled: Bool?
+        public let bucketKeyEnabled: Bool
         /// Specifies caching behavior along the request/reply chain.
         public let cacheControl: String?
         /// Indicates the algorithm you want Amazon S3 to use to create the checksum for the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
@@ -1955,7 +1956,7 @@ extension S3 {
         /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
         public let websiteRedirectLocation: String?
 
-        public init(acl: ObjectCannedACL? = nil, bucket: String, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumAlgorithm: ChecksumAlgorithm? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentType: String? = nil, expectedBucketOwner: String? = nil, expires: Date? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, key: String, metadata: [String: String]? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsEncryptionContext: String? = nil, ssekmsKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, websiteRedirectLocation: String? = nil) {
+        public init(acl: ObjectCannedACL? = nil, bucket: String, bucketKeyEnabled: Bool = false, cacheControl: String? = nil, checksumAlgorithm: ChecksumAlgorithm? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentType: String? = nil, expectedBucketOwner: String? = nil, expires: Date? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, key: String, metadata: [String: String]? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsEncryptionContext: String? = nil, ssekmsKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, websiteRedirectLocation: String? = nil) {
             self.acl = acl
             self.bucket = bucket
             self.bucketKeyEnabled = bucketKeyEnabled
@@ -2020,9 +2021,9 @@ extension S3 {
         /// The objects to delete.
         public let objects: [ObjectIdentifier]
         /// Element to enable quiet mode for the request. When you add this element, you must set its value to true.
-        public let quiet: Bool?
+        public let quiet: Bool
 
-        public init(objects: [ObjectIdentifier], quiet: Bool? = nil) {
+        public init(objects: [ObjectIdentifier], quiet: Bool = false) {
             self.objects = objects
             self.quiet = quiet
         }
@@ -2380,7 +2381,7 @@ extension S3 {
         /// The bucket name of the bucket containing the object.  When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide. When using this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see Using Amazon S3 on Outposts in the Amazon S3 User Guide.
         public let bucket: String
         /// Indicates whether S3 Object Lock should bypass Governance-mode restrictions to process this operation. To use this header, you must have the s3:BypassGovernanceRetention permission.
-        public let bypassGovernanceRetention: Bool?
+        public let bypassGovernanceRetention: Bool
         /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
         public let expectedBucketOwner: String?
         /// Key name of the object to delete.
@@ -2391,7 +2392,7 @@ extension S3 {
         /// VersionId used to reference a specific version of the object.
         public let versionId: String?
 
-        public init(bucket: String, bypassGovernanceRetention: Bool? = nil, expectedBucketOwner: String? = nil, key: String, mfa: String? = nil, requestPayer: RequestPayer? = nil, versionId: String? = nil) {
+        public init(bucket: String, bypassGovernanceRetention: Bool = false, expectedBucketOwner: String? = nil, key: String, mfa: String? = nil, requestPayer: RequestPayer? = nil, versionId: String? = nil) {
             self.bucket = bucket
             self.bypassGovernanceRetention = bypassGovernanceRetention
             self.expectedBucketOwner = expectedBucketOwner
@@ -2497,7 +2498,7 @@ extension S3 {
         /// The bucket name containing the objects to delete.  When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide. When using this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see Using Amazon S3 on Outposts in the Amazon S3 User Guide.
         public let bucket: String
         /// Specifies whether you want to delete this object even if it has a Governance-type Object Lock in place. To use this header, you must have the s3:BypassGovernanceRetention permission.
-        public let bypassGovernanceRetention: Bool?
+        public let bypassGovernanceRetention: Bool
         /// Indicates the algorithm used to create the checksum for the object when using the SDK. This header will not provide any additional functionality if not using the SDK. When sending this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter. This checksum algorithm must be the same for all parts and it match the checksum value supplied in the CreateMultipartUpload request.
         public let checksumAlgorithm: ChecksumAlgorithm?
         /// Container for the request.
@@ -2508,7 +2509,7 @@ extension S3 {
         public let mfa: String?
         public let requestPayer: RequestPayer?
 
-        public init(bucket: String, bypassGovernanceRetention: Bool? = nil, checksumAlgorithm: ChecksumAlgorithm? = nil, delete: Delete, expectedBucketOwner: String? = nil, mfa: String? = nil, requestPayer: RequestPayer? = nil) {
+        public init(bucket: String, bypassGovernanceRetention: Bool = false, checksumAlgorithm: ChecksumAlgorithm? = nil, delete: Delete, expectedBucketOwner: String? = nil, mfa: String? = nil, requestPayer: RequestPayer? = nil) {
             self.bucket = bucket
             self.bypassGovernanceRetention = bypassGovernanceRetention
             self.checksumAlgorithm = checksumAlgorithm
@@ -3608,7 +3609,7 @@ extension S3 {
         /// The object key.
         public let key: String
         /// Sets the maximum number of parts to return.
-        public let maxParts: Int?
+        public let maxParts: Int
         /// An XML header that specifies the fields at the root level that you want returned in the response. Fields that you do not specify are not returned.
         public let objectAttributes: [ObjectAttributes]
         /// Specifies the part after which listing should begin. Only parts with higher part numbers will be listed.
@@ -3623,7 +3624,7 @@ extension S3 {
         /// The version ID used to reference a specific version of the object.
         public let versionId: String?
 
-        public init(bucket: String, expectedBucketOwner: String? = nil, key: String, maxParts: Int? = nil, objectAttributes: [ObjectAttributes], partNumberMarker: String? = nil, requestPayer: RequestPayer? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, versionId: String? = nil) {
+        public init(bucket: String, expectedBucketOwner: String? = nil, key: String, maxParts: Int = 0, objectAttributes: [ObjectAttributes], partNumberMarker: String? = nil, requestPayer: RequestPayer? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, versionId: String? = nil) {
             self.bucket = bucket
             self.expectedBucketOwner = expectedBucketOwner
             self.key = key
@@ -3977,7 +3978,7 @@ extension S3 {
         /// Key of the object to get.
         public let key: String
         /// Part number of the object being read. This is a positive integer between 1 and 10,000. Effectively performs a 'ranged' GET request for the part specified. Useful for downloading just a part of an object.
-        public let partNumber: Int?
+        public let partNumber: Int
         /// Downloads the specified range bytes of an object. For more information about the HTTP Range header, see https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35.  Amazon S3 doesn't support retrieving multiple ranges of data per GET request.
         public let range: String?
         public let requestPayer: RequestPayer?
@@ -4003,7 +4004,7 @@ extension S3 {
         /// VersionId used to reference a specific version of the object.
         public let versionId: String?
 
-        public init(bucket: String, checksumMode: ChecksumMode? = nil, expectedBucketOwner: String? = nil, ifMatch: String? = nil, ifModifiedSince: Date? = nil, ifNoneMatch: String? = nil, ifUnmodifiedSince: Date? = nil, key: String, partNumber: Int? = nil, range: String? = nil, requestPayer: RequestPayer? = nil, responseCacheControl: String? = nil, responseContentDisposition: String? = nil, responseContentEncoding: String? = nil, responseContentLanguage: String? = nil, responseContentType: String? = nil, responseExpires: Date? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, versionId: String? = nil) {
+        public init(bucket: String, checksumMode: ChecksumMode? = nil, expectedBucketOwner: String? = nil, ifMatch: String? = nil, ifModifiedSince: Date? = nil, ifNoneMatch: String? = nil, ifUnmodifiedSince: Date? = nil, key: String, partNumber: Int = 0, range: String? = nil, requestPayer: RequestPayer? = nil, responseCacheControl: String? = nil, responseContentDisposition: String? = nil, responseContentEncoding: String? = nil, responseContentLanguage: String? = nil, responseContentType: String? = nil, responseExpires: Date? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, versionId: String? = nil) {
             self.bucket = bucket
             self.checksumMode = checksumMode
             self.expectedBucketOwner = expectedBucketOwner
@@ -4543,7 +4544,7 @@ extension S3 {
         /// The object key.
         public let key: String
         /// Part number of the object being read. This is a positive integer between 1 and 10,000. Effectively performs a 'ranged' HEAD request for the part specified. Useful querying about the size of the part and the number of parts in this object.
-        public let partNumber: Int?
+        public let partNumber: Int
         /// Because HeadObject returns only the metadata for an object, this parameter has no effect.
         public let range: String?
         public let requestPayer: RequestPayer?
@@ -4556,7 +4557,7 @@ extension S3 {
         /// VersionId used to reference a specific version of the object.
         public let versionId: String?
 
-        public init(bucket: String, checksumMode: ChecksumMode? = nil, expectedBucketOwner: String? = nil, ifMatch: String? = nil, ifModifiedSince: Date? = nil, ifNoneMatch: String? = nil, ifUnmodifiedSince: Date? = nil, key: String, partNumber: Int? = nil, range: String? = nil, requestPayer: RequestPayer? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, versionId: String? = nil) {
+        public init(bucket: String, checksumMode: ChecksumMode? = nil, expectedBucketOwner: String? = nil, ifMatch: String? = nil, ifModifiedSince: Date? = nil, ifNoneMatch: String? = nil, ifUnmodifiedSince: Date? = nil, key: String, partNumber: Int = 0, range: String? = nil, requestPayer: RequestPayer? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, versionId: String? = nil) {
             self.bucket = bucket
             self.checksumMode = checksumMode
             self.expectedBucketOwner = expectedBucketOwner
@@ -5289,13 +5290,13 @@ extension S3 {
         ///  If upload-id-marker is specified, any multipart uploads for a key equal to the key-marker might also be included, provided those multipart uploads have upload IDs lexicographically greater than the specified upload-id-marker.
         public let keyMarker: String?
         /// Sets the maximum number of multipart uploads, from 1 to 1,000, to return in the response body. 1,000 is the maximum number of uploads that can be returned in a response.
-        public let maxUploads: Int?
+        public let maxUploads: Int
         /// Lists in-progress uploads only for those keys that begin with the specified prefix. You can use prefixes to separate a bucket into different grouping of keys. (You can think of using prefix to make groups in the same way you'd use a folder in a file system.)
         public let prefix: String?
         /// Together with key-marker, specifies the multipart upload after which listing should begin. If key-marker is not specified, the upload-id-marker parameter is ignored. Otherwise, any multipart uploads for a key equal to the key-marker might be included in the list only if they have an upload ID lexicographically greater than the specified upload-id-marker.
         public let uploadIdMarker: String?
 
-        public init(bucket: String, delimiter: String? = nil, encodingType: EncodingType? = nil, expectedBucketOwner: String? = nil, keyMarker: String? = nil, maxUploads: Int? = nil, prefix: String? = nil, uploadIdMarker: String? = nil) {
+        public init(bucket: String, delimiter: String? = nil, encodingType: EncodingType? = nil, expectedBucketOwner: String? = nil, keyMarker: String? = nil, maxUploads: Int = 0, prefix: String? = nil, uploadIdMarker: String? = nil) {
             self.bucket = bucket
             self.delimiter = delimiter
             self.encodingType = encodingType
@@ -5394,13 +5395,13 @@ extension S3 {
         /// Specifies the key to start with when listing objects in a bucket.
         public let keyMarker: String?
         /// Sets the maximum number of keys returned in the response. By default the action returns up to 1,000 key names. The response might contain fewer keys but will never contain more. If additional keys satisfy the search criteria, but were not returned because max-keys was exceeded, the response contains true. To return the additional keys, see key-marker and version-id-marker.
-        public let maxKeys: Int?
+        public let maxKeys: Int
         /// Use this parameter to select only those keys that begin with the specified prefix. You can use prefixes to separate a bucket into different groupings of keys. (You can think of using prefix to make groups in the same way you'd use a folder in a file system.) You can use prefix with delimiter to roll up numerous objects into a single result under CommonPrefixes.
         public let prefix: String?
         /// Specifies the object version you want to start listing from.
         public let versionIdMarker: String?
 
-        public init(bucket: String, delimiter: String? = nil, encodingType: EncodingType? = nil, expectedBucketOwner: String? = nil, keyMarker: String? = nil, maxKeys: Int? = nil, prefix: String? = nil, versionIdMarker: String? = nil) {
+        public init(bucket: String, delimiter: String? = nil, encodingType: EncodingType? = nil, expectedBucketOwner: String? = nil, keyMarker: String? = nil, maxKeys: Int = 0, prefix: String? = nil, versionIdMarker: String? = nil) {
             self.bucket = bucket
             self.delimiter = delimiter
             self.encodingType = encodingType
@@ -5489,13 +5490,13 @@ extension S3 {
         /// Marker is where you want Amazon S3 to start listing from. Amazon S3 starts listing after this specified key. Marker can be any key in the bucket.
         public let marker: String?
         /// Sets the maximum number of keys returned in the response. By default the action returns up to 1,000 key names. The response might contain fewer keys but will never contain more.
-        public let maxKeys: Int?
+        public let maxKeys: Int
         /// Limits the response to keys that begin with the specified prefix.
         public let prefix: String?
         /// Confirms that the requester knows that she or he will be charged for the list objects request. Bucket owners need not specify this parameter in their requests.
         public let requestPayer: RequestPayer?
 
-        public init(bucket: String, delimiter: String? = nil, encodingType: EncodingType? = nil, expectedBucketOwner: String? = nil, marker: String? = nil, maxKeys: Int? = nil, prefix: String? = nil, requestPayer: RequestPayer? = nil) {
+        public init(bucket: String, delimiter: String? = nil, encodingType: EncodingType? = nil, expectedBucketOwner: String? = nil, marker: String? = nil, maxKeys: Int = 0, prefix: String? = nil, requestPayer: RequestPayer? = nil) {
             self.bucket = bucket
             self.delimiter = delimiter
             self.encodingType = encodingType
@@ -5597,9 +5598,9 @@ extension S3 {
         /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
         public let expectedBucketOwner: String?
         /// The owner field is not present in listV2 by default, if you want to return owner field with each key in the result then set the fetch owner field to true.
-        public let fetchOwner: Bool?
+        public let fetchOwner: Bool
         /// Sets the maximum number of keys returned in the response. By default the action returns up to 1,000 key names. The response might contain fewer keys but will never contain more.
-        public let maxKeys: Int?
+        public let maxKeys: Int
         /// Limits the response to keys that begin with the specified prefix.
         public let prefix: String?
         /// Confirms that the requester knows that she or he will be charged for the list objects request in V2 style. Bucket owners need not specify this parameter in their requests.
@@ -5607,7 +5608,7 @@ extension S3 {
         /// StartAfter is where you want Amazon S3 to start listing from. Amazon S3 starts listing after this specified key. StartAfter can be any key in the bucket.
         public let startAfter: String?
 
-        public init(bucket: String, continuationToken: String? = nil, delimiter: String? = nil, encodingType: EncodingType? = nil, expectedBucketOwner: String? = nil, fetchOwner: Bool? = nil, maxKeys: Int? = nil, prefix: String? = nil, requestPayer: RequestPayer? = nil, startAfter: String? = nil) {
+        public init(bucket: String, continuationToken: String? = nil, delimiter: String? = nil, encodingType: EncodingType? = nil, expectedBucketOwner: String? = nil, fetchOwner: Bool = false, maxKeys: Int = 0, prefix: String? = nil, requestPayer: RequestPayer? = nil, startAfter: String? = nil) {
             self.bucket = bucket
             self.continuationToken = continuationToken
             self.delimiter = delimiter
@@ -5720,7 +5721,7 @@ extension S3 {
         /// Object key for which the multipart upload was initiated.
         public let key: String
         /// Sets the maximum number of parts to return.
-        public let maxParts: Int?
+        public let maxParts: Int
         /// Specifies the part after which listing should begin. Only parts with higher part numbers will be listed.
         public let partNumberMarker: String?
         public let requestPayer: RequestPayer?
@@ -5733,7 +5734,7 @@ extension S3 {
         /// Upload ID identifying the multipart upload whose parts are being listed.
         public let uploadId: String
 
-        public init(bucket: String, expectedBucketOwner: String? = nil, key: String, maxParts: Int? = nil, partNumberMarker: String? = nil, requestPayer: RequestPayer? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, uploadId: String) {
+        public init(bucket: String, expectedBucketOwner: String? = nil, key: String, maxParts: Int = 0, partNumberMarker: String? = nil, requestPayer: RequestPayer? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, uploadId: String) {
             self.bucket = bucket
             self.expectedBucketOwner = expectedBucketOwner
             self.key = key
@@ -6744,9 +6745,9 @@ extension S3 {
         public let expectedBucketOwner: String?
         public let notificationConfiguration: NotificationConfiguration
         /// Skips validation of Amazon SQS, Amazon SNS, and Lambda destinations. True or false value.
-        public let skipDestinationValidation: Bool?
+        public let skipDestinationValidation: Bool
 
-        public init(bucket: String, expectedBucketOwner: String? = nil, notificationConfiguration: NotificationConfiguration, skipDestinationValidation: Bool? = nil) {
+        public init(bucket: String, expectedBucketOwner: String? = nil, notificationConfiguration: NotificationConfiguration, skipDestinationValidation: Bool = false) {
             self.bucket = bucket
             self.expectedBucketOwner = expectedBucketOwner
             self.notificationConfiguration = notificationConfiguration
@@ -6808,7 +6809,7 @@ extension S3 {
         /// Indicates the algorithm used to create the checksum for the object when using the SDK. This header will not provide any additional functionality if not using the SDK. When sending this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.
         public let checksumAlgorithm: ChecksumAlgorithm?
         /// Set this parameter to true to confirm that you want to remove your permissions to change this bucket policy in the future.
-        public let confirmRemoveSelfBucketAccess: Bool?
+        public let confirmRemoveSelfBucketAccess: Bool
         /// The MD5 hash of the request body. For requests made using the Amazon Web Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
         public let contentMD5: String?
         /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -6816,7 +6817,7 @@ extension S3 {
         /// The bucket policy as a JSON document.
         public let policy: String
 
-        public init(bucket: String, checksumAlgorithm: ChecksumAlgorithm? = nil, confirmRemoveSelfBucketAccess: Bool? = nil, contentMD5: String? = nil, expectedBucketOwner: String? = nil, policy: String) {
+        public init(bucket: String, checksumAlgorithm: ChecksumAlgorithm? = nil, confirmRemoveSelfBucketAccess: Bool = false, contentMD5: String? = nil, expectedBucketOwner: String? = nil, policy: String) {
             self.bucket = bucket
             self.checksumAlgorithm = checksumAlgorithm
             self.confirmRemoveSelfBucketAccess = confirmRemoveSelfBucketAccess
@@ -7373,11 +7374,11 @@ extension S3 {
         /// The canned ACL to apply to the object. For more information, see Canned ACL. This action is not supported by Amazon S3 on Outposts.
         public let acl: ObjectCannedACL?
         /// Object data.
-        public let body: AWSPayload?
+        public let body: AWSPayload
         /// The bucket name to which the PUT action was initiated.  When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide. When using this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see Using Amazon S3 on Outposts in the Amazon S3 User Guide.
         public let bucket: String
         /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using AWS KMS (SSE-KMS). Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS. Specifying this header with a PUT action doesn’t affect bucket-level settings for S3 Bucket Key.
-        public let bucketKeyEnabled: Bool?
+        public let bucketKeyEnabled: Bool
         ///  Can be used to specify caching behavior along the request/reply chain. For more information, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9.
         public let cacheControl: String?
         /// Indicates the algorithm used to create the checksum for the object when using the SDK. This header will not provide any additional functionality if not using the SDK. When sending this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.
@@ -7397,7 +7398,7 @@ extension S3 {
         /// The language the content is in.
         public let contentLanguage: String?
         /// Size of the body in bytes. This parameter is useful when the size of the body cannot be determined automatically. For more information, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.13.
-        public let contentLength: Int64?
+        public let contentLength: Int64
         /// The base64-encoded 128-bit MD5 digest of the message (without the headers) according to RFC 1864. This header can be used as a message integrity check to verify that the data is the same data that was originally sent. Although it is optional, we recommend using the Content-MD5 mechanism as an end-to-end integrity check. For more information about REST request authentication, see REST Authentication.
         public let contentMD5: String?
         /// A standard MIME type describing the format of the contents. For more information, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17.
@@ -7451,7 +7452,7 @@ extension S3 {
         ///  For more information about website hosting in Amazon S3, see Hosting Websites on Amazon S3 and How to Configure Website Page Redirects.
         public let websiteRedirectLocation: String?
 
-        public init(acl: ObjectCannedACL? = nil, body: AWSPayload? = nil, bucket: String, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumAlgorithm: ChecksumAlgorithm? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentMD5: String? = nil, contentType: String? = nil, expectedBucketOwner: String? = nil, expires: Date? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, key: String, metadata: [String: String]? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsEncryptionContext: String? = nil, ssekmsKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, websiteRedirectLocation: String? = nil) {
+        public init(acl: ObjectCannedACL? = nil, body: AWSPayload = .data("".utf8), bucket: String, bucketKeyEnabled: Bool = false, cacheControl: String? = nil, checksumAlgorithm: ChecksumAlgorithm? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64 = 0, contentMD5: String? = nil, contentType: String? = nil, expectedBucketOwner: String? = nil, expires: Date? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, key: String, metadata: [String: String]? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsEncryptionContext: String? = nil, ssekmsKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, websiteRedirectLocation: String? = nil) {
             self.acl = acl
             self.body = body
             self.bucket = bucket
@@ -7533,7 +7534,7 @@ extension S3 {
         /// The bucket name that contains the object you want to apply this Object Retention configuration to.  When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.
         public let bucket: String
         /// Indicates whether this action should bypass Governance-mode restrictions.
-        public let bypassGovernanceRetention: Bool?
+        public let bypassGovernanceRetention: Bool
         /// Indicates the algorithm used to create the checksum for the object when using the SDK. This header will not provide any additional functionality if not using the SDK. When sending this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.
         public let checksumAlgorithm: ChecksumAlgorithm?
         /// The MD5 hash for the request body. For requests made using the Amazon Web Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
@@ -7548,7 +7549,7 @@ extension S3 {
         /// The version ID for the object that you want to apply this Object Retention configuration to.
         public let versionId: String?
 
-        public init(bucket: String, bypassGovernanceRetention: Bool? = nil, checksumAlgorithm: ChecksumAlgorithm? = nil, contentMD5: String? = nil, expectedBucketOwner: String? = nil, key: String, requestPayer: RequestPayer? = nil, retention: ObjectLockRetention? = nil, versionId: String? = nil) {
+        public init(bucket: String, bypassGovernanceRetention: Bool = false, checksumAlgorithm: ChecksumAlgorithm? = nil, contentMD5: String? = nil, expectedBucketOwner: String? = nil, key: String, requestPayer: RequestPayer? = nil, retention: ObjectLockRetention? = nil, versionId: String? = nil) {
             self.bucket = bucket
             self.bypassGovernanceRetention = bypassGovernanceRetention
             self.checksumAlgorithm = checksumAlgorithm
@@ -7919,9 +7920,9 @@ extension S3 {
 
     public struct RequestProgress: AWSEncodableShape {
         /// Specifies whether periodic QueryProgress frames should be sent. Valid values: TRUE, FALSE. Default value: FALSE.
-        public let enabled: Bool?
+        public let enabled: Bool
 
-        public init(enabled: Bool? = nil) {
+        public init(enabled: Bool = false) {
             self.enabled = enabled
         }
 
@@ -8000,7 +8001,7 @@ extension S3 {
 
     public struct RestoreRequest: AWSEncodableShape {
         /// Lifetime of the active copy in days. Do not use with restores that specify OutputLocation. The Days element is required for regular restores, and must not be provided for select requests.
-        public let days: Int?
+        public let days: Int
         /// The optional description for the job.
         public let description: String?
         /// S3 Glacier related parameters pertaining to this job. Do not use with restores that specify OutputLocation.
@@ -8014,7 +8015,7 @@ extension S3 {
         /// Type of restore request.
         public let type: RestoreRequestType?
 
-        public init(days: Int? = nil, description: String? = nil, glacierJobParameters: GlacierJobParameters? = nil, outputLocation: OutputLocation? = nil, selectParameters: SelectParameters? = nil, tier: Tier? = nil, type: RestoreRequestType? = nil) {
+        public init(days: Int = 0, description: String? = nil, glacierJobParameters: GlacierJobParameters? = nil, outputLocation: OutputLocation? = nil, selectParameters: SelectParameters? = nil, tier: Tier? = nil, type: RestoreRequestType? = nil) {
             self.days = days
             self.description = description
             self.glacierJobParameters = glacierJobParameters
@@ -8136,11 +8137,11 @@ extension S3 {
 
     public struct ScanRange: AWSEncodableShape {
         /// Specifies the end of the byte range. This parameter is optional. Valid values: non-negative integers. The default value is one less than the size of the object being queried. If only the End parameter is supplied, it is interpreted to mean scan the last N bytes of the file. For example, 50 means scan the last 50 bytes.
-        public let end: Int64?
+        public let end: Int64
         /// Specifies the start of the byte range. This parameter is optional. Valid values: non-negative integers. The default value is 0. If only start is supplied, it means scan from that point to the end of the file. For example, 50 means scan from byte 50 until the end of the file.
-        public let start: Int64?
+        public let start: Int64
 
-        public init(end: Int64? = nil, start: Int64? = nil) {
+        public init(end: Int64 = 0, start: Int64 = 0) {
             self.end = end
             self.start = start
         }
@@ -8638,7 +8639,7 @@ extension S3 {
         /// Upload ID identifying the multipart upload whose part is being copied.
         public let uploadId: String
 
-        public init(bucket: String, copySource: String, copySourceIfMatch: String? = nil, copySourceIfModifiedSince: Date? = nil, copySourceIfNoneMatch: String? = nil, copySourceIfUnmodifiedSince: Date? = nil, copySourceRange: String? = nil, copySourceSSECustomerAlgorithm: String? = nil, copySourceSSECustomerKey: String? = nil, copySourceSSECustomerKeyMD5: String? = nil, expectedBucketOwner: String? = nil, expectedSourceBucketOwner: String? = nil, key: String, partNumber: Int, requestPayer: RequestPayer? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, uploadId: String) {
+        public init(bucket: String, copySource: String, copySourceIfMatch: String? = nil, copySourceIfModifiedSince: Date? = nil, copySourceIfNoneMatch: String? = nil, copySourceIfUnmodifiedSince: Date? = nil, copySourceRange: String? = nil, copySourceSSECustomerAlgorithm: String? = nil, copySourceSSECustomerKey: String? = nil, copySourceSSECustomerKeyMD5: String? = nil, expectedBucketOwner: String? = nil, expectedSourceBucketOwner: String? = nil, key: String, partNumber: Int = 0, requestPayer: RequestPayer? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, uploadId: String) {
             self.bucket = bucket
             self.copySource = copySource
             self.copySourceIfMatch = copySourceIfMatch
@@ -8758,7 +8759,7 @@ extension S3 {
         ]
 
         /// Object data.
-        public let body: AWSPayload?
+        public let body: AWSPayload
         /// The name of the bucket to which the multipart upload was initiated. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide. When using this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see Using Amazon S3 on Outposts in the Amazon S3 User Guide.
         public let bucket: String
         /// Indicates the algorithm used to create the checksum for the object when using the SDK. This header will not provide any additional functionality if not using the SDK. When sending this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter. This checksum algorithm must be the same for all parts and it match the checksum value supplied in the CreateMultipartUpload request.
@@ -8772,7 +8773,7 @@ extension S3 {
         /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the base64-encoded, 256-bit SHA-256 digest of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA256: String?
         /// Size of the body in bytes. This parameter is useful when the size of the body cannot be determined automatically.
-        public let contentLength: Int64?
+        public let contentLength: Int64
         /// The base64-encoded 128-bit MD5 digest of the part data. This parameter is auto-populated when using the command from the CLI. This parameter is required if object lock parameters are specified.
         public let contentMD5: String?
         /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -8791,7 +8792,7 @@ extension S3 {
         /// Upload ID identifying the multipart upload whose part is being uploaded.
         public let uploadId: String
 
-        public init(body: AWSPayload? = nil, bucket: String, checksumAlgorithm: ChecksumAlgorithm? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, contentLength: Int64? = nil, contentMD5: String? = nil, expectedBucketOwner: String? = nil, key: String, partNumber: Int, requestPayer: RequestPayer? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, uploadId: String) {
+        public init(body: AWSPayload = .data("".utf8), bucket: String, checksumAlgorithm: ChecksumAlgorithm? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, contentLength: Int64 = 0, contentMD5: String? = nil, expectedBucketOwner: String? = nil, key: String, partNumber: Int = 0, requestPayer: RequestPayer? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, uploadId: String) {
             self.body = body
             self.bucket = bucket
             self.checksumAlgorithm = checksumAlgorithm
@@ -8917,9 +8918,9 @@ extension S3 {
         /// Indicates that a range of bytes was specified.
         public let acceptRanges: String?
         /// The object data.
-        public let body: AWSPayload?
+        public let body: AWSPayload
         ///  Indicates whether the object stored in Amazon S3 uses an S3 bucket key for server-side encryption with Amazon Web Services KMS (SSE-KMS).
-        public let bucketKeyEnabled: Bool?
+        public let bucketKeyEnabled: Bool
         /// Specifies caching behavior along the request/reply chain.
         public let cacheControl: String?
         /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This specifies the base64-encoded, 32-bit CRC32 checksum of the object returned by the Object Lambda function. This may not match the checksum for the object stored in Amazon S3. Amazon S3 will perform validation of the checksum values only when the original GetObject request required checksum validation. For more information about checksums, see Checking object integrity in the Amazon S3 User Guide. Only one checksum header can be specified at a time. If you supply multiple checksum headers, this request will fail.
@@ -8937,13 +8938,13 @@ extension S3 {
         /// The language the content is in.
         public let contentLanguage: String?
         /// The size of the content body in bytes.
-        public let contentLength: Int64?
+        public let contentLength: Int64
         /// The portion of the object returned in the response.
         public let contentRange: String?
         /// A standard MIME type describing the format of the object data.
         public let contentType: String?
         /// Specifies whether an object stored in Amazon S3 is (true) or is not (false) a delete marker.
-        public let deleteMarker: Bool?
+        public let deleteMarker: Bool
         /// A string that uniquely identifies an error condition. Returned in the  tag of the error XML response for a corresponding GetObject call. Cannot be used with a successful StatusCode header or when the transformed object is provided in the body. All error codes from S3 are sentence-cased. The regular expression (regex) value is "^[A-Z][a-zA-Z]+$".
         public let errorCode: String?
         /// Contains a generic description of the error condition. Returned in the  tag of the error XML response for a corresponding GetObject call. Cannot be used with a successful StatusCode header or when the transformed object is provided in body.
@@ -8961,7 +8962,7 @@ extension S3 {
         /// A map of metadata to store with the object in S3.
         public let metadata: [String: String]?
         /// Set to the number of metadata entries not returned in x-amz-meta headers. This can happen if you create metadata using an API like SOAP that supports more flexible metadata than the REST API. For example, using SOAP, you can create metadata whose values are not legal HTTP headers.
-        public let missingMeta: Int?
+        public let missingMeta: Int
         /// Indicates whether an object stored in Amazon S3 has an active legal hold.
         public let objectLockLegalHoldStatus: ObjectLockLegalHoldStatus?
         /// Indicates whether an object stored in Amazon S3 has Object Lock enabled. For more information about S3 Object Lock, see Object Lock.
@@ -8970,7 +8971,7 @@ extension S3 {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var objectLockRetainUntilDate: Date?
         /// The count of parts this object has.
-        public let partsCount: Int?
+        public let partsCount: Int
         /// Indicates if request involves bucket that is either a source or destination in a Replication rule. For more information about S3 Replication, see Replication.
         public let replicationStatus: ReplicationStatus?
         public let requestCharged: RequestCharged?
@@ -8989,15 +8990,15 @@ extension S3 {
         ///  If present, specifies the ID of the Amazon Web Services Key Management Service (Amazon Web Services KMS) symmetric customer managed key that was used for stored in Amazon S3 object.
         public let ssekmsKeyId: String?
         /// The integer status code for an HTTP response of a corresponding GetObject request.  Status Codes     200 - OK     206 - Partial Content     304 - Not Modified     400 - Bad Request     401 - Unauthorized     403 - Forbidden     404 - Not Found     405 - Method Not Allowed     409 - Conflict     411 - Length Required     412 - Precondition Failed     416 - Range Not Satisfiable     500 - Internal Server Error     503 - Service Unavailable
-        public let statusCode: Int?
+        public let statusCode: Int
         /// Provides storage class information of the object. Amazon S3 returns this header for all objects except for S3 Standard storage class objects.  For more information, see Storage Classes.
         public let storageClass: StorageClass?
         /// The number of tags, if any, on the object.
-        public let tagCount: Int?
+        public let tagCount: Int
         /// An ID used to reference a specific version of the object.
         public let versionId: String?
 
-        public init(acceptRanges: String? = nil, body: AWSPayload? = nil, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentRange: String? = nil, contentType: String? = nil, deleteMarker: Bool? = nil, errorCode: String? = nil, errorMessage: String? = nil, eTag: String? = nil, expiration: String? = nil, expires: Date? = nil, lastModified: Date? = nil, metadata: [String: String]? = nil, missingMeta: Int? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, partsCount: Int? = nil, replicationStatus: ReplicationStatus? = nil, requestCharged: RequestCharged? = nil, requestRoute: String, requestToken: String, restore: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsKeyId: String? = nil, statusCode: Int? = nil, storageClass: StorageClass? = nil, tagCount: Int? = nil, versionId: String? = nil) {
+        public init(acceptRanges: String? = nil, body: AWSPayload = .data("".utf8), bucketKeyEnabled: Bool = false, cacheControl: String? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64 = 0, contentRange: String? = nil, contentType: String? = nil, deleteMarker: Bool = false, errorCode: String? = nil, errorMessage: String? = nil, eTag: String? = nil, expiration: String? = nil, expires: Date? = nil, lastModified: Date? = nil, metadata: [String: String]? = nil, missingMeta: Int = 0, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, partsCount: Int = 0, replicationStatus: ReplicationStatus? = nil, requestCharged: RequestCharged? = nil, requestRoute: String, requestToken: String, restore: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsKeyId: String? = nil, statusCode: Int = 0, storageClass: StorageClass? = nil, tagCount: Int = 0, versionId: String? = nil) {
             self.acceptRanges = acceptRanges
             self.body = body
             self.bucketKeyEnabled = bucketKeyEnabled

@@ -65,6 +65,12 @@ extension ACMPCA {
         public var description: String { return self.rawValue }
     }
 
+    public enum CertificateAuthorityUsageMode: String, CustomStringConvertible, Codable, _SotoSendable {
+        case generalPurpose = "GENERAL_PURPOSE"
+        case shortLivedCertificate = "SHORT_LIVED_CERTIFICATE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ExtendedKeyUsageType: String, CustomStringConvertible, Codable, _SotoSendable {
         case certificateTransparency = "CERTIFICATE_TRANSPARENCY"
         case clientAuth = "CLIENT_AUTH"
@@ -105,14 +111,14 @@ extension ACMPCA {
     }
 
     public enum ResourceOwner: String, CustomStringConvertible, Codable, _SotoSendable {
-        case otherAccounts = "OTHER_ACCOUNTS"
         case _self = "SELF"
+        case otherAccounts = "OTHER_ACCOUNTS"
         public var description: String { return self.rawValue }
     }
 
     public enum RevocationReason: String, CustomStringConvertible, Codable, _SotoSendable {
-        case affiliationChanged = "AFFILIATION_CHANGED"
         case aACompromise = "A_A_COMPROMISE"
+        case affiliationChanged = "AFFILIATION_CHANGED"
         case certificateAuthorityCompromise = "CERTIFICATE_AUTHORITY_COMPROMISE"
         case cessationOfOperation = "CESSATION_OF_OPERATION"
         case keyCompromise = "KEY_COMPROMISE"
@@ -160,7 +166,7 @@ extension ACMPCA {
         public let country: String?
         /// 		       Contains a sequence of one or more X.500 relative distinguished names (RDNs), each of
         /// 			which consists of an object identifier (OID) and a value. For more information, see
-        /// 			NIST’s definition of  Object Identifier (OID).
+        /// 			NIST’s definition of Object Identifier (OID).
         ///
         /// 			         Custom attributes cannot be used in combination with standard attributes.
         ///
@@ -368,8 +374,13 @@ extension ACMPCA {
         public let status: CertificateAuthorityStatus?
         /// Type of your private CA.
         public let type: CertificateAuthorityType?
+        /// Specifies whether the CA issues general-purpose certificates that typically require a
+        /// 			revocation mechanism, or short-lived certificates that may optionally omit revocation because
+        /// 			they expire quickly. Short-lived certificate validity is limited to seven days.
+        /// 		       The default value is GENERAL_PURPOSE.
+        public let usageMode: CertificateAuthorityUsageMode?
 
-        public init(arn: String? = nil, certificateAuthorityConfiguration: CertificateAuthorityConfiguration? = nil, createdAt: Date? = nil, failureReason: FailureReason? = nil, keyStorageSecurityStandard: KeyStorageSecurityStandard? = nil, lastStateChangeAt: Date? = nil, notAfter: Date? = nil, notBefore: Date? = nil, ownerAccount: String? = nil, restorableUntil: Date? = nil, revocationConfiguration: RevocationConfiguration? = nil, serial: String? = nil, status: CertificateAuthorityStatus? = nil, type: CertificateAuthorityType? = nil) {
+        public init(arn: String? = nil, certificateAuthorityConfiguration: CertificateAuthorityConfiguration? = nil, createdAt: Date? = nil, failureReason: FailureReason? = nil, keyStorageSecurityStandard: KeyStorageSecurityStandard? = nil, lastStateChangeAt: Date? = nil, notAfter: Date? = nil, notBefore: Date? = nil, ownerAccount: String? = nil, restorableUntil: Date? = nil, revocationConfiguration: RevocationConfiguration? = nil, serial: String? = nil, status: CertificateAuthorityStatus? = nil, type: CertificateAuthorityType? = nil, usageMode: CertificateAuthorityUsageMode? = nil) {
             self.arn = arn
             self.certificateAuthorityConfiguration = certificateAuthorityConfiguration
             self.createdAt = createdAt
@@ -384,6 +395,7 @@ extension ACMPCA {
             self.serial = serial
             self.status = status
             self.type = type
+            self.usageMode = usageMode
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -401,6 +413,7 @@ extension ACMPCA {
             case serial = "Serial"
             case status = "Status"
             case type = "Type"
+            case usageMode = "UsageMode"
         }
     }
 
@@ -528,14 +541,17 @@ extension ACMPCA {
         /// 			50 tags with a private CA. For information using tags with IAM to manage permissions,
         /// 			see Controlling Access Using IAM Tags.
         public let tags: [Tag]?
+        /// Specifies whether the CA issues general-purpose certificates that typically require a revocation mechanism, or short-lived certificates that may optionally omit revocation because they expire quickly. Short-lived certificate validity is limited to seven days. The default value is GENERAL_PURPOSE.
+        public let usageMode: CertificateAuthorityUsageMode?
 
-        public init(certificateAuthorityConfiguration: CertificateAuthorityConfiguration, certificateAuthorityType: CertificateAuthorityType, idempotencyToken: String? = nil, keyStorageSecurityStandard: KeyStorageSecurityStandard? = nil, revocationConfiguration: RevocationConfiguration? = nil, tags: [Tag]? = nil) {
+        public init(certificateAuthorityConfiguration: CertificateAuthorityConfiguration, certificateAuthorityType: CertificateAuthorityType, idempotencyToken: String? = nil, keyStorageSecurityStandard: KeyStorageSecurityStandard? = nil, revocationConfiguration: RevocationConfiguration? = nil, tags: [Tag]? = nil, usageMode: CertificateAuthorityUsageMode? = nil) {
             self.certificateAuthorityConfiguration = certificateAuthorityConfiguration
             self.certificateAuthorityType = certificateAuthorityType
             self.idempotencyToken = idempotencyToken
             self.keyStorageSecurityStandard = keyStorageSecurityStandard
             self.revocationConfiguration = revocationConfiguration
             self.tags = tags
+            self.usageMode = usageMode
         }
 
         public func validate(name: String) throws {
@@ -558,6 +574,7 @@ extension ACMPCA {
             case keyStorageSecurityStandard = "KeyStorageSecurityStandard"
             case revocationConfiguration = "RevocationConfiguration"
             case tags = "Tags"
+            case usageMode = "UsageMode"
         }
     }
 
@@ -737,8 +754,8 @@ extension ACMPCA {
     public struct CustomExtension: AWSEncodableShape {
         /// 		       Specifies the critical flag of the X.509 extension.
         public let critical: Bool?
-        /// 		       Specifies the object identifier (OID) of the X.509 extension. For more information, see the
-        /// 				Global OID reference database.
+        /// 		       Specifies the object identifier (OID) of the X.509 extension. For more information,
+        /// 			see the Global OID reference database.
         ///
         public let objectIdentifier: String
         /// 		       Specifies the base64-encoded value of the X.509 extension.
@@ -1674,7 +1691,7 @@ extension ACMPCA {
         /// 		       Note: The value of the CNAME must not include a protocol prefix such as "http://" or
         /// 			"https://".
         /// 		       For more information, see Customizing Online Certificate Status Protocol
-        /// 				(OCSP)  in the Certificate Manager Private Certificate Authority (PCA) User Guide.
+        /// 				(OCSP)  in the Private Certificate Authority (PCA) User Guide.
         public let ocspCustomCname: String?
 
         public init(enabled: Bool, ocspCustomCname: String? = nil) {

@@ -87,7 +87,7 @@ extension IAM {
     }
 
     public enum PermissionsBoundaryAttachmentType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case permissionsBoundaryPolicy = "PermissionsBoundaryPolicy"
+        case policy = "PermissionsBoundaryPolicy"
         public var description: String { return self.rawValue }
     }
 
@@ -106,16 +106,16 @@ extension IAM {
     }
 
     public enum PolicyScopeType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case aws = "AWS"
         case all = "All"
+        case aws = "AWS"
         case local = "Local"
         public var description: String { return self.rawValue }
     }
 
     public enum PolicySourceType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case iamPolicy = "IAM Policy"
         case awsManaged = "aws-managed"
         case group
+        case iamPolicy = "IAM Policy"
         case none
         case resource
         case role
@@ -195,17 +195,17 @@ extension IAM {
     // MARK: Shapes
 
     public struct AccessDetail: AWSDecodableShape {
-        /// The path of the Organizations entity (root, organizational unit, or account) from which an authenticated principal last attempted to access the service. Amazon Web Services does not report unauthenticated requests. This field is null if no principals (IAM users, IAM roles, or root users) in the reported Organizations entity attempted to access the service within the reporting period.
+        /// The path of the Organizations entity (root, organizational unit, or account) from which an authenticated principal last attempted to access the service. Amazon Web Services does not report unauthenticated requests. This field is null if no principals (IAM users, IAM roles, or root users) in the reported Organizations entity attempted to access the service within the tracking period.
         public let entityPath: String?
-        /// The date and time, in ISO 8601 date-time format, when an authenticated principal most recently attempted to access the service. Amazon Web Services does not report unauthenticated requests. This field is null if no principals in the reported Organizations entity attempted to access the service within the reporting period.
+        /// The date and time, in ISO 8601 date-time format, when an authenticated principal most recently attempted to access the service. Amazon Web Services does not report unauthenticated requests. This field is null if no principals in the reported Organizations entity attempted to access the service within the tracking period.
         public let lastAuthenticatedTime: Date?
-        /// The Region where the last service access attempt occurred. This field is null if no principals in the reported Organizations entity attempted to access the service within the reporting period.
+        /// The Region where the last service access attempt occurred. This field is null if no principals in the reported Organizations entity attempted to access the service within the tracking period.
         public let region: String?
         /// The name of the service in which access was attempted.
         public let serviceName: String
         /// The namespace of the service in which access was attempted. To learn the service namespace of a service, see Actions, resources, and condition keys for Amazon Web Services services in the Service Authorization Reference. Choose the name of the service to view details for that service. In the first paragraph, find the service prefix. For example, (service prefix: a4b). For more information about service namespaces, see Amazon Web Services service namespaces in the Amazon Web Services General Reference.
         public let serviceNamespace: String
-        /// The number of accounts with authenticated principals (root users, IAM users, and IAM roles) that attempted to access the service in the reporting period.
+        /// The number of accounts with authenticated principals (root users, IAM users, and IAM roles) that attempted to access the service in the tracking period.
         public let totalAuthenticatedEntities: Int?
 
         public init(entityPath: String? = nil, lastAuthenticatedTime: Date? = nil, region: String? = nil, serviceName: String, serviceNamespace: String, totalAuthenticatedEntities: Int? = nil) {
@@ -681,11 +681,11 @@ extension IAM {
         /// The new password for the user. The regex pattern  that is used to validate this parameter is a string of characters. That string can include almost any printable  ASCII character from the space (\u0020) through the end of the ASCII character range (\u00FF).  You can also include the tab (\u0009), line feed (\u000A), and carriage return (\u000D)  characters. Any of these characters are valid in a password. However, many tools, such  as the Amazon Web Services Management Console, might restrict the ability to type certain characters because they have  special meaning within that tool.
         public let password: String
         /// Specifies whether the user is required to set a new password on next sign-in.
-        public let passwordResetRequired: Bool?
+        public let passwordResetRequired: Bool
         /// The name of the IAM user to create a password for. The user must already exist. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String
 
-        public init(password: String, passwordResetRequired: Bool? = nil, userName: String) {
+        public init(password: String, passwordResetRequired: Bool = false, userName: String) {
             self.password = password
             self.passwordResetRequired = passwordResetRequired
             self.userName = userName
@@ -849,9 +849,9 @@ extension IAM {
         /// The JSON policy document that you want to use as the content for this new version of the policy. You must provide policies in JSON format in IAM. However, for CloudFormation templates formatted in YAML, you can provide the policy in JSON or YAML format. CloudFormation always converts a YAML policy to JSON format before submitting it to IAM. The maximum length of the policy document that you can pass in this operation, including whitespace, is listed below. To view the maximum character counts of a managed policy with no whitespaces, see IAM and STS character quotas. The regex pattern  used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII  character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and  Latin-1 Supplement character set  (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and  carriage return (\u000D)
         public let policyDocument: String
         /// Specifies whether to set this version as the policy's default version. When this parameter is true, the new policy version becomes the operative version. That is, it becomes the version that is in effect for the IAM users, groups, and roles that the policy is attached to. For more information about managed policy versions, see Versioning for managed policies in the IAM User Guide.
-        public let setAsDefault: Bool?
+        public let setAsDefault: Bool
 
-        public init(policyArn: String, policyDocument: String, setAsDefault: Bool? = nil) {
+        public init(policyArn: String, policyDocument: String, setAsDefault: Bool = false) {
             self.policyArn = policyArn
             self.policyDocument = policyDocument
             self.setAsDefault = setAsDefault
@@ -1835,7 +1835,7 @@ extension IAM {
     public struct EntityDetails: AWSDecodableShape {
         /// The EntityInfo object that contains details about the entity (user or role).
         public let entityInfo: EntityInfo
-        /// The date and time, in ISO 8601 date-time format, when the authenticated entity last attempted to access Amazon Web Services. Amazon Web Services does not report unauthenticated requests. This field is null if no IAM entities attempted to access the service within the reporting period.
+        /// The date and time, in ISO 8601 date-time format, when the authenticated entity last attempted to access Amazon Web Services. Amazon Web Services does not report unauthenticated requests. This field is null if no IAM entities attempted to access the service within the tracking period.
         public let lastAuthenticated: Date?
 
         public init(entityInfo: EntityInfo, lastAuthenticated: Date? = nil) {
@@ -4130,7 +4130,7 @@ extension IAM {
         /// Use this only when paginating results to indicate the  maximum number of items you want in the response. If additional items exist beyond the maximum  you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker  contains a value to include in the subsequent call that tells the service where to continue  from.
         public let maxItems: Int?
         /// A flag to filter the results to only the attached policies. When OnlyAttached is true, the returned list contains only the policies that are attached to an IAM user, group, or role. When OnlyAttached is false, or when the parameter is not included, all policies are returned.
-        public let onlyAttached: Bool?
+        public let onlyAttached: Bool
         /// The path prefix for filtering the results. This parameter is optional. If it is not included, it defaults to a slash (/), listing all policies. This parameter allows (through its regex pattern) a string of characters consisting  of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (\u0021) through the DEL character (\u007F), including  most punctuation characters, digits, and upper and lowercased letters.
         public let pathPrefix: String?
         /// The policy usage method to use for filtering the results. To list only permissions policies, set PolicyUsageFilter to PermissionsPolicy. To list only the policies used to set permissions boundaries, set the value to PermissionsBoundary. This parameter is optional. If it is not included, all policies are returned.
@@ -4138,7 +4138,7 @@ extension IAM {
         /// The scope to use for filtering the results. To list only Amazon Web Services managed policies, set Scope to AWS. To list only the customer managed policies in your Amazon Web Services account, set Scope to Local. This parameter is optional. If it is not included, or if it is set to All, all policies are returned.
         public let scope: PolicyScopeType?
 
-        public init(marker: String? = nil, maxItems: Int? = nil, onlyAttached: Bool? = nil, pathPrefix: String? = nil, policyUsageFilter: PolicyUsageType? = nil, scope: PolicyScopeType? = nil) {
+        public init(marker: String? = nil, maxItems: Int? = nil, onlyAttached: Bool = false, pathPrefix: String? = nil, policyUsageFilter: PolicyUsageType? = nil, scope: PolicyScopeType? = nil) {
             self.marker = marker
             self.maxItems = maxItems
             self.onlyAttached = onlyAttached
@@ -6006,19 +6006,19 @@ extension IAM {
     }
 
     public struct ServiceLastAccessed: AWSDecodableShape {
-        /// The date and time, in ISO 8601 date-time format, when an authenticated entity most recently attempted to access the service. Amazon Web Services does not report unauthenticated requests. This field is null if no IAM entities attempted to access the service within the reporting period.
+        /// The date and time, in ISO 8601 date-time format, when an authenticated entity most recently attempted to access the service. Amazon Web Services does not report unauthenticated requests. This field is null if no IAM entities attempted to access the service within the tracking period.
         public let lastAuthenticated: Date?
-        /// The ARN of the authenticated entity (user or role) that last attempted to access the service. Amazon Web Services does not report unauthenticated requests. This field is null if no IAM entities attempted to access the service within the reporting period.
+        /// The ARN of the authenticated entity (user or role) that last attempted to access the service. Amazon Web Services does not report unauthenticated requests. This field is null if no IAM entities attempted to access the service within the tracking period.
         public let lastAuthenticatedEntity: String?
-        /// The Region from which the authenticated entity (user or role) last attempted to access the service. Amazon Web Services does not report unauthenticated requests. This field is null if no IAM entities attempted to access the service within the reporting period.
+        /// The Region from which the authenticated entity (user or role) last attempted to access the service. Amazon Web Services does not report unauthenticated requests. This field is null if no IAM entities attempted to access the service within the tracking period.
         public let lastAuthenticatedRegion: String?
         /// The name of the service in which access was attempted.
         public let serviceName: String
         /// The namespace of the service in which access was attempted. To learn the service namespace of a service, see Actions, resources, and condition keys for Amazon Web Services services in the Service Authorization Reference. Choose the name of the service to view details for that service. In the first paragraph, find the service prefix. For example, (service prefix: a4b). For more information about service namespaces, see Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let serviceNamespace: String
-        /// The total number of authenticated principals (root user, IAM users, or IAM roles) that have attempted to access the service. This field is null if no principals attempted to access the service within the reporting period.
+        /// The total number of authenticated principals (root user, IAM users, or IAM roles) that have attempted to access the service. This field is null if no principals attempted to access the service within the tracking period.
         public let totalAuthenticatedEntities: Int?
-        /// An object that contains details about the most recent attempt to access a tracked action within the service. This field is null if there no tracked actions or if the principal did not use the tracked actions within the reporting period. This field is also null if the report was generated at the service level and not the action level. For more information, see the Granularity field in GenerateServiceLastAccessedDetails.
+        /// An object that contains details about the most recent attempt to access a tracked action within the service. This field is null if there no tracked actions or if the principal did not use the tracked actions within the tracking period. This field is also null if the report was generated at the service level and not the action level. For more information, see the Granularity field in GenerateServiceLastAccessedDetails.
         @OptionalCustomCoding<StandardArrayCoder>
         public var trackedActionsLastAccessed: [TrackedActionLastAccessed]?
 
@@ -6673,9 +6673,9 @@ extension IAM {
         /// The name of the tracked action to which access was attempted. Tracked actions are actions that report activity to IAM.
         public let actionName: String?
         public let lastAccessedEntity: String?
-        /// The Region from which the authenticated entity (user or role) last attempted to access the tracked action. Amazon Web Services does not report unauthenticated requests. This field is null if no IAM entities attempted to access the service within the reporting period.
+        /// The Region from which the authenticated entity (user or role) last attempted to access the tracked action. Amazon Web Services does not report unauthenticated requests. This field is null if no IAM entities attempted to access the service within the tracking period.
         public let lastAccessedRegion: String?
-        /// The date and time, in ISO 8601 date-time format, when an authenticated entity most recently attempted to access the tracked service. Amazon Web Services does not report unauthenticated requests. This field is null if no IAM entities attempted to access the service within the reporting period.
+        /// The date and time, in ISO 8601 date-time format, when an authenticated entity most recently attempted to access the tracked service. Amazon Web Services does not report unauthenticated requests. This field is null if no IAM entities attempted to access the service within the tracking period.
         public let lastAccessedTime: Date?
 
         public init(actionName: String? = nil, lastAccessedEntity: String? = nil, lastAccessedRegion: String? = nil, lastAccessedTime: Date? = nil) {
@@ -6962,7 +6962,7 @@ extension IAM {
 
     public struct UpdateAccountPasswordPolicyRequest: AWSEncodableShape {
         ///  Allows all IAM users in your account to use the Amazon Web Services Management Console to change their own passwords. For more information, see Permitting IAM users to change their own passwords in the IAM User Guide. If you do not specify a value for this parameter, then the operation uses the default value of false. The result is that IAM users in the account do not automatically have permissions to change their own password.
-        public let allowUsersToChangePassword: Bool?
+        public let allowUsersToChangePassword: Bool
         ///  Prevents IAM users who are accessing the account via the Amazon Web Services Management Console from setting a new console password after their password has expired. The IAM user cannot access the console until an administrator resets the password. If you do not specify a value for this parameter, then the operation uses the default value of false. The result is that IAM users can change their passwords after they expire and continue to sign in as the user.  In the Amazon Web Services Management Console, the custom password policy option Allow users to change their own password gives IAM users permissions to iam:ChangePassword for only their user and to the iam:GetAccountPasswordPolicy action. This option does not attach a permissions policy to each user, rather the permissions are applied at the account-level for all users by IAM. IAM users with iam:ChangePassword permission and active access keys can reset their own expired console password using the CLI or API.
         public let hardExpiry: Bool?
         /// The number of days that an IAM user password is valid. If you do not specify a value for this parameter, then the operation uses the default value of 0. The result is that IAM user passwords never expire.
@@ -6972,15 +6972,15 @@ extension IAM {
         /// Specifies the number of previous passwords that IAM users are prevented from reusing. If you do not specify a value for this parameter, then the operation uses the default value of 0. The result is that IAM users are not prevented from reusing previous passwords.
         public let passwordReusePrevention: Int?
         /// Specifies whether IAM user passwords must contain at least one lowercase character from the ISO basic Latin alphabet (a to z). If you do not specify a value for this parameter, then the operation uses the default value of false. The result is that passwords do not require at least one lowercase character.
-        public let requireLowercaseCharacters: Bool?
+        public let requireLowercaseCharacters: Bool
         /// Specifies whether IAM user passwords must contain at least one numeric character (0 to 9). If you do not specify a value for this parameter, then the operation uses the default value of false. The result is that passwords do not require at least one numeric character.
-        public let requireNumbers: Bool?
+        public let requireNumbers: Bool
         /// Specifies whether IAM user passwords must contain at least one of the following non-alphanumeric characters: ! @ # $ % ^ & * ( ) _ + - = [ ] { } | ' If you do not specify a value for this parameter, then the operation uses the default value of false. The result is that passwords do not require at least one symbol character.
-        public let requireSymbols: Bool?
+        public let requireSymbols: Bool
         /// Specifies whether IAM user passwords must contain at least one uppercase character from the ISO basic Latin alphabet (A to Z). If you do not specify a value for this parameter, then the operation uses the default value of false. The result is that passwords do not require at least one uppercase character.
-        public let requireUppercaseCharacters: Bool?
+        public let requireUppercaseCharacters: Bool
 
-        public init(allowUsersToChangePassword: Bool? = nil, hardExpiry: Bool? = nil, maxPasswordAge: Int? = nil, minimumPasswordLength: Int? = nil, passwordReusePrevention: Int? = nil, requireLowercaseCharacters: Bool? = nil, requireNumbers: Bool? = nil, requireSymbols: Bool? = nil, requireUppercaseCharacters: Bool? = nil) {
+        public init(allowUsersToChangePassword: Bool = false, hardExpiry: Bool? = nil, maxPasswordAge: Int? = nil, minimumPasswordLength: Int? = nil, passwordReusePrevention: Int? = nil, requireLowercaseCharacters: Bool = false, requireNumbers: Bool = false, requireSymbols: Bool = false, requireUppercaseCharacters: Bool = false) {
             self.allowUsersToChangePassword = allowUsersToChangePassword
             self.hardExpiry = hardExpiry
             self.maxPasswordAge = maxPasswordAge

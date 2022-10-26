@@ -2063,7 +2063,8 @@ extension RDS.DescribeExportTasksMessage: AWSPaginateToken {
             filters: self.filters,
             marker: token,
             maxRecords: self.maxRecords,
-            sourceArn: self.sourceArn
+            sourceArn: self.sourceArn,
+            sourceType: self.sourceType
         )
     }
 }

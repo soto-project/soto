@@ -155,6 +155,28 @@ extension WorkSpacesWeb {
         )
     }
 
+    ///  Retrieves a list of user access logging settings.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listUserAccessLoggingSettingsPaginator(
+        _ input: ListUserAccessLoggingSettingsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListUserAccessLoggingSettingsRequest, ListUserAccessLoggingSettingsResponse> {
+        return .init(
+            input: input,
+            command: listUserAccessLoggingSettings,
+            inputKey: \ListUserAccessLoggingSettingsRequest.nextToken,
+            outputKey: \ListUserAccessLoggingSettingsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Retrieves a list of user settings.
     /// Return PaginatorSequence for operation.
     ///

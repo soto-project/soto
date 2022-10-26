@@ -49,6 +49,13 @@ extension Panorama {
         public var description: String { return self.rawValue }
     }
 
+    public enum DesiredState: String, CustomStringConvertible, Codable, _SotoSendable {
+        case removed = "REMOVED"
+        case running = "RUNNING"
+        case stopped = "STOPPED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DeviceAggregatedStatus: String, CustomStringConvertible, Codable, _SotoSendable {
         case awaitingProvisioning = "AWAITING_PROVISIONING"
         case deleting = "DELETING"
@@ -58,6 +65,7 @@ extension Panorama {
         case offline = "OFFLINE"
         case online = "ONLINE"
         case pending = "PENDING"
+        case rebooting = "REBOOTING"
         case updateNeeded = "UPDATE_NEEDED"
         public var description: String { return self.rawValue }
     }
@@ -74,6 +82,21 @@ extension Panorama {
         case notAvailable = "NOT_AVAILABLE"
         case offline = "OFFLINE"
         case online = "ONLINE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeviceReportedStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case installError = "INSTALL_ERROR"
+        case installInProgress = "INSTALL_IN_PROGRESS"
+        case launched = "LAUNCHED"
+        case launchError = "LAUNCH_ERROR"
+        case removalFailed = "REMOVAL_FAILED"
+        case removalInProgress = "REMOVAL_IN_PROGRESS"
+        case running = "RUNNING"
+        case starting = "STARTING"
+        case stopped = "STOPPED"
+        case stopping = "STOPPING"
+        case stopError = "STOP_ERROR"
         public var description: String { return self.rawValue }
     }
 
@@ -100,6 +123,7 @@ extension Panorama {
 
     public enum JobType: String, CustomStringConvertible, Codable, _SotoSendable {
         case ota = "OTA"
+        case reboot = "REBOOT"
         public var description: String { return self.rawValue }
     }
 
@@ -136,7 +160,14 @@ extension Panorama {
     public enum NodeInstanceStatus: String, CustomStringConvertible, Codable, _SotoSendable {
         case error = "ERROR"
         case notAvailable = "NOT_AVAILABLE"
+        case paused = "PAUSED"
         case running = "RUNNING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NodeSignalValue: String, CustomStringConvertible, Codable, _SotoSendable {
+        case pause = "PAUSE"
+        case resume = "RESUME"
         public var description: String { return self.rawValue }
     }
 
@@ -235,6 +266,8 @@ extension Panorama {
         public let healthStatus: ApplicationInstanceHealthStatus?
         /// The application instance's name.
         public let name: String?
+        /// The application's state.
+        public let runtimeContextStates: [ReportedRuntimeContextState]?
         /// The application instance's status.
         public let status: ApplicationInstanceStatus?
         /// The application instance's status description.
@@ -242,7 +275,7 @@ extension Panorama {
         /// The application instance's tags.
         public let tags: [String: String]?
 
-        public init(applicationInstanceId: String? = nil, arn: String? = nil, createdTime: Date? = nil, defaultRuntimeContextDevice: String? = nil, defaultRuntimeContextDeviceName: String? = nil, description: String? = nil, healthStatus: ApplicationInstanceHealthStatus? = nil, name: String? = nil, status: ApplicationInstanceStatus? = nil, statusDescription: String? = nil, tags: [String: String]? = nil) {
+        public init(applicationInstanceId: String? = nil, arn: String? = nil, createdTime: Date? = nil, defaultRuntimeContextDevice: String? = nil, defaultRuntimeContextDeviceName: String? = nil, description: String? = nil, healthStatus: ApplicationInstanceHealthStatus? = nil, name: String? = nil, runtimeContextStates: [ReportedRuntimeContextState]? = nil, status: ApplicationInstanceStatus? = nil, statusDescription: String? = nil, tags: [String: String]? = nil) {
             self.applicationInstanceId = applicationInstanceId
             self.arn = arn
             self.createdTime = createdTime
@@ -251,6 +284,7 @@ extension Panorama {
             self.description = description
             self.healthStatus = healthStatus
             self.name = name
+            self.runtimeContextStates = runtimeContextStates
             self.status = status
             self.statusDescription = statusDescription
             self.tags = tags
@@ -265,6 +299,7 @@ extension Panorama {
             case description = "Description"
             case healthStatus = "HealthStatus"
             case name = "Name"
+            case runtimeContextStates = "RuntimeContextStates"
             case status = "Status"
             case statusDescription = "StatusDescription"
             case tags = "Tags"
@@ -355,12 +390,12 @@ extension Panorama {
     public struct CreateJobForDevicesRequest: AWSEncodableShape {
         /// IDs of target devices.
         public let deviceIds: [String]
-        /// Configuration settings for the job.
-        public let deviceJobConfig: DeviceJobConfig
+        /// Configuration settings for a software update job.
+        public let deviceJobConfig: DeviceJobConfig?
         /// The type of job to run.
         public let jobType: JobType
 
-        public init(deviceIds: [String], deviceJobConfig: DeviceJobConfig, jobType: JobType) {
+        public init(deviceIds: [String], deviceJobConfig: DeviceJobConfig? = nil, jobType: JobType) {
             self.deviceIds = deviceIds
             self.deviceJobConfig = deviceJobConfig
             self.jobType = jobType
@@ -374,7 +409,7 @@ extension Panorama {
             }
             try self.validate(self.deviceIds, name: "deviceIds", parent: name, max: 1)
             try self.validate(self.deviceIds, name: "deviceIds", parent: name, min: 1)
-            try self.deviceJobConfig.validate(name: "\(name).deviceJobConfig")
+            try self.deviceJobConfig?.validate(name: "\(name).deviceJobConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -618,11 +653,11 @@ extension Panorama {
         ]
 
         /// Delete the package even if it has artifacts stored in its access point. Deletes the package's artifacts from Amazon S3.
-        public let forceDelete: Bool?
+        public let forceDelete: Bool
         /// The package's ID.
         public let packageId: String
 
-        public init(forceDelete: Bool? = nil, packageId: String) {
+        public init(forceDelete: Bool = false, packageId: String) {
             self.forceDelete = forceDelete
             self.packageId = packageId
         }
@@ -797,6 +832,8 @@ extension Panorama {
         public let lastUpdatedTime: Date?
         /// The application instance's name.
         public let name: String?
+        /// The application instance's state.
+        public let runtimeContextStates: [ReportedRuntimeContextState]?
         /// The application instance's runtime role ARN.
         public let runtimeRoleArn: String?
         /// The application instance's status.
@@ -806,7 +843,7 @@ extension Panorama {
         /// The application instance's tags.
         public let tags: [String: String]?
 
-        public init(applicationInstanceId: String? = nil, applicationInstanceIdToReplace: String? = nil, arn: String? = nil, createdTime: Date? = nil, defaultRuntimeContextDevice: String? = nil, defaultRuntimeContextDeviceName: String? = nil, description: String? = nil, healthStatus: ApplicationInstanceHealthStatus? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, runtimeRoleArn: String? = nil, status: ApplicationInstanceStatus? = nil, statusDescription: String? = nil, tags: [String: String]? = nil) {
+        public init(applicationInstanceId: String? = nil, applicationInstanceIdToReplace: String? = nil, arn: String? = nil, createdTime: Date? = nil, defaultRuntimeContextDevice: String? = nil, defaultRuntimeContextDeviceName: String? = nil, description: String? = nil, healthStatus: ApplicationInstanceHealthStatus? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, runtimeContextStates: [ReportedRuntimeContextState]? = nil, runtimeRoleArn: String? = nil, status: ApplicationInstanceStatus? = nil, statusDescription: String? = nil, tags: [String: String]? = nil) {
             self.applicationInstanceId = applicationInstanceId
             self.applicationInstanceIdToReplace = applicationInstanceIdToReplace
             self.arn = arn
@@ -817,6 +854,7 @@ extension Panorama {
             self.healthStatus = healthStatus
             self.lastUpdatedTime = lastUpdatedTime
             self.name = name
+            self.runtimeContextStates = runtimeContextStates
             self.runtimeRoleArn = runtimeRoleArn
             self.status = status
             self.statusDescription = statusDescription
@@ -834,6 +872,7 @@ extension Panorama {
             case healthStatus = "HealthStatus"
             case lastUpdatedTime = "LastUpdatedTime"
             case name = "Name"
+            case runtimeContextStates = "RuntimeContextStates"
             case runtimeRoleArn = "RuntimeRoleArn"
             case status = "Status"
             case statusDescription = "StatusDescription"
@@ -877,10 +916,12 @@ extension Panorama {
         public let imageVersion: String?
         /// The job's ID.
         public let jobId: String?
+        /// The job's type.
+        public let jobType: JobType?
         /// The job's status.
         public let status: UpdateProgress?
 
-        public init(createdTime: Date? = nil, deviceArn: String? = nil, deviceId: String? = nil, deviceName: String? = nil, deviceType: DeviceType? = nil, imageVersion: String? = nil, jobId: String? = nil, status: UpdateProgress? = nil) {
+        public init(createdTime: Date? = nil, deviceArn: String? = nil, deviceId: String? = nil, deviceName: String? = nil, deviceType: DeviceType? = nil, imageVersion: String? = nil, jobId: String? = nil, jobType: JobType? = nil, status: UpdateProgress? = nil) {
             self.createdTime = createdTime
             self.deviceArn = deviceArn
             self.deviceId = deviceId
@@ -888,6 +929,7 @@ extension Panorama {
             self.deviceType = deviceType
             self.imageVersion = imageVersion
             self.jobId = jobId
+            self.jobType = jobType
             self.status = status
         }
 
@@ -899,6 +941,7 @@ extension Panorama {
             case deviceType = "DeviceType"
             case imageVersion = "ImageVersion"
             case jobId = "JobId"
+            case jobType = "JobType"
             case status = "Status"
         }
     }
@@ -1481,12 +1524,15 @@ extension Panorama {
         public let deviceName: String?
         /// The job's ID.
         public let jobId: String?
+        /// The job's type.
+        public let jobType: JobType?
 
-        public init(createdTime: Date? = nil, deviceId: String? = nil, deviceName: String? = nil, jobId: String? = nil) {
+        public init(createdTime: Date? = nil, deviceId: String? = nil, deviceName: String? = nil, jobId: String? = nil, jobType: JobType? = nil) {
             self.createdTime = createdTime
             self.deviceId = deviceId
             self.deviceName = deviceName
             self.jobId = jobId
+            self.jobType = jobType
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1494,6 +1540,7 @@ extension Panorama {
             case deviceId = "DeviceId"
             case deviceName = "DeviceName"
             case jobId = "JobId"
+            case jobType = "JobType"
         }
     }
 
@@ -1604,16 +1651,20 @@ extension Panorama {
     public struct LatestDeviceJob: AWSDecodableShape {
         /// The target version of the device software.
         public let imageVersion: String?
+        /// The job's type.
+        public let jobType: JobType?
         /// Status of the latest device job.
         public let status: UpdateProgress?
 
-        public init(imageVersion: String? = nil, status: UpdateProgress? = nil) {
+        public init(imageVersion: String? = nil, jobType: JobType? = nil, status: UpdateProgress? = nil) {
             self.imageVersion = imageVersion
+            self.jobType = jobType
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
             case imageVersion = "ImageVersion"
+            case jobType = "JobType"
             case status = "Status"
         }
     }
@@ -1628,11 +1679,11 @@ extension Panorama {
         /// The application instance's ID.
         public let applicationInstanceId: String
         /// The maximum number of application instance dependencies to return in one page of results.
-        public let maxResults: Int?
+        public let maxResults: Int
         /// Specify the pagination token from a previous request to retrieve the next page of results.
         public let nextToken: String?
 
-        public init(applicationInstanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(applicationInstanceId: String, maxResults: Int = 0, nextToken: String? = nil) {
             self.applicationInstanceId = applicationInstanceId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1679,11 +1730,11 @@ extension Panorama {
         /// The node instances' application instance ID.
         public let applicationInstanceId: String
         /// The maximum number of node instances to return in one page of results.
-        public let maxResults: Int?
+        public let maxResults: Int
         /// Specify the pagination token from a previous request to retrieve the next page of results.
         public let nextToken: String?
 
-        public init(applicationInstanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(applicationInstanceId: String, maxResults: Int = 0, nextToken: String? = nil) {
             self.applicationInstanceId = applicationInstanceId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1731,13 +1782,13 @@ extension Panorama {
         /// The application instances' device ID.
         public let deviceId: String?
         /// The maximum number of application instances to return in one page of results.
-        public let maxResults: Int?
+        public let maxResults: Int
         /// Specify the pagination token from a previous request to retrieve the next page of results.
         public let nextToken: String?
         /// Only include instances with a specific status.
         public let statusFilter: StatusFilter?
 
-        public init(deviceId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, statusFilter: StatusFilter? = nil) {
+        public init(deviceId: String? = nil, maxResults: Int = 0, nextToken: String? = nil, statusFilter: StatusFilter? = nil) {
             self.deviceId = deviceId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1785,11 +1836,11 @@ extension Panorama {
         /// Filter results by the job's target device ID.
         public let deviceId: String?
         /// The maximum number of device jobs to return in one page of results.
-        public let maxResults: Int?
+        public let maxResults: Int
         /// Specify the pagination token from a previous request to retrieve the next page of results.
         public let nextToken: String?
 
-        public init(deviceId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(deviceId: String? = nil, maxResults: Int = 0, nextToken: String? = nil) {
             self.deviceId = deviceId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1839,7 +1890,7 @@ extension Panorama {
         /// Filter based on a device's status.
         public let deviceAggregatedStatusFilter: DeviceAggregatedStatus?
         /// The maximum number of devices to return in one page of results.
-        public let maxResults: Int?
+        public let maxResults: Int
         /// Filter based on device's name. Prefixes supported.
         public let nameFilter: String?
         /// Specify the pagination token from a previous request to retrieve the next page of results.
@@ -1849,7 +1900,7 @@ extension Panorama {
         /// The sorting order for the returned list. SortOrder is DESCENDING by default based on CREATED_TIME. Otherwise, SortOrder is ASCENDING.
         public let sortOrder: SortOrder?
 
-        public init(deviceAggregatedStatusFilter: DeviceAggregatedStatus? = nil, maxResults: Int? = nil, nameFilter: String? = nil, nextToken: String? = nil, sortBy: ListDevicesSortBy? = nil, sortOrder: SortOrder? = nil) {
+        public init(deviceAggregatedStatusFilter: DeviceAggregatedStatus? = nil, maxResults: Int = 0, nameFilter: String? = nil, nextToken: String? = nil, sortBy: ListDevicesSortBy? = nil, sortOrder: SortOrder? = nil) {
             self.deviceAggregatedStatusFilter = deviceAggregatedStatusFilter
             self.maxResults = maxResults
             self.nameFilter = nameFilter
@@ -1893,11 +1944,11 @@ extension Panorama {
         ]
 
         /// The maximum number of node from template jobs to return in one page of results.
-        public let maxResults: Int?
+        public let maxResults: Int
         /// Specify the pagination token from a previous request to retrieve the next page of results.
         public let nextToken: String?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int = 0, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -1944,7 +1995,7 @@ extension Panorama {
         /// Search for nodes by category.
         public let category: NodeCategory?
         /// The maximum number of nodes to return in one page of results.
-        public let maxResults: Int?
+        public let maxResults: Int
         /// Specify the pagination token from a previous request to retrieve the next page of results.
         public let nextToken: String?
         /// Search for nodes by the account ID of the nodes' owner.
@@ -1956,7 +2007,7 @@ extension Panorama {
         /// Search for nodes by patch version.
         public let patchVersion: String?
 
-        public init(category: NodeCategory? = nil, maxResults: Int? = nil, nextToken: String? = nil, ownerAccount: String? = nil, packageName: String? = nil, packageVersion: String? = nil, patchVersion: String? = nil) {
+        public init(category: NodeCategory? = nil, maxResults: Int = 0, nextToken: String? = nil, ownerAccount: String? = nil, packageName: String? = nil, packageVersion: String? = nil, patchVersion: String? = nil) {
             self.category = category
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2013,11 +2064,11 @@ extension Panorama {
         ]
 
         /// The maximum number of package import jobs to return in one page of results.
-        public let maxResults: Int?
+        public let maxResults: Int
         /// Specify the pagination token from a previous request to retrieve the next page of results.
         public let nextToken: String?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int = 0, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -2057,11 +2108,11 @@ extension Panorama {
         ]
 
         /// The maximum number of packages to return in one page of results.
-        public let maxResults: Int?
+        public let maxResults: Int
         /// Specify the pagination token from a previous request to retrieve the next page of results.
         public let nextToken: String?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int = 0, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -2367,6 +2418,29 @@ extension Panorama {
             case description = "Description"
             case name = "Name"
             case type = "Type"
+        }
+    }
+
+    public struct NodeSignal: AWSEncodableShape {
+        /// The camera node's name, from the application manifest.
+        public let nodeInstanceId: String
+        /// The signal value.
+        public let signal: NodeSignalValue
+
+        public init(nodeInstanceId: String, signal: NodeSignalValue) {
+            self.nodeInstanceId = nodeInstanceId
+            self.signal = signal
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.nodeInstanceId, name: "nodeInstanceId", parent: name, max: 128)
+            try self.validate(self.nodeInstanceId, name: "nodeInstanceId", parent: name, min: 1)
+            try self.validate(self.nodeInstanceId, name: "nodeInstanceId", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nodeInstanceId = "NodeInstanceId"
+            case signal = "Signal"
         }
     }
 
@@ -2717,7 +2791,7 @@ extension Panorama {
         ]
 
         /// Whether to mark the new version as the latest version.
-        public let markLatest: Bool?
+        public let markLatest: Bool
         /// An owner account.
         public let ownerAccount: String?
         /// A package ID.
@@ -2727,7 +2801,7 @@ extension Panorama {
         /// A patch version.
         public let patchVersion: String
 
-        public init(markLatest: Bool? = nil, ownerAccount: String? = nil, packageId: String, packageVersion: String, patchVersion: String) {
+        public init(markLatest: Bool = false, ownerAccount: String? = nil, packageId: String, packageVersion: String, patchVersion: String) {
             self.markLatest = markLatest
             self.ownerAccount = ownerAccount
             self.packageId = packageId
@@ -2785,6 +2859,31 @@ extension Panorama {
         public init() {}
     }
 
+    public struct ReportedRuntimeContextState: AWSDecodableShape {
+        /// The application's desired state.
+        public let desiredState: DesiredState
+        /// The application's reported status.
+        public let deviceReportedStatus: DeviceReportedStatus
+        /// When the device reported the application's state.
+        public let deviceReportedTime: Date
+        /// The device's name.
+        public let runtimeContextName: String
+
+        public init(desiredState: DesiredState, deviceReportedStatus: DeviceReportedStatus, deviceReportedTime: Date, runtimeContextName: String) {
+            self.desiredState = desiredState
+            self.deviceReportedStatus = deviceReportedStatus
+            self.deviceReportedTime = deviceReportedTime
+            self.runtimeContextName = runtimeContextName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case desiredState = "DesiredState"
+            case deviceReportedStatus = "DeviceReportedStatus"
+            case deviceReportedTime = "DeviceReportedTime"
+            case runtimeContextName = "RuntimeContextName"
+        }
+    }
+
     public struct S3Location: AWSEncodableShape & AWSDecodableShape {
         /// A bucket name.
         public let bucketName: String
@@ -2815,6 +2914,49 @@ extension Panorama {
             case bucketName = "BucketName"
             case objectKey = "ObjectKey"
             case region = "Region"
+        }
+    }
+
+    public struct SignalApplicationInstanceNodeInstancesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "applicationInstanceId", location: .uri("ApplicationInstanceId"))
+        ]
+
+        /// An application instance ID.
+        public let applicationInstanceId: String
+        /// A list of signals.
+        public let nodeSignals: [NodeSignal]
+
+        public init(applicationInstanceId: String, nodeSignals: [NodeSignal]) {
+            self.applicationInstanceId = applicationInstanceId
+            self.nodeSignals = nodeSignals
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationInstanceId, name: "applicationInstanceId", parent: name, max: 255)
+            try self.validate(self.applicationInstanceId, name: "applicationInstanceId", parent: name, min: 1)
+            try self.validate(self.applicationInstanceId, name: "applicationInstanceId", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]+$")
+            try self.nodeSignals.forEach {
+                try $0.validate(name: "\(name).nodeSignals[]")
+            }
+            try self.validate(self.nodeSignals, name: "nodeSignals", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nodeSignals = "NodeSignals"
+        }
+    }
+
+    public struct SignalApplicationInstanceNodeInstancesResponse: AWSDecodableShape {
+        /// An application instance ID.
+        public let applicationInstanceId: String
+
+        public init(applicationInstanceId: String) {
+            self.applicationInstanceId = applicationInstanceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationInstanceId = "ApplicationInstanceId"
         }
     }
 

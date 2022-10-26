@@ -23,7 +23,29 @@ import SotoCore
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension ManagedBlockchain {
-    ///  Returns a list of all invitations for the current AWS account. Applies only to Hyperledger Fabric.
+    ///   The token based access feature is in preview release for Ethereum on Amazon Managed Blockchain and is  subject to change. We recommend that you use this feature only with  test scenarios, and not in production environments.  Returns a list of the accessors and their properties. Accessor objects are containers that have the  information required for token based access to your Ethereum nodes.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listAccessorsPaginator(
+        _ input: ListAccessorsInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListAccessorsInput, ListAccessorsOutput> {
+        return .init(
+            input: input,
+            command: listAccessors,
+            inputKey: \ListAccessorsInput.nextToken,
+            outputKey: \ListAccessorsOutput.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Returns a list of all invitations for the current Amazon Web Services account. Applies only to Hyperledger Fabric.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -67,7 +89,7 @@ extension ManagedBlockchain {
         )
     }
 
-    ///  Returns information about the networks in which the current AWS account participates. Applies to Hyperledger Fabric and Ethereum.
+    ///  Returns information about the networks in which the current Amazon Web Services account participates. Applies to Hyperledger Fabric and Ethereum.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

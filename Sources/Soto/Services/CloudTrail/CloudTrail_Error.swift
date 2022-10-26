@@ -107,7 +107,7 @@ public struct CloudTrailErrorType: AWSErrorType {
 
     ///  This exception is thrown when you start a new import and a  previous import is still in progress.
     public static var accountHasOngoingImportException: Self { .init(.accountHasOngoingImportException) }
-    ///  The specified channel ARN is not valid or does not map to a channel in your account.
+    /// This exception is thrown when the specified value of ChannelARN is not valid.
     public static var channelARNInvalidException: Self { .init(.channelARNInvalidException) }
     ///  The specified channel was not found.
     public static var channelNotFoundException: Self { .init(.channelNotFoundException) }
@@ -143,7 +143,7 @@ public struct CloudTrailErrorType: AWSErrorType {
     public static var insightNotEnabledException: Self { .init(.insightNotEnabledException) }
     /// This exception is thrown when the IAM user or role that is used to create  the organization resource lacks one or more required permissions for  creating an organization resource in a required service.
     public static var insufficientDependencyServiceAccessPermissionException: Self { .init(.insufficientDependencyServiceAccessPermissionException) }
-    /// This exception is thrown when the policy on the S3 bucket or KMS key is not sufficient.
+    /// This exception is thrown when the policy on the S3 bucket or KMS key does not have sufficient permissions for the operation.
     public static var insufficientEncryptionPolicyException: Self { .init(.insufficientEncryptionPolicyException) }
     /// This exception is thrown when the policy on the S3 bucket is not sufficient.
     public static var insufficientS3BucketPolicyException: Self { .init(.insufficientS3BucketPolicyException) }
@@ -157,7 +157,7 @@ public struct CloudTrailErrorType: AWSErrorType {
     public static var invalidDateRangeException: Self { .init(.invalidDateRangeException) }
     /// Occurs if an event category that is not valid is specified as a value of EventCategory.
     public static var invalidEventCategoryException: Self { .init(.invalidEventCategoryException) }
-    ///  This exception is thrown when the event data store category is not valid for the import.
+    /// This exception is thrown when event categories of specified event data stores are not valid.
     public static var invalidEventDataStoreCategoryException: Self { .init(.invalidEventDataStoreCategoryException) }
     /// The event data store is not in a status that supports the operation.
     public static var invalidEventDataStoreStatusException: Self { .init(.invalidEventDataStoreStatusException) }

@@ -22,8 +22,8 @@ extension FraudDetector {
     // MARK: Enums
 
     public enum AsyncJobStatus: String, CustomStringConvertible, Codable, _SotoSendable {
-        case canceled = "CANCELED"
         case cancelInProgress = "CANCEL_IN_PROGRESS"
+        case canceled = "CANCELED"
         case complete = "COMPLETE"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
@@ -71,14 +71,14 @@ extension FraudDetector {
     }
 
     public enum ModelInputDataFormat: String, CustomStringConvertible, Codable, _SotoSendable {
-        case applicationJson = "APPLICATION_JSON"
-        case textCsv = "TEXT_CSV"
+        case csv = "TEXT_CSV"
+        case json = "APPLICATION_JSON"
         public var description: String { return self.rawValue }
     }
 
     public enum ModelOutputDataFormat: String, CustomStringConvertible, Codable, _SotoSendable {
-        case applicationJsonlines = "APPLICATION_JSONLINES"
-        case textCsv = "TEXT_CSV"
+        case csv = "TEXT_CSV"
+        case jsonlines = "APPLICATION_JSONLINES"
         public var description: String { return self.rawValue }
     }
 
@@ -523,7 +523,7 @@ extension FraudDetector {
     public struct CreateBatchImportJobRequest: AWSEncodableShape {
         /// The name of the event type.
         public let eventTypeName: String
-        /// The ARN of the IAM role created for Amazon S3 bucket that holds your data file.  The IAM role must have read and write permissions to both input and output S3 buckets.
+        /// The ARN of the IAM role created for Amazon S3 bucket that holds your data file.  The IAM role must have read permissions to your input S3 bucket and write permissions to your output S3 bucket. For more information about bucket permissions, see User policy examples in the  Amazon S3 User Guide.
         public let iamRoleArn: String
         /// The URI that points to the Amazon S3 location of your data file.
         public let inputPath: String
@@ -586,7 +586,7 @@ extension FraudDetector {
         public let detectorVersion: String?
         /// The name of the event type.
         public let eventTypeName: String
-        /// The ARN of the IAM role to use for this job request.
+        /// The ARN of the IAM role to use for this job request. The IAM Role must have read permissions to your input S3 bucket and write permissions to your output S3 bucket. For more information about bucket permissions, see User policy examples in the  Amazon S3 User Guide.
         public let iamRoleArn: String
         /// The Amazon S3 location of your training file.
         public let inputPath: String
@@ -3798,7 +3798,7 @@ extension FraudDetector {
     }
 
     public struct PutKMSEncryptionKeyRequest: AWSEncodableShape {
-        /// The KMS encryption key ARN.
+        /// The KMS encryption key ARN. The KMS key must be single-Region key. Amazon Fraud Detector does not support multi-Region KMS key.
         public let kmsEncryptionKeyArn: String
 
         public init(kmsEncryptionKeyArn: String) {
@@ -4401,7 +4401,7 @@ extension FraudDetector {
         public let detectorId: String
         /// The detector version ID.
         public let detectorVersionId: String
-        /// The new status.
+        /// The new status. The only supported values are ACTIVE and INACTIVE
         public let status: DetectorVersionStatus
 
         public init(detectorId: String, detectorVersionId: String, status: DetectorVersionStatus) {

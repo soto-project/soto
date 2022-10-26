@@ -45,7 +45,7 @@ extension CognitoIdentityProvider {
 
     public enum AttributeDataType: String, CustomStringConvertible, Codable, _SotoSendable {
         case boolean = "Boolean"
-        case dateTime = "DateTime"
+        case datetime = "DateTime"
         case number = "Number"
         case string = "String"
         public var description: String { return self.rawValue }
@@ -107,6 +107,12 @@ extension CognitoIdentityProvider {
     public enum DefaultEmailOptionType: String, CustomStringConvertible, Codable, _SotoSendable {
         case confirmWithCode = "CONFIRM_WITH_CODE"
         case confirmWithLink = "CONFIRM_WITH_LINK"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeletionProtectionType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case active = "ACTIVE"
+        case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
 
@@ -509,7 +515,7 @@ extension CognitoIdentityProvider {
         /// Specify "EMAIL" if email will be used to send the welcome message. Specify "SMS" if the phone number will be used. The default value is "SMS". You can specify more than one value.
         public let desiredDeliveryMediums: [DeliveryMediumType]?
         /// This parameter is used only if the phone_number_verified or email_verified attribute is set to True. Otherwise, it is ignored. If this parameter is set to True and the phone number or email address specified in the UserAttributes parameter already exists as an alias with a different user, the API call will migrate the alias from the previous user to the newly created user. The previous user will no longer be able to log in using that alias. If this parameter is set to False, the API throws an AliasExistsException error if the alias already exists. The default value is False.
-        public let forceAliasCreation: Bool?
+        public let forceAliasCreation: Bool
         /// Set to RESEND to resend the invitation message to a user that already exists and reset the expiration limit on the user's account. Set to SUPPRESS to suppress sending the message. You can specify only one value.
         public let messageAction: MessageActionType?
         /// The user's temporary password. This password must conform to the password policy that you specified when you created the user pool. The temporary password is valid only once. To complete the Admin Create User flow, the user must enter the temporary password in the sign-in page, along with a new password to be used in all future sign-ins. This parameter isn't required. If you don't specify a value, Amazon Cognito generates one for you. The temporary password can only be used until the user account expiration limit that you specified when you created the user pool. To reset the account after that time limit, you must call AdminCreateUser again, specifying "RESEND" for the MessageAction parameter.
@@ -523,7 +529,7 @@ extension CognitoIdentityProvider {
         /// The user's validation data. This is an array of name-value pairs that contain user attributes and attribute values that you can use for custom validation, such as restricting the types of user accounts that can be registered. For example, you might choose to allow or disallow user sign-up based on the user's domain. To configure custom validation, you must create a Pre Sign-up Lambda trigger for the user pool as described in the Amazon Cognito Developer Guide. The Lambda trigger receives the validation data and uses it in the validation process. The user's validation data isn't persisted.
         public let validationData: [AttributeType]?
 
-        public init(clientMetadata: [String: String]? = nil, desiredDeliveryMediums: [DeliveryMediumType]? = nil, forceAliasCreation: Bool? = nil, messageAction: MessageActionType? = nil, temporaryPassword: String? = nil, userAttributes: [AttributeType]? = nil, username: String, userPoolId: String, validationData: [AttributeType]? = nil) {
+        public init(clientMetadata: [String: String]? = nil, desiredDeliveryMediums: [DeliveryMediumType]? = nil, forceAliasCreation: Bool = false, messageAction: MessageActionType? = nil, temporaryPassword: String? = nil, userAttributes: [AttributeType]? = nil, username: String, userPoolId: String, validationData: [AttributeType]? = nil) {
             self.clientMetadata = clientMetadata
             self.desiredDeliveryMediums = desiredDeliveryMediums
             self.forceAliasCreation = forceAliasCreation
@@ -1097,7 +1103,7 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminListUserAuthEventsRequest: AWSEncodableShape {
-        /// The maximum number of authentication events to return.
+        /// The maximum number of authentication events to return. Returns 60 events if you set MaxResults to 0, or if you don't include a MaxResults parameter.
         public let maxResults: Int?
         /// A pagination token.
         public let nextToken: String?
@@ -1346,13 +1352,13 @@ extension CognitoIdentityProvider {
         /// The password for the user.
         public let password: String
         ///  True if the password is permanent, False if it is temporary.
-        public let permanent: Bool?
+        public let permanent: Bool
         /// The user name of the user whose password you want to set.
         public let username: String
         /// The user pool ID for the user pool where you want to set the user's password.
         public let userPoolId: String
 
-        public init(password: String, permanent: Bool? = nil, username: String, userPoolId: String) {
+        public init(password: String, permanent: Bool = false, username: String, userPoolId: String) {
             self.password = password
             self.permanent = permanent
             self.username = username
@@ -1990,7 +1996,7 @@ extension CognitoIdentityProvider {
         /// The confirmation code sent by a user's request to confirm registration.
         public let confirmationCode: String
         /// Boolean to be specified to force user confirmation irrespective of existing alias. By default set to False. If this parameter is set to True and the phone number/email used for sign up confirmation already exists as an alias with a different user, the API call will migrate the alias from the previous user to the newly created user being confirmed. If set to False, the API will throw an AliasExistsException error.
-        public let forceAliasCreation: Bool?
+        public let forceAliasCreation: Bool
         /// A keyed-hash message authentication code (HMAC) calculated using the secret key of a user pool client and username plus the client ID in the message.
         public let secretHash: String?
         /// Contextual data about your user session, such as the device fingerprint, IP address, or location. Amazon Cognito advanced
@@ -2000,7 +2006,7 @@ extension CognitoIdentityProvider {
         /// The user name of the user whose registration you want to confirm.
         public let username: String
 
-        public init(analyticsMetadata: AnalyticsMetadataType? = nil, clientId: String, clientMetadata: [String: String]? = nil, confirmationCode: String, forceAliasCreation: Bool? = nil, secretHash: String? = nil, userContextData: UserContextDataType? = nil, username: String) {
+        public init(analyticsMetadata: AnalyticsMetadataType? = nil, clientId: String, clientMetadata: [String: String]? = nil, confirmationCode: String, forceAliasCreation: Bool = false, secretHash: String? = nil, userContextData: UserContextDataType? = nil, username: String) {
             self.analyticsMetadata = analyticsMetadata
             self.clientId = clientId
             self.clientMetadata = clientMetadata
@@ -2293,12 +2299,12 @@ extension CognitoIdentityProvider {
     }
 
     public struct CreateUserPoolClientRequest: AWSEncodableShape {
-        /// The access token time limit. After this limit expires, your user can't use  their access token. To specify the time unit for AccessTokenValidity as  seconds, minutes, hours, or days,  set a TokenValidityUnits value in your API request. For example, when you set AccessTokenValidity to 10 and TokenValidityUnits to hours, your user can authorize access with their access token for 10 hours. The default time unit for AccessTokenValidity in an API request is hours.  Valid range is displayed below in seconds.
+        /// The access token time limit. After this limit expires, your user can't use  their access token. To specify the time unit for AccessTokenValidity as  seconds, minutes, hours, or days,  set a TokenValidityUnits value in your API request. For example, when you set AccessTokenValidity to 10 and TokenValidityUnits to hours, your user can authorize access with their access token for 10 hours. The default time unit for AccessTokenValidity in an API request is hours.  Valid range is displayed below in seconds. If you don't specify otherwise in the configuration of your app client, your access tokens are valid for one hour.
         public let accessTokenValidity: Int?
         /// The allowed OAuth flows.  code  Use a code grant flow, which provides an authorization code as the response. This code can be exchanged for access tokens with the /oauth2/token endpoint.  implicit  Issue the access token (and, optionally, ID token, based on scopes) directly to your user.  client_credentials  Issue the access token from the /oauth2/token endpoint directly to a non-person user using a combination of the client ID and client secret.
         public let allowedOAuthFlows: [OAuthFlowType]?
         /// Set to true if the client is allowed to follow the OAuth protocol when interacting with Amazon Cognito user pools.
-        public let allowedOAuthFlowsUserPoolClient: Bool?
+        public let allowedOAuthFlowsUserPoolClient: Bool
         /// The allowed OAuth scopes. Possible values provided by OAuth are phone, email, openid, and profile. Possible values provided by Amazon Web Services are aws.cognito.signin.user.admin. Custom scopes created in Resource Servers are also supported.
         public let allowedOAuthScopes: [String]?
         /// The user pool analytics configuration for collecting metrics and sending them to your Amazon Pinpoint campaign.  In Amazon Web Services Regions where Amazon Pinpoint isn't available, user pools only support sending events to Amazon Pinpoint projects in Amazon Web Services Region us-east-1. In Regions where Amazon Pinpoint is available, user pools support sending events to Amazon Pinpoint projects within that same Region.
@@ -2316,11 +2322,15 @@ extension CognitoIdentityProvider {
         public let enablePropagateAdditionalUserContextData: Bool?
         /// Activates or deactivates token revocation. For more information about revoking tokens, see RevokeToken. If you don't include this parameter, token revocation is automatically activated for the new user pool client.
         public let enableTokenRevocation: Bool?
-        /// The authentication flows that are supported by the user pool clients. Flow names without the ALLOW_ prefix are no longer supported, in favor of new names with the ALLOW_ prefix.  Values with ALLOW_ prefix must be used only along with the ALLOW_ prefix.  Valid values include:  ALLOW_ADMIN_USER_PASSWORD_AUTH  Enable admin based user password authentication flow ADMIN_USER_PASSWORD_AUTH. This setting replaces the ADMIN_NO_SRP_AUTH setting. With this authentication flow, Amazon Cognito receives the password in the request instead of using the Secure Remote Password (SRP) protocol to verify passwords.  ALLOW_CUSTOM_AUTH  Enable Lambda trigger based authentication.  ALLOW_USER_PASSWORD_AUTH  Enable user password-based authentication. In this flow, Amazon Cognito receives the password in the request instead of using the SRP protocol to verify passwords.  ALLOW_USER_SRP_AUTH  Enable SRP-based authentication.  ALLOW_REFRESH_TOKEN_AUTH  Enable the authflow that refreshes tokens.   If you don't specify a value for ExplicitAuthFlows, your user client supports ALLOW_USER_SRP_AUTH and ALLOW_CUSTOM_AUTH.
+        /// The authentication flows that you want your user pool client to support. For each app client in your user pool, you can sign in
+        /// your users with any combination of one or more flows, including with a user name and Secure Remote Password (SRP), a user name and
+        /// password, or a custom authentication process that you define with Lambda functions.  If you don't specify a value for ExplicitAuthFlows, your user client supports ALLOW_REFRESH_TOKEN_AUTH, ALLOW_USER_SRP_AUTH, and ALLOW_CUSTOM_AUTH.  Valid values include:    ALLOW_ADMIN_USER_PASSWORD_AUTH: Enable admin based user password authentication flow ADMIN_USER_PASSWORD_AUTH. This setting replaces the ADMIN_NO_SRP_AUTH setting. With this authentication flow, your app passes a user name and password to Amazon Cognito in the request, instead of using the Secure  Remote Password (SRP) protocol to securely transmit the password.    ALLOW_CUSTOM_AUTH: Enable Lambda trigger based authentication.    ALLOW_USER_PASSWORD_AUTH: Enable user password-based authentication. In this flow, Amazon Cognito receives the password in the request instead of using the SRP protocol to verify passwords.    ALLOW_USER_SRP_AUTH: Enable SRP-based authentication.    ALLOW_REFRESH_TOKEN_AUTH: Enable authflow to refresh tokens.   In some environments, you will see the values ADMIN_NO_SRP_AUTH, CUSTOM_AUTH_FLOW_ONLY, or USER_PASSWORD_AUTH.
+        /// You can't assign these legacy ExplicitAuthFlows values to user pool clients at the same time as values that begin with ALLOW_,
+        /// like ALLOW_USER_SRP_AUTH.
         public let explicitAuthFlows: [ExplicitAuthFlowsType]?
         /// Boolean to specify whether you want to generate a secret for the user pool client being created.
-        public let generateSecret: Bool?
-        /// The ID token time limit. After this limit expires, your user can't use  their ID token. To specify the time unit for IdTokenValidity as  seconds, minutes, hours, or days,  set a TokenValidityUnits value in your API request. For example, when you set IdTokenValidity as 10 and TokenValidityUnits as hours, your user can authenticate their  session with their ID token for 10 hours. The default time unit for AccessTokenValidity in an API request is hours.  Valid range is displayed below in seconds.
+        public let generateSecret: Bool
+        /// The ID token time limit. After this limit expires, your user can't use  their ID token. To specify the time unit for IdTokenValidity as  seconds, minutes, hours, or days,  set a TokenValidityUnits value in your API request. For example, when you set IdTokenValidity as 10 and TokenValidityUnits as hours, your user can authenticate their  session with their ID token for 10 hours. The default time unit for AccessTokenValidity in an API request is hours.  Valid range is displayed below in seconds. If you don't specify otherwise in the configuration of your app client, your ID tokens are valid for one hour.
         public let idTokenValidity: Int?
         /// A list of allowed logout URLs for the IdPs.
         public let logoutURLs: [String]?
@@ -2328,8 +2338,8 @@ extension CognitoIdentityProvider {
         public let preventUserExistenceErrors: PreventUserExistenceErrorTypes?
         /// The read attributes.
         public let readAttributes: [String]?
-        /// The refresh token time limit. After this limit expires, your user can't use  their refresh token. To specify the time unit for RefreshTokenValidity as  seconds, minutes, hours, or days,  set a TokenValidityUnits value in your API request. For example, when you set RefreshTokenValidity as 10 and TokenValidityUnits as days, your user can refresh their session and retrieve new access and ID tokens for 10 days. The default time unit for RefreshTokenValidity in an API request is days.  You can't set RefreshTokenValidity to 0. If you do, Amazon Cognito overrides the  value with the default value of 30 days. Valid range is displayed below  in seconds.
-        public let refreshTokenValidity: Int?
+        /// The refresh token time limit. After this limit expires, your user can't use  their refresh token. To specify the time unit for RefreshTokenValidity as  seconds, minutes, hours, or days,  set a TokenValidityUnits value in your API request. For example, when you set RefreshTokenValidity as 10 and TokenValidityUnits as days, your user can refresh their session and retrieve new access and ID tokens for 10 days. The default time unit for RefreshTokenValidity in an API request is days.  You can't set RefreshTokenValidity to 0. If you do, Amazon Cognito overrides the  value with the default value of 30 days. Valid range is displayed below  in seconds. If you don't specify otherwise in the configuration of your app client, your refresh tokens are valid for 30 days.
+        public let refreshTokenValidity: Int
         /// A list of provider names for the identity providers (IdPs) that are supported on this client. The following are supported: COGNITO, Facebook, Google, SignInWithApple, and LoginWithAmazon. You can also specify the names that you configured for the SAML and OIDC IdPs in your user pool, for example MySAMLIdP or MyOIDCIdP.
         public let supportedIdentityProviders: [String]?
         /// The units in which the validity times are represented. The default unit for RefreshToken is days, and default for ID and access tokens are hours.
@@ -2339,7 +2349,7 @@ extension CognitoIdentityProvider {
         /// The user pool attributes that the app client can write to. If your app client allows users to sign in through an IdP, this array must include all attributes that you have mapped to IdP attributes. Amazon Cognito updates mapped attributes when users sign in to your application through an IdP. If your app client does not have write access to a mapped attribute, Amazon Cognito throws an error when it tries to update the attribute. For more information, see Specifying IdP Attribute Mappings for Your user pool.
         public let writeAttributes: [String]?
 
-        public init(accessTokenValidity: Int? = nil, allowedOAuthFlows: [OAuthFlowType]? = nil, allowedOAuthFlowsUserPoolClient: Bool? = nil, allowedOAuthScopes: [String]? = nil, analyticsConfiguration: AnalyticsConfigurationType? = nil, authSessionValidity: Int? = nil, callbackURLs: [String]? = nil, clientName: String, defaultRedirectURI: String? = nil, enablePropagateAdditionalUserContextData: Bool? = nil, enableTokenRevocation: Bool? = nil, explicitAuthFlows: [ExplicitAuthFlowsType]? = nil, generateSecret: Bool? = nil, idTokenValidity: Int? = nil, logoutURLs: [String]? = nil, preventUserExistenceErrors: PreventUserExistenceErrorTypes? = nil, readAttributes: [String]? = nil, refreshTokenValidity: Int? = nil, supportedIdentityProviders: [String]? = nil, tokenValidityUnits: TokenValidityUnitsType? = nil, userPoolId: String, writeAttributes: [String]? = nil) {
+        public init(accessTokenValidity: Int? = nil, allowedOAuthFlows: [OAuthFlowType]? = nil, allowedOAuthFlowsUserPoolClient: Bool = false, allowedOAuthScopes: [String]? = nil, analyticsConfiguration: AnalyticsConfigurationType? = nil, authSessionValidity: Int? = nil, callbackURLs: [String]? = nil, clientName: String, defaultRedirectURI: String? = nil, enablePropagateAdditionalUserContextData: Bool? = nil, enableTokenRevocation: Bool? = nil, explicitAuthFlows: [ExplicitAuthFlowsType]? = nil, generateSecret: Bool = false, idTokenValidity: Int? = nil, logoutURLs: [String]? = nil, preventUserExistenceErrors: PreventUserExistenceErrorTypes? = nil, readAttributes: [String]? = nil, refreshTokenValidity: Int = 0, supportedIdentityProviders: [String]? = nil, tokenValidityUnits: TokenValidityUnitsType? = nil, userPoolId: String, writeAttributes: [String]? = nil) {
             self.accessTokenValidity = accessTokenValidity
             self.allowedOAuthFlows = allowedOAuthFlows
             self.allowedOAuthFlowsUserPoolClient = allowedOAuthFlowsUserPoolClient
@@ -2509,6 +2519,8 @@ extension CognitoIdentityProvider {
         public let aliasAttributes: [AliasAttributeType]?
         /// The attributes to be auto-verified. Possible values: email, phone_number.
         public let autoVerifiedAttributes: [VerifiedAttributeType]?
+        /// When active, DeletionProtection prevents accidental deletion of your user pool. Before you can delete a user pool that you have protected against deletion, you must deactivate this feature. When you try to delete a protected user pool in a DeleteUserPool API request,  Amazon Cognito returns an InvalidParameterException error. To delete a protected user pool,  send a new DeleteUserPool request after you deactivate deletion protection in an  UpdateUserPool API request.
+        public let deletionProtection: DeletionProtectionType?
         /// The device-remembering configuration for a user pool. A null value indicates that you have deactivated device remembering in your user pool.  When you provide a value for any DeviceConfiguration field, you activate the Amazon Cognito device-remembering feature.
         public let deviceConfiguration: DeviceConfigurationType?
         /// The email configuration of your user pool. The email configuration type sets your preferred sending method, Amazon Web Services Region, and sender for messages from your user pool.
@@ -2549,11 +2561,12 @@ extension CognitoIdentityProvider {
         /// The template for the verification message that the user sees when the app requests permission to access the user's information.
         public let verificationMessageTemplate: VerificationMessageTemplateType?
 
-        public init(accountRecoverySetting: AccountRecoverySettingType? = nil, adminCreateUserConfig: AdminCreateUserConfigType? = nil, aliasAttributes: [AliasAttributeType]? = nil, autoVerifiedAttributes: [VerifiedAttributeType]? = nil, deviceConfiguration: DeviceConfigurationType? = nil, emailConfiguration: EmailConfigurationType? = nil, emailVerificationMessage: String? = nil, emailVerificationSubject: String? = nil, lambdaConfig: LambdaConfigType? = nil, mfaConfiguration: UserPoolMfaType? = nil, policies: UserPoolPolicyType? = nil, poolName: String, schema: [SchemaAttributeType]? = nil, smsAuthenticationMessage: String? = nil, smsConfiguration: SmsConfigurationType? = nil, smsVerificationMessage: String? = nil, userAttributeUpdateSettings: UserAttributeUpdateSettingsType? = nil, usernameAttributes: [UsernameAttributeType]? = nil, usernameConfiguration: UsernameConfigurationType? = nil, userPoolAddOns: UserPoolAddOnsType? = nil, userPoolTags: [String: String]? = nil, verificationMessageTemplate: VerificationMessageTemplateType? = nil) {
+        public init(accountRecoverySetting: AccountRecoverySettingType? = nil, adminCreateUserConfig: AdminCreateUserConfigType? = nil, aliasAttributes: [AliasAttributeType]? = nil, autoVerifiedAttributes: [VerifiedAttributeType]? = nil, deletionProtection: DeletionProtectionType? = nil, deviceConfiguration: DeviceConfigurationType? = nil, emailConfiguration: EmailConfigurationType? = nil, emailVerificationMessage: String? = nil, emailVerificationSubject: String? = nil, lambdaConfig: LambdaConfigType? = nil, mfaConfiguration: UserPoolMfaType? = nil, policies: UserPoolPolicyType? = nil, poolName: String, schema: [SchemaAttributeType]? = nil, smsAuthenticationMessage: String? = nil, smsConfiguration: SmsConfigurationType? = nil, smsVerificationMessage: String? = nil, userAttributeUpdateSettings: UserAttributeUpdateSettingsType? = nil, usernameAttributes: [UsernameAttributeType]? = nil, usernameConfiguration: UsernameConfigurationType? = nil, userPoolAddOns: UserPoolAddOnsType? = nil, userPoolTags: [String: String]? = nil, verificationMessageTemplate: VerificationMessageTemplateType? = nil) {
             self.accountRecoverySetting = accountRecoverySetting
             self.adminCreateUserConfig = adminCreateUserConfig
             self.aliasAttributes = aliasAttributes
             self.autoVerifiedAttributes = autoVerifiedAttributes
+            self.deletionProtection = deletionProtection
             self.deviceConfiguration = deviceConfiguration
             self.emailConfiguration = emailConfiguration
             self.emailVerificationMessage = emailVerificationMessage
@@ -2614,6 +2627,7 @@ extension CognitoIdentityProvider {
             case adminCreateUserConfig = "AdminCreateUserConfig"
             case aliasAttributes = "AliasAttributes"
             case autoVerifiedAttributes = "AutoVerifiedAttributes"
+            case deletionProtection = "DeletionProtection"
             case deviceConfiguration = "DeviceConfiguration"
             case emailConfiguration = "EmailConfiguration"
             case emailVerificationMessage = "EmailVerificationMessage"
@@ -2940,7 +2954,7 @@ extension CognitoIdentityProvider {
     }
 
     public struct DescribeIdentityProviderResponse: AWSDecodableShape {
-        /// The IdP that was deleted.
+        /// The identity provider details.
         public let identityProvider: IdentityProviderType
 
         public init(identityProvider: IdentityProviderType) {
@@ -3279,7 +3293,7 @@ extension CognitoIdentityProvider {
     public struct EmailConfigurationType: AWSEncodableShape & AWSDecodableShape {
         /// The set of configuration rules that can be applied to emails sent using Amazon Simple Email Service. A configuration set is applied to an email by including a reference to the configuration set in the headers of the email. Once applied, all of the rules in that configuration set are applied to the email. Configuration sets can be used to apply the following types of rules to emails:   Event publishing  Amazon Simple Email Service can track the number of send, delivery, open, click, bounce, and complaint events for each email sent. Use event publishing to send information about these events to other Amazon Web Services services such as and Amazon CloudWatch  IP pool management  When leasing dedicated IP addresses with Amazon Simple Email Service, you can create groups of IP addresses, called dedicated IP pools. You can then associate the dedicated IP pools with configuration sets.
         public let configurationSet: String?
-        /// Specifies whether Amazon Cognito uses its built-in functionality to send your users email messages, or uses your Amazon Simple Email Service email configuration. Specify one of the following values:  COGNITO_DEFAULT  When Amazon Cognito emails your users, it uses its built-in email functionality. When you use the default option, Amazon Cognito allows only a limited number of emails each day for your user pool. For typical production environments, the default email limit is less than the required delivery volume. To achieve a higher delivery volume, specify DEVELOPER to use your Amazon SES email configuration. To look up the email delivery limit for the default option, see Limits in  in the  Developer Guide. The default FROM address is no-reply@verificationemail.com. To customize the FROM address, provide the Amazon Resource Name (ARN) of an Amazon SES verified email address for the SourceArn parameter.   DEVELOPER  When Amazon Cognito emails your users, it uses your Amazon SES configuration. Amazon Cognito calls Amazon SES on your behalf to send email from your verified email address. When you use this option, the email delivery limits are the same limits that apply to your Amazon SES verified email address in your Amazon Web Services account. If you use this option, provide the ARN of an Amazon SES verified email address for the SourceArn parameter. Before Amazon Cognito can email your users, it requires additional permissions to call Amazon SES on your behalf. When you update your user pool with this option, Amazon Cognito creates a service-linked role, which is a type of role, in your Amazon Web Services account. This role contains the permissions that allow to access Amazon SES and send email messages with your address. For more information about the service-linked role that Amazon Cognito creates, see Using Service-Linked Roles for Amazon Cognito in the Amazon Cognito Developer Guide.
+        /// Specifies whether Amazon Cognito uses its built-in functionality to send your users email messages, or uses your Amazon Simple Email Service email configuration. Specify one of the following values:  COGNITO_DEFAULT  When Amazon Cognito emails your users, it uses its built-in email functionality. When you use the default option, Amazon Cognito allows only a limited number of emails each day for your user pool. For typical production environments, the default email limit is less than the required delivery volume. To achieve a higher delivery volume, specify DEVELOPER to use your Amazon SES email configuration. To look up the email delivery limit for the default option, see Limits in the Amazon Cognito Developer Guide. The default FROM address is no-reply@verificationemail.com. To customize the FROM address, provide the Amazon Resource Name (ARN) of an Amazon SES verified email address for the SourceArn parameter.   DEVELOPER  When Amazon Cognito emails your users, it uses your Amazon SES configuration. Amazon Cognito calls Amazon SES on your behalf to send email from your verified email address. When you use this option, the email delivery limits are the same limits that apply to your Amazon SES verified email address in your Amazon Web Services account. If you use this option, provide the ARN of an Amazon SES verified email address for the SourceArn parameter. Before Amazon Cognito can email your users, it requires additional permissions to call Amazon SES on your behalf. When you update your user pool with this option, Amazon Cognito creates a service-linked role, which is a type of role in your Amazon Web Services account. This role contains the permissions that allow you to access Amazon SES and send email messages from your email address. For more information about the service-linked role that Amazon Cognito creates, see Using Service-Linked Roles for Amazon Cognito in the Amazon Cognito Developer Guide.
         public let emailSendingAccount: EmailSendingAccountType?
         /// Either the sender’s email address or the sender’s name with their email address. For example, testuser@example.com or Test User . This address appears before the body of the email.
         public let from: String?
@@ -3611,7 +3625,7 @@ extension CognitoIdentityProvider {
     }
 
     public struct GetIdentityProviderByIdentifierResponse: AWSDecodableShape {
-        /// The IdP object.
+        /// The identity provider details.
         public let identityProvider: IdentityProviderType
 
         public init(identityProvider: IdentityProviderType) {
@@ -4253,13 +4267,13 @@ extension CognitoIdentityProvider {
 
     public struct ListResourceServersRequest: AWSEncodableShape {
         /// The maximum number of resource servers to return.
-        public let maxResults: Int?
+        public let maxResults: Int
         /// A pagination token.
         public let nextToken: String?
         /// The user pool ID for the user pool.
         public let userPoolId: String
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil, userPoolId: String) {
+        public init(maxResults: Int = 0, nextToken: String? = nil, userPoolId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.userPoolId = userPoolId
@@ -4339,7 +4353,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID for the user pool that the users are being imported into.
         public let userPoolId: String
 
-        public init(maxResults: Int, paginationToken: String? = nil, userPoolId: String) {
+        public init(maxResults: Int = 0, paginationToken: String? = nil, userPoolId: String) {
             self.maxResults = maxResults
             self.paginationToken = paginationToken
             self.userPoolId = userPoolId
@@ -4381,13 +4395,13 @@ extension CognitoIdentityProvider {
 
     public struct ListUserPoolClientsRequest: AWSEncodableShape {
         /// The maximum number of results you want the request to return when listing the user pool clients.
-        public let maxResults: Int?
+        public let maxResults: Int
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
         /// The user pool ID for the user pool where you want to list user pool clients.
         public let userPoolId: String
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil, userPoolId: String) {
+        public init(maxResults: Int = 0, nextToken: String? = nil, userPoolId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.userPoolId = userPoolId
@@ -4433,7 +4447,7 @@ extension CognitoIdentityProvider {
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
 
-        public init(maxResults: Int, nextToken: String? = nil) {
+        public init(maxResults: Int = 0, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -5145,11 +5159,11 @@ extension CognitoIdentityProvider {
 
     public struct SMSMfaSettingsType: AWSEncodableShape {
         /// Specifies whether SMS text message MFA is activated. If an MFA type is activated for a user, the user will be prompted for MFA during all sign-in attempts, unless device tracking is turned on and the device has been trusted.
-        public let enabled: Bool?
+        public let enabled: Bool
         /// Specifies whether SMS is the preferred MFA method.
-        public let preferredMfa: Bool?
+        public let preferredMfa: Bool
 
-        public init(enabled: Bool? = nil, preferredMfa: Bool? = nil) {
+        public init(enabled: Bool = false, preferredMfa: Bool = false) {
             self.enabled = enabled
             self.preferredMfa = preferredMfa
         }
@@ -5571,11 +5585,11 @@ extension CognitoIdentityProvider {
 
     public struct SoftwareTokenMfaSettingsType: AWSEncodableShape {
         /// Specifies whether software token MFA is activated. If an MFA type is activated for a user, the user will be prompted for MFA during all sign-in attempts, unless device tracking is turned on and the device has been trusted.
-        public let enabled: Bool?
+        public let enabled: Bool
         /// Specifies whether software token MFA is the preferred MFA method.
-        public let preferredMfa: Bool?
+        public let preferredMfa: Bool
 
-        public init(enabled: Bool? = nil, preferredMfa: Bool? = nil) {
+        public init(enabled: Bool = false, preferredMfa: Bool = false) {
             self.enabled = enabled
             self.preferredMfa = preferredMfa
         }
@@ -5985,7 +5999,7 @@ extension CognitoIdentityProvider {
     }
 
     public struct UpdateIdentityProviderResponse: AWSDecodableShape {
-        /// The IdP object.
+        /// The identity provider details.
         public let identityProvider: IdentityProviderType
 
         public init(identityProvider: IdentityProviderType) {
@@ -6095,12 +6109,12 @@ extension CognitoIdentityProvider {
     }
 
     public struct UpdateUserPoolClientRequest: AWSEncodableShape {
-        /// The access token time limit. After this limit expires, your user can't use  their access token. To specify the time unit for AccessTokenValidity as  seconds, minutes, hours, or days,  set a TokenValidityUnits value in your API request. For example, when you set AccessTokenValidity to 10 and TokenValidityUnits to hours, your user can authorize access with their access token for 10 hours. The default time unit for AccessTokenValidity in an API request is hours.  Valid range is displayed below in seconds.
+        /// The access token time limit. After this limit expires, your user can't use  their access token. To specify the time unit for AccessTokenValidity as  seconds, minutes, hours, or days,  set a TokenValidityUnits value in your API request. For example, when you set AccessTokenValidity to 10 and TokenValidityUnits to hours, your user can authorize access with their access token for 10 hours. The default time unit for AccessTokenValidity in an API request is hours.  Valid range is displayed below in seconds. If you don't specify otherwise in the configuration of your app client, your access tokens are valid for one hour.
         public let accessTokenValidity: Int?
         /// The allowed OAuth flows.  code  Use a code grant flow, which provides an authorization code as the response. This code can be exchanged for access tokens with the /oauth2/token endpoint.  implicit  Issue the access token (and, optionally, ID token, based on scopes) directly to your user.  client_credentials  Issue the access token from the /oauth2/token endpoint directly to a non-person user using a combination of the client ID and client secret.
         public let allowedOAuthFlows: [OAuthFlowType]?
         /// Set to true if the client is allowed to follow the OAuth protocol when interacting with Amazon Cognito user pools.
-        public let allowedOAuthFlowsUserPoolClient: Bool?
+        public let allowedOAuthFlowsUserPoolClient: Bool
         /// The allowed OAuth scopes. Possible values provided by OAuth are phone, email, openid, and profile. Possible values provided by Amazon Web Services are aws.cognito.signin.user.admin. Custom scopes created in Resource Servers are also supported.
         public let allowedOAuthScopes: [String]?
         /// The Amazon Pinpoint analytics configuration necessary to collect metrics for this user pool.  In Amazon Web Services Regions where Amazon Pinpoint isn't available, user pools only support sending events to Amazon Pinpoint projects in us-east-1. In Regions where Amazon Pinpoint is available, user pools support sending events to Amazon Pinpoint projects within that same Region.
@@ -6120,9 +6134,13 @@ extension CognitoIdentityProvider {
         public let enablePropagateAdditionalUserContextData: Bool?
         /// Activates or deactivates token revocation. For more information about revoking tokens, see RevokeToken.
         public let enableTokenRevocation: Bool?
-        /// The authentication flows that are supported by the user pool clients. Flow names without the ALLOW_ prefix are no longer supported in favor of new names with the ALLOW_ prefix. Note that values with ALLOW_ prefix must be used only along with values with the ALLOW_ prefix. Valid values include:    ALLOW_ADMIN_USER_PASSWORD_AUTH: Enable admin based user password authentication flow ADMIN_USER_PASSWORD_AUTH. This setting replaces the ADMIN_NO_SRP_AUTH setting. With this authentication flow, Amazon Cognito receives the password in the request instead of using the Secure Remote Password (SRP) protocol to verify passwords.    ALLOW_CUSTOM_AUTH: Enable Lambda trigger based authentication.    ALLOW_USER_PASSWORD_AUTH: Enable user password-based authentication. In this flow, Amazon Cognito receives the password in the request instead of using the SRP protocol to verify passwords.    ALLOW_USER_SRP_AUTH: Enable SRP-based authentication.    ALLOW_REFRESH_TOKEN_AUTH: Enable authflow to refresh tokens.
+        /// The authentication flows that you want your user pool client to support. For each app client in your user pool, you can sign in
+        /// your users with any combination of one or more flows, including with a user name and Secure Remote Password (SRP), a user name and
+        /// password, or a custom authentication process that you define with Lambda functions.  If you don't specify a value for ExplicitAuthFlows, your user client supports ALLOW_REFRESH_TOKEN_AUTH, ALLOW_USER_SRP_AUTH, and ALLOW_CUSTOM_AUTH.  Valid values include:    ALLOW_ADMIN_USER_PASSWORD_AUTH: Enable admin based user password authentication flow ADMIN_USER_PASSWORD_AUTH. This setting replaces the ADMIN_NO_SRP_AUTH setting. With this authentication flow, your app passes a user name and password to Amazon Cognito in the request, instead of using the Secure  Remote Password (SRP) protocol to securely transmit the password.    ALLOW_CUSTOM_AUTH: Enable Lambda trigger based authentication.    ALLOW_USER_PASSWORD_AUTH: Enable user password-based authentication. In this flow, Amazon Cognito receives the password in the request instead of using the SRP protocol to verify passwords.    ALLOW_USER_SRP_AUTH: Enable SRP-based authentication.    ALLOW_REFRESH_TOKEN_AUTH: Enable authflow to refresh tokens.   In some environments, you will see the values ADMIN_NO_SRP_AUTH, CUSTOM_AUTH_FLOW_ONLY, or USER_PASSWORD_AUTH.
+        /// You can't assign these legacy ExplicitAuthFlows values to user pool clients at the same time as values that begin with ALLOW_,
+        /// like ALLOW_USER_SRP_AUTH.
         public let explicitAuthFlows: [ExplicitAuthFlowsType]?
-        /// The ID token time limit. After this limit expires, your user can't use  their ID token. To specify the time unit for IdTokenValidity as  seconds, minutes, hours, or days,  set a TokenValidityUnits value in your API request. For example, when you set IdTokenValidity as 10 and TokenValidityUnits as hours, your user can authenticate their  session with their ID token for 10 hours. The default time unit for AccessTokenValidity in an API request is hours.  Valid range is displayed below in seconds.
+        /// The ID token time limit. After this limit expires, your user can't use  their ID token. To specify the time unit for IdTokenValidity as  seconds, minutes, hours, or days,  set a TokenValidityUnits value in your API request. For example, when you set IdTokenValidity as 10 and TokenValidityUnits as hours, your user can authenticate their  session with their ID token for 10 hours. The default time unit for AccessTokenValidity in an API request is hours.  Valid range is displayed below in seconds. If you don't specify otherwise in the configuration of your app client, your ID tokens are valid for one hour.
         public let idTokenValidity: Int?
         /// A list of allowed logout URLs for the IdPs.
         public let logoutURLs: [String]?
@@ -6130,8 +6148,8 @@ extension CognitoIdentityProvider {
         public let preventUserExistenceErrors: PreventUserExistenceErrorTypes?
         /// The read-only attributes of the user pool.
         public let readAttributes: [String]?
-        /// The refresh token time limit. After this limit expires, your user can't use  their refresh token. To specify the time unit for RefreshTokenValidity as  seconds, minutes, hours, or days,  set a TokenValidityUnits value in your API request. For example, when you set RefreshTokenValidity as 10 and TokenValidityUnits as days, your user can refresh their session and retrieve new access and ID tokens for 10 days. The default time unit for RefreshTokenValidity in an API request is days.  You can't set RefreshTokenValidity to 0. If you do, Amazon Cognito overrides the  value with the default value of 30 days. Valid range is displayed below  in seconds.
-        public let refreshTokenValidity: Int?
+        /// The refresh token time limit. After this limit expires, your user can't use  their refresh token. To specify the time unit for RefreshTokenValidity as  seconds, minutes, hours, or days,  set a TokenValidityUnits value in your API request. For example, when you set RefreshTokenValidity as 10 and TokenValidityUnits as days, your user can refresh their session and retrieve new access and ID tokens for 10 days. The default time unit for RefreshTokenValidity in an API request is days.  You can't set RefreshTokenValidity to 0. If you do, Amazon Cognito overrides the  value with the default value of 30 days. Valid range is displayed below  in seconds. If you don't specify otherwise in the configuration of your app client, your refresh tokens are valid for 30 days.
+        public let refreshTokenValidity: Int
         /// A list of provider names for the IdPs that this client supports. The following are supported: COGNITO, Facebook, Google, SignInWithApple, LoginWithAmazon, and the names of your own SAML and OIDC providers.
         public let supportedIdentityProviders: [String]?
         /// The units in which the validity times are represented. The default unit for RefreshToken is days, and the default for ID and access tokens is hours.
@@ -6141,7 +6159,7 @@ extension CognitoIdentityProvider {
         /// The writeable attributes of the user pool.
         public let writeAttributes: [String]?
 
-        public init(accessTokenValidity: Int? = nil, allowedOAuthFlows: [OAuthFlowType]? = nil, allowedOAuthFlowsUserPoolClient: Bool? = nil, allowedOAuthScopes: [String]? = nil, analyticsConfiguration: AnalyticsConfigurationType? = nil, authSessionValidity: Int? = nil, callbackURLs: [String]? = nil, clientId: String, clientName: String? = nil, defaultRedirectURI: String? = nil, enablePropagateAdditionalUserContextData: Bool? = nil, enableTokenRevocation: Bool? = nil, explicitAuthFlows: [ExplicitAuthFlowsType]? = nil, idTokenValidity: Int? = nil, logoutURLs: [String]? = nil, preventUserExistenceErrors: PreventUserExistenceErrorTypes? = nil, readAttributes: [String]? = nil, refreshTokenValidity: Int? = nil, supportedIdentityProviders: [String]? = nil, tokenValidityUnits: TokenValidityUnitsType? = nil, userPoolId: String, writeAttributes: [String]? = nil) {
+        public init(accessTokenValidity: Int? = nil, allowedOAuthFlows: [OAuthFlowType]? = nil, allowedOAuthFlowsUserPoolClient: Bool = false, allowedOAuthScopes: [String]? = nil, analyticsConfiguration: AnalyticsConfigurationType? = nil, authSessionValidity: Int? = nil, callbackURLs: [String]? = nil, clientId: String, clientName: String? = nil, defaultRedirectURI: String? = nil, enablePropagateAdditionalUserContextData: Bool? = nil, enableTokenRevocation: Bool? = nil, explicitAuthFlows: [ExplicitAuthFlowsType]? = nil, idTokenValidity: Int? = nil, logoutURLs: [String]? = nil, preventUserExistenceErrors: PreventUserExistenceErrorTypes? = nil, readAttributes: [String]? = nil, refreshTokenValidity: Int = 0, supportedIdentityProviders: [String]? = nil, tokenValidityUnits: TokenValidityUnitsType? = nil, userPoolId: String, writeAttributes: [String]? = nil) {
             self.accessTokenValidity = accessTokenValidity
             self.allowedOAuthFlows = allowedOAuthFlows
             self.allowedOAuthFlowsUserPoolClient = allowedOAuthFlowsUserPoolClient
@@ -6312,6 +6330,8 @@ extension CognitoIdentityProvider {
         public let adminCreateUserConfig: AdminCreateUserConfigType?
         /// The attributes that are automatically verified when Amazon Cognito requests to update user pools.
         public let autoVerifiedAttributes: [VerifiedAttributeType]?
+        /// When active, DeletionProtection prevents accidental deletion of your user pool. Before you can delete a user pool that you have protected against deletion, you must deactivate this feature. When you try to delete a protected user pool in a DeleteUserPool API request,  Amazon Cognito returns an InvalidParameterException error. To delete a protected user pool,  send a new DeleteUserPool request after you deactivate deletion protection in an  UpdateUserPool API request.
+        public let deletionProtection: DeletionProtectionType?
         /// The device-remembering configuration for a user pool. A null value indicates that you have deactivated device remembering in your user pool.  When you provide a value for any DeviceConfiguration field, you activate the Amazon Cognito device-remembering feature.
         public let deviceConfiguration: DeviceConfigurationType?
         /// The email configuration of your user pool. The email configuration type sets your preferred sending method, Amazon Web Services Region, and sender for email invitation and verification messages from your user pool.
@@ -6346,10 +6366,11 @@ extension CognitoIdentityProvider {
         /// The template for verification messages.
         public let verificationMessageTemplate: VerificationMessageTemplateType?
 
-        public init(accountRecoverySetting: AccountRecoverySettingType? = nil, adminCreateUserConfig: AdminCreateUserConfigType? = nil, autoVerifiedAttributes: [VerifiedAttributeType]? = nil, deviceConfiguration: DeviceConfigurationType? = nil, emailConfiguration: EmailConfigurationType? = nil, emailVerificationMessage: String? = nil, emailVerificationSubject: String? = nil, lambdaConfig: LambdaConfigType? = nil, mfaConfiguration: UserPoolMfaType? = nil, policies: UserPoolPolicyType? = nil, smsAuthenticationMessage: String? = nil, smsConfiguration: SmsConfigurationType? = nil, smsVerificationMessage: String? = nil, userAttributeUpdateSettings: UserAttributeUpdateSettingsType? = nil, userPoolAddOns: UserPoolAddOnsType? = nil, userPoolId: String, userPoolTags: [String: String]? = nil, verificationMessageTemplate: VerificationMessageTemplateType? = nil) {
+        public init(accountRecoverySetting: AccountRecoverySettingType? = nil, adminCreateUserConfig: AdminCreateUserConfigType? = nil, autoVerifiedAttributes: [VerifiedAttributeType]? = nil, deletionProtection: DeletionProtectionType? = nil, deviceConfiguration: DeviceConfigurationType? = nil, emailConfiguration: EmailConfigurationType? = nil, emailVerificationMessage: String? = nil, emailVerificationSubject: String? = nil, lambdaConfig: LambdaConfigType? = nil, mfaConfiguration: UserPoolMfaType? = nil, policies: UserPoolPolicyType? = nil, smsAuthenticationMessage: String? = nil, smsConfiguration: SmsConfigurationType? = nil, smsVerificationMessage: String? = nil, userAttributeUpdateSettings: UserAttributeUpdateSettingsType? = nil, userPoolAddOns: UserPoolAddOnsType? = nil, userPoolId: String, userPoolTags: [String: String]? = nil, verificationMessageTemplate: VerificationMessageTemplateType? = nil) {
             self.accountRecoverySetting = accountRecoverySetting
             self.adminCreateUserConfig = adminCreateUserConfig
             self.autoVerifiedAttributes = autoVerifiedAttributes
+            self.deletionProtection = deletionProtection
             self.deviceConfiguration = deviceConfiguration
             self.emailConfiguration = emailConfiguration
             self.emailVerificationMessage = emailVerificationMessage
@@ -6401,6 +6422,7 @@ extension CognitoIdentityProvider {
             case accountRecoverySetting = "AccountRecoverySetting"
             case adminCreateUserConfig = "AdminCreateUserConfig"
             case autoVerifiedAttributes = "AutoVerifiedAttributes"
+            case deletionProtection = "DeletionProtection"
             case deviceConfiguration = "DeviceConfiguration"
             case emailConfiguration = "EmailConfiguration"
             case emailVerificationMessage = "EmailVerificationMessage"
@@ -6549,7 +6571,7 @@ extension CognitoIdentityProvider {
     }
 
     public struct UserPoolClientType: AWSDecodableShape {
-        /// The access token time limit. After this limit expires, your user can't use  their access token. To specify the time unit for AccessTokenValidity as  seconds, minutes, hours, or days,  set a TokenValidityUnits value in your API request. For example, when you set AccessTokenValidity to 10 and TokenValidityUnits to hours, your user can authorize access with their access token for 10 hours. The default time unit for AccessTokenValidity in an API request is hours.  Valid range is displayed below in seconds.
+        /// The access token time limit. After this limit expires, your user can't use  their access token. To specify the time unit for AccessTokenValidity as  seconds, minutes, hours, or days,  set a TokenValidityUnits value in your API request. For example, when you set AccessTokenValidity to 10 and TokenValidityUnits to hours, your user can authorize access with their access token for 10 hours. The default time unit for AccessTokenValidity in an API request is hours.  Valid range is displayed below in seconds. If you don't specify otherwise in the configuration of your app client, your access tokens are valid for one hour.
         public let accessTokenValidity: Int?
         /// The allowed OAuth flows.  code  Use a code grant flow, which provides an authorization code as the response. This code can be exchanged for access tokens with the /oauth2/token endpoint.  implicit  Issue the access token (and, optionally, ID token, based on scopes) directly to your user.  client_credentials  Issue the access token from the /oauth2/token endpoint directly to a non-person user using a combination of the client ID and client secret.
         public let allowedOAuthFlows: [OAuthFlowType]?
@@ -6578,9 +6600,13 @@ extension CognitoIdentityProvider {
         public let enablePropagateAdditionalUserContextData: Bool?
         /// Indicates whether token revocation is activated for the user pool client. When you create a new user pool client, token revocation is activated by default. For more information about revoking tokens, see RevokeToken.
         public let enableTokenRevocation: Bool?
-        /// The authentication flows that are supported by the user pool clients. Flow names without the ALLOW_ prefix are no longer supported in favor of new names with the ALLOW_ prefix. Note that values with ALLOW_ prefix must be used only along with values including the ALLOW_ prefix. Valid values include:    ALLOW_ADMIN_USER_PASSWORD_AUTH: Enable admin based user password authentication flow ADMIN_USER_PASSWORD_AUTH. This setting replaces the ADMIN_NO_SRP_AUTH setting. With this authentication flow, Amazon Cognito receives the password in the request instead of using the Secure Remote Password (SRP) protocol to verify passwords.    ALLOW_CUSTOM_AUTH: Enable Lambda trigger based authentication.    ALLOW_USER_PASSWORD_AUTH: Enable user password-based authentication. In this flow, Amazon Cognito receives the password in the request instead of using the SRP protocol to verify passwords.    ALLOW_USER_SRP_AUTH: Enable SRP-based authentication.    ALLOW_REFRESH_TOKEN_AUTH: Enable authflow to refresh tokens.
+        /// The authentication flows that you want your user pool client to support. For each app client in your user pool, you can sign in
+        /// your users with any combination of one or more flows, including with a user name and Secure Remote Password (SRP), a user name and
+        /// password, or a custom authentication process that you define with Lambda functions.  If you don't specify a value for ExplicitAuthFlows, your user client supports ALLOW_REFRESH_TOKEN_AUTH, ALLOW_USER_SRP_AUTH, and ALLOW_CUSTOM_AUTH.  Valid values include:    ALLOW_ADMIN_USER_PASSWORD_AUTH: Enable admin based user password authentication flow ADMIN_USER_PASSWORD_AUTH. This setting replaces the ADMIN_NO_SRP_AUTH setting. With this authentication flow, your app passes a user name and password to Amazon Cognito in the request, instead of using the Secure  Remote Password (SRP) protocol to securely transmit the password.    ALLOW_CUSTOM_AUTH: Enable Lambda trigger based authentication.    ALLOW_USER_PASSWORD_AUTH: Enable user password-based authentication. In this flow, Amazon Cognito receives the password in the request instead of using the SRP protocol to verify passwords.    ALLOW_USER_SRP_AUTH: Enable SRP-based authentication.    ALLOW_REFRESH_TOKEN_AUTH: Enable authflow to refresh tokens.   In some environments, you will see the values ADMIN_NO_SRP_AUTH, CUSTOM_AUTH_FLOW_ONLY, or USER_PASSWORD_AUTH.
+        /// You can't assign these legacy ExplicitAuthFlows values to user pool clients at the same time as values that begin with ALLOW_,
+        /// like ALLOW_USER_SRP_AUTH.
         public let explicitAuthFlows: [ExplicitAuthFlowsType]?
-        /// The ID token time limit. After this limit expires, your user can't use  their ID token. To specify the time unit for IdTokenValidity as  seconds, minutes, hours, or days,  set a TokenValidityUnits value in your API request. For example, when you set IdTokenValidity as 10 and TokenValidityUnits as hours, your user can authenticate their  session with their ID token for 10 hours. The default time unit for AccessTokenValidity in an API request is hours.  Valid range is displayed below in seconds.
+        /// The ID token time limit. After this limit expires, your user can't use  their ID token. To specify the time unit for IdTokenValidity as  seconds, minutes, hours, or days,  set a TokenValidityUnits value in your API request. For example, when you set IdTokenValidity as 10 and TokenValidityUnits as hours, your user can authenticate their  session with their ID token for 10 hours. The default time unit for AccessTokenValidity in an API request is hours.  Valid range is displayed below in seconds. If you don't specify otherwise in the configuration of your app client, your ID tokens are valid for one hour.
         public let idTokenValidity: Int?
         /// The date the user pool client was last modified.
         public let lastModifiedDate: Date?
@@ -6590,7 +6616,7 @@ extension CognitoIdentityProvider {
         public let preventUserExistenceErrors: PreventUserExistenceErrorTypes?
         /// The Read-only attributes.
         public let readAttributes: [String]?
-        /// The refresh token time limit. After this limit expires, your user can't use  their refresh token. To specify the time unit for RefreshTokenValidity as  seconds, minutes, hours, or days,  set a TokenValidityUnits value in your API request. For example, when you set RefreshTokenValidity as 10 and TokenValidityUnits as days, your user can refresh their session and retrieve new access and ID tokens for 10 days. The default time unit for RefreshTokenValidity in an API request is days.  You can't set RefreshTokenValidity to 0. If you do, Amazon Cognito overrides the  value with the default value of 30 days. Valid range is displayed below  in seconds.
+        /// The refresh token time limit. After this limit expires, your user can't use  their refresh token. To specify the time unit for RefreshTokenValidity as  seconds, minutes, hours, or days,  set a TokenValidityUnits value in your API request. For example, when you set RefreshTokenValidity as 10 and TokenValidityUnits as days, your user can refresh their session and retrieve new access and ID tokens for 10 days. The default time unit for RefreshTokenValidity in an API request is days.  You can't set RefreshTokenValidity to 0. If you do, Amazon Cognito overrides the  value with the default value of 30 days. Valid range is displayed below  in seconds. If you don't specify otherwise in the configuration of your app client, your refresh tokens are valid for 30 days.
         public let refreshTokenValidity: Int?
         /// A list of provider names for the IdPs that this client supports. The following are supported: COGNITO, Facebook, Google, SignInWithApple, LoginWithAmazon, and the names of your own SAML and OIDC providers.
         public let supportedIdentityProviders: [String]?
@@ -6723,6 +6749,8 @@ extension CognitoIdentityProvider {
         public let creationDate: Date?
         /// A custom domain name that you provide to Amazon Cognito. This parameter applies only if you use a custom domain to host the sign-up and sign-in pages for your application. An example of a custom domain name might be auth.example.com. For more information about adding a custom domain to your user pool, see Using Your Own Domain for the Hosted UI.
         public let customDomain: String?
+        /// When active, DeletionProtection prevents accidental deletion of your user pool. Before you can delete a user pool that you have protected against deletion, you must deactivate this feature. When you try to delete a protected user pool in a DeleteUserPool API request,  Amazon Cognito returns an InvalidParameterException error. To delete a protected user pool,  send a new DeleteUserPool request after you deactivate deletion protection in an  UpdateUserPool API request.
+        public let deletionProtection: DeletionProtectionType?
         /// The device-remembering configuration for a user pool. A null value indicates that you have deactivated device remembering in your user pool.  When you provide a value for any DeviceConfiguration field, you activate the Amazon Cognito device-remembering feature.
         public let deviceConfiguration: DeviceConfigurationType?
         /// The domain prefix, if the user pool has a domain associated with it.
@@ -6777,7 +6805,7 @@ extension CognitoIdentityProvider {
         /// The template for verification messages.
         public let verificationMessageTemplate: VerificationMessageTemplateType?
 
-        public init(accountRecoverySetting: AccountRecoverySettingType? = nil, adminCreateUserConfig: AdminCreateUserConfigType? = nil, aliasAttributes: [AliasAttributeType]? = nil, arn: String? = nil, autoVerifiedAttributes: [VerifiedAttributeType]? = nil, creationDate: Date? = nil, customDomain: String? = nil, deviceConfiguration: DeviceConfigurationType? = nil, domain: String? = nil, emailConfiguration: EmailConfigurationType? = nil, emailConfigurationFailure: String? = nil, emailVerificationMessage: String? = nil, emailVerificationSubject: String? = nil, estimatedNumberOfUsers: Int? = nil, id: String? = nil, lambdaConfig: LambdaConfigType? = nil, lastModifiedDate: Date? = nil, mfaConfiguration: UserPoolMfaType? = nil, name: String? = nil, policies: UserPoolPolicyType? = nil, schemaAttributes: [SchemaAttributeType]? = nil, smsAuthenticationMessage: String? = nil, smsConfiguration: SmsConfigurationType? = nil, smsConfigurationFailure: String? = nil, smsVerificationMessage: String? = nil, status: StatusType? = nil, userAttributeUpdateSettings: UserAttributeUpdateSettingsType? = nil, usernameAttributes: [UsernameAttributeType]? = nil, usernameConfiguration: UsernameConfigurationType? = nil, userPoolAddOns: UserPoolAddOnsType? = nil, userPoolTags: [String: String]? = nil, verificationMessageTemplate: VerificationMessageTemplateType? = nil) {
+        public init(accountRecoverySetting: AccountRecoverySettingType? = nil, adminCreateUserConfig: AdminCreateUserConfigType? = nil, aliasAttributes: [AliasAttributeType]? = nil, arn: String? = nil, autoVerifiedAttributes: [VerifiedAttributeType]? = nil, creationDate: Date? = nil, customDomain: String? = nil, deletionProtection: DeletionProtectionType? = nil, deviceConfiguration: DeviceConfigurationType? = nil, domain: String? = nil, emailConfiguration: EmailConfigurationType? = nil, emailConfigurationFailure: String? = nil, emailVerificationMessage: String? = nil, emailVerificationSubject: String? = nil, estimatedNumberOfUsers: Int? = nil, id: String? = nil, lambdaConfig: LambdaConfigType? = nil, lastModifiedDate: Date? = nil, mfaConfiguration: UserPoolMfaType? = nil, name: String? = nil, policies: UserPoolPolicyType? = nil, schemaAttributes: [SchemaAttributeType]? = nil, smsAuthenticationMessage: String? = nil, smsConfiguration: SmsConfigurationType? = nil, smsConfigurationFailure: String? = nil, smsVerificationMessage: String? = nil, status: StatusType? = nil, userAttributeUpdateSettings: UserAttributeUpdateSettingsType? = nil, usernameAttributes: [UsernameAttributeType]? = nil, usernameConfiguration: UsernameConfigurationType? = nil, userPoolAddOns: UserPoolAddOnsType? = nil, userPoolTags: [String: String]? = nil, verificationMessageTemplate: VerificationMessageTemplateType? = nil) {
             self.accountRecoverySetting = accountRecoverySetting
             self.adminCreateUserConfig = adminCreateUserConfig
             self.aliasAttributes = aliasAttributes
@@ -6785,6 +6813,7 @@ extension CognitoIdentityProvider {
             self.autoVerifiedAttributes = autoVerifiedAttributes
             self.creationDate = creationDate
             self.customDomain = customDomain
+            self.deletionProtection = deletionProtection
             self.deviceConfiguration = deviceConfiguration
             self.domain = domain
             self.emailConfiguration = emailConfiguration
@@ -6820,6 +6849,7 @@ extension CognitoIdentityProvider {
             case autoVerifiedAttributes = "AutoVerifiedAttributes"
             case creationDate = "CreationDate"
             case customDomain = "CustomDomain"
+            case deletionProtection = "DeletionProtection"
             case deviceConfiguration = "DeviceConfiguration"
             case domain = "Domain"
             case emailConfiguration = "EmailConfiguration"

@@ -40,9 +40,9 @@ extension DataSync {
     }
 
     public enum EndpointType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case `public` = "PUBLIC"
         case fips = "FIPS"
         case privateLink = "PRIVATE_LINK"
-        case `public` = "PUBLIC"
         public var description: String { return self.rawValue }
     }
 
@@ -122,16 +122,16 @@ extension DataSync {
     }
 
     public enum Operator: String, CustomStringConvertible, Codable, _SotoSendable {
+        case `in` = "In"
         case beginsWith = "BeginsWith"
         case contains = "Contains"
-        case equals = "Equals"
-        case greaterThan = "GreaterThan"
-        case greaterThanOrEqual = "GreaterThanOrEqual"
-        case `in` = "In"
-        case lessThan = "LessThan"
-        case lessThanOrEqual = "LessThanOrEqual"
+        case eq = "Equals"
+        case ge = "GreaterThanOrEqual"
+        case gt = "GreaterThan"
+        case le = "LessThanOrEqual"
+        case lt = "LessThan"
+        case ne = "NotEquals"
         case notContains = "NotContains"
-        case notEquals = "NotEquals"
         public var description: String { return self.rawValue }
     }
 
@@ -268,7 +268,7 @@ extension DataSync {
     }
 
     public struct CancelTaskExecutionRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the task execution to cancel.
+        /// The Amazon Resource Name (ARN) of the task execution to stop.
         public let taskExecutionArn: String
 
         public init(taskExecutionArn: String) {
@@ -845,6 +845,8 @@ extension DataSync {
         public let bucketName: String
         /// Specifies the secret key (for example, a password) if credentials are required to authenticate with the object storage server.
         public let secretKey: String?
+        /// Specifies a certificate to authenticate with an object storage system that uses a private or self-signed certificate authority (CA). You must specify a Base64-encoded .pem file (for example, file:///home/user/.ssh/storage_sys_certificate.pem). The certificate can be up to 32768 bytes (before Base64 encoding). To use this parameter, configure ServerProtocol to HTTPS.
+        public let serverCertificate: AWSBase64Data?
         /// Specifies the domain name or IP address of the object storage server. A DataSync agent uses this hostname to mount the object storage server in a network.
         public let serverHostname: String
         /// Specifies the port that your object storage server accepts inbound network traffic on (for example, port 443).
@@ -856,11 +858,12 @@ extension DataSync {
         /// Specifies the key-value pair that represents a tag that you want to add to the resource. Tags can help you manage, filter, and search for your resources. We recommend creating a name tag for your location.
         public let tags: [TagListEntry]?
 
-        public init(accessKey: String? = nil, agentArns: [String], bucketName: String, secretKey: String? = nil, serverHostname: String, serverPort: Int? = nil, serverProtocol: ObjectStorageServerProtocol? = nil, subdirectory: String? = nil, tags: [TagListEntry]? = nil) {
+        public init(accessKey: String? = nil, agentArns: [String], bucketName: String, secretKey: String? = nil, serverCertificate: AWSBase64Data? = nil, serverHostname: String, serverPort: Int? = nil, serverProtocol: ObjectStorageServerProtocol? = nil, subdirectory: String? = nil, tags: [TagListEntry]? = nil) {
             self.accessKey = accessKey
             self.agentArns = agentArns
             self.bucketName = bucketName
             self.secretKey = secretKey
+            self.serverCertificate = serverCertificate
             self.serverHostname = serverHostname
             self.serverPort = serverPort
             self.serverProtocol = serverProtocol
@@ -884,6 +887,7 @@ extension DataSync {
             try self.validate(self.secretKey, name: "secretKey", parent: name, max: 200)
             try self.validate(self.secretKey, name: "secretKey", parent: name, min: 8)
             try self.validate(self.secretKey, name: "secretKey", parent: name, pattern: "^.+$")
+            try self.validate(self.serverCertificate, name: "serverCertificate", parent: name, max: 32768)
             try self.validate(self.serverHostname, name: "serverHostname", parent: name, max: 255)
             try self.validate(self.serverHostname, name: "serverHostname", parent: name, pattern: "^(([a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9\\-]*[A-Za-z0-9])$")
             try self.validate(self.serverPort, name: "serverPort", parent: name, max: 65536)
@@ -901,6 +905,7 @@ extension DataSync {
             case agentArns = "AgentArns"
             case bucketName = "BucketName"
             case secretKey = "SecretKey"
+            case serverCertificate = "ServerCertificate"
             case serverHostname = "ServerHostname"
             case serverPort = "ServerPort"
             case serverProtocol = "ServerProtocol"
@@ -1657,7 +1662,7 @@ extension DataSync {
     }
 
     public struct DescribeLocationObjectStorageResponse: AWSDecodableShape {
-        /// The access key (for example, a user name) required to authenticate with the object storage server.
+        /// The access key (for example, a user name) required to authenticate with the object storage system.
         public let accessKey: String?
         /// The ARNs of the DataSync agents that can securely connect with your location.
         public let agentArns: [String]?
@@ -1667,17 +1672,20 @@ extension DataSync {
         public let locationArn: String?
         /// The URL of the object storage system location.
         public let locationUri: String?
+        /// The self-signed certificate that DataSync uses to securely authenticate with your object storage system.
+        public let serverCertificate: AWSBase64Data?
         /// The port that your object storage server accepts inbound network traffic on (for example, port 443).
         public let serverPort: Int?
-        /// The protocol that your object storage server uses to communicate.
+        /// The protocol that your object storage system uses to communicate.
         public let serverProtocol: ObjectStorageServerProtocol?
 
-        public init(accessKey: String? = nil, agentArns: [String]? = nil, creationTime: Date? = nil, locationArn: String? = nil, locationUri: String? = nil, serverPort: Int? = nil, serverProtocol: ObjectStorageServerProtocol? = nil) {
+        public init(accessKey: String? = nil, agentArns: [String]? = nil, creationTime: Date? = nil, locationArn: String? = nil, locationUri: String? = nil, serverCertificate: AWSBase64Data? = nil, serverPort: Int? = nil, serverProtocol: ObjectStorageServerProtocol? = nil) {
             self.accessKey = accessKey
             self.agentArns = agentArns
             self.creationTime = creationTime
             self.locationArn = locationArn
             self.locationUri = locationUri
+            self.serverCertificate = serverCertificate
             self.serverPort = serverPort
             self.serverProtocol = serverProtocol
         }
@@ -1688,6 +1696,7 @@ extension DataSync {
             case creationTime = "CreationTime"
             case locationArn = "LocationArn"
             case locationUri = "LocationUri"
+            case serverCertificate = "ServerCertificate"
             case serverPort = "ServerPort"
             case serverProtocol = "ServerProtocol"
         }
@@ -1817,6 +1826,8 @@ extension DataSync {
     }
 
     public struct DescribeTaskExecutionResponse: AWSDecodableShape {
+        /// The physical number of bytes transferred over the network after compression was applied. In most cases, this number is less than BytesTransferred.
+        public let bytesCompressed: Int64?
         /// The physical number of bytes transferred over the network.
         public let bytesTransferred: Int64?
         /// The number of logical bytes written to the destination Amazon Web Services storage resource.
@@ -1842,7 +1853,8 @@ extension DataSync {
         /// The Amazon Resource Name (ARN) of the task execution that was described. TaskExecutionArn is hierarchical and includes TaskArn for the task that was executed.  For example, a TaskExecution value with the ARN arn:aws:datasync:us-east-1:111222333444:task/task-0208075f79cedf4a2/execution/exec-08ef1e88ec491019b executed the task with the ARN arn:aws:datasync:us-east-1:111222333444:task/task-0208075f79cedf4a2.
         public let taskExecutionArn: String?
 
-        public init(bytesTransferred: Int64? = nil, bytesWritten: Int64? = nil, estimatedBytesToTransfer: Int64? = nil, estimatedFilesToTransfer: Int64? = nil, excludes: [FilterRule]? = nil, filesTransferred: Int64? = nil, includes: [FilterRule]? = nil, options: Options? = nil, result: TaskExecutionResultDetail? = nil, startTime: Date? = nil, status: TaskExecutionStatus? = nil, taskExecutionArn: String? = nil) {
+        public init(bytesCompressed: Int64? = nil, bytesTransferred: Int64? = nil, bytesWritten: Int64? = nil, estimatedBytesToTransfer: Int64? = nil, estimatedFilesToTransfer: Int64? = nil, excludes: [FilterRule]? = nil, filesTransferred: Int64? = nil, includes: [FilterRule]? = nil, options: Options? = nil, result: TaskExecutionResultDetail? = nil, startTime: Date? = nil, status: TaskExecutionStatus? = nil, taskExecutionArn: String? = nil) {
+            self.bytesCompressed = bytesCompressed
             self.bytesTransferred = bytesTransferred
             self.bytesWritten = bytesWritten
             self.estimatedBytesToTransfer = estimatedBytesToTransfer
@@ -1858,6 +1870,7 @@ extension DataSync {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case bytesCompressed = "BytesCompressed"
             case bytesTransferred = "BytesTransferred"
             case bytesWritten = "BytesWritten"
             case estimatedBytesToTransfer = "EstimatedBytesToTransfer"
@@ -2999,26 +3012,29 @@ extension DataSync {
     }
 
     public struct UpdateLocationObjectStorageRequest: AWSEncodableShape {
-        /// Optional. The access key is used if credentials are required to access the self-managed object storage server. If your object storage requires a user name and password to authenticate, use AccessKey and SecretKey to provide the user name and password, respectively.
+        /// Specifies the access key (for example, a user name) if credentials are required to authenticate with the object storage server.
         public let accessKey: String?
-        /// The Amazon Resource Name (ARN) of the agents associated with the  self-managed object storage server location.
+        /// Specifies the Amazon Resource Names (ARNs) of the DataSync agents that can securely connect with your location.
         public let agentArns: [String]?
-        /// The Amazon Resource Name (ARN) of the self-managed object storage server location to be updated.
+        /// Specifies the ARN of the object storage system location that you're updating.
         public let locationArn: String
-        /// Optional. The secret key is used if credentials are required to access the self-managed object storage server. If your object storage requires a user name and password to authenticate, use AccessKey and SecretKey to provide the user name and password, respectively.
+        /// Specifies the secret key (for example, a password) if credentials are required to authenticate with the object storage server.
         public let secretKey: String?
-        /// The port that your self-managed object storage server accepts inbound network traffic on. The server port is set by default to TCP 80 (HTTP) or TCP 443 (HTTPS). You can  specify a custom port if your self-managed object storage server requires one.
+        /// Specifies a certificate to authenticate with an object storage system that uses a private or self-signed certificate authority (CA). You must specify a Base64-encoded .pem file (for example, file:///home/user/.ssh/storage_sys_certificate.pem). The certificate can be up to 32768 bytes (before Base64 encoding). To use this parameter, configure ServerProtocol to HTTPS. Updating the certificate doesn't interfere with tasks that you have in progress.
+        public let serverCertificate: AWSBase64Data?
+        /// Specifies the port that your object storage server accepts inbound network traffic on (for example, port 443).
         public let serverPort: Int?
-        /// The protocol that the object storage server uses to communicate. Valid values are HTTP or HTTPS.
+        /// Specifies the protocol that your object storage server uses to communicate.
         public let serverProtocol: ObjectStorageServerProtocol?
-        /// The subdirectory in the self-managed object storage server that is used to read data from.
+        /// Specifies the object prefix for your object storage server. If this is a source location, DataSync only copies objects with this prefix. If this is a destination location, DataSync writes all objects with this prefix.
         public let subdirectory: String?
 
-        public init(accessKey: String? = nil, agentArns: [String]? = nil, locationArn: String, secretKey: String? = nil, serverPort: Int? = nil, serverProtocol: ObjectStorageServerProtocol? = nil, subdirectory: String? = nil) {
+        public init(accessKey: String? = nil, agentArns: [String]? = nil, locationArn: String, secretKey: String? = nil, serverCertificate: AWSBase64Data? = nil, serverPort: Int? = nil, serverProtocol: ObjectStorageServerProtocol? = nil, subdirectory: String? = nil) {
             self.accessKey = accessKey
             self.agentArns = agentArns
             self.locationArn = locationArn
             self.secretKey = secretKey
+            self.serverCertificate = serverCertificate
             self.serverPort = serverPort
             self.serverProtocol = serverProtocol
             self.subdirectory = subdirectory
@@ -3039,6 +3055,7 @@ extension DataSync {
             try self.validate(self.secretKey, name: "secretKey", parent: name, max: 200)
             try self.validate(self.secretKey, name: "secretKey", parent: name, min: 8)
             try self.validate(self.secretKey, name: "secretKey", parent: name, pattern: "^.+$")
+            try self.validate(self.serverCertificate, name: "serverCertificate", parent: name, max: 32768)
             try self.validate(self.serverPort, name: "serverPort", parent: name, max: 65536)
             try self.validate(self.serverPort, name: "serverPort", parent: name, min: 1)
             try self.validate(self.subdirectory, name: "subdirectory", parent: name, max: 4096)
@@ -3050,6 +3067,7 @@ extension DataSync {
             case agentArns = "AgentArns"
             case locationArn = "LocationArn"
             case secretKey = "SecretKey"
+            case serverCertificate = "ServerCertificate"
             case serverPort = "ServerPort"
             case serverProtocol = "ServerProtocol"
             case subdirectory = "Subdirectory"

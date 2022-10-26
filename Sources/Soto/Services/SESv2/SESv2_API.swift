@@ -84,7 +84,7 @@ public struct SESv2: AWSService {
         return self.client.execute(operation: "CreateContactList", path: "/v2/email/contact-lists", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a new custom verification email template. For more information about custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+    /// Creates a new custom verification email template. For more information about custom verification email templates, see Using custom verification email templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     public func createCustomVerificationEmailTemplate(_ input: CreateCustomVerificationEmailTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateCustomVerificationEmailTemplateResponse> {
         return self.client.execute(operation: "CreateCustomVerificationEmailTemplate", path: "/v2/email/custom-verification-email-templates", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -139,7 +139,7 @@ public struct SESv2: AWSService {
         return self.client.execute(operation: "DeleteContactList", path: "/v2/email/contact-lists/{ContactListName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes an existing custom verification email template. For more information about custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+    /// Deletes an existing custom verification email template. For more information about custom verification email templates, see Using custom verification email templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     public func deleteCustomVerificationEmailTemplate(_ input: DeleteCustomVerificationEmailTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteCustomVerificationEmailTemplateResponse> {
         return self.client.execute(operation: "DeleteCustomVerificationEmailTemplate", path: "/v2/email/custom-verification-email-templates/{TemplateName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -201,7 +201,7 @@ public struct SESv2: AWSService {
         return self.client.execute(operation: "GetContactList", path: "/v2/email/contact-lists/{ContactListName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns the custom email verification template for the template name you specify. For more information about custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+    /// Returns the custom email verification template for the template name you specify. For more information about custom verification email templates, see Using custom verification email templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     public func getCustomVerificationEmailTemplate(_ input: GetCustomVerificationEmailTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCustomVerificationEmailTemplateResponse> {
         return self.client.execute(operation: "GetCustomVerificationEmailTemplate", path: "/v2/email/custom-verification-email-templates/{TemplateName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -209,6 +209,11 @@ public struct SESv2: AWSService {
     /// Get information about a dedicated IP address, including the name of the dedicated IP pool that it's associated with, as well information about the automatic warm-up process for the address.
     public func getDedicatedIp(_ input: GetDedicatedIpRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDedicatedIpResponse> {
         return self.client.execute(operation: "GetDedicatedIp", path: "/v2/email/dedicated-ips/{Ip}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieve information about the dedicated pool.
+    public func getDedicatedIpPool(_ input: GetDedicatedIpPoolRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDedicatedIpPoolResponse> {
+        return self.client.execute(operation: "GetDedicatedIpPool", path: "/v2/email/dedicated-ip-pools/{PoolName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// List the dedicated IP addresses that are associated with your Amazon Web Services account.
@@ -277,7 +282,7 @@ public struct SESv2: AWSService {
         return self.client.execute(operation: "ListContacts", path: "/v2/email/contact-lists/{ContactListName}/contacts", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the existing custom verification email templates for your account in the current Amazon Web Services Region. For more information about custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+    /// Lists the existing custom verification email templates for your account in the current Amazon Web Services Region. For more information about custom verification email templates, see Using custom verification email templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     public func listCustomVerificationEmailTemplates(_ input: ListCustomVerificationEmailTemplatesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListCustomVerificationEmailTemplatesResponse> {
         return self.client.execute(operation: "ListCustomVerificationEmailTemplates", path: "/v2/email/custom-verification-email-templates", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -418,7 +423,7 @@ public struct SESv2: AWSService {
         return self.client.execute(operation: "SendBulkEmail", path: "/v2/email/outbound-bulk-emails", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Adds an email address to the list of identities for your Amazon SES account in the current Amazon Web Services Region and attempts to verify it. As a result of executing this operation, a customized verification email is sent to the specified address. To use this operation, you must first create a custom verification email template. For more information about creating and using custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+    /// Adds an email address to the list of identities for your Amazon SES account in the current Amazon Web Services Region and attempts to verify it. As a result of executing this operation, a customized verification email is sent to the specified address. To use this operation, you must first create a custom verification email template. For more information about creating and using custom verification email templates, see Using custom verification email templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     public func sendCustomVerificationEmail(_ input: SendCustomVerificationEmailRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SendCustomVerificationEmailResponse> {
         return self.client.execute(operation: "SendCustomVerificationEmail", path: "/v2/email/outbound-custom-verification-emails", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -459,7 +464,7 @@ public struct SESv2: AWSService {
         return self.client.execute(operation: "UpdateContactList", path: "/v2/email/contact-lists/{ContactListName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates an existing custom verification email template. For more information about custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+    /// Updates an existing custom verification email template. For more information about custom verification email templates, see Using custom verification email templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     public func updateCustomVerificationEmailTemplate(_ input: UpdateCustomVerificationEmailTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateCustomVerificationEmailTemplateResponse> {
         return self.client.execute(operation: "UpdateCustomVerificationEmailTemplate", path: "/v2/email/custom-verification-email-templates/{TemplateName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

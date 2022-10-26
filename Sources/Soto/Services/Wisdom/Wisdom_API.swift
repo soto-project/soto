@@ -174,11 +174,6 @@ public struct Wisdom: AWSService {
         return self.client.execute(operation: "NotifyRecommendationsReceived", path: "/assistants/{assistantId}/sessions/{sessionId}/recommendations/notify", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Submits feedback to Wisdom. The feedback is used to improve future recommendations from GetRecommendations or results from QueryAssistant. Feedback can be resubmitted up to 6 hours after submission.
-    public func putFeedback(_ input: PutFeedbackRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutFeedbackResponse> {
-        return self.client.execute(operation: "PutFeedback", path: "/assistants/{assistantId}/feedback", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
-    }
-
     /// Performs a manual search against the specified assistant. To retrieve recommendations for an assistant, use GetRecommendations.
     public func queryAssistant(_ input: QueryAssistantRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<QueryAssistantResponse> {
         return self.client.execute(operation: "QueryAssistant", path: "/assistants/{assistantId}/query", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

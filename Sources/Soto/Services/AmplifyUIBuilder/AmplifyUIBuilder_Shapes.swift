@@ -1185,6 +1185,8 @@ extension AmplifyUIBuilder {
         public let defaultValue: String?
         /// The text to display to describe the field.
         public let descriptiveText: String?
+        /// Specifies whether to render the field as an array. This property is ignored if the dataSourceType for the form is a Data Store.
+        public let isArray: Bool?
         /// The maximum value to display for the field.
         public let maxValue: Float?
         /// The minimum value to display for the field.
@@ -1206,11 +1208,12 @@ extension AmplifyUIBuilder {
         /// The information to use to customize the input fields with data at runtime.
         public let valueMappings: ValueMappings?
 
-        public init(defaultChecked: Bool? = nil, defaultCountryCode: String? = nil, defaultValue: String? = nil, descriptiveText: String? = nil, maxValue: Float? = nil, minValue: Float? = nil, name: String? = nil, placeholder: String? = nil, readOnly: Bool? = nil, required: Bool? = nil, step: Float? = nil, type: String, value: String? = nil, valueMappings: ValueMappings? = nil) {
+        public init(defaultChecked: Bool? = nil, defaultCountryCode: String? = nil, defaultValue: String? = nil, descriptiveText: String? = nil, isArray: Bool? = nil, maxValue: Float? = nil, minValue: Float? = nil, name: String? = nil, placeholder: String? = nil, readOnly: Bool? = nil, required: Bool? = nil, step: Float? = nil, type: String, value: String? = nil, valueMappings: ValueMappings? = nil) {
             self.defaultChecked = defaultChecked
             self.defaultCountryCode = defaultCountryCode
             self.defaultValue = defaultValue
             self.descriptiveText = descriptiveText
+            self.isArray = isArray
             self.maxValue = maxValue
             self.minValue = minValue
             self.name = name
@@ -1228,6 +1231,7 @@ extension AmplifyUIBuilder {
             case defaultCountryCode
             case defaultValue
             case descriptiveText
+            case isArray
             case maxValue
             case minValue
             case name

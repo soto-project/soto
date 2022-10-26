@@ -400,6 +400,7 @@ extension Connect {
     }
 
     ///  Provides information about the phone numbers for the specified Amazon Connect instance.  For more information about phone numbers, see Set Up Phone Numbers for Your Contact Center in the Amazon Connect Administrator Guide.
+    ///    The phone number Arn value that is returned from each of the items in the PhoneNumberSummaryList cannot be used to tag phone number resources. It will fail with a ResourceNotFoundException. Instead, use the ListPhoneNumbersV2 API. It returns the new phone number ARN that can be used to tag phone number resources.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -421,7 +422,7 @@ extension Connect {
         )
     }
 
-    ///  Lists phone numbers claimed to your Amazon Connect instance.  For more information about phone numbers, see Set Up Phone Numbers for Your Contact Center in the Amazon Connect Administrator Guide.
+    ///  Lists phone numbers claimed to your Amazon Connect instance or traffic distribution group. If the provided TargetArn is a traffic distribution group, you can call this API in both Amazon Web Services Regions associated with traffic distribution group. For more information about phone numbers, see Set Up Phone Numbers for Your Contact Center in the Amazon Connect Administrator Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -663,6 +664,28 @@ extension Connect {
         )
     }
 
+    ///  Lists traffic distribution groups.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listTrafficDistributionGroupsPaginator(
+        _ input: ListTrafficDistributionGroupsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListTrafficDistributionGroupsRequest, ListTrafficDistributionGroupsResponse> {
+        return .init(
+            input: input,
+            command: listTrafficDistributionGroups,
+            inputKey: \ListTrafficDistributionGroupsRequest.nextToken,
+            outputKey: \ListTrafficDistributionGroupsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Lists the use cases for the integration association.
     /// Return PaginatorSequence for operation.
     ///
@@ -729,7 +752,7 @@ extension Connect {
         )
     }
 
-    ///  Searches for available phone numbers that you can claim to your Amazon Connect instance.
+    ///  Searches for available phone numbers that you can claim to your Amazon Connect instance or traffic distribution group. If the provided TargetArn is a traffic distribution group, you can call this API in both Amazon Web Services Regions associated with the traffic distribution group.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -817,7 +840,7 @@ extension Connect {
         )
     }
 
-    ///  Searches users in an Amazon Connect instance, with optional filtering.
+    ///  Searches users in an Amazon Connect instance, with optional filtering.    AfterContactWorkTimeLimit is returned in milliseconds.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

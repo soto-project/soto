@@ -431,6 +431,7 @@ extension SSM {
     public enum OperatingSystem: String, CustomStringConvertible, Codable, _SotoSendable {
         case amazonLinux = "AMAZON_LINUX"
         case amazonLinux2 = "AMAZON_LINUX_2"
+        case amazonLinux2022 = "AMAZON_LINUX_2022"
         case centOS = "CENTOS"
         case debian = "DEBIAN"
         case macOS = "MACOS"
@@ -2647,7 +2648,7 @@ extension SSM {
         public let scheduleOffset: Int?
         /// The mode for generating association compliance. You can specify AUTO or MANUAL. In AUTO mode, the system uses the status of the association execution to determine the compliance status. If the association execution runs successfully, then the association is COMPLIANT. If the association execution doesn't run successfully, the association is NON-COMPLIANT. In MANUAL mode, you must specify the AssociationId as a parameter for the PutComplianceItems API operation. In this case, compliance data isn't managed by State Manager. It is managed by your direct call to the PutComplianceItems API operation. By default, all associations use AUTO mode.
         public let syncCompliance: AssociationSyncCompliance?
-        /// Optional metadata that you assign to a resource. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag an association to identify the type of resource to which it applies, the environment, or the purpose of the association.
+        /// Adds or overwrites one or more tags for a State Manager association. Tags are metadata that you can assign to your Amazon Web Services resources. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment. Each tag consists of a key and an optional value, both of which you define.
         public let tags: [Tag]?
         /// A location is a combination of Amazon Web Services Regions and Amazon Web Services accounts where you want to run the association. Use this action to create an association in multiple Regions and multiple accounts.
         public let targetLocations: [TargetLocation]?
@@ -7573,7 +7574,7 @@ extension SSM {
     }
 
     public struct InstanceInformationStringFilter: AWSEncodableShape {
-        /// The filter key name to describe your managed nodes. For example: "InstanceIds" | "AgentVersion" | "PingStatus" | "PlatformTypes" | "ActivationIds" | "IamRole" | "ResourceType" | "AssociationStatus" | "tag-key" | "tag:{keyname}    Tag Key isn't a valid filter. You must specify either tag-key or tag:{keyname} and a string. Here are some valid examples: tag-key, tag:123, tag:al!, tag:Windows. Here are some invalid examples: tag-keys, Tag Key, tag:, tagKey, abc:keyname.
+        /// The filter key name to describe your managed nodes. Valid filter key values: ActivationIds | AgentVersion | AssociationStatus | IamRole | InstanceIds | PingStatus | PlatformTypes | ResourceType | SourceIds | SourceTypes | "tag-key" | "tag:{keyname}    Valid values for the AssociationStatus filter key: Success | Pending | Failed   Valid values for the PingStatus filter key: Online | ConnectionLost | Inactive (deprecated)   Valid values for the PlatformType filter key: Windows | Linux | MacOS   Valid values for the ResourceType filter key: EC2Instance | ManagedInstance   Valid values for the SourceType filter key: AWS::EC2::Instance | AWS::SSM::ManagedInstance | AWS::IoT::Thing   Valid tag examples: Key=tag-key,Values=Purpose | Key=tag:Purpose,Values=Test.
         public let key: String
         /// The filter values.
         public let values: [String]
@@ -7601,7 +7602,7 @@ extension SSM {
     public struct InstancePatchState: AWSDecodableShape {
         /// The ID of the patch baseline used to patch the managed node.
         public let baselineId: String
-        /// The number of managed nodes where patches that are specified as Critical for compliance reporting in the patch baseline aren't installed. These patches might be missing, have failed installation, were rejected, or were installed but awaiting a required managed node reboot. The status of these managed nodes is NON_COMPLIANT.
+        /// The number of patches per node that are specified as Critical for compliance reporting in the patch baseline aren't installed. These patches might be missing, have failed installation, were rejected, or were installed but awaiting a required managed node reboot. The status of these managed nodes is NON_COMPLIANT.
         public let criticalNonCompliantCount: Int?
         /// The number of patches from the patch baseline that were attempted to be installed during the last patching operation, but failed to install.
         public let failedCount: Int?
@@ -7629,7 +7630,7 @@ extension SSM {
         public let operationEndTime: Date
         /// The time the most recent patching operation was started on the managed node.
         public let operationStartTime: Date
-        /// The number of managed nodes with patches installed that are specified as other than Critical or Security but aren't compliant with the patch baseline. The status of these managed nodes is NON_COMPLIANT.
+        /// The number of patches per node that are specified as other than Critical or Security but aren't compliant with the patch baseline. The status of these managed nodes is NON_COMPLIANT.
         public let otherNonCompliantCount: Int?
         /// Placeholder information. This field will always be empty in the current release of the service.
         public let ownerInformation: String?
@@ -7637,7 +7638,7 @@ extension SSM {
         public let patchGroup: String
         /// Indicates the reboot option specified in the patch baseline.  Reboot options apply to Install operations only. Reboots aren't attempted for Patch Manager Scan operations.     RebootIfNeeded: Patch Manager tries to reboot the managed node if it installed any patches, or if any patches are detected with a status of InstalledPendingReboot.    NoReboot: Patch Manager attempts to install missing packages without trying to reboot the system. Patches installed with this option are assigned a status of InstalledPendingReboot. These patches might not be in effect until a reboot is performed.
         public let rebootOption: RebootOption?
-        /// The number of managed nodes where patches that are specified as Security in a patch advisory aren't installed. These patches might be missing, have failed installation, were rejected, or were installed but awaiting a required managed node reboot. The status of these managed nodes is NON_COMPLIANT.
+        /// The number of patches per node that are specified as Security in a patch advisory aren't installed. These patches might be missing, have failed installation, were rejected, or were installed but awaiting a required managed node reboot. The status of these managed nodes is NON_COMPLIANT.
         public let securityNonCompliantCount: Int?
         /// The ID of the patch baseline snapshot used during the patching operation when this compliance data was collected.
         public let snapshotId: String?
@@ -8908,7 +8909,7 @@ extension SSM {
     }
 
     public struct LoggingInfo: AWSEncodableShape & AWSDecodableShape {
-        /// The name of an S3 bucket where execution logs are stored .
+        /// The name of an S3 bucket where execution logs are stored.
         public let s3BucketName: String
         /// (Optional) The S3 bucket subfolder.
         public let s3KeyPrefix: String?

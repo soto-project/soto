@@ -114,7 +114,7 @@ extension GuardDuty {
         return try await self.client.execute(operation: "DeleteThreatIntelSet", path: "/detector/{DetectorId}/threatintelset/{ThreatIntelSetId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns a list of malware scans.
+    /// Returns a list of malware scans. Each member account can view the malware scans for their  own accounts. An administrator can view the malware scans for all the member accounts.
     public func describeMalwareScans(_ input: DescribeMalwareScansRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeMalwareScansResponse {
         return try await self.client.execute(operation: "DescribeMalwareScans", path: "/detector/{DetectorId}/malware-scans", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -145,7 +145,7 @@ extension GuardDuty {
         return try await self.client.execute(operation: "DisassociateFromMasterAccount", path: "/detector/{DetectorId}/master/disassociate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Disassociates GuardDuty member accounts (to the current GuardDuty administrator account) specified by the account IDs.
+    /// Disassociates GuardDuty member accounts (to the current administrator account) specified by the account IDs.
     public func disassociateMembers(_ input: DisassociateMembersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DisassociateMembersResponse {
         return try await self.client.execute(operation: "DisassociateMembers", path: "/detector/{DetectorId}/member/disassociate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

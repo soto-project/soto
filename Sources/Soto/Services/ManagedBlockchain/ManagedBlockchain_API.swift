@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS ManagedBlockchain service.
 ///
-///  Amazon Managed Blockchain is a fully managed service for creating and managing blockchain networks using open-source frameworks. Blockchain allows you to build applications where multiple parties can securely and transparently run transactions and share data without the need for a trusted, central authority. Managed Blockchain supports the Hyperledger Fabric and Ethereum open-source frameworks. Because of fundamental differences between the frameworks, some API actions or data types may only apply in the context of one framework and not the other. For example, actions related to Hyperledger Fabric network members such as CreateMember and DeleteMember do not apply to Ethereum. The description for each action indicates the framework or frameworks to which it applies. Data types and properties that apply only in the context of a particular framework are similarly indicated.
+///  Amazon Managed Blockchain is a fully managed service for creating and managing blockchain networks using open-source frameworks. Blockchain allows you to build applications where multiple parties can securely and transparently run transactions and share data without the need for a trusted, central authority. Managed Blockchain supports the Hyperledger Fabric and Ethereum open-source frameworks. Because of fundamental differences between the frameworks, some API actions or data types may only apply in the context of one framework and not the other. For example, actions related to Hyperledger Fabric network members such as CreateMember and DeleteMember don't apply to Ethereum. The description for each action indicates the framework or frameworks to which it applies. Data types and properties that apply only in the context of a particular framework are similarly indicated.
 public struct ManagedBlockchain: AWSService {
     // MARK: Member variables
 
@@ -63,6 +63,11 @@ public struct ManagedBlockchain: AWSService {
 
     // MARK: API Calls
 
+    ///  The token based access feature is in preview release for Ethereum on Amazon Managed Blockchain and is  subject to change. We recommend that you use this feature only with  test scenarios, and not in production environments.  Creates a new accessor for use with Managed Blockchain Ethereum nodes. An accessor object is a container that has the information  required for token based access to your Ethereum nodes.
+    public func createAccessor(_ input: CreateAccessorInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAccessorOutput> {
+        return self.client.execute(operation: "CreateAccessor", path: "/accessors", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates a member within a Managed Blockchain network. Applies only to Hyperledger Fabric.
     public func createMember(_ input: CreateMemberInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateMemberOutput> {
         return self.client.execute(operation: "CreateMember", path: "/networks/{NetworkId}/members", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -83,14 +88,24 @@ public struct ManagedBlockchain: AWSService {
         return self.client.execute(operation: "CreateProposal", path: "/networks/{NetworkId}/proposals", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes a member. Deleting a member removes the member and all associated resources from the network. DeleteMember can only be called for a specified MemberId if the principal performing the action is associated with the AWS account that owns the member. In all other cases, the DeleteMember action is carried out as the result of an approved proposal to remove a member. If MemberId is the last member in a network specified by the last AWS account, the network is deleted also. Applies only to Hyperledger Fabric.
+    ///  The token based access feature is in preview release for Ethereum on Amazon Managed Blockchain and is  subject to change. We recommend that you use this feature only with  test scenarios, and not in production environments.  Deletes an accessor that your Amazon Web Services account owns. An accessor object is a container that has the  information required for token based access to your Ethereum nodes including, the  BILLING_TOKEN. After an accessor is deleted, the status of the accessor changes  from AVAILABLE to PENDING_DELETION. An accessor in the  PENDING_DELETION state can’t be used for new WebSocket requests or  HTTP requests. However, WebSocket connections that are initiated while the accessor was in the  AVAILABLE state remain open until they expire (up to 2 hours).
+    public func deleteAccessor(_ input: DeleteAccessorInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAccessorOutput> {
+        return self.client.execute(operation: "DeleteAccessor", path: "/accessors/{AccessorId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes a member. Deleting a member removes the member and all associated resources from the network. DeleteMember can only be called for a specified MemberId if the principal performing the action is associated with the Amazon Web Services account that owns the member. In all other cases, the DeleteMember action is carried out as the result of an approved proposal to remove a member. If MemberId is the last member in a network specified by the last Amazon Web Services account, the network is deleted also. Applies only to Hyperledger Fabric.
     public func deleteMember(_ input: DeleteMemberInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteMemberOutput> {
         return self.client.execute(operation: "DeleteMember", path: "/networks/{NetworkId}/members/{MemberId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes a node that your AWS account owns. All data on the node is lost and cannot be recovered. Applies to Hyperledger Fabric and Ethereum.
+    /// Deletes a node that your Amazon Web Services account owns. All data on the node is lost and cannot be recovered. Applies to Hyperledger Fabric and Ethereum.
     public func deleteNode(_ input: DeleteNodeInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteNodeOutput> {
         return self.client.execute(operation: "DeleteNode", path: "/networks/{NetworkId}/nodes/{NodeId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  The token based access feature is in preview release for Ethereum on Amazon Managed Blockchain and is  subject to change. We recommend that you use this feature only with  test scenarios, and not in production environments.  Returns detailed information about an accessor. An accessor object is a container that has the  information required for token based access to your Ethereum nodes.
+    public func getAccessor(_ input: GetAccessorInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAccessorOutput> {
+        return self.client.execute(operation: "GetAccessor", path: "/accessors/{AccessorId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns detailed information about a member. Applies only to Hyperledger Fabric.
@@ -113,7 +128,12 @@ public struct ManagedBlockchain: AWSService {
         return self.client.execute(operation: "GetProposal", path: "/networks/{NetworkId}/proposals/{ProposalId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns a list of all invitations for the current AWS account. Applies only to Hyperledger Fabric.
+    ///  The token based access feature is in preview release for Ethereum on Amazon Managed Blockchain and is  subject to change. We recommend that you use this feature only with  test scenarios, and not in production environments.  Returns a list of the accessors and their properties. Accessor objects are containers that have the  information required for token based access to your Ethereum nodes.
+    public func listAccessors(_ input: ListAccessorsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAccessorsOutput> {
+        return self.client.execute(operation: "ListAccessors", path: "/accessors", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns a list of all invitations for the current Amazon Web Services account. Applies only to Hyperledger Fabric.
     public func listInvitations(_ input: ListInvitationsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListInvitationsOutput> {
         return self.client.execute(operation: "ListInvitations", path: "/invitations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -123,7 +143,7 @@ public struct ManagedBlockchain: AWSService {
         return self.client.execute(operation: "ListMembers", path: "/networks/{NetworkId}/members", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns information about the networks in which the current AWS account participates. Applies to Hyperledger Fabric and Ethereum.
+    /// Returns information about the networks in which the current Amazon Web Services account participates. Applies to Hyperledger Fabric and Ethereum.
     public func listNetworks(_ input: ListNetworksInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListNetworksOutput> {
         return self.client.execute(operation: "ListNetworks", path: "/networks", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -148,7 +168,7 @@ public struct ManagedBlockchain: AWSService {
         return self.client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Rejects an invitation to join a network. This action can be called by a principal in an AWS account that has received an invitation to create a member and join a network. Applies only to Hyperledger Fabric.
+    /// Rejects an invitation to join a network. This action can be called by a principal in an Amazon Web Services account that has received an invitation to create a member and join a network. Applies only to Hyperledger Fabric.
     public func rejectInvitation(_ input: RejectInvitationInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RejectInvitationOutput> {
         return self.client.execute(operation: "RejectInvitation", path: "/invitations/{InvitationId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -173,7 +193,7 @@ public struct ManagedBlockchain: AWSService {
         return self.client.execute(operation: "UpdateNode", path: "/networks/{NetworkId}/nodes/{NodeId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Casts a vote for a specified ProposalId on behalf of a member. The member to vote as, specified by VoterMemberId, must be in the same AWS account as the principal that calls the action. Applies only to Hyperledger Fabric.
+    /// Casts a vote for a specified ProposalId on behalf of a member. The member to vote as, specified by VoterMemberId, must be in the same Amazon Web Services account as the principal that calls the action. Applies only to Hyperledger Fabric.
     public func voteOnProposal(_ input: VoteOnProposalInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<VoteOnProposalOutput> {
         return self.client.execute(operation: "VoteOnProposal", path: "/networks/{NetworkId}/proposals/{ProposalId}/votes", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

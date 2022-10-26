@@ -125,6 +125,7 @@ extension Translate {
         public let name: String
         /// Specifies the format and S3 location of the parallel data input file.
         public let parallelDataConfig: ParallelDataConfig
+        /// Tags to be associated with this resource. A tag is a key-value pair that adds metadata to a resource. Each tag key for the resource must be unique. For more information, see  Tagging your resources.
         public let tags: [Tag]?
 
         public init(clientToken: String = CreateParallelDataRequest.idempotencyToken(), description: String? = nil, encryptionKey: EncryptionKey? = nil, name: String, parallelDataConfig: ParallelDataConfig, tags: [Tag]? = nil) {
@@ -387,6 +388,7 @@ extension Translate {
         public let mergeStrategy: MergeStrategy
         /// The name of the custom terminology being imported.
         public let name: String
+        /// Tags to be associated with this resource. A tag is a key-value pair that adds metadata to a resource. Each tag key for the resource must be unique. For more information, see  Tagging your resources.
         public let tags: [Tag]?
         /// The terminology data for the custom terminology being imported.
         public let terminologyData: TerminologyData
@@ -536,7 +538,7 @@ extension Translate {
         public let displayLanguageCode: DisplayLanguageCode?
         /// The list of supported languages.
         public let languages: [Language]?
-        ///  If the response does not include all remaining results, use the NextToken  in the next request to fetch the next group of supported languages.
+        ///  If the response does not include all remaining results, use the NextToken in the next request to fetch the next group of supported languages.
         public let nextToken: String?
 
         public init(displayLanguageCode: DisplayLanguageCode? = nil, languages: [Language]? = nil, nextToken: String? = nil) {
@@ -594,6 +596,7 @@ extension Translate {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the given Amazon Translate resource you are querying.
         public let resourceArn: String
 
         public init(resourceArn: String) {
@@ -611,6 +614,7 @@ extension Translate {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
+        /// Tags associated with the Amazon Translate resource being queried. A tag is a key-value pair that adds as a metadata to a resource used by Amazon Translate. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
         public let tags: [Tag]?
 
         public init(tags: [Tag]? = nil) {
@@ -849,7 +853,7 @@ extension Translate {
     public struct StartTextTranslationJobRequest: AWSEncodableShape {
         /// A unique identifier for the request. This token is generated for you when using the Amazon Translate SDK.
         public let clientToken: String
-        /// The Amazon Resource Name (ARN) of an AWS Identity Access and Management (IAM) role that grants Amazon Translate read access to your input data. For more information, see identity-and-access-management.
+        /// The Amazon Resource Name (ARN) of an AWS Identity Access and Management (IAM) role that grants Amazon Translate read access to your input data. For more information, see  Identity and access management .
         public let dataAccessRoleArn: String
         /// Specifies the format and location of the input documents for the translation job.
         public let inputDataConfig: InputDataConfig
@@ -857,15 +861,15 @@ extension Translate {
         public let jobName: String?
         /// Specifies the S3 folder to which your job output will be saved.
         public let outputDataConfig: OutputDataConfig
-        /// The name of a parallel data resource to add to the translation job. This resource consists of examples that show how you want segments of text to be translated. When you add parallel data to a translation job, you create an Active Custom Translation job.  This parameter accepts only one parallel data resource.  Active Custom Translation jobs are priced at a higher rate than other jobs that don't use parallel data. For more information, see Amazon Translate pricing.  For a list of available parallel data resources, use the ListParallelData operation. For more information, see customizing-translations-parallel-data.
+        /// The name of a parallel data resource to add to the translation job. This resource consists of examples that show how you want segments of text to be translated.  If you specify multiple target languages for the job, the parallel data file must include translations for all the target languages. When you add parallel data to a translation job, you create an Active Custom Translation job.  This parameter accepts only one parallel data resource.  Active Custom Translation jobs are priced at a higher rate than other jobs that don't use parallel data. For more information, see Amazon Translate pricing.  For a list of available parallel data resources, use the ListParallelData operation. For more information, see  Customizing your translations with parallel data.
         public let parallelDataNames: [String]?
-        /// Settings to configure your translation output, including the option to mask profane words and phrases. StartTextTranslationJob does not support the formality setting.
+        /// Settings to configure your translation output, including the option to set the formality level of the output text and the option to mask profane words and phrases.
         public let settings: TranslationSettings?
-        /// The language code of the input language. For a list of language codes, see what-is-languages. Amazon Translate does not automatically detect a source language during batch translation jobs.
+        /// The language code of the input language. For a list of language codes, see   Supported languages. Amazon Translate does not automatically detect a source language during batch translation jobs.
         public let sourceLanguageCode: String
-        /// The language code of the output language.
+        /// The target languages of the translation job. Enter up to 10 language codes.    Each input file is translated into each target language. Each language code is two or five characters long. For a list of language codes, see   Supported languages.
         public let targetLanguageCodes: [String]
-        /// The name of a custom terminology resource to add to the translation job. This resource lists examples source terms and the desired translation for each term. This parameter accepts only one custom terminology resource. For a list of available custom terminology resources, use the ListTerminologies operation. For more information, see how-custom-terminology.
+        /// The name of a custom terminology resource to add to the translation job. This resource lists examples source terms and the desired translation for each term. This parameter accepts only one custom terminology resource. If you specify multiple target languages for the job, translate uses the designated terminology for each requested target language that has an entry for the source term in the terminology file. For a list of available custom terminology resources, use the ListTerminologies operation. For more information, see Custom terminology.
         public let terminologyNames: [String]?
 
         public init(clientToken: String = StartTextTranslationJobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, outputDataConfig: OutputDataConfig, parallelDataNames: [String]? = nil, settings: TranslationSettings? = nil, sourceLanguageCode: String, targetLanguageCodes: [String], terminologyNames: [String]? = nil) {
@@ -980,7 +984,9 @@ extension Translate {
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
+        /// The initial part of a key-value pair that forms a tag associated with a given resource.
         public let key: String
+        ///  The second part of a key-value pair that forms a tag associated with a given resource.
         public let value: String
 
         public init(key: String, value: String) {
@@ -1001,7 +1007,9 @@ extension Translate {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the given Amazon Translate resource to which you want to associate the tags.
         public let resourceArn: String
+        /// Tags being associated with a specific Amazon Translate resource. There can be a maximum of 50 tags (both existing and pending) associated with a specific resource.
         public let tags: [Tag]
 
         public init(resourceArn: String, tags: [Tag]) {
@@ -1255,7 +1263,7 @@ extension Translate {
     public struct TranslateTextRequest: AWSEncodableShape {
         /// Settings to configure your translation output, including the option to set the formality level of the output text and the option to mask profane words and phrases.
         public let settings: TranslationSettings?
-        /// The language code for the language of the source text. The language must be a language supported by Amazon Translate. For a list of language codes, see what-is-languages. To have Amazon Translate determine the source language of your text, you can specify auto in the SourceLanguageCode field. If you specify auto, Amazon Translate will call Amazon Comprehend to determine the source language.  If you specify auto, you must send the TranslateText request in a region that supports Amazon Comprehend. Otherwise, the request returns an error indicating that autodetect is not supported.
+        /// The language code for the language of the source text. The language must be a language supported by Amazon Translate. For a list of language codes, see Supported languages. To have Amazon Translate determine the source language of your text, you can specify auto in the SourceLanguageCode field. If you specify auto, Amazon Translate will call Amazon Comprehend to determine the source language.  If you specify auto, you must send the TranslateText request in a region that supports Amazon Comprehend. Otherwise, the request returns an error indicating that autodetect is not supported.
         public let sourceLanguageCode: String
         /// The language code requested for the language of the target text. The language must be a language supported by Amazon Translate.
         public let targetLanguageCode: String
@@ -1326,9 +1334,9 @@ extension Translate {
     }
 
     public struct TranslationSettings: AWSEncodableShape & AWSDecodableShape {
-        /// You can optionally specify the desired level of   formality for real-time translations to supported target languages. The formality setting controls the level of formal language usage (also known as register) in the translation output.  You can set the value to informal or formal. If you don't specify a value for formality, or if the target language doesn't support formality, the translation will ignore the formality setting. Note that asynchronous translation jobs don't support formality. If you provide a value for formality, the StartTextTranslationJob API throws an exception (InvalidRequestException). For target languages that support formality, see Supported Languages and Language Codes in the Amazon Translate Developer Guide.
+        /// You can optionally specify the desired level of formality for translations to supported target languages. The formality setting controls the level of formal language usage (also known as register) in the translation output.  You can set the value to informal or formal. If you don't specify a value for formality, or if the target language doesn't support formality, the translation will ignore the formality setting. If you specify multiple target languages for the job, translate ignores the formality setting for any unsupported target language. For a list of target languages that support formality, see Setting Formality in the Amazon Translate Developer Guide.
         public let formality: Formality?
-        /// Enable the profanity setting if you want Amazon Translate to mask profane words and phrases in your translation output. To mask profane words and phrases, Amazon Translate replaces them with the grawlix string “?$#@$“. This 5-character sequence is used for each profane word or phrase, regardless of the length or number of words. Amazon Translate doesn't detect profanity in all of its supported languages. For languages that support profanity detection, see Supported Languages and Language Codes in the Amazon Translate Developer Guide.
+        /// Enable the profanity setting if you want Amazon Translate to mask profane words and phrases in your translation output. To mask profane words and phrases, Amazon Translate replaces them with the grawlix string “?$#@$“. This 5-character sequence is used for each profane word or phrase, regardless of the length or number of words. Amazon Translate doesn't detect profanity in all of its supported languages. For languages that support profanity detection, see Masking profanity in the Amazon Translate Developer Guide. If you specify multiple target languages for the job, all the target languages must support profanity masking. If any of the target languages don't support profanity masking, the translation job won't mask profanity for any target language.
         public let profanity: Profanity?
 
         public init(formality: Formality? = nil, profanity: Profanity? = nil) {
@@ -1343,7 +1351,9 @@ extension Translate {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
+        ///  The Amazon Resource Name (ARN) of the given Amazon Translate resource from which you want to remove the tags.
         public let resourceArn: String
+        /// The initial part of a key-value pair that forms a tag being removed from a given resource. Keys must be unique and cannot be duplicated for a particular resource.
         public let tagKeys: [String]
 
         public init(resourceArn: String, tagKeys: [String]) {

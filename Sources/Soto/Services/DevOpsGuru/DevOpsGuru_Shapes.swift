@@ -184,7 +184,33 @@ extension DevOpsGuru {
     }
 
     public enum ResourceTypeFilter: String, CustomStringConvertible, Codable, _SotoSendable {
+        case cloudfrontDistribution = "CLOUDFRONT_DISTRIBUTION"
+        case dynamodbTable = "DYNAMODB_TABLE"
+        case ec2NatGateway = "EC2_NAT_GATEWAY"
+        case ecsCluster = "ECS_CLUSTER"
+        case ecsService = "ECS_SERVICE"
+        case eksCluster = "EKS_CLUSTER"
+        case elasticBeanstalkEnvironment = "ELASTIC_BEANSTALK_ENVIRONMENT"
+        case elasticLoadBalancerLoadBalancer = "ELASTIC_LOAD_BALANCER_LOAD_BALANCER"
+        case elasticLoadBalancingV2LoadBalancer = "ELASTIC_LOAD_BALANCING_V2_LOAD_BALANCER"
+        case elasticLoadBalancingV2TargetGroup = "ELASTIC_LOAD_BALANCING_V2_TARGET_GROUP"
+        case elasticacheCacheCluster = "ELASTICACHE_CACHE_CLUSTER"
+        case elasticsearchDomain = "ELASTICSEARCH_DOMAIN"
+        case kinesisStream = "KINESIS_STREAM"
+        case lambdaFunction = "LAMBDA_FUNCTION"
         case logGroups = "LOG_GROUPS"
+        case openSearchServiceDomain = "OPEN_SEARCH_SERVICE_DOMAIN"
+        case rdsDbCluster = "RDS_DB_CLUSTER"
+        case rdsDbInstance = "RDS_DB_INSTANCE"
+        case redshiftCluster = "REDSHIFT_CLUSTER"
+        case route53HealthCheck = "ROUTE53_HEALTH_CHECK"
+        case route53HostedZone = "ROUTE53_HOSTED_ZONE"
+        case s3Bucket = "S3_BUCKET"
+        case sagemakerEndpoint = "SAGEMAKER_ENDPOINT"
+        case snsTopic = "SNS_TOPIC"
+        case sqsQueue = "SQS_QUEUE"
+        case stepFunctionsActivity = "STEP_FUNCTIONS_ACTIVITY"
+        case stepFunctionsStateMachine = "STEP_FUNCTIONS_STATE_MACHINE"
         public var description: String { return self.rawValue }
     }
 
@@ -491,6 +517,9 @@ extension DevOpsGuru {
     }
 
     public struct CloudFormationHealth: AWSDecodableShape {
+        /// 			Number of resources that DevOps Guru is monitoring in your account that are specified by an Amazon Web Services CloudFormation stack.
+        ///
+        public let analyzedResourceCount: Int64?
         ///  Information about the health of the Amazon Web Services resources in your account that are
         /// 			specified by an Amazon Web Services CloudFormation stack, including the number of open proactive, open reactive
         /// 			insights, and the Mean Time to Recover (MTTR) of closed insights.
@@ -498,12 +527,14 @@ extension DevOpsGuru {
         ///  The name of the CloudFormation stack.
         public let stackName: String?
 
-        public init(insight: InsightHealth? = nil, stackName: String? = nil) {
+        public init(analyzedResourceCount: Int64? = nil, insight: InsightHealth? = nil, stackName: String? = nil) {
+            self.analyzedResourceCount = analyzedResourceCount
             self.insight = insight
             self.stackName = stackName
         }
 
         private enum CodingKeys: String, CodingKey {
+            case analyzedResourceCount = "AnalyzedResourceCount"
             case insight = "Insight"
             case stackName = "StackName"
         }
@@ -667,6 +698,9 @@ extension DevOpsGuru {
     }
 
     public struct DescribeAccountHealthResponse: AWSDecodableShape {
+        /// 			Number of resources that DevOps Guru is monitoring in your Amazon Web Services account.
+        ///
+        public let analyzedResourceCount: Int64?
         ///  An integer that specifies the number of metrics that have been analyzed in your Amazon Web Services
         /// 			account.
         public let metricsAnalyzed: Int
@@ -680,7 +714,8 @@ extension DevOpsGuru {
         /// 			the last hour.
         public let resourceHours: Int64
 
-        public init(metricsAnalyzed: Int, openProactiveInsights: Int, openReactiveInsights: Int, resourceHours: Int64) {
+        public init(analyzedResourceCount: Int64? = nil, metricsAnalyzed: Int, openProactiveInsights: Int, openReactiveInsights: Int, resourceHours: Int64) {
+            self.analyzedResourceCount = analyzedResourceCount
             self.metricsAnalyzed = metricsAnalyzed
             self.openProactiveInsights = openProactiveInsights
             self.openReactiveInsights = openReactiveInsights
@@ -688,6 +723,7 @@ extension DevOpsGuru {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case analyzedResourceCount = "AnalyzedResourceCount"
             case metricsAnalyzed = "MetricsAnalyzed"
             case openProactiveInsights = "OpenProactiveInsights"
             case openReactiveInsights = "OpenReactiveInsights"
@@ -1828,14 +1864,14 @@ extension DevOpsGuru {
     public struct ListMonitoredResourcesRequest: AWSEncodableShape {
         /// 			Filters to determine which monitored resources you want to retrieve. You can filter by resource type or resource permission status.
         ///
-        public let filters: ListMonitoredResourcesFilters
+        public let filters: ListMonitoredResourcesFilters?
         /// The maximum number of results to return with a single call.
         /// 	To retrieve the remaining results, make another call with the returned nextToken value.
         public let maxResults: Int?
         /// The pagination token to use to retrieve  the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
 
-        public init(filters: ListMonitoredResourcesFilters, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(filters: ListMonitoredResourcesFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2120,9 +2156,13 @@ extension DevOpsGuru {
     }
 
     public struct MonitoredResourceIdentifier: AWSDecodableShape {
+        /// 			The time at which DevOps Guru last updated this resource.
+        ///
+        public let lastUpdated: Date?
         /// 			The name of the resource being monitored.
         ///
         public let monitoredResourceName: String?
+        public let resourceCollection: ResourceCollection?
         /// 			The permission status of a resource.
         ///
         public let resourcePermission: ResourcePermission?
@@ -2130,14 +2170,18 @@ extension DevOpsGuru {
         ///
         public let type: String?
 
-        public init(monitoredResourceName: String? = nil, resourcePermission: ResourcePermission? = nil, type: String? = nil) {
+        public init(lastUpdated: Date? = nil, monitoredResourceName: String? = nil, resourceCollection: ResourceCollection? = nil, resourcePermission: ResourcePermission? = nil, type: String? = nil) {
+            self.lastUpdated = lastUpdated
             self.monitoredResourceName = monitoredResourceName
+            self.resourceCollection = resourceCollection
             self.resourcePermission = resourcePermission
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
+            case lastUpdated = "LastUpdated"
             case monitoredResourceName = "MonitoredResourceName"
+            case resourceCollection = "ResourceCollection"
             case resourcePermission = "ResourcePermission"
             case type = "Type"
         }
@@ -3572,6 +3616,9 @@ extension DevOpsGuru {
     }
 
     public struct ServiceHealth: AWSDecodableShape {
+        /// 			Number of resources that DevOps Guru is monitoring in an analyzed Amazon Web Services service.
+        ///
+        public let analyzedResourceCount: Int64?
         /// Represents the health of an Amazon Web Services service. This is a ServiceInsightHealth
         /// 			that contains the number of open proactive and reactive insights for this
         /// 			service.
@@ -3579,12 +3626,14 @@ extension DevOpsGuru {
         /// The name of the Amazon Web Services service.
         public let serviceName: ServiceName?
 
-        public init(insight: ServiceInsightHealth? = nil, serviceName: ServiceName? = nil) {
+        public init(analyzedResourceCount: Int64? = nil, insight: ServiceInsightHealth? = nil, serviceName: ServiceName? = nil) {
+            self.analyzedResourceCount = analyzedResourceCount
             self.insight = insight
             self.serviceName = serviceName
         }
 
         private enum CodingKeys: String, CodingKey {
+            case analyzedResourceCount = "AnalyzedResourceCount"
             case insight = "Insight"
             case serviceName = "ServiceName"
         }
@@ -3835,6 +3884,9 @@ extension DevOpsGuru {
     }
 
     public struct TagHealth: AWSDecodableShape {
+        /// 			Number of resources that DevOps Guru is monitoring in your account that are specified by an Amazon Web Services tag.
+        ///
+        public let analyzedResourceCount: Int64?
         /// An Amazon Web Services tag key that is used to identify the Amazon Web Services resources that  	DevOps Guru analyzes. All Amazon Web Services resources in your account and Region tagged with this key make  up your DevOps Guru application and analysis boundary.
         /// 		          The string used for a key in a tag that you use to define your resource coverage must begin with the
         /// 			prefix Devops-guru-. The tag key might be
@@ -3855,13 +3907,15 @@ extension DevOpsGuru {
         /// 					the tag key (for example, 111122223333, Production, or a team 				name). The key and value are the tag's key pair.  				Omitting the tag value is the same as using an empty 				string. Like tag keys, tag values are 				case-sensitive. You can specify a maximum of 256 characters for a tag value.
         public let tagValue: String?
 
-        public init(appBoundaryKey: String? = nil, insight: InsightHealth? = nil, tagValue: String? = nil) {
+        public init(analyzedResourceCount: Int64? = nil, appBoundaryKey: String? = nil, insight: InsightHealth? = nil, tagValue: String? = nil) {
+            self.analyzedResourceCount = analyzedResourceCount
             self.appBoundaryKey = appBoundaryKey
             self.insight = insight
             self.tagValue = tagValue
         }
 
         private enum CodingKeys: String, CodingKey {
+            case analyzedResourceCount = "AnalyzedResourceCount"
             case appBoundaryKey = "AppBoundaryKey"
             case insight = "Insight"
             case tagValue = "TagValue"

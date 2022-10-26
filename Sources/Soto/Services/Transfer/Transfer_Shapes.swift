@@ -163,10 +163,10 @@ extension Transfer {
     public enum State: String, CustomStringConvertible, Codable, _SotoSendable {
         case offline = "OFFLINE"
         case online = "ONLINE"
-        case starting = "STARTING"
         case startFailed = "START_FAILED"
-        case stopping = "STOPPING"
+        case starting = "STARTING"
         case stopFailed = "STOP_FAILED"
+        case stopping = "STOPPING"
         public var description: String { return self.rawValue }
     }
 
@@ -345,9 +345,9 @@ extension Transfer {
     }
 
     public struct CreateAccessResponse: AWSDecodableShape {
-        /// The external ID of the group whose users have access to your Amazon S3 or Amazon EFS resources over the enabled protocols using Transfer Family.
+        /// The external identifier of the group whose users have access to your Amazon S3 or Amazon EFS resources over the enabled protocols using Transfer Family.
         public let externalId: String
-        /// The ID of the server that the user is attached to.
+        /// The identifier of the server that the user is attached to.
         public let serverId: String
 
         public init(externalId: String, serverId: String) {
@@ -364,7 +364,7 @@ extension Transfer {
     public struct CreateAgreementRequest: AWSEncodableShape {
         /// With AS2, you can send files by calling StartFileTransfer and specifying the file paths in the request parameter, SendFilePaths. We use the file’s parent directory (for example, for --send-file-paths /bucket/dir/file.txt, parent directory is /bucket/dir/) to temporarily store a processed AS2 message file, store the MDN when we receive them from the partner, and write a final JSON file containing relevant metadata of the transmission. So, the AccessRole needs to provide read and write access to the parent directory of the file location used in the StartFileTransfer request. Additionally, you need to provide read and write access to the parent directory of the files that you intend to send with StartFileTransfer.
         public let accessRole: String
-        /// The landing directory (folder) for files transferred by using the AS2 protocol. A BaseDirectory example is /DOC-EXAMPLE-BUCKET/home/mydirectory .
+        /// The landing directory (folder) for files transferred by using the AS2 protocol. A BaseDirectory example is DOC-EXAMPLE-BUCKET/home/mydirectory.
         public let baseDirectory: String
         /// A name or short description to identify the agreement.
         public let description: String?
@@ -503,7 +503,7 @@ extension Transfer {
         public let as2Id: String
         /// An array of identifiers for the imported certificates. You use this identifier for working with profiles and partner profiles.
         public let certificateIds: [String]?
-        /// Indicates whether to list only LOCAL type profiles or only PARTNER type profiles.  If not supplied in the request, the command lists all types of profiles.
+        /// Determines the type of profile to create:   Specify LOCAL to create a local profile. A local profile represents the AS2-enabled Transfer Family server organization or party.   Specify PARTNER to create a partner profile. A partner profile represents a remote organization, external to Transfer Family.
         public let profileType: ProfileType
         /// Key-value pairs that can be used to group and search for AS2 profiles.
         public let tags: [Tag]?
@@ -568,10 +568,10 @@ extension Transfer {
         public let endpointDetails: EndpointDetails?
         /// The type of endpoint that you want your server to use. You can choose to make your server's endpoint publicly accessible (PUBLIC) or host it inside your VPC. With an endpoint that is hosted in a VPC, you can restrict access to your server and  resources only within your VPC or choose to make it internet facing by attaching Elastic IP addresses directly to it.  After May 19, 2021, you won't be able to create a server using EndpointType=VPC_ENDPOINT in your Amazon Web Services account if your account hasn't already done so before May 19, 2021. If you have already created servers with EndpointType=VPC_ENDPOINT in your Amazon Web Services account on or before May 19, 2021, you will not be affected. After this date, use EndpointType=VPC.   For more information, see https://docs.aws.amazon.com/transfer/latest/userguide/create-server-in-vpc.html#deprecate-vpc-endpoint. It is recommended that you use VPC as the EndpointType. With this endpoint type, you have the option to directly associate up to three Elastic IPv4 addresses (BYO IP included) with your server's endpoint and use VPC security groups to restrict traffic by the client's public IP address. This is not possible with EndpointType set to VPC_ENDPOINT.
         public let endpointType: EndpointType?
-        /// The RSA, ECDSA, or ED25519 private key to use for your server.  Use the following command to generate an RSA 2048 bit key with no passphrase:  ssh-keygen -t rsa -b 2048 -N "" -m PEM -f my-new-server-key. Use a minimum value of 2048 for the -b option. You can create a stronger key by using 3072 or 4096.  Use the following command to generate an ECDSA 256 bit key with no passphrase:  ssh-keygen -t ecdsa -b 256 -N "" -m PEM -f my-new-server-key. Valid values for the -b option for ECDSA are 256, 384, and 521.  Use the following command to generate an ED25519 key with no passphrase:  ssh-keygen -t ed25519 -N "" -f my-new-server-key.  For all of these commands, you can replace my-new-server-key with a string of your choice.
+        /// The RSA, ECDSA, or ED25519 private key to use for your SFTP-enabled server. You can add multiple host keys, in case you want to rotate keys, or have a set of active keys that use different algorithms.  Use the following command to generate an RSA 2048 bit key with no passphrase:  ssh-keygen -t rsa -b 2048 -N "" -m PEM -f my-new-server-key. Use a minimum value of 2048 for the -b option. You can create a stronger key by using 3072 or 4096.  Use the following command to generate an ECDSA 256 bit key with no passphrase:  ssh-keygen -t ecdsa -b 256 -N "" -m PEM -f my-new-server-key. Valid values for the -b option for ECDSA are 256, 384, and 521.  Use the following command to generate an ED25519 key with no passphrase:  ssh-keygen -t ed25519 -N "" -f my-new-server-key.  For all of these commands, you can replace my-new-server-key with a string of your choice.
         ///   If you aren't planning to migrate existing users from an existing SFTP-enabled server to a new server, don't update the host key. Accidentally changing a server's host key can be disruptive.
         ///
-        ///  For more information, see Change the host key for your SFTP-enabled server in the Transfer Family User Guide.
+        ///  For more information, see Update host keys for your SFTP-enabled server in the Transfer Family User Guide.
         public let hostKey: String?
         /// Required when IdentityProviderType is set to AWS_DIRECTORY_SERVICE or API_GATEWAY. Accepts an array containing all of the information required to use a directory in AWS_DIRECTORY_SERVICE or invoke a customer-supplied authentication API, including the API Gateway URL. Not required when IdentityProviderType is set to SERVICE_MANAGED.
         public let identityProviderDetails: IdentityProviderDetails?
@@ -592,7 +592,7 @@ extension Transfer {
         public let securityPolicyName: String?
         /// Key-value pairs that can be used to group and search for servers.
         public let tags: [Tag]?
-        /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow.
+        /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. In additon to a workflow to execute when a file is uploaded completely, WorkflowDeatails can also contain a workflow ID (and execution role) for a workflow to execute on partial upload. A partial upload occurs when a file is open when the session disconnects.
         public let workflowDetails: WorkflowDetails?
 
         public init(certificate: String? = nil, domain: Domain? = nil, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKey: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, identityProviderType: IdentityProviderType? = nil, loggingRole: String? = nil, postAuthenticationLoginBanner: String? = nil, preAuthenticationLoginBanner: String? = nil, protocolDetails: ProtocolDetails? = nil, protocols: [`Protocol`]? = nil, securityPolicyName: String? = nil, tags: [Tag]? = nil, workflowDetails: WorkflowDetails? = nil) {
@@ -658,7 +658,7 @@ extension Transfer {
     }
 
     public struct CreateServerResponse: AWSDecodableShape {
-        /// The service-assigned ID of the server that is created.
+        /// The service-assigned identifier of the server that is created.
         public let serverId: String
 
         public init(serverId: String) {
@@ -755,7 +755,7 @@ extension Transfer {
     }
 
     public struct CreateUserResponse: AWSDecodableShape {
-        /// The ID of the server that the user is attached to.
+        /// The identifier of the server that the user is attached to.
         public let serverId: String
         /// A unique string that identifies a user account associated with a server.
         public let userName: String
@@ -894,7 +894,7 @@ extension Transfer {
     public struct DeleteAgreementRequest: AWSEncodableShape {
         /// A unique identifier for the agreement. This identifier is returned when you create an agreement.
         public let agreementId: String
-        /// The server ID associated with the agreement that you are deleting.
+        /// The server identifier associated with the agreement that you are deleting.
         public let serverId: String
 
         public init(agreementId: String, serverId: String) {
@@ -918,7 +918,7 @@ extension Transfer {
     }
 
     public struct DeleteCertificateRequest: AWSEncodableShape {
-        /// The ID of the certificate object that you are deleting.
+        /// The identifier of the certificate object that you are deleting.
         public let certificateId: String
 
         public init(certificateId: String) {
@@ -956,9 +956,9 @@ extension Transfer {
     }
 
     public struct DeleteHostKeyRequest: AWSEncodableShape {
-        /// The ID of the host key that you are deleting.
+        /// The identifier of the host key that you are deleting.
         public let hostKeyId: String
-        /// Provide the ID of the server that contains the host key that you are deleting.
+        /// The identifier of the server that contains the host key that you are deleting.
         public let serverId: String
 
         public init(hostKeyId: String, serverId: String) {
@@ -982,7 +982,7 @@ extension Transfer {
     }
 
     public struct DeleteProfileRequest: AWSEncodableShape {
-        /// The ID of the profile that you are deleting.
+        /// The identifier of the profile that you are deleting.
         public let profileId: String
 
         public init(profileId: String) {
@@ -1150,7 +1150,7 @@ extension Transfer {
     }
 
     public struct DescribeAccessResponse: AWSDecodableShape {
-        /// The external ID of the server that the access is attached to.
+        /// The external identifier of the server that the access is attached to.
         public let access: DescribedAccess
         /// A system-assigned unique identifier for a server that has this access assigned.
         public let serverId: String
@@ -1169,7 +1169,7 @@ extension Transfer {
     public struct DescribeAgreementRequest: AWSEncodableShape {
         /// A unique identifier for the agreement. This identifier is returned when you create an agreement.
         public let agreementId: String
-        /// The server ID that's associated with the agreement.
+        /// The server identifier that's associated with the agreement.
         public let serverId: String
 
         public init(agreementId: String, serverId: String) {
@@ -1313,9 +1313,9 @@ extension Transfer {
     }
 
     public struct DescribeHostKeyRequest: AWSEncodableShape {
-        /// Provide the ID of the host key that you want described.
+        /// The identifier of the host key that you want described.
         public let hostKeyId: String
-        /// Provide the ID of the server that contains the host key that you want described.
+        /// The identifier of the server that contains the host key that you want described.
         public let serverId: String
 
         public init(hostKeyId: String, serverId: String) {
@@ -1763,7 +1763,7 @@ extension Transfer {
         public let hostKeyId: String?
         /// Key-value pairs that can be used to group and search for host keys.
         public let tags: [Tag]?
-        /// The encryption algorithm used for the host key. The Type is one of the following values:   ssh-rsa   ssh-ed25519   ecdsa-sha2-nistp256    ecdsa-sha2-nistp384   ecdsa-sha2-nistp521
+        /// The encryption algorithm that is used for the host key. The Type parameter is specified by using one of the following values:    ssh-rsa     ssh-ed25519     ecdsa-sha2-nistp256     ecdsa-sha2-nistp384     ecdsa-sha2-nistp521
         public let type: String?
 
         public init(arn: String, dateImported: Date? = nil, description: String? = nil, hostKeyFingerprint: String? = nil, hostKeyId: String? = nil, tags: [Tag]? = nil, type: String? = nil) {
@@ -1892,7 +1892,7 @@ extension Transfer {
         public let tags: [Tag]?
         /// Specifies the number of users that are assigned to a server you specified with the ServerId.
         public let userCount: Int?
-        /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow.
+        /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. In additon to a workflow to execute when a file is uploaded completely, WorkflowDeatails can also contain a workflow ID (and execution role) for a workflow to execute on partial upload. A partial upload occurs when a file is open when the session disconnects.
         public let workflowDetails: WorkflowDetails?
 
         public init(arn: String, certificate: String? = nil, domain: Domain? = nil, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKeyFingerprint: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, identityProviderType: IdentityProviderType? = nil, loggingRole: String? = nil, postAuthenticationLoginBanner: String? = nil, preAuthenticationLoginBanner: String? = nil, protocolDetails: ProtocolDetails? = nil, protocols: [`Protocol`]? = nil, securityPolicyName: String? = nil, serverId: String? = nil, state: State? = nil, tags: [Tag]? = nil, userCount: Int? = nil, workflowDetails: WorkflowDetails? = nil) {
@@ -2024,7 +2024,7 @@ extension Transfer {
     }
 
     public struct EfsFileLocation: AWSEncodableShape & AWSDecodableShape {
-        /// The ID of the file system, assigned by Amazon EFS.
+        /// The identifier of the file system, assigned by Amazon EFS.
         public let fileSystemId: String?
         /// The pathname for the folder being used by a workflow.
         public let path: String?
@@ -2060,10 +2060,10 @@ extension Transfer {
         /// A list of subnet IDs that are required to host your server endpoint in your VPC.
         ///   This property can only be set when EndpointType is set to VPC.
         public let subnetIds: [String]?
-        /// The ID of the VPC endpoint.
+        /// The identifier of the VPC endpoint.
         ///   This property can only be set when EndpointType is set to VPC_ENDPOINT.  For more information, see https://docs.aws.amazon.com/transfer/latest/userguide/create-server-in-vpc.html#deprecate-vpc-endpoint.
         public let vpcEndpointId: String?
-        /// The VPC ID of the VPC in which a server's endpoint will be hosted.
+        /// The VPC identifier of the VPC in which a server's endpoint will be hosted.
         ///   This property can only be set when EndpointType is set to VPC.
         public let vpcId: String?
 
@@ -2151,7 +2151,7 @@ extension Transfer {
     }
 
     public struct FileLocation: AWSDecodableShape {
-        /// Specifies the Amazon EFS ID and the path for the file being used.
+        /// Specifies the Amazon EFS identifier and the path for the file being used.
         public let efsFileLocation: EfsFileLocation?
         /// Specifies the S3 details for the file being used, such as bucket, ETag, and so forth.
         public let s3FileLocation: S3FileLocation?
@@ -2304,11 +2304,11 @@ extension Transfer {
     }
 
     public struct ImportHostKeyRequest: AWSEncodableShape {
-        /// Enter a text description to identify this host key.
+        /// The text description that identifies this host key.
         public let description: String?
         /// The public key portion of an SSH key pair. Transfer Family accepts RSA, ECDSA, and ED25519 keys.
         public let hostKeyBody: String
-        /// Provide the ID of the server that contains the host key that you are importing.
+        /// The identifier of the server that contains the host key that you are importing.
         public let serverId: String
         /// Key-value pairs that can be used to group and search for host keys.
         public let tags: [Tag]?
@@ -2343,9 +2343,9 @@ extension Transfer {
     }
 
     public struct ImportHostKeyResponse: AWSDecodableShape {
-        /// Returns the host key ID for the imported key.
+        /// Returns the host key identifier for the imported key.
         public let hostKeyId: String
-        /// Returns the server ID that contains the imported key.
+        /// Returns the server identifier that contains the imported key.
         public let serverId: String
 
         public init(hostKeyId: String, serverId: String) {
@@ -2672,7 +2672,7 @@ extension Transfer {
         public let maxResults: Int?
         /// When there are additional results that were not returned, a NextToken parameter is returned. You can use that value for a subsequent call to ListHostKeys to continue listing results.
         public let nextToken: String?
-        /// Provide the ID of the server that contains the host keys that you want to view.
+        /// The identifier of the server that contains the host keys that you want to view.
         public let serverId: String
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, serverId: String) {
@@ -2703,7 +2703,7 @@ extension Transfer {
         public let hostKeys: [ListedHostKey]
         /// Returns a token that you can use to call ListHostKeys again and receive additional results, if there are any.
         public let nextToken: String?
-        /// Returns the server ID that contains the listed host keys.
+        /// Returns the server identifier that contains the listed host keys.
         public let serverId: String
 
         public init(hostKeys: [ListedHostKey], nextToken: String? = nil, serverId: String) {
@@ -3143,7 +3143,7 @@ extension Transfer {
     }
 
     public struct ListedHostKey: AWSDecodableShape {
-        /// Specifies the unique Amazon Resource Name (ARN) of the host key.
+        /// The unique Amazon Resource Name (ARN) of the host key.
         public let arn: String
         /// The date on which the host key was added to the server.
         public let dateImported: Date?
@@ -3151,8 +3151,9 @@ extension Transfer {
         public let description: String?
         /// The public key fingerprint, which is a short sequence of bytes used to identify the longer public key.
         public let fingerprint: String?
+        /// A unique identifier for the host key.
         public let hostKeyId: String?
-        /// The encryption algorithm used for the host key. The Type is one of the following values:   ssh-rsa   ssh-ed25519   ecdsa-sha2-nistp256    ecdsa-sha2-nistp384   ecdsa-sha2-nistp521
+        /// The encryption algorithm that is used for the host key. The Type parameter is specified by using one of the following values:    ssh-rsa     ssh-ed25519     ecdsa-sha2-nistp256     ecdsa-sha2-nistp384     ecdsa-sha2-nistp521
         public let type: String?
 
         public init(arn: String, dateImported: Date? = nil, description: String? = nil, fingerprint: String? = nil, hostKeyId: String? = nil, type: String? = nil) {
@@ -3350,7 +3351,7 @@ extension Transfer {
     public struct ProtocolDetails: AWSEncodableShape & AWSDecodableShape {
         /// Indicates the transport method for the AS2 messages. Currently, only HTTP is supported.
         public let as2Transports: [As2Transport]?
-        ///  Indicates passive mode, for FTP and FTPS protocols. Enter a single IPv4 address, such as the public IP address of a firewall, router, or load balancer. For example:    aws transfer update-server --protocol-details PassiveIp=0.0.0.0   Replace  0.0.0.0 in the example above with the actual IP address you want to use.   If you change the PassiveIp value, you must stop and then restart your Transfer Family server for the change to take effect. For details on using passive mode (PASV) in a NAT environment, see Configuring your FTPS server behind a firewall or NAT with Transfer Family.
+        ///  Indicates passive mode, for FTP and FTPS protocols. Enter a single IPv4 address, such as the public IP address of a firewall, router, or load balancer. For example:   aws transfer update-server --protocol-details PassiveIp=0.0.0.0  Replace 0.0.0.0 in the example above with the actual IP address you want to use.   If you change the PassiveIp value, you must stop and then restart your Transfer Family server for the change to take effect. For details on using passive mode (PASV) in a NAT environment, see Configuring your FTPS server behind a firewall or NAT with Transfer Family.    Special values   The AUTO and 0.0.0.0 are special values for the PassiveIp parameter. The value PassiveIp=AUTO is assigned by default to FTP and FTPS type servers. In this case, the server automatically responds with one of the endpoint IPs within the PASV response. PassiveIp=0.0.0.0 has a more unique application for its usage. For example, if you have a High Availability (HA) Network Load Balancer (NLB) environment, where you have 3 subnets, you can only specify a single IP address using the PassiveIp parameter. This reduces the effectiveness of having High Availability. In this case, you can specify PassiveIp=0.0.0.0. This tells the client to use the same IP address as the Control connection and utilize all AZs for their connections. Note, however, that not all FTP clients support the PassiveIp=0.0.0.0 response. FileZilla and WinSCP do support it. If you are using other clients, check to see if your client supports the PassiveIp=0.0.0.0 response.
         public let passiveIp: String?
         /// Use the SetStatOption to ignore the error that is generated when the client attempts to use SETSTAT on a file you are uploading to an S3 bucket. Some SFTP file transfer clients can attempt to change the attributes of remote files, including timestamp and permissions, using commands, such as SETSTAT when uploading the file. However, these commands are not compatible with object storage systems, such as Amazon S3. Due to this incompatibility, file uploads from these clients can result in errors even when  the file is otherwise successfully uploaded. Set the value to ENABLE_NO_OP to have the Transfer Family server ignore the SETSTAT command, and upload files without needing to make any changes to your SFTP client. While the SetStatOption  ENABLE_NO_OP setting ignores the error, it does generate a log entry in Amazon CloudWatch Logs, so you can determine when the client is making a SETSTAT call.  If you want to preserve the original timestamp for your file, and modify other file attributes using SETSTAT, you can use Amazon EFS as backend storage with Transfer Family.
         public let setStatOption: SetStatOption?
@@ -3852,9 +3853,9 @@ extension Transfer {
     }
 
     public struct UpdateAccessResponse: AWSDecodableShape {
-        /// The external ID of the group whose users have access to your Amazon S3 or Amazon EFS resources over the enabled protocols using Amazon Web ServicesTransfer Family.
+        /// The external identifier of the group whose users have access to your Amazon S3 or Amazon EFS resources over the enabled protocols using Amazon Web ServicesTransfer Family.
         public let externalId: String
-        /// The ID of the server that the user is attached to.
+        /// The identifier of the server that the user is attached to.
         public let serverId: String
 
         public init(externalId: String, serverId: String) {
@@ -4049,11 +4050,11 @@ extension Transfer {
     }
 
     public struct UpdateHostKeyRequest: AWSEncodableShape {
-        /// Provide an updated description for the host key.
+        /// An updated description for the host key.
         public let description: String
-        /// Provide the ID of the host key that you are updating.
+        /// The identifier of the host key that you are updating.
         public let hostKeyId: String
-        /// Provide the ID of the server that contains the host key that you are updating.
+        /// The identifier of the server that contains the host key that you are updating.
         public let serverId: String
 
         public init(description: String, hostKeyId: String, serverId: String) {
@@ -4081,9 +4082,9 @@ extension Transfer {
     }
 
     public struct UpdateHostKeyResponse: AWSDecodableShape {
-        /// Returns the host key ID for the updated host key.
+        /// Returns the host key identifier for the updated host key.
         public let hostKeyId: String
-        /// Returns the server ID for the server that contains the updated host key.
+        /// Returns the server identifier for the server that contains the updated host key.
         public let serverId: String
 
         public init(hostKeyId: String, serverId: String) {
@@ -4151,10 +4152,10 @@ extension Transfer {
         public let endpointDetails: EndpointDetails?
         /// The type of endpoint that you want your server to use. You can choose to make your server's endpoint publicly accessible (PUBLIC) or host it inside your VPC. With an endpoint that is hosted in a VPC, you can restrict access to your server and  resources only within your VPC or choose to make it internet facing by attaching Elastic IP addresses directly to it.  After May 19, 2021, you won't be able to create a server using EndpointType=VPC_ENDPOINT in your Amazon Web Servicesaccount if your account hasn't already done so before May 19, 2021. If you have already created servers with EndpointType=VPC_ENDPOINT in your Amazon Web Servicesaccount on or before May 19, 2021, you will not be affected. After this date, use EndpointType=VPC.   For more information, see https://docs.aws.amazon.com/transfer/latest/userguide/create-server-in-vpc.html#deprecate-vpc-endpoint. It is recommended that you use VPC as the EndpointType. With this endpoint type, you have the option to directly associate up to three Elastic IPv4 addresses (BYO IP included) with your server's endpoint and use VPC security groups to restrict traffic by the client's public IP address. This is not possible with EndpointType set to VPC_ENDPOINT.
         public let endpointType: EndpointType?
-        /// The RSA, ECDSA, or ED25519 private key to use for your server.  Use the following command to generate an RSA 2048 bit key with no passphrase:  ssh-keygen -t rsa -b 2048 -N "" -m PEM -f my-new-server-key. Use a minimum value of 2048 for the -b option. You can create a stronger key by using 3072 or 4096.  Use the following command to generate an ECDSA 256 bit key with no passphrase:  ssh-keygen -t ecdsa -b 256 -N "" -m PEM -f my-new-server-key. Valid values for the -b option for ECDSA are 256, 384, and 521.  Use the following command to generate an ED25519 key with no passphrase:  ssh-keygen -t ed25519 -N "" -f my-new-server-key.  For all of these commands, you can replace my-new-server-key with a string of your choice.
+        /// The RSA, ECDSA, or ED25519 private key to use for your SFTP-enabled server. You can add multiple host keys, in case you want to rotate keys, or have a set of active keys that use different algorithms.  Use the following command to generate an RSA 2048 bit key with no passphrase:  ssh-keygen -t rsa -b 2048 -N "" -m PEM -f my-new-server-key. Use a minimum value of 2048 for the -b option. You can create a stronger key by using 3072 or 4096.  Use the following command to generate an ECDSA 256 bit key with no passphrase:  ssh-keygen -t ecdsa -b 256 -N "" -m PEM -f my-new-server-key. Valid values for the -b option for ECDSA are 256, 384, and 521.  Use the following command to generate an ED25519 key with no passphrase:  ssh-keygen -t ed25519 -N "" -f my-new-server-key.  For all of these commands, you can replace my-new-server-key with a string of your choice.
         ///   If you aren't planning to migrate existing users from an existing SFTP-enabled server to a new server, don't update the host key. Accidentally changing a server's host key can be disruptive.
         ///
-        ///  For more information, see Change the host key for your SFTP-enabled server in the Transfer Family User Guide.
+        ///  For more information, see Update host keys for your SFTP-enabled server in the Transfer Family User Guide.
         public let hostKey: String?
         /// An array containing all of the information required to call a customer's authentication API method.
         public let identityProviderDetails: IdentityProviderDetails?
@@ -4173,7 +4174,7 @@ extension Transfer {
         public let securityPolicyName: String?
         /// A system-assigned unique identifier for a server instance that the user account is assigned to.
         public let serverId: String
-        /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. To remove an associated workflow from a server, you can provide an empty OnUpload object, as in the following example.  aws transfer update-server --server-id s-01234567890abcdef --workflow-details '{"OnUpload":[]}'
+        /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. In additon to a workflow to execute when a file is uploaded completely, WorkflowDeatails can also contain a workflow ID (and execution role) for a workflow to execute on partial upload. A partial upload occurs when a file is open when the session disconnects. To remove an associated workflow from a server, you can provide an empty OnUpload object, as in the following example.  aws transfer update-server --server-id s-01234567890abcdef --workflow-details '{"OnUpload":[]}'
         public let workflowDetails: WorkflowDetails?
 
         public init(certificate: String? = nil, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKey: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, loggingRole: String? = nil, postAuthenticationLoginBanner: String? = nil, preAuthenticationLoginBanner: String? = nil, protocolDetails: ProtocolDetails? = nil, protocols: [`Protocol`]? = nil, securityPolicyName: String? = nil, serverId: String, workflowDetails: WorkflowDetails? = nil) {
@@ -4377,21 +4378,29 @@ extension Transfer {
     }
 
     public struct WorkflowDetails: AWSEncodableShape & AWSDecodableShape {
+        /// A trigger that starts a workflow if a file is only partially uploaded. You can attach a workflow to a server that executes whenever there is a partial upload. A partial upload occurs when a file is open when the session disconnects.
+        public let onPartialUpload: [WorkflowDetail]?
         /// A trigger that starts a workflow: the workflow begins to execute after a file is uploaded. To remove an associated workflow from a server, you can provide an empty OnUpload object, as in the following example.  aws transfer update-server --server-id s-01234567890abcdef --workflow-details '{"OnUpload":[]}'
-        public let onUpload: [WorkflowDetail]
+        public let onUpload: [WorkflowDetail]?
 
-        public init(onUpload: [WorkflowDetail]) {
+        public init(onPartialUpload: [WorkflowDetail]? = nil, onUpload: [WorkflowDetail]? = nil) {
+            self.onPartialUpload = onPartialUpload
             self.onUpload = onUpload
         }
 
         public func validate(name: String) throws {
-            try self.onUpload.forEach {
+            try self.onPartialUpload?.forEach {
+                try $0.validate(name: "\(name).onPartialUpload[]")
+            }
+            try self.validate(self.onPartialUpload, name: "onPartialUpload", parent: name, max: 1)
+            try self.onUpload?.forEach {
                 try $0.validate(name: "\(name).onUpload[]")
             }
             try self.validate(self.onUpload, name: "onUpload", parent: name, max: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case onPartialUpload = "OnPartialUpload"
             case onUpload = "OnUpload"
         }
     }

@@ -198,7 +198,8 @@ public struct SSMErrorType: AWSErrorType {
     public static var documentAlreadyExists: Self { .init(.documentAlreadyExists) }
     /// You can have at most 500 active SSM documents.
     public static var documentLimitExceeded: Self { .init(.documentLimitExceeded) }
-    /// The document can't be shared with more Amazon Web Services user accounts. You can share a document with a maximum of 20 accounts. You can publicly share up to five documents. If you need to increase this limit, contact Amazon Web Services Support.
+    /// The document can't be shared with more Amazon Web Services user accounts. You can specify a maximum of 20 accounts per API operation to share a private document.
+    ///  By default, you can share a private document with a maximum of 1,000 accounts and publicly share up to five documents.  If you need to increase the quota for privately or publicly shared Systems Manager documents, contact Amazon Web Services Support.
     public static var documentPermissionLimit: Self { .init(.documentPermissionLimit) }
     /// The document has too many versions. Delete one or more document versions and try again.
     public static var documentVersionLimitExceeded: Self { .init(.documentVersionLimitExceeded) }
@@ -310,7 +311,7 @@ public struct SSMErrorType: AWSErrorType {
     public static var invalidRole: Self { .init(.invalidRole) }
     /// The schedule is invalid. Verify your cron or rate expression and try again.
     public static var invalidSchedule: Self { .init(.invalidSchedule) }
-    /// The tag key or value isn't valid.
+    /// The specified tag key or value isn't valid.
     public static var invalidTag: Self { .init(.invalidTag) }
     /// The target isn't valid or doesn't exist. It might not be configured for Systems Manager or you might not have permission to perform the operation.
     public static var invalidTarget: Self { .init(.invalidTarget) }

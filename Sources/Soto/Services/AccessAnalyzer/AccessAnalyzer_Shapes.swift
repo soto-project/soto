@@ -148,11 +148,17 @@ extension AccessAnalyzer {
     }
 
     public enum ResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case awsEC2Snapshot = "AWS::EC2::Snapshot"
+        case awsECRRepository = "AWS::ECR::Repository"
+        case awsEFSFilesystem = "AWS::EFS::FileSystem"
         case awsIAMRole = "AWS::IAM::Role"
         case awsKMSKey = "AWS::KMS::Key"
         case awsLambdaFunction = "AWS::Lambda::Function"
         case awsLambdaLayerversion = "AWS::Lambda::LayerVersion"
+        case awsRDSDbclustersnapshot = "AWS::RDS::DBClusterSnapshot"
+        case awsRDSDbsnapshot = "AWS::RDS::DBSnapshot"
         case awsS3Bucket = "AWS::S3::Bucket"
+        case awsSNSTopic = "AWS::SNS::Topic"
         case awsSQSQueue = "AWS::SQS::Queue"
         case awsSecretsmanagerSecret = "AWS::SecretsManager::Secret"
         public var description: String { return self.rawValue }
@@ -223,14 +229,26 @@ extension AccessAnalyzer {
     }
 
     public enum Configuration: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+        /// The access control configuration is for an Amazon EBS volume snapshot.
+        case ebsSnapshot(EbsSnapshotConfiguration)
+        /// The access control configuration is for an Amazon ECR repository.
+        case ecrRepository(EcrRepositoryConfiguration)
+        /// The access control configuration is for an Amazon EFS file system.
+        case efsFileSystem(EfsFileSystemConfiguration)
         /// The access control configuration is for an IAM role.
         case iamRole(IamRoleConfiguration)
         /// The access control configuration is for a KMS key.
         case kmsKey(KmsKeyConfiguration)
+        /// The access control configuration is for an Amazon RDS DB cluster snapshot.
+        case rdsDbClusterSnapshot(RdsDbClusterSnapshotConfiguration)
+        /// The access control configuration is for an Amazon RDS DB snapshot.
+        case rdsDbSnapshot(RdsDbSnapshotConfiguration)
         /// The access control configuration is for an Amazon S3 Bucket.
         case s3Bucket(S3BucketConfiguration)
         /// The access control configuration is for a Secrets Manager secret.
         case secretsManagerSecret(SecretsManagerSecretConfiguration)
+        /// The access control configuration is for an Amazon SNS topic
+        case snsTopic(SnsTopicConfiguration)
         /// The access control configuration is for an Amazon SQS queue.
         case sqsQueue(SqsQueueConfiguration)
 
@@ -244,18 +262,36 @@ extension AccessAnalyzer {
                 throw DecodingError.dataCorrupted(context)
             }
             switch key {
+            case .ebsSnapshot:
+                let value = try container.decode(EbsSnapshotConfiguration.self, forKey: .ebsSnapshot)
+                self = .ebsSnapshot(value)
+            case .ecrRepository:
+                let value = try container.decode(EcrRepositoryConfiguration.self, forKey: .ecrRepository)
+                self = .ecrRepository(value)
+            case .efsFileSystem:
+                let value = try container.decode(EfsFileSystemConfiguration.self, forKey: .efsFileSystem)
+                self = .efsFileSystem(value)
             case .iamRole:
                 let value = try container.decode(IamRoleConfiguration.self, forKey: .iamRole)
                 self = .iamRole(value)
             case .kmsKey:
                 let value = try container.decode(KmsKeyConfiguration.self, forKey: .kmsKey)
                 self = .kmsKey(value)
+            case .rdsDbClusterSnapshot:
+                let value = try container.decode(RdsDbClusterSnapshotConfiguration.self, forKey: .rdsDbClusterSnapshot)
+                self = .rdsDbClusterSnapshot(value)
+            case .rdsDbSnapshot:
+                let value = try container.decode(RdsDbSnapshotConfiguration.self, forKey: .rdsDbSnapshot)
+                self = .rdsDbSnapshot(value)
             case .s3Bucket:
                 let value = try container.decode(S3BucketConfiguration.self, forKey: .s3Bucket)
                 self = .s3Bucket(value)
             case .secretsManagerSecret:
                 let value = try container.decode(SecretsManagerSecretConfiguration.self, forKey: .secretsManagerSecret)
                 self = .secretsManagerSecret(value)
+            case .snsTopic:
+                let value = try container.decode(SnsTopicConfiguration.self, forKey: .snsTopic)
+                self = .snsTopic(value)
             case .sqsQueue:
                 let value = try container.decode(SqsQueueConfiguration.self, forKey: .sqsQueue)
                 self = .sqsQueue(value)
@@ -265,14 +301,26 @@ extension AccessAnalyzer {
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
+            case .ebsSnapshot(let value):
+                try container.encode(value, forKey: .ebsSnapshot)
+            case .ecrRepository(let value):
+                try container.encode(value, forKey: .ecrRepository)
+            case .efsFileSystem(let value):
+                try container.encode(value, forKey: .efsFileSystem)
             case .iamRole(let value):
                 try container.encode(value, forKey: .iamRole)
             case .kmsKey(let value):
                 try container.encode(value, forKey: .kmsKey)
+            case .rdsDbClusterSnapshot(let value):
+                try container.encode(value, forKey: .rdsDbClusterSnapshot)
+            case .rdsDbSnapshot(let value):
+                try container.encode(value, forKey: .rdsDbSnapshot)
             case .s3Bucket(let value):
                 try container.encode(value, forKey: .s3Bucket)
             case .secretsManagerSecret(let value):
                 try container.encode(value, forKey: .secretsManagerSecret)
+            case .snsTopic(let value):
+                try container.encode(value, forKey: .snsTopic)
             case .sqsQueue(let value):
                 try container.encode(value, forKey: .sqsQueue)
             }
@@ -282,16 +330,24 @@ extension AccessAnalyzer {
             switch self {
             case .s3Bucket(let value):
                 try value.validate(name: "\(name).s3Bucket")
+            case .snsTopic(let value):
+                try value.validate(name: "\(name).snsTopic")
             default:
                 break
             }
         }
 
         private enum CodingKeys: String, CodingKey {
+            case ebsSnapshot
+            case ecrRepository
+            case efsFileSystem
             case iamRole
             case kmsKey
+            case rdsDbClusterSnapshot
+            case rdsDbSnapshot
             case s3Bucket
             case secretsManagerSecret
+            case snsTopic
             case sqsQueue
         }
     }
@@ -1012,6 +1068,53 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: CodingKey {}
+    }
+
+    public struct EbsSnapshotConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The groups that have access to the Amazon EBS volume snapshot. If the value all is specified, then the Amazon EBS volume snapshot is public.   If the configuration is for an existing Amazon EBS volume snapshot and you do not specify the groups, then the access preview uses the existing shared groups for the snapshot.   If the access preview is for a new resource and you do not specify the groups, then the access preview considers the snapshot without any groups.   To propose deletion of existing shared groups, you can specify an empty list for groups.
+        public let groups: [String]?
+        /// The KMS key identifier for an encrypted Amazon EBS volume snapshot. The KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key.   If the configuration is for an existing Amazon EBS volume snapshot and you do not specify the kmsKeyId, or you specify an empty string, then the access preview uses the existing kmsKeyId of the snapshot.   If the access preview is for a new resource and you do not specify the kmsKeyId, the access preview considers the snapshot as unencrypted.
+        public let kmsKeyId: String?
+        /// The IDs of the Amazon Web Services accounts that have access to the Amazon EBS volume snapshot.   If the configuration is for an existing Amazon EBS volume snapshot and you do not specify the userIds, then the access preview uses the existing shared userIds for the snapshot.   If the access preview is for a new resource and you do not specify the userIds, then the access preview considers the snapshot without any userIds.   To propose deletion of existing shared accountIds, you can specify an empty list for userIds.
+        public let userIds: [String]?
+
+        public init(groups: [String]? = nil, kmsKeyId: String? = nil, userIds: [String]? = nil) {
+            self.groups = groups
+            self.kmsKeyId = kmsKeyId
+            self.userIds = userIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groups
+            case kmsKeyId
+            case userIds
+        }
+    }
+
+    public struct EcrRepositoryConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The JSON repository policy text to apply to the Amazon ECR repository. For more information, see Private repository policy examples in the Amazon ECR User Guide.
+        public let repositoryPolicy: String?
+
+        public init(repositoryPolicy: String? = nil) {
+            self.repositoryPolicy = repositoryPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case repositoryPolicy
+        }
+    }
+
+    public struct EfsFileSystemConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The JSON policy definition to apply to the Amazon EFS file system. For more information on the elements that make up a file system policy, see Amazon EFS Resource-based policies.
+        public let fileSystemPolicy: String?
+
+        public init(fileSystemPolicy: String? = nil) {
+            self.fileSystemPolicy = fileSystemPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileSystemPolicy
+        }
     }
 
     public struct Finding: AWSDecodableShape {
@@ -2053,6 +2156,40 @@ extension AccessAnalyzer {
         }
     }
 
+    public struct RdsDbClusterSnapshotConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The names and values of manual DB cluster snapshot attributes. Manual DB cluster snapshot attributes are used to authorize other Amazon Web Services accounts to restore a manual DB cluster snapshot. The only valid value for AttributeName for the attribute map is restore
+        public let attributes: [String: RdsDbClusterSnapshotAttributeValue]?
+        /// The KMS key identifier for an encrypted Amazon RDS DB cluster snapshot. The KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key.   If the configuration is for an existing Amazon RDS DB cluster snapshot and you do not specify the kmsKeyId, or you specify an empty string, then the access preview uses the existing kmsKeyId of the snapshot.   If the access preview is for a new resource and you do not specify the specify the kmsKeyId, then the access preview considers the snapshot as unencrypted.
+        public let kmsKeyId: String?
+
+        public init(attributes: [String: RdsDbClusterSnapshotAttributeValue]? = nil, kmsKeyId: String? = nil) {
+            self.attributes = attributes
+            self.kmsKeyId = kmsKeyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes
+            case kmsKeyId
+        }
+    }
+
+    public struct RdsDbSnapshotConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The names and values of manual DB snapshot attributes. Manual DB snapshot attributes are used to authorize other Amazon Web Services accounts to restore a manual DB snapshot. The only valid value for attributeName for the attribute map is restore.
+        public let attributes: [String: RdsDbSnapshotAttributeValue]?
+        /// The KMS key identifier for an encrypted Amazon RDS DB snapshot. The KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key.   If the configuration is for an existing Amazon RDS DB snapshot and you do not specify the kmsKeyId, or you specify an empty string, then the access preview uses the existing kmsKeyId of the snapshot.   If the access preview is for a new resource and you do not specify the specify the kmsKeyId, then the access preview considers the snapshot as unencrypted.
+        public let kmsKeyId: String?
+
+        public init(attributes: [String: RdsDbSnapshotAttributeValue]? = nil, kmsKeyId: String? = nil) {
+            self.attributes = attributes
+            self.kmsKeyId = kmsKeyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes
+            case kmsKeyId
+        }
+    }
+
     public struct S3AccessPointConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The access point or multi-region access point policy.
         public let accessPointPolicy: String?
@@ -2161,6 +2298,23 @@ extension AccessAnalyzer {
         }
     }
 
+    public struct SnsTopicConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The JSON policy text that defines who can access an Amazon SNS topic. For more information, see Example cases for Amazon SNS access control in the Amazon SNS Developer Guide.
+        public let topicPolicy: String?
+
+        public init(topicPolicy: String? = nil) {
+            self.topicPolicy = topicPolicy
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.topicPolicy, name: "topicPolicy", parent: name, max: 30720)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case topicPolicy
+        }
+    }
+
     public struct SortCriteria: AWSEncodableShape {
         /// The name of the attribute to sort on.
         public let attributeName: String?
@@ -2252,10 +2406,13 @@ extension AccessAnalyzer {
         public let analyzerArn: String
         /// The ARN of the resource to scan.
         public let resourceArn: String
+        /// The Amazon Web Services account ID that owns the resource. For most Amazon Web Services resources, the owning account is the account in which the resource was created.
+        public let resourceOwnerAccount: String?
 
-        public init(analyzerArn: String, resourceArn: String) {
+        public init(analyzerArn: String, resourceArn: String, resourceOwnerAccount: String? = nil) {
             self.analyzerArn = analyzerArn
             self.resourceArn = resourceArn
+            self.resourceOwnerAccount = resourceOwnerAccount
         }
 
         public func validate(name: String) throws {
@@ -2266,6 +2423,7 @@ extension AccessAnalyzer {
         private enum CodingKeys: String, CodingKey {
             case analyzerArn
             case resourceArn
+            case resourceOwnerAccount
         }
     }
 
@@ -2562,6 +2720,32 @@ extension AccessAnalyzer {
 
         private enum CodingKeys: String, CodingKey {
             case vpcId
+        }
+    }
+
+    public struct RdsDbClusterSnapshotAttributeValue: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Web Services account IDs that have access to the manual Amazon RDS DB cluster snapshot. If the value all is specified, then the Amazon RDS DB cluster snapshot is public and can be copied or restored by all Amazon Web Services accounts.   If the configuration is for an existing Amazon RDS DB cluster snapshot and you do not specify the accountIds in RdsDbClusterSnapshotAttributeValue, then the access preview uses the existing shared accountIds for the snapshot.   If the access preview is for a new resource and you do not specify the specify the accountIds in RdsDbClusterSnapshotAttributeValue, then the access preview considers the snapshot without any attributes.   To propose deletion of existing shared accountIds, you can specify an empty list for accountIds in the RdsDbClusterSnapshotAttributeValue.
+        public let accountIds: [String]?
+
+        public init(accountIds: [String]? = nil) {
+            self.accountIds = accountIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountIds
+        }
+    }
+
+    public struct RdsDbSnapshotAttributeValue: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Web Services account IDs that have access to the manual Amazon RDS DB snapshot. If the value all is specified, then the Amazon RDS DB snapshot is public and can be copied or restored by all Amazon Web Services accounts.   If the configuration is for an existing Amazon RDS DB snapshot and you do not specify the accountIds in RdsDbSnapshotAttributeValue, then the access preview uses the existing shared accountIds for the snapshot.   If the access preview is for a new resource and you do not specify the specify the accountIds in RdsDbSnapshotAttributeValue, then the access preview considers the snapshot without any attributes.   To propose deletion of an existing shared accountIds, you can specify an empty list for accountIds in the RdsDbSnapshotAttributeValue.
+        public let accountIds: [String]?
+
+        public init(accountIds: [String]? = nil) {
+            self.accountIds = accountIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountIds
         }
     }
 }

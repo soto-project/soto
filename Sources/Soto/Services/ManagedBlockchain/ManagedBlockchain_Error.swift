@@ -50,7 +50,7 @@ public struct ManagedBlockchainErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// You do not have sufficient access to perform this action.
+    /// You don't have sufficient access to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     public static var illegalActionException: Self { .init(.illegalActionException) }
     /// The request processing has failed because of an unknown error, exception or failure.
@@ -59,13 +59,13 @@ public struct ManagedBlockchainErrorType: AWSErrorType {
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
     /// A resource request is issued for a resource that already exists.
     public static var resourceAlreadyExistsException: Self { .init(.resourceAlreadyExistsException) }
-    /// The maximum number of resources of that type already exist. Ensure the resources requested are within the boundaries of the service edition and your account limits.
+    /// The maximum number of resources of that type already exist. Ensure the resources requested  are within the boundaries of the service edition and your account limits.
     public static var resourceLimitExceededException: Self { .init(.resourceLimitExceededException) }
-    /// A requested resource does not exist. It may have been deleted or referenced inaccurately.
+    /// A requested resource doesn't exist. It may have been deleted or referenced incorrectly.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    /// The requested resource exists but is not in a status that can complete the operation.
+    /// The requested resource exists but isn't in a status that can complete the operation.
     public static var resourceNotReadyException: Self { .init(.resourceNotReadyException) }
-    /// The request or operation could not be performed because a service is throttling requests. The most common source of throttling errors is launching EC2 instances such that your service limit for EC2 instances is exceeded. Request a limit increase or delete unused resources if possible.
+    /// The request or operation couldn't be performed because a service is  throttling requests. The most common source of throttling errors is  creating resources that exceed your service limit for this resource type.  Request a limit increase or delete unused resources if possible.
     public static var throttlingException: Self { .init(.throttlingException) }
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
 }

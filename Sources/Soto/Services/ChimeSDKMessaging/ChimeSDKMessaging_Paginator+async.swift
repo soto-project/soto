@@ -249,7 +249,7 @@ extension ChimeSDKMessaging {
         )
     }
 
-    ///  Allows an AppInstanceUser to search the channels that they belong to. The AppInstanceUser can search by membership or external ID.  An AppInstanceAdmin can search across all channels within the AppInstance.
+    ///  Allows ChimeBearer to search channels by channel members. AppInstanceUsers can search across the channels that they belong to. AppInstanceAdmins can search across all channels.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

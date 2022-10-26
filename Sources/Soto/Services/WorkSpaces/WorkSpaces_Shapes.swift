@@ -143,6 +143,7 @@ extension WorkSpaces {
     public enum RunningMode: String, CustomStringConvertible, Codable, _SotoSendable {
         case alwaysOn = "ALWAYS_ON"
         case autoStop = "AUTO_STOP"
+        case manual = "MANUAL"
         public var description: String { return self.rawValue }
     }
 
@@ -183,8 +184,10 @@ extension WorkSpaces {
     public enum WorkspaceImageIngestionProcess: String, CustomStringConvertible, Codable, _SotoSendable {
         case byolGraphics = "BYOL_GRAPHICS"
         case byolGraphicsG4Dn = "BYOL_GRAPHICS_G4DN"
+        case byolGraphicsG4DnByop = "BYOL_GRAPHICS_G4DN_BYOP"
         case byolGraphicspro = "BYOL_GRAPHICSPRO"
         case byolRegular = "BYOL_REGULAR"
+        case byolRegularByop = "BYOL_REGULAR_BYOP"
         case byolRegularWsp = "BYOL_REGULAR_WSP"
         public var description: String { return self.rawValue }
     }
@@ -875,7 +878,7 @@ extension WorkSpaces {
         public let operatingSystem: OperatingSystem?
         /// The identifier of the Amazon Web Services account that owns the image.
         public let ownerAccountId: String?
-        /// Specifies whether the image is running on dedicated hardware.  When Bring Your Own License (BYOL) is enabled, this value is set  to DEDICATED. For more information, see   Bring Your Own Windows Desktop Images.
+        /// Specifies whether the image is running on dedicated hardware.  When Bring Your Own License (BYOL) is enabled, this value is set  to DEDICATED. For more information, see   Bring Your Own Windows Desktop Images..
         public let requiredTenancy: WorkspaceImageRequiredTenancy?
         /// The availability status of the image.
         public let state: WorkspaceImageState?
@@ -2175,7 +2178,7 @@ extension WorkSpaces {
         public let imageDescription: String
         /// The name of the WorkSpace image.
         public let imageName: String
-        /// The ingestion process to be used when importing the image, depending on which protocol you want to use for your BYOL Workspace image, either PCoIP or WorkSpaces Streaming Protocol (WSP). To use WSP, specify a value that ends in _WSP. To use PCoIP, specify a value that does not end in _WSP.  For non-GPU-enabled bundles (bundles other than Graphics or GraphicsPro), specify BYOL_REGULAR or BYOL_REGULAR_WSP, depending on the protocol.
+        /// The ingestion process to be used when importing the image, depending on which protocol you want to use for your BYOL Workspace image, either PCoIP, WorkSpaces Streaming Protocol  (WSP), or bring your own protocol (BYOP). To use WSP, specify a value that ends in  _WSP. To use PCoIP, specify a value that does not end in _WSP.  To use BYOP, specify a value that ends in _BYOP. For non-GPU-enabled bundles (bundles other than Graphics or GraphicsPro), specify  BYOL_REGULAR, BYOL_REGULAR_WSP, or BYOL_REGULAR_BYOP,  depending on the protocol.  The BYOL_REGULAR_BYOP and BYOL_GRAPHICS_G4DN_BYOP values are only supported by Amazon WorkSpaces Core. Contact your account team to be allow-listed to use these values. For more information, see Amazon WorkSpaces Core.
         public let ingestionProcess: WorkspaceImageIngestionProcess
         /// The tags. Each WorkSpaces resource can have a maximum of 50 tags.
         public let tags: [Tag]?
@@ -3680,7 +3683,7 @@ extension WorkSpaces {
         public let computeTypeName: Compute?
         /// The size of the root volume. For important information about how to modify the size of the root and user volumes, see Modify a WorkSpace.
         public let rootVolumeSizeGib: Int?
-        /// The running mode. For more information, see Manage the WorkSpace Running Mode.
+        /// The running mode. For more information, see Manage the WorkSpace Running Mode.  The MANUAL value is only supported by Amazon WorkSpaces Core. Contact your account team to be allow-listed to use this value. For more information, see Amazon WorkSpaces Core.
         public let runningMode: RunningMode?
         /// The time after a user logs off when WorkSpaces are automatically stopped. Configured in 60-minute intervals.
         public let runningModeAutoStopTimeoutInMinutes: Int?

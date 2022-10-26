@@ -122,6 +122,19 @@ public struct GlobalAccelerator: AWSService {
         return self.client.execute(operation: "AddCustomRoutingEndpoints", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Add endpoints to an endpoint group. The AddEndpoints API operation is the recommended option for adding endpoints. The
+    /// 			alternative options are to add endpoints when you create an endpoint group (with the
+    /// 			CreateEndpointGroup API)
+    /// 			or when you update an endpoint group (with the
+    /// 			UpdateEndpointGroup API).
+    /// 		       There are two advantages to using AddEndpoints to add endpoints:
+    /// 			        It's faster, because Global Accelerator only has to resolve the new endpoints that
+    /// 					you're adding.   It's more convenient, because you don't need to specify all of the current
+    /// 					endpoints that are already in the endpoint group in addition to the new endpoints that you want to add.
+    public func addEndpoints(_ input: AddEndpointsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AddEndpointsResponse> {
+        return self.client.execute(operation: "AddEndpoints", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Advertises an IPv4 address range that is provisioned for use with your Amazon Web Services resources
     /// 			through bring your own IP addresses (BYOIP). It can take a few minutes before traffic to
     /// 			the specified addresses starts routing to Amazon Web Services because of propagation delays.
@@ -381,6 +394,20 @@ public struct GlobalAccelerator: AWSService {
     /// Remove endpoints from a custom routing accelerator.
     @discardableResult public func removeCustomRoutingEndpoints(_ input: RemoveCustomRoutingEndpointsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "RemoveCustomRoutingEndpoints", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Remove endpoints from an endpoint group.
+    /// 		       The RemoveEndpoints API operation is the recommended option for removing endpoints. The alternative is to remove
+    /// 			endpoints by updating an endpoint group by using the
+    /// 			UpdateEndpointGroup
+    /// 			API operation. There are two advantages to using AddEndpoints to remove endpoints instead:
+    /// 		         It's more convenient, because you only need to specify the endpoints that you want to remove. With the
+    /// 				UpdateEndpointGroup API operation, you must specify all of the endpoints in the
+    /// 				endpoint group except the ones that you want to remove from the group.   It's faster, because Global Accelerator doesn't need to resolve any endpoints. With the
+    /// 				UpdateEndpointGroup API operation, Global Accelerator must resolve all of the endpoints that
+    /// 				remain in the group.
+    @discardableResult public func removeEndpoints(_ input: RemoveEndpointsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "RemoveEndpoints", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Add tags to an accelerator resource.
