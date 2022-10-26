@@ -4059,11 +4059,11 @@ extension Greengrass {
         /// A client token used to correlate requests and responses.
         public let amznClientToken: String?
         /// If true, performs a best-effort only core reset.
-        public let force: Bool
+        public let force: Bool?
         /// The ID of the Greengrass group.
         public let groupId: String
 
-        public init(amznClientToken: String? = nil, force: Bool = false, groupId: String) {
+        public init(amznClientToken: String? = nil, force: Bool? = nil, groupId: String) {
             self.amznClientToken = amznClientToken
             self.force = force
             self.groupId = groupId

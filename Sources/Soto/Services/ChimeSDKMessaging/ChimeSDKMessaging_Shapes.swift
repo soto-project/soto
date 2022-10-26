@@ -457,9 +457,9 @@ extension ChimeSDKMessaging {
         /// Stores information about the processed message.
         public let channelMessage: ChannelMessageCallback
         /// When a processor determines that a message needs to be DENIED, pass this parameter with a value of true.
-        public let deleteResource: Bool
+        public let deleteResource: Bool?
 
-        public init(callbackId: String = ChannelFlowCallbackRequest.idempotencyToken(), channelArn: String, channelMessage: ChannelMessageCallback, deleteResource: Bool = false) {
+        public init(callbackId: String = ChannelFlowCallbackRequest.idempotencyToken(), channelArn: String, channelMessage: ChannelMessageCallback, deleteResource: Bool? = nil) {
             self.callbackId = callbackId
             self.channelArn = channelArn
             self.channelMessage = channelMessage

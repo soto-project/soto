@@ -1636,11 +1636,11 @@ extension AmplifyUIBuilder {
         /// The name of the backend environment that is a part of the Amplify app.
         public let environmentName: String
         /// The maximum number of components to retrieve.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// The token to request the next page of results.
         public let nextToken: String?
 
-        public init(appId: String, environmentName: String, maxResults: Int = 0, nextToken: String? = nil) {
+        public init(appId: String, environmentName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.appId = appId
             self.environmentName = environmentName
             self.maxResults = maxResults
@@ -1685,11 +1685,11 @@ extension AmplifyUIBuilder {
         /// The name of the backend environment that is a part of the Amplify app.
         public let environmentName: String
         /// The maximum number of forms to retrieve.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// The token to request the next page of results.
         public let nextToken: String?
 
-        public init(appId: String, environmentName: String, maxResults: Int = 0, nextToken: String? = nil) {
+        public init(appId: String, environmentName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.appId = appId
             self.environmentName = environmentName
             self.maxResults = maxResults
@@ -1734,11 +1734,11 @@ extension AmplifyUIBuilder {
         /// The name of the backend environment that is a part of the Amplify app.
         public let environmentName: String
         /// The maximum number of theme results to return in the response.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// The token to request the next page of results.
         public let nextToken: String?
 
-        public init(appId: String, environmentName: String, maxResults: Int = 0, nextToken: String? = nil) {
+        public init(appId: String, environmentName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.appId = appId
             self.environmentName = environmentName
             self.maxResults = maxResults

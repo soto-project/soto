@@ -1959,11 +1959,11 @@ extension ECS {
         /// Specifies whether to turn on Amazon ECS managed tags for the tasks within the service. For
         /// 			more information, see Tagging your Amazon ECS
         /// 				resources in the Amazon Elastic Container Service Developer Guide.
-        public let enableECSManagedTags: Bool
+        public let enableECSManagedTags: Bool?
         /// Determines whether the execute command functionality is enabled for the service. If
         /// 				true, this enables execute command functionality on all containers in
         /// 			the service tasks.
-        public let enableExecuteCommand: Bool
+        public let enableExecuteCommand: Bool?
         /// The period of time, in seconds, that the Amazon ECS service scheduler ignores unhealthy
         /// 			Elastic Load Balancing target health checks after a task has first started. This is only used when your
         /// 			service is configured to use a load balancer. If your service has a load balancer
@@ -2126,7 +2126,7 @@ extension ECS {
         /// 				CODE_DEPLOY deployment controllers.
         public let taskDefinition: String?
 
-        public init(capacityProviderStrategy: [CapacityProviderStrategyItem]? = nil, clientToken: String? = nil, cluster: String? = nil, deploymentConfiguration: DeploymentConfiguration? = nil, deploymentController: DeploymentController? = nil, desiredCount: Int? = nil, enableECSManagedTags: Bool = false, enableExecuteCommand: Bool = false, healthCheckGracePeriodSeconds: Int? = nil, launchType: LaunchType? = nil, loadBalancers: [LoadBalancer]? = nil, networkConfiguration: NetworkConfiguration? = nil, placementConstraints: [PlacementConstraint]? = nil, placementStrategy: [PlacementStrategy]? = nil, platformVersion: String? = nil, propagateTags: PropagateTags? = nil, role: String? = nil, schedulingStrategy: SchedulingStrategy? = nil, serviceName: String, serviceRegistries: [ServiceRegistry]? = nil, tags: [Tag]? = nil, taskDefinition: String? = nil) {
+        public init(capacityProviderStrategy: [CapacityProviderStrategyItem]? = nil, clientToken: String? = nil, cluster: String? = nil, deploymentConfiguration: DeploymentConfiguration? = nil, deploymentController: DeploymentController? = nil, desiredCount: Int? = nil, enableECSManagedTags: Bool? = nil, enableExecuteCommand: Bool? = nil, healthCheckGracePeriodSeconds: Int? = nil, launchType: LaunchType? = nil, loadBalancers: [LoadBalancer]? = nil, networkConfiguration: NetworkConfiguration? = nil, placementConstraints: [PlacementConstraint]? = nil, placementStrategy: [PlacementStrategy]? = nil, platformVersion: String? = nil, propagateTags: PropagateTags? = nil, role: String? = nil, schedulingStrategy: SchedulingStrategy? = nil, serviceName: String, serviceRegistries: [ServiceRegistry]? = nil, tags: [Tag]? = nil, taskDefinition: String? = nil) {
             self.capacityProviderStrategy = capacityProviderStrategy
             self.clientToken = clientToken
             self.cluster = cluster
@@ -3943,7 +3943,7 @@ extension ECS {
         /// 			settings for the root user or the default setting for the principalArn are
         /// 			returned. If false, the account settings for the principalArn
         /// 			are returned if they're set. Otherwise, no account settings are returned.
-        public let effectiveSettings: Bool
+        public let effectiveSettings: Bool?
         /// The maximum number of account setting results returned by
         /// 				ListAccountSettings in paginated output. When this parameter is used,
         /// 				ListAccountSettings only returns maxResults results in a
@@ -3954,7 +3954,7 @@ extension ECS {
         /// 			parameter isn't used, then ListAccountSettings returns up to
         /// 			10 results and a nextToken value
         /// 			if applicable.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// The name of the account setting you want to list the settings for.
         public let name: SettingName?
         /// The nextToken value returned from a ListAccountSettings
@@ -3975,7 +3975,7 @@ extension ECS {
         /// 			account setting name to use this parameter.
         public let value: String?
 
-        public init(effectiveSettings: Bool = false, maxResults: Int = 0, name: SettingName? = nil, nextToken: String? = nil, principalArn: String? = nil, value: String? = nil) {
+        public init(effectiveSettings: Bool? = nil, maxResults: Int? = nil, name: SettingName? = nil, nextToken: String? = nil, principalArn: String? = nil, value: String? = nil) {
             self.effectiveSettings = effectiveSettings
             self.maxResults = maxResults
             self.name = name
@@ -5531,13 +5531,13 @@ extension ECS {
         /// Specifies whether to use Amazon ECS managed tags for the task. For more information, see
         /// 				Tagging Your Amazon ECS
         /// 				Resources in the Amazon Elastic Container Service Developer Guide.
-        public let enableECSManagedTags: Bool
+        public let enableECSManagedTags: Bool?
         /// Determines whether to use the execute command functionality for the containers in this
         /// 			task. If true, this enables execute command functionality on all containers
         /// 			in the task.
         /// 		       If true, then the task definition must have a task role, or you must
         /// 			provide one as an override.
-        public let enableExecuteCommand: Bool
+        public let enableExecuteCommand: Bool?
         /// The name of the task group to associate with the task. The default value is the family
         /// 			name of the task definition (for example, family:my-family-name).
         public let group: String?
@@ -5632,7 +5632,7 @@ extension ECS {
         /// 		       For more information, see Policy Resources for Amazon ECS in the Amazon Elastic Container Service developer Guide.
         public let taskDefinition: String
 
-        public init(capacityProviderStrategy: [CapacityProviderStrategyItem]? = nil, cluster: String? = nil, count: Int? = nil, enableECSManagedTags: Bool = false, enableExecuteCommand: Bool = false, group: String? = nil, launchType: LaunchType? = nil, networkConfiguration: NetworkConfiguration? = nil, overrides: TaskOverride? = nil, placementConstraints: [PlacementConstraint]? = nil, placementStrategy: [PlacementStrategy]? = nil, platformVersion: String? = nil, propagateTags: PropagateTags? = nil, referenceId: String? = nil, startedBy: String? = nil, tags: [Tag]? = nil, taskDefinition: String) {
+        public init(capacityProviderStrategy: [CapacityProviderStrategyItem]? = nil, cluster: String? = nil, count: Int? = nil, enableECSManagedTags: Bool? = nil, enableExecuteCommand: Bool? = nil, group: String? = nil, launchType: LaunchType? = nil, networkConfiguration: NetworkConfiguration? = nil, overrides: TaskOverride? = nil, placementConstraints: [PlacementConstraint]? = nil, placementStrategy: [PlacementStrategy]? = nil, platformVersion: String? = nil, propagateTags: PropagateTags? = nil, referenceId: String? = nil, startedBy: String? = nil, tags: [Tag]? = nil, taskDefinition: String) {
             self.capacityProviderStrategy = capacityProviderStrategy
             self.cluster = cluster
             self.count = count
@@ -6070,11 +6070,11 @@ extension ECS {
         /// Specifies whether to use Amazon ECS managed tags for the task. For more information, see
         /// 				Tagging Your Amazon ECS
         /// 				Resources in the Amazon Elastic Container Service Developer Guide.
-        public let enableECSManagedTags: Bool
+        public let enableECSManagedTags: Bool?
         /// Whether or not the execute command functionality is enabled for the task. If
         /// 				true, this enables execute command functionality on all containers in
         /// 			the task.
-        public let enableExecuteCommand: Bool
+        public let enableExecuteCommand: Bool?
         /// The name of the task group to associate with the task. The default value is the family
         /// 			name of the task definition (for example, family:my-family-name).
         public let group: String?
@@ -6114,7 +6114,7 @@ extension ECS {
         /// 			the latest ACTIVE revision is used.
         public let taskDefinition: String
 
-        public init(cluster: String? = nil, containerInstances: [String], enableECSManagedTags: Bool = false, enableExecuteCommand: Bool = false, group: String? = nil, networkConfiguration: NetworkConfiguration? = nil, overrides: TaskOverride? = nil, propagateTags: PropagateTags? = nil, referenceId: String? = nil, startedBy: String? = nil, tags: [Tag]? = nil, taskDefinition: String) {
+        public init(cluster: String? = nil, containerInstances: [String], enableECSManagedTags: Bool? = nil, enableExecuteCommand: Bool? = nil, group: String? = nil, networkConfiguration: NetworkConfiguration? = nil, overrides: TaskOverride? = nil, propagateTags: PropagateTags? = nil, referenceId: String? = nil, startedBy: String? = nil, tags: [Tag]? = nil, taskDefinition: String) {
             self.cluster = cluster
             self.containerInstances = containerInstances
             self.enableECSManagedTags = enableECSManagedTags
@@ -7398,7 +7398,7 @@ extension ECS {
         /// 			definition changes. For example, you can update a service's tasks to use a newer Docker
         /// 			image with the same image/tag combination (my_image:latest) or to roll
         /// 			Fargate tasks onto a newer platform version.
-        public let forceNewDeployment: Bool
+        public let forceNewDeployment: Bool?
         /// The period of time, in seconds, that the Amazon ECS service scheduler ignores unhealthy
         /// 			Elastic Load Balancing target health checks after a task has first started. This is only valid if your
         /// 			service is configured to use a load balancer. If your service's tasks take a while to
@@ -7476,7 +7476,7 @@ extension ECS {
         /// 			the task definition and then stops an old task after the new version is running.
         public let taskDefinition: String?
 
-        public init(capacityProviderStrategy: [CapacityProviderStrategyItem]? = nil, cluster: String? = nil, deploymentConfiguration: DeploymentConfiguration? = nil, desiredCount: Int? = nil, enableECSManagedTags: Bool? = nil, enableExecuteCommand: Bool? = nil, forceNewDeployment: Bool = false, healthCheckGracePeriodSeconds: Int? = nil, loadBalancers: [LoadBalancer]? = nil, networkConfiguration: NetworkConfiguration? = nil, placementConstraints: [PlacementConstraint]? = nil, placementStrategy: [PlacementStrategy]? = nil, platformVersion: String? = nil, propagateTags: PropagateTags? = nil, service: String, serviceRegistries: [ServiceRegistry]? = nil, taskDefinition: String? = nil) {
+        public init(capacityProviderStrategy: [CapacityProviderStrategyItem]? = nil, cluster: String? = nil, deploymentConfiguration: DeploymentConfiguration? = nil, desiredCount: Int? = nil, enableECSManagedTags: Bool? = nil, enableExecuteCommand: Bool? = nil, forceNewDeployment: Bool? = nil, healthCheckGracePeriodSeconds: Int? = nil, loadBalancers: [LoadBalancer]? = nil, networkConfiguration: NetworkConfiguration? = nil, placementConstraints: [PlacementConstraint]? = nil, placementStrategy: [PlacementStrategy]? = nil, platformVersion: String? = nil, propagateTags: PropagateTags? = nil, service: String, serviceRegistries: [ServiceRegistry]? = nil, taskDefinition: String? = nil) {
             self.capacityProviderStrategy = capacityProviderStrategy
             self.cluster = cluster
             self.deploymentConfiguration = deploymentConfiguration

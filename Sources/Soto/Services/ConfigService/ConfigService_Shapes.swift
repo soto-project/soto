@@ -2429,12 +2429,12 @@ extension ConfigService {
         /// 			The default is
         /// 			maximum.
         /// 			If you specify 0, Config uses the default.
-        public let limit: Int
+        public let limit: Int?
         /// The nextToken string returned on a previous page that you use
         /// 			to get the next page of results in a paginated response.
         public let nextToken: String?
 
-        public init(configurationAggregatorName: String, filters: ConfigRuleComplianceFilters? = nil, limit: Int = 0, nextToken: String? = nil) {
+        public init(configurationAggregatorName: String, filters: ConfigRuleComplianceFilters? = nil, limit: Int? = nil, nextToken: String? = nil) {
             self.configurationAggregatorName = configurationAggregatorName
             self.filters = filters
             self.limit = limit
@@ -2483,11 +2483,11 @@ extension ConfigService {
         /// Filters the result by AggregateConformancePackComplianceFilters object.
         public let filters: AggregateConformancePackComplianceFilters?
         /// The maximum number of conformance packs compliance details returned on each page. The default is maximum. If you specify 0, Config uses the default.
-        public let limit: Int
+        public let limit: Int?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
 
-        public init(configurationAggregatorName: String, filters: AggregateConformancePackComplianceFilters? = nil, limit: Int = 0, nextToken: String? = nil) {
+        public init(configurationAggregatorName: String, filters: AggregateConformancePackComplianceFilters? = nil, limit: Int? = nil, nextToken: String? = nil) {
             self.configurationAggregatorName = configurationAggregatorName
             self.filters = filters
             self.limit = limit
@@ -2532,12 +2532,12 @@ extension ConfigService {
         /// The maximum number of AggregationAuthorizations returned on
         /// 			each page. The default is maximum. If you specify 0, Config uses
         /// 			the default.
-        public let limit: Int
+        public let limit: Int?
         /// The nextToken string returned on a previous page that you use
         /// 			to get the next page of results in a paginated response.
         public let nextToken: String?
 
-        public init(limit: Int = 0, nextToken: String? = nil) {
+        public init(limit: Int? = nil, nextToken: String? = nil) {
             self.limit = limit
             self.nextToken = nextToken
         }
@@ -2633,7 +2633,7 @@ extension ConfigService {
         /// The maximum number of evaluation results returned on each page.
         /// 			The default is 10. You cannot specify a number greater than 100. If
         /// 			you specify 0, Config uses the default.
-        public let limit: Int
+        public let limit: Int?
         /// The nextToken string returned on a previous page
         /// 			that you use to get the next page of results in a paginated
         /// 			response.
@@ -2649,7 +2649,7 @@ extension ConfigService {
         /// 			specifying AWS::::Account.
         public let resourceType: String?
 
-        public init(complianceTypes: [ComplianceType]? = nil, limit: Int = 0, nextToken: String? = nil, resourceId: String? = nil, resourceType: String? = nil) {
+        public init(complianceTypes: [ComplianceType]? = nil, limit: Int? = nil, nextToken: String? = nil, resourceId: String? = nil, resourceType: String? = nil) {
             self.complianceTypes = complianceTypes
             self.limit = limit
             self.nextToken = nextToken
@@ -2709,13 +2709,13 @@ extension ConfigService {
         /// 		       For information about requesting a rule limit increase, see
         /// 				Config Limits in the Amazon Web Services General
         /// 				Reference Guide.
-        public let limit: Int
+        public let limit: Int?
         /// The nextToken string returned on a previous page
         /// 			that you use to get the next page of results in a paginated
         /// 			response.
         public let nextToken: String?
 
-        public init(configRuleNames: [String]? = nil, limit: Int = 0, nextToken: String? = nil) {
+        public init(configRuleNames: [String]? = nil, limit: Int? = nil, nextToken: String? = nil) {
             self.configRuleNames = configRuleNames
             self.limit = limit
             self.nextToken = nextToken
@@ -2811,7 +2811,7 @@ extension ConfigService {
         /// The maximum number of AggregatorSourceStatus returned on each
         /// 			page. The default is maximum. If you specify 0, Config uses the
         /// 			default.
-        public let limit: Int
+        public let limit: Int?
         /// The nextToken string returned on a previous page that you use
         /// 			to get the next page of results in a paginated response.
         public let nextToken: String?
@@ -2828,7 +2828,7 @@ extension ConfigService {
         ///
         public let updateStatus: [AggregatedSourceStatusType]?
 
-        public init(configurationAggregatorName: String, limit: Int = 0, nextToken: String? = nil, updateStatus: [AggregatedSourceStatusType]? = nil) {
+        public init(configurationAggregatorName: String, limit: Int? = nil, nextToken: String? = nil, updateStatus: [AggregatedSourceStatusType]? = nil) {
             self.configurationAggregatorName = configurationAggregatorName
             self.limit = limit
             self.nextToken = nextToken
@@ -2877,12 +2877,12 @@ extension ConfigService {
         /// The maximum number of configuration aggregators returned on
         /// 			each page. The default is maximum. If you specify 0, Config uses
         /// 			the default.
-        public let limit: Int
+        public let limit: Int?
         /// The nextToken string returned on a previous page that you use
         /// 			to get the next page of results in a paginated response.
         public let nextToken: String?
 
-        public init(configurationAggregatorNames: [String]? = nil, limit: Int = 0, nextToken: String? = nil) {
+        public init(configurationAggregatorNames: [String]? = nil, limit: Int? = nil, nextToken: String? = nil) {
             self.configurationAggregatorNames = configurationAggregatorNames
             self.limit = limit
             self.nextToken = nextToken
@@ -3000,11 +3000,11 @@ extension ConfigService {
         /// A ConformancePackComplianceFilters object.
         public let filters: ConformancePackComplianceFilters?
         /// The maximum number of Config rules within a conformance pack are returned on each page.
-        public let limit: Int
+        public let limit: Int?
         /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
         public let nextToken: String?
 
-        public init(conformancePackName: String, filters: ConformancePackComplianceFilters? = nil, limit: Int = 0, nextToken: String? = nil) {
+        public init(conformancePackName: String, filters: ConformancePackComplianceFilters? = nil, limit: Int? = nil, nextToken: String? = nil) {
             self.conformancePackName = conformancePackName
             self.filters = filters
             self.limit = limit
@@ -3053,11 +3053,11 @@ extension ConfigService {
         /// Comma-separated list of conformance pack names.
         public let conformancePackNames: [String]?
         /// The maximum number of conformance packs status returned on each page.
-        public let limit: Int
+        public let limit: Int?
         /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
         public let nextToken: String?
 
-        public init(conformancePackNames: [String]? = nil, limit: Int = 0, nextToken: String? = nil) {
+        public init(conformancePackNames: [String]? = nil, limit: Int? = nil, nextToken: String? = nil) {
             self.conformancePackNames = conformancePackNames
             self.limit = limit
             self.nextToken = nextToken
@@ -3102,11 +3102,11 @@ extension ConfigService {
         /// Comma-separated list of conformance pack names for which you want details. If you do not specify any names, Config returns details for all your conformance packs.
         public let conformancePackNames: [String]?
         /// The maximum number of conformance packs returned on each page.
-        public let limit: Int
+        public let limit: Int?
         /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
         public let nextToken: String?
 
-        public init(conformancePackNames: [String]? = nil, limit: Int = 0, nextToken: String? = nil) {
+        public init(conformancePackNames: [String]? = nil, limit: Int? = nil, nextToken: String? = nil) {
             self.conformancePackNames = conformancePackNames
             self.limit = limit
             self.nextToken = nextToken
@@ -3217,13 +3217,13 @@ extension ConfigService {
 
     public struct DescribeOrganizationConfigRuleStatusesRequest: AWSEncodableShape {
         /// The maximum number of OrganizationConfigRuleStatuses returned on each page. If you do no specify a number, Config uses the default. The default is 100.
-        public let limit: Int
+        public let limit: Int?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
         /// The names of organization Config rules for which you want status details. If you do not specify any names, Config returns details for all your organization Config rules.
         public let organizationConfigRuleNames: [String]?
 
-        public init(limit: Int = 0, nextToken: String? = nil, organizationConfigRuleNames: [String]? = nil) {
+        public init(limit: Int? = nil, nextToken: String? = nil, organizationConfigRuleNames: [String]? = nil) {
             self.limit = limit
             self.nextToken = nextToken
             self.organizationConfigRuleNames = organizationConfigRuleNames
@@ -3265,13 +3265,13 @@ extension ConfigService {
 
     public struct DescribeOrganizationConfigRulesRequest: AWSEncodableShape {
         /// The maximum number of organization Config rules returned on each page. If you do no specify a number, Config uses the default. The default is 100.
-        public let limit: Int
+        public let limit: Int?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
         /// The names of organization Config rules for which you want details. If you do not specify any names, Config returns details for all your organization Config rules.
         public let organizationConfigRuleNames: [String]?
 
-        public init(limit: Int = 0, nextToken: String? = nil, organizationConfigRuleNames: [String]? = nil) {
+        public init(limit: Int? = nil, nextToken: String? = nil, organizationConfigRuleNames: [String]? = nil) {
             self.limit = limit
             self.nextToken = nextToken
             self.organizationConfigRuleNames = organizationConfigRuleNames
@@ -3314,14 +3314,14 @@ extension ConfigService {
     public struct DescribeOrganizationConformancePackStatusesRequest: AWSEncodableShape {
         /// The maximum number of OrganizationConformancePackStatuses returned on each page.
         /// 			If you do no specify a number, Config uses the default. The default is 100.
-        public let limit: Int
+        public let limit: Int?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
         /// The names of organization conformance packs for which you want status details.
         /// 			If you do not specify any names, Config returns details for all your organization conformance packs.
         public let organizationConformancePackNames: [String]?
 
-        public init(limit: Int = 0, nextToken: String? = nil, organizationConformancePackNames: [String]? = nil) {
+        public init(limit: Int? = nil, nextToken: String? = nil, organizationConformancePackNames: [String]? = nil) {
             self.limit = limit
             self.nextToken = nextToken
             self.organizationConformancePackNames = organizationConformancePackNames
@@ -3365,14 +3365,14 @@ extension ConfigService {
     public struct DescribeOrganizationConformancePacksRequest: AWSEncodableShape {
         /// The maximum number of organization config packs returned on each page. If you do no specify a
         /// 			number, Config uses the default. The default is 100.
-        public let limit: Int
+        public let limit: Int?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a
         /// 			paginated response.
         public let nextToken: String?
         /// The name that you assign to an organization conformance pack.
         public let organizationConformancePackNames: [String]?
 
-        public init(limit: Int = 0, nextToken: String? = nil, organizationConformancePackNames: [String]? = nil) {
+        public init(limit: Int? = nil, nextToken: String? = nil, organizationConformancePackNames: [String]? = nil) {
             self.limit = limit
             self.nextToken = nextToken
             self.organizationConformancePackNames = organizationConformancePackNames
@@ -3418,12 +3418,12 @@ extension ConfigService {
         /// The maximum number of evaluation results returned on each page.
         /// 			The default is maximum. If you specify 0, Config uses the
         /// 			default.
-        public let limit: Int
+        public let limit: Int?
         /// The nextToken string returned on a previous page that you use
         /// 			to get the next page of results in a paginated response.
         public let nextToken: String?
 
-        public init(limit: Int = 0, nextToken: String? = nil) {
+        public init(limit: Int? = nil, nextToken: String? = nil) {
             self.limit = limit
             self.nextToken = nextToken
         }
@@ -3496,13 +3496,13 @@ extension ConfigService {
         /// The name of the Config rule.
         public let configRuleName: String
         /// The maximum number of RemediationExceptionResourceKey returned on each page. The default is 25. If you specify 0, Config uses the default.
-        public let limit: Int
+        public let limit: Int?
         /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
         public let nextToken: String?
         /// An exception list of resource exception keys to be processed with the current request. Config adds exception for each resource key. For example, Config adds 3 exceptions for 3 resource keys.
         public let resourceKeys: [RemediationExceptionResourceKey]?
 
-        public init(configRuleName: String, limit: Int = 0, nextToken: String? = nil, resourceKeys: [RemediationExceptionResourceKey]? = nil) {
+        public init(configRuleName: String, limit: Int? = nil, nextToken: String? = nil, resourceKeys: [RemediationExceptionResourceKey]? = nil) {
             self.configRuleName = configRuleName
             self.limit = limit
             self.nextToken = nextToken
@@ -3551,13 +3551,13 @@ extension ConfigService {
         /// A list of Config rule names.
         public let configRuleName: String
         /// The maximum number of RemediationExecutionStatuses returned on each page. The default is maximum. If you specify 0, Config uses the default.
-        public let limit: Int
+        public let limit: Int?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
         /// A list of resource keys to be processed with the current request. Each element in the list consists of the resource type and resource ID.
         public let resourceKeys: [ResourceKey]?
 
-        public init(configRuleName: String, limit: Int = 0, nextToken: String? = nil, resourceKeys: [ResourceKey]? = nil) {
+        public init(configRuleName: String, limit: Int? = nil, nextToken: String? = nil, resourceKeys: [ResourceKey]? = nil) {
             self.configRuleName = configRuleName
             self.limit = limit
             self.nextToken = nextToken
@@ -3937,12 +3937,12 @@ extension ConfigService {
         /// The maximum number of evaluation results returned on each page.
         /// 			The default is 50. You cannot specify a number greater than 100. If
         /// 			you specify 0, Config uses the default.
-        public let limit: Int
+        public let limit: Int?
         /// The nextToken string returned on a previous page that you use
         /// 			to get the next page of results in a paginated response.
         public let nextToken: String?
 
-        public init(accountId: String, awsRegion: String, complianceType: ComplianceType? = nil, configRuleName: String, configurationAggregatorName: String, limit: Int = 0, nextToken: String? = nil) {
+        public init(accountId: String, awsRegion: String, complianceType: ComplianceType? = nil, configRuleName: String, configurationAggregatorName: String, limit: Int? = nil, nextToken: String? = nil) {
             self.accountId = accountId
             self.awsRegion = awsRegion
             self.complianceType = complianceType
@@ -4006,12 +4006,12 @@ extension ConfigService {
         /// The maximum number of evaluation results returned on each page.
         /// 			The default is 1000. You cannot specify a number greater than 1000.
         /// 			If you specify 0, Config uses the default.
-        public let limit: Int
+        public let limit: Int?
         /// The nextToken string returned on a previous page that you use
         /// 			to get the next page of results in a paginated response.
         public let nextToken: String?
 
-        public init(configurationAggregatorName: String, filters: ConfigRuleComplianceSummaryFilters? = nil, groupByKey: ConfigRuleComplianceSummaryGroupKey? = nil, limit: Int = 0, nextToken: String? = nil) {
+        public init(configurationAggregatorName: String, filters: ConfigRuleComplianceSummaryFilters? = nil, groupByKey: ConfigRuleComplianceSummaryGroupKey? = nil, limit: Int? = nil, nextToken: String? = nil) {
             self.configurationAggregatorName = configurationAggregatorName
             self.filters = filters
             self.groupByKey = groupByKey
@@ -4067,11 +4067,11 @@ extension ConfigService {
         /// Groups the result based on Amazon Web Services account ID or Amazon Web Services Region.
         public let groupByKey: AggregateConformancePackComplianceSummaryGroupKey?
         /// The maximum number of results returned on each page. The default is maximum. If you specify 0, Config uses the default.
-        public let limit: Int
+        public let limit: Int?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
 
-        public init(configurationAggregatorName: String, filters: AggregateConformancePackComplianceSummaryFilters? = nil, groupByKey: AggregateConformancePackComplianceSummaryGroupKey? = nil, limit: Int = 0, nextToken: String? = nil) {
+        public init(configurationAggregatorName: String, filters: AggregateConformancePackComplianceSummaryFilters? = nil, groupByKey: AggregateConformancePackComplianceSummaryGroupKey? = nil, limit: Int? = nil, nextToken: String? = nil) {
             self.configurationAggregatorName = configurationAggregatorName
             self.filters = filters
             self.groupByKey = groupByKey
@@ -4126,11 +4126,11 @@ extension ConfigService {
         /// The key to group the resource counts.
         public let groupByKey: ResourceCountGroupKey?
         /// The maximum number of GroupedResourceCount objects returned on each page. The default is 1000. You cannot specify a number greater than 1000. If you specify 0, Config uses the default.
-        public let limit: Int
+        public let limit: Int?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
 
-        public init(configurationAggregatorName: String, filters: ResourceCountFilters? = nil, groupByKey: ResourceCountGroupKey? = nil, limit: Int = 0, nextToken: String? = nil) {
+        public init(configurationAggregatorName: String, filters: ResourceCountFilters? = nil, groupByKey: ResourceCountGroupKey? = nil, limit: Int? = nil, nextToken: String? = nil) {
             self.configurationAggregatorName = configurationAggregatorName
             self.filters = filters
             self.groupByKey = groupByKey
@@ -4230,13 +4230,13 @@ extension ConfigService {
         /// The maximum number of evaluation results returned on each page.
         /// 			The default is 10. You cannot specify a number greater than 100. If
         /// 			you specify 0, Config uses the default.
-        public let limit: Int
+        public let limit: Int?
         /// The nextToken string returned on a previous page
         /// 			that you use to get the next page of results in a paginated
         /// 			response.
         public let nextToken: String?
 
-        public init(complianceTypes: [ComplianceType]? = nil, configRuleName: String, limit: Int = 0, nextToken: String? = nil) {
+        public init(complianceTypes: [ComplianceType]? = nil, configRuleName: String, limit: Int? = nil, nextToken: String? = nil) {
             self.complianceTypes = complianceTypes
             self.configRuleName = configRuleName
             self.limit = limit
@@ -4400,11 +4400,11 @@ extension ConfigService {
         /// A ConformancePackEvaluationFilters object.
         public let filters: ConformancePackEvaluationFilters?
         /// The maximum number of evaluation results returned on each page. If you do no specify a number, Config uses the default. The default is 100.
-        public let limit: Int
+        public let limit: Int?
         /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
         public let nextToken: String?
 
-        public init(conformancePackName: String, filters: ConformancePackEvaluationFilters? = nil, limit: Int = 0, nextToken: String? = nil) {
+        public init(conformancePackName: String, filters: ConformancePackEvaluationFilters? = nil, limit: Int? = nil, nextToken: String? = nil) {
             self.conformancePackName = conformancePackName
             self.filters = filters
             self.limit = limit
@@ -4453,11 +4453,11 @@ extension ConfigService {
         /// Names of conformance packs.
         public let conformancePackNames: [String]
         /// The maximum number of conformance packs returned on each page.
-        public let limit: Int
+        public let limit: Int?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
 
-        public init(conformancePackNames: [String], limit: Int = 0, nextToken: String? = nil) {
+        public init(conformancePackNames: [String], limit: Int? = nil, nextToken: String? = nil) {
             self.conformancePackNames = conformancePackNames
             self.limit = limit
             self.nextToken = nextToken
@@ -4536,7 +4536,7 @@ extension ConfigService {
         /// 			returned on each page. The default is 100. You cannot specify a
         /// 			number greater than 100. If you specify 0, Config uses the
         /// 			default.
-        public let limit: Int
+        public let limit: Int?
         /// The nextToken string returned on a previous page
         /// 			that you use to get the next page of results in a paginated
         /// 			response.
@@ -4556,7 +4556,7 @@ extension ConfigService {
         ///
         public let resourceTypes: [String]?
 
-        public init(limit: Int = 0, nextToken: String? = nil, resourceTypes: [String]? = nil) {
+        public init(limit: Int? = nil, nextToken: String? = nil, resourceTypes: [String]? = nil) {
             self.limit = limit
             self.nextToken = nextToken
             self.resourceTypes = resourceTypes
@@ -4624,13 +4624,13 @@ extension ConfigService {
         /// A StatusDetailFilters object.
         public let filters: StatusDetailFilters?
         /// The maximum number of OrganizationConfigRuleDetailedStatus returned on each page. If you do not specify a number, Config uses the default. The default is 100.
-        public let limit: Int
+        public let limit: Int?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
         /// The name of your organization Config rule for which you want status details for member accounts.
         public let organizationConfigRuleName: String
 
-        public init(filters: StatusDetailFilters? = nil, limit: Int = 0, nextToken: String? = nil, organizationConfigRuleName: String) {
+        public init(filters: StatusDetailFilters? = nil, limit: Int? = nil, nextToken: String? = nil, organizationConfigRuleName: String) {
             self.filters = filters
             self.limit = limit
             self.nextToken = nextToken
@@ -4676,13 +4676,13 @@ extension ConfigService {
         public let filters: OrganizationResourceDetailedStatusFilters?
         /// The maximum number of OrganizationConformancePackDetailedStatuses returned on each page.
         /// 			If you do not specify a number, Config uses the default. The default is 100.
-        public let limit: Int
+        public let limit: Int?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
         /// The name of organization conformance pack for which you want status details for member accounts.
         public let organizationConformancePackName: String
 
-        public init(filters: OrganizationResourceDetailedStatusFilters? = nil, limit: Int = 0, nextToken: String? = nil, organizationConformancePackName: String) {
+        public init(filters: OrganizationResourceDetailedStatusFilters? = nil, limit: Int? = nil, nextToken: String? = nil, organizationConformancePackName: String) {
             self.filters = filters
             self.limit = limit
             self.nextToken = nextToken
@@ -4771,7 +4771,7 @@ extension ConfigService {
         /// The maximum number of configuration items returned on each
         /// 			page. The default is 10. You cannot specify a number greater than
         /// 			100. If you specify 0, Config uses the default.
-        public let limit: Int
+        public let limit: Int?
         /// The nextToken string returned on a previous page
         /// 			that you use to get the next page of results in a paginated
         /// 			response.
@@ -4782,7 +4782,7 @@ extension ConfigService {
         /// The resource type.
         public let resourceType: ResourceType
 
-        public init(chronologicalOrder: ChronologicalOrder? = nil, earlierTime: Date? = nil, laterTime: Date? = nil, limit: Int = 0, nextToken: String? = nil, resourceId: String, resourceType: ResourceType) {
+        public init(chronologicalOrder: ChronologicalOrder? = nil, earlierTime: Date? = nil, laterTime: Date? = nil, limit: Int? = nil, nextToken: String? = nil, resourceId: String, resourceType: ResourceType) {
             self.chronologicalOrder = chronologicalOrder
             self.earlierTime = earlierTime
             self.laterTime = laterTime
@@ -4884,13 +4884,13 @@ extension ConfigService {
         /// Filters the results based on the ResourceFilters object.
         public let filters: ResourceFilters?
         /// The maximum number of resource identifiers returned on each page. You cannot specify a number greater than 100. If you specify 0, Config uses the default.
-        public let limit: Int
+        public let limit: Int?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
         /// The type of resources that you want Config to list in the response.
         public let resourceType: ResourceType
 
-        public init(configurationAggregatorName: String, filters: ResourceFilters? = nil, limit: Int = 0, nextToken: String? = nil, resourceType: ResourceType) {
+        public init(configurationAggregatorName: String, filters: ResourceFilters? = nil, limit: Int? = nil, nextToken: String? = nil, resourceType: ResourceType) {
             self.configurationAggregatorName = configurationAggregatorName
             self.filters = filters
             self.limit = limit
@@ -4937,7 +4937,7 @@ extension ConfigService {
         /// Filters the results based on the ConformancePackComplianceScoresFilters.
         public let filters: ConformancePackComplianceScoresFilters?
         /// The maximum number of conformance pack compliance scores returned on each page.
-        public let limit: Int
+        public let limit: Int?
         /// The nextToken string in a prior request that you can use to get the paginated response for next set of conformance pack compliance scores.
         public let nextToken: String?
         /// Sorts your conformance pack compliance scores in either ascending or descending order, depending on SortOrder.
@@ -4951,7 +4951,7 @@ extension ConfigService {
         /// 		       You can sort conformance pack compliance scores by the numerical value of the compliance score by entering SCORE in the SortBy action. When compliance scores are sorted by SCORE, conformance packs with a compliance score of INSUFFICIENT_DATA will be last when sorting by ascending order and first when sorting by descending order.
         public let sortOrder: SortOrder?
 
-        public init(filters: ConformancePackComplianceScoresFilters? = nil, limit: Int = 0, nextToken: String? = nil, sortBy: SortBy? = nil, sortOrder: SortOrder? = nil) {
+        public init(filters: ConformancePackComplianceScoresFilters? = nil, limit: Int? = nil, nextToken: String? = nil, sortBy: SortBy? = nil, sortOrder: SortOrder? = nil) {
             self.filters = filters
             self.limit = limit
             self.nextToken = nextToken
@@ -4994,11 +4994,11 @@ extension ConfigService {
     public struct ListDiscoveredResourcesRequest: AWSEncodableShape {
         /// Specifies whether Config includes deleted resources in the
         /// 			results. By default, deleted resources are not included.
-        public let includeDeletedResources: Bool
+        public let includeDeletedResources: Bool?
         /// The maximum number of resource identifiers returned on each
         /// 			page. The default is 100. You cannot specify a number greater than
         /// 			100. If you specify 0, Config uses the default.
-        public let limit: Int
+        public let limit: Int?
         /// The nextToken string returned on a previous page
         /// 			that you use to get the next page of results in a paginated
         /// 			response.
@@ -5015,7 +5015,7 @@ extension ConfigService {
         /// 			response.
         public let resourceType: ResourceType
 
-        public init(includeDeletedResources: Bool = false, limit: Int = 0, nextToken: String? = nil, resourceIds: [String]? = nil, resourceName: String? = nil, resourceType: ResourceType) {
+        public init(includeDeletedResources: Bool? = nil, limit: Int? = nil, nextToken: String? = nil, resourceIds: [String]? = nil, resourceName: String? = nil, resourceType: ResourceType) {
             self.includeDeletedResources = includeDeletedResources
             self.limit = limit
             self.nextToken = nextToken
@@ -5105,13 +5105,13 @@ extension ConfigService {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         /// The maximum number of tags returned on each page. The limit maximum is 50. You cannot specify a number greater than 50. If you specify 0, Config uses the default.
-        public let limit: Int
+        public let limit: Int?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
         /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the supported resources are ConfigRule, ConfigurationAggregator and AggregatorAuthorization.
         public let resourceArn: String
 
-        public init(limit: Int = 0, nextToken: String? = nil, resourceArn: String) {
+        public init(limit: Int? = nil, nextToken: String? = nil, resourceArn: String) {
             self.limit = limit
             self.nextToken = nextToken
             self.resourceArn = resourceArn
@@ -5989,9 +5989,9 @@ extension ConfigService {
         /// 				for the ResultToken parameter, but the value cannot
         /// 				be null.
         ///
-        public let testMode: Bool
+        public let testMode: Bool?
 
-        public init(evaluations: [Evaluation]? = nil, resultToken: String, testMode: Bool = false) {
+        public init(evaluations: [Evaluation]? = nil, resultToken: String, testMode: Bool? = nil) {
             self.evaluations = evaluations
             self.resultToken = resultToken
             self.testMode = testMode
@@ -6921,13 +6921,13 @@ extension ConfigService {
         /// The SQL query SELECT command.
         public let expression: String
         /// The maximum number of query results returned on each page.
-        public let limit: Int
+        public let limit: Int?
         /// The maximum number of query results returned on each page. Config also allows the Limit request parameter.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
         public let nextToken: String?
 
-        public init(configurationAggregatorName: String, expression: String, limit: Int = 0, maxResults: Int = 0, nextToken: String? = nil) {
+        public init(configurationAggregatorName: String, expression: String, limit: Int? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.configurationAggregatorName = configurationAggregatorName
             self.expression = expression
             self.limit = limit
@@ -6980,11 +6980,11 @@ extension ConfigService {
         /// The SQL query SELECT command.
         public let expression: String
         /// The maximum number of query results returned on each page.
-        public let limit: Int
+        public let limit: Int?
         /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
         public let nextToken: String?
 
-        public init(expression: String, limit: Int = 0, nextToken: String? = nil) {
+        public init(expression: String, limit: Int? = nil, nextToken: String? = nil) {
             self.expression = expression
             self.limit = limit
             self.nextToken = nextToken

@@ -653,11 +653,11 @@ extension Panorama {
         ]
 
         /// Delete the package even if it has artifacts stored in its access point. Deletes the package's artifacts from Amazon S3.
-        public let forceDelete: Bool
+        public let forceDelete: Bool?
         /// The package's ID.
         public let packageId: String
 
-        public init(forceDelete: Bool = false, packageId: String) {
+        public init(forceDelete: Bool? = nil, packageId: String) {
             self.forceDelete = forceDelete
             self.packageId = packageId
         }
@@ -1679,11 +1679,11 @@ extension Panorama {
         /// The application instance's ID.
         public let applicationInstanceId: String
         /// The maximum number of application instance dependencies to return in one page of results.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// Specify the pagination token from a previous request to retrieve the next page of results.
         public let nextToken: String?
 
-        public init(applicationInstanceId: String, maxResults: Int = 0, nextToken: String? = nil) {
+        public init(applicationInstanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.applicationInstanceId = applicationInstanceId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1730,11 +1730,11 @@ extension Panorama {
         /// The node instances' application instance ID.
         public let applicationInstanceId: String
         /// The maximum number of node instances to return in one page of results.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// Specify the pagination token from a previous request to retrieve the next page of results.
         public let nextToken: String?
 
-        public init(applicationInstanceId: String, maxResults: Int = 0, nextToken: String? = nil) {
+        public init(applicationInstanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.applicationInstanceId = applicationInstanceId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1782,13 +1782,13 @@ extension Panorama {
         /// The application instances' device ID.
         public let deviceId: String?
         /// The maximum number of application instances to return in one page of results.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// Specify the pagination token from a previous request to retrieve the next page of results.
         public let nextToken: String?
         /// Only include instances with a specific status.
         public let statusFilter: StatusFilter?
 
-        public init(deviceId: String? = nil, maxResults: Int = 0, nextToken: String? = nil, statusFilter: StatusFilter? = nil) {
+        public init(deviceId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, statusFilter: StatusFilter? = nil) {
             self.deviceId = deviceId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1836,11 +1836,11 @@ extension Panorama {
         /// Filter results by the job's target device ID.
         public let deviceId: String?
         /// The maximum number of device jobs to return in one page of results.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// Specify the pagination token from a previous request to retrieve the next page of results.
         public let nextToken: String?
 
-        public init(deviceId: String? = nil, maxResults: Int = 0, nextToken: String? = nil) {
+        public init(deviceId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.deviceId = deviceId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1890,7 +1890,7 @@ extension Panorama {
         /// Filter based on a device's status.
         public let deviceAggregatedStatusFilter: DeviceAggregatedStatus?
         /// The maximum number of devices to return in one page of results.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// Filter based on device's name. Prefixes supported.
         public let nameFilter: String?
         /// Specify the pagination token from a previous request to retrieve the next page of results.
@@ -1900,7 +1900,7 @@ extension Panorama {
         /// The sorting order for the returned list. SortOrder is DESCENDING by default based on CREATED_TIME. Otherwise, SortOrder is ASCENDING.
         public let sortOrder: SortOrder?
 
-        public init(deviceAggregatedStatusFilter: DeviceAggregatedStatus? = nil, maxResults: Int = 0, nameFilter: String? = nil, nextToken: String? = nil, sortBy: ListDevicesSortBy? = nil, sortOrder: SortOrder? = nil) {
+        public init(deviceAggregatedStatusFilter: DeviceAggregatedStatus? = nil, maxResults: Int? = nil, nameFilter: String? = nil, nextToken: String? = nil, sortBy: ListDevicesSortBy? = nil, sortOrder: SortOrder? = nil) {
             self.deviceAggregatedStatusFilter = deviceAggregatedStatusFilter
             self.maxResults = maxResults
             self.nameFilter = nameFilter
@@ -1944,11 +1944,11 @@ extension Panorama {
         ]
 
         /// The maximum number of node from template jobs to return in one page of results.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// Specify the pagination token from a previous request to retrieve the next page of results.
         public let nextToken: String?
 
-        public init(maxResults: Int = 0, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -1995,7 +1995,7 @@ extension Panorama {
         /// Search for nodes by category.
         public let category: NodeCategory?
         /// The maximum number of nodes to return in one page of results.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// Specify the pagination token from a previous request to retrieve the next page of results.
         public let nextToken: String?
         /// Search for nodes by the account ID of the nodes' owner.
@@ -2007,7 +2007,7 @@ extension Panorama {
         /// Search for nodes by patch version.
         public let patchVersion: String?
 
-        public init(category: NodeCategory? = nil, maxResults: Int = 0, nextToken: String? = nil, ownerAccount: String? = nil, packageName: String? = nil, packageVersion: String? = nil, patchVersion: String? = nil) {
+        public init(category: NodeCategory? = nil, maxResults: Int? = nil, nextToken: String? = nil, ownerAccount: String? = nil, packageName: String? = nil, packageVersion: String? = nil, patchVersion: String? = nil) {
             self.category = category
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2064,11 +2064,11 @@ extension Panorama {
         ]
 
         /// The maximum number of package import jobs to return in one page of results.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// Specify the pagination token from a previous request to retrieve the next page of results.
         public let nextToken: String?
 
-        public init(maxResults: Int = 0, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -2108,11 +2108,11 @@ extension Panorama {
         ]
 
         /// The maximum number of packages to return in one page of results.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// Specify the pagination token from a previous request to retrieve the next page of results.
         public let nextToken: String?
 
-        public init(maxResults: Int = 0, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -2791,7 +2791,7 @@ extension Panorama {
         ]
 
         /// Whether to mark the new version as the latest version.
-        public let markLatest: Bool
+        public let markLatest: Bool?
         /// An owner account.
         public let ownerAccount: String?
         /// A package ID.
@@ -2801,7 +2801,7 @@ extension Panorama {
         /// A patch version.
         public let patchVersion: String
 
-        public init(markLatest: Bool = false, ownerAccount: String? = nil, packageId: String, packageVersion: String, patchVersion: String) {
+        public init(markLatest: Bool? = nil, ownerAccount: String? = nil, packageId: String, packageVersion: String, patchVersion: String) {
             self.markLatest = markLatest
             self.ownerAccount = ownerAccount
             self.packageId = packageId

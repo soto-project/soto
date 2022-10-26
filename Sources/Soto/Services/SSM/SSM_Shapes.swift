@@ -1811,7 +1811,7 @@ extension SSM {
         /// Defines the compliance level for approved patches. When an approved patch is reported as missing, this value describes the severity of the compliance violation.
         public let approvedPatchesComplianceLevel: PatchComplianceLevel?
         /// Indicates whether the list of approved patches includes non-security updates that should be applied to the managed nodes. The default value is false. Applies to Linux managed nodes only.
-        public let approvedPatchesEnableNonSecurity: Bool
+        public let approvedPatchesEnableNonSecurity: Bool?
         public let globalFilters: PatchFilterGroup?
         /// The operating system rule used by the patch baseline override.
         public let operatingSystem: OperatingSystem?
@@ -1822,7 +1822,7 @@ extension SSM {
         /// Information about the patches to use to update the managed nodes, including target operating systems and source repositories. Applies to Linux managed nodes only.
         public let sources: [PatchSource]?
 
-        public init(approvalRules: PatchRuleGroup? = nil, approvedPatches: [String]? = nil, approvedPatchesComplianceLevel: PatchComplianceLevel? = nil, approvedPatchesEnableNonSecurity: Bool = false, globalFilters: PatchFilterGroup? = nil, operatingSystem: OperatingSystem? = nil, rejectedPatches: [String]? = nil, rejectedPatchesAction: PatchAction? = nil, sources: [PatchSource]? = nil) {
+        public init(approvalRules: PatchRuleGroup? = nil, approvedPatches: [String]? = nil, approvedPatchesComplianceLevel: PatchComplianceLevel? = nil, approvedPatchesEnableNonSecurity: Bool? = nil, globalFilters: PatchFilterGroup? = nil, operatingSystem: OperatingSystem? = nil, rejectedPatches: [String]? = nil, rejectedPatchesAction: PatchAction? = nil, sources: [PatchSource]? = nil) {
             self.approvalRules = approvalRules
             self.approvedPatches = approvedPatches
             self.approvedPatchesComplianceLevel = approvedPatchesComplianceLevel
@@ -2619,7 +2619,7 @@ extension SSM {
     public struct CreateAssociationRequest: AWSEncodableShape {
         public let alarmConfiguration: AlarmConfiguration?
         /// By default, when you create a new association, the system runs it immediately after it is created and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you create it. This parameter isn't supported for rate expressions.
-        public let applyOnlyAtCronInterval: Bool
+        public let applyOnlyAtCronInterval: Bool?
         /// Specify a descriptive name for the association.
         public let associationName: String?
         /// Choose the parameter that will define how your automation will branch out. This target is required for associations that use an Automation runbook and target resources by using rate controls. Automation is a capability of Amazon Web Services Systems Manager.
@@ -2657,7 +2657,7 @@ extension SSM {
         /// The targets for the association. You can target managed nodes by using tags, Amazon Web Services resource groups, all managed nodes in an Amazon Web Services account, or individual managed node IDs. You can target all managed nodes in an Amazon Web Services account by specifying the InstanceIds key with a value of *. For more information about choosing targets for an association, see Using targets and rate controls with State Manager associations in the Amazon Web Services Systems Manager User Guide.
         public let targets: [Target]?
 
-        public init(alarmConfiguration: AlarmConfiguration? = nil, applyOnlyAtCronInterval: Bool = false, associationName: String? = nil, automationTargetParameterName: String? = nil, calendarNames: [String]? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, instanceId: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, scheduleOffset: Int? = nil, syncCompliance: AssociationSyncCompliance? = nil, tags: [Tag]? = nil, targetLocations: [TargetLocation]? = nil, targetMaps: [[String: [String]]]? = nil, targets: [Target]? = nil) {
+        public init(alarmConfiguration: AlarmConfiguration? = nil, applyOnlyAtCronInterval: Bool? = nil, associationName: String? = nil, automationTargetParameterName: String? = nil, calendarNames: [String]? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, instanceId: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, scheduleOffset: Int? = nil, syncCompliance: AssociationSyncCompliance? = nil, tags: [Tag]? = nil, targetLocations: [TargetLocation]? = nil, targetMaps: [[String: [String]]]? = nil, targets: [Target]? = nil) {
             self.alarmConfiguration = alarmConfiguration
             self.applyOnlyAtCronInterval = applyOnlyAtCronInterval
             self.associationName = associationName
@@ -3294,13 +3294,13 @@ extension SSM {
         /// The version of the document that you want to delete. If not provided, all versions of the document are deleted.
         public let documentVersion: String?
         /// Some SSM document types require that you specify a Force flag before you can delete the document. For example, you must specify a Force flag to delete a document of type ApplicationConfigurationSchema. You can restrict access to the Force flag in an Identity and Access Management (IAM) policy.
-        public let force: Bool
+        public let force: Bool?
         /// The name of the document.
         public let name: String
         /// The version name of the document that you want to delete. If not provided, all versions of the document are deleted.
         public let versionName: String?
 
-        public init(documentVersion: String? = nil, force: Bool = false, name: String, versionName: String? = nil) {
+        public init(documentVersion: String? = nil, force: Bool? = nil, name: String, versionName: String? = nil) {
             self.documentVersion = documentVersion
             self.force = force
             self.name = name
@@ -3329,13 +3329,13 @@ extension SSM {
         /// User-provided idempotency token.
         public let clientToken: String?
         /// Use this option to view a summary of the deletion request without deleting any data or the data type. This option is useful when you only want to understand what will be deleted. Once you validate that the data to be deleted is what you intend to delete, you can run the same command without specifying the DryRun option.
-        public let dryRun: Bool
+        public let dryRun: Bool?
         /// Use the SchemaDeleteOption to delete a custom inventory type (schema). If you don't choose this option, the system only deletes existing inventory data associated with the custom inventory type. Choose one of the following options: DisableSchema: If you choose this option, the system ignores all inventory data for the specified version, and any earlier versions. To enable this schema again, you must call the PutInventory operation for a version greater than the disabled version. DeleteSchema: This option deletes the specified custom type from the Inventory service. You can recreate the schema later, if you want.
         public let schemaDeleteOption: InventorySchemaDeleteOption?
         /// The name of the custom inventory type for which you want to delete either all previously collected data or the inventory type itself.
         public let typeName: String
 
-        public init(clientToken: String? = DeleteInventoryRequest.idempotencyToken(), dryRun: Bool = false, schemaDeleteOption: InventorySchemaDeleteOption? = nil, typeName: String) {
+        public init(clientToken: String? = DeleteInventoryRequest.idempotencyToken(), dryRun: Bool? = nil, schemaDeleteOption: InventorySchemaDeleteOption? = nil, typeName: String) {
             self.clientToken = clientToken
             self.dryRun = dryRun
             self.schemaDeleteOption = schemaDeleteOption
@@ -6350,7 +6350,7 @@ extension SSM {
 
     public struct GetInventorySchemaRequest: AWSEncodableShape {
         /// Returns inventory schemas that support aggregation. For example, this call returns the AWS:InstanceInformation type, because it supports aggregation based on the PlatformName, PlatformType, and PlatformVersion attributes.
-        public let aggregator: Bool
+        public let aggregator: Bool?
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
         public let maxResults: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
@@ -6360,7 +6360,7 @@ extension SSM {
         /// The type of inventory item to return.
         public let typeName: String?
 
-        public init(aggregator: Bool = false, maxResults: Int? = nil, nextToken: String? = nil, subType: Bool? = nil, typeName: String? = nil) {
+        public init(aggregator: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, subType: Bool? = nil, typeName: String? = nil) {
             self.aggregator = aggregator
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -8178,7 +8178,7 @@ extension SSM {
         /// (Optional) The invocations for a specific command ID.
         public let commandId: String?
         /// (Optional) If set this returns the response of the command executions and any command output. The default value is false.
-        public let details: Bool
+        public let details: Bool?
         /// (Optional) One or more filters. Use a filter to return a more specific list of results.
         public let filters: [CommandFilter]?
         /// (Optional) The command execution details for a specific managed node ID.
@@ -8188,7 +8188,7 @@ extension SSM {
         /// (Optional) The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
 
-        public init(commandId: String? = nil, details: Bool = false, filters: [CommandFilter]? = nil, instanceId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(commandId: String? = nil, details: Bool? = nil, filters: [CommandFilter]? = nil, instanceId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.commandId = commandId
             self.details = details
             self.filters = filters
@@ -11578,15 +11578,15 @@ extension SSM {
         /// Information about the AwsOrganizationsSource resource data sync source. A sync source of this type can synchronize data from Organizations.
         public let awsOrganizationsSource: ResourceDataSyncAwsOrganizationsSource?
         /// When you create a resource data sync, if you choose one of the Organizations options, then Systems Manager automatically enables all OpsData sources in the selected Amazon Web Services Regions for all Amazon Web Services accounts in your organization (or in the selected organization units). For more information, see About multiple account and Region resource data syncs in the Amazon Web Services Systems Manager User Guide.
-        public let enableAllOpsDataSources: Bool
+        public let enableAllOpsDataSources: Bool?
         /// Whether to automatically synchronize and aggregate data from new Amazon Web Services Regions when those Regions come online.
-        public let includeFutureRegions: Bool
+        public let includeFutureRegions: Bool?
         /// The SyncSource Amazon Web Services Regions included in the resource data sync.
         public let sourceRegions: [String]
         /// The type of data source for the resource data sync. SourceType is either AwsOrganizations (if an organization is present in Organizations) or SingleAccountMultiRegions.
         public let sourceType: String
 
-        public init(awsOrganizationsSource: ResourceDataSyncAwsOrganizationsSource? = nil, enableAllOpsDataSources: Bool = false, includeFutureRegions: Bool = false, sourceRegions: [String], sourceType: String) {
+        public init(awsOrganizationsSource: ResourceDataSyncAwsOrganizationsSource? = nil, enableAllOpsDataSources: Bool? = nil, includeFutureRegions: Bool? = nil, sourceRegions: [String], sourceType: String) {
             self.awsOrganizationsSource = awsOrganizationsSource
             self.enableAllOpsDataSources = enableAllOpsDataSources
             self.includeFutureRegions = includeFutureRegions
@@ -12331,7 +12331,7 @@ extension SSM {
 
     public struct StartChangeRequestExecutionRequest: AWSEncodableShape {
         /// Indicates whether the change request can be approved automatically without the need for manual approvals. If AutoApprovable is enabled in a change template, then setting AutoApprove to true in StartChangeRequestExecution creates a change request that bypasses approver review.  Change Calendar restrictions are not bypassed in this scenario. If the state of an associated calendar is CLOSED, change freeze approvers must still grant permission for this change request to run. If they don't, the change won't be processed until the calendar state is again OPEN.
-        public let autoApprove: Bool
+        public let autoApprove: Bool?
         /// User-provided details about the change. If no details are provided, content specified in the Template information section of the associated change template is added.
         public let changeDetails: String?
         /// The name of the change request associated with the runbook workflow to be run.
@@ -12353,7 +12353,7 @@ extension SSM {
         /// Optional metadata that you assign to a resource. You can specify a maximum of five tags for a change request. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag a change request to identify an environment or target Amazon Web Services Region. In this case, you could specify the following key-value pairs:    Key=Environment,Value=Production     Key=Region,Value=us-east-2
         public let tags: [Tag]?
 
-        public init(autoApprove: Bool = false, changeDetails: String? = nil, changeRequestName: String? = nil, clientToken: String? = nil, documentName: String, documentVersion: String? = nil, parameters: [String: [String]]? = nil, runbooks: [Runbook], scheduledEndTime: Date? = nil, scheduledTime: Date? = nil, tags: [Tag]? = nil) {
+        public init(autoApprove: Bool? = nil, changeDetails: String? = nil, changeRequestName: String? = nil, clientToken: String? = nil, documentName: String, documentVersion: String? = nil, parameters: [String: [String]]? = nil, runbooks: [Runbook], scheduledEndTime: Date? = nil, scheduledTime: Date? = nil, tags: [Tag]? = nil) {
             self.autoApprove = autoApprove
             self.changeDetails = changeDetails
             self.changeRequestName = changeRequestName
@@ -12765,9 +12765,9 @@ extension SSM {
         /// The name of the parameter from which you want to delete one or more labels.
         public let name: String
         /// The specific version of the parameter which you want to delete one or more labels from. If it isn't present, the call will fail.
-        public let parameterVersion: Int64?
+        public let parameterVersion: Int64
 
-        public init(labels: [String], name: String, parameterVersion: Int64? = nil) {
+        public init(labels: [String], name: String, parameterVersion: Int64) {
             self.labels = labels
             self.name = name
             self.parameterVersion = parameterVersion
@@ -12812,7 +12812,7 @@ extension SSM {
         public let alarmConfiguration: AlarmConfiguration?
         /// By default, when you update an association, the system runs it immediately after it is updated and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you update it. This parameter isn't supported for rate expressions.
         ///  If you chose this option when you created an association and later you edit that association or you make changes to the SSM document on which that association is based (by using the Documents page in the console), State Manager applies the association at the next specified cron interval. For example, if you chose the Latest version of an SSM document when you created an association and you edit the association by choosing a different document version on the Documents page, State Manager applies the association at the next specified cron interval if you previously selected this option. If this option wasn't selected, State Manager immediately runs the association. You can reset this option. To do so, specify the no-apply-only-at-cron-interval parameter when you update the association from the command line. This parameter forces the association to run immediately after updating it and according to the interval specified.
-        public let applyOnlyAtCronInterval: Bool
+        public let applyOnlyAtCronInterval: Bool?
         /// The ID of the association you want to update.
         public let associationId: String
         /// The name of the association that you want to update.
@@ -12850,7 +12850,7 @@ extension SSM {
         /// The targets of the association.
         public let targets: [Target]?
 
-        public init(alarmConfiguration: AlarmConfiguration? = nil, applyOnlyAtCronInterval: Bool = false, associationId: String, associationName: String? = nil, associationVersion: String? = nil, automationTargetParameterName: String? = nil, calendarNames: [String]? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, scheduleOffset: Int? = nil, syncCompliance: AssociationSyncCompliance? = nil, targetLocations: [TargetLocation]? = nil, targetMaps: [[String: [String]]]? = nil, targets: [Target]? = nil) {
+        public init(alarmConfiguration: AlarmConfiguration? = nil, applyOnlyAtCronInterval: Bool? = nil, associationId: String, associationName: String? = nil, associationVersion: String? = nil, automationTargetParameterName: String? = nil, calendarNames: [String]? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, scheduleOffset: Int? = nil, syncCompliance: AssociationSyncCompliance? = nil, targetLocations: [TargetLocation]? = nil, targetMaps: [[String: [String]]]? = nil, targets: [Target]? = nil) {
             self.alarmConfiguration = alarmConfiguration
             self.applyOnlyAtCronInterval = applyOnlyAtCronInterval
             self.associationId = associationId

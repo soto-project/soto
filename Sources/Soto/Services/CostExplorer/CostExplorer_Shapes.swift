@@ -1929,7 +1929,7 @@ extension CostExplorer {
         public let costCategoryName: String?
         public let filter: Expression?
         /// This field is only used when the SortBy value is provided in the request. The maximum number of objects that are returned for this request. If MaxResults isn't specified with the SortBy value, the request returns 1000 results as the default value for this parameter. For GetCostCategories, MaxResults has an upper quota of 1000.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// If the number of objects that are still available for retrieval exceeds the quota, Amazon Web Services returns a NextPageToken value in the response. To retrieve the next batch of objects, provide the NextPageToken from the previous call in your next request.
         public let nextPageToken: String?
         /// The value that you want to search the filter values for. If you don't specify a CostCategoryName, SearchString is used to filter Cost Category names that match the SearchString pattern. If you specify a CostCategoryName, SearchString is used to filter Cost Category values that match the SearchString pattern.
@@ -1938,7 +1938,7 @@ extension CostExplorer {
         public let sortBy: [SortDefinition]?
         public let timePeriod: DateInterval
 
-        public init(costCategoryName: String? = nil, filter: Expression? = nil, maxResults: Int = 0, nextPageToken: String? = nil, searchString: String? = nil, sortBy: [SortDefinition]? = nil, timePeriod: DateInterval) {
+        public init(costCategoryName: String? = nil, filter: Expression? = nil, maxResults: Int? = nil, nextPageToken: String? = nil, searchString: String? = nil, sortBy: [SortDefinition]? = nil, timePeriod: DateInterval) {
             self.costCategoryName = costCategoryName
             self.filter = filter
             self.maxResults = maxResults
@@ -2083,14 +2083,14 @@ extension CostExplorer {
         /// 			can be used in the GetReservationUtilization operation. If the context is set to COST_AND_USAGE,
         /// 			the resulting dimension values can be used in the GetCostAndUsage operation.
         /// 		       If you set the context to COST_AND_USAGE, you can use the following  dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   BILLING_ENTITY - The Amazon Web Services seller that your account is with. Possible values are the following: - Amazon Web Services(Amazon Web Services): The entity that sells Amazon Web Services. - AISPL (Amazon Internet Services Pvt. Ltd.): The local Indian entity that's an acting reseller for Amazon Web Services in India. - Amazon Web Services Marketplace: The entity that supports the sale of solutions that are built on Amazon Web Services by third-party software providers.   CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are Windows or Linux.   DEPLOYMENT_OPTION - The scope of Amazon Relational Database Service deployments. Valid values are SingleAZ and MultiAZ.   DATABASE_ENGINE - The Amazon Relational Database Service database. Examples are Aurora or MySQL.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   INSTANCE_TYPE_FAMILY - A family of instance types optimized to fit different use cases. Examples are Compute Optimized (for example, C4, C5, C6g, and C7g), Memory Optimization (for example, R4, R5n, R5b, and R6g).   INVOICING_ENTITY - The name of the entity that issues the Amazon Web Services invoice.   LEGAL_ENTITY_NAME - The name of the organization that sells you Amazon Web Services services, such as Amazon Web Services.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value  field contains the Amazon Web Services ID of the member account.   OPERATING_SYSTEM - The operating system. Examples are Windows or Linux.   OPERATION - The action performed. Examples include RunInstance and CreateBucket.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   PURCHASE_TYPE - The reservation type of the purchase that this usage is related to. Examples include On-Demand Instances and Standard Reserved Instances.   RESERVATION_ID - The unique identifier for an Amazon Web Services Reservation Instance.   SAVINGS_PLAN_ARN - The unique identifier for your Savings Plans.   SAVINGS_PLANS_TYPE - Type of Savings Plans (EC2 Instance or Compute).   SERVICE - The Amazon Web Services service such as Amazon DynamoDB.   TENANCY - The tenancy of a resource. Examples are shared or dedicated.   USAGE_TYPE - The type of usage. An example is DataTransfer-In-Bytes. The response for the GetDimensionValues operation includes a unit attribute. Examples include GB and Hrs.   USAGE_TYPE_GROUP - The grouping of common usage types. An example is Amazon EC2: CloudWatch – Alarms. The response for this  operation includes a unit attribute.   REGION - The Amazon Web Services Region.   RECORD_TYPE - The different types of charges such as Reserved Instance (RI) fees, usage costs, tax refunds, and credits.   RESOURCE_ID - The unique identifier of the resource. ResourceId is an opt-in feature only available for last 14 days for EC2-Compute Service.   If you set the context to RESERVATIONS, you can use the following  dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are Windows or Linux.   DEPLOYMENT_OPTION - The scope of Amazon Relational Database Service deployments. Valid values are SingleAZ and MultiAZ.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value  field contains the Amazon Web Services ID of the member account.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   REGION - The Amazon Web Services Region.   SCOPE (Utilization only) - The scope of a Reserved Instance (RI). Values are regional or a single Availability Zone.   TAG (Coverage only) - The tags that are associated with a Reserved Instance (RI).   TENANCY - The tenancy of a resource. Examples are shared or dedicated.   If you set the context to SAVINGS_PLANS, you can use the following dimensions for searching:   SAVINGS_PLANS_TYPE - Type of Savings Plans (EC2 Instance or Compute)   PAYMENT_OPTION - The payment option for the given Savings Plans (for example, All Upfront)   REGION - The Amazon Web Services Region.   INSTANCE_TYPE_FAMILY - The family of instances (For example, m5)   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value  field contains the Amazon Web Services ID of the member account.   SAVINGS_PLAN_ARN - The unique identifier for your Savings Plans.
-        public let context: Context
+        public let context: Context?
         /// The name of the dimension. Each Dimension is available for a different Context.
         /// 		  For more information, see Context. LINK_ACCOUNT_NAME and SERVICE_CODE can only be used in CostCategoryRule.
         ///
         public let dimension: Dimension
         public let filter: Expression?
         /// This field is only used when SortBy is provided in the request. The maximum number of objects that are returned for this request. If MaxResults isn't specified with SortBy, the request returns 1000 results as the default value for this parameter. For GetDimensionValues, MaxResults has an upper limit of 1000.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
         public let nextPageToken: String?
         /// The value that you want to search the filter values for.
@@ -2100,7 +2100,7 @@ extension CostExplorer {
         /// The start date and end date for retrieving the dimension values. The start date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01.
         public let timePeriod: DateInterval
 
-        public init(context: Context = .costAndUsage, dimension: Dimension, filter: Expression? = nil, maxResults: Int = 0, nextPageToken: String? = nil, searchString: String? = nil, sortBy: [SortDefinition]? = nil, timePeriod: DateInterval) {
+        public init(context: Context? = nil, dimension: Dimension, filter: Expression? = nil, maxResults: Int? = nil, nextPageToken: String? = nil, searchString: String? = nil, sortBy: [SortDefinition]? = nil, timePeriod: DateInterval) {
             self.context = context
             self.dimension = dimension
             self.filter = filter
@@ -2264,7 +2264,7 @@ extension CostExplorer {
         /// The pagination token that indicates the next set of results that you want to retrieve.
         public let nextPageToken: String?
         /// The number of recommendations that you want returned in a single response object.
-        public let pageSize: Int
+        public let pageSize: Int?
         /// The reservation purchase option that you want recommendations for.
         public let paymentOption: PaymentOption?
         /// The specific service that you want recommendations for.
@@ -2274,7 +2274,7 @@ extension CostExplorer {
         /// The reservation term that you want recommendations for.
         public let termInYears: TermInYears?
 
-        public init(accountId: String? = nil, accountScope: AccountScope? = nil, filter: Expression? = nil, lookbackPeriodInDays: LookbackPeriodInDays? = nil, nextPageToken: String? = nil, pageSize: Int = 0, paymentOption: PaymentOption? = nil, service: String, serviceSpecification: ServiceSpecification? = nil, termInYears: TermInYears? = nil) {
+        public init(accountId: String? = nil, accountScope: AccountScope? = nil, filter: Expression? = nil, lookbackPeriodInDays: LookbackPeriodInDays? = nil, nextPageToken: String? = nil, pageSize: Int? = nil, paymentOption: PaymentOption? = nil, service: String, serviceSpecification: ServiceSpecification? = nil, termInYears: TermInYears? = nil) {
             self.accountId = accountId
             self.accountScope = accountScope
             self.filter = filter
@@ -2345,7 +2345,7 @@ extension CostExplorer {
         /// 			the response object doesn't include Granularity, either MONTHLY or DAILY.
         /// 			If both GroupBy and Granularity aren't set, GetReservationUtilization defaults to DAILY.
         /// 		       The GetReservationUtilization operation supports only DAILY and MONTHLY granularities.
-        public let granularity: Granularity
+        public let granularity: Granularity?
         /// Groups only by SUBSCRIPTION_ID. Metadata is included.
         public let groupBy: [GroupDefinition]?
         /// The maximum number of objects that you returned for this request. If more objects are available, in the response, Amazon Web Services provides a NextPageToken value that you can use in a subsequent call to get the next batch of objects.
@@ -2357,7 +2357,7 @@ extension CostExplorer {
         /// Sets the start and end dates for retrieving Reserved Instance (RI) utilization. The start date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01.
         public let timePeriod: DateInterval
 
-        public init(filter: Expression? = nil, granularity: Granularity = .daily, groupBy: [GroupDefinition]? = nil, maxResults: Int? = nil, nextPageToken: String? = nil, sortBy: SortDefinition? = nil, timePeriod: DateInterval) {
+        public init(filter: Expression? = nil, granularity: Granularity? = nil, groupBy: [GroupDefinition]? = nil, maxResults: Int? = nil, nextPageToken: String? = nil, sortBy: SortDefinition? = nil, timePeriod: DateInterval) {
             self.filter = filter
             self.granularity = granularity
             self.groupBy = groupBy
@@ -2418,11 +2418,11 @@ extension CostExplorer {
         /// The pagination token that indicates the next set of results that you want to retrieve.
         public let nextPageToken: String?
         /// The number of recommendations that you want returned in a single response object.
-        public let pageSize: Int
+        public let pageSize: Int?
         /// The specific service that you want recommendations for. The only valid value for GetRightsizingRecommendation is  	"AmazonEC2".
         public let service: String
 
-        public init(configuration: RightsizingRecommendationConfiguration? = nil, filter: Expression? = nil, nextPageToken: String? = nil, pageSize: Int = 0, service: String) {
+        public init(configuration: RightsizingRecommendationConfiguration? = nil, filter: Expression? = nil, nextPageToken: String? = nil, pageSize: Int? = nil, service: String) {
             self.configuration = configuration
             self.filter = filter
             self.nextPageToken = nextPageToken
@@ -2562,7 +2562,7 @@ extension CostExplorer {
         /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
         public let nextPageToken: String?
         /// The number of recommendations that you want returned in a single response object.
-        public let pageSize: Int
+        public let pageSize: Int?
         /// The payment option that's used to generate these recommendations.
         public let paymentOption: PaymentOption
         /// The Savings Plans recommendation type that's requested.
@@ -2570,7 +2570,7 @@ extension CostExplorer {
         /// The savings plan recommendation term that's used to generate these recommendations.
         public let termInYears: TermInYears
 
-        public init(accountScope: AccountScope? = nil, filter: Expression? = nil, lookbackPeriodInDays: LookbackPeriodInDays, nextPageToken: String? = nil, pageSize: Int = 0, paymentOption: PaymentOption, savingsPlansType: SupportedSavingsPlansType, termInYears: TermInYears) {
+        public init(accountScope: AccountScope? = nil, filter: Expression? = nil, lookbackPeriodInDays: LookbackPeriodInDays, nextPageToken: String? = nil, pageSize: Int? = nil, paymentOption: PaymentOption, savingsPlansType: SupportedSavingsPlansType, termInYears: TermInYears) {
             self.accountScope = accountScope
             self.filter = filter
             self.lookbackPeriodInDays = lookbackPeriodInDays
@@ -2739,7 +2739,7 @@ extension CostExplorer {
     public struct GetTagsRequest: AWSEncodableShape {
         public let filter: Expression?
         /// This field is only used when SortBy is provided in the request. The maximum number of objects that are returned for this request. If MaxResults isn't specified with SortBy, the request returns 1000 results as the default value for this parameter. For GetTags, MaxResults has an upper quota of 1000.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
         public let nextPageToken: String?
         /// The value that you want to search for.
@@ -2751,7 +2751,7 @@ extension CostExplorer {
         /// The start and end dates for retrieving the dimension values. The start date is inclusive,  but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is   retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01.
         public let timePeriod: DateInterval
 
-        public init(filter: Expression? = nil, maxResults: Int = 0, nextPageToken: String? = nil, searchString: String? = nil, sortBy: [SortDefinition]? = nil, tagKey: String? = nil, timePeriod: DateInterval) {
+        public init(filter: Expression? = nil, maxResults: Int? = nil, nextPageToken: String? = nil, searchString: String? = nil, sortBy: [SortDefinition]? = nil, tagKey: String? = nil, timePeriod: DateInterval) {
             self.filter = filter
             self.maxResults = maxResults
             self.nextPageToken = nextPageToken
@@ -4311,13 +4311,13 @@ extension CostExplorer {
 
     public struct TotalImpactFilter: AWSEncodableShape {
         /// The upper bound dollar value that's used in the filter.
-        public let endValue: Double
+        public let endValue: Double?
         /// The comparing value that's used in the filter.
         public let numericOperator: NumericOperator
         /// The lower bound dollar value that's used in the filter.
         public let startValue: Double
 
-        public init(endValue: Double = 0, numericOperator: NumericOperator, startValue: Double = 0) {
+        public init(endValue: Double? = nil, numericOperator: NumericOperator, startValue: Double = 0) {
             self.endValue = endValue
             self.numericOperator = numericOperator
             self.startValue = startValue

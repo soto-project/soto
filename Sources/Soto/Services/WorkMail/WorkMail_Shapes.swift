@@ -725,11 +725,11 @@ extension WorkMail {
         /// The email domains to associate with the organization.
         public let domains: [Domain]?
         /// When true, allows organization interoperability between WorkMail and Microsoft Exchange. If true, you must include a AD Connector directory ID in the request.
-        public let enableInteroperability: Bool
+        public let enableInteroperability: Bool?
         /// The Amazon Resource Name (ARN) of a customer managed key from AWS KMS.
         public let kmsKeyArn: String?
 
-        public init(alias: String, clientToken: String? = CreateOrganizationRequest.idempotencyToken(), directoryId: String? = nil, domains: [Domain]? = nil, enableInteroperability: Bool = false, kmsKeyArn: String? = nil) {
+        public init(alias: String, clientToken: String? = CreateOrganizationRequest.idempotencyToken(), directoryId: String? = nil, domains: [Domain]? = nil, enableInteroperability: Bool? = nil, kmsKeyArn: String? = nil) {
             self.alias = alias
             self.clientToken = clientToken
             self.directoryId = directoryId

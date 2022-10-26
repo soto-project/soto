@@ -1042,9 +1042,9 @@ extension Outposts {
         /// The ID of the catalog item.
         public let catalogItemId: String?
         /// The quantity of a line item request.
-        public let quantity: Int
+        public let quantity: Int?
 
-        public init(catalogItemId: String? = nil, quantity: Int = 0) {
+        public init(catalogItemId: String? = nil, quantity: Int? = nil) {
             self.catalogItemId = catalogItemId
             self.quantity = quantity
         }

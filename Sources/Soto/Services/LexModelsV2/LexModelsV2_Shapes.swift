@@ -2675,9 +2675,9 @@ extension LexModelsV2 {
         /// The unique identifier of the bot associated with the alias to delete.
         public let botId: String
         /// When this parameter is true, Amazon Lex doesn't check to see if any other resource is using the alias before it is deleted.
-        public let skipResourceInUseCheck: Bool
+        public let skipResourceInUseCheck: Bool?
 
-        public init(botAliasId: String, botId: String, skipResourceInUseCheck: Bool = false) {
+        public init(botAliasId: String, botId: String, skipResourceInUseCheck: Bool? = nil) {
             self.botAliasId = botAliasId
             self.botId = botId
             self.skipResourceInUseCheck = skipResourceInUseCheck
@@ -2782,9 +2782,9 @@ extension LexModelsV2 {
         /// The identifier of the bot to delete.
         public let botId: String
         /// When true, Amazon Lex doesn't check to see if another resource, such as an alias, is using the bot before it is deleted.
-        public let skipResourceInUseCheck: Bool
+        public let skipResourceInUseCheck: Bool?
 
-        public init(botId: String, skipResourceInUseCheck: Bool = false) {
+        public init(botId: String, skipResourceInUseCheck: Bool? = nil) {
             self.botId = botId
             self.skipResourceInUseCheck = skipResourceInUseCheck
         }
@@ -2827,9 +2827,9 @@ extension LexModelsV2 {
         /// The version of the bot to delete.
         public let botVersion: String
         /// By default, the DeleteBotVersion operations throws a ResourceInUseException exception if you try to delete a bot version that has an alias pointing at it. Set the skipResourceInUseCheck parameter to true to skip this check and remove the version even if an alias points to it.
-        public let skipResourceInUseCheck: Bool
+        public let skipResourceInUseCheck: Bool?
 
-        public init(botId: String, botVersion: String, skipResourceInUseCheck: Bool = false) {
+        public init(botId: String, botVersion: String, skipResourceInUseCheck: Bool? = nil) {
             self.botId = botId
             self.botVersion = botVersion
             self.skipResourceInUseCheck = skipResourceInUseCheck
@@ -3197,11 +3197,11 @@ extension LexModelsV2 {
         /// The identifier of the language and locale that the slot type will be deleted from. The string must match one of the supported locales. For more information, see Supported languages.
         public let localeId: String
         /// By default, the DeleteSlotType operations throws a ResourceInUseException exception if you try to delete a slot type used by a slot. Set the skipResourceInUseCheck parameter to true to skip this check and remove the slot type even if a slot uses it.
-        public let skipResourceInUseCheck: Bool
+        public let skipResourceInUseCheck: Bool?
         /// The identifier of the slot type to delete.
         public let slotTypeId: String
 
-        public init(botId: String, botVersion: String, localeId: String, skipResourceInUseCheck: Bool = false, slotTypeId: String) {
+        public init(botId: String, botVersion: String, localeId: String, skipResourceInUseCheck: Bool? = nil, slotTypeId: String) {
             self.botId = botId
             self.botVersion = botVersion
             self.localeId = localeId
@@ -6852,9 +6852,9 @@ extension LexModelsV2 {
         /// If the response from the SearchAssociatedTranscriptsRequest operation contains more results than specified in the maxResults parameter, an index is returned in the response. Use that index in the nextIndex parameter to return the next page of results.
         public let nextIndex: Int?
         /// How SearchResults are ordered. Valid values are Ascending or Descending. The default is Descending.
-        public let searchOrder: SearchOrder
+        public let searchOrder: SearchOrder?
 
-        public init(botId: String, botRecommendationId: String, botVersion: String, filters: [AssociatedTranscriptFilter], localeId: String, maxResults: Int? = nil, nextIndex: Int? = nil, searchOrder: SearchOrder = .descending) {
+        public init(botId: String, botRecommendationId: String, botVersion: String, filters: [AssociatedTranscriptFilter], localeId: String, maxResults: Int? = nil, nextIndex: Int? = nil, searchOrder: SearchOrder? = nil) {
             self.botId = botId
             self.botRecommendationId = botRecommendationId
             self.botVersion = botVersion

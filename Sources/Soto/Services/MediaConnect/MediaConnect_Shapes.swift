@@ -354,7 +354,7 @@ extension MediaConnect {
         /// The attributes that you want to assign to the new media stream.
         public let attributes: MediaStreamAttributesRequest?
         /// The sample rate (in Hz) for the stream. If the media stream type is video or ancillary data, set this value to 90000. If the media stream type is audio, set this value to either 48000 or 96000.
-        public let clockRate: Int
+        public let clockRate: Int?
         /// A description that can help you quickly identify what your media stream is used for.
         public let description: String?
         /// A unique identifier for the media stream.
@@ -366,7 +366,7 @@ extension MediaConnect {
         /// The resolution of the video.
         public let videoFormat: String?
 
-        public init(attributes: MediaStreamAttributesRequest? = nil, clockRate: Int = 0, description: String? = nil, mediaStreamId: Int = 0, mediaStreamName: String, mediaStreamType: MediaStreamType, videoFormat: String? = nil) {
+        public init(attributes: MediaStreamAttributesRequest? = nil, clockRate: Int? = nil, description: String? = nil, mediaStreamId: Int = 0, mediaStreamName: String, mediaStreamType: MediaStreamType, videoFormat: String? = nil) {
             self.attributes = attributes
             self.clockRate = clockRate
             self.description = description
@@ -397,29 +397,29 @@ extension MediaConnect {
         /// The type of key used for the encryption. If no keyType is provided, the service will use the default setting (static-key).
         public let encryption: Encryption?
         /// The maximum latency in milliseconds. This parameter applies only to RIST-based, Zixi-based, and Fujitsu-based streams.
-        public let maxLatency: Int
+        public let maxLatency: Int?
         /// The media streams that are associated with the output, and the parameters for those associations.
         public let mediaStreamOutputConfigurations: [MediaStreamOutputConfigurationRequest]?
         /// The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
-        public let minLatency: Int
+        public let minLatency: Int?
         /// The name of the output. This value must be unique within the current flow.
         public let name: String?
         /// The port to use when content is distributed to this output.
-        public let port: Int
+        public let port: Int?
         /// The protocol to use for the output.
         public let `protocol`: `Protocol`
         /// The remote ID for the Zixi-pull output stream.
         public let remoteId: String?
         /// The port that the flow uses to send outbound requests to initiate connection with the sender.
-        public let senderControlPort: Int
+        public let senderControlPort: Int?
         /// The smoothing latency in milliseconds for RIST, RTP, and RTP-FEC streams.
-        public let smoothingLatency: Int
+        public let smoothingLatency: Int?
         /// The stream ID that you want to use for this transport. This parameter applies only to Zixi-based streams.
         public let streamId: String?
         /// The name of the VPC interface attachment to use for this output.
         public let vpcInterfaceAttachment: VpcInterfaceAttachment?
 
-        public init(cidrAllowList: [String]? = nil, description: String? = nil, destination: String? = nil, encryption: Encryption? = nil, maxLatency: Int = 0, mediaStreamOutputConfigurations: [MediaStreamOutputConfigurationRequest]? = nil, minLatency: Int = 0, name: String? = nil, port: Int = 0, protocol: `Protocol`, remoteId: String? = nil, senderControlPort: Int = 0, smoothingLatency: Int = 0, streamId: String? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
+        public init(cidrAllowList: [String]? = nil, description: String? = nil, destination: String? = nil, encryption: Encryption? = nil, maxLatency: Int? = nil, mediaStreamOutputConfigurations: [MediaStreamOutputConfigurationRequest]? = nil, minLatency: Int? = nil, name: String? = nil, port: Int? = nil, protocol: `Protocol`, remoteId: String? = nil, senderControlPort: Int? = nil, smoothingLatency: Int? = nil, streamId: String? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
             self.cidrAllowList = cidrAllowList
             self.description = description
             self.destination = destination
@@ -952,7 +952,7 @@ extension MediaConnect {
 
     public struct GrantEntitlementRequest: AWSEncodableShape {
         /// Percentage from 0-100 of the data transfer cost to be billed to the subscriber.
-        public let dataTransferSubscriberFeePercent: Int
+        public let dataTransferSubscriberFeePercent: Int?
         /// A description of the entitlement. This description appears only on the AWS Elemental MediaConnect console and will not be seen by the subscriber or end user.
         public let description: String?
         /// The type of encryption that will be used on the output that is associated with this entitlement.
@@ -964,7 +964,7 @@ extension MediaConnect {
         /// The AWS account IDs that you want to share your content with. The receiving accounts (subscribers) will be allowed to create their own flows using your content as the source.
         public let subscribers: [String]
 
-        public init(dataTransferSubscriberFeePercent: Int = 0, description: String? = nil, encryption: Encryption? = nil, entitlementStatus: EntitlementStatus? = nil, name: String? = nil, subscribers: [String]) {
+        public init(dataTransferSubscriberFeePercent: Int? = nil, description: String? = nil, encryption: Encryption? = nil, entitlementStatus: EntitlementStatus? = nil, name: String? = nil, subscribers: [String]) {
             self.dataTransferSubscriberFeePercent = dataTransferSubscriberFeePercent
             self.description = description
             self.encryption = encryption
@@ -1091,11 +1091,11 @@ extension MediaConnect {
         ]
 
         /// The maximum number of results to return per API request. For example, you submit a ListEntitlements request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 20 results per page.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// The token that identifies which batch of results that you want to see. For example, you submit a ListEntitlements request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListEntitlements request a second time and specify the NextToken value.
         public let nextToken: String?
 
-        public init(maxResults: Int = 0, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -1132,11 +1132,11 @@ extension MediaConnect {
         ]
 
         /// The maximum number of results to return per API request. For example, you submit a ListFlows request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// The token that identifies which batch of results that you want to see. For example, you submit a ListFlows request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListFlows request a second time and specify the NextToken value.
         public let nextToken: String?
 
-        public init(maxResults: Int = 0, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -1173,11 +1173,11 @@ extension MediaConnect {
         ]
 
         /// The maximum number of results to return per API request. For example, you submit a ListOfferings request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// The token that identifies which batch of results that you want to see. For example, you submit a ListOfferings request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListOfferings request a second time and specify the NextToken value.
         public let nextToken: String?
 
-        public init(maxResults: Int = 0, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -1214,11 +1214,11 @@ extension MediaConnect {
         ]
 
         /// The maximum number of results to return per API request. For example, you submit a ListReservations request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// The token that identifies which batch of results that you want to see. For example, you submit a ListReservations request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListOfferings request a second time and specify the NextToken value.
         public let nextToken: String?
 
-        public init(maxResults: Int = 0, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -1946,29 +1946,29 @@ extension MediaConnect {
         /// The ARN of the entitlement that allows you to subscribe to this flow. The entitlement is set by the flow originator, and the ARN is generated as part of the originator's flow.
         public let entitlementArn: String?
         /// The port that the flow will be listening on for incoming content.
-        public let ingestPort: Int
+        public let ingestPort: Int?
         /// The smoothing max bitrate for RIST, RTP, and RTP-FEC streams.
-        public let maxBitrate: Int
+        public let maxBitrate: Int?
         /// The maximum latency in milliseconds. This parameter applies only to RIST-based, Zixi-based, and Fujitsu-based streams.
-        public let maxLatency: Int
+        public let maxLatency: Int?
         /// The size of the buffer (in milliseconds) to use to sync incoming source data.
-        public let maxSyncBuffer: Int
+        public let maxSyncBuffer: Int?
         /// The media streams that are associated with the source, and the parameters for those associations.
         public let mediaStreamSourceConfigurations: [MediaStreamSourceConfigurationRequest]?
         /// The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
-        public let minLatency: Int
+        public let minLatency: Int?
         /// The name of the source.
         public let name: String?
         /// The protocol that is used by the source.
         public let `protocol`: `Protocol`?
         /// The port that the flow uses to send outbound requests to initiate connection with the sender.
-        public let senderControlPort: Int
+        public let senderControlPort: Int?
         /// The IP address that the flow communicates with to initiate connection with the sender.
         public let senderIpAddress: String?
         /// Source IP or domain name for SRT-caller protocol.
         public let sourceListenerAddress: String?
         /// Source port for SRT-caller protocol.
-        public let sourceListenerPort: Int
+        public let sourceListenerPort: Int?
         /// The stream ID that you want to use for this transport. This parameter applies only to Zixi-based streams.
         public let streamId: String?
         /// The name of the VPC interface to use for this source.
@@ -1976,7 +1976,7 @@ extension MediaConnect {
         /// The range of IP addresses that should be allowed to contribute content to your source. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
         public let whitelistCidr: String?
 
-        public init(decryption: Encryption? = nil, description: String? = nil, entitlementArn: String? = nil, ingestPort: Int = 0, maxBitrate: Int = 0, maxLatency: Int = 0, maxSyncBuffer: Int = 0, mediaStreamSourceConfigurations: [MediaStreamSourceConfigurationRequest]? = nil, minLatency: Int = 0, name: String? = nil, protocol: `Protocol`? = nil, senderControlPort: Int = 0, senderIpAddress: String? = nil, sourceListenerAddress: String? = nil, sourceListenerPort: Int = 0, streamId: String? = nil, vpcInterfaceName: String? = nil, whitelistCidr: String? = nil) {
+        public init(decryption: Encryption? = nil, description: String? = nil, entitlementArn: String? = nil, ingestPort: Int? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, maxSyncBuffer: Int? = nil, mediaStreamSourceConfigurations: [MediaStreamSourceConfigurationRequest]? = nil, minLatency: Int? = nil, name: String? = nil, protocol: `Protocol`? = nil, senderControlPort: Int? = nil, senderIpAddress: String? = nil, sourceListenerAddress: String? = nil, sourceListenerPort: Int? = nil, streamId: String? = nil, vpcInterfaceName: String? = nil, whitelistCidr: String? = nil) {
             self.decryption = decryption
             self.description = description
             self.entitlementArn = entitlementArn
@@ -2310,12 +2310,12 @@ extension MediaConnect {
         /// The type of failover you choose for this flow. MERGE combines the source streams into a single stream, allowing graceful recovery from any single-source loss. FAILOVER allows switching between different streams.
         public let failoverMode: FailoverMode?
         /// Recovery window time to look for dash-7 packets
-        public let recoveryWindow: Int
+        public let recoveryWindow: Int?
         /// The priority you want to assign to a source. You can have a primary stream and a backup stream or two equally prioritized streams.
         public let sourcePriority: SourcePriority?
         public let state: State?
 
-        public init(failoverMode: FailoverMode? = nil, recoveryWindow: Int = 0, sourcePriority: SourcePriority? = nil, state: State? = nil) {
+        public init(failoverMode: FailoverMode? = nil, recoveryWindow: Int? = nil, sourcePriority: SourcePriority? = nil, state: State? = nil) {
             self.failoverMode = failoverMode
             self.recoveryWindow = recoveryWindow
             self.sourcePriority = sourcePriority
@@ -2392,7 +2392,7 @@ extension MediaConnect {
         /// The attributes that you want to assign to the media stream.
         public let attributes: MediaStreamAttributesRequest?
         /// The sample rate (in Hz) for the stream. If the media stream type is video or ancillary data, set this value to 90000. If the media stream type is audio, set this value to either 48000 or 96000.
-        public let clockRate: Int
+        public let clockRate: Int?
         /// Description
         public let description: String?
         /// The Amazon Resource Name (ARN) of the flow.
@@ -2404,7 +2404,7 @@ extension MediaConnect {
         /// The resolution of the video.
         public let videoFormat: String?
 
-        public init(attributes: MediaStreamAttributesRequest? = nil, clockRate: Int = 0, description: String? = nil, flowArn: String, mediaStreamName: String, mediaStreamType: MediaStreamType? = nil, videoFormat: String? = nil) {
+        public init(attributes: MediaStreamAttributesRequest? = nil, clockRate: Int? = nil, description: String? = nil, flowArn: String, mediaStreamName: String, mediaStreamType: MediaStreamType? = nil, videoFormat: String? = nil) {
             self.attributes = attributes
             self.clockRate = clockRate
             self.description = description
@@ -2457,31 +2457,31 @@ extension MediaConnect {
         /// The flow that is associated with the output that you want to update.
         public let flowArn: String
         /// The maximum latency in milliseconds. This parameter applies only to RIST-based, Zixi-based, and Fujitsu-based streams.
-        public let maxLatency: Int
+        public let maxLatency: Int?
         /// The media streams that are associated with the output, and the parameters for those associations.
         public let mediaStreamOutputConfigurations: [MediaStreamOutputConfigurationRequest]?
         /// The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
-        public let minLatency: Int
+        public let minLatency: Int?
         /// The ARN of the output that you want to update.
         public let outputArn: String
         /// The port to use when content is distributed to this output.
-        public let port: Int
+        public let port: Int?
         /// The protocol to use for the output.
         public let `protocol`: `Protocol`?
         /// The remote ID for the Zixi-pull stream.
         public let remoteId: String?
         /// The port that the flow uses to send outbound requests to initiate connection with the sender.
-        public let senderControlPort: Int
+        public let senderControlPort: Int?
         /// The IP address that the flow communicates with to initiate connection with the sender.
         public let senderIpAddress: String?
         /// The smoothing latency in milliseconds for RIST, RTP, and RTP-FEC streams.
-        public let smoothingLatency: Int
+        public let smoothingLatency: Int?
         /// The stream ID that you want to use for this transport. This parameter applies only to Zixi-based streams.
         public let streamId: String?
         /// The name of the VPC interface attachment to use for this output.
         public let vpcInterfaceAttachment: VpcInterfaceAttachment?
 
-        public init(cidrAllowList: [String]? = nil, description: String? = nil, destination: String? = nil, encryption: UpdateEncryption? = nil, flowArn: String, maxLatency: Int = 0, mediaStreamOutputConfigurations: [MediaStreamOutputConfigurationRequest]? = nil, minLatency: Int = 0, outputArn: String, port: Int = 0, protocol: `Protocol`? = nil, remoteId: String? = nil, senderControlPort: Int = 0, senderIpAddress: String? = nil, smoothingLatency: Int = 0, streamId: String? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
+        public init(cidrAllowList: [String]? = nil, description: String? = nil, destination: String? = nil, encryption: UpdateEncryption? = nil, flowArn: String, maxLatency: Int? = nil, mediaStreamOutputConfigurations: [MediaStreamOutputConfigurationRequest]? = nil, minLatency: Int? = nil, outputArn: String, port: Int? = nil, protocol: `Protocol`? = nil, remoteId: String? = nil, senderControlPort: Int? = nil, senderIpAddress: String? = nil, smoothingLatency: Int? = nil, streamId: String? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
             self.cidrAllowList = cidrAllowList
             self.description = description
             self.destination = destination
@@ -2586,21 +2586,21 @@ extension MediaConnect {
         /// The flow that is associated with the source that you want to update.
         public let flowArn: String
         /// The port that the flow will be listening on for incoming content.
-        public let ingestPort: Int
+        public let ingestPort: Int?
         /// The smoothing max bitrate for RIST, RTP, and RTP-FEC streams.
-        public let maxBitrate: Int
+        public let maxBitrate: Int?
         /// The maximum latency in milliseconds. This parameter applies only to RIST-based, Zixi-based, and Fujitsu-based streams.
-        public let maxLatency: Int
+        public let maxLatency: Int?
         /// The size of the buffer (in milliseconds) to use to sync incoming source data.
-        public let maxSyncBuffer: Int
+        public let maxSyncBuffer: Int?
         /// The media streams that are associated with the source, and the parameters for those associations.
         public let mediaStreamSourceConfigurations: [MediaStreamSourceConfigurationRequest]?
         /// The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
-        public let minLatency: Int
+        public let minLatency: Int?
         /// The protocol that is used by the source.
         public let `protocol`: `Protocol`?
         /// The port that the flow uses to send outbound requests to initiate connection with the sender.
-        public let senderControlPort: Int
+        public let senderControlPort: Int?
         /// The IP address that the flow communicates with to initiate connection with the sender.
         public let senderIpAddress: String?
         /// The ARN of the source that you want to update.
@@ -2608,7 +2608,7 @@ extension MediaConnect {
         /// Source IP or domain name for SRT-caller protocol.
         public let sourceListenerAddress: String?
         /// Source port for SRT-caller protocol.
-        public let sourceListenerPort: Int
+        public let sourceListenerPort: Int?
         /// The stream ID that you want to use for this transport. This parameter applies only to Zixi-based streams.
         public let streamId: String?
         /// The name of the VPC interface to use for this source.
@@ -2616,7 +2616,7 @@ extension MediaConnect {
         /// The range of IP addresses that should be allowed to contribute content to your source. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
         public let whitelistCidr: String?
 
-        public init(decryption: UpdateEncryption? = nil, description: String? = nil, entitlementArn: String? = nil, flowArn: String, ingestPort: Int = 0, maxBitrate: Int = 0, maxLatency: Int = 0, maxSyncBuffer: Int = 0, mediaStreamSourceConfigurations: [MediaStreamSourceConfigurationRequest]? = nil, minLatency: Int = 0, protocol: `Protocol`? = nil, senderControlPort: Int = 0, senderIpAddress: String? = nil, sourceArn: String, sourceListenerAddress: String? = nil, sourceListenerPort: Int = 0, streamId: String? = nil, vpcInterfaceName: String? = nil, whitelistCidr: String? = nil) {
+        public init(decryption: UpdateEncryption? = nil, description: String? = nil, entitlementArn: String? = nil, flowArn: String, ingestPort: Int? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, maxSyncBuffer: Int? = nil, mediaStreamSourceConfigurations: [MediaStreamSourceConfigurationRequest]? = nil, minLatency: Int? = nil, protocol: `Protocol`? = nil, senderControlPort: Int? = nil, senderIpAddress: String? = nil, sourceArn: String, sourceListenerAddress: String? = nil, sourceListenerPort: Int? = nil, streamId: String? = nil, vpcInterfaceName: String? = nil, whitelistCidr: String? = nil) {
             self.decryption = decryption
             self.description = description
             self.entitlementArn = entitlementArn

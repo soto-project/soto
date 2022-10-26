@@ -1210,13 +1210,13 @@ extension MigrationHubOrchestrator {
         ]
 
         /// The maximum number of results that can be returned.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// The name of the template.
         public let name: String?
         /// The pagination token.
         public let nextToken: String?
 
-        public init(maxResults: Int = 0, name: String? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.name = name
             self.nextToken = nextToken
@@ -1265,7 +1265,7 @@ extension MigrationHubOrchestrator {
         /// The name of the application configured in Application Discovery Service.
         public let adsApplicationConfigurationName: String?
         /// The maximum number of results that can be returned.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// The name of the migration workflow.
         public let name: String?
         /// The pagination token.
@@ -1275,7 +1275,7 @@ extension MigrationHubOrchestrator {
         /// The ID of the template.
         public let templateId: String?
 
-        public init(adsApplicationConfigurationName: String? = nil, maxResults: Int = 0, name: String? = nil, nextToken: String? = nil, status: MigrationWorkflowStatusEnum? = nil, templateId: String? = nil) {
+        public init(adsApplicationConfigurationName: String? = nil, maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil, status: MigrationWorkflowStatusEnum? = nil, templateId: String? = nil) {
             self.adsApplicationConfigurationName = adsApplicationConfigurationName
             self.maxResults = maxResults
             self.name = name
@@ -1324,11 +1324,11 @@ extension MigrationHubOrchestrator {
         ]
 
         /// The maximum number of plugins that can be returned.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// The pagination token.
         public let nextToken: String?
 
-        public init(maxResults: Int = 0, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -1400,13 +1400,13 @@ extension MigrationHubOrchestrator {
         ]
 
         /// The maximum number of results that can be returned.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// The pagination token.
         public let nextToken: String?
         /// The ID of the template.
         public let templateId: String
 
-        public init(maxResults: Int = 0, nextToken: String? = nil, templateId: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, templateId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.templateId = templateId
@@ -1451,7 +1451,7 @@ extension MigrationHubOrchestrator {
         ]
 
         /// The maximum number of results that can be returned.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// The pagination token.
         public let nextToken: String?
         /// The ID of the step group.
@@ -1459,7 +1459,7 @@ extension MigrationHubOrchestrator {
         /// The ID of the template.
         public let templateId: String
 
-        public init(maxResults: Int = 0, nextToken: String? = nil, stepGroupId: String, templateId: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, stepGroupId: String, templateId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.stepGroupId = stepGroupId
@@ -1507,13 +1507,13 @@ extension MigrationHubOrchestrator {
         ]
 
         /// The maximum number of results that can be returned.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// The pagination token.
         public let nextToken: String?
         /// The ID of the migration workflow.
         public let workflowId: String
 
-        public init(maxResults: Int = 0, nextToken: String? = nil, workflowId: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, workflowId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.workflowId = workflowId
@@ -1558,7 +1558,7 @@ extension MigrationHubOrchestrator {
         ]
 
         /// The maximum number of results that can be returned.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// The pagination token.
         public let nextToken: String?
         /// The ID of the step group.
@@ -1566,7 +1566,7 @@ extension MigrationHubOrchestrator {
         /// The ID of the migration workflow.
         public let workflowId: String
 
-        public init(maxResults: Int = 0, nextToken: String? = nil, stepGroupId: String, workflowId: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, stepGroupId: String, workflowId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.stepGroupId = stepGroupId

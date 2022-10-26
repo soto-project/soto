@@ -1290,7 +1290,7 @@ extension Evidently {
         /// The names of the experiment metrics that you want to see the results of.
         public let metricNames: [String]
         /// In seconds, the amount of time to aggregate results together.
-        public let period: Int64
+        public let period: Int64?
         /// The name or ARN of the project that contains the experiment that you want to see the results of.
         public let project: String
         /// The names of the report types that you want to see. Currently, BayesianInference is the only valid value.
@@ -1302,7 +1302,7 @@ extension Evidently {
         /// The names of the experiment treatments that you want to see the results for.
         public let treatmentNames: [String]
 
-        public init(baseStat: ExperimentBaseStat? = nil, endTime: Date? = nil, experiment: String, metricNames: [String], period: Int64 = 0, project: String, reportNames: [ExperimentReportName]? = nil, resultStats: [ExperimentResultRequestType]? = nil, startTime: Date? = nil, treatmentNames: [String]) {
+        public init(baseStat: ExperimentBaseStat? = nil, endTime: Date? = nil, experiment: String, metricNames: [String], period: Int64? = nil, project: String, reportNames: [ExperimentReportName]? = nil, resultStats: [ExperimentResultRequestType]? = nil, startTime: Date? = nil, treatmentNames: [String]) {
             self.baseStat = baseStat
             self.endTime = endTime
             self.experiment = experiment
@@ -3079,7 +3079,7 @@ extension Evidently {
         /// When Evidently assigns a particular user session to an experiment, it must use a randomization ID to determine which variation the user session is served. This randomization ID is a combination of the entity ID and randomizationSalt. If you omit randomizationSalt, Evidently uses the experiment name as the randomizationSalt.
         public let randomizationSalt: String?
         /// Removes a segment from being used in an experiment. You can't use this parameter if the experiment is currently running.
-        public let removeSegment: Bool
+        public let removeSegment: Bool?
         /// The portion of the available audience that you want to allocate to this experiment, in thousandths of a percent. The available audience is the total audience minus the audience that you have allocated to overrides or current launches of this feature. This is represented in thousandths of a percent. For example, specify 20,000 to allocate 20% of the available audience.
         public let samplingRate: Int64?
         /// Adds an audience segment to an experiment. When a segment is used in an experiment, only user sessions that match the segment pattern are used in the experiment. You can't use this parameter if the  experiment is currently running.
@@ -3087,7 +3087,7 @@ extension Evidently {
         /// An array of structures that define the variations being tested in the experiment.
         public let treatments: [TreatmentConfig]?
 
-        public init(description: String? = nil, experiment: String, metricGoals: [MetricGoalConfig]? = nil, onlineAbConfig: OnlineAbConfig? = nil, project: String, randomizationSalt: String? = nil, removeSegment: Bool = false, samplingRate: Int64? = nil, segment: String? = nil, treatments: [TreatmentConfig]? = nil) {
+        public init(description: String? = nil, experiment: String, metricGoals: [MetricGoalConfig]? = nil, onlineAbConfig: OnlineAbConfig? = nil, project: String, randomizationSalt: String? = nil, removeSegment: Bool? = nil, samplingRate: Int64? = nil, segment: String? = nil, treatments: [TreatmentConfig]? = nil) {
             self.description = description
             self.experiment = experiment
             self.metricGoals = metricGoals

@@ -842,11 +842,11 @@ extension Connect {
 
     public struct AnswerMachineDetectionConfig: AWSEncodableShape {
         /// Wait for the answering machine prompt.
-        public let awaitAnswerMachinePrompt: Bool
+        public let awaitAnswerMachinePrompt: Bool?
         /// The flag to indicate if answer machine detection analysis needs to be performed for a voice call. If set to true, TrafficType must be set as CAMPAIGN.
-        public let enableAnswerMachineDetection: Bool
+        public let enableAnswerMachineDetection: Bool?
 
-        public init(awaitAnswerMachinePrompt: Bool = false, enableAnswerMachineDetection: Bool = false) {
+        public init(awaitAnswerMachinePrompt: Bool? = nil, enableAnswerMachineDetection: Bool? = nil) {
             self.awaitAnswerMachinePrompt = awaitAnswerMachinePrompt
             self.enableAnswerMachineDetection = enableAnswerMachineDetection
         }
@@ -5613,12 +5613,12 @@ extension Connect {
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page. The default MaxResult size is 100.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
-        public init(contactFlowTypes: [ContactFlowType]? = nil, instanceId: String, maxResults: Int = 0, nextToken: String? = nil) {
+        public init(contactFlowTypes: [ContactFlowType]? = nil, instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.contactFlowTypes = contactFlowTypes
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -5717,12 +5717,12 @@ extension Connect {
         /// What is Amazon Transcribe?
         public let languageCode: VocabularyLanguageCode?
         /// The maximum number of results to return per page.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
-        public init(instanceId: String, languageCode: VocabularyLanguageCode? = nil, maxResults: Int = 0, nextToken: String? = nil) {
+        public init(instanceId: String, languageCode: VocabularyLanguageCode? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.instanceId = instanceId
             self.languageCode = languageCode
             self.maxResults = maxResults
@@ -5773,12 +5773,12 @@ extension Connect {
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page. The default MaxResult size is 100.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
-        public init(instanceId: String, maxResults: Int = 0, nextToken: String? = nil) {
+        public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -6113,7 +6113,7 @@ extension Connect {
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page. The default MaxResult size is 100.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
@@ -6122,7 +6122,7 @@ extension Connect {
         /// The type of phone number.
         public let phoneNumberTypes: [PhoneNumberType]?
 
-        public init(instanceId: String, maxResults: Int = 0, nextToken: String? = nil, phoneNumberCountryCodes: [PhoneNumberCountryCode]? = nil, phoneNumberTypes: [PhoneNumberType]? = nil) {
+        public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, phoneNumberCountryCodes: [PhoneNumberCountryCode]? = nil, phoneNumberTypes: [PhoneNumberType]? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -6363,14 +6363,14 @@ extension Connect {
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page. The default MaxResult size is 100.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
         /// The type of queue.
         public let queueTypes: [QueueType]?
 
-        public init(instanceId: String, maxResults: Int = 0, nextToken: String? = nil, queueTypes: [QueueType]? = nil) {
+        public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, queueTypes: [QueueType]? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -6804,12 +6804,12 @@ extension Connect {
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String?
         /// The maximum number of results to return per page.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
-        public init(instanceId: String? = nil, maxResults: Int = 0, nextToken: String? = nil) {
+        public init(instanceId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -7665,13 +7665,13 @@ extension Connect {
 
     public struct RoutingProfileQueueConfig: AWSEncodableShape {
         /// The delay, in seconds, a contact should be in the queue before they are routed to an available agent. For more information, see Queues: priority and delay in the Amazon Connect Administrator Guide.
-        public let delay: Int?
+        public let delay: Int
         /// The order in which contacts are to be handled for the queue. For more information, see Queues: priority and delay.
-        public let priority: Int?
+        public let priority: Int
         /// Contains information about a queue resource.
         public let queueReference: RoutingProfileQueueReference
 
-        public init(delay: Int? = nil, priority: Int? = nil, queueReference: RoutingProfileQueueReference) {
+        public init(delay: Int, priority: Int, queueReference: RoutingProfileQueueReference) {
             self.delay = delay
             self.priority = priority
             self.queueReference = queueReference
@@ -8149,7 +8149,7 @@ extension Connect {
         /// What is Amazon Transcribe?
         public let languageCode: VocabularyLanguageCode?
         /// The maximum number of results to return per page.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// The starting pattern of the name of the vocabulary.
         public let nameStartsWith: String?
         /// The token for the next set of results. Use the value returned in the previous
@@ -8158,7 +8158,7 @@ extension Connect {
         /// The current state of the custom vocabulary.
         public let state: VocabularyState?
 
-        public init(instanceId: String, languageCode: VocabularyLanguageCode? = nil, maxResults: Int = 0, nameStartsWith: String? = nil, nextToken: String? = nil, state: VocabularyState? = nil) {
+        public init(instanceId: String, languageCode: VocabularyLanguageCode? = nil, maxResults: Int? = nil, nameStartsWith: String? = nil, nextToken: String? = nil, state: VocabularyState? = nil) {
             self.instanceId = instanceId
             self.languageCode = languageCode
             self.maxResults = maxResults
@@ -9275,11 +9275,11 @@ extension Connect {
         /// The name of the agent status.
         public let name: String?
         /// A number indicating the reset order of the agent status.
-        public let resetOrderNumber: Bool
+        public let resetOrderNumber: Bool?
         /// The state of the agent status.
         public let state: AgentStatusState?
 
-        public init(agentStatusId: String, description: String? = nil, displayOrder: Int? = nil, instanceId: String, name: String? = nil, resetOrderNumber: Bool = false, state: AgentStatusState? = nil) {
+        public init(agentStatusId: String, description: String? = nil, displayOrder: Int? = nil, instanceId: String, name: String? = nil, resetOrderNumber: Bool? = nil, state: AgentStatusState? = nil) {
             self.agentStatusId = agentStatusId
             self.description = description
             self.displayOrder = displayOrder
