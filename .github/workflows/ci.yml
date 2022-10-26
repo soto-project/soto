@@ -53,5 +53,6 @@ jobs:
       run: |
         echo AWS_TEST_RESOURCE_PREFIX=$(cat /dev/urandom | tr -dc 'a-z' | head -c 8) >> $GITHUB_ENV
     - name: Test
+      # Cannot run in parallel as APIGateway tests fail occasionally
       run: |
-        swift test --enable-test-discovery --parallel
+        swift test --enable-test-discovery
