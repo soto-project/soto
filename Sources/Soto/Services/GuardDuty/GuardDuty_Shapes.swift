@@ -108,8 +108,8 @@ extension GuardDuty {
         case activating = "ACTIVATING"
         case active = "ACTIVE"
         case deactivating = "DEACTIVATING"
-        case deleted = "DELETED"
         case deletePending = "DELETE_PENDING"
+        case deleted = "DELETED"
         case error = "ERROR"
         case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
@@ -161,8 +161,8 @@ extension GuardDuty {
         case activating = "ACTIVATING"
         case active = "ACTIVE"
         case deactivating = "DEACTIVATING"
-        case deleted = "DELETED"
         case deletePending = "DELETE_PENDING"
+        case deleted = "DELETED"
         case error = "ERROR"
         case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
@@ -722,7 +722,7 @@ extension GuardDuty {
         /// The tags to be added to a new detector resource.
         public let tags: [String: String]?
 
-        public init(clientToken: String? = CreateDetectorRequest.idempotencyToken(), dataSources: DataSourceConfigurations? = nil, enable: Bool, findingPublishingFrequency: FindingPublishingFrequency? = nil, tags: [String: String]? = nil) {
+        public init(clientToken: String? = CreateDetectorRequest.idempotencyToken(), dataSources: DataSourceConfigurations? = nil, enable: Bool = false, findingPublishingFrequency: FindingPublishingFrequency? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.dataSources = dataSources
             self.enable = enable
@@ -754,13 +754,17 @@ extension GuardDuty {
     public struct CreateDetectorResponse: AWSDecodableShape {
         /// The unique ID of the created detector.
         public let detectorId: String?
+        /// Specifies the data sources that couldn't be enabled when GuardDuty was enabled for the  first time.
+        public let unprocessedDataSources: UnprocessedDataSourcesResult?
 
-        public init(detectorId: String? = nil) {
+        public init(detectorId: String? = nil, unprocessedDataSources: UnprocessedDataSourcesResult? = nil) {
             self.detectorId = detectorId
+            self.unprocessedDataSources = unprocessedDataSources
         }
 
         private enum CodingKeys: String, CodingKey {
             case detectorId
+            case unprocessedDataSources
         }
     }
 
@@ -782,11 +786,11 @@ extension GuardDuty {
         /// The name of the filter. Minimum length of 3. Maximum length of 64. Valid characters include alphanumeric characters, dot (.), underscore (_), and dash (-). Spaces are not allowed.
         public let name: String
         /// Specifies the position of the filter in the list of current filters. Also specifies the order in which this filter is applied to the findings.
-        public let rank: Int?
+        public let rank: Int
         /// The tags to be added to a new filter resource.
         public let tags: [String: String]?
 
-        public init(action: FilterAction? = nil, clientToken: String? = CreateFilterRequest.idempotencyToken(), description: String? = nil, detectorId: String, findingCriteria: FindingCriteria, name: String, rank: Int? = nil, tags: [String: String]? = nil) {
+        public init(action: FilterAction? = nil, clientToken: String? = CreateFilterRequest.idempotencyToken(), description: String? = nil, detectorId: String, findingCriteria: FindingCriteria, name: String, rank: Int = 0, tags: [String: String]? = nil) {
             self.action = action
             self.clientToken = clientToken
             self.description = description
@@ -860,7 +864,7 @@ extension GuardDuty {
         /// The tags to be added to a new IP set resource.
         public let tags: [String: String]?
 
-        public init(activate: Bool, clientToken: String? = CreateIPSetRequest.idempotencyToken(), detectorId: String, format: IpSetFormat, location: String, name: String, tags: [String: String]? = nil) {
+        public init(activate: Bool = false, clientToken: String? = CreateIPSetRequest.idempotencyToken(), detectorId: String, format: IpSetFormat, location: String, name: String, tags: [String: String]? = nil) {
             self.activate = activate
             self.clientToken = clientToken
             self.detectorId = detectorId
@@ -1055,7 +1059,7 @@ extension GuardDuty {
         /// The tags to be added to a new threat list resource.
         public let tags: [String: String]?
 
-        public init(activate: Bool, clientToken: String? = CreateThreatIntelSetRequest.idempotencyToken(), detectorId: String, format: ThreatIntelSetFormat, location: String, name: String, tags: [String: String]? = nil) {
+        public init(activate: Bool = false, clientToken: String? = CreateThreatIntelSetRequest.idempotencyToken(), detectorId: String, format: ThreatIntelSetFormat, location: String, name: String, tags: [String: String]? = nil) {
             self.activate = activate
             self.clientToken = clientToken
             self.detectorId = detectorId
@@ -1187,7 +1191,7 @@ extension GuardDuty {
     }
 
     public struct DataSourcesFreeTrial: AWSDecodableShape {
-        /// Describes whether any AWS CloudTrail management event logs are enabled as data sources.
+        /// Describes whether any Amazon Web Services CloudTrail management event logs are enabled as data sources.
         public let cloudTrail: DataSourceFreeTrial?
         /// Describes whether any DNS logs are enabled as data sources.
         public let dnsLogs: DataSourceFreeTrial?
@@ -1496,13 +1500,13 @@ extension GuardDuty {
         /// Represents the criteria to be used in the filter for describing scan entries.
         public let filterCriteria: FilterCriteria?
         /// You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 50. The maximum value is 50.
-        public let maxResults: Int?
+        public let maxResults: Int
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
         /// Represents the criteria used for sorting scan entries.
         public let sortCriteria: SortCriteria?
 
-        public init(detectorId: String, filterCriteria: FilterCriteria? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortCriteria: SortCriteria? = nil) {
+        public init(detectorId: String, filterCriteria: FilterCriteria? = nil, maxResults: Int = 0, nextToken: String? = nil, sortCriteria: SortCriteria? = nil) {
             self.detectorId = detectorId
             self.filterCriteria = filterCriteria
             self.maxResults = maxResults
@@ -1869,14 +1873,18 @@ extension GuardDuty {
     }
 
     public struct EbsVolumesResult: AWSDecodableShape {
+        /// Specifies the reason why scanning EBS volumes (Malware Protection) was not enabled as a data source.
+        public let reason: String?
         /// Describes whether scanning EBS volumes is enabled as a data source.
         public let status: DataSourceStatus?
 
-        public init(status: DataSourceStatus? = nil) {
+        public init(reason: String? = nil, status: DataSourceStatus? = nil) {
+            self.reason = reason
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
+            case reason
             case status
         }
     }
@@ -2038,11 +2046,11 @@ extension GuardDuty {
         /// Represents an equal condition to be applied to a single field when querying for scan entries.
         public let equalsValue: String?
         /// Represents a greater than condition to be applied to a single field when querying for scan entries.
-        public let greaterThan: Int64?
+        public let greaterThan: Int64
         /// Represents a less than condition to be applied to a single field when querying for scan entries.
-        public let lessThan: Int64?
+        public let lessThan: Int64
 
-        public init(equalsValue: String? = nil, greaterThan: Int64? = nil, lessThan: Int64? = nil) {
+        public init(equalsValue: String? = nil, greaterThan: Int64 = 0, lessThan: Int64 = 0) {
             self.equalsValue = equalsValue
             self.greaterThan = greaterThan
             self.lessThan = lessThan
@@ -2552,7 +2560,7 @@ extension GuardDuty {
     }
 
     public struct GetMalwareScanSettingsResponse: AWSDecodableShape {
-        /// An enum value representing possible snapshot preservations.
+        /// An enum value representing possible snapshot preservation settings.
         public let ebsSnapshotPreservation: EbsSnapshotPreservation?
         /// Represents the criteria to be used in the filter for scanning resources.
         public let scanResourceCriteria: ScanResourceCriteria?
@@ -2806,7 +2814,7 @@ extension GuardDuty {
         /// The ID of the detector that specifies the GuardDuty service whose usage statistics you want to retrieve.
         public let detectorId: String
         /// The maximum number of results to return in the response.
-        public let maxResults: Int?
+        public let maxResults: Int
         /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
         public let nextToken: String?
         /// The currency unit you would like to view your usage statistics in. Current valid values are USD.
@@ -2816,7 +2824,7 @@ extension GuardDuty {
         /// The type of usage statistics to retrieve.
         public let usageStatisticType: UsageStatisticType
 
-        public init(detectorId: String, maxResults: Int? = nil, nextToken: String? = nil, unit: String? = nil, usageCriteria: UsageCriteria, usageStatisticType: UsageStatisticType) {
+        public init(detectorId: String, maxResults: Int = 0, nextToken: String? = nil, unit: String? = nil, usageCriteria: UsageCriteria, usageStatisticType: UsageStatisticType) {
             self.detectorId = detectorId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3006,11 +3014,11 @@ extension GuardDuty {
         /// The unique ID of the detector of the GuardDuty account that you want to invite members with.
         public let detectorId: String
         /// A Boolean value that specifies whether you want to disable email notification to the accounts that you are inviting to GuardDuty as members.
-        public let disableEmailNotification: Bool?
+        public let disableEmailNotification: Bool
         /// The invitation message that you want to send to the accounts that you're inviting to GuardDuty as members.
         public let message: String?
 
-        public init(accountIds: [String], detectorId: String, disableEmailNotification: Bool? = nil, message: String? = nil) {
+        public init(accountIds: [String], detectorId: String, disableEmailNotification: Bool = false, message: String? = nil) {
             self.accountIds = accountIds
             self.detectorId = detectorId
             self.disableEmailNotification = disableEmailNotification
@@ -3088,7 +3096,7 @@ extension GuardDuty {
         /// The status of Kubernetes audit logs as a data source.
         public let enable: Bool
 
-        public init(enable: Bool) {
+        public init(enable: Bool = false) {
             self.enable = enable
         }
 
@@ -3231,11 +3239,11 @@ extension GuardDuty {
         ]
 
         /// You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 50. The maximum value is 50.
-        public let maxResults: Int?
+        public let maxResults: Int
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int = 0, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -3275,11 +3283,11 @@ extension GuardDuty {
         /// The unique ID of the detector that the filter is associated with.
         public let detectorId: String
         /// You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 50. The maximum value is 50.
-        public let maxResults: Int?
+        public let maxResults: Int
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
 
-        public init(detectorId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(detectorId: String, maxResults: Int = 0, nextToken: String? = nil) {
             self.detectorId = detectorId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3322,13 +3330,13 @@ extension GuardDuty {
         /// Represents the criteria used for querying findings. Valid values include:   JSON field name   accountId   region   confidence   id   resource.accessKeyDetails.accessKeyId   resource.accessKeyDetails.principalId   resource.accessKeyDetails.userName   resource.accessKeyDetails.userType   resource.instanceDetails.iamInstanceProfile.id   resource.instanceDetails.imageId   resource.instanceDetails.instanceId   resource.instanceDetails.networkInterfaces.ipv6Addresses   resource.instanceDetails.networkInterfaces.privateIpAddresses.privateIpAddress   resource.instanceDetails.networkInterfaces.publicDnsName   resource.instanceDetails.networkInterfaces.publicIp   resource.instanceDetails.networkInterfaces.securityGroups.groupId   resource.instanceDetails.networkInterfaces.securityGroups.groupName   resource.instanceDetails.networkInterfaces.subnetId   resource.instanceDetails.networkInterfaces.vpcId   resource.instanceDetails.tags.key   resource.instanceDetails.tags.value   resource.resourceType   service.action.actionType   service.action.awsApiCallAction.api   service.action.awsApiCallAction.callerType   service.action.awsApiCallAction.remoteIpDetails.city.cityName   service.action.awsApiCallAction.remoteIpDetails.country.countryName   service.action.awsApiCallAction.remoteIpDetails.ipAddressV4   service.action.awsApiCallAction.remoteIpDetails.organization.asn   service.action.awsApiCallAction.remoteIpDetails.organization.asnOrg   service.action.awsApiCallAction.serviceName   service.action.dnsRequestAction.domain   service.action.networkConnectionAction.blocked   service.action.networkConnectionAction.connectionDirection   service.action.networkConnectionAction.localPortDetails.port   service.action.networkConnectionAction.protocol   service.action.networkConnectionAction.remoteIpDetails.country.countryName   service.action.networkConnectionAction.remoteIpDetails.ipAddressV4   service.action.networkConnectionAction.remoteIpDetails.organization.asn   service.action.networkConnectionAction.remoteIpDetails.organization.asnOrg   service.action.networkConnectionAction.remotePortDetails.port   service.additionalInfo.threatListName   service.archived When this attribute is set to 'true', only archived findings are listed. When it's set to 'false', only unarchived findings are listed. When this attribute is not set, all existing findings are listed.   service.resourceRole   severity   type   updatedAt Type: Timestamp in Unix Epoch millisecond format: 1486685375000
         public let findingCriteria: FindingCriteria?
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50. The maximum value is 50.
-        public let maxResults: Int?
+        public let maxResults: Int
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
         /// Represents the criteria used for sorting findings.
         public let sortCriteria: SortCriteria?
 
-        public init(detectorId: String, findingCriteria: FindingCriteria? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortCriteria: SortCriteria? = nil) {
+        public init(detectorId: String, findingCriteria: FindingCriteria? = nil, maxResults: Int = 0, nextToken: String? = nil, sortCriteria: SortCriteria? = nil) {
             self.detectorId = detectorId
             self.findingCriteria = findingCriteria
             self.maxResults = maxResults
@@ -3378,11 +3386,11 @@ extension GuardDuty {
         /// The unique ID of the detector that the IPSet is associated with.
         public let detectorId: String
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50. The maximum value is 50.
-        public let maxResults: Int?
+        public let maxResults: Int
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
 
-        public init(detectorId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(detectorId: String, maxResults: Int = 0, nextToken: String? = nil) {
             self.detectorId = detectorId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3422,11 +3430,11 @@ extension GuardDuty {
         ]
 
         /// You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 50. The maximum value is 50.
-        public let maxResults: Int?
+        public let maxResults: Int
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int = 0, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -3467,13 +3475,13 @@ extension GuardDuty {
         /// The unique ID of the detector the member is associated with.
         public let detectorId: String
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50. The maximum value is 50.
-        public let maxResults: Int?
+        public let maxResults: Int
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
-        /// Specifies whether to only return associated members or to return all members (including members who haven't been invited yet or have been disassociated).
+        /// Specifies whether to only return associated members or to return all members (including members who haven't been invited yet or have been disassociated). Member accounts must have been previously associated with the GuardDuty administrator account using  Create Members .
         public let onlyAssociated: String?
 
-        public init(detectorId: String, maxResults: Int? = nil, nextToken: String? = nil, onlyAssociated: String? = nil) {
+        public init(detectorId: String, maxResults: Int = 0, nextToken: String? = nil, onlyAssociated: String? = nil) {
             self.detectorId = detectorId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3514,11 +3522,11 @@ extension GuardDuty {
         ]
 
         /// The maximum number of results to return in the response.
-        public let maxResults: Int?
+        public let maxResults: Int
         /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
         public let nextToken: String?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int = 0, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -3558,11 +3566,11 @@ extension GuardDuty {
         /// The ID of the detector to retrieve publishing destinations for.
         public let detectorId: String
         /// The maximum number of results to return in the response.
-        public let maxResults: Int?
+        public let maxResults: Int
         /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
         public let nextToken: String?
 
-        public init(detectorId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(detectorId: String, maxResults: Int = 0, nextToken: String? = nil) {
             self.detectorId = detectorId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3637,11 +3645,11 @@ extension GuardDuty {
         /// The unique ID of the detector that the threatIntelSet is associated with.
         public let detectorId: String
         /// You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 50. The maximum value is 50.
-        public let maxResults: Int?
+        public let maxResults: Int
         /// You can use this parameter to paginate results in the response. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
 
-        public init(detectorId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(detectorId: String, maxResults: Int = 0, nextToken: String? = nil) {
             self.detectorId = detectorId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3985,9 +3993,9 @@ extension GuardDuty {
 
     public struct OrganizationEbsVolumes: AWSEncodableShape {
         /// Whether scanning EBS volumes should be auto-enabled for new members joining the organization.
-        public let autoEnable: Bool?
+        public let autoEnable: Bool
 
-        public init(autoEnable: Bool? = nil) {
+        public init(autoEnable: Bool = false) {
             self.autoEnable = autoEnable
         }
 
@@ -4013,7 +4021,7 @@ extension GuardDuty {
         /// A value that contains information on whether Kubernetes audit logs should be enabled automatically as a data source for the organization.
         public let autoEnable: Bool
 
-        public init(autoEnable: Bool) {
+        public init(autoEnable: Bool = false) {
             self.autoEnable = autoEnable
         }
 
@@ -4091,7 +4099,7 @@ extension GuardDuty {
         /// A value that contains information on whether S3 data event logs will be enabled automatically as a data source for the organization.
         public let autoEnable: Bool
 
-        public init(autoEnable: Bool) {
+        public init(autoEnable: Bool = false) {
             self.autoEnable = autoEnable
         }
 
@@ -4423,7 +4431,7 @@ extension GuardDuty {
         ///  The status of S3 data event logs as a data source.
         public let enable: Bool
 
-        public init(enable: Bool) {
+        public init(enable: Bool = false) {
             self.enable = enable
         }
 
@@ -4580,9 +4588,9 @@ extension GuardDuty {
 
     public struct ScanEc2InstanceWithFindings: AWSEncodableShape {
         /// Describes the configuration for scanning EBS volumes as data source.
-        public let ebsVolumes: Bool?
+        public let ebsVolumes: Bool
 
-        public init(ebsVolumes: Bool? = nil) {
+        public init(ebsVolumes: Bool = false) {
             self.ebsVolumes = ebsVolumes
         }
 
@@ -5120,6 +5128,18 @@ extension GuardDuty {
         }
     }
 
+    public struct UnprocessedDataSourcesResult: AWSDecodableShape {
+        public let malwareProtection: MalwareProtectionConfigurationResult?
+
+        public init(malwareProtection: MalwareProtectionConfigurationResult? = nil) {
+            self.malwareProtection = malwareProtection
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case malwareProtection
+        }
+    }
+
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
@@ -5164,11 +5184,11 @@ extension GuardDuty {
         /// The unique ID of the detector to update.
         public let detectorId: String
         /// Specifies whether the detector is enabled or not enabled.
-        public let enable: Bool?
+        public let enable: Bool
         /// An enum value that specifies how frequently findings are exported, such as to CloudWatch Events.
         public let findingPublishingFrequency: FindingPublishingFrequency?
 
-        public init(dataSources: DataSourceConfigurations? = nil, detectorId: String, enable: Bool? = nil, findingPublishingFrequency: FindingPublishingFrequency? = nil) {
+        public init(dataSources: DataSourceConfigurations? = nil, detectorId: String, enable: Bool = false, findingPublishingFrequency: FindingPublishingFrequency? = nil) {
             self.dataSources = dataSources
             self.detectorId = detectorId
             self.enable = enable
@@ -5208,9 +5228,9 @@ extension GuardDuty {
         /// Represents the criteria to be used in the filter for querying findings.
         public let findingCriteria: FindingCriteria?
         /// Specifies the position of the filter in the list of current filters. Also specifies the order in which this filter is applied to the findings.
-        public let rank: Int?
+        public let rank: Int
 
-        public init(action: FilterAction? = nil, description: String? = nil, detectorId: String, filterName: String, findingCriteria: FindingCriteria? = nil, rank: Int? = nil) {
+        public init(action: FilterAction? = nil, description: String? = nil, detectorId: String, filterName: String, findingCriteria: FindingCriteria? = nil, rank: Int = 0) {
             self.action = action
             self.description = description
             self.detectorId = detectorId
@@ -5297,7 +5317,7 @@ extension GuardDuty {
         ]
 
         /// The updated Boolean value that specifies whether the IPSet is active or not.
-        public let activate: Bool?
+        public let activate: Bool
         /// The detectorID that specifies the GuardDuty service whose IPSet you want to update.
         public let detectorId: String
         /// The unique ID that specifies the IPSet that you want to update.
@@ -5307,7 +5327,7 @@ extension GuardDuty {
         /// The unique ID that specifies the IPSet that you want to update.
         public let name: String?
 
-        public init(activate: Bool? = nil, detectorId: String, ipSetId: String, location: String? = nil, name: String? = nil) {
+        public init(activate: Bool = false, detectorId: String, ipSetId: String, location: String? = nil, name: String? = nil) {
             self.activate = activate
             self.detectorId = detectorId
             self.ipSetId = ipSetId
@@ -5342,7 +5362,7 @@ extension GuardDuty {
 
         /// The unique ID of the detector that specifies the GuardDuty service where you want to update scan settings.
         public let detectorId: String
-        /// An enum value representing possible snapshot preservations.
+        /// An enum value representing possible snapshot preservation settings.
         public let ebsSnapshotPreservation: EbsSnapshotPreservation?
         /// Represents the criteria to be used in the filter for selecting resources to scan.
         public let scanResourceCriteria: ScanResourceCriteria?
@@ -5429,7 +5449,7 @@ extension GuardDuty {
         /// The ID of the detector to update the delegated administrator for.
         public let detectorId: String
 
-        public init(autoEnable: Bool, dataSources: OrganizationDataSourceConfigurations? = nil, detectorId: String) {
+        public init(autoEnable: Bool = false, dataSources: OrganizationDataSourceConfigurations? = nil, detectorId: String) {
             self.autoEnable = autoEnable
             self.dataSources = dataSources
             self.detectorId = detectorId
@@ -5490,7 +5510,7 @@ extension GuardDuty {
         ]
 
         /// The updated Boolean value that specifies whether the ThreateIntelSet is active or not.
-        public let activate: Bool?
+        public let activate: Bool
         /// The detectorID that specifies the GuardDuty service whose ThreatIntelSet you want to update.
         public let detectorId: String
         /// The updated URI of the file that contains the ThreateIntelSet.
@@ -5500,7 +5520,7 @@ extension GuardDuty {
         /// The unique ID that specifies the ThreatIntelSet that you want to update.
         public let threatIntelSetId: String
 
-        public init(activate: Bool? = nil, detectorId: String, location: String? = nil, name: String? = nil, threatIntelSetId: String) {
+        public init(activate: Bool = false, detectorId: String, location: String? = nil, name: String? = nil, threatIntelSetId: String) {
             self.activate = activate
             self.detectorId = detectorId
             self.location = location

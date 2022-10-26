@@ -53,20 +53,20 @@ extension Appflow {
 
     public enum ConnectorType: String, CustomStringConvertible, Codable, _SotoSendable {
         case amplitude = "Amplitude"
-        case customConnector = "CustomConnector"
-        case customerProfiles = "CustomerProfiles"
+        case customconnector = "CustomConnector"
+        case customerprofiles = "CustomerProfiles"
         case datadog = "Datadog"
         case dynatrace = "Dynatrace"
-        case eventBridge = "EventBridge"
+        case eventbridge = "EventBridge"
         case googleanalytics = "Googleanalytics"
         case honeycode = "Honeycode"
         case infornexus = "Infornexus"
-        case lookoutMetrics = "LookoutMetrics"
+        case lookoutmetrics = "LookoutMetrics"
         case marketo = "Marketo"
         case redshift = "Redshift"
         case s3 = "S3"
-        case sapoData = "SAPOData"
         case salesforce = "Salesforce"
+        case sapodata = "SAPOData"
         case servicenow = "Servicenow"
         case singular = "Singular"
         case slack = "Slack"
@@ -124,7 +124,7 @@ extension Appflow {
 
     public enum ExecutionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
         case error = "Error"
-        case inProgress = "InProgress"
+        case inprogress = "InProgress"
         case successful = "Successful"
         public var description: String { return self.rawValue }
     }
@@ -217,8 +217,8 @@ extension Appflow {
         case maskFirstN = "MASK_FIRST_N"
         case maskLastN = "MASK_LAST_N"
         case multiplication = "MULTIPLICATION"
-        case notEqualTo = "NOT_EQUAL_TO"
         case noOp = "NO_OP"
+        case notEqualTo = "NOT_EQUAL_TO"
         case projection = "PROJECTION"
         case subtraction = "SUBTRACTION"
         case validateNonNegative = "VALIDATE_NON_NEGATIVE"
@@ -233,6 +233,7 @@ extension Appflow {
         case dataType = "DATA_TYPE"
         case destinationDataType = "DESTINATION_DATA_TYPE"
         case excludeSourceFieldsList = "EXCLUDE_SOURCE_FIELDS_LIST"
+        case includeNewFields = "INCLUDE_NEW_FIELDS"
         case lowerBound = "LOWER_BOUND"
         case maskLength = "MASK_LENGTH"
         case maskValue = "MASK_VALUE"
@@ -261,8 +262,8 @@ extension Appflow {
         case maskFirstN = "MASK_FIRST_N"
         case maskLastN = "MASK_LAST_N"
         case multiplication = "MULTIPLICATION"
-        case notEqualTo = "NOT_EQUAL_TO"
         case noOp = "NO_OP"
+        case notEqualTo = "NOT_EQUAL_TO"
         case projection = "PROJECTION"
         case subtraction = "SUBTRACTION"
         case validateNonNegative = "VALIDATE_NON_NEGATIVE"
@@ -317,8 +318,8 @@ extension Appflow {
         case maskFirstN = "MASK_FIRST_N"
         case maskLastN = "MASK_LAST_N"
         case multiplication = "MULTIPLICATION"
-        case notEqualTo = "NOT_EQUAL_TO"
         case noOp = "NO_OP"
+        case notEqualTo = "NOT_EQUAL_TO"
         case projection = "PROJECTION"
         case subtraction = "SUBTRACTION"
         case validateNonNegative = "VALIDATE_NON_NEGATIVE"
@@ -348,8 +349,8 @@ extension Appflow {
         case maskFirstN = "MASK_FIRST_N"
         case maskLastN = "MASK_LAST_N"
         case multiplication = "MULTIPLICATION"
-        case notEqualTo = "NOT_EQUAL_TO"
         case noOp = "NO_OP"
+        case notEqualTo = "NOT_EQUAL_TO"
         case projection = "PROJECTION"
         case subtraction = "SUBTRACTION"
         case validateNonNegative = "VALIDATE_NON_NEGATIVE"
@@ -373,14 +374,21 @@ extension Appflow {
         case maskFirstN = "MASK_FIRST_N"
         case maskLastN = "MASK_LAST_N"
         case multiplication = "MULTIPLICATION"
-        case notEqualTo = "NOT_EQUAL_TO"
         case noOp = "NO_OP"
+        case notEqualTo = "NOT_EQUAL_TO"
         case projection = "PROJECTION"
         case subtraction = "SUBTRACTION"
         case validateNonNegative = "VALIDATE_NON_NEGATIVE"
         case validateNonNull = "VALIDATE_NON_NULL"
         case validateNonZero = "VALIDATE_NON_ZERO"
         case validateNumeric = "VALIDATE_NUMERIC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SalesforceDataTransferApi: String, CustomStringConvertible, Codable, _SotoSendable {
+        case automatic = "AUTOMATIC"
+        case bulkv2 = "BULKV2"
+        case restSync = "REST_SYNC"
         public var description: String { return self.rawValue }
     }
 
@@ -408,8 +416,8 @@ extension Appflow {
         case maskFirstN = "MASK_FIRST_N"
         case maskLastN = "MASK_LAST_N"
         case multiplication = "MULTIPLICATION"
-        case notEqualTo = "NOT_EQUAL_TO"
         case noOp = "NO_OP"
+        case notEqualTo = "NOT_EQUAL_TO"
         case projection = "PROJECTION"
         case subtraction = "SUBTRACTION"
         case validateNonNegative = "VALIDATE_NON_NEGATIVE"
@@ -493,7 +501,7 @@ extension Appflow {
 
     public enum TriggerType: String, CustomStringConvertible, Codable, _SotoSendable {
         case event = "Event"
-        case onDemand = "OnDemand"
+        case ondemand = "OnDemand"
         case scheduled = "Scheduled"
         public var description: String { return self.rawValue }
     }
@@ -512,8 +520,8 @@ extension Appflow {
         case maskFirstN = "MASK_FIRST_N"
         case maskLastN = "MASK_LAST_N"
         case multiplication = "MULTIPLICATION"
-        case notEqualTo = "NOT_EQUAL_TO"
         case noOp = "NO_OP"
+        case notEqualTo = "NOT_EQUAL_TO"
         case projection = "PROJECTION"
         case subtraction = "SUBTRACTION"
         case validateNonNegative = "VALIDATE_NON_NEGATIVE"
@@ -1903,9 +1911,9 @@ extension Appflow {
         ///  The name of the connector profile. The name is unique for each ConnectorProfile in your account.
         public let connectorProfileName: String
         ///  Indicates whether Amazon AppFlow should delete the profile, even if it is currently in use in one or more flows.
-        public let forceDelete: Bool?
+        public let forceDelete: Bool
 
-        public init(connectorProfileName: String, forceDelete: Bool? = nil) {
+        public init(connectorProfileName: String, forceDelete: Bool = false) {
             self.connectorProfileName = connectorProfileName
             self.forceDelete = forceDelete
         }
@@ -1929,9 +1937,9 @@ extension Appflow {
         ///  The specified name of the flow. Spaces are not allowed. Use underscores (_) or hyphens (-) only.
         public let flowName: String
         ///  Indicates whether Amazon AppFlow should delete the flow, even if it is currently in use.
-        public let forceDelete: Bool?
+        public let forceDelete: Bool
 
-        public init(flowName: String, forceDelete: Bool? = nil) {
+        public init(flowName: String, forceDelete: Bool = false) {
             self.flowName = flowName
             self.forceDelete = forceDelete
         }
@@ -3966,6 +3974,8 @@ extension Appflow {
     }
 
     public struct SalesforceDestinationProperties: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies which Salesforce API is used by Amazon AppFlow when your flow transfers data to Salesforce.  AUTOMATIC  The default. Amazon AppFlow selects which API to use based on the number of records that your flow transfers to Salesforce. If your flow transfers fewer than 1,000 records, Amazon AppFlow uses Salesforce REST API. If your flow transfers 1,000 records or more, Amazon AppFlow uses Salesforce Bulk API 2.0. Each of these Salesforce APIs structures data differently. If Amazon AppFlow selects the API automatically, be aware that, for recurring flows, the data output might vary from one flow run to the next. For example, if a flow runs daily, it might use REST API on one day to transfer 900 records, and it might use Bulk API 2.0 on the next day to transfer 1,100 records. For each of these flow runs, the respective Salesforce API formats the data differently. Some of the differences include how dates are formatted and null values are represented. Also, Bulk API 2.0 doesn't transfer Salesforce compound fields. By choosing this option, you optimize flow performance for both small and large data transfers, but the tradeoff is inconsistent formatting in the output.  BULKV2  Amazon AppFlow uses only Salesforce Bulk API 2.0. This API runs asynchronous data transfers, and it's optimal for large sets of data. By choosing this option, you ensure that your flow writes consistent output, but you optimize performance only for large data transfers. Note that Bulk API 2.0 does not transfer Salesforce compound fields.  REST_SYNC  Amazon AppFlow uses only Salesforce REST API. By choosing this option, you ensure that your flow writes consistent output, but you decrease performance for large data transfers that are better suited for Bulk API 2.0. In some cases, if your flow attempts to transfer a vary large set of data, it might fail with a timed out error.
+        public let dataTransferApi: SalesforceDataTransferApi?
         ///  The settings that determine how Amazon AppFlow handles an error when placing data in the Salesforce destination. For example, this setting would determine if the flow should fail after one insertion error, or continue and attempt to insert every record regardless of the initial failure. ErrorHandlingConfig is a part of the destination connector details.
         public let errorHandlingConfig: ErrorHandlingConfig?
         ///  The name of the field that Amazon AppFlow uses as an ID when performing a write operation such as update or delete.
@@ -3975,7 +3985,8 @@ extension Appflow {
         ///  This specifies the type of write operation to be performed in Salesforce. When the value is UPSERT, then idFieldNames is required.
         public let writeOperationType: WriteOperationType?
 
-        public init(errorHandlingConfig: ErrorHandlingConfig? = nil, idFieldNames: [String]? = nil, object: String, writeOperationType: WriteOperationType? = nil) {
+        public init(dataTransferApi: SalesforceDataTransferApi? = nil, errorHandlingConfig: ErrorHandlingConfig? = nil, idFieldNames: [String]? = nil, object: String, writeOperationType: WriteOperationType? = nil) {
+            self.dataTransferApi = dataTransferApi
             self.errorHandlingConfig = errorHandlingConfig
             self.idFieldNames = idFieldNames
             self.object = object
@@ -3993,6 +4004,7 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dataTransferApi
             case errorHandlingConfig
             case idFieldNames
             case object
@@ -4001,19 +4013,25 @@ extension Appflow {
     }
 
     public struct SalesforceMetadata: AWSDecodableShape {
+        /// The Salesforce APIs that you can have Amazon AppFlow use when your flows transfers data to or from Salesforce.
+        public let dataTransferApis: [SalesforceDataTransferApi]?
         ///  The desired authorization scope for the Salesforce account.
         public let oAuthScopes: [String]?
 
-        public init(oAuthScopes: [String]? = nil) {
+        public init(dataTransferApis: [SalesforceDataTransferApi]? = nil, oAuthScopes: [String]? = nil) {
+            self.dataTransferApis = dataTransferApis
             self.oAuthScopes = oAuthScopes
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dataTransferApis
             case oAuthScopes
         }
     }
 
     public struct SalesforceSourceProperties: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies which Salesforce API is used by Amazon AppFlow when your flow transfers data from Salesforce.  AUTOMATIC  The default. Amazon AppFlow selects which API to use based on the number of records that your flow transfers from Salesforce. If your flow transfers fewer than 1,000,000 records, Amazon AppFlow uses Salesforce REST API. If your flow transfers 1,000,000 records or more, Amazon AppFlow uses Salesforce Bulk API 2.0. Each of these Salesforce APIs structures data differently. If Amazon AppFlow selects the API automatically, be aware that, for recurring flows, the data output might vary from one flow run to the next. For example, if a flow runs daily, it might use REST API on one day to transfer 900,000 records, and it might use Bulk API 2.0 on the next day to transfer 1,100,000 records. For each of these flow runs, the respective Salesforce API formats the data differently. Some of the differences include how dates are formatted and null values are represented. Also, Bulk API 2.0 doesn't transfer Salesforce compound fields. By choosing this option, you optimize flow performance for both small and large data transfers, but the tradeoff is inconsistent formatting in the output.  BULKV2  Amazon AppFlow uses only Salesforce Bulk API 2.0. This API runs asynchronous data transfers, and it's optimal for large sets of data. By choosing this option, you ensure that your flow writes consistent output, but you optimize performance only for large data transfers. Note that Bulk API 2.0 does not transfer Salesforce compound fields.  REST_SYNC  Amazon AppFlow uses only Salesforce REST API. By choosing this option, you ensure that your flow writes consistent output, but you decrease performance for large data transfers that are better suited for Bulk API 2.0. In some cases, if your flow attempts to transfer a vary large set of data, it might fail with a timed out error.
+        public let dataTransferApi: SalesforceDataTransferApi?
         ///  The flag that enables dynamic fetching of new (recently added) fields in the Salesforce objects while running a flow.
         public let enableDynamicFieldUpdate: Bool?
         ///  Indicates whether Amazon AppFlow includes deleted files in the flow run.
@@ -4021,7 +4039,8 @@ extension Appflow {
         ///  The object specified in the Salesforce flow source.
         public let object: String
 
-        public init(enableDynamicFieldUpdate: Bool? = nil, includeDeletedRecords: Bool? = nil, object: String) {
+        public init(dataTransferApi: SalesforceDataTransferApi? = nil, enableDynamicFieldUpdate: Bool? = nil, includeDeletedRecords: Bool? = nil, object: String) {
+            self.dataTransferApi = dataTransferApi
             self.enableDynamicFieldUpdate = enableDynamicFieldUpdate
             self.includeDeletedRecords = includeDeletedRecords
             self.object = object
@@ -4033,6 +4052,7 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dataTransferApi
             case enableDynamicFieldUpdate
             case includeDeletedRecords
             case object
@@ -4837,9 +4857,9 @@ extension Appflow {
         /// The label of the connector. The label is unique for each ConnectorRegistration in your Amazon Web Services account.
         public let connectorLabel: String
         /// Indicates whether Amazon AppFlow should unregister the connector, even if it is currently in use in one or more connector profiles. The default value is false.
-        public let forceDelete: Bool?
+        public let forceDelete: Bool
 
-        public init(connectorLabel: String, forceDelete: Bool? = nil) {
+        public init(connectorLabel: String, forceDelete: Bool = false) {
             self.connectorLabel = connectorLabel
             self.forceDelete = forceDelete
         }

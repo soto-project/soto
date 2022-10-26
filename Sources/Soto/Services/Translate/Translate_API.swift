@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS Translate service.
 ///
-/// Provides translation between one source language and another of the same set of languages.
+/// Provides language translation for input text in the source language to the specified target language.
 public struct Translate: AWSService {
     // MARK: Member variables
 
@@ -109,6 +109,7 @@ public struct Translate: AWSService {
         return self.client.execute(operation: "ListParallelData", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Lists all tags associated with a given Amazon Translate resource.  For more information, see  Tagging your resources.
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
         return self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -123,7 +124,7 @@ public struct Translate: AWSService {
         return self.client.execute(operation: "ListTextTranslationJobs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Starts an asynchronous batch translation job. Batch translation jobs can be used to translate large volumes of text across multiple documents at once. For more information, see async.
+    /// Starts an asynchronous batch translation job. Use batch translation jobs to translate large volumes of text across multiple documents at once.  For batch translation, the input documents must share the same source language. You can specify one  or more target languages. Batch translation translates each input document into each of the target languages. For more information, see Asynchronous batch processing
     ///  Batch translation jobs can be described with the DescribeTextTranslationJob operation, listed with the ListTextTranslationJobs operation, and stopped with the StopTextTranslationJob operation.  Amazon Translate does not support batch translation of multiple source languages at once.
     public func startTextTranslationJob(_ input: StartTextTranslationJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartTextTranslationJobResponse> {
         return self.client.execute(operation: "StartTextTranslationJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -134,15 +135,17 @@ public struct Translate: AWSService {
         return self.client.execute(operation: "StopTextTranslationJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Associates a specific tag with a resource. A tag is a key-value pair that adds as a metadata to a resource.   For more information, see  Tagging your resources.
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
         return self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Translates input text from the source language to the target language. For a list of available languages and language codes, see what-is-languages.
+    /// Translates input text from the source language to the target language. For a list of available languages and language codes, see Supported languages.
     public func translateText(_ input: TranslateTextRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TranslateTextResponse> {
         return self.client.execute(operation: "TranslateText", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Removes a specific tag associated with an Amazon Translate resource.  For more information, see  Tagging your resources.
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
         return self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

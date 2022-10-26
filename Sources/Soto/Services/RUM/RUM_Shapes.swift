@@ -21,6 +21,12 @@ import SotoCore
 extension RUM {
     // MARK: Enums
 
+    public enum MetricDestination: String, CustomStringConvertible, Codable, _SotoSendable {
+        case cloudWatch = "CloudWatch"
+        case evidently = "Evidently"
+        public var description: String { return self.rawValue }
+    }
+
     public enum StateEnum: String, CustomStringConvertible, Codable, _SotoSendable {
         case active = "ACTIVE"
         case created = "CREATED"
@@ -92,7 +98,7 @@ extension RUM {
         public let enableXRay: Bool?
         /// A list of URLs in your website or application to exclude from RUM data collection. You can't include both ExcludedPages and IncludedPages in the same operation.
         public let excludedPages: [String]?
-        /// A list of pages in the CloudWatch RUM console that are to be displayed with a "favorite" icon.
+        /// A list of pages in your application that are to be displayed with a "favorite" icon in the CloudWatch RUM console.
         public let favoritePages: [String]?
         /// The ARN of the guest IAM role that is attached to the Amazon Cognito identity pool  that is used to authorize the sending of data to RUM.
         public let guestRoleArn: String?
@@ -100,7 +106,7 @@ extension RUM {
         public let identityPoolId: String?
         /// If this app monitor is to collect data from only certain pages in your application, this structure lists those pages.   You can't include both ExcludedPages and IncludedPages in the same operation.
         public let includedPages: [String]?
-        /// Specifies the percentage of user sessions to use for RUM data collection. Choosing a higher percentage gives you more data but also incurs more costs. The number you specify is the percentage of user sessions that will be used. If you omit this parameter, the default of 10 is used.
+        /// Specifies the portion of user sessions to use for RUM data collection. Choosing a higher portion gives you more data but also incurs more costs. The range for this value is 0 to 1 inclusive. Setting this to 1 means that 100% of user sessions are sampled, and setting it to 0.1 means that 10% of user sessions are sampled. If you omit this parameter, the default of 0.1 is used, and 10% of sessions will be sampled.
         public let sessionSampleRate: Double?
         /// An array that lists the types of telemetry data that this app monitor is to collect.    errors indicates that RUM collects data about unhandled JavaScript errors raised by your application.    performance indicates that RUM collects performance data about how your application and its resources are loaded and rendered. This includes Core Web Vitals.    http indicates that RUM collects data about HTTP errors thrown by your application.
         public let telemetries: [Telemetry]?
@@ -121,7 +127,7 @@ extension RUM {
             try self.excludedPages?.forEach {
                 try validate($0, name: "excludedPages[]", parent: name, max: 1260)
                 try validate($0, name: "excludedPages[]", parent: name, min: 1)
-                try validate($0, name: "excludedPages[]", parent: name, pattern: "https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)")
+                try validate($0, name: "excludedPages[]", parent: name, pattern: "https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&*//=]*)")
             }
             try self.validate(self.excludedPages, name: "excludedPages", parent: name, max: 50)
             try self.validate(self.favoritePages, name: "favoritePages", parent: name, max: 50)
@@ -132,7 +138,7 @@ extension RUM {
             try self.includedPages?.forEach {
                 try validate($0, name: "includedPages[]", parent: name, max: 1260)
                 try validate($0, name: "includedPages[]", parent: name, min: 1)
-                try validate($0, name: "includedPages[]", parent: name, pattern: "https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)")
+                try validate($0, name: "includedPages[]", parent: name, pattern: "https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&*//=]*)")
             }
             try self.validate(self.includedPages, name: "includedPages", parent: name, max: 50)
             try self.validate(self.sessionSampleRate, name: "sessionSampleRate", parent: name, max: 1.0)
@@ -199,6 +205,218 @@ extension RUM {
             case lastModified = "LastModified"
             case name = "Name"
             case state = "State"
+        }
+    }
+
+    public struct BatchCreateRumMetricDefinitionsError: AWSDecodableShape {
+        /// The error code.
+        public let errorCode: String
+        /// The error message for this metric definition.
+        public let errorMessage: String
+        /// The metric definition that caused this error.
+        public let metricDefinition: MetricDefinitionRequest
+
+        public init(errorCode: String, errorMessage: String, metricDefinition: MetricDefinitionRequest) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.metricDefinition = metricDefinition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
+            case metricDefinition = "MetricDefinition"
+        }
+    }
+
+    public struct BatchCreateRumMetricDefinitionsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appMonitorName", location: .uri("AppMonitorName"))
+        ]
+
+        /// The name of the CloudWatch RUM app monitor that is to send the metrics.
+        public let appMonitorName: String
+        /// The destination to send the metrics to. Valid values are CloudWatch and Evidently. If you specify Evidently, you must also specify the ARN of the CloudWatchEvidently experiment  that will receive the metrics and an IAM role that has permission to write to the experiment.
+        public let destination: MetricDestination
+        /// This parameter is required if Destination is Evidently. If Destination is  CloudWatch, do not use this parameter. This parameter specifies the ARN of the Evidently experiment that is to receive the metrics. You must have already defined this  experiment as a valid destination. For more information, see PutRumMetricsDestination.
+        public let destinationArn: String?
+        /// An array of structures which define the metrics that you want to send.
+        public let metricDefinitions: [MetricDefinitionRequest]
+
+        public init(appMonitorName: String, destination: MetricDestination, destinationArn: String? = nil, metricDefinitions: [MetricDefinitionRequest]) {
+            self.appMonitorName = appMonitorName
+            self.destination = destination
+            self.destinationArn = destinationArn
+            self.metricDefinitions = metricDefinitions
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.appMonitorName, name: "appMonitorName", parent: name, max: 255)
+            try self.validate(self.appMonitorName, name: "appMonitorName", parent: name, min: 1)
+            try self.validate(self.appMonitorName, name: "appMonitorName", parent: name, pattern: "^(?!\\.)[\\.\\-_#A-Za-z0-9]+$")
+            try self.validate(self.destinationArn, name: "destinationArn", parent: name, max: 2048)
+            try self.validate(self.destinationArn, name: "destinationArn", parent: name, pattern: "arn:[^:]*:[^:]*:[^:]*:[^:]*:.*")
+            try self.metricDefinitions.forEach {
+                try $0.validate(name: "\(name).metricDefinitions[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destination = "Destination"
+            case destinationArn = "DestinationArn"
+            case metricDefinitions = "MetricDefinitions"
+        }
+    }
+
+    public struct BatchCreateRumMetricDefinitionsResponse: AWSDecodableShape {
+        /// An array of error objects, if the operation caused any errors.
+        public let errors: [BatchCreateRumMetricDefinitionsError]
+        /// An array of structures that define the extended metrics.
+        public let metricDefinitions: [MetricDefinition]?
+
+        public init(errors: [BatchCreateRumMetricDefinitionsError], metricDefinitions: [MetricDefinition]? = nil) {
+            self.errors = errors
+            self.metricDefinitions = metricDefinitions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errors = "Errors"
+            case metricDefinitions = "MetricDefinitions"
+        }
+    }
+
+    public struct BatchDeleteRumMetricDefinitionsError: AWSDecodableShape {
+        /// The error code.
+        public let errorCode: String
+        /// The error message for this metric definition.
+        public let errorMessage: String
+        /// The ID of the metric definition that caused this error.
+        public let metricDefinitionId: String
+
+        public init(errorCode: String, errorMessage: String, metricDefinitionId: String) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.metricDefinitionId = metricDefinitionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
+            case metricDefinitionId = "MetricDefinitionId"
+        }
+    }
+
+    public struct BatchDeleteRumMetricDefinitionsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appMonitorName", location: .uri("AppMonitorName")),
+            AWSMemberEncoding(label: "destination", location: .querystring("destination")),
+            AWSMemberEncoding(label: "destinationArn", location: .querystring("destinationArn")),
+            AWSMemberEncoding(label: "metricDefinitionIds", location: .querystring("metricDefinitionIds"))
+        ]
+
+        /// The name of the CloudWatch RUM app monitor that is sending these metrics.
+        public let appMonitorName: String
+        /// Defines the destination where you want to stop sending the specified metrics. Valid values are CloudWatch and Evidently. If you specify Evidently, you must also specify the ARN of the CloudWatchEvidently experiment that is to  be the destination and an IAM role that has permission to write to the experiment.
+        public let destination: MetricDestination
+        /// This parameter is required if Destination is Evidently. If Destination is  CloudWatch, do not use this parameter.  This parameter specifies the ARN of the Evidently experiment that was receiving the metrics that are being deleted.
+        public let destinationArn: String?
+        /// An array of structures which define the metrics that you want to stop sending.
+        public let metricDefinitionIds: [String]
+
+        public init(appMonitorName: String, destination: MetricDestination, destinationArn: String? = nil, metricDefinitionIds: [String]) {
+            self.appMonitorName = appMonitorName
+            self.destination = destination
+            self.destinationArn = destinationArn
+            self.metricDefinitionIds = metricDefinitionIds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.appMonitorName, name: "appMonitorName", parent: name, max: 255)
+            try self.validate(self.appMonitorName, name: "appMonitorName", parent: name, min: 1)
+            try self.validate(self.appMonitorName, name: "appMonitorName", parent: name, pattern: "^(?!\\.)[\\.\\-_#A-Za-z0-9]+$")
+            try self.validate(self.destinationArn, name: "destinationArn", parent: name, max: 2048)
+            try self.validate(self.destinationArn, name: "destinationArn", parent: name, pattern: "arn:[^:]*:[^:]*:[^:]*:[^:]*:.*")
+            try self.metricDefinitionIds.forEach {
+                try validate($0, name: "metricDefinitionIds[]", parent: name, max: 255)
+                try validate($0, name: "metricDefinitionIds[]", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct BatchDeleteRumMetricDefinitionsResponse: AWSDecodableShape {
+        /// An array of error objects, if the operation caused any errors.
+        public let errors: [BatchDeleteRumMetricDefinitionsError]
+        /// The IDs of the metric definitions that were deleted.
+        public let metricDefinitionIds: [String]?
+
+        public init(errors: [BatchDeleteRumMetricDefinitionsError], metricDefinitionIds: [String]? = nil) {
+            self.errors = errors
+            self.metricDefinitionIds = metricDefinitionIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errors = "Errors"
+            case metricDefinitionIds = "MetricDefinitionIds"
+        }
+    }
+
+    public struct BatchGetRumMetricDefinitionsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appMonitorName", location: .uri("AppMonitorName")),
+            AWSMemberEncoding(label: "destination", location: .querystring("destination")),
+            AWSMemberEncoding(label: "destinationArn", location: .querystring("destinationArn")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
+        ]
+
+        /// The name of the CloudWatch RUM app monitor that is sending the metrics.
+        public let appMonitorName: String
+        /// The type of destination that you want to view metrics for. Valid values are CloudWatch  and Evidently.
+        public let destination: MetricDestination
+        /// This parameter is required if Destination is Evidently. If Destination is  CloudWatch, do not use this parameter. This parameter specifies the ARN of the Evidently experiment that corresponds to the destination.
+        public let destinationArn: String?
+        /// The maximum number of results to return in one operation. The default is 50. The maximum that you can  specify is 100. To retrieve the remaining results, make another call with the returned  NextToken value.
+        public let maxResults: Int?
+        /// Use the token returned by the previous operation to request the next page of results.
+        public let nextToken: String?
+
+        public init(appMonitorName: String, destination: MetricDestination, destinationArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.appMonitorName = appMonitorName
+            self.destination = destination
+            self.destinationArn = destinationArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.appMonitorName, name: "appMonitorName", parent: name, max: 255)
+            try self.validate(self.appMonitorName, name: "appMonitorName", parent: name, min: 1)
+            try self.validate(self.appMonitorName, name: "appMonitorName", parent: name, pattern: "^(?!\\.)[\\.\\-_#A-Za-z0-9]+$")
+            try self.validate(self.destinationArn, name: "destinationArn", parent: name, max: 2048)
+            try self.validate(self.destinationArn, name: "destinationArn", parent: name, pattern: "arn:[^:]*:[^:]*:[^:]*:[^:]*:.*")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct BatchGetRumMetricDefinitionsResponse: AWSDecodableShape {
+        /// An array of structures that display information about the metrics that are sent by the specified app monitor to the specified destination.
+        public let metricDefinitions: [MetricDefinition]?
+        /// A token that you can use in a subsequent operation to  retrieve the next set of results.
+        public let nextToken: String?
+
+        public init(metricDefinitions: [MetricDefinition]? = nil, nextToken: String? = nil) {
+            self.metricDefinitions = metricDefinitions
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricDefinitions = "MetricDefinitions"
+            case nextToken = "NextToken"
         }
     }
 
@@ -315,6 +533,41 @@ extension RUM {
         public init() {}
     }
 
+    public struct DeleteRumMetricsDestinationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appMonitorName", location: .uri("AppMonitorName")),
+            AWSMemberEncoding(label: "destination", location: .querystring("destination")),
+            AWSMemberEncoding(label: "destinationArn", location: .querystring("destinationArn"))
+        ]
+
+        /// The name of the app monitor that is sending metrics to the destination that you want to delete.
+        public let appMonitorName: String
+        /// The type of destination to delete. Valid values are CloudWatch and Evidently.
+        public let destination: MetricDestination
+        /// This parameter is required if Destination is Evidently. If Destination is  CloudWatch, do not use this parameter. This parameter specifies the ARN of the Evidently experiment that corresponds to the destination to delete.
+        public let destinationArn: String?
+
+        public init(appMonitorName: String, destination: MetricDestination, destinationArn: String? = nil) {
+            self.appMonitorName = appMonitorName
+            self.destination = destination
+            self.destinationArn = destinationArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.appMonitorName, name: "appMonitorName", parent: name, max: 255)
+            try self.validate(self.appMonitorName, name: "appMonitorName", parent: name, min: 1)
+            try self.validate(self.appMonitorName, name: "appMonitorName", parent: name, pattern: "^(?!\\.)[\\.\\-_#A-Za-z0-9]+$")
+            try self.validate(self.destinationArn, name: "destinationArn", parent: name, max: 2048)
+            try self.validate(self.destinationArn, name: "destinationArn", parent: name, pattern: "arn:[^:]*:[^:]*:[^:]*:[^:]*:.*")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteRumMetricsDestinationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct GetAppMonitorDataRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri("Name"))
@@ -323,7 +576,7 @@ extension RUM {
         /// An array of structures that you can use to filter the results to those that match one or more sets of key-value pairs that you specify.
         public let filters: [QueryFilter]?
         /// The maximum number of results to return in one operation.
-        public let maxResults: Int?
+        public let maxResults: Int
         /// The name of the app monitor that collected the data that you want to retrieve.
         public let name: String
         /// Use the token returned by the previous operation to request the next page of results.
@@ -331,7 +584,7 @@ extension RUM {
         /// A structure that defines the time range that you want to retrieve results from.
         public let timeRange: TimeRange
 
-        public init(filters: [QueryFilter]? = nil, maxResults: Int? = nil, name: String, nextToken: String? = nil, timeRange: TimeRange) {
+        public init(filters: [QueryFilter]? = nil, maxResults: Int = 0, name: String, nextToken: String? = nil, timeRange: TimeRange) {
             self.filters = filters
             self.maxResults = maxResults
             self.name = name
@@ -412,7 +665,7 @@ extension RUM {
             AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
-        /// The maximum number of results to return in one operation.
+        /// The maximum number of results to return in one operation. The default is 50. The maximum that you can  specify is 100.
         public let maxResults: Int?
         /// Use the token returned by the previous operation to request the next page of results.
         public let nextToken: String?
@@ -420,6 +673,11 @@ extension RUM {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -438,6 +696,54 @@ extension RUM {
 
         private enum CodingKeys: String, CodingKey {
             case appMonitorSummaries = "AppMonitorSummaries"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListRumMetricsDestinationsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appMonitorName", location: .uri("AppMonitorName")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
+        ]
+
+        /// The name of the app monitor associated with the destinations that you want to retrieve.
+        public let appMonitorName: String
+        /// The maximum number of results to return in one operation. The default is 50. The maximum that you can  specify is 100. To retrieve the remaining results, make another call with the returned  NextToken value.
+        public let maxResults: Int?
+        /// Use the token returned by the previous operation to request the next page of results.
+        public let nextToken: String?
+
+        public init(appMonitorName: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.appMonitorName = appMonitorName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.appMonitorName, name: "appMonitorName", parent: name, max: 255)
+            try self.validate(self.appMonitorName, name: "appMonitorName", parent: name, min: 1)
+            try self.validate(self.appMonitorName, name: "appMonitorName", parent: name, pattern: "^(?!\\.)[\\.\\-_#A-Za-z0-9]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListRumMetricsDestinationsResponse: AWSDecodableShape {
+        /// The list of CloudWatch RUM extended metrics destinations associated with the app monitor that  you specified.
+        public let destinations: [MetricDestinationSummary]?
+        /// A token that you can use in a subsequent operation to  retrieve the next set of results.
+        public let nextToken: String?
+
+        public init(destinations: [MetricDestinationSummary]? = nil, nextToken: String? = nil) {
+            self.destinations = destinations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinations = "Destinations"
             case nextToken = "NextToken"
         }
     }
@@ -475,6 +781,106 @@ extension RUM {
         private enum CodingKeys: String, CodingKey {
             case resourceArn = "ResourceArn"
             case tags = "Tags"
+        }
+    }
+
+    public struct MetricDefinition: AWSDecodableShape {
+        /// This field is a map of field paths to dimension names. It defines the dimensions to associate with this metric in CloudWatch The value of this field is used only if the metric destination is CloudWatch. If the metric destination is Evidently, the value of DimensionKeys is ignored.
+        public let dimensionKeys: [String: String]?
+        /// The pattern that defines the metric. RUM checks events that happen in a user's session against the pattern, and events that match the pattern are sent to the metric destination. If the metrics destination is CloudWatch and the event also matches a value in DimensionKeys, then the metric is published with the specified dimensions.
+        public let eventPattern: String?
+        /// The ID of this metric definition.
+        public let metricDefinitionId: String
+        /// The name of the metric that is defined in this structure.
+        public let name: String
+        /// Use this field only if you are sending this metric to CloudWatch. It defines the CloudWatch metric unit that this metric is measured in.
+        public let unitLabel: String?
+        /// The field within the event object that the metric value is sourced from.
+        public let valueKey: String?
+
+        public init(dimensionKeys: [String: String]? = nil, eventPattern: String? = nil, metricDefinitionId: String, name: String, unitLabel: String? = nil, valueKey: String? = nil) {
+            self.dimensionKeys = dimensionKeys
+            self.eventPattern = eventPattern
+            self.metricDefinitionId = metricDefinitionId
+            self.name = name
+            self.unitLabel = unitLabel
+            self.valueKey = valueKey
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimensionKeys = "DimensionKeys"
+            case eventPattern = "EventPattern"
+            case metricDefinitionId = "MetricDefinitionId"
+            case name = "Name"
+            case unitLabel = "UnitLabel"
+            case valueKey = "ValueKey"
+        }
+    }
+
+    public struct MetricDefinitionRequest: AWSEncodableShape & AWSDecodableShape {
+        /// Use this field only if you are sending the metric to CloudWatch. This field is a map of field paths to dimension names. It defines the dimensions to associate with this metric in CloudWatch. Valid values for the entries in this field are the following:    "metadata.pageId": "PageId"     "metadata.browserName": "BrowserName"     "metadata.deviceType": "DeviceType"     "metadata.osName": "OSName"     "metadata.countryCode": "CountryCode"     "event_details.fileType": "FileType"     All dimensions listed in this field must also be included in EventPattern.
+        public let dimensionKeys: [String: String]?
+        /// The pattern that defines the metric, specified as a JSON object. RUM checks events that happen in a user's session against the pattern, and events that match the pattern are sent to the metric destination. When you define extended metrics, the metric definition is not valid if EventPattern is omitted. Example event patterns:    '{ "event_type": ["com.amazon.rum.js_error_event"], "metadata": { "browserName": [ "Chrome", "Safari" ], } }'     '{ "event_type": ["com.amazon.rum.performance_navigation_event"], "metadata": { "browserName": [ "Chrome", "Firefox" ] }, "event_details": { "duration": [{ "numeric": [ "&lt;", 2000 ] }] } }'     '{ "event_type": ["com.amazon.rum.performance_navigation_event"], "metadata": { "browserName": [ "Chrome", "Safari" ], "countryCode": [ "US" ] }, "event_details": { "duration": [{ "numeric": [ "&gt;=", 2000, "&lt;", 8000 ] }] } }'    If the metrics destination' is CloudWatch and the event also matches a value in DimensionKeys, then the metric is published with the specified dimensions.
+        public let eventPattern: String?
+        /// The name for the metric that is defined in this structure. Valid values are the following:    PerformanceNavigationDuration     PerformanceResourceDuration      NavigationSatisfiedTransaction     NavigationToleratedTransaction     NavigationFrustratedTransaction     WebVitalsCumulativeLayoutShift     WebVitalsFirstInputDelay     WebVitalsLargestContentfulPaint     JsErrorCount     HttpErrorCount     SessionCount
+        public let name: String
+        /// The CloudWatch metric unit to use for this metric. If you omit this field, the metric is recorded with no unit.
+        public let unitLabel: String?
+        /// The field within the event object that the metric value is sourced from. If you omit this field, a hardcoded value of 1 is pushed as the metric value. This is useful if you just want to count the number of events that the filter catches.  If this metric is sent to CloudWatch Evidently, this field will be passed to Evidently raw and Evidently  will handle data extraction from the event.
+        public let valueKey: String?
+
+        public init(dimensionKeys: [String: String]? = nil, eventPattern: String? = nil, name: String, unitLabel: String? = nil, valueKey: String? = nil) {
+            self.dimensionKeys = dimensionKeys
+            self.eventPattern = eventPattern
+            self.name = name
+            self.unitLabel = unitLabel
+            self.valueKey = valueKey
+        }
+
+        public func validate(name: String) throws {
+            try self.dimensionKeys?.forEach {
+                try validate($0.key, name: "dimensionKeys.key", parent: name, max: 280)
+                try validate($0.key, name: "dimensionKeys.key", parent: name, min: 1)
+                try validate($0.value, name: "dimensionKeys[\"\($0.key)\"]", parent: name, max: 255)
+                try validate($0.value, name: "dimensionKeys[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name: "dimensionKeys[\"\($0.key)\"]", parent: name, pattern: "^(?!:).*[^\\s].*")
+            }
+            try self.validate(self.eventPattern, name: "eventPattern", parent: name, max: 4000)
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.unitLabel, name: "unitLabel", parent: name, max: 256)
+            try self.validate(self.unitLabel, name: "unitLabel", parent: name, min: 1)
+            try self.validate(self.valueKey, name: "valueKey", parent: name, max: 280)
+            try self.validate(self.valueKey, name: "valueKey", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimensionKeys = "DimensionKeys"
+            case eventPattern = "EventPattern"
+            case name = "Name"
+            case unitLabel = "UnitLabel"
+            case valueKey = "ValueKey"
+        }
+    }
+
+    public struct MetricDestinationSummary: AWSDecodableShape {
+        /// Specifies whether the destination is CloudWatch or Evidently.
+        public let destination: MetricDestination?
+        /// If the destination is Evidently, this specifies the ARN of the Evidently experiment that receives the metrics.
+        public let destinationArn: String?
+        /// This field appears only when the destination is Evidently. It specifies the ARN of the IAM role that is used to write to the Evidently experiment that receives the metrics.
+        public let iamRoleArn: String?
+
+        public init(destination: MetricDestination? = nil, destinationArn: String? = nil, iamRoleArn: String? = nil) {
+            self.destination = destination
+            self.destinationArn = destinationArn
+            self.iamRoleArn = iamRoleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destination = "Destination"
+            case destinationArn = "DestinationArn"
+            case iamRoleArn = "IamRoleArn"
         }
     }
 
@@ -517,6 +923,47 @@ extension RUM {
     }
 
     public struct PutRumEventsResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct PutRumMetricsDestinationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appMonitorName", location: .uri("AppMonitorName"))
+        ]
+
+        /// The name of the CloudWatch RUM app monitor that will send the metrics.
+        public let appMonitorName: String
+        /// Defines the destination to send the metrics to. Valid values are CloudWatch and Evidently. If you specify Evidently, you must also specify the ARN of the CloudWatchEvidently experiment that is to  be the destination and an IAM role that has permission to write to the experiment.
+        public let destination: MetricDestination
+        /// Use this parameter only if Destination is Evidently. This parameter specifies the ARN of the Evidently experiment that will receive the extended metrics.
+        public let destinationArn: String?
+        /// This parameter is required if Destination is Evidently. If Destination is  CloudWatch, do not use this parameter. This parameter specifies the ARN of an IAM role that RUM will assume to write to the Evidently  experiment that you are sending metrics to. This role must have permission to write to that experiment.
+        public let iamRoleArn: String?
+
+        public init(appMonitorName: String, destination: MetricDestination, destinationArn: String? = nil, iamRoleArn: String? = nil) {
+            self.appMonitorName = appMonitorName
+            self.destination = destination
+            self.destinationArn = destinationArn
+            self.iamRoleArn = iamRoleArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.appMonitorName, name: "appMonitorName", parent: name, max: 255)
+            try self.validate(self.appMonitorName, name: "appMonitorName", parent: name, min: 1)
+            try self.validate(self.appMonitorName, name: "appMonitorName", parent: name, pattern: "^(?!\\.)[\\.\\-_#A-Za-z0-9]+$")
+            try self.validate(self.destinationArn, name: "destinationArn", parent: name, max: 2048)
+            try self.validate(self.destinationArn, name: "destinationArn", parent: name, pattern: "arn:[^:]*:[^:]*:[^:]*:[^:]*:.*")
+            try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, pattern: "arn:[^:]*:[^:]*:[^:]*:[^:]*:.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destination = "Destination"
+            case destinationArn = "DestinationArn"
+            case iamRoleArn = "IamRoleArn"
+        }
+    }
+
+    public struct PutRumMetricsDestinationResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -604,9 +1051,9 @@ extension RUM {
         /// The beginning of the time range to retrieve performance events from.
         public let after: Int64
         /// The end of the time range to retrieve performance events from. If you omit this, the time  range extends to the time that this operation is performed.
-        public let before: Int64?
+        public let before: Int64
 
-        public init(after: Int64, before: Int64? = nil) {
+        public init(after: Int64 = 0, before: Int64 = 0) {
             self.after = after
             self.before = before
         }
@@ -689,6 +1136,53 @@ extension RUM {
     }
 
     public struct UpdateAppMonitorResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateRumMetricDefinitionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appMonitorName", location: .uri("AppMonitorName"))
+        ]
+
+        /// The name of the CloudWatch RUM app monitor that sends these metrics.
+        public let appMonitorName: String
+        /// The destination to send the metrics to. Valid values are CloudWatch and Evidently. If you specify Evidently, you must also specify the ARN of the CloudWatchEvidently experiment  that will receive the metrics and an IAM role that has permission to write to the experiment.
+        public let destination: MetricDestination
+        /// This parameter is required if Destination is Evidently. If Destination is  CloudWatch, do not use this parameter. This parameter specifies the ARN of the Evidently experiment that is to receive the metrics. You must have already defined this  experiment as a valid destination. For more information, see PutRumMetricsDestination.
+        public let destinationArn: String?
+        /// A structure that contains the new definition that you want to use for this metric.
+        public let metricDefinition: MetricDefinitionRequest
+        /// The ID of the metric definition to update.
+        public let metricDefinitionId: String
+
+        public init(appMonitorName: String, destination: MetricDestination, destinationArn: String? = nil, metricDefinition: MetricDefinitionRequest, metricDefinitionId: String) {
+            self.appMonitorName = appMonitorName
+            self.destination = destination
+            self.destinationArn = destinationArn
+            self.metricDefinition = metricDefinition
+            self.metricDefinitionId = metricDefinitionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.appMonitorName, name: "appMonitorName", parent: name, max: 255)
+            try self.validate(self.appMonitorName, name: "appMonitorName", parent: name, min: 1)
+            try self.validate(self.appMonitorName, name: "appMonitorName", parent: name, pattern: "^(?!\\.)[\\.\\-_#A-Za-z0-9]+$")
+            try self.validate(self.destinationArn, name: "destinationArn", parent: name, max: 2048)
+            try self.validate(self.destinationArn, name: "destinationArn", parent: name, pattern: "arn:[^:]*:[^:]*:[^:]*:[^:]*:.*")
+            try self.metricDefinition.validate(name: "\(name).metricDefinition")
+            try self.validate(self.metricDefinitionId, name: "metricDefinitionId", parent: name, max: 255)
+            try self.validate(self.metricDefinitionId, name: "metricDefinitionId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destination = "Destination"
+            case destinationArn = "DestinationArn"
+            case metricDefinition = "MetricDefinition"
+            case metricDefinitionId = "MetricDefinitionId"
+        }
+    }
+
+    public struct UpdateRumMetricDefinitionResponse: AWSDecodableShape {
         public init() {}
     }
 

@@ -1631,6 +1631,12 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
+    public enum Scte35InputMode: String, CustomStringConvertible, Codable, _SotoSendable {
+        case fixed = "FIXED"
+        case followActive = "FOLLOW_ACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Scte35NoRegionalBlackoutFlag: String, CustomStringConvertible, Codable, _SotoSendable {
         case noRegionalBlackout = "NO_REGIONAL_BLACKOUT"
         case regionalBlackout = "REGIONAL_BLACKOUT"
@@ -2470,20 +2476,24 @@ extension MediaLive {
     }
 
     public struct AvailSettings: AWSEncodableShape & AWSDecodableShape {
+        public let esam: Esam?
         public let scte35SpliceInsert: Scte35SpliceInsert?
         public let scte35TimeSignalApos: Scte35TimeSignalApos?
 
-        public init(scte35SpliceInsert: Scte35SpliceInsert? = nil, scte35TimeSignalApos: Scte35TimeSignalApos? = nil) {
+        public init(esam: Esam? = nil, scte35SpliceInsert: Scte35SpliceInsert? = nil, scte35TimeSignalApos: Scte35TimeSignalApos? = nil) {
+            self.esam = esam
             self.scte35SpliceInsert = scte35SpliceInsert
             self.scte35TimeSignalApos = scte35TimeSignalApos
         }
 
         public func validate(name: String) throws {
+            try self.esam?.validate(name: "\(name).esam")
             try self.scte35SpliceInsert?.validate(name: "\(name).scte35SpliceInsert")
             try self.scte35TimeSignalApos?.validate(name: "\(name).scte35TimeSignalApos")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case esam
             case scte35SpliceInsert
             case scte35TimeSignalApos
         }
@@ -5220,6 +5230,46 @@ extension MediaLive {
             case outputGroups
             case timecodeConfig
             case videoDescriptions
+        }
+    }
+
+    public struct Esam: AWSEncodableShape & AWSDecodableShape {
+        /// Sent as acquisitionPointIdentity to identify the MediaLive channel to the POIS.
+        public let acquisitionPointId: String
+        /// When specified, this offset (in milliseconds) is added to the input Ad Avail PTS time. This only applies to embedded SCTE 104/35 messages and does not apply to OOB messages.
+        public let adAvailOffset: Int?
+        /// Password if credentials are required to access the POIS endpoint.  This is a reference to an AWS parameter store name from which the password can be retrieved.  AWS Parameter store format: "ssm://"
+        public let passwordParam: String?
+        /// The URL of the signal conditioner endpoint on the Placement Opportunity Information System (POIS). MediaLive sends SignalProcessingEvents here when SCTE-35 messages are read.
+        public let poisEndpoint: String
+        /// Username if credentials are required to access the POIS endpoint.  This can be either a plaintext username, or a reference to an AWS parameter store name from which the username can be retrieved.  AWS Parameter store format: "ssm://"
+        public let username: String?
+        /// Optional data sent as zoneIdentity to identify the MediaLive channel to the POIS.
+        public let zoneIdentity: String?
+
+        public init(acquisitionPointId: String, adAvailOffset: Int? = nil, passwordParam: String? = nil, poisEndpoint: String, username: String? = nil, zoneIdentity: String? = nil) {
+            self.acquisitionPointId = acquisitionPointId
+            self.adAvailOffset = adAvailOffset
+            self.passwordParam = passwordParam
+            self.poisEndpoint = poisEndpoint
+            self.username = username
+            self.zoneIdentity = zoneIdentity
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.acquisitionPointId, name: "acquisitionPointId", parent: name, max: 256)
+            try self.validate(self.adAvailOffset, name: "adAvailOffset", parent: name, max: 1000)
+            try self.validate(self.adAvailOffset, name: "adAvailOffset", parent: name, min: -1000)
+            try self.validate(self.zoneIdentity, name: "zoneIdentity", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acquisitionPointId
+            case adAvailOffset
+            case passwordParam
+            case poisEndpoint
+            case username
+            case zoneIdentity
         }
     }
 
@@ -9770,6 +9820,8 @@ extension MediaLive {
         public let motionGraphicsImageDeactivateSettings: MotionGraphicsDeactivateScheduleActionSettings?
         /// Action to pause or unpause one or both channel pipelines
         public let pauseStateSettings: PauseStateScheduleActionSettings?
+        /// Action to specify scte35 input
+        public let scte35InputSettings: Scte35InputScheduleActionSettings?
         /// Action to insert SCTE-35 return_to_network message
         public let scte35ReturnToNetworkSettings: Scte35ReturnToNetworkScheduleActionSettings?
         /// Action to insert SCTE-35 splice_insert message
@@ -9781,7 +9833,7 @@ extension MediaLive {
         /// Action to deactivate a static image overlay
         public let staticImageDeactivateSettings: StaticImageDeactivateScheduleActionSettings?
 
-        public init(hlsId3SegmentTaggingSettings: HlsId3SegmentTaggingScheduleActionSettings? = nil, hlsTimedMetadataSettings: HlsTimedMetadataScheduleActionSettings? = nil, inputPrepareSettings: InputPrepareScheduleActionSettings? = nil, inputSwitchSettings: InputSwitchScheduleActionSettings? = nil, motionGraphicsImageActivateSettings: MotionGraphicsActivateScheduleActionSettings? = nil, motionGraphicsImageDeactivateSettings: MotionGraphicsDeactivateScheduleActionSettings? = nil, pauseStateSettings: PauseStateScheduleActionSettings? = nil, scte35ReturnToNetworkSettings: Scte35ReturnToNetworkScheduleActionSettings? = nil, scte35SpliceInsertSettings: Scte35SpliceInsertScheduleActionSettings? = nil, scte35TimeSignalSettings: Scte35TimeSignalScheduleActionSettings? = nil, staticImageActivateSettings: StaticImageActivateScheduleActionSettings? = nil, staticImageDeactivateSettings: StaticImageDeactivateScheduleActionSettings? = nil) {
+        public init(hlsId3SegmentTaggingSettings: HlsId3SegmentTaggingScheduleActionSettings? = nil, hlsTimedMetadataSettings: HlsTimedMetadataScheduleActionSettings? = nil, inputPrepareSettings: InputPrepareScheduleActionSettings? = nil, inputSwitchSettings: InputSwitchScheduleActionSettings? = nil, motionGraphicsImageActivateSettings: MotionGraphicsActivateScheduleActionSettings? = nil, motionGraphicsImageDeactivateSettings: MotionGraphicsDeactivateScheduleActionSettings? = nil, pauseStateSettings: PauseStateScheduleActionSettings? = nil, scte35InputSettings: Scte35InputScheduleActionSettings? = nil, scte35ReturnToNetworkSettings: Scte35ReturnToNetworkScheduleActionSettings? = nil, scte35SpliceInsertSettings: Scte35SpliceInsertScheduleActionSettings? = nil, scte35TimeSignalSettings: Scte35TimeSignalScheduleActionSettings? = nil, staticImageActivateSettings: StaticImageActivateScheduleActionSettings? = nil, staticImageDeactivateSettings: StaticImageDeactivateScheduleActionSettings? = nil) {
             self.hlsId3SegmentTaggingSettings = hlsId3SegmentTaggingSettings
             self.hlsTimedMetadataSettings = hlsTimedMetadataSettings
             self.inputPrepareSettings = inputPrepareSettings
@@ -9789,6 +9841,7 @@ extension MediaLive {
             self.motionGraphicsImageActivateSettings = motionGraphicsImageActivateSettings
             self.motionGraphicsImageDeactivateSettings = motionGraphicsImageDeactivateSettings
             self.pauseStateSettings = pauseStateSettings
+            self.scte35InputSettings = scte35InputSettings
             self.scte35ReturnToNetworkSettings = scte35ReturnToNetworkSettings
             self.scte35SpliceInsertSettings = scte35SpliceInsertSettings
             self.scte35TimeSignalSettings = scte35TimeSignalSettings
@@ -9813,6 +9866,7 @@ extension MediaLive {
             case motionGraphicsImageActivateSettings
             case motionGraphicsImageDeactivateSettings
             case pauseStateSettings
+            case scte35InputSettings
             case scte35ReturnToNetworkSettings
             case scte35SpliceInsertSettings
             case scte35TimeSignalSettings
@@ -9950,6 +10004,23 @@ extension MediaLive {
 
         private enum CodingKeys: String, CodingKey {
             case segmentationDescriptorScte35DescriptorSettings
+        }
+    }
+
+    public struct Scte35InputScheduleActionSettings: AWSEncodableShape & AWSDecodableShape {
+        /// In fixed mode, enter the name of the input attachment that you want to use as a SCTE-35 input. (Don't enter the ID of the input.)"
+        public let inputAttachmentNameReference: String?
+        /// Whether the SCTE-35 input should be the active input or a fixed input.
+        public let mode: Scte35InputMode
+
+        public init(inputAttachmentNameReference: String? = nil, mode: Scte35InputMode) {
+            self.inputAttachmentNameReference = inputAttachmentNameReference
+            self.mode = mode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputAttachmentNameReference
+            case mode
         }
     }
 

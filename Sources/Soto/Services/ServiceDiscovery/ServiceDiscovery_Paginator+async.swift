@@ -67,7 +67,7 @@ extension ServiceDiscovery {
         )
     }
 
-    ///  Lists summary information about the namespaces that were created by the current account.
+    ///  Lists summary information about the namespaces that were created by the current Amazon Web Services account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

@@ -573,6 +573,28 @@ extension SageMaker {
         )
     }
 
+    ///  Returns a list of the subtasks for an Inference Recommender job. The supported subtasks are benchmarks, which evaluate the performance of your model on different instance types.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listInferenceRecommendationsJobStepsPaginator(
+        _ input: ListInferenceRecommendationsJobStepsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListInferenceRecommendationsJobStepsRequest, ListInferenceRecommendationsJobStepsResponse> {
+        return .init(
+            input: input,
+            command: listInferenceRecommendationsJobSteps,
+            inputKey: \ListInferenceRecommendationsJobStepsRequest.nextToken,
+            outputKey: \ListInferenceRecommendationsJobStepsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Lists recommendation jobs that satisfy various filters.
     /// Return PaginatorSequence for operation.
     ///

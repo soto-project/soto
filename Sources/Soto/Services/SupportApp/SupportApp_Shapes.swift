@@ -21,6 +21,12 @@ import SotoCore
 extension SupportApp {
     // MARK: Enums
 
+    public enum AccountType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case management
+        case member
+        public var description: String { return self.rawValue }
+    }
+
     public enum NotificationSeverityLevel: String, CustomStringConvertible, Codable, _SotoSendable {
         case all
         case high
@@ -41,17 +47,14 @@ extension SupportApp {
         public let channelRoleArn: String
         /// Whether you want to get notified when a support case has a new correspondence.
         public let notifyOnAddCorrespondenceToCase: Bool?
-        /// The case severity for a support case that you want to receive notifications.
-        ///  If you specify high or all, you must specify true for at least one of the following parameters:    notifyOnAddCorrespondenceToCase     notifyOnCreateOrReopenCase     notifyOnResolveCase
-        ///  If you specify none, the following parameters must be null or false:
-        ///     notifyOnAddCorrespondenceToCase     notifyOnCreateOrReopenCase     notifyOnResolveCase
-        ///   If you don't specify these parameters in your request, they default to false.
+        /// The case severity for a support case that you want to receive notifications. If you specify high or all, you must specify true for at least one of the following parameters:    notifyOnAddCorrespondenceToCase     notifyOnCreateOrReopenCase     notifyOnResolveCase    If you specify none, the following parameters must be null or false:    notifyOnAddCorrespondenceToCase     notifyOnCreateOrReopenCase     notifyOnResolveCase     If you don't specify these parameters in your request, they default to false.
         public let notifyOnCaseSeverity: NotificationSeverityLevel
         /// Whether you want to get notified when a support case is created or reopened.
         public let notifyOnCreateOrReopenCase: Bool?
         /// Whether you want to get notified when a support case is resolved.
         public let notifyOnResolveCase: Bool?
-        /// The team ID in Slack. This ID uniquely identifies a Slack workspace.
+        /// The team ID in Slack. This ID uniquely identifies a Slack workspace, such as
+        /// T012ABCDEFG.
         public let teamId: String
 
         public init(channelId: String, channelName: String? = nil, channelRoleArn: String, notifyOnAddCorrespondenceToCase: Bool? = nil, notifyOnCaseSeverity: NotificationSeverityLevel, notifyOnCreateOrReopenCase: Bool? = nil, notifyOnResolveCase: Bool? = nil, teamId: String) {
@@ -107,7 +110,8 @@ extension SupportApp {
     public struct DeleteSlackChannelConfigurationRequest: AWSEncodableShape {
         /// The channel ID in Slack. This ID identifies a channel within a Slack workspace.
         public let channelId: String
-        /// The team ID in Slack. This ID uniquely identifies a Slack workspace.
+        /// The team ID in Slack. This ID uniquely identifies a Slack workspace, such as
+        /// T012ABCDEFG.
         public let teamId: String
 
         public init(channelId: String, teamId: String) {
@@ -135,7 +139,8 @@ extension SupportApp {
     }
 
     public struct DeleteSlackWorkspaceConfigurationRequest: AWSEncodableShape {
-        /// The team ID in Slack. This ID uniquely identifies a Slack workspace.
+        /// The team ID in Slack. This ID uniquely identifies a Slack workspace, such as
+        /// T012ABCDEFG.
         public let teamId: String
 
         public init(teamId: String) {
@@ -273,10 +278,52 @@ extension SupportApp {
         public init() {}
     }
 
+    public struct RegisterSlackWorkspaceForOrganizationRequest: AWSEncodableShape {
+        /// The team ID in Slack. This ID uniquely identifies a Slack workspace, such as
+        /// T012ABCDEFG. Specify the Slack workspace that you want to use for your organization.
+        public let teamId: String
+
+        public init(teamId: String) {
+            self.teamId = teamId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.teamId, name: "teamId", parent: name, max: 256)
+            try self.validate(self.teamId, name: "teamId", parent: name, min: 1)
+            try self.validate(self.teamId, name: "teamId", parent: name, pattern: "^\\S+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case teamId
+        }
+    }
+
+    public struct RegisterSlackWorkspaceForOrganizationResult: AWSDecodableShape {
+        /// Whether the Amazon Web Services account is a management or member account that's part of an organization in Organizations.
+        public let accountType: AccountType?
+        /// The team ID in Slack. This ID uniquely identifies a Slack workspace, such as
+        /// T012ABCDEFG.
+        public let teamId: String?
+        /// The name of the Slack workspace.
+        public let teamName: String?
+
+        public init(accountType: AccountType? = nil, teamId: String? = nil, teamName: String? = nil) {
+            self.accountType = accountType
+            self.teamId = teamId
+            self.teamName = teamName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountType
+            case teamId
+            case teamName
+        }
+    }
+
     public struct SlackChannelConfiguration: AWSDecodableShape {
         /// The channel ID in Slack. This ID identifies a channel within a Slack workspace.
         public let channelId: String
-        /// The name of the Slack channel that you configured with the Amazon Web Services Support App.
+        /// The name of the Slack channel that you configured with the Amazon Web Services Support App for your Amazon Web Services account.
         public let channelName: String?
         /// The Amazon Resource Name (ARN) of an IAM role that you want to
         /// use to perform operations on Amazon Web Services. For more information, see Managing access to
@@ -290,7 +337,8 @@ extension SupportApp {
         public let notifyOnCreateOrReopenCase: Bool?
         /// Whether you want to get notified when a support case is resolved.
         public let notifyOnResolveCase: Bool?
-        /// The team ID in Slack. This ID uniquely identifies a Slack workspace.
+        /// The team ID in Slack. This ID uniquely identifies a Slack workspace, such as
+        /// T012ABCDEFG.
         public let teamId: String
 
         public init(channelId: String, channelName: String? = nil, channelRoleArn: String? = nil, notifyOnAddCorrespondenceToCase: Bool? = nil, notifyOnCaseSeverity: NotificationSeverityLevel? = nil, notifyOnCreateOrReopenCase: Bool? = nil, notifyOnResolveCase: Bool? = nil, teamId: String) {
@@ -317,15 +365,24 @@ extension SupportApp {
     }
 
     public struct SlackWorkspaceConfiguration: AWSDecodableShape {
-        /// The team ID in Slack. This ID uniquely identifies a Slack workspace.
+        /// Whether to allow member accounts to authorize Slack workspaces. Member accounts must be part of an organization in Organizations.
+        public let allowOrganizationMemberAccount: Bool?
+        /// The team ID in Slack. This ID uniquely identifies a Slack workspace, such as
+        /// T012ABCDEFG.
         public let teamId: String
+        /// The name of the Slack workspace.
+        public let teamName: String?
 
-        public init(teamId: String) {
+        public init(allowOrganizationMemberAccount: Bool? = nil, teamId: String, teamName: String? = nil) {
+            self.allowOrganizationMemberAccount = allowOrganizationMemberAccount
             self.teamId = teamId
+            self.teamName = teamName
         }
 
         private enum CodingKeys: String, CodingKey {
+            case allowOrganizationMemberAccount
             case teamId
+            case teamName
         }
     }
 
@@ -340,17 +397,14 @@ extension SupportApp {
         public let channelRoleArn: String?
         /// Whether you want to get notified when a support case has a new correspondence.
         public let notifyOnAddCorrespondenceToCase: Bool?
-        /// The case severity for a support case that you want to receive notifications.
-        ///  If you specify high or all, at least one of the following parameters must be true:    notifyOnAddCorrespondenceToCase     notifyOnCreateOrReopenCase     notifyOnResolveCase
-        ///  If you specify none, any of the following parameters that you specify in your request must be false:
-        ///     notifyOnAddCorrespondenceToCase     notifyOnCreateOrReopenCase     notifyOnResolveCase
-        ///   If you don't specify these parameters in your request, the Amazon Web Services Support App uses the current values by default.
+        /// The case severity for a support case that you want to receive notifications. If you specify high or all, at least one of the following parameters must be true:    notifyOnAddCorrespondenceToCase     notifyOnCreateOrReopenCase     notifyOnResolveCase    If you specify none, any of the following parameters that you specify in your request must be false:    notifyOnAddCorrespondenceToCase     notifyOnCreateOrReopenCase     notifyOnResolveCase     If you don't specify these parameters in your request, the Amazon Web Services Support App uses the current values by default.
         public let notifyOnCaseSeverity: NotificationSeverityLevel?
         /// Whether you want to get notified when a support case is created or reopened.
         public let notifyOnCreateOrReopenCase: Bool?
         /// Whether you want to get notified when a support case is resolved.
         public let notifyOnResolveCase: Bool?
-        /// The team ID in Slack. This ID uniquely identifies a Slack workspace.
+        /// The team ID in Slack. This ID uniquely identifies a Slack workspace, such as
+        /// T012ABCDEFG.
         public let teamId: String
 
         public init(channelId: String, channelName: String? = nil, channelRoleArn: String? = nil, notifyOnAddCorrespondenceToCase: Bool? = nil, notifyOnCaseSeverity: NotificationSeverityLevel? = nil, notifyOnCreateOrReopenCase: Bool? = nil, notifyOnResolveCase: Bool? = nil, teamId: String) {
@@ -408,7 +462,8 @@ extension SupportApp {
         public let notifyOnCreateOrReopenCase: Bool?
         /// Whether you want to get notified when a support case is resolved.
         public let notifyOnResolveCase: Bool?
-        /// The team ID in Slack. This ID uniquely identifies a Slack workspace.
+        /// The team ID in Slack. This ID uniquely identifies a Slack workspace, such as
+        /// T012ABCDEFG.
         public let teamId: String?
 
         public init(channelId: String? = nil, channelName: String? = nil, channelRoleArn: String? = nil, notifyOnAddCorrespondenceToCase: Bool? = nil, notifyOnCaseSeverity: NotificationSeverityLevel? = nil, notifyOnCreateOrReopenCase: Bool? = nil, notifyOnResolveCase: Bool? = nil, teamId: String? = nil) {

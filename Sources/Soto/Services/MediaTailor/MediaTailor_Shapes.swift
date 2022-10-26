@@ -88,7 +88,7 @@ extension MediaTailor {
     // MARK: Shapes
 
     public struct AccessConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The type of authentication used to access content from HttpConfiguration::BaseUrl on your source location. Accepted value: S3_SIGV4. S3_SIGV4 - AWS Signature Version 4 authentication for Amazon S3 hosted virtual-style access. If your source location base URL is an Amazon S3 bucket, MediaTailor can use AWS Signature Version 4 (SigV4) authentication to access the bucket where your source content is stored. Your MediaTailor source location baseURL must follow the S3 virtual hosted-style request URL format. For example, https://bucket-name.s3.Region.amazonaws.com/key-name. Before you can use S3_SIGV4, you must meet these requirements: • You must allow MediaTailor to access your S3 bucket by granting mediatailor.amazonaws.com principal access in IAM. For information about configuring access in IAM, see Access management in the IAM User Guide. • The mediatailor.amazonaws.com service principal must have permissions to read all top level manifests referenced by the VodSource packaging configurations. • The caller of the API must have s3:GetObject IAM permissions to read all top level manifests referenced by your MediaTailor VodSource packaging configurations.
+        /// The type of authentication used to access content from HttpConfiguration::BaseUrl on your source location. Accepted value: S3_SIGV4.  S3_SIGV4 - AWS Signature Version 4 authentication for Amazon S3 hosted virtual-style access. If your source location base URL is an Amazon S3 bucket, MediaTailor can use AWS Signature Version 4 (SigV4) authentication to access the bucket where your source content is stored. Your MediaTailor source location baseURL must follow the S3 virtual hosted-style request URL format. For example, https://bucket-name.s3.Region.amazonaws.com/key-name. Before you can use S3_SIGV4, you must meet these requirements: • You must allow MediaTailor to access your S3 bucket by granting mediatailor.amazonaws.com principal access in IAM. For information about configuring access in IAM, see Access management in the IAM User Guide. • The mediatailor.amazonaws.com service principal must have permissions to read all top level manifests referenced by the VodSource packaging configurations. • The caller of the API must have s3:GetObject IAM permissions to read all top level manifests referenced by your MediaTailor VodSource packaging configurations.
         public let accessType: AccessType?
         /// AWS Secrets Manager access token configuration parameters.
         public let secretsManagerAccessTokenConfiguration: SecretsManagerAccessTokenConfiguration?
@@ -105,7 +105,7 @@ extension MediaTailor {
     }
 
     public struct AdBreak: AWSEncodableShape & AWSDecodableShape {
-        /// The SCTE-35 ad insertion type. Accepted value: SPLICE_INSERT.
+        /// The SCTE-35 ad insertion type. Accepted value: SPLICE_INSERT, TIME_SIGNAL.
         public let messageType: MessageType?
         /// How long (in milliseconds) after the beginning of the program that an ad starts. This value must fall within 100ms of a segment boundary, otherwise the ad break will be skipped.
         public let offsetMillis: Int64?
@@ -224,7 +224,7 @@ extension MediaTailor {
     }
 
     public struct CdnConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// A non-default content delivery network (CDN) to serve ad segments. By default, AWS Elemental MediaTailor uses Amazon CloudFront with default cache settings as its CDN for ad segments. To set up an alternate CDN, create a rule in your CDN for the origin ads.mediatailor.&amp;lt;region>.amazonaws.com. Then specify the rule's name in this AdSegmentUrlPrefix. When AWS Elemental MediaTailor serves a manifest, it reports your CDN as the source for ad segments.
+        /// A non-default content delivery network (CDN) to serve ad segments. By default, AWS Elemental MediaTailor uses Amazon CloudFront with default cache settings as its CDN for ad segments. To set up an alternate CDN, create a rule in your CDN for the origin ads.mediatailor.&lt;region&gt;.amazonaws.com. Then specify the rule's name in this AdSegmentUrlPrefix. When AWS Elemental MediaTailor serves a manifest, it reports your CDN as the source for ad segments.
         public let adSegmentUrlPrefix: String?
         /// A content delivery network (CDN) to cache content segments, so that content requests don’t always have to go to the origin server. First, create a rule in your CDN for the content segment origin server. Then specify the rule's name in this ContentSegmentUrlPrefix. When AWS Elemental MediaTailor serves a manifest, it reports your CDN as the source for content segments.
         public let contentSegmentUrlPrefix: String?
@@ -250,16 +250,16 @@ extension MediaTailor {
         /// The timestamp of when the channel was created.
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var creationTime: Date?
-        /// The slate used to fill gaps between programs in the schedule. You must configure filler slate if your channel uses the LINEAR PlaybackMode. MediaTailor doesn't support filler slate for channels using the LOOP PlaybackMode.
+        /// The slate used to fill gaps between programs in the schedule. You must configure filler slate if your channel uses the LINEAR  PlaybackMode. MediaTailor doesn't support filler slate for channels using the LOOP  PlaybackMode.
         public let fillerSlate: SlateSource?
         /// The timestamp of when the channel was last modified.
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var lastModifiedTime: Date?
         /// The channel's output properties.
         public let outputs: [ResponseOutputItem]
-        /// The type of playback mode for this channel. LINEAR - Programs play back-to-back only once. LOOP - Programs play back-to-back in an endless loop. When the last program in the schedule plays, playback loops back to the first program in the schedule.
+        /// The type of playback mode for this channel.  LINEAR - Programs play back-to-back only once.  LOOP - Programs play back-to-back in an endless loop. When the last program in the schedule plays, playback loops back to the first program in the schedule.
         public let playbackMode: String
-        /// The tags to assign to the channel.
+        /// The tags to assign to the channel. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
         public let tags: [String: String]?
         /// The tier for this channel. STANDARD tier channels can contain live programs.
         public let tier: String
@@ -297,7 +297,7 @@ extension MediaTailor {
         /// The name of the playback configuration.
         public let playbackConfigurationName: String
 
-        public init(percentEnabled: Int, playbackConfigurationName: String) {
+        public init(percentEnabled: Int = 0, playbackConfigurationName: String) {
             self.percentEnabled = percentEnabled
             self.playbackConfigurationName = playbackConfigurationName
         }
@@ -310,11 +310,11 @@ extension MediaTailor {
 
     public struct ConfigureLogsForPlaybackConfigurationResponse: AWSDecodableShape {
         /// The percentage of session logs that MediaTailor sends to your Cloudwatch Logs account.
-        public let percentEnabled: Int?
+        public let percentEnabled: Int
         /// The name of the playback configuration.
         public let playbackConfigurationName: String?
 
-        public init(percentEnabled: Int? = nil, playbackConfigurationName: String? = nil) {
+        public init(percentEnabled: Int, playbackConfigurationName: String? = nil) {
             self.percentEnabled = percentEnabled
             self.playbackConfigurationName = playbackConfigurationName
         }
@@ -330,15 +330,15 @@ extension MediaTailor {
             AWSMemberEncoding(label: "channelName", location: .uri("ChannelName"))
         ]
 
-        /// The identifier for the channel you are working on.
+        /// The name of the channel.
         public let channelName: String
-        /// The slate used to fill gaps between programs in the schedule. You must configure filler slate if your channel uses the LINEAR PlaybackMode. MediaTailor doesn't support filler slate for channels using the LOOP PlaybackMode.
+        /// The slate used to fill gaps between programs in the schedule. You must configure filler slate if your channel uses the LINEAR  PlaybackMode. MediaTailor doesn't support filler slate for channels using the LOOP  PlaybackMode.
         public let fillerSlate: SlateSource?
         /// The channel's output properties.
         public let outputs: [RequestOutputItem]
-        /// The type of playback mode to use for this channel. LINEAR - The programs in the schedule play once back-to-back in the schedule. LOOP - The programs in the schedule play back-to-back in an endless loop. When the last program in the schedule stops playing, playback loops back to the first program in the schedule.
+        /// The type of playback mode to use for this channel.  LINEAR - The programs in the schedule play once back-to-back in the schedule.  LOOP - The programs in the schedule play back-to-back in an endless loop. When the last program in the schedule stops playing, playback loops back to the first program in the schedule.
         public let playbackMode: PlaybackMode
-        /// The tags to assign to the channel.
+        /// The tags to assign to the channel. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
         public let tags: [String: String]?
         /// The tier of the channel.
         public let tier: Tier?
@@ -362,9 +362,9 @@ extension MediaTailor {
     }
 
     public struct CreateChannelResponse: AWSDecodableShape {
-        /// The ARN of the channel.
+        /// The Amazon Resource Name (ARN) to assign to the channel.
         public let arn: String?
-        /// The name of the channel.
+        /// The name to assign to the channel.
         public let channelName: String?
         /// Indicates whether the channel is in a running state or not.
         public let channelState: ChannelState?
@@ -376,13 +376,13 @@ extension MediaTailor {
         /// The timestamp of when the channel was last modified.
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var lastModifiedTime: Date?
-        /// The channel's output properties.
+        /// The output properties to assign to the channel.
         public let outputs: [ResponseOutputItem]?
-        /// The channel's playback mode.
+        /// The playback mode to assign to the channel.
         public let playbackMode: String?
-        /// The tags assigned to the channel.
+        /// The tags to assign to the channel. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
         public let tags: [String: String]?
-        /// The channel's tier.
+        /// The tier of the channel.
         public let tier: String?
 
         public init(arn: String? = nil, channelName: String? = nil, channelState: ChannelState? = nil, creationTime: Date? = nil, fillerSlate: SlateSource? = nil, lastModifiedTime: Date? = nil, outputs: [ResponseOutputItem]? = nil, playbackMode: String? = nil, tags: [String: String]? = nil, tier: String? = nil) {
@@ -420,11 +420,11 @@ extension MediaTailor {
 
         /// A list of HTTP package configuration parameters for this live source.
         public let httpPackageConfigurations: [HttpPackageConfiguration]
-        /// The identifier for the live source you are working on.
+        /// The name of the live source.
         public let liveSourceName: String
-        /// The identifier for the source location you are working on.
+        /// The name of the source location.
         public let sourceLocationName: String
-        /// The tags to assign to the live source.
+        /// The tags to assign to the live source. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
         public let tags: [String: String]?
 
         public init(httpPackageConfigurations: [HttpPackageConfiguration], liveSourceName: String, sourceLocationName: String, tags: [String: String]? = nil) {
@@ -441,21 +441,21 @@ extension MediaTailor {
     }
 
     public struct CreateLiveSourceResponse: AWSDecodableShape {
-        /// The ARN of the live source.
+        /// The ARN to assign to the live source.
         public let arn: String?
-        /// The timestamp that indicates when the live source was created.
+        /// The time the live source was created.
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var creationTime: Date?
-        /// The HTTP package configurations.
+        /// A list of HTTP package configuration parameters for this live source.
         public let httpPackageConfigurations: [HttpPackageConfiguration]?
-        /// The timestamp that indicates when the live source was modified.
+        /// The time the live source was last modified.
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var lastModifiedTime: Date?
-        /// The name of the live source.
+        /// The name to assign to the live source.
         public let liveSourceName: String?
-        /// The name of the source location associated with the VOD source.
+        /// The name to assign to the source location of the live source.
         public let sourceLocationName: String?
-        /// The tags assigned to the live source.
+        /// The tags to assign to the live source. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
         public let tags: [String: String]?
 
         public init(arn: String? = nil, creationTime: Date? = nil, httpPackageConfigurations: [HttpPackageConfiguration]? = nil, lastModifiedTime: Date? = nil, liveSourceName: String? = nil, sourceLocationName: String? = nil, tags: [String: String]? = nil) {
@@ -487,9 +487,9 @@ extension MediaTailor {
 
         /// The configuration settings for MediaTailor's consumption of the prefetched ads from the ad decision server. Each consumption configuration contains an end time and an optional start time that define the consumption window. Prefetch schedules automatically expire no earlier than seven days after the end time.
         public let consumption: PrefetchConsumption
-        /// The identifier for the playback configuration.
+        /// The name to assign to the schedule request.
         public let name: String
-        /// The name of the playback configuration.
+        /// The name to assign to the playback configuration.
         public let playbackConfigurationName: String
         /// The configuration settings for retrieval of prefetched ads from the ad decision server. Only one set of prefetched ads will be retrieved and subsequently consumed for each ad break.
         public let retrieval: PrefetchRetrieval
@@ -512,17 +512,17 @@ extension MediaTailor {
     }
 
     public struct CreatePrefetchScheduleResponse: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the prefetch schedule.
+        /// The ARN to assign to the prefetch schedule.
         public let arn: String?
-        /// Consumption settings determine how, and when, MediaTailor places the prefetched ads into ad breaks. Ad consumption occurs within a span of time that you define, called a consumption window. You can designate which ad breaks that MediaTailor fills with prefetch ads by setting avail matching criteria.
+        /// The configuration settings for MediaTailor's consumption of the prefetched ads from the ad decision server. Each consumption configuration contains an end time and an optional start time that define the consumption window. Prefetch schedules automatically expire no earlier than seven days after the end time.
         public let consumption: PrefetchConsumption?
-        /// The name of the prefetch schedule. The name must be unique among all prefetch schedules that are associated with the specified playback configuration.
+        /// The name to assign to the prefetch schedule.
         public let name: String?
-        /// The name of the playback configuration to create the prefetch schedule for.
+        /// The name to assign to the playback configuration.
         public let playbackConfigurationName: String?
-        /// A complex type that contains settings for prefetch retrieval from the ad decision server (ADS).
+        /// The configuration settings for retrieval of prefetched ads from the ad decision server. Only one set of prefetched ads will be retrieved and subsequently consumed for each ad break.
         public let retrieval: PrefetchRetrieval?
-        /// An optional stream identifier that you can specify in order to prefetch for multiple streams that use the same playback configuration.
+        /// An optional stream identifier that MediaTailor uses to prefetch ads for multiple streams that use the same playback configuration. If StreamId is specified, MediaTailor returns all of the prefetch schedules with an exact match on StreamId. If not specified, MediaTailor returns all of the prefetch schedules for the playback configuration, regardless of StreamId.
         public let streamId: String?
 
         public init(arn: String? = nil, consumption: PrefetchConsumption? = nil, name: String? = nil, playbackConfigurationName: String? = nil, retrieval: PrefetchRetrieval? = nil, streamId: String? = nil) {
@@ -552,11 +552,11 @@ extension MediaTailor {
 
         /// The ad break configuration settings.
         public let adBreaks: [AdBreak]?
-        /// The identifier for the channel you are working on.
+        /// The name of the channel for this Program.
         public let channelName: String
         /// The name of the LiveSource for this Program.
         public let liveSourceName: String?
-        /// The identifier for the program you are working on.
+        /// The name of the Program.
         public let programName: String
         /// The schedule configuration settings.
         public let scheduleConfiguration: ScheduleConfiguration
@@ -587,21 +587,21 @@ extension MediaTailor {
     public struct CreateProgramResponse: AWSDecodableShape {
         /// The ad break configuration settings.
         public let adBreaks: [AdBreak]?
-        /// The ARN of the program.
+        /// The ARN to assign to the program.
         public let arn: String?
-        /// The name of the channel that the program belongs to.
+        /// The name to assign to the channel for this program.
         public let channelName: String?
-        /// The timestamp of when the program was created.
+        /// The time the program was created.
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var creationTime: Date?
         /// The name of the LiveSource for this Program.
         public let liveSourceName: String?
-        /// The name of the program.
+        /// The name to assign to this program.
         public let programName: String?
-        /// The date and time that the program is scheduled to start in ISO 8601 format and Coordinated Universal Time (UTC). For example, the value 2021-03-27T17:48:16.751Z represents March 27, 2021 at 17:48:16.751 UTC.
+        /// The scheduled start time for this Program.
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var scheduledStartTime: Date?
-        /// The source location name.
+        /// The name to assign to the source location for this program.
         public let sourceLocationName: String?
         /// The name that's used to refer to a VOD source.
         public let vodSourceName: String?
@@ -644,9 +644,9 @@ extension MediaTailor {
         public let httpConfiguration: HttpConfiguration
         /// A list of the segment delivery configurations associated with this resource.
         public let segmentDeliveryConfigurations: [SegmentDeliveryConfiguration]?
-        /// The identifier for the source location you are working on.
+        /// The name associated with the source location.
         public let sourceLocationName: String
-        /// The tags to assign to the source location.
+        /// The tags to assign to the source location. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
         public let tags: [String: String]?
 
         public init(accessConfiguration: AccessConfiguration? = nil, defaultSegmentDeliveryConfiguration: DefaultSegmentDeliveryConfiguration? = nil, httpConfiguration: HttpConfiguration, segmentDeliveryConfigurations: [SegmentDeliveryConfiguration]? = nil, sourceLocationName: String, tags: [String: String]? = nil) {
@@ -668,25 +668,25 @@ extension MediaTailor {
     }
 
     public struct CreateSourceLocationResponse: AWSDecodableShape {
-        /// The access configuration for the source location.
+        /// Access configuration parameters. Configures the type of authentication used to access content from your source location.
         public let accessConfiguration: AccessConfiguration?
-        /// The ARN of the source location.
+        /// The ARN to assign to the source location.
         public let arn: String?
-        /// The timestamp that indicates when the source location was created.
+        /// The time the source location was created.
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var creationTime: Date?
-        /// The default segment delivery configuration settings.
+        /// The optional configuration for the server that serves segments.
         public let defaultSegmentDeliveryConfiguration: DefaultSegmentDeliveryConfiguration?
-        /// The HTTP package configuration settings for the source location.
+        /// The source's HTTP package configurations.
         public let httpConfiguration: HttpConfiguration?
-        /// The timestamp that indicates when the source location was last modified.
+        /// The time the source location was last modified.
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var lastModifiedTime: Date?
-        /// A list of the segment delivery configurations associated with this resource.
+        /// The segment delivery configurations for the source location. For information about MediaTailor configurations, see Working with configurations in AWS Elemental MediaTailor.
         public let segmentDeliveryConfigurations: [SegmentDeliveryConfiguration]?
-        /// The name of the source location.
+        /// The name to assign to the source location.
         public let sourceLocationName: String?
-        /// The tags assigned to the source location.
+        /// The tags to assign to the source location. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
         public let tags: [String: String]?
 
         public init(accessConfiguration: AccessConfiguration? = nil, arn: String? = nil, creationTime: Date? = nil, defaultSegmentDeliveryConfiguration: DefaultSegmentDeliveryConfiguration? = nil, httpConfiguration: HttpConfiguration? = nil, lastModifiedTime: Date? = nil, segmentDeliveryConfigurations: [SegmentDeliveryConfiguration]? = nil, sourceLocationName: String? = nil, tags: [String: String]? = nil) {
@@ -722,11 +722,11 @@ extension MediaTailor {
 
         /// A list of HTTP package configuration parameters for this VOD source.
         public let httpPackageConfigurations: [HttpPackageConfiguration]
-        /// The identifier for the source location you are working on.
+        /// The name of the source location for this VOD source.
         public let sourceLocationName: String
-        /// The tags to assign to the VOD source.
+        /// The tags to assign to the VOD source. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
         public let tags: [String: String]?
-        /// The identifier for the VOD source you are working on.
+        /// The name associated with the VOD source.&gt;
         public let vodSourceName: String
 
         public init(httpPackageConfigurations: [HttpPackageConfiguration], sourceLocationName: String, tags: [String: String]? = nil, vodSourceName: String) {
@@ -743,21 +743,21 @@ extension MediaTailor {
     }
 
     public struct CreateVodSourceResponse: AWSDecodableShape {
-        /// The ARN of the VOD source.
+        /// The ARN to assign to this VOD source.
         public let arn: String?
-        /// The timestamp that indicates when the VOD source was created.
+        /// The time the VOD source was created.
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var creationTime: Date?
-        /// The HTTP package configurations.
+        /// A list of HTTP package configuration parameters for this VOD source.
         public let httpPackageConfigurations: [HttpPackageConfiguration]?
-        /// The last modified time of the VOD source.
+        /// The time the VOD source was last modified.
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var lastModifiedTime: Date?
-        /// The name of the source location associated with the VOD source.
+        /// The name to assign to the source location for this VOD source.
         public let sourceLocationName: String?
-        /// The tags assigned to the VOD source.
+        /// The tags to assign to the VOD source. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
         public let tags: [String: String]?
-        /// The name of the VOD source.
+        /// The name to assign to the VOD source.
         public let vodSourceName: String?
 
         public init(arn: String? = nil, creationTime: Date? = nil, httpPackageConfigurations: [HttpPackageConfiguration]? = nil, lastModifiedTime: Date? = nil, sourceLocationName: String? = nil, tags: [String: String]? = nil, vodSourceName: String? = nil) {
@@ -862,7 +862,7 @@ extension MediaTailor {
             AWSMemberEncoding(label: "channelName", location: .uri("ChannelName"))
         ]
 
-        /// The identifier for the channel you are working on.
+        /// The name of the channel associated with this channel policy.
         public let channelName: String
 
         public init(channelName: String) {
@@ -881,7 +881,7 @@ extension MediaTailor {
             AWSMemberEncoding(label: "channelName", location: .uri("ChannelName"))
         ]
 
-        /// The identifier for the channel you are working on.
+        /// The name of the channel.
         public let channelName: String
 
         public init(channelName: String) {
@@ -901,9 +901,9 @@ extension MediaTailor {
             AWSMemberEncoding(label: "sourceLocationName", location: .uri("SourceLocationName"))
         ]
 
-        /// The identifier for the live source you are working on.
+        /// The name of the live source.
         public let liveSourceName: String
-        /// The identifier for the source location you are working on.
+        /// The name of the source location associated with this Live Source.
         public let sourceLocationName: String
 
         public init(liveSourceName: String, sourceLocationName: String) {
@@ -923,7 +923,7 @@ extension MediaTailor {
             AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
-        /// The identifier for the playback configuration.
+        /// The name of the playback configuration.
         public let name: String
 
         public init(name: String) {
@@ -943,9 +943,9 @@ extension MediaTailor {
             AWSMemberEncoding(label: "playbackConfigurationName", location: .uri("PlaybackConfigurationName"))
         ]
 
-        /// The identifier for the playback configuration.
+        /// The name of the prefetch schedule. If the action is successful, the service sends back an HTTP 204 response with an empty HTTP body.
         public let name: String
-        /// The name of the playback configuration.
+        /// The name of the playback configuration for this prefetch schedule.
         public let playbackConfigurationName: String
 
         public init(name: String, playbackConfigurationName: String) {
@@ -966,9 +966,9 @@ extension MediaTailor {
             AWSMemberEncoding(label: "programName", location: .uri("ProgramName"))
         ]
 
-        /// The identifier for the channel you are working on.
+        /// The name of the channel.
         public let channelName: String
-        /// The identifier for the program you are working on.
+        /// The name of the program.
         public let programName: String
 
         public init(channelName: String, programName: String) {
@@ -988,7 +988,7 @@ extension MediaTailor {
             AWSMemberEncoding(label: "sourceLocationName", location: .uri("SourceLocationName"))
         ]
 
-        /// The identifier for the source location you are working on.
+        /// The name of the source location.
         public let sourceLocationName: String
 
         public init(sourceLocationName: String) {
@@ -1008,9 +1008,9 @@ extension MediaTailor {
             AWSMemberEncoding(label: "vodSourceName", location: .uri("VodSourceName"))
         ]
 
-        /// The identifier for the source location you are working on.
+        /// The name of the source location associated with this VOD Source.
         public let sourceLocationName: String
-        /// The identifier for the VOD source you are working on.
+        /// The name of the VOD source.
         public let vodSourceName: String
 
         public init(sourceLocationName: String, vodSourceName: String) {
@@ -1030,7 +1030,7 @@ extension MediaTailor {
             AWSMemberEncoding(label: "channelName", location: .uri("ChannelName"))
         ]
 
-        /// The identifier for the channel you are working on.
+        /// The name of the channel.
         public let channelName: String
 
         public init(channelName: String) {
@@ -1059,7 +1059,7 @@ extension MediaTailor {
         public let outputs: [ResponseOutputItem]?
         /// The channel's playback mode.
         public let playbackMode: String?
-        /// The tags assigned to the channel.
+        /// The tags assigned to the channel. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
         public let tags: [String: String]?
         /// The channel's tier.
         public let tier: String?
@@ -1097,9 +1097,9 @@ extension MediaTailor {
             AWSMemberEncoding(label: "sourceLocationName", location: .uri("SourceLocationName"))
         ]
 
-        /// The identifier for the live source you are working on.
+        /// The name of the live source.
         public let liveSourceName: String
-        /// The identifier for the source location you are working on.
+        /// The name of the source location associated with this Live Source.
         public let sourceLocationName: String
 
         public init(liveSourceName: String, sourceLocationName: String) {
@@ -1123,9 +1123,9 @@ extension MediaTailor {
         public var lastModifiedTime: Date?
         /// The name of the live source.
         public let liveSourceName: String?
-        /// The name of the source location associated with the VOD source.
+        /// The name of the source location associated with the live source.
         public let sourceLocationName: String?
-        /// The tags assigned to the live source.
+        /// The tags assigned to the live source. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
         public let tags: [String: String]?
 
         public init(arn: String? = nil, creationTime: Date? = nil, httpPackageConfigurations: [HttpPackageConfiguration]? = nil, lastModifiedTime: Date? = nil, liveSourceName: String? = nil, sourceLocationName: String? = nil, tags: [String: String]? = nil) {
@@ -1155,9 +1155,9 @@ extension MediaTailor {
             AWSMemberEncoding(label: "programName", location: .uri("ProgramName"))
         ]
 
-        /// The identifier for the channel you are working on.
+        /// The name of the channel associated with this Program.
         public let channelName: String
-        /// The identifier for the program you are working on.
+        /// The name of the program.
         public let programName: String
 
         public init(channelName: String, programName: String) {
@@ -1220,7 +1220,7 @@ extension MediaTailor {
             AWSMemberEncoding(label: "sourceLocationName", location: .uri("SourceLocationName"))
         ]
 
-        /// The identifier for the source location you are working on.
+        /// The name of the source location.
         public let sourceLocationName: String
 
         public init(sourceLocationName: String) {
@@ -1249,7 +1249,7 @@ extension MediaTailor {
         public let segmentDeliveryConfigurations: [SegmentDeliveryConfiguration]?
         /// The name of the source location.
         public let sourceLocationName: String?
-        /// The tags assigned to the source location.
+        /// The tags assigned to the source location. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
         public let tags: [String: String]?
 
         public init(accessConfiguration: AccessConfiguration? = nil, arn: String? = nil, creationTime: Date? = nil, defaultSegmentDeliveryConfiguration: DefaultSegmentDeliveryConfiguration? = nil, httpConfiguration: HttpConfiguration? = nil, lastModifiedTime: Date? = nil, segmentDeliveryConfigurations: [SegmentDeliveryConfiguration]? = nil, sourceLocationName: String? = nil, tags: [String: String]? = nil) {
@@ -1283,9 +1283,9 @@ extension MediaTailor {
             AWSMemberEncoding(label: "vodSourceName", location: .uri("VodSourceName"))
         ]
 
-        /// The identifier for the source location you are working on.
+        /// The name of the source location associated with this VOD Source.
         public let sourceLocationName: String
-        /// The identifier for the VOD source you are working on.
+        /// The name of the VOD Source.
         public let vodSourceName: String
 
         public init(sourceLocationName: String, vodSourceName: String) {
@@ -1309,7 +1309,7 @@ extension MediaTailor {
         public var lastModifiedTime: Date?
         /// The name of the source location associated with the VOD source.
         public let sourceLocationName: String?
-        /// The tags assigned to the VOD source.
+        /// The tags assigned to the VOD source. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
         public let tags: [String: String]?
         /// The name of the VOD source.
         public let vodSourceName: String?
@@ -1340,7 +1340,7 @@ extension MediaTailor {
             AWSMemberEncoding(label: "channelName", location: .uri("ChannelName"))
         ]
 
-        /// The identifier for the channel you are working on.
+        /// The name of the channel associated with this Channel Policy.
         public let channelName: String
 
         public init(channelName: String) {
@@ -1351,7 +1351,7 @@ extension MediaTailor {
     }
 
     public struct GetChannelPolicyResponse: AWSDecodableShape {
-        /// The IAM policy for the channel.
+        /// The IAM policy for the channel. IAM policies are used to control access to your channel.
         public let policy: String?
 
         public init(policy: String? = nil) {
@@ -1371,16 +1371,16 @@ extension MediaTailor {
             AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
-        /// The identifier for the channel you are working on.
+        /// The name of the channel associated with this Channel Schedule.
         public let channelName: String
-        /// The schedule duration in minutes. The maximum duration is 4320 minutes (three days).
+        /// The duration in minutes of the channel schedule.
         public let durationMinutes: String?
-        /// Upper bound on number of records to return. The maximum number of results is 100.
-        public let maxResults: Int?
-        /// Pagination token from the GET list request. Use the token to fetch the next page of results.
+        /// The maximum number of channel schedules that you want MediaTailor to return in response to the current request. If there are more than MaxResults channel schedules, use the value of NextToken in the response to get the next page of results.
+        public let maxResults: Int
+        /// (Optional) If the playback configuration has more than MaxResults channel schedules, use NextToken to get the second and subsequent pages of results. For the first GetChannelScheduleRequest request, omit this value. For the second and subsequent requests, get the value of NextToken from the previous response and specify that value for NextToken in the request. If the previous response didn't include a NextToken element, there are no more channel schedules to get.
         public let nextToken: String?
 
-        public init(channelName: String, durationMinutes: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(channelName: String, durationMinutes: String? = nil, maxResults: Int = 0, nextToken: String? = nil) {
             self.channelName = channelName
             self.durationMinutes = durationMinutes
             self.maxResults = maxResults
@@ -1398,7 +1398,7 @@ extension MediaTailor {
     public struct GetChannelScheduleResponse: AWSDecodableShape {
         /// A list of schedule entries for the channel.
         public let items: [ScheduleEntry]?
-        /// Pagination token from the GET list request. Use the token to fetch the next page of results.
+        /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
         public let nextToken: String?
 
         public init(items: [ScheduleEntry]? = nil, nextToken: String? = nil) {
@@ -1460,7 +1460,7 @@ extension MediaTailor {
         public let sessionInitializationEndpointPrefix: String?
         /// The URL for a high-quality video asset to transcode and use to fill in time that's not used by ads. AWS Elemental MediaTailor shows the slate to fill in gaps in media content. Configuring the slate is optional for non-VPAID playback configurations. For VPAID, the slate is required because MediaTailor provides it in the slots designated for dynamic ad content. The slate must be a high-quality asset that contains both audio and video.
         public let slateAdUrl: String?
-        /// The tags assigned to the playback configuration.
+        /// The tags assigned to the playback configuration. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
         public let tags: [String: String]?
         /// The name that is used to associate this playback configuration with a custom transcode profile. This overrides the dynamic transcoding defaults of MediaTailor. Use this only if you have already set up custom profiles with the help of AWS Support.
         public let transcodeProfileName: String?
@@ -1518,9 +1518,9 @@ extension MediaTailor {
             AWSMemberEncoding(label: "playbackConfigurationName", location: .uri("PlaybackConfigurationName"))
         ]
 
-        /// The identifier for the playback configuration.
+        /// The name of the prefetch schedule. The name must be unique among all prefetch schedules that are associated with the specified playback configuration.
         public let name: String
-        /// The name of the playback configuration.
+        /// Returns information about the prefetch schedule for a specific playback configuration. If you call GetPrefetchSchedule on an expired prefetch schedule, MediaTailor returns an HTTP 404 status code.
         public let playbackConfigurationName: String
 
         public init(name: String, playbackConfigurationName: String) {
@@ -1631,14 +1631,14 @@ extension MediaTailor {
             AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn"))
         ]
 
-        /// Upper bound on number of records to return. The maximum number of results is 100.
-        public let maxResults: Int?
-        /// Pagination token from the GET list request. Use the token to fetch the next page of results.
+        /// The maximum number of alerts that you want MediaTailor to return in response to the current request. If there are more than MaxResults alerts, use the value of NextToken in the response to get the next page of results.
+        public let maxResults: Int
+        /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
         public let nextToken: String?
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceArn: String) {
+        public init(maxResults: Int = 0, nextToken: String? = nil, resourceArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resourceArn = resourceArn
@@ -1655,7 +1655,7 @@ extension MediaTailor {
     public struct ListAlertsResponse: AWSDecodableShape {
         /// A list of alerts that are associated with this resource.
         public let items: [Alert]?
-        /// Pagination token from the list request. Use the token to fetch the next page of results.
+        /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
         public let nextToken: String?
 
         public init(items: [Alert]? = nil, nextToken: String? = nil) {
@@ -1675,12 +1675,12 @@ extension MediaTailor {
             AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
-        /// Upper bound on number of records to return. The maximum number of results is 100.
-        public let maxResults: Int?
-        /// Pagination token from the GET list request. Use the token to fetch the next page of results.
+        /// The maximum number of channels that you want MediaTailor to return in response to the current request. If there are more than MaxResults channels, use the value of NextToken in the response to get the next page of results.
+        public let maxResults: Int
+        /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
         public let nextToken: String?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int = 0, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -1717,14 +1717,14 @@ extension MediaTailor {
             AWSMemberEncoding(label: "sourceLocationName", location: .uri("SourceLocationName"))
         ]
 
-        /// Upper bound on number of records to return. The maximum number of results is 100.
-        public let maxResults: Int?
-        /// Pagination token from the GET list request. Use the token to fetch the next page of results.
+        /// The maximum number of live sources that you want MediaTailor to return in response to the current request. If there are more than MaxResults live sources, use the value of NextToken in the response to get the next page of results.
+        public let maxResults: Int
+        /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
         public let nextToken: String?
-        /// The identifier for the source location you are working on.
+        /// The name of the source location associated with this Live Sources list.
         public let sourceLocationName: String
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil, sourceLocationName: String) {
+        public init(maxResults: Int = 0, nextToken: String? = nil, sourceLocationName: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.sourceLocationName = sourceLocationName
@@ -1741,7 +1741,7 @@ extension MediaTailor {
     public struct ListLiveSourcesResponse: AWSDecodableShape {
         /// Lists the live sources.
         public let items: [LiveSource]?
-        /// Pagination token from the list request. Use the token to fetch the next page of results.
+        /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
         public let nextToken: String?
 
         public init(items: [LiveSource]? = nil, nextToken: String? = nil) {
@@ -1761,12 +1761,12 @@ extension MediaTailor {
             AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
         ]
 
-        /// Maximum number of records to return.
-        public let maxResults: Int?
-        /// Pagination token returned by the GET list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
+        /// The maximum number of playback configurations that you want MediaTailor to return in response to the current request. If there are more than MaxResults playback configurations, use the value of NextToken in the response to get the next page of results.
+        public let maxResults: Int
+        /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
         public let nextToken: String?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int = 0, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -1801,16 +1801,16 @@ extension MediaTailor {
             AWSMemberEncoding(label: "playbackConfigurationName", location: .uri("PlaybackConfigurationName"))
         ]
 
-        /// The maximum number of prefetch schedules that you want MediaTailor to return in response to the current request. If the playback configuration has more than MaxResults prefetch schedules, use the value of NextToken in the response to get the next page of results.
-        public let maxResults: Int?
+        /// The maximum number of prefetch schedules that you want MediaTailor to return in response to the current request. If there are more than MaxResults prefetch schedules, use the value of NextToken in the response to get the next page of results.
+        public let maxResults: Int
         /// (Optional) If the playback configuration has more than MaxResults prefetch schedules, use NextToken to get the second and subsequent pages of results. For the first ListPrefetchSchedulesRequest request, omit this value. For the second and subsequent requests, get the value of NextToken from the previous response and specify that value for NextToken in the request. If the previous response didn't include a NextToken element, there are no more prefetch schedules to get.
         public let nextToken: String?
-        /// The name of the playback configuration.
+        /// Retrieves the prefetch schedule(s) for a specific playback configuration.
         public let playbackConfigurationName: String
         /// An optional filtering parameter whereby MediaTailor filters the prefetch schedules to include only specific streams.
         public let streamId: String?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil, playbackConfigurationName: String, streamId: String? = nil) {
+        public init(maxResults: Int = 0, nextToken: String? = nil, playbackConfigurationName: String, streamId: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.playbackConfigurationName = playbackConfigurationName
@@ -1832,7 +1832,7 @@ extension MediaTailor {
     public struct ListPrefetchSchedulesResponse: AWSDecodableShape {
         /// Lists the prefetch schedules. An empty Items list doesn't mean there aren't more items to fetch, just that that page was empty.
         public let items: [PrefetchSchedule]?
-        /// The value that you will use forNextToken in the next ListPrefetchSchedulesRequest request.
+        /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
         public let nextToken: String?
 
         public init(items: [PrefetchSchedule]? = nil, nextToken: String? = nil) {
@@ -1852,12 +1852,12 @@ extension MediaTailor {
             AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
-        /// Upper bound on number of records to return. The maximum number of results is 100.
-        public let maxResults: Int?
-        /// Pagination token from the GET list request. Use the token to fetch the next page of results.
+        ///  The maximum number of source locations that you want MediaTailor to return in response to the current request. If there are more than MaxResults source locations, use the value of NextToken in the response to get the next page of results.
+        public let maxResults: Int
+        /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
         public let nextToken: String?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int = 0, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -1873,7 +1873,7 @@ extension MediaTailor {
     public struct ListSourceLocationsResponse: AWSDecodableShape {
         /// A list of source locations.
         public let items: [SourceLocation]?
-        /// Pagination token from the list request. Use the token to fetch the next page of results.
+        /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
         public let nextToken: String?
 
         public init(items: [SourceLocation]? = nil, nextToken: String? = nil) {
@@ -1892,7 +1892,7 @@ extension MediaTailor {
             AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
-        /// The Amazon Resource Name (ARN) for the playback configuration. You can get this from the response to any playback configuration request.
+        /// The Amazon Resource Name (ARN) associated with this resource.
         public let resourceArn: String
 
         public init(resourceArn: String) {
@@ -1903,7 +1903,7 @@ extension MediaTailor {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
-        /// A comma-separated list of tag key:value pairs.
+        /// The tags associated with this resource. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
         public let tags: [String: String]?
 
         public init(tags: [String: String]? = nil) {
@@ -1922,14 +1922,14 @@ extension MediaTailor {
             AWSMemberEncoding(label: "sourceLocationName", location: .uri("SourceLocationName"))
         ]
 
-        /// Upper bound on number of records to return. The maximum number of results is 100.
-        public let maxResults: Int?
-        /// Pagination token from the GET list request. Use the token to fetch the next page of results.
+        ///  The maximum number of VOD sources that you want MediaTailor to return in response to the current request. If there are more than MaxResults VOD sources, use the value of NextToken in the response to get the next page of results.
+        public let maxResults: Int
+        /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
         public let nextToken: String?
-        /// The identifier for the source location you are working on.
+        /// The name of the source location associated with this VOD Source list.
         public let sourceLocationName: String
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil, sourceLocationName: String) {
+        public init(maxResults: Int = 0, nextToken: String? = nil, sourceLocationName: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.sourceLocationName = sourceLocationName
@@ -1946,7 +1946,7 @@ extension MediaTailor {
     public struct ListVodSourcesResponse: AWSDecodableShape {
         /// Lists the VOD sources.
         public let items: [VodSource]?
-        /// Pagination token from the list request. Use the token to fetch the next page of results.
+        /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
         public let nextToken: String?
 
         public init(items: [VodSource]? = nil, nextToken: String? = nil) {
@@ -1992,7 +1992,7 @@ extension MediaTailor {
         public let liveSourceName: String
         /// The name of the source location.
         public let sourceLocationName: String
-        /// The tags assigned to the live source.
+        /// The tags assigned to the live source. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
         public let tags: [String: String]?
 
         public init(arn: String, creationTime: Date? = nil, httpPackageConfigurations: [HttpPackageConfiguration], lastModifiedTime: Date? = nil, liveSourceName: String, sourceLocationName: String, tags: [String: String]? = nil) {
@@ -2075,7 +2075,7 @@ extension MediaTailor {
         public let sessionInitializationEndpointPrefix: String?
         /// The URL for a video asset to transcode and use to fill in time that's not used by ads. AWS Elemental MediaTailor shows the slate to fill in gaps in media content. Configuring the slate is optional for non-VPAID playback configurations. For VPAID, the slate is required because MediaTailor provides it in the slots designated for dynamic ad content. The slate must be a high-quality asset that contains both audio and video.
         public let slateAdUrl: String?
-        /// The tags to assign to the playback configuration.
+        /// The tags to assign to the playback configuration. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
         public let tags: [String: String]?
         /// The name that is used to associate this playback configuration with a custom transcode profile. This overrides the dynamic transcoding defaults of MediaTailor. Use this only if you have already set up custom profiles with the help of AWS Support.
         public let transcodeProfileName: String?
@@ -2151,7 +2151,7 @@ extension MediaTailor {
     }
 
     public struct PrefetchRetrieval: AWSEncodableShape & AWSDecodableShape {
-        /// The dynamic variables to use for substitution during prefetch requests to the ad decision server (ADS). You intially configure dynamic variables for the ADS URL when you set up your playback configuration. When you specify DynamicVariables for prefetch retrieval, MediaTailor includes the dynamic variables in the request to the ADS.
+        /// The dynamic variables to use for substitution during prefetch requests to the ad decision server (ADS). You initially configure dynamic variables for the ADS URL when you set up your playback configuration. When you specify DynamicVariables for prefetch retrieval, MediaTailor includes the dynamic variables in the request to the ADS.
         public let dynamicVariables: [String: String]?
         /// The time when prefetch retrieval ends for the ad break. Prefetching will be attempted for manifest requests that occur at or before this time.
         @CustomCoding<UnixEpochDateCoder>
@@ -2211,7 +2211,7 @@ extension MediaTailor {
             AWSMemberEncoding(label: "channelName", location: .uri("ChannelName"))
         ]
 
-        /// The identifier for the channel you are working on.
+        /// The channel name associated with this Channel Policy.
         public let channelName: String
         /// Adds an IAM role that determines the permissions of your channel.
         public let policy: String
@@ -2248,19 +2248,19 @@ extension MediaTailor {
         /// The configuration for manifest processing rules. Manifest processing rules enable customization of the personalized manifests created by MediaTailor.
         public let manifestProcessingRules: ManifestProcessingRules?
         /// The identifier for the playback configuration.
-        public let name: String?
+        public let name: String
         /// Defines the maximum duration of underfilled ad time (in seconds) allowed in an ad break. If the duration of underfilled ad time exceeds the personalization threshold, then the personalization of the ad break is abandoned and the underlying content is shown. This feature applies to ad replacement in live and VOD streams, rather than ad insertion, because it relies on an underlying content stream. For more information about ad break behavior, including ad replacement and insertion, see Ad Behavior in AWS Elemental MediaTailor.
-        public let personalizationThresholdSeconds: Int?
+        public let personalizationThresholdSeconds: Int
         /// The URL for a high-quality video asset to transcode and use to fill in time that's not used by ads. AWS Elemental MediaTailor shows the slate to fill in gaps in media content. Configuring the slate is optional for non-VPAID configurations. For VPAID, the slate is required because MediaTailor provides it in the slots that are designated for dynamic ad content. The slate must be a high-quality asset that contains both audio and video.
         public let slateAdUrl: String?
-        /// The tags to assign to the playback configuration.
+        /// The tags to assign to the playback configuration. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
         public let tags: [String: String]?
         /// The name that is used to associate this playback configuration with a custom transcode profile. This overrides the dynamic transcoding defaults of MediaTailor. Use this only if you have already set up custom profiles with the help of AWS Support.
         public let transcodeProfileName: String?
         /// The URL prefix for the parent manifest for the stream, minus the asset ID. The maximum length is 512 characters.
         public let videoContentSourceUrl: String?
 
-        public init(adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfigurationForPut? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
+        public init(adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfigurationForPut? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String, personalizationThresholdSeconds: Int = 0, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
             self.adDecisionServerUrl = adDecisionServerUrl
             self.availSuppression = availSuppression
             self.bumper = bumper
@@ -2300,7 +2300,7 @@ extension MediaTailor {
     }
 
     public struct PutPlaybackConfigurationResponse: AWSDecodableShape {
-        /// The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing, you can provide a static VAST URL. The maximum length is 25,000 characters.
+        /// The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing you can provide a static VAST URL. The maximum length is 25,000 characters.
         public let adDecisionServerUrl: String?
         /// The configuration for avail suppression, also known as ad suppression. For more information about ad suppression, see Ad Suppression.
         public let availSuppression: AvailSuppression?
@@ -2324,15 +2324,15 @@ extension MediaTailor {
         public let name: String?
         /// Defines the maximum duration of underfilled ad time (in seconds) allowed in an ad break. If the duration of underfilled ad time exceeds the personalization threshold, then the personalization of the ad break is abandoned and the underlying content is shown. This feature applies to ad replacement in live and VOD streams, rather than ad insertion, because it relies on an underlying content stream. For more information about ad break behavior, including ad replacement and insertion, see Ad Behavior in AWS Elemental MediaTailor.
         public let personalizationThresholdSeconds: Int?
-        /// The Amazon Resource Name (ARN) for the playback configuration.
+        /// The Amazon Resource Name (ARN) associated with the playback configuration.
         public let playbackConfigurationArn: String?
-        /// The URL that the player accesses to get a manifest from AWS Elemental MediaTailor. This session will use server-side reporting.
+        /// The playback endpoint prefix associated with the playback configuration.
         public let playbackEndpointPrefix: String?
-        /// The URL that the player uses to initialize a session that uses client-side reporting.
+        /// The session initialization endpoint prefix associated with the playback configuration.
         public let sessionInitializationEndpointPrefix: String?
-        /// The URL for a high-quality video asset to transcode and use to fill in time that's not used by ads. AWS Elemental MediaTailor shows the slate to fill in gaps in media content. Configuring the slate is optional for non-VPAID playback configurations. For VPAID, the slate is required because MediaTailor provides it in the slots designated for dynamic ad content. The slate must be a high-quality asset that contains both audio and video.
+        /// The URL for a high-quality video asset to transcode and use to fill in time that's not used by ads. AWS Elemental MediaTailor shows the slate to fill in gaps in media content. Configuring the slate is optional for non-VPAID configurations. For VPAID, the slate is required because MediaTailor provides it in the slots that are designated for dynamic ad content. The slate must be a high-quality asset that contains both audio and video.
         public let slateAdUrl: String?
-        /// The tags assigned to the playback configuration.
+        /// The tags to assign to the playback configuration. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
         public let tags: [String: String]?
         /// The name that is used to associate this playback configuration with a custom transcode profile. This overrides the dynamic transcoding defaults of MediaTailor. Use this only if you have already set up custom profiles with the help of AWS Support.
         public let transcodeProfileName: String?
@@ -2493,7 +2493,7 @@ extension MediaTailor {
         public let programName: String
         /// The schedule's ad break properties.
         public let scheduleAdBreaks: [ScheduleAdBreak]?
-        /// The type of schedule entry. Valid values: PROGRAM or FILLER_SLATE.
+        /// The type of schedule entry.
         public let scheduleEntryType: ScheduleEntryType?
         /// The name of the source location.
         public let sourceLocationName: String
@@ -2601,7 +2601,7 @@ extension MediaTailor {
         public let segmentDeliveryConfigurations: [SegmentDeliveryConfiguration]?
         /// The name of the source location.
         public let sourceLocationName: String
-        /// The tags assigned to the source location.
+        /// The tags assigned to the source location. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
         public let tags: [String: String]?
 
         public init(accessConfiguration: AccessConfiguration? = nil, arn: String, creationTime: Date? = nil, defaultSegmentDeliveryConfiguration: DefaultSegmentDeliveryConfiguration? = nil, httpConfiguration: HttpConfiguration, lastModifiedTime: Date? = nil, segmentDeliveryConfigurations: [SegmentDeliveryConfiguration]? = nil, sourceLocationName: String, tags: [String: String]? = nil) {
@@ -2659,7 +2659,7 @@ extension MediaTailor {
             AWSMemberEncoding(label: "channelName", location: .uri("ChannelName"))
         ]
 
-        /// The identifier for the channel you are working on.
+        /// The name of the channel.
         public let channelName: String
 
         public init(channelName: String) {
@@ -2678,7 +2678,7 @@ extension MediaTailor {
             AWSMemberEncoding(label: "channelName", location: .uri("ChannelName"))
         ]
 
-        /// The identifier for the channel you are working on.
+        /// The name of the channel.
         public let channelName: String
 
         public init(channelName: String) {
@@ -2697,9 +2697,9 @@ extension MediaTailor {
             AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
-        /// The Amazon Resource Name (ARN) for the playback configuration. You can get this from the response to any playback configuration request.
+        /// The Amazon Resource Name (ARN) associated with the resource.
         public let resourceArn: String
-        /// A comma-separated list of tag key:value pairs.
+        /// The tags to assign to the resource. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
         public let tags: [String: String]
 
         public init(resourceArn: String, tags: [String: String]) {
@@ -2714,17 +2714,17 @@ extension MediaTailor {
 
     public struct Transition: AWSEncodableShape {
         /// The duration of the live program in seconds.
-        public let durationMillis: Int64?
+        public let durationMillis: Int64
         /// The position where this program will be inserted relative to the RelativePosition.
         public let relativePosition: RelativePosition
         /// The name of the program that this program will be inserted next to, as defined by RelativePosition.
         public let relativeProgram: String?
         /// The date and time that the program is scheduled to start, in epoch milliseconds.
-        public let scheduledStartTimeMillis: Int64?
-        /// Defines when the program plays in the schedule. You can set the value to ABSOLUTE or RELATIVE. ABSOLUTE - The program plays at a specific wall clock time. This setting can only be used for channels using the LINEAR PlaybackMode. Note the following considerations when using ABSOLUTE transitions: If the preceding program in the schedule has a duration that extends past the wall clock time, MediaTailor truncates the preceding program on a common segment boundary. If there are gaps in playback, MediaTailor plays the FillerSlate you configured for your linear channel. RELATIVE - The program is inserted into the schedule either before or after a program that you specify via RelativePosition.
+        public let scheduledStartTimeMillis: Int64
+        /// Defines when the program plays in the schedule. You can set the value to ABSOLUTE or RELATIVE.  ABSOLUTE - The program plays at a specific wall clock time. This setting can only be used for channels using the LINEAR  PlaybackMode. Note the following considerations when using ABSOLUTE transitions: If the preceding program in the schedule has a duration that extends past the wall clock time, MediaTailor truncates the preceding program on a common segment boundary. If there are gaps in playback, MediaTailor plays the FillerSlate you configured for your linear channel.  RELATIVE - The program is inserted into the schedule either before or after a program that you specify via RelativePosition.
         public let type: String
 
-        public init(durationMillis: Int64? = nil, relativePosition: RelativePosition, relativeProgram: String? = nil, scheduledStartTimeMillis: Int64? = nil, type: String) {
+        public init(durationMillis: Int64 = 0, relativePosition: RelativePosition, relativeProgram: String? = nil, scheduledStartTimeMillis: Int64 = 0, type: String) {
             self.durationMillis = durationMillis
             self.relativePosition = relativePosition
             self.relativeProgram = relativeProgram
@@ -2747,9 +2747,9 @@ extension MediaTailor {
             AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
-        /// The Amazon Resource Name (ARN) for the playback configuration. You can get this from the response to any playback configuration request.
+        /// The Amazon Resource Name (ARN) of the resource to untag.
         public let resourceArn: String
-        /// A comma-separated list of the tag keys to remove from the playback configuration.
+        /// The tag keys associated with the resource.
         public let tagKeys: [String]
 
         public init(resourceArn: String, tagKeys: [String]) {
@@ -2765,9 +2765,9 @@ extension MediaTailor {
             AWSMemberEncoding(label: "channelName", location: .uri("ChannelName"))
         ]
 
-        /// The identifier for the channel you are working on.
+        /// The name of the channel.
         public let channelName: String
-        /// The slate used to fill gaps between programs in the schedule. You must configure filler slate if your channel uses the LINEAR PlaybackMode. MediaTailor doesn't support filler slate for channels using the LOOP PlaybackMode.
+        /// The slate used to fill gaps between programs in the schedule. You must configure filler slate if your channel uses the LINEAR  PlaybackMode. MediaTailor doesn't support filler slate for channels using the LOOP  PlaybackMode.
         public let fillerSlate: SlateSource?
         /// The channel's output properties.
         public let outputs: [RequestOutputItem]
@@ -2785,27 +2785,27 @@ extension MediaTailor {
     }
 
     public struct UpdateChannelResponse: AWSDecodableShape {
-        /// The ARN of the channel.
+        /// The Amazon Resource Name (ARN) associated with the channel.
         public let arn: String?
         /// The name of the channel.
         public let channelName: String?
-        /// Indicates whether the channel is in a running state or not.
+        /// Returns the state whether the channel is running or not.
         public let channelState: ChannelState?
         /// The timestamp of when the channel was created.
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var creationTime: Date?
-        /// Contains information about the slate used to fill gaps between programs in the schedule.
+        /// The slate used to fill gaps between programs in the schedule. You must configure filler slate if your channel uses the LINEAR  PlaybackMode. MediaTailor doesn't support filler slate for channels using the LOOP  PlaybackMode.
         public let fillerSlate: SlateSource?
-        /// The timestamp of when the channel was last modified.
+        /// The timestamp that indicates when the channel was last modified.
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var lastModifiedTime: Date?
         /// The channel's output properties.
         public let outputs: [ResponseOutputItem]?
-        /// The channel's playback mode.
+        /// The type of playback mode for this channel.  LINEAR - Programs play back-to-back only once.  LOOP - Programs play back-to-back in an endless loop. When the last program in the schedule plays, playback loops back to the first program in the schedule.
         public let playbackMode: String?
-        /// The tags assigned to the channel.
+        /// The tags to assign to the channel. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
         public let tags: [String: String]?
-        /// The channel's tier.
+        /// The tier associated with this Channel.
         public let tier: String?
 
         public init(arn: String? = nil, channelName: String? = nil, channelState: ChannelState? = nil, creationTime: Date? = nil, fillerSlate: SlateSource? = nil, lastModifiedTime: Date? = nil, outputs: [ResponseOutputItem]? = nil, playbackMode: String? = nil, tags: [String: String]? = nil, tier: String? = nil) {
@@ -2843,9 +2843,9 @@ extension MediaTailor {
 
         /// A list of HTTP package configurations for the live source on this account.
         public let httpPackageConfigurations: [HttpPackageConfiguration]
-        /// The identifier for the live source you are working on.
+        /// The name of the live source.
         public let liveSourceName: String
-        /// The identifier for the source location you are working on.
+        /// The name of the source location associated with this Live Source.
         public let sourceLocationName: String
 
         public init(httpPackageConfigurations: [HttpPackageConfiguration], liveSourceName: String, sourceLocationName: String) {
@@ -2860,21 +2860,21 @@ extension MediaTailor {
     }
 
     public struct UpdateLiveSourceResponse: AWSDecodableShape {
-        /// The ARN of the live source.
+        /// The Amazon Resource Name (ARN) associated with this live source.
         public let arn: String?
         /// The timestamp that indicates when the live source was created.
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var creationTime: Date?
-        /// The HTTP package configurations.
+        /// A list of HTTP package configurations for the live source on this account.
         public let httpPackageConfigurations: [HttpPackageConfiguration]?
-        /// The timestamp that indicates when the live source was modified.
+        /// The timestamp that indicates when the live source was last modified.
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var lastModifiedTime: Date?
         /// The name of the live source.
         public let liveSourceName: String?
-        /// The name of the source location associated with the VOD source.
+        /// The name of the source location associated with the live source.
         public let sourceLocationName: String?
-        /// The tags assigned to the live source.
+        /// The tags to assign to the live source. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
         public let tags: [String: String]?
 
         public init(arn: String? = nil, creationTime: Date? = nil, httpPackageConfigurations: [HttpPackageConfiguration]? = nil, lastModifiedTime: Date? = nil, liveSourceName: String? = nil, sourceLocationName: String? = nil, tags: [String: String]? = nil) {
@@ -2911,7 +2911,7 @@ extension MediaTailor {
         public let httpConfiguration: HttpConfiguration
         /// A list of the segment delivery configurations associated with this resource.
         public let segmentDeliveryConfigurations: [SegmentDeliveryConfiguration]?
-        /// The identifier for the source location you are working on.
+        /// The name of the source location.
         public let sourceLocationName: String
 
         public init(accessConfiguration: AccessConfiguration? = nil, defaultSegmentDeliveryConfiguration: DefaultSegmentDeliveryConfiguration? = nil, httpConfiguration: HttpConfiguration, segmentDeliveryConfigurations: [SegmentDeliveryConfiguration]? = nil, sourceLocationName: String) {
@@ -2931,25 +2931,25 @@ extension MediaTailor {
     }
 
     public struct UpdateSourceLocationResponse: AWSDecodableShape {
-        /// The access configuration for the source location.
+        /// Access configuration parameters. Configures the type of authentication used to access content from your source location.
         public let accessConfiguration: AccessConfiguration?
-        /// The ARN of the source location.
+        /// The Amazon Resource Name (ARN) associated with the source location.
         public let arn: String?
         /// The timestamp that indicates when the source location was created.
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var creationTime: Date?
-        /// The default segment delivery configuration settings.
+        /// The optional configuration for the host server that serves segments.
         public let defaultSegmentDeliveryConfiguration: DefaultSegmentDeliveryConfiguration?
-        /// The HTTP package configuration settings for the source location.
+        /// The HTTP configuration for the source location.
         public let httpConfiguration: HttpConfiguration?
         /// The timestamp that indicates when the source location was last modified.
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var lastModifiedTime: Date?
-        /// A list of the segment delivery configurations associated with this resource.
+        /// The segment delivery configurations for the source location. For information about MediaTailor configurations, see Working with configurations in AWS Elemental MediaTailor.
         public let segmentDeliveryConfigurations: [SegmentDeliveryConfiguration]?
         /// The name of the source location.
         public let sourceLocationName: String?
-        /// The tags assigned to the source location.
+        /// The tags to assign to the source location. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
         public let tags: [String: String]?
 
         public init(accessConfiguration: AccessConfiguration? = nil, arn: String? = nil, creationTime: Date? = nil, defaultSegmentDeliveryConfiguration: DefaultSegmentDeliveryConfiguration? = nil, httpConfiguration: HttpConfiguration? = nil, lastModifiedTime: Date? = nil, segmentDeliveryConfigurations: [SegmentDeliveryConfiguration]? = nil, sourceLocationName: String? = nil, tags: [String: String]? = nil) {
@@ -2985,9 +2985,9 @@ extension MediaTailor {
 
         /// A list of HTTP package configurations for the VOD source on this account.
         public let httpPackageConfigurations: [HttpPackageConfiguration]
-        /// The identifier for the source location you are working on.
+        /// The name of the source location associated with this VOD Source.
         public let sourceLocationName: String
-        /// The identifier for the VOD source you are working on.
+        /// The name of the VOD source.
         public let vodSourceName: String
 
         public init(httpPackageConfigurations: [HttpPackageConfiguration], sourceLocationName: String, vodSourceName: String) {
@@ -3002,19 +3002,19 @@ extension MediaTailor {
     }
 
     public struct UpdateVodSourceResponse: AWSDecodableShape {
-        /// The ARN of the VOD source.
+        /// The Amazon Resource Name (ARN) associated with the VOD source.
         public let arn: String?
         /// The timestamp that indicates when the VOD source was created.
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var creationTime: Date?
-        /// The HTTP package configurations.
+        /// A list of HTTP package configurations for the VOD source on this account.
         public let httpPackageConfigurations: [HttpPackageConfiguration]?
-        /// The last modified time of the VOD source.
+        /// The timestamp that indicates when the VOD source was last modified.
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var lastModifiedTime: Date?
         /// The name of the source location associated with the VOD source.
         public let sourceLocationName: String?
-        /// The tags assigned to the VOD source.
+        /// The tags to assign to the VOD source. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
         public let tags: [String: String]?
         /// The name of the VOD source.
         public let vodSourceName: String?
@@ -3053,7 +3053,7 @@ extension MediaTailor {
         public var lastModifiedTime: Date?
         /// The name of the source location that the VOD source is associated with.
         public let sourceLocationName: String
-        /// The tags assigned to the VOD source.
+        /// The tags assigned to the VOD source. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
         public let tags: [String: String]?
         /// The name of the VOD source.
         public let vodSourceName: String

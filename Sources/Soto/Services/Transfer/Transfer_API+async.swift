@@ -33,12 +33,12 @@ extension Transfer {
         return try await self.client.execute(operation: "CreateAgreement", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates the connector, which captures the parameters for an outbound connection for the AS2 protocol. The connector is required for sending files from a customer's non Amazon Web Services server.
+    /// Creates the connector, which captures the parameters for an outbound connection for the AS2 protocol. The connector is required for sending files to an externally hosted AS2 server. For more details about connectors, see Create AS2 connectors.
     public func createConnector(_ input: CreateConnectorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateConnectorResponse {
         return try await self.client.execute(operation: "CreateConnector", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates the profile for the AS2 process. The agreement is between the partner and the AS2 process.
+    /// Creates the local or partner profile to use for AS2 transfers.
     public func createProfile(_ input: CreateProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateProfileResponse {
         return try await self.client.execute(operation: "CreateProfile", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -173,7 +173,7 @@ extension Transfer {
         return try await self.client.execute(operation: "ImportCertificate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Adds a host key to the server specified by the ServerId parameter.
+    /// Adds a host key to the server that's specified by the ServerId parameter.
     public func importHostKey(_ input: ImportHostKeyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ImportHostKeyResponse {
         return try await self.client.execute(operation: "ImportHostKey", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -209,7 +209,7 @@ extension Transfer {
         return try await self.client.execute(operation: "ListExecutions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns a list of host keys for the server specified by the ServerId paramter.
+    /// Returns a list of host keys for the server that's specified by the ServerId parameter.
     public func listHostKeys(_ input: ListHostKeysRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListHostKeysResponse {
         return try await self.client.execute(operation: "ListHostKeys", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -249,7 +249,7 @@ extension Transfer {
         return try await self.client.execute(operation: "SendWorkflowStepState", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Begins an outbound file transfer. You specify the ConnectorId and the file paths for where to send the files.
+    /// Begins an outbound file transfer to a remote AS2 server. You specify the ConnectorId and the file paths for where to send the files.
     public func startFileTransfer(_ input: StartFileTransferRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StartFileTransferResponse {
         return try await self.client.execute(operation: "StartFileTransfer", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -306,7 +306,7 @@ extension Transfer {
         return try await self.client.execute(operation: "UpdateConnector", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates the description for the host key specified by the specified by the ServerId and HostKeyId parameters.
+    /// Updates the description for the host key that's specified by the ServerId and HostKeyId parameters.
     public func updateHostKey(_ input: UpdateHostKeyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateHostKeyResponse {
         return try await self.client.execute(operation: "UpdateHostKey", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

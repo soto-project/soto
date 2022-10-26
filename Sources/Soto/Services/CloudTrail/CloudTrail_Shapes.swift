@@ -21,6 +21,19 @@ import SotoCore
 extension CloudTrail {
     // MARK: Enums
 
+    public enum DeliveryStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case accessDenied = "ACCESS_DENIED"
+        case accessDeniedSigningFile = "ACCESS_DENIED_SIGNING_FILE"
+        case cancelled = "CANCELLED"
+        case failed = "FAILED"
+        case failedSigningFile = "FAILED_SIGNING_FILE"
+        case pending = "PENDING"
+        case resourceNotFound = "RESOURCE_NOT_FOUND"
+        case success = "SUCCESS"
+        case unknown = "UNKNOWN"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DestinationType: String, CustomStringConvertible, Codable, _SotoSendable {
         case awsService = "AWS_SERVICE"
         case eventDataStore = "EVENT_DATA_STORE"
@@ -269,7 +282,7 @@ extension CloudTrail {
     }
 
     public struct Channel: AWSDecodableShape {
-        ///  The Amazon Resource Name (ARN) of the channel.
+        /// The Amazon Resource Name (ARN) of a channel.
         public let channelArn: String?
         ///  The name of the CloudTrail channel. For service-linked channels, the name is aws-service-channel/service-name/custom-suffix where service-name represents the name of the  Amazon Web Services service that created the channel and custom-suffix represents the suffix created by the Amazon Web Services service.
         public let name: String?
@@ -394,14 +407,14 @@ extension CloudTrail {
         /// Specifies the role for the CloudWatch Logs endpoint to assume to write to a user's log group.
         public let cloudWatchLogsRoleArn: String?
         /// Specifies whether log file integrity validation is enabled. The default is false.  When you disable log file integrity validation, the chain of digest files is broken after one hour. CloudTrail does  not create digest files for log files that were delivered during a period in which log file integrity validation was disabled.  For example, if you enable log file integrity validation at noon on January 1, disable it at noon on January 2, and re-enable  it at noon on January 10, digest files will not be created for the log files delivered from noon on January 2 to noon on  January 10. The same applies whenever you stop CloudTrail logging or delete a trail.
-        public let enableLogFileValidation: Bool
+        public let enableLogFileValidation: Bool?
         /// Specifies whether the trail is publishing events from global services such as IAM to the log files.
         public let includeGlobalServiceEvents: Bool?
         /// Specifies whether the trail is created in the current region or in all regions. The default is false, which creates a trail only in the region where you are signed in. As a best practice, consider creating trails that log events in all regions.
-        public let isMultiRegionTrail: Bool
+        public let isMultiRegionTrail: Bool?
         /// Specifies whether the trail is created for all accounts in an organization in Organizations, or only for the current Amazon Web Services account.  The default is false, and cannot be true unless the call is made on behalf of an Amazon Web Services account that is the management account for an organization in  Organizations.
-        public let isOrganizationTrail: Bool
-        /// Specifies the KMS key ID to use to encrypt the logs delivered by CloudTrail. The value can be an alias name prefixed by "alias/", a fully specified ARN to an alias, a fully specified ARN to a key, or a globally unique identifier. CloudTrail also supports KMS multi-Region keys. For more information about multi-Region keys, see Using multi-Region keys in the Key Management Service Developer Guide. Examples:   alias/MyAliasName   arn:aws:kms:us-east-2:123456789012:alias/MyAliasName   arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012   12345678-1234-1234-1234-123456789012
+        public let isOrganizationTrail: Bool?
+        /// Specifies the KMS key ID to use to encrypt the logs delivered by CloudTrail. The value can be an alias name prefixed by alias/, a fully specified ARN to an alias, a fully specified ARN to a key, or a globally unique identifier. CloudTrail also supports KMS multi-Region keys. For more information about multi-Region keys, see Using multi-Region keys in the Key Management Service Developer Guide. Examples:    alias/MyAliasName     arn:aws:kms:us-east-2:123456789012:alias/MyAliasName     arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012     12345678-1234-1234-1234-123456789012
         public let kmsKeyId: String?
         /// Specifies the name of the trail. The name must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)   Start with a letter or number, and end with a letter or number   Be between 3 and 128 characters   Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are not valid.   Not be in IP address format (for example, 192.168.5.4)
         public let name: String
@@ -413,7 +426,7 @@ extension CloudTrail {
         public let snsTopicName: String?
         public let tagsList: [Tag]?
 
-        public init(cloudWatchLogsLogGroupArn: String? = nil, cloudWatchLogsRoleArn: String? = nil, enableLogFileValidation: Bool = false, includeGlobalServiceEvents: Bool? = nil, isMultiRegionTrail: Bool = false, isOrganizationTrail: Bool = false, kmsKeyId: String? = nil, name: String, s3BucketName: String, s3KeyPrefix: String? = nil, snsTopicName: String? = nil, tagsList: [Tag]? = nil) {
+        public init(cloudWatchLogsLogGroupArn: String? = nil, cloudWatchLogsRoleArn: String? = nil, enableLogFileValidation: Bool? = nil, includeGlobalServiceEvents: Bool? = nil, isMultiRegionTrail: Bool? = nil, isOrganizationTrail: Bool? = nil, kmsKeyId: String? = nil, name: String, s3BucketName: String, s3KeyPrefix: String? = nil, snsTopicName: String? = nil, tagsList: [Tag]? = nil) {
             self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
             self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
             self.enableLogFileValidation = enableLogFileValidation
@@ -462,7 +475,7 @@ extension CloudTrail {
         public let isMultiRegionTrail: Bool?
         /// Specifies whether the trail is an organization trail.
         public let isOrganizationTrail: Bool?
-        /// Specifies the KMS key ID that encrypts the logs delivered by CloudTrail.  The value is a fully specified ARN to a KMS key in the following format.  arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012
+        /// Specifies the KMS key ID that encrypts the events delivered by CloudTrail.  The value is a fully specified ARN to a KMS key in the following format.  arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012
         public let kmsKeyId: String?
         /// Specifies whether log file integrity validation is enabled.
         public let logFileValidationEnabled: Bool?
@@ -531,7 +544,7 @@ extension CloudTrail {
 
     public struct DataResource: AWSEncodableShape & AWSDecodableShape {
         /// The resource type in which you want to log data events. You can specify the following basic event selector resource types:    AWS::S3::Object     AWS::Lambda::Function     AWS::DynamoDB::Table
-        ///  The following resource types are also availble through advanced event selectors. Basic event selector resource types are valid in advanced event selectors, but advanced event selector resource types are not valid in basic event selectors. For more information, see AdvancedFieldSelector$Field.    AWS::S3Outposts::Object     AWS::ManagedBlockchain::Node     AWS::S3ObjectLambda::AccessPoint     AWS::EC2::Snapshot     AWS::S3::AccessPoint     AWS::DynamoDB::Stream     AWS::Glue::Table
+        ///  The following resource types are also available through advanced event selectors. Basic event selector resource types are valid in advanced event selectors, but advanced event selector resource types are not valid in basic event selectors. For more information, see AdvancedFieldSelector$Field.    AWS::S3Outposts::Object     AWS::ManagedBlockchain::Node     AWS::S3ObjectLambda::AccessPoint     AWS::EC2::Snapshot     AWS::S3::AccessPoint     AWS::DynamoDB::Stream     AWS::Glue::Table
         public let type: String?
         /// An array of Amazon Resource Name (ARN) strings or partial ARN strings for the specified objects.   To log data events for all objects in all S3 buckets in your Amazon Web Services account, specify the  prefix as arn:aws:s3.  This also enables logging of data event activity performed by any user or role in your Amazon Web Services account,  even if that activity is performed on a bucket that belongs to another Amazon Web Services account.    To log data events for all objects in an S3 bucket, specify the bucket and an empty object prefix such as arn:aws:s3:::bucket-1/. The trail logs data events for all objects in this S3 bucket.   To log data events for specific objects, specify the S3 bucket and object prefix such as arn:aws:s3:::bucket-1/example-images. The trail logs data events for objects in this S3 bucket that match the prefix.   To log data events for all Lambda functions in your Amazon Web Services account, specify the prefix as arn:aws:lambda.  This also enables logging of Invoke activity performed by any user or role in your Amazon Web Services account,  even if that activity is performed on a function that belongs to another Amazon Web Services account.     To log data events for a specific Lambda function, specify the function ARN.  Lambda function ARNs are exact. For example, if you specify a  function ARN arn:aws:lambda:us-west-2:111111111111:function:helloworld, data events will only be logged for arn:aws:lambda:us-west-2:111111111111:function:helloworld. They will not be logged for arn:aws:lambda:us-west-2:111111111111:function:helloworld2.    To log data events for all DynamoDB tables in your Amazon Web Services account, specify the prefix as arn:aws:dynamodb.
         public let values: [String]?
@@ -614,6 +627,10 @@ extension CloudTrail {
     }
 
     public struct DescribeQueryResponse: AWSDecodableShape {
+        /// The URI for the S3 bucket where CloudTrail delivered query results, if applicable.
+        public let deliveryS3Uri: String?
+        /// The delivery status.
+        public let deliveryStatus: DeliveryStatus?
         /// The error message returned if a query failed.
         public let errorMessage: String?
         /// The ID of the query.
@@ -625,7 +642,9 @@ extension CloudTrail {
         /// The SQL code of a query.
         public let queryString: String?
 
-        public init(errorMessage: String? = nil, queryId: String? = nil, queryStatistics: QueryStatisticsForDescribeQuery? = nil, queryStatus: QueryStatus? = nil, queryString: String? = nil) {
+        public init(deliveryS3Uri: String? = nil, deliveryStatus: DeliveryStatus? = nil, errorMessage: String? = nil, queryId: String? = nil, queryStatistics: QueryStatisticsForDescribeQuery? = nil, queryStatus: QueryStatus? = nil, queryString: String? = nil) {
+            self.deliveryS3Uri = deliveryS3Uri
+            self.deliveryStatus = deliveryStatus
             self.errorMessage = errorMessage
             self.queryId = queryId
             self.queryStatistics = queryStatistics
@@ -634,6 +653,8 @@ extension CloudTrail {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case deliveryS3Uri = "DeliveryS3Uri"
+            case deliveryStatus = "DeliveryStatus"
             case errorMessage = "ErrorMessage"
             case queryId = "QueryId"
             case queryStatistics = "QueryStatistics"
@@ -644,11 +665,11 @@ extension CloudTrail {
 
     public struct DescribeTrailsRequest: AWSEncodableShape {
         /// Specifies whether to include shadow trails in the response. A shadow trail is the replication in a region of a trail that was created in a different region, or in the case of an organization trail, the replication of an organization trail in member accounts. If you do not include shadow trails, organization trails in a member account and region replication trails will not be returned. The default is true.
-        public let includeShadowTrails: Bool
+        public let includeShadowTrails: Bool?
         /// Specifies a list of trail names, trail ARNs, or both, of the trails to describe. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail   If an empty list is specified, information for the trail in the current region is returned.   If an empty list is specified and IncludeShadowTrails is false, then information for all trails in the current region is returned.   If an empty list is specified and IncludeShadowTrails is null or true, then information for all trails in the current region and any associated shadow trails in other regions is returned.    If one or more trail names are specified, information is returned only if the names match the names of trails belonging only to the current region. To return information about a trail in another region, you must specify its trail ARN.
         public let trailNameList: [String]?
 
-        public init(includeShadowTrails: Bool = true, trailNameList: [String]? = nil) {
+        public init(includeShadowTrails: Bool? = nil, trailNameList: [String]? = nil) {
             self.includeShadowTrails = includeShadowTrails
             self.trailNameList = trailNameList
         }
@@ -673,9 +694,9 @@ extension CloudTrail {
     }
 
     public struct Destination: AWSDecodableShape {
-        ///  The location of the service. For service-linked channels, this is the name of the Amazon Web Services service.
+        /// For service-linked channels, the value is the name of the Amazon Web Services service.
         public let location: String
-        ///  The type of service. For service-linked channels, the value is AWS_SERVICE.
+        /// The type of destination for events arriving from a channel. For service-linked channels,  the value is AWS_SERVICE.
         public let type: DestinationType
 
         public init(location: String, type: DestinationType) {
@@ -823,7 +844,7 @@ extension CloudTrail {
     }
 
     public struct GetChannelRequest: AWSEncodableShape {
-        ///  The Amazon Resource Name (ARN) of the CloudTrail service-linked channel.
+        /// The ARN or UUID of a channel.
         public let channel: String
 
         public init(channel: String) {
@@ -842,15 +863,15 @@ extension CloudTrail {
     }
 
     public struct GetChannelResponse: AWSDecodableShape {
-        ///  The ARN of the CloudTrail service-linked channel.
+        /// The ARN of an channel returned by a GetChannel request.
         public let channelArn: String?
-        ///  The Amazon Web Services service that created the CloudTrail service-linked channel.
+        /// The Amazon Web Services service that created the service-linked channel.
         public let destinations: [Destination]?
-        ///  The name of the CloudTrail service-linked channel. For service-linked channels, the value is aws-service-channel/service-name/custom-suffix  where service-name represents the name of the  Amazon Web Services service that created the channel and custom-suffix represents the suffix generated by the Amazon Web Services service.
+        ///  The name of the CloudTrail channel. For service-linked channels, the value is aws-service-channel/service-name/custom-suffix  where service-name represents the name of the  Amazon Web Services service that created the channel and custom-suffix represents the suffix generated by the Amazon Web Services service.
         public let name: String?
-        ///  The trail or event data store for the CloudTrail service-linked channel.
+        /// The event source for the CloudTrail channel.
         public let source: String?
-        ///  Provides information about the advanced event selectors configured for the service-linked channel, and whether the service-linked channel applies to all regions or one region.
+        ///  Provides information about the advanced event selectors configured for the channel, and  whether the channel applies to all regions or a single region.
         public let sourceConfig: SourceConfig?
 
         public init(channelArn: String? = nil, destinations: [Destination]? = nil, name: String? = nil, source: String? = nil, sourceConfig: SourceConfig? = nil) {
@@ -994,7 +1015,7 @@ extension CloudTrail {
     public struct GetImportResponse: AWSDecodableShape {
         ///  The timestamp of the import's creation.
         public let createdTimestamp: Date?
-        ///  The destination event data store.
+        ///  The ARN of the destination event data store.
         public let destinations: [String]?
         ///  Used with StartEventTime to bound a StartImport request, and limit imported trail events  to only those events logged within a specified time period.
         public let endEventTime: Date?
@@ -1002,7 +1023,7 @@ extension CloudTrail {
         public let importId: String?
         ///  The source S3 bucket.
         public let importSource: ImportSource?
-        ///  Provides statistics for the import.
+        ///  Provides statistics for the import. CloudTrail does not update import statistics in real-time.   Returned values for parameters such as EventsCompleted may be lower than the actual value, because  CloudTrail updates statistics incrementally over the course of the import.
         public let importStatistics: ImportStatistics?
         ///  The status of the import.
         public let importStatus: ImportStatus?
@@ -1292,11 +1313,11 @@ extension CloudTrail {
     }
 
     public struct ImportStatistics: AWSDecodableShape {
-        ///  The number of trail events imported.
+        ///  The number of trail events imported into the event data store.
         public let eventsCompleted: Int64?
         ///  The number of failed entries.
         public let failedEntries: Int64?
-        /// The number of files that completed import.
+        /// The number of log files that completed import.
         public let filesCompleted: Int64?
         ///  The number of S3 prefixes that completed import.
         public let prefixesCompleted: Int64?
@@ -1323,7 +1344,7 @@ extension CloudTrail {
     public struct ImportsListItem: AWSDecodableShape {
         ///  The timestamp of the import's creation.
         public let createdTimestamp: Date?
-        ///  The destination event data store.
+        ///  The ARN of the destination event data store.
         public let destinations: [String]?
         ///  The ID of the import.
         public let importId: String?
@@ -1365,7 +1386,7 @@ extension CloudTrail {
     public struct ListChannelsRequest: AWSEncodableShape {
         ///  The maximum number of CloudTrail channels to display on a single page.
         public let maxResults: Int?
-        ///  A token you can use to get the next page of results.
+        /// The token to use to get the next page of results after a previous API call. This token must be  passed in with the same parameters that were specified in the original call.  For example, if the original call specified an AttributeKey of 'Username' with a value of 'root',  the call with NextToken should include those same parameters.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -1388,9 +1409,9 @@ extension CloudTrail {
     }
 
     public struct ListChannelsResponse: AWSDecodableShape {
-        ///  The list of CloudTrail channels.
+        ///  The list of channels in the account.
         public let channels: [Channel]?
-        ///  A token used to get the next page of results.
+        /// The token to use to get the next page of results after a previous API call.
         public let nextToken: String?
 
         public init(channels: [Channel]? = nil, nextToken: String? = nil) {
@@ -1496,7 +1517,7 @@ extension CloudTrail {
     }
 
     public struct ListImportsRequest: AWSEncodableShape {
-        ///  The destination event data store.
+        ///  The ARN of the destination event data store.
         public let destination: String?
         ///  The status of the import.
         public let importStatus: ImportStatus?
@@ -1736,13 +1757,13 @@ extension CloudTrail {
         /// Contains a list of lookup attributes. Currently the list can contain only one item.
         public let lookupAttributes: [LookupAttribute]?
         /// The number of events to return. Possible values are 1 through 50. The default is 50.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// The token to use to get the next page of results after a previous API call. This token must be passed in with the same parameters that were specified in the original call.  For example, if the original call specified an AttributeKey of 'Username' with a value of 'root', the call with NextToken should include those same parameters.
         public let nextToken: String?
         /// Specifies that only events that occur after or at the specified time are returned. If the specified start time is after the specified end time, an error is returned.
         public let startTime: Date?
 
-        public init(endTime: Date? = nil, eventCategory: EventCategory? = nil, lookupAttributes: [LookupAttribute]? = nil, maxResults: Int = 50, nextToken: String? = nil, startTime: Date? = nil) {
+        public init(endTime: Date? = nil, eventCategory: EventCategory? = nil, lookupAttributes: [LookupAttribute]? = nil, maxResults: Int? = nil, nextToken: String? = nil, startTime: Date? = nil) {
             self.endTime = endTime
             self.eventCategory = eventCategory
             self.lookupAttributes = lookupAttributes
@@ -2113,9 +2134,9 @@ extension CloudTrail {
     }
 
     public struct SourceConfig: AWSDecodableShape {
-        ///  The advanced event selectors configured for the service-linked channel.
+        ///  The advanced event selectors that are configured for the channel.
         public let advancedEventSelectors: [AdvancedEventSelector]?
-        ///  Specifies whether the service-linked channel applies to one region or all regions.
+        ///  Specifies whether the channel applies to a single region or to all regions.
         public let applyToAllRegions: Bool?
 
         public init(advancedEventSelectors: [AdvancedEventSelector]? = nil, applyToAllRegions: Bool? = nil) {
@@ -2130,15 +2151,15 @@ extension CloudTrail {
     }
 
     public struct StartImportRequest: AWSEncodableShape {
-        ///  The destination event data store. Use this parameter for a new import.
+        ///  The ARN of the destination event data store. Use this parameter for a new import.
         public let destinations: [String]?
-        ///  Use with StartEventTime to bound a StartImport request, and limit imported trail events  to only those events logged within a specified time period.
+        ///  Use with StartEventTime to bound a StartImport request, and limit imported trail events  to only those events logged within a specified time period. When you specify a time range, CloudTrail checks the prefix and log  file names to verify the names contain a date between the specified StartEventTime and EndEventTime before attempting  to import events.
         public let endEventTime: Date?
         ///  The ID of the import. Use this parameter when you are retrying an import.
         public let importId: String?
         ///  The source S3 bucket for the import. Use this parameter for a new import.
         public let importSource: ImportSource?
-        ///  Use with EndEventTime to bound a StartImport request, and limit imported trail events  to only those events logged within a specified time period.
+        ///  Use with EndEventTime to bound a StartImport request, and limit imported trail events  to only those events logged within a specified time period. When you specify a time range, CloudTrail checks the prefix and log  file names to verify the names contain a date between the specified StartEventTime and EndEventTime before attempting  to import events.
         public let startEventTime: Date?
 
         public init(destinations: [String]? = nil, endEventTime: Date? = nil, importId: String? = nil, importSource: ImportSource? = nil, startEventTime: Date? = nil) {
@@ -2174,13 +2195,13 @@ extension CloudTrail {
     public struct StartImportResponse: AWSDecodableShape {
         ///  The timestamp for the import's creation.
         public let createdTimestamp: Date?
-        ///  The destination event data store.
+        ///  The ARN of the destination event data store.
         public let destinations: [String]?
         ///  Used with StartEventTime to bound a StartImport request, and limit imported trail events  to only those events logged within a specified time period.
         public let endEventTime: Date?
         ///  The ID of the import.
         public let importId: String?
-        ///  The source S3 bucket.
+        ///  The source S3 bucket for the import.
         public let importSource: ImportSource?
         ///  Shows the status of the import after a StartImport request. An import finishes with a status of COMPLETED if there were no failures, or FAILED  if there were failures.
         public let importStatus: ImportStatus?
@@ -2230,20 +2251,26 @@ extension CloudTrail {
     }
 
     public struct StartQueryRequest: AWSEncodableShape {
+        ///  The URI for the S3 bucket where CloudTrail delivers the query results.
+        public let deliveryS3Uri: String?
         /// The SQL code of your query.
         public let queryStatement: String
 
-        public init(queryStatement: String) {
+        public init(deliveryS3Uri: String? = nil, queryStatement: String) {
+            self.deliveryS3Uri = deliveryS3Uri
             self.queryStatement = queryStatement
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.deliveryS3Uri, name: "deliveryS3Uri", parent: name, max: 1024)
+            try self.validate(self.deliveryS3Uri, name: "deliveryS3Uri", parent: name, pattern: "^s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?$")
             try self.validate(self.queryStatement, name: "queryStatement", parent: name, max: 10000)
             try self.validate(self.queryStatement, name: "queryStatement", parent: name, min: 1)
             try self.validate(self.queryStatement, name: "queryStatement", parent: name, pattern: "^(?s)")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case deliveryS3Uri = "DeliveryS3Uri"
             case queryStatement = "QueryStatement"
         }
     }
@@ -2283,13 +2310,13 @@ extension CloudTrail {
     public struct StopImportResponse: AWSDecodableShape {
         ///  The timestamp of the import's creation.
         public let createdTimestamp: Date?
-        ///  The destination event data store.
+        ///  The ARN of the destination event data store.
         public let destinations: [String]?
         ///  Used with StartEventTime to bound a StartImport request, and limit imported trail events  to only those events logged within a specified time period.
         public let endEventTime: Date?
         ///  The ID for the import.
         public let importId: String?
-        ///  The source S3 bucket.
+        ///  The source S3 bucket for the import.
         public let importSource: ImportSource?
         ///  Returns information on the stopped import.
         public let importStatistics: ImportStatistics?
@@ -2586,13 +2613,13 @@ extension CloudTrail {
         /// Specifies the role for the CloudWatch Logs endpoint to assume to write to a user's log group.
         public let cloudWatchLogsRoleArn: String?
         /// Specifies whether log file validation is enabled. The default is false.  When you disable log file integrity validation, the chain of digest files is broken after one hour. CloudTrail  does not create digest files for log files that were delivered during a period in which log file integrity validation  was disabled. For example, if you enable log file integrity validation at noon on January 1, disable it at noon on  January 2, and re-enable it at noon on January 10, digest files will not be created for the log files delivered from noon  on January 2 to noon on January 10. The same applies whenever you stop CloudTrail logging or delete a trail.
-        public let enableLogFileValidation: Bool
+        public let enableLogFileValidation: Bool?
         /// Specifies whether the trail is publishing events from global services such as IAM to the log files.
         public let includeGlobalServiceEvents: Bool?
         /// Specifies whether the trail applies only to the current region or to all regions. The default is false. If the trail exists only in the current region and this value is set to true,  shadow trails (replications of the trail) will be created in the other regions. If the trail exists in all regions and this value is set to false, the trail will remain in the region  where it was created, and its shadow trails in other regions will be deleted. As a best practice, consider using trails that log events in all regions.
-        public let isMultiRegionTrail: Bool
+        public let isMultiRegionTrail: Bool?
         /// Specifies whether the trail is applied to all accounts in an organization in Organizations, or only for the current Amazon Web Services account.  The default is false, and cannot be true unless the call is made on behalf of an Amazon Web Services account that is the management account for an organization in  Organizations. If the trail is not an organization trail and this is set to true, the trail will be created in all Amazon Web Services accounts that belong to the organization. If the trail is an organization trail and this is set to false, the trail will remain in the current Amazon Web Services account but be  deleted from all member accounts in the organization.
-        public let isOrganizationTrail: Bool
+        public let isOrganizationTrail: Bool?
         /// Specifies the KMS key ID to use to encrypt the logs delivered by CloudTrail. The value can be an alias name prefixed by "alias/", a fully specified ARN to an alias, a fully specified ARN to a key, or a globally unique identifier. CloudTrail also supports KMS multi-Region keys. For more information about multi-Region keys, see Using multi-Region keys in the Key Management Service Developer Guide. Examples:   alias/MyAliasName   arn:aws:kms:us-east-2:123456789012:alias/MyAliasName   arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012   12345678-1234-1234-1234-123456789012
         public let kmsKeyId: String?
         /// Specifies the name of the trail or trail ARN. If Name is a trail name, the string must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)   Start with a letter or number, and end with a letter or number   Be between 3 and 128 characters   Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are not valid.   Not be in IP address format (for example, 192.168.5.4)   If Name is a trail ARN, it must be in the following format.  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
@@ -2604,7 +2631,7 @@ extension CloudTrail {
         /// Specifies the name of the Amazon SNS topic defined for notification of log file delivery. The maximum length is 256 characters.
         public let snsTopicName: String?
 
-        public init(cloudWatchLogsLogGroupArn: String? = nil, cloudWatchLogsRoleArn: String? = nil, enableLogFileValidation: Bool = false, includeGlobalServiceEvents: Bool? = nil, isMultiRegionTrail: Bool = false, isOrganizationTrail: Bool = false, kmsKeyId: String? = nil, name: String, s3BucketName: String? = nil, s3KeyPrefix: String? = nil, snsTopicName: String? = nil) {
+        public init(cloudWatchLogsLogGroupArn: String? = nil, cloudWatchLogsRoleArn: String? = nil, enableLogFileValidation: Bool? = nil, includeGlobalServiceEvents: Bool? = nil, isMultiRegionTrail: Bool? = nil, isOrganizationTrail: Bool? = nil, kmsKeyId: String? = nil, name: String, s3BucketName: String? = nil, s3KeyPrefix: String? = nil, snsTopicName: String? = nil) {
             self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
             self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
             self.enableLogFileValidation = enableLogFileValidation

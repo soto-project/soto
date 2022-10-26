@@ -73,6 +73,7 @@ extension Resiliencehub {
     public enum ConfigRecommendationOptimizationType: String, CustomStringConvertible, Codable, _SotoSendable {
         case bestAZRecovery = "BestAZRecovery"
         case bestAttainable = "BestAttainable"
+        case bestRegionRecovery = "BestRegionRecovery"
         case leastChange = "LeastChange"
         case leastCost = "LeastCost"
         case leastErrors = "LeastErrors"
@@ -324,7 +325,7 @@ extension Resiliencehub {
         public let policyArn: String?
         /// The current resiliency score for the application.
         public let resiliencyScore: Double?
-        /// The status of the action.
+        /// The status of the application.
         public let status: AppStatusType?
         /// The tags assigned to the resource. A tag is a label that you assign to an Amazon Web Services resource.
         /// Each tag consists of a key/value pair.
@@ -567,8 +568,10 @@ extension Resiliencehub {
         public let name: String
         /// The current resiliency score for the application.
         public let resiliencyScore: Double?
+        /// The status of the application.
+        public let status: AppStatusType?
 
-        public init(appArn: String, assessmentSchedule: AppAssessmentScheduleType? = nil, complianceStatus: AppComplianceStatusType? = nil, creationTime: Date, description: String? = nil, name: String, resiliencyScore: Double? = nil) {
+        public init(appArn: String, assessmentSchedule: AppAssessmentScheduleType? = nil, complianceStatus: AppComplianceStatusType? = nil, creationTime: Date, description: String? = nil, name: String, resiliencyScore: Double? = nil, status: AppStatusType? = nil) {
             self.appArn = appArn
             self.assessmentSchedule = assessmentSchedule
             self.complianceStatus = complianceStatus
@@ -576,6 +579,7 @@ extension Resiliencehub {
             self.description = description
             self.name = name
             self.resiliencyScore = resiliencyScore
+            self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -586,6 +590,7 @@ extension Resiliencehub {
             case description
             case name
             case resiliencyScore
+            case status
         }
     }
 
@@ -2411,7 +2416,7 @@ extension Resiliencehub {
 
         public func validate(name: String) throws {
             try self.validate(self.appArn, name: "appArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+=,@.-]{0,1023}$")
-            try self.validate(self.appTemplateBody, name: "appTemplateBody", parent: name, max: 51200)
+            try self.validate(self.appTemplateBody, name: "appTemplateBody", parent: name, max: 204_800)
             try self.validate(self.appTemplateBody, name: "appTemplateBody", parent: name, pattern: "^[\\w\\s:,-\\.'{}\\[\\]:\"]+$")
         }
 
@@ -3181,7 +3186,7 @@ extension Resiliencehub {
     public struct UpdateResiliencyPolicyRequest: AWSEncodableShape {
         /// Specifies a high-level geographical location constraint for where your resilience policy data can be stored.
         public let dataLocationConstraint: DataLocationConstraint?
-        /// The type of resiliency policy to be created, including the recovery time objective (RTO) and recovery point objective (RPO) in seconds.  If you do not want to specify regional targets for a regional policy, you must set the values of rpoInSecs and rtoInSecs to -1.
+        /// The type of resiliency policy to be created, including the recovery time objective (RTO) and recovery point objective (RPO) in seconds.
         public let policy: [DisruptionType: FailurePolicy]?
         /// The Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is:
         /// arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For more information about ARNs,

@@ -68,7 +68,7 @@ public struct Panorama: AWSService {
         return self.client.execute(operation: "CreateApplicationInstance", path: "/application-instances", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a job to run on one or more devices.
+    /// Creates a job to run on one or more devices. A job can update a device's software or reboot it.
     public func createJobForDevices(_ input: CreateJobForDevicesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateJobForDevicesResponse> {
         return self.client.execute(operation: "CreateJobForDevices", path: "/jobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -211,6 +211,11 @@ public struct Panorama: AWSService {
     /// Removes an application instance.
     public func removeApplicationInstance(_ input: RemoveApplicationInstanceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RemoveApplicationInstanceResponse> {
         return self.client.execute(operation: "RemoveApplicationInstance", path: "/application-instances/{ApplicationInstanceId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Signal camera nodes to stop or resume.
+    public func signalApplicationInstanceNodeInstances(_ input: SignalApplicationInstanceNodeInstancesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SignalApplicationInstanceNodeInstancesResponse> {
+        return self.client.execute(operation: "SignalApplicationInstanceNodeInstances", path: "/application-instances/{ApplicationInstanceId}/node-signals", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Tags a resource.

@@ -108,10 +108,9 @@ extension GlobalAccelerator {
         /// The Domain Name System (DNS) name that Global Accelerator creates that points to an accelerator's static IPv4 addresses.
         /// 		       The naming convention for the DNS name for an accelerator is the following: A lowercase letter a,
         /// 			followed by a 16-bit random hex string, followed by .awsglobalaccelerator.com. For example:
-        /// 			a1234567890abcdef.awsglobalaccelerator.com. If you have a dual-stack accelerator, you also have a second DNS name, DualStackDnsName, that points to both the A record and the AAAA record for all four
-        /// 			static addresses for the accelerator (two IPv4 addresses and two IPv6 addresses).
+        /// 			a1234567890abcdef.awsglobalaccelerator.com. If you have a dual-stack accelerator, you also have a second DNS name, DualStackDnsName, that points to both  			the A record and the AAAA record for all four static addresses for the accelerator: two IPv4 addresses and two IPv6 addresses.
         /// 		       For more information about the default DNS name, see
-        /// 			Support for DNS Addressing in Global Accelerator in the Global Accelerator Developer Guide.
+        /// 			Support for DNS addressing in Global Accelerator in the Global Accelerator Developer Guide.
         public let dnsName: String?
         /// The Domain Name System (DNS) name that Global Accelerator creates that points to a dual-stack accelerator's four static IP addresses:
         /// 			two IPv4 addresses and two IPv6 addresses.
@@ -120,7 +119,7 @@ extension GlobalAccelerator {
         /// 			a1234567890abcdef.dualstack.awsglobalaccelerator.com.
         /// 		       Note: Global Accelerator also assigns a default DNS name, DnsName, to your accelerator that points just to the static IPv4 addresses.
         /// 		       For more information, see
-        /// 			Support for DNS Addressing in Global Accelerator in the Global Accelerator Developer Guide.
+        /// 			Support for DNS addressing in Global Accelerator in the Global Accelerator Developer Guide.
         public let dualStackDnsName: String?
         /// Indicates whether the accelerator is enabled. The value is true or false. The default value is true.
         /// 		       If the value is set to true, the accelerator cannot be deleted. If set to false, accelerator can be deleted.
@@ -248,6 +247,48 @@ extension GlobalAccelerator {
         public let endpointGroupArn: String?
 
         public init(endpointDescriptions: [CustomRoutingEndpointDescription]? = nil, endpointGroupArn: String? = nil) {
+            self.endpointDescriptions = endpointDescriptions
+            self.endpointGroupArn = endpointGroupArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointDescriptions = "EndpointDescriptions"
+            case endpointGroupArn = "EndpointGroupArn"
+        }
+    }
+
+    public struct AddEndpointsRequest: AWSEncodableShape {
+        /// The list of endpoint objects.
+        public let endpointConfigurations: [EndpointConfiguration]
+        /// The Amazon Resource Name (ARN) of the endpoint group.
+        public let endpointGroupArn: String
+
+        public init(endpointConfigurations: [EndpointConfiguration], endpointGroupArn: String) {
+            self.endpointConfigurations = endpointConfigurations
+            self.endpointGroupArn = endpointGroupArn
+        }
+
+        public func validate(name: String) throws {
+            try self.endpointConfigurations.forEach {
+                try $0.validate(name: "\(name).endpointConfigurations[]")
+            }
+            try self.validate(self.endpointConfigurations, name: "endpointConfigurations", parent: name, max: 10)
+            try self.validate(self.endpointGroupArn, name: "endpointGroupArn", parent: name, max: 255)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointConfigurations = "EndpointConfigurations"
+            case endpointGroupArn = "EndpointGroupArn"
+        }
+    }
+
+    public struct AddEndpointsResponse: AWSDecodableShape {
+        /// The list of endpoint objects.
+        public let endpointDescriptions: [EndpointDescription]?
+        /// The Amazon Resource Name (ARN) of the endpoint group.
+        public let endpointGroupArn: String?
+
+        public init(endpointDescriptions: [EndpointDescription]? = nil, endpointGroupArn: String? = nil) {
             self.endpointDescriptions = endpointDescriptions
             self.endpointGroupArn = endpointGroupArn
         }
@@ -831,10 +872,10 @@ extension GlobalAccelerator {
         /// 		       The naming convention for the DNS name is the following: A lowercase letter a,
         /// 			followed by a 16-bit random hex string, followed by .awsglobalaccelerator.com. For example:
         /// 			a1234567890abcdef.awsglobalaccelerator.com.
-        /// 		       If you have a dual-stack accelerator, you also have a second DNS name, DualStackDnsName, that points to both the A record and the AAAA record for all four
-        /// 			static addresses for the accelerator (two IPv4 addresses and two IPv6 addresses).
+        /// 		       If you have a dual-stack accelerator, you also have a second DNS name, DualStackDnsName, that points to both the A record
+        /// 			and the AAAA record for all four static addresses for the accelerator: two IPv4 addresses and two IPv6 addresses.
         /// 		       For more information about the default DNS name, see
-        /// 			Support for DNS Addressing in Global Accelerator in the Global Accelerator Developer Guide.
+        /// 			Support for DNS addressing in Global Accelerator in the Global Accelerator Developer Guide.
         public let dnsName: String?
         /// Indicates whether the accelerator is enabled. The value is true or false. The default value is true.
         /// 		       If the value is set to true, the accelerator cannot be deleted. If set to false, accelerator can be deleted.
@@ -1653,6 +1694,32 @@ extension GlobalAccelerator {
         }
     }
 
+    public struct EndpointIdentifier: AWSEncodableShape {
+        /// Indicates whether client IP address preservation is enabled for an endpoint. The value is true or false.
+        /// 		       If the value is set to true, the client's IP address is preserved in the X-Forwarded-For request header as
+        /// 			traffic travels to applications on the endpoint fronted by the accelerator.
+        public let clientIPPreservationEnabled: Bool?
+        /// An ID for the endpoint. If the endpoint is a Network Load Balancer or Application Load Balancer, this is the Amazon
+        /// 			Resource Name (ARN) of the resource. If the endpoint is an Elastic IP address, this is the Elastic IP address
+        /// 			allocation ID. For Amazon EC2 instances, this is the EC2 instance ID.
+        /// 		       An Application Load Balancer can be either internal or internet-facing.
+        public let endpointId: String
+
+        public init(clientIPPreservationEnabled: Bool? = nil, endpointId: String) {
+            self.clientIPPreservationEnabled = clientIPPreservationEnabled
+            self.endpointId = endpointId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.endpointId, name: "endpointId", parent: name, max: 255)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientIPPreservationEnabled = "ClientIPPreservationEnabled"
+            case endpointId = "EndpointId"
+        }
+    }
+
     public struct IpSet: AWSDecodableShape {
         /// The array of IP addresses in the IP address set. An IP address set can have a maximum of two IP addresses.
         public let ipAddresses: [String]?
@@ -2295,6 +2362,32 @@ extension GlobalAccelerator {
         private enum CodingKeys: String, CodingKey {
             case endpointGroupArn = "EndpointGroupArn"
             case endpointIds = "EndpointIds"
+        }
+    }
+
+    public struct RemoveEndpointsRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the endpoint group.
+        public let endpointGroupArn: String
+        /// The identifiers of the endpoints that you want to remove.
+        public let endpointIdentifiers: [EndpointIdentifier]
+
+        public init(endpointGroupArn: String, endpointIdentifiers: [EndpointIdentifier]) {
+            self.endpointGroupArn = endpointGroupArn
+            self.endpointIdentifiers = endpointIdentifiers
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.endpointGroupArn, name: "endpointGroupArn", parent: name, max: 255)
+            try self.endpointIdentifiers.forEach {
+                try $0.validate(name: "\(name).endpointIdentifiers[]")
+            }
+            try self.validate(self.endpointIdentifiers, name: "endpointIdentifiers", parent: name, max: 10)
+            try self.validate(self.endpointIdentifiers, name: "endpointIdentifiers", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointGroupArn = "EndpointGroupArn"
+            case endpointIdentifiers = "EndpointIdentifiers"
         }
     }
 

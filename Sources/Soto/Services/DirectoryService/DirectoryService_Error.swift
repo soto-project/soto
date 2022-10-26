@@ -30,6 +30,7 @@ public struct DirectoryServiceErrorType: AWSErrorType {
         case directoryAlreadyInRegionException = "DirectoryAlreadyInRegionException"
         case directoryAlreadySharedException = "DirectoryAlreadySharedException"
         case directoryDoesNotExistException = "DirectoryDoesNotExistException"
+        case directoryInDesiredStateException = "DirectoryInDesiredStateException"
         case directoryLimitExceededException = "DirectoryLimitExceededException"
         case directoryNotSharedException = "DirectoryNotSharedException"
         case directoryUnavailableException = "DirectoryUnavailableException"
@@ -96,6 +97,8 @@ public struct DirectoryServiceErrorType: AWSErrorType {
     public static var directoryAlreadySharedException: Self { .init(.directoryAlreadySharedException) }
     /// The specified directory does not exist in the system.
     public static var directoryDoesNotExistException: Self { .init(.directoryDoesNotExistException) }
+    ///  The directory is already updated to desired update type settings.
+    public static var directoryInDesiredStateException: Self { .init(.directoryInDesiredStateException) }
     /// The maximum number of directories in the region has been reached. You can use the GetDirectoryLimits operation to determine your directory limits in the region.
     public static var directoryLimitExceededException: Self { .init(.directoryLimitExceededException) }
     /// The specified directory has not been shared with this Amazon Web Services account.

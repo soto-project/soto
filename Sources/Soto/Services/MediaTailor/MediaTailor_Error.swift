@@ -41,7 +41,7 @@ public struct MediaTailorErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// Invalid request parameters.
+    /// A request contains unexpected data.
     public static var badRequestException: Self { .init(.badRequestException) }
 }
 

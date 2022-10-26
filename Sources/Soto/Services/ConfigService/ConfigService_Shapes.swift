@@ -137,14 +137,14 @@ extension ConfigService {
 
     public enum OrganizationConfigRuleTriggerType: String, CustomStringConvertible, Codable, _SotoSendable {
         case configurationItemChangeNotification = "ConfigurationItemChangeNotification"
-        case oversizedConfigurationItemChangeNotification = "OversizedConfigurationItemChangeNotification"
+        case oversizedConfigurationItemChangeNotifcation = "OversizedConfigurationItemChangeNotification"
         case scheduledNotification = "ScheduledNotification"
         public var description: String { return self.rawValue }
     }
 
     public enum OrganizationConfigRuleTriggerTypeNoSN: String, CustomStringConvertible, Codable, _SotoSendable {
         case configurationItemChangeNotification = "ConfigurationItemChangeNotification"
-        case oversizedConfigurationItemChangeNotification = "OversizedConfigurationItemChangeNotification"
+        case oversizedConfigurationItemChangeNotifcation = "OversizedConfigurationItemChangeNotification"
         public var description: String { return self.rawValue }
     }
 
@@ -229,150 +229,170 @@ extension ConfigService {
     }
 
     public enum ResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case awsACMCertificate = "AWS::ACM::Certificate"
-        case awsAccessanalyzerAnalyzer = "AWS::AccessAnalyzer::Analyzer"
-        case awsApigatewayRestapi = "AWS::ApiGateway::RestApi"
-        case awsApigatewayStage = "AWS::ApiGateway::Stage"
-        case awsApigatewayv2Api = "AWS::ApiGatewayV2::Api"
-        case awsApigatewayv2Stage = "AWS::ApiGatewayV2::Stage"
-        case awsAthenaDatacatalog = "AWS::Athena::DataCatalog"
-        case awsAthenaWorkgroup = "AWS::Athena::WorkGroup"
-        case awsAutoscalingAutoscalinggroup = "AWS::AutoScaling::AutoScalingGroup"
-        case awsAutoscalingLaunchconfiguration = "AWS::AutoScaling::LaunchConfiguration"
-        case awsAutoscalingScalingpolicy = "AWS::AutoScaling::ScalingPolicy"
-        case awsAutoscalingScheduledaction = "AWS::AutoScaling::ScheduledAction"
-        case awsBackupBackupplan = "AWS::Backup::BackupPlan"
-        case awsBackupBackupselection = "AWS::Backup::BackupSelection"
-        case awsBackupBackupvault = "AWS::Backup::BackupVault"
-        case awsBackupRecoverypoint = "AWS::Backup::RecoveryPoint"
-        case awsBatchComputeenvironment = "AWS::Batch::ComputeEnvironment"
-        case awsBatchJobqueue = "AWS::Batch::JobQueue"
-        case awsCloudformationStack = "AWS::CloudFormation::Stack"
-        case awsCloudfrontDistribution = "AWS::CloudFront::Distribution"
-        case awsCloudfrontStreamingdistribution = "AWS::CloudFront::StreamingDistribution"
-        case awsCloudtrailTrail = "AWS::CloudTrail::Trail"
-        case awsCloudwatchAlarm = "AWS::CloudWatch::Alarm"
-        case awsCodebuildProject = "AWS::CodeBuild::Project"
-        case awsCodedeployApplication = "AWS::CodeDeploy::Application"
-        case awsCodedeployDeploymentconfig = "AWS::CodeDeploy::DeploymentConfig"
-        case awsCodedeployDeploymentgroup = "AWS::CodeDeploy::DeploymentGroup"
-        case awsCodepipelinePipeline = "AWS::CodePipeline::Pipeline"
-        case awsConfigConformancepackcompliance = "AWS::Config::ConformancePackCompliance"
-        case awsConfigResourcecompliance = "AWS::Config::ResourceCompliance"
-        case awsDMSCertificate = "AWS::DMS::Certificate"
-        case awsDMSEventsubscription = "AWS::DMS::EventSubscription"
-        case awsDMSReplicationsubnetgroup = "AWS::DMS::ReplicationSubnetGroup"
-        case awsDetectiveGraph = "AWS::Detective::Graph"
-        case awsDynamodbTable = "AWS::DynamoDB::Table"
-        case awsEC2Customergateway = "AWS::EC2::CustomerGateway"
-        case awsEc2Eip = "AWS::EC2::EIP"
-        case awsEC2Egressonlyinternetgateway = "AWS::EC2::EgressOnlyInternetGateway"
-        case awsEC2Flowlog = "AWS::EC2::FlowLog"
-        case awsEC2Host = "AWS::EC2::Host"
-        case awsEC2Instance = "AWS::EC2::Instance"
-        case awsEC2Internetgateway = "AWS::EC2::InternetGateway"
-        case awsEC2Launchtemplate = "AWS::EC2::LaunchTemplate"
-        case awsEC2Natgateway = "AWS::EC2::NatGateway"
-        case awsEC2Networkacl = "AWS::EC2::NetworkAcl"
-        case awsEC2Networkinterface = "AWS::EC2::NetworkInterface"
-        case awsEC2Registeredhainstance = "AWS::EC2::RegisteredHAInstance"
-        case awsEC2Routetable = "AWS::EC2::RouteTable"
-        case awsEC2Securitygroup = "AWS::EC2::SecurityGroup"
-        case awsEC2Subnet = "AWS::EC2::Subnet"
-        case awsEC2Transitgateway = "AWS::EC2::TransitGateway"
-        case awsEC2Transitgatewayattachment = "AWS::EC2::TransitGatewayAttachment"
-        case awsEC2Transitgatewayroutetable = "AWS::EC2::TransitGatewayRouteTable"
-        case awsEc2Vpc = "AWS::EC2::VPC"
-        case awsEC2Vpcendpoint = "AWS::EC2::VPCEndpoint"
-        case awsEC2Vpcendpointservice = "AWS::EC2::VPCEndpointService"
-        case awsEC2Vpcpeeringconnection = "AWS::EC2::VPCPeeringConnection"
-        case awsEC2Vpnconnection = "AWS::EC2::VPNConnection"
-        case awsEC2Vpngateway = "AWS::EC2::VPNGateway"
-        case awsEC2Volume = "AWS::EC2::Volume"
-        case awsECRPublicrepository = "AWS::ECR::PublicRepository"
-        case awsECRRepository = "AWS::ECR::Repository"
-        case awsECSCluster = "AWS::ECS::Cluster"
-        case awsECSService = "AWS::ECS::Service"
-        case awsECSTaskdefinition = "AWS::ECS::TaskDefinition"
-        case awsEFSAccesspoint = "AWS::EFS::AccessPoint"
-        case awsEFSFilesystem = "AWS::EFS::FileSystem"
-        case awsEKSCluster = "AWS::EKS::Cluster"
-        case awsEMRSecurityconfiguration = "AWS::EMR::SecurityConfiguration"
-        case awsElasticbeanstalkApplication = "AWS::ElasticBeanstalk::Application"
-        case awsElasticbeanstalkApplicationversion = "AWS::ElasticBeanstalk::ApplicationVersion"
-        case awsElasticbeanstalkEnvironment = "AWS::ElasticBeanstalk::Environment"
-        case awsElasticloadbalancingLoadbalancer = "AWS::ElasticLoadBalancing::LoadBalancer"
-        case awsElasticloadbalancingv2Listener = "AWS::ElasticLoadBalancingV2::Listener"
-        case awsElasticloadbalancingv2Loadbalancer = "AWS::ElasticLoadBalancingV2::LoadBalancer"
-        case awsElasticsearchDomain = "AWS::Elasticsearch::Domain"
-        case awsGlobalacceleratorAccelerator = "AWS::GlobalAccelerator::Accelerator"
-        case awsGlobalacceleratorEndpointgroup = "AWS::GlobalAccelerator::EndpointGroup"
-        case awsGlobalacceleratorListener = "AWS::GlobalAccelerator::Listener"
-        case awsGuarddutyDetector = "AWS::GuardDuty::Detector"
-        case awsIAMGroup = "AWS::IAM::Group"
-        case awsIAMPolicy = "AWS::IAM::Policy"
-        case awsIAMRole = "AWS::IAM::Role"
-        case awsIAMUser = "AWS::IAM::User"
-        case awsKMSKey = "AWS::KMS::Key"
-        case awsKinesisStream = "AWS::Kinesis::Stream"
-        case awsKinesisStreamconsumer = "AWS::Kinesis::StreamConsumer"
-        case awsLambdaFunction = "AWS::Lambda::Function"
-        case awsMSKCluster = "AWS::MSK::Cluster"
-        case awsNetworkfirewallFirewall = "AWS::NetworkFirewall::Firewall"
-        case awsNetworkfirewallFirewallpolicy = "AWS::NetworkFirewall::FirewallPolicy"
-        case awsNetworkfirewallRulegroup = "AWS::NetworkFirewall::RuleGroup"
-        case awsOpensearchDomain = "AWS::OpenSearch::Domain"
-        case awsQLDBLedger = "AWS::QLDB::Ledger"
-        case awsRDSDbcluster = "AWS::RDS::DBCluster"
-        case awsRDSDbclustersnapshot = "AWS::RDS::DBClusterSnapshot"
-        case awsRDSDbinstance = "AWS::RDS::DBInstance"
-        case awsRDSDbsecuritygroup = "AWS::RDS::DBSecurityGroup"
-        case awsRDSDbsnapshot = "AWS::RDS::DBSnapshot"
-        case awsRDSDbsubnetgroup = "AWS::RDS::DBSubnetGroup"
-        case awsRDSEventsubscription = "AWS::RDS::EventSubscription"
-        case awsRedshiftCluster = "AWS::Redshift::Cluster"
-        case awsRedshiftClusterparametergroup = "AWS::Redshift::ClusterParameterGroup"
-        case awsRedshiftClustersecuritygroup = "AWS::Redshift::ClusterSecurityGroup"
-        case awsRedshiftClustersnapshot = "AWS::Redshift::ClusterSnapshot"
-        case awsRedshiftClustersubnetgroup = "AWS::Redshift::ClusterSubnetGroup"
-        case awsRedshiftEventsubscription = "AWS::Redshift::EventSubscription"
-        case awsRoute53ResolverResolverendpoint = "AWS::Route53Resolver::ResolverEndpoint"
-        case awsRoute53ResolverResolverrule = "AWS::Route53Resolver::ResolverRule"
-        case awsRoute53ResolverResolverruleassociation = "AWS::Route53Resolver::ResolverRuleAssociation"
-        case awsS3Accountpublicaccessblock = "AWS::S3::AccountPublicAccessBlock"
-        case awsS3Bucket = "AWS::S3::Bucket"
-        case awsSNSTopic = "AWS::SNS::Topic"
-        case awsSQSQueue = "AWS::SQS::Queue"
-        case awsSSMAssociationcompliance = "AWS::SSM::AssociationCompliance"
-        case awsSSMFiledata = "AWS::SSM::FileData"
-        case awsSSMManagedinstanceinventory = "AWS::SSM::ManagedInstanceInventory"
-        case awsSSMPatchcompliance = "AWS::SSM::PatchCompliance"
-        case awsSagemakerCoderepository = "AWS::SageMaker::CodeRepository"
-        case awsSagemakerModel = "AWS::SageMaker::Model"
-        case awsSecretsmanagerSecret = "AWS::SecretsManager::Secret"
-        case awsServicecatalogCloudformationproduct = "AWS::ServiceCatalog::CloudFormationProduct"
-        case awsServicecatalogCloudformationprovisionedproduct = "AWS::ServiceCatalog::CloudFormationProvisionedProduct"
-        case awsServicecatalogPortfolio = "AWS::ServiceCatalog::Portfolio"
-        case awsShieldProtection = "AWS::Shield::Protection"
-        case awsShieldregionalProtection = "AWS::ShieldRegional::Protection"
-        case awsStepfunctionsActivity = "AWS::StepFunctions::Activity"
-        case awsStepfunctionsStatemachine = "AWS::StepFunctions::StateMachine"
-        case awsWAFRatebasedrule = "AWS::WAF::RateBasedRule"
-        case awsWAFRule = "AWS::WAF::Rule"
-        case awsWAFRulegroup = "AWS::WAF::RuleGroup"
-        case awsWAFWebacl = "AWS::WAF::WebACL"
-        case awsWafregionalRatebasedrule = "AWS::WAFRegional::RateBasedRule"
-        case awsWafregionalRule = "AWS::WAFRegional::Rule"
-        case awsWafregionalRulegroup = "AWS::WAFRegional::RuleGroup"
-        case awsWafregionalWebacl = "AWS::WAFRegional::WebACL"
-        case awsWafv2Ipset = "AWS::WAFv2::IPSet"
-        case awsWafv2Managedruleset = "AWS::WAFv2::ManagedRuleSet"
-        case awsWafv2Regexpatternset = "AWS::WAFv2::RegexPatternSet"
-        case awsWafv2Rulegroup = "AWS::WAFv2::RuleGroup"
-        case awsWafv2Webacl = "AWS::WAFv2::WebACL"
-        case awsWorkspacesConnectionalias = "AWS::WorkSpaces::ConnectionAlias"
-        case awsWorkspacesWorkspace = "AWS::WorkSpaces::Workspace"
-        case awsXrayEncryptionconfig = "AWS::XRay::EncryptionConfig"
+        case accessAnalyzerAnalyzer = "AWS::AccessAnalyzer::Analyzer"
+        case accountPublicAccessBlock = "AWS::S3::AccountPublicAccessBlock"
+        case alarm = "AWS::CloudWatch::Alarm"
+        case api = "AWS::ApiGatewayV2::Api"
+        case appConfigApplication = "AWS::AppConfig::Application"
+        case appSyncGraphQLApi = "AWS::AppSync::GraphQLApi"
+        case application = "AWS::ElasticBeanstalk::Application"
+        case applicationVersion = "AWS::ElasticBeanstalk::ApplicationVersion"
+        case associationCompliance = "AWS::SSM::AssociationCompliance"
+        case athenaDataCatalog = "AWS::Athena::DataCatalog"
+        case athenaWorkGroup = "AWS::Athena::WorkGroup"
+        case autoScalingGroup = "AWS::AutoScaling::AutoScalingGroup"
+        case backupPlan = "AWS::Backup::BackupPlan"
+        case backupRecoveryPoint = "AWS::Backup::RecoveryPoint"
+        case backupSelection = "AWS::Backup::BackupSelection"
+        case backupVault = "AWS::Backup::BackupVault"
+        case batchComputeEnvironment = "AWS::Batch::ComputeEnvironment"
+        case batchJobQueue = "AWS::Batch::JobQueue"
+        case bucket = "AWS::S3::Bucket"
+        case certificate = "AWS::ACM::Certificate"
+        case cloudFormationProduct = "AWS::ServiceCatalog::CloudFormationProduct"
+        case cloudFormationProvisionedProduct = "AWS::ServiceCatalog::CloudFormationProvisionedProduct"
+        case cluster = "AWS::Redshift::Cluster"
+        case clusterParameterGroup = "AWS::Redshift::ClusterParameterGroup"
+        case clusterSecurityGroup = "AWS::Redshift::ClusterSecurityGroup"
+        case clusterSnapshot = "AWS::Redshift::ClusterSnapshot"
+        case clusterSubnetGroup = "AWS::Redshift::ClusterSubnetGroup"
+        case codeDeployApplication = "AWS::CodeDeploy::Application"
+        case codeDeployDeploymentConfig = "AWS::CodeDeploy::DeploymentConfig"
+        case codeDeployDeploymentGroup = "AWS::CodeDeploy::DeploymentGroup"
+        case conformancePackCompliance = "AWS::Config::ConformancePackCompliance"
+        case customerGateway = "AWS::EC2::CustomerGateway"
+        case dataSyncLocationEFS = "AWS::DataSync::LocationEFS"
+        case dataSyncLocationFSxLustre = "AWS::DataSync::LocationFSxLustre"
+        case dataSyncLocationNFS = "AWS::DataSync::LocationNFS"
+        case dataSyncLocationS3 = "AWS::DataSync::LocationS3"
+        case dataSyncLocationSMB = "AWS::DataSync::LocationSMB"
+        case dataSyncTask = "AWS::DataSync::Task"
+        case dbCluster = "AWS::RDS::DBCluster"
+        case dbClusterSnapshot = "AWS::RDS::DBClusterSnapshot"
+        case dbInstance = "AWS::RDS::DBInstance"
+        case dbSecurityGroup = "AWS::RDS::DBSecurityGroup"
+        case dbSnapshot = "AWS::RDS::DBSnapshot"
+        case dbSubnetGroup = "AWS::RDS::DBSubnetGroup"
+        case detectiveGraph = "AWS::Detective::Graph"
+        case distribution = "AWS::CloudFront::Distribution"
+        case dmsCertificate = "AWS::DMS::Certificate"
+        case dmsEventSubscription = "AWS::DMS::EventSubscription"
+        case dmsReplicationSubnetGroup = "AWS::DMS::ReplicationSubnetGroup"
+        case domain = "AWS::Elasticsearch::Domain"
+        case ecrPublicRepository = "AWS::ECR::PublicRepository"
+        case ecrRepository = "AWS::ECR::Repository"
+        case ecsCluster = "AWS::ECS::Cluster"
+        case ecsService = "AWS::ECS::Service"
+        case ecsTaskDefinition = "AWS::ECS::TaskDefinition"
+        case efsAccessPoint = "AWS::EFS::AccessPoint"
+        case efsFileSystem = "AWS::EFS::FileSystem"
+        case egressOnlyInternetGateway = "AWS::EC2::EgressOnlyInternetGateway"
+        case eip = "AWS::EC2::EIP"
+        case eksCluster = "AWS::EKS::Cluster"
+        case eksFargateProfile = "AWS::EKS::FargateProfile"
+        case emrSecurityConfiguration = "AWS::EMR::SecurityConfiguration"
+        case encryptionConfig = "AWS::XRay::EncryptionConfig"
+        case environment = "AWS::ElasticBeanstalk::Environment"
+        case eventSubscription = "AWS::RDS::EventSubscription"
+        case fileData = "AWS::SSM::FileData"
+        case flowLog = "AWS::EC2::FlowLog"
+        case function = "AWS::Lambda::Function"
+        case globalAcceleratorAccelerator = "AWS::GlobalAccelerator::Accelerator"
+        case globalAcceleratorEndpointGroup = "AWS::GlobalAccelerator::EndpointGroup"
+        case globalAcceleratorListener = "AWS::GlobalAccelerator::Listener"
+        case glueJob = "AWS::Glue::Job"
+        case group = "AWS::IAM::Group"
+        case guardDutyDetector = "AWS::GuardDuty::Detector"
+        case guardDutyIPSet = "AWS::GuardDuty::IPSet"
+        case guardDutyThreatIntelSet = "AWS::GuardDuty::ThreatIntelSet"
+        case host = "AWS::EC2::Host"
+        case instance = "AWS::EC2::Instance"
+        case internetGateway = "AWS::EC2::InternetGateway"
+        case ipSetV2 = "AWS::WAFv2::IPSet"
+        case key = "AWS::KMS::Key"
+        case kinesisStream = "AWS::Kinesis::Stream"
+        case kinesisStreamConsumer = "AWS::Kinesis::StreamConsumer"
+        case launchConfiguration = "AWS::AutoScaling::LaunchConfiguration"
+        case launchTemplate = "AWS::EC2::LaunchTemplate"
+        case listenerV2 = "AWS::ElasticLoadBalancingV2::Listener"
+        case loadBalancer = "AWS::ElasticLoadBalancing::LoadBalancer"
+        case loadBalancerV2 = "AWS::ElasticLoadBalancingV2::LoadBalancer"
+        case managedInstanceInventory = "AWS::SSM::ManagedInstanceInventory"
+        case managedRuleSetV2 = "AWS::WAFv2::ManagedRuleSet"
+        case mskCluster = "AWS::MSK::Cluster"
+        case natGateway = "AWS::EC2::NatGateway"
+        case networkAcl = "AWS::EC2::NetworkAcl"
+        case networkFirewallFirewall = "AWS::NetworkFirewall::Firewall"
+        case networkFirewallFirewallPolicy = "AWS::NetworkFirewall::FirewallPolicy"
+        case networkFirewallRuleGroup = "AWS::NetworkFirewall::RuleGroup"
+        case networkInsightsAccessScopeAnalysis = "AWS::EC2::NetworkInsightsAccessScopeAnalysis"
+        case networkInterface = "AWS::EC2::NetworkInterface"
+        case openSearchDomain = "AWS::OpenSearch::Domain"
+        case patchCompliance = "AWS::SSM::PatchCompliance"
+        case pipeline = "AWS::CodePipeline::Pipeline"
+        case policy = "AWS::IAM::Policy"
+        case portfolio = "AWS::ServiceCatalog::Portfolio"
+        case project = "AWS::CodeBuild::Project"
+        case protection = "AWS::Shield::Protection"
+        case qldbLedger = "AWS::QLDB::Ledger"
+        case queue = "AWS::SQS::Queue"
+        case rateBasedRule = "AWS::WAF::RateBasedRule"
+        case redshiftEventSubscription = "AWS::Redshift::EventSubscription"
+        case regexPatternSetV2 = "AWS::WAFv2::RegexPatternSet"
+        case regionalProtection = "AWS::ShieldRegional::Protection"
+        case regionalRateBasedRule = "AWS::WAFRegional::RateBasedRule"
+        case regionalRule = "AWS::WAFRegional::Rule"
+        case regionalRuleGroup = "AWS::WAFRegional::RuleGroup"
+        case regionalWebACL = "AWS::WAFRegional::WebACL"
+        case registeredHAInstance = "AWS::EC2::RegisteredHAInstance"
+        case resourceCompliance = "AWS::Config::ResourceCompliance"
+        case restApi = "AWS::ApiGateway::RestApi"
+        case role = "AWS::IAM::Role"
+        case route53HostedZone = "AWS::Route53::HostedZone"
+        case route53ResolverResolverEndpoint = "AWS::Route53Resolver::ResolverEndpoint"
+        case route53ResolverResolverRule = "AWS::Route53Resolver::ResolverRule"
+        case route53ResolverResolverRuleAssociation = "AWS::Route53Resolver::ResolverRuleAssociation"
+        case routeTable = "AWS::EC2::RouteTable"
+        case rule = "AWS::WAF::Rule"
+        case ruleGroup = "AWS::WAF::RuleGroup"
+        case ruleGroupV2 = "AWS::WAFv2::RuleGroup"
+        case sageMakerCodeRepository = "AWS::SageMaker::CodeRepository"
+        case sageMakerModel = "AWS::SageMaker::Model"
+        case sageMakerNotebookInstanceLifecycleConfig = "AWS::SageMaker::NotebookInstanceLifecycleConfig"
+        case sageMakerWorkteam = "AWS::SageMaker::Workteam"
+        case scalingPolicy = "AWS::AutoScaling::ScalingPolicy"
+        case scheduledAction = "AWS::AutoScaling::ScheduledAction"
+        case secret = "AWS::SecretsManager::Secret"
+        case securityGroup = "AWS::EC2::SecurityGroup"
+        case serviceDiscoveryPublicDnsNamespace = "AWS::ServiceDiscovery::PublicDnsNamespace"
+        case serviceDiscoveryService = "AWS::ServiceDiscovery::Service"
+        case sesConfigurationSet = "AWS::SES::ConfigurationSet"
+        case sesContactList = "AWS::SES::ContactList"
+        case stack = "AWS::CloudFormation::Stack"
+        case stage = "AWS::ApiGateway::Stage"
+        case stageV2 = "AWS::ApiGatewayV2::Stage"
+        case stepFunctionsActivity = "AWS::StepFunctions::Activity"
+        case stepFunctionsStateMachine = "AWS::StepFunctions::StateMachine"
+        case streamingDistribution = "AWS::CloudFront::StreamingDistribution"
+        case subnet = "AWS::EC2::Subnet"
+        case table = "AWS::DynamoDB::Table"
+        case topic = "AWS::SNS::Topic"
+        case trail = "AWS::CloudTrail::Trail"
+        case transitGateway = "AWS::EC2::TransitGateway"
+        case transitGatewayAttachment = "AWS::EC2::TransitGatewayAttachment"
+        case transitGatewayRouteTable = "AWS::EC2::TransitGatewayRouteTable"
+        case user = "AWS::IAM::User"
+        case volume = "AWS::EC2::Volume"
+        case vpc = "AWS::EC2::VPC"
+        case vpcEndpoint = "AWS::EC2::VPCEndpoint"
+        case vpcEndpointService = "AWS::EC2::VPCEndpointService"
+        case vpcPeeringConnection = "AWS::EC2::VPCPeeringConnection"
+        case vpnConnection = "AWS::EC2::VPNConnection"
+        case vpnGateway = "AWS::EC2::VPNGateway"
+        case webACL = "AWS::WAF::WebACL"
+        case webACLV2 = "AWS::WAFv2::WebACL"
+        case workSpacesConnectionAlias = "AWS::WorkSpaces::ConnectionAlias"
+        case workSpacesWorkspace = "AWS::WorkSpaces::Workspace"
         public var description: String { return self.rawValue }
     }
 
@@ -2409,12 +2429,12 @@ extension ConfigService {
         /// 			The default is
         /// 			maximum.
         /// 			If you specify 0, Config uses the default.
-        public let limit: Int?
+        public let limit: Int
         /// The nextToken string returned on a previous page that you use
         /// 			to get the next page of results in a paginated response.
         public let nextToken: String?
 
-        public init(configurationAggregatorName: String, filters: ConfigRuleComplianceFilters? = nil, limit: Int? = nil, nextToken: String? = nil) {
+        public init(configurationAggregatorName: String, filters: ConfigRuleComplianceFilters? = nil, limit: Int = 0, nextToken: String? = nil) {
             self.configurationAggregatorName = configurationAggregatorName
             self.filters = filters
             self.limit = limit
@@ -2463,11 +2483,11 @@ extension ConfigService {
         /// Filters the result by AggregateConformancePackComplianceFilters object.
         public let filters: AggregateConformancePackComplianceFilters?
         /// The maximum number of conformance packs compliance details returned on each page. The default is maximum. If you specify 0, Config uses the default.
-        public let limit: Int?
+        public let limit: Int
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
 
-        public init(configurationAggregatorName: String, filters: AggregateConformancePackComplianceFilters? = nil, limit: Int? = nil, nextToken: String? = nil) {
+        public init(configurationAggregatorName: String, filters: AggregateConformancePackComplianceFilters? = nil, limit: Int = 0, nextToken: String? = nil) {
             self.configurationAggregatorName = configurationAggregatorName
             self.filters = filters
             self.limit = limit
@@ -2512,12 +2532,12 @@ extension ConfigService {
         /// The maximum number of AggregationAuthorizations returned on
         /// 			each page. The default is maximum. If you specify 0, Config uses
         /// 			the default.
-        public let limit: Int?
+        public let limit: Int
         /// The nextToken string returned on a previous page that you use
         /// 			to get the next page of results in a paginated response.
         public let nextToken: String?
 
-        public init(limit: Int? = nil, nextToken: String? = nil) {
+        public init(limit: Int = 0, nextToken: String? = nil) {
             self.limit = limit
             self.nextToken = nextToken
         }
@@ -2613,7 +2633,7 @@ extension ConfigService {
         /// The maximum number of evaluation results returned on each page.
         /// 			The default is 10. You cannot specify a number greater than 100. If
         /// 			you specify 0, Config uses the default.
-        public let limit: Int?
+        public let limit: Int
         /// The nextToken string returned on a previous page
         /// 			that you use to get the next page of results in a paginated
         /// 			response.
@@ -2629,7 +2649,7 @@ extension ConfigService {
         /// 			specifying AWS::::Account.
         public let resourceType: String?
 
-        public init(complianceTypes: [ComplianceType]? = nil, limit: Int? = nil, nextToken: String? = nil, resourceId: String? = nil, resourceType: String? = nil) {
+        public init(complianceTypes: [ComplianceType]? = nil, limit: Int = 0, nextToken: String? = nil, resourceId: String? = nil, resourceType: String? = nil) {
             self.complianceTypes = complianceTypes
             self.limit = limit
             self.nextToken = nextToken
@@ -2689,13 +2709,13 @@ extension ConfigService {
         /// 		       For information about requesting a rule limit increase, see
         /// 				Config Limits in the Amazon Web Services General
         /// 				Reference Guide.
-        public let limit: Int?
+        public let limit: Int
         /// The nextToken string returned on a previous page
         /// 			that you use to get the next page of results in a paginated
         /// 			response.
         public let nextToken: String?
 
-        public init(configRuleNames: [String]? = nil, limit: Int? = nil, nextToken: String? = nil) {
+        public init(configRuleNames: [String]? = nil, limit: Int = 0, nextToken: String? = nil) {
             self.configRuleNames = configRuleNames
             self.limit = limit
             self.nextToken = nextToken
@@ -2791,7 +2811,7 @@ extension ConfigService {
         /// The maximum number of AggregatorSourceStatus returned on each
         /// 			page. The default is maximum. If you specify 0, Config uses the
         /// 			default.
-        public let limit: Int?
+        public let limit: Int
         /// The nextToken string returned on a previous page that you use
         /// 			to get the next page of results in a paginated response.
         public let nextToken: String?
@@ -2808,7 +2828,7 @@ extension ConfigService {
         ///
         public let updateStatus: [AggregatedSourceStatusType]?
 
-        public init(configurationAggregatorName: String, limit: Int? = nil, nextToken: String? = nil, updateStatus: [AggregatedSourceStatusType]? = nil) {
+        public init(configurationAggregatorName: String, limit: Int = 0, nextToken: String? = nil, updateStatus: [AggregatedSourceStatusType]? = nil) {
             self.configurationAggregatorName = configurationAggregatorName
             self.limit = limit
             self.nextToken = nextToken
@@ -2857,12 +2877,12 @@ extension ConfigService {
         /// The maximum number of configuration aggregators returned on
         /// 			each page. The default is maximum. If you specify 0, Config uses
         /// 			the default.
-        public let limit: Int?
+        public let limit: Int
         /// The nextToken string returned on a previous page that you use
         /// 			to get the next page of results in a paginated response.
         public let nextToken: String?
 
-        public init(configurationAggregatorNames: [String]? = nil, limit: Int? = nil, nextToken: String? = nil) {
+        public init(configurationAggregatorNames: [String]? = nil, limit: Int = 0, nextToken: String? = nil) {
             self.configurationAggregatorNames = configurationAggregatorNames
             self.limit = limit
             self.nextToken = nextToken
@@ -2980,11 +3000,11 @@ extension ConfigService {
         /// A ConformancePackComplianceFilters object.
         public let filters: ConformancePackComplianceFilters?
         /// The maximum number of Config rules within a conformance pack are returned on each page.
-        public let limit: Int?
+        public let limit: Int
         /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
         public let nextToken: String?
 
-        public init(conformancePackName: String, filters: ConformancePackComplianceFilters? = nil, limit: Int? = nil, nextToken: String? = nil) {
+        public init(conformancePackName: String, filters: ConformancePackComplianceFilters? = nil, limit: Int = 0, nextToken: String? = nil) {
             self.conformancePackName = conformancePackName
             self.filters = filters
             self.limit = limit
@@ -3033,11 +3053,11 @@ extension ConfigService {
         /// Comma-separated list of conformance pack names.
         public let conformancePackNames: [String]?
         /// The maximum number of conformance packs status returned on each page.
-        public let limit: Int?
+        public let limit: Int
         /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
         public let nextToken: String?
 
-        public init(conformancePackNames: [String]? = nil, limit: Int? = nil, nextToken: String? = nil) {
+        public init(conformancePackNames: [String]? = nil, limit: Int = 0, nextToken: String? = nil) {
             self.conformancePackNames = conformancePackNames
             self.limit = limit
             self.nextToken = nextToken
@@ -3082,11 +3102,11 @@ extension ConfigService {
         /// Comma-separated list of conformance pack names for which you want details. If you do not specify any names, Config returns details for all your conformance packs.
         public let conformancePackNames: [String]?
         /// The maximum number of conformance packs returned on each page.
-        public let limit: Int?
+        public let limit: Int
         /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
         public let nextToken: String?
 
-        public init(conformancePackNames: [String]? = nil, limit: Int? = nil, nextToken: String? = nil) {
+        public init(conformancePackNames: [String]? = nil, limit: Int = 0, nextToken: String? = nil) {
             self.conformancePackNames = conformancePackNames
             self.limit = limit
             self.nextToken = nextToken
@@ -3197,13 +3217,13 @@ extension ConfigService {
 
     public struct DescribeOrganizationConfigRuleStatusesRequest: AWSEncodableShape {
         /// The maximum number of OrganizationConfigRuleStatuses returned on each page. If you do no specify a number, Config uses the default. The default is 100.
-        public let limit: Int?
+        public let limit: Int
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
         /// The names of organization Config rules for which you want status details. If you do not specify any names, Config returns details for all your organization Config rules.
         public let organizationConfigRuleNames: [String]?
 
-        public init(limit: Int? = nil, nextToken: String? = nil, organizationConfigRuleNames: [String]? = nil) {
+        public init(limit: Int = 0, nextToken: String? = nil, organizationConfigRuleNames: [String]? = nil) {
             self.limit = limit
             self.nextToken = nextToken
             self.organizationConfigRuleNames = organizationConfigRuleNames
@@ -3245,13 +3265,13 @@ extension ConfigService {
 
     public struct DescribeOrganizationConfigRulesRequest: AWSEncodableShape {
         /// The maximum number of organization Config rules returned on each page. If you do no specify a number, Config uses the default. The default is 100.
-        public let limit: Int?
+        public let limit: Int
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
         /// The names of organization Config rules for which you want details. If you do not specify any names, Config returns details for all your organization Config rules.
         public let organizationConfigRuleNames: [String]?
 
-        public init(limit: Int? = nil, nextToken: String? = nil, organizationConfigRuleNames: [String]? = nil) {
+        public init(limit: Int = 0, nextToken: String? = nil, organizationConfigRuleNames: [String]? = nil) {
             self.limit = limit
             self.nextToken = nextToken
             self.organizationConfigRuleNames = organizationConfigRuleNames
@@ -3294,14 +3314,14 @@ extension ConfigService {
     public struct DescribeOrganizationConformancePackStatusesRequest: AWSEncodableShape {
         /// The maximum number of OrganizationConformancePackStatuses returned on each page.
         /// 			If you do no specify a number, Config uses the default. The default is 100.
-        public let limit: Int?
+        public let limit: Int
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
         /// The names of organization conformance packs for which you want status details.
         /// 			If you do not specify any names, Config returns details for all your organization conformance packs.
         public let organizationConformancePackNames: [String]?
 
-        public init(limit: Int? = nil, nextToken: String? = nil, organizationConformancePackNames: [String]? = nil) {
+        public init(limit: Int = 0, nextToken: String? = nil, organizationConformancePackNames: [String]? = nil) {
             self.limit = limit
             self.nextToken = nextToken
             self.organizationConformancePackNames = organizationConformancePackNames
@@ -3345,14 +3365,14 @@ extension ConfigService {
     public struct DescribeOrganizationConformancePacksRequest: AWSEncodableShape {
         /// The maximum number of organization config packs returned on each page. If you do no specify a
         /// 			number, Config uses the default. The default is 100.
-        public let limit: Int?
+        public let limit: Int
         /// The nextToken string returned on a previous page that you use to get the next page of results in a
         /// 			paginated response.
         public let nextToken: String?
         /// The name that you assign to an organization conformance pack.
         public let organizationConformancePackNames: [String]?
 
-        public init(limit: Int? = nil, nextToken: String? = nil, organizationConformancePackNames: [String]? = nil) {
+        public init(limit: Int = 0, nextToken: String? = nil, organizationConformancePackNames: [String]? = nil) {
             self.limit = limit
             self.nextToken = nextToken
             self.organizationConformancePackNames = organizationConformancePackNames
@@ -3398,12 +3418,12 @@ extension ConfigService {
         /// The maximum number of evaluation results returned on each page.
         /// 			The default is maximum. If you specify 0, Config uses the
         /// 			default.
-        public let limit: Int?
+        public let limit: Int
         /// The nextToken string returned on a previous page that you use
         /// 			to get the next page of results in a paginated response.
         public let nextToken: String?
 
-        public init(limit: Int? = nil, nextToken: String? = nil) {
+        public init(limit: Int = 0, nextToken: String? = nil) {
             self.limit = limit
             self.nextToken = nextToken
         }
@@ -3476,13 +3496,13 @@ extension ConfigService {
         /// The name of the Config rule.
         public let configRuleName: String
         /// The maximum number of RemediationExceptionResourceKey returned on each page. The default is 25. If you specify 0, Config uses the default.
-        public let limit: Int?
+        public let limit: Int
         /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
         public let nextToken: String?
         /// An exception list of resource exception keys to be processed with the current request. Config adds exception for each resource key. For example, Config adds 3 exceptions for 3 resource keys.
         public let resourceKeys: [RemediationExceptionResourceKey]?
 
-        public init(configRuleName: String, limit: Int? = nil, nextToken: String? = nil, resourceKeys: [RemediationExceptionResourceKey]? = nil) {
+        public init(configRuleName: String, limit: Int = 0, nextToken: String? = nil, resourceKeys: [RemediationExceptionResourceKey]? = nil) {
             self.configRuleName = configRuleName
             self.limit = limit
             self.nextToken = nextToken
@@ -3531,13 +3551,13 @@ extension ConfigService {
         /// A list of Config rule names.
         public let configRuleName: String
         /// The maximum number of RemediationExecutionStatuses returned on each page. The default is maximum. If you specify 0, Config uses the default.
-        public let limit: Int?
+        public let limit: Int
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
         /// A list of resource keys to be processed with the current request. Each element in the list consists of the resource type and resource ID.
         public let resourceKeys: [ResourceKey]?
 
-        public init(configRuleName: String, limit: Int? = nil, nextToken: String? = nil, resourceKeys: [ResourceKey]? = nil) {
+        public init(configRuleName: String, limit: Int = 0, nextToken: String? = nil, resourceKeys: [ResourceKey]? = nil) {
             self.configRuleName = configRuleName
             self.limit = limit
             self.nextToken = nextToken
@@ -3917,12 +3937,12 @@ extension ConfigService {
         /// The maximum number of evaluation results returned on each page.
         /// 			The default is 50. You cannot specify a number greater than 100. If
         /// 			you specify 0, Config uses the default.
-        public let limit: Int?
+        public let limit: Int
         /// The nextToken string returned on a previous page that you use
         /// 			to get the next page of results in a paginated response.
         public let nextToken: String?
 
-        public init(accountId: String, awsRegion: String, complianceType: ComplianceType? = nil, configRuleName: String, configurationAggregatorName: String, limit: Int? = nil, nextToken: String? = nil) {
+        public init(accountId: String, awsRegion: String, complianceType: ComplianceType? = nil, configRuleName: String, configurationAggregatorName: String, limit: Int = 0, nextToken: String? = nil) {
             self.accountId = accountId
             self.awsRegion = awsRegion
             self.complianceType = complianceType
@@ -3986,12 +4006,12 @@ extension ConfigService {
         /// The maximum number of evaluation results returned on each page.
         /// 			The default is 1000. You cannot specify a number greater than 1000.
         /// 			If you specify 0, Config uses the default.
-        public let limit: Int?
+        public let limit: Int
         /// The nextToken string returned on a previous page that you use
         /// 			to get the next page of results in a paginated response.
         public let nextToken: String?
 
-        public init(configurationAggregatorName: String, filters: ConfigRuleComplianceSummaryFilters? = nil, groupByKey: ConfigRuleComplianceSummaryGroupKey? = nil, limit: Int? = nil, nextToken: String? = nil) {
+        public init(configurationAggregatorName: String, filters: ConfigRuleComplianceSummaryFilters? = nil, groupByKey: ConfigRuleComplianceSummaryGroupKey? = nil, limit: Int = 0, nextToken: String? = nil) {
             self.configurationAggregatorName = configurationAggregatorName
             self.filters = filters
             self.groupByKey = groupByKey
@@ -4047,11 +4067,11 @@ extension ConfigService {
         /// Groups the result based on Amazon Web Services account ID or Amazon Web Services Region.
         public let groupByKey: AggregateConformancePackComplianceSummaryGroupKey?
         /// The maximum number of results returned on each page. The default is maximum. If you specify 0, Config uses the default.
-        public let limit: Int?
+        public let limit: Int
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
 
-        public init(configurationAggregatorName: String, filters: AggregateConformancePackComplianceSummaryFilters? = nil, groupByKey: AggregateConformancePackComplianceSummaryGroupKey? = nil, limit: Int? = nil, nextToken: String? = nil) {
+        public init(configurationAggregatorName: String, filters: AggregateConformancePackComplianceSummaryFilters? = nil, groupByKey: AggregateConformancePackComplianceSummaryGroupKey? = nil, limit: Int = 0, nextToken: String? = nil) {
             self.configurationAggregatorName = configurationAggregatorName
             self.filters = filters
             self.groupByKey = groupByKey
@@ -4106,11 +4126,11 @@ extension ConfigService {
         /// The key to group the resource counts.
         public let groupByKey: ResourceCountGroupKey?
         /// The maximum number of GroupedResourceCount objects returned on each page. The default is 1000. You cannot specify a number greater than 1000. If you specify 0, Config uses the default.
-        public let limit: Int?
+        public let limit: Int
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
 
-        public init(configurationAggregatorName: String, filters: ResourceCountFilters? = nil, groupByKey: ResourceCountGroupKey? = nil, limit: Int? = nil, nextToken: String? = nil) {
+        public init(configurationAggregatorName: String, filters: ResourceCountFilters? = nil, groupByKey: ResourceCountGroupKey? = nil, limit: Int = 0, nextToken: String? = nil) {
             self.configurationAggregatorName = configurationAggregatorName
             self.filters = filters
             self.groupByKey = groupByKey
@@ -4210,13 +4230,13 @@ extension ConfigService {
         /// The maximum number of evaluation results returned on each page.
         /// 			The default is 10. You cannot specify a number greater than 100. If
         /// 			you specify 0, Config uses the default.
-        public let limit: Int?
+        public let limit: Int
         /// The nextToken string returned on a previous page
         /// 			that you use to get the next page of results in a paginated
         /// 			response.
         public let nextToken: String?
 
-        public init(complianceTypes: [ComplianceType]? = nil, configRuleName: String, limit: Int? = nil, nextToken: String? = nil) {
+        public init(complianceTypes: [ComplianceType]? = nil, configRuleName: String, limit: Int = 0, nextToken: String? = nil) {
             self.complianceTypes = complianceTypes
             self.configRuleName = configRuleName
             self.limit = limit
@@ -4380,11 +4400,11 @@ extension ConfigService {
         /// A ConformancePackEvaluationFilters object.
         public let filters: ConformancePackEvaluationFilters?
         /// The maximum number of evaluation results returned on each page. If you do no specify a number, Config uses the default. The default is 100.
-        public let limit: Int?
+        public let limit: Int
         /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
         public let nextToken: String?
 
-        public init(conformancePackName: String, filters: ConformancePackEvaluationFilters? = nil, limit: Int? = nil, nextToken: String? = nil) {
+        public init(conformancePackName: String, filters: ConformancePackEvaluationFilters? = nil, limit: Int = 0, nextToken: String? = nil) {
             self.conformancePackName = conformancePackName
             self.filters = filters
             self.limit = limit
@@ -4433,11 +4453,11 @@ extension ConfigService {
         /// Names of conformance packs.
         public let conformancePackNames: [String]
         /// The maximum number of conformance packs returned on each page.
-        public let limit: Int?
+        public let limit: Int
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
 
-        public init(conformancePackNames: [String], limit: Int? = nil, nextToken: String? = nil) {
+        public init(conformancePackNames: [String], limit: Int = 0, nextToken: String? = nil) {
             self.conformancePackNames = conformancePackNames
             self.limit = limit
             self.nextToken = nextToken
@@ -4516,7 +4536,7 @@ extension ConfigService {
         /// 			returned on each page. The default is 100. You cannot specify a
         /// 			number greater than 100. If you specify 0, Config uses the
         /// 			default.
-        public let limit: Int?
+        public let limit: Int
         /// The nextToken string returned on a previous page
         /// 			that you use to get the next page of results in a paginated
         /// 			response.
@@ -4536,7 +4556,7 @@ extension ConfigService {
         ///
         public let resourceTypes: [String]?
 
-        public init(limit: Int? = nil, nextToken: String? = nil, resourceTypes: [String]? = nil) {
+        public init(limit: Int = 0, nextToken: String? = nil, resourceTypes: [String]? = nil) {
             self.limit = limit
             self.nextToken = nextToken
             self.resourceTypes = resourceTypes
@@ -4604,13 +4624,13 @@ extension ConfigService {
         /// A StatusDetailFilters object.
         public let filters: StatusDetailFilters?
         /// The maximum number of OrganizationConfigRuleDetailedStatus returned on each page. If you do not specify a number, Config uses the default. The default is 100.
-        public let limit: Int?
+        public let limit: Int
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
         /// The name of your organization Config rule for which you want status details for member accounts.
         public let organizationConfigRuleName: String
 
-        public init(filters: StatusDetailFilters? = nil, limit: Int? = nil, nextToken: String? = nil, organizationConfigRuleName: String) {
+        public init(filters: StatusDetailFilters? = nil, limit: Int = 0, nextToken: String? = nil, organizationConfigRuleName: String) {
             self.filters = filters
             self.limit = limit
             self.nextToken = nextToken
@@ -4656,13 +4676,13 @@ extension ConfigService {
         public let filters: OrganizationResourceDetailedStatusFilters?
         /// The maximum number of OrganizationConformancePackDetailedStatuses returned on each page.
         /// 			If you do not specify a number, Config uses the default. The default is 100.
-        public let limit: Int?
+        public let limit: Int
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
         /// The name of organization conformance pack for which you want status details for member accounts.
         public let organizationConformancePackName: String
 
-        public init(filters: OrganizationResourceDetailedStatusFilters? = nil, limit: Int? = nil, nextToken: String? = nil, organizationConformancePackName: String) {
+        public init(filters: OrganizationResourceDetailedStatusFilters? = nil, limit: Int = 0, nextToken: String? = nil, organizationConformancePackName: String) {
             self.filters = filters
             self.limit = limit
             self.nextToken = nextToken
@@ -4751,7 +4771,7 @@ extension ConfigService {
         /// The maximum number of configuration items returned on each
         /// 			page. The default is 10. You cannot specify a number greater than
         /// 			100. If you specify 0, Config uses the default.
-        public let limit: Int?
+        public let limit: Int
         /// The nextToken string returned on a previous page
         /// 			that you use to get the next page of results in a paginated
         /// 			response.
@@ -4762,7 +4782,7 @@ extension ConfigService {
         /// The resource type.
         public let resourceType: ResourceType
 
-        public init(chronologicalOrder: ChronologicalOrder? = nil, earlierTime: Date? = nil, laterTime: Date? = nil, limit: Int? = nil, nextToken: String? = nil, resourceId: String, resourceType: ResourceType) {
+        public init(chronologicalOrder: ChronologicalOrder? = nil, earlierTime: Date? = nil, laterTime: Date? = nil, limit: Int = 0, nextToken: String? = nil, resourceId: String, resourceType: ResourceType) {
             self.chronologicalOrder = chronologicalOrder
             self.earlierTime = earlierTime
             self.laterTime = laterTime
@@ -4864,13 +4884,13 @@ extension ConfigService {
         /// Filters the results based on the ResourceFilters object.
         public let filters: ResourceFilters?
         /// The maximum number of resource identifiers returned on each page. You cannot specify a number greater than 100. If you specify 0, Config uses the default.
-        public let limit: Int?
+        public let limit: Int
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
         /// The type of resources that you want Config to list in the response.
         public let resourceType: ResourceType
 
-        public init(configurationAggregatorName: String, filters: ResourceFilters? = nil, limit: Int? = nil, nextToken: String? = nil, resourceType: ResourceType) {
+        public init(configurationAggregatorName: String, filters: ResourceFilters? = nil, limit: Int = 0, nextToken: String? = nil, resourceType: ResourceType) {
             self.configurationAggregatorName = configurationAggregatorName
             self.filters = filters
             self.limit = limit
@@ -4917,17 +4937,21 @@ extension ConfigService {
         /// Filters the results based on the ConformancePackComplianceScoresFilters.
         public let filters: ConformancePackComplianceScoresFilters?
         /// The maximum number of conformance pack compliance scores returned on each page.
-        public let limit: Int?
+        public let limit: Int
         /// The nextToken string in a prior request that you can use to get the paginated response for next set of conformance pack compliance scores.
         public let nextToken: String?
         /// Sorts your conformance pack compliance scores in either ascending or descending order, depending on SortOrder.
-        /// 		       By default, conformance pack compliance scores are sorted in ascending order by compliance score and alphabetically by name of the conformance pack if there is more than one conformance pack with the same compliance score.
+        /// 		       By default, conformance pack compliance scores are sorted in alphabetical order by name of the conformance pack.
+        /// 			Enter SCORE, to sort conformance pack compliance scores by the numerical value of the compliance score.
         public let sortBy: SortBy?
         /// Determines the order in which conformance pack compliance scores are sorted. Either in ascending or descending order.
-        /// 		       Conformance packs with a compliance score of INSUFFICIENT_DATA will be first when sorting by ascending order and last when sorting by descending order.
+        ///
+        /// 		       By default, conformance pack compliance scores are sorted in alphabetical order by name of the conformance pack. Conformance pack compliance scores are sorted in reverse alphabetical order if you enter DESCENDING.
+        ///
+        /// 		       You can sort conformance pack compliance scores by the numerical value of the compliance score by entering SCORE in the SortBy action. When compliance scores are sorted by SCORE, conformance packs with a compliance score of INSUFFICIENT_DATA will be last when sorting by ascending order and first when sorting by descending order.
         public let sortOrder: SortOrder?
 
-        public init(filters: ConformancePackComplianceScoresFilters? = nil, limit: Int? = nil, nextToken: String? = nil, sortBy: SortBy? = nil, sortOrder: SortOrder? = nil) {
+        public init(filters: ConformancePackComplianceScoresFilters? = nil, limit: Int = 0, nextToken: String? = nil, sortBy: SortBy? = nil, sortOrder: SortOrder? = nil) {
             self.filters = filters
             self.limit = limit
             self.nextToken = nextToken
@@ -4970,11 +4994,11 @@ extension ConfigService {
     public struct ListDiscoveredResourcesRequest: AWSEncodableShape {
         /// Specifies whether Config includes deleted resources in the
         /// 			results. By default, deleted resources are not included.
-        public let includeDeletedResources: Bool?
+        public let includeDeletedResources: Bool
         /// The maximum number of resource identifiers returned on each
         /// 			page. The default is 100. You cannot specify a number greater than
         /// 			100. If you specify 0, Config uses the default.
-        public let limit: Int?
+        public let limit: Int
         /// The nextToken string returned on a previous page
         /// 			that you use to get the next page of results in a paginated
         /// 			response.
@@ -4991,7 +5015,7 @@ extension ConfigService {
         /// 			response.
         public let resourceType: ResourceType
 
-        public init(includeDeletedResources: Bool? = nil, limit: Int? = nil, nextToken: String? = nil, resourceIds: [String]? = nil, resourceName: String? = nil, resourceType: ResourceType) {
+        public init(includeDeletedResources: Bool = false, limit: Int = 0, nextToken: String? = nil, resourceIds: [String]? = nil, resourceName: String? = nil, resourceType: ResourceType) {
             self.includeDeletedResources = includeDeletedResources
             self.limit = limit
             self.nextToken = nextToken
@@ -5081,13 +5105,13 @@ extension ConfigService {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         /// The maximum number of tags returned on each page. The limit maximum is 50. You cannot specify a number greater than 50. If you specify 0, Config uses the default.
-        public let limit: Int?
+        public let limit: Int
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
         /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the supported resources are ConfigRule, ConfigurationAggregator and AggregatorAuthorization.
         public let resourceArn: String
 
-        public init(limit: Int? = nil, nextToken: String? = nil, resourceArn: String) {
+        public init(limit: Int = 0, nextToken: String? = nil, resourceArn: String) {
             self.limit = limit
             self.nextToken = nextToken
             self.resourceArn = resourceArn
@@ -5136,9 +5160,9 @@ extension ConfigService {
         /// The timestamp of the last status update.
         public let lastUpdateTime: Date?
         /// Indicates deployment status for Config rule in the member account.
-        /// 			When master account calls PutOrganizationConfigRule action for the first time, Config rule status is created in the member account.
-        /// 			When master account calls PutOrganizationConfigRule action for the second time, Config rule status is updated in the member account.
-        /// 			Config rule status is deleted when the master account deletes OrganizationConfigRule and disables service access for config-multiaccountsetup.amazonaws.com.
+        /// 			When management account calls PutOrganizationConfigRule action for the first time, Config rule status is created in the member account.
+        /// 			When management account calls PutOrganizationConfigRule action for the second time, Config rule status is updated in the member account.
+        /// 			Config rule status is deleted when the management account deletes OrganizationConfigRule and disables service access for config-multiaccountsetup.amazonaws.com.
         ///
         /// 		        Config sets the state of the rule to:
         /// 		          CREATE_SUCCESSFUL when Config rule has been created in the member account.     CREATE_IN_PROGRESS when Config rule is being created in the member account.    CREATE_FAILED when Config rule creation has failed in the member account.    DELETE_FAILED when Config rule deletion has failed in the member account.    DELETE_IN_PROGRESS when Config rule is being deleted in the member account.    DELETE_SUCCESSFUL when Config rule has been deleted in the member account.     UPDATE_SUCCESSFUL when Config rule has been updated in the member account.    UPDATE_IN_PROGRESS when Config rule is being updated in the member account.    UPDATE_FAILED when Config rule deletion has failed in the member account.
@@ -5240,9 +5264,9 @@ extension ConfigService {
         /// The name that you assign to organization Config rule.
         public let organizationConfigRuleName: String
         /// Indicates deployment status of an organization Config rule.
-        /// 			When master account calls PutOrganizationConfigRule action for the first time, Config rule status is created in all the member accounts.
-        /// 			When master account calls PutOrganizationConfigRule action for the second time, Config rule status is updated in all the member accounts. Additionally, Config rule status is updated when one or more member accounts join or leave an organization.
-        /// 			Config rule status is deleted when the master account deletes OrganizationConfigRule in all the member accounts and disables service access for config-multiaccountsetup.amazonaws.com.
+        /// 			When management account calls PutOrganizationConfigRule action for the first time, Config rule status is created in all the member accounts.
+        /// 			When management account calls PutOrganizationConfigRule action for the second time, Config rule status is updated in all the member accounts. Additionally, Config rule status is updated when one or more member accounts join or leave an organization.
+        /// 			Config rule status is deleted when the management account deletes OrganizationConfigRule in all the member accounts and disables service access for config-multiaccountsetup.amazonaws.com.
         /// 			      Config sets the state of the rule to:
         /// 		          CREATE_SUCCESSFUL when an organization Config rule has been successfully created in all the member accounts.     CREATE_IN_PROGRESS when an organization Config rule creation is in progress.    CREATE_FAILED when an organization Config rule creation failed in one or more member accounts within that organization.    DELETE_FAILED when an organization Config rule deletion failed in one or more member accounts within that organization.    DELETE_IN_PROGRESS when an organization Config rule deletion is in progress.    DELETE_SUCCESSFUL when an organization Config rule has been successfully deleted from all the member accounts.    UPDATE_SUCCESSFUL when an organization Config rule has been successfully updated in all the member accounts.    UPDATE_IN_PROGRESS when an organization Config rule update is in progress.    UPDATE_FAILED when an organization Config rule update failed in one or more member accounts within that organization.
         public let organizationRuleStatus: OrganizationRuleStatus
@@ -5317,9 +5341,9 @@ extension ConfigService {
         /// The timestamp of the last status update.
         public let lastUpdateTime: Date?
         /// Indicates deployment status for conformance pack in a member account.
-        /// 			When master account calls PutOrganizationConformancePack action for the first time, conformance pack status is created in the member account.
-        /// 			When master account calls PutOrganizationConformancePack action for the second time, conformance pack status is updated in the member account.
-        /// 			Conformance pack status is deleted when the master account deletes OrganizationConformancePack and disables service access for config-multiaccountsetup.amazonaws.com.
+        /// 			When management account calls PutOrganizationConformancePack action for the first time, conformance pack status is created in the member account.
+        /// 			When management account calls PutOrganizationConformancePack action for the second time, conformance pack status is updated in the member account.
+        /// 			Conformance pack status is deleted when the management account deletes OrganizationConformancePack and disables service access for config-multiaccountsetup.amazonaws.com.
         ///
         /// 		        Config sets the state of the conformance pack to:
         /// 		          CREATE_SUCCESSFUL when conformance pack has been created in the member account.     CREATE_IN_PROGRESS when conformance pack is being created in the member account.    CREATE_FAILED when conformance pack creation has failed in the member account.    DELETE_FAILED when conformance pack deletion has failed in the member account.    DELETE_IN_PROGRESS when conformance pack is being deleted in the member account.    DELETE_SUCCESSFUL when conformance pack has been deleted in the member account.     UPDATE_SUCCESSFUL when conformance pack has been updated in the member account.    UPDATE_IN_PROGRESS when conformance pack is being updated in the member account.    UPDATE_FAILED when conformance pack deletion has failed in the member account.
@@ -5354,13 +5378,13 @@ extension ConfigService {
         /// The name that you assign to organization conformance pack.
         public let organizationConformancePackName: String
         /// Indicates deployment status of an organization conformance pack.
-        /// 			When master account calls PutOrganizationConformancePack for the first time,
+        /// 			When management account calls PutOrganizationConformancePack for the first time,
         /// 			conformance pack status is created in all the member accounts.
-        /// 			When master account calls PutOrganizationConformancePack for the second time,
+        /// 			When management account calls PutOrganizationConformancePack for the second time,
         /// 			conformance pack status is updated in all the member accounts.
         /// 			Additionally, conformance pack status is updated when one or more member accounts join or leave an
         /// 			organization.
-        /// 			Conformance pack status is deleted when the master account deletes
+        /// 			Conformance pack status is deleted when the management account deletes
         /// 			OrganizationConformancePack in all the member accounts and disables service
         /// 			access for config-multiaccountsetup.amazonaws.com.
         /// 		       Config sets the state of the conformance pack to:
@@ -5670,9 +5694,9 @@ extension ConfigService {
         /// The 12-digit account ID of the member account within an organization.
         public let accountId: String?
         /// Indicates deployment status for conformance pack in a member account.
-        /// 			When master account calls PutOrganizationConformancePack action for the first time, conformance pack status is created in the member account.
-        /// 			When master account calls PutOrganizationConformancePack action for the second time, conformance pack status is updated in the member account.
-        /// 			Conformance pack status is deleted when the master account deletes OrganizationConformancePack and disables service access for config-multiaccountsetup.amazonaws.com.
+        /// 			When management account calls PutOrganizationConformancePack action for the first time, conformance pack status is created in the member account.
+        /// 			When management account calls PutOrganizationConformancePack action for the second time, conformance pack status is updated in the member account.
+        /// 			Conformance pack status is deleted when the management account deletes OrganizationConformancePack and disables service access for config-multiaccountsetup.amazonaws.com.
         ///
         /// 		        Config sets the state of the conformance pack to:
         /// 		          CREATE_SUCCESSFUL when conformance pack has been created in the member account.     CREATE_IN_PROGRESS when conformance pack is being created in the member account.    CREATE_FAILED when conformance pack creation has failed in the member account.    DELETE_FAILED when conformance pack deletion has failed in the member account.    DELETE_IN_PROGRESS when conformance pack is being deleted in the member account.    DELETE_SUCCESSFUL when conformance pack has been deleted in the member account.     UPDATE_SUCCESSFUL when conformance pack has been updated in the member account.    UPDATE_IN_PROGRESS when conformance pack is being updated in the member account.    UPDATE_FAILED when conformance pack deletion has failed in the member account.
@@ -5867,9 +5891,9 @@ extension ConfigService {
         /// 		        This field is optional.
         public let deliveryS3KeyPrefix: String?
         /// A string containing the full conformance pack template body. The structure containing the template body has a minimum length of 1 byte and a maximum length of 51,200 bytes.
-        /// 		        You can only use a YAML template with two resource types: Config rule (AWS::Config::ConfigRule) and remediation action (AWS::Config::RemediationConfiguration).
+        /// 		        You can use a YAML template with two resource types: Config rule (AWS::Config::ConfigRule) and remediation action (AWS::Config::RemediationConfiguration).
         public let templateBody: String?
-        /// The location of the file containing the template body (s3://bucketname/prefix). The uri must point to a conformance pack template (max size: 300 KB) that is located in an Amazon S3 bucket in the same region as the conformance pack.
+        /// The location of the file containing the template body (s3://bucketname/prefix). The uri must point to a conformance pack template (max size: 300 KB) that is located in an Amazon S3 bucket in the same Region as the conformance pack.
         /// 		        You must have access to read Amazon S3 bucket.
         public let templateS3Uri: String?
         /// An object of type TemplateSSMDocumentDetails, which contains the name or the Amazon Resource Name (ARN) of the Amazon Web Services Systems Manager document (SSM document) and the version of the SSM document that is used to create a conformance pack.
@@ -5965,9 +5989,9 @@ extension ConfigService {
         /// 				for the ResultToken parameter, but the value cannot
         /// 				be null.
         ///
-        public let testMode: Bool?
+        public let testMode: Bool
 
-        public init(evaluations: [Evaluation]? = nil, resultToken: String, testMode: Bool? = nil) {
+        public init(evaluations: [Evaluation]? = nil, resultToken: String, testMode: Bool = false) {
             self.evaluations = evaluations
             self.resultToken = resultToken
             self.testMode = testMode
@@ -6306,7 +6330,7 @@ extension ConfigService {
         ///
         public let retentionPeriodInDays: Int
 
-        public init(retentionPeriodInDays: Int) {
+        public init(retentionPeriodInDays: Int = 0) {
             self.retentionPeriodInDays = retentionPeriodInDays
         }
 
@@ -6897,13 +6921,13 @@ extension ConfigService {
         /// The SQL query SELECT command.
         public let expression: String
         /// The maximum number of query results returned on each page.
-        public let limit: Int?
+        public let limit: Int
         /// The maximum number of query results returned on each page. Config also allows the Limit request parameter.
-        public let maxResults: Int?
+        public let maxResults: Int
         /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
         public let nextToken: String?
 
-        public init(configurationAggregatorName: String, expression: String, limit: Int? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(configurationAggregatorName: String, expression: String, limit: Int = 0, maxResults: Int = 0, nextToken: String? = nil) {
             self.configurationAggregatorName = configurationAggregatorName
             self.expression = expression
             self.limit = limit
@@ -6956,11 +6980,11 @@ extension ConfigService {
         /// The SQL query SELECT command.
         public let expression: String
         /// The maximum number of query results returned on each page.
-        public let limit: Int?
+        public let limit: Int
         /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
         public let nextToken: String?
 
-        public init(expression: String, limit: Int? = nil, nextToken: String? = nil) {
+        public init(expression: String, limit: Int = 0, nextToken: String? = nil) {
             self.expression = expression
             self.limit = limit
             self.nextToken = nextToken
@@ -7254,9 +7278,9 @@ extension ConfigService {
         /// The 12-digit account ID of the member account within an organization.
         public let accountId: String?
         /// Indicates deployment status for Config rule in the member account.
-        /// 			When master account calls PutOrganizationConfigRule action for the first time, Config rule status is created in the member account.
-        /// 			When master account calls PutOrganizationConfigRule action for the second time, Config rule status is updated in the member account.
-        /// 			Config rule status is deleted when the master account deletes OrganizationConfigRule and disables service access for config-multiaccountsetup.amazonaws.com.
+        /// 			When management account calls PutOrganizationConfigRule action for the first time, Config rule status is created in the member account.
+        /// 			When management account calls PutOrganizationConfigRule action for the second time, Config rule status is updated in the member account.
+        /// 			Config rule status is deleted when the management account deletes OrganizationConfigRule and disables service access for config-multiaccountsetup.amazonaws.com.
         ///
         /// 		       Config sets the state of the rule to:
         /// 		          CREATE_SUCCESSFUL when Config rule has been created in the member account.    CREATE_IN_PROGRESS when Config rule is being created in the member account.    CREATE_FAILED when Config rule creation has failed in the member account.    DELETE_FAILED when Config rule deletion has failed in the member account.    DELETE_IN_PROGRESS when Config rule is being deleted in the member account.    DELETE_SUCCESSFUL when Config rule has been deleted in the member account.    UPDATE_SUCCESSFUL when Config rule has been updated in the member account.    UPDATE_IN_PROGRESS when Config rule is being updated in the member account.    UPDATE_FAILED when Config rule deletion has failed in the member account.
@@ -7424,7 +7448,7 @@ extension ConfigService {
 
     public struct TemplateSSMDocumentDetails: AWSEncodableShape & AWSDecodableShape {
         /// The name or Amazon Resource Name (ARN) of the SSM document to use to create a conformance pack.
-        /// 			If you use the Document Name, Config checks only your account and region for the SSM document. If you want to use an SSM document from another region or account, you must provide the ARN.
+        /// 			If you use the document name, Config checks only your account and Amazon Web Services Region for the SSM document. If you want to use an SSM document from another Region or account, you must provide the ARN.
         public let documentName: String
         /// The version of the SSM document to use to create a conformance pack. By default, Config uses the latest version.
         /// 		        This field is optional.

@@ -111,7 +111,7 @@ extension SESv2 {
         )
     }
 
-    ///  Lists the existing custom verification email templates for your account in the current Amazon Web Services Region. For more information about custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+    ///  Lists the existing custom verification email templates for your account in the current Amazon Web Services Region. For more information about custom verification email templates, see Using custom verification email templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

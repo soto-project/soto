@@ -52,7 +52,7 @@ extension S3Control {
         public static var euCentral1: Self { .init(rawValue: "eu-central-1") }
         public static var euWest1: Self { .init(rawValue: "eu-west-1") }
         public static var saEast1: Self { .init(rawValue: "sa-east-1") }
-        public static var usEast1: Self { .init(rawValue: "us-east-1") }
+        public static var usEast1: Self { .init(rawValue: "us_east_1") }
         public static var usWest1: Self { .init(rawValue: "us-west-1") }
         public static var usWest2: Self { .init(rawValue: "us-west-2") }
     }

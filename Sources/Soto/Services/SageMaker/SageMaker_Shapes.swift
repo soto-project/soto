@@ -250,6 +250,7 @@ extension SageMaker {
         case balancedAccuracy = "BalancedAccuracy"
         case f1 = "F1"
         case f1Macro = "F1macro"
+        case inferenceLatency = "InferenceLatency"
         case logLoss = "LogLoss"
         case mae = "MAE"
         case mse = "MSE"
@@ -1282,6 +1283,27 @@ extension SageMaker {
         case mlC5DXlarge = "ml.c5d.xlarge"
         case mlC5Large = "ml.c5.large"
         case mlC5Xlarge = "ml.c5.xlarge"
+        case mlC6G12Xlarge = "ml.c6g.12xlarge"
+        case mlC6G16Xlarge = "ml.c6g.16xlarge"
+        case mlC6G2Xlarge = "ml.c6g.2xlarge"
+        case mlC6G4Xlarge = "ml.c6g.4xlarge"
+        case mlC6G8Xlarge = "ml.c6g.8xlarge"
+        case mlC6GLarge = "ml.c6g.large"
+        case mlC6GXlarge = "ml.c6g.xlarge"
+        case mlC6Gd12Xlarge = "ml.c6gd.12xlarge"
+        case mlC6Gd16Xlarge = "ml.c6gd.16xlarge"
+        case mlC6Gd2Xlarge = "ml.c6gd.2xlarge"
+        case mlC6Gd4Xlarge = "ml.c6gd.4xlarge"
+        case mlC6Gd8Xlarge = "ml.c6gd.8xlarge"
+        case mlC6GdLarge = "ml.c6gd.large"
+        case mlC6GdXlarge = "ml.c6gd.xlarge"
+        case mlC6Gn12Xlarge = "ml.c6gn.12xlarge"
+        case mlC6Gn16Xlarge = "ml.c6gn.16xlarge"
+        case mlC6Gn2Xlarge = "ml.c6gn.2xlarge"
+        case mlC6Gn4Xlarge = "ml.c6gn.4xlarge"
+        case mlC6Gn8Xlarge = "ml.c6gn.8xlarge"
+        case mlC6GnLarge = "ml.c6gn.large"
+        case mlC6GnXlarge = "ml.c6gn.xlarge"
         case mlC6I12Xlarge = "ml.c6i.12xlarge"
         case mlC6I16Xlarge = "ml.c6i.16xlarge"
         case mlC6I24Xlarge = "ml.c6i.24xlarge"
@@ -1291,6 +1313,13 @@ extension SageMaker {
         case mlC6I8Xlarge = "ml.c6i.8xlarge"
         case mlC6ILarge = "ml.c6i.large"
         case mlC6IXlarge = "ml.c6i.xlarge"
+        case mlC7G12Xlarge = "ml.c7g.12xlarge"
+        case mlC7G16Xlarge = "ml.c7g.16xlarge"
+        case mlC7G2Xlarge = "ml.c7g.2xlarge"
+        case mlC7G4Xlarge = "ml.c7g.4xlarge"
+        case mlC7G8Xlarge = "ml.c7g.8xlarge"
+        case mlC7GLarge = "ml.c7g.large"
+        case mlC7GXlarge = "ml.c7g.xlarge"
         case mlG4Dn12Xlarge = "ml.g4dn.12xlarge"
         case mlG4Dn16Xlarge = "ml.g4dn.16xlarge"
         case mlG4Dn2Xlarge = "ml.g4dn.2xlarge"
@@ -1326,6 +1355,20 @@ extension SageMaker {
         case mlM5DXlarge = "ml.m5d.xlarge"
         case mlM5Large = "ml.m5.large"
         case mlM5Xlarge = "ml.m5.xlarge"
+        case mlM6G12Xlarge = "ml.m6g.12xlarge"
+        case mlM6G16Xlarge = "ml.m6g.16xlarge"
+        case mlM6G2Xlarge = "ml.m6g.2xlarge"
+        case mlM6G4Xlarge = "ml.m6g.4xlarge"
+        case mlM6G8Xlarge = "ml.m6g.8xlarge"
+        case mlM6GLarge = "ml.m6g.large"
+        case mlM6GXlarge = "ml.m6g.xlarge"
+        case mlM6Gd12Xlarge = "ml.m6gd.12xlarge"
+        case mlM6Gd16Xlarge = "ml.m6gd.16xlarge"
+        case mlM6Gd2Xlarge = "ml.m6gd.2xlarge"
+        case mlM6Gd4Xlarge = "ml.m6gd.4xlarge"
+        case mlM6Gd8Xlarge = "ml.m6gd.8xlarge"
+        case mlM6GdLarge = "ml.m6gd.large"
+        case mlM6GdXlarge = "ml.m6gd.xlarge"
         case mlP216Xlarge = "ml.p2.16xlarge"
         case mlP28Xlarge = "ml.p2.8xlarge"
         case mlP2Xlarge = "ml.p2.xlarge"
@@ -1345,6 +1388,20 @@ extension SageMaker {
         case mlR5DXlarge = "ml.r5d.xlarge"
         case mlR5Large = "ml.r5.large"
         case mlR5Xlarge = "ml.r5.xlarge"
+        case mlR6G12Xlarge = "ml.r6g.12xlarge"
+        case mlR6G16Xlarge = "ml.r6g.16xlarge"
+        case mlR6G2Xlarge = "ml.r6g.2xlarge"
+        case mlR6G4Xlarge = "ml.r6g.4xlarge"
+        case mlR6G8Xlarge = "ml.r6g.8xlarge"
+        case mlR6GLarge = "ml.r6g.large"
+        case mlR6GXlarge = "ml.r6g.xlarge"
+        case mlR6Gd12Xlarge = "ml.r6gd.12xlarge"
+        case mlR6Gd16Xlarge = "ml.r6gd.16xlarge"
+        case mlR6Gd2Xlarge = "ml.r6gd.2xlarge"
+        case mlR6Gd4Xlarge = "ml.r6gd.4xlarge"
+        case mlR6Gd8Xlarge = "ml.r6gd.8xlarge"
+        case mlR6GdLarge = "ml.r6gd.large"
+        case mlR6GdXlarge = "ml.r6gd.xlarge"
         case mlT22Xlarge = "ml.t2.2xlarge"
         case mlT2Large = "ml.t2.large"
         case mlT2Medium = "ml.t2.medium"
@@ -1409,6 +1466,11 @@ extension SageMaker {
     public enum RecommendationJobType: String, CustomStringConvertible, Codable, _SotoSendable {
         case `default` = "Default"
         case advanced = "Advanced"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RecommendationStepType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case benchmark = "BENCHMARK"
         public var description: String { return self.rawValue }
     }
 
@@ -3226,6 +3288,34 @@ extension SageMaker {
         }
     }
 
+    public struct BatchDataCaptureConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon S3 location being used to capture the data.
+        public let destinationS3Uri: String
+        /// Flag that indicates whether to append inference id to the output.
+        public let generateInferenceId: Bool?
+        /// The Amazon Resource Name (ARN) of a Amazon Web Services Key Management Service key that SageMaker uses to encrypt data on the storage volume attached to the ML compute instance that hosts the batch transform job. The KmsKeyId can be any of the following formats:    Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias name ARN: arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias
+        public let kmsKeyId: String?
+
+        public init(destinationS3Uri: String, generateInferenceId: Bool? = nil, kmsKeyId: String? = nil) {
+            self.destinationS3Uri = destinationS3Uri
+            self.generateInferenceId = generateInferenceId
+            self.kmsKeyId = kmsKeyId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.destinationS3Uri, name: "destinationS3Uri", parent: name, max: 1024)
+            try self.validate(self.destinationS3Uri, name: "destinationS3Uri", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationS3Uri = "DestinationS3Uri"
+            case generateInferenceId = "GenerateInferenceId"
+            case kmsKeyId = "KmsKeyId"
+        }
+    }
+
     public struct BatchDescribeModelPackageError: AWSDecodableShape {
         public let errorCode: String
         public let errorResponse: String
@@ -3318,6 +3408,72 @@ extension SageMaker {
             case modelPackageGroupName = "ModelPackageGroupName"
             case modelPackageStatus = "ModelPackageStatus"
             case modelPackageVersion = "ModelPackageVersion"
+        }
+    }
+
+    public struct BatchTransformInput: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon S3 location being used to capture the data.
+        public let dataCapturedDestinationS3Uri: String
+        /// The dataset format for your batch transform job.
+        public let datasetFormat: MonitoringDatasetFormat
+        /// If specified, monitoring jobs substract this time from the end time. For information about using offsets for scheduling monitoring jobs, see Schedule Model Quality Monitoring Jobs.
+        public let endTimeOffset: String?
+        /// The attributes of the input data that are the input features.
+        public let featuresAttribute: String?
+        /// The attribute of the input data that represents the ground truth label.
+        public let inferenceAttribute: String?
+        /// Path to the filesystem where the batch transform data is available to the container.
+        public let localPath: String
+        /// In a classification problem, the attribute that represents the class probability.
+        public let probabilityAttribute: String?
+        /// The threshold for the class probability to be evaluated as a positive result.
+        public let probabilityThresholdAttribute: Double?
+        /// Whether input data distributed in Amazon S3 is fully replicated or sharded by an S3 key. Defaults to FullyReplicated
+        public let s3DataDistributionType: ProcessingS3DataDistributionType?
+        /// Whether the Pipe or File is used as the input mode for transferring data for the monitoring job. Pipe mode is recommended for large datasets. File mode is useful for small files that fit in memory. Defaults to File.
+        public let s3InputMode: ProcessingS3InputMode?
+        /// If specified, monitoring jobs substract this time from the start time. For information about using offsets for scheduling monitoring jobs, see Schedule Model Quality Monitoring Jobs.
+        public let startTimeOffset: String?
+
+        public init(dataCapturedDestinationS3Uri: String, datasetFormat: MonitoringDatasetFormat, endTimeOffset: String? = nil, featuresAttribute: String? = nil, inferenceAttribute: String? = nil, localPath: String, probabilityAttribute: String? = nil, probabilityThresholdAttribute: Double? = nil, s3DataDistributionType: ProcessingS3DataDistributionType? = nil, s3InputMode: ProcessingS3InputMode? = nil, startTimeOffset: String? = nil) {
+            self.dataCapturedDestinationS3Uri = dataCapturedDestinationS3Uri
+            self.datasetFormat = datasetFormat
+            self.endTimeOffset = endTimeOffset
+            self.featuresAttribute = featuresAttribute
+            self.inferenceAttribute = inferenceAttribute
+            self.localPath = localPath
+            self.probabilityAttribute = probabilityAttribute
+            self.probabilityThresholdAttribute = probabilityThresholdAttribute
+            self.s3DataDistributionType = s3DataDistributionType
+            self.s3InputMode = s3InputMode
+            self.startTimeOffset = startTimeOffset
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataCapturedDestinationS3Uri, name: "dataCapturedDestinationS3Uri", parent: name, max: 512)
+            try self.validate(self.dataCapturedDestinationS3Uri, name: "dataCapturedDestinationS3Uri", parent: name, pattern: "^(https|s3)://([^/])/?(.*)$")
+            try self.validate(self.endTimeOffset, name: "endTimeOffset", parent: name, max: 15)
+            try self.validate(self.endTimeOffset, name: "endTimeOffset", parent: name, min: 1)
+            try self.validate(self.endTimeOffset, name: "endTimeOffset", parent: name, pattern: "^.?P")
+            try self.validate(self.localPath, name: "localPath", parent: name, max: 256)
+            try self.validate(self.localPath, name: "localPath", parent: name, pattern: ".*")
+            try self.validate(self.startTimeOffset, name: "startTimeOffset", parent: name, max: 15)
+            try self.validate(self.startTimeOffset, name: "startTimeOffset", parent: name, min: 1)
+            try self.validate(self.startTimeOffset, name: "startTimeOffset", parent: name, pattern: "^.?P")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataCapturedDestinationS3Uri = "DataCapturedDestinationS3Uri"
+            case datasetFormat = "DatasetFormat"
+            case endTimeOffset = "EndTimeOffset"
+            case featuresAttribute = "FeaturesAttribute"
+            case inferenceAttribute = "InferenceAttribute"
+            case localPath = "LocalPath"
+            case probabilityAttribute = "ProbabilityAttribute"
+            case probabilityThresholdAttribute = "ProbabilityThresholdAttribute"
+            case s3DataDistributionType = "S3DataDistributionType"
+            case s3InputMode = "S3InputMode"
+            case startTimeOffset = "StartTimeOffset"
         }
     }
 
@@ -3797,7 +3953,7 @@ extension SageMaker {
         public let contentTemplate: String?
         /// The names of the features. If provided, these are included in the endpoint response payload to help readability of the InvokeEndpoint output. See the Response section under Invoke the endpoint in the Developer Guide for more information.
         public let featureHeaders: [String]?
-        /// Provides the JMESPath expression to extract the features from a model container input in JSON Lines format. For example, if FeaturesAttribute is the JMESPath expression 'myfeatures', it extracts a list of features [1,2,3] from request data '{"myfeatures":[1,2,3}'.
+        /// Provides the JMESPath expression to extract the features from a model container input in JSON Lines format. For example, if FeaturesAttribute is the JMESPath expression 'myfeatures', it extracts a list of features [1,2,3] from request data '{"myfeatures":[1,2,3]}'.
         public let featuresAttribute: String?
         /// A list of data types of the features (optional). Applicable only to NLP explainability. If provided, FeatureTypes must have at least one 'text' string (for example, ['text']). If FeatureTypes is not provided, the explainer infers the feature types based on the baseline data. The feature types are included in the endpoint response payload. For additional information see the response section under Invoke the endpoint in the Developer Guide for more information.
         public let featureTypes: [ClarifyFeatureType]?
@@ -7084,7 +7240,7 @@ extension SageMaker {
         /// The environment variables to set in the Docker container.
         public let environment: [String: String]?
         public let experimentConfig: ExperimentConfig?
-        /// Algorithm-specific parameters that influence the quality of the model. You set hyperparameters before you start the learning process. For a list of hyperparameters for each training algorithm provided by SageMaker, see Algorithms.  You can specify a maximum of 100 hyperparameters. Each hyperparameter is a key-value pair. Each key and value is limited to 256 characters, as specified by the Length Constraint.   You must not include any security-sensitive information, such as account access IDs, secrets, and tokens, in the dictionary for configuring hyperparameters. SageMaker rejects the training job request and returns an exception error for detected credentials, if such user input is found.
+        /// Algorithm-specific parameters that influence the quality of the model. You set hyperparameters before you start the learning process. For a list of hyperparameters for each training algorithm provided by SageMaker, see Algorithms.  You can specify a maximum of 100 hyperparameters. Each hyperparameter is a key-value pair. Each key and value is limited to 256 characters, as specified by the Length Constraint.   Do not include any security-sensitive information including account access IDs, secrets or tokens in any hyperparameter field. If the use of security-sensitive credentials are detected, SageMaker will reject your training job request and return an exception error.
         public let hyperParameters: [String: String]?
         /// An array of Channel objects. Each channel is a named input source. InputDataConfig describes the input data and its location.  Algorithms can accept input data from one or more channels. For example, an algorithm might have two channels of input data, training_data and validation_data. The configuration for each channel provides the S3, EFS, or FSx location where the input data is stored. It also provides information about the stored data: the MIME type, compression method, and whether the data is wrapped in RecordIO format.  Depending on the input mode that the algorithm supports, SageMaker either copies input data files from an S3 bucket to a local directory in the Docker container, or makes it available as input streams. For example, if you specify an EFS location, input data files are available as input streams. They do not need to be downloaded.
         public let inputDataConfig: [Channel]?
@@ -7227,6 +7383,8 @@ extension SageMaker {
     public struct CreateTransformJobRequest: AWSEncodableShape {
         /// Specifies the number of records to include in a mini-batch for an HTTP inference request. A record is a single unit of input data that inference can be made on. For example, a single line in a CSV file is a record.  To enable the batch strategy, you must set the SplitType property to Line, RecordIO, or TFRecord. To use only one record when making an HTTP invocation request to a container, set BatchStrategy to SingleRecord and SplitType to Line. To fit as many records in a mini-batch as can fit within the MaxPayloadInMB limit, set BatchStrategy to MultiRecord and SplitType to Line.
         public let batchStrategy: BatchStrategy?
+        /// Configuration to control how SageMaker captures inference data.
+        public let dataCaptureConfig: BatchDataCaptureConfig?
         /// The data structure used to specify the data to be used for inference in a batch transform job and to associate the data that is relevant to the prediction results in the output. The input filter provided allows you to exclude input data that is not needed for inference in a batch transform job. The output filter provided allows you to include input data relevant to interpreting the predictions in the output from the job. For more information, see Associate Prediction Results with their Corresponding Input Records.
         public let dataProcessing: DataProcessing?
         /// The environment variables to set in the Docker container. We support up to 16 key and values entries in the map.
@@ -7251,8 +7409,9 @@ extension SageMaker {
         /// Describes the resources, including ML instance types and ML instance count, to use for the transform job.
         public let transformResources: TransformResources
 
-        public init(batchStrategy: BatchStrategy? = nil, dataProcessing: DataProcessing? = nil, environment: [String: String]? = nil, experimentConfig: ExperimentConfig? = nil, maxConcurrentTransforms: Int? = nil, maxPayloadInMB: Int? = nil, modelClientConfig: ModelClientConfig? = nil, modelName: String, tags: [Tag]? = nil, transformInput: TransformInput, transformJobName: String, transformOutput: TransformOutput, transformResources: TransformResources) {
+        public init(batchStrategy: BatchStrategy? = nil, dataCaptureConfig: BatchDataCaptureConfig? = nil, dataProcessing: DataProcessing? = nil, environment: [String: String]? = nil, experimentConfig: ExperimentConfig? = nil, maxConcurrentTransforms: Int? = nil, maxPayloadInMB: Int? = nil, modelClientConfig: ModelClientConfig? = nil, modelName: String, tags: [Tag]? = nil, transformInput: TransformInput, transformJobName: String, transformOutput: TransformOutput, transformResources: TransformResources) {
             self.batchStrategy = batchStrategy
+            self.dataCaptureConfig = dataCaptureConfig
             self.dataProcessing = dataProcessing
             self.environment = environment
             self.experimentConfig = experimentConfig
@@ -7268,6 +7427,7 @@ extension SageMaker {
         }
 
         public func validate(name: String) throws {
+            try self.dataCaptureConfig?.validate(name: "\(name).dataCaptureConfig")
             try self.dataProcessing?.validate(name: "\(name).dataProcessing")
             try self.environment?.forEach {
                 try validate($0.key, name: "environment.key", parent: name, max: 1024)
@@ -7296,6 +7456,7 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case batchStrategy = "BatchStrategy"
+            case dataCaptureConfig = "DataCaptureConfig"
             case dataProcessing = "DataProcessing"
             case environment = "Environment"
             case experimentConfig = "ExperimentConfig"
@@ -7914,17 +8075,22 @@ extension SageMaker {
     }
 
     public struct DataQualityJobInput: AWSEncodableShape & AWSDecodableShape {
-        public let endpointInput: EndpointInput
+        /// Input object for the batch transform job.
+        public let batchTransformInput: BatchTransformInput?
+        public let endpointInput: EndpointInput?
 
-        public init(endpointInput: EndpointInput) {
+        public init(batchTransformInput: BatchTransformInput? = nil, endpointInput: EndpointInput? = nil) {
+            self.batchTransformInput = batchTransformInput
             self.endpointInput = endpointInput
         }
 
         public func validate(name: String) throws {
-            try self.endpointInput.validate(name: "\(name).endpointInput")
+            try self.batchTransformInput?.validate(name: "\(name).batchTransformInput")
+            try self.endpointInput?.validate(name: "\(name).endpointInput")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case batchTransformInput = "BatchTransformInput"
             case endpointInput = "EndpointInput"
         }
     }
@@ -11115,6 +11281,8 @@ extension SageMaker {
         public let completionTime: Date?
         /// A timestamp that shows when the job was created.
         public let creationTime: Date
+        /// The performance results from running an Inference Recommender job on an existing endpoint.
+        public let endpointPerformances: [EndpointPerformance]?
         /// If the job fails, provides information why the job failed.
         public let failureReason: String?
         /// The recommendations made by Inference Recommender.
@@ -11138,9 +11306,10 @@ extension SageMaker {
         /// The stopping conditions that you provided when you initiated the job.
         public let stoppingConditions: RecommendationJobStoppingConditions?
 
-        public init(completionTime: Date? = nil, creationTime: Date, failureReason: String? = nil, inferenceRecommendations: [InferenceRecommendation]? = nil, inputConfig: RecommendationJobInputConfig, jobArn: String, jobDescription: String? = nil, jobName: String, jobType: RecommendationJobType, lastModifiedTime: Date, roleArn: String, status: RecommendationJobStatus, stoppingConditions: RecommendationJobStoppingConditions? = nil) {
+        public init(completionTime: Date? = nil, creationTime: Date, endpointPerformances: [EndpointPerformance]? = nil, failureReason: String? = nil, inferenceRecommendations: [InferenceRecommendation]? = nil, inputConfig: RecommendationJobInputConfig, jobArn: String, jobDescription: String? = nil, jobName: String, jobType: RecommendationJobType, lastModifiedTime: Date, roleArn: String, status: RecommendationJobStatus, stoppingConditions: RecommendationJobStoppingConditions? = nil) {
             self.completionTime = completionTime
             self.creationTime = creationTime
+            self.endpointPerformances = endpointPerformances
             self.failureReason = failureReason
             self.inferenceRecommendations = inferenceRecommendations
             self.inputConfig = inputConfig
@@ -11157,6 +11326,7 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case completionTime = "CompletionTime"
             case creationTime = "CreationTime"
+            case endpointPerformances = "EndpointPerformances"
             case failureReason = "FailureReason"
             case inferenceRecommendations = "InferenceRecommendations"
             case inputConfig = "InputConfig"
@@ -12671,6 +12841,8 @@ extension SageMaker {
         public let batchStrategy: BatchStrategy?
         /// A timestamp that shows when the transform Job was created.
         public let creationTime: Date
+        /// Configuration to control how SageMaker captures inference data.
+        public let dataCaptureConfig: BatchDataCaptureConfig?
         public let dataProcessing: DataProcessing?
         /// The environment variables to set in the Docker container. We support up to 16 key and values entries in the map.
         public let environment: [String: String]?
@@ -12704,10 +12876,11 @@ extension SageMaker {
         /// Indicates when the transform job starts on ML instances. You are billed for the time interval between this time and the value of TransformEndTime.
         public let transformStartTime: Date?
 
-        public init(autoMLJobArn: String? = nil, batchStrategy: BatchStrategy? = nil, creationTime: Date, dataProcessing: DataProcessing? = nil, environment: [String: String]? = nil, experimentConfig: ExperimentConfig? = nil, failureReason: String? = nil, labelingJobArn: String? = nil, maxConcurrentTransforms: Int? = nil, maxPayloadInMB: Int? = nil, modelClientConfig: ModelClientConfig? = nil, modelName: String, transformEndTime: Date? = nil, transformInput: TransformInput, transformJobArn: String, transformJobName: String, transformJobStatus: TransformJobStatus, transformOutput: TransformOutput? = nil, transformResources: TransformResources, transformStartTime: Date? = nil) {
+        public init(autoMLJobArn: String? = nil, batchStrategy: BatchStrategy? = nil, creationTime: Date, dataCaptureConfig: BatchDataCaptureConfig? = nil, dataProcessing: DataProcessing? = nil, environment: [String: String]? = nil, experimentConfig: ExperimentConfig? = nil, failureReason: String? = nil, labelingJobArn: String? = nil, maxConcurrentTransforms: Int? = nil, maxPayloadInMB: Int? = nil, modelClientConfig: ModelClientConfig? = nil, modelName: String, transformEndTime: Date? = nil, transformInput: TransformInput, transformJobArn: String, transformJobName: String, transformJobStatus: TransformJobStatus, transformOutput: TransformOutput? = nil, transformResources: TransformResources, transformStartTime: Date? = nil) {
             self.autoMLJobArn = autoMLJobArn
             self.batchStrategy = batchStrategy
             self.creationTime = creationTime
+            self.dataCaptureConfig = dataCaptureConfig
             self.dataProcessing = dataProcessing
             self.environment = environment
             self.experimentConfig = experimentConfig
@@ -12731,6 +12904,7 @@ extension SageMaker {
             case autoMLJobArn = "AutoMLJobArn"
             case batchStrategy = "BatchStrategy"
             case creationTime = "CreationTime"
+            case dataCaptureConfig = "DataCaptureConfig"
             case dataProcessing = "DataProcessing"
             case environment = "Environment"
             case experimentConfig = "ExperimentConfig"
@@ -13967,6 +14141,24 @@ extension SageMaker {
         }
     }
 
+    public struct EndpointInfo: AWSEncodableShape & AWSDecodableShape {
+        /// The name of a customer's endpoint.
+        public let endpointName: String
+
+        public init(endpointName: String) {
+            self.endpointName = endpointName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.endpointName, name: "endpointName", parent: name, max: 63)
+            try self.validate(self.endpointName, name: "endpointName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointName = "EndpointName"
+        }
+    }
+
     public struct EndpointInput: AWSEncodableShape & AWSDecodableShape {
         /// An endpoint in customer's account which has enabled DataCaptureConfig enabled.
         public let endpointName: String
@@ -14079,6 +14271,22 @@ extension SageMaker {
             case initialInstanceCount = "InitialInstanceCount"
             case instanceType = "InstanceType"
             case variantName = "VariantName"
+        }
+    }
+
+    public struct EndpointPerformance: AWSDecodableShape {
+        public let endpointInfo: EndpointInfo
+        /// The metrics for an existing endpoint.
+        public let metrics: InferenceMetrics
+
+        public init(endpointInfo: EndpointInfo, metrics: InferenceMetrics) {
+            self.endpointInfo = endpointInfo
+            self.metrics = metrics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointInfo = "EndpointInfo"
+            case metrics = "Metrics"
         }
     }
 
@@ -15868,6 +16076,23 @@ extension SageMaker {
         }
     }
 
+    public struct InferenceMetrics: AWSDecodableShape {
+        /// The expected maximum number of requests per minute for the instance.
+        public let maxInvocations: Int
+        /// The expected model latency at maximum invocations per minute for the instance.
+        public let modelLatency: Int
+
+        public init(maxInvocations: Int, modelLatency: Int) {
+            self.maxInvocations = maxInvocations
+            self.modelLatency = modelLatency
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxInvocations = "MaxInvocations"
+            case modelLatency = "ModelLatency"
+        }
+    }
+
     public struct InferenceRecommendation: AWSDecodableShape {
         /// Defines the endpoint configuration parameters.
         public let endpointConfiguration: EndpointOutputConfiguration
@@ -15938,6 +16163,31 @@ extension SageMaker {
         }
     }
 
+    public struct InferenceRecommendationsJobStep: AWSDecodableShape {
+        /// The details for a specific benchmark.
+        public let inferenceBenchmark: RecommendationJobInferenceBenchmark?
+        /// The name of the Inference Recommender job.
+        public let jobName: String
+        /// The current status of the benchmark.
+        public let status: RecommendationJobStatus
+        /// The type of the subtask.  BENCHMARK: Evaluate the performance of your model on different instance types.
+        public let stepType: RecommendationStepType
+
+        public init(inferenceBenchmark: RecommendationJobInferenceBenchmark? = nil, jobName: String, status: RecommendationJobStatus, stepType: RecommendationStepType) {
+            self.inferenceBenchmark = inferenceBenchmark
+            self.jobName = jobName
+            self.status = status
+            self.stepType = stepType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inferenceBenchmark = "InferenceBenchmark"
+            case jobName = "JobName"
+            case status = "Status"
+            case stepType = "StepType"
+        }
+    }
+
     public struct InferenceSpecification: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon ECR registry path of the Docker image that contains the inference code.
         public let containers: [ModelPackageContainerDefinition]
@@ -15989,7 +16239,8 @@ extension SageMaker {
         public let dataInputConfig: String
         /// Identifies the framework in which the model was trained. For example: TENSORFLOW.
         public let framework: Framework
-        /// Specifies the framework version to use. This API field is only supported for the PyTorch and TensorFlow frameworks. For information about framework versions supported for cloud targets and edge devices, see  Cloud Supported Instance Types and Frameworks and  Edge Supported Frameworks.
+        /// Specifies the framework version to use. This API field is only supported for the MXNet,
+        /// 	    PyTorch, TensorFlow and TensorFlow Lite frameworks. For information about framework versions supported for cloud targets and edge devices, see  Cloud Supported Instance Types and Frameworks and  Edge Supported Frameworks.
         public let frameworkVersion: String?
         /// The S3 path where the model artifacts, which result from model training, are stored. This path must point to a single gzip compressed tar archive (.tar.gz suffix).
         public let s3Uri: String
@@ -18401,6 +18652,62 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case images = "Images"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListInferenceRecommendationsJobStepsRequest: AWSEncodableShape {
+        /// The name for the Inference Recommender job.
+        public let jobName: String
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// A token that you can specify to return more results from the list. Specify this field if you have a token that was returned from a previous request.
+        public let nextToken: String?
+        /// A filter to return benchmarks of a specified status. If this field is left empty, then all benchmarks are returned.
+        public let status: RecommendationJobStatus?
+        /// A filter to return details about the specified type of subtask.  BENCHMARK: Evaluate the performance of your model on different instance types.
+        public let stepType: RecommendationStepType?
+
+        public init(jobName: String, maxResults: Int? = nil, nextToken: String? = nil, status: RecommendationJobStatus? = nil, stepType: RecommendationStepType? = nil) {
+            self.jobName = jobName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.status = status
+            self.stepType = stepType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobName, name: "jobName", parent: name, max: 64)
+            try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
+            try self.validate(self.jobName, name: "jobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,63}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobName = "JobName"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case status = "Status"
+            case stepType = "StepType"
+        }
+    }
+
+    public struct ListInferenceRecommendationsJobStepsResponse: AWSDecodableShape {
+        /// A token that you can specify in your next request to return more results from the list.
+        public let nextToken: String?
+        /// A list of all subtask details in Inference Recommender.
+        public let steps: [InferenceRecommendationsJobStep]?
+
+        public init(nextToken: String? = nil, steps: [InferenceRecommendationsJobStep]? = nil) {
+            self.nextToken = nextToken
+            self.steps = steps
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case steps = "Steps"
         }
     }
 
@@ -20851,21 +21158,26 @@ extension SageMaker {
     }
 
     public struct ModelBiasJobInput: AWSEncodableShape & AWSDecodableShape {
-        public let endpointInput: EndpointInput
+        /// Input object for the batch transform job.
+        public let batchTransformInput: BatchTransformInput?
+        public let endpointInput: EndpointInput?
         /// Location of ground truth labels to use in model bias job.
         public let groundTruthS3Input: MonitoringGroundTruthS3Input
 
-        public init(endpointInput: EndpointInput, groundTruthS3Input: MonitoringGroundTruthS3Input) {
+        public init(batchTransformInput: BatchTransformInput? = nil, endpointInput: EndpointInput? = nil, groundTruthS3Input: MonitoringGroundTruthS3Input) {
+            self.batchTransformInput = batchTransformInput
             self.endpointInput = endpointInput
             self.groundTruthS3Input = groundTruthS3Input
         }
 
         public func validate(name: String) throws {
-            try self.endpointInput.validate(name: "\(name).endpointInput")
+            try self.batchTransformInput?.validate(name: "\(name).batchTransformInput")
+            try self.endpointInput?.validate(name: "\(name).endpointInput")
             try self.groundTruthS3Input.validate(name: "\(name).groundTruthS3Input")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case batchTransformInput = "BatchTransformInput"
             case endpointInput = "EndpointInput"
             case groundTruthS3Input = "GroundTruthS3Input"
         }
@@ -21041,17 +21353,22 @@ extension SageMaker {
     }
 
     public struct ModelExplainabilityJobInput: AWSEncodableShape & AWSDecodableShape {
-        public let endpointInput: EndpointInput
+        /// Input object for the batch transform job.
+        public let batchTransformInput: BatchTransformInput?
+        public let endpointInput: EndpointInput?
 
-        public init(endpointInput: EndpointInput) {
+        public init(batchTransformInput: BatchTransformInput? = nil, endpointInput: EndpointInput? = nil) {
+            self.batchTransformInput = batchTransformInput
             self.endpointInput = endpointInput
         }
 
         public func validate(name: String) throws {
-            try self.endpointInput.validate(name: "\(name).endpointInput")
+            try self.batchTransformInput?.validate(name: "\(name).batchTransformInput")
+            try self.endpointInput?.validate(name: "\(name).endpointInput")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case batchTransformInput = "BatchTransformInput"
             case endpointInput = "EndpointInput"
         }
     }
@@ -21692,21 +22009,26 @@ extension SageMaker {
     }
 
     public struct ModelQualityJobInput: AWSEncodableShape & AWSDecodableShape {
-        public let endpointInput: EndpointInput
+        /// Input object for the batch transform job.
+        public let batchTransformInput: BatchTransformInput?
+        public let endpointInput: EndpointInput?
         /// The ground truth label provided for the model.
         public let groundTruthS3Input: MonitoringGroundTruthS3Input
 
-        public init(endpointInput: EndpointInput, groundTruthS3Input: MonitoringGroundTruthS3Input) {
+        public init(batchTransformInput: BatchTransformInput? = nil, endpointInput: EndpointInput? = nil, groundTruthS3Input: MonitoringGroundTruthS3Input) {
+            self.batchTransformInput = batchTransformInput
             self.endpointInput = endpointInput
             self.groundTruthS3Input = groundTruthS3Input
         }
 
         public func validate(name: String) throws {
-            try self.endpointInput.validate(name: "\(name).endpointInput")
+            try self.batchTransformInput?.validate(name: "\(name).batchTransformInput")
+            try self.endpointInput?.validate(name: "\(name).endpointInput")
             try self.groundTruthS3Input.validate(name: "\(name).groundTruthS3Input")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case batchTransformInput = "BatchTransformInput"
             case endpointInput = "EndpointInput"
             case groundTruthS3Input = "GroundTruthS3Input"
         }
@@ -21877,6 +22199,40 @@ extension SageMaker {
         }
     }
 
+    public struct MonitoringCsvDatasetFormat: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates if the CSV data has a header.
+        public let header: Bool?
+
+        public init(header: Bool? = nil) {
+            self.header = header
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case header = "Header"
+        }
+    }
+
+    public struct MonitoringDatasetFormat: AWSEncodableShape & AWSDecodableShape {
+        /// The CSV dataset used in the monitoring job.
+        public let csv: MonitoringCsvDatasetFormat?
+        /// The JSON dataset used in the monitoring job
+        public let json: MonitoringJsonDatasetFormat?
+        /// The Parquet dataset used in the monitoring job
+        public let parquet: MonitoringParquetDatasetFormat?
+
+        public init(csv: MonitoringCsvDatasetFormat? = nil, json: MonitoringJsonDatasetFormat? = nil, parquet: MonitoringParquetDatasetFormat? = nil) {
+            self.csv = csv
+            self.json = json
+            self.parquet = parquet
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case csv = "Csv"
+            case json = "Json"
+            case parquet = "Parquet"
+        }
+    }
+
     public struct MonitoringExecutionSummary: AWSDecodableShape {
         /// The time at which the monitoring job was created.
         public let creationTime: Date
@@ -21945,18 +22301,23 @@ extension SageMaker {
     }
 
     public struct MonitoringInput: AWSEncodableShape & AWSDecodableShape {
+        /// Input object for the batch transform job.
+        public let batchTransformInput: BatchTransformInput?
         /// The endpoint for a monitoring job.
-        public let endpointInput: EndpointInput
+        public let endpointInput: EndpointInput?
 
-        public init(endpointInput: EndpointInput) {
+        public init(batchTransformInput: BatchTransformInput? = nil, endpointInput: EndpointInput? = nil) {
+            self.batchTransformInput = batchTransformInput
             self.endpointInput = endpointInput
         }
 
         public func validate(name: String) throws {
-            try self.endpointInput.validate(name: "\(name).endpointInput")
+            try self.batchTransformInput?.validate(name: "\(name).batchTransformInput")
+            try self.endpointInput?.validate(name: "\(name).endpointInput")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case batchTransformInput = "BatchTransformInput"
             case endpointInput = "EndpointInput"
         }
     }
@@ -22055,6 +22416,19 @@ extension SageMaker {
         }
     }
 
+    public struct MonitoringJsonDatasetFormat: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates if the file should be read as a json object per line.
+        public let line: Bool?
+
+        public init(line: Bool? = nil) {
+            self.line = line
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case line = "Line"
+        }
+    }
+
     public struct MonitoringNetworkConfig: AWSEncodableShape & AWSDecodableShape {
         /// Whether to encrypt all communications between the instances used for the monitoring jobs. Choose True to encrypt communications. Encryption provides greater security for distributed jobs, but the processing might take longer.
         public let enableInterContainerTrafficEncryption: Bool?
@@ -22121,6 +22495,10 @@ extension SageMaker {
             case kmsKeyId = "KmsKeyId"
             case monitoringOutputs = "MonitoringOutputs"
         }
+    }
+
+    public struct MonitoringParquetDatasetFormat: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
     }
 
     public struct MonitoringResources: AWSEncodableShape & AWSDecodableShape {
@@ -24687,11 +25065,35 @@ extension SageMaker {
         }
     }
 
+    public struct RecommendationJobInferenceBenchmark: AWSDecodableShape {
+        public let endpointConfiguration: EndpointOutputConfiguration?
+        /// The reason why a benchmark failed.
+        public let failureReason: String?
+        public let metrics: RecommendationMetrics?
+        public let modelConfiguration: ModelConfiguration
+
+        public init(endpointConfiguration: EndpointOutputConfiguration? = nil, failureReason: String? = nil, metrics: RecommendationMetrics? = nil, modelConfiguration: ModelConfiguration) {
+            self.endpointConfiguration = endpointConfiguration
+            self.failureReason = failureReason
+            self.metrics = metrics
+            self.modelConfiguration = modelConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointConfiguration = "EndpointConfiguration"
+            case failureReason = "FailureReason"
+            case metrics = "Metrics"
+            case modelConfiguration = "ModelConfiguration"
+        }
+    }
+
     public struct RecommendationJobInputConfig: AWSEncodableShape & AWSDecodableShape {
         /// Specifies mandatory fields for running an Inference Recommender job. The fields specified in ContainerConfig override the corresponding fields in the model package.
         public let containerConfig: RecommendationJobContainerConfig?
         /// Specifies the endpoint configuration to use for a job.
         public let endpointConfigurations: [EndpointInputConfiguration]?
+        /// Existing customer endpoints on which to run an Inference Recommender job.
+        public let endpoints: [EndpointInfo]?
         /// Specifies the maximum duration of the job, in seconds.>
         public let jobDurationInSeconds: Int?
         /// The Amazon Resource Name (ARN) of a versioned model package.
@@ -24703,9 +25105,10 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of a Amazon Web Services Key Management Service (Amazon Web Services KMS) key  that Amazon SageMaker uses to encrypt data on the storage volume attached to the ML compute instance that hosts the endpoint.  This key will be passed to SageMaker Hosting for endpoint creation.   The SageMaker execution role must have kms:CreateGrant permission in order to encrypt data on the storage  volume of the endpoints created for inference recommendation. The inference recommendation job will fail  asynchronously during endpoint configuration creation if the role passed does not have  kms:CreateGrant permission.  The KmsKeyId can be any of the following formats:   // KMS Key ID  "1234abcd-12ab-34cd-56ef-1234567890ab"    // Amazon Resource Name (ARN) of a KMS Key  "arn:aws:kms:::key/"    // KMS Key Alias  "alias/ExampleAlias"    // Amazon Resource Name (ARN) of a KMS Key Alias  "arn:aws:kms:::alias/"    For more information about key identifiers, see  Key identifiers (KeyID) in the  Amazon Web Services Key Management Service (Amazon Web Services KMS) documentation.
         public let volumeKmsKeyId: String?
 
-        public init(containerConfig: RecommendationJobContainerConfig? = nil, endpointConfigurations: [EndpointInputConfiguration]? = nil, jobDurationInSeconds: Int? = nil, modelPackageVersionArn: String, resourceLimit: RecommendationJobResourceLimit? = nil, trafficPattern: TrafficPattern? = nil, volumeKmsKeyId: String? = nil) {
+        public init(containerConfig: RecommendationJobContainerConfig? = nil, endpointConfigurations: [EndpointInputConfiguration]? = nil, endpoints: [EndpointInfo]? = nil, jobDurationInSeconds: Int? = nil, modelPackageVersionArn: String, resourceLimit: RecommendationJobResourceLimit? = nil, trafficPattern: TrafficPattern? = nil, volumeKmsKeyId: String? = nil) {
             self.containerConfig = containerConfig
             self.endpointConfigurations = endpointConfigurations
+            self.endpoints = endpoints
             self.jobDurationInSeconds = jobDurationInSeconds
             self.modelPackageVersionArn = modelPackageVersionArn
             self.resourceLimit = resourceLimit
@@ -24719,6 +25122,10 @@ extension SageMaker {
             }
             try self.validate(self.endpointConfigurations, name: "endpointConfigurations", parent: name, max: 10)
             try self.validate(self.endpointConfigurations, name: "endpointConfigurations", parent: name, min: 1)
+            try self.endpoints?.forEach {
+                try $0.validate(name: "\(name).endpoints[]")
+            }
+            try self.validate(self.endpoints, name: "endpoints", parent: name, max: 1)
             try self.validate(self.jobDurationInSeconds, name: "jobDurationInSeconds", parent: name, min: 1)
             try self.validate(self.modelPackageVersionArn, name: "modelPackageVersionArn", parent: name, max: 2048)
             try self.validate(self.modelPackageVersionArn, name: "modelPackageVersionArn", parent: name, min: 1)
@@ -24732,6 +25139,7 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case containerConfig = "ContainerConfig"
             case endpointConfigurations = "EndpointConfigurations"
+            case endpoints = "Endpoints"
             case jobDurationInSeconds = "JobDurationInSeconds"
             case modelPackageVersionArn = "ModelPackageVersionArn"
             case resourceLimit = "ResourceLimit"
@@ -27121,7 +27529,7 @@ extension SageMaker {
     }
 
     public struct TransformResources: AWSEncodableShape & AWSDecodableShape {
-        /// The number of ML compute instances to use in the transform job. For distributed transform jobs, specify a value greater than 1. The default value is 1.
+        /// The number of ML compute instances to use in the transform job. The default value is 1, and the maximum is 100. For distributed transform jobs, specify a value greater than 1.
         public let instanceCount: Int
         /// The ML compute instance type for the transform job. If you are using built-in algorithms to transform moderately sized datasets, we recommend using ml.m4.xlarge or ml.m5.largeinstance types.
         public let instanceType: TransformInstanceType

@@ -33,7 +33,7 @@ extension DirectoryService {
 
     public enum CertificateType: String, CustomStringConvertible, Codable, _SotoSendable {
         case clientCertAuth = "ClientCertAuth"
-        case clientLDAPS = "ClientLDAPS"
+        case clientLdaps = "ClientLDAPS"
         public var description: String { return self.rawValue }
     }
 
@@ -80,16 +80,16 @@ extension DirectoryService {
         case impaired = "Impaired"
         case inoperable = "Inoperable"
         case requested = "Requested"
-        case restoreFailed = "RestoreFailed"
+        case restorefailed = "RestoreFailed"
         case restoring = "Restoring"
         public var description: String { return self.rawValue }
     }
 
     public enum DirectoryType: String, CustomStringConvertible, Codable, _SotoSendable {
         case adConnector = "ADConnector"
-        case microsoftAD = "MicrosoftAD"
-        case sharedMicrosoftAD = "SharedMicrosoftAD"
-        case simpleAD = "SimpleAD"
+        case microsoftAd = "MicrosoftAD"
+        case sharedMicrosoftAd = "SharedMicrosoftAD"
+        case simpleAd = "SimpleAD"
         public var description: String { return self.rawValue }
     }
 
@@ -127,10 +127,16 @@ extension DirectoryService {
         public var description: String { return self.rawValue }
     }
 
+    public enum OSVersion: String, CustomStringConvertible, Codable, _SotoSendable {
+        case version2012 = "SERVER_2012"
+        case version2019 = "SERVER_2019"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RadiusAuthenticationProtocol: String, CustomStringConvertible, Codable, _SotoSendable {
         case chap = "CHAP"
-        case msChapv1 = "MS-CHAPv1"
-        case msChapv2 = "MS-CHAPv2"
+        case mschapv1 = "MS-CHAPv1"
+        case mschapv2 = "MS-CHAPv2"
         case pap = "PAP"
         public var description: String { return self.rawValue }
     }
@@ -245,6 +251,18 @@ extension DirectoryService {
         public var description: String { return self.rawValue }
     }
 
+    public enum UpdateStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case updateFailed = "UpdateFailed"
+        case updated = "Updated"
+        case updating = "Updating"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UpdateType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case os = "OS"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct AcceptSharedDirectoryRequest: AWSEncodableShape {
@@ -284,9 +302,9 @@ extension DirectoryService {
         public let ipRoutes: [IpRoute]
         /// If set to true, updates the inbound and outbound rules of the security group that has the description: "Amazon Web Services created security group for directory ID directory controllers." Following are the new rules:  Inbound:   Type: Custom UDP Rule, Protocol: UDP, Range: 88, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 123, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 138, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 389, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 464, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 445, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 88, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 135, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 445, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 464, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 636, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 1024-65535, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 3268-33269, Source: 0.0.0.0/0   Type: DNS (UDP), Protocol: UDP, Range: 53, Source: 0.0.0.0/0   Type: DNS (TCP), Protocol: TCP, Range: 53, Source: 0.0.0.0/0   Type: LDAP, Protocol: TCP, Range: 389, Source: 0.0.0.0/0   Type: All ICMP, Protocol: All, Range: N/A, Source: 0.0.0.0/0
         ///   Outbound:   Type: All traffic, Protocol: All, Range: All, Destination: 0.0.0.0/0   These security rules impact an internal network interface that is not exposed publicly.
-        public let updateSecurityGroupForDirectoryControllers: Bool?
+        public let updateSecurityGroupForDirectoryControllers: Bool
 
-        public init(directoryId: String, ipRoutes: [IpRoute], updateSecurityGroupForDirectoryControllers: Bool? = nil) {
+        public init(directoryId: String, ipRoutes: [IpRoute], updateSecurityGroupForDirectoryControllers: Bool = false) {
             self.directoryId = directoryId
             self.ipRoutes = ipRoutes
             self.updateSecurityGroupForDirectoryControllers = updateSecurityGroupForDirectoryControllers
@@ -1119,11 +1137,11 @@ extension DirectoryService {
 
     public struct DeleteTrustRequest: AWSEncodableShape {
         /// Delete a conditional forwarder as part of a DeleteTrustRequest.
-        public let deleteAssociatedConditionalForwarder: Bool?
+        public let deleteAssociatedConditionalForwarder: Bool
         /// The Trust ID of the trust relationship to be deleted.
         public let trustId: String
 
-        public init(deleteAssociatedConditionalForwarder: Bool? = nil, trustId: String) {
+        public init(deleteAssociatedConditionalForwarder: Bool = false, trustId: String) {
             self.deleteAssociatedConditionalForwarder = deleteAssociatedConditionalForwarder
             self.trustId = trustId
         }
@@ -1747,6 +1765,54 @@ extension DirectoryService {
         }
     }
 
+    public struct DescribeUpdateDirectoryRequest: AWSEncodableShape {
+        ///  The unique identifier of the directory.
+        public let directoryId: String
+        ///  The DescribeUpdateDirectoryResult. NextToken value from a previous call to DescribeUpdateDirectory. Pass null if this is the first call.
+        public let nextToken: String?
+        ///  The name of the Region.
+        public let regionName: String?
+        ///  The type of updates you want to describe for the directory.
+        public let updateType: UpdateType
+
+        public init(directoryId: String, nextToken: String? = nil, regionName: String? = nil, updateType: UpdateType) {
+            self.directoryId = directoryId
+            self.nextToken = nextToken
+            self.regionName = regionName
+            self.updateType = updateType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+            try self.validate(self.regionName, name: "regionName", parent: name, max: 32)
+            try self.validate(self.regionName, name: "regionName", parent: name, min: 8)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+            case nextToken = "NextToken"
+            case regionName = "RegionName"
+            case updateType = "UpdateType"
+        }
+    }
+
+    public struct DescribeUpdateDirectoryResult: AWSDecodableShape {
+        ///  If not null, more results are available. Pass this value for the NextToken parameter.
+        public let nextToken: String?
+        ///  The list of update activities on a directory for the requested update type.
+        public let updateActivities: [UpdateInfoEntry]?
+
+        public init(nextToken: String? = nil, updateActivities: [UpdateInfoEntry]? = nil) {
+            self.nextToken = nextToken
+            self.updateActivities = updateActivities
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case updateActivities = "UpdateActivities"
+        }
+    }
+
     public struct DirectoryConnectSettings: AWSEncodableShape {
         /// A list of one or more IP addresses of DNS servers or domain controllers in your self-managed directory.
         public let customerDnsIps: [String]
@@ -1838,6 +1904,8 @@ extension DirectoryService {
         public let launchTime: Date?
         /// The fully qualified name of the directory.
         public let name: String?
+        /// The operating system (OS) version of the directory.
+        public let osVersion: OSVersion?
         /// Describes the Managed Microsoft AD directory in the directory owner account.
         public let ownerDirectoryDescription: OwnerDirectoryDescription?
         /// A RadiusSettings object that contains information about the RADIUS server configured for this directory.
@@ -1869,7 +1937,7 @@ extension DirectoryService {
         /// A DirectoryVpcSettingsDescription object that contains additional information about a directory. This member is only present if the directory is a Simple AD or Managed Microsoft AD directory.
         public let vpcSettings: DirectoryVpcSettingsDescription?
 
-        public init(accessUrl: String? = nil, alias: String? = nil, connectSettings: DirectoryConnectSettingsDescription? = nil, description: String? = nil, desiredNumberOfDomainControllers: Int? = nil, directoryId: String? = nil, dnsIpAddrs: [String]? = nil, edition: DirectoryEdition? = nil, launchTime: Date? = nil, name: String? = nil, ownerDirectoryDescription: OwnerDirectoryDescription? = nil, radiusSettings: RadiusSettings? = nil, radiusStatus: RadiusStatus? = nil, regionsInfo: RegionsInfo? = nil, shareMethod: ShareMethod? = nil, shareNotes: String? = nil, shareStatus: ShareStatus? = nil, shortName: String? = nil, size: DirectorySize? = nil, ssoEnabled: Bool? = nil, stage: DirectoryStage? = nil, stageLastUpdatedDateTime: Date? = nil, stageReason: String? = nil, type: DirectoryType? = nil, vpcSettings: DirectoryVpcSettingsDescription? = nil) {
+        public init(accessUrl: String? = nil, alias: String? = nil, connectSettings: DirectoryConnectSettingsDescription? = nil, description: String? = nil, desiredNumberOfDomainControllers: Int? = nil, directoryId: String? = nil, dnsIpAddrs: [String]? = nil, edition: DirectoryEdition? = nil, launchTime: Date? = nil, name: String? = nil, osVersion: OSVersion? = nil, ownerDirectoryDescription: OwnerDirectoryDescription? = nil, radiusSettings: RadiusSettings? = nil, radiusStatus: RadiusStatus? = nil, regionsInfo: RegionsInfo? = nil, shareMethod: ShareMethod? = nil, shareNotes: String? = nil, shareStatus: ShareStatus? = nil, shortName: String? = nil, size: DirectorySize? = nil, ssoEnabled: Bool? = nil, stage: DirectoryStage? = nil, stageLastUpdatedDateTime: Date? = nil, stageReason: String? = nil, type: DirectoryType? = nil, vpcSettings: DirectoryVpcSettingsDescription? = nil) {
             self.accessUrl = accessUrl
             self.alias = alias
             self.connectSettings = connectSettings
@@ -1880,6 +1948,7 @@ extension DirectoryService {
             self.edition = edition
             self.launchTime = launchTime
             self.name = name
+            self.osVersion = osVersion
             self.ownerDirectoryDescription = ownerDirectoryDescription
             self.radiusSettings = radiusSettings
             self.radiusStatus = radiusStatus
@@ -1908,6 +1977,7 @@ extension DirectoryService {
             case edition = "Edition"
             case launchTime = "LaunchTime"
             case name = "Name"
+            case osVersion = "OsVersion"
             case ownerDirectoryDescription = "OwnerDirectoryDescription"
             case radiusSettings = "RadiusSettings"
             case radiusStatus = "RadiusStatus"
@@ -2672,6 +2742,19 @@ extension DirectoryService {
         }
     }
 
+    public struct OSUpdateSettings: AWSEncodableShape & AWSDecodableShape {
+        ///  OS version that the directory needs to be updated to.
+        public let osVersion: OSVersion?
+
+        public init(osVersion: OSVersion? = nil) {
+            self.osVersion = osVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case osVersion = "OSVersion"
+        }
+    }
+
     public struct OwnerDirectoryDescription: AWSDecodableShape {
         /// Identifier of the directory owner account.
         public let accountId: String?
@@ -3349,7 +3432,7 @@ extension DirectoryService {
         /// The LDIF file represented as a string. To construct the LdifContent string, precede each line as it would be formatted in an ldif file with \n. See the example request below for more details. The file size can be no larger than 1MB.
         public let ldifContent: String
 
-        public init(createSnapshotBeforeSchemaExtension: Bool, description: String, directoryId: String, ldifContent: String) {
+        public init(createSnapshotBeforeSchemaExtension: Bool = false, description: String, directoryId: String, ldifContent: String) {
             self.createSnapshotBeforeSchemaExtension = createSnapshotBeforeSchemaExtension
             self.description = description
             self.directoryId = directoryId
@@ -3553,13 +3636,87 @@ extension DirectoryService {
         public init() {}
     }
 
+    public struct UpdateDirectorySetupRequest: AWSEncodableShape {
+        ///  The boolean that specifies if a snapshot for the directory needs to be taken before updating the directory.
+        public let createSnapshotBeforeUpdate: Bool?
+        ///  The identifier of the directory on which you want to perform the update.
+        public let directoryId: String
+        ///  The settings for the OS update that needs to be performed on the directory.
+        public let osUpdateSettings: OSUpdateSettings?
+        ///  The type of update that needs to be performed on the directory. For example, OS.
+        public let updateType: UpdateType
+
+        public init(createSnapshotBeforeUpdate: Bool? = nil, directoryId: String, osUpdateSettings: OSUpdateSettings? = nil, updateType: UpdateType) {
+            self.createSnapshotBeforeUpdate = createSnapshotBeforeUpdate
+            self.directoryId = directoryId
+            self.osUpdateSettings = osUpdateSettings
+            self.updateType = updateType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createSnapshotBeforeUpdate = "CreateSnapshotBeforeUpdate"
+            case directoryId = "DirectoryId"
+            case osUpdateSettings = "OSUpdateSettings"
+            case updateType = "UpdateType"
+        }
+    }
+
+    public struct UpdateDirectorySetupResult: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateInfoEntry: AWSDecodableShape {
+        ///  This specifies if the update was initiated by the customer or by the service team.
+        public let initiatedBy: String?
+        ///  The last updated date and time of a particular directory setting.
+        public let lastUpdatedDateTime: Date?
+        ///  The new value of the target setting.
+        public let newValue: UpdateValue?
+        ///  The old value of the target setting.
+        public let previousValue: UpdateValue?
+        ///  The name of the Region.
+        public let region: String?
+        ///  The start time of the UpdateDirectorySetup for the particular type.
+        public let startTime: Date?
+        ///  The status of the update performed on the directory.
+        public let status: UpdateStatus?
+        ///  The reason for the current status of the update type activity.
+        public let statusReason: String?
+
+        public init(initiatedBy: String? = nil, lastUpdatedDateTime: Date? = nil, newValue: UpdateValue? = nil, previousValue: UpdateValue? = nil, region: String? = nil, startTime: Date? = nil, status: UpdateStatus? = nil, statusReason: String? = nil) {
+            self.initiatedBy = initiatedBy
+            self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.newValue = newValue
+            self.previousValue = previousValue
+            self.region = region
+            self.startTime = startTime
+            self.status = status
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case initiatedBy = "InitiatedBy"
+            case lastUpdatedDateTime = "LastUpdatedDateTime"
+            case newValue = "NewValue"
+            case previousValue = "PreviousValue"
+            case region = "Region"
+            case startTime = "StartTime"
+            case status = "Status"
+            case statusReason = "StatusReason"
+        }
+    }
+
     public struct UpdateNumberOfDomainControllersRequest: AWSEncodableShape {
         /// The number of domain controllers desired in the directory.
         public let desiredNumber: Int
         /// Identifier of the directory to which the domain controllers will be added or removed.
         public let directoryId: String
 
-        public init(desiredNumber: Int, directoryId: String) {
+        public init(desiredNumber: Int = 0, directoryId: String) {
             self.desiredNumber = desiredNumber
             self.directoryId = directoryId
         }
@@ -3676,6 +3833,19 @@ extension DirectoryService {
         private enum CodingKeys: String, CodingKey {
             case requestId = "RequestId"
             case trustId = "TrustId"
+        }
+    }
+
+    public struct UpdateValue: AWSDecodableShape {
+        ///  The OS update related settings.
+        public let osUpdateSettings: OSUpdateSettings?
+
+        public init(osUpdateSettings: OSUpdateSettings? = nil) {
+            self.osUpdateSettings = osUpdateSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case osUpdateSettings = "OSUpdateSettings"
         }
     }
 

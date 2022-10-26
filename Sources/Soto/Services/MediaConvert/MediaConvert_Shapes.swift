@@ -894,8 +894,8 @@ extension MediaConvert {
     }
 
     public enum DvbddsHandling: String, CustomStringConvertible, Codable, _SotoSendable {
-        case none = "NONE"
         case noDisplayWindow = "NO_DISPLAY_WINDOW"
+        case none = "NONE"
         case specified = "SPECIFIED"
         public var description: String { return self.rawValue }
     }
@@ -1161,8 +1161,8 @@ extension MediaConvert {
     }
 
     public enum H264DynamicSubGop: String, CustomStringConvertible, Codable, _SotoSendable {
-        case adaptive = "ADAPTIVE"
         case `static` = "STATIC"
+        case adaptive = "ADAPTIVE"
         public var description: String { return self.rawValue }
     }
 
@@ -1344,8 +1344,8 @@ extension MediaConvert {
     }
 
     public enum H265DynamicSubGop: String, CustomStringConvertible, Codable, _SotoSendable {
-        case adaptive = "ADAPTIVE"
         case `static` = "STATIC"
+        case adaptive = "ADAPTIVE"
         public var description: String { return self.rawValue }
     }
 
@@ -1411,8 +1411,8 @@ extension MediaConvert {
     }
 
     public enum H265SampleAdaptiveOffsetFilterMode: String, CustomStringConvertible, Codable, _SotoSendable {
-        case adaptive = "ADAPTIVE"
         case `default` = "DEFAULT"
+        case adaptive = "ADAPTIVE"
         case off = "OFF"
         public var description: String { return self.rawValue }
     }
@@ -1686,10 +1686,10 @@ extension MediaConvert {
 
     public enum InputRotate: String, CustomStringConvertible, Codable, _SotoSendable {
         case auto = "AUTO"
+        case degree0 = "DEGREE_0"
         case degrees180 = "DEGREES_180"
         case degrees270 = "DEGREES_270"
         case degrees90 = "DEGREES_90"
-        case degree0 = "DEGREE_0"
         public var description: String { return self.rawValue }
     }
 
@@ -2063,8 +2063,8 @@ extension MediaConvert {
     }
 
     public enum MotionImagePlayback: String, CustomStringConvertible, Codable, _SotoSendable {
-        case once = "ONCE"
         case `repeat` = "REPEAT"
+        case once = "ONCE"
         public var description: String { return self.rawValue }
     }
 
@@ -2188,8 +2188,8 @@ extension MediaConvert {
     }
 
     public enum Mpeg2DynamicSubGop: String, CustomStringConvertible, Codable, _SotoSendable {
-        case adaptive = "ADAPTIVE"
         case `static` = "STATIC"
+        case adaptive = "ADAPTIVE"
         public var description: String { return self.rawValue }
     }
 
@@ -4487,7 +4487,7 @@ extension MediaConvert {
         /// Optional. When you create a job, you can either specify a job template or specify the transcoding settings individually.
         public let jobTemplate: String?
         /// Optional. Specify the relative priority for this job. In any given queue, the service begins processing the job with the highest value first. When more than one job has the same priority, the service begins processing the job that you submitted first. If you don't specify a priority, the service uses the default value 0.
-        public let priority: Int?
+        public let priority: Int
         /// Optional. When you create a job, you can specify a queue to send it to. If you don't specify, the job will go to the default queue. For more about queues, see the User Guide topic at https://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html.
         public let queue: String?
         /// Required. The IAM role you use for creating this job. For details about permissions, see the User Guide topic at the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/iam-role.html.
@@ -4503,7 +4503,7 @@ extension MediaConvert {
         /// Optional. User-defined metadata that you want to associate with an MediaConvert job. You specify metadata in key/value pairs.  Use only for existing integrations or workflows that rely on job metadata tags. Otherwise, we recommend that you use standard AWS tags.
         public let userMetadata: [String: String]?
 
-        public init(accelerationSettings: AccelerationSettings? = nil, billingTagsSource: BillingTagsSource? = nil, clientRequestToken: String? = CreateJobRequest.idempotencyToken(), hopDestinations: [HopDestination]? = nil, jobTemplate: String? = nil, priority: Int? = nil, queue: String? = nil, role: String, settings: JobSettings, simulateReservedQueue: SimulateReservedQueue? = nil, statusUpdateInterval: StatusUpdateInterval? = nil, tags: [String: String]? = nil, userMetadata: [String: String]? = nil) {
+        public init(accelerationSettings: AccelerationSettings? = nil, billingTagsSource: BillingTagsSource? = nil, clientRequestToken: String? = CreateJobRequest.idempotencyToken(), hopDestinations: [HopDestination]? = nil, jobTemplate: String? = nil, priority: Int = 0, queue: String? = nil, role: String, settings: JobSettings, simulateReservedQueue: SimulateReservedQueue? = nil, statusUpdateInterval: StatusUpdateInterval? = nil, tags: [String: String]? = nil, userMetadata: [String: String]? = nil) {
             self.accelerationSettings = accelerationSettings
             self.billingTagsSource = billingTagsSource
             self.clientRequestToken = clientRequestToken
@@ -4570,7 +4570,7 @@ extension MediaConvert {
         /// The name of the job template you are creating.
         public let name: String
         /// Specify the relative priority for this job. In any given queue, the service begins processing the job with the highest value first. When more than one job has the same priority, the service begins processing the job that you submitted first. If you don't specify a priority, the service uses the default value 0.
-        public let priority: Int?
+        public let priority: Int
         /// Optional. The queue that jobs created from this template are assigned to. If you don't specify this, jobs will go to the default queue.
         public let queue: String?
         /// JobTemplateSettings contains all the transcode settings saved in the template that will be applied to jobs created from it.
@@ -4580,7 +4580,7 @@ extension MediaConvert {
         /// The tags that you want to add to the resource. You can tag resources with a key-value pair or with only a key.
         public let tags: [String: String]?
 
-        public init(accelerationSettings: AccelerationSettings? = nil, category: String? = nil, description: String? = nil, hopDestinations: [HopDestination]? = nil, name: String, priority: Int? = nil, queue: String? = nil, settings: JobTemplateSettings, statusUpdateInterval: StatusUpdateInterval? = nil, tags: [String: String]? = nil) {
+        public init(accelerationSettings: AccelerationSettings? = nil, category: String? = nil, description: String? = nil, hopDestinations: [HopDestination]? = nil, name: String, priority: Int = 0, queue: String? = nil, settings: JobTemplateSettings, statusUpdateInterval: StatusUpdateInterval? = nil, tags: [String: String]? = nil) {
             self.accelerationSettings = accelerationSettings
             self.category = category
             self.description = description
@@ -4995,13 +4995,13 @@ extension MediaConvert {
 
     public struct DescribeEndpointsRequest: AWSEncodableShape {
         /// Optional. Max number of endpoints, up to twenty, that will be returned at one time.
-        public let maxResults: Int?
+        public let maxResults: Int
         /// Optional field, defaults to DEFAULT. Specify DEFAULT for this operation to return your endpoints if any exist, or to create an endpoint for you and return it if one doesn't already exist. Specify GET_ONLY to return your endpoints if any exist, or an empty list if none exist.
         public let mode: DescribeEndpointsMode?
         /// Use this string, provided with the response to a previous request, to request the next batch of endpoints.
         public let nextToken: String?
 
-        public init(maxResults: Int? = nil, mode: DescribeEndpointsMode? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int = 0, mode: DescribeEndpointsMode? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.mode = mode
             self.nextToken = nextToken
@@ -6031,6 +6031,8 @@ extension MediaConvert {
         public let gopSize: Double?
         /// Specify how the transcoder determines GOP size for this output. We recommend that you have the transcoder automatically choose this value for you based on characteristics of your input video. To enable this automatic behavior, choose Auto (AUTO) and and leave GOP size (GopSize) blank. By default, if you don't specify GOP mode control (GopSizeUnits), MediaConvert will use automatic behavior. If your output group specifies HLS, DASH, or CMAF, set GOP mode control to Auto and leave GOP size blank in each output in your output group. To explicitly specify the GOP length, choose Specified, frames (FRAMES) or Specified, seconds (SECONDS) and then provide the GOP length in the related setting GOP size (GopSize).
         public let gopSizeUnits: H264GopSizeUnits?
+        /// If your downstream systems have strict buffer requirements: Specify the minimum percentage of the HRD buffer that's available at the end of each encoded video segment. For the best video quality: Set to 0 or leave blank to automatically determine the final buffer fill percentage.
+        public let hrdBufferFinalFillPercentage: Int?
         /// Percentage of the buffer that should initially be filled (HRD buffer model).
         public let hrdBufferInitialFillPercentage: Int?
         /// Size of buffer (HRD buffer model) in bits. For example, enter five megabits as 5000000.
@@ -6080,7 +6082,7 @@ extension MediaConvert {
         /// Inserts timecode for each frame as 4 bytes of an unregistered SEI message.
         public let unregisteredSeiTimecode: H264UnregisteredSeiTimecode?
 
-        public init(adaptiveQuantization: H264AdaptiveQuantization? = nil, bitrate: Int? = nil, codecLevel: H264CodecLevel? = nil, codecProfile: H264CodecProfile? = nil, dynamicSubGop: H264DynamicSubGop? = nil, entropyEncoding: H264EntropyEncoding? = nil, fieldEncoding: H264FieldEncoding? = nil, flickerAdaptiveQuantization: H264FlickerAdaptiveQuantization? = nil, framerateControl: H264FramerateControl? = nil, framerateConversionAlgorithm: H264FramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopBReference: H264GopBReference? = nil, gopClosedCadence: Int? = nil, gopSize: Double? = nil, gopSizeUnits: H264GopSizeUnits? = nil, hrdBufferInitialFillPercentage: Int? = nil, hrdBufferSize: Int? = nil, interlaceMode: H264InterlaceMode? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, numberBFramesBetweenReferenceFrames: Int? = nil, numberReferenceFrames: Int? = nil, parControl: H264ParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, qualityTuningLevel: H264QualityTuningLevel? = nil, qvbrSettings: H264QvbrSettings? = nil, rateControlMode: H264RateControlMode? = nil, repeatPps: H264RepeatPps? = nil, scanTypeConversionMode: H264ScanTypeConversionMode? = nil, sceneChangeDetect: H264SceneChangeDetect? = nil, slices: Int? = nil, slowPal: H264SlowPal? = nil, softness: Int? = nil, spatialAdaptiveQuantization: H264SpatialAdaptiveQuantization? = nil, syntax: H264Syntax? = nil, telecine: H264Telecine? = nil, temporalAdaptiveQuantization: H264TemporalAdaptiveQuantization? = nil, unregisteredSeiTimecode: H264UnregisteredSeiTimecode? = nil) {
+        public init(adaptiveQuantization: H264AdaptiveQuantization? = nil, bitrate: Int? = nil, codecLevel: H264CodecLevel? = nil, codecProfile: H264CodecProfile? = nil, dynamicSubGop: H264DynamicSubGop? = nil, entropyEncoding: H264EntropyEncoding? = nil, fieldEncoding: H264FieldEncoding? = nil, flickerAdaptiveQuantization: H264FlickerAdaptiveQuantization? = nil, framerateControl: H264FramerateControl? = nil, framerateConversionAlgorithm: H264FramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopBReference: H264GopBReference? = nil, gopClosedCadence: Int? = nil, gopSize: Double? = nil, gopSizeUnits: H264GopSizeUnits? = nil, hrdBufferFinalFillPercentage: Int? = nil, hrdBufferInitialFillPercentage: Int? = nil, hrdBufferSize: Int? = nil, interlaceMode: H264InterlaceMode? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, numberBFramesBetweenReferenceFrames: Int? = nil, numberReferenceFrames: Int? = nil, parControl: H264ParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, qualityTuningLevel: H264QualityTuningLevel? = nil, qvbrSettings: H264QvbrSettings? = nil, rateControlMode: H264RateControlMode? = nil, repeatPps: H264RepeatPps? = nil, scanTypeConversionMode: H264ScanTypeConversionMode? = nil, sceneChangeDetect: H264SceneChangeDetect? = nil, slices: Int? = nil, slowPal: H264SlowPal? = nil, softness: Int? = nil, spatialAdaptiveQuantization: H264SpatialAdaptiveQuantization? = nil, syntax: H264Syntax? = nil, telecine: H264Telecine? = nil, temporalAdaptiveQuantization: H264TemporalAdaptiveQuantization? = nil, unregisteredSeiTimecode: H264UnregisteredSeiTimecode? = nil) {
             self.adaptiveQuantization = adaptiveQuantization
             self.bitrate = bitrate
             self.codecLevel = codecLevel
@@ -6097,6 +6099,7 @@ extension MediaConvert {
             self.gopClosedCadence = gopClosedCadence
             self.gopSize = gopSize
             self.gopSizeUnits = gopSizeUnits
+            self.hrdBufferFinalFillPercentage = hrdBufferFinalFillPercentage
             self.hrdBufferInitialFillPercentage = hrdBufferInitialFillPercentage
             self.hrdBufferSize = hrdBufferSize
             self.interlaceMode = interlaceMode
@@ -6132,6 +6135,8 @@ extension MediaConvert {
             try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, min: 1)
             try self.validate(self.gopClosedCadence, name: "gopClosedCadence", parent: name, max: 2_147_483_647)
             try self.validate(self.gopClosedCadence, name: "gopClosedCadence", parent: name, min: 0)
+            try self.validate(self.hrdBufferFinalFillPercentage, name: "hrdBufferFinalFillPercentage", parent: name, max: 100)
+            try self.validate(self.hrdBufferFinalFillPercentage, name: "hrdBufferFinalFillPercentage", parent: name, min: 0)
             try self.validate(self.hrdBufferInitialFillPercentage, name: "hrdBufferInitialFillPercentage", parent: name, max: 100)
             try self.validate(self.hrdBufferInitialFillPercentage, name: "hrdBufferInitialFillPercentage", parent: name, min: 0)
             try self.validate(self.hrdBufferSize, name: "hrdBufferSize", parent: name, max: 1_152_000_000)
@@ -6172,6 +6177,7 @@ extension MediaConvert {
             case gopClosedCadence
             case gopSize
             case gopSizeUnits
+            case hrdBufferFinalFillPercentage
             case hrdBufferInitialFillPercentage
             case hrdBufferSize
             case interlaceMode
@@ -6258,6 +6264,8 @@ extension MediaConvert {
         public let gopSize: Double?
         /// Specify how the transcoder determines GOP size for this output. We recommend that you have the transcoder automatically choose this value for you based on characteristics of your input video. To enable this automatic behavior, choose Auto (AUTO) and and leave GOP size (GopSize) blank. By default, if you don't specify GOP mode control (GopSizeUnits), MediaConvert will use automatic behavior. If your output group specifies HLS, DASH, or CMAF, set GOP mode control to Auto and leave GOP size blank in each output in your output group. To explicitly specify the GOP length, choose Specified, frames (FRAMES) or Specified, seconds (SECONDS) and then provide the GOP length in the related setting GOP size (GopSize).
         public let gopSizeUnits: H265GopSizeUnits?
+        /// If your downstream systems have strict buffer requirements: Specify the minimum percentage of the HRD buffer that's available at the end of each encoded video segment. For the best video quality: Set to 0 or leave blank to automatically determine the final buffer fill percentage.
+        public let hrdBufferFinalFillPercentage: Int?
         /// Percentage of the buffer that should initially be filled (HRD buffer model).
         public let hrdBufferInitialFillPercentage: Int?
         /// Size of buffer (HRD buffer model) in bits. For example, enter five megabits as 5000000.
@@ -6309,7 +6317,7 @@ extension MediaConvert {
         /// If the location of parameter set NAL units doesn't matter in your workflow, ignore this setting. Use this setting only with CMAF or DASH outputs, or with standalone file outputs in an MPEG-4 container (MP4 outputs). Choose HVC1 to mark your output as HVC1. This makes your output compliant with the following specification: ISO IECJTC1 SC29 N13798 Text ISO/IEC FDIS 14496-15 3rd Edition. For these outputs, the service stores parameter set NAL units in the sample headers but not in the samples directly. For MP4 outputs, when you choose HVC1, your output video might not work properly with some downstream systems and video players. The service defaults to marking your output as HEV1. For these outputs, the service writes parameter set NAL units directly into the samples.
         public let writeMp4PackagingType: H265WriteMp4PackagingType?
 
-        public init(adaptiveQuantization: H265AdaptiveQuantization? = nil, alternateTransferFunctionSei: H265AlternateTransferFunctionSei? = nil, bitrate: Int? = nil, codecLevel: H265CodecLevel? = nil, codecProfile: H265CodecProfile? = nil, dynamicSubGop: H265DynamicSubGop? = nil, flickerAdaptiveQuantization: H265FlickerAdaptiveQuantization? = nil, framerateControl: H265FramerateControl? = nil, framerateConversionAlgorithm: H265FramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopBReference: H265GopBReference? = nil, gopClosedCadence: Int? = nil, gopSize: Double? = nil, gopSizeUnits: H265GopSizeUnits? = nil, hrdBufferInitialFillPercentage: Int? = nil, hrdBufferSize: Int? = nil, interlaceMode: H265InterlaceMode? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, numberBFramesBetweenReferenceFrames: Int? = nil, numberReferenceFrames: Int? = nil, parControl: H265ParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, qualityTuningLevel: H265QualityTuningLevel? = nil, qvbrSettings: H265QvbrSettings? = nil, rateControlMode: H265RateControlMode? = nil, sampleAdaptiveOffsetFilterMode: H265SampleAdaptiveOffsetFilterMode? = nil, scanTypeConversionMode: H265ScanTypeConversionMode? = nil, sceneChangeDetect: H265SceneChangeDetect? = nil, slices: Int? = nil, slowPal: H265SlowPal? = nil, spatialAdaptiveQuantization: H265SpatialAdaptiveQuantization? = nil, telecine: H265Telecine? = nil, temporalAdaptiveQuantization: H265TemporalAdaptiveQuantization? = nil, temporalIds: H265TemporalIds? = nil, tiles: H265Tiles? = nil, unregisteredSeiTimecode: H265UnregisteredSeiTimecode? = nil, writeMp4PackagingType: H265WriteMp4PackagingType? = nil) {
+        public init(adaptiveQuantization: H265AdaptiveQuantization? = nil, alternateTransferFunctionSei: H265AlternateTransferFunctionSei? = nil, bitrate: Int? = nil, codecLevel: H265CodecLevel? = nil, codecProfile: H265CodecProfile? = nil, dynamicSubGop: H265DynamicSubGop? = nil, flickerAdaptiveQuantization: H265FlickerAdaptiveQuantization? = nil, framerateControl: H265FramerateControl? = nil, framerateConversionAlgorithm: H265FramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopBReference: H265GopBReference? = nil, gopClosedCadence: Int? = nil, gopSize: Double? = nil, gopSizeUnits: H265GopSizeUnits? = nil, hrdBufferFinalFillPercentage: Int? = nil, hrdBufferInitialFillPercentage: Int? = nil, hrdBufferSize: Int? = nil, interlaceMode: H265InterlaceMode? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, numberBFramesBetweenReferenceFrames: Int? = nil, numberReferenceFrames: Int? = nil, parControl: H265ParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, qualityTuningLevel: H265QualityTuningLevel? = nil, qvbrSettings: H265QvbrSettings? = nil, rateControlMode: H265RateControlMode? = nil, sampleAdaptiveOffsetFilterMode: H265SampleAdaptiveOffsetFilterMode? = nil, scanTypeConversionMode: H265ScanTypeConversionMode? = nil, sceneChangeDetect: H265SceneChangeDetect? = nil, slices: Int? = nil, slowPal: H265SlowPal? = nil, spatialAdaptiveQuantization: H265SpatialAdaptiveQuantization? = nil, telecine: H265Telecine? = nil, temporalAdaptiveQuantization: H265TemporalAdaptiveQuantization? = nil, temporalIds: H265TemporalIds? = nil, tiles: H265Tiles? = nil, unregisteredSeiTimecode: H265UnregisteredSeiTimecode? = nil, writeMp4PackagingType: H265WriteMp4PackagingType? = nil) {
             self.adaptiveQuantization = adaptiveQuantization
             self.alternateTransferFunctionSei = alternateTransferFunctionSei
             self.bitrate = bitrate
@@ -6325,6 +6333,7 @@ extension MediaConvert {
             self.gopClosedCadence = gopClosedCadence
             self.gopSize = gopSize
             self.gopSizeUnits = gopSizeUnits
+            self.hrdBufferFinalFillPercentage = hrdBufferFinalFillPercentage
             self.hrdBufferInitialFillPercentage = hrdBufferInitialFillPercentage
             self.hrdBufferSize = hrdBufferSize
             self.interlaceMode = interlaceMode
@@ -6361,6 +6370,8 @@ extension MediaConvert {
             try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, min: 1)
             try self.validate(self.gopClosedCadence, name: "gopClosedCadence", parent: name, max: 2_147_483_647)
             try self.validate(self.gopClosedCadence, name: "gopClosedCadence", parent: name, min: 0)
+            try self.validate(self.hrdBufferFinalFillPercentage, name: "hrdBufferFinalFillPercentage", parent: name, max: 100)
+            try self.validate(self.hrdBufferFinalFillPercentage, name: "hrdBufferFinalFillPercentage", parent: name, min: 0)
             try self.validate(self.hrdBufferInitialFillPercentage, name: "hrdBufferInitialFillPercentage", parent: name, max: 100)
             try self.validate(self.hrdBufferInitialFillPercentage, name: "hrdBufferInitialFillPercentage", parent: name, min: 0)
             try self.validate(self.hrdBufferSize, name: "hrdBufferSize", parent: name, max: 1_466_400_000)
@@ -6398,6 +6409,7 @@ extension MediaConvert {
             case gopClosedCadence
             case gopSize
             case gopSizeUnits
+            case hrdBufferFinalFillPercentage
             case hrdBufferInitialFillPercentage
             case hrdBufferSize
             case interlaceMode
@@ -7818,13 +7830,13 @@ extension MediaConvert {
         /// Optional. When you request a list of job templates, you can choose to list them alphabetically by NAME or chronologically by CREATION_DATE. If you don't specify, the service will list them by name.
         public let listBy: JobTemplateListBy?
         /// Optional. Number of job templates, up to twenty, that will be returned at one time.
-        public let maxResults: Int?
+        public let maxResults: Int
         /// Use this string, provided with the response to a previous request, to request the next batch of job templates.
         public let nextToken: String?
         /// Optional. When you request lists of resources, you can specify whether they are sorted in ASCENDING or DESCENDING order. Default varies by resource.
         public let order: Order?
 
-        public init(category: String? = nil, listBy: JobTemplateListBy? = nil, maxResults: Int? = nil, nextToken: String? = nil, order: Order? = nil) {
+        public init(category: String? = nil, listBy: JobTemplateListBy? = nil, maxResults: Int = 0, nextToken: String? = nil, order: Order? = nil) {
             self.category = category
             self.listBy = listBy
             self.maxResults = maxResults
@@ -7867,7 +7879,7 @@ extension MediaConvert {
         ]
 
         /// Optional. Number of jobs, up to twenty, that will be returned at one time.
-        public let maxResults: Int?
+        public let maxResults: Int
         /// Optional. Use this string, provided with the response to a previous request, to request the next batch of jobs.
         public let nextToken: String?
         /// Optional. When you request lists of resources, you can specify whether they are sorted in ASCENDING or DESCENDING order. Default varies by resource.
@@ -7877,7 +7889,7 @@ extension MediaConvert {
         /// Optional. A job's status can be SUBMITTED, PROGRESSING, COMPLETE, CANCELED, or ERROR.
         public let status: JobStatus?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil, order: Order? = nil, queue: String? = nil, status: JobStatus? = nil) {
+        public init(maxResults: Int = 0, nextToken: String? = nil, order: Order? = nil, queue: String? = nil, status: JobStatus? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.order = order
@@ -7924,13 +7936,13 @@ extension MediaConvert {
         /// Optional. When you request a list of presets, you can choose to list them alphabetically by NAME or chronologically by CREATION_DATE. If you don't specify, the service will list them by name.
         public let listBy: PresetListBy?
         /// Optional. Number of presets, up to twenty, that will be returned at one time
-        public let maxResults: Int?
+        public let maxResults: Int
         /// Use this string, provided with the response to a previous request, to request the next batch of presets.
         public let nextToken: String?
         /// Optional. When you request lists of resources, you can specify whether they are sorted in ASCENDING or DESCENDING order. Default varies by resource.
         public let order: Order?
 
-        public init(category: String? = nil, listBy: PresetListBy? = nil, maxResults: Int? = nil, nextToken: String? = nil, order: Order? = nil) {
+        public init(category: String? = nil, listBy: PresetListBy? = nil, maxResults: Int = 0, nextToken: String? = nil, order: Order? = nil) {
             self.category = category
             self.listBy = listBy
             self.maxResults = maxResults
@@ -7974,13 +7986,13 @@ extension MediaConvert {
         /// Optional. When you request a list of queues, you can choose to list them alphabetically by NAME or chronologically by CREATION_DATE. If you don't specify, the service will list them by creation date.
         public let listBy: QueueListBy?
         /// Optional. Number of queues, up to twenty, that will be returned at one time.
-        public let maxResults: Int?
+        public let maxResults: Int
         /// Use this string, provided with the response to a previous request, to request the next batch of queues.
         public let nextToken: String?
         /// Optional. When you request lists of resources, you can specify whether they are sorted in ASCENDING or DESCENDING order. Default varies by resource.
         public let order: Order?
 
-        public init(listBy: QueueListBy? = nil, maxResults: Int? = nil, nextToken: String? = nil, order: Order? = nil) {
+        public init(listBy: QueueListBy? = nil, maxResults: Int = 0, nextToken: String? = nil, order: Order? = nil) {
             self.listBy = listBy
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -8722,6 +8734,8 @@ extension MediaConvert {
         public let gopSize: Double?
         /// Specify the units for GOP size (GopSize). If you don't specify a value here, by default the encoder measures GOP size in frames.
         public let gopSizeUnits: Mpeg2GopSizeUnits?
+        /// If your downstream systems have strict buffer requirements: Specify the minimum percentage of the HRD buffer that's available at the end of each encoded video segment. For the best video quality: Set to 0 or leave blank to automatically determine the final buffer fill percentage.
+        public let hrdBufferFinalFillPercentage: Int?
         /// Percentage of the buffer that should initially be filled (HRD buffer model).
         public let hrdBufferInitialFillPercentage: Int?
         /// Size of buffer (HRD buffer model) in bits. For example, enter five megabits as 5000000.
@@ -8763,7 +8777,7 @@ extension MediaConvert {
         /// Keep the default value, Enabled (ENABLED), to adjust quantization within each frame based on temporal variation of content complexity. When you enable this feature, the encoder uses fewer bits on areas of the frame that aren't moving and uses more bits on complex objects with sharp edges that move a lot. For example, this feature improves the readability of text tickers on newscasts and scoreboards on sports matches. Enabling this feature will almost always improve your video quality. Note, though, that this feature doesn't take into account where the viewer's attention is likely to be. If viewers are likely to be focusing their attention on a part of the screen that doesn't have moving objects with sharp edges, such as sports athletes' faces, you might choose to disable this feature. Related setting: When you enable temporal quantization, adjust the strength of the filter with the setting Adaptive quantization (adaptiveQuantization).
         public let temporalAdaptiveQuantization: Mpeg2TemporalAdaptiveQuantization?
 
-        public init(adaptiveQuantization: Mpeg2AdaptiveQuantization? = nil, bitrate: Int? = nil, codecLevel: Mpeg2CodecLevel? = nil, codecProfile: Mpeg2CodecProfile? = nil, dynamicSubGop: Mpeg2DynamicSubGop? = nil, framerateControl: Mpeg2FramerateControl? = nil, framerateConversionAlgorithm: Mpeg2FramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopClosedCadence: Int? = nil, gopSize: Double? = nil, gopSizeUnits: Mpeg2GopSizeUnits? = nil, hrdBufferInitialFillPercentage: Int? = nil, hrdBufferSize: Int? = nil, interlaceMode: Mpeg2InterlaceMode? = nil, intraDcPrecision: Mpeg2IntraDcPrecision? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, numberBFramesBetweenReferenceFrames: Int? = nil, parControl: Mpeg2ParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, qualityTuningLevel: Mpeg2QualityTuningLevel? = nil, rateControlMode: Mpeg2RateControlMode? = nil, scanTypeConversionMode: Mpeg2ScanTypeConversionMode? = nil, sceneChangeDetect: Mpeg2SceneChangeDetect? = nil, slowPal: Mpeg2SlowPal? = nil, softness: Int? = nil, spatialAdaptiveQuantization: Mpeg2SpatialAdaptiveQuantization? = nil, syntax: Mpeg2Syntax? = nil, telecine: Mpeg2Telecine? = nil, temporalAdaptiveQuantization: Mpeg2TemporalAdaptiveQuantization? = nil) {
+        public init(adaptiveQuantization: Mpeg2AdaptiveQuantization? = nil, bitrate: Int? = nil, codecLevel: Mpeg2CodecLevel? = nil, codecProfile: Mpeg2CodecProfile? = nil, dynamicSubGop: Mpeg2DynamicSubGop? = nil, framerateControl: Mpeg2FramerateControl? = nil, framerateConversionAlgorithm: Mpeg2FramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopClosedCadence: Int? = nil, gopSize: Double? = nil, gopSizeUnits: Mpeg2GopSizeUnits? = nil, hrdBufferFinalFillPercentage: Int? = nil, hrdBufferInitialFillPercentage: Int? = nil, hrdBufferSize: Int? = nil, interlaceMode: Mpeg2InterlaceMode? = nil, intraDcPrecision: Mpeg2IntraDcPrecision? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, numberBFramesBetweenReferenceFrames: Int? = nil, parControl: Mpeg2ParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, qualityTuningLevel: Mpeg2QualityTuningLevel? = nil, rateControlMode: Mpeg2RateControlMode? = nil, scanTypeConversionMode: Mpeg2ScanTypeConversionMode? = nil, sceneChangeDetect: Mpeg2SceneChangeDetect? = nil, slowPal: Mpeg2SlowPal? = nil, softness: Int? = nil, spatialAdaptiveQuantization: Mpeg2SpatialAdaptiveQuantization? = nil, syntax: Mpeg2Syntax? = nil, telecine: Mpeg2Telecine? = nil, temporalAdaptiveQuantization: Mpeg2TemporalAdaptiveQuantization? = nil) {
             self.adaptiveQuantization = adaptiveQuantization
             self.bitrate = bitrate
             self.codecLevel = codecLevel
@@ -8776,6 +8790,7 @@ extension MediaConvert {
             self.gopClosedCadence = gopClosedCadence
             self.gopSize = gopSize
             self.gopSizeUnits = gopSizeUnits
+            self.hrdBufferFinalFillPercentage = hrdBufferFinalFillPercentage
             self.hrdBufferInitialFillPercentage = hrdBufferInitialFillPercentage
             self.hrdBufferSize = hrdBufferSize
             self.interlaceMode = interlaceMode
@@ -8807,6 +8822,8 @@ extension MediaConvert {
             try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, min: 24)
             try self.validate(self.gopClosedCadence, name: "gopClosedCadence", parent: name, max: 2_147_483_647)
             try self.validate(self.gopClosedCadence, name: "gopClosedCadence", parent: name, min: 0)
+            try self.validate(self.hrdBufferFinalFillPercentage, name: "hrdBufferFinalFillPercentage", parent: name, max: 100)
+            try self.validate(self.hrdBufferFinalFillPercentage, name: "hrdBufferFinalFillPercentage", parent: name, min: 0)
             try self.validate(self.hrdBufferInitialFillPercentage, name: "hrdBufferInitialFillPercentage", parent: name, max: 100)
             try self.validate(self.hrdBufferInitialFillPercentage, name: "hrdBufferInitialFillPercentage", parent: name, min: 0)
             try self.validate(self.hrdBufferSize, name: "hrdBufferSize", parent: name, max: 47_185_920)
@@ -8838,6 +8855,7 @@ extension MediaConvert {
             case gopClosedCadence
             case gopSize
             case gopSizeUnits
+            case hrdBufferFinalFillPercentage
             case hrdBufferInitialFillPercentage
             case hrdBufferSize
             case interlaceMode
@@ -9870,7 +9888,7 @@ extension MediaConvert {
         /// Specifies the number of reserved transcode slots (RTS) for this queue. The number of RTS determines how many jobs the queue can process in parallel; each RTS can process one job at a time. You can't decrease the number of RTS in your reserved queue. You can increase the number of RTS by extending your existing commitment with a new 12-month commitment for the larger number. The new commitment begins when you purchase the additional capacity. You can't cancel your commitment or revert to your original commitment after you increase the capacity.
         public let reservedSlots: Int
 
-        public init(commitment: Commitment, renewalType: RenewalType, reservedSlots: Int) {
+        public init(commitment: Commitment, renewalType: RenewalType, reservedSlots: Int = 0) {
             self.commitment = commitment
             self.renewalType = renewalType
             self.reservedSlots = reservedSlots
@@ -10330,7 +10348,7 @@ extension MediaConvert {
         /// The name of the job template you are modifying
         public let name: String
         /// Specify the relative priority for this job. In any given queue, the service begins processing the job with the highest value first. When more than one job has the same priority, the service begins processing the job that you submitted first. If you don't specify a priority, the service uses the default value 0.
-        public let priority: Int?
+        public let priority: Int
         /// The new queue for the job template, if you are changing it.
         public let queue: String?
         /// JobTemplateSettings contains all the transcode settings saved in the template that will be applied to jobs created from it.
@@ -10338,7 +10356,7 @@ extension MediaConvert {
         /// Specify how often MediaConvert sends STATUS_UPDATE events to Amazon CloudWatch Events. Set the interval, in seconds, between status updates. MediaConvert sends an update at this interval from the time the service begins processing your job to the time it completes the transcode or encounters an error.
         public let statusUpdateInterval: StatusUpdateInterval?
 
-        public init(accelerationSettings: AccelerationSettings? = nil, category: String? = nil, description: String? = nil, hopDestinations: [HopDestination]? = nil, name: String, priority: Int? = nil, queue: String? = nil, settings: JobTemplateSettings? = nil, statusUpdateInterval: StatusUpdateInterval? = nil) {
+        public init(accelerationSettings: AccelerationSettings? = nil, category: String? = nil, description: String? = nil, hopDestinations: [HopDestination]? = nil, name: String, priority: Int = 0, queue: String? = nil, settings: JobTemplateSettings? = nil, statusUpdateInterval: StatusUpdateInterval? = nil) {
             self.accelerationSettings = accelerationSettings
             self.category = category
             self.description = description

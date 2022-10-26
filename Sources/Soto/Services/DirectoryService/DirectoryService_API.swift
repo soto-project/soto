@@ -230,6 +230,11 @@ public struct DirectoryService: AWSService {
         return self.client.execute(operation: "DescribeTrusts", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    ///  Describes the updates of a directory for a particular update type.
+    public func describeUpdateDirectory(_ input: DescribeUpdateDirectoryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeUpdateDirectoryResult> {
+        return self.client.execute(operation: "DescribeUpdateDirectory", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Disables alternative client authentication methods for the specified directory.
     public func disableClientAuthentication(_ input: DisableClientAuthenticationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisableClientAuthenticationResult> {
         return self.client.execute(operation: "DisableClientAuthentication", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -363,6 +368,11 @@ public struct DirectoryService: AWSService {
     /// Updates a conditional forwarder that has been set up for your Amazon Web Services directory.
     public func updateConditionalForwarder(_ input: UpdateConditionalForwarderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateConditionalForwarderResult> {
         return self.client.execute(operation: "UpdateConditionalForwarder", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  Updates the directory for a particular update type.
+    public func updateDirectorySetup(_ input: UpdateDirectorySetupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDirectorySetupResult> {
+        return self.client.execute(operation: "UpdateDirectorySetup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Adds or removes domain controllers to or from the directory. Based on the difference between current value and new value (provided through this API call), domain controllers will be added or removed. It may take up to 45 minutes for any new domain controllers to become fully active once the requested number of domain controllers is updated. During this time, you cannot make another update request.

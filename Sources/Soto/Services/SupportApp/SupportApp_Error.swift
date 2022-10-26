@@ -48,11 +48,11 @@ public struct SupportAppErrorType: AWSErrorType {
 
     /// You don't have sufficient permission to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
-    /// Your request has a conflict. For example, you might receive this error if you try the following:   Add, update, or delete a Slack channel configuration before you add a Slack workspace to your Amazon Web Services account.   Add a Slack channel configuration that already exists in your Amazon Web Services account.   Delete a Slack channel configuration for a live chat channel.   Delete a Slack workspace from your Amazon Web Services account that has an active live chat channel.
+    /// Your request has a conflict. For example, you might receive this error if you try the following:   Add, update, or delete a Slack channel configuration before you add a Slack workspace to your Amazon Web Services account.   Add a Slack channel configuration that already exists in your Amazon Web Services account.   Delete a Slack channel configuration for a live chat channel.   Delete a Slack workspace from your Amazon Web Services account that has an active live chat channel.   Call the RegisterSlackWorkspaceForOrganization API from an Amazon Web Services account that doesn't belong to an organization.   Call the RegisterSlackWorkspaceForOrganization API from a member account, but the management account hasn't registered that workspace yet for the organization.
     public static var conflictException: Self { .init(.conflictException) }
     /// We can’t process your request right now because of a server issue. Try again later.
     public static var internalServerException: Self { .init(.internalServerException) }
-    /// The specified resource is missing or doesn't exist, such as an account alias or Slack channel configuration.
+    /// The specified resource is missing or doesn't exist, such as an account alias, Slack channel configuration, or Slack workspace configuration.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// Your Service Quotas request exceeds the quota for the service. For example, your Service Quotas request to Amazon Web Services Support App might exceed the maximum number of workspaces or channels per account, or the maximum number of accounts per Slack channel.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }

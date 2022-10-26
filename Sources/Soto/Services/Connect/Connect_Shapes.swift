@@ -578,6 +578,16 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
+    public enum TrafficDistributionGroupStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case active = "ACTIVE"
+        case creationFailed = "CREATION_FAILED"
+        case creationInProgress = "CREATION_IN_PROGRESS"
+        case deletionFailed = "DELETION_FAILED"
+        case pendingDeletion = "PENDING_DELETION"
+        case updateInProgress = "UPDATE_IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TrafficType: String, CustomStringConvertible, Codable, _SotoSendable {
         case campaign = "CAMPAIGN"
         case general = "GENERAL"
@@ -1272,7 +1282,7 @@ extension Connect {
     }
 
     public struct ClaimPhoneNumberRequest: AWSEncodableShape {
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
         /// The phone number you want to claim. Phone numbers are formatted [+] [country code] [subscriber number including area code].
         public let phoneNumber: String
@@ -1280,7 +1290,7 @@ extension Connect {
         public let phoneNumberDescription: String?
         /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
-        /// The Amazon Resource Name (ARN) for Amazon Connect instances that phone numbers are claimed to.
+        /// The Amazon Resource Name (ARN) for Amazon Connect instances or traffic distribution groups that phone numbers are claimed to.
         public let targetArn: String
 
         public init(clientToken: String? = ClaimPhoneNumberRequest.idempotencyToken(), phoneNumber: String, phoneNumberDescription: String? = nil, tags: [String: String]? = nil, targetArn: String) {
@@ -1343,13 +1353,13 @@ extension Connect {
         public let phoneNumberDescription: String?
         /// A unique identifier for the phone number.
         public let phoneNumberId: String?
-        /// The status of the phone number.
+        /// The status of the phone number.    CLAIMED means the previous ClaimedPhoneNumber or UpdatePhoneNumber operation succeeded.    IN_PROGRESS means a ClaimedPhoneNumber or UpdatePhoneNumber operation is still in progress and has not yet completed. You can call DescribePhoneNumber at a later time to verify if the previous operation has completed.    FAILED indicates that the previous ClaimedPhoneNumber or UpdatePhoneNumber operation has failed. It will include a message indicating the failure reason. A common reason for a failure may be that the TargetArn value you are claiming or updating a phone number to has reached its limit of total claimed numbers. If you received a FAILED status from a ClaimPhoneNumber API call, you have one day to retry claiming the phone number before the number is released back to the inventory for other customers to claim.    You will not be billed for the phone number during the 1-day period if number claiming fails.
         public let phoneNumberStatus: PhoneNumberStatus?
         /// The type of phone number.
         public let phoneNumberType: PhoneNumberType?
         /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
-        /// The Amazon Resource Name (ARN) for Amazon Connect instances that phone numbers are claimed to.
+        /// The Amazon Resource Name (ARN) for Amazon Connect instances or traffic distribution groups that phone numbers are claimed to.
         public let targetArn: String?
 
         public init(phoneNumber: String? = nil, phoneNumberArn: String? = nil, phoneNumberCountryCode: PhoneNumberCountryCode? = nil, phoneNumberDescription: String? = nil, phoneNumberId: String? = nil, phoneNumberStatus: PhoneNumberStatus? = nil, phoneNumberType: PhoneNumberType? = nil, tags: [String: String]? = nil, targetArn: String? = nil) {
@@ -1693,7 +1703,7 @@ extension Connect {
             AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
         ]
 
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
         /// The content of the flow module.
         public let content: String
@@ -2342,7 +2352,7 @@ extension Connect {
             AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
         ]
 
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
         /// Constraints that are applicable to the fields listed.
         public let constraints: TaskTemplateConstraints?
@@ -2410,6 +2420,75 @@ extension Connect {
         public let id: String
 
         public init(arn: String, id: String) {
+            self.arn = arn
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case id = "Id"
+        }
+    }
+
+    public struct CreateTrafficDistributionGroupRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+        public let clientToken: String?
+        /// A description for the traffic distribution group.
+        public let description: String?
+        /// The identifier of the Amazon Connect instance that has been replicated. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+        /// The name for the traffic distribution group.
+        public let name: String
+        /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
+        public let tags: [String: String]?
+
+        public init(clientToken: String? = CreateTrafficDistributionGroupRequest.idempotencyToken(), description: String? = nil, instanceId: String, name: String, tags: [String: String]? = nil) {
+            self.clientToken = clientToken
+            self.description = description
+            self.instanceId = instanceId
+            self.name = name
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 500)
+            try self.validate(self.description, name: "description", parent: name, max: 250)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^(^[\\S].*[\\S]$)|(^[\\S]$)$")
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 250)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "^(arn:(aws|aws-us-gov):connect:[a-z]{2}-[a-z]+-[0-9]{1}:[0-9]{1,20}:instance/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^(^[\\S].*[\\S]$)|(^[\\S]$)$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case description = "Description"
+            case instanceId = "InstanceId"
+            case name = "Name"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateTrafficDistributionGroupResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the traffic distribution group.
+        public let arn: String?
+        /// The identifier of the traffic distribution group.
+        /// This can be the ID or the ARN if the API is being called in the Region where the traffic distribution group was created.
+        /// The ARN must be provided if the call is from the replicated Region.
+        public let id: String?
+
+        public init(arn: String? = nil, id: String? = nil) {
             self.arn = arn
             self.id = id
         }
@@ -2632,7 +2711,7 @@ extension Connect {
             AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
         ]
 
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If a create request is received more than once with same client token, subsequent requests return the previous response without creating a vocabulary again.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs. If a create request is received more than once with same client token, subsequent requests return the previous response without creating a vocabulary again.
         public let clientToken: String?
         /// The content of the custom vocabulary in plain-text format with a table of values. Each row in the table represents a word or a phrase, described with Phrase, IPA, SoundsLike, and DisplayAs fields. Separate the fields with TAB characters. The size limit is 50KB. For more information, see Create a custom vocabulary using a table.
         public let content: String
@@ -3023,6 +3102,31 @@ extension Connect {
     }
 
     public struct DeleteTaskTemplateResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteTrafficDistributionGroupRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "trafficDistributionGroupId", location: .uri("TrafficDistributionGroupId"))
+        ]
+
+        /// The identifier of the traffic distribution group.
+        /// This can be the ID or the ARN if the API is being called in the Region where the traffic distribution group was created.
+        /// The ARN must be provided if the call is from the replicated Region.
+        public let trafficDistributionGroupId: String
+
+        public init(trafficDistributionGroupId: String) {
+            self.trafficDistributionGroupId = trafficDistributionGroupId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.trafficDistributionGroupId, name: "trafficDistributionGroupId", parent: name, pattern: "^(arn:(aws|aws-us-gov):connect:[a-z]{2}-[a-z-]+-[0-9]{1}:[0-9]{1,20}:traffic-distribution-group/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteTrafficDistributionGroupResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -3472,7 +3576,7 @@ extension Connect {
     }
 
     public struct DescribePhoneNumberResponse: AWSDecodableShape {
-        /// Information about a phone number that's been claimed to your Amazon Connect instance.
+        /// Information about a phone number that's been claimed to your Amazon Connect instance or traffic distribution group.
         public let claimedPhoneNumberSummary: ClaimedPhoneNumberSummary?
 
         public init(claimedPhoneNumberSummary: ClaimedPhoneNumberSummary? = nil) {
@@ -3629,6 +3733,40 @@ extension Connect {
 
         private enum CodingKeys: String, CodingKey {
             case securityProfile = "SecurityProfile"
+        }
+    }
+
+    public struct DescribeTrafficDistributionGroupRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "trafficDistributionGroupId", location: .uri("TrafficDistributionGroupId"))
+        ]
+
+        /// The identifier of the traffic distribution group.
+        /// This can be the ID or the ARN if the API is being called in the Region where the traffic distribution group was created.
+        /// The ARN must be provided if the call is from the replicated Region.
+        public let trafficDistributionGroupId: String
+
+        public init(trafficDistributionGroupId: String) {
+            self.trafficDistributionGroupId = trafficDistributionGroupId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.trafficDistributionGroupId, name: "trafficDistributionGroupId", parent: name, pattern: "^(arn:(aws|aws-us-gov):connect:[a-z]{2}-[a-z-]+-[0-9]{1}:[0-9]{1,20}:traffic-distribution-group/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeTrafficDistributionGroupResponse: AWSDecodableShape {
+        /// Information about the traffic distribution group.
+        public let trafficDistributionGroup: TrafficDistributionGroup?
+
+        public init(trafficDistributionGroup: TrafficDistributionGroup? = nil) {
+            self.trafficDistributionGroup = trafficDistributionGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trafficDistributionGroup = "TrafficDistributionGroup"
         }
     }
 
@@ -3917,7 +4055,7 @@ extension Connect {
         public let botName: String
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
-        /// The Region in which the Amazon Lex bot has been created.
+        /// The Amazon Web Services Region in which the Amazon Lex bot has been created.
         public let lexRegion: String
 
         public init(botName: String, instanceId: String, lexRegion: String) {
@@ -4044,6 +4182,31 @@ extension Connect {
         }
 
         private enum CodingKeys: CodingKey {}
+    }
+
+    public struct Distribution: AWSEncodableShape & AWSDecodableShape {
+        /// The percentage of the traffic that is distributed, in increments of 10.
+        public let percentage: Int
+        /// The Amazon Web Services Region where the traffic is distributed.
+        public let region: String
+
+        public init(percentage: Int, region: String) {
+            self.percentage = percentage
+            self.region = region
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.percentage, name: "percentage", parent: name, max: 100)
+            try self.validate(self.percentage, name: "percentage", parent: name, min: 0)
+            try self.validate(self.region, name: "region", parent: name, max: 31)
+            try self.validate(self.region, name: "region", parent: name, min: 8)
+            try self.validate(self.region, name: "region", parent: name, pattern: "^[a-z]{2}(-[a-z]+){1,2}(-[0-9])?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case percentage = "Percentage"
+            case region = "Region"
+        }
     }
 
     public struct EmailReference: AWSDecodableShape {
@@ -4466,6 +4629,48 @@ extension Connect {
             case name = "Name"
             case status = "Status"
             case tags = "Tags"
+        }
+    }
+
+    public struct GetTrafficDistributionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
+        ]
+
+        /// The identifier of the traffic distribution group.
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, pattern: "^(arn:(aws|aws-us-gov):connect:[a-z]{2}-[a-z-]+-[0-9]{1}:[0-9]{1,20}:traffic-distribution-group/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetTrafficDistributionResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the traffic distribution group.
+        public let arn: String?
+        /// The identifier of the traffic distribution group.
+        /// This can be the ID or the ARN if the API is being called in the Region where the traffic distribution group was created.
+        /// The ARN must be provided if the call is from the replicated Region.
+        public let id: String?
+        /// The distribution of traffic between the instance and its replicas.
+        public let telephonyConfig: TelephonyConfig?
+
+        public init(arn: String? = nil, id: String? = nil, telephonyConfig: TelephonyConfig? = nil) {
+            self.arn = arn
+            self.id = id
+            self.telephonyConfig = telephonyConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case id = "Id"
+            case telephonyConfig = "TelephonyConfig"
         }
     }
 
@@ -5135,7 +5340,7 @@ extension Connect {
     }
 
     public struct LexBot: AWSEncodableShape & AWSDecodableShape {
-        /// The Region that the Amazon Lex bot was created in.
+        /// The Amazon Web Services Region where the Amazon Lex bot was created.
         public let lexRegion: String?
         /// The name of the Amazon Lex bot.
         public let name: String?
@@ -5327,7 +5532,7 @@ extension Connect {
     }
 
     public struct ListBotsResponse: AWSDecodableShape {
-        /// The names and Regions of the Amazon Lex or Amazon Lex V2 bots associated with the specified instance.
+        /// The names and Amazon Web Services Regions of the Amazon Lex or Amazon Lex V2 bots associated with the specified instance.
         public let lexBots: [LexBotConfig]?
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
@@ -5880,7 +6085,7 @@ extension Connect {
     }
 
     public struct ListLexBotsResponse: AWSDecodableShape {
-        /// The names and Regions of the Amazon Lex bots associated with the specified instance.
+        /// The names and Amazon Web Services Regions of the Amazon Lex bots associated with the specified instance.
         public let lexBots: [LexBot]?
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
@@ -5965,7 +6170,7 @@ extension Connect {
         public let phoneNumberId: String?
         /// The type of phone number.
         public let phoneNumberType: PhoneNumberType?
-        /// The Amazon Resource Name (ARN) for Amazon Connect instances that phone numbers are claimed to.
+        /// The Amazon Resource Name (ARN) for Amazon Connect instances or traffic distribution groups that phone numbers are claimed to.
         public let targetArn: String?
 
         public init(phoneNumber: String? = nil, phoneNumberArn: String? = nil, phoneNumberCountryCode: PhoneNumberCountryCode? = nil, phoneNumberId: String? = nil, phoneNumberType: PhoneNumberType? = nil, targetArn: String? = nil) {
@@ -5999,7 +6204,7 @@ extension Connect {
         public let phoneNumberPrefix: String?
         /// The type of phone number.
         public let phoneNumberTypes: [PhoneNumberType]?
-        /// The Amazon Resource Name (ARN) for Amazon Connect instances that phone numbers are claimed to. If TargetArn input is not provided, this API lists numbers claimed to all the Amazon Connect instances belonging to your account.
+        /// The Amazon Resource Name (ARN) for Amazon Connect instances or traffic distribution groups that phone numbers are claimed to. If TargetArn input is not provided, this API lists numbers claimed to all the Amazon Connect instances belonging to your account in the same Amazon Web Services Region as the request.
         public let targetArn: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, phoneNumberCountryCodes: [PhoneNumberCountryCode]? = nil, phoneNumberPrefix: String? = nil, phoneNumberTypes: [PhoneNumberType]? = nil, targetArn: String? = nil) {
@@ -6032,7 +6237,7 @@ extension Connect {
     }
 
     public struct ListPhoneNumbersV2Response: AWSDecodableShape {
-        /// Information about phone numbers that have been claimed to your Amazon Connect instances.
+        /// Information about phone numbers that have been claimed to your Amazon Connect instances or traffic distribution groups.
         public let listPhoneNumbersSummaryList: [ListPhoneNumbersSummary]?
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
@@ -6589,6 +6794,55 @@ extension Connect {
         }
     }
 
+    public struct ListTrafficDistributionGroupsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .querystring("instanceId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
+        ]
+
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String?
+        /// The maximum number of results to return per page.
+        public let maxResults: Int
+        /// The token for the next set of results. Use the value returned in the previous
+        /// response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+
+        public init(instanceId: String? = nil, maxResults: Int = 0, nextToken: String? = nil) {
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 250)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "^(arn:(aws|aws-us-gov):connect:[a-z]{2}-[a-z]+-[0-9]{1}:[0-9]{1,20}:instance/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 10)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListTrafficDistributionGroupsResponse: AWSDecodableShape {
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+        /// A list of traffic distribution groups.
+        public let trafficDistributionGroupSummaryList: [TrafficDistributionGroupSummary]?
+
+        public init(nextToken: String? = nil, trafficDistributionGroupSummaryList: [TrafficDistributionGroupSummary]? = nil) {
+            self.nextToken = nextToken
+            self.trafficDistributionGroupSummaryList = trafficDistributionGroupSummaryList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case trafficDistributionGroupSummaryList = "TrafficDistributionGroupSummaryList"
+        }
+    }
+
     public struct ListUseCasesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
@@ -6988,7 +7242,7 @@ extension Connect {
     public struct QueueInfo: AWSDecodableShape {
         /// The timestamp when the contact was added to the queue.
         public let enqueueTimestamp: Date?
-        /// The identifier of the agent who accepted the contact.
+        /// The unique identifier for the queue.
         public let id: String?
 
         public init(enqueueTimestamp: Date? = nil, id: String? = nil) {
@@ -7208,7 +7462,7 @@ extension Connect {
     }
 
     public struct Reference: AWSEncodableShape {
-        /// The type of the reference.
+        /// The type of the reference. DATE must be of type Epoch timestamp.
         public let type: ReferenceType
         /// A valid value for the reference. For example, for a URL reference, a formatted URL that is displayed to an agent in the Contact Control Panel (CCP).
         public let value: String
@@ -7234,7 +7488,7 @@ extension Connect {
             AWSMemberEncoding(label: "phoneNumberId", location: .uri("PhoneNumberId"))
         ]
 
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
         /// A unique identifier for the phone number.
         public let phoneNumberId: String
@@ -7249,6 +7503,64 @@ extension Connect {
         }
 
         private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ReplicateInstanceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
+        ]
+
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+        public let clientToken: String?
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+        /// The alias for the replicated instance. The ReplicaAlias must be unique.
+        public let replicaAlias: String
+        /// The Amazon Web Services Region where to replicate the Amazon Connect instance.
+        public let replicaRegion: String
+
+        public init(clientToken: String? = ReplicateInstanceRequest.idempotencyToken(), instanceId: String, replicaAlias: String, replicaRegion: String) {
+            self.clientToken = clientToken
+            self.instanceId = instanceId
+            self.replicaAlias = replicaAlias
+            self.replicaRegion = replicaRegion
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 500)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 250)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "^(arn:(aws|aws-us-gov):connect:[a-z]{2}-[a-z]+-[0-9]{1}:[0-9]{1,20}:instance/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.replicaAlias, name: "replicaAlias", parent: name, max: 62)
+            try self.validate(self.replicaAlias, name: "replicaAlias", parent: name, min: 1)
+            try self.validate(self.replicaAlias, name: "replicaAlias", parent: name, pattern: "^(?!d-)([\\da-zA-Z]+)([-]*[\\da-zA-Z])*$")
+            try self.validate(self.replicaRegion, name: "replicaRegion", parent: name, max: 31)
+            try self.validate(self.replicaRegion, name: "replicaRegion", parent: name, min: 8)
+            try self.validate(self.replicaRegion, name: "replicaRegion", parent: name, pattern: "^[a-z]{2}(-[a-z]+){1,2}(-[0-9])?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case replicaAlias = "ReplicaAlias"
+            case replicaRegion = "ReplicaRegion"
+        }
+    }
+
+    public struct ReplicateInstanceResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the replicated instance.
+        public let arn: String?
+        /// The identifier of the replicated instance. You can find the instanceId in the ARN of the instance. The replicated instance has the same identifier as the instance it was replicated from.
+        public let id: String?
+
+        public init(arn: String? = nil, id: String? = nil) {
+            self.arn = arn
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case id = "Id"
+        }
     }
 
     public struct RequiredFieldInfo: AWSEncodableShape & AWSDecodableShape {
@@ -7540,7 +7852,7 @@ extension Connect {
         public let phoneNumberPrefix: String?
         /// The type of phone number.
         public let phoneNumberType: PhoneNumberType
-        /// The Amazon Resource Name (ARN) for Amazon Connect instances that phone numbers are claimed to.
+        /// The Amazon Resource Name (ARN) for Amazon Connect instances or traffic distribution groups that phone numbers are claimed to.
         public let targetArn: String
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, phoneNumberCountryCode: PhoneNumberCountryCode, phoneNumberPrefix: String? = nil, phoneNumberType: PhoneNumberType, targetArn: String) {
@@ -7571,7 +7883,7 @@ extension Connect {
     }
 
     public struct SearchAvailablePhoneNumbersResponse: AWSDecodableShape {
-        /// A list of available phone numbers that you can claim for your Amazon Connect instance.
+        /// A list of available phone numbers that you can claim to your Amazon Connect instance or traffic distribution group.
         public let availableNumbersList: [AvailableNumberSummary]?
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
@@ -7715,7 +8027,7 @@ extension Connect {
         /// The token for the next set of results. Use the value returned in the previous
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
-        /// The search criteria to be used to return security profiles.
+        /// The search criteria to be used to return security profiles.   The currently supported value for FieldName: name
         public let searchCriteria: SecurityProfileSearchCriteria?
         /// Filters to be applied to search results.
         public let searchFilter: SecurityProfilesSearchFilter?
@@ -8039,7 +8351,7 @@ extension Connect {
         public let attributes: [String: String]?
         /// The total duration of the newly started chat session. If not specified, the chat session duration defaults to 25 hour. The minumum configurable time is 60 minutes. The maximum configurable time is 10,080 minutes (7 days).
         public let chatDurationInMinutes: Int?
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
         /// The identifier of the flow for initiating the chat. To see the ContactFlowId in the Amazon Connect console user interface, on the navigation menu go to Routing, Contact Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold:  arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
         public let contactFlowId: String
@@ -8157,7 +8469,7 @@ extension Connect {
     public struct StartContactStreamingRequest: AWSEncodableShape {
         /// The streaming configuration, such as the Amazon SNS streaming endpoint.
         public let chatStreamingConfiguration: ChatStreamingConfiguration
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String
         /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center.
         public let contactId: String
@@ -8208,7 +8520,7 @@ extension Connect {
         public let attributes: [String: String]?
         /// The campaign identifier of the outbound communication.
         public let campaignId: String?
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. The token is valid for 7 days after creation. If a contact is already started, the contact ID is returned.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs. The token is valid for 7 days after creation. If a contact is already started, the contact ID is returned.
         public let clientToken: String?
         /// The identifier of the flow for the outbound call. To see the ContactFlowId in the Amazon Connect console user interface, on the navigation menu go to Routing, Contact Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold:  arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
         public let contactFlowId: String
@@ -8282,7 +8594,7 @@ extension Connect {
     public struct StartTaskContactRequest: AWSEncodableShape {
         /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
         public let attributes: [String: String]?
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
         /// The identifier of the flow for initiating the tasks. To see the ContactFlowId in the Amazon Connect console user interface, on the navigation menu go to Routing, Contact Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold:  arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
         public let contactFlowId: String?
@@ -8750,6 +9062,25 @@ extension Connect {
         }
     }
 
+    public struct TelephonyConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Information about traffic distributions.
+        public let distributions: [Distribution]
+
+        public init(distributions: [Distribution]) {
+            self.distributions = distributions
+        }
+
+        public func validate(name: String) throws {
+            try self.distributions.forEach {
+                try $0.validate(name: "\(name).distributions[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case distributions = "Distributions"
+        }
+    }
+
     public struct Threshold: AWSEncodableShape & AWSDecodableShape {
         /// The type of comparison. Only "less than" (LT) comparisons are supported.
         public let comparison: Comparison?
@@ -8767,8 +9098,78 @@ extension Connect {
         }
     }
 
+    public struct TrafficDistributionGroup: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the traffic distribution group.
+        public let arn: String?
+        /// The description of the traffic distribution group.
+        public let description: String?
+        /// The identifier of the traffic distribution group.
+        /// This can be the ID or the ARN if the API is being called in the Region where the traffic distribution group was created.
+        /// The ARN must be provided if the call is from the replicated Region.
+        public let id: String?
+        /// The Amazon Resource Name (ARN).
+        public let instanceArn: String?
+        /// The name of the traffic distribution group.
+        public let name: String?
+        /// The status of the traffic distribution group.    CREATION_IN_PROGRESS means the previous CreateTrafficDistributionGroup operation is still in progress and has not yet completed.    ACTIVE means the previous CreateTrafficDistributionGroup operation has succeeded.        CREATION_FAILED indicates that the previous CreateTrafficDistributionGroup operation has failed.        PENDING_DELETION means the previous DeleteTrafficDistributionGroup operation is still in progress and has not yet completed.        DELETION_FAILED means the previous DeleteTrafficDistributionGroup operation has failed.        UPDATE_IN_PROGRESS means the previous UpdateTrafficDistributionGroup operation is still in progress and has not yet completed.
+        public let status: TrafficDistributionGroupStatus?
+        /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, description: String? = nil, id: String? = nil, instanceArn: String? = nil, name: String? = nil, status: TrafficDistributionGroupStatus? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.description = description
+            self.id = id
+            self.instanceArn = instanceArn
+            self.name = name
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case description = "Description"
+            case id = "Id"
+            case instanceArn = "InstanceArn"
+            case name = "Name"
+            case status = "Status"
+            case tags = "Tags"
+        }
+    }
+
+    public struct TrafficDistributionGroupSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the traffic distribution group.
+        public let arn: String?
+        /// The identifier of the traffic distribution group.
+        /// This can be the ID or the ARN if the API is being called in the Region where the traffic distribution group was created.
+        /// The ARN must be provided if the call is from the replicated Region.
+        public let id: String?
+        /// The Amazon Resource Name (ARN) of the traffic distribution group.
+        public let instanceArn: String?
+        /// The name of the traffic distribution group.
+        public let name: String?
+        /// The status of the traffic distribution group.     CREATION_IN_PROGRESS means the previous CreateTrafficDistributionGroup operation is still in progress and has not yet completed.    ACTIVE means the previous CreateTrafficDistributionGroup operation has succeeded.        CREATION_FAILED indicates that the previous CreateTrafficDistributionGroup operation has failed.        PENDING_DELETION means the previous DeleteTrafficDistributionGroup operation is still in progress and has not yet completed.        DELETION_FAILED means the previous DeleteTrafficDistributionGroup operation has failed.        UPDATE_IN_PROGRESS means the previous UpdateTrafficDistributionGroup operation is still in progress and has not yet completed.
+        public let status: TrafficDistributionGroupStatus?
+
+        public init(arn: String? = nil, id: String? = nil, instanceArn: String? = nil, name: String? = nil, status: TrafficDistributionGroupStatus? = nil) {
+            self.arn = arn
+            self.id = id
+            self.instanceArn = instanceArn
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case id = "Id"
+            case instanceArn = "InstanceArn"
+            case name = "Name"
+            case status = "Status"
+        }
+    }
+
     public struct TransferContactRequest: AWSEncodableShape {
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
         /// The identifier of the flow.
         public let contactFlowId: String
@@ -9334,11 +9735,11 @@ extension Connect {
             AWSMemberEncoding(label: "phoneNumberId", location: .uri("PhoneNumberId"))
         ]
 
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
         /// A unique identifier for the phone number.
         public let phoneNumberId: String
-        /// The Amazon Resource Name (ARN) for Amazon Connect instances that phone numbers are claimed to.
+        /// The Amazon Resource Name (ARN) for Amazon Connect instances or traffic distribution groups that phone numbers are claimed to.
         public let targetArn: String
 
         public init(clientToken: String? = UpdatePhoneNumberRequest.idempotencyToken(), phoneNumberId: String, targetArn: String) {
@@ -9892,6 +10293,37 @@ extension Connect {
         }
     }
 
+    public struct UpdateTrafficDistributionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
+        ]
+
+        /// The identifier of the traffic distribution group.
+        /// This can be the ID or the ARN if the API is being called in the Region where the traffic distribution group was created.
+        /// The ARN must be provided if the call is from the replicated Region.
+        public let id: String
+        /// The distribution of traffic between the instance and its replica(s).
+        public let telephonyConfig: TelephonyConfig?
+
+        public init(id: String, telephonyConfig: TelephonyConfig? = nil) {
+            self.id = id
+            self.telephonyConfig = telephonyConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, pattern: "^(arn:(aws|aws-us-gov):connect:[a-z]{2}-[a-z-]+-[0-9]{1}:[0-9]{1,20}:traffic-distribution-group/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.telephonyConfig?.validate(name: "\(name).telephonyConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case telephonyConfig = "TelephonyConfig"
+        }
+    }
+
+    public struct UpdateTrafficDistributionResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct UpdateUserHierarchyGroupNameRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "hierarchyGroupId", location: .uri("HierarchyGroupId")),
@@ -10197,7 +10629,7 @@ extension Connect {
         public let routingProfile: RoutingProfileReference?
         /// The status of the agent that they manually set in their Contact Control Panel (CCP), or that the supervisor manually changes in the real-time metrics report.
         public let status: AgentStatusReference?
-        /// Information about the user for the data that is returned. It contains resourceId and ARN of the user.
+        /// Information about the user for the data that is returned. It contains the resourceId and ARN of the user.
         public let user: UserReference?
 
         public init(activeSlotsByChannel: [Channel: Int]? = nil, availableSlotsByChannel: [Channel: Int]? = nil, contacts: [AgentContactReference]? = nil, hierarchyPath: HierarchyPathReference? = nil, maxSlotsByChannel: [Channel: Int]? = nil, routingProfile: RoutingProfileReference? = nil, status: AgentStatusReference? = nil, user: UserReference? = nil) {
@@ -10253,11 +10685,17 @@ extension Connect {
         public let firstName: String?
         /// The last name. This is required if you are using Amazon Connect or SAML for identity management.
         public let lastName: String?
+        /// The user's mobile number.
+        public let mobile: String?
+        /// The user's secondary email address. If you provide a secondary email, the user receives email notifications - other than password reset notifications - to this email address instead of to their primary email address. Pattern: (?=^.{0,265}$)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63}
+        public let secondaryEmail: String?
 
-        public init(email: String? = nil, firstName: String? = nil, lastName: String? = nil) {
+        public init(email: String? = nil, firstName: String? = nil, lastName: String? = nil, mobile: String? = nil, secondaryEmail: String? = nil) {
             self.email = email
             self.firstName = firstName
             self.lastName = lastName
+            self.mobile = mobile
+            self.secondaryEmail = secondaryEmail
         }
 
         public func validate(name: String) throws {
@@ -10265,12 +10703,15 @@ extension Connect {
             try self.validate(self.firstName, name: "firstName", parent: name, min: 1)
             try self.validate(self.lastName, name: "lastName", parent: name, max: 100)
             try self.validate(self.lastName, name: "lastName", parent: name, min: 1)
+            try self.validate(self.mobile, name: "mobile", parent: name, pattern: "^\\\\+[1-9]\\\\d{1,14}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case email = "Email"
             case firstName = "FirstName"
             case lastName = "LastName"
+            case mobile = "Mobile"
+            case secondaryEmail = "SecondaryEmail"
         }
     }
 
@@ -10292,7 +10733,7 @@ extension Connect {
     }
 
     public struct UserPhoneConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The After Call Work (ACW) timeout setting, in seconds.
+        /// The After Call Work (ACW) timeout setting, in seconds.   When returned by a SearchUsers call, AfterContactWorkTimeLimit is returned in milliseconds.
         public let afterContactWorkTimeLimit: Int?
         /// The Auto accept setting.
         public let autoAccept: Bool?

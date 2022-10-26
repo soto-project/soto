@@ -1793,6 +1793,8 @@ extension Greengrass {
         public let execArgs: String?
         /// The name of the function executable.
         public let executable: String?
+        /// The Lambda runtime supported by Greengrass which is to be used instead of the one specified in the Lambda function.
+        public let functionRuntimeOverride: String?
         /// The memory size, in KB, which the function requires. This setting is not applicable and should be cleared when you run the Lambda function without containerization.
         public let memorySize: Int?
         /// True if the function is pinned. Pinned means the function is long-lived and starts when the core starts.
@@ -1800,11 +1802,12 @@ extension Greengrass {
         /// The allowed function execution time, after which Lambda should terminate the function. This timeout still applies to pinned Lambda functions for each request.
         public let timeout: Int?
 
-        public init(encodingType: EncodingType? = nil, environment: FunctionConfigurationEnvironment? = nil, execArgs: String? = nil, executable: String? = nil, memorySize: Int? = nil, pinned: Bool? = nil, timeout: Int? = nil) {
+        public init(encodingType: EncodingType? = nil, environment: FunctionConfigurationEnvironment? = nil, execArgs: String? = nil, executable: String? = nil, functionRuntimeOverride: String? = nil, memorySize: Int? = nil, pinned: Bool? = nil, timeout: Int? = nil) {
             self.encodingType = encodingType
             self.environment = environment
             self.execArgs = execArgs
             self.executable = executable
+            self.functionRuntimeOverride = functionRuntimeOverride
             self.memorySize = memorySize
             self.pinned = pinned
             self.timeout = timeout
@@ -1815,6 +1818,7 @@ extension Greengrass {
             case environment = "Environment"
             case execArgs = "ExecArgs"
             case executable = "Executable"
+            case functionRuntimeOverride = "FunctionRuntimeOverride"
             case memorySize = "MemorySize"
             case pinned = "Pinned"
             case timeout = "Timeout"
@@ -4055,11 +4059,11 @@ extension Greengrass {
         /// A client token used to correlate requests and responses.
         public let amznClientToken: String?
         /// If true, performs a best-effort only core reset.
-        public let force: Bool?
+        public let force: Bool
         /// The ID of the Greengrass group.
         public let groupId: String
 
-        public init(amznClientToken: String? = nil, force: Bool? = nil, groupId: String) {
+        public init(amznClientToken: String? = nil, force: Bool = false, groupId: String) {
             self.amznClientToken = amznClientToken
             self.force = force
             self.groupId = groupId

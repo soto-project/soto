@@ -114,7 +114,7 @@ extension ConfigService {
     }
 
     /// Deletes the specified organization Config rule and all of its evaluation results from all member accounts in that organization.
-    /// 	        Only a master account and a delegated administrator account can delete an organization Config rule.
+    /// 	        Only a management account and a delegated administrator account can delete an organization Config rule.
     /// 		When calling this API with a delegated administrator, you must ensure Organizations
     /// 			ListDelegatedAdministrator permissions are added.
     /// 		       Config sets the state of a rule to DELETE_IN_PROGRESS until the deletion is complete.
@@ -124,7 +124,7 @@ extension ConfigService {
     }
 
     /// Deletes the specified organization conformance pack and all of the Config rules and remediation actions from
-    /// 			all member accounts in that organization.  Only a master account or a delegated administrator account can delete an organization conformance pack.
+    /// 			all member accounts in that organization.  Only a management account or a delegated administrator account can delete an organization conformance pack.
     /// 	When calling this API with a delegated administrator, you must ensure Organizations
     /// 		ListDelegatedAdministrator permissions are added.
     /// 			      Config sets the state of a conformance pack to DELETE_IN_PROGRESS until the deletion is complete.
@@ -659,7 +659,7 @@ extension ConfigService {
 
     /// Returns a list of conformance pack compliance scores.
     /// 			A compliance score is the percentage of the number of compliant rule-resource combinations in a conformance pack compared to the number of total possible rule-resource combinations in the conformance pack.
-    /// 			This metric provides you with a high-level view of the compliance state of your conformance packs, and can be used to identify, investigate, and understand
+    /// 			This metric provides you with a high-level view of the compliance state of your conformance packs. You can use it to identify, investigate, and understand
     /// 			the level of compliance in your conformance packs.
     /// 		        Conformance packs with no evaluation results will have a compliance score of INSUFFICIENT_DATA.
     public func listConformancePackComplianceScores(_ input: ListConformancePackComplianceScoresRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListConformancePackComplianceScoresResponse {
@@ -781,12 +781,12 @@ extension ConfigService {
         return try await self.client.execute(operation: "PutConfigurationRecorder", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates or updates a conformance pack. A conformance pack is a collection of Config rules that can be easily deployed in an account and a region and across Amazon Web Services Organization.
+    /// Creates or updates a conformance pack. A conformance pack is a collection of Config rules that can be easily deployed in an account and a region and across an organization.
     /// 			For information on how many conformance packs you can have per account,
     /// 			see  Service Limits in the Config Developer Guide.
     /// 		       This API creates a service-linked role AWSServiceRoleForConfigConforms in your account.
     /// 		The service-linked role is created only when the role does not exist in your account.
-    /// 		        You must specify one and only one of theTemplateS3Uri, TemplateBody or TemplateSSMDocumentDetails parameters.
+    /// 		        You must specify only one of the follow parameters: TemplateS3Uri, TemplateBody or TemplateSSMDocumentDetails.
     public func putConformancePack(_ input: PutConformancePackRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PutConformancePackResponse {
         return try await self.client.execute(operation: "PutConformancePack", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -827,11 +827,11 @@ extension ConfigService {
     /// Adds or updates an Config rule for your entire organization to evaluate if your Amazon Web Services resources comply with your
     /// 			desired configurations. For information on how many organization Config rules you can have per account,
     /// 			see  Service Limits in the Config Developer Guide.
-    /// 	         Only a master account and a delegated administrator can create or update an organization Config rule.
+    /// 	         Only a management account and a delegated administrator can create or update an organization Config rule.
     /// 		When calling this API with a delegated administrator, you must ensure Organizations
     /// 		ListDelegatedAdministrator permissions are added. An organization can have up to 3 delegated administrators.
     /// 		       This API enables organization service access through the EnableAWSServiceAccess action and creates a service-linked
-    /// 			role AWSServiceRoleForConfigMultiAccountSetup in the master or delegated administrator account of your organization.
+    /// 			role AWSServiceRoleForConfigMultiAccountSetup in the management or delegated administrator account of your organization.
     /// 			The service-linked role is created only when the role does not exist in the caller account.
     /// 			Config verifies the existence of role with GetRole action.
     /// 		       To use this API with delegated administrator, register a delegated administrator by calling Amazon Web Services Organization
@@ -844,7 +844,7 @@ extension ConfigService {
     /// 			Guard (Guard GitHub
     /// 				Repository) is a policy-as-code language that allows you to write policies that
     /// 			are enforced by Config Custom Policy rules. Lambda uses custom code that you upload to
-    /// 			evaluate a custom rule. If you are adding a new Custom Lambda rule, you first need to create an Lambda function in the master account or a delegated
+    /// 			evaluate a custom rule. If you are adding a new Custom Lambda rule, you first need to create an Lambda function in the management account or a delegated
     /// 		administrator that the rule invokes to evaluate your resources. You also need to create an IAM role in the managed account that can be assumed by the Lambda function.
     /// 		When you use PutOrganizationConfigRule to add a Custom Lambda rule to Config, you must
     /// 			specify the Amazon Resource Name (ARN) that Lambda assigns to the function.
@@ -864,12 +864,12 @@ extension ConfigService {
 
     /// Deploys conformance packs across member accounts in an Amazon Web Services Organization. For information on how many organization conformance packs and how many Config rules you can have per account,
     /// 			see  Service Limits in the Config Developer Guide.
-    /// 		       Only a master account and a delegated administrator can call this API.
+    /// 		       Only a management account and a delegated administrator can call this API.
     /// 			When calling this API with a delegated administrator, you must ensure Organizations
     /// 			ListDelegatedAdministrator permissions are added. An organization can have up to 3 delegated administrators.
     /// 		       This API enables organization service access for config-multiaccountsetup.amazonaws.com
     /// 			through the EnableAWSServiceAccess action and creates a
-    /// 			service-linked role AWSServiceRoleForConfigMultiAccountSetup in the master or delegated administrator account of your organization.
+    /// 			service-linked role AWSServiceRoleForConfigMultiAccountSetup in the management or delegated administrator account of your organization.
     /// 			The service-linked role is created only when the role does not exist in the caller account.
     /// 			To use this API with delegated administrator, register a delegated administrator by calling Amazon Web Services Organization
     /// 			register-delegate-admin for config-multiaccountsetup.amazonaws.com.

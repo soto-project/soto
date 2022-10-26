@@ -161,6 +161,12 @@ extension SESv2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum ScalingMode: String, CustomStringConvertible, Codable, _SotoSendable {
+        case managed = "MANAGED"
+        case standard = "STANDARD"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SubscriptionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
         case optIn = "OPT_IN"
         case optOut = "OPT_OUT"
@@ -182,6 +188,15 @@ extension SESv2 {
     public enum TlsPolicy: String, CustomStringConvertible, Codable, _SotoSendable {
         case optional = "OPTIONAL"
         case require = "REQUIRE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VerificationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case failed = "FAILED"
+        case notStarted = "NOT_STARTED"
+        case pending = "PENDING"
+        case success = "SUCCESS"
+        case temporaryFailure = "TEMPORARY_FAILURE"
         public var description: String { return self.rawValue }
     }
 
@@ -229,7 +244,7 @@ extension SESv2 {
     public struct BlacklistEntry: AWSDecodableShape {
         /// Additional information about the blacklisting event, as provided by the blacklist maintainer.
         public let description: String?
-        /// The time when the blacklisting event occurred, shown in Unix time format.
+        /// The time when the blacklisting event occurred.
         public let listingTime: Date?
         /// The name of the blacklist that the IP address appears on.
         public let rblName: String?
@@ -341,7 +356,7 @@ extension SESv2 {
     }
 
     public struct CloudWatchDimensionConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The default value of the dimension that is published to Amazon CloudWatch if you don't provide the value of the dimension when you send an email. This value has to meet the following criteria:   It can only contain ASCII letters (a–z, A–Z), numbers (0–9), underscores (_), or dashes (-).   It can contain no more than 256 characters.
+        /// The default value of the dimension that is published to Amazon CloudWatch if you don't provide the value of the dimension when you send an email. This value has to meet the following criteria:   Can only contain ASCII letters (a–z, A–Z), numbers (0–9), underscores (_), or dashes (-), at signs (@), and periods (.).   It can contain no more than 256 characters.
         public let defaultDimensionValue: String
         /// The name of an Amazon CloudWatch dimension associated with an email sending metric. The name has to meet the following criteria:   It can only contain ASCII letters (a–z, A–Z), numbers (0–9), underscores (_), or dashes (-).   It can contain no more than 256 characters.
         public let dimensionName: String
@@ -552,9 +567,9 @@ extension SESv2 {
         /// The contact's preferences for being opted-in to or opted-out of topics.
         public let topicPreferences: [TopicPreference]?
         /// A boolean value status noting if the contact is unsubscribed from all contact list topics.
-        public let unsubscribeAll: Bool?
+        public let unsubscribeAll: Bool
 
-        public init(attributesData: String? = nil, contactListName: String, emailAddress: String, topicPreferences: [TopicPreference]? = nil, unsubscribeAll: Bool? = nil) {
+        public init(attributesData: String? = nil, contactListName: String, emailAddress: String, topicPreferences: [TopicPreference]? = nil, unsubscribeAll: Bool = false) {
             self.attributesData = attributesData
             self.contactListName = contactListName
             self.emailAddress = emailAddress
@@ -581,7 +596,7 @@ extension SESv2 {
         public let fromEmailAddress: String
         /// The URL that the recipient of the verification email is sent to if his or her address is successfully verified.
         public let successRedirectionURL: String
-        /// The content of the custom verification email. The total size of the email must be less than 10 MB. The message body may contain HTML, with some limitations. For more information, see Custom Verification Email Frequently Asked Questions in the Amazon SES Developer Guide.
+        /// The content of the custom verification email. The total size of the email must be less than 10 MB. The message body may contain HTML, with some limitations. For more information, see Custom verification email frequently asked questions in the Amazon SES Developer Guide.
         public let templateContent: String
         /// The name of the custom verification email template.
         public let templateName: String
@@ -618,16 +633,20 @@ extension SESv2 {
     public struct CreateDedicatedIpPoolRequest: AWSEncodableShape {
         /// The name of the dedicated IP pool.
         public let poolName: String
+        /// The type of scaling mode.
+        public let scalingMode: ScalingMode?
         /// An object that defines the tags (keys and values) that you want to associate with the pool.
         public let tags: [Tag]?
 
-        public init(poolName: String, tags: [Tag]? = nil) {
+        public init(poolName: String, scalingMode: ScalingMode? = nil, tags: [Tag]? = nil) {
             self.poolName = poolName
+            self.scalingMode = scalingMode
             self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case poolName = "PoolName"
+            case scalingMode = "ScalingMode"
             case tags = "Tags"
         }
     }
@@ -903,6 +922,23 @@ extension SESv2 {
         }
     }
 
+    public struct DedicatedIpPool: AWSDecodableShape {
+        /// The name of the dedicated IP pool.
+        public let poolName: String
+        /// The type of the dedicated IP pool.    STANDARD – A dedicated IP pool where the customer can control which IPs are part of the pool.    MANAGED – A dedicated IP pool where the reputation and number of IPs is automatically managed by Amazon SES.
+        public let scalingMode: ScalingMode
+
+        public init(poolName: String, scalingMode: ScalingMode) {
+            self.poolName = poolName
+            self.scalingMode = scalingMode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case poolName = "PoolName"
+            case scalingMode = "ScalingMode"
+        }
+    }
+
     public struct DeleteConfigurationSetEventDestinationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "configurationSetName", location: .uri("ConfigurationSetName")),
@@ -1125,7 +1161,7 @@ extension SESv2 {
     }
 
     public struct DeliverabilityTestReport: AWSDecodableShape {
-        /// The date and time when the predictive inbox placement test was created, in Unix time format.
+        /// The date and time when the predictive inbox placement test was created.
         public let createDate: Date?
         /// The status of the predictive inbox placement test. If the status is IN_PROGRESS, then the predictive inbox placement test is currently running. Predictive inbox placement tests are usually complete within 24 hours of creating the test. If the status is COMPLETE, then the test is finished, and you can use the GetDeliverabilityTestReport to view the results of the test.
         public let deliverabilityTestStatus: DeliverabilityTestStatus?
@@ -1269,7 +1305,7 @@ extension SESv2 {
         public let deleteRate: Double?
         /// The major email providers who handled the email message.
         public let esps: [String]?
-        /// The first time, in Unix time format, when the email message was delivered to any recipient's inbox. This value can help you determine how long it took for a campaign to deliver an email message.
+        /// The first time when the email message was delivered to any recipient's inbox. This value can help you determine how long it took for a campaign to deliver an email message.
         public let firstSeenDateTime: Date?
         /// The verified email address that the email message was sent from.
         public let fromAddress: String?
@@ -1277,7 +1313,7 @@ extension SESv2 {
         public let imageUrl: String?
         /// The number of email messages that were delivered to recipients’ inboxes.
         public let inboxCount: Int64?
-        /// The last time, in Unix time format, when the email message was delivered to any recipient's inbox. This value can help you determine how long it took for a campaign to deliver an email message.
+        /// The last time when the email message was delivered to any recipient's inbox. This value can help you determine how long it took for a campaign to deliver an email message.
         public let lastSeenDateTime: Date?
         /// The projected number of recipients that the email message was sent to.
         public let projectedVolume: Int64?
@@ -1332,7 +1368,7 @@ extension SESv2 {
         public let domain: String?
         /// An object that contains information about the inbox placement data settings for the domain.
         public let inboxPlacementTrackingOption: InboxPlacementTrackingOption?
-        /// The date, in Unix time format, when you enabled the Deliverability dashboard for the domain.
+        /// The date when you enabled the Deliverability dashboard for the domain.
         public let subscriptionStartDate: Date?
 
         public init(domain: String? = nil, inboxPlacementTrackingOption: InboxPlacementTrackingOption? = nil, subscriptionStartDate: Date? = nil) {
@@ -1481,7 +1517,7 @@ extension SESv2 {
         /// An object that defines an Amazon CloudWatch destination for email events. You can use Amazon CloudWatch to monitor and gain insights on your email sending metrics.
         public let cloudWatchDestination: CloudWatchDestination?
         /// If true, the event destination is enabled. When the event destination is enabled, the specified event types are sent to the destinations in this EventDestinationDefinition. If false, the event destination is disabled. When the event destination is disabled, events aren't sent to the specified destinations.
-        public let enabled: Bool?
+        public let enabled: Bool
         /// An object that defines an Amazon Kinesis Data Firehose destination for email events. You can use Amazon Kinesis Data Firehose to stream data to other services, such as Amazon S3 and Amazon Redshift.
         public let kinesisFirehoseDestination: KinesisFirehoseDestination?
         /// An array that specifies which events the Amazon SES API v2 should send to the destinations in this EventDestinationDefinition.
@@ -1491,7 +1527,7 @@ extension SESv2 {
         /// An object that defines an Amazon SNS destination for email events. You can use Amazon SNS to send notification when certain email events occur.
         public let snsDestination: SnsDestination?
 
-        public init(cloudWatchDestination: CloudWatchDestination? = nil, enabled: Bool? = nil, kinesisFirehoseDestination: KinesisFirehoseDestination? = nil, matchingEventTypes: [EventType]? = nil, pinpointDestination: PinpointDestination? = nil, snsDestination: SnsDestination? = nil) {
+        public init(cloudWatchDestination: CloudWatchDestination? = nil, enabled: Bool = false, kinesisFirehoseDestination: KinesisFirehoseDestination? = nil, matchingEventTypes: [EventType]? = nil, pinpointDestination: PinpointDestination? = nil, snsDestination: SnsDestination? = nil) {
             self.cloudWatchDestination = cloudWatchDestination
             self.enabled = enabled
             self.kinesisFirehoseDestination = kinesisFirehoseDestination
@@ -1836,6 +1872,34 @@ extension SESv2 {
         }
     }
 
+    public struct GetDedicatedIpPoolRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "poolName", location: .uri("PoolName"))
+        ]
+
+        /// The name of the dedicated IP pool to retrieve.
+        public let poolName: String
+
+        public init(poolName: String) {
+            self.poolName = poolName
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetDedicatedIpPoolResponse: AWSDecodableShape {
+        /// An object that contains information about a dedicated IP pool.
+        public let dedicatedIpPool: DedicatedIpPool?
+
+        public init(dedicatedIpPool: DedicatedIpPool? = nil) {
+            self.dedicatedIpPool = dedicatedIpPool
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dedicatedIpPool = "DedicatedIpPool"
+        }
+    }
+
     public struct GetDedicatedIpRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "ip", location: .uri("Ip"))
@@ -1917,7 +1981,7 @@ extension SESv2 {
         public let dashboardEnabled: Bool
         /// An array of objects, one for each verified domain that you use to send email and currently has an active Deliverability dashboard subscription that's scheduled to expire at the end of the current calendar month.
         public let pendingExpirationSubscribedDomains: [DomainDeliverabilityTrackingOption]?
-        /// The date, in Unix time format, when your current subscription to the Deliverability dashboard is scheduled to expire, if your subscription is scheduled to expire at the end of the current calendar month. This value is null if you have an active subscription that isn’t due to expire at the end of the month.
+        /// The date  when your current subscription to the Deliverability dashboard is scheduled to expire, if your subscription is scheduled to expire at the end of the current calendar month. This value is null if you have an active subscription that isn’t due to expire at the end of the month.
         public let subscriptionExpiryDate: Date?
 
         public init(accountStatus: DeliverabilityDashboardAccountStatus? = nil, activeSubscribedDomains: [DomainDeliverabilityTrackingOption]? = nil, dashboardEnabled: Bool, pendingExpirationSubscribedDomains: [DomainDeliverabilityTrackingOption]? = nil, subscriptionExpiryDate: Date? = nil) {
@@ -2119,10 +2183,12 @@ extension SESv2 {
         public let policies: [String: String]?
         /// An array of objects that define the tags (keys and values) that are associated with the email identity.
         public let tags: [Tag]?
+        /// The verification status of the identity. The status can be one of the following:    PENDING – The verification process was initiated, but Amazon SES hasn't yet been able to verify the identity.    SUCCESS – The verification process completed successfully.    FAILED – The verification process failed.    TEMPORARY_FAILURE – A temporary issue is preventing Amazon SES from determining the verification status of the identity.    NOT_STARTED – The verification process hasn't been initiated for the identity.
+        public let verificationStatus: VerificationStatus?
         /// Specifies whether or not the identity is verified. You can only send email from verified email addresses or domains. For more information about verifying identities, see the Amazon Pinpoint User Guide.
         public let verifiedForSendingStatus: Bool?
 
-        public init(configurationSetName: String? = nil, dkimAttributes: DkimAttributes? = nil, feedbackForwardingStatus: Bool? = nil, identityType: IdentityType? = nil, mailFromAttributes: MailFromAttributes? = nil, policies: [String: String]? = nil, tags: [Tag]? = nil, verifiedForSendingStatus: Bool? = nil) {
+        public init(configurationSetName: String? = nil, dkimAttributes: DkimAttributes? = nil, feedbackForwardingStatus: Bool? = nil, identityType: IdentityType? = nil, mailFromAttributes: MailFromAttributes? = nil, policies: [String: String]? = nil, tags: [Tag]? = nil, verificationStatus: VerificationStatus? = nil, verifiedForSendingStatus: Bool? = nil) {
             self.configurationSetName = configurationSetName
             self.dkimAttributes = dkimAttributes
             self.feedbackForwardingStatus = feedbackForwardingStatus
@@ -2130,6 +2196,7 @@ extension SESv2 {
             self.mailFromAttributes = mailFromAttributes
             self.policies = policies
             self.tags = tags
+            self.verificationStatus = verificationStatus
             self.verifiedForSendingStatus = verifiedForSendingStatus
         }
 
@@ -2141,6 +2208,7 @@ extension SESv2 {
             case mailFromAttributes = "MailFromAttributes"
             case policies = "Policies"
             case tags = "Tags"
+            case verificationStatus = "VerificationStatus"
             case verifiedForSendingStatus = "VerifiedForSendingStatus"
         }
     }
@@ -2280,17 +2348,21 @@ extension SESv2 {
         public let identityType: IdentityType?
         /// Indicates whether or not you can send email from the identity. An identity is an email address or domain that you send email from. Before you can send email from an identity, you have to demostrate that you own the identity, and that you authorize Amazon SES to send email from that identity.
         public let sendingEnabled: Bool?
+        /// The verification status of the identity. The status can be one of the following:    PENDING – The verification process was initiated, but Amazon SES hasn't yet been able to verify the identity.    SUCCESS – The verification process completed successfully.    FAILED – The verification process failed.    TEMPORARY_FAILURE – A temporary issue is preventing Amazon SES from determining the verification status of the identity.    NOT_STARTED – The verification process hasn't been initiated for the identity.
+        public let verificationStatus: VerificationStatus?
 
-        public init(identityName: String? = nil, identityType: IdentityType? = nil, sendingEnabled: Bool? = nil) {
+        public init(identityName: String? = nil, identityType: IdentityType? = nil, sendingEnabled: Bool? = nil, verificationStatus: VerificationStatus? = nil) {
             self.identityName = identityName
             self.identityType = identityType
             self.sendingEnabled = sendingEnabled
+            self.verificationStatus = verificationStatus
         }
 
         private enum CodingKeys: String, CodingKey {
             case identityName = "IdentityName"
             case identityType = "IdentityType"
             case sendingEnabled = "SendingEnabled"
+            case verificationStatus = "VerificationStatus"
         }
     }
 
@@ -2335,22 +2407,30 @@ extension SESv2 {
     public struct ImportJobSummary: AWSDecodableShape {
         /// The date and time when the import job was created.
         public let createdTimestamp: Date?
+        /// The number of records that failed processing because of invalid input or other reasons.
+        public let failedRecordsCount: Int?
         public let importDestination: ImportDestination?
         public let jobId: String?
         public let jobStatus: JobStatus?
+        /// The current number of records processed.
+        public let processedRecordsCount: Int?
 
-        public init(createdTimestamp: Date? = nil, importDestination: ImportDestination? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil) {
+        public init(createdTimestamp: Date? = nil, failedRecordsCount: Int? = nil, importDestination: ImportDestination? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil, processedRecordsCount: Int? = nil) {
             self.createdTimestamp = createdTimestamp
+            self.failedRecordsCount = failedRecordsCount
             self.importDestination = importDestination
             self.jobId = jobId
             self.jobStatus = jobStatus
+            self.processedRecordsCount = processedRecordsCount
         }
 
         private enum CodingKeys: String, CodingKey {
             case createdTimestamp = "CreatedTimestamp"
+            case failedRecordsCount = "FailedRecordsCount"
             case importDestination = "ImportDestination"
             case jobId = "JobId"
             case jobStatus = "JobStatus"
+            case processedRecordsCount = "ProcessedRecordsCount"
         }
     }
 
@@ -2656,13 +2736,13 @@ extension SESv2 {
             AWSMemberEncoding(label: "subscribedDomain", location: .uri("SubscribedDomain"))
         ]
 
-        /// The last day, in Unix time format, that you want to obtain deliverability data for. This value has to be less than or equal to 30 days after the value of the StartDate parameter.
+        /// The last day that you want to obtain deliverability data for. This value has to be less than or equal to 30 days after the value of the StartDate parameter.
         public let endDate: Date
         /// A token that’s returned from a previous call to the ListDomainDeliverabilityCampaigns operation. This token indicates the position of a campaign in the list of campaigns.
         public let nextToken: String?
         /// The maximum number of results to include in response to a single call to the ListDomainDeliverabilityCampaigns operation. If the number of results is larger than the number that you specify in this parameter, the response includes a NextToken element, which you can use to obtain additional results.
         public let pageSize: Int?
-        /// The first day, in Unix time format, that you want to obtain deliverability data for.
+        /// The first day that you want to obtain deliverability data for.
         public let startDate: Date
         /// The domain to obtain deliverability data for.
         public let subscribedDomain: String
@@ -2834,7 +2914,7 @@ extension SESv2 {
             AWSMemberEncoding(label: "startDate", location: .querystring("StartDate"))
         ]
 
-        /// Used to filter the list of suppressed email destinations so that it only includes addresses that were added to the list before a specific date. The date that you specify should be in Unix time format.
+        /// Used to filter the list of suppressed email destinations so that it only includes addresses that were added to the list before a specific date.
         public let endDate: Date?
         /// A token returned from a previous call to ListSuppressedDestinations to indicate the position in the list of suppressed email addresses.
         public let nextToken: String?
@@ -2842,7 +2922,7 @@ extension SESv2 {
         public let pageSize: Int?
         /// The factors that caused the email address to be added to .
         public let reasons: [SuppressionListReason]?
-        /// Used to filter the list of suppressed email destinations so that it only includes addresses that were added to the list after a specific date. The date that you specify should be in Unix time format.
+        /// Used to filter the list of suppressed email destinations so that it only includes addresses that were added to the list after a specific date.
         public let startDate: Date?
 
         public init(endDate: Date? = nil, nextToken: String? = nil, pageSize: Int? = nil, reasons: [SuppressionListReason]? = nil, startDate: Date? = nil) {
@@ -2902,7 +2982,7 @@ extension SESv2 {
     }
 
     public struct MailFromAttributes: AWSDecodableShape {
-        /// The action to take if the required MX record can't be found when you send an email. When you set this value to UseDefaultValue, the mail is sent using amazonses.com as the MAIL FROM domain. When you set this value to RejectMessage, the Amazon SES API v2 returns a MailFromDomainNotVerified error, and doesn't attempt to deliver the email. These behaviors are taken when the custom MAIL FROM domain configuration is in the Pending, Failed, and TemporaryFailure states.
+        /// The action to take if the required MX record can't be found when you send an email. When you set this value to USE_DEFAULT_VALUE, the mail is sent using amazonses.com as the MAIL FROM domain. When you set this value to REJECT_MESSAGE, the Amazon SES API v2 returns a MailFromDomainNotVerified error, and doesn't attempt to deliver the email. These behaviors are taken when the custom MAIL FROM domain configuration is in the Pending, Failed, and TemporaryFailure states.
         public let behaviorOnMxFailure: BehaviorOnMxFailure
         /// The name of a domain that an email identity uses as a custom MAIL FROM domain.
         public let mailFromDomain: String
@@ -3021,9 +3101,9 @@ extension SESv2 {
 
     public struct PutAccountDedicatedIpWarmupAttributesRequest: AWSEncodableShape {
         /// Enables or disables the automatic warm-up feature for dedicated IP addresses that are associated with your Amazon SES account in the current Amazon Web Services Region. Set to true to enable the automatic warm-up feature, or set to false to disable it.
-        public let autoWarmupEnabled: Bool?
+        public let autoWarmupEnabled: Bool
 
-        public init(autoWarmupEnabled: Bool? = nil) {
+        public init(autoWarmupEnabled: Bool = false) {
             self.autoWarmupEnabled = autoWarmupEnabled
         }
 
@@ -3090,9 +3170,9 @@ extension SESv2 {
 
     public struct PutAccountSendingAttributesRequest: AWSEncodableShape {
         /// Enables or disables your account's ability to send email. Set to true to enable email sending, or set to false to disable email sending.  If Amazon Web Services paused your account's ability to send email, you can't use this operation to resume your account's ability to send email.
-        public let sendingEnabled: Bool?
+        public let sendingEnabled: Bool
 
-        public init(sendingEnabled: Bool? = nil) {
+        public init(sendingEnabled: Bool = false) {
             self.sendingEnabled = sendingEnabled
         }
 
@@ -3158,9 +3238,9 @@ extension SESv2 {
         /// The name of the configuration set.
         public let configurationSetName: String
         /// If true, tracking of reputation metrics is enabled for the configuration set. If false, tracking of reputation metrics is disabled for the configuration set.
-        public let reputationMetricsEnabled: Bool?
+        public let reputationMetricsEnabled: Bool
 
-        public init(configurationSetName: String, reputationMetricsEnabled: Bool? = nil) {
+        public init(configurationSetName: String, reputationMetricsEnabled: Bool = false) {
             self.configurationSetName = configurationSetName
             self.reputationMetricsEnabled = reputationMetricsEnabled
         }
@@ -3182,9 +3262,9 @@ extension SESv2 {
         /// The name of the configuration set to enable or disable email sending for.
         public let configurationSetName: String
         /// If true, email sending is enabled for the configuration set. If false, email sending is disabled for the configuration set.
-        public let sendingEnabled: Bool?
+        public let sendingEnabled: Bool
 
-        public init(configurationSetName: String, sendingEnabled: Bool? = nil) {
+        public init(configurationSetName: String, sendingEnabled: Bool = false) {
             self.configurationSetName = configurationSetName
             self.sendingEnabled = sendingEnabled
         }
@@ -3300,7 +3380,7 @@ extension SESv2 {
         /// An array of objects, one for each verified domain that you use to send email and enabled the Deliverability dashboard for.
         public let subscribedDomains: [DomainDeliverabilityTrackingOption]?
 
-        public init(dashboardEnabled: Bool, subscribedDomains: [DomainDeliverabilityTrackingOption]? = nil) {
+        public init(dashboardEnabled: Bool = false, subscribedDomains: [DomainDeliverabilityTrackingOption]? = nil) {
             self.dashboardEnabled = dashboardEnabled
             self.subscribedDomains = subscribedDomains
         }
@@ -3351,9 +3431,9 @@ extension SESv2 {
         /// The email identity.
         public let emailIdentity: String
         /// Sets the DKIM signing configuration for the identity. When you set this value true, then the messages that are sent from the identity are signed using DKIM. If you set this value to false, your messages are sent without DKIM signing.
-        public let signingEnabled: Bool?
+        public let signingEnabled: Bool
 
-        public init(emailIdentity: String, signingEnabled: Bool? = nil) {
+        public init(emailIdentity: String, signingEnabled: Bool = false) {
             self.emailIdentity = emailIdentity
             self.signingEnabled = signingEnabled
         }
@@ -3423,11 +3503,11 @@ extension SESv2 {
         ]
 
         /// Sets the feedback forwarding configuration for the identity. If the value is true, you receive email notifications when bounce or complaint events occur. These notifications are sent to the address that you specified in the Return-Path header of the original email. You're required to have a method of tracking bounces and complaints. If you haven't set up another mechanism for receiving bounce or complaint notifications (for example, by setting up an event destination), you receive an email notification when these events occur (even if this setting is disabled).
-        public let emailForwardingEnabled: Bool?
+        public let emailForwardingEnabled: Bool
         /// The email identity.
         public let emailIdentity: String
 
-        public init(emailForwardingEnabled: Bool? = nil, emailIdentity: String) {
+        public init(emailForwardingEnabled: Bool = false, emailIdentity: String) {
             self.emailForwardingEnabled = emailForwardingEnabled
             self.emailIdentity = emailIdentity
         }
@@ -3749,7 +3829,7 @@ extension SESv2 {
     }
 
     public struct SendQuota: AWSDecodableShape {
-        /// The maximum number of emails that you can send in the current Amazon Web Services Region over a 24-hour period. This value is also called your sending quota.
+        /// The maximum number of emails that you can send in the current Amazon Web Services Region over a 24-hour period. A value of -1 signifies an unlimited quota. (This value is also referred to as your sending quota.)
         public let max24HourSend: Double?
         /// The maximum number of emails that you can send per second in the current Amazon Web Services Region. This value is also called your maximum sending rate or your maximum TPS (transactions per second) rate.
         public let maxSendRate: Double?
@@ -4028,9 +4108,9 @@ extension SESv2 {
         /// The name of a topic on which you wish to apply the filter.
         public let topicName: String?
         /// Notes that the default subscription status should be applied to a contact because the contact has not noted their preference for subscribing to a topic.
-        public let useDefaultIfPreferenceUnavailable: Bool?
+        public let useDefaultIfPreferenceUnavailable: Bool
 
-        public init(topicName: String? = nil, useDefaultIfPreferenceUnavailable: Bool? = nil) {
+        public init(topicName: String? = nil, useDefaultIfPreferenceUnavailable: Bool = false) {
             self.topicName = topicName
             self.useDefaultIfPreferenceUnavailable = useDefaultIfPreferenceUnavailable
         }
@@ -4165,9 +4245,9 @@ extension SESv2 {
         /// The contact's preference for being opted-in to or opted-out of a topic.
         public let topicPreferences: [TopicPreference]?
         /// A boolean value status noting if the contact is unsubscribed from all contact list topics.
-        public let unsubscribeAll: Bool?
+        public let unsubscribeAll: Bool
 
-        public init(attributesData: String? = nil, contactListName: String, emailAddress: String, topicPreferences: [TopicPreference]? = nil, unsubscribeAll: Bool? = nil) {
+        public init(attributesData: String? = nil, contactListName: String, emailAddress: String, topicPreferences: [TopicPreference]? = nil, unsubscribeAll: Bool = false) {
             self.attributesData = attributesData
             self.contactListName = contactListName
             self.emailAddress = emailAddress
@@ -4197,7 +4277,7 @@ extension SESv2 {
         public let fromEmailAddress: String
         /// The URL that the recipient of the verification email is sent to if his or her address is successfully verified.
         public let successRedirectionURL: String
-        /// The content of the custom verification email. The total size of the email must be less than 10 MB. The message body may contain HTML, with some limitations. For more information, see Custom Verification Email Frequently Asked Questions in the Amazon SES Developer Guide.
+        /// The content of the custom verification email. The total size of the email must be less than 10 MB. The message body may contain HTML, with some limitations. For more information, see Custom verification email frequently asked questions in the Amazon SES Developer Guide.
         public let templateContent: String
         /// The name of the custom verification email template that you want to update.
         public let templateName: String

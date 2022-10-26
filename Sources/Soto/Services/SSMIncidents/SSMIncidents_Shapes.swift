@@ -36,6 +36,7 @@ extension SSMIncidents {
         case metric = "METRIC"
         case other = "OTHER"
         case parent = "PARENT"
+        case task = "TASK"
         public var description: String { return self.rawValue }
     }
 

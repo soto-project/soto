@@ -37,6 +37,7 @@ public struct ConnectErrorType: AWSErrorType {
         case resourceConflictException = "ResourceConflictException"
         case resourceInUseException = "ResourceInUseException"
         case resourceNotFoundException = "ResourceNotFoundException"
+        case resourceNotReadyException = "ResourceNotReadyException"
         case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case throttlingException = "ThrottlingException"
         case userNotFoundException = "UserNotFoundException"
@@ -94,6 +95,8 @@ public struct ConnectErrorType: AWSErrorType {
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
     /// The specified resource was not found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// The resource is not ready.
+    public static var resourceNotReadyException: Self { .init(.resourceNotReadyException) }
     /// The service quota has been exceeded.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// The throttling limit has been exceeded.
