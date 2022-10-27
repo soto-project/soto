@@ -131,15 +131,15 @@ extension S3 {
         let threadPool = threadPoolProvider.create()
         let fileIO = NonBlockingFileIO(threadPool: threadPool)
         let fileHandle = try await fileIO.openFile(path: filename, mode: .write, flags: .allowFileCreation(), eventLoop: eventLoop).get()
-        var progressValue: Int64 = 0
+        let progressValue: UnsafeMutableTransferBox<Int64> = .init(0)
 
         let downloaded: Int64
         do {
             downloaded = try await self.multipartDownload(input, partSize: partSize, logger: logger, on: eventLoop) { byteBuffer, fileSize, eventLoop in
                 let bufferSize = byteBuffer.readableBytes
                 return fileIO.write(fileHandle: fileHandle, buffer: byteBuffer, eventLoop: eventLoop).flatMapThrowing { _ in
-                    progressValue += Int64(bufferSize)
-                    try progress(Double(progressValue) / Double(fileSize))
+                    progressValue.wrappedValue += Int64(bufferSize)
+                    try progress(Double(progressValue.wrappedValue) / Double(fileSize))
                 }
             }.get()
         } catch {
