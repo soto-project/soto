@@ -576,7 +576,7 @@ extension RUM {
         /// An array of structures that you can use to filter the results to those that match one or more sets of key-value pairs that you specify.
         public let filters: [QueryFilter]?
         /// The maximum number of results to return in one operation.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// The name of the app monitor that collected the data that you want to retrieve.
         public let name: String
         /// Use the token returned by the previous operation to request the next page of results.
@@ -584,7 +584,7 @@ extension RUM {
         /// A structure that defines the time range that you want to retrieve results from.
         public let timeRange: TimeRange
 
-        public init(filters: [QueryFilter]? = nil, maxResults: Int = 0, name: String, nextToken: String? = nil, timeRange: TimeRange) {
+        public init(filters: [QueryFilter]? = nil, maxResults: Int? = nil, name: String, nextToken: String? = nil, timeRange: TimeRange) {
             self.filters = filters
             self.maxResults = maxResults
             self.name = name
@@ -1051,9 +1051,9 @@ extension RUM {
         /// The beginning of the time range to retrieve performance events from.
         public let after: Int64
         /// The end of the time range to retrieve performance events from. If you omit this, the time  range extends to the time that this operation is performed.
-        public let before: Int64
+        public let before: Int64?
 
-        public init(after: Int64 = 0, before: Int64 = 0) {
+        public init(after: Int64 = 0, before: Int64? = nil) {
             self.after = after
             self.before = before
         }

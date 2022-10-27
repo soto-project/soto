@@ -514,11 +514,11 @@ extension DeviceFarm {
         /// The name of your instance profile.
         public let name: String
         /// When set to true, Device Farm removes app packages after a test run. The default value is false for private devices.
-        public let packageCleanup: Bool
+        public let packageCleanup: Bool?
         /// When set to true, Device Farm reboots the instance after a test run. The default value is true.
-        public let rebootAfterUse: Bool
+        public let rebootAfterUse: Bool?
 
-        public init(description: String? = nil, excludeAppPackagesFromCleanup: [String]? = nil, name: String, packageCleanup: Bool = false, rebootAfterUse: Bool = true) {
+        public init(description: String? = nil, excludeAppPackagesFromCleanup: [String]? = nil, name: String, packageCleanup: Bool? = nil, rebootAfterUse: Bool? = nil) {
             self.description = description
             self.excludeAppPackagesFromCleanup = excludeAppPackagesFromCleanup
             self.name = name
@@ -563,7 +563,7 @@ extension DeviceFarm {
         /// Time variation in the delay of received packets in milliseconds as an integer from 0 to 2000.
         public let downlinkJitterMs: Int64?
         /// Proportion of received packets that fail to arrive from 0 to 100 percent.
-        public let downlinkLossPercent: Int
+        public let downlinkLossPercent: Int?
         /// The name for the new network profile.
         public let name: String
         /// The Amazon Resource Name (ARN) of the project for which you want to create a network profile.
@@ -577,9 +577,9 @@ extension DeviceFarm {
         /// Time variation in the delay of received packets in milliseconds as an integer from 0 to 2000.
         public let uplinkJitterMs: Int64?
         /// Proportion of transmitted packets that fail to arrive from 0 to 100 percent.
-        public let uplinkLossPercent: Int
+        public let uplinkLossPercent: Int?
 
-        public init(description: String? = nil, downlinkBandwidthBits: Int64? = nil, downlinkDelayMs: Int64? = nil, downlinkJitterMs: Int64? = nil, downlinkLossPercent: Int = 0, name: String, projectArn: String, type: NetworkProfileType? = nil, uplinkBandwidthBits: Int64? = nil, uplinkDelayMs: Int64? = nil, uplinkJitterMs: Int64? = nil, uplinkLossPercent: Int = 0) {
+        public init(description: String? = nil, downlinkBandwidthBits: Int64? = nil, downlinkDelayMs: Int64? = nil, downlinkJitterMs: Int64? = nil, downlinkLossPercent: Int? = nil, name: String, projectArn: String, type: NetworkProfileType? = nil, uplinkBandwidthBits: Int64? = nil, uplinkDelayMs: Int64? = nil, uplinkJitterMs: Int64? = nil, uplinkLossPercent: Int? = nil) {
             self.description = description
             self.downlinkBandwidthBits = downlinkBandwidthBits
             self.downlinkDelayMs = downlinkDelayMs
@@ -676,11 +676,11 @@ extension DeviceFarm {
 
     public struct CreateRemoteAccessSessionConfiguration: AWSEncodableShape {
         /// The billing method for the remote access session.
-        public let billingMethod: BillingMethod
+        public let billingMethod: BillingMethod?
         /// An array of ARNs included in the VPC endpoint configuration.
         public let vpceConfigurationArns: [String]?
 
-        public init(billingMethod: BillingMethod = .metered, vpceConfigurationArns: [String]? = nil) {
+        public init(billingMethod: BillingMethod? = nil, vpceConfigurationArns: [String]? = nil) {
             self.billingMethod = billingMethod
             self.vpceConfigurationArns = vpceConfigurationArns
         }
@@ -1463,9 +1463,9 @@ extension DeviceFarm {
         /// When set to true, for private devices, Device Farm does not sign your app again. For public devices, Device Farm always signs your apps again. For more information about how Device Farm re-signs your apps, see Do you modify my app? in the AWS Device Farm FAQs.
         public let skipAppResign: Bool?
         /// Set to true to enable video capture. Otherwise, set to false. The default is true.
-        public let videoCapture: Bool
+        public let videoCapture: Bool?
 
-        public init(accountsCleanup: Bool? = nil, appPackagesCleanup: Bool? = nil, jobTimeoutMinutes: Int? = nil, skipAppResign: Bool? = nil, videoCapture: Bool = true) {
+        public init(accountsCleanup: Bool? = nil, appPackagesCleanup: Bool? = nil, jobTimeoutMinutes: Int? = nil, skipAppResign: Bool? = nil, videoCapture: Bool? = nil) {
             self.accountsCleanup = accountsCleanup
             self.appPackagesCleanup = appPackagesCleanup
             self.jobTimeoutMinutes = jobTimeoutMinutes
@@ -3962,7 +3962,7 @@ extension DeviceFarm {
         /// A list of upload ARNs for app packages to be installed with your app.
         public let auxiliaryApps: [String]?
         /// Specifies the billing method for a test run: metered or unmetered. If the parameter is not specified, the default value is metered.  If you have purchased unmetered device slots, you must set this parameter to unmetered to make use of them. Otherwise, your run counts against your metered time.
-        public let billingMethod: BillingMethod
+        public let billingMethod: BillingMethod?
         /// Input CustomerArtifactPaths object for the scheduled run configuration.
         public let customerArtifactPaths: CustomerArtifactPaths?
         /// The ARN of the extra data for the run. The extra data is a .zip file that AWS Device Farm extracts to external data for Android or the app's sandbox for iOS.
@@ -3978,7 +3978,7 @@ extension DeviceFarm {
         /// An array of ARNs for your VPC endpoint configurations.
         public let vpceConfigurationArns: [String]?
 
-        public init(auxiliaryApps: [String]? = nil, billingMethod: BillingMethod = .metered, customerArtifactPaths: CustomerArtifactPaths? = nil, extraDataPackageArn: String? = nil, locale: String? = nil, location: Location? = nil, networkProfileArn: String? = nil, radios: Radios? = nil, vpceConfigurationArns: [String]? = nil) {
+        public init(auxiliaryApps: [String]? = nil, billingMethod: BillingMethod? = nil, customerArtifactPaths: CustomerArtifactPaths? = nil, extraDataPackageArn: String? = nil, locale: String? = nil, location: Location? = nil, networkProfileArn: String? = nil, radios: Radios? = nil, vpceConfigurationArns: [String]? = nil) {
             self.auxiliaryApps = auxiliaryApps
             self.billingMethod = billingMethod
             self.customerArtifactPaths = customerArtifactPaths
@@ -4712,11 +4712,11 @@ extension DeviceFarm {
         /// The updated name for your instance profile.
         public let name: String?
         /// The updated choice for whether you want to specify package cleanup. The default value is false for private devices.
-        public let packageCleanup: Bool
+        public let packageCleanup: Bool?
         /// The updated choice for whether you want to reboot the device after use. The default value is true.
         public let rebootAfterUse: Bool?
 
-        public init(arn: String, description: String? = nil, excludeAppPackagesFromCleanup: [String]? = nil, name: String? = nil, packageCleanup: Bool = false, rebootAfterUse: Bool? = nil) {
+        public init(arn: String, description: String? = nil, excludeAppPackagesFromCleanup: [String]? = nil, name: String? = nil, packageCleanup: Bool? = nil, rebootAfterUse: Bool? = nil) {
             self.arn = arn
             self.description = description
             self.excludeAppPackagesFromCleanup = excludeAppPackagesFromCleanup
@@ -4768,7 +4768,7 @@ extension DeviceFarm {
         /// Time variation in the delay of received packets in milliseconds as an integer from 0 to 2000.
         public let downlinkJitterMs: Int64?
         /// Proportion of received packets that fail to arrive from 0 to 100 percent.
-        public let downlinkLossPercent: Int
+        public let downlinkLossPercent: Int?
         /// The name of the network profile about which you are returning information.
         public let name: String?
         /// The type of network profile to return information about. Valid values are listed here.
@@ -4780,9 +4780,9 @@ extension DeviceFarm {
         /// Time variation in the delay of received packets in milliseconds as an integer from 0 to 2000.
         public let uplinkJitterMs: Int64?
         /// Proportion of transmitted packets that fail to arrive from 0 to 100 percent.
-        public let uplinkLossPercent: Int
+        public let uplinkLossPercent: Int?
 
-        public init(arn: String, description: String? = nil, downlinkBandwidthBits: Int64? = nil, downlinkDelayMs: Int64? = nil, downlinkJitterMs: Int64? = nil, downlinkLossPercent: Int = 0, name: String? = nil, type: NetworkProfileType? = nil, uplinkBandwidthBits: Int64? = nil, uplinkDelayMs: Int64? = nil, uplinkJitterMs: Int64? = nil, uplinkLossPercent: Int = 0) {
+        public init(arn: String, description: String? = nil, downlinkBandwidthBits: Int64? = nil, downlinkDelayMs: Int64? = nil, downlinkJitterMs: Int64? = nil, downlinkLossPercent: Int? = nil, name: String? = nil, type: NetworkProfileType? = nil, uplinkBandwidthBits: Int64? = nil, uplinkDelayMs: Int64? = nil, uplinkJitterMs: Int64? = nil, uplinkLossPercent: Int? = nil) {
             self.arn = arn
             self.description = description
             self.downlinkBandwidthBits = downlinkBandwidthBits

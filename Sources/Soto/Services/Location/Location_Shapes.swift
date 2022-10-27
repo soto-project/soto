@@ -3369,11 +3369,11 @@ extension Location {
         /// The preferred language used to return results. The value must be a valid BCP 47 language tag, for example, en for English. This setting affects the languages used in the results, but not the results themselves. If no language is specified, or not supported for a particular result, the partner automatically chooses a language for the result. For an example, we'll use the Greek language. You search for a location around Athens, Greece, with the language parameter set to en. The city in the results will most likely be returned as Athens. If you set the language parameter to el, for Greek, then the city in the results will more likely be returned as Αθήνα. If the data provider does not have a value for Greek, the result will be in a language that the provider does support.
         public let language: String?
         /// An optional parameter. The maximum number of results returned per request. Default value: 50
-        public let maxResults: Int
+        public let maxResults: Int?
         /// Specifies the longitude and latitude of the position to query. This parameter must contain a pair of numbers. The first number represents the X coordinate, or longitude; the second number represents the Y coordinate, or latitude. For example, [-123.1174, 49.2847] represents a position with longitude -123.1174 and latitude 49.2847.
         public let position: [Double]
 
-        public init(indexName: String, language: String? = nil, maxResults: Int = 0, position: [Double]) {
+        public init(indexName: String, language: String? = nil, maxResults: Int? = nil, position: [Double]) {
             self.indexName = indexName
             self.language = language
             self.maxResults = maxResults
@@ -3568,11 +3568,11 @@ extension Location {
         /// The preferred language used to return results. The value must be a valid BCP 47 language tag, for example, en for English. This setting affects the languages used in the results, but not the results themselves. If no language is specified, or not supported for a particular result, the partner automatically chooses a language for the result. For an example, we'll use the Greek language. You search for Athens, Greece, with the language parameter set to en. The result found will most likely be returned as Athens. If you set the language parameter to el, for Greek, then the result found will more likely be returned as Αθήνα. If the data provider does not have a value for Greek, the result will be in a language that the provider does support.
         public let language: String?
         /// An optional parameter. The maximum number of results returned per request.  The default: 50
-        public let maxResults: Int
+        public let maxResults: Int?
         /// The address, name, city, or region to be used in the search in free-form text format. For example, 123 Any Street.
         public let text: String
 
-        public init(biasPosition: [Double]? = nil, filterBBox: [Double]? = nil, filterCountries: [String]? = nil, indexName: String, language: String? = nil, maxResults: Int = 0, text: String) {
+        public init(biasPosition: [Double]? = nil, filterBBox: [Double]? = nil, filterCountries: [String]? = nil, indexName: String, language: String? = nil, maxResults: Int? = nil, text: String) {
             self.biasPosition = biasPosition
             self.filterBBox = filterBBox
             self.filterCountries = filterCountries

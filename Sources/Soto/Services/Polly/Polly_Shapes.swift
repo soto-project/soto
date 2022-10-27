@@ -214,13 +214,13 @@ extension Polly {
         /// Specifies the engine (standard or neural) used by Amazon Polly when processing input text for speech synthesis.
         public let engine: Engine?
         /// Boolean value indicating whether to return any bilingual voices that use the specified language as an additional language. For instance, if you request all languages that use US English (es-US), and there is an Italian voice that speaks both Italian (it-IT) and US English, that voice will be included if you specify yes but not if you specify no.
-        public let includeAdditionalLanguageCodes: Bool
+        public let includeAdditionalLanguageCodes: Bool?
         ///  The language identification tag (ISO 639 code for the language name-ISO 3166 country code) for filtering the list of voices returned. If you don't specify this optional parameter, all available voices are returned.
         public let languageCode: LanguageCode?
         /// An opaque pagination token returned from the previous DescribeVoices operation. If present, this indicates where to continue the listing.
         public let nextToken: String?
 
-        public init(engine: Engine? = nil, includeAdditionalLanguageCodes: Bool = false, languageCode: LanguageCode? = nil, nextToken: String? = nil) {
+        public init(engine: Engine? = nil, includeAdditionalLanguageCodes: Bool? = nil, languageCode: LanguageCode? = nil, nextToken: String? = nil) {
             self.engine = engine
             self.includeAdditionalLanguageCodes = includeAdditionalLanguageCodes
             self.languageCode = languageCode
@@ -663,11 +663,11 @@ extension Polly {
         ///  Input text to synthesize. If you specify ssml as the TextType, follow the SSML format for the input text.
         public let text: String
         ///  Specifies whether the input text is plain text or SSML. The default value is plain text. For more information, see Using SSML.
-        public let textType: TextType
+        public let textType: TextType?
         ///  Voice ID to use for the synthesis. You can get a list of available voice IDs by calling the DescribeVoices operation.
         public let voiceId: VoiceId
 
-        public init(engine: Engine? = nil, languageCode: LanguageCode? = nil, lexiconNames: [String]? = nil, outputFormat: OutputFormat, sampleRate: String? = nil, speechMarkTypes: [SpeechMarkType]? = nil, text: String, textType: TextType = .text, voiceId: VoiceId) {
+        public init(engine: Engine? = nil, languageCode: LanguageCode? = nil, lexiconNames: [String]? = nil, outputFormat: OutputFormat, sampleRate: String? = nil, speechMarkTypes: [SpeechMarkType]? = nil, text: String, textType: TextType? = nil, voiceId: VoiceId) {
             self.engine = engine
             self.languageCode = languageCode
             self.lexiconNames = lexiconNames

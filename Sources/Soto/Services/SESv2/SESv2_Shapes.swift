@@ -567,9 +567,9 @@ extension SESv2 {
         /// The contact's preferences for being opted-in to or opted-out of topics.
         public let topicPreferences: [TopicPreference]?
         /// A boolean value status noting if the contact is unsubscribed from all contact list topics.
-        public let unsubscribeAll: Bool
+        public let unsubscribeAll: Bool?
 
-        public init(attributesData: String? = nil, contactListName: String, emailAddress: String, topicPreferences: [TopicPreference]? = nil, unsubscribeAll: Bool = false) {
+        public init(attributesData: String? = nil, contactListName: String, emailAddress: String, topicPreferences: [TopicPreference]? = nil, unsubscribeAll: Bool? = nil) {
             self.attributesData = attributesData
             self.contactListName = contactListName
             self.emailAddress = emailAddress
@@ -1517,7 +1517,7 @@ extension SESv2 {
         /// An object that defines an Amazon CloudWatch destination for email events. You can use Amazon CloudWatch to monitor and gain insights on your email sending metrics.
         public let cloudWatchDestination: CloudWatchDestination?
         /// If true, the event destination is enabled. When the event destination is enabled, the specified event types are sent to the destinations in this EventDestinationDefinition. If false, the event destination is disabled. When the event destination is disabled, events aren't sent to the specified destinations.
-        public let enabled: Bool
+        public let enabled: Bool?
         /// An object that defines an Amazon Kinesis Data Firehose destination for email events. You can use Amazon Kinesis Data Firehose to stream data to other services, such as Amazon S3 and Amazon Redshift.
         public let kinesisFirehoseDestination: KinesisFirehoseDestination?
         /// An array that specifies which events the Amazon SES API v2 should send to the destinations in this EventDestinationDefinition.
@@ -1527,7 +1527,7 @@ extension SESv2 {
         /// An object that defines an Amazon SNS destination for email events. You can use Amazon SNS to send notification when certain email events occur.
         public let snsDestination: SnsDestination?
 
-        public init(cloudWatchDestination: CloudWatchDestination? = nil, enabled: Bool = false, kinesisFirehoseDestination: KinesisFirehoseDestination? = nil, matchingEventTypes: [EventType]? = nil, pinpointDestination: PinpointDestination? = nil, snsDestination: SnsDestination? = nil) {
+        public init(cloudWatchDestination: CloudWatchDestination? = nil, enabled: Bool? = nil, kinesisFirehoseDestination: KinesisFirehoseDestination? = nil, matchingEventTypes: [EventType]? = nil, pinpointDestination: PinpointDestination? = nil, snsDestination: SnsDestination? = nil) {
             self.cloudWatchDestination = cloudWatchDestination
             self.enabled = enabled
             self.kinesisFirehoseDestination = kinesisFirehoseDestination
@@ -3101,9 +3101,9 @@ extension SESv2 {
 
     public struct PutAccountDedicatedIpWarmupAttributesRequest: AWSEncodableShape {
         /// Enables or disables the automatic warm-up feature for dedicated IP addresses that are associated with your Amazon SES account in the current Amazon Web Services Region. Set to true to enable the automatic warm-up feature, or set to false to disable it.
-        public let autoWarmupEnabled: Bool
+        public let autoWarmupEnabled: Bool?
 
-        public init(autoWarmupEnabled: Bool = false) {
+        public init(autoWarmupEnabled: Bool? = nil) {
             self.autoWarmupEnabled = autoWarmupEnabled
         }
 
@@ -3170,9 +3170,9 @@ extension SESv2 {
 
     public struct PutAccountSendingAttributesRequest: AWSEncodableShape {
         /// Enables or disables your account's ability to send email. Set to true to enable email sending, or set to false to disable email sending.  If Amazon Web Services paused your account's ability to send email, you can't use this operation to resume your account's ability to send email.
-        public let sendingEnabled: Bool
+        public let sendingEnabled: Bool?
 
-        public init(sendingEnabled: Bool = false) {
+        public init(sendingEnabled: Bool? = nil) {
             self.sendingEnabled = sendingEnabled
         }
 
@@ -3238,9 +3238,9 @@ extension SESv2 {
         /// The name of the configuration set.
         public let configurationSetName: String
         /// If true, tracking of reputation metrics is enabled for the configuration set. If false, tracking of reputation metrics is disabled for the configuration set.
-        public let reputationMetricsEnabled: Bool
+        public let reputationMetricsEnabled: Bool?
 
-        public init(configurationSetName: String, reputationMetricsEnabled: Bool = false) {
+        public init(configurationSetName: String, reputationMetricsEnabled: Bool? = nil) {
             self.configurationSetName = configurationSetName
             self.reputationMetricsEnabled = reputationMetricsEnabled
         }
@@ -3262,9 +3262,9 @@ extension SESv2 {
         /// The name of the configuration set to enable or disable email sending for.
         public let configurationSetName: String
         /// If true, email sending is enabled for the configuration set. If false, email sending is disabled for the configuration set.
-        public let sendingEnabled: Bool
+        public let sendingEnabled: Bool?
 
-        public init(configurationSetName: String, sendingEnabled: Bool = false) {
+        public init(configurationSetName: String, sendingEnabled: Bool? = nil) {
             self.configurationSetName = configurationSetName
             self.sendingEnabled = sendingEnabled
         }
@@ -3431,9 +3431,9 @@ extension SESv2 {
         /// The email identity.
         public let emailIdentity: String
         /// Sets the DKIM signing configuration for the identity. When you set this value true, then the messages that are sent from the identity are signed using DKIM. If you set this value to false, your messages are sent without DKIM signing.
-        public let signingEnabled: Bool
+        public let signingEnabled: Bool?
 
-        public init(emailIdentity: String, signingEnabled: Bool = false) {
+        public init(emailIdentity: String, signingEnabled: Bool? = nil) {
             self.emailIdentity = emailIdentity
             self.signingEnabled = signingEnabled
         }
@@ -3503,11 +3503,11 @@ extension SESv2 {
         ]
 
         /// Sets the feedback forwarding configuration for the identity. If the value is true, you receive email notifications when bounce or complaint events occur. These notifications are sent to the address that you specified in the Return-Path header of the original email. You're required to have a method of tracking bounces and complaints. If you haven't set up another mechanism for receiving bounce or complaint notifications (for example, by setting up an event destination), you receive an email notification when these events occur (even if this setting is disabled).
-        public let emailForwardingEnabled: Bool
+        public let emailForwardingEnabled: Bool?
         /// The email identity.
         public let emailIdentity: String
 
-        public init(emailForwardingEnabled: Bool = false, emailIdentity: String) {
+        public init(emailForwardingEnabled: Bool? = nil, emailIdentity: String) {
             self.emailForwardingEnabled = emailForwardingEnabled
             self.emailIdentity = emailIdentity
         }
@@ -4108,9 +4108,9 @@ extension SESv2 {
         /// The name of a topic on which you wish to apply the filter.
         public let topicName: String?
         /// Notes that the default subscription status should be applied to a contact because the contact has not noted their preference for subscribing to a topic.
-        public let useDefaultIfPreferenceUnavailable: Bool
+        public let useDefaultIfPreferenceUnavailable: Bool?
 
-        public init(topicName: String? = nil, useDefaultIfPreferenceUnavailable: Bool = false) {
+        public init(topicName: String? = nil, useDefaultIfPreferenceUnavailable: Bool? = nil) {
             self.topicName = topicName
             self.useDefaultIfPreferenceUnavailable = useDefaultIfPreferenceUnavailable
         }
@@ -4245,9 +4245,9 @@ extension SESv2 {
         /// The contact's preference for being opted-in to or opted-out of a topic.
         public let topicPreferences: [TopicPreference]?
         /// A boolean value status noting if the contact is unsubscribed from all contact list topics.
-        public let unsubscribeAll: Bool
+        public let unsubscribeAll: Bool?
 
-        public init(attributesData: String? = nil, contactListName: String, emailAddress: String, topicPreferences: [TopicPreference]? = nil, unsubscribeAll: Bool = false) {
+        public init(attributesData: String? = nil, contactListName: String, emailAddress: String, topicPreferences: [TopicPreference]? = nil, unsubscribeAll: Bool? = nil) {
             self.attributesData = attributesData
             self.contactListName = contactListName
             self.emailAddress = emailAddress

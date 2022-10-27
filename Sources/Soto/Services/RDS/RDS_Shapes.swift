@@ -1766,13 +1766,13 @@ extension RDS {
         /// The identifier for the proxy. This name must be unique for all proxies owned by your Amazon Web Services account in the specified Amazon Web Services Region. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it can't end with a hyphen or contain two consecutive hyphens.
         public let dbProxyName: String
         /// Whether the proxy includes detailed information about SQL statements in its logs. This information helps you to debug issues involving SQL behavior or the performance and scalability of the proxy connections. The debug information includes the text of SQL statements that you submit through the proxy. Thus, only enable this setting when needed for debugging, and only when you have security measures in place to safeguard any sensitive information that appears in the logs.
-        public let debugLogging: Bool
+        public let debugLogging: Bool?
         /// The kinds of databases that the proxy can connect to.  This value determines which database network protocol the proxy recognizes when it interprets network traffic to and from the database. For Aurora MySQL, RDS for MariaDB, and RDS for MySQL databases, specify MYSQL.  For Aurora PostgreSQL and RDS for PostgreSQL databases, specify POSTGRESQL. For RDS for Microsoft SQL Server, specify  SQLSERVER.
         public let engineFamily: EngineFamily
         /// The number of seconds that a connection to the proxy can be inactive before the proxy disconnects it. You can set this value higher or lower than the connection timeout limit for the associated database.
         public let idleClientTimeout: Int?
         /// A Boolean parameter that specifies whether Transport Layer Security (TLS) encryption is required for connections to the proxy. By enabling this setting, you can enforce encrypted TLS connections to the proxy.
-        public let requireTLS: Bool
+        public let requireTLS: Bool?
         /// The Amazon Resource Name (ARN) of the IAM role that the proxy uses to access secrets in Amazon Web Services Secrets Manager.
         public let roleArn: String
         /// An optional set of key-value pairs to associate arbitrary data of your choosing with the proxy.
@@ -1785,7 +1785,7 @@ extension RDS {
         @CustomCoding<StandardArrayCoder>
         public var vpcSubnetIds: [String]
 
-        public init(auth: [UserAuthConfig], dbProxyName: String, debugLogging: Bool = false, engineFamily: EngineFamily, idleClientTimeout: Int? = nil, requireTLS: Bool = false, roleArn: String, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
+        public init(auth: [UserAuthConfig], dbProxyName: String, debugLogging: Bool? = nil, engineFamily: EngineFamily, idleClientTimeout: Int? = nil, requireTLS: Bool? = nil, roleArn: String, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
             self.auth = auth
             self.dbProxyName = dbProxyName
             self.debugLogging = debugLogging
@@ -4255,9 +4255,9 @@ extension RDS {
         /// The DB cluster snapshot identifier of the new DB cluster snapshot created when SkipFinalSnapshot is disabled.  Specifying this parameter and also skipping the creation of a final DB cluster snapshot  with the SkipFinalShapshot parameter results in an error.  Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens
         public let finalDBSnapshotIdentifier: String?
         /// A value that indicates whether to skip the creation of a final DB cluster snapshot before the DB cluster is deleted. If skip is specified, no DB cluster snapshot is created. If skip isn't specified, a DB cluster snapshot  is created before the DB cluster is deleted. By default, skip isn't specified, and the DB cluster snapshot is created.  By default, this parameter is disabled.  You must specify a FinalDBSnapshotIdentifier parameter if SkipFinalSnapshot is disabled.
-        public let skipFinalSnapshot: Bool
+        public let skipFinalSnapshot: Bool?
 
-        public init(dbClusterIdentifier: String, finalDBSnapshotIdentifier: String? = nil, skipFinalSnapshot: Bool = false) {
+        public init(dbClusterIdentifier: String, finalDBSnapshotIdentifier: String? = nil, skipFinalSnapshot: Bool? = nil) {
             self.dbClusterIdentifier = dbClusterIdentifier
             self.finalDBSnapshotIdentifier = finalDBSnapshotIdentifier
             self.skipFinalSnapshot = skipFinalSnapshot
@@ -4357,9 +4357,9 @@ extension RDS {
         /// The DBSnapshotIdentifier of the new DBSnapshot created when the SkipFinalSnapshot parameter is disabled.  If you enable this parameter and also enable SkipFinalShapshot, the command results in an error.  This setting doesn't apply to RDS Custom. Constraints:   Must be 1 to 255 letters or numbers.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.   Can't be specified when deleting a read replica.
         public let finalDBSnapshotIdentifier: String?
         /// A value that indicates whether to skip the creation of a final DB snapshot before deleting the instance. If you enable this parameter, RDS doesn't create a DB snapshot. If you don't enable this parameter,  RDS creates a DB snapshot before the DB instance is deleted. By default, skip isn't enabled,  and the DB snapshot is created.  If you don't enable this parameter, you must specify the FinalDBSnapshotIdentifier parameter.  When a DB instance is in a failure state and has a status of failed, incompatible-restore,  or incompatible-network, RDS can delete the instance only if you enable this parameter. If you delete a read replica or an RDS Custom instance, you must enable this setting. This setting is required for RDS Custom.
-        public let skipFinalSnapshot: Bool
+        public let skipFinalSnapshot: Bool?
 
-        public init(dbInstanceIdentifier: String, deleteAutomatedBackups: Bool? = nil, finalDBSnapshotIdentifier: String? = nil, skipFinalSnapshot: Bool = false) {
+        public init(dbInstanceIdentifier: String, deleteAutomatedBackups: Bool? = nil, finalDBSnapshotIdentifier: String? = nil, skipFinalSnapshot: Bool? = nil) {
             self.dbInstanceIdentifier = dbInstanceIdentifier
             self.deleteAutomatedBackups = deleteAutomatedBackups
             self.finalDBSnapshotIdentifier = finalDBSnapshotIdentifier
@@ -4794,9 +4794,9 @@ extension RDS {
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// A value that indicates whether to include manual DB cluster snapshots that are public and can be copied  or restored by any Amazon Web Services account. By default, the public snapshots are not included. You can share a manual DB cluster snapshot  as public by using the ModifyDBClusterSnapshotAttribute API action.
-        public let includePublic: Bool
+        public let includePublic: Bool?
         /// A value that indicates whether to include shared manual DB cluster snapshots  from other Amazon Web Services accounts that this Amazon Web Services account has been given  permission to copy or restore. By default, these snapshots are not included. You can give an Amazon Web Services account permission to restore a manual DB cluster snapshot from another Amazon Web Services account by the ModifyDBClusterSnapshotAttribute API action.
-        public let includeShared: Bool
+        public let includeShared: Bool?
         /// An optional pagination token provided by a previous DescribeDBClusterSnapshots request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so you can retrieve the remaining results. Default: 100 Constraints: Minimum 20, maximum 100.
@@ -4804,7 +4804,7 @@ extension RDS {
         /// The type of DB cluster snapshots to be returned. You can specify one of the following values:    automated - Return all DB cluster snapshots that have been automatically taken by  Amazon RDS for my Amazon Web Services account.    manual - Return all DB cluster snapshots that have been taken by my Amazon Web Services account.    shared - Return all manual DB cluster snapshots that have been shared to my Amazon Web Services account.    public - Return all DB cluster snapshots that have been marked as public.   If you don't specify a SnapshotType value, then both automated and manual DB cluster snapshots are returned. You can include shared DB cluster snapshots with these results by enabling the IncludeShared parameter. You can include public DB cluster snapshots with these results by enabling the  IncludePublic parameter. The IncludeShared and IncludePublic parameters don't apply for SnapshotType values of manual or automated. The IncludePublic parameter doesn't apply when SnapshotType is set to shared. The IncludeShared parameter doesn't apply when SnapshotType is set to public.
         public let snapshotType: String?
 
-        public init(dbClusterIdentifier: String? = nil, dbClusterSnapshotIdentifier: String? = nil, filters: [Filter]? = nil, includePublic: Bool = false, includeShared: Bool = false, marker: String? = nil, maxRecords: Int? = nil, snapshotType: String? = nil) {
+        public init(dbClusterIdentifier: String? = nil, dbClusterSnapshotIdentifier: String? = nil, filters: [Filter]? = nil, includePublic: Bool? = nil, includeShared: Bool? = nil, marker: String? = nil, maxRecords: Int? = nil, snapshotType: String? = nil) {
             self.dbClusterIdentifier = dbClusterIdentifier
             self.dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifier
             self.filters = filters
@@ -4836,13 +4836,13 @@ extension RDS {
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// Optional Boolean parameter that specifies whether the output includes information about clusters shared from other Amazon Web Services accounts.
-        public let includeShared: Bool
+        public let includeShared: Bool?
         /// An optional pagination token provided by a previous DescribeDBClusters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so you can retrieve the remaining results. Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
 
-        public init(dbClusterIdentifier: String? = nil, filters: [Filter]? = nil, includeShared: Bool = false, marker: String? = nil, maxRecords: Int? = nil) {
+        public init(dbClusterIdentifier: String? = nil, filters: [Filter]? = nil, includeShared: Bool? = nil, marker: String? = nil, maxRecords: Int? = nil) {
             self.dbClusterIdentifier = dbClusterIdentifier
             self.filters = filters
             self.includeShared = includeShared
@@ -4865,7 +4865,7 @@ extension RDS {
         /// The name of a specific DB parameter group family to return details for. Constraints:   If supplied, must match an existing DBParameterGroupFamily.
         public let dbParameterGroupFamily: String?
         /// A value that indicates whether only the default version of the specified engine or engine and major version combination is returned.
-        public let defaultOnly: Bool
+        public let defaultOnly: Bool?
         /// The database engine to return. Valid Values:    aurora (for MySQL 5.6-compatible Aurora)    aurora-mysql (for MySQL 5.7-compatible and MySQL 8.0-compatible Aurora)    aurora-postgresql     mariadb     mysql     oracle-ee     oracle-ee-cdb     oracle-se2     oracle-se2-cdb     postgres     sqlserver-ee     sqlserver-se     sqlserver-ex     sqlserver-web
         public let engine: String?
         /// The database engine version to return. Example: 5.1.49
@@ -4884,7 +4884,7 @@ extension RDS {
         /// The maximum number of records to include in the response. If more than the MaxRecords value is available, a pagination token called a marker is included in the response so you can retrieve the remaining results. Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
 
-        public init(dbParameterGroupFamily: String? = nil, defaultOnly: Bool = false, engine: String? = nil, engineVersion: String? = nil, filters: [Filter]? = nil, includeAll: Bool? = nil, listSupportedCharacterSets: Bool? = nil, listSupportedTimezones: Bool? = nil, marker: String? = nil, maxRecords: Int? = nil) {
+        public init(dbParameterGroupFamily: String? = nil, defaultOnly: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, filters: [Filter]? = nil, includeAll: Bool? = nil, listSupportedCharacterSets: Bool? = nil, listSupportedTimezones: Bool? = nil, marker: String? = nil, maxRecords: Int? = nil) {
             self.dbParameterGroupFamily = dbParameterGroupFamily
             self.defaultOnly = defaultOnly
             self.engine = engine
@@ -5002,11 +5002,11 @@ extension RDS {
         /// The customer-assigned name of the DB instance that contains the log files you want to list. Constraints:   Must match the identifier of an existing DBInstance.
         public let dbInstanceIdentifier: String
         /// Filters the available log files for files written since the specified date, in POSIX timestamp format with milliseconds.
-        public let fileLastWritten: Int64
+        public let fileLastWritten: Int64?
         /// Filters the available log files for log file names that contain the specified string.
         public let filenameContains: String?
         /// Filters the available log files for files larger than the specified size.
-        public let fileSize: Int64
+        public let fileSize: Int64?
         /// This parameter isn't currently supported.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
@@ -5015,7 +5015,7 @@ extension RDS {
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so you can retrieve the remaining results.
         public let maxRecords: Int?
 
-        public init(dbInstanceIdentifier: String, fileLastWritten: Int64 = 0, filenameContains: String? = nil, fileSize: Int64 = 0, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
+        public init(dbInstanceIdentifier: String, fileLastWritten: Int64? = nil, filenameContains: String? = nil, fileSize: Int64? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
             self.dbInstanceIdentifier = dbInstanceIdentifier
             self.fileLastWritten = fileLastWritten
             self.filenameContains = filenameContains
@@ -5404,9 +5404,9 @@ extension RDS {
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// A value that indicates whether to include manual DB cluster snapshots that are public and can be copied  or restored by any Amazon Web Services account. By default, the public snapshots are not included. You can share a manual DB snapshot as public by using the ModifyDBSnapshotAttribute API. This setting doesn't apply to RDS Custom.
-        public let includePublic: Bool
+        public let includePublic: Bool?
         /// A value that indicates whether to include shared manual DB cluster snapshots  from other Amazon Web Services accounts that this Amazon Web Services account has been given  permission to copy or restore. By default, these snapshots are not included. You can give an Amazon Web Services account permission to restore a manual DB snapshot from another Amazon Web Services account by using the ModifyDBSnapshotAttribute API action. This setting doesn't apply to RDS Custom.
-        public let includeShared: Bool
+        public let includeShared: Bool?
         /// An optional pagination token provided by a previous DescribeDBSnapshots request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that you can retrieve the remaining results. Default: 100 Constraints: Minimum 20, maximum 100.
@@ -5414,7 +5414,7 @@ extension RDS {
         /// The type of snapshots to be returned. You can specify one of the following values:    automated - Return all DB snapshots that have been automatically taken by  Amazon RDS for my Amazon Web Services account.    manual - Return all DB snapshots that have been taken by my Amazon Web Services account.    shared - Return all manual DB snapshots that have been shared to my Amazon Web Services account.    public - Return all DB snapshots that have been marked as public.    awsbackup - Return the DB snapshots managed by the Amazon Web Services Backup service. For information about Amazon Web Services Backup, see the   Amazon Web Services Backup Developer Guide.   The awsbackup type does not apply to Aurora.   If you don't specify a SnapshotType value, then both automated and manual snapshots are returned. Shared and public DB snapshots are not included in the returned results by default. You can include shared snapshots with these results by enabling the IncludeShared parameter. You can include public snapshots with these results by enabling the  IncludePublic parameter. The IncludeShared and IncludePublic parameters don't apply for SnapshotType values of manual or automated. The IncludePublic parameter doesn't apply when SnapshotType is set to shared. The IncludeShared parameter doesn't apply when SnapshotType is set to public.
         public let snapshotType: String?
 
-        public init(dbInstanceIdentifier: String? = nil, dbiResourceId: String? = nil, dbSnapshotIdentifier: String? = nil, filters: [Filter]? = nil, includePublic: Bool = false, includeShared: Bool = false, marker: String? = nil, maxRecords: Int? = nil, snapshotType: String? = nil) {
+        public init(dbInstanceIdentifier: String? = nil, dbiResourceId: String? = nil, dbSnapshotIdentifier: String? = nil, filters: [Filter]? = nil, includePublic: Bool? = nil, includeShared: Bool? = nil, marker: String? = nil, maxRecords: Int? = nil, snapshotType: String? = nil) {
             self.dbInstanceIdentifier = dbInstanceIdentifier
             self.dbiResourceId = dbiResourceId
             self.dbSnapshotIdentifier = dbSnapshotIdentifier
@@ -6086,9 +6086,9 @@ extension RDS {
         /// The pagination token provided in the previous request or "0". If the Marker parameter is specified the response includes only records beyond the marker until the end of the file or up to NumberOfLines.
         public let marker: String?
         /// The number of lines to download. If the number of lines specified results in a file over 1 MB in size, the file is truncated at 1 MB in size. If the NumberOfLines parameter is specified, then the block of lines returned can be from the beginning  or the end of the log file, depending on the value of the Marker parameter.   If neither Marker or NumberOfLines are specified, the entire log file is returned up to a  maximum of 10000 lines, starting with the most recent log entries first.   If  NumberOfLines is specified and Marker isn't specified, then the most recent lines from the end  of the log file are returned.   If Marker is specified as "0", then the specified  number of lines from the beginning of the log file are returned.   You can  download the log file in blocks of lines by specifying the size of the block using  the NumberOfLines parameter, and by specifying a value of "0" for the Marker parameter in your  first request. Include the Marker value returned in the response as the Marker value for the next  request, continuing until the AdditionalDataPending response element returns false.
-        public let numberOfLines: Int
+        public let numberOfLines: Int?
 
-        public init(dbInstanceIdentifier: String, logFileName: String, marker: String? = nil, numberOfLines: Int = 0) {
+        public init(dbInstanceIdentifier: String, logFileName: String, marker: String? = nil, numberOfLines: Int? = nil) {
             self.dbInstanceIdentifier = dbInstanceIdentifier
             self.logFileName = logFileName
             self.marker = marker
@@ -6871,9 +6871,9 @@ extension RDS {
         /// The amount of storage in gibibytes (GiB) to allocate to each DB instance in the Multi-AZ DB cluster. Type: Integer Valid for: Multi-AZ DB clusters only
         public let allocatedStorage: Int?
         /// A value that indicates whether major version upgrades are allowed. Constraints: You must allow major version upgrades when specifying a value for the EngineVersion parameter that is a different major version than the DB cluster's current version. Valid for: Aurora DB clusters only
-        public let allowMajorVersionUpgrade: Bool
+        public let allowMajorVersionUpgrade: Bool?
         /// A value that indicates whether the modifications in this request and any pending modifications are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the DB cluster.  If this parameter is disabled, changes to the DB cluster are applied during the next maintenance window. The ApplyImmediately parameter only affects the EnableIAMDatabaseAuthentication,  MasterUserPassword, and NewDBClusterIdentifier values. If the ApplyImmediately  parameter is disabled, then changes to the EnableIAMDatabaseAuthentication, MasterUserPassword,  and NewDBClusterIdentifier values are applied during the next maintenance window. All other changes are applied immediately, regardless of the value of the ApplyImmediately parameter. By default, this parameter is disabled. Valid for: Aurora DB clusters and Multi-AZ DB clusters
-        public let applyImmediately: Bool
+        public let applyImmediately: Bool?
         /// A value that indicates whether minor engine upgrades are applied automatically to the DB cluster during the maintenance window.  By default, minor engine upgrades are applied automatically. Valid for: Multi-AZ DB clusters only
         public let autoMinorVersionUpgrade: Bool?
         /// The target backtrack window, in seconds. To disable backtracking, set this value to 0. Default: 0 Constraints:   If specified, this value must be set to a number from 0 to 259,200 (72 hours).   Valid for: Aurora MySQL DB clusters only
@@ -6941,7 +6941,7 @@ extension RDS {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
-        public init(allocatedStorage: Int? = nil, allowMajorVersionUpgrade: Bool = false, applyImmediately: Bool = false, autoMinorVersionUpgrade: Bool? = nil, backtrackWindow: Int64? = nil, backupRetentionPeriod: Int? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, copyTagsToSnapshot: Bool? = nil, dbClusterIdentifier: String, dbClusterInstanceClass: String? = nil, dbClusterParameterGroupName: String? = nil, dbInstanceParameterGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableGlobalWriteForwarding: Bool? = nil, enableHttpEndpoint: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engineVersion: String? = nil, iops: Int? = nil, masterUserPassword: String? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, networkType: String? = nil, newDBClusterIdentifier: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, scalingConfiguration: ScalingConfiguration? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration? = nil, storageType: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(allocatedStorage: Int? = nil, allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, backtrackWindow: Int64? = nil, backupRetentionPeriod: Int? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, copyTagsToSnapshot: Bool? = nil, dbClusterIdentifier: String, dbClusterInstanceClass: String? = nil, dbClusterParameterGroupName: String? = nil, dbInstanceParameterGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableGlobalWriteForwarding: Bool? = nil, enableHttpEndpoint: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engineVersion: String? = nil, iops: Int? = nil, masterUserPassword: String? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, networkType: String? = nil, newDBClusterIdentifier: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, scalingConfiguration: ScalingConfiguration? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration? = nil, storageType: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.allowMajorVersionUpgrade = allowMajorVersionUpgrade
             self.applyImmediately = applyImmediately
@@ -7102,9 +7102,9 @@ extension RDS {
         /// The new amount of storage in gibibytes (GiB) to allocate for the DB instance. For MariaDB, MySQL, Oracle, and PostgreSQL,  the value supplied must be at least 10% greater than the current value.  Values that are not at least 10% greater than the existing value are rounded up  so that they are 10% greater than the current value. For the valid values for allocated storage for each engine, see CreateDBInstance.
         public let allocatedStorage: Int?
         /// A value that indicates whether major version upgrades are allowed. Changing this parameter doesn't  result in an outage and the change is asynchronously applied as soon as possible. This setting doesn't apply to RDS Custom. Constraints: Major version upgrades must be allowed when specifying a value  for the EngineVersion parameter that is a different major version than the DB instance's current version.
-        public let allowMajorVersionUpgrade: Bool
+        public let allowMajorVersionUpgrade: Bool?
         /// A value that indicates whether the modifications in this request and any pending modifications are asynchronously applied as soon as possible,  regardless of the PreferredMaintenanceWindow setting for the DB instance. By default, this parameter is disabled. If this parameter is disabled, changes to the DB instance are applied during the next maintenance window. Some parameter changes can cause an outage and are applied on the next call to RebootDBInstance, or the next failure reboot. Review the table of parameters in  Modifying a DB Instance in the  Amazon RDS User Guide to see the impact of enabling or disabling ApplyImmediately for each modified parameter and to  determine when the changes are applied.
-        public let applyImmediately: Bool
+        public let applyImmediately: Bool?
         /// The automation mode of the RDS Custom DB instance: full or all paused.  If full, the DB instance automates monitoring and instance recovery. If  all paused, the instance pauses automation for the duration set by  ResumeFullAutomationModeMinutes.
         public let automationMode: AutomationMode?
         /// A value that indicates whether minor version upgrades are applied automatically to the DB instance  during the maintenance window. An outage occurs when all the following conditions are met:   The automatic upgrade is enabled for the maintenance window.   A newer minor version is available.   RDS has enabled automatic patching for the engine version.   If any of the preceding conditions isn't met, RDS applies the change as soon as possible and doesn't cause an outage. For an RDS Custom DB instance, set AutoMinorVersionUpgrade  to false. Otherwise, the operation returns an error.
@@ -7199,7 +7199,7 @@ extension RDS {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
-        public init(allocatedStorage: Int? = nil, allowMajorVersionUpgrade: Bool = false, applyImmediately: Bool = false, automationMode: AutomationMode? = nil, autoMinorVersionUpgrade: Bool? = nil, awsBackupRecoveryPointArn: String? = nil, backupRetentionPeriod: Int? = nil, caCertificateIdentifier: String? = nil, certificateRotationRestart: Bool? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, copyTagsToSnapshot: Bool? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String, dbParameterGroupName: String? = nil, dbPortNumber: Int? = nil, dbSecurityGroups: [String]? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCustomerOwnedIp: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engineVersion: String? = nil, iops: Int? = nil, licenseModel: String? = nil, masterUserPassword: String? = nil, maxAllocatedStorage: Int? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, networkType: String? = nil, newDBInstanceIdentifier: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, replicaMode: ReplicaMode? = nil, resumeFullAutomationModeMinutes: Int? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, useDefaultProcessorFeatures: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(allocatedStorage: Int? = nil, allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, automationMode: AutomationMode? = nil, autoMinorVersionUpgrade: Bool? = nil, awsBackupRecoveryPointArn: String? = nil, backupRetentionPeriod: Int? = nil, caCertificateIdentifier: String? = nil, certificateRotationRestart: Bool? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, copyTagsToSnapshot: Bool? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String, dbParameterGroupName: String? = nil, dbPortNumber: Int? = nil, dbSecurityGroups: [String]? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCustomerOwnedIp: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engineVersion: String? = nil, iops: Int? = nil, licenseModel: String? = nil, masterUserPassword: String? = nil, maxAllocatedStorage: Int? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, networkType: String? = nil, newDBInstanceIdentifier: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, replicaMode: ReplicaMode? = nil, resumeFullAutomationModeMinutes: Int? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, useDefaultProcessorFeatures: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.allowMajorVersionUpgrade = allowMajorVersionUpgrade
             self.applyImmediately = applyImmediately
@@ -7678,7 +7678,7 @@ extension RDS {
         public struct _OptionsToIncludeEncoding: ArrayCoderProperties { public static let member = "OptionConfiguration" }
 
         /// A value that indicates whether to apply the change immediately or during the next maintenance window for each instance associated with the option group.
-        public let applyImmediately: Bool
+        public let applyImmediately: Bool?
         /// The name of the option group to be modified. Permanent options, such as the TDE option for Oracle Advanced Security TDE, can't be removed from an option group, and that option group can't be removed from a DB instance once it is associated with a DB instance
         public let optionGroupName: String
         /// Options in this list are added to the option group or, if already present, the specified configuration is used to update the existing configuration.
@@ -7688,7 +7688,7 @@ extension RDS {
         @OptionalCustomCoding<StandardArrayCoder>
         public var optionsToRemove: [String]?
 
-        public init(applyImmediately: Bool = false, optionGroupName: String, optionsToInclude: [OptionConfiguration]? = nil, optionsToRemove: [String]? = nil) {
+        public init(applyImmediately: Bool? = nil, optionGroupName: String, optionsToInclude: [OptionConfiguration]? = nil, optionsToRemove: [String]? = nil) {
             self.applyImmediately = applyImmediately
             self.optionGroupName = optionGroupName
             self.optionsToInclude = optionsToInclude
@@ -9016,9 +9016,9 @@ extension RDS {
         @OptionalCustomCoding<ArrayCoder<_ParametersEncoding, Parameter>>
         public var parameters: [Parameter]?
         /// A value that indicates whether to reset all parameters in the DB cluster parameter group  to their default values. You can't use this parameter if there  is a list of parameter names specified for the Parameters parameter.
-        public let resetAllParameters: Bool
+        public let resetAllParameters: Bool?
 
-        public init(dbClusterParameterGroupName: String, parameters: [Parameter]? = nil, resetAllParameters: Bool = false) {
+        public init(dbClusterParameterGroupName: String, parameters: [Parameter]? = nil, resetAllParameters: Bool? = nil) {
             self.dbClusterParameterGroupName = dbClusterParameterGroupName
             self.parameters = parameters
             self.resetAllParameters = resetAllParameters
@@ -9040,9 +9040,9 @@ extension RDS {
         @OptionalCustomCoding<ArrayCoder<_ParametersEncoding, Parameter>>
         public var parameters: [Parameter]?
         /// A value that indicates whether to reset all parameters in the DB parameter group to default values.  By default, all parameters in the DB parameter group are reset to default values.
-        public let resetAllParameters: Bool
+        public let resetAllParameters: Bool?
 
-        public init(dbParameterGroupName: String, parameters: [Parameter]? = nil, resetAllParameters: Bool = false) {
+        public init(dbParameterGroupName: String, parameters: [Parameter]? = nil, resetAllParameters: Bool? = nil) {
             self.dbParameterGroupName = dbParameterGroupName
             self.parameters = parameters
             self.resetAllParameters = resetAllParameters
@@ -9429,12 +9429,12 @@ extension RDS {
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
         /// A value that indicates whether to restore the DB cluster to the latest  restorable backup time. By default, the DB cluster isn't restored to the latest  restorable backup time. Constraints: Can't be specified if RestoreToTime parameter is provided. Valid for: Aurora DB clusters and Multi-AZ DB clusters
-        public let useLatestRestorableTime: Bool
+        public let useLatestRestorableTime: Bool?
         /// A list of VPC security groups that the new DB cluster belongs to. Valid for: Aurora DB clusters and Multi-AZ DB clusters
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
-        public init(backtrackWindow: Int64? = nil, copyTagsToSnapshot: Bool? = nil, dbClusterIdentifier: String, dbClusterInstanceClass: String? = nil, dbClusterParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engineMode: String? = nil, iops: Int? = nil, kmsKeyId: String? = nil, networkType: String? = nil, optionGroupName: String? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, restoreToTime: Date? = nil, restoreType: String? = nil, scalingConfiguration: ScalingConfiguration? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration? = nil, sourceDBClusterIdentifier: String, storageType: String? = nil, tags: [Tag]? = nil, useLatestRestorableTime: Bool = false, vpcSecurityGroupIds: [String]? = nil) {
+        public init(backtrackWindow: Int64? = nil, copyTagsToSnapshot: Bool? = nil, dbClusterIdentifier: String, dbClusterInstanceClass: String? = nil, dbClusterParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engineMode: String? = nil, iops: Int? = nil, kmsKeyId: String? = nil, networkType: String? = nil, optionGroupName: String? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, restoreToTime: Date? = nil, restoreType: String? = nil, scalingConfiguration: ScalingConfiguration? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration? = nil, sourceDBClusterIdentifier: String, storageType: String? = nil, tags: [Tag]? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.backtrackWindow = backtrackWindow
             self.copyTagsToSnapshot = copyTagsToSnapshot
             self.dbClusterIdentifier = dbClusterIdentifier
@@ -9952,12 +9952,12 @@ extension RDS {
         /// A value that indicates whether the DB instance class of the DB instance uses its default processor features. This setting doesn't apply to RDS Custom.
         public let useDefaultProcessorFeatures: Bool?
         /// A value that indicates whether the DB instance is restored from the latest backup time. By default, the DB instance  isn't restored from the latest backup time. Constraints: Can't be specified if the RestoreTime parameter is provided.
-        public let useLatestRestorableTime: Bool
+        public let useLatestRestorableTime: Bool?
         /// A list of EC2 VPC security groups to associate with this DB instance. Default: The default EC2 VPC security group for the DB subnet group's VPC.
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
-        public init(autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupTarget: String? = nil, copyTagsToSnapshot: Bool? = nil, customIamInstanceProfile: String? = nil, dbInstanceClass: String? = nil, dbName: String? = nil, dbParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableCustomerOwnedIp: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String? = nil, iops: Int? = nil, licenseModel: String? = nil, maxAllocatedStorage: Int? = nil, multiAZ: Bool? = nil, networkType: String? = nil, optionGroupName: String? = nil, port: Int? = nil, processorFeatures: [ProcessorFeature]? = nil, publiclyAccessible: Bool? = nil, restoreTime: Date? = nil, sourceDBInstanceAutomatedBackupsArn: String? = nil, sourceDBInstanceIdentifier: String? = nil, sourceDbiResourceId: String? = nil, storageType: String? = nil, tags: [Tag]? = nil, targetDBInstanceIdentifier: String, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, useDefaultProcessorFeatures: Bool? = nil, useLatestRestorableTime: Bool = false, vpcSecurityGroupIds: [String]? = nil) {
+        public init(autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupTarget: String? = nil, copyTagsToSnapshot: Bool? = nil, customIamInstanceProfile: String? = nil, dbInstanceClass: String? = nil, dbName: String? = nil, dbParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableCustomerOwnedIp: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String? = nil, iops: Int? = nil, licenseModel: String? = nil, maxAllocatedStorage: Int? = nil, multiAZ: Bool? = nil, networkType: String? = nil, optionGroupName: String? = nil, port: Int? = nil, processorFeatures: [ProcessorFeature]? = nil, publiclyAccessible: Bool? = nil, restoreTime: Date? = nil, sourceDBInstanceAutomatedBackupsArn: String? = nil, sourceDBInstanceIdentifier: String? = nil, sourceDbiResourceId: String? = nil, storageType: String? = nil, tags: [Tag]? = nil, targetDBInstanceIdentifier: String, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, useDefaultProcessorFeatures: Bool? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
             self.backupTarget = backupTarget

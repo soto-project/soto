@@ -885,13 +885,13 @@ extension MediaPackageVod {
         ]
 
         /// Upper bound on number of records to return.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// A token used to resume pagination from the end of a previous request.
         public let nextToken: String?
         /// Returns Assets associated with the specified PackagingGroup.
         public let packagingGroupId: String?
 
-        public init(maxResults: Int = 0, nextToken: String? = nil, packagingGroupId: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, packagingGroupId: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.packagingGroupId = packagingGroupId
@@ -930,13 +930,13 @@ extension MediaPackageVod {
         ]
 
         /// Upper bound on number of records to return.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// A token used to resume pagination from the end of a previous request.
         public let nextToken: String?
         /// Returns MediaPackage VOD PackagingConfigurations associated with the specified PackagingGroup.
         public let packagingGroupId: String?
 
-        public init(maxResults: Int = 0, nextToken: String? = nil, packagingGroupId: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, packagingGroupId: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.packagingGroupId = packagingGroupId
@@ -974,11 +974,11 @@ extension MediaPackageVod {
         ]
 
         /// Upper bound on number of records to return.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// A token used to resume pagination from the end of a previous request.
         public let nextToken: String?
 
-        public init(maxResults: Int = 0, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }

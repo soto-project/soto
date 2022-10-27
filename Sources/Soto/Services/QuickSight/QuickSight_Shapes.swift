@@ -3902,11 +3902,11 @@ extension QuickSight {
         /// The ID of the Amazon Web Services account where you want to delete an analysis.
         public let awsAccountId: String
         /// This option defaults to the value NoForceDeleteWithoutRecovery. To immediately delete the analysis, add the ForceDeleteWithoutRecovery option. You can't restore an analysis after it's deleted.
-        public let forceDeleteWithoutRecovery: Bool
+        public let forceDeleteWithoutRecovery: Bool?
         /// A value that specifies the number of days that Amazon QuickSight waits before it deletes the analysis. You can't use this parameter with the ForceDeleteWithoutRecovery option in the same API call. The default value is 30.
         public let recoveryWindowInDays: Int64?
 
-        public init(analysisId: String, awsAccountId: String, forceDeleteWithoutRecovery: Bool = false, recoveryWindowInDays: Int64? = nil) {
+        public init(analysisId: String, awsAccountId: String, forceDeleteWithoutRecovery: Bool? = nil, recoveryWindowInDays: Int64? = nil) {
             self.analysisId = analysisId
             self.awsAccountId = awsAccountId
             self.forceDeleteWithoutRecovery = forceDeleteWithoutRecovery
@@ -4853,9 +4853,9 @@ extension QuickSight {
         /// The Amazon QuickSight namespace that you want to describe Amazon QuickSight customizations for.
         public let namespace: String?
         /// The Resolved flag works with the other parameters to determine which view of Amazon QuickSight customizations is returned. You can add this flag to your command to use the same view that Amazon QuickSight uses to identify which customizations to apply to the console. Omit this flag, or set it to no-resolved, to reveal customizations that are configured at different levels.
-        public let resolved: Bool
+        public let resolved: Bool?
 
-        public init(awsAccountId: String, namespace: String? = nil, resolved: Bool = false) {
+        public init(awsAccountId: String, namespace: String? = nil, resolved: Bool? = nil) {
             self.awsAccountId = awsAccountId
             self.namespace = namespace
             self.resolved = resolved
@@ -6829,14 +6829,14 @@ extension QuickSight {
         public let namespace: String?
         /// Remove the reset button on the embedded dashboard. The default is FALSE, which enables the
         /// 			reset button.
-        public let resetDisabled: Bool
+        public let resetDisabled: Bool?
         /// How many minutes the session is valid. The session lifetime must be 15-600 minutes.
         public let sessionLifetimeInMinutes: Int64?
         /// Adds persistence of state for the user session in an embedded dashboard. Persistence applies to the sheet and the parameter settings. These are control settings that the dashboard subscriber (Amazon QuickSight reader) chooses while viewing the dashboard. If this is set to TRUE, the settings are the same when the subscriber reopens the same dashboard URL. The state is stored in Amazon QuickSight, not in a browser cookie. If this is set to FALSE, the state of the user session is not persisted. The default is FALSE.
-        public let statePersistenceEnabled: Bool
+        public let statePersistenceEnabled: Bool?
         /// Remove the undo/redo button on the embedded dashboard. The default is FALSE, which enables
         /// 			the undo/redo button.
-        public let undoRedoDisabled: Bool
+        public let undoRedoDisabled: Bool?
         /// The Amazon QuickSight user's Amazon Resource Name (ARN), for use with QUICKSIGHT identity type.
         /// 			You can use this for any Amazon QuickSight users in your account (readers, authors, or
         /// 			admins) authenticated as one of the following:
@@ -6850,7 +6850,7 @@ extension QuickSight {
         /// 			           Omit this parameter for users in the third group – IAM users and IAM role-based sessions.
         public let userArn: String?
 
-        public init(additionalDashboardIds: [String]? = nil, awsAccountId: String, dashboardId: String, identityType: EmbeddingIdentityType, namespace: String? = nil, resetDisabled: Bool = false, sessionLifetimeInMinutes: Int64? = nil, statePersistenceEnabled: Bool = false, undoRedoDisabled: Bool = false, userArn: String? = nil) {
+        public init(additionalDashboardIds: [String]? = nil, awsAccountId: String, dashboardId: String, identityType: EmbeddingIdentityType, namespace: String? = nil, resetDisabled: Bool? = nil, sessionLifetimeInMinutes: Int64? = nil, statePersistenceEnabled: Bool? = nil, undoRedoDisabled: Bool? = nil, userArn: String? = nil) {
             self.additionalDashboardIds = additionalDashboardIds
             self.awsAccountId = awsAccountId
             self.dashboardId = dashboardId
@@ -12293,9 +12293,9 @@ extension QuickSight {
         /// The Amazon Web Services account ID associated with your Amazon QuickSight subscription.
         public let awsAccountId: String
         /// A Boolean value that indicates whether public sharing is turned on for an Amazon QuickSight account.
-        public let publicSharingEnabled: Bool
+        public let publicSharingEnabled: Bool?
 
-        public init(awsAccountId: String, publicSharingEnabled: Bool = false) {
+        public init(awsAccountId: String, publicSharingEnabled: Bool? = nil) {
             self.awsAccountId = awsAccountId
             self.publicSharingEnabled = publicSharingEnabled
         }
@@ -12848,11 +12848,11 @@ extension QuickSight {
         /// 	        screens dealing with permissions.
         public let role: UserRole
         /// A flag that you use to indicate that you want to remove all custom permissions from this user. Using this parameter resets the user to the state it was in before a custom permissions profile was applied. This parameter defaults to NULL and it doesn't accept any other value.
-        public let unapplyCustomPermissions: Bool
+        public let unapplyCustomPermissions: Bool?
         /// The Amazon QuickSight user name that you want to update.
         public let userName: String
 
-        public init(awsAccountId: String, customFederationProviderUrl: String? = nil, customPermissionsName: String? = nil, email: String, externalLoginFederationProviderType: String? = nil, externalLoginId: String? = nil, namespace: String, role: UserRole, unapplyCustomPermissions: Bool = false, userName: String) {
+        public init(awsAccountId: String, customFederationProviderUrl: String? = nil, customPermissionsName: String? = nil, email: String, externalLoginFederationProviderType: String? = nil, externalLoginId: String? = nil, namespace: String, role: UserRole, unapplyCustomPermissions: Bool? = nil, userName: String) {
             self.awsAccountId = awsAccountId
             self.customFederationProviderUrl = customFederationProviderUrl
             self.customPermissionsName = customPermissionsName

@@ -678,11 +678,11 @@ extension S3Control {
         /// Allows grantee to write the ACL for the applicable bucket.  This is not supported by Amazon S3 on Outposts buckets.
         public let grantWriteACP: String?
         /// Specifies whether you want S3 Object Lock to be enabled for the new bucket.  This is not supported by Amazon S3 on Outposts buckets.
-        public let objectLockEnabledForBucket: Bool
+        public let objectLockEnabledForBucket: Bool?
         /// The ID of the Outposts where the bucket is being created.  This ID is required by Amazon S3 on Outposts buckets.
         public let outpostId: String?
 
-        public init(acl: BucketCannedACL? = nil, bucket: String, createBucketConfiguration: CreateBucketConfiguration? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWrite: String? = nil, grantWriteACP: String? = nil, objectLockEnabledForBucket: Bool = false, outpostId: String? = nil) {
+        public init(acl: BucketCannedACL? = nil, bucket: String, createBucketConfiguration: CreateBucketConfiguration? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWrite: String? = nil, grantWriteACP: String? = nil, objectLockEnabledForBucket: Bool? = nil, outpostId: String? = nil) {
             self.acl = acl
             self.bucket = bucket
             self.createBucketConfiguration = createBucketConfiguration
@@ -749,7 +749,7 @@ extension S3Control {
         /// The action that you want this job to perform on every object listed in the manifest. For more information about the available actions, see Operations in the Amazon S3 User Guide.
         public let operation: JobOperation
         /// The numerical priority for this job. Higher numbers indicate higher priority.
-        public let priority: Int?
+        public let priority: Int
         /// Configuration parameters for the optional job-completion report.
         public let report: JobReport
         /// The Amazon Resource Name (ARN) for the Identity and Access Management (IAM) role that Batch Operations will use to run this job's action on every object in the manifest.
@@ -758,7 +758,7 @@ extension S3Control {
         @OptionalCustomCoding<StandardArrayCoder>
         public var tags: [S3Tag]?
 
-        public init(accountId: String, clientRequestToken: String = CreateJobRequest.idempotencyToken(), confirmationRequired: Bool? = nil, description: String? = nil, manifest: JobManifest? = nil, manifestGenerator: JobManifestGenerator? = nil, operation: JobOperation, priority: Int? = nil, report: JobReport, roleArn: String, tags: [S3Tag]? = nil) {
+        public init(accountId: String, clientRequestToken: String = CreateJobRequest.idempotencyToken(), confirmationRequired: Bool? = nil, description: String? = nil, manifest: JobManifest? = nil, manifestGenerator: JobManifestGenerator? = nil, operation: JobOperation, priority: Int, report: JobReport, roleArn: String, tags: [S3Tag]? = nil) {
             self.accountId = accountId
             self.clientRequestToken = clientRequestToken
             self.confirmationRequired = confirmationRequired
@@ -2849,11 +2849,11 @@ extension S3Control {
         /// The account ID for the account that owns the specified Object Lambda Access Point.
         public let accountId: String
         /// The maximum number of access points that you want to include in the list. The response may contain fewer access points but will never contain more. If there are more than this number of access points, then the response will include a continuation token in the NextToken field that you can use to retrieve the next page of access points.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// If the list has more access points than can be returned in one call to this API, this field contains a continuation token that you can provide in subsequent calls to this API to retrieve additional access points.
         public let nextToken: String?
 
-        public init(accountId: String, maxResults: Int = 0, nextToken: String? = nil) {
+        public init(accountId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.accountId = accountId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2905,11 +2905,11 @@ extension S3Control {
         /// The name of the bucket whose associated access points you want to list. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well.  For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
         public let bucket: String?
         /// The maximum number of access points that you want to include in the list. If the specified bucket has more than this number of access points, then the response will include a continuation token in the NextToken field that you can use to retrieve the next page of access points.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// A continuation token. If a previous call to ListAccessPoints returned a continuation token in the NextToken field, then providing that value here causes Amazon S3 to retrieve the next page of results.
         public let nextToken: String?
 
-        public init(accountId: String, bucket: String? = nil, maxResults: Int = 0, nextToken: String? = nil) {
+        public init(accountId: String, bucket: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.accountId = accountId
             self.bucket = bucket
             self.maxResults = maxResults
@@ -3018,11 +3018,11 @@ extension S3Control {
         /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point.
         public let accountId: String
         /// Not currently used. Do not use this parameter.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// Not currently used. Do not use this parameter.
         public let nextToken: String?
 
-        public init(accountId: String, maxResults: Int = 0, nextToken: String? = nil) {
+        public init(accountId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.accountId = accountId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3071,12 +3071,12 @@ extension S3Control {
 
         /// The Amazon Web Services account ID of the Outposts bucket.
         public let accountId: String
-        public let maxResults: Int
+        public let maxResults: Int?
         public let nextToken: String?
         /// The ID of the Outposts resource.  This ID is required by Amazon S3 on Outposts buckets.
         public let outpostId: String?
 
-        public init(accountId: String, maxResults: Int = 0, nextToken: String? = nil, outpostId: String? = nil) {
+        public init(accountId: String, maxResults: Int? = nil, nextToken: String? = nil, outpostId: String? = nil) {
             self.accountId = accountId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3615,11 +3615,11 @@ extension S3Control {
         /// Specifies the bucket. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well.  For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
         public let bucket: String
         /// Set this parameter to true to confirm that you want to remove your permissions to change this bucket policy in the future.  This is not supported by Amazon S3 on Outposts buckets.
-        public let confirmRemoveSelfBucketAccess: Bool
+        public let confirmRemoveSelfBucketAccess: Bool?
         /// The bucket policy as a JSON document.
         public let policy: String
 
-        public init(accountId: String, bucket: String, confirmRemoveSelfBucketAccess: Bool = false, policy: String) {
+        public init(accountId: String, bucket: String, confirmRemoveSelfBucketAccess: Bool? = nil, policy: String) {
             self.accountId = accountId
             self.bucket = bucket
             self.confirmRemoveSelfBucketAccess = confirmRemoveSelfBucketAccess

@@ -1351,13 +1351,13 @@ extension AppRunner {
         /// The name of the App Runner auto scaling configuration that you want to list. If specified, App Runner lists revisions that share this name. If not specified, App Runner returns revisions of all active configurations.
         public let autoScalingConfigurationName: String?
         /// Set to true to list only the latest revision for each requested configuration name. Set to false to list all revisions for each requested configuration name. Default: true
-        public let latestOnly: Bool
+        public let latestOnly: Bool?
         /// The maximum number of results to include in each response (result page). It's used for a paginated request. If you don't specify MaxResults, the request retrieves all available results in a single response.
         public let maxResults: Int?
         /// A token from a previous result page. It's used for a paginated request. The request retrieves the next result page. All other parameter values must be identical to the ones that are specified in the initial request. If you don't specify NextToken, the request retrieves the first result page.
         public let nextToken: String?
 
-        public init(autoScalingConfigurationName: String? = nil, latestOnly: Bool = false, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(autoScalingConfigurationName: String? = nil, latestOnly: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.autoScalingConfigurationName = autoScalingConfigurationName
             self.latestOnly = latestOnly
             self.maxResults = maxResults
@@ -1451,7 +1451,7 @@ extension AppRunner {
 
     public struct ListObservabilityConfigurationsRequest: AWSEncodableShape {
         /// Set to true to list only the latest revision for each requested configuration name. Set to false to list all revisions for each requested configuration name. Default: true
-        public let latestOnly: Bool
+        public let latestOnly: Bool?
         /// The maximum number of results to include in each response (result page). It's used for a paginated request. If you don't specify MaxResults, the request retrieves all available results in a single response.
         public let maxResults: Int?
         /// A token from a previous result page. It's used for a paginated request. The request retrieves the next result page. All other parameter values must be identical to the ones that are specified in the initial request. If you don't specify NextToken, the request retrieves the first result page.
@@ -1459,7 +1459,7 @@ extension AppRunner {
         /// The name of the App Runner observability configuration that you want to list. If specified, App Runner lists revisions that share this name. If not specified, App Runner returns revisions of all active configurations.
         public let observabilityConfigurationName: String?
 
-        public init(latestOnly: Bool = false, maxResults: Int? = nil, nextToken: String? = nil, observabilityConfigurationName: String? = nil) {
+        public init(latestOnly: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, observabilityConfigurationName: String? = nil) {
             self.latestOnly = latestOnly
             self.maxResults = maxResults
             self.nextToken = nextToken

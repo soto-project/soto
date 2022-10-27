@@ -2050,7 +2050,7 @@ extension Kendra {
         /// A description for the index.
         public let description: String?
         /// The Amazon Kendra edition to use for the index. Choose DEVELOPER_EDITION for indexes intended for development, testing, or proof of concept. Use ENTERPRISE_EDITION for your production databases. Once you set the edition for an index, it can't be changed. The Edition parameter is optional. If you don't supply a value, the default is ENTERPRISE_EDITION. For more information on quota limits for enterprise and developer editions,  see Quotas.
-        public let edition: IndexEdition
+        public let edition: IndexEdition?
         /// A name for the index.
         public let name: String
         /// An Identity and Access Management (IAM) role that gives Amazon Kendra permissions to access your Amazon CloudWatch logs and metrics. This is also the role you use when you call the BatchPutDocument API to index documents from an Amazon S3 bucket.
@@ -2066,7 +2066,7 @@ extension Kendra {
         /// The user token configuration.
         public let userTokenConfigurations: [UserTokenConfiguration]?
 
-        public init(clientToken: String? = CreateIndexRequest.idempotencyToken(), description: String? = nil, edition: IndexEdition = .enterpriseEdition, name: String, roleArn: String, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, tags: [Tag]? = nil, userContextPolicy: UserContextPolicy? = nil, userGroupResolutionConfiguration: UserGroupResolutionConfiguration? = nil, userTokenConfigurations: [UserTokenConfiguration]? = nil) {
+        public init(clientToken: String? = CreateIndexRequest.idempotencyToken(), description: String? = nil, edition: IndexEdition? = nil, name: String, roleArn: String, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, tags: [Tag]? = nil, userContextPolicy: UserContextPolicy? = nil, userGroupResolutionConfiguration: UserGroupResolutionConfiguration? = nil, userTokenConfigurations: [UserTokenConfiguration]? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.edition = edition
@@ -4148,9 +4148,9 @@ extension Kendra {
         /// An array of document attributes that are nested facets within a facet. For example, the document attribute or facet "Department" includes a  value called "Engineering". In addition, the document attribute or  facet "SubDepartment" includes the values "Frontend" and "Backend" for documents  assigned to "Engineering". You can display nested facets in the search results  so that documents can be searched not only by department but also by a sub  department within a department. This helps your users further narrow their  search. You can only have one nested facet within a facet. If you want to increase  this limit, contact Support.
         public let facets: [Facet]?
         /// Maximum number of facet values per facet. The default is 10. You can use  this to limit the number of facet values to less than 10. If you want to  increase the default, contact Support.
-        public let maxResults: Int
+        public let maxResults: Int?
 
-        public init(documentAttributeKey: String? = nil, facets: [Facet]? = nil, maxResults: Int = 0) {
+        public init(documentAttributeKey: String? = nil, facets: [Facet]? = nil, maxResults: Int? = nil) {
             self.documentAttributeKey = documentAttributeKey
             self.facets = facets
             self.maxResults = maxResults

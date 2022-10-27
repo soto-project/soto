@@ -77,13 +77,13 @@ extension CodeStarNotifications {
         /// The Amazon Resource Name (ARN) of the resource to associate with the notification rule. Supported resources include pipelines in CodePipeline, repositories in CodeCommit, and build projects in CodeBuild.
         public let resource: String
         /// The status of the notification rule. The default value is ENABLED. If the status is set to DISABLED, notifications aren't sent for the notification rule.
-        public let status: NotificationRuleStatus
+        public let status: NotificationRuleStatus?
         /// A list of tags to apply to this notification rule. Key names cannot start with "aws".
         public let tags: [String: String]?
         /// A list of Amazon Resource Names (ARNs) of Amazon Simple Notification Service topics and Chatbot clients to associate with the notification rule.
         public let targets: [Target]
 
-        public init(clientRequestToken: String? = CreateNotificationRuleRequest.idempotencyToken(), detailType: DetailType, eventTypeIds: [String], name: String, resource: String, status: NotificationRuleStatus = .enabled, tags: [String: String]? = nil, targets: [Target]) {
+        public init(clientRequestToken: String? = CreateNotificationRuleRequest.idempotencyToken(), detailType: DetailType, eventTypeIds: [String], name: String, resource: String, status: NotificationRuleStatus? = nil, tags: [String: String]? = nil, targets: [Target]) {
             self.clientRequestToken = clientRequestToken
             self.detailType = detailType
             self.eventTypeIds = eventTypeIds
@@ -176,11 +176,11 @@ extension CodeStarNotifications {
 
     public struct DeleteTargetRequest: AWSEncodableShape {
         /// A Boolean value that can be used to delete all associations with this Chatbot topic. The default value is FALSE. If set to TRUE, all associations between that target and every notification rule in your Amazon Web Services account are deleted.
-        public let forceUnsubscribeAll: Bool
+        public let forceUnsubscribeAll: Bool?
         /// The Amazon Resource Name (ARN) of the Chatbot topic or Chatbot client to delete.
         public let targetAddress: String
 
-        public init(forceUnsubscribeAll: Bool = false, targetAddress: String) {
+        public init(forceUnsubscribeAll: Bool? = nil, targetAddress: String) {
             self.forceUnsubscribeAll = forceUnsubscribeAll
             self.targetAddress = targetAddress
         }

@@ -1376,11 +1376,11 @@ extension MediaTailor {
         /// The duration in minutes of the channel schedule.
         public let durationMinutes: String?
         /// The maximum number of channel schedules that you want MediaTailor to return in response to the current request. If there are more than MaxResults channel schedules, use the value of NextToken in the response to get the next page of results.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// (Optional) If the playback configuration has more than MaxResults channel schedules, use NextToken to get the second and subsequent pages of results. For the first GetChannelScheduleRequest request, omit this value. For the second and subsequent requests, get the value of NextToken from the previous response and specify that value for NextToken in the request. If the previous response didn't include a NextToken element, there are no more channel schedules to get.
         public let nextToken: String?
 
-        public init(channelName: String, durationMinutes: String? = nil, maxResults: Int = 0, nextToken: String? = nil) {
+        public init(channelName: String, durationMinutes: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.channelName = channelName
             self.durationMinutes = durationMinutes
             self.maxResults = maxResults
@@ -1632,13 +1632,13 @@ extension MediaTailor {
         ]
 
         /// The maximum number of alerts that you want MediaTailor to return in response to the current request. If there are more than MaxResults alerts, use the value of NextToken in the response to get the next page of results.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
         public let nextToken: String?
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
 
-        public init(maxResults: Int = 0, nextToken: String? = nil, resourceArn: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resourceArn = resourceArn
@@ -1676,11 +1676,11 @@ extension MediaTailor {
         ]
 
         /// The maximum number of channels that you want MediaTailor to return in response to the current request. If there are more than MaxResults channels, use the value of NextToken in the response to get the next page of results.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
         public let nextToken: String?
 
-        public init(maxResults: Int = 0, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -1718,13 +1718,13 @@ extension MediaTailor {
         ]
 
         /// The maximum number of live sources that you want MediaTailor to return in response to the current request. If there are more than MaxResults live sources, use the value of NextToken in the response to get the next page of results.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
         public let nextToken: String?
         /// The name of the source location associated with this Live Sources list.
         public let sourceLocationName: String
 
-        public init(maxResults: Int = 0, nextToken: String? = nil, sourceLocationName: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, sourceLocationName: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.sourceLocationName = sourceLocationName
@@ -1762,11 +1762,11 @@ extension MediaTailor {
         ]
 
         /// The maximum number of playback configurations that you want MediaTailor to return in response to the current request. If there are more than MaxResults playback configurations, use the value of NextToken in the response to get the next page of results.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
         public let nextToken: String?
 
-        public init(maxResults: Int = 0, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -1802,7 +1802,7 @@ extension MediaTailor {
         ]
 
         /// The maximum number of prefetch schedules that you want MediaTailor to return in response to the current request. If there are more than MaxResults prefetch schedules, use the value of NextToken in the response to get the next page of results.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// (Optional) If the playback configuration has more than MaxResults prefetch schedules, use NextToken to get the second and subsequent pages of results. For the first ListPrefetchSchedulesRequest request, omit this value. For the second and subsequent requests, get the value of NextToken from the previous response and specify that value for NextToken in the request. If the previous response didn't include a NextToken element, there are no more prefetch schedules to get.
         public let nextToken: String?
         /// Retrieves the prefetch schedule(s) for a specific playback configuration.
@@ -1810,7 +1810,7 @@ extension MediaTailor {
         /// An optional filtering parameter whereby MediaTailor filters the prefetch schedules to include only specific streams.
         public let streamId: String?
 
-        public init(maxResults: Int = 0, nextToken: String? = nil, playbackConfigurationName: String, streamId: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, playbackConfigurationName: String, streamId: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.playbackConfigurationName = playbackConfigurationName
@@ -1853,11 +1853,11 @@ extension MediaTailor {
         ]
 
         ///  The maximum number of source locations that you want MediaTailor to return in response to the current request. If there are more than MaxResults source locations, use the value of NextToken in the response to get the next page of results.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
         public let nextToken: String?
 
-        public init(maxResults: Int = 0, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -1923,13 +1923,13 @@ extension MediaTailor {
         ]
 
         ///  The maximum number of VOD sources that you want MediaTailor to return in response to the current request. If there are more than MaxResults VOD sources, use the value of NextToken in the response to get the next page of results.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
         public let nextToken: String?
         /// The name of the source location associated with this VOD Source list.
         public let sourceLocationName: String
 
-        public init(maxResults: Int = 0, nextToken: String? = nil, sourceLocationName: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, sourceLocationName: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.sourceLocationName = sourceLocationName
@@ -2250,7 +2250,7 @@ extension MediaTailor {
         /// The identifier for the playback configuration.
         public let name: String
         /// Defines the maximum duration of underfilled ad time (in seconds) allowed in an ad break. If the duration of underfilled ad time exceeds the personalization threshold, then the personalization of the ad break is abandoned and the underlying content is shown. This feature applies to ad replacement in live and VOD streams, rather than ad insertion, because it relies on an underlying content stream. For more information about ad break behavior, including ad replacement and insertion, see Ad Behavior in AWS Elemental MediaTailor.
-        public let personalizationThresholdSeconds: Int
+        public let personalizationThresholdSeconds: Int?
         /// The URL for a high-quality video asset to transcode and use to fill in time that's not used by ads. AWS Elemental MediaTailor shows the slate to fill in gaps in media content. Configuring the slate is optional for non-VPAID configurations. For VPAID, the slate is required because MediaTailor provides it in the slots that are designated for dynamic ad content. The slate must be a high-quality asset that contains both audio and video.
         public let slateAdUrl: String?
         /// The tags to assign to the playback configuration. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
@@ -2260,7 +2260,7 @@ extension MediaTailor {
         /// The URL prefix for the parent manifest for the stream, minus the asset ID. The maximum length is 512 characters.
         public let videoContentSourceUrl: String?
 
-        public init(adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfigurationForPut? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String, personalizationThresholdSeconds: Int = 0, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
+        public init(adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfigurationForPut? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String, personalizationThresholdSeconds: Int? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
             self.adDecisionServerUrl = adDecisionServerUrl
             self.availSuppression = availSuppression
             self.bumper = bumper
@@ -2714,17 +2714,17 @@ extension MediaTailor {
 
     public struct Transition: AWSEncodableShape {
         /// The duration of the live program in seconds.
-        public let durationMillis: Int64
+        public let durationMillis: Int64?
         /// The position where this program will be inserted relative to the RelativePosition.
         public let relativePosition: RelativePosition
         /// The name of the program that this program will be inserted next to, as defined by RelativePosition.
         public let relativeProgram: String?
         /// The date and time that the program is scheduled to start, in epoch milliseconds.
-        public let scheduledStartTimeMillis: Int64
+        public let scheduledStartTimeMillis: Int64?
         /// Defines when the program plays in the schedule. You can set the value to ABSOLUTE or RELATIVE.  ABSOLUTE - The program plays at a specific wall clock time. This setting can only be used for channels using the LINEAR  PlaybackMode. Note the following considerations when using ABSOLUTE transitions: If the preceding program in the schedule has a duration that extends past the wall clock time, MediaTailor truncates the preceding program on a common segment boundary. If there are gaps in playback, MediaTailor plays the FillerSlate you configured for your linear channel.  RELATIVE - The program is inserted into the schedule either before or after a program that you specify via RelativePosition.
         public let type: String
 
-        public init(durationMillis: Int64 = 0, relativePosition: RelativePosition, relativeProgram: String? = nil, scheduledStartTimeMillis: Int64 = 0, type: String) {
+        public init(durationMillis: Int64? = nil, relativePosition: RelativePosition, relativeProgram: String? = nil, scheduledStartTimeMillis: Int64? = nil, type: String) {
             self.durationMillis = durationMillis
             self.relativePosition = relativePosition
             self.relativeProgram = relativeProgram

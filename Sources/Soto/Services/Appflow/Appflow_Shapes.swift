@@ -1911,9 +1911,9 @@ extension Appflow {
         ///  The name of the connector profile. The name is unique for each ConnectorProfile in your account.
         public let connectorProfileName: String
         ///  Indicates whether Amazon AppFlow should delete the profile, even if it is currently in use in one or more flows.
-        public let forceDelete: Bool
+        public let forceDelete: Bool?
 
-        public init(connectorProfileName: String, forceDelete: Bool = false) {
+        public init(connectorProfileName: String, forceDelete: Bool? = nil) {
             self.connectorProfileName = connectorProfileName
             self.forceDelete = forceDelete
         }
@@ -1937,9 +1937,9 @@ extension Appflow {
         ///  The specified name of the flow. Spaces are not allowed. Use underscores (_) or hyphens (-) only.
         public let flowName: String
         ///  Indicates whether Amazon AppFlow should delete the flow, even if it is currently in use.
-        public let forceDelete: Bool
+        public let forceDelete: Bool?
 
-        public init(flowName: String, forceDelete: Bool = false) {
+        public init(flowName: String, forceDelete: Bool? = nil) {
             self.flowName = flowName
             self.forceDelete = forceDelete
         }
@@ -4857,9 +4857,9 @@ extension Appflow {
         /// The label of the connector. The label is unique for each ConnectorRegistration in your Amazon Web Services account.
         public let connectorLabel: String
         /// Indicates whether Amazon AppFlow should unregister the connector, even if it is currently in use in one or more connector profiles. The default value is false.
-        public let forceDelete: Bool
+        public let forceDelete: Bool?
 
-        public init(connectorLabel: String, forceDelete: Bool = false) {
+        public init(connectorLabel: String, forceDelete: Bool? = nil) {
             self.connectorLabel = connectorLabel
             self.forceDelete = forceDelete
         }

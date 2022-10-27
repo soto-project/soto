@@ -4571,7 +4571,7 @@ extension SageMaker {
         /// The name of the algorithm.
         public let algorithmName: String
         /// Whether to certify the algorithm so that it can be listed in Amazon Web Services Marketplace.
-        public let certifyForMarketplace: Bool
+        public let certifyForMarketplace: Bool?
         /// Specifies details about inference jobs that the algorithm runs, including the following:   The Amazon ECR paths of containers that contain the inference code and model artifacts.   The instance types that the algorithm supports for transform jobs and real-time endpoints used for inference.   The input and output content formats that the algorithm supports for inference.
         public let inferenceSpecification: InferenceSpecification?
         /// An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging Amazon Web Services Resources.
@@ -4581,7 +4581,7 @@ extension SageMaker {
         /// Specifies configurations for one or more training jobs and that SageMaker runs to test the algorithm's training code and, optionally, one or more batch transform jobs that SageMaker runs to test the algorithm's inference code.
         public let validationSpecification: AlgorithmValidationSpecification?
 
-        public init(algorithmDescription: String? = nil, algorithmName: String, certifyForMarketplace: Bool = false, inferenceSpecification: InferenceSpecification? = nil, tags: [Tag]? = nil, trainingSpecification: TrainingSpecification, validationSpecification: AlgorithmValidationSpecification? = nil) {
+        public init(algorithmDescription: String? = nil, algorithmName: String, certifyForMarketplace: Bool? = nil, inferenceSpecification: InferenceSpecification? = nil, tags: [Tag]? = nil, trainingSpecification: TrainingSpecification, validationSpecification: AlgorithmValidationSpecification? = nil) {
             self.algorithmDescription = algorithmDescription
             self.algorithmName = algorithmName
             self.certifyForMarketplace = certifyForMarketplace
@@ -4808,7 +4808,7 @@ extension SageMaker {
         /// Defines the objective metric used to measure the predictive quality of an AutoML job. You provide an AutoMLJobObjective$MetricName and Autopilot infers whether to minimize or maximize it.
         public let autoMLJobObjective: AutoMLJobObjective?
         /// Generates possible candidates without training the models. A candidate is a combination of data preprocessors, algorithms, and algorithm parameter settings.
-        public let generateCandidateDefinitionsOnly: Bool
+        public let generateCandidateDefinitionsOnly: Bool?
         /// An array of channel objects that describes the input data and its location. Each channel is a named input source. Similar to InputDataConfig supported by . Format(s) supported: CSV, Parquet. A minimum of 500 rows is required for the training dataset. There is not a minimum number of rows required for the validation dataset.
         public let inputDataConfig: [AutoMLChannel]
         /// Specifies how to generate the endpoint name for an automatic one-click Autopilot model deployment.
@@ -4822,7 +4822,7 @@ extension SageMaker {
         /// Each tag consists of a key and an optional value. Tag keys must be unique per resource.
         public let tags: [Tag]?
 
-        public init(autoMLJobConfig: AutoMLJobConfig? = nil, autoMLJobName: String, autoMLJobObjective: AutoMLJobObjective? = nil, generateCandidateDefinitionsOnly: Bool = false, inputDataConfig: [AutoMLChannel], modelDeployConfig: ModelDeployConfig? = nil, outputDataConfig: AutoMLOutputDataConfig, problemType: ProblemType? = nil, roleArn: String, tags: [Tag]? = nil) {
+        public init(autoMLJobConfig: AutoMLJobConfig? = nil, autoMLJobName: String, autoMLJobObjective: AutoMLJobObjective? = nil, generateCandidateDefinitionsOnly: Bool? = nil, inputDataConfig: [AutoMLChannel], modelDeployConfig: ModelDeployConfig? = nil, outputDataConfig: AutoMLOutputDataConfig, problemType: ProblemType? = nil, roleArn: String, tags: [Tag]? = nil) {
             self.autoMLJobConfig = autoMLJobConfig
             self.autoMLJobName = autoMLJobName
             self.autoMLJobObjective = autoMLJobObjective
@@ -6313,7 +6313,7 @@ extension SageMaker {
         /// Specifies the containers in the inference pipeline.
         public let containers: [ContainerDefinition]?
         /// Isolates the model container. No inbound or outbound network calls can be made to or from the model container.
-        public let enableNetworkIsolation: Bool
+        public let enableNetworkIsolation: Bool?
         /// The Amazon Resource Name (ARN) of the IAM role that SageMaker can assume to access model artifacts and docker image for deployment on ML compute instances or for batch transform jobs. Deploying on ML compute instances is part of model hosting. For more information, see SageMaker Roles.   To be able to pass this role to SageMaker, the caller of this API must have the iam:PassRole permission.
         public let executionRoleArn: String
         /// Specifies details of how containers in a multi-container endpoint are called.
@@ -6327,7 +6327,7 @@ extension SageMaker {
         /// A VpcConfig object that specifies the VPC that you want your model to connect to. Control access to and from your model container by configuring the VPC. VpcConfig is used in hosting services and in batch transform. For more information, see Protect Endpoints by Using an Amazon Virtual Private Cloud and Protect Data in Batch Transform Jobs by Using an Amazon Virtual Private Cloud.
         public let vpcConfig: VpcConfig?
 
-        public init(containers: [ContainerDefinition]? = nil, enableNetworkIsolation: Bool = false, executionRoleArn: String, inferenceExecutionConfig: InferenceExecutionConfig? = nil, modelName: String, primaryContainer: ContainerDefinition? = nil, tags: [Tag]? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(containers: [ContainerDefinition]? = nil, enableNetworkIsolation: Bool? = nil, executionRoleArn: String, inferenceExecutionConfig: InferenceExecutionConfig? = nil, modelName: String, primaryContainer: ContainerDefinition? = nil, tags: [Tag]? = nil, vpcConfig: VpcConfig? = nil) {
             self.containers = containers
             self.enableNetworkIsolation = enableNetworkIsolation
             self.executionRoleArn = executionRoleArn
@@ -6431,7 +6431,7 @@ extension SageMaker {
         /// An array of additional Inference Specification objects. Each additional  Inference Specification specifies artifacts based on this model package that can  be used on inference endpoints. Generally used with SageMaker Neo to store the  compiled artifacts.
         public let additionalInferenceSpecifications: [AdditionalInferenceSpecificationDefinition]?
         /// Whether to certify the model package for listing on Amazon Web Services Marketplace. This parameter is optional for unversioned models, and does not apply to versioned models.
-        public let certifyForMarketplace: Bool
+        public let certifyForMarketplace: Bool?
         /// A unique token that guarantees that the call to this API is idempotent.
         public let clientToken: String?
         /// The metadata properties associated with the model package versions.
@@ -6464,7 +6464,7 @@ extension SageMaker {
         /// Specifies configurations for one or more transform jobs that SageMaker runs to test the model package.
         public let validationSpecification: ModelPackageValidationSpecification?
 
-        public init(additionalInferenceSpecifications: [AdditionalInferenceSpecificationDefinition]? = nil, certifyForMarketplace: Bool = false, clientToken: String? = CreateModelPackageInput.idempotencyToken(), customerMetadataProperties: [String: String]? = nil, domain: String? = nil, driftCheckBaselines: DriftCheckBaselines? = nil, inferenceSpecification: InferenceSpecification? = nil, metadataProperties: MetadataProperties? = nil, modelApprovalStatus: ModelApprovalStatus? = nil, modelMetrics: ModelMetrics? = nil, modelPackageDescription: String? = nil, modelPackageGroupName: String? = nil, modelPackageName: String? = nil, samplePayloadUrl: String? = nil, sourceAlgorithmSpecification: SourceAlgorithmSpecification? = nil, tags: [Tag]? = nil, task: String? = nil, validationSpecification: ModelPackageValidationSpecification? = nil) {
+        public init(additionalInferenceSpecifications: [AdditionalInferenceSpecificationDefinition]? = nil, certifyForMarketplace: Bool? = nil, clientToken: String? = CreateModelPackageInput.idempotencyToken(), customerMetadataProperties: [String: String]? = nil, domain: String? = nil, driftCheckBaselines: DriftCheckBaselines? = nil, inferenceSpecification: InferenceSpecification? = nil, metadataProperties: MetadataProperties? = nil, modelApprovalStatus: ModelApprovalStatus? = nil, modelMetrics: ModelMetrics? = nil, modelPackageDescription: String? = nil, modelPackageGroupName: String? = nil, modelPackageName: String? = nil, samplePayloadUrl: String? = nil, sourceAlgorithmSpecification: SourceAlgorithmSpecification? = nil, tags: [Tag]? = nil, task: String? = nil, validationSpecification: ModelPackageValidationSpecification? = nil) {
             self.additionalInferenceSpecifications = additionalInferenceSpecifications
             self.certifyForMarketplace = certifyForMarketplace
             self.clientToken = clientToken
@@ -7232,11 +7232,11 @@ extension SageMaker {
         /// Configuration information for Debugger rules for debugging output tensors.
         public let debugRuleConfigurations: [DebugRuleConfiguration]?
         /// To encrypt all communications between ML compute instances in distributed training, choose True. Encryption provides greater security for distributed training, but training might take longer. How long it takes depends on the amount of communication between compute instances, especially if you use a deep learning algorithm in distributed training. For more information, see Protect Communications Between ML Compute Instances in a Distributed Training Job.
-        public let enableInterContainerTrafficEncryption: Bool
+        public let enableInterContainerTrafficEncryption: Bool?
         /// To train models using managed spot training, choose True. Managed spot training provides a fully managed and scalable infrastructure for training machine learning models. this option is useful when training jobs can be interrupted and when there is flexibility when the training job is run.  The complete and intermediate results of jobs are stored in an Amazon S3 bucket, and can be used as a starting point to train models incrementally. Amazon SageMaker provides metrics and logs in CloudWatch. They can be used to see when managed spot training jobs are running, interrupted, resumed, or completed.
-        public let enableManagedSpotTraining: Bool
+        public let enableManagedSpotTraining: Bool?
         /// Isolates the training container. No inbound or outbound network calls can be made, except for calls between peers within a training cluster for distributed training. If you enable network isolation for training jobs that are configured to use a VPC, SageMaker downloads and uploads customer data and model artifacts through the specified VPC, but the training container does not have network access.
-        public let enableNetworkIsolation: Bool
+        public let enableNetworkIsolation: Bool?
         /// The environment variables to set in the Docker container.
         public let environment: [String: String]?
         public let experimentConfig: ExperimentConfig?
@@ -7265,7 +7265,7 @@ extension SageMaker {
         /// A VpcConfig object that specifies the VPC that you want your training job to connect to. Control access to and from your training container by configuring the VPC. For more information, see Protect Training Jobs by Using an Amazon Virtual Private Cloud.
         public let vpcConfig: VpcConfig?
 
-        public init(algorithmSpecification: AlgorithmSpecification, checkpointConfig: CheckpointConfig? = nil, debugHookConfig: DebugHookConfig? = nil, debugRuleConfigurations: [DebugRuleConfiguration]? = nil, enableInterContainerTrafficEncryption: Bool = false, enableManagedSpotTraining: Bool = false, enableNetworkIsolation: Bool = false, environment: [String: String]? = nil, experimentConfig: ExperimentConfig? = nil, hyperParameters: [String: String]? = nil, inputDataConfig: [Channel]? = nil, outputDataConfig: OutputDataConfig, profilerConfig: ProfilerConfig? = nil, profilerRuleConfigurations: [ProfilerRuleConfiguration]? = nil, resourceConfig: ResourceConfig, retryStrategy: RetryStrategy? = nil, roleArn: String, stoppingCondition: StoppingCondition, tags: [Tag]? = nil, tensorBoardOutputConfig: TensorBoardOutputConfig? = nil, trainingJobName: String, vpcConfig: VpcConfig? = nil) {
+        public init(algorithmSpecification: AlgorithmSpecification, checkpointConfig: CheckpointConfig? = nil, debugHookConfig: DebugHookConfig? = nil, debugRuleConfigurations: [DebugRuleConfiguration]? = nil, enableInterContainerTrafficEncryption: Bool? = nil, enableManagedSpotTraining: Bool? = nil, enableNetworkIsolation: Bool? = nil, environment: [String: String]? = nil, experimentConfig: ExperimentConfig? = nil, hyperParameters: [String: String]? = nil, inputDataConfig: [Channel]? = nil, outputDataConfig: OutputDataConfig, profilerConfig: ProfilerConfig? = nil, profilerRuleConfigurations: [ProfilerRuleConfiguration]? = nil, resourceConfig: ResourceConfig, retryStrategy: RetryStrategy? = nil, roleArn: String, stoppingCondition: StoppingCondition, tags: [Tag]? = nil, tensorBoardOutputConfig: TensorBoardOutputConfig? = nil, trainingJobName: String, vpcConfig: VpcConfig? = nil) {
             self.algorithmSpecification = algorithmSpecification
             self.checkpointConfig = checkpointConfig
             self.debugHookConfig = debugHookConfig
@@ -10385,11 +10385,11 @@ extension SageMaker {
         /// The name of the deployment plan to describe.
         public let edgeDeploymentPlanName: String
         /// The maximum number of results to select (50 by default).
-        public let maxResults: Int
+        public let maxResults: Int?
         /// If the edge deployment plan has enough stages to require tokening, then this is the response from the last list of stages returned.
         public let nextToken: String?
 
-        public init(edgeDeploymentPlanName: String, maxResults: Int = 0, nextToken: String? = nil) {
+        public init(edgeDeploymentPlanName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.edgeDeploymentPlanName = edgeDeploymentPlanName
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -20170,7 +20170,7 @@ extension SageMaker {
         /// The name of the edge deployment plan.
         public let edgeDeploymentPlanName: String
         /// Toggle for excluding devices deployed in other stages.
-        public let excludeDevicesDeployedInOtherStage: Bool
+        public let excludeDevicesDeployedInOtherStage: Bool?
         /// The maximum number of requests to select.
         public let maxResults: Int?
         /// The response from the last list when returning a list large enough to neeed tokening.
@@ -20178,7 +20178,7 @@ extension SageMaker {
         /// The name of the stage in the deployment.
         public let stageName: String
 
-        public init(edgeDeploymentPlanName: String, excludeDevicesDeployedInOtherStage: Bool = false, maxResults: Int? = nil, nextToken: String? = nil, stageName: String) {
+        public init(edgeDeploymentPlanName: String, excludeDevicesDeployedInOtherStage: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, stageName: String) {
             self.edgeDeploymentPlanName = edgeDeploymentPlanName
             self.excludeDevicesDeployedInOtherStage = excludeDevicesDeployedInOtherStage
             self.maxResults = maxResults
@@ -24424,7 +24424,7 @@ extension SageMaker {
 
     public struct ProfilerConfigForUpdate: AWSEncodableShape {
         /// To disable Debugger monitoring and profiling, set to True.
-        public let disableProfiler: Bool
+        public let disableProfiler: Bool?
         /// A time interval for capturing system metrics in milliseconds. Available values are 100, 200, 500, 1000 (1 second), 5000 (5 seconds), and 60000 (1 minute) milliseconds. The default value is 500 milliseconds.
         public let profilingIntervalInMilliseconds: Int64?
         /// Configuration information for capturing framework metrics. Available key strings for different profiling options are DetailedProfilingConfig, PythonProfilingConfig, and DataLoaderProfilingConfig. The following codes are configuration structures for the ProfilingParameters parameter. To learn more about how to configure the ProfilingParameters parameter,  see Use the SageMaker and Debugger Configuration API Operations to Create, Update, and Debug Your Training Job.
@@ -24432,7 +24432,7 @@ extension SageMaker {
         /// Path to Amazon S3 storage location for system and framework metrics.
         public let s3OutputPath: String?
 
-        public init(disableProfiler: Bool = false, profilingIntervalInMilliseconds: Int64? = nil, profilingParameters: [String: String]? = nil, s3OutputPath: String? = nil) {
+        public init(disableProfiler: Bool? = nil, profilingIntervalInMilliseconds: Int64? = nil, profilingParameters: [String: String]? = nil, s3OutputPath: String? = nil) {
             self.disableProfiler = disableProfiler
             self.profilingIntervalInMilliseconds = profilingIntervalInMilliseconds
             self.profilingParameters = profilingParameters
@@ -24851,7 +24851,7 @@ extension SageMaker {
         /// A set of filtering parameters that allow you to specify which entities should be returned.   Properties - Key-value pairs to match on the lineage entities' properties.   LineageTypes - A set of lineage entity types to match on. For example: TrialComponent,  Artifact, or Context.   CreatedBefore - Filter entities created before this date.   ModifiedBefore - Filter entities modified before this date.   ModifiedAfter - Filter entities modified after this date.
         public let filters: QueryFilters?
         ///  Setting this value to True retrieves not only the entities of interest but also the  Associations and  lineage entities on the path. Set to False to only return lineage entities that match your query.
-        public let includeEdges: Bool
+        public let includeEdges: Bool?
         /// The maximum depth in lineage relationships from the StartArns that are traversed. Depth is a measure of the number  of Associations from the StartArn entity to the matched results.
         public let maxDepth: Int?
         /// Limits the number of vertices in the results. Use the NextToken in a response to to retrieve the next page of results.
@@ -24861,7 +24861,7 @@ extension SageMaker {
         /// A list of resource Amazon Resource Name (ARN) that represent the starting point for your lineage query.
         public let startArns: [String]?
 
-        public init(direction: Direction? = nil, filters: QueryFilters? = nil, includeEdges: Bool = false, maxDepth: Int? = nil, maxResults: Int? = nil, nextToken: String? = nil, startArns: [String]? = nil) {
+        public init(direction: Direction? = nil, filters: QueryFilters? = nil, includeEdges: Bool? = nil, maxDepth: Int? = nil, maxResults: Int? = nil, nextToken: String? = nil, startArns: [String]? = nil) {
             self.direction = direction
             self.filters = filters
             self.includeEdges = includeEdges
@@ -28460,11 +28460,11 @@ extension SageMaker {
         /// When you are updating endpoint resources with UpdateEndpointInput$RetainAllVariantProperties, whose value is set to true, ExcludeRetainedVariantProperties specifies the list of type VariantProperty to override with the values provided by EndpointConfig. If you don't specify a value for ExcludeAllVariantProperties, no variant properties are overridden.
         public let excludeRetainedVariantProperties: [VariantProperty]?
         /// When updating endpoint resources, enables or disables the retention of variant properties, such as the instance count or the variant weight. To retain the variant properties of an endpoint when updating it, set RetainAllVariantProperties to true. To use the variant properties specified in a new EndpointConfig call when updating an endpoint, set RetainAllVariantProperties to false. The default is false.
-        public let retainAllVariantProperties: Bool
+        public let retainAllVariantProperties: Bool?
         /// Specifies whether to reuse the last deployment configuration. The default value is false (the configuration is not reused).
-        public let retainDeploymentConfig: Bool
+        public let retainDeploymentConfig: Bool?
 
-        public init(deploymentConfig: DeploymentConfig? = nil, endpointConfigName: String, endpointName: String, excludeRetainedVariantProperties: [VariantProperty]? = nil, retainAllVariantProperties: Bool = false, retainDeploymentConfig: Bool = false) {
+        public init(deploymentConfig: DeploymentConfig? = nil, endpointConfigName: String, endpointName: String, excludeRetainedVariantProperties: [VariantProperty]? = nil, retainAllVariantProperties: Bool? = nil, retainDeploymentConfig: Bool? = nil) {
             self.deploymentConfig = deploymentConfig
             self.endpointConfigName = endpointConfigName
             self.endpointName = endpointName
@@ -28862,13 +28862,13 @@ extension SageMaker {
         /// The Git repository to associate with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in Amazon Web Services CodeCommit or in any other Git repository. When you open a notebook instance, it opens in the directory that contains this repository. For more information, see Associating Git Repositories with SageMaker Notebook Instances.
         public let defaultCodeRepository: String?
         /// A list of the Elastic Inference (EI) instance types to remove from this notebook instance. This operation is idempotent. If you specify an accelerator type that is not associated with the notebook instance when you call this method, it does not throw an error.
-        public let disassociateAcceleratorTypes: Bool
+        public let disassociateAcceleratorTypes: Bool?
         /// A list of names or URLs of the default Git repositories to remove from this notebook instance. This operation is idempotent. If you specify a Git repository that is not associated with the notebook instance when you call this method, it does not throw an error.
-        public let disassociateAdditionalCodeRepositories: Bool
+        public let disassociateAdditionalCodeRepositories: Bool?
         /// The name or URL of the default Git repository to remove from this notebook instance. This operation is idempotent. If you specify a Git repository that is not associated with the notebook instance when you call this method, it does not throw an error.
-        public let disassociateDefaultCodeRepository: Bool
+        public let disassociateDefaultCodeRepository: Bool?
         /// Set to true to remove the notebook instance lifecycle configuration currently associated with the notebook instance. This operation is idempotent. If you specify a lifecycle configuration that is not associated with the notebook instance when you call this method, it does not throw an error.
-        public let disassociateLifecycleConfig: Bool
+        public let disassociateLifecycleConfig: Bool?
         /// Information on the IMDS configuration of the notebook instance
         public let instanceMetadataServiceConfiguration: InstanceMetadataServiceConfiguration?
         /// The Amazon ML compute instance type.
@@ -28884,7 +28884,7 @@ extension SageMaker {
         /// The size, in GB, of the ML storage volume to attach to the notebook instance. The default value is 5 GB. ML storage volumes are encrypted, so SageMaker can't determine the amount of available free space on the volume. Because of this, you can increase the volume size when you update a notebook instance, but you can't decrease the volume size. If you want to decrease the size of the ML storage volume in use, create a new notebook instance with the desired size.
         public let volumeSizeInGB: Int?
 
-        public init(acceleratorTypes: [NotebookInstanceAcceleratorType]? = nil, additionalCodeRepositories: [String]? = nil, defaultCodeRepository: String? = nil, disassociateAcceleratorTypes: Bool = false, disassociateAdditionalCodeRepositories: Bool = false, disassociateDefaultCodeRepository: Bool = false, disassociateLifecycleConfig: Bool = false, instanceMetadataServiceConfiguration: InstanceMetadataServiceConfiguration? = nil, instanceType: InstanceType? = nil, lifecycleConfigName: String? = nil, notebookInstanceName: String, roleArn: String? = nil, rootAccess: RootAccess? = nil, volumeSizeInGB: Int? = nil) {
+        public init(acceleratorTypes: [NotebookInstanceAcceleratorType]? = nil, additionalCodeRepositories: [String]? = nil, defaultCodeRepository: String? = nil, disassociateAcceleratorTypes: Bool? = nil, disassociateAdditionalCodeRepositories: Bool? = nil, disassociateDefaultCodeRepository: Bool? = nil, disassociateLifecycleConfig: Bool? = nil, instanceMetadataServiceConfiguration: InstanceMetadataServiceConfiguration? = nil, instanceType: InstanceType? = nil, lifecycleConfigName: String? = nil, notebookInstanceName: String, roleArn: String? = nil, rootAccess: RootAccess? = nil, volumeSizeInGB: Int? = nil) {
             self.acceleratorTypes = acceleratorTypes
             self.additionalCodeRepositories = additionalCodeRepositories
             self.defaultCodeRepository = defaultCodeRepository

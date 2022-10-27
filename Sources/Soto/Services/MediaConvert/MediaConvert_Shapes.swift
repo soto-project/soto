@@ -4487,7 +4487,7 @@ extension MediaConvert {
         /// Optional. When you create a job, you can either specify a job template or specify the transcoding settings individually.
         public let jobTemplate: String?
         /// Optional. Specify the relative priority for this job. In any given queue, the service begins processing the job with the highest value first. When more than one job has the same priority, the service begins processing the job that you submitted first. If you don't specify a priority, the service uses the default value 0.
-        public let priority: Int
+        public let priority: Int?
         /// Optional. When you create a job, you can specify a queue to send it to. If you don't specify, the job will go to the default queue. For more about queues, see the User Guide topic at https://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html.
         public let queue: String?
         /// Required. The IAM role you use for creating this job. For details about permissions, see the User Guide topic at the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/iam-role.html.
@@ -4503,7 +4503,7 @@ extension MediaConvert {
         /// Optional. User-defined metadata that you want to associate with an MediaConvert job. You specify metadata in key/value pairs.  Use only for existing integrations or workflows that rely on job metadata tags. Otherwise, we recommend that you use standard AWS tags.
         public let userMetadata: [String: String]?
 
-        public init(accelerationSettings: AccelerationSettings? = nil, billingTagsSource: BillingTagsSource? = nil, clientRequestToken: String? = CreateJobRequest.idempotencyToken(), hopDestinations: [HopDestination]? = nil, jobTemplate: String? = nil, priority: Int = 0, queue: String? = nil, role: String, settings: JobSettings, simulateReservedQueue: SimulateReservedQueue? = nil, statusUpdateInterval: StatusUpdateInterval? = nil, tags: [String: String]? = nil, userMetadata: [String: String]? = nil) {
+        public init(accelerationSettings: AccelerationSettings? = nil, billingTagsSource: BillingTagsSource? = nil, clientRequestToken: String? = CreateJobRequest.idempotencyToken(), hopDestinations: [HopDestination]? = nil, jobTemplate: String? = nil, priority: Int? = nil, queue: String? = nil, role: String, settings: JobSettings, simulateReservedQueue: SimulateReservedQueue? = nil, statusUpdateInterval: StatusUpdateInterval? = nil, tags: [String: String]? = nil, userMetadata: [String: String]? = nil) {
             self.accelerationSettings = accelerationSettings
             self.billingTagsSource = billingTagsSource
             self.clientRequestToken = clientRequestToken
@@ -4570,7 +4570,7 @@ extension MediaConvert {
         /// The name of the job template you are creating.
         public let name: String
         /// Specify the relative priority for this job. In any given queue, the service begins processing the job with the highest value first. When more than one job has the same priority, the service begins processing the job that you submitted first. If you don't specify a priority, the service uses the default value 0.
-        public let priority: Int
+        public let priority: Int?
         /// Optional. The queue that jobs created from this template are assigned to. If you don't specify this, jobs will go to the default queue.
         public let queue: String?
         /// JobTemplateSettings contains all the transcode settings saved in the template that will be applied to jobs created from it.
@@ -4580,7 +4580,7 @@ extension MediaConvert {
         /// The tags that you want to add to the resource. You can tag resources with a key-value pair or with only a key.
         public let tags: [String: String]?
 
-        public init(accelerationSettings: AccelerationSettings? = nil, category: String? = nil, description: String? = nil, hopDestinations: [HopDestination]? = nil, name: String, priority: Int = 0, queue: String? = nil, settings: JobTemplateSettings, statusUpdateInterval: StatusUpdateInterval? = nil, tags: [String: String]? = nil) {
+        public init(accelerationSettings: AccelerationSettings? = nil, category: String? = nil, description: String? = nil, hopDestinations: [HopDestination]? = nil, name: String, priority: Int? = nil, queue: String? = nil, settings: JobTemplateSettings, statusUpdateInterval: StatusUpdateInterval? = nil, tags: [String: String]? = nil) {
             self.accelerationSettings = accelerationSettings
             self.category = category
             self.description = description
@@ -4995,13 +4995,13 @@ extension MediaConvert {
 
     public struct DescribeEndpointsRequest: AWSEncodableShape {
         /// Optional. Max number of endpoints, up to twenty, that will be returned at one time.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// Optional field, defaults to DEFAULT. Specify DEFAULT for this operation to return your endpoints if any exist, or to create an endpoint for you and return it if one doesn't already exist. Specify GET_ONLY to return your endpoints if any exist, or an empty list if none exist.
         public let mode: DescribeEndpointsMode?
         /// Use this string, provided with the response to a previous request, to request the next batch of endpoints.
         public let nextToken: String?
 
-        public init(maxResults: Int = 0, mode: DescribeEndpointsMode? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, mode: DescribeEndpointsMode? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.mode = mode
             self.nextToken = nextToken
@@ -7830,13 +7830,13 @@ extension MediaConvert {
         /// Optional. When you request a list of job templates, you can choose to list them alphabetically by NAME or chronologically by CREATION_DATE. If you don't specify, the service will list them by name.
         public let listBy: JobTemplateListBy?
         /// Optional. Number of job templates, up to twenty, that will be returned at one time.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// Use this string, provided with the response to a previous request, to request the next batch of job templates.
         public let nextToken: String?
         /// Optional. When you request lists of resources, you can specify whether they are sorted in ASCENDING or DESCENDING order. Default varies by resource.
         public let order: Order?
 
-        public init(category: String? = nil, listBy: JobTemplateListBy? = nil, maxResults: Int = 0, nextToken: String? = nil, order: Order? = nil) {
+        public init(category: String? = nil, listBy: JobTemplateListBy? = nil, maxResults: Int? = nil, nextToken: String? = nil, order: Order? = nil) {
             self.category = category
             self.listBy = listBy
             self.maxResults = maxResults
@@ -7879,7 +7879,7 @@ extension MediaConvert {
         ]
 
         /// Optional. Number of jobs, up to twenty, that will be returned at one time.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// Optional. Use this string, provided with the response to a previous request, to request the next batch of jobs.
         public let nextToken: String?
         /// Optional. When you request lists of resources, you can specify whether they are sorted in ASCENDING or DESCENDING order. Default varies by resource.
@@ -7889,7 +7889,7 @@ extension MediaConvert {
         /// Optional. A job's status can be SUBMITTED, PROGRESSING, COMPLETE, CANCELED, or ERROR.
         public let status: JobStatus?
 
-        public init(maxResults: Int = 0, nextToken: String? = nil, order: Order? = nil, queue: String? = nil, status: JobStatus? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, order: Order? = nil, queue: String? = nil, status: JobStatus? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.order = order
@@ -7936,13 +7936,13 @@ extension MediaConvert {
         /// Optional. When you request a list of presets, you can choose to list them alphabetically by NAME or chronologically by CREATION_DATE. If you don't specify, the service will list them by name.
         public let listBy: PresetListBy?
         /// Optional. Number of presets, up to twenty, that will be returned at one time
-        public let maxResults: Int
+        public let maxResults: Int?
         /// Use this string, provided with the response to a previous request, to request the next batch of presets.
         public let nextToken: String?
         /// Optional. When you request lists of resources, you can specify whether they are sorted in ASCENDING or DESCENDING order. Default varies by resource.
         public let order: Order?
 
-        public init(category: String? = nil, listBy: PresetListBy? = nil, maxResults: Int = 0, nextToken: String? = nil, order: Order? = nil) {
+        public init(category: String? = nil, listBy: PresetListBy? = nil, maxResults: Int? = nil, nextToken: String? = nil, order: Order? = nil) {
             self.category = category
             self.listBy = listBy
             self.maxResults = maxResults
@@ -7986,13 +7986,13 @@ extension MediaConvert {
         /// Optional. When you request a list of queues, you can choose to list them alphabetically by NAME or chronologically by CREATION_DATE. If you don't specify, the service will list them by creation date.
         public let listBy: QueueListBy?
         /// Optional. Number of queues, up to twenty, that will be returned at one time.
-        public let maxResults: Int
+        public let maxResults: Int?
         /// Use this string, provided with the response to a previous request, to request the next batch of queues.
         public let nextToken: String?
         /// Optional. When you request lists of resources, you can specify whether they are sorted in ASCENDING or DESCENDING order. Default varies by resource.
         public let order: Order?
 
-        public init(listBy: QueueListBy? = nil, maxResults: Int = 0, nextToken: String? = nil, order: Order? = nil) {
+        public init(listBy: QueueListBy? = nil, maxResults: Int? = nil, nextToken: String? = nil, order: Order? = nil) {
             self.listBy = listBy
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -10348,7 +10348,7 @@ extension MediaConvert {
         /// The name of the job template you are modifying
         public let name: String
         /// Specify the relative priority for this job. In any given queue, the service begins processing the job with the highest value first. When more than one job has the same priority, the service begins processing the job that you submitted first. If you don't specify a priority, the service uses the default value 0.
-        public let priority: Int
+        public let priority: Int?
         /// The new queue for the job template, if you are changing it.
         public let queue: String?
         /// JobTemplateSettings contains all the transcode settings saved in the template that will be applied to jobs created from it.
@@ -10356,7 +10356,7 @@ extension MediaConvert {
         /// Specify how often MediaConvert sends STATUS_UPDATE events to Amazon CloudWatch Events. Set the interval, in seconds, between status updates. MediaConvert sends an update at this interval from the time the service begins processing your job to the time it completes the transcode or encounters an error.
         public let statusUpdateInterval: StatusUpdateInterval?
 
-        public init(accelerationSettings: AccelerationSettings? = nil, category: String? = nil, description: String? = nil, hopDestinations: [HopDestination]? = nil, name: String, priority: Int = 0, queue: String? = nil, settings: JobTemplateSettings? = nil, statusUpdateInterval: StatusUpdateInterval? = nil) {
+        public init(accelerationSettings: AccelerationSettings? = nil, category: String? = nil, description: String? = nil, hopDestinations: [HopDestination]? = nil, name: String, priority: Int? = nil, queue: String? = nil, settings: JobTemplateSettings? = nil, statusUpdateInterval: StatusUpdateInterval? = nil) {
             self.accelerationSettings = accelerationSettings
             self.category = category
             self.description = description

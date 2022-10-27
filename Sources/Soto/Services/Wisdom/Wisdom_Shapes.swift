@@ -1140,9 +1140,9 @@ extension Wisdom {
         /// The identifier of the session. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let sessionId: String
         /// The duration (in seconds) for which the call waits for a recommendation to be made available before returning. If a recommendation is available, the call returns sooner than WaitTimeSeconds. If no messages are available and the wait time expires, the call returns successfully with an empty list.
-        public let waitTimeSeconds: Int
+        public let waitTimeSeconds: Int?
 
-        public init(assistantId: String, maxResults: Int? = nil, sessionId: String, waitTimeSeconds: Int = 0) {
+        public init(assistantId: String, maxResults: Int? = nil, sessionId: String, waitTimeSeconds: Int? = nil) {
             self.assistantId = assistantId
             self.maxResults = maxResults
             self.sessionId = sessionId
