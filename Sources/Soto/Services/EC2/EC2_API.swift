@@ -610,7 +610,7 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "CreatePublicIpv4Pool", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a root volume replacement task for an Amazon EC2 instance. The root volume  can either be restored to its initial launch state, or it can be restored using a  specific snapshot.  For more information, see Replace a root volume in the Amazon Elastic Compute Cloud User Guide.
+    /// Replaces the EBS-backed root volume for a running instance with a new  volume that is restored to the original root volume's launch state, that is restored to a  specific snapshot taken from the original root volume, or that is restored from an AMI  that has the same key characteristics as that of the instance.  For more information, see Replace a root volume in the Amazon Elastic Compute Cloud User Guide.
     public func createReplaceRootVolumeTask(_ input: CreateReplaceRootVolumeTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateReplaceRootVolumeTaskResult> {
         return self.client.execute(operation: "CreateReplaceRootVolumeTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

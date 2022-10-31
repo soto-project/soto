@@ -37,8 +37,8 @@ extension CloudFormation {
     }
 
     public enum CallAs: String, CustomStringConvertible, Codable, _SotoSendable {
-        case delegatedAdmin = "DELEGATED_ADMIN"
         case _self = "SELF"
+        case delegatedAdmin = "DELEGATED_ADMIN"
         public var description: String { return self.rawValue }
     }
 
@@ -58,9 +58,9 @@ extension CloudFormation {
     }
 
     public enum ChangeAction: String, CustomStringConvertible, Codable, _SotoSendable {
+        case `import` = "Import"
         case add = "Add"
         case dynamic = "Dynamic"
-        case `import` = "Import"
         case modify = "Modify"
         case remove = "Remove"
         public var description: String { return self.rawValue }
@@ -86,8 +86,8 @@ extension CloudFormation {
     }
 
     public enum ChangeSetType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case create = "CREATE"
         case `import` = "IMPORT"
+        case create = "CREATE"
         case update = "UPDATE"
         public var description: String { return self.rawValue }
     }
@@ -120,8 +120,8 @@ extension CloudFormation {
     }
 
     public enum EvaluationType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case dynamic = "Dynamic"
         case `static` = "Static"
+        case dynamic = "Dynamic"
         public var description: String { return self.rawValue }
     }
 
@@ -147,11 +147,11 @@ extension CloudFormation {
         case networkFailure = "NetworkFailure"
         case nonCompliant = "NonCompliant"
         case notFound = "NotFound"
-        case notStabilized = "NotStabilized"
         case notUpdatable = "NotUpdatable"
         case resourceConflict = "ResourceConflict"
         case serviceInternalError = "ServiceInternalError"
         case serviceLimitExceeded = "ServiceLimitExceeded"
+        case serviceTimeout = "NotStabilized"
         case throttling = "Throttling"
         case unknown = "Unknown"
         public var description: String { return self.rawValue }
@@ -192,6 +192,11 @@ extension CloudFormation {
         case delete = "DELETE"
         case doNothing = "DO_NOTHING"
         case rollback = "ROLLBACK"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OperationResultFilterName: String, CustomStringConvertible, Codable, _SotoSendable {
+        case operationResultStatus = "OPERATION_RESULT_STATUS"
         public var description: String { return self.rawValue }
     }
 
@@ -243,9 +248,9 @@ extension CloudFormation {
     }
 
     public enum Replacement: String, CustomStringConvertible, Codable, _SotoSendable {
-        case conditional = "Conditional"
         case `false` = "False"
         case `true` = "True"
+        case conditional = "Conditional"
         public var description: String { return self.rawValue }
     }
 
@@ -325,6 +330,7 @@ extension CloudFormation {
 
     public enum StackInstanceFilterName: String, CustomStringConvertible, Codable, _SotoSendable {
         case detailedStatus = "DETAILED_STATUS"
+        case lastOperationId = "LAST_OPERATION_ID"
         public var description: String { return self.rawValue }
     }
 
@@ -1410,7 +1416,7 @@ extension CloudFormation {
         /// The name or unique ID of the stack set that you want to delete stack instances for.
         public let stackSetName: String
 
-        public init(accounts: [String]? = nil, callAs: CallAs? = nil, deploymentTargets: DeploymentTargets? = nil, operationId: String? = DeleteStackInstancesInput.idempotencyToken(), operationPreferences: StackSetOperationPreferences? = nil, regions: [String], retainStacks: Bool, stackSetName: String) {
+        public init(accounts: [String]? = nil, callAs: CallAs? = nil, deploymentTargets: DeploymentTargets? = nil, operationId: String? = DeleteStackInstancesInput.idempotencyToken(), operationPreferences: StackSetOperationPreferences? = nil, regions: [String], retainStacks: Bool = false, stackSetName: String) {
             self.accounts = accounts
             self.callAs = callAs
             self.deploymentTargets = deploymentTargets
@@ -1482,8 +1488,7 @@ extension CloudFormation {
     }
 
     public struct DeploymentTargets: AWSEncodableShape & AWSDecodableShape {
-        /// Limit deployment targets to individual accounts or include additional accounts with provided OUs.
-        ///  The following is a list of possible values for the AccountFilterType operation.    INTERSECTION: StackSets deploys to the accounts specified in Accounts parameter.     DIFFERENCE: StackSets excludes the accounts specified in Accounts parameter. This enables user to avoid certain accounts within an OU such as suspended accounts.    UNION: (default value) StackSets includes additional accounts deployment targets.  This is the default value if AccountFilterType is not provided. This enables user to update an entire OU and individual accounts from a different OU in one request, which used to be two separate requests.    NONE: Deploys to all the accounts in specified organizational units (OU).
+        /// Limit deployment targets to individual accounts or include additional accounts with provided OUs.  The following is a list of possible values for the AccountFilterType operation.    INTERSECTION: StackSets deploys to the accounts specified in Accounts parameter.     DIFFERENCE: StackSets excludes the accounts specified in Accounts parameter. This enables user to avoid certain accounts within an OU such as suspended accounts.    UNION: StackSets includes additional accounts deployment targets.  This is the default value if AccountFilterType is not provided. This enables user to update an entire OU and individual accounts from a different OU in one request, which used to be two separate requests.    NONE: Deploys to all the accounts in specified organizational units (OU).
         public let accountFilterType: AccountFilterType?
         /// The names of one or more Amazon Web Services accounts for which you want to deploy stack set updates.
         @OptionalCustomCoding<StandardArrayCoder>
@@ -2979,7 +2984,7 @@ extension CloudFormation {
     public struct ListStackInstancesInput: AWSEncodableShape {
         /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for stack sets with self-managed permissions.   If you are signed in to the management account, specify SELF.   If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN. Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see Register a delegated administrator in the CloudFormation User Guide.
         public let callAs: CallAs?
-        /// The status that stack instances are filtered by.
+        /// The filter to apply to stack instances
         @OptionalCustomCoding<StandardArrayCoder>
         public var filters: [StackInstanceFilter]?
         /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
@@ -3007,7 +3012,7 @@ extension CloudFormation {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
-            try self.validate(self.filters, name: "filters", parent: name, max: 1)
+            try self.validate(self.filters, name: "filters", parent: name, max: 2)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
@@ -3088,6 +3093,9 @@ extension CloudFormation {
     public struct ListStackSetOperationResultsInput: AWSEncodableShape {
         /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for stack sets with self-managed permissions.   If you are signed in to the management account, specify SELF.   If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN. Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see Register a delegated administrator in the CloudFormation User Guide.
         public let callAs: CallAs?
+        /// The filter to apply to operation results.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var filters: [OperationResultFilter]?
         /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
         public let maxResults: Int?
         /// If the previous request didn't return all the remaining results, the response object's NextToken parameter value is set to a token. To retrieve the next set of results, call ListStackSetOperationResults again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
@@ -3097,8 +3105,9 @@ extension CloudFormation {
         /// The name or unique ID of the stack set that you want to get operation results for.
         public let stackSetName: String
 
-        public init(callAs: CallAs? = nil, maxResults: Int? = nil, nextToken: String? = nil, operationId: String, stackSetName: String) {
+        public init(callAs: CallAs? = nil, filters: [OperationResultFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, operationId: String, stackSetName: String) {
             self.callAs = callAs
+            self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.operationId = operationId
@@ -3106,6 +3115,10 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.filters, name: "filters", parent: name, max: 1)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
@@ -3117,6 +3130,7 @@ extension CloudFormation {
 
         private enum CodingKeys: String, CodingKey {
             case callAs = "CallAs"
+            case filters = "Filters"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
             case operationId = "OperationId"
@@ -3532,6 +3546,29 @@ extension CloudFormation {
         private enum CodingKeys: String, CodingKey {
             case logicalIdHierarchy = "LogicalIdHierarchy"
             case typeHierarchy = "TypeHierarchy"
+        }
+    }
+
+    public struct OperationResultFilter: AWSEncodableShape {
+        /// The type of filter to apply.
+        public let name: OperationResultFilterName?
+        /// The value to filter by.
+        public let values: String?
+
+        public init(name: OperationResultFilterName? = nil, values: String? = nil) {
+            self.name = name
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.values, name: "values", parent: name, max: 9)
+            try self.validate(self.values, name: "values", parent: name, min: 6)
+            try self.validate(self.values, name: "values", parent: name, pattern: "^\\S{6,9}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case values = "Values"
         }
     }
 
@@ -4506,6 +4543,8 @@ extension CloudFormation {
         public let driftStatus: StackDriftStatus?
         /// Most recent time when CloudFormation performed a drift detection operation on the stack instance. This value will be NULL for any stack instance on which drift detection hasn't yet been performed.
         public let lastDriftCheckTimestamp: Date?
+        /// The last unique ID of a StackSet operation performed on a stack instance.
+        public let lastOperationId: String?
         /// [Service-managed permissions] The organization root ID or organizational unit (OU) IDs that you specified for DeploymentTargets.
         public let organizationalUnitId: String?
         /// A list of parameters from the stack set template whose values have been overridden in this stack instance.
@@ -4524,10 +4563,11 @@ extension CloudFormation {
         /// The explanation for the specific status code that's assigned to this stack instance.
         public let statusReason: String?
 
-        public init(account: String? = nil, driftStatus: StackDriftStatus? = nil, lastDriftCheckTimestamp: Date? = nil, organizationalUnitId: String? = nil, parameterOverrides: [Parameter]? = nil, region: String? = nil, stackId: String? = nil, stackInstanceStatus: StackInstanceComprehensiveStatus? = nil, stackSetId: String? = nil, status: StackInstanceStatus? = nil, statusReason: String? = nil) {
+        public init(account: String? = nil, driftStatus: StackDriftStatus? = nil, lastDriftCheckTimestamp: Date? = nil, lastOperationId: String? = nil, organizationalUnitId: String? = nil, parameterOverrides: [Parameter]? = nil, region: String? = nil, stackId: String? = nil, stackInstanceStatus: StackInstanceComprehensiveStatus? = nil, stackSetId: String? = nil, status: StackInstanceStatus? = nil, statusReason: String? = nil) {
             self.account = account
             self.driftStatus = driftStatus
             self.lastDriftCheckTimestamp = lastDriftCheckTimestamp
+            self.lastOperationId = lastOperationId
             self.organizationalUnitId = organizationalUnitId
             self.parameterOverrides = parameterOverrides
             self.region = region
@@ -4542,6 +4582,7 @@ extension CloudFormation {
             case account = "Account"
             case driftStatus = "DriftStatus"
             case lastDriftCheckTimestamp = "LastDriftCheckTimestamp"
+            case lastOperationId = "LastOperationId"
             case organizationalUnitId = "OrganizationalUnitId"
             case parameterOverrides = "ParameterOverrides"
             case region = "Region"
@@ -4578,8 +4619,9 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.values, name: "values", parent: name, max: 10)
-            try self.validate(self.values, name: "values", parent: name, min: 6)
+            try self.validate(self.values, name: "values", parent: name, max: 128)
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+            try self.validate(self.values, name: "values", parent: name, pattern: "^\\S{1,128}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4595,6 +4637,8 @@ extension CloudFormation {
         public let driftStatus: StackDriftStatus?
         /// Most recent time when CloudFormation performed a drift detection operation on the stack instance. This value will be NULL for any stack instance on which drift detection hasn't yet been performed.
         public let lastDriftCheckTimestamp: Date?
+        /// The last unique ID of a StackSet operation performed on a stack instance.
+        public let lastOperationId: String?
         /// [Service-managed permissions] The organization root ID or organizational unit (OU) IDs that you specified for DeploymentTargets.
         public let organizationalUnitId: String?
         /// The name of the Amazon Web Services Region that the stack instance is associated with.
@@ -4610,10 +4654,11 @@ extension CloudFormation {
         /// The explanation for the specific status code assigned to this stack instance.
         public let statusReason: String?
 
-        public init(account: String? = nil, driftStatus: StackDriftStatus? = nil, lastDriftCheckTimestamp: Date? = nil, organizationalUnitId: String? = nil, region: String? = nil, stackId: String? = nil, stackInstanceStatus: StackInstanceComprehensiveStatus? = nil, stackSetId: String? = nil, status: StackInstanceStatus? = nil, statusReason: String? = nil) {
+        public init(account: String? = nil, driftStatus: StackDriftStatus? = nil, lastDriftCheckTimestamp: Date? = nil, lastOperationId: String? = nil, organizationalUnitId: String? = nil, region: String? = nil, stackId: String? = nil, stackInstanceStatus: StackInstanceComprehensiveStatus? = nil, stackSetId: String? = nil, status: StackInstanceStatus? = nil, statusReason: String? = nil) {
             self.account = account
             self.driftStatus = driftStatus
             self.lastDriftCheckTimestamp = lastDriftCheckTimestamp
+            self.lastOperationId = lastOperationId
             self.organizationalUnitId = organizationalUnitId
             self.region = region
             self.stackId = stackId
@@ -4627,6 +4672,7 @@ extension CloudFormation {
             case account = "Account"
             case driftStatus = "DriftStatus"
             case lastDriftCheckTimestamp = "LastDriftCheckTimestamp"
+            case lastOperationId = "LastOperationId"
             case organizationalUnitId = "OrganizationalUnitId"
             case region = "Region"
             case stackId = "StackId"
@@ -5020,10 +5066,12 @@ extension CloudFormation {
         public let stackSetId: String?
         /// The status of the operation.    FAILED: The operation exceeded the specified failure tolerance. The failure tolerance value that you've set for an operation is applied for each Region during stack create and update operations. If the number of failed stacks within a Region exceeds the failure tolerance, the status of the operation in the Region is set to FAILED. This in turn sets the status of the operation as a whole to FAILED, and CloudFormation cancels the operation in any remaining Regions.    QUEUED: [Service-managed permissions] For automatic deployments that require a sequence of operations, the operation is queued to be performed. For more information, see the stack set operation status codes in the CloudFormation User Guide.    RUNNING: The operation is currently being performed.    STOPPED: The user has canceled the operation.    STOPPING: The operation is in the process of stopping, at user request.    SUCCEEDED: The operation completed creating or updating all the specified stacks without exceeding the failure tolerance for the operation.
         public let status: StackSetOperationStatus?
+        /// Detailed information about the StackSet operation.
+        public let statusDetails: StackSetOperationStatusDetails?
         /// The status of the operation in details.
         public let statusReason: String?
 
-        public init(action: StackSetOperationAction? = nil, administrationRoleARN: String? = nil, creationTimestamp: Date? = nil, deploymentTargets: DeploymentTargets? = nil, endTimestamp: Date? = nil, executionRoleName: String? = nil, operationId: String? = nil, operationPreferences: StackSetOperationPreferences? = nil, retainStacks: Bool? = nil, stackSetDriftDetectionDetails: StackSetDriftDetectionDetails? = nil, stackSetId: String? = nil, status: StackSetOperationStatus? = nil, statusReason: String? = nil) {
+        public init(action: StackSetOperationAction? = nil, administrationRoleARN: String? = nil, creationTimestamp: Date? = nil, deploymentTargets: DeploymentTargets? = nil, endTimestamp: Date? = nil, executionRoleName: String? = nil, operationId: String? = nil, operationPreferences: StackSetOperationPreferences? = nil, retainStacks: Bool? = nil, stackSetDriftDetectionDetails: StackSetDriftDetectionDetails? = nil, stackSetId: String? = nil, status: StackSetOperationStatus? = nil, statusDetails: StackSetOperationStatusDetails? = nil, statusReason: String? = nil) {
             self.action = action
             self.administrationRoleARN = administrationRoleARN
             self.creationTimestamp = creationTimestamp
@@ -5036,6 +5084,7 @@ extension CloudFormation {
             self.stackSetDriftDetectionDetails = stackSetDriftDetectionDetails
             self.stackSetId = stackSetId
             self.status = status
+            self.statusDetails = statusDetails
             self.statusReason = statusReason
         }
 
@@ -5052,6 +5101,7 @@ extension CloudFormation {
             case stackSetDriftDetectionDetails = "StackSetDriftDetectionDetails"
             case stackSetId = "StackSetId"
             case status = "Status"
+            case statusDetails = "StatusDetails"
             case statusReason = "StatusReason"
         }
     }
@@ -5135,6 +5185,19 @@ extension CloudFormation {
         }
     }
 
+    public struct StackSetOperationStatusDetails: AWSDecodableShape {
+        /// The number of stack instances for which the StackSet operation failed.
+        public let failedStackInstancesCount: Int?
+
+        public init(failedStackInstancesCount: Int? = nil) {
+            self.failedStackInstancesCount = failedStackInstancesCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedStackInstancesCount = "FailedStackInstancesCount"
+        }
+    }
+
     public struct StackSetOperationSummary: AWSDecodableShape {
         /// The type of operation: CREATE, UPDATE, or DELETE. Create and delete operations affect only the specified stack instances that are associated with the specified stack set. Update operations affect both the stack set itself and all associated stack set instances.
         public let action: StackSetOperationAction?
@@ -5144,17 +5207,22 @@ extension CloudFormation {
         public let endTimestamp: Date?
         /// The unique ID of the stack set operation.
         public let operationId: String?
+        public let operationPreferences: StackSetOperationPreferences?
         /// The overall status of the operation.    FAILED: The operation exceeded the specified failure tolerance. The failure tolerance value that you've set for an operation is applied for each Region during stack create and update operations. If the number of failed stacks within a Region exceeds the failure tolerance, the status of the operation in the Region is set to FAILED. This in turn sets the status of the operation as a whole to FAILED, and CloudFormation cancels the operation in any remaining Regions.    QUEUED: [Service-managed permissions] For automatic deployments that require a sequence of operations, the operation is queued to be performed. For more information, see the stack set operation status codes in the CloudFormation User Guide.    RUNNING: The operation is currently being performed.    STOPPED: The user has canceled the operation.    STOPPING: The operation is in the process of stopping, at user request.    SUCCEEDED: The operation completed creating or updating all the specified stacks without exceeding the failure tolerance for the operation.
         public let status: StackSetOperationStatus?
+        /// Detailed information about the stack set operation.
+        public let statusDetails: StackSetOperationStatusDetails?
         /// The status of the operation in details.
         public let statusReason: String?
 
-        public init(action: StackSetOperationAction? = nil, creationTimestamp: Date? = nil, endTimestamp: Date? = nil, operationId: String? = nil, status: StackSetOperationStatus? = nil, statusReason: String? = nil) {
+        public init(action: StackSetOperationAction? = nil, creationTimestamp: Date? = nil, endTimestamp: Date? = nil, operationId: String? = nil, operationPreferences: StackSetOperationPreferences? = nil, status: StackSetOperationStatus? = nil, statusDetails: StackSetOperationStatusDetails? = nil, statusReason: String? = nil) {
             self.action = action
             self.creationTimestamp = creationTimestamp
             self.endTimestamp = endTimestamp
             self.operationId = operationId
+            self.operationPreferences = operationPreferences
             self.status = status
+            self.statusDetails = statusDetails
             self.statusReason = statusReason
         }
 
@@ -5163,7 +5231,9 @@ extension CloudFormation {
             case creationTimestamp = "CreationTimestamp"
             case endTimestamp = "EndTimestamp"
             case operationId = "OperationId"
+            case operationPreferences = "OperationPreferences"
             case status = "Status"
+            case statusDetails = "StatusDetails"
             case statusReason = "StatusReason"
         }
     }

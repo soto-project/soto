@@ -77,6 +77,12 @@ extension Kafka {
         public var description: String { return self.rawValue }
     }
 
+    public enum StorageMode: String, CustomStringConvertible, Codable, _SotoSendable {
+        case local = "LOCAL"
+        case tiered = "TIERED"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct BatchAssociateScramSecretRequest: AWSEncodableShape {
@@ -406,6 +412,8 @@ extension Kafka {
         /// The state of the cluster. The possible states are ACTIVE, CREATING, DELETING, FAILED, HEALING, MAINTENANCE, REBOOTING_BROKER, and UPDATING.
         public let state: ClusterState?
         public let stateInfo: StateInfo?
+        /// This controls storage mode for supported storage tiers.
+        public let storageMode: StorageMode?
         /// Tags attached to the cluster.
         public let tags: [String: String]?
         /// The connection string to use to connect to the Apache ZooKeeper cluster.
@@ -413,7 +421,7 @@ extension Kafka {
         /// The connection string to use to connect to zookeeper cluster on Tls port.
         public let zookeeperConnectStringTls: String?
 
-        public init(activeOperationArn: String? = nil, brokerNodeGroupInfo: BrokerNodeGroupInfo? = nil, clientAuthentication: ClientAuthentication? = nil, clusterArn: String? = nil, clusterName: String? = nil, creationTime: Date? = nil, currentBrokerSoftwareInfo: BrokerSoftwareInfo? = nil, currentVersion: String? = nil, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, loggingInfo: LoggingInfo? = nil, numberOfBrokerNodes: Int? = nil, openMonitoring: OpenMonitoring? = nil, state: ClusterState? = nil, stateInfo: StateInfo? = nil, tags: [String: String]? = nil, zookeeperConnectString: String? = nil, zookeeperConnectStringTls: String? = nil) {
+        public init(activeOperationArn: String? = nil, brokerNodeGroupInfo: BrokerNodeGroupInfo? = nil, clientAuthentication: ClientAuthentication? = nil, clusterArn: String? = nil, clusterName: String? = nil, creationTime: Date? = nil, currentBrokerSoftwareInfo: BrokerSoftwareInfo? = nil, currentVersion: String? = nil, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, loggingInfo: LoggingInfo? = nil, numberOfBrokerNodes: Int? = nil, openMonitoring: OpenMonitoring? = nil, state: ClusterState? = nil, stateInfo: StateInfo? = nil, storageMode: StorageMode? = nil, tags: [String: String]? = nil, zookeeperConnectString: String? = nil, zookeeperConnectStringTls: String? = nil) {
             self.activeOperationArn = activeOperationArn
             self.brokerNodeGroupInfo = brokerNodeGroupInfo
             self.clientAuthentication = clientAuthentication
@@ -429,6 +437,7 @@ extension Kafka {
             self.openMonitoring = openMonitoring
             self.state = state
             self.stateInfo = stateInfo
+            self.storageMode = storageMode
             self.tags = tags
             self.zookeeperConnectString = zookeeperConnectString
             self.zookeeperConnectStringTls = zookeeperConnectStringTls
@@ -450,6 +459,7 @@ extension Kafka {
             case openMonitoring
             case state
             case stateInfo
+            case storageMode
             case tags
             case zookeeperConnectString
             case zookeeperConnectStringTls
@@ -668,10 +678,12 @@ extension Kafka {
         public let numberOfBrokerNodes: Int
         /// The settings for open monitoring.
         public let openMonitoring: OpenMonitoringInfo?
+        /// This controls storage mode for supported storage tiers.
+        public let storageMode: StorageMode?
         /// Create tags when creating the cluster.
         public let tags: [String: String]?
 
-        public init(brokerNodeGroupInfo: BrokerNodeGroupInfo, clientAuthentication: ClientAuthentication? = nil, clusterName: String, configurationInfo: ConfigurationInfo? = nil, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, kafkaVersion: String, loggingInfo: LoggingInfo? = nil, numberOfBrokerNodes: Int, openMonitoring: OpenMonitoringInfo? = nil, tags: [String: String]? = nil) {
+        public init(brokerNodeGroupInfo: BrokerNodeGroupInfo, clientAuthentication: ClientAuthentication? = nil, clusterName: String, configurationInfo: ConfigurationInfo? = nil, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, kafkaVersion: String, loggingInfo: LoggingInfo? = nil, numberOfBrokerNodes: Int = 0, openMonitoring: OpenMonitoringInfo? = nil, storageMode: StorageMode? = nil, tags: [String: String]? = nil) {
             self.brokerNodeGroupInfo = brokerNodeGroupInfo
             self.clientAuthentication = clientAuthentication
             self.clusterName = clusterName
@@ -682,6 +694,7 @@ extension Kafka {
             self.loggingInfo = loggingInfo
             self.numberOfBrokerNodes = numberOfBrokerNodes
             self.openMonitoring = openMonitoring
+            self.storageMode = storageMode
             self.tags = tags
         }
 
@@ -706,6 +719,7 @@ extension Kafka {
             case loggingInfo
             case numberOfBrokerNodes
             case openMonitoring
+            case storageMode
             case tags
         }
     }
@@ -1058,7 +1072,7 @@ extension Kafka {
         /// A string that uniquely identifies a revision of an MSK configuration.
         public let revision: Int64
 
-        public init(arn: String, revision: Int64) {
+        public init(arn: String, revision: Int64 = 0) {
             self.arn = arn
             self.revision = revision
         }
@@ -1748,8 +1762,10 @@ extension Kafka {
         public let numberOfBrokerNodes: Int?
         /// The settings for open monitoring.
         public let openMonitoring: OpenMonitoring?
+        /// This controls storage mode for supported storage tiers.
+        public let storageMode: StorageMode?
 
-        public init(brokerEBSVolumeInfo: [BrokerEBSVolumeInfo]? = nil, clientAuthentication: ClientAuthentication? = nil, configurationInfo: ConfigurationInfo? = nil, connectivityInfo: ConnectivityInfo? = nil, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, instanceType: String? = nil, kafkaVersion: String? = nil, loggingInfo: LoggingInfo? = nil, numberOfBrokerNodes: Int? = nil, openMonitoring: OpenMonitoring? = nil) {
+        public init(brokerEBSVolumeInfo: [BrokerEBSVolumeInfo]? = nil, clientAuthentication: ClientAuthentication? = nil, configurationInfo: ConfigurationInfo? = nil, connectivityInfo: ConnectivityInfo? = nil, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, instanceType: String? = nil, kafkaVersion: String? = nil, loggingInfo: LoggingInfo? = nil, numberOfBrokerNodes: Int? = nil, openMonitoring: OpenMonitoring? = nil, storageMode: StorageMode? = nil) {
             self.brokerEBSVolumeInfo = brokerEBSVolumeInfo
             self.clientAuthentication = clientAuthentication
             self.configurationInfo = configurationInfo
@@ -1761,6 +1777,7 @@ extension Kafka {
             self.loggingInfo = loggingInfo
             self.numberOfBrokerNodes = numberOfBrokerNodes
             self.openMonitoring = openMonitoring
+            self.storageMode = storageMode
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1775,6 +1792,7 @@ extension Kafka {
             case loggingInfo
             case numberOfBrokerNodes
             case openMonitoring
+            case storageMode
         }
     }
 
@@ -1914,12 +1932,14 @@ extension Kafka {
         public let numberOfBrokerNodes: Int
         /// The settings for open monitoring.
         public let openMonitoring: OpenMonitoringInfo?
+        /// This controls storage mode for supported storage tiers.
+        public let storageMode: StorageMode?
         /// The connection string to use to connect to the Apache ZooKeeper cluster.
         public let zookeeperConnectString: String?
         /// The connection string to use to connect to the Apache ZooKeeper cluster on a TLS port.
         public let zookeeperConnectStringTls: String?
 
-        public init(brokerNodeGroupInfo: BrokerNodeGroupInfo, clientAuthentication: ClientAuthentication? = nil, currentBrokerSoftwareInfo: BrokerSoftwareInfo? = nil, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, loggingInfo: LoggingInfo? = nil, numberOfBrokerNodes: Int, openMonitoring: OpenMonitoringInfo? = nil, zookeeperConnectString: String? = nil, zookeeperConnectStringTls: String? = nil) {
+        public init(brokerNodeGroupInfo: BrokerNodeGroupInfo, clientAuthentication: ClientAuthentication? = nil, currentBrokerSoftwareInfo: BrokerSoftwareInfo? = nil, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, loggingInfo: LoggingInfo? = nil, numberOfBrokerNodes: Int, openMonitoring: OpenMonitoringInfo? = nil, storageMode: StorageMode? = nil, zookeeperConnectString: String? = nil, zookeeperConnectStringTls: String? = nil) {
             self.brokerNodeGroupInfo = brokerNodeGroupInfo
             self.clientAuthentication = clientAuthentication
             self.currentBrokerSoftwareInfo = currentBrokerSoftwareInfo
@@ -1928,6 +1948,7 @@ extension Kafka {
             self.loggingInfo = loggingInfo
             self.numberOfBrokerNodes = numberOfBrokerNodes
             self.openMonitoring = openMonitoring
+            self.storageMode = storageMode
             self.zookeeperConnectString = zookeeperConnectString
             self.zookeeperConnectStringTls = zookeeperConnectStringTls
         }
@@ -1941,6 +1962,7 @@ extension Kafka {
             case loggingInfo
             case numberOfBrokerNodes
             case openMonitoring
+            case storageMode
             case zookeeperConnectString
             case zookeeperConnectStringTls
         }
@@ -1965,8 +1987,10 @@ extension Kafka {
         public let numberOfBrokerNodes: Int
         /// The settings for open monitoring.
         public let openMonitoring: OpenMonitoringInfo?
+        /// This controls storage mode for supported storage tiers.
+        public let storageMode: StorageMode?
 
-        public init(brokerNodeGroupInfo: BrokerNodeGroupInfo, clientAuthentication: ClientAuthentication? = nil, configurationInfo: ConfigurationInfo? = nil, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, kafkaVersion: String, loggingInfo: LoggingInfo? = nil, numberOfBrokerNodes: Int, openMonitoring: OpenMonitoringInfo? = nil) {
+        public init(brokerNodeGroupInfo: BrokerNodeGroupInfo, clientAuthentication: ClientAuthentication? = nil, configurationInfo: ConfigurationInfo? = nil, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, kafkaVersion: String, loggingInfo: LoggingInfo? = nil, numberOfBrokerNodes: Int = 0, openMonitoring: OpenMonitoringInfo? = nil, storageMode: StorageMode? = nil) {
             self.brokerNodeGroupInfo = brokerNodeGroupInfo
             self.clientAuthentication = clientAuthentication
             self.configurationInfo = configurationInfo
@@ -1976,6 +2000,7 @@ extension Kafka {
             self.loggingInfo = loggingInfo
             self.numberOfBrokerNodes = numberOfBrokerNodes
             self.openMonitoring = openMonitoring
+            self.storageMode = storageMode
         }
 
         public func validate(name: String) throws {
@@ -1996,6 +2021,7 @@ extension Kafka {
             case loggingInfo
             case numberOfBrokerNodes
             case openMonitoring
+            case storageMode
         }
     }
 
@@ -2308,7 +2334,7 @@ extension Kafka {
         /// The number of broker nodes that you want the cluster to have after this operation completes successfully.
         public let targetNumberOfBrokerNodes: Int
 
-        public init(clusterArn: String, currentVersion: String, targetNumberOfBrokerNodes: Int) {
+        public init(clusterArn: String, currentVersion: String, targetNumberOfBrokerNodes: Int = 0) {
             self.clusterArn = clusterArn
             self.currentVersion = currentVersion
             self.targetNumberOfBrokerNodes = targetNumberOfBrokerNodes
@@ -2669,6 +2695,55 @@ extension Kafka {
     }
 
     public struct UpdateSecurityResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the cluster.
+        public let clusterArn: String?
+        /// The Amazon Resource Name (ARN) of the cluster operation.
+        public let clusterOperationArn: String?
+
+        public init(clusterArn: String? = nil, clusterOperationArn: String? = nil) {
+            self.clusterArn = clusterArn
+            self.clusterOperationArn = clusterOperationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterArn
+            case clusterOperationArn
+        }
+    }
+
+    public struct UpdateStorageRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clusterArn", location: .uri("ClusterArn"))
+        ]
+
+        /// The Amazon Resource Name (ARN) of the cluster to be updated.
+        public let clusterArn: String
+        /// The version of cluster to update from. A successful operation will then generate a new version.
+        public let currentVersion: String
+        /// EBS volume provisioned throughput information.
+        public let provisionedThroughput: ProvisionedThroughput?
+        /// Controls storage mode for supported storage tiers.
+        public let storageMode: StorageMode?
+        /// size of the EBS volume to update.
+        public let volumeSizeGB: Int?
+
+        public init(clusterArn: String, currentVersion: String, provisionedThroughput: ProvisionedThroughput? = nil, storageMode: StorageMode? = nil, volumeSizeGB: Int? = nil) {
+            self.clusterArn = clusterArn
+            self.currentVersion = currentVersion
+            self.provisionedThroughput = provisionedThroughput
+            self.storageMode = storageMode
+            self.volumeSizeGB = volumeSizeGB
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currentVersion
+            case provisionedThroughput
+            case storageMode
+            case volumeSizeGB
+        }
+    }
+
+    public struct UpdateStorageResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the cluster.
         public let clusterArn: String?
         /// The Amazon Resource Name (ARN) of the cluster operation.

@@ -4241,7 +4241,7 @@ extension MediaConvert {
             try self.additionalManifests?.forEach {
                 try $0.validate(name: "\(name).additionalManifests[]")
             }
-            try self.validate(self.destination, name: "destination", parent: name, pattern: "^s3:\\/\\/")
+            try self.validate(self.destination, name: "destination", parent: name, pattern: "^s3:\\/\\/$")
             try self.destinationSettings?.validate(name: "\(name).destinationSettings")
             try self.encryption?.validate(name: "\(name).encryption")
             try self.validate(self.fragmentLength, name: "fragmentLength", parent: name, max: 2_147_483_647)
@@ -4829,7 +4829,7 @@ extension MediaConvert {
             try self.additionalManifests?.forEach {
                 try $0.validate(name: "\(name).additionalManifests[]")
             }
-            try self.validate(self.destination, name: "destination", parent: name, pattern: "^s3:\\/\\/")
+            try self.validate(self.destination, name: "destination", parent: name, pattern: "^s3:\\/\\/$")
             try self.destinationSettings?.validate(name: "\(name).destinationSettings")
             try self.encryption?.validate(name: "\(name).encryption")
             try self.validate(self.fragmentLength, name: "fragmentLength", parent: name, max: 2_147_483_647)
@@ -5734,7 +5734,7 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.destination, name: "destination", parent: name, pattern: "^s3:\\/\\/")
+            try self.validate(self.destination, name: "destination", parent: name, pattern: "^s3:\\/\\/$")
             try self.destinationSettings?.validate(name: "\(name).destinationSettings")
         }
 
@@ -6753,7 +6753,7 @@ extension MediaConvert {
             try self.captionLanguageMappings?.forEach {
                 try $0.validate(name: "\(name).captionLanguageMappings[]")
             }
-            try self.validate(self.destination, name: "destination", parent: name, pattern: "^s3:\\/\\/")
+            try self.validate(self.destination, name: "destination", parent: name, pattern: "^s3:\\/\\/$")
             try self.destinationSettings?.validate(name: "\(name).destinationSettings")
             try self.encryption?.validate(name: "\(name).encryption")
             try self.imageBasedTrickPlaySettings?.validate(name: "\(name).imageBasedTrickPlaySettings")
@@ -7784,7 +7784,7 @@ extension MediaConvert {
             try self.validate(self.kantarLicenseId, name: "kantarLicenseId", parent: name, max: 2_147_483_647)
             try self.validate(self.kantarLicenseId, name: "kantarLicenseId", parent: name, min: 0)
             try self.validate(self.kantarServerUrl, name: "kantarServerUrl", parent: name, pattern: "^https:\\/\\/.*.kantarmedia.com$")
-            try self.validate(self.logDestination, name: "logDestination", parent: name, pattern: "^s3:\\/\\/")
+            try self.validate(self.logDestination, name: "logDestination", parent: name, pattern: "^s3:\\/\\/$")
             try self.validate(self.metadata3, name: "metadata3", parent: name, max: 50)
             try self.validate(self.metadata3, name: "metadata3", parent: name, min: 1)
             try self.validate(self.metadata4, name: "metadata4", parent: name, max: 50)
@@ -8953,7 +8953,7 @@ extension MediaConvert {
             try self.additionalManifests?.forEach {
                 try $0.validate(name: "\(name).additionalManifests[]")
             }
-            try self.validate(self.destination, name: "destination", parent: name, pattern: "^s3:\\/\\/")
+            try self.validate(self.destination, name: "destination", parent: name, pattern: "^s3:\\/\\/$")
             try self.destinationSettings?.validate(name: "\(name).destinationSettings")
             try self.encryption?.validate(name: "\(name).encryption")
             try self.validate(self.fragmentLength, name: "fragmentLength", parent: name, max: 2_147_483_647)
@@ -9114,7 +9114,7 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.adiFilename, name: "adiFilename", parent: name, pattern: "^s3:\\/\\/")
+            try self.validate(self.adiFilename, name: "adiFilename", parent: name, pattern: "^s3:\\/\\/$")
             try self.validate(self.assetId, name: "assetId", parent: name, max: 20)
             try self.validate(self.assetId, name: "assetId", parent: name, min: 1)
             try self.validate(self.assetName, name: "assetName", parent: name, max: 50)
@@ -9122,7 +9122,7 @@ extension MediaConvert {
             try self.validate(self.cbetSourceId, name: "cbetSourceId", parent: name, pattern: "^(^0x[A-Fa-f0-9]{0,8}$|^[1-9][0-9]{0,8}$)$")
             try self.validate(self.episodeId, name: "episodeId", parent: name, max: 20)
             try self.validate(self.episodeId, name: "episodeId", parent: name, min: 1)
-            try self.validate(self.metadataDestination, name: "metadataDestination", parent: name, pattern: "^s3:\\/\\/")
+            try self.validate(self.metadataDestination, name: "metadataDestination", parent: name, pattern: "^s3:\\/\\/$")
             try self.validate(self.sourceId, name: "sourceId", parent: name, max: 65534)
             try self.validate(self.sourceId, name: "sourceId", parent: name, min: 0)
             try self.validate(self.ticServerUrl, name: "ticServerUrl", parent: name, pattern: "^https:\\/\\/$")

@@ -9714,19 +9714,25 @@ extension EC2 {
 
         /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request.  If you do not specify a client token, a randomly generated token is used for the request  to ensure idempotency. For more information, see Ensuring idempotency.
         public let clientToken: String?
+        /// Indicates whether to automatically delete the original root volume after the root volume  replacement task completes. To delete the original root volume, specify true.  If you choose to keep the original root volume after the replacement task completes, you must  manually delete it when you no longer need it.
+        public let deleteReplacedRootVolume: Bool?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
+        /// The ID of the AMI to use to restore the root volume. The specified AMI must have the  same product code, billing information, architecture type, and virtualization type as  that of the instance. If you want to restore the replacement volume from a specific snapshot, or if you want  to restore it to its launch state, omit this parameter.
+        public let imageId: String?
         /// The ID of the instance for which to replace the root volume.
         public let instanceId: String?
-        /// The ID of the snapshot from which to restore the replacement root volume. If you want to  restore the volume to the initial launch state, omit this parameter.
+        /// The ID of the snapshot from which to restore the replacement root volume. The  specified snapshot must be a snapshot that you previously created from the original  root volume. If you want to restore the replacement root volume to the initial launch state,  or if you want to restore the replacement root volume from an AMI, omit this  parameter.
         public let snapshotId: String?
         /// The tags to apply to the root volume replacement task.
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
-        public init(clientToken: String? = CreateReplaceRootVolumeTaskRequest.idempotencyToken(), dryRun: Bool? = nil, instanceId: String? = nil, snapshotId: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
+        public init(clientToken: String? = CreateReplaceRootVolumeTaskRequest.idempotencyToken(), deleteReplacedRootVolume: Bool? = nil, dryRun: Bool? = nil, imageId: String? = nil, instanceId: String? = nil, snapshotId: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.clientToken = clientToken
+            self.deleteReplacedRootVolume = deleteReplacedRootVolume
             self.dryRun = dryRun
+            self.imageId = imageId
             self.instanceId = instanceId
             self.snapshotId = snapshotId
             self.tagSpecifications = tagSpecifications
@@ -9734,7 +9740,9 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "ClientToken"
+            case deleteReplacedRootVolume = "DeleteReplacedRootVolume"
             case dryRun = "DryRun"
+            case imageId = "ImageId"
             case instanceId = "InstanceId"
             case snapshotId = "SnapshotId"
             case tagSpecifications = "TagSpecification"
@@ -39464,10 +39472,16 @@ extension EC2 {
 
         /// The time the task completed.
         public let completeTime: String?
+        /// Indicates whether the original root volume is to be deleted after the root volume  replacement task completes.
+        public let deleteReplacedRootVolume: Bool?
+        /// The ID of the AMI used to create the replacement root volume.
+        public let imageId: String?
         /// The ID of the instance for which the root volume replacement task was created.
         public let instanceId: String?
         /// The ID of the root volume replacement task.
         public let replaceRootVolumeTaskId: String?
+        /// The ID of the snapshot used to create the replacement root volume.
+        public let snapshotId: String?
         /// The time the task was started.
         public let startTime: String?
         /// The tags assigned to the task.
@@ -39476,10 +39490,13 @@ extension EC2 {
         /// The state of the task. The task can be in one of the following states:    pending - the replacement volume is being created.    in-progress - the original volume is being detached and the  replacement volume is being attached.    succeeded - the replacement volume has been successfully attached  to the instance and the instance is available.    failing - the replacement task is in the process of failing.    failed - the replacement task has failed but the original root  volume is still attached.    failing-detached - the replacement task is in the process of failing.  The instance might have no root volume attached.    failed-detached - the replacement task has failed and the instance  has no root volume attached.
         public let taskState: ReplaceRootVolumeTaskState?
 
-        public init(completeTime: String? = nil, instanceId: String? = nil, replaceRootVolumeTaskId: String? = nil, startTime: String? = nil, tags: [Tag]? = nil, taskState: ReplaceRootVolumeTaskState? = nil) {
+        public init(completeTime: String? = nil, deleteReplacedRootVolume: Bool? = nil, imageId: String? = nil, instanceId: String? = nil, replaceRootVolumeTaskId: String? = nil, snapshotId: String? = nil, startTime: String? = nil, tags: [Tag]? = nil, taskState: ReplaceRootVolumeTaskState? = nil) {
             self.completeTime = completeTime
+            self.deleteReplacedRootVolume = deleteReplacedRootVolume
+            self.imageId = imageId
             self.instanceId = instanceId
             self.replaceRootVolumeTaskId = replaceRootVolumeTaskId
+            self.snapshotId = snapshotId
             self.startTime = startTime
             self.tags = tags
             self.taskState = taskState
@@ -39487,8 +39504,11 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case completeTime
+            case deleteReplacedRootVolume
+            case imageId
             case instanceId
             case replaceRootVolumeTaskId
+            case snapshotId
             case startTime
             case tags = "tagSet"
             case taskState

@@ -311,6 +311,28 @@ extension Neptune {
         )
     }
 
+    ///  Returns information about Neptune global database clusters. This API supports pagination.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeGlobalClustersPaginator(
+        _ input: DescribeGlobalClustersMessage,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeGlobalClustersMessage, GlobalClustersMessage> {
+        return .init(
+            input: input,
+            command: describeGlobalClusters,
+            inputKey: \DescribeGlobalClustersMessage.marker,
+            outputKey: \GlobalClustersMessage.marker,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Returns a list of orderable DB instance options for the specified engine.
     /// Return PaginatorSequence for operation.
     ///

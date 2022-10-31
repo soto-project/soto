@@ -612,7 +612,7 @@ extension GameSparks {
         public func validate(name: String) throws {
             try self.validate(self.gameSdkVersion, name: "gameSdkVersion", parent: name, max: 10)
             try self.validate(self.gameSdkVersion, name: "gameSdkVersion", parent: name, min: 5)
-            try self.validate(self.gameSdkVersion, name: "gameSdkVersion", parent: name, pattern: "^(\\d|[1-9]\\d*)\\.(\\d|[0-9]\\d*)\\.(\\d|[0-9]\\d*)$")
+            try self.validate(self.gameSdkVersion, name: "gameSdkVersion", parent: name, pattern: "^((\\d|[1-9]\\d*)\\.(\\d|[0-9]\\d*)\\.(\\d|[0-9]\\d*)|LATEST)$")
             try self.validate(self.language, name: "language", parent: name, max: 16)
             try self.validate(self.language, name: "language", parent: name, min: 1)
             try self.validate(self.language, name: "language", parent: name, pattern: "^[a-zA-Z_]+$")

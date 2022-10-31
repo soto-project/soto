@@ -467,6 +467,7 @@ extension Neptune {
         public let preSignedUrl: String?
         /// The Amazon Resource Name (ARN) of the source DB instance or DB cluster if this DB cluster is created as a Read Replica.
         public let replicationSourceIdentifier: String?
+        public let serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration?
         /// Specifies whether the DB cluster is encrypted.
         public let storageEncrypted: Bool?
         /// The tags to assign to the new DB cluster.
@@ -476,7 +477,7 @@ extension Neptune {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
-        public init(availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, databaseName: String? = nil, dbClusterIdentifier: String, dbClusterParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String, engineVersion: String? = nil, globalClusterIdentifier: String? = nil, kmsKeyId: String? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, optionGroupName: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, preSignedUrl: String? = nil, replicationSourceIdentifier: String? = nil, storageEncrypted: Bool? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, databaseName: String? = nil, dbClusterIdentifier: String, dbClusterParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String, engineVersion: String? = nil, globalClusterIdentifier: String? = nil, kmsKeyId: String? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, optionGroupName: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, preSignedUrl: String? = nil, replicationSourceIdentifier: String? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration? = nil, storageEncrypted: Bool? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.availabilityZones = availabilityZones
             self.backupRetentionPeriod = backupRetentionPeriod
             self.characterSetName = characterSetName
@@ -500,6 +501,7 @@ extension Neptune {
             self.preferredMaintenanceWindow = preferredMaintenanceWindow
             self.preSignedUrl = preSignedUrl
             self.replicationSourceIdentifier = replicationSourceIdentifier
+            self.serverlessV2ScalingConfiguration = serverlessV2ScalingConfiguration
             self.storageEncrypted = storageEncrypted
             self.tags = tags
             self.vpcSecurityGroupIds = vpcSecurityGroupIds
@@ -535,6 +537,7 @@ extension Neptune {
             case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
             case preSignedUrl = "PreSignedUrl"
             case replicationSourceIdentifier = "ReplicationSourceIdentifier"
+            case serverlessV2ScalingConfiguration = "ServerlessV2ScalingConfiguration"
             case storageEncrypted = "StorageEncrypted"
             case tags = "Tags"
             case vpcSecurityGroupIds = "VpcSecurityGroupIds"
@@ -1155,6 +1158,7 @@ extension Neptune {
         public var readReplicaIdentifiers: [String]?
         /// Not supported by Neptune.
         public let replicationSourceIdentifier: String?
+        public let serverlessV2ScalingConfiguration: ServerlessV2ScalingConfigurationInfo?
         /// Specifies the current state of this DB cluster.
         public let status: String?
         /// Specifies whether the DB cluster is encrypted.
@@ -1163,7 +1167,7 @@ extension Neptune {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupsEncoding, VpcSecurityGroupMembership>>
         public var vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
-        public init(allocatedStorage: Int? = nil, associatedRoles: [DBClusterRole]? = nil, automaticRestartTime: Date? = nil, availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, characterSetName: String? = nil, cloneGroupId: String? = nil, clusterCreateTime: Date? = nil, copyTagsToSnapshot: Bool? = nil, crossAccountClone: Bool? = nil, databaseName: String? = nil, dbClusterArn: String? = nil, dbClusterIdentifier: String? = nil, dbClusterMembers: [DBClusterMember]? = nil, dbClusterOptionGroupMemberships: [DBClusterOptionGroupStatus]? = nil, dbClusterParameterGroup: String? = nil, dbClusterResourceId: String? = nil, dbSubnetGroup: String? = nil, deletionProtection: Bool? = nil, earliestRestorableTime: Date? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: String? = nil, engine: String? = nil, engineVersion: String? = nil, hostedZoneId: String? = nil, iamDatabaseAuthenticationEnabled: Bool? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, masterUsername: String? = nil, multiAZ: Bool? = nil, percentProgress: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, readerEndpoint: String? = nil, readReplicaIdentifiers: [String]? = nil, replicationSourceIdentifier: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(allocatedStorage: Int? = nil, associatedRoles: [DBClusterRole]? = nil, automaticRestartTime: Date? = nil, availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, characterSetName: String? = nil, cloneGroupId: String? = nil, clusterCreateTime: Date? = nil, copyTagsToSnapshot: Bool? = nil, crossAccountClone: Bool? = nil, databaseName: String? = nil, dbClusterArn: String? = nil, dbClusterIdentifier: String? = nil, dbClusterMembers: [DBClusterMember]? = nil, dbClusterOptionGroupMemberships: [DBClusterOptionGroupStatus]? = nil, dbClusterParameterGroup: String? = nil, dbClusterResourceId: String? = nil, dbSubnetGroup: String? = nil, deletionProtection: Bool? = nil, earliestRestorableTime: Date? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: String? = nil, engine: String? = nil, engineVersion: String? = nil, hostedZoneId: String? = nil, iamDatabaseAuthenticationEnabled: Bool? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, masterUsername: String? = nil, multiAZ: Bool? = nil, percentProgress: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, readerEndpoint: String? = nil, readReplicaIdentifiers: [String]? = nil, replicationSourceIdentifier: String? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfigurationInfo? = nil, status: String? = nil, storageEncrypted: Bool? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.associatedRoles = associatedRoles
             self.automaticRestartTime = automaticRestartTime
@@ -1201,6 +1205,7 @@ extension Neptune {
             self.readerEndpoint = readerEndpoint
             self.readReplicaIdentifiers = readReplicaIdentifiers
             self.replicationSourceIdentifier = replicationSourceIdentifier
+            self.serverlessV2ScalingConfiguration = serverlessV2ScalingConfiguration
             self.status = status
             self.storageEncrypted = storageEncrypted
             self.vpcSecurityGroups = vpcSecurityGroups
@@ -1244,6 +1249,7 @@ extension Neptune {
             case readerEndpoint = "ReaderEndpoint"
             case readReplicaIdentifiers = "ReadReplicaIdentifiers"
             case replicationSourceIdentifier = "ReplicationSourceIdentifier"
+            case serverlessV2ScalingConfiguration = "ServerlessV2ScalingConfiguration"
             case status = "Status"
             case storageEncrypted = "StorageEncrypted"
             case vpcSecurityGroups = "VpcSecurityGroups"
@@ -3704,11 +3710,12 @@ extension Neptune {
         public let preferredBackupWindow: String?
         /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi  The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Region, occurring on a random day of the week. Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun. Constraints: Minimum 30-minute window.
         public let preferredMaintenanceWindow: String?
+        public let serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration?
         /// A list of VPC security groups that the DB cluster will belong to.
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
-        public init(allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, backupRetentionPeriod: Int? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, copyTagsToSnapshot: Bool? = nil, dbClusterIdentifier: String, dbClusterParameterGroupName: String? = nil, dbInstanceParameterGroupName: String? = nil, deletionProtection: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engineVersion: String? = nil, masterUserPassword: String? = nil, newDBClusterIdentifier: String? = nil, optionGroupName: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, backupRetentionPeriod: Int? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, copyTagsToSnapshot: Bool? = nil, dbClusterIdentifier: String, dbClusterParameterGroupName: String? = nil, dbInstanceParameterGroupName: String? = nil, deletionProtection: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engineVersion: String? = nil, masterUserPassword: String? = nil, newDBClusterIdentifier: String? = nil, optionGroupName: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allowMajorVersionUpgrade = allowMajorVersionUpgrade
             self.applyImmediately = applyImmediately
             self.backupRetentionPeriod = backupRetentionPeriod
@@ -3726,6 +3733,7 @@ extension Neptune {
             self.port = port
             self.preferredBackupWindow = preferredBackupWindow
             self.preferredMaintenanceWindow = preferredMaintenanceWindow
+            self.serverlessV2ScalingConfiguration = serverlessV2ScalingConfiguration
             self.vpcSecurityGroupIds = vpcSecurityGroupIds
         }
 
@@ -3747,6 +3755,7 @@ extension Neptune {
             case port = "Port"
             case preferredBackupWindow = "PreferredBackupWindow"
             case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
+            case serverlessV2ScalingConfiguration = "ServerlessV2ScalingConfiguration"
             case vpcSecurityGroupIds = "VpcSecurityGroupIds"
         }
     }
@@ -4790,6 +4799,7 @@ extension Neptune {
         public let optionGroupName: String?
         /// The port number on which the new DB cluster accepts connections. Constraints: Value must be 1150-65535  Default: The same port as the original DB cluster.
         public let port: Int?
+        public let serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration?
         /// The identifier for the DB snapshot or DB cluster snapshot to restore from. You can use either the name or the Amazon Resource Name (ARN) to specify a DB cluster snapshot. However, you can use only the ARN to specify a DB snapshot. Constraints:   Must match the identifier of an existing Snapshot.
         public let snapshotIdentifier: String
         /// The tags to be assigned to the restored DB cluster.
@@ -4799,7 +4809,7 @@ extension Neptune {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
-        public init(availabilityZones: [String]? = nil, copyTagsToSnapshot: Bool? = nil, databaseName: String? = nil, dbClusterIdentifier: String, dbClusterParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String, engineVersion: String? = nil, kmsKeyId: String? = nil, optionGroupName: String? = nil, port: Int? = nil, snapshotIdentifier: String, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(availabilityZones: [String]? = nil, copyTagsToSnapshot: Bool? = nil, databaseName: String? = nil, dbClusterIdentifier: String, dbClusterParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String, engineVersion: String? = nil, kmsKeyId: String? = nil, optionGroupName: String? = nil, port: Int? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration? = nil, snapshotIdentifier: String, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.availabilityZones = availabilityZones
             self.copyTagsToSnapshot = copyTagsToSnapshot
             self.databaseName = databaseName
@@ -4814,6 +4824,7 @@ extension Neptune {
             self.kmsKeyId = kmsKeyId
             self.optionGroupName = optionGroupName
             self.port = port
+            self.serverlessV2ScalingConfiguration = serverlessV2ScalingConfiguration
             self.snapshotIdentifier = snapshotIdentifier
             self.tags = tags
             self.vpcSecurityGroupIds = vpcSecurityGroupIds
@@ -4834,6 +4845,7 @@ extension Neptune {
             case kmsKeyId = "KmsKeyId"
             case optionGroupName = "OptionGroupName"
             case port = "Port"
+            case serverlessV2ScalingConfiguration = "ServerlessV2ScalingConfiguration"
             case snapshotIdentifier = "SnapshotIdentifier"
             case tags = "Tags"
             case vpcSecurityGroupIds = "VpcSecurityGroupIds"
@@ -4879,6 +4891,7 @@ extension Neptune {
         public let restoreToTime: Date?
         /// The type of restore to be performed. You can specify one of the following values:    full-copy - The new DB cluster is restored as a full copy of the source DB cluster.    copy-on-write - The new DB cluster is restored as a clone of the source DB cluster.   If you don't specify a RestoreType value, then the new DB cluster is restored as a full copy of the source DB cluster.
         public let restoreType: String?
+        public let serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration?
         /// The identifier of the source DB cluster from which to restore. Constraints:   Must match the identifier of an existing DBCluster.
         public let sourceDBClusterIdentifier: String
         /// The tags to be applied to the restored DB cluster.
@@ -4890,7 +4903,7 @@ extension Neptune {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
-        public init(dbClusterIdentifier: String, dbClusterParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, kmsKeyId: String? = nil, optionGroupName: String? = nil, port: Int? = nil, restoreToTime: Date? = nil, restoreType: String? = nil, sourceDBClusterIdentifier: String, tags: [Tag]? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(dbClusterIdentifier: String, dbClusterParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, kmsKeyId: String? = nil, optionGroupName: String? = nil, port: Int? = nil, restoreToTime: Date? = nil, restoreType: String? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration? = nil, sourceDBClusterIdentifier: String, tags: [Tag]? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.dbClusterIdentifier = dbClusterIdentifier
             self.dbClusterParameterGroupName = dbClusterParameterGroupName
             self.dbSubnetGroupName = dbSubnetGroupName
@@ -4902,6 +4915,7 @@ extension Neptune {
             self.port = port
             self.restoreToTime = restoreToTime
             self.restoreType = restoreType
+            self.serverlessV2ScalingConfiguration = serverlessV2ScalingConfiguration
             self.sourceDBClusterIdentifier = sourceDBClusterIdentifier
             self.tags = tags
             self.useLatestRestorableTime = useLatestRestorableTime
@@ -4920,6 +4934,7 @@ extension Neptune {
             case port = "Port"
             case restoreToTime = "RestoreToTime"
             case restoreType = "RestoreType"
+            case serverlessV2ScalingConfiguration = "ServerlessV2ScalingConfiguration"
             case sourceDBClusterIdentifier = "SourceDBClusterIdentifier"
             case tags = "Tags"
             case useLatestRestorableTime = "UseLatestRestorableTime"
@@ -4936,6 +4951,40 @@ extension Neptune {
 
         private enum CodingKeys: String, CodingKey {
             case dbCluster = "DBCluster"
+        }
+    }
+
+    public struct ServerlessV2ScalingConfiguration: AWSEncodableShape {
+        /// The maximum number of Neptune capacity units (NCUs) for a DB instance in a Neptune Serverless cluster. You can specify NCU values in half-step increments, such as 40, 40.5, 41, and so on.
+        public let maxCapacity: Double?
+        /// The minimum number of Neptune capacity units (NCUs) for a DB instance in a Neptune Serverless cluster. You can specify NCU values in half-step increments, such as 8, 8.5, 9, and so on.
+        public let minCapacity: Double?
+
+        public init(maxCapacity: Double? = nil, minCapacity: Double? = nil) {
+            self.maxCapacity = maxCapacity
+            self.minCapacity = minCapacity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxCapacity = "MaxCapacity"
+            case minCapacity = "MinCapacity"
+        }
+    }
+
+    public struct ServerlessV2ScalingConfigurationInfo: AWSDecodableShape {
+        /// The maximum number of Neptune capacity units (NCUs) for a DB instance in a Neptune Serverless cluster. You can specify NCU values in half-step increments, such as 40, 40.5, 41, and so on.
+        public let maxCapacity: Double?
+        /// The minimum number of Neptune capacity units (NCUs) for a DB instance in a Neptune Serverless cluster. You can specify NCU values in half-step increments, such as 8, 8.5, 9, and so on.
+        public let minCapacity: Double?
+
+        public init(maxCapacity: Double? = nil, minCapacity: Double? = nil) {
+            self.maxCapacity = maxCapacity
+            self.minCapacity = minCapacity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxCapacity = "MaxCapacity"
+            case minCapacity = "MinCapacity"
         }
     }
 

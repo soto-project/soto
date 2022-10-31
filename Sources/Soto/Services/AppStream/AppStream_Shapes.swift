@@ -51,8 +51,16 @@ extension AppStream {
 
     public enum AuthenticationType: String, CustomStringConvertible, Codable, _SotoSendable {
         case api = "API"
+        case awsAd = "AWS_AD"
         case saml = "SAML"
         case userpool = "USERPOOL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CertificateBasedAuthStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        case enabledNoDirectoryLoginFallback = "ENABLED_NO_DIRECTORY_LOGIN_FALLBACK"
         public var description: String { return self.rawValue }
     }
 
@@ -73,8 +81,8 @@ extension AppStream {
         case domainJoinErrorInvalidParameter = "DOMAIN_JOIN_ERROR_INVALID_PARAMETER"
         case domainJoinErrorLogonFailure = "DOMAIN_JOIN_ERROR_LOGON_FAILURE"
         case domainJoinErrorMoreData = "DOMAIN_JOIN_ERROR_MORE_DATA"
-        case domainJoinErrorNotSupported = "DOMAIN_JOIN_ERROR_NOT_SUPPORTED"
         case domainJoinErrorNoSuchDomain = "DOMAIN_JOIN_ERROR_NO_SUCH_DOMAIN"
+        case domainJoinErrorNotSupported = "DOMAIN_JOIN_ERROR_NOT_SUPPORTED"
         case domainJoinInternalServiceError = "DOMAIN_JOIN_INTERNAL_SERVICE_ERROR"
         case domainJoinNerrInvalidWorkgroupName = "DOMAIN_JOIN_NERR_INVALID_WORKGROUP_NAME"
         case domainJoinNerrPasswordExpired = "DOMAIN_JOIN_NERR_PASSWORD_EXPIRED"
@@ -199,10 +207,10 @@ extension AppStream {
         case feedbackUrl = "FEEDBACK_URL"
         case iamRoleArn = "IAM_ROLE_ARN"
         case redirectUrl = "REDIRECT_URL"
-        case storageConnectors = "STORAGE_CONNECTORS"
         case storageConnectorGoogleDrive = "STORAGE_CONNECTOR_GOOGLE_DRIVE"
         case storageConnectorHomefolders = "STORAGE_CONNECTOR_HOMEFOLDERS"
         case storageConnectorOneDrive = "STORAGE_CONNECTOR_ONE_DRIVE"
+        case storageConnectors = "STORAGE_CONNECTORS"
         case streamingExperienceSettings = "STREAMING_EXPERIENCE_SETTINGS"
         case themeName = "THEME_NAME"
         case userSettings = "USER_SETTINGS"
@@ -407,7 +415,7 @@ extension AppStream {
         /// The path prefix for the S3 bucket where users’ persistent application settings are stored. You can allow the same persistent application settings to be used across multiple stacks by specifying the same settings group for each stack.
         public let settingsGroup: String?
 
-        public init(enabled: Bool, settingsGroup: String? = nil) {
+        public init(enabled: Bool = false, settingsGroup: String? = nil) {
             self.enabled = enabled
             self.settingsGroup = settingsGroup
         }
@@ -600,6 +608,27 @@ extension AppStream {
 
         private enum CodingKeys: String, CodingKey {
             case errors
+        }
+    }
+
+    public struct CertificateBasedAuthProperties: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN of the AWS Certificate Manager Private CA resource.
+        public let certificateAuthorityArn: String?
+        /// The status of the certificate-based authentication properties.
+        public let status: CertificateBasedAuthStatus?
+
+        public init(certificateAuthorityArn: String? = nil, status: CertificateBasedAuthStatus? = nil) {
+            self.certificateAuthorityArn = certificateAuthorityArn
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.certificateAuthorityArn, name: "certificateAuthorityArn", parent: name, pattern: "^arn:aws(?:\\-cn|\\-iso\\-b|\\-iso|\\-us\\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\\\-]{0,1023}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateAuthorityArn = "CertificateAuthorityArn"
+            case status = "Status"
         }
     }
 
@@ -840,6 +869,8 @@ extension AppStream {
     }
 
     public struct CreateDirectoryConfigRequest: AWSEncodableShape {
+        /// The certificate-based authentication properties used to authenticate SAML 2.0 Identity Provider (IdP) user identities to Active Directory domain-joined streaming instances. Fallback is turned on by default when certificate-based authentication is Enabled . Fallback allows users to log in using their AD domain password if certificate-based authentication is unsuccessful, or to unlock a desktop lock screen. Enabled_no_directory_login_fallback enables certificate-based authentication, but does not allow users to log in using their AD domain password. Users will be disconnected to re-authenticate using certificates.
+        public let certificateBasedAuthProperties: CertificateBasedAuthProperties?
         /// The fully qualified name of the directory (for example, corp.example.com).
         public let directoryName: String
         /// The distinguished names of the organizational units for computer accounts.
@@ -847,13 +878,15 @@ extension AppStream {
         /// The credentials for the service account used by the fleet or image builder to connect to the directory.
         public let serviceAccountCredentials: ServiceAccountCredentials?
 
-        public init(directoryName: String, organizationalUnitDistinguishedNames: [String], serviceAccountCredentials: ServiceAccountCredentials? = nil) {
+        public init(certificateBasedAuthProperties: CertificateBasedAuthProperties? = nil, directoryName: String, organizationalUnitDistinguishedNames: [String], serviceAccountCredentials: ServiceAccountCredentials? = nil) {
+            self.certificateBasedAuthProperties = certificateBasedAuthProperties
             self.directoryName = directoryName
             self.organizationalUnitDistinguishedNames = organizationalUnitDistinguishedNames
             self.serviceAccountCredentials = serviceAccountCredentials
         }
 
         public func validate(name: String) throws {
+            try self.certificateBasedAuthProperties?.validate(name: "\(name).certificateBasedAuthProperties")
             try self.organizationalUnitDistinguishedNames.forEach {
                 try validate($0, name: "organizationalUnitDistinguishedNames[]", parent: name, max: 2000)
             }
@@ -861,6 +894,7 @@ extension AppStream {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case certificateBasedAuthProperties = "CertificateBasedAuthProperties"
             case directoryName = "DirectoryName"
             case organizationalUnitDistinguishedNames = "OrganizationalUnitDistinguishedNames"
             case serviceAccountCredentials = "ServiceAccountCredentials"
@@ -955,7 +989,7 @@ extension AppStream {
         public let imageArn: String?
         /// The name of the image used to create the fleet.
         public let imageName: String?
-        /// The instance type to use when launching fleet instances. The following instance types are available:       stream.standard.small   stream.standard.medium   stream.standard.large   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics-desktop.2xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge   The following instance types are available for Elastic fleets:   stream.standard.small   stream.standard.medium
+        /// The instance type to use when launching fleet instances. The following instance types are available:       stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics-desktop.2xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge   The following instance types are available for Elastic fleets:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge
         public let instanceType: String
         /// The maximum concurrent sessions of the Elastic fleet. This is required for Elastic fleets, and not allowed for other fleet types.
         public let maxConcurrentSessions: Int?
@@ -2410,6 +2444,8 @@ extension AppStream {
     }
 
     public struct DirectoryConfig: AWSDecodableShape {
+        /// The certificate-based authentication properties used to authenticate SAML 2.0 Identity Provider (IdP) user identities to Active Directory domain-joined streaming instances. Fallback is turned on by default when certificate-based authentication is Enabled . Fallback allows users to log in using their AD domain password if certificate-based authentication is unsuccessful, or to unlock a desktop lock screen. Enabled_no_directory_login_fallback enables certificate-based authentication, but does not allow users to log in using their AD domain password. Users will be disconnected to re-authenticate using certificates.
+        public let certificateBasedAuthProperties: CertificateBasedAuthProperties?
         /// The time the directory configuration was created.
         public let createdTime: Date?
         /// The fully qualified name of the directory (for example, corp.example.com).
@@ -2419,7 +2455,8 @@ extension AppStream {
         /// The credentials for the service account used by the fleet or image builder to connect to the directory.
         public let serviceAccountCredentials: ServiceAccountCredentials?
 
-        public init(createdTime: Date? = nil, directoryName: String, organizationalUnitDistinguishedNames: [String]? = nil, serviceAccountCredentials: ServiceAccountCredentials? = nil) {
+        public init(certificateBasedAuthProperties: CertificateBasedAuthProperties? = nil, createdTime: Date? = nil, directoryName: String, organizationalUnitDistinguishedNames: [String]? = nil, serviceAccountCredentials: ServiceAccountCredentials? = nil) {
+            self.certificateBasedAuthProperties = certificateBasedAuthProperties
             self.createdTime = createdTime
             self.directoryName = directoryName
             self.organizationalUnitDistinguishedNames = organizationalUnitDistinguishedNames
@@ -2427,6 +2464,7 @@ extension AppStream {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case certificateBasedAuthProperties = "CertificateBasedAuthProperties"
             case createdTime = "CreatedTime"
             case directoryName = "DirectoryName"
             case organizationalUnitDistinguishedNames = "OrganizationalUnitDistinguishedNames"
@@ -3741,6 +3779,8 @@ extension AppStream {
     }
 
     public struct UpdateDirectoryConfigRequest: AWSEncodableShape {
+        /// The certificate-based authentication properties used to authenticate SAML 2.0 Identity Provider (IdP) user identities to Active Directory domain-joined streaming instances. Fallback is turned on by default when certificate-based authentication is Enabled . Fallback allows users to log in using their AD domain password if certificate-based authentication is unsuccessful, or to unlock a desktop lock screen. Enabled_no_directory_login_fallback enables certificate-based authentication, but does not allow users to log in using their AD domain password. Users will be disconnected to re-authenticate using certificates.
+        public let certificateBasedAuthProperties: CertificateBasedAuthProperties?
         /// The name of the Directory Config object.
         public let directoryName: String
         /// The distinguished names of the organizational units for computer accounts.
@@ -3748,13 +3788,15 @@ extension AppStream {
         /// The credentials for the service account used by the fleet or image builder to connect to the directory.
         public let serviceAccountCredentials: ServiceAccountCredentials?
 
-        public init(directoryName: String, organizationalUnitDistinguishedNames: [String]? = nil, serviceAccountCredentials: ServiceAccountCredentials? = nil) {
+        public init(certificateBasedAuthProperties: CertificateBasedAuthProperties? = nil, directoryName: String, organizationalUnitDistinguishedNames: [String]? = nil, serviceAccountCredentials: ServiceAccountCredentials? = nil) {
+            self.certificateBasedAuthProperties = certificateBasedAuthProperties
             self.directoryName = directoryName
             self.organizationalUnitDistinguishedNames = organizationalUnitDistinguishedNames
             self.serviceAccountCredentials = serviceAccountCredentials
         }
 
         public func validate(name: String) throws {
+            try self.certificateBasedAuthProperties?.validate(name: "\(name).certificateBasedAuthProperties")
             try self.organizationalUnitDistinguishedNames?.forEach {
                 try validate($0, name: "organizationalUnitDistinguishedNames[]", parent: name, max: 2000)
             }
@@ -3762,6 +3804,7 @@ extension AppStream {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case certificateBasedAuthProperties = "CertificateBasedAuthProperties"
             case directoryName = "DirectoryName"
             case organizationalUnitDistinguishedNames = "OrganizationalUnitDistinguishedNames"
             case serviceAccountCredentials = "ServiceAccountCredentials"
@@ -3858,7 +3901,7 @@ extension AppStream {
         public let imageArn: String?
         /// The name of the image used to create the fleet.
         public let imageName: String?
-        /// The instance type to use when launching fleet instances. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics-desktop.2xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge   The following instance types are available for Elastic fleets:   stream.standard.small   stream.standard.medium
+        /// The instance type to use when launching fleet instances. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics-desktop.2xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge   The following instance types are available for Elastic fleets:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge
         public let instanceType: String?
         /// The maximum number of concurrent sessions for a fleet.
         public let maxConcurrentSessions: Int?

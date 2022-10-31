@@ -197,6 +197,11 @@ extension Kafka {
     public func updateSecurity(_ input: UpdateSecurityRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateSecurityResponse {
         return try await self.client.execute(operation: "UpdateSecurity", path: "/v1/clusters/{ClusterArn}/security", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
+
+    /// Updates cluster broker volume size (or) sets cluster storage mode to TIERED.
+    public func updateStorage(_ input: UpdateStorageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateStorageResponse {
+        return try await self.client.execute(operation: "UpdateStorage", path: "/v1/clusters/{ClusterArn}/storage", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
 }
 
 #endif // compiler(>=5.5.2) && canImport(_Concurrency)

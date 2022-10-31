@@ -115,7 +115,7 @@ public struct AppStream: AWSService {
         return self.client.execute(operation: "CreateEntitlement", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a fleet. A fleet consists of streaming instances that run a specified image when using Always-On or On-Demand.
+    /// Creates a fleet. A fleet consists of streaming instances that your users access for their applications and desktops.
     public func createFleet(_ input: CreateFleetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateFleetResult> {
         return self.client.execute(operation: "CreateFleet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
