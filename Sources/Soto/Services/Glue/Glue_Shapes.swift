@@ -3566,6 +3566,10 @@ extension Glue {
         public let allowSingleColumn: Bool?
         /// Indicates whether the CSV file contains a header.
         public let containsHeader: CsvHeaderOption?
+        /// Enables the configuration of custom datatypes.
+        public let customDatatypeConfigured: Bool?
+        /// Creates a list of supported custom datatypes.
+        public let customDatatypes: [String]?
         /// A custom symbol to denote what separates each column entry in the row.
         public let delimiter: String?
         /// Specifies not to trim values before identifying the type of column values. The default value is true.
@@ -3577,9 +3581,11 @@ extension Glue {
         /// A custom symbol to denote what combines content into a single column value. Must be different from the column delimiter.
         public let quoteSymbol: String?
 
-        public init(allowSingleColumn: Bool? = nil, containsHeader: CsvHeaderOption? = nil, delimiter: String? = nil, disableValueTrimming: Bool? = nil, header: [String]? = nil, name: String, quoteSymbol: String? = nil) {
+        public init(allowSingleColumn: Bool? = nil, containsHeader: CsvHeaderOption? = nil, customDatatypeConfigured: Bool? = nil, customDatatypes: [String]? = nil, delimiter: String? = nil, disableValueTrimming: Bool? = nil, header: [String]? = nil, name: String, quoteSymbol: String? = nil) {
             self.allowSingleColumn = allowSingleColumn
             self.containsHeader = containsHeader
+            self.customDatatypeConfigured = customDatatypeConfigured
+            self.customDatatypes = customDatatypes
             self.delimiter = delimiter
             self.disableValueTrimming = disableValueTrimming
             self.header = header
@@ -3588,6 +3594,11 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.customDatatypes?.forEach {
+                try validate($0, name: "customDatatypes[]", parent: name, max: 255)
+                try validate($0, name: "customDatatypes[]", parent: name, min: 1)
+                try validate($0, name: "customDatatypes[]", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            }
             try self.validate(self.delimiter, name: "delimiter", parent: name, max: 1)
             try self.validate(self.delimiter, name: "delimiter", parent: name, min: 1)
             try self.validate(self.delimiter, name: "delimiter", parent: name, pattern: "^[^\\r\\n]$")
@@ -3607,6 +3618,8 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case allowSingleColumn = "AllowSingleColumn"
             case containsHeader = "ContainsHeader"
+            case customDatatypeConfigured = "CustomDatatypeConfigured"
+            case customDatatypes = "CustomDatatypes"
             case delimiter = "Delimiter"
             case disableValueTrimming = "DisableValueTrimming"
             case header = "Header"
@@ -4966,6 +4979,10 @@ extension Glue {
         public let containsHeader: CsvHeaderOption?
         /// The time that this classifier was registered.
         public let creationTime: Date?
+        /// Enables the custom datatype to be configured.
+        public let customDatatypeConfigured: Bool?
+        /// A list of custom datatypes including "BINARY", "BOOLEAN", "DATE", "DECIMAL", "DOUBLE", "FLOAT", "INT", "LONG", "SHORT", "STRING", "TIMESTAMP".
+        public let customDatatypes: [String]?
         /// A custom symbol to denote what separates each column entry in the row.
         public let delimiter: String?
         /// Specifies not to trim values before identifying the type of column values. The default value is true.
@@ -4981,10 +4998,12 @@ extension Glue {
         /// The version of this classifier.
         public let version: Int64?
 
-        public init(allowSingleColumn: Bool? = nil, containsHeader: CsvHeaderOption? = nil, creationTime: Date? = nil, delimiter: String? = nil, disableValueTrimming: Bool? = nil, header: [String]? = nil, lastUpdated: Date? = nil, name: String, quoteSymbol: String? = nil, version: Int64? = nil) {
+        public init(allowSingleColumn: Bool? = nil, containsHeader: CsvHeaderOption? = nil, creationTime: Date? = nil, customDatatypeConfigured: Bool? = nil, customDatatypes: [String]? = nil, delimiter: String? = nil, disableValueTrimming: Bool? = nil, header: [String]? = nil, lastUpdated: Date? = nil, name: String, quoteSymbol: String? = nil, version: Int64? = nil) {
             self.allowSingleColumn = allowSingleColumn
             self.containsHeader = containsHeader
             self.creationTime = creationTime
+            self.customDatatypeConfigured = customDatatypeConfigured
+            self.customDatatypes = customDatatypes
             self.delimiter = delimiter
             self.disableValueTrimming = disableValueTrimming
             self.header = header
@@ -4998,6 +5017,8 @@ extension Glue {
             case allowSingleColumn = "AllowSingleColumn"
             case containsHeader = "ContainsHeader"
             case creationTime = "CreationTime"
+            case customDatatypeConfigured = "CustomDatatypeConfigured"
+            case customDatatypes = "CustomDatatypes"
             case delimiter = "Delimiter"
             case disableValueTrimming = "DisableValueTrimming"
             case header = "Header"
@@ -17205,6 +17226,10 @@ extension Glue {
         public let allowSingleColumn: Bool?
         /// Indicates whether the CSV file contains a header.
         public let containsHeader: CsvHeaderOption?
+        /// Specifies the configuration of custom datatypes.
+        public let customDatatypeConfigured: Bool?
+        /// Specifies a list of supported custom datatypes.
+        public let customDatatypes: [String]?
         /// A custom symbol to denote what separates each column entry in the row.
         public let delimiter: String?
         /// Specifies not to trim values before identifying the type of column values. The default value is true.
@@ -17216,9 +17241,11 @@ extension Glue {
         /// A custom symbol to denote what combines content into a single column value. It must be different from the column delimiter.
         public let quoteSymbol: String?
 
-        public init(allowSingleColumn: Bool? = nil, containsHeader: CsvHeaderOption? = nil, delimiter: String? = nil, disableValueTrimming: Bool? = nil, header: [String]? = nil, name: String, quoteSymbol: String? = nil) {
+        public init(allowSingleColumn: Bool? = nil, containsHeader: CsvHeaderOption? = nil, customDatatypeConfigured: Bool? = nil, customDatatypes: [String]? = nil, delimiter: String? = nil, disableValueTrimming: Bool? = nil, header: [String]? = nil, name: String, quoteSymbol: String? = nil) {
             self.allowSingleColumn = allowSingleColumn
             self.containsHeader = containsHeader
+            self.customDatatypeConfigured = customDatatypeConfigured
+            self.customDatatypes = customDatatypes
             self.delimiter = delimiter
             self.disableValueTrimming = disableValueTrimming
             self.header = header
@@ -17227,6 +17254,11 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.customDatatypes?.forEach {
+                try validate($0, name: "customDatatypes[]", parent: name, max: 255)
+                try validate($0, name: "customDatatypes[]", parent: name, min: 1)
+                try validate($0, name: "customDatatypes[]", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            }
             try self.validate(self.delimiter, name: "delimiter", parent: name, max: 1)
             try self.validate(self.delimiter, name: "delimiter", parent: name, min: 1)
             try self.validate(self.delimiter, name: "delimiter", parent: name, pattern: "^[^\\r\\n]$")
@@ -17246,6 +17278,8 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case allowSingleColumn = "AllowSingleColumn"
             case containsHeader = "ContainsHeader"
+            case customDatatypeConfigured = "CustomDatatypeConfigured"
+            case customDatatypes = "CustomDatatypes"
             case delimiter = "Delimiter"
             case disableValueTrimming = "DisableValueTrimming"
             case header = "Header"

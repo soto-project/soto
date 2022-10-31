@@ -89,24 +89,24 @@ extension Redshift {
         case estimatedDiskUtilizationPercent = "EstimatedDiskUtilizationPercent"
         case mode = "Mode"
         case nodeType = "NodeType"
-        case numberOfNodes = "NumberOfNodes"
+        case numNodes = "NumberOfNodes"
         public var description: String { return self.rawValue }
     }
 
     public enum OperatorType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case `in`
         case between
         case eq
         case ge
         case gt
-        case `in`
         case le
         case lt
         public var description: String { return self.rawValue }
     }
 
     public enum ParameterApplyType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case dynamic
         case `static`
+        case dynamic
         public var description: String { return self.rawValue }
     }
 
@@ -174,8 +174,8 @@ extension Redshift {
     }
 
     public enum SortByOrder: String, CustomStringConvertible, Codable, _SotoSendable {
-        case asc = "ASC"
-        case desc = "DESC"
+        case ascending = "ASC"
+        case descending = "DESC"
         public var description: String { return self.rawValue }
     }
 
@@ -1510,7 +1510,7 @@ extension Redshift {
         public let dbName: String?
         /// The Amazon Resource Name (ARN) for the IAM role that was set as default for the cluster when the cluster was created.
         public let defaultIamRoleArn: String?
-        /// The Elastic IP (EIP) address for the cluster. Constraints: The cluster must be provisioned in EC2-VPC and publicly-accessible through an Internet gateway. For more information about provisioning clusters in EC2-VPC, go to Supported Platforms to Launch Your Cluster in the Amazon Redshift Cluster Management Guide.
+        /// The Elastic IP (EIP) address for the cluster. Constraints: The cluster must be provisioned in EC2-VPC and publicly-accessible through an Internet gateway. Don't specify the Elastic IP address for a publicly accessible  cluster with availability zone relocation turned on. For more information about provisioning clusters in EC2-VPC, go to Supported Platforms to Launch Your Cluster in the Amazon Redshift Cluster Management Guide.
         public let elasticIp: String?
         /// If true, the data in the cluster is encrypted at rest.  Default: false
         public let encrypted: Bool?
@@ -2280,7 +2280,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
-        public init(amount: Int64, breachAction: UsageLimitBreachAction? = nil, clusterIdentifier: String, featureType: UsageLimitFeatureType, limitType: UsageLimitLimitType, period: UsageLimitPeriod? = nil, tags: [Tag]? = nil) {
+        public init(amount: Int64 = 0, breachAction: UsageLimitBreachAction? = nil, clusterIdentifier: String, featureType: UsageLimitFeatureType, limitType: UsageLimitLimitType, period: UsageLimitPeriod? = nil, tags: [Tag]? = nil) {
             self.amount = amount
             self.breachAction = breachAction
             self.clusterIdentifier = clusterIdentifier
@@ -5866,7 +5866,7 @@ extension Redshift {
         /// The number of days to retain automated snapshots in the destination Amazon Web Services Region after they are copied from the source Amazon Web Services Region. By default, this only changes the retention period of copied automated snapshots.  If you decrease the retention period for automated snapshots that are copied to a destination Amazon Web Services Region, Amazon Redshift deletes any existing automated snapshots that were copied to the destination Amazon Web Services Region and that fall outside of the new retention period. Constraints: Must be at least 1 and no more than 35 for automated snapshots.  If you specify the manual option, only newly copied manual snapshots will have the new retention period.  If you specify the value of -1 newly copied manual snapshots are retained indefinitely. Constraints: The number of days must be either -1 or an integer between 1 and 3,653 for manual snapshots.
         public let retentionPeriod: Int
 
-        public init(clusterIdentifier: String, manual: Bool? = nil, retentionPeriod: Int) {
+        public init(clusterIdentifier: String, manual: Bool? = nil, retentionPeriod: Int = 0) {
             self.clusterIdentifier = clusterIdentifier
             self.manual = manual
             self.retentionPeriod = retentionPeriod
@@ -6841,7 +6841,7 @@ extension Redshift {
         public let clusterSubnetGroupName: String?
         /// The Amazon Resource Name (ARN) for the IAM role that was set as default for the cluster when the cluster was last modified while it was restored from a snapshot.
         public let defaultIamRoleArn: String?
-        /// The elastic IP (EIP) address for the cluster.
+        /// The Elastic IP (EIP) address for the cluster. Don't specify the Elastic IP address for a publicly  accessible cluster with availability zone relocation turned on.
         public let elasticIp: String?
         /// Enables support for restoring an unencrypted snapshot to a cluster encrypted  with Key Management Service (KMS) and a customer managed key.
         public let encrypted: Bool?

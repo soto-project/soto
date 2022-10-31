@@ -717,6 +717,7 @@ extension SageMaker {
 
     public enum HyperParameterTuningJobStrategyType: String, CustomStringConvertible, Codable, _SotoSendable {
         case bayesian = "Bayesian"
+        case grid = "Grid"
         case hyperband = "Hyperband"
         case random = "Random"
         public var description: String { return self.rawValue }
@@ -2266,6 +2267,10 @@ extension SageMaker {
     public struct AlgorithmSpecification: AWSEncodableShape & AWSDecodableShape {
         /// The name of the algorithm resource to use for the training job. This must be an algorithm resource that you created or subscribe to on Amazon Web Services Marketplace.  You must specify either the algorithm name to the AlgorithmName parameter or the image URI of the algorithm container to the TrainingImage parameter. Note that the AlgorithmName parameter is mutually exclusive with the TrainingImage parameter. If you specify a value for the AlgorithmName parameter, you can't specify a value for TrainingImage, and vice versa. If you specify values for both parameters, the training job might break; if you don't specify any value for both parameters, the training job might raise a null error.
         public let algorithmName: String?
+        /// The arguments for a container used to run a training job. See How Amazon SageMaker Runs Your Training Image for additional information.
+        public let containerArguments: [String]?
+        /// The entrypoint script for a Docker container used to run a training job. This script takes precedence over the default train processing instructions. See How Amazon SageMaker Runs Your Training Image for more information.
+        public let containerEntrypoint: [String]?
         /// To generate and save time-series metrics during training, set to true. The default is false and time-series metrics aren't generated except in the following cases:   You use one of the SageMaker built-in algorithms   You use one of the following Prebuilt SageMaker Docker Images:   Tensorflow (version >= 1.15)   MXNet (version >= 1.6)   PyTorch (version >= 1.3)     You specify at least one MetricDefinition
         public let enableSageMakerMetricsTimeSeries: Bool?
         /// A list of metric definition objects. Each object specifies the metric name and regular expressions used to parse algorithm logs. SageMaker publishes each metric to Amazon CloudWatch.
@@ -2274,8 +2279,10 @@ extension SageMaker {
         public let trainingImage: String?
         public let trainingInputMode: TrainingInputMode
 
-        public init(algorithmName: String? = nil, enableSageMakerMetricsTimeSeries: Bool? = nil, metricDefinitions: [MetricDefinition]? = nil, trainingImage: String? = nil, trainingInputMode: TrainingInputMode) {
+        public init(algorithmName: String? = nil, containerArguments: [String]? = nil, containerEntrypoint: [String]? = nil, enableSageMakerMetricsTimeSeries: Bool? = nil, metricDefinitions: [MetricDefinition]? = nil, trainingImage: String? = nil, trainingInputMode: TrainingInputMode) {
             self.algorithmName = algorithmName
+            self.containerArguments = containerArguments
+            self.containerEntrypoint = containerEntrypoint
             self.enableSageMakerMetricsTimeSeries = enableSageMakerMetricsTimeSeries
             self.metricDefinitions = metricDefinitions
             self.trainingImage = trainingImage
@@ -2286,6 +2293,18 @@ extension SageMaker {
             try self.validate(self.algorithmName, name: "algorithmName", parent: name, max: 170)
             try self.validate(self.algorithmName, name: "algorithmName", parent: name, min: 1)
             try self.validate(self.algorithmName, name: "algorithmName", parent: name, pattern: "^(arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:[a-z\\-]*\\/)?([a-zA-Z0-9]([a-zA-Z0-9-]){0,62})(?<!-)$")
+            try self.containerArguments?.forEach {
+                try validate($0, name: "containerArguments[]", parent: name, max: 256)
+                try validate($0, name: "containerArguments[]", parent: name, pattern: ".*")
+            }
+            try self.validate(self.containerArguments, name: "containerArguments", parent: name, max: 100)
+            try self.validate(self.containerArguments, name: "containerArguments", parent: name, min: 1)
+            try self.containerEntrypoint?.forEach {
+                try validate($0, name: "containerEntrypoint[]", parent: name, max: 256)
+                try validate($0, name: "containerEntrypoint[]", parent: name, pattern: ".*")
+            }
+            try self.validate(self.containerEntrypoint, name: "containerEntrypoint", parent: name, max: 10)
+            try self.validate(self.containerEntrypoint, name: "containerEntrypoint", parent: name, min: 1)
             try self.metricDefinitions?.forEach {
                 try $0.validate(name: "\(name).metricDefinitions[]")
             }
@@ -2296,6 +2315,8 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case algorithmName = "AlgorithmName"
+            case containerArguments = "ContainerArguments"
+            case containerEntrypoint = "ContainerEntrypoint"
             case enableSageMakerMetricsTimeSeries = "EnableSageMakerMetricsTimeSeries"
             case metricDefinitions = "MetricDefinitions"
             case trainingImage = "TrainingImage"
@@ -25560,11 +25581,11 @@ extension SageMaker {
 
     public struct ResourceLimits: AWSEncodableShape & AWSDecodableShape {
         /// The maximum number of training jobs that a hyperparameter tuning job can launch.
-        public let maxNumberOfTrainingJobs: Int
+        public let maxNumberOfTrainingJobs: Int?
         /// The maximum number of concurrent training jobs that a hyperparameter tuning job can launch.
         public let maxParallelTrainingJobs: Int
 
-        public init(maxNumberOfTrainingJobs: Int, maxParallelTrainingJobs: Int) {
+        public init(maxNumberOfTrainingJobs: Int? = nil, maxParallelTrainingJobs: Int) {
             self.maxNumberOfTrainingJobs = maxNumberOfTrainingJobs
             self.maxParallelTrainingJobs = maxParallelTrainingJobs
         }

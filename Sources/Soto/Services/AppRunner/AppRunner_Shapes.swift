@@ -111,10 +111,14 @@ extension AppRunner {
     public enum Runtime: String, CustomStringConvertible, Codable, _SotoSendable {
         case corretto11 = "CORRETTO_11"
         case corretto8 = "CORRETTO_8"
+        case dotnet6 = "DOTNET_6"
+        case go1 = "GO_1"
         case nodejs12 = "NODEJS_12"
         case nodejs14 = "NODEJS_14"
         case nodejs16 = "NODEJS_16"
+        case php81 = "PHP_81"
         case python3 = "PYTHON_3"
+        case ruby31 = "RUBY_31"
         public var description: String { return self.rawValue }
     }
 

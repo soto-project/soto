@@ -237,6 +237,11 @@ public struct Kafka: AWSService {
     public func updateSecurity(_ input: UpdateSecurityRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateSecurityResponse> {
         return self.client.execute(operation: "UpdateSecurity", path: "/v1/clusters/{ClusterArn}/security", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
+
+    /// Updates cluster broker volume size (or) sets cluster storage mode to TIERED.
+    public func updateStorage(_ input: UpdateStorageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateStorageResponse> {
+        return self.client.execute(operation: "UpdateStorage", path: "/v1/clusters/{ClusterArn}/storage", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
 }
 
 extension Kafka {

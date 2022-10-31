@@ -35,6 +35,7 @@ extension MediaTailor {
 
     public enum MessageType: String, CustomStringConvertible, Codable, _SotoSendable {
         case spliceInsert = "SPLICE_INSERT"
+        case timeSignal = "TIME_SIGNAL"
         public var description: String { return self.rawValue }
     }
 
@@ -113,12 +114,15 @@ extension MediaTailor {
         public let slate: SlateSource?
         /// This defines the SCTE-35 splice_insert() message inserted around the ad. For information about using splice_insert(), see the SCTE-35 specficiaiton, section 9.7.3.1.
         public let spliceInsertMessage: SpliceInsertMessage?
+        /// Defines the SCTE-35 time_signal message inserted around the ad. Programs on a channel's schedule can be configured with one or more ad breaks. You can attach a splice_insert SCTE-35 message to the ad break. This message provides basic metadata about the ad break. See section 9.7.4 of the 2022 SCTE-35 specification for more information.
+        public let timeSignalMessage: TimeSignalMessage?
 
-        public init(messageType: MessageType? = nil, offsetMillis: Int64? = nil, slate: SlateSource? = nil, spliceInsertMessage: SpliceInsertMessage? = nil) {
+        public init(messageType: MessageType? = nil, offsetMillis: Int64? = nil, slate: SlateSource? = nil, spliceInsertMessage: SpliceInsertMessage? = nil, timeSignalMessage: TimeSignalMessage? = nil) {
             self.messageType = messageType
             self.offsetMillis = offsetMillis
             self.slate = slate
             self.spliceInsertMessage = spliceInsertMessage
+            self.timeSignalMessage = timeSignalMessage
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -126,6 +130,7 @@ extension MediaTailor {
             case offsetMillis = "OffsetMillis"
             case slate = "Slate"
             case spliceInsertMessage = "SpliceInsertMessage"
+            case timeSignalMessage = "TimeSignalMessage"
         }
     }
 
@@ -2565,6 +2570,47 @@ extension MediaTailor {
         }
     }
 
+    public struct SegmentationDescriptor: AWSEncodableShape & AWSDecodableShape {
+        /// The Event Identifier to assign to the segmentation_descriptor.segmentation_event_id message, as defined in section 10.3.3.1 of the 2022 SCTE-35 specification. The default value is 1.
+        public let segmentationEventId: Int?
+        /// The Type Identifier to assign to the segmentation_descriptor.segmentation_type_id message, as defined in section 10.3.3.1 of the 2022 SCTE-35 specification. Values must be between 0 and 256, inclusive. The default value is 48.
+        public let segmentationTypeId: Int?
+        /// The Upid to assign to the segmentation_descriptor.segmentation_upid message, as defined in section 10.3.3.1 of the 2022 SCTE-35 specification. The value must be a hexadecimal string containing only the characters 0 though 9 and A through F. The default value is "" (an empty string).
+        public let segmentationUpid: String?
+        /// The Upid Type to assign to the segmentation_descriptor.segmentation_upid_type message, as defined in section 10.3.3.1 of the 2022 SCTE-35 specification. Values must be between 0 and 256, inclusive. The default value is 14.
+        public let segmentationUpidType: Int?
+        /// The segment number to assign to the segmentation_descriptor.segment_num message, as defined in section 10.3.3.1 of the 2022 SCTE-35 specification Values must be between 0 and 256, inclusive. The default value is 0.
+        public let segmentNum: Int?
+        /// The number of segments expected, which is assigned to the segmentation_descriptor.segments_expectedS message, as defined in section 10.3.3.1 of the 2022 SCTE-35 specification Values must be between 0 and 256, inclusive. The default value is 0.
+        public let segmentsExpected: Int?
+        /// The sub-segment number to assign to the segmentation_descriptor.sub_segment_num message, as defined in section 10.3.3.1 of the 2022 SCTE-35 specification. Values must be between 0 and 256, inclusive. The defualt value is null.
+        public let subSegmentNum: Int?
+        /// The number of sub-segments expected, which is assigned to the segmentation_descriptor.sub_segments_expected message, as defined in section 10.3.3.1 of the 2022 SCTE-35 specification. Values must be between 0 and 256, inclusive. The default value is null.
+        public let subSegmentsExpected: Int?
+
+        public init(segmentationEventId: Int? = nil, segmentationTypeId: Int? = nil, segmentationUpid: String? = nil, segmentationUpidType: Int? = nil, segmentNum: Int? = nil, segmentsExpected: Int? = nil, subSegmentNum: Int? = nil, subSegmentsExpected: Int? = nil) {
+            self.segmentationEventId = segmentationEventId
+            self.segmentationTypeId = segmentationTypeId
+            self.segmentationUpid = segmentationUpid
+            self.segmentationUpidType = segmentationUpidType
+            self.segmentNum = segmentNum
+            self.segmentsExpected = segmentsExpected
+            self.subSegmentNum = subSegmentNum
+            self.subSegmentsExpected = subSegmentsExpected
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case segmentationEventId = "SegmentationEventId"
+            case segmentationTypeId = "SegmentationTypeId"
+            case segmentationUpid = "SegmentationUpid"
+            case segmentationUpidType = "SegmentationUpidType"
+            case segmentNum = "SegmentNum"
+            case segmentsExpected = "SegmentsExpected"
+            case subSegmentNum = "SubSegmentNum"
+            case subSegmentsExpected = "SubSegmentsExpected"
+        }
+    }
+
     public struct SlateSource: AWSEncodableShape & AWSDecodableShape {
         /// The name of the source location where the slate VOD source is stored.
         public let sourceLocationName: String?
@@ -2709,6 +2755,19 @@ extension MediaTailor {
 
         private enum CodingKeys: String, CodingKey {
             case tags
+        }
+    }
+
+    public struct TimeSignalMessage: AWSEncodableShape & AWSDecodableShape {
+        /// The configurations for the SCTE-35 segmentation_descriptor message(s) sent with the time_signal message.
+        public let segmentationDescriptors: [SegmentationDescriptor]?
+
+        public init(segmentationDescriptors: [SegmentationDescriptor]? = nil) {
+            self.segmentationDescriptors = segmentationDescriptors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case segmentationDescriptors = "SegmentationDescriptors"
         }
     }
 

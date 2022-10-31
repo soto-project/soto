@@ -65,7 +65,7 @@ public struct IoTWireless: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2020-11-22",
             endpoint: endpoint,
-            serviceEndpoints: ["ap-northeast-1": "api.iotwireless.ap-northeast-1.amazonaws.com", "ap-southeast-2": "api.iotwireless.ap-southeast-2.amazonaws.com", "eu-west-1": "api.iotwireless.eu-west-1.amazonaws.com", "us-east-1": "api.iotwireless.us-east-1.amazonaws.com", "us-west-2": "api.iotwireless.us-west-2.amazonaws.com"],
+            serviceEndpoints: ["ap-northeast-1": "api.iotwireless.ap-northeast-1.amazonaws.com", "ap-southeast-2": "api.iotwireless.ap-southeast-2.amazonaws.com", "eu-central-1": "api.iotwireless.eu-central-1.amazonaws.com", "eu-west-1": "api.iotwireless.eu-west-1.amazonaws.com", "sa-east-1": "api.iotwireless.sa-east-1.amazonaws.com", "us-east-1": "api.iotwireless.us-east-1.amazonaws.com", "us-west-2": "api.iotwireless.us-west-2.amazonaws.com"],
             errorType: IoTWirelessErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

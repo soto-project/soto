@@ -959,6 +959,7 @@ extension CloudFormation.ListStackSetOperationResultsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudFormation.ListStackSetOperationResultsInput {
         return .init(
             callAs: self.callAs,
+            filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token,
             operationId: self.operationId,
