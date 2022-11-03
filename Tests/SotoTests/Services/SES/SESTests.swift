@@ -46,6 +46,19 @@ class SESTests: XCTestCase {
         XCTAssertNoThrow(_ = try Self.ses.getAccountSendingEnabled().wait())
     }
 
+    /* func testSESIdentityExistsWaiter() {
+         let response = Self.ses.verifyEmailIdentity(.init(emailAddress: "admin@opticalaberration.com"))
+             .flatMap{ _ in
+                 return Self.ses.waitUntilIdentityExists(.init(identities: ["admin@opticalaberration.com"]))
+             }
+         XCTAssertNoThrow(try response.wait())
+     } */
+}
+
+#if compiler(>=5.5.2) && canImport(_Concurrency)
+
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+extension SESTests {
     // test fips region
     func testFipsRegion() async throws {
         struct TestError: Error {}
@@ -64,12 +77,6 @@ class SESTests: XCTestCase {
             _ = try await ses.createConfigurationSet(.init(configurationSet: .init(name: "test")))
         } catch is TestError {}
     }
-
-    /* func testSESIdentityExistsWaiter() {
-         let response = Self.ses.verifyEmailIdentity(.init(emailAddress: "admin@opticalaberration.com"))
-             .flatMap{ _ in
-                 return Self.ses.waitUntilIdentityExists(.init(identities: ["admin@opticalaberration.com"]))
-             }
-         XCTAssertNoThrow(try response.wait())
-     } */
 }
+
+#endif // compiler(>=5.5.2) && canImport(_Concurrency)
