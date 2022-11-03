@@ -46,6 +46,25 @@ class SESTests: XCTestCase {
         XCTAssertNoThrow(_ = try Self.ses.getAccountSendingEnabled().wait())
     }
 
+    // test fips region
+    func testFipsRegion() async throws {
+        struct TestError: Error {}
+        struct TestRequestMiddleware: AWSServiceMiddleware {
+            let test: @Sendable (AWSRequest) -> Void
+            func chain(request: AWSRequest, context: AWSMiddlewareContext) throws -> AWSRequest {
+                self.test(request)
+                throw TestError()
+            }
+        }
+        let testMiddleware = TestRequestMiddleware { request in
+            XCTAssertEqual(request.url, URL(string: "https://email-fips.us-east-1.amazonaws.com/")!)
+        }
+        let ses = SES(client: Self.client, region: .other("fips-us-east-1")).with(middlewares: [testMiddleware])
+        do {
+            _ = try await ses.createConfigurationSet(.init(configurationSet: .init(name: "test")))
+        } catch is TestError {}
+    }
+
     /* func testSESIdentityExistsWaiter() {
          let response = Self.ses.verifyEmailIdentity(.init(emailAddress: "admin@opticalaberration.com"))
              .flatMap{ _ in
