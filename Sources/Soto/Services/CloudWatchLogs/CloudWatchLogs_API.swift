@@ -55,6 +55,14 @@ public struct CloudWatchLogs: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2014-03-28",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "fips-us-east-1": "logs-fips.us-east-1.amazonaws.com",
+                "fips-us-east-2": "logs-fips.us-east-2.amazonaws.com",
+                "fips-us-gov-east-1": "logs.us-gov-east-1.amazonaws.com",
+                "fips-us-gov-west-1": "logs.us-gov-west-1.amazonaws.com",
+                "fips-us-west-1": "logs-fips.us-west-1.amazonaws.com",
+                "fips-us-west-2": "logs-fips.us-west-2.amazonaws.com"
+            ],
             errorType: CloudWatchLogsErrorType.self,
             xmlNamespace: "http://monitoring.amazonaws.com/doc/2014-03-28/",
             timeout: timeout,

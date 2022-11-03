@@ -55,6 +55,13 @@ public struct CognitoIdentityProvider: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-04-18",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "fips-us-east-1": "cognito-idp-fips.us-east-1.amazonaws.com",
+                "fips-us-east-2": "cognito-idp-fips.us-east-2.amazonaws.com",
+                "fips-us-gov-west-1": "cognito-idp-fips.us-gov-west-1.amazonaws.com",
+                "fips-us-west-1": "cognito-idp-fips.us-west-1.amazonaws.com",
+                "fips-us-west-2": "cognito-idp-fips.us-west-2.amazonaws.com"
+            ],
             errorType: CognitoIdentityProviderErrorType.self,
             xmlNamespace: "http://cognito-idp.amazonaws.com/doc/2016-04-18/",
             timeout: timeout,

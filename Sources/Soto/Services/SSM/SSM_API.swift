@@ -55,6 +55,15 @@ public struct SSM: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2014-11-06",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "fips-ca-central-1": "ssm-fips.ca-central-1.amazonaws.com",
+                "fips-us-east-1": "ssm-fips.us-east-1.amazonaws.com",
+                "fips-us-east-2": "ssm-fips.us-east-2.amazonaws.com",
+                "fips-us-gov-east-1": "ssm.us-gov-east-1.amazonaws.com",
+                "fips-us-gov-west-1": "ssm.us-gov-west-1.amazonaws.com",
+                "fips-us-west-1": "ssm-fips.us-west-1.amazonaws.com",
+                "fips-us-west-2": "ssm-fips.us-west-2.amazonaws.com"
+            ],
             errorType: SSMErrorType.self,
             xmlNamespace: "http://ssm.amazonaws.com/doc/2014-11-06/",
             timeout: timeout,

@@ -54,6 +54,9 @@ public struct Route53RecoveryControlConfig: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2020-11-02",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "aws-global": "route53-recovery-control-config.us-west-2.amazonaws.com"
+            ],
             errorType: Route53RecoveryControlConfigErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

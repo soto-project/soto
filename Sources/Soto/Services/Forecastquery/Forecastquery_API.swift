@@ -56,6 +56,11 @@ public struct Forecastquery: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-06-26",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "fips-us-east-1": "forecastquery-fips.us-east-1.amazonaws.com",
+                "fips-us-east-2": "forecastquery-fips.us-east-2.amazonaws.com",
+                "fips-us-west-2": "forecastquery-fips.us-west-2.amazonaws.com"
+            ],
             errorType: ForecastqueryErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

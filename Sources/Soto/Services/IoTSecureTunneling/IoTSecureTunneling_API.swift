@@ -60,6 +60,15 @@ public struct IoTSecureTunneling: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-10-05",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "fips-ca-central-1": "api.tunneling.iot-fips.ca-central-1.amazonaws.com",
+                "fips-us-east-1": "api.tunneling.iot-fips.us-east-1.amazonaws.com",
+                "fips-us-east-2": "api.tunneling.iot-fips.us-east-2.amazonaws.com",
+                "fips-us-gov-east-1": "api.tunneling.iot-fips.us-gov-east-1.amazonaws.com",
+                "fips-us-gov-west-1": "api.tunneling.iot-fips.us-gov-west-1.amazonaws.com",
+                "fips-us-west-1": "api.tunneling.iot-fips.us-west-1.amazonaws.com",
+                "fips-us-west-2": "api.tunneling.iot-fips.us-west-2.amazonaws.com"
+            ],
             errorType: IoTSecureTunnelingErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

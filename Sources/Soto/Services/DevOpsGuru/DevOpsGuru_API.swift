@@ -65,6 +65,11 @@ public struct DevOpsGuru: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2020-12-01",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "fips-us-east-1": "devops-guru-fips.us-east-1.amazonaws.com",
+                "fips-us-east-2": "devops-guru-fips.us-east-2.amazonaws.com",
+                "fips-us-west-2": "devops-guru-fips.us-west-2.amazonaws.com"
+            ],
             errorType: DevOpsGuruErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

@@ -56,6 +56,8 @@ public struct Health: AWSService {
             serviceEndpoints: [
                 "aws-cn-global": "global.health.amazonaws.com.cn",
                 "aws-global": "global.health.amazonaws.com",
+                "fips-us-east-2": "health-fips.us-east-2.amazonaws.com",
+                "fips-us-gov-west-1": "health-fips.us-gov-west-1.amazonaws.com",
                 "us-east-2": "health.us-east-2.amazonaws.com"
             ],
             partitionEndpoints: [

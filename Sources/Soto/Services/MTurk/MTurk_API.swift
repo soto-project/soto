@@ -53,6 +53,9 @@ public struct MTurk: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-01-17",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "sandbox": "mturk-requester-sandbox.us-east-1.amazonaws.com"
+            ],
             errorType: MTurkErrorType.self,
             xmlNamespace: "http://requester.mturk.com/2017-01-17/",
             timeout: timeout,

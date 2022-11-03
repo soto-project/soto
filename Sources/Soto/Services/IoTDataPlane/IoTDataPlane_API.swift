@@ -55,6 +55,15 @@ public struct IoTDataPlane: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2015-05-28",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "fips-ca-central-1": "data.iot-fips.ca-central-1.amazonaws.com",
+                "fips-us-east-1": "data.iot-fips.us-east-1.amazonaws.com",
+                "fips-us-east-2": "data.iot-fips.us-east-2.amazonaws.com",
+                "fips-us-gov-east-1": "data.iot-fips.us-gov-east-1.amazonaws.com",
+                "fips-us-gov-west-1": "data.iot-fips.us-gov-west-1.amazonaws.com",
+                "fips-us-west-1": "data.iot-fips.us-west-1.amazonaws.com",
+                "fips-us-west-2": "data.iot-fips.us-west-2.amazonaws.com"
+            ],
             errorType: IoTDataPlaneErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

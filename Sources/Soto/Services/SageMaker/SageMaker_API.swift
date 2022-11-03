@@ -56,6 +56,14 @@ public struct SageMaker: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-07-24",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "us-east-1-fips": "api-fips.sagemaker.us-east-1.amazonaws.com",
+                "us-east-2-fips": "api-fips.sagemaker.us-east-2.amazonaws.com",
+                "us-gov-west-1-fips": "api-fips.sagemaker.us-gov-west-1.amazonaws.com",
+                "us-gov-west-1-fips-secondary": "api.sagemaker.us-gov-west-1.amazonaws.com",
+                "us-west-1-fips": "api-fips.sagemaker.us-west-1.amazonaws.com",
+                "us-west-2-fips": "api-fips.sagemaker.us-west-2.amazonaws.com"
+            ],
             errorType: SageMakerErrorType.self,
             xmlNamespace: "http://sagemaker.amazonaws.com/doc/2017-05-13/",
             timeout: timeout,

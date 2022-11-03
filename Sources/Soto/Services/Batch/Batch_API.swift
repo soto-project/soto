@@ -54,6 +54,14 @@ public struct Batch: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2016-08-10",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "fips-us-east-1": "fips.batch.us-east-1.amazonaws.com",
+                "fips-us-east-2": "fips.batch.us-east-2.amazonaws.com",
+                "fips-us-gov-east-1": "batch.us-gov-east-1.amazonaws.com",
+                "fips-us-gov-west-1": "batch.us-gov-west-1.amazonaws.com",
+                "fips-us-west-1": "fips.batch.us-west-1.amazonaws.com",
+                "fips-us-west-2": "fips.batch.us-west-2.amazonaws.com"
+            ],
             errorType: BatchErrorType.self,
             xmlNamespace: "http://batch.amazonaws.com/doc/2016-08-10/",
             timeout: timeout,

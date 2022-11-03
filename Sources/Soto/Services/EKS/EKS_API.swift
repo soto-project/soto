@@ -54,6 +54,14 @@ public struct EKS: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2017-11-01",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "fips-us-east-1": "fips.eks.us-east-1.amazonaws.com",
+                "fips-us-east-2": "fips.eks.us-east-2.amazonaws.com",
+                "fips-us-gov-east-1": "eks.us-gov-east-1.amazonaws.com",
+                "fips-us-gov-west-1": "eks.us-gov-west-1.amazonaws.com",
+                "fips-us-west-1": "fips.eks.us-west-1.amazonaws.com",
+                "fips-us-west-2": "fips.eks.us-west-2.amazonaws.com"
+            ],
             errorType: EKSErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

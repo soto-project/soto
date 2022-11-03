@@ -55,6 +55,12 @@ public struct Translate: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-07-01",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "us-east-1-fips": "translate-fips.us-east-1.amazonaws.com",
+                "us-east-2-fips": "translate-fips.us-east-2.amazonaws.com",
+                "us-gov-west-1-fips": "translate-fips.us-gov-west-1.amazonaws.com",
+                "us-west-2-fips": "translate-fips.us-west-2.amazonaws.com"
+            ],
             errorType: TranslateErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

@@ -55,6 +55,15 @@ public struct Transfer: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-11-05",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "fips-ca-central-1": "transfer-fips.ca-central-1.amazonaws.com",
+                "fips-us-east-1": "transfer-fips.us-east-1.amazonaws.com",
+                "fips-us-east-2": "transfer-fips.us-east-2.amazonaws.com",
+                "fips-us-gov-east-1": "transfer-fips.us-gov-east-1.amazonaws.com",
+                "fips-us-gov-west-1": "transfer-fips.us-gov-west-1.amazonaws.com",
+                "fips-us-west-1": "transfer-fips.us-west-1.amazonaws.com",
+                "fips-us-west-2": "transfer-fips.us-west-2.amazonaws.com"
+            ],
             errorType: TransferErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

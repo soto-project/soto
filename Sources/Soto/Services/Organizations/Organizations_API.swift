@@ -56,7 +56,9 @@ public struct Organizations: AWSService {
             serviceEndpoints: [
                 "aws-cn-global": "organizations.cn-northwest-1.amazonaws.com.cn",
                 "aws-global": "organizations.us-east-1.amazonaws.com",
-                "aws-us-gov-global": "organizations.us-gov-west-1.amazonaws.com"
+                "aws-us-gov-global": "organizations.us-gov-west-1.amazonaws.com",
+                "fips-aws-global": "organizations-fips.us-east-1.amazonaws.com",
+                "fips-aws-us-gov-global": "organizations.us-gov-west-1.amazonaws.com"
             ],
             partitionEndpoints: [
                 .aws: (endpoint: "aws-global", region: .useast1),

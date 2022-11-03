@@ -54,6 +54,14 @@ public struct SecurityHub: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2018-10-26",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "fips-us-east-1": "securityhub-fips.us-east-1.amazonaws.com",
+                "fips-us-east-2": "securityhub-fips.us-east-2.amazonaws.com",
+                "fips-us-gov-east-1": "securityhub-fips.us-gov-east-1.amazonaws.com",
+                "fips-us-gov-west-1": "securityhub-fips.us-gov-west-1.amazonaws.com",
+                "fips-us-west-1": "securityhub-fips.us-west-1.amazonaws.com",
+                "fips-us-west-2": "securityhub-fips.us-west-2.amazonaws.com"
+            ],
             errorType: SecurityHubErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

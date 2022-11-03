@@ -54,6 +54,14 @@ public struct SNS: AWSService {
             serviceProtocol: .query,
             apiVersion: "2010-03-31",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "fips-us-east-1": "sns-fips.us-east-1.amazonaws.com",
+                "fips-us-east-2": "sns-fips.us-east-2.amazonaws.com",
+                "fips-us-gov-east-1": "sns.us-gov-east-1.amazonaws.com",
+                "fips-us-gov-west-1": "sns.us-gov-west-1.amazonaws.com",
+                "fips-us-west-1": "sns-fips.us-west-1.amazonaws.com",
+                "fips-us-west-2": "sns-fips.us-west-2.amazonaws.com"
+            ],
             errorType: SNSErrorType.self,
             xmlNamespace: "http://sns.amazonaws.com/doc/2010-03-31/",
             timeout: timeout,

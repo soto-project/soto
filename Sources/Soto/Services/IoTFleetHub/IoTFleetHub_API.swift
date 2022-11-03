@@ -55,6 +55,12 @@ public struct IoTFleetHub: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2020-11-03",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "fips-ca-central-1": "api.fleethub.iot-fips.ca-central-1.amazonaws.com",
+                "fips-us-east-1": "api.fleethub.iot-fips.us-east-1.amazonaws.com",
+                "fips-us-east-2": "api.fleethub.iot-fips.us-east-2.amazonaws.com",
+                "fips-us-west-2": "api.fleethub.iot-fips.us-west-2.amazonaws.com"
+            ],
             errorType: IoTFleetHubErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

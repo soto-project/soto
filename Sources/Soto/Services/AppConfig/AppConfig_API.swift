@@ -54,6 +54,10 @@ public struct AppConfig: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2019-10-09",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "fips-us-gov-east-1": "appconfig.us-gov-east-1.amazonaws.com",
+                "fips-us-gov-west-1": "appconfig.us-gov-west-1.amazonaws.com"
+            ],
             errorType: AppConfigErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

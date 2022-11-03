@@ -55,6 +55,10 @@ public struct ServiceQuotas: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2019-06-24",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "fips-us-gov-east-1": "servicequotas.us-gov-east-1.amazonaws.com",
+                "fips-us-gov-west-1": "servicequotas.us-gov-west-1.amazonaws.com"
+            ],
             errorType: ServiceQuotasErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

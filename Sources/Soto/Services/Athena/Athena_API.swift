@@ -55,6 +55,14 @@ public struct Athena: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-05-18",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "fips-us-east-1": "athena-fips.us-east-1.amazonaws.com",
+                "fips-us-east-2": "athena-fips.us-east-2.amazonaws.com",
+                "fips-us-gov-east-1": "athena-fips.us-gov-east-1.amazonaws.com",
+                "fips-us-gov-west-1": "athena-fips.us-gov-west-1.amazonaws.com",
+                "fips-us-west-1": "athena-fips.us-west-1.amazonaws.com",
+                "fips-us-west-2": "athena-fips.us-west-2.amazonaws.com"
+            ],
             errorType: AthenaErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

@@ -54,6 +54,14 @@ public struct Synthetics: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2017-10-11",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "fips-us-east-1": "synthetics-fips.us-east-1.amazonaws.com",
+                "fips-us-east-2": "synthetics-fips.us-east-2.amazonaws.com",
+                "fips-us-gov-east-1": "synthetics-fips.us-gov-east-1.amazonaws.com",
+                "fips-us-gov-west-1": "synthetics-fips.us-gov-west-1.amazonaws.com",
+                "fips-us-west-1": "synthetics-fips.us-west-1.amazonaws.com",
+                "fips-us-west-2": "synthetics-fips.us-west-2.amazonaws.com"
+            ],
             errorType: SyntheticsErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

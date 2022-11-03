@@ -55,6 +55,17 @@ public struct ServiceDiscovery: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-03-14",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "ca-central-1-fips": "servicediscovery-fips.ca-central-1.amazonaws.com",
+                "servicediscovery-fips": "servicediscovery-fips.ca-central-1.amazonaws.com",
+                "servicediscovery-fips": "servicediscovery-fips.us-gov-west-1.amazonaws.com",
+                "us-east-1-fips": "servicediscovery-fips.us-east-1.amazonaws.com",
+                "us-east-2-fips": "servicediscovery-fips.us-east-2.amazonaws.com",
+                "us-gov-east-1-fips": "servicediscovery-fips.us-gov-east-1.amazonaws.com",
+                "us-gov-west-1-fips": "servicediscovery-fips.us-gov-west-1.amazonaws.com",
+                "us-west-1-fips": "servicediscovery-fips.us-west-1.amazonaws.com",
+                "us-west-2-fips": "servicediscovery-fips.us-west-2.amazonaws.com"
+            ],
             errorType: ServiceDiscoveryErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

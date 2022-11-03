@@ -55,6 +55,12 @@ public struct TranscribeStreaming: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2017-10-26",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "transcribestreaming-fips-ca-central-1": "transcribestreaming-fips.ca-central-1.amazonaws.com",
+                "transcribestreaming-fips-us-east-1": "transcribestreaming-fips.us-east-1.amazonaws.com",
+                "transcribestreaming-fips-us-east-2": "transcribestreaming-fips.us-east-2.amazonaws.com",
+                "transcribestreaming-fips-us-west-2": "transcribestreaming-fips.us-west-2.amazonaws.com"
+            ],
             errorType: TranscribeStreamingErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

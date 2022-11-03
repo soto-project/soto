@@ -55,6 +55,11 @@ public struct SES: AWSService {
             serviceProtocol: .query,
             apiVersion: "2010-12-01",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "fips-us-east-1": "email-fips.us-east-1.amazonaws.com",
+                "fips-us-gov-west-1": "email-fips.us-gov-west-1.amazonaws.com",
+                "fips-us-west-2": "email-fips.us-west-2.amazonaws.com"
+            ],
             errorType: SESErrorType.self,
             xmlNamespace: "http://ses.amazonaws.com/doc/2010-12-01/",
             timeout: timeout,

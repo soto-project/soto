@@ -58,7 +58,9 @@ public struct Route53: AWSService {
                 "aws-global": "route53.amazonaws.com",
                 "aws-iso-b-global": "route53.sc2s.sgov.gov",
                 "aws-iso-global": "route53.c2s.ic.gov",
-                "aws-us-gov-global": "route53.us-gov.amazonaws.com"
+                "aws-us-gov-global": "route53.us-gov.amazonaws.com",
+                "fips-aws-global": "route53-fips.amazonaws.com",
+                "fips-aws-us-gov-global": "route53.us-gov.amazonaws.com"
             ],
             partitionEndpoints: [
                 .aws: (endpoint: "aws-global", region: .useast1),

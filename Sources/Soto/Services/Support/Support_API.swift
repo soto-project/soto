@@ -61,6 +61,7 @@ public struct Support: AWSService {
                 "aws-iso-b-global": "support.us-isob-east-1.sc2s.sgov.gov",
                 "aws-iso-global": "support.us-iso-east-1.c2s.ic.gov",
                 "aws-us-gov-global": "support.us-gov-west-1.amazonaws.com",
+                "fips-us-gov-west-1": "support.us-gov-west-1.amazonaws.com",
                 "us-gov-west-1": "support.us-gov-west-1.amazonaws.com"
             ],
             partitionEndpoints: [

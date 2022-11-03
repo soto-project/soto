@@ -55,6 +55,12 @@ public struct ChimeSDKMeetings: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2021-07-15",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "us-east-1-fips": "meetings-chime-fips.us-east-1.amazonaws.com",
+                "us-gov-east-1-fips": "meetings-chime-fips.us-gov-east-1.amazonaws.com",
+                "us-gov-west-1-fips": "meetings-chime-fips.us-gov-west-1.amazonaws.com",
+                "us-west-2-fips": "meetings-chime-fips.us-west-2.amazonaws.com"
+            ],
             errorType: ChimeSDKMeetingsErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

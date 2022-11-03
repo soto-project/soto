@@ -55,6 +55,15 @@ public struct EMR: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2009-03-31",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "fips-ca-central-1": "elasticmapreduce-fips.ca-central-1.amazonaws.com",
+                "fips-us-east-1": "elasticmapreduce-fips.us-east-1.amazonaws.com",
+                "fips-us-east-2": "elasticmapreduce-fips.us-east-2.amazonaws.com",
+                "fips-us-gov-east-1": "elasticmapreduce.us-gov-east-1.amazonaws.com",
+                "fips-us-gov-west-1": "elasticmapreduce.us-gov-west-1.amazonaws.com",
+                "fips-us-west-1": "elasticmapreduce-fips.us-west-1.amazonaws.com",
+                "fips-us-west-2": "elasticmapreduce-fips.us-west-2.amazonaws.com"
+            ],
             errorType: EMRErrorType.self,
             xmlNamespace: "http://elasticmapreduce.amazonaws.com/doc/2009-03-31",
             timeout: timeout,

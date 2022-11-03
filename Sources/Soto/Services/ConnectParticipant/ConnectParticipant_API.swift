@@ -57,6 +57,8 @@ public struct ConnectParticipant: AWSService {
             apiVersion: "2018-09-07",
             endpoint: endpoint,
             serviceEndpoints: [
+                "fips-us-east-1": "participant.connect-fips.us-east-1.amazonaws.com",
+                "fips-us-west-2": "participant.connect-fips.us-west-2.amazonaws.com",
                 "us-gov-west-1": "participant.connect.us-gov-west-1.amazonaws.com"
             ],
             errorType: ConnectParticipantErrorType.self,

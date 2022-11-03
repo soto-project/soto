@@ -54,6 +54,12 @@ public struct LicenseManagerUserSubscriptions: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2018-05-10",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "fips-us-east-1": "license-manager-user-subscriptions-fips.us-east-1.amazonaws.com",
+                "fips-us-east-2": "license-manager-user-subscriptions-fips.us-east-2.amazonaws.com",
+                "fips-us-west-1": "license-manager-user-subscriptions-fips.us-west-1.amazonaws.com",
+                "fips-us-west-2": "license-manager-user-subscriptions-fips.us-west-2.amazonaws.com"
+            ],
             errorType: LicenseManagerUserSubscriptionsErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

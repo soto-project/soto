@@ -55,6 +55,14 @@ public struct LicenseManager: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-08-01",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "fips-us-east-1": "license-manager-fips.us-east-1.amazonaws.com",
+                "fips-us-east-2": "license-manager-fips.us-east-2.amazonaws.com",
+                "fips-us-gov-east-1": "license-manager-fips.us-gov-east-1.amazonaws.com",
+                "fips-us-gov-west-1": "license-manager-fips.us-gov-west-1.amazonaws.com",
+                "fips-us-west-1": "license-manager-fips.us-west-1.amazonaws.com",
+                "fips-us-west-2": "license-manager-fips.us-west-2.amazonaws.com"
+            ],
             errorType: LicenseManagerErrorType.self,
             xmlNamespace: "https://license-manager.amazonaws.com/doc/2018_08_01",
             timeout: timeout,
