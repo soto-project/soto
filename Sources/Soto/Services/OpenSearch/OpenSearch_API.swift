@@ -54,6 +54,16 @@ public struct OpenSearch: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2021-01-01",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "fips": "es-fips.us-west-1.amazonaws.com",
+                "fips": "es-fips.us-gov-west-1.amazonaws.com",
+                "us-east-1-fips": "es-fips.us-east-1.amazonaws.com",
+                "us-east-2-fips": "es-fips.us-east-2.amazonaws.com",
+                "us-gov-east-1-fips": "es-fips.us-gov-east-1.amazonaws.com",
+                "us-gov-west-1-fips": "es-fips.us-gov-west-1.amazonaws.com",
+                "us-west-1-fips": "es-fips.us-west-1.amazonaws.com",
+                "us-west-2-fips": "es-fips.us-west-2.amazonaws.com"
+            ],
             errorType: OpenSearchErrorType.self,
             xmlNamespace: "http://es.amazonaws.com/doc/2021-01-01/",
             timeout: timeout,

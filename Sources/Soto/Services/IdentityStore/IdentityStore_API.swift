@@ -55,6 +55,10 @@ public struct IdentityStore: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2020-06-15",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "fips-us-gov-east-1": "identitystore.us-gov-east-1.amazonaws.com",
+                "fips-us-gov-west-1": "identitystore.us-gov-west-1.amazonaws.com"
+            ],
             errorType: IdentityStoreErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

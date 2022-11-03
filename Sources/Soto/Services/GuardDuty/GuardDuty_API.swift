@@ -54,6 +54,14 @@ public struct GuardDuty: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2017-11-28",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "us-east-1-fips": "guardduty-fips.us-east-1.amazonaws.com",
+                "us-east-2-fips": "guardduty-fips.us-east-2.amazonaws.com",
+                "us-gov-east-1-fips": "guardduty.us-gov-east-1.amazonaws.com",
+                "us-gov-west-1-fips": "guardduty.us-gov-west-1.amazonaws.com",
+                "us-west-1-fips": "guardduty-fips.us-west-1.amazonaws.com",
+                "us-west-2-fips": "guardduty-fips.us-west-2.amazonaws.com"
+            ],
             errorType: GuardDutyErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

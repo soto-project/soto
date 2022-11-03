@@ -55,6 +55,13 @@ public struct EBS: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2019-11-02",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "fips-ca-central-1": "ebs-fips.ca-central-1.amazonaws.com",
+                "fips-us-east-1": "ebs-fips.us-east-1.amazonaws.com",
+                "fips-us-east-2": "ebs-fips.us-east-2.amazonaws.com",
+                "fips-us-west-1": "ebs-fips.us-west-1.amazonaws.com",
+                "fips-us-west-2": "ebs-fips.us-west-2.amazonaws.com"
+            ],
             errorType: EBSErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

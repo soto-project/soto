@@ -55,6 +55,14 @@ public struct Firehose: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2015-08-04",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "fips-us-east-1": "firehose-fips.us-east-1.amazonaws.com",
+                "fips-us-east-2": "firehose-fips.us-east-2.amazonaws.com",
+                "fips-us-gov-east-1": "firehose-fips.us-gov-east-1.amazonaws.com",
+                "fips-us-gov-west-1": "firehose-fips.us-gov-west-1.amazonaws.com",
+                "fips-us-west-1": "firehose-fips.us-west-1.amazonaws.com",
+                "fips-us-west-2": "firehose-fips.us-west-2.amazonaws.com"
+            ],
             errorType: FirehoseErrorType.self,
             xmlNamespace: "http://firehose.amazonaws.com/doc/2015-08-04",
             timeout: timeout,

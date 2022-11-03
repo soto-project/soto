@@ -55,6 +55,11 @@ public struct LexRuntimeService: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2016-11-28",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "us-east-1-fips": "runtime-fips.lex.us-east-1.amazonaws.com",
+                "us-gov-west-1-fips": "runtime-fips.lex.us-gov-west-1.amazonaws.com",
+                "us-west-2-fips": "runtime-fips.lex.us-west-2.amazonaws.com"
+            ],
             errorType: LexRuntimeServiceErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

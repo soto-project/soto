@@ -57,6 +57,11 @@ public struct DynamoDBStreams: AWSService {
             serviceProtocol: .json(version: "1.0"),
             apiVersion: "2012-08-10",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "local": "localhost:8000",
+                "us-gov-east-1-fips": "streams.dynamodb.us-gov-east-1.amazonaws.com",
+                "us-gov-west-1-fips": "streams.dynamodb.us-gov-west-1.amazonaws.com"
+            ],
             errorType: DynamoDBStreamsErrorType.self,
             xmlNamespace: "http://dynamodb.amazonaws.com/doc/2012-08-10/",
             timeout: timeout,

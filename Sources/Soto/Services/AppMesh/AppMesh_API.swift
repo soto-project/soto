@@ -54,6 +54,13 @@ public struct AppMesh: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2019-01-25",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "ca-central-1-fips": "appmesh-fips.ca-central-1.amazonaws.com",
+                "us-east-1-fips": "appmesh-fips.us-east-1.amazonaws.com",
+                "us-east-2-fips": "appmesh-fips.us-east-2.amazonaws.com",
+                "us-west-1-fips": "appmesh-fips.us-west-1.amazonaws.com",
+                "us-west-2-fips": "appmesh-fips.us-west-2.amazonaws.com"
+            ],
             errorType: AppMeshErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

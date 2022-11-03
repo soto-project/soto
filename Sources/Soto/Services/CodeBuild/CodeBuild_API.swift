@@ -55,6 +55,14 @@ public struct CodeBuild: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-10-06",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "us-east-1-fips": "codebuild-fips.us-east-1.amazonaws.com",
+                "us-east-2-fips": "codebuild-fips.us-east-2.amazonaws.com",
+                "us-gov-east-1-fips": "codebuild-fips.us-gov-east-1.amazonaws.com",
+                "us-gov-west-1-fips": "codebuild-fips.us-gov-west-1.amazonaws.com",
+                "us-west-1-fips": "codebuild-fips.us-west-1.amazonaws.com",
+                "us-west-2-fips": "codebuild-fips.us-west-2.amazonaws.com"
+            ],
             errorType: CodeBuildErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

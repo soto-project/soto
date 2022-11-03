@@ -56,6 +56,10 @@ public struct Pinpoint: AWSService {
             apiVersion: "2016-12-01",
             endpoint: endpoint,
             serviceEndpoints: [
+                "fips-us-east-1": "pinpoint-fips.us-east-1.amazonaws.com",
+                "fips-us-east-2": "pinpoint-fips.us-east-2.amazonaws.com",
+                "fips-us-gov-west-1": "pinpoint-fips.us-gov-west-1.amazonaws.com",
+                "fips-us-west-2": "pinpoint-fips.us-west-2.amazonaws.com",
                 "us-east-1": "pinpoint.us-east-1.amazonaws.com",
                 "us-east-2": "pinpoint.us-east-2.amazonaws.com",
                 "us-gov-west-1": "pinpoint.us-gov-west-1.amazonaws.com",

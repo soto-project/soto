@@ -55,6 +55,11 @@ public struct LexModelBuildingService: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2017-04-19",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "us-east-1-fips": "models-fips.lex.us-east-1.amazonaws.com",
+                "us-gov-west-1-fips": "models-fips.lex.us-gov-west-1.amazonaws.com",
+                "us-west-2-fips": "models-fips.lex.us-west-2.amazonaws.com"
+            ],
             errorType: LexModelBuildingServiceErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

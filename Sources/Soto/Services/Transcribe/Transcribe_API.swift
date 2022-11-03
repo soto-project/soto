@@ -57,7 +57,14 @@ public struct Transcribe: AWSService {
             endpoint: endpoint,
             serviceEndpoints: [
                 "cn-north-1": "cn.transcribe.cn-north-1.amazonaws.com.cn",
-                "cn-northwest-1": "cn.transcribe.cn-northwest-1.amazonaws.com.cn"
+                "cn-northwest-1": "cn.transcribe.cn-northwest-1.amazonaws.com.cn",
+                "fips-ca-central-1": "fips.transcribe.ca-central-1.amazonaws.com",
+                "fips-us-east-1": "fips.transcribe.us-east-1.amazonaws.com",
+                "fips-us-east-2": "fips.transcribe.us-east-2.amazonaws.com",
+                "fips-us-gov-east-1": "fips.transcribe.us-gov-east-1.amazonaws.com",
+                "fips-us-gov-west-1": "fips.transcribe.us-gov-west-1.amazonaws.com",
+                "fips-us-west-1": "fips.transcribe.us-west-1.amazonaws.com",
+                "fips-us-west-2": "fips.transcribe.us-west-2.amazonaws.com"
             ],
             errorType: TranscribeErrorType.self,
             timeout: timeout,

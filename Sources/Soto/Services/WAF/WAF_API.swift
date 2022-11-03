@@ -57,7 +57,10 @@ public struct WAF: AWSService {
             apiVersion: "2015-08-24",
             endpoint: endpoint,
             serviceEndpoints: [
-                "aws-global": "waf.amazonaws.com"
+                "aws": "waf.aws.amazonaws.com",
+                "aws-fips": "waf-fips.amazonaws.com",
+                "aws-global": "waf.amazonaws.com",
+                "aws-global-fips": "waf-fips.amazonaws.com"
             ],
             partitionEndpoints: [
                 .aws: (endpoint: "aws-global", region: .useast1)

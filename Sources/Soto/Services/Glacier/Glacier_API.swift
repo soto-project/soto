@@ -59,6 +59,11 @@ public struct Glacier: AWSService {
             apiVersion: "2012-06-01",
             endpoint: endpoint,
             serviceEndpoints: [
+                "fips-ca-central-1": "glacier-fips.ca-central-1.amazonaws.com",
+                "fips-us-east-1": "glacier-fips.us-east-1.amazonaws.com",
+                "fips-us-east-2": "glacier-fips.us-east-2.amazonaws.com",
+                "fips-us-west-1": "glacier-fips.us-west-1.amazonaws.com",
+                "fips-us-west-2": "glacier-fips.us-west-2.amazonaws.com",
                 "us-gov-east-1": "glacier.us-gov-east-1.amazonaws.com",
                 "us-gov-west-1": "glacier.us-gov-west-1.amazonaws.com"
             ],

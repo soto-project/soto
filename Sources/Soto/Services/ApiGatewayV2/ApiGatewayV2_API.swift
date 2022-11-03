@@ -54,6 +54,13 @@ public struct ApiGatewayV2: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2018-11-29",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "fips-ca-central-1": "apigateway-fips.ca-central-1.amazonaws.com",
+                "fips-us-east-1": "apigateway-fips.us-east-1.amazonaws.com",
+                "fips-us-east-2": "apigateway-fips.us-east-2.amazonaws.com",
+                "fips-us-west-1": "apigateway-fips.us-west-1.amazonaws.com",
+                "fips-us-west-2": "apigateway-fips.us-west-2.amazonaws.com"
+            ],
             errorType: ApiGatewayV2ErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

@@ -55,6 +55,9 @@ public struct GreengrassV2: AWSService {
             apiVersion: "2020-11-30",
             endpoint: endpoint,
             serviceEndpoints: [
+                "dataplane-us-gov-east-1": "greengrass-ats.iot.us-gov-east-1.amazonaws.com",
+                "dataplane-us-gov-west-1": "greengrass-ats.iot.us-gov-west-1.amazonaws.com",
+                "fips-us-gov-east-1": "greengrass-fips.us-gov-east-1.amazonaws.com",
                 "us-gov-east-1": "greengrass.us-gov-east-1.amazonaws.com",
                 "us-gov-west-1": "greengrass.us-gov-west-1.amazonaws.com"
             ],

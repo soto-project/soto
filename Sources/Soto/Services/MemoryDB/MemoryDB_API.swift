@@ -56,6 +56,9 @@ public struct MemoryDB: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2021-01-01",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "fips": "memory-db-fips.us-west-1.amazonaws.com"
+            ],
             errorType: MemoryDBErrorType.self,
             xmlNamespace: "http://memorydb.amazonaws.com/doc/2021-01-01/",
             timeout: timeout,

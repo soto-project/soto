@@ -54,3 +54,29 @@ class SESTests: XCTestCase {
          XCTAssertNoThrow(try response.wait())
      } */
 }
+
+#if compiler(>=5.5.2) && canImport(_Concurrency)
+
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+extension SESTests {
+    // test fips region
+    func testFipsRegion() async throws {
+        struct TestError: Error {}
+        struct TestRequestMiddleware: AWSServiceMiddleware {
+            let test: @Sendable (AWSRequest) -> Void
+            func chain(request: AWSRequest, context: AWSMiddlewareContext) throws -> AWSRequest {
+                self.test(request)
+                throw TestError()
+            }
+        }
+        let testMiddleware = TestRequestMiddleware { request in
+            XCTAssertEqual(request.url, URL(string: "https://email-fips.us-east-1.amazonaws.com/")!)
+        }
+        let ses = SES(client: Self.client, region: .other("fips-us-east-1")).with(middlewares: [testMiddleware])
+        do {
+            _ = try await ses.createConfigurationSet(.init(configurationSet: .init(name: "test")))
+        } catch is TestError {}
+    }
+}
+
+#endif // compiler(>=5.5.2) && canImport(_Concurrency)

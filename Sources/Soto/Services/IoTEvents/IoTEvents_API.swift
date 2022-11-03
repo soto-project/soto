@@ -54,6 +54,13 @@ public struct IoTEvents: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2018-07-27",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "fips-ca-central-1": "iotevents-fips.ca-central-1.amazonaws.com",
+                "fips-us-east-1": "iotevents-fips.us-east-1.amazonaws.com",
+                "fips-us-east-2": "iotevents-fips.us-east-2.amazonaws.com",
+                "fips-us-gov-west-1": "iotevents-fips.us-gov-west-1.amazonaws.com",
+                "fips-us-west-2": "iotevents-fips.us-west-2.amazonaws.com"
+            ],
             errorType: IoTEventsErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

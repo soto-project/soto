@@ -55,6 +55,14 @@ public struct Lambda: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2015-03-31",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "fips-us-east-1": "lambda-fips.us-east-1.amazonaws.com",
+                "fips-us-east-2": "lambda-fips.us-east-2.amazonaws.com",
+                "fips-us-gov-east-1": "lambda-fips.us-gov-east-1.amazonaws.com",
+                "fips-us-gov-west-1": "lambda-fips.us-gov-west-1.amazonaws.com",
+                "fips-us-west-1": "lambda-fips.us-west-1.amazonaws.com",
+                "fips-us-west-2": "lambda-fips.us-west-2.amazonaws.com"
+            ],
             errorType: LambdaErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

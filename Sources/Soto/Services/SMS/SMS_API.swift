@@ -55,6 +55,14 @@ public struct SMS: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-10-24",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "fips-us-east-1": "sms-fips.us-east-1.amazonaws.com",
+                "fips-us-east-2": "sms-fips.us-east-2.amazonaws.com",
+                "fips-us-gov-east-1": "sms-fips.us-gov-east-1.amazonaws.com",
+                "fips-us-gov-west-1": "sms-fips.us-gov-west-1.amazonaws.com",
+                "fips-us-west-1": "sms-fips.us-west-1.amazonaws.com",
+                "fips-us-west-2": "sms-fips.us-west-2.amazonaws.com"
+            ],
             errorType: SMSErrorType.self,
             xmlNamespace: "http://ec2.amazon.com/servermigration/2016-10-24/",
             timeout: timeout,

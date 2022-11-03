@@ -54,7 +54,8 @@ public struct Shield: AWSService {
             apiVersion: "2016-06-02",
             endpoint: endpoint,
             serviceEndpoints: [
-                "aws-global": "shield.us-east-1.amazonaws.com"
+                "aws-global": "shield.us-east-1.amazonaws.com",
+                "fips-aws-global": "shield-fips.us-east-1.amazonaws.com"
             ],
             partitionEndpoints: [
                 .aws: (endpoint: "aws-global", region: .useast1)

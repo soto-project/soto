@@ -55,6 +55,14 @@ public struct Detective: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2018-10-26",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "us-east-1-fips": "api.detective-fips.us-east-1.amazonaws.com",
+                "us-east-2-fips": "api.detective-fips.us-east-2.amazonaws.com",
+                "us-gov-east-1-fips": "api.detective-fips.us-gov-east-1.amazonaws.com",
+                "us-gov-west-1-fips": "api.detective-fips.us-gov-west-1.amazonaws.com",
+                "us-west-1-fips": "api.detective-fips.us-west-1.amazonaws.com",
+                "us-west-2-fips": "api.detective-fips.us-west-2.amazonaws.com"
+            ],
             errorType: DetectiveErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

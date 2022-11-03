@@ -66,6 +66,14 @@ public struct CloudWatch: AWSService {
             serviceProtocol: .query,
             apiVersion: "2010-08-01",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "fips-us-east-1": "monitoring-fips.us-east-1.amazonaws.com",
+                "fips-us-east-2": "monitoring-fips.us-east-2.amazonaws.com",
+                "fips-us-gov-east-1": "monitoring.us-gov-east-1.amazonaws.com",
+                "fips-us-gov-west-1": "monitoring.us-gov-west-1.amazonaws.com",
+                "fips-us-west-1": "monitoring-fips.us-west-1.amazonaws.com",
+                "fips-us-west-2": "monitoring-fips.us-west-2.amazonaws.com"
+            ],
             errorType: CloudWatchErrorType.self,
             xmlNamespace: "http://monitoring.amazonaws.com/doc/2010-08-01/",
             timeout: timeout,

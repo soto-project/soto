@@ -54,6 +54,14 @@ public struct XRay: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2016-04-12",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "fips-us-east-1": "xray-fips.us-east-1.amazonaws.com",
+                "fips-us-east-2": "xray-fips.us-east-2.amazonaws.com",
+                "fips-us-gov-east-1": "xray-fips.us-gov-east-1.amazonaws.com",
+                "fips-us-gov-west-1": "xray-fips.us-gov-west-1.amazonaws.com",
+                "fips-us-west-1": "xray-fips.us-west-1.amazonaws.com",
+                "fips-us-west-2": "xray-fips.us-west-2.amazonaws.com"
+            ],
             errorType: XRayErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

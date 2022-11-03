@@ -55,6 +55,9 @@ public struct ChimeSDKMessaging: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2021-05-15",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "us-east-1-fips": "messaging-chime-fips.us-east-1.amazonaws.com"
+            ],
             errorType: ChimeSDKMessagingErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

@@ -54,6 +54,15 @@ public struct ElastiCache: AWSService {
             serviceProtocol: .query,
             apiVersion: "2015-02-02",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "fips": "elasticache-fips.us-west-1.amazonaws.com",
+                "fips": "elasticache.us-gov-west-1.amazonaws.com",
+                "us-east-1-fips": "elasticache-fips.us-east-1.amazonaws.com",
+                "us-east-2-fips": "elasticache-fips.us-east-2.amazonaws.com",
+                "us-gov-west-1-fips": "elasticache.us-gov-west-1.amazonaws.com",
+                "us-west-1-fips": "elasticache-fips.us-west-1.amazonaws.com",
+                "us-west-2-fips": "elasticache-fips.us-west-2.amazonaws.com"
+            ],
             errorType: ElastiCacheErrorType.self,
             xmlNamespace: "http://elasticache.amazonaws.com/doc/2015-02-02/",
             timeout: timeout,

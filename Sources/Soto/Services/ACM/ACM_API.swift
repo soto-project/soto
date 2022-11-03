@@ -56,8 +56,13 @@ public struct ACM: AWSService {
             apiVersion: "2015-12-08",
             endpoint: endpoint,
             serviceEndpoints: [
+                "ca-central-1-fips": "acm-fips.ca-central-1.amazonaws.com",
+                "us-east-1-fips": "acm-fips.us-east-1.amazonaws.com",
+                "us-east-2-fips": "acm-fips.us-east-2.amazonaws.com",
                 "us-gov-east-1": "acm.us-gov-east-1.amazonaws.com",
-                "us-gov-west-1": "acm.us-gov-west-1.amazonaws.com"
+                "us-gov-west-1": "acm.us-gov-west-1.amazonaws.com",
+                "us-west-1-fips": "acm-fips.us-west-1.amazonaws.com",
+                "us-west-2-fips": "acm-fips.us-west-2.amazonaws.com"
             ],
             errorType: ACMErrorType.self,
             timeout: timeout,

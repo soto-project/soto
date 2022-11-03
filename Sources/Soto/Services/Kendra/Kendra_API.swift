@@ -55,6 +55,12 @@ public struct Kendra: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2019-02-03",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "fips-us-east-1": "kendra-fips.us-east-1.amazonaws.com",
+                "fips-us-east-2": "kendra-fips.us-east-2.amazonaws.com",
+                "fips-us-gov-west-1": "kendra-fips.us-gov-west-1.amazonaws.com",
+                "fips-us-west-2": "kendra-fips.us-west-2.amazonaws.com"
+            ],
             errorType: KendraErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

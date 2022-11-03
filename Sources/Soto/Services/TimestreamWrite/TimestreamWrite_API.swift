@@ -58,6 +58,11 @@ public struct TimestreamWrite: AWSService {
             serviceProtocol: .json(version: "1.0"),
             apiVersion: "2018-11-01",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "ingest-fips-us-east-1": "ingest.timestream-fips.us-east-1.amazonaws.com",
+                "ingest-fips-us-east-2": "ingest.timestream-fips.us-east-2.amazonaws.com",
+                "ingest-fips-us-west-2": "ingest.timestream-fips.us-west-2.amazonaws.com"
+            ],
             errorType: TimestreamWriteErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
