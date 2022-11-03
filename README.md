@@ -32,7 +32,7 @@ The library consists of three parts
 Soto uses the Swift Package Manager to manage its code dependencies. To use Soto in your codebase it is recommended you do the same. Add a dependency to the package in your own Package.swift dependencies.
 ```swift
     dependencies: [
-        .package(url: "https://github.com/soto-project/soto.git", from: "5.0.0")
+        .package(url: "https://github.com/soto-project/soto.git", from: "6.0.0")
     ],
 ```
 Then add target dependencies for each of the Soto targets you want to use.
