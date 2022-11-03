@@ -23,6 +23,28 @@ import SotoCore
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension EC2 {
+    ///  Describes an Elastic IP address transfer. For more information, see Transfer Elastic IP addresses in the Amazon Virtual Private Cloud User Guide.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeAddressTransfersPaginator(
+        _ input: DescribeAddressTransfersRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeAddressTransfersRequest, DescribeAddressTransfersResult> {
+        return .init(
+            input: input,
+            command: describeAddressTransfers,
+            inputKey: \DescribeAddressTransfersRequest.nextToken,
+            outputKey: \DescribeAddressTransfersResult.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Describes the attributes of the specified Elastic IP addresses. For requirements, see Using reverse DNS for email applications.
     /// Return PaginatorSequence for operation.
     ///

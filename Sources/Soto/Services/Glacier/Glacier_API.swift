@@ -58,7 +58,10 @@ public struct Glacier: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2012-06-01",
             endpoint: endpoint,
-            serviceEndpoints: ["us-gov-east-1": "glacier.us-gov-east-1.amazonaws.com", "us-gov-west-1": "glacier.us-gov-west-1.amazonaws.com"],
+            serviceEndpoints: [
+                "us-gov-east-1": "glacier.us-gov-east-1.amazonaws.com",
+                "us-gov-west-1": "glacier.us-gov-west-1.amazonaws.com"
+            ],
             errorType: GlacierErrorType.self,
             xmlNamespace: "http://glacier.amazonaws.com/doc/2012-06-01/",
             middlewares: [GlacierRequestMiddleware(apiVersion: "2012-06-01")],

@@ -97,6 +97,11 @@ public struct AppRunner: AWSService {
         return self.client.execute(operation: "CreateVpcConnector", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Create an App Runner VPC Ingress Connection resource. App Runner requires this resource when you want to associate your App Runner service with an Amazon VPC endpoint.
+    public func createVpcIngressConnection(_ input: CreateVpcIngressConnectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateVpcIngressConnectionResponse> {
+        return self.client.execute(operation: "CreateVpcIngressConnection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Delete an App Runner automatic scaling configuration resource. You can delete a specific revision or the latest active revision. You can't delete a configuration that's used by one or more App Runner services.
     public func deleteAutoScalingConfiguration(_ input: DeleteAutoScalingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAutoScalingConfigurationResponse> {
         return self.client.execute(operation: "DeleteAutoScalingConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -112,7 +117,7 @@ public struct AppRunner: AWSService {
         return self.client.execute(operation: "DeleteObservabilityConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Delete an App Runner service. This is an asynchronous operation. On a successful call, you can use the returned OperationId and the ListOperations call to track the operation's progress.
+    /// Delete an App Runner service. This is an asynchronous operation. On a successful call, you can use the returned OperationId and the ListOperations call to track the operation's progress.  Make sure that you don't have any active VPCIngressConnections associated with the service you want to delete.
     public func deleteService(_ input: DeleteServiceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteServiceResponse> {
         return self.client.execute(operation: "DeleteService", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -120,6 +125,11 @@ public struct AppRunner: AWSService {
     /// Delete an App Runner VPC connector resource. You can't delete a connector that's used by one or more App Runner services.
     public func deleteVpcConnector(_ input: DeleteVpcConnectorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteVpcConnectorResponse> {
         return self.client.execute(operation: "DeleteVpcConnector", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Delete an App Runner VPC Ingress Connection resource that's associated with an App Runner service. The VPC Ingress Connection must be in one of the following states to be deleted:     AVAILABLE     FAILED_CREATION     FAILED_UPDATE     FAILED_DELETION
+    public func deleteVpcIngressConnection(_ input: DeleteVpcIngressConnectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteVpcIngressConnectionResponse> {
+        return self.client.execute(operation: "DeleteVpcIngressConnection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Return a full description of an App Runner automatic scaling configuration resource.
@@ -145,6 +155,11 @@ public struct AppRunner: AWSService {
     /// Return a description of an App Runner VPC connector resource.
     public func describeVpcConnector(_ input: DescribeVpcConnectorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeVpcConnectorResponse> {
         return self.client.execute(operation: "DescribeVpcConnector", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Return a full description of an App Runner VPC Ingress Connection resource.
+    public func describeVpcIngressConnection(_ input: DescribeVpcIngressConnectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeVpcIngressConnectionResponse> {
+        return self.client.execute(operation: "DescribeVpcIngressConnection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Disassociate a custom domain name from an App Runner service. Certificates tracking domain validity are associated with a custom domain and are stored in AWS Certificate Manager (ACM). These certificates aren't deleted as part of this action. App Runner delays certificate deletion for 30 days after a domain is disassociated from your service.
@@ -187,6 +202,11 @@ public struct AppRunner: AWSService {
         return self.client.execute(operation: "ListVpcConnectors", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Return a list of App Runner VPC Ingress Connections in your Amazon Web Services account.
+    public func listVpcIngressConnections(_ input: ListVpcIngressConnectionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListVpcIngressConnectionsResponse> {
+        return self.client.execute(operation: "ListVpcIngressConnections", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Pause an active App Runner service. App Runner reduces compute capacity for the service to zero and loses state (for example, ephemeral storage is removed). This is an asynchronous operation. On a successful call, you can use the returned OperationId and the ListOperations call to track the operation's progress.
     public func pauseService(_ input: PauseServiceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PauseServiceResponse> {
         return self.client.execute(operation: "PauseService", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -215,6 +235,11 @@ public struct AppRunner: AWSService {
     /// Update an App Runner service. You can update the source configuration and instance configuration of the service. You can also update the ARN of the auto scaling configuration resource that's associated with the service. However, you can't change the name or the encryption configuration of the service. These can be set only when you create the service. To update the tags applied to your service, use the separate actions TagResource and UntagResource. This is an asynchronous operation. On a successful call, you can use the returned OperationId and the ListOperations call to track the operation's progress.
     public func updateService(_ input: UpdateServiceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateServiceResponse> {
         return self.client.execute(operation: "UpdateService", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Update an existing App Runner VPC Ingress Connection resource. The VPC Ingress Connection must be in one of the following states to be updated:    AVAILABLE     FAILED_CREATION     FAILED_UPDATE
+    public func updateVpcIngressConnection(_ input: UpdateVpcIngressConnectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateVpcIngressConnectionResponse> {
+        return self.client.execute(operation: "UpdateVpcIngressConnection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 }
 

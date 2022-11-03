@@ -65,8 +65,12 @@ public struct Chime: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2018-05-01",
             endpoint: endpoint,
-            serviceEndpoints: ["aws-global": "chime.us-east-1.amazonaws.com"],
-            partitionEndpoints: [.aws: (endpoint: "aws-global", region: .useast1)],
+            serviceEndpoints: [
+                "aws-global": "chime.us-east-1.amazonaws.com"
+            ],
+            partitionEndpoints: [
+                .aws: (endpoint: "aws-global", region: .useast1)
+            ],
             errorType: ChimeErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

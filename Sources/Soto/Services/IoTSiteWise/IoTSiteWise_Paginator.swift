@@ -20,7 +20,7 @@ import SotoCore
 // MARK: Paginators
 
 extension IoTSiteWise {
-    ///  Gets aggregated values (for example, average, minimum, and maximum) for one or more asset properties.  For more information, see Querying aggregates in the IoT SiteWise User Guide.
+    ///  Gets aggregated values (for example, average, minimum, and maximum) for one or more asset properties. For more information, see Querying aggregates in the IoT SiteWise User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -338,7 +338,7 @@ extension IoTSiteWise {
         )
     }
 
-    ///  Retrieves a paginated list of access policies for an identity (an Amazon Web Services SSO user, an Amazon Web Services SSO group, or an IAM user) or an IoT SiteWise Monitor resource (a portal or project).
+    ///  Retrieves a paginated list of access policies for an identity (an IAM Identity Center user, an IAM Identity Center group, or an IAM user) or an IoT SiteWise Monitor resource (a portal or project).
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -386,6 +386,59 @@ extension IoTSiteWise {
             command: listAccessPolicies,
             inputKey: \ListAccessPoliciesRequest.nextToken,
             outputKey: \ListAccessPoliciesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Retrieves a paginated list of properties associated with an asset model. If you update properties associated with the model before you finish listing all the properties,  you need to start all over again.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listAssetModelPropertiesPaginator<Result>(
+        _ input: ListAssetModelPropertiesRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListAssetModelPropertiesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listAssetModelProperties,
+            inputKey: \ListAssetModelPropertiesRequest.nextToken,
+            outputKey: \ListAssetModelPropertiesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listAssetModelPropertiesPaginator(
+        _ input: ListAssetModelPropertiesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListAssetModelPropertiesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listAssetModelProperties,
+            inputKey: \ListAssetModelPropertiesRequest.nextToken,
+            outputKey: \ListAssetModelPropertiesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -439,6 +492,59 @@ extension IoTSiteWise {
             command: listAssetModels,
             inputKey: \ListAssetModelsRequest.nextToken,
             outputKey: \ListAssetModelsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Retrieves a paginated list of properties associated with an asset. If you update properties associated with the model before you finish listing all the properties,  you need to start all over again.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listAssetPropertiesPaginator<Result>(
+        _ input: ListAssetPropertiesRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListAssetPropertiesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listAssetProperties,
+            inputKey: \ListAssetPropertiesRequest.nextToken,
+            outputKey: \ListAssetPropertiesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listAssetPropertiesPaginator(
+        _ input: ListAssetPropertiesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListAssetPropertiesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listAssetProperties,
+            inputKey: \ListAssetPropertiesRequest.nextToken,
+            outputKey: \ListAssetPropertiesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -603,7 +709,7 @@ extension IoTSiteWise {
         )
     }
 
-    ///  Retrieves a paginated list of bulk import job requests. For more information,  see List bulk import jobs (CLI)  in the IoT SiteWise User Guide.
+    ///  Retrieves a paginated list of bulk import job requests. For more information, see List bulk import jobs (CLI) in the IoT SiteWise User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1072,9 +1178,31 @@ extension IoTSiteWise.ListAccessPoliciesRequest: AWSPaginateToken {
     }
 }
 
+extension IoTSiteWise.ListAssetModelPropertiesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IoTSiteWise.ListAssetModelPropertiesRequest {
+        return .init(
+            assetModelId: self.assetModelId,
+            filter: self.filter,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension IoTSiteWise.ListAssetModelsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IoTSiteWise.ListAssetModelsRequest {
         return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension IoTSiteWise.ListAssetPropertiesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IoTSiteWise.ListAssetPropertiesRequest {
+        return .init(
+            assetId: self.assetId,
+            filter: self.filter,
             maxResults: self.maxResults,
             nextToken: token
         )

@@ -55,8 +55,21 @@ public struct Support: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2013-04-15",
             endpoint: endpoint,
-            serviceEndpoints: ["aws-cn-global": "support.cn-north-1.amazonaws.com.cn", "aws-global": "support.us-east-1.amazonaws.com", "aws-iso-b-global": "support.us-isob-east-1.sc2s.sgov.gov", "aws-iso-global": "support.us-iso-east-1.c2s.ic.gov", "aws-us-gov-global": "support.us-gov-west-1.amazonaws.com", "us-gov-west-1": "support.us-gov-west-1.amazonaws.com"],
-            partitionEndpoints: [.aws: (endpoint: "aws-global", region: .useast1), .awscn: (endpoint: "aws-cn-global", region: .cnnorth1), .awsiso: (endpoint: "aws-iso-global", region: .usisoeast1), .awsisob: (endpoint: "aws-iso-b-global", region: .usisobeast1), .awsusgov: (endpoint: "aws-us-gov-global", region: .usgovwest1)],
+            serviceEndpoints: [
+                "aws-cn-global": "support.cn-north-1.amazonaws.com.cn",
+                "aws-global": "support.us-east-1.amazonaws.com",
+                "aws-iso-b-global": "support.us-isob-east-1.sc2s.sgov.gov",
+                "aws-iso-global": "support.us-iso-east-1.c2s.ic.gov",
+                "aws-us-gov-global": "support.us-gov-west-1.amazonaws.com",
+                "us-gov-west-1": "support.us-gov-west-1.amazonaws.com"
+            ],
+            partitionEndpoints: [
+                .aws: (endpoint: "aws-global", region: .useast1),
+                .awscn: (endpoint: "aws-cn-global", region: .cnnorth1),
+                .awsiso: (endpoint: "aws-iso-global", region: .usisoeast1),
+                .awsisob: (endpoint: "aws-iso-b-global", region: .usisobeast1),
+                .awsusgov: (endpoint: "aws-us-gov-global", region: .usgovwest1)
+            ],
             errorType: SupportErrorType.self,
             xmlNamespace: "http://support.amazonaws.com/doc/2013-04-15/",
             timeout: timeout,

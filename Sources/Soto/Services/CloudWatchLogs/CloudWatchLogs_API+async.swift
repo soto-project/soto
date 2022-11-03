@@ -33,7 +33,7 @@ extension CloudWatchLogs {
         return try await self.client.execute(operation: "CancelExportTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates an export task, which allows you to efficiently export data from a log group to an Amazon S3 bucket. When you perform a CreateExportTask operation, you must use credentials that have permission to write to the S3 bucket  that you specify as the destination.  Exporting log data to Amazon S3 buckets that are encrypted by KMS is not  supported. Exporting log data to Amazon S3 buckets that have S3 Object Lock enabled with a retention period is not supported. Exporting to S3 buckets that are encrypted with AES-256 is supported.   This is an asynchronous call. If all the required information is provided, this  operation initiates an export task and responds with the ID of the task. After the task has started, you can use DescribeExportTasks to get the status of the export task. Each account can only have one active (RUNNING or PENDING) export task at a time. To cancel an export task, use CancelExportTask. You can export logs from multiple log groups or multiple time ranges to the same S3 bucket. To separate out log data for each export task, you can specify a prefix to be used as the Amazon S3 key prefix for all exported objects.   Time-based sorting on chunks of log data inside an exported file is not guaranteed. You can sort the  exported log fild data by using Linux utilities.
+    /// Creates an export task, which allows you to efficiently export data from a log group to an Amazon S3 bucket. When you perform a CreateExportTask operation, you must use credentials that have permission to write to the S3 bucket  that you specify as the destination. This is an asynchronous call. If all the required information is provided, this  operation initiates an export task and responds with the ID of the task. After the task has started, you can use DescribeExportTasks to get the status of the export task. Each account can only have one active (RUNNING or PENDING) export task at a time. To cancel an export task, use CancelExportTask. You can export logs from multiple log groups or multiple time ranges to the same S3 bucket. To separate out log data for each export task, you can specify a prefix to be used as the Amazon S3 key prefix for all exported objects. Exporting to S3 buckets that are encrypted with AES-256 is supported. Exporting to S3 buckets  encrypted with SSE-KMS is not supported.
     public func createExportTask(_ input: CreateExportTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateExportTaskResponse {
         return try await self.client.execute(operation: "CreateExportTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -164,7 +164,13 @@ extension CloudWatchLogs {
         return try await self.client.execute(operation: "GetQueryResults", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the tags for the specified log group.
+    /// Displays the tags associated with a CloudWatch Logs resource. Currently, log groups  and destinations support tagging.
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListTagsForResourceResponse {
+        return try await self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  The ListTagsLogGroup operation is on the path to deprecation. We recommend that you use  ListTagsForResource instead.  Lists the tags for the specified log group.
+    @available(*, deprecated, message: "Please use the generic tagging API ListTagsForResource")
     public func listTagsLogGroup(_ input: ListTagsLogGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListTagsLogGroupResponse {
         return try await self.client.execute(operation: "ListTagsLogGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -219,9 +225,15 @@ extension CloudWatchLogs {
         return try await self.client.execute(operation: "StopQuery", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Adds or updates the specified tags for the specified log group. To list the tags for a log group, use ListTagsLogGroup. To remove tags, use UntagLogGroup. For more information about tags, see Tag Log Groups in Amazon CloudWatch Logs in the Amazon CloudWatch Logs User Guide. CloudWatch Logs doesn’t support IAM policies that prevent users from assigning specified tags to  log groups using the aws:Resource/key-name or aws:TagKeys condition keys.  For more information about using tags to control access, see  Controlling access to Amazon Web Services resources using tags.
+    ///  The TagLogGroup operation is on the path to deprecation. We recommend that you use  TagResource instead.  Adds or updates the specified tags for the specified log group. To list the tags for a log group, use ListTagsForResource. To remove tags, use UntagResource. For more information about tags, see Tag Log Groups in Amazon CloudWatch Logs in the Amazon CloudWatch Logs User Guide. CloudWatch Logs doesn’t support IAM policies that prevent users from assigning specified tags to  log groups using the aws:Resource/key-name or aws:TagKeys condition keys.  For more information about using tags to control access, see  Controlling access to Amazon Web Services resources using tags.
+    @available(*, deprecated, message: "Please use the generic tagging API TagResource")
     public func tagLogGroup(_ input: TagLogGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "TagLogGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Assigns one or more tags (key-value pairs) to the specified CloudWatch Logs resource.  Currently, the only CloudWatch Logs resources that  can be tagged are log groups and destinations.  Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with a resource that already has tags. If you specify a new tag key for the alarm,  this tag is appended to the list of tags associated with the alarm. If you specify a tag key that is already associated with the alarm, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a CloudWatch Logs resource.
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
+        return try await self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Tests the filter pattern of a metric filter against a sample of log event messages. You can use this operation to validate the correctness of a metric filter pattern.
@@ -229,9 +241,15 @@ extension CloudWatchLogs {
         return try await self.client.execute(operation: "TestMetricFilter", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Removes the specified tags from the specified log group. To list the tags for a log group, use ListTagsLogGroup. To add tags, use TagLogGroup. CloudWatch Logs doesn’t support IAM policies that prevent users from assigning specified tags to  log groups using the aws:Resource/key-name or aws:TagKeys condition keys.
+    ///  The UntagLogGroup operation is on the path to deprecation. We recommend that you use  UntagResource instead.  Removes the specified tags from the specified log group. To list the tags for a log group, use ListTagsForResource. To add tags, use TagResource. CloudWatch Logs doesn’t support IAM policies that prevent users from assigning specified tags to  log groups using the aws:Resource/key-name or aws:TagKeys condition keys.
+    @available(*, deprecated, message: "Please use the generic tagging API UntagResource")
     public func untagLogGroup(_ input: UntagLogGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "UntagLogGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Removes one or more tags from the specified resource.
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
+        return try await self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 }
 

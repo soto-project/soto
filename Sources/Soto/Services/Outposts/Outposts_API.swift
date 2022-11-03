@@ -54,7 +54,10 @@ public struct Outposts: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2019-12-03",
             endpoint: endpoint,
-            serviceEndpoints: ["us-gov-east-1": "outposts.us-gov-east-1.amazonaws.com", "us-gov-west-1": "outposts.us-gov-west-1.amazonaws.com"],
+            serviceEndpoints: [
+                "us-gov-east-1": "outposts.us-gov-east-1.amazonaws.com",
+                "us-gov-west-1": "outposts.us-gov-west-1.amazonaws.com"
+            ],
             errorType: OutpostsErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

@@ -55,7 +55,10 @@ public struct DirectConnect: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2012-10-25",
             endpoint: endpoint,
-            serviceEndpoints: ["us-gov-east-1": "directconnect.us-gov-east-1.amazonaws.com", "us-gov-west-1": "directconnect.us-gov-west-1.amazonaws.com"],
+            serviceEndpoints: [
+                "us-gov-east-1": "directconnect.us-gov-east-1.amazonaws.com",
+                "us-gov-west-1": "directconnect.us-gov-west-1.amazonaws.com"
+            ],
             errorType: DirectConnectErrorType.self,
             xmlNamespace: "http://directconnect.amazonaws.com/doc/2012-10-25/",
             timeout: timeout,

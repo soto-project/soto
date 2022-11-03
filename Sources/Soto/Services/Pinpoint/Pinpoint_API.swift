@@ -55,7 +55,12 @@ public struct Pinpoint: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2016-12-01",
             endpoint: endpoint,
-            serviceEndpoints: ["us-east-1": "pinpoint.us-east-1.amazonaws.com", "us-east-2": "pinpoint.us-east-2.amazonaws.com", "us-gov-west-1": "pinpoint.us-gov-west-1.amazonaws.com", "us-west-2": "pinpoint.us-west-2.amazonaws.com"],
+            serviceEndpoints: [
+                "us-east-1": "pinpoint.us-east-1.amazonaws.com",
+                "us-east-2": "pinpoint.us-east-2.amazonaws.com",
+                "us-gov-west-1": "pinpoint.us-gov-west-1.amazonaws.com",
+                "us-west-2": "pinpoint.us-west-2.amazonaws.com"
+            ],
             errorType: PinpointErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

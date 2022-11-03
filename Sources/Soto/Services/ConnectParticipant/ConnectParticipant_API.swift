@@ -56,7 +56,9 @@ public struct ConnectParticipant: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2018-09-07",
             endpoint: endpoint,
-            serviceEndpoints: ["us-gov-west-1": "participant.connect.us-gov-west-1.amazonaws.com"],
+            serviceEndpoints: [
+                "us-gov-west-1": "participant.connect.us-gov-west-1.amazonaws.com"
+            ],
             errorType: ConnectParticipantErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

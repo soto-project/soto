@@ -54,7 +54,10 @@ public struct ElasticBeanstalk: AWSService {
             serviceProtocol: .query,
             apiVersion: "2010-12-01",
             endpoint: endpoint,
-            serviceEndpoints: ["us-gov-east-1": "elasticbeanstalk.us-gov-east-1.amazonaws.com", "us-gov-west-1": "elasticbeanstalk.us-gov-west-1.amazonaws.com"],
+            serviceEndpoints: [
+                "us-gov-east-1": "elasticbeanstalk.us-gov-east-1.amazonaws.com",
+                "us-gov-west-1": "elasticbeanstalk.us-gov-west-1.amazonaws.com"
+            ],
             errorType: ElasticBeanstalkErrorType.self,
             xmlNamespace: "http://elasticbeanstalk.amazonaws.com/docs/2010-12-01/",
             timeout: timeout,

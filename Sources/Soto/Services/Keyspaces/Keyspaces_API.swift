@@ -55,7 +55,10 @@ public struct Keyspaces: AWSService {
             serviceProtocol: .json(version: "1.0"),
             apiVersion: "2022-02-10",
             endpoint: endpoint,
-            serviceEndpoints: ["us-gov-east-1": "cassandra.us-gov-east-1.amazonaws.com", "us-gov-west-1": "cassandra.us-gov-west-1.amazonaws.com"],
+            serviceEndpoints: [
+                "us-gov-east-1": "cassandra.us-gov-east-1.amazonaws.com",
+                "us-gov-west-1": "cassandra.us-gov-west-1.amazonaws.com"
+            ],
             errorType: KeyspacesErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

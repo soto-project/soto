@@ -1343,6 +1343,38 @@ extension CloudWatchLogs {
         }
     }
 
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
+        /// The ARN of the  resource that you want to view tags for. The ARN format of a log group is  arn:aws:logs:Region:account-id:log-group:log-group-name   The ARN format of a destination is  arn:aws:logs:Region:account-id:destination:destination-name   For more information about ARN format, see CloudWatch Logs  resources and operations.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^[\\w+=/:,.@-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
+        /// The list of tags associated with the requested resource.>
+        public let tags: [String: String]?
+
+        public init(tags: [String: String]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags
+        }
+    }
+
     public struct ListTagsLogGroupRequest: AWSEncodableShape {
         /// The name of the log group.
         public let logGroupName: String
@@ -1629,12 +1661,15 @@ extension CloudWatchLogs {
         public let destinationName: String
         /// The ARN of an IAM role that grants CloudWatch Logs permissions to call the Amazon Kinesis PutRecord operation on the destination stream.
         public let roleArn: String
+        /// An optional list of key-value pairs to associate with the resource. For more information about tagging, see  Tagging Amazon Web Services resources
+        public let tags: [String: String]?
         /// The ARN of an Amazon Kinesis stream to which to deliver matching log events.
         public let targetArn: String
 
-        public init(destinationName: String, roleArn: String, targetArn: String) {
+        public init(destinationName: String, roleArn: String, tags: [String: String]? = nil, targetArn: String) {
             self.destinationName = destinationName
             self.roleArn = roleArn
+            self.tags = tags
             self.targetArn = targetArn
         }
 
@@ -1643,12 +1678,22 @@ extension CloudWatchLogs {
             try self.validate(self.destinationName, name: "destinationName", parent: name, min: 1)
             try self.validate(self.destinationName, name: "destinationName", parent: name, pattern: "^[^:*]*$")
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]+)$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
             try self.validate(self.targetArn, name: "targetArn", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case destinationName
             case roleArn
+            case tags
             case targetArn
         }
     }
@@ -2232,6 +2277,38 @@ extension CloudWatchLogs {
         }
     }
 
+    public struct TagResourceRequest: AWSEncodableShape {
+        /// The ARN of the  resource that you're adding tags to. The ARN format of a log group is  arn:aws:logs:Region:account-id:log-group:log-group-name   The ARN format of a destination is  arn:aws:logs:Region:account-id:destination:destination-name   For more information about ARN format, see CloudWatch Logs  resources and operations.
+        public let resourceArn: String
+        /// The list of key-value pairs to associate with the resource.
+        public let tags: [String: String]
+
+        public init(resourceArn: String, tags: [String: String]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^[\\w+=/:,.@-]*$")
+            try self.tags.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]+)$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn
+            case tags
+        }
+    }
+
     public struct TestMetricFilterRequest: AWSEncodableShape {
         public let filterPattern: String
         /// The log event messages to test.
@@ -2296,6 +2373,35 @@ extension CloudWatchLogs {
         private enum CodingKeys: String, CodingKey {
             case logGroupName
             case tags
+        }
+    }
+
+    public struct UntagResourceRequest: AWSEncodableShape {
+        /// The ARN of the CloudWatch Logs resource that you're removing tags from. The ARN format of a log group is  arn:aws:logs:Region:account-id:log-group:log-group-name   The ARN format of a destination is  arn:aws:logs:Region:account-id:destination:destination-name   For more information about ARN format, see CloudWatch Logs  resources and operations.
+        public let resourceArn: String
+        /// The list of tag keys to remove from the resource.
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^[\\w+=/:,.@-]*$")
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]+)$")
+            }
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn
+            case tagKeys
         }
     }
 }

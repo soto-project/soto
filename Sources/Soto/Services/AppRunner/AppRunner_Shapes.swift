@@ -148,6 +148,18 @@ extension AppRunner {
         public var description: String { return self.rawValue }
     }
 
+    public enum VpcIngressConnectionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case available = "AVAILABLE"
+        case deleted = "DELETED"
+        case failedCreation = "FAILED_CREATION"
+        case failedDeletion = "FAILED_DELETION"
+        case failedUpdate = "FAILED_UPDATE"
+        case pendingCreation = "PENDING_CREATION"
+        case pendingDeletion = "PENDING_DELETION"
+        case pendingUpdate = "PENDING_UPDATE"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct AssociateCustomDomainRequest: AWSEncodableShape {
@@ -187,17 +199,21 @@ extension AppRunner {
         public let dnsTarget: String
         /// The Amazon Resource Name (ARN) of the App Runner service with which a custom domain name is associated.
         public let serviceArn: String
+        /// DNS Target records for the custom domains of this Amazon VPC.
+        public let vpcDNSTargets: [VpcDNSTarget]
 
-        public init(customDomain: CustomDomain, dnsTarget: String, serviceArn: String) {
+        public init(customDomain: CustomDomain, dnsTarget: String, serviceArn: String, vpcDNSTargets: [VpcDNSTarget]) {
             self.customDomain = customDomain
             self.dnsTarget = dnsTarget
             self.serviceArn = serviceArn
+            self.vpcDNSTargets = vpcDNSTargets
         }
 
         private enum CodingKeys: String, CodingKey {
             case customDomain = "CustomDomain"
             case dnsTarget = "DNSTarget"
             case serviceArn = "ServiceArn"
+            case vpcDNSTargets = "VpcDNSTargets"
         }
     }
 
@@ -750,6 +766,57 @@ extension AppRunner {
         }
     }
 
+    public struct CreateVpcIngressConnectionRequest: AWSEncodableShape {
+        /// Specifications for the customer’s Amazon VPC and the related Amazon Web Services PrivateLink VPC endpoint that are used to create the VPC Ingress Connection resource.
+        public let ingressVpcConfiguration: IngressVpcConfiguration
+        /// The Amazon Resource Name (ARN) for this App Runner service that is used to create the VPC Ingress Connection resource.
+        public let serviceArn: String
+        /// An optional list of metadata items that you can associate with the VPC Ingress Connection resource. A tag is a key-value pair.
+        public let tags: [Tag]?
+        /// A name for the VPC Ingress Connection resource. It must be unique across all the active VPC Ingress Connections in your Amazon Web Services account in the Amazon Web Services Region.
+        public let vpcIngressConnectionName: String
+
+        public init(ingressVpcConfiguration: IngressVpcConfiguration, serviceArn: String, tags: [Tag]? = nil, vpcIngressConnectionName: String) {
+            self.ingressVpcConfiguration = ingressVpcConfiguration
+            self.serviceArn = serviceArn
+            self.tags = tags
+            self.vpcIngressConnectionName = vpcIngressConnectionName
+        }
+
+        public func validate(name: String) throws {
+            try self.ingressVpcConfiguration.validate(name: "\(name).ingressVpcConfiguration")
+            try self.validate(self.serviceArn, name: "serviceArn", parent: name, max: 1011)
+            try self.validate(self.serviceArn, name: "serviceArn", parent: name, min: 1)
+            try self.validate(self.serviceArn, name: "serviceArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:[a-z0-9-\\\\.]{0,63}:[a-z0-9-\\\\.]{0,63}:[0-9]{12}:(\\w|\\/|-){1,1011}$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.vpcIngressConnectionName, name: "vpcIngressConnectionName", parent: name, max: 40)
+            try self.validate(self.vpcIngressConnectionName, name: "vpcIngressConnectionName", parent: name, min: 4)
+            try self.validate(self.vpcIngressConnectionName, name: "vpcIngressConnectionName", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9\\-_]{3,39}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ingressVpcConfiguration = "IngressVpcConfiguration"
+            case serviceArn = "ServiceArn"
+            case tags = "Tags"
+            case vpcIngressConnectionName = "VpcIngressConnectionName"
+        }
+    }
+
+    public struct CreateVpcIngressConnectionResponse: AWSDecodableShape {
+        /// A description of the App Runner VPC Ingress Connection resource that's created by this request.
+        public let vpcIngressConnection: VpcIngressConnection
+
+        public init(vpcIngressConnection: VpcIngressConnection) {
+            self.vpcIngressConnection = vpcIngressConnection
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcIngressConnection = "VpcIngressConnection"
+        }
+    }
+
     public struct CustomDomain: AWSDecodableShape {
         /// A list of certificate CNAME records that's used for this domain name.
         public let certificateValidationRecords: [CertificateValidationRecord]?
@@ -939,6 +1006,38 @@ extension AppRunner {
         }
     }
 
+    public struct DeleteVpcIngressConnectionRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the App Runner VPC Ingress Connection that you want to delete.
+        public let vpcIngressConnectionArn: String
+
+        public init(vpcIngressConnectionArn: String) {
+            self.vpcIngressConnectionArn = vpcIngressConnectionArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.vpcIngressConnectionArn, name: "vpcIngressConnectionArn", parent: name, max: 1011)
+            try self.validate(self.vpcIngressConnectionArn, name: "vpcIngressConnectionArn", parent: name, min: 1)
+            try self.validate(self.vpcIngressConnectionArn, name: "vpcIngressConnectionArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:[a-z0-9-\\\\.]{0,63}:[a-z0-9-\\\\.]{0,63}:[0-9]{12}:(\\w|\\/|-){1,1011}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcIngressConnectionArn = "VpcIngressConnectionArn"
+        }
+    }
+
+    public struct DeleteVpcIngressConnectionResponse: AWSDecodableShape {
+        /// A description of the App Runner VPC Ingress Connection that this request just deleted.
+        public let vpcIngressConnection: VpcIngressConnection
+
+        public init(vpcIngressConnection: VpcIngressConnection) {
+            self.vpcIngressConnection = vpcIngressConnection
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcIngressConnection = "VpcIngressConnection"
+        }
+    }
+
     public struct DescribeAutoScalingConfigurationRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the App Runner auto scaling configuration that you want a description for. The ARN can be a full auto scaling configuration ARN, or a partial ARN ending with either .../name or .../name/revision . If a revision isn't specified, the latest active revision is described.
         public let autoScalingConfigurationArn: String
@@ -1011,12 +1110,15 @@ extension AppRunner {
         public let nextToken: String?
         /// The Amazon Resource Name (ARN) of the App Runner service whose associated custom domain names you want to describe.
         public let serviceArn: String
+        /// DNS Target records for the custom domains of this Amazon VPC.
+        public let vpcDNSTargets: [VpcDNSTarget]
 
-        public init(customDomains: [CustomDomain], dnsTarget: String, nextToken: String? = nil, serviceArn: String) {
+        public init(customDomains: [CustomDomain], dnsTarget: String, nextToken: String? = nil, serviceArn: String, vpcDNSTargets: [VpcDNSTarget]) {
             self.customDomains = customDomains
             self.dnsTarget = dnsTarget
             self.nextToken = nextToken
             self.serviceArn = serviceArn
+            self.vpcDNSTargets = vpcDNSTargets
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1024,6 +1126,7 @@ extension AppRunner {
             case dnsTarget = "DNSTarget"
             case nextToken = "NextToken"
             case serviceArn = "ServiceArn"
+            case vpcDNSTargets = "VpcDNSTargets"
         }
     }
 
@@ -1123,6 +1226,38 @@ extension AppRunner {
         }
     }
 
+    public struct DescribeVpcIngressConnectionRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the App Runner VPC Ingress Connection that you want a description for.
+        public let vpcIngressConnectionArn: String
+
+        public init(vpcIngressConnectionArn: String) {
+            self.vpcIngressConnectionArn = vpcIngressConnectionArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.vpcIngressConnectionArn, name: "vpcIngressConnectionArn", parent: name, max: 1011)
+            try self.validate(self.vpcIngressConnectionArn, name: "vpcIngressConnectionArn", parent: name, min: 1)
+            try self.validate(self.vpcIngressConnectionArn, name: "vpcIngressConnectionArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:[a-z0-9-\\\\.]{0,63}:[a-z0-9-\\\\.]{0,63}:[0-9]{12}:(\\w|\\/|-){1,1011}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcIngressConnectionArn = "VpcIngressConnectionArn"
+        }
+    }
+
+    public struct DescribeVpcIngressConnectionResponse: AWSDecodableShape {
+        /// A description of the App Runner VPC Ingress Connection that you specified in this request.
+        public let vpcIngressConnection: VpcIngressConnection
+
+        public init(vpcIngressConnection: VpcIngressConnection) {
+            self.vpcIngressConnection = vpcIngressConnection
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcIngressConnection = "VpcIngressConnection"
+        }
+    }
+
     public struct DisassociateCustomDomainRequest: AWSEncodableShape {
         /// The domain name that you want to disassociate from the App Runner service.
         public let domainName: String
@@ -1156,17 +1291,21 @@ extension AppRunner {
         public let dnsTarget: String
         /// The Amazon Resource Name (ARN) of the App Runner service that a custom domain name is disassociated from.
         public let serviceArn: String
+        /// DNS Target records for the custom domains of this Amazon VPC.
+        public let vpcDNSTargets: [VpcDNSTarget]
 
-        public init(customDomain: CustomDomain, dnsTarget: String, serviceArn: String) {
+        public init(customDomain: CustomDomain, dnsTarget: String, serviceArn: String, vpcDNSTargets: [VpcDNSTarget]) {
             self.customDomain = customDomain
             self.dnsTarget = dnsTarget
             self.serviceArn = serviceArn
+            self.vpcDNSTargets = vpcDNSTargets
         }
 
         private enum CodingKeys: String, CodingKey {
             case customDomain = "CustomDomain"
             case dnsTarget = "DNSTarget"
             case serviceArn = "ServiceArn"
+            case vpcDNSTargets = "VpcDNSTargets"
         }
     }
 
@@ -1315,6 +1454,43 @@ extension AppRunner {
             case imageConfiguration = "ImageConfiguration"
             case imageIdentifier = "ImageIdentifier"
             case imageRepositoryType = "ImageRepositoryType"
+        }
+    }
+
+    public struct IngressConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether your App Runner service is publicly accessible. To make the service publicly accessible set it to True. To make the service privately accessible, from only within an Amazon VPC set it to False.
+        public let isPubliclyAccessible: Bool?
+
+        public init(isPubliclyAccessible: Bool? = nil) {
+            self.isPubliclyAccessible = isPubliclyAccessible
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isPubliclyAccessible = "IsPubliclyAccessible"
+        }
+    }
+
+    public struct IngressVpcConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The ID of the VPC endpoint that your App Runner service connects to.
+        public let vpcEndpointId: String?
+        /// The ID of the VPC that is used for the VPC endpoint.
+        public let vpcId: String?
+
+        public init(vpcEndpointId: String? = nil, vpcId: String? = nil) {
+            self.vpcEndpointId = vpcEndpointId
+            self.vpcId = vpcId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.vpcEndpointId, name: "vpcEndpointId", parent: name, max: 51200)
+            try self.validate(self.vpcEndpointId, name: "vpcEndpointId", parent: name, pattern: ".*")
+            try self.validate(self.vpcId, name: "vpcId", parent: name, max: 51200)
+            try self.validate(self.vpcId, name: "vpcId", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcEndpointId = "VpcEndpointId"
+            case vpcId = "VpcId"
         }
     }
 
@@ -1669,12 +1845,87 @@ extension AppRunner {
         }
     }
 
+    public struct ListVpcIngressConnectionsFilter: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of a service to filter by.
+        public let serviceArn: String?
+        /// The ID of a VPC Endpoint to filter by.
+        public let vpcEndpointId: String?
+
+        public init(serviceArn: String? = nil, vpcEndpointId: String? = nil) {
+            self.serviceArn = serviceArn
+            self.vpcEndpointId = vpcEndpointId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.serviceArn, name: "serviceArn", parent: name, max: 1011)
+            try self.validate(self.serviceArn, name: "serviceArn", parent: name, min: 1)
+            try self.validate(self.serviceArn, name: "serviceArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:[a-z0-9-\\\\.]{0,63}:[a-z0-9-\\\\.]{0,63}:[0-9]{12}:(\\w|\\/|-){1,1011}$")
+            try self.validate(self.vpcEndpointId, name: "vpcEndpointId", parent: name, max: 51200)
+            try self.validate(self.vpcEndpointId, name: "vpcEndpointId", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceArn = "ServiceArn"
+            case vpcEndpointId = "VpcEndpointId"
+        }
+    }
+
+    public struct ListVpcIngressConnectionsRequest: AWSEncodableShape {
+        /// The VPC Ingress Connections to be listed based on either the Service Arn or Vpc Endpoint Id, or both.
+        public let filter: ListVpcIngressConnectionsFilter?
+        /// The maximum number of results to include in each response (result page). It's used for a paginated request. If you don't specify MaxResults, the request retrieves all available results in a single response.
+        public let maxResults: Int?
+        /// A token from a previous result page. It's used for a paginated request. The request retrieves the next result page. All other parameter values must be identical to the ones that are specified in the initial request. If you don't specify NextToken, the request retrieves the first result page.
+        public let nextToken: String?
+
+        public init(filter: ListVpcIngressConnectionsFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filter = filter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListVpcIngressConnectionsResponse: AWSDecodableShape {
+        /// The token that you can pass in a subsequent request to get the next result page. It's returned in a paginated request.
+        public let nextToken: String?
+        /// A list of summary information records for VPC Ingress Connections. In a paginated request, the request returns up to MaxResults records for each call.
+        public let vpcIngressConnectionSummaryList: [VpcIngressConnectionSummary]
+
+        public init(nextToken: String? = nil, vpcIngressConnectionSummaryList: [VpcIngressConnectionSummary]) {
+            self.nextToken = nextToken
+            self.vpcIngressConnectionSummaryList = vpcIngressConnectionSummaryList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case vpcIngressConnectionSummaryList = "VpcIngressConnectionSummaryList"
+        }
+    }
+
     public struct NetworkConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Network configuration settings for outbound message traffic.
         public let egressConfiguration: EgressConfiguration?
+        /// Network configuration settings for inbound message traffic.
+        public let ingressConfiguration: IngressConfiguration?
 
-        public init(egressConfiguration: EgressConfiguration? = nil) {
+        public init(egressConfiguration: EgressConfiguration? = nil, ingressConfiguration: IngressConfiguration? = nil) {
             self.egressConfiguration = egressConfiguration
+            self.ingressConfiguration = ingressConfiguration
         }
 
         public func validate(name: String) throws {
@@ -1683,6 +1934,7 @@ extension AppRunner {
 
         private enum CodingKeys: String, CodingKey {
             case egressConfiguration = "EgressConfiguration"
+            case ingressConfiguration = "IngressConfiguration"
         }
     }
 
@@ -1881,7 +2133,7 @@ extension AppRunner {
         /// The customer-provided service name.
         public let serviceName: String
         /// A subdomain URL that App Runner generated for this service. You can use this URL to access your service web application.
-        public let serviceUrl: String
+        public let serviceUrl: String?
         /// The source deployed to the App Runner service. It can be a code or an image repository.
         public let sourceConfiguration: SourceConfiguration
         /// The current state of the App Runner service. These particular values mean the following.    CREATE_FAILED – The service failed to create. To troubleshoot this failure, read the failure events and logs, change any parameters that need to be fixed, and retry the call to create the service. The failed service isn't usable, and still counts towards your service quota. When you're done analyzing the failure, delete the service.    DELETE_FAILED – The service failed to delete and can't be successfully recovered. Retry the service deletion call to ensure that all related resources are removed.
@@ -1889,7 +2141,7 @@ extension AppRunner {
         /// The time when the App Runner service was last updated at. It's in the Unix time stamp format.
         public let updatedAt: Date
 
-        public init(autoScalingConfigurationSummary: AutoScalingConfigurationSummary, createdAt: Date, deletedAt: Date? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, healthCheckConfiguration: HealthCheckConfiguration? = nil, instanceConfiguration: InstanceConfiguration, networkConfiguration: NetworkConfiguration, observabilityConfiguration: ServiceObservabilityConfiguration? = nil, serviceArn: String, serviceId: String, serviceName: String, serviceUrl: String, sourceConfiguration: SourceConfiguration, status: ServiceStatus, updatedAt: Date) {
+        public init(autoScalingConfigurationSummary: AutoScalingConfigurationSummary, createdAt: Date, deletedAt: Date? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, healthCheckConfiguration: HealthCheckConfiguration? = nil, instanceConfiguration: InstanceConfiguration, networkConfiguration: NetworkConfiguration, observabilityConfiguration: ServiceObservabilityConfiguration? = nil, serviceArn: String, serviceId: String, serviceName: String, serviceUrl: String? = nil, sourceConfiguration: SourceConfiguration, status: ServiceStatus, updatedAt: Date) {
             self.autoScalingConfigurationSummary = autoScalingConfigurationSummary
             self.createdAt = createdAt
             self.deletedAt = deletedAt
@@ -2239,6 +2491,43 @@ extension AppRunner {
         }
     }
 
+    public struct UpdateVpcIngressConnectionRequest: AWSEncodableShape {
+        /// Specifications for the customer’s Amazon VPC and the related Amazon Web Services PrivateLink VPC endpoint that are used to update the VPC Ingress Connection resource.
+        public let ingressVpcConfiguration: IngressVpcConfiguration
+        /// The Amazon Resource Name (Arn) for the App Runner VPC Ingress Connection resource that you want to update.
+        public let vpcIngressConnectionArn: String
+
+        public init(ingressVpcConfiguration: IngressVpcConfiguration, vpcIngressConnectionArn: String) {
+            self.ingressVpcConfiguration = ingressVpcConfiguration
+            self.vpcIngressConnectionArn = vpcIngressConnectionArn
+        }
+
+        public func validate(name: String) throws {
+            try self.ingressVpcConfiguration.validate(name: "\(name).ingressVpcConfiguration")
+            try self.validate(self.vpcIngressConnectionArn, name: "vpcIngressConnectionArn", parent: name, max: 1011)
+            try self.validate(self.vpcIngressConnectionArn, name: "vpcIngressConnectionArn", parent: name, min: 1)
+            try self.validate(self.vpcIngressConnectionArn, name: "vpcIngressConnectionArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:[a-z0-9-\\\\.]{0,63}:[a-z0-9-\\\\.]{0,63}:[0-9]{12}:(\\w|\\/|-){1,1011}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ingressVpcConfiguration = "IngressVpcConfiguration"
+            case vpcIngressConnectionArn = "VpcIngressConnectionArn"
+        }
+    }
+
+    public struct UpdateVpcIngressConnectionResponse: AWSDecodableShape {
+        /// A description of the App Runner VPC Ingress Connection resource that's updated by this request.
+        public let vpcIngressConnection: VpcIngressConnection
+
+        public init(vpcIngressConnection: VpcIngressConnection) {
+            self.vpcIngressConnection = vpcIngressConnection
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcIngressConnection = "VpcIngressConnection"
+        }
+    }
+
     public struct VpcConnector: AWSDecodableShape {
         /// The time when the VPC connector was created. It's in Unix time stamp format.
         public let createdAt: Date?
@@ -2277,6 +2566,89 @@ extension AppRunner {
             case vpcConnectorArn = "VpcConnectorArn"
             case vpcConnectorName = "VpcConnectorName"
             case vpcConnectorRevision = "VpcConnectorRevision"
+        }
+    }
+
+    public struct VpcDNSTarget: AWSDecodableShape {
+        /// The domain name of your target DNS that is associated with the Amazon VPC.
+        public let domainName: String?
+        /// The ID of the Amazon VPC that is associated with the custom domain name of the target DNS.
+        public let vpcId: String?
+        /// The Amazon Resource Name (ARN) of the VPC Ingress Connection that is associated with your service.
+        public let vpcIngressConnectionArn: String?
+
+        public init(domainName: String? = nil, vpcId: String? = nil, vpcIngressConnectionArn: String? = nil) {
+            self.domainName = domainName
+            self.vpcId = vpcId
+            self.vpcIngressConnectionArn = vpcIngressConnectionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
+            case vpcId = "VpcId"
+            case vpcIngressConnectionArn = "VpcIngressConnectionArn"
+        }
+    }
+
+    public struct VpcIngressConnection: AWSDecodableShape {
+        /// The Account Id you use to create the VPC Ingress Connection resource.
+        public let accountId: String?
+        /// The time when the VPC Ingress Connection was created. It's in the Unix time stamp format.    Type: Timestamp      Required: Yes
+        public let createdAt: Date?
+        /// The time when the App Runner service was deleted. It's in the Unix time stamp format.    Type: Timestamp      Required: No
+        public let deletedAt: Date?
+        /// The domain name associated with the VPC Ingress Connection resource.
+        public let domainName: String?
+        /// Specifications for the customer’s VPC and related PrivateLink VPC endpoint that are used to associate with the VPC Ingress Connection resource.
+        public let ingressVpcConfiguration: IngressVpcConfiguration?
+        /// The Amazon Resource Name (ARN) of the service associated with the VPC Ingress Connection.
+        public let serviceArn: String?
+        /// The current status of the VPC Ingress Connection.  The VPC Ingress Connection displays one of the following statuses: AVAILABLE, PENDING_CREATION, PENDING_UPDATE, PENDING_DELETION,FAILED_CREATION, FAILED_UPDATE, FAILED_DELETION, and DELETED..
+        public let status: VpcIngressConnectionStatus?
+        /// The Amazon Resource Name (ARN) of the VPC Ingress Connection.
+        public let vpcIngressConnectionArn: String?
+        /// The customer-provided VPC Ingress Connection name.
+        public let vpcIngressConnectionName: String?
+
+        public init(accountId: String? = nil, createdAt: Date? = nil, deletedAt: Date? = nil, domainName: String? = nil, ingressVpcConfiguration: IngressVpcConfiguration? = nil, serviceArn: String? = nil, status: VpcIngressConnectionStatus? = nil, vpcIngressConnectionArn: String? = nil, vpcIngressConnectionName: String? = nil) {
+            self.accountId = accountId
+            self.createdAt = createdAt
+            self.deletedAt = deletedAt
+            self.domainName = domainName
+            self.ingressVpcConfiguration = ingressVpcConfiguration
+            self.serviceArn = serviceArn
+            self.status = status
+            self.vpcIngressConnectionArn = vpcIngressConnectionArn
+            self.vpcIngressConnectionName = vpcIngressConnectionName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case createdAt = "CreatedAt"
+            case deletedAt = "DeletedAt"
+            case domainName = "DomainName"
+            case ingressVpcConfiguration = "IngressVpcConfiguration"
+            case serviceArn = "ServiceArn"
+            case status = "Status"
+            case vpcIngressConnectionArn = "VpcIngressConnectionArn"
+            case vpcIngressConnectionName = "VpcIngressConnectionName"
+        }
+    }
+
+    public struct VpcIngressConnectionSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the service associated with the VPC Ingress Connection.
+        public let serviceArn: String?
+        /// The Amazon Resource Name (ARN) of the VPC Ingress Connection.
+        public let vpcIngressConnectionArn: String?
+
+        public init(serviceArn: String? = nil, vpcIngressConnectionArn: String? = nil) {
+            self.serviceArn = serviceArn
+            self.vpcIngressConnectionArn = vpcIngressConnectionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceArn = "ServiceArn"
+            case vpcIngressConnectionArn = "VpcIngressConnectionArn"
         }
     }
 }

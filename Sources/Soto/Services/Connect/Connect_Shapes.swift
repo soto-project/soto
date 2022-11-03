@@ -4184,6 +4184,41 @@ extension Connect {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DismissUserContactRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "userId", location: .uri("UserId"))
+        ]
+
+        /// The identifier of the contact.
+        public let contactId: String
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+        /// The identifier of the user account.
+        public let userId: String
+
+        public init(contactId: String, instanceId: String, userId: String) {
+            self.contactId = contactId
+            self.instanceId = instanceId
+            self.userId = userId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.contactId, name: "contactId", parent: name, max: 256)
+            try self.validate(self.contactId, name: "contactId", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactId = "ContactId"
+        }
+    }
+
+    public struct DismissUserContactResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct Distribution: AWSEncodableShape & AWSDecodableShape {
         /// The percentage of the traffic that is distributed, in increments of 10.
         public let percentage: Int
@@ -9111,7 +9146,7 @@ extension Connect {
         public let instanceArn: String?
         /// The name of the traffic distribution group.
         public let name: String?
-        /// The status of the traffic distribution group.    CREATION_IN_PROGRESS means the previous CreateTrafficDistributionGroup operation is still in progress and has not yet completed.    ACTIVE means the previous CreateTrafficDistributionGroup operation has succeeded.        CREATION_FAILED indicates that the previous CreateTrafficDistributionGroup operation has failed.        PENDING_DELETION means the previous DeleteTrafficDistributionGroup operation is still in progress and has not yet completed.        DELETION_FAILED means the previous DeleteTrafficDistributionGroup operation has failed.        UPDATE_IN_PROGRESS means the previous UpdateTrafficDistributionGroup operation is still in progress and has not yet completed.
+        /// The status of the traffic distribution group.    CREATION_IN_PROGRESS means the previous CreateTrafficDistributionGroup operation is still in progress and has not yet completed.    ACTIVE means the previous CreateTrafficDistributionGroup operation has succeeded.    CREATION_FAILED indicates that the previous CreateTrafficDistributionGroup operation has failed.    PENDING_DELETION means the previous DeleteTrafficDistributionGroup operation is still in progress and has not yet completed.    DELETION_FAILED means the previous DeleteTrafficDistributionGroup operation has failed.    UPDATE_IN_PROGRESS means the previous UpdateTrafficDistributionGroup operation is still in progress and has not yet completed.
         public let status: TrafficDistributionGroupStatus?
         /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
@@ -9148,7 +9183,7 @@ extension Connect {
         public let instanceArn: String?
         /// The name of the traffic distribution group.
         public let name: String?
-        /// The status of the traffic distribution group.     CREATION_IN_PROGRESS means the previous CreateTrafficDistributionGroup operation is still in progress and has not yet completed.    ACTIVE means the previous CreateTrafficDistributionGroup operation has succeeded.        CREATION_FAILED indicates that the previous CreateTrafficDistributionGroup operation has failed.        PENDING_DELETION means the previous DeleteTrafficDistributionGroup operation is still in progress and has not yet completed.        DELETION_FAILED means the previous DeleteTrafficDistributionGroup operation has failed.        UPDATE_IN_PROGRESS means the previous UpdateTrafficDistributionGroup operation is still in progress and has not yet completed.
+        /// The status of the traffic distribution group.     CREATION_IN_PROGRESS means the previous CreateTrafficDistributionGroup operation is still in progress and has not yet completed.    ACTIVE means the previous CreateTrafficDistributionGroup operation has succeeded.    CREATION_FAILED indicates that the previous CreateTrafficDistributionGroup operation has failed.    PENDING_DELETION means the previous DeleteTrafficDistributionGroup operation is still in progress and has not yet completed.    DELETION_FAILED means the previous DeleteTrafficDistributionGroup operation has failed.    UPDATE_IN_PROGRESS means the previous UpdateTrafficDistributionGroup operation is still in progress and has not yet completed.
         public let status: TrafficDistributionGroupStatus?
 
         public init(arn: String? = nil, id: String? = nil, instanceArn: String? = nil, name: String? = nil, status: TrafficDistributionGroupStatus? = nil) {

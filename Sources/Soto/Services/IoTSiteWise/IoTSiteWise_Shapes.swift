@@ -191,6 +191,18 @@ extension IoTSiteWise {
         public var description: String { return self.rawValue }
     }
 
+    public enum ListAssetModelPropertiesFilter: String, CustomStringConvertible, Codable, _SotoSendable {
+        case all = "ALL"
+        case base = "BASE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ListAssetPropertiesFilter: String, CustomStringConvertible, Codable, _SotoSendable {
+        case all = "ALL"
+        case base = "BASE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ListAssetsFilter: String, CustomStringConvertible, Codable, _SotoSendable {
         case all = "ALL"
         case topLevel = "TOP_LEVEL"
@@ -244,11 +256,11 @@ extension IoTSiteWise {
     }
 
     public enum PropertyDataType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case `struct` = "STRUCT"
         case boolean = "BOOLEAN"
         case double = "DOUBLE"
         case integer = "INTEGER"
         case string = "STRING"
-        case `struct` = "STRUCT"
         public var description: String { return self.rawValue }
     }
 
@@ -301,7 +313,7 @@ extension IoTSiteWise {
         public let creationDate: Date?
         /// The ID of the access policy.
         public let id: String
-        /// The identity (an Amazon Web Services SSO user, an Amazon Web Services SSO group, or an IAM user).
+        /// The identity (an IAM Identity Center user, an IAM Identity Center group, or an IAM user).
         public let identity: Identity
         /// The date the access policy was last updated, in Unix epoch time.
         public let lastUpdateDate: Date?
@@ -412,6 +424,8 @@ extension IoTSiteWise {
     public struct AssetCompositeModel: AWSDecodableShape {
         /// The description of the composite model.
         public let description: String?
+        ///  The ID of the asset composite model.
+        public let id: String?
         /// The name of the composite model.
         public let name: String
         /// The asset properties that this composite model defines.
@@ -419,8 +433,9 @@ extension IoTSiteWise {
         /// The type of the composite model. For alarm composite models, this type is AWS/ALARM.
         public let type: String
 
-        public init(description: String? = nil, name: String, properties: [AssetProperty], type: String) {
+        public init(description: String? = nil, id: String? = nil, name: String, properties: [AssetProperty], type: String) {
             self.description = description
+            self.id = id
             self.name = name
             self.properties = properties
             self.type = type
@@ -428,6 +443,7 @@ extension IoTSiteWise {
 
         private enum CodingKeys: String, CodingKey {
             case description
+            case id
             case name
             case properties
             case type
@@ -492,6 +508,8 @@ extension IoTSiteWise {
     public struct AssetModelCompositeModel: AWSEncodableShape & AWSDecodableShape {
         /// The description of the composite model.
         public let description: String?
+        ///  The ID of the asset model composite model.
+        public let id: String?
         /// The name of the composite model.
         public let name: String
         /// The asset property definitions for this composite model.
@@ -499,8 +517,9 @@ extension IoTSiteWise {
         /// The type of the composite model. For alarm composite models, this type is AWS/ALARM.
         public let type: String
 
-        public init(description: String? = nil, name: String, properties: [AssetModelProperty]? = nil, type: String) {
+        public init(description: String? = nil, id: String? = nil, name: String, properties: [AssetModelProperty]? = nil, type: String) {
             self.description = description
+            self.id = id
             self.name = name
             self.properties = properties
             self.type = type
@@ -510,6 +529,9 @@ extension IoTSiteWise {
             try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
+            try self.validate(self.id, name: "id", parent: name, max: 36)
+            try self.validate(self.id, name: "id", parent: name, min: 36)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
@@ -523,6 +545,7 @@ extension IoTSiteWise {
 
         private enum CodingKeys: String, CodingKey {
             case description
+            case id
             case name
             case properties
             case type
@@ -719,6 +742,42 @@ extension IoTSiteWise {
         }
     }
 
+    public struct AssetModelPropertySummary: AWSDecodableShape {
+        ///  The ID of the composite model that contains the asset model property.
+        public let assetModelCompositeModelId: String?
+        /// The data type of the property.
+        public let dataType: PropertyDataType
+        /// The data type of the structure for this property. This parameter exists on properties that have the STRUCT data type.
+        public let dataTypeSpec: String?
+        /// The ID of the property.
+        public let id: String?
+        /// The name of the property.
+        public let name: String
+        public let type: PropertyType
+        /// The unit (such as Newtons or RPM) of the property.
+        public let unit: String?
+
+        public init(assetModelCompositeModelId: String? = nil, dataType: PropertyDataType, dataTypeSpec: String? = nil, id: String? = nil, name: String, type: PropertyType, unit: String? = nil) {
+            self.assetModelCompositeModelId = assetModelCompositeModelId
+            self.dataType = dataType
+            self.dataTypeSpec = dataTypeSpec
+            self.id = id
+            self.name = name
+            self.type = type
+            self.unit = unit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetModelCompositeModelId
+            case dataType
+            case dataTypeSpec
+            case id
+            case name
+            case type
+            case unit
+        }
+    }
+
     public struct AssetModelStatus: AWSDecodableShape {
         /// Contains associated error information, if any.
         public let error: ErrorDetails?
@@ -805,6 +864,34 @@ extension IoTSiteWise {
             case dataTypeSpec
             case id
             case name
+            case notification
+            case unit
+        }
+    }
+
+    public struct AssetPropertySummary: AWSDecodableShape {
+        /// The alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/windfarm/3/turbine/7/temperature). For more information, see Mapping industrial data streams to asset properties in the IoT SiteWise User Guide.
+        public let alias: String?
+        ///  The ID of the composite model that contains the asset property.
+        public let assetCompositeModelId: String?
+        /// The ID of the property.
+        public let id: String?
+        public let notification: PropertyNotification?
+        ///  The unit of measure (such as Newtons or RPM) of the asset property.
+        public let unit: String?
+
+        public init(alias: String? = nil, assetCompositeModelId: String? = nil, id: String? = nil, notification: PropertyNotification? = nil, unit: String? = nil) {
+            self.alias = alias
+            self.assetCompositeModelId = assetCompositeModelId
+            self.id = id
+            self.notification = notification
+            self.unit = unit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alias
+            case assetCompositeModelId
+            case id
             case notification
             case unit
         }
@@ -1278,9 +1365,9 @@ extension IoTSiteWise {
     }
 
     public struct BatchGetAssetPropertyAggregatesRequest: AWSEncodableShape {
-        /// The list of asset property aggregate entries for the batch get request.  You can specify up to 16 entries per request.
+        /// The list of asset property aggregate entries for the batch get request. You can specify up to 16 entries per request.
         public let entries: [BatchGetAssetPropertyAggregatesEntry]
-        /// The maximum number of results to return for each paginated request. A result set is returned in the two cases, whichever occurs first.   The size of the result set is less than 1 MB.   The number of data points in the result set is less than the value of maxResults.  The maximum value of maxResults is 4000.
+        /// The maximum number of results to return for each paginated request. A result set is returned in the two cases, whichever occurs first.   The size of the result set is less than 1 MB.   The number of data points in the result set is less than the value of maxResults. The maximum value of maxResults is 4000.
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
@@ -1334,7 +1421,7 @@ extension IoTSiteWise {
     }
 
     public struct BatchGetAssetPropertyAggregatesSkippedEntry: AWSDecodableShape {
-        /// The completion status of each entry that is associated with the  BatchGetAssetPropertyAggregates API.
+        /// The completion status of each entry that is associated with the BatchGetAssetPropertyAggregates API.
         public let completionStatus: BatchEntryCompletionStatus
         /// The ID of the entry.
         public let entryId: String
@@ -1546,9 +1633,9 @@ extension IoTSiteWise {
     }
 
     public struct BatchGetAssetPropertyValueHistoryRequest: AWSEncodableShape {
-        /// The list of asset property historical value entries for the batch get request.  You can specify up to 16 entries per request.
+        /// The list of asset property historical value entries for the batch get request. You can specify up to 16 entries per request.
         public let entries: [BatchGetAssetPropertyValueHistoryEntry]
-        /// The maximum number of results to return for each paginated request. A result set is returned in the two cases, whichever occurs first.   The size of the result set is less than 1 MB.   The number of data points in the result set is less than the value of maxResults.  The maximum value of maxResults is 4000.
+        /// The maximum number of results to return for each paginated request. A result set is returned in the two cases, whichever occurs first.   The size of the result set is less than 1 MB.   The number of data points in the result set is less than the value of maxResults. The maximum value of maxResults is 4000.
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
@@ -1602,7 +1689,7 @@ extension IoTSiteWise {
     }
 
     public struct BatchGetAssetPropertyValueHistorySkippedEntry: AWSDecodableShape {
-        /// The completion status of each entry that is associated with the  BatchGetAssetPropertyValueHistory API.
+        /// The completion status of each entry that is associated with the BatchGetAssetPropertyValueHistory API.
         public let completionStatus: BatchEntryCompletionStatus
         /// The ID of the entry.
         public let entryId: String
@@ -1640,7 +1727,7 @@ extension IoTSiteWise {
     }
 
     public struct BatchGetAssetPropertyValueRequest: AWSEncodableShape {
-        /// The list of asset property value entries for the batch get request.  You can specify up to 16 entries per request.
+        /// The list of asset property value entries for the batch get request. You can specify up to 16 entries per request.
         public let entries: [BatchGetAssetPropertyValueEntry]
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
@@ -1691,7 +1778,7 @@ extension IoTSiteWise {
     }
 
     public struct BatchGetAssetPropertyValueSkippedEntry: AWSDecodableShape {
-        /// The completion status of each entry that is associated with the  BatchGetAssetPropertyValue request.
+        /// The completion status of each entry that is associated with the BatchGetAssetPropertyValue request.
         public let completionStatus: BatchEntryCompletionStatus
         /// The ID of the entry.
         public let entryId: String
@@ -1799,19 +1886,23 @@ extension IoTSiteWise {
 
     public struct CompositeModelProperty: AWSDecodableShape {
         public let assetProperty: Property
+        ///  The ID of the composite model that contains the property.
+        public let id: String?
         /// The name of the property.
         public let name: String
         /// The type of the composite model that defines this property.
         public let type: String
 
-        public init(assetProperty: Property, name: String, type: String) {
+        public init(assetProperty: Property, id: String? = nil, name: String, type: String) {
             self.assetProperty = assetProperty
+            self.id = id
             self.name = name
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case assetProperty
+            case id
             case name
             case type
         }
@@ -1852,7 +1943,7 @@ extension IoTSiteWise {
     }
 
     public struct CreateAccessPolicyRequest: AWSEncodableShape {
-        /// The identity for this access policy. Choose an Amazon Web Services SSO user, an Amazon Web Services SSO group, or an IAM user.
+        /// The identity for this access policy. Choose an IAM Identity Center user, an IAM Identity Center group, or an IAM user.
         public let accessPolicyIdentity: Identity
         /// The permission level for this access policy. Note that a project ADMINISTRATOR is also known as a project owner.
         public let accessPolicyPermission: Permission
@@ -2266,7 +2357,7 @@ extension IoTSiteWise {
         public let clientToken: String?
         /// The email address that sends alarm notifications.  If you use the IoT Events managed Lambda function to manage your emails, you must verify the sender email address in Amazon SES.
         public let notificationSenderEmail: String?
-        /// The service to use to authenticate users to the portal. Choose from the following options:    SSO – The portal uses Amazon Web Services Single Sign On to authenticate users and manage user permissions. Before you can create a portal that uses Amazon Web Services SSO, you must enable Amazon Web Services SSO. For more information, see Enabling Amazon Web Services SSO in the IoT SiteWise User Guide. This option is only available in Amazon Web Services Regions other than the China Regions.    IAM – The portal uses Identity and Access Management to authenticate users and manage user permissions.   You can't change this value after you create a portal. Default: SSO
+        /// The service to use to authenticate users to the portal. Choose from the following options:    SSO – The portal uses IAM Identity Center (successor to Single Sign-On) to authenticate users and manage user permissions. Before you can create a portal that uses IAM Identity Center, you must enable IAM Identity Center. For more information, see Enabling IAM Identity Center in the IoT SiteWise User Guide. This option is only available in Amazon Web Services Regions other than the China Regions.    IAM – The portal uses Identity and Access Management to authenticate users and manage user permissions.   You can't change this value after you create a portal. Default: SSO
         public let portalAuthMode: AuthMode?
         /// The Amazon Web Services administrator's contact email address.
         public let portalContactEmail: String
@@ -2343,11 +2434,11 @@ extension IoTSiteWise {
         public let portalArn: String
         /// The ID of the created portal.
         public let portalId: String
-        /// The URL for the IoT SiteWise Monitor portal. You can use this URL to access portals that use Amazon Web Services SSO for authentication. For portals that use IAM for authentication, you must use the  IoT SiteWise console to get a URL that you can use to access the portal.
+        /// The URL for the IoT SiteWise Monitor portal. You can use this URL to access portals that use IAM Identity Center for authentication. For portals that use IAM for authentication, you must use the  IoT SiteWise console to get a URL that you can use to access the portal.
         public let portalStartUrl: String
         /// The status of the portal, which contains a state (CREATING after successfully calling this operation) and any error message.
         public let portalStatus: PortalStatus
-        /// The associated Amazon Web Services SSO application ID, if the portal uses Amazon Web Services SSO.
+        /// The associated IAM Identity Center application ID, if the portal uses IAM Identity Center.
         public let ssoApplicationId: String
 
         public init(portalArn: String, portalId: String, portalStartUrl: String, portalStatus: PortalStatus, ssoApplicationId: String) {
@@ -2813,7 +2904,7 @@ extension IoTSiteWise {
         public let accessPolicyCreationDate: Date
         /// The ID of the access policy.
         public let accessPolicyId: String
-        /// The identity (Amazon Web Services SSO user, Amazon Web Services SSO group, or IAM user) to which this access policy applies.
+        /// The identity (IAM Identity Center user, IAM Identity Center group, or IAM user) to which this access policy applies.
         public let accessPolicyIdentity: Identity
         /// The date the access policy was last updated, in Unix epoch time.
         public let accessPolicyLastUpdateDate: Date
@@ -2845,14 +2936,18 @@ extension IoTSiteWise {
 
     public struct DescribeAssetModelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assetModelId", location: .uri("assetModelId"))
+            AWSMemberEncoding(label: "assetModelId", location: .uri("assetModelId")),
+            AWSMemberEncoding(label: "excludeProperties", location: .querystring("excludeProperties"))
         ]
 
         /// The ID of the asset model.
         public let assetModelId: String
+        ///  Whether or not to exclude asset model properties from the response.
+        public let excludeProperties: Bool?
 
-        public init(assetModelId: String) {
+        public init(assetModelId: String, excludeProperties: Bool? = nil) {
             self.assetModelId = assetModelId
+            self.excludeProperties = excludeProperties
         }
 
         public func validate(name: String) throws {
@@ -2972,14 +3067,18 @@ extension IoTSiteWise {
 
     public struct DescribeAssetRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assetId", location: .uri("assetId"))
+            AWSMemberEncoding(label: "assetId", location: .uri("assetId")),
+            AWSMemberEncoding(label: "excludeProperties", location: .querystring("excludeProperties"))
         ]
 
         /// The ID of the asset.
         public let assetId: String
+        ///  Whether or not to exclude asset properties from the response.
+        public let excludeProperties: Bool?
 
-        public init(assetId: String) {
+        public init(assetId: String, excludeProperties: Bool? = nil) {
             self.assetId = assetId
+            self.excludeProperties = excludeProperties
         }
 
         public func validate(name: String) throws {
@@ -3355,7 +3454,7 @@ extension IoTSiteWise {
         public let portalArn: String
         /// The service to use to authenticate users to the portal.
         public let portalAuthMode: AuthMode?
-        /// The Amazon Web Services SSO application generated client ID (used with Amazon Web Services SSO APIs). IoT SiteWise includes portalClientId for only portals that use Amazon Web Services SSO to authenticate users.
+        /// The IAM Identity Center application generated client ID (used with IAM Identity Center APIs). IoT SiteWise includes portalClientId for only portals that use IAM Identity Center to authenticate users.
         public let portalClientId: String
         /// The Amazon Web Services administrator's contact email address.
         public let portalContactEmail: String
@@ -3371,7 +3470,7 @@ extension IoTSiteWise {
         public let portalLogoImageLocation: ImageLocation?
         /// The name of the portal.
         public let portalName: String
-        /// The URL for the IoT SiteWise Monitor portal. You can use this URL to access portals that use Amazon Web Services SSO for authentication. For portals that use IAM for authentication, you must use the  IoT SiteWise console to get a URL that you can use to access the portal.
+        /// The URL for the IoT SiteWise Monitor portal. You can use this URL to access portals that use IAM Identity Center for authentication. For portals that use IAM for authentication, you must use the  IoT SiteWise console to get a URL that you can use to access the portal.
         public let portalStartUrl: String
         /// The current status of the portal, which contains a state and any error message.
         public let portalStatus: PortalStatus
@@ -3710,7 +3809,7 @@ extension IoTSiteWise {
     public struct ErrorReportLocation: AWSEncodableShape & AWSDecodableShape {
         /// The name of the Amazon S3 bucket to which errors associated with the bulk import job are sent.
         public let bucket: String
-        /// Amazon S3 uses the prefix as a folder name to organize data in the bucket.  Each Amazon S3 object has a key that is its unique identifier in the bucket.  Each object in a bucket has exactly one key. The prefix must end with a forward slash (/).  For more information, see Organizing objects using prefixes  in the Amazon Simple Storage Service User Guide.
+        /// Amazon S3 uses the prefix as a folder name to organize data in the bucket. Each Amazon S3 object has a key that is its unique identifier in the bucket. Each object in a bucket has exactly one key. The prefix must end with a forward slash (/). For more information, see Organizing objects using prefixes in the Amazon Simple Storage Service User Guide.
         public let prefix: String
 
         public init(bucket: String, prefix: String) {
@@ -4250,7 +4349,7 @@ extension IoTSiteWise {
     }
 
     public struct GroupIdentity: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Web Services SSO ID of the group.
+        /// The IAM Identity Center ID of the group.
         public let id: String
 
         public init(id: String) {
@@ -4307,13 +4406,13 @@ extension IoTSiteWise {
     }
 
     public struct Identity: AWSEncodableShape & AWSDecodableShape {
-        /// An Amazon Web Services SSO group identity.
+        /// An IAM Identity Center group identity.
         public let group: GroupIdentity?
         /// An IAM role identity.
         public let iamRole: IAMRoleIdentity?
         /// An IAM user identity.
         public let iamUser: IAMUserIdentity?
-        /// An Amazon Web Services SSO user identity.
+        /// An IAM Identity Center user identity.
         public let user: UserIdentity?
 
         public init(group: GroupIdentity? = nil, iamRole: IAMRoleIdentity? = nil, iamUser: IAMUserIdentity? = nil, user: UserIdentity? = nil) {
@@ -4464,7 +4563,7 @@ extension IoTSiteWise {
         public let iamArn: String?
         /// The ID of the identity. This parameter is required if you specify USER or GROUP for identityType.
         public let identityId: String?
-        /// The type of identity (Amazon Web Services SSO user, Amazon Web Services SSO group, or IAM user). This parameter is required if you specify identityId.
+        /// The type of identity (IAM Identity Center user, IAM Identity Center group, or IAM user). This parameter is required if you specify identityId.
         public let identityType: IdentityType?
         /// The maximum number of results to return for each paginated request. Default: 50
         public let maxResults: Int?
@@ -4522,6 +4621,61 @@ extension IoTSiteWise {
         }
     }
 
+    public struct ListAssetModelPropertiesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "assetModelId", location: .uri("assetModelId")),
+            AWSMemberEncoding(label: "filter", location: .querystring("filter")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
+        ]
+
+        /// The ID of the asset model.
+        public let assetModelId: String
+        ///  Filters the requested list of asset model properties. You can choose one of the following options:    ALL – The list includes all asset model properties for a given asset model ID.     BASE – The list includes only base asset model properties for a given asset model ID.    Default: BASE
+        public let filter: ListAssetModelPropertiesFilter?
+        /// The maximum number of results to return for each paginated request. If not specified, the default value is 50.
+        public let maxResults: Int?
+        /// The token to be used for the next set of paginated results.
+        public let nextToken: String?
+
+        public init(assetModelId: String, filter: ListAssetModelPropertiesFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.assetModelId = assetModelId
+            self.filter = filter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assetModelId, name: "assetModelId", parent: name, max: 36)
+            try self.validate(self.assetModelId, name: "assetModelId", parent: name, min: 36)
+            try self.validate(self.assetModelId, name: "assetModelId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+/=]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAssetModelPropertiesResponse: AWSDecodableShape {
+        /// A list that summarizes the properties associated with the specified asset model.
+        public let assetModelPropertySummaries: [AssetModelPropertySummary]
+        /// The token for the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+
+        public init(assetModelPropertySummaries: [AssetModelPropertySummary], nextToken: String? = nil) {
+            self.assetModelPropertySummaries = assetModelPropertySummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetModelPropertySummaries
+            case nextToken
+        }
+    }
+
     public struct ListAssetModelsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
@@ -4562,6 +4716,61 @@ extension IoTSiteWise {
 
         private enum CodingKeys: String, CodingKey {
             case assetModelSummaries
+            case nextToken
+        }
+    }
+
+    public struct ListAssetPropertiesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "assetId", location: .uri("assetId")),
+            AWSMemberEncoding(label: "filter", location: .querystring("filter")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
+        ]
+
+        /// The ID of the asset.
+        public let assetId: String
+        ///  Filters the requested list of asset properties. You can choose one of the following options:    ALL – The list includes all asset properties for a given asset model ID.     BASE – The list includes only base asset properties for a given asset model ID.    Default: BASE
+        public let filter: ListAssetPropertiesFilter?
+        /// The maximum number of results to return for each paginated request. If not specified, the default value is 50.
+        public let maxResults: Int?
+        /// The token to be used for the next set of paginated results.
+        public let nextToken: String?
+
+        public init(assetId: String, filter: ListAssetPropertiesFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.assetId = assetId
+            self.filter = filter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assetId, name: "assetId", parent: name, max: 36)
+            try self.validate(self.assetId, name: "assetId", parent: name, min: 36)
+            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+/=]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAssetPropertiesResponse: AWSDecodableShape {
+        /// A list that summarizes the properties associated with the specified asset.
+        public let assetPropertySummaries: [AssetPropertySummary]
+        /// The token for the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+
+        public init(assetPropertySummaries: [AssetPropertySummary], nextToken: String? = nil) {
+            self.assetPropertySummaries = assetPropertySummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetPropertySummaries
             case nextToken
         }
     }
@@ -5307,7 +5516,7 @@ extension IoTSiteWise {
         public let name: String
         /// The ARN of the service role that allows the portal's users to access your IoT SiteWise resources on your behalf. For more information, see Using service roles for IoT SiteWise Monitor in the IoT SiteWise User Guide.
         public let roleArn: String?
-        /// The URL for the IoT SiteWise Monitor portal. You can use this URL to access portals that use Amazon Web Services SSO for authentication. For portals that use IAM for authentication, you must use the  IoT SiteWise console to get a URL that you can use to access the portal.
+        /// The URL for the IoT SiteWise Monitor portal. You can use this URL to access portals that use IAM Identity Center for authentication. For portals that use IAM for authentication, you must use the  IoT SiteWise console to get a URL that you can use to access the portal.
         public let startUrl: String
         public let status: PortalStatus
 
@@ -5883,7 +6092,7 @@ extension IoTSiteWise {
 
         /// The ID of the access policy.
         public let accessPolicyId: String
-        /// The identity for this access policy. Choose an Amazon Web Services SSO user, an Amazon Web Services SSO group, or an IAM user.
+        /// The identity for this access policy. Choose an IAM Identity Center user, an IAM Identity Center group, or an IAM user.
         public let accessPolicyIdentity: Identity
         /// The permission level for this access policy. Note that a project ADMINISTRATOR is also known as a project owner.
         public let accessPolicyPermission: Permission
@@ -6016,7 +6225,7 @@ extension IoTSiteWise {
         public let propertyId: String
         /// The MQTT notification state (enabled or disabled) for this asset property. When the notification state is enabled, IoT SiteWise publishes property value updates to a unique MQTT topic. For more information, see Interacting with other services in the IoT SiteWise User Guide. If you omit this parameter, the notification state is set to DISABLED.
         public let propertyNotificationState: PropertyNotificationState?
-        /// The unit of measure (such as Newtons or RPM) of the asset property. If you don't specify a value for this parameter, the service uses the  value of the assetModelProperty in the asset model.
+        /// The unit of measure (such as Newtons or RPM) of the asset property. If you don't specify a value for this parameter, the service uses the value of the assetModelProperty in the asset model.
         public let propertyUnit: String?
 
         public init(assetId: String, clientToken: String? = UpdateAssetPropertyRequest.idempotencyToken(), propertyAlias: String? = nil, propertyId: String, propertyNotificationState: PropertyNotificationState? = nil, propertyUnit: String? = nil) {
@@ -6377,7 +6586,7 @@ extension IoTSiteWise {
     }
 
     public struct UserIdentity: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Web Services SSO ID of the user.
+        /// The IAM Identity Center ID of the user.
         public let id: String
 
         public init(id: String) {

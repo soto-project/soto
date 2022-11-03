@@ -176,6 +176,28 @@ extension AppRunner {
             on: eventLoop
         )
     }
+
+    ///  Return a list of App Runner VPC Ingress Connections in your Amazon Web Services account.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listVpcIngressConnectionsPaginator(
+        _ input: ListVpcIngressConnectionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListVpcIngressConnectionsRequest, ListVpcIngressConnectionsResponse> {
+        return .init(
+            input: input,
+            command: listVpcIngressConnections,
+            inputKey: \ListVpcIngressConnectionsRequest.nextToken,
+            outputKey: \ListVpcIngressConnectionsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
 }
 
 #endif // compiler(>=5.5.2) && canImport(_Concurrency)

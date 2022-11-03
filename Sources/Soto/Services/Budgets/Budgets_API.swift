@@ -79,8 +79,14 @@ public struct Budgets: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-10-20",
             endpoint: endpoint,
-            serviceEndpoints: ["aws-cn-global": "budgets.amazonaws.com.cn", "aws-global": "budgets.amazonaws.com"],
-            partitionEndpoints: [.aws: (endpoint: "aws-global", region: .useast1), .awscn: (endpoint: "aws-cn-global", region: .cnnorthwest1)],
+            serviceEndpoints: [
+                "aws-cn-global": "budgets.amazonaws.com.cn",
+                "aws-global": "budgets.amazonaws.com"
+            ],
+            partitionEndpoints: [
+                .aws: (endpoint: "aws-global", region: .useast1),
+                .awscn: (endpoint: "aws-cn-global", region: .cnnorthwest1)
+            ],
             errorType: BudgetsErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

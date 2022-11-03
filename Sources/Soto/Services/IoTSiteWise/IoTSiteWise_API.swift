@@ -83,7 +83,7 @@ public struct IoTSiteWise: AWSService {
         return self.client.execute(operation: "BatchDisassociateProjectAssets", path: "/projects/{projectId}/assets/disassociate", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "monitor.", logger: logger, on: eventLoop)
     }
 
-    /// Gets aggregated values (for example, average, minimum, and maximum) for one or more asset properties.  For more information, see Querying aggregates in the IoT SiteWise User Guide.
+    /// Gets aggregated values (for example, average, minimum, and maximum) for one or more asset properties. For more information, see Querying aggregates in the IoT SiteWise User Guide.
     public func batchGetAssetPropertyAggregates(_ input: BatchGetAssetPropertyAggregatesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchGetAssetPropertyAggregatesResponse> {
         return self.client.execute(operation: "BatchGetAssetPropertyAggregates", path: "/properties/batch/aggregates", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "data.", logger: logger, on: eventLoop)
     }
@@ -103,7 +103,7 @@ public struct IoTSiteWise: AWSService {
         return self.client.execute(operation: "BatchPutAssetPropertyValue", path: "/properties", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "data.", logger: logger, on: eventLoop)
     }
 
-    /// Creates an access policy that grants the specified identity (Amazon Web Services SSO user, Amazon Web Services SSO group, or IAM user) access to the specified IoT SiteWise Monitor portal or project resource.
+    /// Creates an access policy that grants the specified identity (IAM Identity Center user, IAM Identity Center group, or IAM user) access to the specified IoT SiteWise Monitor portal or project resource.
     public func createAccessPolicy(_ input: CreateAccessPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAccessPolicyResponse> {
         return self.client.execute(operation: "CreateAccessPolicy", path: "/access-policies", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "monitor.", logger: logger, on: eventLoop)
     }
@@ -118,7 +118,7 @@ public struct IoTSiteWise: AWSService {
         return self.client.execute(operation: "CreateAssetModel", path: "/asset-models", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger, on: eventLoop)
     }
 
-    /// Defines a job to ingest data to IoT SiteWise from Amazon S3. For more information,  see Create a bulk import job (CLI)  in the Amazon Simple Storage Service User Guide.  You must enable IoT SiteWise to export data to Amazon S3 before you create a bulk import job.  For more information about how to configure storage settings,  see PutStorageConfiguration.
+    /// Defines a job to ingest data to IoT SiteWise from Amazon S3. For more information, see Create a bulk import job (CLI) in the Amazon Simple Storage Service User Guide.  You must enable IoT SiteWise to export data to Amazon S3 before you create a bulk import job. For more information about how to configure storage settings, see PutStorageConfiguration.
     public func createBulkImportJob(_ input: CreateBulkImportJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateBulkImportJobResponse> {
         return self.client.execute(operation: "CreateBulkImportJob", path: "/jobs", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "data.", logger: logger, on: eventLoop)
     }
@@ -133,7 +133,7 @@ public struct IoTSiteWise: AWSService {
         return self.client.execute(operation: "CreateGateway", path: "/20200301/gateways", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger, on: eventLoop)
     }
 
-    /// Creates a portal, which can contain projects and dashboards. IoT SiteWise Monitor uses Amazon Web Services SSO or IAM to authenticate portal users and manage user permissions.  Before you can sign in to a new portal, you must add at least one identity to that portal. For more information, see Adding or removing portal administrators in the IoT SiteWise User Guide.
+    /// Creates a portal, which can contain projects and dashboards. IoT SiteWise Monitor uses IAM Identity Center or IAM to authenticate portal users and manage user permissions.  Before you can sign in to a new portal, you must add at least one identity to that portal. For more information, see Adding or removing portal administrators in the IoT SiteWise User Guide.
     public func createPortal(_ input: CreatePortalRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreatePortalResponse> {
         return self.client.execute(operation: "CreatePortal", path: "/portals", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "monitor.", logger: logger, on: eventLoop)
     }
@@ -203,7 +203,7 @@ public struct IoTSiteWise: AWSService {
         return self.client.execute(operation: "DescribeAssetProperty", path: "/assets/{assetId}/properties/{propertyId}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger, on: eventLoop)
     }
 
-    /// Retrieves information about a bulk import job request. For more information,  see Describe a bulk import job (CLI)  in the Amazon Simple Storage Service User Guide.
+    /// Retrieves information about a bulk import job request. For more information, see Describe a bulk import job (CLI) in the Amazon Simple Storage Service User Guide.
     public func describeBulkImportJob(_ input: DescribeBulkImportJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeBulkImportJobResponse> {
         return self.client.execute(operation: "DescribeBulkImportJob", path: "/jobs/{jobId}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "data.", logger: logger, on: eventLoop)
     }
@@ -283,14 +283,24 @@ public struct IoTSiteWise: AWSService {
         return self.client.execute(operation: "GetInterpolatedAssetPropertyValues", path: "/properties/interpolated", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "data.", logger: logger, on: eventLoop)
     }
 
-    /// Retrieves a paginated list of access policies for an identity (an Amazon Web Services SSO user, an Amazon Web Services SSO group, or an IAM user) or an IoT SiteWise Monitor resource (a portal or project).
+    /// Retrieves a paginated list of access policies for an identity (an IAM Identity Center user, an IAM Identity Center group, or an IAM user) or an IoT SiteWise Monitor resource (a portal or project).
     public func listAccessPolicies(_ input: ListAccessPoliciesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAccessPoliciesResponse> {
         return self.client.execute(operation: "ListAccessPolicies", path: "/access-policies", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "monitor.", logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves a paginated list of properties associated with an asset model. If you update properties associated with the model before you finish listing all the properties,  you need to start all over again.
+    public func listAssetModelProperties(_ input: ListAssetModelPropertiesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAssetModelPropertiesResponse> {
+        return self.client.execute(operation: "ListAssetModelProperties", path: "/asset-models/{assetModelId}/properties", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger, on: eventLoop)
     }
 
     /// Retrieves a paginated list of summaries of all asset models.
     public func listAssetModels(_ input: ListAssetModelsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAssetModelsResponse> {
         return self.client.execute(operation: "ListAssetModels", path: "/asset-models", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves a paginated list of properties associated with an asset. If you update properties associated with the model before you finish listing all the properties,  you need to start all over again.
+    public func listAssetProperties(_ input: ListAssetPropertiesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAssetPropertiesResponse> {
+        return self.client.execute(operation: "ListAssetProperties", path: "/assets/{assetId}/properties", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger, on: eventLoop)
     }
 
     /// Retrieves a paginated list of asset relationships for an asset. You can use this operation to identify an asset's root asset and all associated assets between that asset and its root.
@@ -308,7 +318,7 @@ public struct IoTSiteWise: AWSService {
         return self.client.execute(operation: "ListAssociatedAssets", path: "/assets/{assetId}/hierarchies", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger, on: eventLoop)
     }
 
-    /// Retrieves a paginated list of bulk import job requests. For more information,  see List bulk import jobs (CLI)  in the IoT SiteWise User Guide.
+    /// Retrieves a paginated list of bulk import job requests. For more information, see List bulk import jobs (CLI) in the IoT SiteWise User Guide.
     public func listBulkImportJobs(_ input: ListBulkImportJobsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListBulkImportJobsResponse> {
         return self.client.execute(operation: "ListBulkImportJobs", path: "/jobs", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "data.", logger: logger, on: eventLoop)
     }

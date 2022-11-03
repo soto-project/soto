@@ -55,7 +55,10 @@ public struct Redshift: AWSService {
             serviceProtocol: .query,
             apiVersion: "2012-12-01",
             endpoint: endpoint,
-            serviceEndpoints: ["us-gov-east-1": "redshift.us-gov-east-1.amazonaws.com", "us-gov-west-1": "redshift.us-gov-west-1.amazonaws.com"],
+            serviceEndpoints: [
+                "us-gov-east-1": "redshift.us-gov-east-1.amazonaws.com",
+                "us-gov-west-1": "redshift.us-gov-west-1.amazonaws.com"
+            ],
             errorType: RedshiftErrorType.self,
             xmlNamespace: "http://redshift.amazonaws.com/doc/2012-12-01/",
             timeout: timeout,

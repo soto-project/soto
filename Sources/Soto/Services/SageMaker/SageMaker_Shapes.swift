@@ -21697,7 +21697,7 @@ extension SageMaker {
             try self.validate(self.environment, name: "environment", parent: name, max: 16)
             try self.validate(self.frameworkVersion, name: "frameworkVersion", parent: name, max: 10)
             try self.validate(self.frameworkVersion, name: "frameworkVersion", parent: name, min: 3)
-            try self.validate(self.frameworkVersion, name: "frameworkVersion", parent: name, pattern: "^[0-9]\\.[A-Za-z0-9.]+$")
+            try self.validate(self.frameworkVersion, name: "frameworkVersion", parent: name, pattern: "^[0-9]\\.[A-Za-z0-9.-]+$")
             try self.validate(self.image, name: "image", parent: name, max: 255)
             try self.validate(self.image, name: "image", parent: name, pattern: "^[\\S]+$")
             try self.validate(self.imageDigest, name: "imageDigest", parent: name, max: 72)

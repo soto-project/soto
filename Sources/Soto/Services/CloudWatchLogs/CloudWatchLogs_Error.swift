@@ -30,6 +30,7 @@ public struct CloudWatchLogsErrorType: AWSErrorType {
         case resourceAlreadyExistsException = "ResourceAlreadyExistsException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case serviceUnavailableException = "ServiceUnavailableException"
+        case tooManyTagsException = "TooManyTagsException"
         case unrecognizedClientException = "UnrecognizedClientException"
     }
 
@@ -71,6 +72,8 @@ public struct CloudWatchLogsErrorType: AWSErrorType {
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The service cannot complete the request.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+    /// A resource can have no more than 50 tags.
+    public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
     /// The most likely cause is an invalid Amazon Web Services access key ID or secret key.
     public static var unrecognizedClientException: Self { .init(.unrecognizedClientException) }
 }

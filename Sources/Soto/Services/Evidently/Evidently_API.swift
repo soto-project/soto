@@ -54,7 +54,17 @@ public struct Evidently: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2021-02-01",
             endpoint: endpoint,
-            serviceEndpoints: ["ap-northeast-1": "evidently.ap-northeast-1.amazonaws.com", "ap-southeast-1": "evidently.ap-southeast-1.amazonaws.com", "ap-southeast-2": "evidently.ap-southeast-2.amazonaws.com", "eu-central-1": "evidently.eu-central-1.amazonaws.com", "eu-north-1": "evidently.eu-north-1.amazonaws.com", "eu-west-1": "evidently.eu-west-1.amazonaws.com", "us-east-1": "evidently.us-east-1.amazonaws.com", "us-east-2": "evidently.us-east-2.amazonaws.com", "us-west-2": "evidently.us-west-2.amazonaws.com"],
+            serviceEndpoints: [
+                "ap-northeast-1": "evidently.ap-northeast-1.amazonaws.com",
+                "ap-southeast-1": "evidently.ap-southeast-1.amazonaws.com",
+                "ap-southeast-2": "evidently.ap-southeast-2.amazonaws.com",
+                "eu-central-1": "evidently.eu-central-1.amazonaws.com",
+                "eu-north-1": "evidently.eu-north-1.amazonaws.com",
+                "eu-west-1": "evidently.eu-west-1.amazonaws.com",
+                "us-east-1": "evidently.us-east-1.amazonaws.com",
+                "us-east-2": "evidently.us-east-2.amazonaws.com",
+                "us-west-2": "evidently.us-west-2.amazonaws.com"
+            ],
             errorType: EvidentlyErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

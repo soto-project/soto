@@ -53,8 +53,16 @@ public struct Organizations: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-11-28",
             endpoint: endpoint,
-            serviceEndpoints: ["aws-cn-global": "organizations.cn-northwest-1.amazonaws.com.cn", "aws-global": "organizations.us-east-1.amazonaws.com", "aws-us-gov-global": "organizations.us-gov-west-1.amazonaws.com"],
-            partitionEndpoints: [.aws: (endpoint: "aws-global", region: .useast1), .awscn: (endpoint: "aws-cn-global", region: .cnnorthwest1), .awsusgov: (endpoint: "aws-us-gov-global", region: .usgovwest1)],
+            serviceEndpoints: [
+                "aws-cn-global": "organizations.cn-northwest-1.amazonaws.com.cn",
+                "aws-global": "organizations.us-east-1.amazonaws.com",
+                "aws-us-gov-global": "organizations.us-gov-west-1.amazonaws.com"
+            ],
+            partitionEndpoints: [
+                .aws: (endpoint: "aws-global", region: .useast1),
+                .awscn: (endpoint: "aws-cn-global", region: .cnnorthwest1),
+                .awsusgov: (endpoint: "aws-us-gov-global", region: .usgovwest1)
+            ],
             errorType: OrganizationsErrorType.self,
             xmlNamespace: "http://organizations.amazonaws.com/doc/2016-11-28/",
             timeout: timeout,

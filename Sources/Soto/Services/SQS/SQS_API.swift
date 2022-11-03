@@ -54,7 +54,10 @@ public struct SQS: AWSService {
             serviceProtocol: .query,
             apiVersion: "2012-11-05",
             endpoint: endpoint,
-            serviceEndpoints: ["us-gov-east-1": "sqs.us-gov-east-1.amazonaws.com", "us-gov-west-1": "sqs.us-gov-west-1.amazonaws.com"],
+            serviceEndpoints: [
+                "us-gov-east-1": "sqs.us-gov-east-1.amazonaws.com",
+                "us-gov-west-1": "sqs.us-gov-west-1.amazonaws.com"
+            ],
             errorType: SQSErrorType.self,
             xmlNamespace: "http://queue.amazonaws.com/doc/2012-11-05/",
             timeout: timeout,

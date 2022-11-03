@@ -55,7 +55,10 @@ public struct ACM: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2015-12-08",
             endpoint: endpoint,
-            serviceEndpoints: ["us-gov-east-1": "acm.us-gov-east-1.amazonaws.com", "us-gov-west-1": "acm.us-gov-west-1.amazonaws.com"],
+            serviceEndpoints: [
+                "us-gov-east-1": "acm.us-gov-east-1.amazonaws.com",
+                "us-gov-west-1": "acm.us-gov-west-1.amazonaws.com"
+            ],
             errorType: ACMErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

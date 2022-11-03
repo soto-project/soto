@@ -23,7 +23,7 @@ import SotoCore
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension IoTSiteWise {
-    ///  Gets aggregated values (for example, average, minimum, and maximum) for one or more asset properties.  For more information, see Querying aggregates in the IoT SiteWise User Guide.
+    ///  Gets aggregated values (for example, average, minimum, and maximum) for one or more asset properties. For more information, see Querying aggregates in the IoT SiteWise User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -155,7 +155,7 @@ extension IoTSiteWise {
         )
     }
 
-    ///  Retrieves a paginated list of access policies for an identity (an Amazon Web Services SSO user, an Amazon Web Services SSO group, or an IAM user) or an IoT SiteWise Monitor resource (a portal or project).
+    ///  Retrieves a paginated list of access policies for an identity (an IAM Identity Center user, an IAM Identity Center group, or an IAM user) or an IoT SiteWise Monitor resource (a portal or project).
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -172,6 +172,28 @@ extension IoTSiteWise {
             command: listAccessPolicies,
             inputKey: \ListAccessPoliciesRequest.nextToken,
             outputKey: \ListAccessPoliciesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Retrieves a paginated list of properties associated with an asset model. If you update properties associated with the model before you finish listing all the properties,  you need to start all over again.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listAssetModelPropertiesPaginator(
+        _ input: ListAssetModelPropertiesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListAssetModelPropertiesRequest, ListAssetModelPropertiesResponse> {
+        return .init(
+            input: input,
+            command: listAssetModelProperties,
+            inputKey: \ListAssetModelPropertiesRequest.nextToken,
+            outputKey: \ListAssetModelPropertiesResponse.nextToken,
             logger: logger,
             on: eventLoop
         )
@@ -194,6 +216,28 @@ extension IoTSiteWise {
             command: listAssetModels,
             inputKey: \ListAssetModelsRequest.nextToken,
             outputKey: \ListAssetModelsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Retrieves a paginated list of properties associated with an asset. If you update properties associated with the model before you finish listing all the properties,  you need to start all over again.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listAssetPropertiesPaginator(
+        _ input: ListAssetPropertiesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListAssetPropertiesRequest, ListAssetPropertiesResponse> {
+        return .init(
+            input: input,
+            command: listAssetProperties,
+            inputKey: \ListAssetPropertiesRequest.nextToken,
+            outputKey: \ListAssetPropertiesResponse.nextToken,
             logger: logger,
             on: eventLoop
         )
@@ -265,7 +309,7 @@ extension IoTSiteWise {
         )
     }
 
-    ///  Retrieves a paginated list of bulk import job requests. For more information,  see List bulk import jobs (CLI)  in the IoT SiteWise User Guide.
+    ///  Retrieves a paginated list of bulk import job requests. For more information, see List bulk import jobs (CLI) in the IoT SiteWise User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

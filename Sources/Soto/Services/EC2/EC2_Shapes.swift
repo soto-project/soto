@@ -74,6 +74,13 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum AddressTransferStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case accepted
+        case disabled
+        case pending
+        public var description: String { return self.rawValue }
+    }
+
     public enum Affinity: String, CustomStringConvertible, Codable, _SotoSendable {
         case `default`
         case host
@@ -2864,6 +2871,43 @@ extension EC2 {
         }
     }
 
+    public struct AcceptAddressTransferRequest: AWSEncodableShape {
+        public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The Elastic IP address you are accepting for transfer.
+        public let address: String?
+        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        ///  tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.
+        @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
+        public var tagSpecifications: [TagSpecification]?
+
+        public init(address: String? = nil, dryRun: Bool? = nil, tagSpecifications: [TagSpecification]? = nil) {
+            self.address = address
+            self.dryRun = dryRun
+            self.tagSpecifications = tagSpecifications
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case address = "Address"
+            case dryRun = "DryRun"
+            case tagSpecifications = "TagSpecification"
+        }
+    }
+
+    public struct AcceptAddressTransferResult: AWSDecodableShape {
+        /// An Elastic IP address transfer.
+        public let addressTransfer: AddressTransfer?
+
+        public init(addressTransfer: AddressTransfer? = nil) {
+            self.addressTransfer = addressTransfer
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addressTransfer
+        }
+    }
+
     public struct AcceptReservedInstancesExchangeQuoteRequest: AWSEncodableShape {
         public struct _ReservedInstanceIdsEncoding: ArrayCoderProperties { public static let member = "ReservedInstanceId" }
         public struct _TargetConfigurationsEncoding: ArrayCoderProperties { public static let member = "TargetConfigurationRequest" }
@@ -3371,6 +3415,39 @@ extension EC2 {
             case ptrRecord
             case ptrRecordUpdate
             case publicIp
+        }
+    }
+
+    public struct AddressTransfer: AWSDecodableShape {
+        /// The Elastic IP address transfer status.
+        public let addressTransferStatus: AddressTransferStatus?
+        /// The allocation ID of an Elastic IP address.
+        public let allocationId: String?
+        /// The Elastic IP address being transferred.
+        public let publicIp: String?
+        /// The ID of the account that you want to transfer the Elastic IP address to.
+        public let transferAccountId: String?
+        /// The timestamp when the Elastic IP address transfer was accepted.
+        public let transferOfferAcceptedTimestamp: Date?
+        /// The timestamp when the Elastic IP address transfer expired. When the source account starts the transfer, the transfer account has seven hours to allocate the Elastic IP address to complete the transfer, or the Elastic IP address will return to its original owner.
+        public let transferOfferExpirationTimestamp: Date?
+
+        public init(addressTransferStatus: AddressTransferStatus? = nil, allocationId: String? = nil, publicIp: String? = nil, transferAccountId: String? = nil, transferOfferAcceptedTimestamp: Date? = nil, transferOfferExpirationTimestamp: Date? = nil) {
+            self.addressTransferStatus = addressTransferStatus
+            self.allocationId = allocationId
+            self.publicIp = publicIp
+            self.transferAccountId = transferAccountId
+            self.transferOfferAcceptedTimestamp = transferOfferAcceptedTimestamp
+            self.transferOfferExpirationTimestamp = transferOfferExpirationTimestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addressTransferStatus
+            case allocationId
+            case publicIp
+            case transferAccountId
+            case transferOfferAcceptedTimestamp
+            case transferOfferExpirationTimestamp
         }
     }
 
@@ -14095,6 +14172,59 @@ extension EC2 {
         }
     }
 
+    public struct DescribeAddressTransfersRequest: AWSEncodableShape {
+        public struct _AllocationIdsEncoding: ArrayCoderProperties { public static let member = "AllocationId" }
+
+        /// The allocation IDs of Elastic IP addresses.
+        @OptionalCustomCoding<ArrayCoder<_AllocationIdsEncoding, String>>
+        public var allocationIds: [String]?
+        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The maximum number of address transfers to return in one page of results.
+        public let maxResults: Int?
+        /// Specify the pagination token from a previous request to retrieve the next page of results.
+        public let nextToken: String?
+
+        public init(allocationIds: [String]? = nil, dryRun: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.allocationIds = allocationIds
+            self.dryRun = dryRun
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allocationIds = "AllocationId"
+            case dryRun = "DryRun"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeAddressTransfersResult: AWSDecodableShape {
+        public struct _AddressTransfersEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The Elastic IP address transfer.
+        @OptionalCustomCoding<ArrayCoder<_AddressTransfersEncoding, AddressTransfer>>
+        public var addressTransfers: [AddressTransfer]?
+        /// Specify the pagination token from a previous request to retrieve the next page of results.
+        public let nextToken: String?
+
+        public init(addressTransfers: [AddressTransfer]? = nil, nextToken: String? = nil) {
+            self.addressTransfers = addressTransfers
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addressTransfers = "addressTransferSet"
+            case nextToken
+        }
+    }
+
     public struct DescribeAddressesAttributeRequest: AWSEncodableShape {
         public struct _AllocationIdsEncoding: ArrayCoderProperties { public static let member = "item" }
 
@@ -22168,6 +22298,36 @@ extension EC2 {
         }
     }
 
+    public struct DisableAddressTransferRequest: AWSEncodableShape {
+        /// The allocation ID of an Elastic IP address.
+        public let allocationId: String?
+        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+
+        public init(allocationId: String? = nil, dryRun: Bool? = nil) {
+            self.allocationId = allocationId
+            self.dryRun = dryRun
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allocationId = "AllocationId"
+            case dryRun = "DryRun"
+        }
+    }
+
+    public struct DisableAddressTransferResult: AWSDecodableShape {
+        /// An Elastic IP address transfer.
+        public let addressTransfer: AddressTransfer?
+
+        public init(addressTransfer: AddressTransfer? = nil) {
+            self.addressTransfer = addressTransfer
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addressTransfer
+        }
+    }
+
     public struct DisableEbsEncryptionByDefaultRequest: AWSEncodableShape {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -23516,6 +23676,40 @@ extension EC2 {
             case elasticInferenceAcceleratorAssociationId
             case elasticInferenceAcceleratorAssociationState
             case elasticInferenceAcceleratorAssociationTime
+        }
+    }
+
+    public struct EnableAddressTransferRequest: AWSEncodableShape {
+        /// The allocation ID of an Elastic IP address.
+        public let allocationId: String?
+        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the account that you want to transfer the Elastic IP address to.
+        public let transferAccountId: String?
+
+        public init(allocationId: String? = nil, dryRun: Bool? = nil, transferAccountId: String? = nil) {
+            self.allocationId = allocationId
+            self.dryRun = dryRun
+            self.transferAccountId = transferAccountId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allocationId = "AllocationId"
+            case dryRun = "DryRun"
+            case transferAccountId = "TransferAccountId"
+        }
+    }
+
+    public struct EnableAddressTransferResult: AWSDecodableShape {
+        /// An Elastic IP address transfer.
+        public let addressTransfer: AddressTransfer?
+
+        public init(addressTransfer: AddressTransfer? = nil) {
+            self.addressTransfer = addressTransfer
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addressTransfer
         }
     }
 
@@ -26322,6 +26516,7 @@ extension EC2 {
         public let resourceId: String?
         /// The ID of the Amazon Web Services account that owns the resource.
         public let resourceOwner: String?
+        /// The resource tag.
         public let resourceTag: RequestIpamResourceTag?
         /// The resource type.
         public let resourceType: IpamResourceType?
@@ -34576,6 +34771,7 @@ extension EC2 {
     }
 
     public struct ModifyIpamResourceCidrResult: AWSDecodableShape {
+        /// The CIDR of the resource.
         public let ipamResourceCidr: IpamResourceCidr?
 
         public init(ipamResourceCidr: IpamResourceCidr? = nil) {
@@ -36336,6 +36532,7 @@ extension EC2 {
     }
 
     public struct MoveByoipCidrToIpamResult: AWSDecodableShape {
+        /// The BYOIP CIDR.
         public let byoipCidr: ByoipCidr?
 
         public init(byoipCidr: ByoipCidr? = nil) {
@@ -38385,6 +38582,7 @@ extension EC2 {
     }
 
     public struct ProvisionPublicIpv4PoolCidrResult: AWSDecodableShape {
+        /// Information about the address range of the public IPv4 pool.
         public let poolAddressRange: PublicIpv4PoolRange?
         /// The ID of the pool that you want to provision the CIDR to.
         public let poolId: String?

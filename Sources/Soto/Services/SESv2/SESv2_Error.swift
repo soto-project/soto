@@ -25,6 +25,7 @@ public struct SESv2ErrorType: AWSErrorType {
         case badRequestException = "BadRequestException"
         case concurrentModificationException = "ConcurrentModificationException"
         case conflictException = "ConflictException"
+        case internalServiceErrorException = "InternalServiceErrorException"
         case invalidNextTokenException = "InvalidNextTokenException"
         case limitExceededException = "LimitExceededException"
         case mailFromDomainNotVerifiedException = "MailFromDomainNotVerifiedException"
@@ -62,6 +63,8 @@ public struct SESv2ErrorType: AWSErrorType {
     public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
     /// If there is already an ongoing account details update under review.
     public static var conflictException: Self { .init(.conflictException) }
+    /// The request couldn't be processed because an error occurred with the Amazon SES API v2.
+    public static var internalServiceErrorException: Self { .init(.internalServiceErrorException) }
     /// The specified request includes an invalid or expired token.
     public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
     /// There are too many instances of the specified resource type.

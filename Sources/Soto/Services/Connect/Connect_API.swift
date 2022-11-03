@@ -113,7 +113,7 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "AssociateSecurityKey", path: "/instance/{InstanceId}/security-key", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Claims an available phone number to your Amazon Connect instance or traffic distribution group. You can  call this API only in the same Amazon Web Services Region where the Amazon Connect instance or traffic distribution group was created.  You can call the DescribePhoneNumber API to verify the status of a previous ClaimPhoneNumber operation.
+    /// Claims an available phone number to your Amazon Connect instance or traffic distribution group. You can call this API only in the same Amazon Web Services Region where the Amazon Connect instance or traffic distribution group was created.  You can call the DescribePhoneNumber API to verify the status of a previous ClaimPhoneNumber operation.
     public func claimPhoneNumber(_ input: ClaimPhoneNumberRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ClaimPhoneNumberResponse> {
         return self.client.execute(operation: "ClaimPhoneNumber", path: "/phone-number/claim", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -401,6 +401,11 @@ public struct Connect: AWSService {
     /// This API is in preview release for Amazon Connect and is subject to change. Deletes the specified security key.
     @discardableResult public func disassociateSecurityKey(_ input: DisassociateSecurityKeyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DisassociateSecurityKey", path: "/instance/{InstanceId}/security-key/{AssociationId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Dismisses contacts from an agent’s CCP and returns the agent to an available state, which  allows the agent to receive a new routed contact. Contacts can only be dismissed if they are in a  MISSED, ERROR, ENDED, or REJECTED state in the  Agent Event Stream.
+    public func dismissUserContact(_ input: DismissUserContactRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DismissUserContactResponse> {
+        return self.client.execute(operation: "DismissUserContact", path: "/users/{InstanceId}/{UserId}/contact", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Retrieves the contact attributes for the specified contact.
@@ -844,7 +849,8 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "UpdateTaskTemplate", path: "/instance/{InstanceId}/task/template/{TaskTemplateId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates the traffic distribution for a given traffic distribution group.   For more information about updating a traffic distribution group see Update telephony traffic distribution across Amazon Web Services Regions in the Amazon Connect Administrator Guide.
+    /// Updates the traffic distribution for a given traffic distribution group.
+    ///  For more information about updating a traffic distribution group, see Update telephony traffic distribution across Amazon Web Services Regions in the Amazon Connect Administrator Guide.
     public func updateTrafficDistribution(_ input: UpdateTrafficDistributionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateTrafficDistributionResponse> {
         return self.client.execute(operation: "UpdateTrafficDistribution", path: "/traffic-distribution/{Id}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

@@ -23,6 +23,11 @@ import SotoCore
 extension SESv2 {
     // MARK: Async API Calls
 
+    /// Retrieves batches of metric data collected based on your sending activity. You can execute this operation no more than 16 times per second, and with at most 160 queries from the batches per second (cumulative).
+    public func batchGetMetricData(_ input: BatchGetMetricDataRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> BatchGetMetricDataResponse {
+        return try await self.client.execute(operation: "BatchGetMetricData", path: "/v2/email/metrics/batch", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Create a configuration set. Configuration sets are groups of rules that you can apply to the emails that you send. You apply a configuration set to an email by specifying the name of the configuration set when you call the Amazon SES API v2. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email.
     public func createConfigurationSet(_ input: CreateConfigurationSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateConfigurationSetResponse {
         return try await self.client.execute(operation: "CreateConfigurationSet", path: "/v2/email/configuration-sets", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -277,6 +282,11 @@ extension SESv2 {
         return try await self.client.execute(operation: "ListImportJobs", path: "/v2/email/import-jobs", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Lists the recommendations present in your Amazon SES account in the current Amazon Web Services Region. You can execute this operation no more than once per second.
+    public func listRecommendations(_ input: ListRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListRecommendationsResponse {
+        return try await self.client.execute(operation: "ListRecommendations", path: "/v2/email/vdm/recommendations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Retrieves a list of email addresses that are on the suppression list for your account.
     public func listSuppressedDestinations(_ input: ListSuppressedDestinationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListSuppressedDestinationsResponse {
         return try await self.client.execute(operation: "ListSuppressedDestinations", path: "/v2/email/suppression/addresses", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -307,6 +317,11 @@ extension SESv2 {
         return try await self.client.execute(operation: "PutAccountSuppressionAttributes", path: "/v2/email/account/suppression", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Update your Amazon SES account VDM attributes. You can execute this operation no more than once per second.
+    public func putAccountVdmAttributes(_ input: PutAccountVdmAttributesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PutAccountVdmAttributesResponse {
+        return try await self.client.execute(operation: "PutAccountVdmAttributes", path: "/v2/email/account/vdm", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Associate a configuration set with a dedicated IP pool. You can use dedicated IP pools to create groups of dedicated IP addresses for sending specific types of email.
     public func putConfigurationSetDeliveryOptions(_ input: PutConfigurationSetDeliveryOptionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PutConfigurationSetDeliveryOptionsResponse {
         return try await self.client.execute(operation: "PutConfigurationSetDeliveryOptions", path: "/v2/email/configuration-sets/{ConfigurationSetName}/delivery-options", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -330,6 +345,11 @@ extension SESv2 {
     /// Specify a custom domain to use for open and click tracking elements in email that you send.
     public func putConfigurationSetTrackingOptions(_ input: PutConfigurationSetTrackingOptionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PutConfigurationSetTrackingOptionsResponse {
         return try await self.client.execute(operation: "PutConfigurationSetTrackingOptions", path: "/v2/email/configuration-sets/{ConfigurationSetName}/tracking-options", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Specify VDM preferences for email that you send using the configuration set. You can execute this operation no more than once per second.
+    public func putConfigurationSetVdmOptions(_ input: PutConfigurationSetVdmOptionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PutConfigurationSetVdmOptionsResponse {
+        return try await self.client.execute(operation: "PutConfigurationSetVdmOptions", path: "/v2/email/configuration-sets/{ConfigurationSetName}/vdm-options", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Move a dedicated IP address to an existing dedicated IP pool.  The dedicated IP address that you specify must already exist, and must be associated with your Amazon Web Services account.   The dedicated IP pool you specify must already exist. You can create a new pool by using the CreateDedicatedIpPool operation.
