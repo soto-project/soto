@@ -52,8 +52,12 @@ public struct Billingconductor: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2021-07-30",
             endpoint: endpoint,
-            serviceEndpoints: ["aws-global": "billingconductor.us-east-1.amazonaws.com"],
-            partitionEndpoints: [.aws: (endpoint: "aws-global", region: .useast1)],
+            serviceEndpoints: [
+                "aws-global": "billingconductor.us-east-1.amazonaws.com"
+            ],
+            partitionEndpoints: [
+                .aws: (endpoint: "aws-global", region: .useast1)
+            ],
             errorType: BillingconductorErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

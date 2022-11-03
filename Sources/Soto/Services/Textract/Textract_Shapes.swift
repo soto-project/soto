@@ -94,9 +94,9 @@ extension Textract {
     // MARK: Shapes
 
     public struct AnalyzeDocumentRequest: AWSEncodableShape {
-        /// The input document as base64-encoded bytes or an Amazon S3 object. If you use the AWS CLI to call Amazon Textract operations, you can't pass image bytes. The document must be an image  in JPEG, PNG, PDF, or TIFF format. If you're using an AWS SDK to call Amazon Textract, you might not need to base64-encode image bytes that are passed using the Bytes field.
+        /// The input document as base64-encoded bytes or an Amazon S3 object. If you use the AWS CLI to call Amazon Textract operations, you can't pass image bytes. The document must be an image in JPEG, PNG, PDF, or TIFF format. If you're using an AWS SDK to call Amazon Textract, you might not need to base64-encode image bytes that are passed using the Bytes field.
         public let document: Document
-        /// A list of the types of analysis to perform. Add TABLES to the list to return information about the tables that are detected in the input document. Add FORMS to return detected form data.  To perform both types of analysis, add TABLES and FORMS to FeatureTypes. All lines and words detected in the document are included in the response (including text that isn't related to the value of FeatureTypes).
+        /// A list of the types of analysis to perform. Add TABLES to the list to return information about the tables that are detected in the input document. Add FORMS to return detected form data. To perform both types of analysis, add TABLES and FORMS to FeatureTypes. All lines and words detected in the document are included in the response (including text that isn't related to the value of FeatureTypes).
         public let featureTypes: [FeatureType]
         /// Sets the configuration for the human in the loop workflow for analyzing documents.
         public let humanLoopConfig: HumanLoopConfig?
@@ -244,7 +244,7 @@ extension Textract {
     }
 
     public struct Block: AWSDecodableShape {
-        /// The type of text item that's recognized. In operations for text detection, the following types are returned:    PAGE - Contains a list of the LINE Block objects that are detected on a document page.    WORD - A word detected on a document page. A word is one or more ISO basic Latin script characters that aren't separated by spaces.    LINE - A string of tab-delimited, contiguous words that are detected on a document page.   In text analysis operations, the following types are returned:    PAGE - Contains a list of child Block objects that are detected on a document page.    KEY_VALUE_SET - Stores the KEY and VALUE Block objects for linked text that's detected on a document page. Use the EntityType field to determine if a KEY_VALUE_SET object is a KEY Block object or a VALUE Block object.     WORD - A word that's detected on a document page. A word is one or more ISO basic Latin script characters that aren't separated by spaces.    LINE - A string of tab-delimited, contiguous words that are detected on a document page.    TABLE - A table that's detected on a document page. A table is grid-based information with two or more rows or columns, with a cell span of one row and one column each.     CELL - A cell within a detected table. The cell is the parent of the block that contains the text in the cell.    SELECTION_ELEMENT - A selection element such as an option button (radio button) or a check box that's detected on a document page. Use the value of SelectionStatus to determine the status of the selection element.    QUERY - A question asked during the call of AnalyzeDocument. Contains an alias and an ID that attachs it to its answer.    QUERY_RESULT - A response to a question asked during the call of analyze document. Comes with an alias and ID for ease of locating in a  response. Also contains location and confidence score.
+        /// The type of text item that's recognized. In operations for text detection, the following types are returned:    PAGE - Contains a list of the LINE Block objects that are detected on a document page.    WORD - A word detected on a document page. A word is one or more ISO basic Latin script characters that aren't separated by spaces.    LINE - A string of tab-delimited, contiguous words that are detected on a document page.   In text analysis operations, the following types are returned:    PAGE - Contains a list of child Block objects that are detected on a document page.    KEY_VALUE_SET - Stores the KEY and VALUE Block objects for linked text that's detected on a document page. Use the EntityType field to determine if a KEY_VALUE_SET object is a KEY Block object or a VALUE Block object.     WORD - A word that's detected on a document page. A word is one or more ISO basic Latin script characters that aren't separated by spaces.    LINE - A string of tab-delimited, contiguous words that are detected on a document page.    TABLE - A table that's detected on a document page. A table is grid-based information with two or more rows or columns, with a cell span of one row and one column each.     CELL - A cell within a detected table. The cell is the parent of the block that contains the text in the cell.    SELECTION_ELEMENT - A selection element such as an option button (radio button) or a check box that's detected on a document page. Use the value of SelectionStatus to determine the status of the selection element.    QUERY - A question asked during the call of AnalyzeDocument. Contains an alias and an ID that attaches it to its answer.    QUERY_RESULT - A response to a question asked during the call of analyze document. Comes with an alias and ID for ease of locating in a  response. Also contains location and confidence score.
         public let blockType: BlockType?
         /// The column in which a table cell appears. The first column position is 1. ColumnIndex isn't returned by DetectDocumentText and GetDocumentTextDetection.
         public let columnIndex: Int?
@@ -258,7 +258,7 @@ extension Textract {
         public let geometry: Geometry?
         /// The identifier for the recognized text. The identifier is only unique for a single operation.
         public let id: String?
-        /// The page on which a block was detected. Page is returned by asynchronous operations. Page values greater than 1 are only returned for multipage documents that are in PDF or TIFF format. A scanned image (JPEG/PNG), even if it contains multiple document pages, is considered to be a single-page document. The value of Page is always 1. Synchronous operations don't return Page because every input document is considered to be a single-page document.
+        /// The page on which a block was detected. Page is returned by synchronous and asynchronous operations. Page values greater than 1 are only returned for multipage documents that are in PDF or TIFF format. A scanned image (JPEG/PNG) provided to an asynchronous operation, even if it contains multiple document pages, is considered a single-page document. This means that for scanned images the value of Page is always 1. Synchronous operations operations will also return a Page value of 1 because every input document is considered to be a single-page document.
         public let page: Int?
         public let query: Query?
         /// A list of child blocks of the current block. For example, a LINE object has child blocks for each WORD block that's part of the line of text. There aren't Relationship objects in the list for relationships that don't exist, such as when the current block has no child blocks. The list size can be the following:   0 - The block has no child blocks.   1 - The block has child blocks.
@@ -426,6 +426,23 @@ extension Textract {
         }
     }
 
+    public struct ExpenseCurrency: AWSDecodableShape {
+        /// Currency code for detected currency. the current supported codes are:   USD   EUR   GBP   CAD   INR   JPY   CHF   AUD   CNY   BZR   SEK   HKD
+        public let code: String?
+        /// Percentage confideence in the detected currency.
+        public let confidence: Float?
+
+        public init(code: String? = nil, confidence: Float? = nil) {
+            self.code = code
+            self.confidence = confidence
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case confidence = "Confidence"
+        }
+    }
+
     public struct ExpenseDetection: AWSDecodableShape {
         /// The confidence in detection, as a percentage
         public let confidence: Float?
@@ -447,6 +464,8 @@ extension Textract {
     }
 
     public struct ExpenseDocument: AWSDecodableShape {
+        /// This is a block object, the same as reported when DetectDocumentText is run on a document. It provides word level recognition of text.
+        public let blocks: [Block]?
         /// Denotes which invoice or receipt in the document the information is coming from.  First document will be 1, the second 2, and so on.
         public let expenseIndex: Int?
         /// Information detected on each table of a document, seperated into LineItems.
@@ -454,13 +473,15 @@ extension Textract {
         /// Any information found outside of a table by Amazon Textract.
         public let summaryFields: [ExpenseField]?
 
-        public init(expenseIndex: Int? = nil, lineItemGroups: [LineItemGroup]? = nil, summaryFields: [ExpenseField]? = nil) {
+        public init(blocks: [Block]? = nil, expenseIndex: Int? = nil, lineItemGroups: [LineItemGroup]? = nil, summaryFields: [ExpenseField]? = nil) {
+            self.blocks = blocks
             self.expenseIndex = expenseIndex
             self.lineItemGroups = lineItemGroups
             self.summaryFields = summaryFields
         }
 
         private enum CodingKeys: String, CodingKey {
+            case blocks = "Blocks"
             case expenseIndex = "ExpenseIndex"
             case lineItemGroups = "LineItemGroups"
             case summaryFields = "SummaryFields"
@@ -468,6 +489,10 @@ extension Textract {
     }
 
     public struct ExpenseField: AWSDecodableShape {
+        /// Shows the kind of currency, both the code and confidence associated with any monatary value detected.
+        public let currency: ExpenseCurrency?
+        /// Shows which group a response object belongs to, such as whether an address line belongs to the vendor's address or the recipent's address.
+        public let groupProperties: [ExpenseGroupProperty]?
         /// The explicitly stated label of a detected element.
         public let labelDetection: ExpenseDetection?
         /// The page number the value was detected on.
@@ -477,7 +502,9 @@ extension Textract {
         /// The value of a detected element. Present in explicit and implicit elements.
         public let valueDetection: ExpenseDetection?
 
-        public init(labelDetection: ExpenseDetection? = nil, pageNumber: Int? = nil, type: ExpenseType? = nil, valueDetection: ExpenseDetection? = nil) {
+        public init(currency: ExpenseCurrency? = nil, groupProperties: [ExpenseGroupProperty]? = nil, labelDetection: ExpenseDetection? = nil, pageNumber: Int? = nil, type: ExpenseType? = nil, valueDetection: ExpenseDetection? = nil) {
+            self.currency = currency
+            self.groupProperties = groupProperties
             self.labelDetection = labelDetection
             self.pageNumber = pageNumber
             self.type = type
@@ -485,10 +512,29 @@ extension Textract {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case currency = "Currency"
+            case groupProperties = "GroupProperties"
             case labelDetection = "LabelDetection"
             case pageNumber = "PageNumber"
             case type = "Type"
             case valueDetection = "ValueDetection"
+        }
+    }
+
+    public struct ExpenseGroupProperty: AWSDecodableShape {
+        /// Provides a group Id number, which will be the same for each in the group.
+        public let id: String?
+        /// Informs you on whether the expense group is a name or an address.
+        public let types: [String]?
+
+        public init(id: String? = nil, types: [String]? = nil) {
+            self.id = id
+            self.types = types
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case types = "Types"
         }
     }
 
@@ -796,17 +842,21 @@ extension Textract {
     }
 
     public struct IdentityDocument: AWSDecodableShape {
+        /// Individual word recognition, as returned by document detection.
+        public let blocks: [Block]?
         /// Denotes the placement of a document in the IdentityDocument list. The first document is marked 1, the second 2 and so on.
         public let documentIndex: Int?
         /// The structure used to record information extracted from identity documents. Contains both normalized field and value of the extracted text.
         public let identityDocumentFields: [IdentityDocumentField]?
 
-        public init(documentIndex: Int? = nil, identityDocumentFields: [IdentityDocumentField]? = nil) {
+        public init(blocks: [Block]? = nil, documentIndex: Int? = nil, identityDocumentFields: [IdentityDocumentField]? = nil) {
+            self.blocks = blocks
             self.documentIndex = documentIndex
             self.identityDocumentFields = identityDocumentFields
         }
 
         private enum CodingKeys: String, CodingKey {
+            case blocks = "Blocks"
             case documentIndex = "DocumentIndex"
             case identityDocumentFields = "IdentityDocumentFields"
         }
@@ -965,7 +1015,7 @@ extension Textract {
     public struct Query: AWSEncodableShape & AWSDecodableShape {
         /// Alias attached to the query, for ease of location.
         public let alias: String?
-        /// List of pages associated with the query. The following is a list of rules for using this parameter.   If a page is not specified, it is set to ["1"] by default.   The following characters are allowed in the parameter's string:  0 1 2 3 4 5 6 7 8 9 - *. No whitespace is allowed.   When using * to indicate all pages, it must be the only element in the string.   You can use page intervals, such as [“1-3”, “1-1”, “4-*”]. Where * indicates last page of  document.   Specified pages must be greater than 0 and less than or equal to the number of pages in the document.
+        /// Pages is a parameter that the user inputs to specify which pages to apply a query to. The following is a  list of rules for using this parameter.   If a page is not specified, it is set to ["1"] by default.   The following characters are allowed in the parameter's string:  0 1 2 3 4 5 6 7 8 9 - *. No whitespace is allowed.   When using * to indicate all pages, it must be the only element in the list.   You can use page intervals, such as [“1-3”, “1-1”, “4-*”]. Where * indicates last page of  document.   Specified pages must be greater than 0 and less than or equal to the number of pages in the document.
         public let pages: [String]?
         /// Question that Amazon Textract will apply to the document. An example would be "What is the customer's SSN?"
         public let text: String

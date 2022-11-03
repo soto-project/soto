@@ -55,7 +55,12 @@ public struct IoTDeviceAdvisor: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2020-09-18",
             endpoint: endpoint,
-            serviceEndpoints: ["ap-northeast-1": "api.iotdeviceadvisor.ap-northeast-1.amazonaws.com", "eu-west-1": "api.iotdeviceadvisor.eu-west-1.amazonaws.com", "us-east-1": "api.iotdeviceadvisor.us-east-1.amazonaws.com", "us-west-2": "api.iotdeviceadvisor.us-west-2.amazonaws.com"],
+            serviceEndpoints: [
+                "ap-northeast-1": "api.iotdeviceadvisor.ap-northeast-1.amazonaws.com",
+                "eu-west-1": "api.iotdeviceadvisor.eu-west-1.amazonaws.com",
+                "us-east-1": "api.iotdeviceadvisor.us-east-1.amazonaws.com",
+                "us-west-2": "api.iotdeviceadvisor.us-west-2.amazonaws.com"
+            ],
             errorType: IoTDeviceAdvisorErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

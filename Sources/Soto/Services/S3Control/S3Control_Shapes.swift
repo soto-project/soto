@@ -2751,7 +2751,7 @@ extension S3Control {
         public let filter: LifecycleRuleFilter?
         /// Unique identifier for the rule. The value cannot be longer than 255 characters.
         public let id: String?
-        /// The noncurrent version expiration of the lifecycle rule.  This is not supported by Amazon S3 on Outposts buckets.
+        /// The noncurrent version expiration of the lifecycle rule.
         public let noncurrentVersionExpiration: NoncurrentVersionExpiration?
         ///  Specifies the transition rule for the lifecycle rule that describes when noncurrent objects transition to a specific storage class. If your bucket is versioning-enabled (or versioning is suspended), you can set this action to request that Amazon S3 transition noncurrent object versions to a specific storage class at a set period in the object's lifetime.   This is not supported by Amazon S3 on Outposts buckets.
         @OptionalCustomCoding<ArrayCoder<_NoncurrentVersionTransitionsEncoding, NoncurrentVersionTransition>>
@@ -2790,13 +2790,19 @@ extension S3Control {
     }
 
     public struct LifecycleRuleAndOperator: AWSEncodableShape & AWSDecodableShape {
+        /// Minimum object size to which the rule applies.
+        public let objectSizeGreaterThan: Int64?
+        /// Maximum object size to which the rule applies.
+        public let objectSizeLessThan: Int64?
         /// Prefix identifying one or more objects to which the rule applies.
         public let prefix: String?
         /// All of these tags must exist in the object's tag set in order for the rule to apply.
         @OptionalCustomCoding<StandardArrayCoder>
         public var tags: [S3Tag]?
 
-        public init(prefix: String? = nil, tags: [S3Tag]? = nil) {
+        public init(objectSizeGreaterThan: Int64? = nil, objectSizeLessThan: Int64? = nil, prefix: String? = nil, tags: [S3Tag]? = nil) {
+            self.objectSizeGreaterThan = objectSizeGreaterThan
+            self.objectSizeLessThan = objectSizeLessThan
             self.prefix = prefix
             self.tags = tags
         }
@@ -2808,6 +2814,8 @@ extension S3Control {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case objectSizeGreaterThan = "ObjectSizeGreaterThan"
+            case objectSizeLessThan = "ObjectSizeLessThan"
             case prefix = "Prefix"
             case tags = "Tags"
         }
@@ -2816,12 +2824,18 @@ extension S3Control {
     public struct LifecycleRuleFilter: AWSEncodableShape & AWSDecodableShape {
         /// The container for the AND condition for the lifecycle rule.
         public let and: LifecycleRuleAndOperator?
+        /// Minimum object size to which the rule applies.
+        public let objectSizeGreaterThan: Int64?
+        /// Maximum object size to which the rule applies.
+        public let objectSizeLessThan: Int64?
         /// Prefix identifying one or more objects to which the rule applies.  Replacement must be made for object keys containing special characters (such as carriage returns) when using  XML requests. For more information, see  XML related object key constraints.
         public let prefix: String?
         public let tag: S3Tag?
 
-        public init(and: LifecycleRuleAndOperator? = nil, prefix: String? = nil, tag: S3Tag? = nil) {
+        public init(and: LifecycleRuleAndOperator? = nil, objectSizeGreaterThan: Int64? = nil, objectSizeLessThan: Int64? = nil, prefix: String? = nil, tag: S3Tag? = nil) {
             self.and = and
+            self.objectSizeGreaterThan = objectSizeGreaterThan
+            self.objectSizeLessThan = objectSizeLessThan
             self.prefix = prefix
             self.tag = tag
         }
@@ -2833,6 +2847,8 @@ extension S3Control {
 
         private enum CodingKeys: String, CodingKey {
             case and = "And"
+            case objectSizeGreaterThan = "ObjectSizeGreaterThan"
+            case objectSizeLessThan = "ObjectSizeLessThan"
             case prefix = "Prefix"
             case tag = "Tag"
         }
@@ -3269,14 +3285,18 @@ extension S3Control {
     }
 
     public struct NoncurrentVersionExpiration: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies how many noncurrent versions S3 on Outposts will retain. If there are this many more recent noncurrent versions, S3 on Outposts will take the associated action. For more information about noncurrent versions, see Lifecycle configuration elements in the Amazon S3 User Guide.
+        public let newerNoncurrentVersions: Int?
         /// Specifies the number of days an object is noncurrent before Amazon S3 can perform the associated action. For information about the noncurrent days calculations, see How Amazon S3 Calculates When an Object Became Noncurrent in the Amazon S3 User Guide.
         public let noncurrentDays: Int?
 
-        public init(noncurrentDays: Int? = nil) {
+        public init(newerNoncurrentVersions: Int? = nil, noncurrentDays: Int? = nil) {
+            self.newerNoncurrentVersions = newerNoncurrentVersions
             self.noncurrentDays = noncurrentDays
         }
 
         private enum CodingKeys: String, CodingKey {
+            case newerNoncurrentVersions = "NewerNoncurrentVersions"
             case noncurrentDays = "NoncurrentDays"
         }
     }
@@ -3319,7 +3339,7 @@ extension S3Control {
         public struct _AllowedFeaturesEncoding: ArrayCoderProperties { public static let member = "AllowedFeature" }
         public struct _TransformationConfigurationsEncoding: ArrayCoderProperties { public static let member = "TransformationConfiguration" }
 
-        /// A container for allowed features. Valid inputs are GetObject-Range and GetObject-PartNumber.
+        /// A container for allowed features. Valid inputs are GetObject-Range, GetObject-PartNumber, HeadObject-Range, and HeadObject-PartNumber.
         @OptionalCustomCoding<ArrayCoder<_AllowedFeaturesEncoding, ObjectLambdaAllowedFeature>>
         public var allowedFeatures: [ObjectLambdaAllowedFeature]?
         /// A container for whether the CloudWatch metrics configuration is enabled.
@@ -3357,7 +3377,7 @@ extension S3Control {
     public struct ObjectLambdaTransformationConfiguration: AWSEncodableShape & AWSDecodableShape {
         public struct _ActionsEncoding: ArrayCoderProperties { public static let member = "Action" }
 
-        /// A container for the action of an Object Lambda Access Point configuration. Valid input is GetObject.
+        /// A container for the action of an Object Lambda Access Point configuration. Valid inputs are GetObject, ListObjects, HeadObject, and ListObjectsV2.
         @CustomCoding<ArrayCoder<_ActionsEncoding, ObjectLambdaTransformationConfigurationAction>>
         public var actions: [ObjectLambdaTransformationConfigurationAction]
         /// A container for the content transformation of an Object Lambda Access Point configuration.

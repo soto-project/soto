@@ -142,8 +142,8 @@ extension IoT {
     }
 
     public enum BehaviorCriteriaType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case machineLearning = "MACHINE_LEARNING"
         case `static` = "STATIC"
+        case machineLearning = "MACHINE_LEARNING"
         case statistical = "STATISTICAL"
         public var description: String { return self.rawValue }
     }
@@ -160,12 +160,12 @@ extension IoT {
     }
 
     public enum CannedAccessControlList: String, CustomStringConvertible, Codable, _SotoSendable {
+        case `private`
         case authenticatedRead = "authenticated-read"
         case awsExecRead = "aws-exec-read"
         case bucketOwnerFullControl = "bucket-owner-full-control"
         case bucketOwnerRead = "bucket-owner-read"
         case logDeliveryWrite = "log-delivery-write"
-        case `private`
         case publicRead = "public-read"
         case publicReadWrite = "public-read-write"
         public var description: String { return self.rawValue }
@@ -389,8 +389,8 @@ extension IoT {
     }
 
     public enum LogTargetType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case clientId = "CLIENT_ID"
         case `default` = "DEFAULT"
+        case clientId = "CLIENT_ID"
         case principalId = "PRINCIPAL_ID"
         case sourceIp = "SOURCE_IP"
         case thingGroup = "THING_GROUP"
@@ -720,6 +720,8 @@ extension IoT {
         public let kinesis: KinesisAction?
         /// Invoke a Lambda function.
         public let lambda: LambdaAction?
+        /// The Amazon Location Service rule action sends device location updates from an MQTT message to an Amazon Location tracker resource.
+        public let location: LocationAction?
         /// Write data to an Amazon OpenSearch Service domain.
         public let openSearch: OpenSearchAction?
         /// Publish to another MQTT topic.
@@ -737,7 +739,7 @@ extension IoT {
         /// The Timestream rule action writes attributes (measures) from an MQTT message into an Amazon Timestream table. For more information, see the Timestream topic rule action documentation.
         public let timestream: TimestreamAction?
 
-        public init(cloudwatchAlarm: CloudwatchAlarmAction? = nil, cloudwatchLogs: CloudwatchLogsAction? = nil, cloudwatchMetric: CloudwatchMetricAction? = nil, dynamoDB: DynamoDBAction? = nil, dynamoDBv2: DynamoDBv2Action? = nil, elasticsearch: ElasticsearchAction? = nil, firehose: FirehoseAction? = nil, http: HttpAction? = nil, iotAnalytics: IotAnalyticsAction? = nil, iotEvents: IotEventsAction? = nil, iotSiteWise: IotSiteWiseAction? = nil, kafka: KafkaAction? = nil, kinesis: KinesisAction? = nil, lambda: LambdaAction? = nil, openSearch: OpenSearchAction? = nil, republish: RepublishAction? = nil, s3: S3Action? = nil, salesforce: SalesforceAction? = nil, sns: SnsAction? = nil, sqs: SqsAction? = nil, stepFunctions: StepFunctionsAction? = nil, timestream: TimestreamAction? = nil) {
+        public init(cloudwatchAlarm: CloudwatchAlarmAction? = nil, cloudwatchLogs: CloudwatchLogsAction? = nil, cloudwatchMetric: CloudwatchMetricAction? = nil, dynamoDB: DynamoDBAction? = nil, dynamoDBv2: DynamoDBv2Action? = nil, elasticsearch: ElasticsearchAction? = nil, firehose: FirehoseAction? = nil, http: HttpAction? = nil, iotAnalytics: IotAnalyticsAction? = nil, iotEvents: IotEventsAction? = nil, iotSiteWise: IotSiteWiseAction? = nil, kafka: KafkaAction? = nil, kinesis: KinesisAction? = nil, lambda: LambdaAction? = nil, location: LocationAction? = nil, openSearch: OpenSearchAction? = nil, republish: RepublishAction? = nil, s3: S3Action? = nil, salesforce: SalesforceAction? = nil, sns: SnsAction? = nil, sqs: SqsAction? = nil, stepFunctions: StepFunctionsAction? = nil, timestream: TimestreamAction? = nil) {
             self.cloudwatchAlarm = cloudwatchAlarm
             self.cloudwatchLogs = cloudwatchLogs
             self.cloudwatchMetric = cloudwatchMetric
@@ -752,6 +754,7 @@ extension IoT {
             self.kafka = kafka
             self.kinesis = kinesis
             self.lambda = lambda
+            self.location = location
             self.openSearch = openSearch
             self.republish = republish
             self.s3 = s3
@@ -789,6 +792,7 @@ extension IoT {
             case kafka
             case kinesis
             case lambda
+            case location
             case openSearch
             case republish
             case s3
@@ -3814,7 +3818,7 @@ extension IoT {
         public let description: String?
         /// True to enable the provisioning template, otherwise false.
         public let enabled: Bool?
-        /// Creates a pre-provisioning hook template.
+        /// Creates a pre-provisioning hook template. Only supports template of type FLEET_PROVISIONING. For more information about provisioning template types, see type.
         public let preProvisioningHook: ProvisioningHook?
         /// The role ARN for the role associated with the provisioning template. This IoT role grants permission to provision a device.
         public let provisioningRoleArn: String
@@ -7660,7 +7664,7 @@ extension IoT {
             AWSMemberEncoding(label: "securityProfileName", location: .querystring("securityProfileName"))
         ]
 
-        ///  The maximum number of results to return at one time. The default is 25.
+        ///  The maximum number of results to return at one time. The default is 10.
         public let maxResults: Int?
         ///  The token for the next set of results.
         public let nextToken: String?
@@ -11906,6 +11910,56 @@ extension IoT {
         }
     }
 
+    public struct LocationAction: AWSEncodableShape & AWSDecodableShape {
+        /// The unique ID of the device providing the location data.
+        public let deviceId: String
+        /// A string that evaluates to a double value that represents the latitude of the device's location.
+        public let latitude: String
+        /// A string that evaluates to a double value that represents the longitude of the device's location.
+        public let longitude: String
+        /// The IAM role that grants permission to write to the Amazon Location resource.
+        public let roleArn: String
+        /// The time that the location data was sampled. The default value is  the time the MQTT message was processed.
+        public let timestamp: LocationTimestamp?
+        /// The name of the tracker resource in Amazon Location in which the location is updated.
+        public let trackerName: String
+
+        public init(deviceId: String, latitude: String, longitude: String, roleArn: String, timestamp: LocationTimestamp? = nil, trackerName: String) {
+            self.deviceId = deviceId
+            self.latitude = latitude
+            self.longitude = longitude
+            self.roleArn = roleArn
+            self.timestamp = timestamp
+            self.trackerName = trackerName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceId
+            case latitude
+            case longitude
+            case roleArn
+            case timestamp
+            case trackerName
+        }
+    }
+
+    public struct LocationTimestamp: AWSEncodableShape & AWSDecodableShape {
+        /// The precision of the timestamp value that results from the expression described in value. Valid values:  SECONDS | MILLISECONDS | MICROSECONDS | NANOSECONDS. The default is MILLISECONDS.
+        public let unit: String?
+        /// An expression that returns a long epoch time value.
+        public let value: String
+
+        public init(unit: String? = nil, value: String) {
+            self.unit = unit
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case unit
+            case value
+        }
+    }
+
     public struct LogTarget: AWSEncodableShape & AWSDecodableShape {
         /// The target name.
         public let targetName: String?
@@ -12617,7 +12671,7 @@ extension IoT {
         public let creationDate: Date?
         /// True if the provisioning template version is the default version, otherwise false.
         public let isDefaultVersion: Bool?
-        /// The ID of the fleet privisioning template version.
+        /// The ID of the fleet provisioning template version.
         public let versionId: Int?
 
         public init(creationDate: Date? = nil, isDefaultVersion: Bool? = nil, versionId: Int? = nil) {
@@ -15960,7 +16014,7 @@ extension IoT {
         public let description: String?
         /// True to enable the provisioning template, otherwise false.
         public let enabled: Bool?
-        /// Updates the pre-provisioning hook template.
+        /// Updates the pre-provisioning hook template. Only supports template of type FLEET_PROVISIONING. For more information about provisioning template types, see type.
         public let preProvisioningHook: ProvisioningHook?
         /// The ARN of the role associated with the provisioning template. This IoT role grants permission to provision a device.
         public let provisioningRoleArn: String?

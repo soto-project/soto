@@ -266,6 +266,28 @@ extension SESv2 {
         )
     }
 
+    ///  Lists the recommendations present in your Amazon SES account in the current Amazon Web Services Region. You can execute this operation no more than once per second.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listRecommendationsPaginator(
+        _ input: ListRecommendationsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListRecommendationsRequest, ListRecommendationsResponse> {
+        return .init(
+            input: input,
+            command: listRecommendations,
+            inputKey: \ListRecommendationsRequest.nextToken,
+            outputKey: \ListRecommendationsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Retrieves a list of email addresses that are on the suppression list for your account.
     /// Return PaginatorSequence for operation.
     ///

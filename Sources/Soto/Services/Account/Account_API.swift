@@ -52,8 +52,14 @@ public struct Account: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2021-02-01",
             endpoint: endpoint,
-            serviceEndpoints: ["aws-cn-global": "account.cn-northwest-1.amazonaws.com.cn", "aws-global": "account.us-east-1.amazonaws.com"],
-            partitionEndpoints: [.aws: (endpoint: "aws-global", region: .useast1), .awscn: (endpoint: "aws-cn-global", region: .cnnorthwest1)],
+            serviceEndpoints: [
+                "aws-cn-global": "account.cn-northwest-1.amazonaws.com.cn",
+                "aws-global": "account.us-east-1.amazonaws.com"
+            ],
+            partitionEndpoints: [
+                .aws: (endpoint: "aws-global", region: .useast1),
+                .awscn: (endpoint: "aws-cn-global", region: .cnnorthwest1)
+            ],
             errorType: AccountErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

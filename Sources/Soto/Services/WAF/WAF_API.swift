@@ -56,8 +56,12 @@ public struct WAF: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2015-08-24",
             endpoint: endpoint,
-            serviceEndpoints: ["aws-global": "waf.amazonaws.com"],
-            partitionEndpoints: [.aws: (endpoint: "aws-global", region: .useast1)],
+            serviceEndpoints: [
+                "aws-global": "waf.amazonaws.com"
+            ],
+            partitionEndpoints: [
+                .aws: (endpoint: "aws-global", region: .useast1)
+            ],
             errorType: WAFErrorType.self,
             xmlNamespace: "http://waf.amazonaws.com/doc/2015-08-24/",
             timeout: timeout,

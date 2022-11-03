@@ -52,8 +52,14 @@ public struct NetworkManager: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2019-07-05",
             endpoint: endpoint,
-            serviceEndpoints: ["aws-global": "networkmanager.us-west-2.amazonaws.com", "aws-us-gov-global": "networkmanager.us-gov-west-1.amazonaws.com"],
-            partitionEndpoints: [.aws: (endpoint: "aws-global", region: .uswest2), .awsusgov: (endpoint: "aws-us-gov-global", region: .usgovwest1)],
+            serviceEndpoints: [
+                "aws-global": "networkmanager.us-west-2.amazonaws.com",
+                "aws-us-gov-global": "networkmanager.us-gov-west-1.amazonaws.com"
+            ],
+            partitionEndpoints: [
+                .aws: (endpoint: "aws-global", region: .uswest2),
+                .awsusgov: (endpoint: "aws-us-gov-global", region: .usgovwest1)
+            ],
             errorType: NetworkManagerErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

@@ -55,7 +55,10 @@ public struct Transcribe: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-10-26",
             endpoint: endpoint,
-            serviceEndpoints: ["cn-north-1": "cn.transcribe.cn-north-1.amazonaws.com.cn", "cn-northwest-1": "cn.transcribe.cn-northwest-1.amazonaws.com.cn"],
+            serviceEndpoints: [
+                "cn-north-1": "cn.transcribe.cn-north-1.amazonaws.com.cn",
+                "cn-northwest-1": "cn.transcribe.cn-northwest-1.amazonaws.com.cn"
+            ],
             errorType: TranscribeErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

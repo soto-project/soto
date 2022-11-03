@@ -358,14 +358,17 @@ extension SSMIncidents {
     }
 
     public struct CreateReplicationSetInput: AWSEncodableShape {
-        /// A token ensuring that the operation is called only once with the specified details.
+        /// A token that ensures that the operation is called only once with the specified details.
         public let clientToken: String?
         /// The Regions that Incident Manager replicates your data to. You can have up to three Regions in your replication set.
         public let regions: [String: RegionMapInputValue]
+        /// A list of tags to add to the replication set.
+        public let tags: [String: String]?
 
-        public init(clientToken: String? = CreateReplicationSetInput.idempotencyToken(), regions: [String: RegionMapInputValue]) {
+        public init(clientToken: String? = CreateReplicationSetInput.idempotencyToken(), regions: [String: RegionMapInputValue], tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.regions = regions
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -376,11 +379,21 @@ extension SSMIncidents {
             }
             try self.validate(self.regions, name: "regions", parent: name, max: 3)
             try self.validate(self.regions, name: "regions", parent: name, min: 1)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[A-Za-z0-9 _=@:.+-/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^[A-Za-z0-9 _=@:.+-/]*$")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientToken
             case regions
+            case tags
         }
     }
 
@@ -406,7 +419,7 @@ extension SSMIncidents {
         public let clientToken: String?
         /// The long format of the response plan name. This field can contain spaces.
         public let displayName: String?
-        /// The contacts and escalation plans that the response plan engages during an incident.
+        /// The Amazon Resource Name (ARN) for the contacts and escalation plans that the response plan engages during an incident.
         public let engagements: [String]?
         /// Details used to create an incident when using this response plan.
         public let incidentTemplate: IncidentTemplate
@@ -797,7 +810,7 @@ extension SSMIncidents {
             AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn"))
         ]
 
-        /// The maximum number of resource policies to display per page of results.
+        /// The maximum number of resource policies to display for each page of results.
         public let maxResults: Int?
         /// The pagination token to continue to the next page of results.
         public let nextToken: String?
@@ -870,7 +883,7 @@ extension SSMIncidents {
         public let chatChannel: ChatChannel?
         /// The long format name of the response plan. Can contain spaces.
         public let displayName: String?
-        /// The contacts and escalation plans that the response plan engages during an incident.
+        /// The Amazon Resource Name (ARN) for the contacts and escalation plans that the response plan engages during an incident.
         public let engagements: [String]?
         /// Details used to create the incident when using this response plan.
         public let incidentTemplate: IncidentTemplate
@@ -1068,7 +1081,7 @@ extension SSMIncidents {
         public let dedupeString: String?
         /// The impact of the incident on your customers and applications.
         public let impact: Int
-        /// Tags to apply to an incident when calling the StartIncident API action.
+        /// Tags to assign to the template. When the StartIncident API action is called, Incident Manager assigns the tags specified in the template to the incident.
         public let incidentTags: [String: String]?
         /// The Amazon SNS targets that are notified when updates are made to an incident.
         public let notificationTargets: [NotificationTargetItem]?
@@ -1405,7 +1418,7 @@ extension SSMIncidents {
     public struct PutResourcePolicyInput: AWSEncodableShape {
         /// Details of the resource policy.
         public let policy: String
-        /// The Amazon Resource Name (ARN) of the response plan you're adding the resource policy to.
+        /// The Amazon Resource Name (ARN) of the response plan to add the resource policy to.
         public let resourceArn: String
 
         public init(policy: String, resourceArn: String) {
@@ -1696,7 +1709,7 @@ extension SSMIncidents {
 
         /// The Amazon Resource Name (ARN) of the response plan you're adding the tags to.
         public let resourceArn: String
-        /// A list of tags that you are adding to the response plan.
+        /// A list of tags to add to the response plan.
         public let tags: [String: String]
 
         public init(resourceArn: String, tags: [String: String]) {
@@ -1798,7 +1811,7 @@ extension SSMIncidents {
 
         /// The Amazon Resource Name (ARN) of the response plan you're removing a tag from.
         public let resourceArn: String
-        /// The name of the tag you're removing from the response plan.
+        /// The name of the tag to remove from the response plan.
         public let tagKeys: [String]
 
         public init(resourceArn: String, tagKeys: [String]) {
@@ -1824,11 +1837,11 @@ extension SSMIncidents {
     }
 
     public struct UpdateDeletionProtectionInput: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the replication set you're updating.
+        /// The Amazon Resource Name (ARN) of the replication set to update.
         public let arn: String
-        /// A token ensuring that the operation is called only once with the specified details.
+        /// A token that ensures that the operation is called only once with the specified details.
         public let clientToken: String?
-        /// Details if deletion protection is enabled or disabled in your account.
+        /// Specifies if deletion protection is turned on or off in your account.
         public let deletionProtected: Bool
 
         public init(arn: String, clientToken: String? = UpdateDeletionProtectionInput.idempotencyToken(), deletionProtected: Bool) {
@@ -1951,7 +1964,7 @@ extension SSMIncidents {
         public let actions: [UpdateReplicationSetAction]
         /// The Amazon Resource Name (ARN) of the replication set you're updating.
         public let arn: String
-        /// A token ensuring that the operation is called only once with the specified details.
+        /// A token that ensures that the operation is called only once with the specified details.
         public let clientToken: String?
 
         public init(actions: [UpdateReplicationSetAction], arn: String, clientToken: String? = UpdateReplicationSetInput.idempotencyToken()) {
@@ -1991,7 +2004,7 @@ extension SSMIncidents {
         public let clientToken: String?
         /// The long format name of the response plan. The display name can't contain spaces.
         public let displayName: String?
-        /// The contacts and escalation plans that Incident Manager engages at the start of the incident.
+        /// The Amazon Resource Name (ARN) for the contacts and escalation plans that the response plan engages during an incident.
         public let engagements: [String]?
         /// The string Incident Manager uses to prevent duplicate incidents from being created by the same incident in the same account.
         public let incidentTemplateDedupeString: String?
@@ -2001,7 +2014,7 @@ extension SSMIncidents {
         public let incidentTemplateNotificationTargets: [NotificationTargetItem]?
         /// A brief summary of the incident. This typically contains what has happened, what's currently happening, and next steps.
         public let incidentTemplateSummary: String?
-        /// Tags to apply to an incident when calling the StartIncident API action. To call this action, you must also have permission to call the TagResource API action for the incident record resource.
+        /// Tags to assign to the template. When the StartIncident API action is called, Incident Manager assigns the tags specified in the template to the incident. To call this action, you must also have permission to call the TagResource API action for the incident record resource.
         public let incidentTemplateTags: [String: String]?
         /// The short format name of the incident. The title can't contain spaces.
         public let incidentTemplateTitle: String?

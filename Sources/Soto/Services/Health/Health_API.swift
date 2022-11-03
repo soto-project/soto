@@ -53,8 +53,15 @@ public struct Health: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-08-04",
             endpoint: endpoint,
-            serviceEndpoints: ["aws-cn-global": "global.health.amazonaws.com.cn", "aws-global": "global.health.amazonaws.com", "us-east-2": "health.us-east-2.amazonaws.com"],
-            partitionEndpoints: [.aws: (endpoint: "aws-global", region: .useast1), .awscn: (endpoint: "aws-cn-global", region: .cnnorthwest1)],
+            serviceEndpoints: [
+                "aws-cn-global": "global.health.amazonaws.com.cn",
+                "aws-global": "global.health.amazonaws.com",
+                "us-east-2": "health.us-east-2.amazonaws.com"
+            ],
+            partitionEndpoints: [
+                .aws: (endpoint: "aws-global", region: .useast1),
+                .awscn: (endpoint: "aws-cn-global", region: .cnnorthwest1)
+            ],
             errorType: HealthErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

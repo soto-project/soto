@@ -118,6 +118,12 @@ extension SESv2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum FeatureStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum IdentityType: String, CustomStringConvertible, Codable, _SotoSendable {
         case domain = "DOMAIN"
         case emailAddress = "EMAIL_ADDRESS"
@@ -139,6 +145,14 @@ extension SESv2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum ListRecommendationsFilterKey: String, CustomStringConvertible, Codable, _SotoSendable {
+        case impact = "IMPACT"
+        case resourceArn = "RESOURCE_ARN"
+        case status = "STATUS"
+        case type = "TYPE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MailFromDomainStatus: String, CustomStringConvertible, Codable, _SotoSendable {
         case failed = "FAILED"
         case pending = "PENDING"
@@ -150,6 +164,57 @@ extension SESv2 {
     public enum MailType: String, CustomStringConvertible, Codable, _SotoSendable {
         case marketing = "MARKETING"
         case transactional = "TRANSACTIONAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Metric: String, CustomStringConvertible, Codable, _SotoSendable {
+        case click = "CLICK"
+        case complaint = "COMPLAINT"
+        case delivery = "DELIVERY"
+        case deliveryClick = "DELIVERY_CLICK"
+        case deliveryComplaint = "DELIVERY_COMPLAINT"
+        case deliveryOpen = "DELIVERY_OPEN"
+        case open = "OPEN"
+        case permanentBounce = "PERMANENT_BOUNCE"
+        case send = "SEND"
+        case transientBounce = "TRANSIENT_BOUNCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MetricDimensionName: String, CustomStringConvertible, Codable, _SotoSendable {
+        case configurationSet = "CONFIGURATION_SET"
+        case emailIdentity = "EMAIL_IDENTITY"
+        case isp = "ISP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MetricNamespace: String, CustomStringConvertible, Codable, _SotoSendable {
+        case vdm = "VDM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QueryErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
+        case accessDenied = "ACCESS_DENIED"
+        case internalFailure = "INTERNAL_FAILURE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RecommendationImpact: String, CustomStringConvertible, Codable, _SotoSendable {
+        case high = "HIGH"
+        case low = "LOW"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RecommendationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case fixed = "FIXED"
+        case open = "OPEN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RecommendationType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case dkim = "DKIM"
+        case dmarc = "DMARC"
+        case spf = "SPF"
         public var description: String { return self.rawValue }
     }
 
@@ -238,6 +303,84 @@ extension SESv2 {
             case reviewDetails = "ReviewDetails"
             case useCaseDescription = "UseCaseDescription"
             case websiteURL = "WebsiteURL"
+        }
+    }
+
+    public struct BatchGetMetricDataQuery: AWSEncodableShape {
+        /// An object that contains mapping between MetricDimensionName and MetricDimensionValue to filter metrics by.
+        public let dimensions: [MetricDimensionName: String]?
+        /// Represents the end date for the query interval.
+        public let endDate: Date
+        /// The query identifier.
+        public let id: String
+        /// The queried metric. This can be one of the following:    SEND – Emails sent eligible for tracking in the VDM dashboard. This excludes emails sent to the mailbox simulator and emails addressed to more than one recipient.    COMPLAINT – Complaints received for your account. This excludes complaints from the mailbox simulator, those originating from your account-level suppression list (if enabled), and those for emails addressed to more than one recipient    PERMANENT_BOUNCE – Permanent bounces - i.e. feedback received for emails sent to non-existent mailboxes. Excludes bounces from the mailbox simulator, those originating from your account-level suppression list (if enabled), and those for emails addressed to more than one recipient.    TRANSIENT_BOUNCE – Transient bounces - i.e. feedback received for delivery failures excluding issues with non-existent mailboxes. Excludes bounces from the mailbox simulator, and those for emails addressed to more than one recipient.    OPEN – Unique open events for emails including open trackers. Excludes opens for emails addressed to more than one recipient.    CLICK – Unique click events for emails including wrapped links. Excludes clicks for emails addressed to more than one recipient.    DELIVERY – Successful deliveries for email sending attempts. Excludes deliveries to the mailbox simulator and for emails addressed to more than one recipient.    DELIVERY_OPEN – Successful deliveries for email sending attempts. Excludes deliveries to the mailbox simulator, for emails addressed to more than one recipient, and emails without open trackers.    DELIVERY_CLICK – Successful deliveries for email sending attempts. Excludes deliveries to the mailbox simulator, for emails addressed to more than one recipient, and emails without click trackers.    DELIVERY_COMPLAINT – Successful deliveries for email sending attempts. Excludes deliveries to the mailbox simulator, for emails addressed to more than one recipient, and emails addressed to recipients hosted by ISPs with which Amazon SES does not have a feedback loop agreement.
+        public let metric: Metric
+        /// The query namespace - e.g. VDM
+        public let namespace: MetricNamespace
+        /// Represents the start date for the query interval.
+        public let startDate: Date
+
+        public init(dimensions: [MetricDimensionName: String]? = nil, endDate: Date, id: String, metric: Metric, namespace: MetricNamespace, startDate: Date) {
+            self.dimensions = dimensions
+            self.endDate = endDate
+            self.id = id
+            self.metric = metric
+            self.namespace = namespace
+            self.startDate = startDate
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dimensions, name: "dimensions", parent: name, max: 3)
+            try self.validate(self.dimensions, name: "dimensions", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, max: 255)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimensions = "Dimensions"
+            case endDate = "EndDate"
+            case id = "Id"
+            case metric = "Metric"
+            case namespace = "Namespace"
+            case startDate = "StartDate"
+        }
+    }
+
+    public struct BatchGetMetricDataRequest: AWSEncodableShape {
+        /// A list of queries for metrics to be retrieved.
+        public let queries: [BatchGetMetricDataQuery]
+
+        public init(queries: [BatchGetMetricDataQuery]) {
+            self.queries = queries
+        }
+
+        public func validate(name: String) throws {
+            try self.queries.forEach {
+                try $0.validate(name: "\(name).queries[]")
+            }
+            try self.validate(self.queries, name: "queries", parent: name, max: 10)
+            try self.validate(self.queries, name: "queries", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queries = "Queries"
+        }
+    }
+
+    public struct BatchGetMetricDataResponse: AWSDecodableShape {
+        /// A list of MetricDataError encountered while processing your metric data batch request.
+        public let errors: [MetricDataError]?
+        /// A list of successfully retrieved MetricDataResult.
+        public let results: [MetricDataResult]?
+
+        public init(errors: [MetricDataError]? = nil, results: [MetricDataResult]? = nil) {
+            self.errors = errors
+            self.results = results
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errors = "Errors"
+            case results = "Results"
         }
     }
 
@@ -498,8 +641,10 @@ extension SESv2 {
         public let tags: [Tag]?
         /// An object that defines the open and click tracking options for emails that you send using the configuration set.
         public let trackingOptions: TrackingOptions?
+        /// An object that defines the VDM options for emails that you send using the configuration set.
+        public let vdmOptions: VdmOptions?
 
-        public init(configurationSetName: String, deliveryOptions: DeliveryOptions? = nil, reputationOptions: ReputationOptions? = nil, sendingOptions: SendingOptions? = nil, suppressionOptions: SuppressionOptions? = nil, tags: [Tag]? = nil, trackingOptions: TrackingOptions? = nil) {
+        public init(configurationSetName: String, deliveryOptions: DeliveryOptions? = nil, reputationOptions: ReputationOptions? = nil, sendingOptions: SendingOptions? = nil, suppressionOptions: SuppressionOptions? = nil, tags: [Tag]? = nil, trackingOptions: TrackingOptions? = nil, vdmOptions: VdmOptions? = nil) {
             self.configurationSetName = configurationSetName
             self.deliveryOptions = deliveryOptions
             self.reputationOptions = reputationOptions
@@ -507,6 +652,7 @@ extension SESv2 {
             self.suppressionOptions = suppressionOptions
             self.tags = tags
             self.trackingOptions = trackingOptions
+            self.vdmOptions = vdmOptions
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -517,6 +663,7 @@ extension SESv2 {
             case suppressionOptions = "SuppressionOptions"
             case tags = "Tags"
             case trackingOptions = "TrackingOptions"
+            case vdmOptions = "VdmOptions"
         }
     }
 
@@ -894,6 +1041,32 @@ extension SESv2 {
             case domainIspPlacements = "DomainIspPlacements"
             case startDate = "StartDate"
             case volumeStatistics = "VolumeStatistics"
+        }
+    }
+
+    public struct DashboardAttributes: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the status of your VDM engagement metrics collection. Can be one of the following:    ENABLED – Amazon SES enables engagement metrics for your account.    DISABLED – Amazon SES disables engagement metrics for your account.
+        public let engagementMetrics: FeatureStatus?
+
+        public init(engagementMetrics: FeatureStatus? = nil) {
+            self.engagementMetrics = engagementMetrics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case engagementMetrics = "EngagementMetrics"
+        }
+    }
+
+    public struct DashboardOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the status of your VDM engagement metrics collection. Can be one of the following:    ENABLED – Amazon SES enables engagement metrics for the configuration set.    DISABLED – Amazon SES disables engagement metrics for the configuration set.
+        public let engagementMetrics: FeatureStatus?
+
+        public init(engagementMetrics: FeatureStatus? = nil) {
+            self.engagementMetrics = engagementMetrics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case engagementMetrics = "EngagementMetrics"
         }
     }
 
@@ -1582,8 +1755,10 @@ extension SESv2 {
         public let sendQuota: SendQuota?
         /// An object that contains information about the email address suppression preferences for your account in the current Amazon Web Services Region.
         public let suppressionAttributes: SuppressionAttributes?
+        /// The VDM attributes that apply to your Amazon SES account.
+        public let vdmAttributes: VdmAttributes?
 
-        public init(dedicatedIpAutoWarmupEnabled: Bool? = nil, details: AccountDetails? = nil, enforcementStatus: String? = nil, productionAccessEnabled: Bool? = nil, sendingEnabled: Bool? = nil, sendQuota: SendQuota? = nil, suppressionAttributes: SuppressionAttributes? = nil) {
+        public init(dedicatedIpAutoWarmupEnabled: Bool? = nil, details: AccountDetails? = nil, enforcementStatus: String? = nil, productionAccessEnabled: Bool? = nil, sendingEnabled: Bool? = nil, sendQuota: SendQuota? = nil, suppressionAttributes: SuppressionAttributes? = nil, vdmAttributes: VdmAttributes? = nil) {
             self.dedicatedIpAutoWarmupEnabled = dedicatedIpAutoWarmupEnabled
             self.details = details
             self.enforcementStatus = enforcementStatus
@@ -1591,6 +1766,7 @@ extension SESv2 {
             self.sendingEnabled = sendingEnabled
             self.sendQuota = sendQuota
             self.suppressionAttributes = suppressionAttributes
+            self.vdmAttributes = vdmAttributes
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1601,6 +1777,7 @@ extension SESv2 {
             case sendingEnabled = "SendingEnabled"
             case sendQuota = "SendQuota"
             case suppressionAttributes = "SuppressionAttributes"
+            case vdmAttributes = "VdmAttributes"
         }
     }
 
@@ -1690,8 +1867,10 @@ extension SESv2 {
         public let tags: [Tag]?
         /// An object that defines the open and click tracking options for emails that you send using the configuration set.
         public let trackingOptions: TrackingOptions?
+        /// An object that contains information about the VDM preferences for your configuration set.
+        public let vdmOptions: VdmOptions?
 
-        public init(configurationSetName: String? = nil, deliveryOptions: DeliveryOptions? = nil, reputationOptions: ReputationOptions? = nil, sendingOptions: SendingOptions? = nil, suppressionOptions: SuppressionOptions? = nil, tags: [Tag]? = nil, trackingOptions: TrackingOptions? = nil) {
+        public init(configurationSetName: String? = nil, deliveryOptions: DeliveryOptions? = nil, reputationOptions: ReputationOptions? = nil, sendingOptions: SendingOptions? = nil, suppressionOptions: SuppressionOptions? = nil, tags: [Tag]? = nil, trackingOptions: TrackingOptions? = nil, vdmOptions: VdmOptions? = nil) {
             self.configurationSetName = configurationSetName
             self.deliveryOptions = deliveryOptions
             self.reputationOptions = reputationOptions
@@ -1699,6 +1878,7 @@ extension SESv2 {
             self.suppressionOptions = suppressionOptions
             self.tags = tags
             self.trackingOptions = trackingOptions
+            self.vdmOptions = vdmOptions
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1709,6 +1889,7 @@ extension SESv2 {
             case suppressionOptions = "SuppressionOptions"
             case tags = "Tags"
             case trackingOptions = "TrackingOptions"
+            case vdmOptions = "VdmOptions"
         }
     }
 
@@ -2341,6 +2522,32 @@ extension SESv2 {
         }
     }
 
+    public struct GuardianAttributes: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the status of your VDM optimized shared delivery. Can be one of the following:    ENABLED – Amazon SES enables optimized shared delivery for your account.    DISABLED – Amazon SES disables optimized shared delivery for your account.
+        public let optimizedSharedDelivery: FeatureStatus?
+
+        public init(optimizedSharedDelivery: FeatureStatus? = nil) {
+            self.optimizedSharedDelivery = optimizedSharedDelivery
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case optimizedSharedDelivery = "OptimizedSharedDelivery"
+        }
+    }
+
+    public struct GuardianOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the status of your VDM optimized shared delivery. Can be one of the following:    ENABLED – Amazon SES enables optimized shared delivery for the configuration set.    DISABLED – Amazon SES disables optimized shared delivery for the configuration set.
+        public let optimizedSharedDelivery: FeatureStatus?
+
+        public init(optimizedSharedDelivery: FeatureStatus? = nil) {
+            self.optimizedSharedDelivery = optimizedSharedDelivery
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case optimizedSharedDelivery = "OptimizedSharedDelivery"
+        }
+    }
+
     public struct IdentityInfo: AWSDecodableShape {
         /// The address or domain of the identity.
         public let identityName: String?
@@ -2905,6 +3112,53 @@ extension SESv2 {
         }
     }
 
+    public struct ListRecommendationsRequest: AWSEncodableShape {
+        /// Filters applied when retrieving recommendations. Can eiter be an individual filter, or combinations of STATUS and IMPACT or STATUS and TYPE
+        public let filter: [ListRecommendationsFilterKey: String]?
+        /// A token returned from a previous call to ListRecommendations to indicate the position in the list of recommendations.
+        public let nextToken: String?
+        /// The number of results to show in a single call to ListRecommendations. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results. The value you specify has to be at least 1, and can be no more than 100.
+        public let pageSize: Int?
+
+        public init(filter: [ListRecommendationsFilterKey: String]? = nil, nextToken: String? = nil, pageSize: Int? = nil) {
+            self.filter = filter
+            self.nextToken = nextToken
+            self.pageSize = pageSize
+        }
+
+        public func validate(name: String) throws {
+            try self.filter?.forEach {
+                try validate($0.value, name: "filter[\"\($0.key)\"]", parent: name, max: 512)
+                try validate($0.value, name: "filter[\"\($0.key)\"]", parent: name, min: 1)
+            }
+            try self.validate(self.filter, name: "filter", parent: name, max: 2)
+            try self.validate(self.filter, name: "filter", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+            case nextToken = "NextToken"
+            case pageSize = "PageSize"
+        }
+    }
+
+    public struct ListRecommendationsResponse: AWSDecodableShape {
+        /// A string token indicating that there might be additional recommendations available to be listed. Use the token provided in the ListRecommendationsResponse to use in the subsequent call to ListRecommendations with the same parameters to retrieve the next page of recommendations.
+        public let nextToken: String?
+        /// The recommendations applicable to your account.
+        public let recommendations: [Recommendation]?
+
+        public init(nextToken: String? = nil, recommendations: [Recommendation]? = nil) {
+            self.nextToken = nextToken
+            self.recommendations = recommendations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case recommendations = "Recommendations"
+        }
+    }
+
     public struct ListSuppressedDestinationsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "endDate", location: .querystring("EndDate")),
@@ -3033,6 +3287,48 @@ extension SESv2 {
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case value = "Value"
+        }
+    }
+
+    public struct MetricDataError: AWSDecodableShape {
+        /// The query error code. Can be one of:    INTERNAL_FAILURE – Amazon SES has failed to process one of the queries.    ACCESS_DENIED – You have insufficient access to retrieve metrics based on the given query.
+        public let code: QueryErrorCode?
+        /// The query identifier.
+        public let id: String?
+        /// The error message associated with the current query error.
+        public let message: String?
+
+        public init(code: QueryErrorCode? = nil, id: String? = nil, message: String? = nil) {
+            self.code = code
+            self.id = id
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case id = "Id"
+            case message = "Message"
+        }
+    }
+
+    public struct MetricDataResult: AWSDecodableShape {
+        /// The query identifier.
+        public let id: String?
+        /// A list of timestamps for the metric data results.
+        public let timestamps: [Date]?
+        /// A list of values (cumulative / sum) for the metric data results.
+        public let values: [Int64]?
+
+        public init(id: String? = nil, timestamps: [Date]? = nil, values: [Int64]? = nil) {
+            self.id = id
+            self.timestamps = timestamps
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case timestamps = "Timestamps"
+            case values = "Values"
         }
     }
 
@@ -3202,6 +3498,23 @@ extension SESv2 {
         public init() {}
     }
 
+    public struct PutAccountVdmAttributesRequest: AWSEncodableShape {
+        /// The VDM attributes that you wish to apply to your Amazon SES account.
+        public let vdmAttributes: VdmAttributes
+
+        public init(vdmAttributes: VdmAttributes) {
+            self.vdmAttributes = vdmAttributes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vdmAttributes = "VdmAttributes"
+        }
+    }
+
+    public struct PutAccountVdmAttributesResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct PutConfigurationSetDeliveryOptionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "configurationSetName", location: .uri("ConfigurationSetName"))
@@ -3323,6 +3636,30 @@ extension SESv2 {
     }
 
     public struct PutConfigurationSetTrackingOptionsResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct PutConfigurationSetVdmOptionsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "configurationSetName", location: .uri("ConfigurationSetName"))
+        ]
+
+        /// The name of the configuration set.
+        public let configurationSetName: String
+        /// The VDM options to apply to the configuration set.
+        public let vdmOptions: VdmOptions?
+
+        public init(configurationSetName: String, vdmOptions: VdmOptions? = nil) {
+            self.configurationSetName = configurationSetName
+            self.vdmOptions = vdmOptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vdmOptions = "VdmOptions"
+        }
+    }
+
+    public struct PutConfigurationSetVdmOptionsResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -3588,6 +3925,43 @@ extension SESv2 {
 
         private enum CodingKeys: String, CodingKey {
             case data = "Data"
+        }
+    }
+
+    public struct Recommendation: AWSDecodableShape {
+        /// The first time this issue was encountered and the recommendation was generated.
+        public let createdTimestamp: Date?
+        /// The recommendation description / disambiguator - e.g. DKIM1 and DKIM2 are different recommendations about your DKIM setup.
+        public let description: String?
+        /// The recommendation impact, with values like HIGH or LOW.
+        public let impact: RecommendationImpact?
+        /// The last time the recommendation was updated.
+        public let lastUpdatedTimestamp: Date?
+        /// The resource affected by the recommendation, with values like arn:aws:ses:us-east-1:123456789012:identity/example.com.
+        public let resourceArn: String?
+        /// The recommendation status, with values like OPEN or FIXED.
+        public let status: RecommendationStatus?
+        /// The recommendation type, with values like DKIM, SPF or DMARC.
+        public let type: RecommendationType?
+
+        public init(createdTimestamp: Date? = nil, description: String? = nil, impact: RecommendationImpact? = nil, lastUpdatedTimestamp: Date? = nil, resourceArn: String? = nil, status: RecommendationStatus? = nil, type: RecommendationType? = nil) {
+            self.createdTimestamp = createdTimestamp
+            self.description = description
+            self.impact = impact
+            self.lastUpdatedTimestamp = lastUpdatedTimestamp
+            self.resourceArn = resourceArn
+            self.status = status
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTimestamp = "CreatedTimestamp"
+            case description = "Description"
+            case impact = "Impact"
+            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+            case resourceArn = "ResourceArn"
+            case status = "Status"
+            case type = "Type"
         }
     }
 
@@ -4372,6 +4746,44 @@ extension SESv2 {
 
     public struct UpdateEmailTemplateResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct VdmAttributes: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies additional settings for your VDM configuration as applicable to the Dashboard.
+        public let dashboardAttributes: DashboardAttributes?
+        /// Specifies additional settings for your VDM configuration as applicable to the Guardian.
+        public let guardianAttributes: GuardianAttributes?
+        /// Specifies the status of your VDM configuration. Can be one of the following:    ENABLED – Amazon SES enables VDM for your account.    DISABLED – Amazon SES disables VDM for your account.
+        public let vdmEnabled: FeatureStatus
+
+        public init(dashboardAttributes: DashboardAttributes? = nil, guardianAttributes: GuardianAttributes? = nil, vdmEnabled: FeatureStatus) {
+            self.dashboardAttributes = dashboardAttributes
+            self.guardianAttributes = guardianAttributes
+            self.vdmEnabled = vdmEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dashboardAttributes = "DashboardAttributes"
+            case guardianAttributes = "GuardianAttributes"
+            case vdmEnabled = "VdmEnabled"
+        }
+    }
+
+    public struct VdmOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies additional settings for your VDM configuration as applicable to the Dashboard.
+        public let dashboardOptions: DashboardOptions?
+        /// Specifies additional settings for your VDM configuration as applicable to the Guardian.
+        public let guardianOptions: GuardianOptions?
+
+        public init(dashboardOptions: DashboardOptions? = nil, guardianOptions: GuardianOptions? = nil) {
+            self.dashboardOptions = dashboardOptions
+            self.guardianOptions = guardianOptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dashboardOptions = "DashboardOptions"
+            case guardianOptions = "GuardianOptions"
+        }
     }
 
     public struct VolumeStatistics: AWSDecodableShape {

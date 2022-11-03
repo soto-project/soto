@@ -54,7 +54,10 @@ public struct CloudFormation: AWSService {
             serviceProtocol: .query,
             apiVersion: "2010-05-15",
             endpoint: endpoint,
-            serviceEndpoints: ["us-gov-east-1": "cloudformation.us-gov-east-1.amazonaws.com", "us-gov-west-1": "cloudformation.us-gov-west-1.amazonaws.com"],
+            serviceEndpoints: [
+                "us-gov-east-1": "cloudformation.us-gov-east-1.amazonaws.com",
+                "us-gov-west-1": "cloudformation.us-gov-west-1.amazonaws.com"
+            ],
             errorType: CloudFormationErrorType.self,
             xmlNamespace: "http://cloudformation.amazonaws.com/doc/2010-05-15/",
             timeout: timeout,

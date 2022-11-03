@@ -604,6 +604,59 @@ extension SESv2 {
         )
     }
 
+    ///  Lists the recommendations present in your Amazon SES account in the current Amazon Web Services Region. You can execute this operation no more than once per second.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listRecommendationsPaginator<Result>(
+        _ input: ListRecommendationsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListRecommendationsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listRecommendations,
+            inputKey: \ListRecommendationsRequest.nextToken,
+            outputKey: \ListRecommendationsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listRecommendationsPaginator(
+        _ input: ListRecommendationsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListRecommendationsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listRecommendations,
+            inputKey: \ListRecommendationsRequest.nextToken,
+            outputKey: \ListRecommendationsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Retrieves a list of email addresses that are on the suppression list for your account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -758,6 +811,16 @@ extension SESv2.ListImportJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SESv2.ListImportJobsRequest {
         return .init(
             importDestinationType: self.importDestinationType,
+            nextToken: token,
+            pageSize: self.pageSize
+        )
+    }
+}
+
+extension SESv2.ListRecommendationsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SESv2.ListRecommendationsRequest {
+        return .init(
+            filter: self.filter,
             nextToken: token,
             pageSize: self.pageSize
         )

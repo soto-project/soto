@@ -58,7 +58,10 @@ public struct SWF: AWSService {
             serviceProtocol: .json(version: "1.0"),
             apiVersion: "2012-01-25",
             endpoint: endpoint,
-            serviceEndpoints: ["us-gov-east-1": "swf.us-gov-east-1.amazonaws.com", "us-gov-west-1": "swf.us-gov-west-1.amazonaws.com"],
+            serviceEndpoints: [
+                "us-gov-east-1": "swf.us-gov-east-1.amazonaws.com",
+                "us-gov-west-1": "swf.us-gov-west-1.amazonaws.com"
+            ],
             errorType: SWFErrorType.self,
             xmlNamespace: "http://swf.amazonaws.com/doc/2012-01-25",
             timeout: timeout,

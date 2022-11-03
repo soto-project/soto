@@ -54,8 +54,14 @@ public struct CloudFront: AWSService {
             serviceProtocol: .restxml,
             apiVersion: "2020-05-31",
             endpoint: endpoint,
-            serviceEndpoints: ["aws-cn-global": "cloudfront.cn-northwest-1.amazonaws.com.cn", "aws-global": "cloudfront.amazonaws.com"],
-            partitionEndpoints: [.aws: (endpoint: "aws-global", region: .useast1), .awscn: (endpoint: "aws-cn-global", region: .cnnorthwest1)],
+            serviceEndpoints: [
+                "aws-cn-global": "cloudfront.cn-northwest-1.amazonaws.com.cn",
+                "aws-global": "cloudfront.amazonaws.com"
+            ],
+            partitionEndpoints: [
+                .aws: (endpoint: "aws-global", region: .useast1),
+                .awscn: (endpoint: "aws-cn-global", region: .cnnorthwest1)
+            ],
             errorType: CloudFrontErrorType.self,
             xmlNamespace: "http://cloudfront.amazonaws.com/doc/2020-05-31/",
             timeout: timeout,

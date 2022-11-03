@@ -23,6 +23,11 @@ import SotoCore
 extension EC2 {
     // MARK: Async API Calls
 
+    /// Accepts an Elastic IP address transfer. For more information, see Accept a transferred Elastic IP address in the Amazon Virtual Private Cloud User Guide.
+    public func acceptAddressTransfer(_ input: AcceptAddressTransferRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AcceptAddressTransferResult {
+        return try await self.client.execute(operation: "AcceptAddressTransfer", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Accepts the Convertible Reserved Instance exchange quote described in the GetReservedInstancesExchangeQuote call.
     public func acceptReservedInstancesExchangeQuote(_ input: AcceptReservedInstancesExchangeQuoteRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AcceptReservedInstancesExchangeQuoteResult {
         return try await self.client.execute(operation: "AcceptReservedInstancesExchangeQuote", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -1182,6 +1187,11 @@ extension EC2 {
         return try await self.client.execute(operation: "DescribeAccountAttributes", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Describes an Elastic IP address transfer. For more information, see Transfer Elastic IP addresses in the Amazon Virtual Private Cloud User Guide.
+    public func describeAddressTransfers(_ input: DescribeAddressTransfersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeAddressTransfersResult {
+        return try await self.client.execute(operation: "DescribeAddressTransfers", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Describes the specified Elastic IP addresses or all of your Elastic IP addresses. An Elastic IP address is for use in either the EC2-Classic platform or in a VPC.
     /// 				For more information, see Elastic IP Addresses in the Amazon Elastic Compute Cloud User Guide.  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
     public func describeAddresses(_ input: DescribeAddressesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeAddressesResult {
@@ -1916,6 +1926,11 @@ extension EC2 {
         return try await self.client.execute(operation: "DetachVpnGateway", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Disables Elastic IP address transfer. For more information, see Transfer Elastic IP addresses in the Amazon Virtual Private Cloud User Guide.
+    public func disableAddressTransfer(_ input: DisableAddressTransferRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DisableAddressTransferResult {
+        return try await self.client.execute(operation: "DisableAddressTransfer", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Disables EBS encryption by default for your account in the current Region. After you disable encryption by default, you can still create encrypted volumes by  enabling encryption when you create each volume. Disabling encryption by default does not change the encryption status of your existing volumes. For more information, see Amazon EBS encryption in the Amazon Elastic Compute Cloud User Guide.
     public func disableEbsEncryptionByDefault(_ input: DisableEbsEncryptionByDefaultRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DisableEbsEncryptionByDefaultResult {
         return try await self.client.execute(operation: "DisableEbsEncryptionByDefault", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -2058,6 +2073,11 @@ extension EC2 {
     /// 			primary CIDR block).
     public func disassociateVpcCidrBlock(_ input: DisassociateVpcCidrBlockRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DisassociateVpcCidrBlockResult {
         return try await self.client.execute(operation: "DisassociateVpcCidrBlock", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Enables Elastic IP address transfer. For more information, see Transfer Elastic IP addresses in the Amazon Virtual Private Cloud User Guide.
+    public func enableAddressTransfer(_ input: EnableAddressTransferRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> EnableAddressTransferResult {
+        return try await self.client.execute(operation: "EnableAddressTransfer", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Enables EBS encryption by default for your account in the current Region. After you enable encryption by default, the EBS volumes that you create are 	always encrypted, either using the default KMS key or the KMS key that you specified when you created each volume. For more information, see Amazon EBS encryption in the Amazon Elastic Compute Cloud User Guide. 	      You can specify the default KMS key for encryption by default using ModifyEbsDefaultKmsKeyId or ResetEbsDefaultKmsKeyId. Enabling encryption by default has no effect on the encryption status of your  existing volumes. After you enable encryption by default, you can no longer launch instances using instance types that do not support encryption. For more information, see Supported instance types.

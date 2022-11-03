@@ -55,7 +55,10 @@ public struct SSOAdmin: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2020-07-20",
             endpoint: endpoint,
-            serviceEndpoints: ["us-gov-east-1": "sso.us-gov-east-1.amazonaws.com", "us-gov-west-1": "sso.us-gov-west-1.amazonaws.com"],
+            serviceEndpoints: [
+                "us-gov-east-1": "sso.us-gov-east-1.amazonaws.com",
+                "us-gov-west-1": "sso.us-gov-west-1.amazonaws.com"
+            ],
             errorType: SSOAdminErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

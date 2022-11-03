@@ -52,8 +52,12 @@ public struct SavingsPlans: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2019-06-28",
             endpoint: endpoint,
-            serviceEndpoints: ["aws-global": "savingsplans.amazonaws.com"],
-            partitionEndpoints: [.aws: (endpoint: "aws-global", region: .useast1)],
+            serviceEndpoints: [
+                "aws-global": "savingsplans.amazonaws.com"
+            ],
+            partitionEndpoints: [
+                .aws: (endpoint: "aws-global", region: .useast1)
+            ],
             errorType: SavingsPlansErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

@@ -54,7 +54,10 @@ public struct GreengrassV2: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2020-11-30",
             endpoint: endpoint,
-            serviceEndpoints: ["us-gov-east-1": "greengrass.us-gov-east-1.amazonaws.com", "us-gov-west-1": "greengrass.us-gov-west-1.amazonaws.com"],
+            serviceEndpoints: [
+                "us-gov-east-1": "greengrass.us-gov-east-1.amazonaws.com",
+                "us-gov-west-1": "greengrass.us-gov-west-1.amazonaws.com"
+            ],
             errorType: GreengrassV2ErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

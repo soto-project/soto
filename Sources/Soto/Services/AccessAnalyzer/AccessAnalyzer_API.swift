@@ -54,7 +54,10 @@ public struct AccessAnalyzer: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2019-11-01",
             endpoint: endpoint,
-            serviceEndpoints: ["us-gov-east-1": "access-analyzer.us-gov-east-1.amazonaws.com", "us-gov-west-1": "access-analyzer.us-gov-west-1.amazonaws.com"],
+            serviceEndpoints: [
+                "us-gov-east-1": "access-analyzer.us-gov-east-1.amazonaws.com",
+                "us-gov-west-1": "access-analyzer.us-gov-west-1.amazonaws.com"
+            ],
             errorType: AccessAnalyzerErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

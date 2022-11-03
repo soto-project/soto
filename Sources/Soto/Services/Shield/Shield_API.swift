@@ -53,8 +53,12 @@ public struct Shield: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-06-02",
             endpoint: endpoint,
-            serviceEndpoints: ["aws-global": "shield.us-east-1.amazonaws.com"],
-            partitionEndpoints: [.aws: (endpoint: "aws-global", region: .useast1)],
+            serviceEndpoints: [
+                "aws-global": "shield.us-east-1.amazonaws.com"
+            ],
+            partitionEndpoints: [
+                .aws: (endpoint: "aws-global", region: .useast1)
+            ],
             errorType: ShieldErrorType.self,
             xmlNamespace: "http://ddp.amazonaws.com/doc/2016-06-02/",
             timeout: timeout,
