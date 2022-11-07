@@ -62,7 +62,7 @@ public struct APIGateway: AWSService {
                 "fips-us-west-2": "apigateway-fips.us-west-2.amazonaws.com"
             ],
             errorType: APIGatewayErrorType.self,
-            middlewares: [APIGatewayMiddleware()],
+            middlewares: [AWSEditHeadersMiddleware(.add(name: "accept", value: "application/json"))],
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

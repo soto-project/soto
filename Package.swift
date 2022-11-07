@@ -343,7 +343,7 @@ let package = Package(
     targets: [
         .target(name: "SotoACM", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/ACM"),
         .target(name: "SotoACMPCA", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/ACMPCA"),
-        .target(name: "SotoAPIGateway", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/", sources: ["Services/APIGateway", "Extensions/APIGateway"]),
+        .target(name: "SotoAPIGateway", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/APIGateway"),
         .target(name: "SotoAccessAnalyzer", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/AccessAnalyzer"),
         .target(name: "SotoAccount", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/Account"),
         .target(name: "SotoAlexaForBusiness", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/AlexaForBusiness"),
