@@ -28,7 +28,12 @@ extension EMRContainers {
         return try await self.client.execute(operation: "CancelJobRun", path: "/virtualclusters/{virtualClusterId}/jobruns/{id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a managed endpoint. A managed endpoint is a gateway that connects EMR Studio to Amazon EMR on EKS so that EMR Studio can communicate with your virtual cluster.
+    /// Creates a job template. Job template stores values of StartJobRun API request in a template and can be used to start a job run. Job template allows two use cases: avoid repeating recurring StartJobRun API request values, enforcing certain values in StartJobRun API request.
+    public func createJobTemplate(_ input: CreateJobTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateJobTemplateResponse {
+        return try await self.client.execute(operation: "CreateJobTemplate", path: "/jobtemplates", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a managed endpoint. A managed endpoint is a gateway that connects EMR Studio  to Amazon EMR on EKS so that EMR Studio can communicate with your virtual cluster.
     public func createManagedEndpoint(_ input: CreateManagedEndpointRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateManagedEndpointResponse {
         return try await self.client.execute(operation: "CreateManagedEndpoint", path: "/virtualclusters/{virtualClusterId}/endpoints", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -38,7 +43,12 @@ extension EMRContainers {
         return try await self.client.execute(operation: "CreateVirtualCluster", path: "/virtualclusters", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes a managed endpoint. A managed endpoint is a gateway that connects EMR Studio to Amazon EMR on EKS so that EMR Studio can communicate with your virtual cluster.
+    /// Deletes a job template. Job template stores values of StartJobRun API request in a template and can be used to start a job run. Job template allows two use cases: avoid repeating recurring StartJobRun API request values, enforcing certain values in StartJobRun API request.
+    public func deleteJobTemplate(_ input: DeleteJobTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteJobTemplateResponse {
+        return try await self.client.execute(operation: "DeleteJobTemplate", path: "/jobtemplates/{id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes a managed endpoint. A managed endpoint is a gateway  that connects EMR Studio to Amazon EMR on EKS so that EMR Studio  can communicate with your virtual cluster.
     public func deleteManagedEndpoint(_ input: DeleteManagedEndpointRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteManagedEndpointResponse {
         return try await self.client.execute(operation: "DeleteManagedEndpoint", path: "/virtualclusters/{virtualClusterId}/endpoints/{id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -53,7 +63,12 @@ extension EMRContainers {
         return try await self.client.execute(operation: "DescribeJobRun", path: "/virtualclusters/{virtualClusterId}/jobruns/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Displays detailed information about a managed endpoint. A managed endpoint is a gateway that connects EMR Studio to Amazon EMR on EKS so that EMR Studio can communicate with your virtual cluster.
+    /// Displays detailed information about a specified job template. Job template stores values of StartJobRun API request in a template and can be used to start a job run. Job template allows two use cases: avoid repeating recurring StartJobRun API request values, enforcing certain values in StartJobRun API request.
+    public func describeJobTemplate(_ input: DescribeJobTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeJobTemplateResponse {
+        return try await self.client.execute(operation: "DescribeJobTemplate", path: "/jobtemplates/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Displays detailed information about a managed endpoint. A managed endpoint is  a gateway that connects EMR Studio to Amazon EMR on EKS so that EMR Studio can  communicate with your virtual cluster.
     public func describeManagedEndpoint(_ input: DescribeManagedEndpointRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeManagedEndpointResponse {
         return try await self.client.execute(operation: "DescribeManagedEndpoint", path: "/virtualclusters/{virtualClusterId}/endpoints/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -68,7 +83,12 @@ extension EMRContainers {
         return try await self.client.execute(operation: "ListJobRuns", path: "/virtualclusters/{virtualClusterId}/jobruns", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists managed endpoints based on a set of parameters. A managed endpoint is a gateway that connects EMR Studio to Amazon EMR on EKS so that EMR Studio can communicate with your virtual cluster.
+    /// Lists job templates based on a set of parameters. Job template stores values of StartJobRun API request in a template and can be used to start a job run. Job template allows two use cases: avoid repeating recurring StartJobRun API request values, enforcing certain values in StartJobRun API request.
+    public func listJobTemplates(_ input: ListJobTemplatesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListJobTemplatesResponse {
+        return try await self.client.execute(operation: "ListJobTemplates", path: "/jobtemplates", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists managed endpoints based on a set of parameters. A managed endpoint  is a gateway that connects EMR Studio to Amazon EMR on EKS so that EMR Studio  can communicate with your virtual cluster.
     public func listManagedEndpoints(_ input: ListManagedEndpointsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListManagedEndpointsResponse {
         return try await self.client.execute(operation: "ListManagedEndpoints", path: "/virtualclusters/{virtualClusterId}/endpoints", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

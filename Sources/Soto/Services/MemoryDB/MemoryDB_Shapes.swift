@@ -22,8 +22,8 @@ extension MemoryDB {
     // MARK: Enums
 
     public enum AZStatus: String, CustomStringConvertible, Codable, _SotoSendable {
-        case multiaz
-        case singleaz
+        case multiAZ = "multiaz"
+        case singleAZ = "singleaz"
         public var description: String { return self.rawValue }
     }
 
@@ -33,15 +33,21 @@ extension MemoryDB {
         public var description: String { return self.rawValue }
     }
 
+    public enum DataTieringStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case `false`
+        case `true`
+        public var description: String { return self.rawValue }
+    }
+
     public enum InputAuthenticationType: String, CustomStringConvertible, Codable, _SotoSendable {
         case password
         public var description: String { return self.rawValue }
     }
 
     public enum ServiceUpdateStatus: String, CustomStringConvertible, Codable, _SotoSendable {
-        case available
         case complete
         case inProgress = "in-progress"
+        case notApplied = "available"
         case scheduled
         public var description: String { return self.rawValue }
     }
@@ -230,6 +236,8 @@ extension MemoryDB {
         public let availabilityMode: AZStatus?
         /// The cluster's configuration endpoint
         public let clusterEndpoint: Endpoint?
+        /// Enables data tiering. Data tiering is only supported for clusters using the r6gd node type.  This parameter must be set when using r6gd nodes. For more information, see Data tiering.
+        public let dataTiering: DataTieringStatus?
         /// A description of the cluster
         public let description: String?
         /// The Redis engine patch version used by the cluster
@@ -271,12 +279,13 @@ extension MemoryDB {
         /// A flag to indicate if In-transit encryption is enabled
         public let tlsEnabled: Bool?
 
-        public init(aclName: String? = nil, arn: String? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityMode: AZStatus? = nil, clusterEndpoint: Endpoint? = nil, description: String? = nil, enginePatchVersion: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, maintenanceWindow: String? = nil, name: String? = nil, nodeType: String? = nil, numberOfShards: Int? = nil, parameterGroupName: String? = nil, parameterGroupStatus: String? = nil, pendingUpdates: ClusterPendingUpdates? = nil, securityGroups: [SecurityGroupMembership]? = nil, shards: [Shard]? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, snsTopicArn: String? = nil, snsTopicStatus: String? = nil, status: String? = nil, subnetGroupName: String? = nil, tlsEnabled: Bool? = nil) {
+        public init(aclName: String? = nil, arn: String? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityMode: AZStatus? = nil, clusterEndpoint: Endpoint? = nil, dataTiering: DataTieringStatus? = nil, description: String? = nil, enginePatchVersion: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, maintenanceWindow: String? = nil, name: String? = nil, nodeType: String? = nil, numberOfShards: Int? = nil, parameterGroupName: String? = nil, parameterGroupStatus: String? = nil, pendingUpdates: ClusterPendingUpdates? = nil, securityGroups: [SecurityGroupMembership]? = nil, shards: [Shard]? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, snsTopicArn: String? = nil, snsTopicStatus: String? = nil, status: String? = nil, subnetGroupName: String? = nil, tlsEnabled: Bool? = nil) {
             self.aclName = aclName
             self.arn = arn
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityMode = availabilityMode
             self.clusterEndpoint = clusterEndpoint
+            self.dataTiering = dataTiering
             self.description = description
             self.enginePatchVersion = enginePatchVersion
             self.engineVersion = engineVersion
@@ -305,6 +314,7 @@ extension MemoryDB {
             case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
             case availabilityMode = "AvailabilityMode"
             case clusterEndpoint = "ClusterEndpoint"
+            case dataTiering = "DataTiering"
             case description = "Description"
             case enginePatchVersion = "EnginePatchVersion"
             case engineVersion = "EngineVersion"
@@ -513,13 +523,15 @@ extension MemoryDB {
         public let autoMinorVersionUpgrade: Bool?
         /// The name of the cluster. This value must be unique as it also serves as the cluster identifier.
         public let clusterName: String
+        /// Enables data tiering. Data tiering is only supported for clusters using the r6gd node type.  This parameter must be set when using r6gd nodes. For more information, see Data tiering.
+        public let dataTiering: Bool?
         /// An optional description of the cluster.
         public let description: String?
         /// The version number of the Redis engine to be used for the cluster.
         public let engineVersion: String?
         /// The ID of the KMS key used to encrypt the cluster.
         public let kmsKeyId: String?
-        /// Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period.
+        /// Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:    sun     mon     tue     wed     thu     fri     sat    Example: sun:23:00-mon:01:30
         public let maintenanceWindow: String?
         /// The compute and memory capacity of the nodes in the cluster.
         public let nodeType: String
@@ -550,10 +562,11 @@ extension MemoryDB {
         /// A flag to enable in-transit encryption on the cluster.
         public let tlsEnabled: Bool?
 
-        public init(aclName: String, autoMinorVersionUpgrade: Bool? = nil, clusterName: String, description: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, maintenanceWindow: String? = nil, nodeType: String, numReplicasPerShard: Int? = nil, numShards: Int? = nil, parameterGroupName: String? = nil, port: Int? = nil, securityGroupIds: [String]? = nil, snapshotArns: [String]? = nil, snapshotName: String? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, snsTopicArn: String? = nil, subnetGroupName: String? = nil, tags: [Tag]? = nil, tlsEnabled: Bool? = nil) {
+        public init(aclName: String, autoMinorVersionUpgrade: Bool? = nil, clusterName: String, dataTiering: Bool? = nil, description: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, maintenanceWindow: String? = nil, nodeType: String, numReplicasPerShard: Int? = nil, numShards: Int? = nil, parameterGroupName: String? = nil, port: Int? = nil, securityGroupIds: [String]? = nil, snapshotArns: [String]? = nil, snapshotName: String? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, snsTopicArn: String? = nil, subnetGroupName: String? = nil, tags: [Tag]? = nil, tlsEnabled: Bool? = nil) {
             self.aclName = aclName
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.clusterName = clusterName
+            self.dataTiering = dataTiering
             self.description = description
             self.engineVersion = engineVersion
             self.kmsKeyId = kmsKeyId
@@ -584,6 +597,7 @@ extension MemoryDB {
             case aclName = "ACLName"
             case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
             case clusterName = "ClusterName"
+            case dataTiering = "DataTiering"
             case description = "Description"
             case engineVersion = "EngineVersion"
             case kmsKeyId = "KmsKeyId"
@@ -1928,6 +1942,8 @@ extension MemoryDB {
         public let arn: String?
         /// The configuration of the cluster from which the snapshot was taken
         public let clusterConfiguration: ClusterConfiguration?
+        /// Enables data tiering. Data tiering is only supported for clusters using the r6gd node type.  This parameter must be set when using r6gd nodes. For more information, see Data tiering.
+        public let dataTiering: DataTieringStatus?
         /// The ID of the KMS key used to encrypt the snapshot.
         public let kmsKeyId: String?
         /// The name of the snapshot
@@ -1937,9 +1953,10 @@ extension MemoryDB {
         /// The status of the snapshot. Valid values: creating | available | restoring | copying | deleting.
         public let status: String?
 
-        public init(arn: String? = nil, clusterConfiguration: ClusterConfiguration? = nil, kmsKeyId: String? = nil, name: String? = nil, source: String? = nil, status: String? = nil) {
+        public init(arn: String? = nil, clusterConfiguration: ClusterConfiguration? = nil, dataTiering: DataTieringStatus? = nil, kmsKeyId: String? = nil, name: String? = nil, source: String? = nil, status: String? = nil) {
             self.arn = arn
             self.clusterConfiguration = clusterConfiguration
+            self.dataTiering = dataTiering
             self.kmsKeyId = kmsKeyId
             self.name = name
             self.source = source
@@ -1949,6 +1966,7 @@ extension MemoryDB {
         private enum CodingKeys: String, CodingKey {
             case arn = "ARN"
             case clusterConfiguration = "ClusterConfiguration"
+            case dataTiering = "DataTiering"
             case kmsKeyId = "KmsKeyId"
             case name = "Name"
             case source = "Source"
@@ -2160,7 +2178,7 @@ extension MemoryDB {
         public let description: String?
         /// The upgraded version of the engine to be run on the nodes. You can upgrade to a newer engine version, but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing cluster and create it anew with the earlier engine version.
         public let engineVersion: String?
-        /// The maintenance window to update
+        /// Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:    sun     mon     tue     wed     thu     fri     sat    Example: sun:23:00-mon:01:30
         public let maintenanceWindow: String?
         /// A valid node type that you want to scale this cluster up or down to.
         public let nodeType: String?

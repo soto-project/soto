@@ -44,8 +44,8 @@ extension EMRContainers {
     }
 
     public enum JobRunState: String, CustomStringConvertible, Codable, _SotoSendable {
-        case cancelled = "CANCELLED"
         case cancelPending = "CANCEL_PENDING"
+        case cancelled = "CANCELLED"
         case completed = "COMPLETED"
         case failed = "FAILED"
         case pending = "PENDING"
@@ -57,6 +57,12 @@ extension EMRContainers {
     public enum PersistentAppUI: String, CustomStringConvertible, Codable, _SotoSendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TemplateParameterDataType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case number = "NUMBER"
+        case string = "STRING"
         public var description: String { return self.rawValue }
     }
 
@@ -251,12 +257,88 @@ extension EMRContainers {
         }
     }
 
+    public struct CreateJobTemplateRequest: AWSEncodableShape {
+        /// The client token of the job template.
+        public let clientToken: String
+        /// The job template data which holds values of StartJobRun API request.
+        public let jobTemplateData: JobTemplateData
+        /// The KMS key ARN used to encrypt the job template.
+        public let kmsKeyArn: String?
+        /// The specified name of the job template.
+        public let name: String
+        /// The tags that are associated with the job template.
+        public let tags: [String: String]?
+
+        public init(clientToken: String = CreateJobTemplateRequest.idempotencyToken(), jobTemplateData: JobTemplateData, kmsKeyArn: String? = nil, name: String, tags: [String: String]? = nil) {
+            self.clientToken = clientToken
+            self.jobTemplateData = jobTemplateData
+            self.kmsKeyArn = kmsKeyArn
+            self.name = name
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S")
+            try self.jobTemplateData.validate(name: "\(name).jobTemplateData")
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 2048)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 3)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^(arn:(aws[a-zA-Z0-9-]*):kms:([a-zA-Z0-9]+-?)+:(\\d{12})?:key\\/[(0-9a-zA-Z)-?]+|\\$\\{[a-zA-Z]\\w*\\})$")
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\.\\-_/#A-Za-z0-9]+$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "\\S")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "\\S")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken
+            case jobTemplateData
+            case kmsKeyArn
+            case name
+            case tags
+        }
+    }
+
+    public struct CreateJobTemplateResponse: AWSDecodableShape {
+        /// This output display the ARN of the created job template.
+        public let arn: String?
+        /// This output displays the date and time when the job template was created.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
+        /// This output display the created job template ID.
+        public let id: String?
+        /// This output displays the name of the created job template.
+        public let name: String?
+
+        public init(arn: String? = nil, createdAt: Date? = nil, id: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.id = id
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn
+            case createdAt
+            case id
+            case name
+        }
+    }
+
     public struct CreateManagedEndpointRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "virtualClusterId", location: .uri("virtualClusterId"))
         ]
 
-        /// The certificate ARN provided by users for the managed endpoint. This field is under deprecation and will be removed in future releases.
+        /// The certificate ARN provided by users for the managed endpoint. This field  is under deprecation and will be removed in future releases.
         public let certificateArn: String?
         /// The client idempotency token for this create call.
         public let clientToken: String
@@ -434,6 +516,40 @@ extension EMRContainers {
         }
     }
 
+    public struct DeleteJobTemplateRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri("id"))
+        ]
+
+        /// The ID of the job template that will be deleted.
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 64)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-z]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteJobTemplateResponse: AWSDecodableShape {
+        /// This output contains the ID of the job template that was deleted.
+        public let id: String?
+
+        public init(id: String? = nil) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id
+        }
+    }
+
     public struct DeleteManagedEndpointRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri("id")),
@@ -551,6 +667,40 @@ extension EMRContainers {
 
         private enum CodingKeys: String, CodingKey {
             case jobRun
+        }
+    }
+
+    public struct DescribeJobTemplateRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri("id"))
+        ]
+
+        /// The ID of the job template that will be described.
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 64)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-z]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeJobTemplateResponse: AWSDecodableShape {
+        /// This output displays information about the specified job template.
+        public let jobTemplate: JobTemplate?
+
+        public init(jobTemplate: JobTemplate? = nil) {
+            self.jobTemplate = jobTemplate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobTemplate
         }
     }
 
@@ -849,6 +999,110 @@ extension EMRContainers {
         }
     }
 
+    public struct JobTemplate: AWSDecodableShape {
+        /// The ARN of the job template.
+        public let arn: String?
+        ///  The date and time when the job template was created.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
+        ///  The user who created the job template.
+        public let createdBy: String?
+        /// The error message in case the decryption of job template fails.
+        public let decryptionError: String?
+        /// The ID of the job template.
+        public let id: String?
+        /// The job template data which holds values of StartJobRun API request.
+        public let jobTemplateData: JobTemplateData
+        ///  The KMS key ARN used to encrypt the job template.
+        public let kmsKeyArn: String?
+        /// The name of the job template.
+        public let name: String?
+        /// The tags assigned to the job template.
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, decryptionError: String? = nil, id: String? = nil, jobTemplateData: JobTemplateData, kmsKeyArn: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.decryptionError = decryptionError
+            self.id = id
+            self.jobTemplateData = jobTemplateData
+            self.kmsKeyArn = kmsKeyArn
+            self.name = name
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn
+            case createdAt
+            case createdBy
+            case decryptionError
+            case id
+            case jobTemplateData
+            case kmsKeyArn
+            case name
+            case tags
+        }
+    }
+
+    public struct JobTemplateData: AWSEncodableShape & AWSDecodableShape {
+        ///  The configuration settings that are used to override defaults configuration.
+        public let configurationOverrides: ParametricConfigurationOverrides?
+        /// The execution role ARN of the job run.
+        public let executionRoleArn: String
+        public let jobDriver: JobDriver
+        /// The tags assigned to jobs started using the job template.
+        public let jobTags: [String: String]?
+        /// The configuration of parameters existing in the job template.
+        public let parameterConfiguration: [String: TemplateParameterConfiguration]?
+        ///  The release version of Amazon EMR.
+        public let releaseLabel: String
+
+        public init(configurationOverrides: ParametricConfigurationOverrides? = nil, executionRoleArn: String, jobDriver: JobDriver, jobTags: [String: String]? = nil, parameterConfiguration: [String: TemplateParameterConfiguration]? = nil, releaseLabel: String) {
+            self.configurationOverrides = configurationOverrides
+            self.executionRoleArn = executionRoleArn
+            self.jobDriver = jobDriver
+            self.jobTags = jobTags
+            self.parameterConfiguration = parameterConfiguration
+            self.releaseLabel = releaseLabel
+        }
+
+        public func validate(name: String) throws {
+            try self.configurationOverrides?.validate(name: "\(name).configurationOverrides")
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 2048)
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, min: 4)
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^(^arn:(aws[a-zA-Z0-9-]*):iam::(\\d{12})?:(role((\\u002F)|(\\u002F[\\u0021-\\u007F]+\\u002F))[\\w+=,.@-]+)$)|([\\.\\-_\\#A-Za-z0-9\\$\\{\\}]+)$")
+            try self.jobDriver.validate(name: "\(name).jobDriver")
+            try self.jobTags?.forEach {
+                try validate($0.key, name: "jobTags.key", parent: name, max: 128)
+                try validate($0.key, name: "jobTags.key", parent: name, min: 1)
+                try validate($0.key, name: "jobTags.key", parent: name, pattern: "\\S")
+                try validate($0.value, name: "jobTags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "jobTags[\"\($0.key)\"]", parent: name, pattern: "\\S")
+            }
+            try self.validate(self.jobTags, name: "jobTags", parent: name, max: 50)
+            try self.parameterConfiguration?.forEach {
+                try validate($0.key, name: "parameterConfiguration.key", parent: name, max: 512)
+                try validate($0.key, name: "parameterConfiguration.key", parent: name, min: 1)
+                try validate($0.key, name: "parameterConfiguration.key", parent: name, pattern: "^[\\.\\-_\\#A-Za-z0-9]+$")
+                try $0.value.validate(name: "\(name).parameterConfiguration[\"\($0.key)\"]")
+            }
+            try self.validate(self.parameterConfiguration, name: "parameterConfiguration", parent: name, max: 20)
+            try self.validate(self.releaseLabel, name: "releaseLabel", parent: name, max: 64)
+            try self.validate(self.releaseLabel, name: "releaseLabel", parent: name, min: 1)
+            try self.validate(self.releaseLabel, name: "releaseLabel", parent: name, pattern: "^([\\.\\-_/A-Za-z0-9]+|\\$\\{[a-zA-Z]\\w*\\})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationOverrides
+            case executionRoleArn
+            case jobDriver
+            case jobTags
+            case parameterConfiguration
+            case releaseLabel
+        }
+    }
+
     public struct ListJobRunsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "_createdAfter", location: .querystring("createdAfter")),
@@ -917,6 +1171,58 @@ extension EMRContainers {
         private enum CodingKeys: String, CodingKey {
             case jobRuns
             case nextToken
+        }
+    }
+
+    public struct ListJobTemplatesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "_createdAfter", location: .querystring("createdAfter")),
+            AWSMemberEncoding(label: "_createdBefore", location: .querystring("createdBefore")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
+        ]
+
+        /// The date and time after which the job templates were created.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAfter: Date?
+        ///  The date and time before which the job templates were created.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdBefore: Date?
+        ///  The maximum number of job templates that can be listed.
+        public let maxResults: Int?
+        ///  The token for the next set of job templates to return.
+        public let nextToken: String?
+
+        public init(createdAfter: Date? = nil, createdBefore: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.createdAfter = createdAfter
+            self.createdBefore = createdBefore
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListJobTemplatesResponse: AWSDecodableShape {
+        ///  This output displays the token for the next set of job templates.
+        public let nextToken: String?
+        /// This output lists information about the specified job templates.
+        public let templates: [JobTemplate]?
+
+        public init(nextToken: String? = nil, templates: [JobTemplate]? = nil) {
+            self.nextToken = nextToken
+            self.templates = templates
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken
+            case templates
         }
     }
 
@@ -1122,6 +1428,105 @@ extension EMRContainers {
         }
     }
 
+    public struct ParametricCloudWatchMonitoringConfiguration: AWSEncodableShape & AWSDecodableShape {
+        ///  The name of the log group for log publishing.
+        public let logGroupName: String?
+        ///  The specified name prefix for log streams.
+        public let logStreamNamePrefix: String?
+
+        public init(logGroupName: String? = nil, logStreamNamePrefix: String? = nil) {
+            self.logGroupName = logGroupName
+            self.logStreamNamePrefix = logStreamNamePrefix
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.logGroupName, name: "logGroupName", parent: name, max: 512)
+            try self.validate(self.logGroupName, name: "logGroupName", parent: name, min: 1)
+            try self.validate(self.logGroupName, name: "logGroupName", parent: name, pattern: "^[\\.\\-_/#A-Za-z0-9\\$\\{\\}]+$")
+            try self.validate(self.logStreamNamePrefix, name: "logStreamNamePrefix", parent: name, max: 256)
+            try self.validate(self.logStreamNamePrefix, name: "logStreamNamePrefix", parent: name, min: 1)
+            try self.validate(self.logStreamNamePrefix, name: "logStreamNamePrefix", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logGroupName
+            case logStreamNamePrefix
+        }
+    }
+
+    public struct ParametricConfigurationOverrides: AWSEncodableShape & AWSDecodableShape {
+        ///  The configurations for the application running by the job run.
+        public let applicationConfiguration: [Configuration]?
+        ///  The configurations for monitoring.
+        public let monitoringConfiguration: ParametricMonitoringConfiguration?
+
+        public init(applicationConfiguration: [Configuration]? = nil, monitoringConfiguration: ParametricMonitoringConfiguration? = nil) {
+            self.applicationConfiguration = applicationConfiguration
+            self.monitoringConfiguration = monitoringConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.applicationConfiguration?.forEach {
+                try $0.validate(name: "\(name).applicationConfiguration[]")
+            }
+            try self.validate(self.applicationConfiguration, name: "applicationConfiguration", parent: name, max: 100)
+            try self.monitoringConfiguration?.validate(name: "\(name).monitoringConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationConfiguration
+            case monitoringConfiguration
+        }
+    }
+
+    public struct ParametricMonitoringConfiguration: AWSEncodableShape & AWSDecodableShape {
+        ///  Monitoring configurations for CloudWatch.
+        public let cloudWatchMonitoringConfiguration: ParametricCloudWatchMonitoringConfiguration?
+        ///  Monitoring configurations for the persistent application UI.
+        public let persistentAppUI: String?
+        ///  Amazon S3 configuration for monitoring log publishing.
+        public let s3MonitoringConfiguration: ParametricS3MonitoringConfiguration?
+
+        public init(cloudWatchMonitoringConfiguration: ParametricCloudWatchMonitoringConfiguration? = nil, persistentAppUI: String? = nil, s3MonitoringConfiguration: ParametricS3MonitoringConfiguration? = nil) {
+            self.cloudWatchMonitoringConfiguration = cloudWatchMonitoringConfiguration
+            self.persistentAppUI = persistentAppUI
+            self.s3MonitoringConfiguration = s3MonitoringConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.cloudWatchMonitoringConfiguration?.validate(name: "\(name).cloudWatchMonitoringConfiguration")
+            try self.validate(self.persistentAppUI, name: "persistentAppUI", parent: name, max: 512)
+            try self.validate(self.persistentAppUI, name: "persistentAppUI", parent: name, min: 1)
+            try self.validate(self.persistentAppUI, name: "persistentAppUI", parent: name, pattern: "^[\\.\\-_/#A-Za-z0-9\\$\\{\\}]+$")
+            try self.s3MonitoringConfiguration?.validate(name: "\(name).s3MonitoringConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudWatchMonitoringConfiguration
+            case persistentAppUI
+            case s3MonitoringConfiguration
+        }
+    }
+
+    public struct ParametricS3MonitoringConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Amazon S3 destination URI for log publishing.
+        public let logUri: String?
+
+        public init(logUri: String? = nil) {
+            self.logUri = logUri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.logUri, name: "logUri", parent: name, max: 10280)
+            try self.validate(self.logUri, name: "logUri", parent: name, min: 1)
+            try self.validate(self.logUri, name: "logUri", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDBFF-\\uDC00\\uDFFF\\r\\n\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logUri
+        }
+    }
+
     public struct S3MonitoringConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Amazon S3 destination URI for log publishing.
         public let logUri: String
@@ -1212,23 +1617,29 @@ extension EMRContainers {
         /// The configuration overrides for the job run.
         public let configurationOverrides: ConfigurationOverrides?
         /// The execution role ARN for the job run.
-        public let executionRoleArn: String
+        public let executionRoleArn: String?
         /// The job driver for the job run.
-        public let jobDriver: JobDriver
+        public let jobDriver: JobDriver?
+        /// The job template ID to be used to start the job run.
+        public let jobTemplateId: String?
+        /// The values of job template parameters to start a job run.
+        public let jobTemplateParameters: [String: String]?
         /// The name of the job run.
         public let name: String?
         /// The Amazon EMR release version to use for the job run.
-        public let releaseLabel: String
+        public let releaseLabel: String?
         /// The tags assigned to job runs.
         public let tags: [String: String]?
         /// The virtual cluster ID for which the job run request is submitted.
         public let virtualClusterId: String
 
-        public init(clientToken: String = StartJobRunRequest.idempotencyToken(), configurationOverrides: ConfigurationOverrides? = nil, executionRoleArn: String, jobDriver: JobDriver, name: String? = nil, releaseLabel: String, tags: [String: String]? = nil, virtualClusterId: String) {
+        public init(clientToken: String = StartJobRunRequest.idempotencyToken(), configurationOverrides: ConfigurationOverrides? = nil, executionRoleArn: String? = nil, jobDriver: JobDriver? = nil, jobTemplateId: String? = nil, jobTemplateParameters: [String: String]? = nil, name: String? = nil, releaseLabel: String? = nil, tags: [String: String]? = nil, virtualClusterId: String) {
             self.clientToken = clientToken
             self.configurationOverrides = configurationOverrides
             self.executionRoleArn = executionRoleArn
             self.jobDriver = jobDriver
+            self.jobTemplateId = jobTemplateId
+            self.jobTemplateParameters = jobTemplateParameters
             self.name = name
             self.releaseLabel = releaseLabel
             self.tags = tags
@@ -1243,7 +1654,19 @@ extension EMRContainers {
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 2048)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, min: 20)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):iam::(\\d{12})?:(role((\\u002F)|(\\u002F[\\u0021-\\u007F]+\\u002F))[\\w+=,.@-]+)$")
-            try self.jobDriver.validate(name: "\(name).jobDriver")
+            try self.jobDriver?.validate(name: "\(name).jobDriver")
+            try self.validate(self.jobTemplateId, name: "jobTemplateId", parent: name, max: 64)
+            try self.validate(self.jobTemplateId, name: "jobTemplateId", parent: name, min: 1)
+            try self.validate(self.jobTemplateId, name: "jobTemplateId", parent: name, pattern: "^[0-9a-z]+$")
+            try self.jobTemplateParameters?.forEach {
+                try validate($0.key, name: "jobTemplateParameters.key", parent: name, max: 512)
+                try validate($0.key, name: "jobTemplateParameters.key", parent: name, min: 1)
+                try validate($0.key, name: "jobTemplateParameters.key", parent: name, pattern: "^[\\.\\-_\\#A-Za-z0-9]+$")
+                try validate($0.value, name: "jobTemplateParameters[\"\($0.key)\"]", parent: name, max: 1024)
+                try validate($0.value, name: "jobTemplateParameters[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name: "jobTemplateParameters[\"\($0.key)\"]", parent: name, pattern: "\\S")
+            }
+            try self.validate(self.jobTemplateParameters, name: "jobTemplateParameters", parent: name, max: 20)
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\.\\-_/#A-Za-z0-9]+$")
@@ -1268,6 +1691,8 @@ extension EMRContainers {
             case configurationOverrides
             case executionRoleArn
             case jobDriver
+            case jobTemplateId
+            case jobTemplateParameters
             case name
             case releaseLabel
             case tags
@@ -1335,6 +1760,29 @@ extension EMRContainers {
 
     public struct TagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct TemplateParameterConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The default value for the job template parameter.
+        public let defaultValue: String?
+        /// The type of the job template parameter. Allowed values are: ‘String’, ‘Number’.
+        public let type: TemplateParameterDataType?
+
+        public init(defaultValue: String? = nil, type: TemplateParameterDataType? = nil) {
+            self.defaultValue = defaultValue
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.defaultValue, name: "defaultValue", parent: name, max: 1024)
+            try self.validate(self.defaultValue, name: "defaultValue", parent: name, min: 1)
+            try self.validate(self.defaultValue, name: "defaultValue", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultValue
+            case type
+        }
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {

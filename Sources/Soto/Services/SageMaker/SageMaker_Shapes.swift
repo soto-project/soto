@@ -1838,6 +1838,8 @@ extension SageMaker {
         case mlP38Xlarge = "ml.p3.8xlarge"
         case mlP3Dn24Xlarge = "ml.p3dn.24xlarge"
         case mlP4D24Xlarge = "ml.p4d.24xlarge"
+        case mlTrn12Xlarge = "ml.trn1.2xlarge"
+        case mlTrn132Xlarge = "ml.trn1.32xlarge"
         public var description: String { return self.rawValue }
     }
 
