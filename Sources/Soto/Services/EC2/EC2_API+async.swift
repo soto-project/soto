@@ -272,6 +272,11 @@ extension EC2 {
         return try await self.client.execute(operation: "CancelExportTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Removes your Amazon Web Services account from the launch permissions for the specified AMI. For more information, see Cancel sharing an AMI with your Amazon Web Services account  in the Amazon Elastic Compute Cloud User Guide.
+    public func cancelImageLaunchPermission(_ input: CancelImageLaunchPermissionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CancelImageLaunchPermissionResult {
+        return try await self.client.execute(operation: "CancelImageLaunchPermission", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Cancels an in-process import virtual machine or import snapshot task.
     public func cancelImportTask(_ input: CancelImportTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CancelImportTaskResult {
         return try await self.client.execute(operation: "CancelImportTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

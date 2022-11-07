@@ -142,7 +142,7 @@ extension CloudWatchLogs {
         public let logStreamNamePrefix: String?
         /// The name of the export task.
         public let taskName: String?
-        /// The end time of the range for the request, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp later than this time are not exported.
+        /// The end time of the range for the request, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp later than this time are not exported. You must specify a time that is not earlier than when this log group was created.
         public let to: Int64
 
         public init(destination: String, destinationPrefix: String? = nil, from: Int64, logGroupName: String, logStreamNamePrefix: String? = nil, taskName: String? = nil, to: Int64) {
@@ -438,7 +438,7 @@ extension CloudWatchLogs {
     public struct DescribeDestinationsRequest: AWSEncodableShape {
         /// The prefix to match. If you don't specify a value, no prefix filter is applied.
         public let destinationNamePrefix: String?
-        /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
+        /// The maximum number of items returned. If you don't specify a value, the default maximum value of  50 items is used.
         public let limit: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
