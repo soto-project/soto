@@ -36,6 +36,15 @@ start()
     fi
 }
 
+run()
+{
+    if [ -z "$CONTAINER_ID" ]; then
+        docker run -p 4566-4597:4566-4597 -p 8080:8080 localstack/localstack
+    else
+        echo "Localstack is already running"
+    fi
+}
+
 stop()
 {
     if [ -n "$CONTAINER_ID" ]; then
@@ -63,6 +72,5 @@ elif [ "$COMMAND" == "stop" ]; then
 elif [ "$COMMAND" == "status" ]; then
     status
 else
-    usage
-    exit -1
+    run
 fi
