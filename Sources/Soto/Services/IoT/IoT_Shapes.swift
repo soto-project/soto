@@ -453,6 +453,7 @@ extension IoT {
         case deviceCertificate = "DEVICE_CERTIFICATE"
         case iamRole = "IAM_ROLE"
         case iotPolicy = "IOT_POLICY"
+        case issuerCertificate = "ISSUER_CERTIFICATE"
         case roleAlias = "ROLE_ALIAS"
         public var description: String { return self.rawValue }
     }
@@ -8566,6 +8567,36 @@ extension IoT {
         }
     }
 
+    public struct IssuerCertificateIdentifier: AWSEncodableShape & AWSDecodableShape {
+        /// The issuer certificate serial number.
+        public let issuerCertificateSerialNumber: String?
+        /// The subject of the issuer certificate.
+        public let issuerCertificateSubject: String?
+        /// The issuer ID.
+        public let issuerId: String?
+
+        public init(issuerCertificateSerialNumber: String? = nil, issuerCertificateSubject: String? = nil, issuerId: String? = nil) {
+            self.issuerCertificateSerialNumber = issuerCertificateSerialNumber
+            self.issuerCertificateSubject = issuerCertificateSubject
+            self.issuerId = issuerId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.issuerCertificateSerialNumber, name: "issuerCertificateSerialNumber", parent: name, max: 20)
+            try self.validate(self.issuerCertificateSerialNumber, name: "issuerCertificateSerialNumber", parent: name, pattern: "^[a-fA-F0-9:]+$")
+            try self.validate(self.issuerCertificateSubject, name: "issuerCertificateSubject", parent: name, max: 1000)
+            try self.validate(self.issuerCertificateSubject, name: "issuerCertificateSubject", parent: name, pattern: "^[\\p{Graph}\\x20]*$")
+            try self.validate(self.issuerId, name: "issuerId", parent: name, max: 64)
+            try self.validate(self.issuerId, name: "issuerId", parent: name, pattern: "^(0x)?[a-fA-F0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case issuerCertificateSerialNumber
+            case issuerCertificateSubject
+            case issuerId
+        }
+    }
+
     public struct Job: AWSDecodableShape {
         /// Configuration for criteria to abort the job.
         public let abortConfig: AbortConfig?
@@ -10838,6 +10869,54 @@ extension IoT {
         private enum CodingKeys: String, CodingKey {
             case nextToken
             case templates
+        }
+    }
+
+    public struct ListRelatedResourcesForAuditFindingRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "findingId", location: .querystring("findingId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
+        ]
+
+        /// The finding Id.
+        public let findingId: String
+        /// The maximum number of results to return at one time.
+        public let maxResults: Int?
+        /// A token that can be used to retrieve the next set of results,  or null if there are no additional results.
+        public let nextToken: String?
+
+        public init(findingId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.findingId = findingId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.findingId, name: "findingId", parent: name, max: 128)
+            try self.validate(self.findingId, name: "findingId", parent: name, min: 1)
+            try self.validate(self.findingId, name: "findingId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListRelatedResourcesForAuditFindingResponse: AWSDecodableShape {
+        /// A token that can be used to retrieve the next set of results,  or null for the first API call.
+        public let nextToken: String?
+        /// The related resources.
+        public let relatedResources: [RelatedResource]?
+
+        public init(nextToken: String? = nil, relatedResources: [RelatedResource]? = nil) {
+            self.nextToken = nextToken
+            self.relatedResources = relatedResources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken
+            case relatedResources
         }
     }
 
@@ -13262,22 +13341,28 @@ extension IoT {
         public let clientId: String?
         /// The ID of the Amazon Cognito identity pool.
         public let cognitoIdentityPoolId: String?
+        /// The ARN of the identified device certificate.
+        public let deviceCertificateArn: String?
         /// The ID of the certificate attached to the resource.
         public let deviceCertificateId: String?
         /// The ARN of the IAM role that has overly permissive actions.
         public let iamRoleArn: String?
+        /// The issuer certificate identifier.
+        public let issuerCertificateIdentifier: IssuerCertificateIdentifier?
         /// The version of the policy associated with the resource.
         public let policyVersionIdentifier: PolicyVersionIdentifier?
         /// The ARN of the role alias that has overly permissive actions.
         public let roleAliasArn: String?
 
-        public init(account: String? = nil, caCertificateId: String? = nil, clientId: String? = nil, cognitoIdentityPoolId: String? = nil, deviceCertificateId: String? = nil, iamRoleArn: String? = nil, policyVersionIdentifier: PolicyVersionIdentifier? = nil, roleAliasArn: String? = nil) {
+        public init(account: String? = nil, caCertificateId: String? = nil, clientId: String? = nil, cognitoIdentityPoolId: String? = nil, deviceCertificateArn: String? = nil, deviceCertificateId: String? = nil, iamRoleArn: String? = nil, issuerCertificateIdentifier: IssuerCertificateIdentifier? = nil, policyVersionIdentifier: PolicyVersionIdentifier? = nil, roleAliasArn: String? = nil) {
             self.account = account
             self.caCertificateId = caCertificateId
             self.clientId = clientId
             self.cognitoIdentityPoolId = cognitoIdentityPoolId
+            self.deviceCertificateArn = deviceCertificateArn
             self.deviceCertificateId = deviceCertificateId
             self.iamRoleArn = iamRoleArn
+            self.issuerCertificateIdentifier = issuerCertificateIdentifier
             self.policyVersionIdentifier = policyVersionIdentifier
             self.roleAliasArn = roleAliasArn
         }
@@ -13294,6 +13379,7 @@ extension IoT {
             try self.validate(self.deviceCertificateId, name: "deviceCertificateId", parent: name, pattern: "^(0x)?[a-fA-F0-9]+$")
             try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, max: 2048)
             try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, min: 20)
+            try self.issuerCertificateIdentifier?.validate(name: "\(name).issuerCertificateIdentifier")
             try self.policyVersionIdentifier?.validate(name: "\(name).policyVersionIdentifier")
             try self.validate(self.roleAliasArn, name: "roleAliasArn", parent: name, max: 2048)
             try self.validate(self.roleAliasArn, name: "roleAliasArn", parent: name, min: 1)
@@ -13304,8 +13390,10 @@ extension IoT {
             case caCertificateId
             case clientId
             case cognitoIdentityPoolId
+            case deviceCertificateArn
             case deviceCertificateId
             case iamRoleArn
+            case issuerCertificateIdentifier
             case policyVersionIdentifier
             case roleAliasArn
         }

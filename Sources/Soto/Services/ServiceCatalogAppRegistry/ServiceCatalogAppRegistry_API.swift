@@ -126,6 +126,11 @@ public struct ServiceCatalogAppRegistry: AWSService {
         return self.client.execute(operation: "GetAttributeGroup", path: "/attribute-groups/{attributeGroup}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    ///  Retrieves a TagKey configuration from an account.
+    public func getConfiguration(logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetConfigurationResponse> {
+        return self.client.execute(operation: "GetConfiguration", path: "/configuration", httpMethod: .GET, serviceConfig: self.config, logger: logger, on: eventLoop)
+    }
+
     /// Retrieves a list of all of your applications. Results are paginated.
     public func listApplications(_ input: ListApplicationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListApplicationsResponse> {
         return self.client.execute(operation: "ListApplications", path: "/applications", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -136,7 +141,7 @@ public struct ServiceCatalogAppRegistry: AWSService {
         return self.client.execute(operation: "ListAssociatedAttributeGroups", path: "/applications/{application}/attribute-groups", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists all resources that are associated with specified application. Results are paginated.
+    ///  Lists all  of the resources  that are associated  with the specified application. Results are paginated.    If you share an application,  and a consumer account associates a tag query  to the application,  all of the users  who can access the application  can also view the tag values  in all accounts  that are associated  with it  using this API.
     public func listAssociatedResources(_ input: ListAssociatedResourcesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAssociatedResourcesResponse> {
         return self.client.execute(operation: "ListAssociatedResources", path: "/applications/{application}/resources", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -154,6 +159,11 @@ public struct ServiceCatalogAppRegistry: AWSService {
     /// Lists all of the tags on the resource.
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
         return self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  Associates a TagKey configuration  to an account.
+    @discardableResult public func putConfiguration(_ input: PutConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "PutConfiguration", path: "/configuration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Syncs the resource with current AppRegistry records.  Specifically, the resource’s AppRegistry system tags sync with its associated application. We remove the resource's AppRegistry system tags if it does not associate with the application. The caller must have permissions to read and update the resource.

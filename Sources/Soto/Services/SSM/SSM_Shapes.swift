@@ -472,6 +472,7 @@ extension SSM {
     }
 
     public enum OpsItemFilterKey: String, CustomStringConvertible, Codable, _SotoSendable {
+        case accountId = "AccountId"
         case actualEndTime = "ActualEndTime"
         case actualStartTime = "ActualStartTime"
         case automationId = "AutomationId"
@@ -2397,7 +2398,7 @@ extension SSM {
         public let description: String?
         /// The date by which this activation request should expire, in timestamp format, such as "2021-07-07T00:00:00". You can specify a date up to 30 days in advance. If you don't provide an expiration date, the activation code expires in 24 hours.
         public let expirationDate: Date?
-        /// The name of the Identity and Access Management (IAM) role that you want to assign to the managed node. This IAM role must provide AssumeRole permissions for the Amazon Web Services Systems Manager service principal ssm.amazonaws.com. For more information, see Create an IAM service role for a hybrid environment in the Amazon Web Services Systems Manager User Guide.
+        /// The name of the Identity and Access Management (IAM) role that you want to assign to the managed node. This IAM role must provide AssumeRole permissions for the Amazon Web Services Systems Manager service principal ssm.amazonaws.com. For more information, see Create an IAM service role for a hybrid environment in the Amazon Web Services Systems Manager User Guide.  You can't specify an IAM service-linked role for this parameter. You must create a unique role.
         public let iamRole: String
         /// Specify the maximum number of managed nodes you want to register. The default value is 1.
         public let registrationLimit: Int?
@@ -2933,6 +2934,8 @@ extension SSM {
     }
 
     public struct CreateOpsItemRequest: AWSEncodableShape {
+        /// The target Amazon Web Services account where you want to create an OpsItem. To make this call, your account must be configured to work with OpsItems across accounts. For more information, see Setting up OpsCenter to work with OpsItems across accounts in the Amazon Web Services Systems Manager User Guide.
+        public let accountId: String?
         /// The time a runbook workflow ended. Currently reported only for the OpsItem type /aws/changerequest.
         public let actualEndTime: Date?
         /// The time a runbook workflow started. Currently reported only for the OpsItem type /aws/changerequest.
@@ -2945,7 +2948,7 @@ extension SSM {
         public let notifications: [OpsItemNotification]?
         /// Operational data is custom data that provides useful reference details about the OpsItem. For example, you can specify log files, error strings, license keys, troubleshooting tips, or other relevant data. You enter operational data as key-value pairs. The key has a maximum length of 128 characters. The value has a maximum size of 20 KB.  Operational data keys can't begin with the following: amazon, aws, amzn, ssm, /amazon, /aws, /amzn, /ssm.  You can choose to make the data searchable by other users in the account or you can restrict search access. Searchable data means that all users with access to the OpsItem Overview page (as provided by the DescribeOpsItems API operation) can view and search on the specified data. Operational data that isn't searchable is only viewable by users who have access to the OpsItem (as provided by the GetOpsItem API operation). Use the /aws/resources key in OperationalData to specify a related resource in the request. Use the /aws/automations key in OperationalData to associate an Automation runbook with the OpsItem. To view Amazon Web Services CLI example commands that use these keys, see Creating OpsItems manually in the Amazon Web Services Systems Manager User Guide.
         public let operationalData: [String: OpsItemDataValue]?
-        /// The type of OpsItem to create. Currently, the only valid values are /aws/changerequest and /aws/issue.
+        /// The type of OpsItem to create. Systems Manager supports the following types of OpsItems:    /aws/issue  This type of OpsItem is used for default OpsItems created by OpsCenter.     /aws/changerequest  This type of OpsItem is used by Change Manager for reviewing and approving or rejecting change requests.     /aws/insights  This type of OpsItem is used by OpsCenter for aggregating and reporting on duplicate OpsItems.
         public let opsItemType: String?
         /// The time specified in a change request for a runbook workflow to end. Currently supported only for the OpsItem type /aws/changerequest.
         public let plannedEndTime: Date?
@@ -2964,7 +2967,8 @@ extension SSM {
         /// A short heading that describes the nature of the OpsItem and the impacted resource.
         public let title: String
 
-        public init(actualEndTime: Date? = nil, actualStartTime: Date? = nil, category: String? = nil, description: String, notifications: [OpsItemNotification]? = nil, operationalData: [String: OpsItemDataValue]? = nil, opsItemType: String? = nil, plannedEndTime: Date? = nil, plannedStartTime: Date? = nil, priority: Int? = nil, relatedOpsItems: [RelatedOpsItem]? = nil, severity: String? = nil, source: String, tags: [Tag]? = nil, title: String) {
+        public init(accountId: String? = nil, actualEndTime: Date? = nil, actualStartTime: Date? = nil, category: String? = nil, description: String, notifications: [OpsItemNotification]? = nil, operationalData: [String: OpsItemDataValue]? = nil, opsItemType: String? = nil, plannedEndTime: Date? = nil, plannedStartTime: Date? = nil, priority: Int? = nil, relatedOpsItems: [RelatedOpsItem]? = nil, severity: String? = nil, source: String, tags: [Tag]? = nil, title: String) {
+            self.accountId = accountId
             self.actualEndTime = actualEndTime
             self.actualStartTime = actualStartTime
             self.category = category
@@ -2983,6 +2987,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.category, name: "category", parent: name, max: 64)
             try self.validate(self.category, name: "category", parent: name, min: 1)
             try self.validate(self.category, name: "category", parent: name, pattern: "^(?!\\s*$).+$")
@@ -3013,6 +3018,7 @@ extension SSM {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
             case actualEndTime = "ActualEndTime"
             case actualStartTime = "ActualStartTime"
             case category = "Category"
@@ -3032,14 +3038,18 @@ extension SSM {
     }
 
     public struct CreateOpsItemResponse: AWSDecodableShape {
+        /// The OpsItem Amazon Resource Name (ARN).
+        public let opsItemArn: String?
         /// The ID of the OpsItem.
         public let opsItemId: String?
 
-        public init(opsItemId: String? = nil) {
+        public init(opsItemArn: String? = nil, opsItemId: String? = nil) {
+            self.opsItemArn = opsItemArn
             self.opsItemId = opsItemId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case opsItemArn = "OpsItemArn"
             case opsItemId = "OpsItemId"
         }
     }
@@ -3551,6 +3561,36 @@ extension SSM {
     }
 
     public struct DeleteResourceDataSyncResult: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteResourcePolicyRequest: AWSEncodableShape {
+        /// ID of the current policy version. The hash helps to prevent multiple calls from attempting to overwrite a policy.
+        public let policyHash: String
+        /// The policy ID.
+        public let policyId: String
+        /// Amazon Resource Name (ARN) of the resource to which the policies are attached.
+        public let resourceArn: String
+
+        public init(policyHash: String, policyId: String, resourceArn: String) {
+            self.policyHash = policyHash
+            self.policyId = policyId
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyHash = "PolicyHash"
+            case policyId = "PolicyId"
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct DeleteResourcePolicyResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -6826,18 +6866,25 @@ extension SSM {
     }
 
     public struct GetOpsItemRequest: AWSEncodableShape {
+        /// The OpsItem Amazon Resource Name (ARN).
+        public let opsItemArn: String?
         /// The ID of the OpsItem that you want to get.
         public let opsItemId: String
 
-        public init(opsItemId: String) {
+        public init(opsItemArn: String? = nil, opsItemId: String) {
+            self.opsItemArn = opsItemArn
             self.opsItemId = opsItemId
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.opsItemArn, name: "opsItemArn", parent: name, max: 2048)
+            try self.validate(self.opsItemArn, name: "opsItemArn", parent: name, min: 20)
+            try self.validate(self.opsItemArn, name: "opsItemArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:ssm:[a-z0-9-\\.]{0,63}:[0-9]{12}:opsitem")
             try self.validate(self.opsItemId, name: "opsItemId", parent: name, pattern: "^(oi)-[0-9a-f]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case opsItemArn = "OpsItemArn"
             case opsItemId = "OpsItemId"
         }
     }
@@ -7292,6 +7339,72 @@ extension SSM {
             case rejectedPatches = "RejectedPatches"
             case rejectedPatchesAction = "RejectedPatchesAction"
             case sources = "Sources"
+        }
+    }
+
+    public struct GetResourcePoliciesRequest: AWSEncodableShape {
+        /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
+        public let maxResults: Int?
+        /// A token to start the list. Use this token to get the next set of results.
+        public let nextToken: String?
+        /// Amazon Resource Name (ARN) of the resource to which the policies are attached.
+        public let resourceArn: String
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceArn: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct GetResourcePoliciesResponse: AWSDecodableShape {
+        /// The token for the next set of items to return. Use this token to get the next set of results.
+        public let nextToken: String?
+        /// An array of the Policy object.
+        public let policies: [GetResourcePoliciesResponseEntry]?
+
+        public init(nextToken: String? = nil, policies: [GetResourcePoliciesResponseEntry]? = nil) {
+            self.nextToken = nextToken
+            self.policies = policies
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case policies = "Policies"
+        }
+    }
+
+    public struct GetResourcePoliciesResponseEntry: AWSDecodableShape {
+        /// A resource policy helps you to define the IAM entity (for example, an Amazon Web Services account) that can manage your Systems Manager resources. Currently, OpsItemGroup is the only resource that supports Systems Manager resource policies. The resource policy for OpsItemGroup enables Amazon Web Services accounts to view and interact with OpsCenter operational work items (OpsItems).
+        public let policy: String?
+        /// ID of the current policy version. The hash helps to prevent a situation where multiple users attempt to overwrite a policy. You must provide this hash when updating or deleting a policy.
+        public let policyHash: String?
+        /// A policy ID.
+        public let policyId: String?
+
+        public init(policy: String? = nil, policyHash: String? = nil, policyId: String? = nil) {
+            self.policy = policy
+            self.policyHash = policyHash
+            self.policyId = policyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
+            case policyHash = "PolicyHash"
+            case policyId = "PolicyId"
         }
     }
 
@@ -9729,9 +9842,11 @@ extension SSM {
         public let notifications: [OpsItemNotification]?
         /// Operational data is custom data that provides useful reference details about the OpsItem. For example, you can specify log files, error strings, license keys, troubleshooting tips, or other relevant data. You enter operational data as key-value pairs. The key has a maximum length of 128 characters. The value has a maximum size of 20 KB.  Operational data keys can't begin with the following: amazon, aws, amzn, ssm, /amazon, /aws, /amzn, /ssm.  You can choose to make the data searchable by other users in the account or you can restrict search access. Searchable data means that all users with access to the OpsItem Overview page (as provided by the DescribeOpsItems API operation) can view and search on the specified data. Operational data that isn't searchable is only viewable by users who have access to the OpsItem (as provided by the GetOpsItem API operation). Use the /aws/resources key in OperationalData to specify a related resource in the request. Use the /aws/automations key in OperationalData to associate an Automation runbook with the OpsItem. To view Amazon Web Services CLI example commands that use these keys, see Creating OpsItems manually in the Amazon Web Services Systems Manager User Guide.
         public let operationalData: [String: OpsItemDataValue]?
+        /// The OpsItem Amazon Resource Name (ARN).
+        public let opsItemArn: String?
         /// The ID of the OpsItem.
         public let opsItemId: String?
-        /// The type of OpsItem. Currently, the only valid values are /aws/changerequest and /aws/issue.
+        /// The type of OpsItem. Systems Manager supports the following types of OpsItems:    /aws/issue  This type of OpsItem is used for default OpsItems created by OpsCenter.     /aws/changerequest  This type of OpsItem is used by Change Manager for reviewing and approving or rejecting change requests.     /aws/insights  This type of OpsItem is used by OpsCenter for aggregating and reporting on duplicate OpsItems.
         public let opsItemType: String?
         /// The time specified in a change request for a runbook workflow to end. Currently supported only for the OpsItem type /aws/changerequest.
         public let plannedEndTime: Date?
@@ -9752,7 +9867,7 @@ extension SSM {
         /// The version of this OpsItem. Each time the OpsItem is edited the version number increments by one.
         public let version: String?
 
-        public init(actualEndTime: Date? = nil, actualStartTime: Date? = nil, category: String? = nil, createdBy: String? = nil, createdTime: Date? = nil, description: String? = nil, lastModifiedBy: String? = nil, lastModifiedTime: Date? = nil, notifications: [OpsItemNotification]? = nil, operationalData: [String: OpsItemDataValue]? = nil, opsItemId: String? = nil, opsItemType: String? = nil, plannedEndTime: Date? = nil, plannedStartTime: Date? = nil, priority: Int? = nil, relatedOpsItems: [RelatedOpsItem]? = nil, severity: String? = nil, source: String? = nil, status: OpsItemStatus? = nil, title: String? = nil, version: String? = nil) {
+        public init(actualEndTime: Date? = nil, actualStartTime: Date? = nil, category: String? = nil, createdBy: String? = nil, createdTime: Date? = nil, description: String? = nil, lastModifiedBy: String? = nil, lastModifiedTime: Date? = nil, notifications: [OpsItemNotification]? = nil, operationalData: [String: OpsItemDataValue]? = nil, opsItemArn: String? = nil, opsItemId: String? = nil, opsItemType: String? = nil, plannedEndTime: Date? = nil, plannedStartTime: Date? = nil, priority: Int? = nil, relatedOpsItems: [RelatedOpsItem]? = nil, severity: String? = nil, source: String? = nil, status: OpsItemStatus? = nil, title: String? = nil, version: String? = nil) {
             self.actualEndTime = actualEndTime
             self.actualStartTime = actualStartTime
             self.category = category
@@ -9763,6 +9878,7 @@ extension SSM {
             self.lastModifiedTime = lastModifiedTime
             self.notifications = notifications
             self.operationalData = operationalData
+            self.opsItemArn = opsItemArn
             self.opsItemId = opsItemId
             self.opsItemType = opsItemType
             self.plannedEndTime = plannedEndTime
@@ -9787,6 +9903,7 @@ extension SSM {
             case lastModifiedTime = "LastModifiedTime"
             case notifications = "Notifications"
             case operationalData = "OperationalData"
+            case opsItemArn = "OpsItemArn"
             case opsItemId = "OpsItemId"
             case opsItemType = "OpsItemType"
             case plannedEndTime = "PlannedEndTime"
@@ -10018,7 +10135,7 @@ extension SSM {
         public let operationalData: [String: OpsItemDataValue]?
         /// The ID of the OpsItem.
         public let opsItemId: String?
-        /// The type of OpsItem. Currently, the only valid values are /aws/changerequest and /aws/issue.
+        /// The type of OpsItem. Systems Manager supports the following types of OpsItems:    /aws/issue  This type of OpsItem is used for default OpsItems created by OpsCenter.     /aws/changerequest  This type of OpsItem is used by Change Manager for reviewing and approving or rejecting change requests.     /aws/insights  This type of OpsItem is used by OpsCenter for aggregating and reporting on duplicate OpsItems.
         public let opsItemType: String?
         /// The time specified in a change request for a runbook workflow to end. Currently supported only for the OpsItem type /aws/changerequest.
         public let plannedEndTime: Date?
@@ -10987,6 +11104,54 @@ extension SSM {
         private enum CodingKeys: String, CodingKey {
             case tier = "Tier"
             case version = "Version"
+        }
+    }
+
+    public struct PutResourcePolicyRequest: AWSEncodableShape {
+        /// A policy you want to associate with a resource.
+        public let policy: String
+        /// ID of the current policy version. The hash helps to prevent a situation where multiple users attempt to overwrite a policy.
+        public let policyHash: String?
+        /// The policy ID.
+        public let policyId: String?
+        /// Amazon Resource Name (ARN) of the resource to which the policies are attached.
+        public let resourceArn: String
+
+        public init(policy: String, policyHash: String? = nil, policyId: String? = nil, resourceArn: String) {
+            self.policy = policy
+            self.policyHash = policyHash
+            self.policyId = policyId
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.policy, name: "policy", parent: name, pattern: "^\\S+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
+            case policyHash = "PolicyHash"
+            case policyId = "PolicyId"
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct PutResourcePolicyResponse: AWSDecodableShape {
+        /// ID of the current policy version. The hash helps to prevent a situation where multiple users attempt to overwrite a policy. You must provide this hash when updating or deleting a policy.
+        public let policyHash: String?
+        /// The policy ID. To update a policy, you must specify PolicyId and PolicyHash.
+        public let policyId: String?
+
+        public init(policyHash: String? = nil, policyId: String? = nil) {
+            self.policyHash = policyHash
+            self.policyId = policyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyHash = "PolicyHash"
+            case policyId = "PolicyId"
         }
     }
 
@@ -12527,10 +12692,12 @@ extension SSM {
         public let targets: [Target]?
         /// The timeout seconds of the step.
         public let timeoutSeconds: Int64?
+        /// The CloudWatch alarms that were invoked by the automation.
+        public let triggeredAlarms: [AlarmStateInformation]?
         /// Strategies used when step fails, we support Continue and Abort. Abort will fail the automation when the step fails. Continue will ignore the failure of current step and allow automation to run the next step. With conditional branching, we add step:stepName to support the automation to go to another specific step.
         public let validNextSteps: [String]?
 
-        public init(action: String? = nil, executionEndTime: Date? = nil, executionStartTime: Date? = nil, failureDetails: FailureDetails? = nil, failureMessage: String? = nil, inputs: [String: String]? = nil, isCritical: Bool? = nil, isEnd: Bool? = nil, maxAttempts: Int? = nil, nextStep: String? = nil, onFailure: String? = nil, outputs: [String: [String]]? = nil, overriddenParameters: [String: [String]]? = nil, response: String? = nil, responseCode: String? = nil, stepExecutionId: String? = nil, stepName: String? = nil, stepStatus: AutomationExecutionStatus? = nil, targetLocation: TargetLocation? = nil, targets: [Target]? = nil, timeoutSeconds: Int64? = nil, validNextSteps: [String]? = nil) {
+        public init(action: String? = nil, executionEndTime: Date? = nil, executionStartTime: Date? = nil, failureDetails: FailureDetails? = nil, failureMessage: String? = nil, inputs: [String: String]? = nil, isCritical: Bool? = nil, isEnd: Bool? = nil, maxAttempts: Int? = nil, nextStep: String? = nil, onFailure: String? = nil, outputs: [String: [String]]? = nil, overriddenParameters: [String: [String]]? = nil, response: String? = nil, responseCode: String? = nil, stepExecutionId: String? = nil, stepName: String? = nil, stepStatus: AutomationExecutionStatus? = nil, targetLocation: TargetLocation? = nil, targets: [Target]? = nil, timeoutSeconds: Int64? = nil, triggeredAlarms: [AlarmStateInformation]? = nil, validNextSteps: [String]? = nil) {
             self.action = action
             self.executionEndTime = executionEndTime
             self.executionStartTime = executionStartTime
@@ -12552,6 +12719,7 @@ extension SSM {
             self.targetLocation = targetLocation
             self.targets = targets
             self.timeoutSeconds = timeoutSeconds
+            self.triggeredAlarms = triggeredAlarms
             self.validNextSteps = validNextSteps
         }
 
@@ -12577,6 +12745,7 @@ extension SSM {
             case targetLocation = "TargetLocation"
             case targets = "Targets"
             case timeoutSeconds = "TimeoutSeconds"
+            case triggeredAlarms = "TriggeredAlarms"
             case validNextSteps = "ValidNextSteps"
         }
     }
@@ -12690,15 +12859,17 @@ extension SSM {
         public let executionRoleName: String?
         /// The Amazon Web Services Regions targeted by the current Automation execution.
         public let regions: [String]?
+        public let targetLocationAlarmConfiguration: AlarmConfiguration?
         /// The maximum number of Amazon Web Services Regions and Amazon Web Services accounts allowed to run the Automation concurrently.
         public let targetLocationMaxConcurrency: String?
         /// The maximum number of errors allowed before the system stops queueing additional Automation executions for the currently running Automation.
         public let targetLocationMaxErrors: String?
 
-        public init(accounts: [String]? = nil, executionRoleName: String? = nil, regions: [String]? = nil, targetLocationMaxConcurrency: String? = nil, targetLocationMaxErrors: String? = nil) {
+        public init(accounts: [String]? = nil, executionRoleName: String? = nil, regions: [String]? = nil, targetLocationAlarmConfiguration: AlarmConfiguration? = nil, targetLocationMaxConcurrency: String? = nil, targetLocationMaxErrors: String? = nil) {
             self.accounts = accounts
             self.executionRoleName = executionRoleName
             self.regions = regions
+            self.targetLocationAlarmConfiguration = targetLocationAlarmConfiguration
             self.targetLocationMaxConcurrency = targetLocationMaxConcurrency
             self.targetLocationMaxErrors = targetLocationMaxErrors
         }
@@ -12711,6 +12882,7 @@ extension SSM {
             try self.validate(self.executionRoleName, name: "executionRoleName", parent: name, pattern: "^[\\w+=,.@/-]+$")
             try self.validate(self.regions, name: "regions", parent: name, max: 50)
             try self.validate(self.regions, name: "regions", parent: name, min: 1)
+            try self.targetLocationAlarmConfiguration?.validate(name: "\(name).targetLocationAlarmConfiguration")
             try self.validate(self.targetLocationMaxConcurrency, name: "targetLocationMaxConcurrency", parent: name, max: 7)
             try self.validate(self.targetLocationMaxConcurrency, name: "targetLocationMaxConcurrency", parent: name, min: 1)
             try self.validate(self.targetLocationMaxConcurrency, name: "targetLocationMaxConcurrency", parent: name, pattern: "^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$")
@@ -12723,6 +12895,7 @@ extension SSM {
             case accounts = "Accounts"
             case executionRoleName = "ExecutionRoleName"
             case regions = "Regions"
+            case targetLocationAlarmConfiguration = "TargetLocationAlarmConfiguration"
             case targetLocationMaxConcurrency = "TargetLocationMaxConcurrency"
             case targetLocationMaxErrors = "TargetLocationMaxErrors"
         }
@@ -13527,7 +13700,7 @@ extension SSM {
     }
 
     public struct UpdateManagedInstanceRoleRequest: AWSEncodableShape {
-        /// The IAM role you want to assign or change.
+        /// The name of the Identity and Access Management (IAM) role that you want to assign to the managed node. This IAM role must provide AssumeRole permissions for the Amazon Web Services Systems Manager service principal ssm.amazonaws.com. For more information, see Create an IAM service role for a hybrid environment in the Amazon Web Services Systems Manager User Guide.  You can't specify an IAM service-linked role for this parameter. You must create a unique role.
         public let iamRole: String
         /// The ID of the managed node where you want to update the role.
         public let instanceId: String
@@ -13569,6 +13742,8 @@ extension SSM {
         public let operationalData: [String: OpsItemDataValue]?
         /// Keys that you want to remove from the OperationalData map.
         public let operationalDataToDelete: [String]?
+        /// The OpsItem Amazon Resource Name (ARN).
+        public let opsItemArn: String?
         /// The ID of the OpsItem.
         public let opsItemId: String
         /// The time specified in a change request for a runbook workflow to end. Currently supported only for the OpsItem type /aws/changerequest.
@@ -13586,7 +13761,7 @@ extension SSM {
         /// A short heading that describes the nature of the OpsItem and the impacted resource.
         public let title: String?
 
-        public init(actualEndTime: Date? = nil, actualStartTime: Date? = nil, category: String? = nil, description: String? = nil, notifications: [OpsItemNotification]? = nil, operationalData: [String: OpsItemDataValue]? = nil, operationalDataToDelete: [String]? = nil, opsItemId: String, plannedEndTime: Date? = nil, plannedStartTime: Date? = nil, priority: Int? = nil, relatedOpsItems: [RelatedOpsItem]? = nil, severity: String? = nil, status: OpsItemStatus? = nil, title: String? = nil) {
+        public init(actualEndTime: Date? = nil, actualStartTime: Date? = nil, category: String? = nil, description: String? = nil, notifications: [OpsItemNotification]? = nil, operationalData: [String: OpsItemDataValue]? = nil, operationalDataToDelete: [String]? = nil, opsItemArn: String? = nil, opsItemId: String, plannedEndTime: Date? = nil, plannedStartTime: Date? = nil, priority: Int? = nil, relatedOpsItems: [RelatedOpsItem]? = nil, severity: String? = nil, status: OpsItemStatus? = nil, title: String? = nil) {
             self.actualEndTime = actualEndTime
             self.actualStartTime = actualStartTime
             self.category = category
@@ -13594,6 +13769,7 @@ extension SSM {
             self.notifications = notifications
             self.operationalData = operationalData
             self.operationalDataToDelete = operationalDataToDelete
+            self.opsItemArn = opsItemArn
             self.opsItemId = opsItemId
             self.plannedEndTime = plannedEndTime
             self.plannedStartTime = plannedStartTime
@@ -13617,6 +13793,9 @@ extension SSM {
                 try validate($0.key, name: "operationalData.key", parent: name, pattern: "^(?!\\s*$).+$")
                 try $0.value.validate(name: "\(name).operationalData[\"\($0.key)\"]")
             }
+            try self.validate(self.opsItemArn, name: "opsItemArn", parent: name, max: 2048)
+            try self.validate(self.opsItemArn, name: "opsItemArn", parent: name, min: 20)
+            try self.validate(self.opsItemArn, name: "opsItemArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:ssm:[a-z0-9-\\.]{0,63}:[0-9]{12}:opsitem")
             try self.validate(self.opsItemId, name: "opsItemId", parent: name, pattern: "^(oi)-[0-9a-f]{12}$")
             try self.validate(self.priority, name: "priority", parent: name, max: 5)
             try self.validate(self.priority, name: "priority", parent: name, min: 1)
@@ -13636,6 +13815,7 @@ extension SSM {
             case notifications = "Notifications"
             case operationalData = "OperationalData"
             case operationalDataToDelete = "OperationalDataToDelete"
+            case opsItemArn = "OpsItemArn"
             case opsItemId = "OpsItemId"
             case plannedEndTime = "PlannedEndTime"
             case plannedStartTime = "PlannedStartTime"

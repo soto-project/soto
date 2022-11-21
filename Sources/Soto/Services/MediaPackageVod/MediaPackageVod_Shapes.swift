@@ -489,6 +489,8 @@ extension MediaPackageVod {
         public let encryption: DashEncryption?
         /// When includeEncoderConfigurationInSegments is set to true, MediaPackage places your encoder's Sequence Parameter Set (SPS), Picture Parameter Set (PPS), and Video Parameter Set (VPS) metadata in every video segment instead of in the init fragment. This lets you use different SPS/PPS/VPS settings for your assets during content playback.
         public let includeEncoderConfigurationInSegments: Bool?
+        /// When enabled, an I-Frame only stream will be included in the output.
+        public let includeIframeOnlyStream: Bool?
         /// A list of triggers that controls when the outgoing Dynamic Adaptive Streaming over HTTP (DASH)
         /// Media Presentation Description (MPD) will be partitioned into multiple periods. If empty, the content will not
         /// be partitioned into more than one period. If the list contains "ADS", new periods will be created where
@@ -500,10 +502,11 @@ extension MediaPackageVod {
         /// Determines the type of SegmentTemplate included in the Media Presentation Description (MPD).  When set to NUMBER_WITH_TIMELINE, a full timeline is presented in each SegmentTemplate, with $Number$ media URLs.  When set to TIME_WITH_TIMELINE, a full timeline is presented in each SegmentTemplate, with $Time$ media URLs. When set to NUMBER_WITH_DURATION, only a duration is included in each SegmentTemplate, with $Number$ media URLs.
         public let segmentTemplateFormat: SegmentTemplateFormat?
 
-        public init(dashManifests: [DashManifest], encryption: DashEncryption? = nil, includeEncoderConfigurationInSegments: Bool? = nil, periodTriggers: [PeriodTriggersElement]? = nil, segmentDurationSeconds: Int? = nil, segmentTemplateFormat: SegmentTemplateFormat? = nil) {
+        public init(dashManifests: [DashManifest], encryption: DashEncryption? = nil, includeEncoderConfigurationInSegments: Bool? = nil, includeIframeOnlyStream: Bool? = nil, periodTriggers: [PeriodTriggersElement]? = nil, segmentDurationSeconds: Int? = nil, segmentTemplateFormat: SegmentTemplateFormat? = nil) {
             self.dashManifests = dashManifests
             self.encryption = encryption
             self.includeEncoderConfigurationInSegments = includeEncoderConfigurationInSegments
+            self.includeIframeOnlyStream = includeIframeOnlyStream
             self.periodTriggers = periodTriggers
             self.segmentDurationSeconds = segmentDurationSeconds
             self.segmentTemplateFormat = segmentTemplateFormat
@@ -513,6 +516,7 @@ extension MediaPackageVod {
             case dashManifests
             case encryption
             case includeEncoderConfigurationInSegments
+            case includeIframeOnlyStream
             case periodTriggers
             case segmentDurationSeconds
             case segmentTemplateFormat

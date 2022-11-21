@@ -163,9 +163,9 @@ extension AutoScaling {
 
     public enum PredefinedMetricPairType: String, CustomStringConvertible, Codable, _SotoSendable {
         case albRequestCount = "ALBRequestCount"
-        case asgcpuUtilization = "ASGCPUUtilization"
         case asgNetworkIn = "ASGNetworkIn"
         case asgNetworkOut = "ASGNetworkOut"
+        case asgcpuUtilization = "ASGCPUUtilization"
         public var description: String { return self.rawValue }
     }
 
@@ -994,7 +994,7 @@ extension AutoScaling {
     }
 
     public struct CreateAutoScalingGroupType: AWSEncodableShape {
-        /// The name of the Auto Scaling group. This name must be unique per Region per account.
+        /// The name of the Auto Scaling group. This name must be unique per Region per account. The name can contain any ASCII character 33 to 126 including most punctuation characters, digits, and upper and lowercased letters.  You cannot use a colon (:) in the name.
         public let autoScalingGroupName: String
         /// A list of Availability Zones where instances in the Auto Scaling group can be created. Used for launching into the default VPC subnet in each Availability Zone when not using the VPCZoneIdentifier property, or for attaching a network interface when an existing network interface ID is specified in a launch template.
         @OptionalCustomCoding<StandardArrayCoder>
@@ -1011,7 +1011,7 @@ extension AutoScaling {
         public let desiredCapacity: Int?
         /// The unit of measurement for the value specified for desired capacity. Amazon EC2 Auto Scaling supports DesiredCapacityType for attribute-based instance type selection only. For more information, see Creating an Auto Scaling group using attribute-based instance type selection in the Amazon EC2 Auto Scaling User Guide. By default, Amazon EC2 Auto Scaling specifies units, which translates into number of instances.  Valid values: units | vcpu | memory-mib
         public let desiredCapacityType: String?
-        /// The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before checking the health status of an EC2 instance that has come into service and marking it unhealthy due to a failed Elastic Load Balancing or custom health check. This is useful if your instances do not immediately pass these health checks after they enter the InService state. For more information, see Health check grace period in the Amazon EC2 Auto Scaling User Guide. Default: 0 seconds
+        /// The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before checking the health status of an EC2 instance that has come into service and marking it unhealthy due to a failed Elastic Load Balancing or custom health check. This is useful if your instances do not immediately pass these health checks after they enter the InService state. For more information, see Set the health check grace period for an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide. Default: 0 seconds
         public let healthCheckGracePeriod: Int?
         /// The service to use for the health checks. The valid values are EC2 (default) and ELB. If you configure an Auto Scaling group to use load balancer (ELB) health checks, it considers the instance unhealthy if it fails either the EC2 status checks or the load balancer health checks. For more information, see Health checks for Auto Scaling instances in the Amazon EC2 Auto Scaling User Guide.
         public let healthCheckType: String?
@@ -1033,7 +1033,7 @@ extension AutoScaling {
         public let maxSize: Int
         /// The minimum size of the group.
         public let minSize: Int
-        /// An embedded object that specifies a mixed instances policy.    For more information, see Auto Scaling groups with multiple instance types and purchase options in the Amazon EC2 Auto Scaling User Guide.
+        /// The mixed instances policy. For more information, see Auto Scaling groups with multiple instance types and purchase options in the Amazon EC2 Auto Scaling User Guide.
         public let mixedInstancesPolicy: MixedInstancesPolicy?
         /// Indicates whether newly launched instances are protected from termination by Amazon EC2 Auto Scaling when scaling in. For more information about preventing instances from terminating on scale in, see Using instance scale-in protection in the Amazon EC2 Auto Scaling User Guide.
         public let newInstancesProtectedFromScaleIn: Bool?
@@ -1173,9 +1173,9 @@ extension AutoScaling {
         /// The block device mapping entries that define the block devices to attach to the instances at launch. By default, the block devices specified in the block device mapping for the AMI are used. For more information, see Block device mappings in the Amazon EC2 User Guide for Linux Instances.
         @OptionalCustomCoding<StandardArrayCoder>
         public var blockDeviceMappings: [BlockDeviceMapping]?
-        ///  EC2-Classic retires on August 15, 2022. This property is not supported after that date.  The ID of a ClassicLink-enabled VPC to link your EC2-Classic instances to. For more information, see ClassicLink in the Amazon EC2 User Guide for Linux Instances.
+        /// Available for backward compatibility.
         public let classicLinkVPCId: String?
-        ///  EC2-Classic retires on August 15, 2022. This property is not supported after that date.  The IDs of one or more security groups for the specified ClassicLink-enabled VPC. If you specify the ClassicLinkVPCId property, you must specify ClassicLinkVPCSecurityGroups.
+        /// Available for backward compatibility.
         @OptionalCustomCoding<StandardArrayCoder>
         public var classicLinkVPCSecurityGroups: [String]?
         /// Specifies whether the launch configuration is optimized for EBS I/O (true) or not (false). The optimization provides dedicated throughput to Amazon EBS and an optimized configuration stack to provide optimal I/O performance. This optimization is not available with all instance types. Additional fees are incurred when you enable EBS optimization for an instance type that is not EBS-optimized by default. For more information, see Amazon EBS-optimized instances in the Amazon EC2 User Guide for Linux Instances. The default value is false.
@@ -2801,7 +2801,7 @@ extension AutoScaling {
     }
 
     public struct InstanceRequirements: AWSEncodableShape & AWSDecodableShape {
-        /// The minimum and maximum number of accelerators (GPUs, FPGAs, or Amazon Web Services Inferentia chips) for an instance type. To exclude accelerator-enabled instance types, set Max to 0. Default: No minimum or maximum
+        /// The minimum and maximum number of accelerators (GPUs, FPGAs, or Amazon Web Services Inferentia chips) for an instance type. To exclude accelerator-enabled instance types, set Max to 0. Default: No minimum or maximum limits
         public let acceleratorCount: AcceleratorCountRequest?
         /// Indicates whether instance types must have accelerators by specific manufacturers.   For instance types with NVIDIA devices, specify nvidia.   For instance types with AMD devices, specify amd.   For instance types with Amazon Web Services devices, specify amazon-web-services.   For instance types with Xilinx devices, specify xilinx.   Default: Any manufacturer
         @OptionalCustomCoding<StandardArrayCoder>
@@ -2809,21 +2809,24 @@ extension AutoScaling {
         /// Lists the accelerators that must be on an instance type.   For instance types with NVIDIA A100 GPUs, specify a100.   For instance types with NVIDIA V100 GPUs, specify v100.   For instance types with NVIDIA K80 GPUs, specify k80.   For instance types with NVIDIA T4 GPUs, specify t4.   For instance types with NVIDIA M60 GPUs, specify m60.   For instance types with AMD Radeon Pro V520 GPUs, specify radeon-pro-v520.   For instance types with Xilinx VU9P FPGAs, specify vu9p.   Default: Any accelerator
         @OptionalCustomCoding<StandardArrayCoder>
         public var acceleratorNames: [AcceleratorName]?
-        /// The minimum and maximum total memory size for the accelerators on an instance type, in MiB. Default: No minimum or maximum
+        /// The minimum and maximum total memory size for the accelerators on an instance type, in MiB. Default: No minimum or maximum limits
         public let acceleratorTotalMemoryMiB: AcceleratorTotalMemoryMiBRequest?
         /// Lists the accelerator types that must be on an instance type.   For instance types with GPU accelerators, specify gpu.   For instance types with FPGA accelerators, specify fpga.   For instance types with inference accelerators, specify inference.   Default: Any accelerator type
         @OptionalCustomCoding<StandardArrayCoder>
         public var acceleratorTypes: [AcceleratorType]?
+        /// The instance types to apply your specified attributes against. All other instance types are ignored, even if they match your specified attributes. You can use strings with one or more wild cards, represented by an asterisk (*), to allow an instance type, size, or generation. The following are examples: m5.8xlarge, c5*.*, m5a.*, r*, *3*. For example, if you specify c5*, Amazon EC2 Auto Scaling will allow the entire C5 instance family, which includes all C5a and C5n instance types. If you specify m5a.*, Amazon EC2 Auto Scaling will allow all the M5a instance types, but not the M5n instance types.  If you specify AllowedInstanceTypes, you can't specify ExcludedInstanceTypes.  Default: All instance types
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var allowedInstanceTypes: [String]?
         /// Indicates whether bare metal instance types are included, excluded, or required. Default: excluded
         public let bareMetal: BareMetal?
-        /// The minimum and maximum baseline bandwidth performance for an instance type, in Mbps. For more information, see Amazon EBS–optimized instances in the Amazon EC2 User Guide for Linux Instances. Default: No minimum or maximum
+        /// The minimum and maximum baseline bandwidth performance for an instance type, in Mbps. For more information, see Amazon EBS–optimized instances in the Amazon EC2 User Guide for Linux Instances. Default: No minimum or maximum limits
         public let baselineEbsBandwidthMbps: BaselineEbsBandwidthMbpsRequest?
         /// Indicates whether burstable performance instance types are included, excluded, or required. For more information, see Burstable performance instances in the Amazon EC2 User Guide for Linux Instances. Default: excluded
         public let burstablePerformance: BurstablePerformance?
         /// Lists which specific CPU manufacturers to include.   For instance types with Intel CPUs, specify intel.   For instance types with AMD CPUs, specify amd.   For instance types with Amazon Web Services CPUs, specify amazon-web-services.    Don't confuse the CPU hardware manufacturer with the CPU hardware architecture. Instances will be launched with a compatible CPU architecture based on the Amazon Machine Image (AMI) that you specify in your launch template.   Default: Any manufacturer
         @OptionalCustomCoding<StandardArrayCoder>
         public var cpuManufacturers: [CpuManufacturer]?
-        /// Lists which instance types to exclude. You can use strings with one or more wild cards, represented by an asterisk (*). The following are examples: c5*, m5a.*, r*, *3*.  For example, if you specify c5*, you are excluding the entire C5 instance family, which includes all C5a and C5n instance types. If you specify m5a.*, you are excluding all the M5a instance types, but not the M5n instance types. Default: No excluded instance types
+        /// The instance types to exclude. You can use strings with one or more wild cards, represented by an asterisk (*), to exclude an instance family, type, size, or generation. The following are examples: m5.8xlarge, c5*.*, m5a.*, r*, *3*.  For example, if you specify c5*, you are excluding the entire C5 instance family, which includes all C5a and C5n instance types. If you specify m5a.*, Amazon EC2 Auto Scaling will exclude all the M5a instance types, but not the M5n instance types.  If you specify ExcludedInstanceTypes, you can't specify AllowedInstanceTypes.  Default: No excluded instance types
         @OptionalCustomCoding<StandardArrayCoder>
         public var excludedInstanceTypes: [String]?
         /// Indicates whether current or previous generation instance types are included.   For current generation instance types, specify current. The current generation includes EC2 instance types currently recommended for use. This typically includes the latest two to three generations in each instance family. For more information, see Instance types in the Amazon EC2 User Guide for Linux Instances.   For previous generation instance types, specify previous.   Default: Any current or previous generation
@@ -2834,11 +2837,13 @@ extension AutoScaling {
         /// Indicates the type of local storage that is required.   For instance types with hard disk drive (HDD) storage, specify hdd.   For instance types with solid state drive (SSD) storage, specify ssd.   Default: Any local storage type
         @OptionalCustomCoding<StandardArrayCoder>
         public var localStorageTypes: [LocalStorageType]?
-        /// The minimum and maximum amount of memory per vCPU for an instance type, in GiB. Default: No minimum or maximum
+        /// The minimum and maximum amount of memory per vCPU for an instance type, in GiB. Default: No minimum or maximum limits
         public let memoryGiBPerVCpu: MemoryGiBPerVCpuRequest?
         /// The minimum and maximum instance memory size for an instance type, in MiB.
         public let memoryMiB: MemoryMiBRequest
-        /// The minimum and maximum number of network interfaces for an instance type. Default: No minimum or maximum
+        /// The minimum and maximum amount of network bandwidth, in gigabits per second (Gbps). Default: No minimum or maximum limits
+        public let networkBandwidthGbps: NetworkBandwidthGbpsRequest?
+        /// The minimum and maximum number of network interfaces for an instance type. Default: No minimum or maximum limits
         public let networkInterfaceCount: NetworkInterfaceCountRequest?
         /// The price protection threshold for On-Demand Instances. This is the maximum you’ll pay for an On-Demand Instance, expressed as a percentage higher than the least expensive current generation M, C, or R instance type with your specified attributes. When Amazon EC2 Auto Scaling selects instance types with your attributes, we will exclude instance types whose price is higher than your threshold. The parameter accepts an integer, which Amazon EC2 Auto Scaling interprets as a percentage. To turn off price protection, specify a high value, such as 999999.  If you set DesiredCapacityType to vcpu or memory-mib, the price protection threshold is applied based on the per vCPU or per memory price instead of the per instance price.  Default: 20
         public let onDemandMaxPricePercentageOverLowestPrice: Int?
@@ -2846,17 +2851,18 @@ extension AutoScaling {
         public let requireHibernateSupport: Bool?
         /// The price protection threshold for Spot Instances. This is the maximum you’ll pay for a Spot Instance, expressed as a percentage higher than the least expensive current generation M, C, or R instance type with your specified attributes. When Amazon EC2 Auto Scaling selects instance types with your attributes, we will exclude instance types whose price is higher than your threshold. The parameter accepts an integer, which Amazon EC2 Auto Scaling interprets as a percentage. To turn off price protection, specify a high value, such as 999999.  If you set DesiredCapacityType to vcpu or memory-mib, the price protection threshold is applied based on the per vCPU or per memory price instead of the per instance price.  Default: 100
         public let spotMaxPricePercentageOverLowestPrice: Int?
-        /// The minimum and maximum total local storage size for an instance type, in GB. Default: No minimum or maximum
+        /// The minimum and maximum total local storage size for an instance type, in GB. Default: No minimum or maximum limits
         public let totalLocalStorageGB: TotalLocalStorageGBRequest?
         /// The minimum and maximum number of vCPUs for an instance type.
         public let vCpuCount: VCpuCountRequest
 
-        public init(acceleratorCount: AcceleratorCountRequest? = nil, acceleratorManufacturers: [AcceleratorManufacturer]? = nil, acceleratorNames: [AcceleratorName]? = nil, acceleratorTotalMemoryMiB: AcceleratorTotalMemoryMiBRequest? = nil, acceleratorTypes: [AcceleratorType]? = nil, bareMetal: BareMetal? = nil, baselineEbsBandwidthMbps: BaselineEbsBandwidthMbpsRequest? = nil, burstablePerformance: BurstablePerformance? = nil, cpuManufacturers: [CpuManufacturer]? = nil, excludedInstanceTypes: [String]? = nil, instanceGenerations: [InstanceGeneration]? = nil, localStorage: LocalStorage? = nil, localStorageTypes: [LocalStorageType]? = nil, memoryGiBPerVCpu: MemoryGiBPerVCpuRequest? = nil, memoryMiB: MemoryMiBRequest, networkInterfaceCount: NetworkInterfaceCountRequest? = nil, onDemandMaxPricePercentageOverLowestPrice: Int? = nil, requireHibernateSupport: Bool? = nil, spotMaxPricePercentageOverLowestPrice: Int? = nil, totalLocalStorageGB: TotalLocalStorageGBRequest? = nil, vCpuCount: VCpuCountRequest) {
+        public init(acceleratorCount: AcceleratorCountRequest? = nil, acceleratorManufacturers: [AcceleratorManufacturer]? = nil, acceleratorNames: [AcceleratorName]? = nil, acceleratorTotalMemoryMiB: AcceleratorTotalMemoryMiBRequest? = nil, acceleratorTypes: [AcceleratorType]? = nil, allowedInstanceTypes: [String]? = nil, bareMetal: BareMetal? = nil, baselineEbsBandwidthMbps: BaselineEbsBandwidthMbpsRequest? = nil, burstablePerformance: BurstablePerformance? = nil, cpuManufacturers: [CpuManufacturer]? = nil, excludedInstanceTypes: [String]? = nil, instanceGenerations: [InstanceGeneration]? = nil, localStorage: LocalStorage? = nil, localStorageTypes: [LocalStorageType]? = nil, memoryGiBPerVCpu: MemoryGiBPerVCpuRequest? = nil, memoryMiB: MemoryMiBRequest, networkBandwidthGbps: NetworkBandwidthGbpsRequest? = nil, networkInterfaceCount: NetworkInterfaceCountRequest? = nil, onDemandMaxPricePercentageOverLowestPrice: Int? = nil, requireHibernateSupport: Bool? = nil, spotMaxPricePercentageOverLowestPrice: Int? = nil, totalLocalStorageGB: TotalLocalStorageGBRequest? = nil, vCpuCount: VCpuCountRequest) {
             self.acceleratorCount = acceleratorCount
             self.acceleratorManufacturers = acceleratorManufacturers
             self.acceleratorNames = acceleratorNames
             self.acceleratorTotalMemoryMiB = acceleratorTotalMemoryMiB
             self.acceleratorTypes = acceleratorTypes
+            self.allowedInstanceTypes = allowedInstanceTypes
             self.bareMetal = bareMetal
             self.baselineEbsBandwidthMbps = baselineEbsBandwidthMbps
             self.burstablePerformance = burstablePerformance
@@ -2867,6 +2873,7 @@ extension AutoScaling {
             self.localStorageTypes = localStorageTypes
             self.memoryGiBPerVCpu = memoryGiBPerVCpu
             self.memoryMiB = memoryMiB
+            self.networkBandwidthGbps = networkBandwidthGbps
             self.networkInterfaceCount = networkInterfaceCount
             self.onDemandMaxPricePercentageOverLowestPrice = onDemandMaxPricePercentageOverLowestPrice
             self.requireHibernateSupport = requireHibernateSupport
@@ -2878,6 +2885,12 @@ extension AutoScaling {
         public func validate(name: String) throws {
             try self.acceleratorCount?.validate(name: "\(name).acceleratorCount")
             try self.acceleratorTotalMemoryMiB?.validate(name: "\(name).acceleratorTotalMemoryMiB")
+            try self.allowedInstanceTypes?.forEach {
+                try validate($0, name: "allowedInstanceTypes[]", parent: name, max: 30)
+                try validate($0, name: "allowedInstanceTypes[]", parent: name, min: 1)
+                try validate($0, name: "allowedInstanceTypes[]", parent: name, pattern: "^[a-zA-Z0-9\\.\\*]+$")
+            }
+            try self.validate(self.allowedInstanceTypes, name: "allowedInstanceTypes", parent: name, max: 400)
             try self.baselineEbsBandwidthMbps?.validate(name: "\(name).baselineEbsBandwidthMbps")
             try self.excludedInstanceTypes?.forEach {
                 try validate($0, name: "excludedInstanceTypes[]", parent: name, max: 30)
@@ -2887,6 +2900,7 @@ extension AutoScaling {
             try self.validate(self.excludedInstanceTypes, name: "excludedInstanceTypes", parent: name, max: 400)
             try self.memoryGiBPerVCpu?.validate(name: "\(name).memoryGiBPerVCpu")
             try self.memoryMiB.validate(name: "\(name).memoryMiB")
+            try self.networkBandwidthGbps?.validate(name: "\(name).networkBandwidthGbps")
             try self.networkInterfaceCount?.validate(name: "\(name).networkInterfaceCount")
             try self.validate(self.onDemandMaxPricePercentageOverLowestPrice, name: "onDemandMaxPricePercentageOverLowestPrice", parent: name, min: 0)
             try self.validate(self.spotMaxPricePercentageOverLowestPrice, name: "spotMaxPricePercentageOverLowestPrice", parent: name, min: 0)
@@ -2900,6 +2914,7 @@ extension AutoScaling {
             case acceleratorNames = "AcceleratorNames"
             case acceleratorTotalMemoryMiB = "AcceleratorTotalMemoryMiB"
             case acceleratorTypes = "AcceleratorTypes"
+            case allowedInstanceTypes = "AllowedInstanceTypes"
             case bareMetal = "BareMetal"
             case baselineEbsBandwidthMbps = "BaselineEbsBandwidthMbps"
             case burstablePerformance = "BurstablePerformance"
@@ -2910,6 +2925,7 @@ extension AutoScaling {
             case localStorageTypes = "LocalStorageTypes"
             case memoryGiBPerVCpu = "MemoryGiBPerVCpu"
             case memoryMiB = "MemoryMiB"
+            case networkBandwidthGbps = "NetworkBandwidthGbps"
             case networkInterfaceCount = "NetworkInterfaceCount"
             case onDemandMaxPricePercentageOverLowestPrice = "OnDemandMaxPricePercentageOverLowestPrice"
             case requireHibernateSupport = "RequireHibernateSupport"
@@ -2933,17 +2949,17 @@ extension AutoScaling {
     }
 
     public struct InstancesDistribution: AWSEncodableShape & AWSDecodableShape {
-        /// The order of the launch template overrides to use in fulfilling On-Demand capacity.  If you specify lowest-price, Amazon EC2 Auto Scaling uses price to determine the order, launching the lowest price first.  If you specify prioritized, Amazon EC2 Auto Scaling uses the priority that you assigned to each launch template override, launching the highest priority first. If all your On-Demand capacity cannot be fulfilled using your highest priority instance, then Amazon EC2 Auto Scaling launches the remaining capacity using the second priority instance type, and so on. Default: lowest-price for Auto Scaling groups that specify InstanceRequirements in the overrides and prioritized for Auto Scaling groups that don't. Valid values: lowest-price | prioritized
+        /// The allocation strategy to apply to your On-Demand Instances when they are launched. Possible instance types are determined by the launch template overrides that you specify. The following lists the valid values:  lowest-price  Uses price to determine which instance types are the highest priority, launching the lowest priced instance types within an Availability Zone first. This is the default value for Auto Scaling groups that specify InstanceRequirements.   prioritized  You set the order of instance types for the launch template overrides from highest to lowest priority (from first to last in the list). Amazon EC2 Auto Scaling launches your highest priority instance types first. If all your On-Demand capacity cannot be fulfilled using your highest priority instance type, then Amazon EC2 Auto Scaling launches the remaining capacity using the second priority instance type, and so on. This is the default value for Auto Scaling groups that don't specify InstanceRequirements and cannot be used for groups that do.
         public let onDemandAllocationStrategy: String?
-        /// The minimum amount of the Auto Scaling group's capacity that must be fulfilled by On-Demand Instances. This base portion is launched first as your group scales. If you specify weights for the instance types in the overrides, the base capacity is measured in the same unit of measurement as the instance types. If you specify InstanceRequirements in the overrides, the base capacity is measured in the same unit of measurement as your group's desired capacity. Default: 0
+        /// The minimum amount of the Auto Scaling group's capacity that must be fulfilled by On-Demand Instances. This base portion is launched first as your group scales. This number has the same unit of measurement as the group's desired capacity. If you change the default unit of measurement (number of instances) by specifying weighted capacity values in your launch template overrides list, or by changing the default desired capacity type setting of the group, you must specify this number using the same unit of measurement. Default: 0
         public let onDemandBaseCapacity: Int?
         /// Controls the percentages of On-Demand Instances and Spot Instances for your additional capacity beyond OnDemandBaseCapacity. Expressed as a number (for example, 20 specifies 20% On-Demand Instances, 80% Spot Instances). If set to 100, only On-Demand Instances are used. Default: 100
         public let onDemandPercentageAboveBaseCapacity: Int?
-        /// Indicates how to allocate instances across Spot Instance pools.  If the allocation strategy is lowest-price, the Auto Scaling group launches instances using the Spot pools with the lowest price, and evenly allocates your instances across the number of Spot pools that you specify.  If the allocation strategy is capacity-optimized (recommended), the Auto Scaling group launches instances using Spot pools that are optimally chosen based on the available Spot capacity. Alternatively, you can use capacity-optimized-prioritized and set the order of instance types in the list of launch template overrides from highest to lowest priority (from first to last in the list). Amazon EC2 Auto Scaling honors the instance type priorities on a best-effort basis but optimizes for capacity first.  Default: lowest-price  Valid values: lowest-price | capacity-optimized | capacity-optimized-prioritized
+        /// The allocation strategy to apply to your Spot Instances when they are launched. Possible instance types are determined by the launch template overrides that you specify. The following lists the valid values:  capacity-optimized  Requests Spot Instances using pools that are optimally chosen based on the available Spot capacity. This strategy has the lowest risk of interruption. To give certain instance types a higher chance of launching first, use capacity-optimized-prioritized.  capacity-optimized-prioritized  You set the order of instance types for the launch template overrides from highest to lowest priority (from first to last in the list). Amazon EC2 Auto Scaling honors the instance type priorities on a best effort basis but optimizes for capacity first. Note that if the On-Demand allocation strategy is set to prioritized, the same priority is applied when fulfilling On-Demand capacity. This is not a valid value for Auto Scaling groups that specify InstanceRequirements.  lowest-price  Requests Spot Instances using the lowest priced pools within an Availability Zone, across the number of Spot pools that you specify for the SpotInstancePools property. To ensure that your desired capacity is met, you might receive Spot Instances from several pools. This is the default value, but it might lead to high interruption rates because this strategy only considers instance price and not available capacity.  price-capacity-optimized (recommended)  Amazon EC2 Auto Scaling identifies the pools with the highest capacity availability for the number of instances that are launching. This means that we will request Spot Instances from the pools that we believe have the lowest chance of interruption in the near term. Amazon EC2 Auto Scaling then requests Spot Instances from the lowest priced of these pools.
         public let spotAllocationStrategy: String?
-        /// The number of Spot Instance pools across which to allocate your Spot Instances. The Spot pools are determined from the different instance types in the overrides. Valid only when the Spot allocation strategy is lowest-price. Value must be in the range of 1–20. Default: 2
+        /// The number of Spot Instance pools across which to allocate your Spot Instances. The Spot pools are determined from the different instance types in the overrides. Valid only when the SpotAllocationStrategy is lowest-price. Value must be in the range of 1–20. Default: 2
         public let spotInstancePools: Int?
-        /// The maximum price per unit hour that you are willing to pay for a Spot Instance. If you keep the value at its default (unspecified), Amazon EC2 Auto Scaling uses the On-Demand price as the maximum Spot price. To remove a value that you previously set, include the property but specify an empty string ("") for the value.  If your maximum price is lower than the Spot price for the instance types that you selected, your Spot Instances are not launched.  Valid Range: Minimum value of 0.001
+        /// The maximum price per unit hour that you are willing to pay for a Spot Instance. If your maximum price is lower than the Spot price for the instance types that you selected, your Spot Instances are not launched. We do not recommend specifying a maximum price because it can lead to increased interruptions. When Spot Instances launch, you pay the current Spot price. To remove a maximum price that you previously set, include the property but specify an empty string ("") for the value.  If you specify a maximum price, your instances will be interrupted more frequently than if you do not specify one.  Valid Range: Minimum value of 0.001
         public let spotMaxPrice: String?
 
         public init(onDemandAllocationStrategy: String? = nil, onDemandBaseCapacity: Int? = nil, onDemandPercentageAboveBaseCapacity: Int? = nil, spotAllocationStrategy: String? = nil, spotInstancePools: Int? = nil, spotMaxPrice: String? = nil) {
@@ -2977,9 +2993,9 @@ extension AutoScaling {
         /// The block device mapping entries that define the block devices to attach to the instances at launch. By default, the block devices specified in the block device mapping for the AMI are used. For more information, see Block Device Mapping in the Amazon EC2 User Guide for Linux Instances.
         @OptionalCustomCoding<StandardArrayCoder>
         public var blockDeviceMappings: [BlockDeviceMapping]?
-        ///  EC2-Classic retires on August 15, 2022. This property is not supported after that date.  The ID of a ClassicLink-enabled VPC to link your EC2-Classic instances to.
+        /// Available for backward compatibility.
         public let classicLinkVPCId: String?
-        ///  EC2-Classic retires on August 15, 2022. This property is not supported after that date.  The IDs of one or more security groups for the VPC specified in ClassicLinkVPCId.
+        /// Available for backward compatibility.
         @OptionalCustomCoding<StandardArrayCoder>
         public var classicLinkVPCSecurityGroups: [String]?
         /// The creation date and time for the launch configuration.
@@ -3132,9 +3148,9 @@ extension AutoScaling {
     }
 
     public struct LaunchTemplate: AWSEncodableShape & AWSDecodableShape {
-        /// The launch template to use.
+        /// The launch template.
         public let launchTemplateSpecification: LaunchTemplateSpecification?
-        /// Any properties that you specify override the same properties in the launch template. If not provided, Amazon EC2 Auto Scaling uses the instance type or instance type requirements specified in the launch template when it launches an instance. The overrides can include either one or more instance types or a set of instance requirements, but not both.
+        /// Any properties that you specify override the same properties in the launch template.
         @OptionalCustomCoding<StandardArrayCoder>
         public var overrides: [LaunchTemplateOverrides]?
 
@@ -3157,13 +3173,13 @@ extension AutoScaling {
     }
 
     public struct LaunchTemplateOverrides: AWSEncodableShape & AWSDecodableShape {
-        /// The instance requirements. When you specify instance requirements, Amazon EC2 Auto Scaling finds instance types that satisfy your requirements, and then uses your On-Demand and Spot allocation strategies to launch instances from these instance types, in the same way as when you specify a list of specific instance types.
+        /// The instance requirements. Amazon EC2 Auto Scaling uses your specified requirements to identify instance types. Then, it uses your On-Demand and Spot allocation strategies to launch instances from these instance types. You can specify up to four separate sets of instance requirements per Auto Scaling group. This is useful for provisioning instances from different Amazon Machine Images (AMIs) in the same Auto Scaling group. To do this, create the AMIs and create a new launch template for each AMI. Then, create a compatible set of instance requirements for each launch template.   If you specify InstanceRequirements, you can't specify InstanceType.
         public let instanceRequirements: InstanceRequirements?
-        /// The instance type, such as m3.xlarge. You must use an instance type that is supported in your requested Region and Availability Zones. For more information, see Instance types in the Amazon Elastic Compute Cloud User Guide.
+        /// The instance type, such as m3.xlarge. You must specify an instance type that is supported in your requested Region and Availability Zones. For more information, see Instance types in the Amazon Elastic Compute Cloud User Guide. You can specify up to 40 instance types per Auto Scaling group.
         public let instanceType: String?
-        /// Provides a launch template for the specified instance type or instance requirements. For example, some instance types might require a launch template with a different AMI. If not provided, Amazon EC2 Auto Scaling uses the launch template that's defined for your mixed instances policy. For more information, see Specifying a different launch template for an instance type in the Amazon EC2 Auto Scaling User Guide.
+        /// Provides a launch template for the specified instance type or set of instance requirements. For example, some instance types might require a launch template with a different AMI. If not provided, Amazon EC2 Auto Scaling uses the launch template that's specified in the LaunchTemplate definition. For more information, see Specifying a different launch template for an instance type in the Amazon EC2 Auto Scaling User Guide.  You can specify up to 20 launch templates per Auto Scaling group. The launch templates specified in the overrides and in the LaunchTemplate definition count towards this limit.
         public let launchTemplateSpecification: LaunchTemplateSpecification?
-        /// The number of capacity units provided by the instance type specified in InstanceType in terms of virtual CPUs, memory, storage, throughput, or other relative performance characteristic. When a Spot or On-Demand Instance is launched, the capacity units count toward the desired capacity. Amazon EC2 Auto Scaling launches instances until the desired capacity is totally fulfilled, even if this results in an overage. For example, if there are two units remaining to fulfill capacity, and Amazon EC2 Auto Scaling can only launch an instance with a WeightedCapacity of five units, the instance is launched, and the desired capacity is exceeded by three units. For more information, see Configuring instance weighting for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide. Value must be in the range of 1–999.
+        /// If you provide a list of instance types to use, you can specify the number of capacity units provided by each instance type in terms of virtual CPUs, memory, storage, throughput, or other relative performance characteristic. When a Spot or On-Demand Instance is launched, the capacity units count toward the desired capacity. Amazon EC2 Auto Scaling launches instances until the desired capacity is totally fulfilled, even if this results in an overage. For example, if there are two units remaining to fulfill capacity, and Amazon EC2 Auto Scaling can only launch an instance with a WeightedCapacity of five units, the instance is launched, and the desired capacity is exceeded by three units. For more information, see Configuring instance weighting for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide. Value must be in the range of 1–999. If you specify a value for WeightedCapacity for one instance type, you must specify a value for WeightedCapacity for all of them.  Every Auto Scaling group has three size parameters (DesiredCapacity, MaxSize, and MinSize). Usually, you set these sizes based on a specific number of instances. However, if you configure a mixed instances policy that defines weights for the instance types, you must specify these sizes with the same units that you use for weighting instances.
         public let weightedCapacity: String?
 
         public init(instanceRequirements: InstanceRequirements? = nil, instanceType: String? = nil, launchTemplateSpecification: LaunchTemplateSpecification? = nil, weightedCapacity: String? = nil) {
@@ -3574,6 +3590,28 @@ extension AutoScaling {
         private enum CodingKeys: String, CodingKey {
             case instancesDistribution = "InstancesDistribution"
             case launchTemplate = "LaunchTemplate"
+        }
+    }
+
+    public struct NetworkBandwidthGbpsRequest: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum amount of network bandwidth, in gigabits per second (Gbps).
+        public let max: Double?
+        /// The minimum amount of network bandwidth, in gigabits per second (Gbps).
+        public let min: Double?
+
+        public init(max: Double? = nil, min: Double? = nil) {
+            self.max = max
+            self.min = min
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.max, name: "max", parent: name, min: 0.0)
+            try self.validate(self.min, name: "min", parent: name, min: 0.0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case max = "Max"
+            case min = "Min"
         }
     }
 
@@ -4878,7 +4916,7 @@ extension AutoScaling {
         public let desiredCapacity: Int?
         /// The unit of measurement for the value specified for desired capacity. Amazon EC2 Auto Scaling supports DesiredCapacityType for attribute-based instance type selection only. For more information, see Creating an Auto Scaling group using attribute-based instance type selection in the Amazon EC2 Auto Scaling User Guide. By default, Amazon EC2 Auto Scaling specifies units, which translates into number of instances. Valid values: units | vcpu | memory-mib
         public let desiredCapacityType: String?
-        /// The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before checking the health status of an EC2 instance that has come into service and marking it unhealthy due to a failed Elastic Load Balancing or custom health check. This is useful if your instances do not immediately pass these health checks after they enter the InService state. For more information, see Health check grace period in the Amazon EC2 Auto Scaling User Guide.
+        /// The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before checking the health status of an EC2 instance that has come into service and marking it unhealthy due to a failed Elastic Load Balancing or custom health check. This is useful if your instances do not immediately pass these health checks after they enter the InService state. For more information, see Set the health check grace period for an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.
         public let healthCheckGracePeriod: Int?
         /// The service to use for the health checks. The valid values are EC2 and ELB. If you configure an Auto Scaling group to use ELB health checks, it considers the instance unhealthy if it fails either the EC2 status checks or the load balancer health checks.
         public let healthCheckType: String?
@@ -4892,7 +4930,7 @@ extension AutoScaling {
         public let maxSize: Int?
         /// The minimum size of the Auto Scaling group.
         public let minSize: Int?
-        /// An embedded object that specifies a mixed instances policy. For more information, see Auto Scaling groups with multiple instance types and purchase options in the Amazon EC2 Auto Scaling User Guide.
+        /// The mixed instances policy. For more information, see Auto Scaling groups with multiple instance types and purchase options in the Amazon EC2 Auto Scaling User Guide.
         public let mixedInstancesPolicy: MixedInstancesPolicy?
         /// Indicates whether newly launched instances are protected from termination by Amazon EC2 Auto Scaling when scaling in. For more information about preventing instances from terminating on scale in, see Using instance scale-in protection in the Amazon EC2 Auto Scaling User Guide.
         public let newInstancesProtectedFromScaleIn: Bool?

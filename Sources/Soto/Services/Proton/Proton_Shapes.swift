@@ -60,6 +60,31 @@ extension Proton {
         public var description: String { return self.rawValue }
     }
 
+    public enum ListServiceInstancesFilterBy: String, CustomStringConvertible, Codable, _SotoSendable {
+        case createdAtAfter
+        case createdAtBefore
+        case deployedTemplateVersionStatus
+        case deploymentStatus
+        case environmentName
+        case lastDeploymentAttemptedAtAfter
+        case lastDeploymentAttemptedAtBefore
+        case name
+        case serviceName
+        case templateName
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ListServiceInstancesSortBy: String, CustomStringConvertible, Codable, _SotoSendable {
+        case createdAt
+        case deploymentStatus
+        case environmentName
+        case lastDeploymentAttemptedAt
+        case name
+        case serviceName
+        case templateName
+        public var description: String { return self.rawValue }
+    }
+
     public enum ProvisionedResourceEngine: String, CustomStringConvertible, Codable, _SotoSendable {
         case cloudformation = "CLOUDFORMATION"
         case terraform = "TERRAFORM"
@@ -134,6 +159,12 @@ extension Proton {
         public var description: String { return self.rawValue }
     }
 
+    public enum SortOrder: String, CustomStringConvertible, Codable, _SotoSendable {
+        case ascending = "ASCENDING"
+        case descending = "DESCENDING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SyncType: String, CustomStringConvertible, Codable, _SotoSendable {
         case templateSync = "TEMPLATE_SYNC"
         public var description: String { return self.rawValue }
@@ -186,17 +217,21 @@ extension Proton {
     }
 
     public struct AccountSettings: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the service role that Proton uses for provisioning pipelines. Proton assumes this role for CodeBuild-based provisioning.
+        public let pipelineCodebuildRoleArn: String?
         /// The linked repository for pipeline provisioning. Required if you have environments configured for self-managed provisioning with services that include pipelines. A linked repository is a repository that has been registered with Proton. For more information, see CreateRepository.
         public let pipelineProvisioningRepository: RepositoryBranch?
         /// The Amazon Resource Name (ARN) of the service role you want to use for provisioning pipelines. Assumed by Proton for Amazon Web Services-managed provisioning, and by customer-owned automation for self-managed provisioning.
         public let pipelineServiceRoleArn: String?
 
-        public init(pipelineProvisioningRepository: RepositoryBranch? = nil, pipelineServiceRoleArn: String? = nil) {
+        public init(pipelineCodebuildRoleArn: String? = nil, pipelineProvisioningRepository: RepositoryBranch? = nil, pipelineServiceRoleArn: String? = nil) {
+            self.pipelineCodebuildRoleArn = pipelineCodebuildRoleArn
             self.pipelineProvisioningRepository = pipelineProvisioningRepository
             self.pipelineServiceRoleArn = pipelineServiceRoleArn
         }
 
         private enum CodingKeys: String, CodingKey {
+            case pipelineCodebuildRoleArn
             case pipelineProvisioningRepository
             case pipelineServiceRoleArn
         }
@@ -581,6 +616,8 @@ extension Proton {
     public struct CreateEnvironmentAccountConnectionInput: AWSEncodableShape {
         /// When included, if two identical requests are made with the same client token, Proton returns the environment account connection that the first request created.
         public let clientToken: String?
+        /// The Amazon Resource Name (ARN) of an IAM service role in the environment account. Proton uses this role to provision infrastructure resources using CodeBuild-based provisioning in the associated environment account.
+        public let codebuildRoleArn: String?
         /// The Amazon Resource Name (ARN) of the IAM service role that Proton uses when provisioning directly defined components in the associated environment account. It determines the scope of infrastructure that a component can provision in the account. You must specify componentRoleArn to allow directly defined components to be associated with any environments running in this account. For more information about components, see Proton components in the Proton User Guide.
         public let componentRoleArn: String?
         /// The name of the Proton environment that's created in the associated management account.
@@ -592,8 +629,9 @@ extension Proton {
         /// An optional list of metadata items that you can associate with the Proton environment account connection. A tag is a key-value pair. For more information, see Proton resources and tagging in the Proton User Guide.
         public let tags: [Tag]?
 
-        public init(clientToken: String? = CreateEnvironmentAccountConnectionInput.idempotencyToken(), componentRoleArn: String? = nil, environmentName: String, managementAccountId: String, roleArn: String, tags: [Tag]? = nil) {
+        public init(clientToken: String? = CreateEnvironmentAccountConnectionInput.idempotencyToken(), codebuildRoleArn: String? = nil, componentRoleArn: String? = nil, environmentName: String, managementAccountId: String, roleArn: String, tags: [Tag]? = nil) {
             self.clientToken = clientToken
+            self.codebuildRoleArn = codebuildRoleArn
             self.componentRoleArn = componentRoleArn
             self.environmentName = environmentName
             self.managementAccountId = managementAccountId
@@ -604,14 +642,19 @@ extension Proton {
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]*$")
-            try self.validate(self.componentRoleArn, name: "componentRoleArn", parent: name, max: 200)
+            try self.validate(self.codebuildRoleArn, name: "codebuildRoleArn", parent: name, max: 2048)
+            try self.validate(self.codebuildRoleArn, name: "codebuildRoleArn", parent: name, min: 1)
+            try self.validate(self.codebuildRoleArn, name: "codebuildRoleArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):iam::\\d{12}:role/([\\w+=,.@-]{1,512}[/:])*([\\w+=,.@-]{1,64})$")
+            try self.validate(self.componentRoleArn, name: "componentRoleArn", parent: name, max: 2048)
             try self.validate(self.componentRoleArn, name: "componentRoleArn", parent: name, min: 1)
+            try self.validate(self.componentRoleArn, name: "componentRoleArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):iam::\\d{12}:role/([\\w+=,.@-]{1,512}[/:])*([\\w+=,.@-]{1,64})$")
             try self.validate(self.environmentName, name: "environmentName", parent: name, max: 100)
             try self.validate(self.environmentName, name: "environmentName", parent: name, min: 1)
             try self.validate(self.environmentName, name: "environmentName", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
             try self.validate(self.managementAccountId, name: "managementAccountId", parent: name, pattern: "^\\d{12}$")
-            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 200)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):iam::\\d{12}:role/([\\w+=,.@-]{1,512}[/:])*([\\w+=,.@-]{1,64})$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -620,6 +663,7 @@ extension Proton {
 
         private enum CodingKeys: String, CodingKey {
             case clientToken
+            case codebuildRoleArn
             case componentRoleArn
             case environmentName
             case managementAccountId
@@ -642,6 +686,8 @@ extension Proton {
     }
 
     public struct CreateEnvironmentInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the IAM service role that allows Proton to provision infrastructure using CodeBuild-based provisioning on your behalf. To use CodeBuild-based provisioning for the environment or for any service instance running in the environment, specify either the environmentAccountConnectionId or codebuildRoleArn parameter.
+        public let codebuildRoleArn: String?
         /// The Amazon Resource Name (ARN) of the IAM service role that Proton uses when provisioning directly defined components in this environment. It determines the scope of infrastructure that a component can provision. You must specify componentRoleArn to allow directly defined components to be associated with this environment. For more information about components, see Proton components in the Proton User Guide.
         public let componentRoleArn: String?
         /// A description of the environment that's being created and deployed.
@@ -665,7 +711,8 @@ extension Proton {
         /// The name of the environment template. For more information, see Environment Templates in the Proton User Guide.
         public let templateName: String
 
-        public init(componentRoleArn: String? = nil, description: String? = nil, environmentAccountConnectionId: String? = nil, name: String, protonServiceRoleArn: String? = nil, provisioningRepository: RepositoryBranchInput? = nil, spec: String, tags: [Tag]? = nil, templateMajorVersion: String, templateMinorVersion: String? = nil, templateName: String) {
+        public init(codebuildRoleArn: String? = nil, componentRoleArn: String? = nil, description: String? = nil, environmentAccountConnectionId: String? = nil, name: String, protonServiceRoleArn: String? = nil, provisioningRepository: RepositoryBranchInput? = nil, spec: String, tags: [Tag]? = nil, templateMajorVersion: String, templateMinorVersion: String? = nil, templateName: String) {
+            self.codebuildRoleArn = codebuildRoleArn
             self.componentRoleArn = componentRoleArn
             self.description = description
             self.environmentAccountConnectionId = environmentAccountConnectionId
@@ -680,8 +727,12 @@ extension Proton {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.componentRoleArn, name: "componentRoleArn", parent: name, max: 200)
+            try self.validate(self.codebuildRoleArn, name: "codebuildRoleArn", parent: name, max: 2048)
+            try self.validate(self.codebuildRoleArn, name: "codebuildRoleArn", parent: name, min: 1)
+            try self.validate(self.codebuildRoleArn, name: "codebuildRoleArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):iam::\\d{12}:role/([\\w+=,.@-]{1,512}[/:])*([\\w+=,.@-]{1,64})$")
+            try self.validate(self.componentRoleArn, name: "componentRoleArn", parent: name, max: 2048)
             try self.validate(self.componentRoleArn, name: "componentRoleArn", parent: name, min: 1)
+            try self.validate(self.componentRoleArn, name: "componentRoleArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):iam::\\d{12}:role/([\\w+=,.@-]{1,512}[/:])*([\\w+=,.@-]{1,64})$")
             try self.validate(self.description, name: "description", parent: name, max: 500)
             try self.validate(self.environmentAccountConnectionId, name: "environmentAccountConnectionId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.name, name: "name", parent: name, max: 100)
@@ -689,6 +740,7 @@ extension Proton {
             try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
             try self.validate(self.protonServiceRoleArn, name: "protonServiceRoleArn", parent: name, max: 200)
             try self.validate(self.protonServiceRoleArn, name: "protonServiceRoleArn", parent: name, min: 1)
+            try self.validate(self.protonServiceRoleArn, name: "protonServiceRoleArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):[a-zA-Z0-9-]+:[a-zA-Z0-9-]*:\\d{12}:([\\w+=,.@-]+[/:])*[\\w+=,.@-]+$")
             try self.provisioningRepository?.validate(name: "\(name).provisioningRepository")
             try self.validate(self.spec, name: "spec", parent: name, max: 51200)
             try self.validate(self.spec, name: "spec", parent: name, min: 1)
@@ -708,6 +760,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case codebuildRoleArn
             case componentRoleArn
             case description
             case environmentAccountConnectionId
@@ -764,6 +817,7 @@ extension Proton {
             try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
             try self.validate(self.encryptionKey, name: "encryptionKey", parent: name, max: 200)
             try self.validate(self.encryptionKey, name: "encryptionKey", parent: name, min: 1)
+            try self.validate(self.encryptionKey, name: "encryptionKey", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):[a-zA-Z0-9-]+:[a-zA-Z0-9-]*:\\d{12}:([\\w+=,.@-]+[/:])*[\\w+=,.@-]+$")
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
@@ -882,8 +936,10 @@ extension Proton {
         public func validate(name: String) throws {
             try self.validate(self.connectionArn, name: "connectionArn", parent: name, max: 200)
             try self.validate(self.connectionArn, name: "connectionArn", parent: name, min: 1)
+            try self.validate(self.connectionArn, name: "connectionArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):[a-zA-Z0-9-]+:[a-zA-Z0-9-]*:\\d{12}:([\\w+=,.@-]+[/:])*[\\w+=,.@-]+$")
             try self.validate(self.encryptionKey, name: "encryptionKey", parent: name, max: 200)
             try self.validate(self.encryptionKey, name: "encryptionKey", parent: name, min: 1)
+            try self.validate(self.encryptionKey, name: "encryptionKey", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):[a-zA-Z0-9-]+:[a-zA-Z0-9-]*:\\d{12}:([\\w+=,.@-]+[/:])*[\\w+=,.@-]+$")
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[A-Za-z0-9_.-].*/[A-Za-z0-9_.-].*")
@@ -959,6 +1015,7 @@ extension Proton {
             try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
             try self.validate(self.repositoryConnectionArn, name: "repositoryConnectionArn", parent: name, max: 200)
             try self.validate(self.repositoryConnectionArn, name: "repositoryConnectionArn", parent: name, min: 1)
+            try self.validate(self.repositoryConnectionArn, name: "repositoryConnectionArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):[a-zA-Z0-9-]+:[a-zA-Z0-9-]*:\\d{12}:([\\w+=,.@-]+[/:])*[\\w+=,.@-]+$")
             try self.validate(self.repositoryId, name: "repositoryId", parent: name, max: 200)
             try self.validate(self.repositoryId, name: "repositoryId", parent: name, min: 1)
             try self.validate(self.spec, name: "spec", parent: name, max: 51200)
@@ -1034,6 +1091,7 @@ extension Proton {
             try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
             try self.validate(self.encryptionKey, name: "encryptionKey", parent: name, max: 200)
             try self.validate(self.encryptionKey, name: "encryptionKey", parent: name, min: 1)
+            try self.validate(self.encryptionKey, name: "encryptionKey", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):[a-zA-Z0-9-]+:[a-zA-Z0-9-]*:\\d{12}:([\\w+=,.@-]+[/:])*[\\w+=,.@-]+$")
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
@@ -1558,6 +1616,8 @@ extension Proton {
     public struct Environment: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the environment.
         public let arn: String
+        /// The Amazon Resource Name (ARN) of the IAM service role that allows Proton to provision infrastructure using CodeBuild-based provisioning on your behalf.
+        public let codebuildRoleArn: String?
         /// The Amazon Resource Name (ARN) of the IAM service role that Proton uses when provisioning directly defined components in this environment. It determines the scope of infrastructure that a component can provision. The environment must have a componentRoleArn to allow directly defined components to be associated with the environment. For more information about components, see Proton components in the Proton User Guide.
         public let componentRoleArn: String?
         /// The time when the environment was created.
@@ -1593,8 +1653,9 @@ extension Proton {
         /// The Amazon Resource Name (ARN) of the environment template.
         public let templateName: String
 
-        public init(arn: String, componentRoleArn: String? = nil, createdAt: Date, deploymentStatus: DeploymentStatus, deploymentStatusMessage: String? = nil, description: String? = nil, environmentAccountConnectionId: String? = nil, environmentAccountId: String? = nil, lastDeploymentAttemptedAt: Date, lastDeploymentSucceededAt: Date, name: String, protonServiceRoleArn: String? = nil, provisioning: Provisioning? = nil, provisioningRepository: RepositoryBranch? = nil, spec: String? = nil, templateMajorVersion: String, templateMinorVersion: String, templateName: String) {
+        public init(arn: String, codebuildRoleArn: String? = nil, componentRoleArn: String? = nil, createdAt: Date, deploymentStatus: DeploymentStatus, deploymentStatusMessage: String? = nil, description: String? = nil, environmentAccountConnectionId: String? = nil, environmentAccountId: String? = nil, lastDeploymentAttemptedAt: Date, lastDeploymentSucceededAt: Date, name: String, protonServiceRoleArn: String? = nil, provisioning: Provisioning? = nil, provisioningRepository: RepositoryBranch? = nil, spec: String? = nil, templateMajorVersion: String, templateMinorVersion: String, templateName: String) {
             self.arn = arn
+            self.codebuildRoleArn = codebuildRoleArn
             self.componentRoleArn = componentRoleArn
             self.createdAt = createdAt
             self.deploymentStatus = deploymentStatus
@@ -1616,6 +1677,7 @@ extension Proton {
 
         private enum CodingKeys: String, CodingKey {
             case arn
+            case codebuildRoleArn
             case componentRoleArn
             case createdAt
             case deploymentStatus
@@ -1639,6 +1701,8 @@ extension Proton {
     public struct EnvironmentAccountConnection: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the environment account connection.
         public let arn: String
+        /// The Amazon Resource Name (ARN) of an IAM service role in the environment account. Proton uses this role to provision infrastructure resources using CodeBuild-based provisioning in the associated environment account.
+        public let codebuildRoleArn: String?
         /// The Amazon Resource Name (ARN) of the IAM service role that Proton uses when provisioning directly defined components in the associated environment account. It determines the scope of infrastructure that a component can provision in the account. The environment account connection must have a componentRoleArn to allow directly defined components to be associated with any environments running in the account. For more information about components, see Proton components in the Proton User Guide.
         public let componentRoleArn: String?
         /// The environment account that's connected to the environment account connection.
@@ -1658,8 +1722,9 @@ extension Proton {
         /// The status of the environment account connection.
         public let status: EnvironmentAccountConnectionStatus
 
-        public init(arn: String, componentRoleArn: String? = nil, environmentAccountId: String, environmentName: String, id: String, lastModifiedAt: Date, managementAccountId: String, requestedAt: Date, roleArn: String, status: EnvironmentAccountConnectionStatus) {
+        public init(arn: String, codebuildRoleArn: String? = nil, componentRoleArn: String? = nil, environmentAccountId: String, environmentName: String, id: String, lastModifiedAt: Date, managementAccountId: String, requestedAt: Date, roleArn: String, status: EnvironmentAccountConnectionStatus) {
             self.arn = arn
+            self.codebuildRoleArn = codebuildRoleArn
             self.componentRoleArn = componentRoleArn
             self.environmentAccountId = environmentAccountId
             self.environmentName = environmentName
@@ -1673,6 +1738,7 @@ extension Proton {
 
         private enum CodingKeys: String, CodingKey {
             case arn
+            case codebuildRoleArn
             case componentRoleArn
             case environmentAccountId
             case environmentName
@@ -3134,18 +3200,44 @@ extension Proton {
         }
     }
 
+    public struct ListServiceInstancesFilter: AWSEncodableShape {
+        /// The name of a filtering criterion.
+        public let key: ListServiceInstancesFilterBy?
+        /// A value to filter by. With the date/time keys (*At{Before,After}), the value is a valid RFC 3339 string with no UTC offset and with an optional fractional precision (for example, 1985-04-12T23:20:50.52Z).
+        public let value: String?
+
+        public init(key: ListServiceInstancesFilterBy? = nil, value: String? = nil) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key
+            case value
+        }
+    }
+
     public struct ListServiceInstancesInput: AWSEncodableShape {
+        /// An array of filtering criteria that scope down the result list. By default, all service instances in the Amazon Web Services account are returned.
+        public let filters: [ListServiceInstancesFilter]?
         /// The maximum number of service instances to list.
         public let maxResults: Int?
         /// A token that indicates the location of the next service in the array of service instances, after the list of service instances that was previously requested.
         public let nextToken: String?
         /// The name of the service that the service instance belongs to.
         public let serviceName: String?
+        /// The field that the result list is sorted by. When you choose to sort by serviceName, service instances within each service are sorted by service instance name. Default: serviceName
+        public let sortBy: ListServiceInstancesSortBy?
+        /// Result list sort order. Default: ASCENDING
+        public let sortOrder: SortOrder?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil, serviceName: String? = nil) {
+        public init(filters: [ListServiceInstancesFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, serviceName: String? = nil, sortBy: ListServiceInstancesSortBy? = nil, sortOrder: SortOrder? = nil) {
+            self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.serviceName = serviceName
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
         }
 
         public func validate(name: String) throws {
@@ -3158,9 +3250,12 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case filters
             case maxResults
             case nextToken
             case serviceName
+            case sortBy
+            case sortOrder
         }
     }
 
@@ -3422,6 +3517,7 @@ extension Proton {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 200)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):[a-zA-Z0-9-]+:[a-zA-Z0-9-]*:\\d{12}:([\\w+=,.@-]+[/:])*[\\w+=,.@-]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3452,11 +3548,11 @@ extension Proton {
         /// The provisioned resource Amazon Resource Name (ARN).
         public let resourceArn: String
         /// The status of your provisioned resource.
-        public let status: ResourceDeploymentStatus
+        public let status: ResourceDeploymentStatus?
         /// The deployment status message for your provisioned resource.
         public let statusMessage: String?
 
-        public init(deploymentId: String? = nil, outputs: [Output]? = nil, resourceArn: String, status: ResourceDeploymentStatus, statusMessage: String? = nil) {
+        public init(deploymentId: String? = nil, outputs: [Output]? = nil, resourceArn: String, status: ResourceDeploymentStatus? = nil, statusMessage: String? = nil) {
             self.deploymentId = deploymentId
             self.outputs = outputs
             self.resourceArn = resourceArn
@@ -3471,6 +3567,7 @@ extension Proton {
             }
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 200)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):[a-zA-Z0-9-]+:[a-zA-Z0-9-]*:\\d{12}:([\\w+=,.@-]+[/:])*[\\w+=,.@-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4354,6 +4451,7 @@ extension Proton {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 200)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):[a-zA-Z0-9-]+:[a-zA-Z0-9-]*:\\d{12}:([\\w+=,.@-]+[/:])*[\\w+=,.@-]+$")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -4420,6 +4518,7 @@ extension Proton {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 200)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):[a-zA-Z0-9-]+:[a-zA-Z0-9-]*:\\d{12}:([\\w+=,.@-]+[/:])*[\\w+=,.@-]+$")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
@@ -4439,25 +4538,31 @@ extension Proton {
     public struct UpdateAccountSettingsInput: AWSEncodableShape {
         /// Set to true to remove a configured pipeline repository from the account settings. Don't set this field if you are updating the configured pipeline repository.
         public let deletePipelineProvisioningRepository: Bool?
+        /// The Amazon Resource Name (ARN) of the service role you want to use for provisioning pipelines. Proton assumes this role for CodeBuild-based provisioning.
+        public let pipelineCodebuildRoleArn: String?
         /// A linked repository for pipeline provisioning. Specify it if you have environments configured for self-managed provisioning with services that include pipelines. A linked repository is a repository that has been registered with Proton. For more information, see CreateRepository. To remove a previously configured repository, set deletePipelineProvisioningRepository to true, and don't set pipelineProvisioningRepository.
         public let pipelineProvisioningRepository: RepositoryBranchInput?
         /// The Amazon Resource Name (ARN) of the service role you want to use for provisioning pipelines. Assumed by Proton for Amazon Web Services-managed provisioning, and by customer-owned automation for self-managed provisioning. To remove a previously configured ARN, specify an empty string.
         public let pipelineServiceRoleArn: String?
 
-        public init(deletePipelineProvisioningRepository: Bool? = nil, pipelineProvisioningRepository: RepositoryBranchInput? = nil, pipelineServiceRoleArn: String? = nil) {
+        public init(deletePipelineProvisioningRepository: Bool? = nil, pipelineCodebuildRoleArn: String? = nil, pipelineProvisioningRepository: RepositoryBranchInput? = nil, pipelineServiceRoleArn: String? = nil) {
             self.deletePipelineProvisioningRepository = deletePipelineProvisioningRepository
+            self.pipelineCodebuildRoleArn = pipelineCodebuildRoleArn
             self.pipelineProvisioningRepository = pipelineProvisioningRepository
             self.pipelineServiceRoleArn = pipelineServiceRoleArn
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.pipelineCodebuildRoleArn, name: "pipelineCodebuildRoleArn", parent: name, max: 2048)
+            try self.validate(self.pipelineCodebuildRoleArn, name: "pipelineCodebuildRoleArn", parent: name, pattern: "(^$)|(^arn:(aws|aws-cn|aws-us-gov):iam::\\d{12}:role/([\\w+=,.@-]{1,512}[/:])*([\\w+=,.@-]{1,64})$)")
             try self.pipelineProvisioningRepository?.validate(name: "\(name).pipelineProvisioningRepository")
             try self.validate(self.pipelineServiceRoleArn, name: "pipelineServiceRoleArn", parent: name, max: 2048)
-            try self.validate(self.pipelineServiceRoleArn, name: "pipelineServiceRoleArn", parent: name, pattern: "(^$)|(^arn:[a-zA-Z-]+:[a-zA-Z0-9-]+:[a-zA-Z0-9-]*:\\d*:[\\w+=\\/:,\\.@-]*)")
+            try self.validate(self.pipelineServiceRoleArn, name: "pipelineServiceRoleArn", parent: name, pattern: "(^$)|(^arn:(aws|aws-cn|aws-us-gov):iam::\\d{12}:role/([\\w+=,.@-]{1,512}[/:])*([\\w+=,.@-]{1,64})$)")
         }
 
         private enum CodingKeys: String, CodingKey {
             case deletePipelineProvisioningRepository
+            case pipelineCodebuildRoleArn
             case pipelineProvisioningRepository
             case pipelineServiceRoleArn
         }
@@ -4542,6 +4647,8 @@ extension Proton {
     }
 
     public struct UpdateEnvironmentAccountConnectionInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of an IAM service role in the environment account. Proton uses this role to provision infrastructure resources using CodeBuild-based provisioning in the associated environment account.
+        public let codebuildRoleArn: String?
         /// The Amazon Resource Name (ARN) of the IAM service role that Proton uses when provisioning directly defined components in the associated environment account. It determines the scope of infrastructure that a component can provision in the account. The environment account connection must have a componentRoleArn to allow directly defined components to be associated with any environments running in the account. For more information about components, see Proton components in the Proton User Guide.
         public let componentRoleArn: String?
         /// The ID of the environment account connection to update.
@@ -4549,21 +4656,28 @@ extension Proton {
         /// The Amazon Resource Name (ARN) of the IAM service role that's associated with the environment account connection to update.
         public let roleArn: String?
 
-        public init(componentRoleArn: String? = nil, id: String, roleArn: String? = nil) {
+        public init(codebuildRoleArn: String? = nil, componentRoleArn: String? = nil, id: String, roleArn: String? = nil) {
+            self.codebuildRoleArn = codebuildRoleArn
             self.componentRoleArn = componentRoleArn
             self.id = id
             self.roleArn = roleArn
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.componentRoleArn, name: "componentRoleArn", parent: name, max: 200)
+            try self.validate(self.codebuildRoleArn, name: "codebuildRoleArn", parent: name, max: 2048)
+            try self.validate(self.codebuildRoleArn, name: "codebuildRoleArn", parent: name, min: 1)
+            try self.validate(self.codebuildRoleArn, name: "codebuildRoleArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):iam::\\d{12}:role/([\\w+=,.@-]{1,512}[/:])*([\\w+=,.@-]{1,64})$")
+            try self.validate(self.componentRoleArn, name: "componentRoleArn", parent: name, max: 2048)
             try self.validate(self.componentRoleArn, name: "componentRoleArn", parent: name, min: 1)
+            try self.validate(self.componentRoleArn, name: "componentRoleArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):iam::\\d{12}:role/([\\w+=,.@-]{1,512}[/:])*([\\w+=,.@-]{1,64})$")
             try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
-            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 200)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):iam::\\d{12}:role/([\\w+=,.@-]{1,512}[/:])*([\\w+=,.@-]{1,64})$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case codebuildRoleArn
             case componentRoleArn
             case id
             case roleArn
@@ -4584,6 +4698,8 @@ extension Proton {
     }
 
     public struct UpdateEnvironmentInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the IAM service role that allows Proton to provision infrastructure using CodeBuild-based provisioning on your behalf.
+        public let codebuildRoleArn: String?
         /// The Amazon Resource Name (ARN) of the IAM service role that Proton uses when provisioning directly defined components in this environment. It determines the scope of infrastructure that a component can provision. The environment must have a componentRoleArn to allow directly defined components to be associated with the environment. For more information about components, see Proton components in the Proton User Guide.
         public let componentRoleArn: String?
         /// There are four modes for updating an environment. The deploymentType field defines the mode.     NONE  In this mode, a deployment doesn't occur. Only the requested metadata parameters are updated.     CURRENT_VERSION  In this mode, the environment is deployed and updated with the new spec that you provide. Only requested parameters are updated. Don’t include major or minor version parameters when you use this deployment-type.     MINOR_VERSION  In this mode, the environment is deployed and updated with the published, recommended (latest) minor version of the current major version in use, by default. You can also specify a different minor version of the current major version in use.     MAJOR_VERSION  In this mode, the environment is deployed and updated with the published, recommended (latest) major and minor version of the current template, by default. You can also specify a different major version that is higher than the major version in use and a minor version (optional).
@@ -4605,7 +4721,8 @@ extension Proton {
         /// The minor version of the environment to update.
         public let templateMinorVersion: String?
 
-        public init(componentRoleArn: String? = nil, deploymentType: DeploymentUpdateType, description: String? = nil, environmentAccountConnectionId: String? = nil, name: String, protonServiceRoleArn: String? = nil, provisioningRepository: RepositoryBranchInput? = nil, spec: String? = nil, templateMajorVersion: String? = nil, templateMinorVersion: String? = nil) {
+        public init(codebuildRoleArn: String? = nil, componentRoleArn: String? = nil, deploymentType: DeploymentUpdateType, description: String? = nil, environmentAccountConnectionId: String? = nil, name: String, protonServiceRoleArn: String? = nil, provisioningRepository: RepositoryBranchInput? = nil, spec: String? = nil, templateMajorVersion: String? = nil, templateMinorVersion: String? = nil) {
+            self.codebuildRoleArn = codebuildRoleArn
             self.componentRoleArn = componentRoleArn
             self.deploymentType = deploymentType
             self.description = description
@@ -4619,8 +4736,12 @@ extension Proton {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.componentRoleArn, name: "componentRoleArn", parent: name, max: 200)
+            try self.validate(self.codebuildRoleArn, name: "codebuildRoleArn", parent: name, max: 2048)
+            try self.validate(self.codebuildRoleArn, name: "codebuildRoleArn", parent: name, min: 1)
+            try self.validate(self.codebuildRoleArn, name: "codebuildRoleArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):iam::\\d{12}:role/([\\w+=,.@-]{1,512}[/:])*([\\w+=,.@-]{1,64})$")
+            try self.validate(self.componentRoleArn, name: "componentRoleArn", parent: name, max: 2048)
             try self.validate(self.componentRoleArn, name: "componentRoleArn", parent: name, min: 1)
+            try self.validate(self.componentRoleArn, name: "componentRoleArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):iam::\\d{12}:role/([\\w+=,.@-]{1,512}[/:])*([\\w+=,.@-]{1,64})$")
             try self.validate(self.description, name: "description", parent: name, max: 500)
             try self.validate(self.environmentAccountConnectionId, name: "environmentAccountConnectionId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.name, name: "name", parent: name, max: 100)
@@ -4628,6 +4749,7 @@ extension Proton {
             try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
             try self.validate(self.protonServiceRoleArn, name: "protonServiceRoleArn", parent: name, max: 200)
             try self.validate(self.protonServiceRoleArn, name: "protonServiceRoleArn", parent: name, min: 1)
+            try self.validate(self.protonServiceRoleArn, name: "protonServiceRoleArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):[a-zA-Z0-9-]+:[a-zA-Z0-9-]*:\\d{12}:([\\w+=,.@-]+[/:])*[\\w+=,.@-]+$")
             try self.provisioningRepository?.validate(name: "\(name).provisioningRepository")
             try self.validate(self.spec, name: "spec", parent: name, max: 51200)
             try self.validate(self.spec, name: "spec", parent: name, min: 1)
@@ -4640,6 +4762,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case codebuildRoleArn
             case componentRoleArn
             case deploymentType
             case description

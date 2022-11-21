@@ -21,6 +21,10 @@ import SotoCore
 public struct CloudTrailErrorType: AWSErrorType {
     enum Code: String {
         case accountHasOngoingImportException = "AccountHasOngoingImportException"
+        case accountNotFoundException = "AccountNotFoundException"
+        case accountNotRegisteredException = "AccountNotRegisteredException"
+        case accountRegisteredException = "AccountRegisteredException"
+        case cannotDelegateManagementAccountException = "CannotDelegateManagementAccountException"
         case channelARNInvalidException = "ChannelARNInvalidException"
         case channelNotFoundException = "ChannelNotFoundException"
         case cloudTrailARNInvalidException = "CloudTrailARNInvalidException"
@@ -28,6 +32,7 @@ public struct CloudTrailErrorType: AWSErrorType {
         case cloudTrailInvalidClientTokenIdException = "CloudTrailInvalidClientTokenIdException"
         case cloudWatchLogsDeliveryUnavailableException = "CloudWatchLogsDeliveryUnavailableException"
         case conflictException = "ConflictException"
+        case delegatedAdminAccountLimitExceededException = "DelegatedAdminAccountLimitExceededException"
         case eventDataStoreARNInvalidException = "EventDataStoreARNInvalidException"
         case eventDataStoreAlreadyExistsException = "EventDataStoreAlreadyExistsException"
         case eventDataStoreHasOngoingImportException = "EventDataStoreHasOngoingImportException"
@@ -72,6 +77,8 @@ public struct CloudTrailErrorType: AWSErrorType {
         case kmsKeyNotFoundException = "KmsKeyNotFoundException"
         case maxConcurrentQueriesException = "MaxConcurrentQueriesException"
         case maximumNumberOfTrailsExceededException = "MaximumNumberOfTrailsExceededException"
+        case noManagementAccountSLRExistsException = "NoManagementAccountSLRExistsException"
+        case notOrganizationManagementAccountException = "NotOrganizationManagementAccountException"
         case notOrganizationMasterAccountException = "NotOrganizationMasterAccountException"
         case operationNotPermittedException = "OperationNotPermittedException"
         case organizationNotInAllFeaturesModeException = "OrganizationNotInAllFeaturesModeException"
@@ -107,6 +114,14 @@ public struct CloudTrailErrorType: AWSErrorType {
 
     ///  This exception is thrown when you start a new import and a  previous import is still in progress.
     public static var accountHasOngoingImportException: Self { .init(.accountHasOngoingImportException) }
+    /// This exception is thrown when when the specified account is not found or not part of an organization.
+    public static var accountNotFoundException: Self { .init(.accountNotFoundException) }
+    /// This exception is thrown when the specified account is not registered as the CloudTrail delegated administrator.
+    public static var accountNotRegisteredException: Self { .init(.accountNotRegisteredException) }
+    /// This exception is thrown when the account is already registered as the CloudTrail delegated administrator.
+    public static var accountRegisteredException: Self { .init(.accountRegisteredException) }
+    /// This exception is thrown when the management account of an organization is registered as the CloudTrail delegated administrator.
+    public static var cannotDelegateManagementAccountException: Self { .init(.cannotDelegateManagementAccountException) }
     /// This exception is thrown when the specified value of ChannelARN is not valid.
     public static var channelARNInvalidException: Self { .init(.channelARNInvalidException) }
     ///  The specified channel was not found.
@@ -121,6 +136,8 @@ public struct CloudTrailErrorType: AWSErrorType {
     public static var cloudWatchLogsDeliveryUnavailableException: Self { .init(.cloudWatchLogsDeliveryUnavailableException) }
     /// This exception is thrown when the specified resource is not ready for an operation.  This can occur when you try to run an operation on a resource before CloudTrail has time to fully load the resource.  If this exception occurs, wait a few minutes, and then try the operation again.
     public static var conflictException: Self { .init(.conflictException) }
+    /// This exception is thrown when the maximum number of CloudTrail delegated administrators is reached.
+    public static var delegatedAdminAccountLimitExceededException: Self { .init(.delegatedAdminAccountLimitExceededException) }
     /// The specified event data store ARN is not valid or does not map to an event data store in your account.
     public static var eventDataStoreARNInvalidException: Self { .init(.eventDataStoreARNInvalidException) }
     /// An event data store with that name already exists.
@@ -199,7 +216,7 @@ public struct CloudTrailErrorType: AWSErrorType {
     public static var invalidTokenException: Self { .init(.invalidTokenException) }
     /// This exception is thrown when the provided trail name is not valid. Trail names must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)   Start with a letter or number, and end with a letter or number   Be between 3 and 128 characters   Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are not valid.   Not be in IP address format (for example, 192.168.5.4)
     public static var invalidTrailNameException: Self { .init(.invalidTrailNameException) }
-    /// This exception is thrown when there is an issue with the specified KMS key and the trail can’t be updated.
+    /// This exception is thrown when there is an issue with the specified KMS key and the trail or event data store can't be updated.
     public static var kmsException: Self { .init(.kmsException) }
     /// This exception is no longer in use.
     public static var kmsKeyDisabledException: Self { .init(.kmsKeyDisabledException) }
@@ -209,6 +226,10 @@ public struct CloudTrailErrorType: AWSErrorType {
     public static var maxConcurrentQueriesException: Self { .init(.maxConcurrentQueriesException) }
     /// This exception is thrown when the maximum number of trails is reached.
     public static var maximumNumberOfTrailsExceededException: Self { .init(.maximumNumberOfTrailsExceededException) }
+    ///  This exception is thrown when the management account does not have a service-linked role.
+    public static var noManagementAccountSLRExistsException: Self { .init(.noManagementAccountSLRExistsException) }
+    ///  This exception is thrown when the account making the request is not the organization's management account.
+    public static var notOrganizationManagementAccountException: Self { .init(.notOrganizationManagementAccountException) }
     /// This exception is thrown when the Amazon Web Services account making the request to create  or update an organization trail or event data store is not the management account for an  organization in Organizations. For more information, see  Prepare For Creating a Trail For Your Organization or Create an event data store.
     public static var notOrganizationMasterAccountException: Self { .init(.notOrganizationMasterAccountException) }
     /// This exception is thrown when the requested operation is not permitted.

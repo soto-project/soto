@@ -338,14 +338,23 @@ extension S3Control {
     }
 
     public struct AccountLevel: AWSEncodableShape & AWSDecodableShape {
-        /// A container for the S3 Storage Lens activity metrics.
+        /// A container for S3 Storage Lens activity metrics.
         public let activityMetrics: ActivityMetrics?
+        /// A container for S3 Storage Lens advanced cost-optimization metrics.
+        public let advancedCostOptimizationMetrics: AdvancedCostOptimizationMetrics?
+        /// A container for S3 Storage Lens advanced data-protection metrics.
+        public let advancedDataProtectionMetrics: AdvancedDataProtectionMetrics?
         /// A container for the S3 Storage Lens bucket-level configuration.
         public let bucketLevel: BucketLevel
+        /// A container for detailed status code metrics.
+        public let detailedStatusCodesMetrics: DetailedStatusCodesMetrics?
 
-        public init(activityMetrics: ActivityMetrics? = nil, bucketLevel: BucketLevel) {
+        public init(activityMetrics: ActivityMetrics? = nil, advancedCostOptimizationMetrics: AdvancedCostOptimizationMetrics? = nil, advancedDataProtectionMetrics: AdvancedDataProtectionMetrics? = nil, bucketLevel: BucketLevel, detailedStatusCodesMetrics: DetailedStatusCodesMetrics? = nil) {
             self.activityMetrics = activityMetrics
+            self.advancedCostOptimizationMetrics = advancedCostOptimizationMetrics
+            self.advancedDataProtectionMetrics = advancedDataProtectionMetrics
             self.bucketLevel = bucketLevel
+            self.detailedStatusCodesMetrics = detailedStatusCodesMetrics
         }
 
         public func validate(name: String) throws {
@@ -354,12 +363,41 @@ extension S3Control {
 
         private enum CodingKeys: String, CodingKey {
             case activityMetrics = "ActivityMetrics"
+            case advancedCostOptimizationMetrics = "AdvancedCostOptimizationMetrics"
+            case advancedDataProtectionMetrics = "AdvancedDataProtectionMetrics"
             case bucketLevel = "BucketLevel"
+            case detailedStatusCodesMetrics = "DetailedStatusCodesMetrics"
         }
     }
 
     public struct ActivityMetrics: AWSEncodableShape & AWSDecodableShape {
-        /// A container for whether the activity metrics are enabled.
+        /// A container that indicates whether activity metrics are enabled.
+        public let isEnabled: Bool?
+
+        public init(isEnabled: Bool? = nil) {
+            self.isEnabled = isEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isEnabled = "IsEnabled"
+        }
+    }
+
+    public struct AdvancedCostOptimizationMetrics: AWSEncodableShape & AWSDecodableShape {
+        /// A container that indicates whether advanced cost-optimization metrics are enabled.
+        public let isEnabled: Bool?
+
+        public init(isEnabled: Bool? = nil) {
+            self.isEnabled = isEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isEnabled = "IsEnabled"
+        }
+    }
+
+    public struct AdvancedDataProtectionMetrics: AWSEncodableShape & AWSDecodableShape {
+        /// A container that indicates whether advanced data-protection metrics are enabled.
         public let isEnabled: Bool?
 
         public init(isEnabled: Bool? = nil) {
@@ -491,13 +529,22 @@ extension S3Control {
     }
 
     public struct BucketLevel: AWSEncodableShape & AWSDecodableShape {
-        /// A container for the bucket-level activity metrics for Amazon S3 Storage Lens
+        /// A container for the bucket-level activity metrics for S3 Storage Lens.
         public let activityMetrics: ActivityMetrics?
-        /// A container for the bucket-level prefix-level metrics for S3 Storage Lens
+        /// A container for bucket-level advanced cost-optimization metrics for S3 Storage Lens.
+        public let advancedCostOptimizationMetrics: AdvancedCostOptimizationMetrics?
+        /// A container for bucket-level advanced data-protection metrics for S3 Storage Lens.
+        public let advancedDataProtectionMetrics: AdvancedDataProtectionMetrics?
+        /// A container for bucket-level detailed status code metrics for S3 Storage Lens.
+        public let detailedStatusCodesMetrics: DetailedStatusCodesMetrics?
+        /// A container for the prefix-level metrics for S3 Storage Lens.
         public let prefixLevel: PrefixLevel?
 
-        public init(activityMetrics: ActivityMetrics? = nil, prefixLevel: PrefixLevel? = nil) {
+        public init(activityMetrics: ActivityMetrics? = nil, advancedCostOptimizationMetrics: AdvancedCostOptimizationMetrics? = nil, advancedDataProtectionMetrics: AdvancedDataProtectionMetrics? = nil, detailedStatusCodesMetrics: DetailedStatusCodesMetrics? = nil, prefixLevel: PrefixLevel? = nil) {
             self.activityMetrics = activityMetrics
+            self.advancedCostOptimizationMetrics = advancedCostOptimizationMetrics
+            self.advancedDataProtectionMetrics = advancedDataProtectionMetrics
+            self.detailedStatusCodesMetrics = detailedStatusCodesMetrics
             self.prefixLevel = prefixLevel
         }
 
@@ -507,6 +554,9 @@ extension S3Control {
 
         private enum CodingKeys: String, CodingKey {
             case activityMetrics = "ActivityMetrics"
+            case advancedCostOptimizationMetrics = "AdvancedCostOptimizationMetrics"
+            case advancedDataProtectionMetrics = "AdvancedDataProtectionMetrics"
+            case detailedStatusCodesMetrics = "DetailedStatusCodesMetrics"
             case prefixLevel = "PrefixLevel"
         }
     }
@@ -1374,6 +1424,19 @@ extension S3Control {
 
         private enum CodingKeys: String, CodingKey {
             case asyncOperation = "AsyncOperation"
+        }
+    }
+
+    public struct DetailedStatusCodesMetrics: AWSEncodableShape & AWSDecodableShape {
+        /// A container that indicates whether detailed status code metrics are enabled.
+        public let isEnabled: Bool?
+
+        public init(isEnabled: Bool? = nil) {
+            self.isEnabled = isEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isEnabled = "IsEnabled"
         }
     }
 
@@ -2561,7 +2624,7 @@ extension S3Control {
         public let s3DeleteObjectTagging: S3DeleteObjectTaggingOperation?
         /// Directs the specified job to initiate restore requests for every archived object in the manifest.
         public let s3InitiateRestoreObject: S3InitiateRestoreObjectOperation?
-        /// Directs the specified job to run a PUT Object acl call on every object in the manifest.
+        /// Directs the specified job to run a PutObjectAcl call on every object in the manifest.
         public let s3PutObjectAcl: S3SetObjectAclOperation?
         /// Directs the specified job to run a PUT Copy object call on every object in the manifest.
         public let s3PutObjectCopy: S3CopyObjectOperation?
@@ -3461,13 +3524,13 @@ extension S3Control {
     }
 
     public struct PublicAccessBlockConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies whether Amazon S3 should block public access control lists (ACLs) for buckets in this account. Setting this element to TRUE causes the following behavior:   PUT Bucket acl and PUT Object acl calls fail if the specified ACL is public.   PUT Object calls fail if the request includes a public ACL.   PUT Bucket calls fail if the request includes a public ACL.   Enabling this setting doesn't affect existing policies or ACLs. This is not supported for Amazon S3 on Outposts.
+        /// Specifies whether Amazon S3 should block public access control lists (ACLs) for buckets in this account. Setting this element to TRUE causes the following behavior:    PutBucketAcl and PutObjectAcl calls fail if the specified ACL is public.   PUT Object calls fail if the request includes a public ACL.   PUT Bucket calls fail if the request includes a public ACL.   Enabling this setting doesn't affect existing policies or ACLs. This property is not supported for Amazon S3 on Outposts.
         public let blockPublicAcls: Bool?
-        /// Specifies whether Amazon S3 should block public bucket policies for buckets in this account. Setting this element to TRUE causes Amazon S3 to reject calls to PUT Bucket policy if the specified bucket policy allows public access.  Enabling this setting doesn't affect existing bucket policies. This is not supported for Amazon S3 on Outposts.
+        /// Specifies whether Amazon S3 should block public bucket policies for buckets in this account. Setting this element to TRUE causes Amazon S3 to reject calls to PUT Bucket policy if the specified bucket policy allows public access.  Enabling this setting doesn't affect existing bucket policies. This property is not supported for Amazon S3 on Outposts.
         public let blockPublicPolicy: Bool?
-        /// Specifies whether Amazon S3 should ignore public ACLs for buckets in this account. Setting this element to TRUE causes Amazon S3 to ignore all public ACLs on buckets in this account and any objects that they contain.  Enabling this setting doesn't affect the persistence of any existing ACLs and doesn't prevent new public ACLs from being set. This is not supported for Amazon S3 on Outposts.
+        /// Specifies whether Amazon S3 should ignore public ACLs for buckets in this account. Setting this element to TRUE causes Amazon S3 to ignore all public ACLs on buckets in this account and any objects that they contain.  Enabling this setting doesn't affect the persistence of any existing ACLs and doesn't prevent new public ACLs from being set. This property is not supported for Amazon S3 on Outposts.
         public let ignorePublicAcls: Bool?
-        /// Specifies whether Amazon S3 should restrict public bucket policies for buckets in this account. Setting this element to TRUE restricts access to buckets with public policies to only Amazon Web Service principals and authorized users within this account. Enabling this setting doesn't affect previously stored bucket policies, except that public and cross-account access within any public bucket policy, including non-public delegation to specific accounts, is blocked. This is not supported for Amazon S3 on Outposts.
+        /// Specifies whether Amazon S3 should restrict public bucket policies for buckets in this account. Setting this element to TRUE restricts access to buckets with public policies to only Amazon Web Service principals and authorized users within this account. Enabling this setting doesn't affect previously stored bucket policies, except that public and cross-account access within any public bucket policy, including non-public delegation to specific accounts, is blocked. This property is not supported for Amazon S3 on Outposts.
         public let restrictPublicBuckets: Bool?
 
         public init(blockPublicAcls: Bool? = nil, blockPublicPolicy: Bool? = nil, ignorePublicAcls: Bool? = nil, restrictPublicBuckets: Bool? = nil) {
@@ -4129,7 +4192,7 @@ extension S3Control {
         public let storageClass: S3StorageClass?
         /// Specifies the folder prefix into which you would like the objects to be copied. For example, to copy objects into a folder named Folder1 in the destination bucket, set the TargetKeyPrefix to Folder1.
         public let targetKeyPrefix: String?
-        /// Specifies the destination bucket ARN for the batch copy operation. For example, to copy objects to a bucket named "destinationBucket", set the TargetResource to "arn:aws:s3:::destinationBucket".
+        /// Specifies the destination bucket ARN for the batch copy operation. For example, to copy objects to a bucket named destinationBucket, set the TargetResource property to arn:aws:s3:::destinationBucket.
         public let targetResource: String?
         public let unModifiedSinceConstraint: Date?
 
@@ -4545,7 +4608,9 @@ extension S3Control {
     }
 
     public struct S3Tag: AWSEncodableShape & AWSDecodableShape {
+        /// Key of the tag
         public let key: String
+        /// Value of the tag
         public let value: String
 
         public init(key: String, value: String) {

@@ -20,6 +20,59 @@ import SotoCore
 // MARK: Paginators
 
 extension Ivschat {
+    ///  Gets summary information about all your logging configurations in the AWS region where the API request is processed.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listLoggingConfigurationsPaginator<Result>(
+        _ input: ListLoggingConfigurationsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListLoggingConfigurationsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listLoggingConfigurations,
+            inputKey: \ListLoggingConfigurationsRequest.nextToken,
+            outputKey: \ListLoggingConfigurationsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listLoggingConfigurationsPaginator(
+        _ input: ListLoggingConfigurationsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListLoggingConfigurationsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listLoggingConfigurations,
+            inputKey: \ListLoggingConfigurationsRequest.nextToken,
+            outputKey: \ListLoggingConfigurationsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Gets summary information about all your rooms in the AWS region where the API request is processed. Results are sorted in descending order of updateTime.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -74,9 +127,19 @@ extension Ivschat {
     }
 }
 
+extension Ivschat.ListLoggingConfigurationsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Ivschat.ListLoggingConfigurationsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension Ivschat.ListRoomsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Ivschat.ListRoomsRequest {
         return .init(
+            loggingConfigurationIdentifier: self.loggingConfigurationIdentifier,
             maxResults: self.maxResults,
             messageReviewHandlerUri: self.messageReviewHandlerUri,
             name: self.name,

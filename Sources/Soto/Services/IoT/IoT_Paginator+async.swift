@@ -1092,11 +1092,11 @@ extension IoT {
         )
     }
 
-    ///  Lists your things. Use the attributeName and
-    ///  				attributeValue parameters to filter your things.
-    ///  			For example, calling ListThings with attributeName=Color and
-    ///  			attributeValue=Red retrieves all things in the registry that contain an attribute
-    ///  				Color with the value Red.
+    ///  Lists your things. Use the attributeName and attributeValue parameters to filter your things. For example,
+    ///  			calling ListThings with attributeName=Color and attributeValue=Red
+    ///  			retrieves all things in the registry that contain an attribute Color with the value Red. For more
+    ///  			information, see List Things from the Amazon Web Services IoT Core Developer
+    ///  				Guide.
     ///  		       Requires permission to access the ListThings action.
     ///
     ///

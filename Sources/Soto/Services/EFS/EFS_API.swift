@@ -81,6 +81,7 @@ public struct EFS: AWSService {
                 "fips-us-gov-east-1": "elasticfilesystem-fips.us-gov-east-1.amazonaws.com",
                 "fips-us-gov-west-1": "elasticfilesystem-fips.us-gov-west-1.amazonaws.com",
                 "fips-us-iso-east-1": "elasticfilesystem-fips.us-iso-east-1.c2s.ic.gov",
+                "fips-us-iso-west-1": "elasticfilesystem-fips.us-iso-west-1.c2s.ic.gov",
                 "fips-us-isob-east-1": "elasticfilesystem-fips.us-isob-east-1.sc2s.sgov.gov",
                 "fips-us-west-1": "elasticfilesystem-fips.us-west-1.amazonaws.com",
                 "fips-us-west-2": "elasticfilesystem-fips.us-west-2.amazonaws.com"

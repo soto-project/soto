@@ -33,7 +33,7 @@ extension EKS {
         return try await self.client.execute(operation: "AssociateIdentityProviderConfig", path: "/clusters/{clusterName}/identity-provider-configs/associate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates an Amazon EKS add-on. Amazon EKS add-ons help to automate the provisioning and lifecycle management of common operational software for Amazon EKS clusters. Amazon EKS add-ons require clusters running version 1.18 or later because Amazon EKS add-ons rely on the Server-side Apply Kubernetes feature, which is only available in Kubernetes 1.18 and later. For more information, see Amazon EKS add-ons in the Amazon EKS User Guide.
+    /// Creates an Amazon EKS add-on. Amazon EKS add-ons help to automate the provisioning and lifecycle management of common operational software for Amazon EKS clusters. For more information, see Amazon EKS add-ons in the Amazon EKS User Guide.
     public func createAddon(_ input: CreateAddonRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateAddonResponse {
         return try await self.client.execute(operation: "CreateAddon", path: "/clusters/{clusterName}/addons", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

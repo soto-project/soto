@@ -309,7 +309,7 @@ extension Proton {
         )
     }
 
-    ///  List service instances with summary data.
+    ///  List service instances with summary data. This action lists service instances of all services in the Amazon Web Services account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

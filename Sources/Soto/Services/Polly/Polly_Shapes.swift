@@ -34,6 +34,7 @@ extension Polly {
     }
 
     public enum LanguageCode: String, CustomStringConvertible, Codable, _SotoSendable {
+        case arAE = "ar-AE"
         case arb
         case caES = "ca-ES"
         case cmnCN = "cmn-CN"
@@ -120,6 +121,7 @@ extension Polly {
         case cristiano = "Cristiano"
         case daniel = "Daniel"
         case dora = "Dora"
+        case elin = "Elin"
         case emma = "Emma"
         case enrique = "Enrique"
         case ewa = "Ewa"
@@ -128,9 +130,11 @@ extension Polly {
         case geraint = "Geraint"
         case giorgio = "Giorgio"
         case gwyneth = "Gwyneth"
+        case hala = "Hala"
         case hannah = "Hannah"
         case hans = "Hans"
         case hiujin = "Hiujin"
+        case ida = "Ida"
         case ines = "Ines"
         case ivy = "Ivy"
         case jacek = "Jacek"
@@ -143,6 +147,7 @@ extension Polly {
         case kendra = "Kendra"
         case kevin = "Kevin"
         case kimberly = "Kimberly"
+        case laura = "Laura"
         case lea = "Lea"
         case liam = "Liam"
         case liv = "Liv"
@@ -160,6 +165,7 @@ extension Polly {
         case mizuki = "Mizuki"
         case naja = "Naja"
         case nicole = "Nicole"
+        case ola = "Ola"
         case olivia = "Olivia"
         case pedro = "Pedro"
         case penelope = "Penelope"
@@ -169,6 +175,7 @@ extension Polly {
         case russell = "Russell"
         case salli = "Salli"
         case seoyeon = "Seoyeon"
+        case suvi = "Suvi"
         case takumi = "Takumi"
         case tatyana = "Tatyana"
         case vicki = "Vicki"
@@ -711,13 +718,13 @@ extension Polly {
         ]
 
         ///  Stream containing the synthesized speech.
-        public let audioStream: AWSPayload
+        public let audioStream: AWSPayload?
         ///  Specifies the type audio stream. This should reflect the OutputFormat parameter in your request.    If you request mp3 as the OutputFormat, the ContentType returned is audio/mpeg.    If you request ogg_vorbis as the OutputFormat, the ContentType returned is audio/ogg.    If you request pcm as the OutputFormat, the ContentType returned is audio/pcm in a signed 16-bit, 1 channel (mono), little-endian format.    If you request json as the OutputFormat, the ContentType returned is application/x-json-stream.
         public let contentType: String?
         /// Number of characters synthesized.
         public let requestCharacters: Int?
 
-        public init(audioStream: AWSPayload, contentType: String? = nil, requestCharacters: Int? = nil) {
+        public init(audioStream: AWSPayload? = nil, contentType: String? = nil, requestCharacters: Int? = nil) {
             self.audioStream = audioStream
             self.contentType = contentType
             self.requestCharacters = requestCharacters

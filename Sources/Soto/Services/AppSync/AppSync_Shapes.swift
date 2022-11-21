@@ -131,6 +131,11 @@ extension AppSync {
         public var description: String { return self.rawValue }
     }
 
+    public enum RuntimeName: String, CustomStringConvertible, Codable, _SotoSendable {
+        case appsyncJs = "APPSYNC_JS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SchemaStatus: String, CustomStringConvertible, Codable, _SotoSendable {
         case active = "ACTIVE"
         case deleting = "DELETING"
@@ -261,6 +266,23 @@ extension AppSync {
         }
     }
 
+    public struct AppSyncRuntime: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the runtime to use. Currently, the only allowed value is APPSYNC_JS.
+        public let name: RuntimeName
+        /// The version of the runtime to use. Currently, the only allowed version is 1.0.0.
+        public let runtimeVersion: String
+
+        public init(name: RuntimeName, runtimeVersion: String) {
+            self.name = name
+            self.runtimeVersion = runtimeVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name
+            case runtimeVersion
+        }
+    }
+
     public struct AssociateApiRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "domainName", location: .uri("domainName"))
@@ -351,6 +373,48 @@ extension AppSync {
         }
     }
 
+    public struct CodeError: AWSDecodableShape {
+        /// The type of code error.  Examples include, but aren't limited to: LINT_ERROR, PARSER_ERROR.
+        public let errorType: String?
+        /// The line, column, and span location of the error in the code.
+        public let location: CodeErrorLocation?
+        /// A user presentable error. Examples include, but aren't limited to: Parsing error: Unterminated string literal.
+        public let value: String?
+
+        public init(errorType: String? = nil, location: CodeErrorLocation? = nil, value: String? = nil) {
+            self.errorType = errorType
+            self.location = location
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorType
+            case location
+            case value
+        }
+    }
+
+    public struct CodeErrorLocation: AWSDecodableShape {
+        /// The column number in the code. Defaults to 0 if unknown.
+        public let column: Int?
+        /// The line number in the code. Defaults to 0 if unknown.
+        public let line: Int?
+        /// The span/length of the error. Defaults to -1 if unknown.
+        public let span: Int?
+
+        public init(column: Int? = nil, line: Int? = nil, span: Int? = nil) {
+            self.column = column
+            self.line = line
+            self.span = span
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case column
+            case line
+            case span
+        }
+    }
+
     public struct CognitoUserPoolConfig: AWSEncodableShape & AWSDecodableShape {
         /// A regular expression for validating the incoming Amazon Cognito user pool app client ID. If this value isn't set, no filtering is applied.
         public let appIdClientRegex: String?
@@ -390,7 +454,7 @@ extension AppSync {
         /// The cache instance type. Valid values are     SMALL     MEDIUM     LARGE     XLARGE     LARGE_2X     LARGE_4X     LARGE_8X (not available in all regions)    LARGE_12X    Historically, instance types were identified by an EC2-style value. As of July 2020, this is deprecated, and the generic identifiers above should be used. The following legacy instance types are available, but their use is discouraged:    T2_SMALL: A t2.small instance type.    T2_MEDIUM: A t2.medium instance type.    R4_LARGE: A r4.large instance type.    R4_XLARGE: A r4.xlarge instance type.    R4_2XLARGE: A r4.2xlarge instance type.    R4_4XLARGE: A r4.4xlarge instance type.    R4_8XLARGE: A r4.8xlarge instance type.
         public let type: ApiCacheType
 
-        public init(apiCachingBehavior: ApiCachingBehavior, apiId: String, atRestEncryptionEnabled: Bool? = nil, transitEncryptionEnabled: Bool? = nil, ttl: Int64, type: ApiCacheType) {
+        public init(apiCachingBehavior: ApiCachingBehavior, apiId: String, atRestEncryptionEnabled: Bool? = nil, transitEncryptionEnabled: Bool? = nil, ttl: Int64 = 0, type: ApiCacheType) {
             self.apiCachingBehavior = apiCachingBehavior
             self.apiId = apiId
             self.atRestEncryptionEnabled = atRestEncryptionEnabled
@@ -585,12 +649,14 @@ extension AppSync {
 
         /// The GraphQL API ID.
         public let apiId: String
+        /// The function code that contains the request and response functions. When code is used, the runtime is required. The runtime value must be APPSYNC_JS.
+        public let code: String?
         /// The Function DataSource name.
         public let dataSourceName: String
         /// The Function description.
         public let description: String?
-        /// The version of the request mapping template. Currently, the supported value is 2018-05-29.
-        public let functionVersion: String
+        /// The version of the request mapping template. Currently, the supported value is 2018-05-29. Note that when using VTL and mapping templates, the functionVersion is required.
+        public let functionVersion: String?
         /// The maximum batching size for a resolver.
         public let maxBatchSize: Int?
         /// The Function name. The function name does not have to be unique.
@@ -599,10 +665,12 @@ extension AppSync {
         public let requestMappingTemplate: String?
         /// The Function response mapping template.
         public let responseMappingTemplate: String?
+        public let runtime: AppSyncRuntime?
         public let syncConfig: SyncConfig?
 
-        public init(apiId: String, dataSourceName: String, description: String? = nil, functionVersion: String, maxBatchSize: Int? = nil, name: String, requestMappingTemplate: String? = nil, responseMappingTemplate: String? = nil, syncConfig: SyncConfig? = nil) {
+        public init(apiId: String, code: String? = nil, dataSourceName: String, description: String? = nil, functionVersion: String? = nil, maxBatchSize: Int? = nil, name: String, requestMappingTemplate: String? = nil, responseMappingTemplate: String? = nil, runtime: AppSyncRuntime? = nil, syncConfig: SyncConfig? = nil) {
             self.apiId = apiId
+            self.code = code
             self.dataSourceName = dataSourceName
             self.description = description
             self.functionVersion = functionVersion
@@ -610,10 +678,13 @@ extension AppSync {
             self.name = name
             self.requestMappingTemplate = requestMappingTemplate
             self.responseMappingTemplate = responseMappingTemplate
+            self.runtime = runtime
             self.syncConfig = syncConfig
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.code, name: "code", parent: name, max: 32768)
+            try self.validate(self.code, name: "code", parent: name, min: 1)
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, max: 65536)
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, min: 1)
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, pattern: "^[_A-Za-z][_0-9A-Za-z]*$")
@@ -631,6 +702,7 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case code
             case dataSourceName
             case description
             case functionVersion
@@ -638,6 +710,7 @@ extension AppSync {
             case name
             case requestMappingTemplate
             case responseMappingTemplate
+            case runtime
             case syncConfig
         }
     }
@@ -739,6 +812,8 @@ extension AppSync {
         public let apiId: String
         /// The caching configuration for the resolver.
         public let cachingConfig: CachingConfig?
+        /// The resolver code that contains the request and response functions. When code is used, the runtime is required. The runtime value must be APPSYNC_JS.
+        public let code: String?
         /// The name of the data source for which the resolver is being created.
         public let dataSourceName: String?
         /// The name of the field to attach the resolver to.
@@ -753,14 +828,16 @@ extension AppSync {
         public let requestMappingTemplate: String?
         /// The mapping template to use for responses from the data source.
         public let responseMappingTemplate: String?
+        public let runtime: AppSyncRuntime?
         /// The SyncConfig for a resolver attached to a versioned data source.
         public let syncConfig: SyncConfig?
         /// The name of the Type.
         public let typeName: String
 
-        public init(apiId: String, cachingConfig: CachingConfig? = nil, dataSourceName: String? = nil, fieldName: String, kind: ResolverKind? = nil, maxBatchSize: Int? = nil, pipelineConfig: PipelineConfig? = nil, requestMappingTemplate: String? = nil, responseMappingTemplate: String? = nil, syncConfig: SyncConfig? = nil, typeName: String) {
+        public init(apiId: String, cachingConfig: CachingConfig? = nil, code: String? = nil, dataSourceName: String? = nil, fieldName: String, kind: ResolverKind? = nil, maxBatchSize: Int? = nil, pipelineConfig: PipelineConfig? = nil, requestMappingTemplate: String? = nil, responseMappingTemplate: String? = nil, runtime: AppSyncRuntime? = nil, syncConfig: SyncConfig? = nil, typeName: String) {
             self.apiId = apiId
             self.cachingConfig = cachingConfig
+            self.code = code
             self.dataSourceName = dataSourceName
             self.fieldName = fieldName
             self.kind = kind
@@ -768,11 +845,14 @@ extension AppSync {
             self.pipelineConfig = pipelineConfig
             self.requestMappingTemplate = requestMappingTemplate
             self.responseMappingTemplate = responseMappingTemplate
+            self.runtime = runtime
             self.syncConfig = syncConfig
             self.typeName = typeName
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.code, name: "code", parent: name, max: 32768)
+            try self.validate(self.code, name: "code", parent: name, min: 1)
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, max: 65536)
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, min: 1)
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, pattern: "^[_A-Za-z][_0-9A-Za-z]*$")
@@ -794,6 +874,7 @@ extension AppSync {
 
         private enum CodingKeys: String, CodingKey {
             case cachingConfig
+            case code
             case dataSourceName
             case fieldName
             case kind
@@ -801,6 +882,7 @@ extension AppSync {
             case pipelineConfig
             case requestMappingTemplate
             case responseMappingTemplate
+            case runtime
             case syncConfig
         }
     }
@@ -1251,6 +1333,77 @@ extension AppSync {
         }
     }
 
+    public struct EvaluateCodeErrorDetail: AWSDecodableShape {
+        /// Contains the list of CodeError objects.
+        public let codeErrors: [CodeError]?
+        /// The error payload.
+        public let message: String?
+
+        public init(codeErrors: [CodeError]? = nil, message: String? = nil) {
+            self.codeErrors = codeErrors
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case codeErrors
+            case message
+        }
+    }
+
+    public struct EvaluateCodeRequest: AWSEncodableShape {
+        /// The code definition to be evaluated. Note that code and runtime are both required for this action. The runtime value must be APPSYNC_JS.
+        public let code: String
+        /// The map that holds all of the contextual information for your resolver invocation. A context is required for this action.
+        public let context: String
+        /// The function within the code to be evaluated. If provided, the valid values are request and response.
+        public let function: String?
+        /// The runtime to be used when evaluating the code. Currently, only the APPSYNC_JS runtime is supported.
+        public let runtime: AppSyncRuntime
+
+        public init(code: String, context: String, function: String? = nil, runtime: AppSyncRuntime) {
+            self.code = code
+            self.context = context
+            self.function = function
+            self.runtime = runtime
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.code, name: "code", parent: name, max: 32768)
+            try self.validate(self.code, name: "code", parent: name, min: 1)
+            try self.validate(self.context, name: "context", parent: name, max: 28000)
+            try self.validate(self.context, name: "context", parent: name, min: 2)
+            try self.validate(self.context, name: "context", parent: name, pattern: "^[\\s\\S]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code
+            case context
+            case function
+            case runtime
+        }
+    }
+
+    public struct EvaluateCodeResponse: AWSDecodableShape {
+        /// Contains the payload of the response error.
+        public let error: EvaluateCodeErrorDetail?
+        /// The result of the evaluation operation.
+        public let evaluationResult: String?
+        /// A list of logs that were generated by calls to util.log.info and util.log.error in the evaluated code.
+        public let logs: [String]?
+
+        public init(error: EvaluateCodeErrorDetail? = nil, evaluationResult: String? = nil, logs: [String]? = nil) {
+            self.error = error
+            self.evaluationResult = evaluationResult
+            self.logs = logs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case error
+            case evaluationResult
+            case logs
+        }
+    }
+
     public struct EvaluateMappingTemplateRequest: AWSEncodableShape {
         /// The map that holds all of the contextual information for your resolver invocation. A context is required for this action.
         public let context: String
@@ -1282,15 +1435,19 @@ extension AppSync {
         public let error: ErrorDetail?
         /// The mapping template; this can be a request or response template.
         public let evaluationResult: String?
+        /// A list of logs that were generated by calls to util.log.info and util.log.error in the evaluated code.
+        public let logs: [String]?
 
-        public init(error: ErrorDetail? = nil, evaluationResult: String? = nil) {
+        public init(error: ErrorDetail? = nil, evaluationResult: String? = nil, logs: [String]? = nil) {
             self.error = error
             self.evaluationResult = evaluationResult
+            self.logs = logs
         }
 
         private enum CodingKeys: String, CodingKey {
             case error
             case evaluationResult
+            case logs
         }
     }
 
@@ -1314,6 +1471,8 @@ extension AppSync {
     }
 
     public struct FunctionConfiguration: AWSDecodableShape {
+        /// The function code that contains the request and response functions. When code is used, the runtime is required. The runtime value must be APPSYNC_JS.
+        public let code: String?
         /// The name of the DataSource.
         public let dataSourceName: String?
         /// The Function description.
@@ -1332,9 +1491,11 @@ extension AppSync {
         public let requestMappingTemplate: String?
         /// The Function response mapping template.
         public let responseMappingTemplate: String?
+        public let runtime: AppSyncRuntime?
         public let syncConfig: SyncConfig?
 
-        public init(dataSourceName: String? = nil, description: String? = nil, functionArn: String? = nil, functionId: String? = nil, functionVersion: String? = nil, maxBatchSize: Int? = nil, name: String? = nil, requestMappingTemplate: String? = nil, responseMappingTemplate: String? = nil, syncConfig: SyncConfig? = nil) {
+        public init(code: String? = nil, dataSourceName: String? = nil, description: String? = nil, functionArn: String? = nil, functionId: String? = nil, functionVersion: String? = nil, maxBatchSize: Int? = nil, name: String? = nil, requestMappingTemplate: String? = nil, responseMappingTemplate: String? = nil, runtime: AppSyncRuntime? = nil, syncConfig: SyncConfig? = nil) {
+            self.code = code
             self.dataSourceName = dataSourceName
             self.description = description
             self.functionArn = functionArn
@@ -1344,10 +1505,12 @@ extension AppSync {
             self.name = name
             self.requestMappingTemplate = requestMappingTemplate
             self.responseMappingTemplate = responseMappingTemplate
+            self.runtime = runtime
             self.syncConfig = syncConfig
         }
 
         private enum CodingKeys: String, CodingKey {
+            case code
             case dataSourceName
             case description
             case functionArn
@@ -1357,6 +1520,7 @@ extension AppSync {
             case name
             case requestMappingTemplate
             case responseMappingTemplate
+            case runtime
             case syncConfig
         }
     }
@@ -2397,6 +2561,8 @@ extension AppSync {
     public struct Resolver: AWSDecodableShape {
         /// The caching configuration for the resolver.
         public let cachingConfig: CachingConfig?
+        /// The resolver code that contains the request and response functions. When code is used, the runtime is required. The runtime value must be APPSYNC_JS.
+        public let code: String?
         /// The resolver data source name.
         public let dataSourceName: String?
         /// The resolver field name.
@@ -2413,13 +2579,15 @@ extension AppSync {
         public let resolverArn: String?
         /// The response mapping template.
         public let responseMappingTemplate: String?
+        public let runtime: AppSyncRuntime?
         /// The SyncConfig for a resolver attached to a versioned data source.
         public let syncConfig: SyncConfig?
         /// The resolver type name.
         public let typeName: String?
 
-        public init(cachingConfig: CachingConfig? = nil, dataSourceName: String? = nil, fieldName: String? = nil, kind: ResolverKind? = nil, maxBatchSize: Int? = nil, pipelineConfig: PipelineConfig? = nil, requestMappingTemplate: String? = nil, resolverArn: String? = nil, responseMappingTemplate: String? = nil, syncConfig: SyncConfig? = nil, typeName: String? = nil) {
+        public init(cachingConfig: CachingConfig? = nil, code: String? = nil, dataSourceName: String? = nil, fieldName: String? = nil, kind: ResolverKind? = nil, maxBatchSize: Int? = nil, pipelineConfig: PipelineConfig? = nil, requestMappingTemplate: String? = nil, resolverArn: String? = nil, responseMappingTemplate: String? = nil, runtime: AppSyncRuntime? = nil, syncConfig: SyncConfig? = nil, typeName: String? = nil) {
             self.cachingConfig = cachingConfig
+            self.code = code
             self.dataSourceName = dataSourceName
             self.fieldName = fieldName
             self.kind = kind
@@ -2428,12 +2596,14 @@ extension AppSync {
             self.requestMappingTemplate = requestMappingTemplate
             self.resolverArn = resolverArn
             self.responseMappingTemplate = responseMappingTemplate
+            self.runtime = runtime
             self.syncConfig = syncConfig
             self.typeName = typeName
         }
 
         private enum CodingKeys: String, CodingKey {
             case cachingConfig
+            case code
             case dataSourceName
             case fieldName
             case kind
@@ -2442,6 +2612,7 @@ extension AppSync {
             case requestMappingTemplate
             case resolverArn
             case responseMappingTemplate
+            case runtime
             case syncConfig
             case typeName
         }
@@ -2619,7 +2790,7 @@ extension AppSync {
         /// The cache instance type. Valid values are     SMALL     MEDIUM     LARGE     XLARGE     LARGE_2X     LARGE_4X     LARGE_8X (not available in all regions)    LARGE_12X    Historically, instance types were identified by an EC2-style value. As of July 2020, this is deprecated, and the generic identifiers above should be used. The following legacy instance types are available, but their use is discouraged:    T2_SMALL: A t2.small instance type.    T2_MEDIUM: A t2.medium instance type.    R4_LARGE: A r4.large instance type.    R4_XLARGE: A r4.xlarge instance type.    R4_2XLARGE: A r4.2xlarge instance type.    R4_4XLARGE: A r4.4xlarge instance type.    R4_8XLARGE: A r4.8xlarge instance type.
         public let type: ApiCacheType
 
-        public init(apiCachingBehavior: ApiCachingBehavior, apiId: String, ttl: Int64, type: ApiCacheType) {
+        public init(apiCachingBehavior: ApiCachingBehavior, apiId: String, ttl: Int64 = 0, type: ApiCacheType) {
             self.apiCachingBehavior = apiCachingBehavior
             self.apiId = apiId
             self.ttl = ttl
@@ -2811,14 +2982,16 @@ extension AppSync {
 
         /// The GraphQL API ID.
         public let apiId: String
+        /// The function code that contains the request and response functions. When code is used, the runtime is required. The runtime value must be APPSYNC_JS.
+        public let code: String?
         /// The Function DataSource name.
         public let dataSourceName: String
         /// The Function description.
         public let description: String?
         /// The function ID.
         public let functionId: String
-        /// The version of the request mapping template. Currently, the supported value is 2018-05-29.
-        public let functionVersion: String
+        /// The version of the request mapping template. Currently, the supported value is 2018-05-29. Note that when using VTL and mapping templates, the functionVersion is required.
+        public let functionVersion: String?
         /// The maximum batching size for a resolver.
         public let maxBatchSize: Int?
         /// The Function name.
@@ -2827,10 +3000,12 @@ extension AppSync {
         public let requestMappingTemplate: String?
         /// The Function request mapping template.
         public let responseMappingTemplate: String?
+        public let runtime: AppSyncRuntime?
         public let syncConfig: SyncConfig?
 
-        public init(apiId: String, dataSourceName: String, description: String? = nil, functionId: String, functionVersion: String, maxBatchSize: Int? = nil, name: String, requestMappingTemplate: String? = nil, responseMappingTemplate: String? = nil, syncConfig: SyncConfig? = nil) {
+        public init(apiId: String, code: String? = nil, dataSourceName: String, description: String? = nil, functionId: String, functionVersion: String? = nil, maxBatchSize: Int? = nil, name: String, requestMappingTemplate: String? = nil, responseMappingTemplate: String? = nil, runtime: AppSyncRuntime? = nil, syncConfig: SyncConfig? = nil) {
             self.apiId = apiId
+            self.code = code
             self.dataSourceName = dataSourceName
             self.description = description
             self.functionId = functionId
@@ -2839,10 +3014,13 @@ extension AppSync {
             self.name = name
             self.requestMappingTemplate = requestMappingTemplate
             self.responseMappingTemplate = responseMappingTemplate
+            self.runtime = runtime
             self.syncConfig = syncConfig
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.code, name: "code", parent: name, max: 32768)
+            try self.validate(self.code, name: "code", parent: name, min: 1)
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, max: 65536)
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, min: 1)
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, pattern: "^[_A-Za-z][_0-9A-Za-z]*$")
@@ -2863,6 +3041,7 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case code
             case dataSourceName
             case description
             case functionVersion
@@ -2870,6 +3049,7 @@ extension AppSync {
             case name
             case requestMappingTemplate
             case responseMappingTemplate
+            case runtime
             case syncConfig
         }
     }
@@ -2966,6 +3146,8 @@ extension AppSync {
         public let apiId: String
         /// The caching configuration for the resolver.
         public let cachingConfig: CachingConfig?
+        /// The resolver code that contains the request and response functions. When code is used, the runtime is required. The runtime value must be APPSYNC_JS.
+        public let code: String?
         /// The new data source name.
         public let dataSourceName: String?
         /// The new field name.
@@ -2980,14 +3162,16 @@ extension AppSync {
         public let requestMappingTemplate: String?
         /// The new response mapping template.
         public let responseMappingTemplate: String?
+        public let runtime: AppSyncRuntime?
         /// The SyncConfig for a resolver attached to a versioned data source.
         public let syncConfig: SyncConfig?
         /// The new type name.
         public let typeName: String
 
-        public init(apiId: String, cachingConfig: CachingConfig? = nil, dataSourceName: String? = nil, fieldName: String, kind: ResolverKind? = nil, maxBatchSize: Int? = nil, pipelineConfig: PipelineConfig? = nil, requestMappingTemplate: String? = nil, responseMappingTemplate: String? = nil, syncConfig: SyncConfig? = nil, typeName: String) {
+        public init(apiId: String, cachingConfig: CachingConfig? = nil, code: String? = nil, dataSourceName: String? = nil, fieldName: String, kind: ResolverKind? = nil, maxBatchSize: Int? = nil, pipelineConfig: PipelineConfig? = nil, requestMappingTemplate: String? = nil, responseMappingTemplate: String? = nil, runtime: AppSyncRuntime? = nil, syncConfig: SyncConfig? = nil, typeName: String) {
             self.apiId = apiId
             self.cachingConfig = cachingConfig
+            self.code = code
             self.dataSourceName = dataSourceName
             self.fieldName = fieldName
             self.kind = kind
@@ -2995,11 +3179,14 @@ extension AppSync {
             self.pipelineConfig = pipelineConfig
             self.requestMappingTemplate = requestMappingTemplate
             self.responseMappingTemplate = responseMappingTemplate
+            self.runtime = runtime
             self.syncConfig = syncConfig
             self.typeName = typeName
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.code, name: "code", parent: name, max: 32768)
+            try self.validate(self.code, name: "code", parent: name, min: 1)
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, max: 65536)
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, min: 1)
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, pattern: "^[_A-Za-z][_0-9A-Za-z]*$")
@@ -3021,12 +3208,14 @@ extension AppSync {
 
         private enum CodingKeys: String, CodingKey {
             case cachingConfig
+            case code
             case dataSourceName
             case kind
             case maxBatchSize
             case pipelineConfig
             case requestMappingTemplate
             case responseMappingTemplate
+            case runtime
             case syncConfig
         }
     }

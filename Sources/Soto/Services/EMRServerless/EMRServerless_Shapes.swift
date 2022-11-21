@@ -32,6 +32,12 @@ extension EMRServerless {
         public var description: String { return self.rawValue }
     }
 
+    public enum Architecture: String, CustomStringConvertible, Codable, _SotoSendable {
+        case arm64 = "ARM64"
+        case x8664 = "X86_64"
+        public var description: String { return self.rawValue }
+    }
+
     public enum JobRunState: String, CustomStringConvertible, Codable, _SotoSendable {
         case cancelled = "CANCELLED"
         case cancelling = "CANCELLING"
@@ -99,6 +105,8 @@ extension EMRServerless {
     public struct Application: AWSDecodableShape {
         /// The ID of the application.
         public let applicationId: String
+        /// The CPU architecture of an application.
+        public let architecture: Architecture?
         /// The ARN of the application.
         public let arn: String
         /// The configuration for an application to automatically start on job submission.
@@ -128,8 +136,9 @@ extension EMRServerless {
         /// The date and time when the application run was last updated.
         public let updatedAt: Date
 
-        public init(applicationId: String, arn: String, autoStartConfiguration: AutoStartConfig? = nil, autoStopConfiguration: AutoStopConfig? = nil, createdAt: Date, initialCapacity: [String: InitialCapacityConfig]? = nil, maximumCapacity: MaximumAllowedResources? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, releaseLabel: String, state: ApplicationState, stateDetails: String? = nil, tags: [String: String]? = nil, type: String, updatedAt: Date) {
+        public init(applicationId: String, architecture: Architecture? = nil, arn: String, autoStartConfiguration: AutoStartConfig? = nil, autoStopConfiguration: AutoStopConfig? = nil, createdAt: Date, initialCapacity: [String: InitialCapacityConfig]? = nil, maximumCapacity: MaximumAllowedResources? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, releaseLabel: String, state: ApplicationState, stateDetails: String? = nil, tags: [String: String]? = nil, type: String, updatedAt: Date) {
             self.applicationId = applicationId
+            self.architecture = architecture
             self.arn = arn
             self.autoStartConfiguration = autoStartConfiguration
             self.autoStopConfiguration = autoStopConfiguration
@@ -148,6 +157,7 @@ extension EMRServerless {
 
         private enum CodingKeys: String, CodingKey {
             case applicationId
+            case architecture
             case arn
             case autoStartConfiguration
             case autoStopConfiguration
@@ -166,6 +176,8 @@ extension EMRServerless {
     }
 
     public struct ApplicationSummary: AWSDecodableShape {
+        /// The CPU architecture of an application.
+        public let architecture: Architecture?
         /// The ARN of the application.
         public let arn: String
         /// The date and time when the application was created.
@@ -185,7 +197,8 @@ extension EMRServerless {
         /// The date and time when the application was last updated.
         public let updatedAt: Date
 
-        public init(arn: String, createdAt: Date, id: String, name: String? = nil, releaseLabel: String, state: ApplicationState, stateDetails: String? = nil, type: String, updatedAt: Date) {
+        public init(architecture: Architecture? = nil, arn: String, createdAt: Date, id: String, name: String? = nil, releaseLabel: String, state: ApplicationState, stateDetails: String? = nil, type: String, updatedAt: Date) {
+            self.architecture = architecture
             self.arn = arn
             self.createdAt = createdAt
             self.id = id
@@ -198,6 +211,7 @@ extension EMRServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case architecture
             case arn
             case createdAt
             case id
@@ -351,6 +365,8 @@ extension EMRServerless {
     }
 
     public struct CreateApplicationRequest: AWSEncodableShape {
+        /// The CPU architecture of an application.
+        public let architecture: Architecture?
         /// The configuration for an application to automatically start on job submission.
         public let autoStartConfiguration: AutoStartConfig?
         /// The configuration for an application to automatically stop after a certain amount of time being idle.
@@ -372,7 +388,8 @@ extension EMRServerless {
         /// The type of application you want to start, such as Spark or Hive.
         public let type: String
 
-        public init(autoStartConfiguration: AutoStartConfig? = nil, autoStopConfiguration: AutoStopConfig? = nil, clientToken: String = CreateApplicationRequest.idempotencyToken(), initialCapacity: [String: InitialCapacityConfig]? = nil, maximumCapacity: MaximumAllowedResources? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, releaseLabel: String, tags: [String: String]? = nil, type: String) {
+        public init(architecture: Architecture? = nil, autoStartConfiguration: AutoStartConfig? = nil, autoStopConfiguration: AutoStopConfig? = nil, clientToken: String = CreateApplicationRequest.idempotencyToken(), initialCapacity: [String: InitialCapacityConfig]? = nil, maximumCapacity: MaximumAllowedResources? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, releaseLabel: String, tags: [String: String]? = nil, type: String) {
+            self.architecture = architecture
             self.autoStartConfiguration = autoStartConfiguration
             self.autoStopConfiguration = autoStopConfiguration
             self.clientToken = clientToken
@@ -417,6 +434,7 @@ extension EMRServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case architecture
             case autoStartConfiguration
             case autoStopConfiguration
             case clientToken
@@ -1340,6 +1358,8 @@ extension EMRServerless {
 
         /// The ID of the application to update.
         public let applicationId: String
+        /// The CPU architecture of an application.
+        public let architecture: Architecture?
         /// The configuration for an application to automatically start on job submission.
         public let autoStartConfiguration: AutoStartConfig?
         /// The configuration for an application to automatically stop after a certain amount of time being idle.
@@ -1352,8 +1372,9 @@ extension EMRServerless {
         public let maximumCapacity: MaximumAllowedResources?
         public let networkConfiguration: NetworkConfiguration?
 
-        public init(applicationId: String, autoStartConfiguration: AutoStartConfig? = nil, autoStopConfiguration: AutoStopConfig? = nil, clientToken: String = UpdateApplicationRequest.idempotencyToken(), initialCapacity: [String: InitialCapacityConfig]? = nil, maximumCapacity: MaximumAllowedResources? = nil, networkConfiguration: NetworkConfiguration? = nil) {
+        public init(applicationId: String, architecture: Architecture? = nil, autoStartConfiguration: AutoStartConfig? = nil, autoStopConfiguration: AutoStopConfig? = nil, clientToken: String = UpdateApplicationRequest.idempotencyToken(), initialCapacity: [String: InitialCapacityConfig]? = nil, maximumCapacity: MaximumAllowedResources? = nil, networkConfiguration: NetworkConfiguration? = nil) {
             self.applicationId = applicationId
+            self.architecture = architecture
             self.autoStartConfiguration = autoStartConfiguration
             self.autoStopConfiguration = autoStopConfiguration
             self.clientToken = clientToken
@@ -1381,6 +1402,7 @@ extension EMRServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case architecture
             case autoStartConfiguration
             case autoStopConfiguration
             case clientToken

@@ -91,6 +91,11 @@ public struct XRay: AWSService {
         return self.client.execute(operation: "DeleteGroup", path: "/DeleteGroup", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Deletes a resource policy from the target Amazon Web Services account.
+    public func deleteResourcePolicy(_ input: DeleteResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteResourcePolicyResult> {
+        return self.client.execute(operation: "DeleteResourcePolicy", path: "/DeleteResourcePolicy", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Deletes a sampling rule.
     public func deleteSamplingRule(_ input: DeleteSamplingRuleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteSamplingRuleResult> {
         return self.client.execute(operation: "DeleteSamplingRule", path: "/DeleteSamplingRule", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -166,6 +171,11 @@ public struct XRay: AWSService {
         return self.client.execute(operation: "GetTraceSummaries", path: "/TraceSummaries", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Returns the list of resource policies in the target Amazon Web Services account.
+    public func listResourcePolicies(_ input: ListResourcePoliciesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListResourcePoliciesResult> {
+        return self.client.execute(operation: "ListResourcePolicies", path: "/ListResourcePolicies", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns a list of tags that are applied to the specified Amazon Web Services X-Ray group or sampling rule.
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
         return self.client.execute(operation: "ListTagsForResource", path: "/ListTagsForResource", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -174,6 +184,11 @@ public struct XRay: AWSService {
     /// Updates the encryption configuration for X-Ray data.
     public func putEncryptionConfig(_ input: PutEncryptionConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutEncryptionConfigResult> {
         return self.client.execute(operation: "PutEncryptionConfig", path: "/PutEncryptionConfig", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  Sets the resource policy to grant one or more Amazon Web Services services and accounts permissions to  access X-Ray. Each resource policy will be associated with a specific Amazon Web Services account.  Each Amazon Web Services account can have a maximum of 5 resource policies, and each policy name must be  unique within that account. The maximum size of each resource policy is 5KB.
+    public func putResourcePolicy(_ input: PutResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutResourcePolicyResult> {
+        return self.client.execute(operation: "PutResourcePolicy", path: "/PutResourcePolicy", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Used by the Amazon Web Services X-Ray daemon to upload telemetry.

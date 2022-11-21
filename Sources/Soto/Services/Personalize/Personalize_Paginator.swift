@@ -497,6 +497,112 @@ extension Personalize {
         )
     }
 
+    ///  Lists the metrics for the metric attribution.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listMetricAttributionMetricsPaginator<Result>(
+        _ input: ListMetricAttributionMetricsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListMetricAttributionMetricsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listMetricAttributionMetrics,
+            inputKey: \ListMetricAttributionMetricsRequest.nextToken,
+            outputKey: \ListMetricAttributionMetricsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listMetricAttributionMetricsPaginator(
+        _ input: ListMetricAttributionMetricsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListMetricAttributionMetricsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listMetricAttributionMetrics,
+            inputKey: \ListMetricAttributionMetricsRequest.nextToken,
+            outputKey: \ListMetricAttributionMetricsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Lists metric attributions.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listMetricAttributionsPaginator<Result>(
+        _ input: ListMetricAttributionsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListMetricAttributionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listMetricAttributions,
+            inputKey: \ListMetricAttributionsRequest.nextToken,
+            outputKey: \ListMetricAttributionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listMetricAttributionsPaginator(
+        _ input: ListMetricAttributionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListMetricAttributionsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listMetricAttributions,
+            inputKey: \ListMetricAttributionsRequest.nextToken,
+            outputKey: \ListMetricAttributionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Returns a list of available recipes. The response provides the properties for each recipe, including the recipe's Amazon Resource Name (ARN).
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -844,6 +950,26 @@ extension Personalize.ListEventTrackersRequest: AWSPaginateToken {
 
 extension Personalize.ListFiltersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Personalize.ListFiltersRequest {
+        return .init(
+            datasetGroupArn: self.datasetGroupArn,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Personalize.ListMetricAttributionMetricsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Personalize.ListMetricAttributionMetricsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            metricAttributionArn: self.metricAttributionArn,
+            nextToken: token
+        )
+    }
+}
+
+extension Personalize.ListMetricAttributionsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Personalize.ListMetricAttributionsRequest {
         return .init(
             datasetGroupArn: self.datasetGroupArn,
             maxResults: self.maxResults,

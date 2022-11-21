@@ -22,13 +22,13 @@ extension LakeFormation {
     // MARK: Enums
 
     public enum ComparisonOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+        case `in` = "IN"
         case beginsWith = "BEGINS_WITH"
         case between = "BETWEEN"
         case contains = "CONTAINS"
         case eq = "EQ"
         case ge = "GE"
         case gt = "GT"
-        case `in` = "IN"
         case le = "LE"
         case lt = "LT"
         case ne = "NE"
@@ -38,8 +38,8 @@ extension LakeFormation {
 
     public enum DataLakeResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
         case catalog = "CATALOG"
-        case database = "DATABASE"
         case dataLocation = "DATA_LOCATION"
+        case database = "DATABASE"
         case lfTag = "LF_TAG"
         case lfTagPolicy = "LF_TAG_POLICY"
         case lfTagPolicyDatabase = "LF_TAG_POLICY_DATABASE"
@@ -56,9 +56,9 @@ extension LakeFormation {
     }
 
     public enum OptimizerType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case all = "ALL"
         case compaction = "COMPACTION"
         case garbageCollection = "GARBAGE_COLLECTION"
+        case generic = "ALL"
         public var description: String { return self.rawValue }
     }
 
@@ -108,8 +108,8 @@ extension LakeFormation {
     public enum TransactionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
         case aborted = "ABORTED"
         case active = "ACTIVE"
-        case committed = "COMMITTED"
         case commitInProgress = "COMMIT_IN_PROGRESS"
+        case committed = "COMMITTED"
         public var description: String { return self.rawValue }
     }
 
@@ -187,7 +187,7 @@ extension LakeFormation {
         /// The Amazon S3 location of the object.
         public let uri: String
 
-        public init(eTag: String, partitionValues: [String]? = nil, size: Int64, uri: String) {
+        public init(eTag: String, partitionValues: [String]? = nil, size: Int64 = 0, uri: String) {
             self.eTag = eTag
             self.partitionValues = partitionValues
             self.size = size
@@ -710,7 +710,7 @@ extension LakeFormation {
         public let allowExternalDataFiltering: Bool?
         /// Lake Formation relies on a privileged process secured by Amazon EMR or the third party integrator to tag the user's role while assuming it. Lake Formation will publish the acceptable key-value pair, for example key = "LakeFormationTrustedCaller" and value = "TRUE" and the third party integrator must properly tag the temporary security credentials that will be used to call Lake Formation's administrative APIs.
         public let authorizedSessionTagValueList: [String]?
-        /// Specifies whether access control on newly created database is managed by Lake Formation permissions or exclusively by IAM permissions. You can override this default setting when you create a database.
+        /// Specifies whether access control on newly created database is managed by Lake Formation permissions or exclusively by IAM permissions.
         /// 	  A null value indicates access control by Lake Formation permissions. A value that assigns ALL to IAM_ALLOWED_PRINCIPALS indicates access control by IAM permissions. This is referred to as the setting "Use only IAM access control," and is for backward compatibility with the Glue permission model implemented by IAM permissions.
         ///
         /// 	        The only permitted values are an empty array or an array that contains a single JSON object that grants ALL to IAM_ALLOWED_PRINCIPALS.
@@ -725,18 +725,21 @@ extension LakeFormation {
         public let dataLakeAdmins: [DataLakePrincipal]?
         /// A list of the account IDs of Amazon Web Services accounts with Amazon EMR clusters that are to perform data filtering.>
         public let externalDataFilteringAllowList: [DataLakePrincipal]?
+        /// A key-value map that provides an additional configuration on your data lake. CrossAccountVersion is the key you can configure in the Parameters field. Accepted values for the CrossAccountVersion key are 1, 2, and 3.
+        public let parameters: [String: String]?
         /// A list of the resource-owning account IDs that the caller's account can use to share their user access details (user ARNs). The user ARNs can be logged in the resource owner's CloudTrail log.
         ///
         /// 	        You may want to specify this property when you are in a high-trust boundary, such as the same team or company.
         public let trustedResourceOwners: [String]?
 
-        public init(allowExternalDataFiltering: Bool? = nil, authorizedSessionTagValueList: [String]? = nil, createDatabaseDefaultPermissions: [PrincipalPermissions]? = nil, createTableDefaultPermissions: [PrincipalPermissions]? = nil, dataLakeAdmins: [DataLakePrincipal]? = nil, externalDataFilteringAllowList: [DataLakePrincipal]? = nil, trustedResourceOwners: [String]? = nil) {
+        public init(allowExternalDataFiltering: Bool? = nil, authorizedSessionTagValueList: [String]? = nil, createDatabaseDefaultPermissions: [PrincipalPermissions]? = nil, createTableDefaultPermissions: [PrincipalPermissions]? = nil, dataLakeAdmins: [DataLakePrincipal]? = nil, externalDataFilteringAllowList: [DataLakePrincipal]? = nil, parameters: [String: String]? = nil, trustedResourceOwners: [String]? = nil) {
             self.allowExternalDataFiltering = allowExternalDataFiltering
             self.authorizedSessionTagValueList = authorizedSessionTagValueList
             self.createDatabaseDefaultPermissions = createDatabaseDefaultPermissions
             self.createTableDefaultPermissions = createTableDefaultPermissions
             self.dataLakeAdmins = dataLakeAdmins
             self.externalDataFilteringAllowList = externalDataFilteringAllowList
+            self.parameters = parameters
             self.trustedResourceOwners = trustedResourceOwners
         }
 
@@ -760,6 +763,12 @@ extension LakeFormation {
                 try $0.validate(name: "\(name).externalDataFilteringAllowList[]")
             }
             try self.validate(self.externalDataFilteringAllowList, name: "externalDataFilteringAllowList", parent: name, max: 30)
+            try self.parameters?.forEach {
+                try validate($0.key, name: "parameters.key", parent: name, max: 255)
+                try validate($0.key, name: "parameters.key", parent: name, min: 1)
+                try validate($0.key, name: "parameters.key", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 512_000)
+            }
             try self.trustedResourceOwners?.forEach {
                 try validate($0, name: "trustedResourceOwners[]", parent: name, max: 255)
                 try validate($0, name: "trustedResourceOwners[]", parent: name, min: 1)
@@ -774,6 +783,7 @@ extension LakeFormation {
             case createTableDefaultPermissions = "CreateTableDefaultPermissions"
             case dataLakeAdmins = "DataLakeAdmins"
             case externalDataFilteringAllowList = "ExternalDataFilteringAllowList"
+            case parameters = "Parameters"
             case trustedResourceOwners = "TrustedResourceOwners"
         }
     }
@@ -1630,7 +1640,7 @@ extension LakeFormation {
         /// A work token used to query the execution service. Token output from GetWorkUnits.
         public let workUnitToken: String
 
-        public init(queryId: String, workUnitId: Int64, workUnitToken: String) {
+        public init(queryId: String, workUnitId: Int64 = 0, workUnitToken: String) {
             self.queryId = queryId
             self.workUnitId = workUnitId
             self.workUnitToken = workUnitToken
@@ -2643,7 +2653,7 @@ extension LakeFormation {
             }
             try self.validate(self.expression, name: "expression", parent: name, max: 5)
             try self.validate(self.expression, name: "expression", parent: name, min: 1)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
 
@@ -2698,7 +2708,7 @@ extension LakeFormation {
             }
             try self.validate(self.expression, name: "expression", parent: name, max: 5)
             try self.validate(self.expression, name: "expression", parent: name, min: 1)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
 

@@ -65,7 +65,7 @@ public struct ConnectErrorType: AWSErrorType {
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// The flow has not been published.
     public static var contactFlowNotPublishedException: Self { .init(.contactFlowNotPublishedException) }
-    /// The contact with the specified ID is not active or does not exist.
+    /// The contact with the specified ID is not active or does not exist. Applies to Voice calls only, not to Chat, Task, or Voice Callback.
     public static var contactNotFoundException: Self { .init(.contactNotFoundException) }
     /// Outbound calls to the destination number are not allowed.
     public static var destinationNotAllowedException: Self { .init(.destinationNotAllowedException) }

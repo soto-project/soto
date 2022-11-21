@@ -105,6 +105,11 @@ public struct WorkSpaces: AWSService {
         return self.client.execute(operation: "CreateIpGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates a Standby WorkSpace in a secondary region.
+    public func createStandbyWorkspaces(_ input: CreateStandbyWorkspacesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateStandbyWorkspacesResult> {
+        return self.client.execute(operation: "CreateStandbyWorkspaces", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates the specified tags for the specified WorkSpaces resource.
     public func createTags(_ input: CreateTagsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateTagsResult> {
         return self.client.execute(operation: "CreateTags", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -283,6 +288,11 @@ public struct WorkSpaces: AWSService {
     /// Modifies the configuration of Bring Your Own License (BYOL) for the specified account.
     public func modifyAccount(_ input: ModifyAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ModifyAccountResult> {
         return self.client.execute(operation: "ModifyAccount", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Modifies the properties of the certificate-based authentication you want to use with your WorkSpaces.
+    public func modifyCertificateBasedAuthProperties(_ input: ModifyCertificateBasedAuthPropertiesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ModifyCertificateBasedAuthPropertiesResult> {
+        return self.client.execute(operation: "ModifyCertificateBasedAuthProperties", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Modifies the properties of the specified Amazon WorkSpaces clients.

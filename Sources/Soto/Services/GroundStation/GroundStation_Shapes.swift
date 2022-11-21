@@ -83,6 +83,36 @@ extension GroundStation {
         public var description: String { return self.rawValue }
     }
 
+    public enum EphemerisInvalidReason: String, CustomStringConvertible, Codable, _SotoSendable {
+        /// Provided KMS key is invalid
+        case kmsKeyInvalid = "KMS_KEY_INVALID"
+        /// Provided spacecraft identifiers such as spacecraft NORAD Id are invalid
+        case metadataInvalid = "METADATA_INVALID"
+        /// Start, end, or expiration time(s) are invalid for the provided ephemeris
+        case timeRangeInvalid = "TIME_RANGE_INVALID"
+        /// Provided ephemeris defines invalid spacecraft trajectory
+        case trajectoryInvalid = "TRAJECTORY_INVALID"
+        /// Internal Service Error occurred while processing ephemeris
+        case validationError = "VALIDATION_ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EphemerisSource: String, CustomStringConvertible, Codable, _SotoSendable {
+        case customerProvided = "CUSTOMER_PROVIDED"
+        case spaceTrack = "SPACE_TRACK"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EphemerisStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        case error = "ERROR"
+        case expired = "EXPIRED"
+        case invalid = "INVALID"
+        case validating = "VALIDATING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FrequencyUnits: String, CustomStringConvertible, Codable, _SotoSendable {
         case gHz = "GHz"
         case mHz = "MHz"
@@ -225,6 +255,64 @@ extension GroundStation {
         }
     }
 
+    public enum EphemerisData: AWSEncodableShape, _SotoSendable {
+        case oem(OEMEphemeris)
+        case tle(TLEEphemeris)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .oem(let value):
+                try container.encode(value, forKey: .oem)
+            case .tle(let value):
+                try container.encode(value, forKey: .tle)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .oem(let value):
+                try value.validate(name: "\(name).oem")
+            case .tle(let value):
+                try value.validate(name: "\(name).tle")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case oem
+            case tle
+        }
+    }
+
+    public enum EphemerisTypeDescription: AWSDecodableShape, _SotoSendable {
+        case oem(EphemerisDescription)
+        case tle(EphemerisDescription)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .oem:
+                let value = try container.decode(EphemerisDescription.self, forKey: .oem)
+                self = .oem(value)
+            case .tle:
+                let value = try container.decode(EphemerisDescription.self, forKey: .tle)
+                self = .tle(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case oem
+            case tle
+        }
+    }
+
     // MARK: Shapes
 
     public struct AntennaDemodDecodeDetails: AWSDecodableShape {
@@ -312,6 +400,12 @@ extension GroundStation {
             self.contactId = contactId
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.contactId, name: "contactId", parent: name, max: 128)
+            try self.validate(self.contactId, name: "contactId", parent: name, min: 1)
+            try self.validate(self.contactId, name: "contactId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -366,7 +460,7 @@ extension GroundStation {
         public let contactId: String?
         /// Status of a contact.
         public let contactStatus: ContactStatus?
-        /// End time of a contact.
+        /// End time of a contact in UTC.
         public let endTime: Date?
         /// Error message of a contact.
         public let errorMessage: String?
@@ -384,7 +478,7 @@ extension GroundStation {
         public let region: String?
         /// ARN of a satellite.
         public let satelliteArn: String?
-        /// Start time of a contact.
+        /// Start time of a contact in UTC.
         public let startTime: Date?
         /// Tags assigned to a contact.
         public let tags: [String: String]?
@@ -478,10 +572,64 @@ extension GroundStation {
             try self.endpointDetails.forEach {
                 try $0.validate(name: "\(name).endpointDetails[]")
             }
+            try self.validate(self.endpointDetails, name: "endpointDetails", parent: name, max: 500)
         }
 
         private enum CodingKeys: String, CodingKey {
             case endpointDetails
+            case tags
+        }
+    }
+
+    public struct CreateEphemerisRequest: AWSEncodableShape {
+        /// Whether to set the ephemeris status to ENABLED after validation. Setting this to false will set the ephemeris status to DISABLED after validation.
+        public let enabled: Bool?
+        /// Ephemeris data.
+        public let ephemeris: EphemerisData?
+        /// An overall expiration time for the ephemeris in UTC, after which it will become EXPIRED.
+        public let expirationTime: Date?
+        /// The ARN of a KMS key used to encrypt the ephemeris in Ground Station.
+        public let kmsKeyArn: String?
+        /// A name string associated with the ephemeris. Used as a human-readable identifier for the ephemeris.
+        public let name: String
+        /// Customer-provided priority score to establish the order in which overlapping ephemerides should be used. The default for customer-provided ephemeris priority is 1, and higher numbers take precedence. Priority must be 1 or greater
+        public let priority: Int?
+        /// AWS Ground Station satellite ID for this ephemeris.
+        public let satelliteId: String
+        /// Tags assigned to an ephemeris.
+        public let tags: [String: String]?
+
+        public init(enabled: Bool? = nil, ephemeris: EphemerisData? = nil, expirationTime: Date? = nil, kmsKeyArn: String? = nil, name: String, priority: Int? = nil, satelliteId: String, tags: [String: String]? = nil) {
+            self.enabled = enabled
+            self.ephemeris = ephemeris
+            self.expirationTime = expirationTime
+            self.kmsKeyArn = kmsKeyArn
+            self.name = name
+            self.priority = priority
+            self.satelliteId = satelliteId
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.ephemeris?.validate(name: "\(name).ephemeris")
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[ a-zA-Z0-9_:-]{1,256}$")
+            try self.validate(self.priority, name: "priority", parent: name, max: 99999)
+            try self.validate(self.priority, name: "priority", parent: name, min: 1)
+            try self.validate(self.satelliteId, name: "satelliteId", parent: name, max: 128)
+            try self.validate(self.satelliteId, name: "satelliteId", parent: name, min: 1)
+            try self.validate(self.satelliteId, name: "satelliteId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled
+            case ephemeris
+            case expirationTime
+            case kmsKeyArn
+            case name
+            case priority
+            case satelliteId
             case tags
         }
     }
@@ -514,13 +662,14 @@ extension GroundStation {
 
         public func validate(name: String) throws {
             try self.validate(self.contactPostPassDurationSeconds, name: "contactPostPassDurationSeconds", parent: name, max: 21600)
-            try self.validate(self.contactPostPassDurationSeconds, name: "contactPostPassDurationSeconds", parent: name, min: 1)
+            try self.validate(self.contactPostPassDurationSeconds, name: "contactPostPassDurationSeconds", parent: name, min: 0)
             try self.validate(self.contactPrePassDurationSeconds, name: "contactPrePassDurationSeconds", parent: name, max: 21600)
-            try self.validate(self.contactPrePassDurationSeconds, name: "contactPrePassDurationSeconds", parent: name, min: 1)
+            try self.validate(self.contactPrePassDurationSeconds, name: "contactPrePassDurationSeconds", parent: name, min: 0)
             try self.dataflowEdges.forEach {
                 try validate($0, name: "dataflowEdges[]", parent: name, max: 2)
                 try validate($0, name: "dataflowEdges[]", parent: name, min: 2)
             }
+            try self.validate(self.dataflowEdges, name: "dataflowEdges", parent: name, max: 500)
             try self.validate(self.minimumViableContactDurationSeconds, name: "minimumViableContactDurationSeconds", parent: name, max: 21600)
             try self.validate(self.minimumViableContactDurationSeconds, name: "minimumViableContactDurationSeconds", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 256)
@@ -671,6 +820,12 @@ extension GroundStation {
             self.configType = configType
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.configId, name: "configId", parent: name, max: 128)
+            try self.validate(self.configId, name: "configId", parent: name, min: 1)
+            try self.validate(self.configId, name: "configId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -686,6 +841,33 @@ extension GroundStation {
             self.dataflowEndpointGroupId = dataflowEndpointGroupId
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.dataflowEndpointGroupId, name: "dataflowEndpointGroupId", parent: name, max: 128)
+            try self.validate(self.dataflowEndpointGroupId, name: "dataflowEndpointGroupId", parent: name, min: 1)
+            try self.validate(self.dataflowEndpointGroupId, name: "dataflowEndpointGroupId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteEphemerisRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ephemerisId", location: .uri("ephemerisId"))
+        ]
+
+        /// The AWS Ground Station ephemeris ID.
+        public let ephemerisId: String
+
+        public init(ephemerisId: String) {
+            self.ephemerisId = ephemerisId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.ephemerisId, name: "ephemerisId", parent: name, max: 128)
+            try self.validate(self.ephemerisId, name: "ephemerisId", parent: name, min: 1)
+            try self.validate(self.ephemerisId, name: "ephemerisId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -699,6 +881,12 @@ extension GroundStation {
 
         public init(missionProfileId: String) {
             self.missionProfileId = missionProfileId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.missionProfileId, name: "missionProfileId", parent: name, max: 128)
+            try self.validate(self.missionProfileId, name: "missionProfileId", parent: name, min: 1)
+            try self.validate(self.missionProfileId, name: "missionProfileId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -735,6 +923,12 @@ extension GroundStation {
             self.contactId = contactId
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.contactId, name: "contactId", parent: name, max: 128)
+            try self.validate(self.contactId, name: "contactId", parent: name, min: 1)
+            try self.validate(self.contactId, name: "contactId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -745,7 +939,7 @@ extension GroundStation {
         public let contactStatus: ContactStatus?
         /// List describing source and destination details for each dataflow edge.
         public let dataflowList: [DataflowDetail]?
-        /// End time of a contact.
+        /// End time of a contact in UTC.
         public let endTime: Date?
         /// Error message for a contact.
         public let errorMessage: String?
@@ -763,7 +957,7 @@ extension GroundStation {
         public let region: String?
         /// ARN of a satellite.
         public let satelliteArn: String?
-        /// Start time of a contact.
+        /// Start time of a contact in UTC.
         public let startTime: Date?
         /// Tags assigned to a contact.
         public let tags: [String: String]?
@@ -799,6 +993,76 @@ extension GroundStation {
             case region
             case satelliteArn
             case startTime
+            case tags
+        }
+    }
+
+    public struct DescribeEphemerisRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ephemerisId", location: .uri("ephemerisId"))
+        ]
+
+        /// The AWS Ground Station ephemeris ID.
+        public let ephemerisId: String
+
+        public init(ephemerisId: String) {
+            self.ephemerisId = ephemerisId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.ephemerisId, name: "ephemerisId", parent: name, max: 128)
+            try self.validate(self.ephemerisId, name: "ephemerisId", parent: name, min: 1)
+            try self.validate(self.ephemerisId, name: "ephemerisId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeEphemerisResponse: AWSDecodableShape {
+        /// The time the ephemeris was uploaded in UTC.
+        public let creationTime: Date?
+        /// Whether or not the ephemeris is enabled.
+        public let enabled: Bool?
+        /// The AWS Ground Station ephemeris ID.
+        public let ephemerisId: String?
+        /// Reason that an ephemeris failed validation. Only provided for ephemerides with INVALID status.
+        public let invalidReason: EphemerisInvalidReason?
+        /// A name string associated with the ephemeris. Used as a human-readable identifier for the ephemeris.
+        public let name: String?
+        /// Customer-provided priority score to establish the order in which overlapping ephemerides should be used. The default for customer-provided ephemeris priority is 1, and higher numbers take precedence. Priority must be 1 or greater
+        public let priority: Int?
+        /// The AWS Ground Station satellite ID associated with ephemeris.
+        public let satelliteId: String?
+        /// The status of the ephemeris.
+        public let status: EphemerisStatus?
+        /// Supplied ephemeris data.
+        public let suppliedData: EphemerisTypeDescription?
+        /// Tags assigned to an ephemeris.
+        public let tags: [String: String]?
+
+        public init(creationTime: Date? = nil, enabled: Bool? = nil, ephemerisId: String? = nil, invalidReason: EphemerisInvalidReason? = nil, name: String? = nil, priority: Int? = nil, satelliteId: String? = nil, status: EphemerisStatus? = nil, suppliedData: EphemerisTypeDescription? = nil, tags: [String: String]? = nil) {
+            self.creationTime = creationTime
+            self.enabled = enabled
+            self.ephemerisId = ephemerisId
+            self.invalidReason = invalidReason
+            self.name = name
+            self.priority = priority
+            self.satelliteId = satelliteId
+            self.status = status
+            self.suppliedData = suppliedData
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime
+            case enabled
+            case ephemerisId
+            case invalidReason
+            case name
+            case priority
+            case satelliteId
+            case status
+            case suppliedData
             case tags
         }
     }
@@ -865,7 +1129,7 @@ extension GroundStation {
     public struct EndpointDetails: AWSEncodableShape & AWSDecodableShape {
         /// A dataflow endpoint.
         public let endpoint: DataflowEndpoint?
-        /// Endpoint security details.
+        /// Endpoint security details including a list of subnets, a list of security groups and a role to connect streams to instances.
         public let securityDetails: SecurityDetails?
 
         public init(endpoint: DataflowEndpoint? = nil, securityDetails: SecurityDetails? = nil) {
@@ -880,6 +1144,98 @@ extension GroundStation {
         private enum CodingKeys: String, CodingKey {
             case endpoint
             case securityDetails
+        }
+    }
+
+    public struct EphemerisDescription: AWSDecodableShape {
+        /// Supplied ephemeris data.
+        public let ephemerisData: String?
+        /// Source S3 object used for the ephemeris.
+        public let sourceS3Object: S3Object?
+
+        public init(ephemerisData: String? = nil, sourceS3Object: S3Object? = nil) {
+            self.ephemerisData = ephemerisData
+            self.sourceS3Object = sourceS3Object
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ephemerisData
+            case sourceS3Object
+        }
+    }
+
+    public struct EphemerisIdResponse: AWSDecodableShape {
+        /// The AWS Ground Station ephemeris ID.
+        public let ephemerisId: String?
+
+        public init(ephemerisId: String? = nil) {
+            self.ephemerisId = ephemerisId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ephemerisId
+        }
+    }
+
+    public struct EphemerisItem: AWSDecodableShape {
+        /// The time the ephemeris was uploaded in UTC.
+        public let creationTime: Date?
+        /// Whether or not the ephemeris is enabled.
+        public let enabled: Bool?
+        /// The AWS Ground Station ephemeris ID.
+        public let ephemerisId: String?
+        /// A name string associated with the ephemeris. Used as a human-readable identifier for the ephemeris.
+        public let name: String?
+        /// Customer-provided priority score to establish the order in which overlapping ephemerides should be used. The default for customer-provided ephemeris priority is 1, and higher numbers take precedence. Priority must be 1 or greater
+        public let priority: Int?
+        /// Source S3 object used for the ephemeris.
+        public let sourceS3Object: S3Object?
+        /// The status of the ephemeris.
+        public let status: EphemerisStatus?
+
+        public init(creationTime: Date? = nil, enabled: Bool? = nil, ephemerisId: String? = nil, name: String? = nil, priority: Int? = nil, sourceS3Object: S3Object? = nil, status: EphemerisStatus? = nil) {
+            self.creationTime = creationTime
+            self.enabled = enabled
+            self.ephemerisId = ephemerisId
+            self.name = name
+            self.priority = priority
+            self.sourceS3Object = sourceS3Object
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime
+            case enabled
+            case ephemerisId
+            case name
+            case priority
+            case sourceS3Object
+            case status
+        }
+    }
+
+    public struct EphemerisMetaData: AWSDecodableShape {
+        /// UUID of a customer-provided ephemeris. This field is not populated for default ephemerides from Space Track.
+        public let ephemerisId: String?
+        /// The epoch of a default, ephemeris from Space Track in UTC. This field is not populated for customer-provided ephemerides.
+        public let epoch: Date?
+        /// A name string associated with the ephemeris. Used as a human-readable identifier for the ephemeris. A name is only returned for customer-provider ephemerides that have a name associated.
+        public let name: String?
+        /// The EphemerisSource that generated a given ephemeris.
+        public let source: EphemerisSource
+
+        public init(ephemerisId: String? = nil, epoch: Date? = nil, name: String? = nil, source: EphemerisSource) {
+            self.ephemerisId = ephemerisId
+            self.epoch = epoch
+            self.name = name
+            self.source = source
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ephemerisId
+            case epoch
+            case name
+            case source
         }
     }
 
@@ -933,6 +1289,12 @@ extension GroundStation {
             self.configType = configType
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.configId, name: "configId", parent: name, max: 128)
+            try self.validate(self.configId, name: "configId", parent: name, min: 1)
+            try self.validate(self.configId, name: "configId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -981,6 +1343,12 @@ extension GroundStation {
             self.dataflowEndpointGroupId = dataflowEndpointGroupId
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.dataflowEndpointGroupId, name: "dataflowEndpointGroupId", parent: name, max: 128)
+            try self.validate(self.dataflowEndpointGroupId, name: "dataflowEndpointGroupId", parent: name, min: 1)
+            try self.validate(self.dataflowEndpointGroupId, name: "dataflowEndpointGroupId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -1018,6 +1386,13 @@ extension GroundStation {
         public init(month: Int, year: Int) {
             self.month = month
             self.year = year
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.month, name: "month", parent: name, max: 12)
+            try self.validate(self.month, name: "month", parent: name, min: 1)
+            try self.validate(self.year, name: "year", parent: name, max: 3000)
+            try self.validate(self.year, name: "year", parent: name, min: 2018)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1065,6 +1440,12 @@ extension GroundStation {
 
         public init(missionProfileId: String) {
             self.missionProfileId = missionProfileId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.missionProfileId, name: "missionProfileId", parent: name, max: 128)
+            try self.validate(self.missionProfileId, name: "missionProfileId", parent: name, min: 1)
+            try self.validate(self.missionProfileId, name: "missionProfileId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1131,10 +1512,18 @@ extension GroundStation {
             self.satelliteId = satelliteId
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.satelliteId, name: "satelliteId", parent: name, max: 128)
+            try self.validate(self.satelliteId, name: "satelliteId", parent: name, min: 1)
+            try self.validate(self.satelliteId, name: "satelliteId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetSatelliteResponse: AWSDecodableShape {
+        /// The current ephemeris being used to compute the trajectory of the satellite.
+        public let currentEphemeris: EphemerisMetaData?
         /// A list of ground stations to which the satellite is on-boarded.
         public let groundStations: [String]?
         /// NORAD satellite ID number.
@@ -1144,7 +1533,8 @@ extension GroundStation {
         /// UUID of a satellite.
         public let satelliteId: String?
 
-        public init(groundStations: [String]? = nil, noradSatelliteID: Int? = nil, satelliteArn: String? = nil, satelliteId: String? = nil) {
+        public init(currentEphemeris: EphemerisMetaData? = nil, groundStations: [String]? = nil, noradSatelliteID: Int? = nil, satelliteArn: String? = nil, satelliteId: String? = nil) {
+            self.currentEphemeris = currentEphemeris
             self.groundStations = groundStations
             self.noradSatelliteID = noradSatelliteID
             self.satelliteArn = satelliteArn
@@ -1152,6 +1542,7 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case currentEphemeris
             case groundStations
             case noradSatelliteID
             case satelliteArn
@@ -1196,6 +1587,14 @@ extension GroundStation {
             self.nextToken = nextToken
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 3)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9-/+_.=]+$")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -1217,7 +1616,7 @@ extension GroundStation {
     }
 
     public struct ListContactsRequest: AWSEncodableShape {
-        /// End time of a contact.
+        /// End time of a contact in UTC.
         public let endTime: Date
         /// Name of a ground station.
         public let groundStation: String?
@@ -1229,7 +1628,7 @@ extension GroundStation {
         public let nextToken: String?
         /// ARN of a satellite.
         public let satelliteArn: String?
-        /// Start time of a contact.
+        /// Start time of a contact in UTC.
         public let startTime: Date
         /// Status of a contact reservation.
         public let statusList: [ContactStatus]
@@ -1243,6 +1642,18 @@ extension GroundStation {
             self.satelliteArn = satelliteArn
             self.startTime = startTime
             self.statusList = statusList
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.groundStation, name: "groundStation", parent: name, max: 500)
+            try self.validate(self.groundStation, name: "groundStation", parent: name, min: 4)
+            try self.validate(self.groundStation, name: "groundStation", parent: name, pattern: "^[ a-zA-Z0-9-._:=]{4,256}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 3)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9-/+_.=]+$")
+            try self.validate(self.statusList, name: "statusList", parent: name, max: 500)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1290,6 +1701,14 @@ extension GroundStation {
             self.nextToken = nextToken
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 3)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9-/+_.=]+$")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -1306,6 +1725,71 @@ extension GroundStation {
 
         private enum CodingKeys: String, CodingKey {
             case dataflowEndpointGroupList
+            case nextToken
+        }
+    }
+
+    public struct ListEphemeridesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
+        ]
+
+        /// The end time to list in UTC. The operation will return an ephemeris if its expiration time is within the time range defined by the startTime and endTime.
+        public let endTime: Date
+        /// Maximum number of ephemerides to return.
+        public let maxResults: Int?
+        /// Pagination token.
+        public let nextToken: String?
+        /// The AWS Ground Station satellite ID to list ephemeris for.
+        public let satelliteId: String
+        /// The start time to list in UTC. The operation will return an ephemeris if its expiration time is within the time range defined by the startTime and endTime.
+        public let startTime: Date
+        /// The list of ephemeris status to return.
+        public let statusList: [EphemerisStatus]?
+
+        public init(endTime: Date, maxResults: Int? = nil, nextToken: String? = nil, satelliteId: String, startTime: Date, statusList: [EphemerisStatus]? = nil) {
+            self.endTime = endTime
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.satelliteId = satelliteId
+            self.startTime = startTime
+            self.statusList = statusList
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 3)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9-/+_.=]+$")
+            try self.validate(self.satelliteId, name: "satelliteId", parent: name, max: 128)
+            try self.validate(self.satelliteId, name: "satelliteId", parent: name, min: 1)
+            try self.validate(self.satelliteId, name: "satelliteId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.statusList, name: "statusList", parent: name, max: 500)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime
+            case satelliteId
+            case startTime
+            case statusList
+        }
+    }
+
+    public struct ListEphemeridesResponse: AWSDecodableShape {
+        /// List of ephemerides.
+        public let ephemerides: [EphemerisItem]?
+        /// Pagination token.
+        public let nextToken: String?
+
+        public init(ephemerides: [EphemerisItem]? = nil, nextToken: String? = nil) {
+            self.ephemerides = ephemerides
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ephemerides
             case nextToken
         }
     }
@@ -1328,6 +1812,17 @@ extension GroundStation {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.satelliteId = satelliteId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 3)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9-/+_.=]+$")
+            try self.validate(self.satelliteId, name: "satelliteId", parent: name, max: 128)
+            try self.validate(self.satelliteId, name: "satelliteId", parent: name, min: 1)
+            try self.validate(self.satelliteId, name: "satelliteId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1366,6 +1861,14 @@ extension GroundStation {
             self.nextToken = nextToken
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 3)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9-/+_.=]+$")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -1402,6 +1905,14 @@ extension GroundStation {
             self.nextToken = nextToken
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 3)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9-/+_.=]+$")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -1432,6 +1943,12 @@ extension GroundStation {
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1024)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 5)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^(arn:aws:)[\\s\\S]{0,1024}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1488,8 +2005,31 @@ extension GroundStation {
         }
     }
 
+    public struct OEMEphemeris: AWSEncodableShape {
+        /// The data for an OEM ephemeris, supplied directly in the request rather than through an S3 object.
+        public let oemData: String?
+        /// Identifies the S3 object to be used as the ephemeris.
+        public let s3Object: S3Object?
+
+        public init(oemData: String? = nil, s3Object: S3Object? = nil) {
+            self.oemData = oemData
+            self.s3Object = s3Object
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.oemData, name: "oemData", parent: name, min: 1)
+            try self.validate(self.oemData, name: "oemData", parent: name, pattern: "^[\\s\\S]+$")
+            try self.s3Object?.validate(name: "\(name).s3Object")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case oemData
+            case s3Object
+        }
+    }
+
     public struct ReserveContactRequest: AWSEncodableShape {
-        /// End time of a contact.
+        /// End time of a contact in UTC.
         public let endTime: Date
         /// Name of a ground station.
         public let groundStation: String
@@ -1497,7 +2037,7 @@ extension GroundStation {
         public let missionProfileArn: String
         /// ARN of a satellite
         public let satelliteArn: String
-        /// Start time of a contact.
+        /// Start time of a contact in UTC.
         public let startTime: Date
         /// Tags assigned to a contact.
         public let tags: [String: String]?
@@ -1511,6 +2051,12 @@ extension GroundStation {
             self.tags = tags
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.groundStation, name: "groundStation", parent: name, max: 500)
+            try self.validate(self.groundStation, name: "groundStation", parent: name, min: 4)
+            try self.validate(self.groundStation, name: "groundStation", parent: name, pattern: "^[ a-zA-Z0-9-._:=]{4,256}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case endTime
             case groundStation
@@ -1518,6 +2064,39 @@ extension GroundStation {
             case satelliteArn
             case startTime
             case tags
+        }
+    }
+
+    public struct S3Object: AWSEncodableShape & AWSDecodableShape {
+        /// An Amazon S3 Bucket name.
+        public let bucket: String?
+        /// An Amazon S3 key for the ephemeris.
+        public let key: String?
+        /// For versioned S3 objects, the version to use for the ephemeris.
+        public let version: String?
+
+        public init(bucket: String? = nil, key: String? = nil, version: String? = nil) {
+            self.bucket = bucket
+            self.key = key
+            self.version = version
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucket, name: "bucket", parent: name, max: 63)
+            try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
+            try self.validate(self.bucket, name: "bucket", parent: name, pattern: "^[a-z0-9.-]{3,63}$")
+            try self.validate(self.key, name: "key", parent: name, max: 1024)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.key, name: "key", parent: name, pattern: "^[a-zA-Z0-9!*'\\)\\(./_-]{1,1024}$")
+            try self.validate(self.version, name: "version", parent: name, max: 1024)
+            try self.validate(self.version, name: "version", parent: name, min: 1)
+            try self.validate(self.version, name: "version", parent: name, pattern: "^[\\s\\S]{1,1024}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket
+            case key
+            case version
         }
     }
 
@@ -1551,7 +2130,7 @@ extension GroundStation {
     public struct S3RecordingDetails: AWSDecodableShape {
         /// ARN of the bucket used.
         public let bucketArn: String?
-        /// Template of the S3 key used.
+        /// Key template used for the S3 Recording Configuration
         public let keyTemplate: String?
 
         public init(bucketArn: String? = nil, keyTemplate: String? = nil) {
@@ -1566,6 +2145,8 @@ extension GroundStation {
     }
 
     public struct SatelliteListItem: AWSDecodableShape {
+        /// The current ephemeris being used to compute the trajectory of the satellite.
+        public let currentEphemeris: EphemerisMetaData?
         /// A list of ground stations to which the satellite is on-boarded.
         public let groundStations: [String]?
         /// NORAD satellite ID number.
@@ -1575,7 +2156,8 @@ extension GroundStation {
         /// UUID of a satellite.
         public let satelliteId: String?
 
-        public init(groundStations: [String]? = nil, noradSatelliteID: Int? = nil, satelliteArn: String? = nil, satelliteId: String? = nil) {
+        public init(currentEphemeris: EphemerisMetaData? = nil, groundStations: [String]? = nil, noradSatelliteID: Int? = nil, satelliteArn: String? = nil, satelliteId: String? = nil) {
+            self.currentEphemeris = currentEphemeris
             self.groundStations = groundStations
             self.noradSatelliteID = noradSatelliteID
             self.satelliteArn = satelliteArn
@@ -1583,6 +2165,7 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case currentEphemeris
             case groundStations
             case noradSatelliteID
             case satelliteArn
@@ -1629,7 +2212,7 @@ extension GroundStation {
     }
 
     public struct Source: AWSDecodableShape {
-        /// Additional details for a Config, if type is dataflow endpoint or antenna demod decode.
+        /// Additional details for a Config, if type is dataflow-endpoint or antenna-downlink-demod-decode
         public let configDetails: ConfigDetails?
         /// UUID of a Config.
         public let configId: String?
@@ -1674,6 +2257,62 @@ extension GroundStation {
         }
     }
 
+    public struct TLEData: AWSEncodableShape {
+        /// First line of two-line element set (TLE) data.
+        public let tleLine1: String
+        /// Second line of two-line element set (TLE) data.
+        public let tleLine2: String
+        /// The valid time range for the TLE. Gaps or overlap are not permitted.
+        public let validTimeRange: TimeRange
+
+        public init(tleLine1: String, tleLine2: String, validTimeRange: TimeRange) {
+            self.tleLine1 = tleLine1
+            self.tleLine2 = tleLine2
+            self.validTimeRange = validTimeRange
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.tleLine1, name: "tleLine1", parent: name, max: 69)
+            try self.validate(self.tleLine1, name: "tleLine1", parent: name, min: 69)
+            try self.validate(self.tleLine1, name: "tleLine1", parent: name, pattern: "^1 [ 0-9]{5}[A-Z] [ 0-9]{5}[ A-Z]{3} [ 0-9]{5}[.][ 0-9]{8} (?:(?:[ 0+-][.][ 0-9]{8})|(?: [ +-][.][ 0-9]{7})) [ +-][ 0-9]{5}[+-][ 0-9] [ +-][ 0-9]{5}[+-][ 0-9] [ 0-9] [ 0-9]{4}[ 0-9]$")
+            try self.validate(self.tleLine2, name: "tleLine2", parent: name, max: 69)
+            try self.validate(self.tleLine2, name: "tleLine2", parent: name, min: 69)
+            try self.validate(self.tleLine2, name: "tleLine2", parent: name, pattern: "^2 [ 0-9]{5} [ 0-9]{3}[.][ 0-9]{4} [ 0-9]{3}[.][ 0-9]{4} [ 0-9]{7} [ 0-9]{3}[.][ 0-9]{4} [ 0-9]{3}[.][ 0-9]{4} [ 0-9]{2}[.][ 0-9]{13}[ 0-9]$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tleLine1
+            case tleLine2
+            case validTimeRange
+        }
+    }
+
+    public struct TLEEphemeris: AWSEncodableShape {
+        /// Identifies the S3 object to be used as the ephemeris.
+        public let s3Object: S3Object?
+        /// The data for a TLE ephemeris, supplied directly in the request rather than through an S3 object.
+        public let tleData: [TLEData]?
+
+        public init(s3Object: S3Object? = nil, tleData: [TLEData]? = nil) {
+            self.s3Object = s3Object
+            self.tleData = tleData
+        }
+
+        public func validate(name: String) throws {
+            try self.s3Object?.validate(name: "\(name).s3Object")
+            try self.tleData?.forEach {
+                try $0.validate(name: "\(name).tleData[]")
+            }
+            try self.validate(self.tleData, name: "tleData", parent: name, max: 500)
+            try self.validate(self.tleData, name: "tleData", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Object
+            case tleData
+        }
+    }
+
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
@@ -1689,6 +2328,12 @@ extension GroundStation {
             self.tags = tags
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1024)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 5)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^(arn:aws:)[\\s\\S]{0,1024}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case tags
         }
@@ -1696,6 +2341,23 @@ extension GroundStation {
 
     public struct TagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct TimeRange: AWSEncodableShape {
+        /// Time in UTC at which the time range ends.
+        public let endTime: Date
+        /// Time in UTC at which the time range starts.
+        public let startTime: Date
+
+        public init(endTime: Date, startTime: Date) {
+            self.endTime = endTime
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime
+            case startTime
+        }
     }
 
     public struct TrackingConfig: AWSEncodableShape & AWSDecodableShape {
@@ -1725,6 +2387,17 @@ extension GroundStation {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1024)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 5)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^(arn:aws:)[\\s\\S]{0,1024}$")
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^[\\s\\S]+$")
+            }
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 500)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1758,6 +2431,9 @@ extension GroundStation {
 
         public func validate(name: String) throws {
             try self.configData.validate(name: "\(name).configData")
+            try self.validate(self.configId, name: "configId", parent: name, max: 128)
+            try self.validate(self.configId, name: "configId", parent: name, min: 1)
+            try self.validate(self.configId, name: "configId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[ a-zA-Z0-9_:-]{1,256}$")
@@ -1766,6 +2442,45 @@ extension GroundStation {
         private enum CodingKeys: String, CodingKey {
             case configData
             case name
+        }
+    }
+
+    public struct UpdateEphemerisRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ephemerisId", location: .uri("ephemerisId"))
+        ]
+
+        /// Whether the ephemeris is enabled or not. Changing this value will not require the ephemeris to be re-validated.
+        public let enabled: Bool
+        /// The AWS Ground Station ephemeris ID.
+        public let ephemerisId: String
+        /// A name string associated with the ephemeris. Used as a human-readable identifier for the ephemeris.
+        public let name: String?
+        /// Customer-provided priority score to establish the order in which overlapping ephemerides should be used. The default for customer-provided ephemeris priority is 1, and higher numbers take precedence. Priority must be 1 or greater
+        public let priority: Int?
+
+        public init(enabled: Bool, ephemerisId: String, name: String? = nil, priority: Int? = nil) {
+            self.enabled = enabled
+            self.ephemerisId = ephemerisId
+            self.name = name
+            self.priority = priority
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.ephemerisId, name: "ephemerisId", parent: name, max: 128)
+            try self.validate(self.ephemerisId, name: "ephemerisId", parent: name, min: 1)
+            try self.validate(self.ephemerisId, name: "ephemerisId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[ a-zA-Z0-9_:-]{1,256}$")
+            try self.validate(self.priority, name: "priority", parent: name, max: 99999)
+            try self.validate(self.priority, name: "priority", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled
+            case name
+            case priority
         }
     }
 
@@ -1801,15 +2516,19 @@ extension GroundStation {
 
         public func validate(name: String) throws {
             try self.validate(self.contactPostPassDurationSeconds, name: "contactPostPassDurationSeconds", parent: name, max: 21600)
-            try self.validate(self.contactPostPassDurationSeconds, name: "contactPostPassDurationSeconds", parent: name, min: 1)
+            try self.validate(self.contactPostPassDurationSeconds, name: "contactPostPassDurationSeconds", parent: name, min: 0)
             try self.validate(self.contactPrePassDurationSeconds, name: "contactPrePassDurationSeconds", parent: name, max: 21600)
-            try self.validate(self.contactPrePassDurationSeconds, name: "contactPrePassDurationSeconds", parent: name, min: 1)
+            try self.validate(self.contactPrePassDurationSeconds, name: "contactPrePassDurationSeconds", parent: name, min: 0)
             try self.dataflowEdges?.forEach {
                 try validate($0, name: "dataflowEdges[]", parent: name, max: 2)
                 try validate($0, name: "dataflowEdges[]", parent: name, min: 2)
             }
+            try self.validate(self.dataflowEdges, name: "dataflowEdges", parent: name, max: 500)
             try self.validate(self.minimumViableContactDurationSeconds, name: "minimumViableContactDurationSeconds", parent: name, max: 21600)
             try self.validate(self.minimumViableContactDurationSeconds, name: "minimumViableContactDurationSeconds", parent: name, min: 1)
+            try self.validate(self.missionProfileId, name: "missionProfileId", parent: name, max: 128)
+            try self.validate(self.missionProfileId, name: "missionProfileId", parent: name, min: 1)
+            try self.validate(self.missionProfileId, name: "missionProfileId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[ a-zA-Z0-9_:-]{1,256}$")

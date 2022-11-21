@@ -240,11 +240,17 @@ extension CloudTrail {
 
     public struct CancelQueryRequest: AWSEncodableShape {
         /// The ARN (or the ID suffix of the ARN) of an event data store on which the specified query is running.
-        public let eventDataStore: String
+        public let eventDataStore: String?
         /// The ID of the query that you want to cancel. The QueryId comes from the response of a StartQuery  operation.
         public let queryId: String
 
-        public init(eventDataStore: String, queryId: String) {
+        public init(queryId: String) {
+            self.eventDataStore = nil
+            self.queryId = queryId
+        }
+
+        @available(*, deprecated, message: "Members eventDataStore have been deprecated")
+        public init(eventDataStore: String? = nil, queryId: String) {
             self.eventDataStore = eventDataStore
             self.queryId = queryId
         }
@@ -301,6 +307,8 @@ extension CloudTrail {
     public struct CreateEventDataStoreRequest: AWSEncodableShape {
         /// The advanced event selectors to use to select the events for the data store. For more information about how to use advanced event  selectors, see Log events by using advanced event selectors in the CloudTrail  User Guide.
         public let advancedEventSelectors: [AdvancedEventSelector]?
+        /// Specifies the KMS key ID to use to encrypt the events delivered by CloudTrail. The value can be an alias name prefixed by alias/, a fully specified ARN to an alias, a fully specified ARN to a key, or a globally unique identifier.  Disabling or deleting the KMS key, or removing CloudTrail  permissions on the key, prevents CloudTrail from logging events to the event data store, and prevents users  from querying the data in the event data store that was encrypted with the key.  After you associate an event data store with a KMS key, the KMS key cannot be removed or changed. Before you disable or delete a KMS key that you are using with an event data store, delete or back up your event data store.  CloudTrail also supports KMS multi-Region keys. For more information about multi-Region keys, see Using multi-Region keys in the Key Management Service Developer Guide. Examples:    alias/MyAliasName     arn:aws:kms:us-east-2:123456789012:alias/MyAliasName     arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012     12345678-1234-1234-1234-123456789012
+        public let kmsKeyId: String?
         /// Specifies whether the event data store includes events from all regions, or only from the region in which the event data store  is created.
         public let multiRegionEnabled: Bool?
         /// The name of the event data store.
@@ -313,8 +321,9 @@ extension CloudTrail {
         /// Specifies whether termination protection is enabled for the event data store. If termination protection is enabled, you  cannot delete the event data store until termination protection is disabled.
         public let terminationProtectionEnabled: Bool?
 
-        public init(advancedEventSelectors: [AdvancedEventSelector]? = nil, multiRegionEnabled: Bool? = nil, name: String, organizationEnabled: Bool? = nil, retentionPeriod: Int? = nil, tagsList: [Tag]? = nil, terminationProtectionEnabled: Bool? = nil) {
+        public init(advancedEventSelectors: [AdvancedEventSelector]? = nil, kmsKeyId: String? = nil, multiRegionEnabled: Bool? = nil, name: String, organizationEnabled: Bool? = nil, retentionPeriod: Int? = nil, tagsList: [Tag]? = nil, terminationProtectionEnabled: Bool? = nil) {
             self.advancedEventSelectors = advancedEventSelectors
+            self.kmsKeyId = kmsKeyId
             self.multiRegionEnabled = multiRegionEnabled
             self.name = name
             self.organizationEnabled = organizationEnabled
@@ -327,6 +336,9 @@ extension CloudTrail {
             try self.advancedEventSelectors?.forEach {
                 try $0.validate(name: "\(name).advancedEventSelectors[]")
             }
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 350)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "^[a-zA-Z0-9._/\\-:]+$")
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 3)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9._\\-]+$")
@@ -340,6 +352,7 @@ extension CloudTrail {
 
         private enum CodingKeys: String, CodingKey {
             case advancedEventSelectors = "AdvancedEventSelectors"
+            case kmsKeyId = "KmsKeyId"
             case multiRegionEnabled = "MultiRegionEnabled"
             case name = "Name"
             case organizationEnabled = "OrganizationEnabled"
@@ -356,6 +369,8 @@ extension CloudTrail {
         public let createdTimestamp: Date?
         /// The ARN of the event data store.
         public let eventDataStoreArn: String?
+        /// Specifies the KMS key ID that encrypts the events delivered by CloudTrail.  The value is a fully specified ARN to a KMS key in the following format.  arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012
+        public let kmsKeyId: String?
         /// Indicates whether the event data store collects events from all regions, or only from the region in which it was created.
         public let multiRegionEnabled: Bool?
         /// The name of the event data store.
@@ -372,10 +387,11 @@ extension CloudTrail {
         /// The timestamp that shows when an event data store was updated, if applicable.  UpdatedTimestamp is always either the same or newer than the time shown in CreatedTimestamp.
         public let updatedTimestamp: Date?
 
-        public init(advancedEventSelectors: [AdvancedEventSelector]? = nil, createdTimestamp: Date? = nil, eventDataStoreArn: String? = nil, multiRegionEnabled: Bool? = nil, name: String? = nil, organizationEnabled: Bool? = nil, retentionPeriod: Int? = nil, status: EventDataStoreStatus? = nil, tagsList: [Tag]? = nil, terminationProtectionEnabled: Bool? = nil, updatedTimestamp: Date? = nil) {
+        public init(advancedEventSelectors: [AdvancedEventSelector]? = nil, createdTimestamp: Date? = nil, eventDataStoreArn: String? = nil, kmsKeyId: String? = nil, multiRegionEnabled: Bool? = nil, name: String? = nil, organizationEnabled: Bool? = nil, retentionPeriod: Int? = nil, status: EventDataStoreStatus? = nil, tagsList: [Tag]? = nil, terminationProtectionEnabled: Bool? = nil, updatedTimestamp: Date? = nil) {
             self.advancedEventSelectors = advancedEventSelectors
             self.createdTimestamp = createdTimestamp
             self.eventDataStoreArn = eventDataStoreArn
+            self.kmsKeyId = kmsKeyId
             self.multiRegionEnabled = multiRegionEnabled
             self.name = name
             self.organizationEnabled = organizationEnabled
@@ -390,6 +406,7 @@ extension CloudTrail {
             case advancedEventSelectors = "AdvancedEventSelectors"
             case createdTimestamp = "CreatedTimestamp"
             case eventDataStoreArn = "EventDataStoreArn"
+            case kmsKeyId = "KmsKeyId"
             case multiRegionEnabled = "MultiRegionEnabled"
             case name = "Name"
             case organizationEnabled = "OrganizationEnabled"
@@ -600,13 +617,42 @@ extension CloudTrail {
         public init() {}
     }
 
+    public struct DeregisterOrganizationDelegatedAdminRequest: AWSEncodableShape {
+        /// A delegated administrator account ID. This is a member account in an organization  that is currently designated as a delegated administrator.
+        public let delegatedAdminAccountId: String
+
+        public init(delegatedAdminAccountId: String) {
+            self.delegatedAdminAccountId = delegatedAdminAccountId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.delegatedAdminAccountId, name: "delegatedAdminAccountId", parent: name, max: 16)
+            try self.validate(self.delegatedAdminAccountId, name: "delegatedAdminAccountId", parent: name, min: 12)
+            try self.validate(self.delegatedAdminAccountId, name: "delegatedAdminAccountId", parent: name, pattern: "^\\d+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case delegatedAdminAccountId = "DelegatedAdminAccountId"
+        }
+    }
+
+    public struct DeregisterOrganizationDelegatedAdminResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DescribeQueryRequest: AWSEncodableShape {
         /// The ARN (or the ID suffix of the ARN) of an event data store on which the specified query was run.
-        public let eventDataStore: String
+        public let eventDataStore: String?
         /// The query ID.
         public let queryId: String
 
-        public init(eventDataStore: String, queryId: String) {
+        public init(queryId: String) {
+            self.eventDataStore = nil
+            self.queryId = queryId
+        }
+
+        @available(*, deprecated, message: "Members eventDataStore have been deprecated")
+        public init(eventDataStore: String? = nil, queryId: String) {
             self.eventDataStore = eventDataStore
             self.queryId = queryId
         }
@@ -917,6 +963,8 @@ extension CloudTrail {
         public let createdTimestamp: Date?
         /// The event data store Amazon Resource Number (ARN).
         public let eventDataStoreArn: String?
+        /// Specifies the KMS key ID that encrypts the events delivered by CloudTrail.  The value is a fully specified ARN to a KMS key in the following format.  arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012
+        public let kmsKeyId: String?
         /// Indicates whether the event data store includes events from all regions, or only from the region in which it was created.
         public let multiRegionEnabled: Bool?
         /// The name of the event data store.
@@ -932,10 +980,11 @@ extension CloudTrail {
         /// Shows the time that an event data store was updated, if applicable. UpdatedTimestamp is always either the same or newer than the time shown in CreatedTimestamp.
         public let updatedTimestamp: Date?
 
-        public init(advancedEventSelectors: [AdvancedEventSelector]? = nil, createdTimestamp: Date? = nil, eventDataStoreArn: String? = nil, multiRegionEnabled: Bool? = nil, name: String? = nil, organizationEnabled: Bool? = nil, retentionPeriod: Int? = nil, status: EventDataStoreStatus? = nil, terminationProtectionEnabled: Bool? = nil, updatedTimestamp: Date? = nil) {
+        public init(advancedEventSelectors: [AdvancedEventSelector]? = nil, createdTimestamp: Date? = nil, eventDataStoreArn: String? = nil, kmsKeyId: String? = nil, multiRegionEnabled: Bool? = nil, name: String? = nil, organizationEnabled: Bool? = nil, retentionPeriod: Int? = nil, status: EventDataStoreStatus? = nil, terminationProtectionEnabled: Bool? = nil, updatedTimestamp: Date? = nil) {
             self.advancedEventSelectors = advancedEventSelectors
             self.createdTimestamp = createdTimestamp
             self.eventDataStoreArn = eventDataStoreArn
+            self.kmsKeyId = kmsKeyId
             self.multiRegionEnabled = multiRegionEnabled
             self.name = name
             self.organizationEnabled = organizationEnabled
@@ -949,6 +998,7 @@ extension CloudTrail {
             case advancedEventSelectors = "AdvancedEventSelectors"
             case createdTimestamp = "CreatedTimestamp"
             case eventDataStoreArn = "EventDataStoreArn"
+            case kmsKeyId = "KmsKeyId"
             case multiRegionEnabled = "MultiRegionEnabled"
             case name = "Name"
             case organizationEnabled = "OrganizationEnabled"
@@ -1089,7 +1139,7 @@ extension CloudTrail {
 
     public struct GetQueryResultsRequest: AWSEncodableShape {
         /// The ARN (or ID suffix of the ARN) of the event data store against which the query was run.
-        public let eventDataStore: String
+        public let eventDataStore: String?
         /// The maximum number of query results to display on a single page.
         public let maxQueryResults: Int?
         /// A token you can use to get the next page of query results.
@@ -1097,7 +1147,15 @@ extension CloudTrail {
         /// The ID of the query for which you want to get results.
         public let queryId: String
 
-        public init(eventDataStore: String, maxQueryResults: Int? = nil, nextToken: String? = nil, queryId: String) {
+        public init(maxQueryResults: Int? = nil, nextToken: String? = nil, queryId: String) {
+            self.eventDataStore = nil
+            self.maxQueryResults = maxQueryResults
+            self.nextToken = nextToken
+            self.queryId = queryId
+        }
+
+        @available(*, deprecated, message: "Members eventDataStore have been deprecated")
+        public init(eventDataStore: String? = nil, maxQueryResults: Int? = nil, nextToken: String? = nil, queryId: String) {
             self.eventDataStore = eventDataStore
             self.maxQueryResults = maxQueryResults
             self.nextToken = nextToken
@@ -1982,6 +2040,29 @@ extension CloudTrail {
         }
     }
 
+    public struct RegisterOrganizationDelegatedAdminRequest: AWSEncodableShape {
+        /// An organization member account ID that you want to designate as a delegated administrator.
+        public let memberAccountId: String
+
+        public init(memberAccountId: String) {
+            self.memberAccountId = memberAccountId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.memberAccountId, name: "memberAccountId", parent: name, max: 16)
+            try self.validate(self.memberAccountId, name: "memberAccountId", parent: name, min: 12)
+            try self.validate(self.memberAccountId, name: "memberAccountId", parent: name, pattern: "^\\d+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case memberAccountId = "MemberAccountId"
+        }
+    }
+
+    public struct RegisterOrganizationDelegatedAdminResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct RemoveTagsRequest: AWSEncodableShape {
         /// Specifies the ARN of the trail or event data store from which tags should be removed.  Example trail ARN format: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail  Example event data store ARN format: arn:aws:cloudtrail:us-east-2:12345678910:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE
         public let resourceId: String
@@ -2070,6 +2151,8 @@ extension CloudTrail {
         public let createdTimestamp: Date?
         /// The event data store ARN.
         public let eventDataStoreArn: String?
+        /// Specifies the KMS key ID that encrypts the events delivered by CloudTrail.  The value is a fully specified ARN to a KMS key in the following format.  arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012
+        public let kmsKeyId: String?
         /// Indicates whether the event data store is collecting events from all regions, or only from the region in which the event data  store was created.
         public let multiRegionEnabled: Bool?
         /// The name of the event data store.
@@ -2085,10 +2168,11 @@ extension CloudTrail {
         /// The timestamp that shows when an event data store was updated, if applicable.  UpdatedTimestamp is always either the same or newer than the time shown in CreatedTimestamp.
         public let updatedTimestamp: Date?
 
-        public init(advancedEventSelectors: [AdvancedEventSelector]? = nil, createdTimestamp: Date? = nil, eventDataStoreArn: String? = nil, multiRegionEnabled: Bool? = nil, name: String? = nil, organizationEnabled: Bool? = nil, retentionPeriod: Int? = nil, status: EventDataStoreStatus? = nil, terminationProtectionEnabled: Bool? = nil, updatedTimestamp: Date? = nil) {
+        public init(advancedEventSelectors: [AdvancedEventSelector]? = nil, createdTimestamp: Date? = nil, eventDataStoreArn: String? = nil, kmsKeyId: String? = nil, multiRegionEnabled: Bool? = nil, name: String? = nil, organizationEnabled: Bool? = nil, retentionPeriod: Int? = nil, status: EventDataStoreStatus? = nil, terminationProtectionEnabled: Bool? = nil, updatedTimestamp: Date? = nil) {
             self.advancedEventSelectors = advancedEventSelectors
             self.createdTimestamp = createdTimestamp
             self.eventDataStoreArn = eventDataStoreArn
+            self.kmsKeyId = kmsKeyId
             self.multiRegionEnabled = multiRegionEnabled
             self.name = name
             self.organizationEnabled = organizationEnabled
@@ -2102,6 +2186,7 @@ extension CloudTrail {
             case advancedEventSelectors = "AdvancedEventSelectors"
             case createdTimestamp = "CreatedTimestamp"
             case eventDataStoreArn = "EventDataStoreArn"
+            case kmsKeyId = "KmsKeyId"
             case multiRegionEnabled = "MultiRegionEnabled"
             case name = "Name"
             case organizationEnabled = "OrganizationEnabled"
@@ -2512,6 +2597,8 @@ extension CloudTrail {
         public let advancedEventSelectors: [AdvancedEventSelector]?
         /// The ARN (or the ID suffix of the ARN) of the event data store that you want to update.
         public let eventDataStore: String
+        /// Specifies the KMS key ID to use to encrypt the events delivered by CloudTrail. The value can be an alias name prefixed by alias/, a fully specified ARN to an alias, a fully specified ARN to a key, or a globally unique identifier.  Disabling or deleting the KMS key, or removing CloudTrail  permissions on the key, prevents CloudTrail from logging events to the event data store, and prevents users  from querying the data in the event data store that was encrypted with the key.  After you associate an event data store with a KMS key, the KMS key cannot be removed or changed. Before you disable or delete a KMS key that you are using with an event data store, delete or back up your event data store.  CloudTrail also supports KMS multi-Region keys. For more information about multi-Region keys, see Using multi-Region keys in the Key Management Service Developer Guide. Examples:    alias/MyAliasName     arn:aws:kms:us-east-2:123456789012:alias/MyAliasName     arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012     12345678-1234-1234-1234-123456789012
+        public let kmsKeyId: String?
         /// Specifies whether an event data store collects events from all regions, or only from the region in which it was created.
         public let multiRegionEnabled: Bool?
         /// The event data store name.
@@ -2523,9 +2610,10 @@ extension CloudTrail {
         /// Indicates that termination protection is enabled and the event data store cannot be automatically deleted.
         public let terminationProtectionEnabled: Bool?
 
-        public init(advancedEventSelectors: [AdvancedEventSelector]? = nil, eventDataStore: String, multiRegionEnabled: Bool? = nil, name: String? = nil, organizationEnabled: Bool? = nil, retentionPeriod: Int? = nil, terminationProtectionEnabled: Bool? = nil) {
+        public init(advancedEventSelectors: [AdvancedEventSelector]? = nil, eventDataStore: String, kmsKeyId: String? = nil, multiRegionEnabled: Bool? = nil, name: String? = nil, organizationEnabled: Bool? = nil, retentionPeriod: Int? = nil, terminationProtectionEnabled: Bool? = nil) {
             self.advancedEventSelectors = advancedEventSelectors
             self.eventDataStore = eventDataStore
+            self.kmsKeyId = kmsKeyId
             self.multiRegionEnabled = multiRegionEnabled
             self.name = name
             self.organizationEnabled = organizationEnabled
@@ -2540,6 +2628,9 @@ extension CloudTrail {
             try self.validate(self.eventDataStore, name: "eventDataStore", parent: name, max: 256)
             try self.validate(self.eventDataStore, name: "eventDataStore", parent: name, min: 3)
             try self.validate(self.eventDataStore, name: "eventDataStore", parent: name, pattern: "^[a-zA-Z0-9._/\\-:]+$")
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 350)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "^[a-zA-Z0-9._/\\-:]+$")
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 3)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9._\\-]+$")
@@ -2550,6 +2641,7 @@ extension CloudTrail {
         private enum CodingKeys: String, CodingKey {
             case advancedEventSelectors = "AdvancedEventSelectors"
             case eventDataStore = "EventDataStore"
+            case kmsKeyId = "KmsKeyId"
             case multiRegionEnabled = "MultiRegionEnabled"
             case name = "Name"
             case organizationEnabled = "OrganizationEnabled"
@@ -2565,6 +2657,8 @@ extension CloudTrail {
         public let createdTimestamp: Date?
         /// The ARN of the event data store.
         public let eventDataStoreArn: String?
+        /// Specifies the KMS key ID that encrypts the events delivered by CloudTrail.  The value is a fully specified ARN to a KMS key in the following format.  arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012
+        public let kmsKeyId: String?
         /// Indicates whether the event data store includes events from all regions, or only from the region in which it was created.
         public let multiRegionEnabled: Bool?
         /// The name of the event data store.
@@ -2580,10 +2674,11 @@ extension CloudTrail {
         /// The timestamp that shows when the event data store was last updated. UpdatedTimestamp is always either the same or newer than the time shown in CreatedTimestamp.
         public let updatedTimestamp: Date?
 
-        public init(advancedEventSelectors: [AdvancedEventSelector]? = nil, createdTimestamp: Date? = nil, eventDataStoreArn: String? = nil, multiRegionEnabled: Bool? = nil, name: String? = nil, organizationEnabled: Bool? = nil, retentionPeriod: Int? = nil, status: EventDataStoreStatus? = nil, terminationProtectionEnabled: Bool? = nil, updatedTimestamp: Date? = nil) {
+        public init(advancedEventSelectors: [AdvancedEventSelector]? = nil, createdTimestamp: Date? = nil, eventDataStoreArn: String? = nil, kmsKeyId: String? = nil, multiRegionEnabled: Bool? = nil, name: String? = nil, organizationEnabled: Bool? = nil, retentionPeriod: Int? = nil, status: EventDataStoreStatus? = nil, terminationProtectionEnabled: Bool? = nil, updatedTimestamp: Date? = nil) {
             self.advancedEventSelectors = advancedEventSelectors
             self.createdTimestamp = createdTimestamp
             self.eventDataStoreArn = eventDataStoreArn
+            self.kmsKeyId = kmsKeyId
             self.multiRegionEnabled = multiRegionEnabled
             self.name = name
             self.organizationEnabled = organizationEnabled
@@ -2597,6 +2692,7 @@ extension CloudTrail {
             case advancedEventSelectors = "AdvancedEventSelectors"
             case createdTimestamp = "CreatedTimestamp"
             case eventDataStoreArn = "EventDataStoreArn"
+            case kmsKeyId = "KmsKeyId"
             case multiRegionEnabled = "MultiRegionEnabled"
             case name = "Name"
             case organizationEnabled = "OrganizationEnabled"

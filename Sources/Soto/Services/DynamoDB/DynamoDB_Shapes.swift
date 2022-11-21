@@ -72,13 +72,13 @@ extension DynamoDB {
     }
 
     public enum ComparisonOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+        case `in` = "IN"
         case beginsWith = "BEGINS_WITH"
         case between = "BETWEEN"
         case contains = "CONTAINS"
         case eq = "EQ"
         case ge = "GE"
         case gt = "GT"
-        case `in` = "IN"
         case le = "LE"
         case lt = "LT"
         case ne = "NE"
@@ -727,7 +727,7 @@ extension DynamoDB {
         public let backupExpiryDateTime: Date?
         /// Name of the requested backup.
         public let backupName: String
-        /// Size of the backup in bytes. DynamoDB updates this value approximately every six hours.  Recent changes might not be reflected in this value.
+        /// Size of the backup in bytes. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.
         public let backupSizeBytes: Int64?
         /// Backup can be in one of the following states: CREATING, ACTIVE, DELETED.
         public let backupStatus: BackupStatus
@@ -999,7 +999,7 @@ extension DynamoDB {
         public let consumedCapacity: [ConsumedCapacity]?
         /// A list of tables that were processed by BatchWriteItem and, for each table, information about any item collections that were affected by individual DeleteItem or PutItem operations. Each entry consists of the following subelements:    ItemCollectionKey - The partition key value of the item collection. This is the same as the partition key value of the item.    SizeEstimateRangeGB - An estimate of item collection size, expressed in GB. This is a two-element array containing a lower bound and an upper bound for the estimate. The estimate includes the size of all the items in the table, plus the size of all attributes projected into all of the local secondary indexes on the table. Use this estimate to measure whether a local secondary index is approaching its size limit. The estimate is subject to change over time; therefore, do not rely on the precision or accuracy of the estimate.
         public let itemCollectionMetrics: [String: [ItemCollectionMetrics]]?
-        /// A map of tables and requests against those tables that were not processed. The UnprocessedItems value is in the same form as RequestItems, so you can provide this value directly to a subsequent BatchGetItem operation. For more information, see RequestItems in the Request Parameters section. Each UnprocessedItems entry consists of a table name and, for that table, a list of operations to perform (DeleteRequest or PutRequest).    DeleteRequest - Perform a DeleteItem operation on the specified item. The item to be deleted is identified by a Key subelement:    Key - A map of primary key attribute values that uniquely identify the item. Each entry in this map consists of an attribute name and an attribute value.      PutRequest - Perform a PutItem operation on the specified item. The item to be put is identified by an Item subelement:    Item - A map of attributes and their values. Each entry in this map consists of an attribute name and an attribute value. Attribute values must not be null; string and binary type attributes must have lengths greater than zero; and set type attributes must not be empty. Requests that contain empty values will be rejected with a ValidationException exception. If you specify any attributes that are part of an index key, then the data types for those attributes must match those of the schema in the table's attribute definition.     If there are no unprocessed items remaining, the response contains an empty UnprocessedItems map.
+        /// A map of tables and requests against those tables that were not processed. The UnprocessedItems value is in the same form as RequestItems, so you can provide this value directly to a subsequent BatchWriteItem operation. For more information, see RequestItems in the Request Parameters section. Each UnprocessedItems entry consists of a table name and, for that table, a list of operations to perform (DeleteRequest or PutRequest).    DeleteRequest - Perform a DeleteItem operation on the specified item. The item to be deleted is identified by a Key subelement:    Key - A map of primary key attribute values that uniquely identify the item. Each entry in this map consists of an attribute name and an attribute value.      PutRequest - Perform a PutItem operation on the specified item. The item to be put is identified by an Item subelement:    Item - A map of attributes and their values. Each entry in this map consists of an attribute name and an attribute value. Attribute values must not be null; string and binary type attributes must have lengths greater than zero; and set type attributes must not be empty. Requests that contain empty values will be rejected with a ValidationException exception. If you specify any attributes that are part of an index key, then the data types for those attributes must match those of the schema in the table's attribute definition.     If there are no unprocessed items remaining, the response contains an empty UnprocessedItems map.
         public let unprocessedItems: [String: [WriteRequest]]?
 
         public init(consumedCapacity: [ConsumedCapacity]? = nil, itemCollectionMetrics: [String: [ItemCollectionMetrics]]? = nil, unprocessedItems: [String: [WriteRequest]]? = nil) {
@@ -1599,7 +1599,7 @@ extension DynamoDB {
         public let returnConsumedCapacity: ReturnConsumedCapacity?
         /// Determines whether item collection metrics are returned. If set to SIZE, the response includes statistics about item collections, if any, that were modified during the operation are returned in the response. If set to NONE (the default), no statistics are returned.
         public let returnItemCollectionMetrics: ReturnItemCollectionMetrics?
-        /// Use ReturnValues if you want to get the item attributes as they appeared before they were deleted. For DeleteItem, the valid values are:    NONE - If ReturnValues is not specified, or if its value is NONE, then nothing is returned. (This setting is the default for ReturnValues.)    ALL_OLD - The content of the old item is returned.   There is no additional cost associated with requesting a return value aside from the small  network and processing overhead of receiving a larger response. No read capacity units are  consumed.  The ReturnValues parameter is used by several DynamoDB operations; however, DeleteItem does not recognize any values other than NONE or ALL_OLD.
+        /// Use ReturnValues if you want to get the item attributes as they appeared before they were deleted. For DeleteItem, the valid values are:    NONE - If ReturnValues is not specified, or if its value is NONE, then nothing is returned. (This setting is the default for ReturnValues.)    ALL_OLD - The content of the old item is returned.   There is no additional cost associated with requesting a return value aside from the small network and processing overhead of receiving a larger response. No read capacity units are consumed.  The ReturnValues parameter is used by several DynamoDB operations; however, DeleteItem does not recognize any values other than NONE or ALL_OLD.
         public let returnValues: ReturnValue?
         /// The name of the table from which to delete the item.
         public let tableName: String
@@ -2007,7 +2007,7 @@ extension DynamoDB {
     }
 
     public struct DescribeImportOutput: AWSDecodableShape {
-        ///  Represents the properties of the table created for the import, and parameters of  the import. The import parameters include import status, how many items were processed,  and how many errors were encountered.
+        ///  Represents the properties of the table created for the import, and parameters of the import. The import parameters include import status, how many items were processed, and how many errors were encountered.
         public let importTableDescription: ImportTableDescription
 
         public init(importTableDescription: ImportTableDescription) {
@@ -2875,7 +2875,7 @@ extension DynamoDB {
     public struct ImportSummary: AWSDecodableShape {
         ///  The Amazon Resource Number (ARN) of the Cloudwatch Log Group associated with this import task.
         public let cloudWatchLogGroupArn: String?
-        ///  The time at which this import task ended. (Does this include the successful complete creation of  the table it was imported to?)
+        ///  The time at which this import task ended. (Does this include the successful complete creation of the table it was imported to?)
         public let endTime: Date?
         ///  The Amazon Resource Number (ARN) corresponding to the import request.
         public let importArn: String?
@@ -2883,7 +2883,7 @@ extension DynamoDB {
         public let importStatus: ImportStatus?
         ///  The format of the source data. Valid values are CSV, DYNAMODB_JSON or ION.
         public let inputFormat: InputFormat?
-        ///  The path and S3 bucket of the source file that is being imported. This includes the S3Bucket (required),  S3KeyPrefix (optional) and S3BucketOwner (optional if the bucket is owned by the requester).
+        ///  The path and S3 bucket of the source file that is being imported. This includes the S3Bucket (required), S3KeyPrefix (optional) and S3BucketOwner (optional if the bucket is owned by the requester).
         public let s3BucketSource: S3BucketSource?
         ///  The time at which this import task began.
         public let startTime: Date?
@@ -2914,7 +2914,7 @@ extension DynamoDB {
     }
 
     public struct ImportTableDescription: AWSDecodableShape {
-        ///  The client token that was provided for the import task. Reusing the client token  on retry makes a call to ImportTable idempotent.
+        ///  The client token that was provided for the import task. Reusing the client token on retry makes a call to ImportTable idempotent.
         public let clientToken: String?
         ///  The Amazon Resource Number (ARN) of the Cloudwatch Log Group associated with the target table.
         public let cloudWatchLogGroupArn: String?
@@ -2932,7 +2932,7 @@ extension DynamoDB {
         public let importedItemCount: Int64?
         ///  The status of the import.
         public let importStatus: ImportStatus?
-        ///  The compression options for the data that has been imported into the target table. The values are  NONE, GZIP, or ZSTD.
+        ///  The compression options for the data that has been imported into the target table. The values are NONE, GZIP, or ZSTD.
         public let inputCompressionType: InputCompressionType?
         ///  The format of the source data going into the target table.
         public let inputFormat: InputFormat?
@@ -2942,7 +2942,7 @@ extension DynamoDB {
         public let processedItemCount: Int64?
         ///  The total size of data processed from the source file, in Bytes.
         public let processedSizeBytes: Int64?
-        ///  Values for the S3 bucket the source file is imported from. Includes bucket name (required),  key prefix (optional) and bucket account owner ID (optional).
+        ///  Values for the S3 bucket the source file is imported from. Includes bucket name (required), key prefix (optional) and bucket account owner ID (optional).
         public let s3BucketSource: S3BucketSource?
         ///  The time when this import task started.
         public let startTime: Date?
@@ -3003,7 +3003,7 @@ extension DynamoDB {
         public let clientToken: String?
         ///  Type of compression to be used on the input coming from the imported table.
         public let inputCompressionType: InputCompressionType?
-        ///  The format of the source data. Valid values for ImportFormat are CSV,  DYNAMODB_JSON or ION.
+        ///  The format of the source data. Valid values for ImportFormat are CSV, DYNAMODB_JSON or ION.
         public let inputFormat: InputFormat
         ///  Additional properties that specify how the input is formatted,
         public let inputFormatOptions: InputFormatOptions?
@@ -3039,7 +3039,7 @@ extension DynamoDB {
     }
 
     public struct ImportTableOutput: AWSDecodableShape {
-        ///  Represents the properties of the table created for the import, and parameters of  the import. The import parameters include import status, how many items were processed,  and how many errors were encountered.
+        ///  Represents the properties of the table created for the import, and parameters of the import. The import parameters include import status, how many items were processed, and how many errors were encountered.
         public let importTableDescription: ImportTableDescription
 
         public init(importTableDescription: ImportTableDescription) {
@@ -3855,7 +3855,7 @@ extension DynamoDB {
         public let returnConsumedCapacity: ReturnConsumedCapacity?
         /// Determines whether item collection metrics are returned. If set to SIZE, the response includes statistics about item collections, if any, that were modified during the operation are returned in the response. If set to NONE (the default), no statistics are returned.
         public let returnItemCollectionMetrics: ReturnItemCollectionMetrics?
-        /// Use ReturnValues if you want to get the item attributes as they appeared before they were updated with the PutItem request. For PutItem, the valid values are:    NONE - If ReturnValues is not specified, or if its value is NONE, then nothing is returned. (This setting is the default for ReturnValues.)    ALL_OLD - If PutItem overwrote an attribute name-value pair, then the content of the old item is returned.   The values returned are strongly consistent. There is no additional cost associated with requesting a return value aside from the small  network and processing overhead of receiving a larger response. No read capacity units are  consumed.  The ReturnValues parameter is used by several DynamoDB operations; however, PutItem does not recognize any values other than NONE or ALL_OLD.
+        /// Use ReturnValues if you want to get the item attributes as they appeared before they were updated with the PutItem request. For PutItem, the valid values are:    NONE - If ReturnValues is not specified, or if its value is NONE, then nothing is returned. (This setting is the default for ReturnValues.)    ALL_OLD - If PutItem overwrote an attribute name-value pair, then the content of the old item is returned.   The values returned are strongly consistent. There is no additional cost associated with requesting a return value aside from the small network and processing overhead of receiving a larger response. No read capacity units are consumed.  The ReturnValues parameter is used by several DynamoDB operations; however, PutItem does not recognize any values other than NONE or ALL_OLD.
         public let returnValues: ReturnValue?
         /// The name of the table to contain the item.
         public let tableName: String
@@ -4232,7 +4232,8 @@ extension DynamoDB {
     public struct ReplicaGlobalSecondaryIndexAutoScalingDescription: AWSDecodableShape {
         /// The name of the global secondary index.
         public let indexName: String?
-        /// The current state of the replica global secondary index:    CREATING - The index is being created.    UPDATING - The index is being updated.    DELETING - The index is being deleted.    ACTIVE - The index is ready for use.
+        /// The current state of the replica global secondary index:    CREATING - The index is being created.    UPDATING - The table/index configuration is being updated. The table/index remains available for data operations when UPDATING
+        ///     DELETING - The index is being deleted.    ACTIVE - The index is ready for use.
         public let indexStatus: IndexStatus?
         public let provisionedReadCapacityAutoScalingSettings: AutoScalingSettingsDescription?
         public let provisionedWriteCapacityAutoScalingSettings: AutoScalingSettingsDescription?
@@ -4651,7 +4652,7 @@ extension DynamoDB {
     public struct S3BucketSource: AWSEncodableShape & AWSDecodableShape {
         ///  The S3 bucket that is being imported from.
         public let s3Bucket: String
-        ///  The account number of the S3 bucket that is being imported from.  If the bucket is owned by the requester this is optional.
+        ///  The account number of the S3 bucket that is being imported from. If the bucket is owned by the requester this is optional.
         public let s3BucketOwner: String?
         ///  The key prefix shared by all S3 Objects that are being imported.
         public let s3KeyPrefix: String?
@@ -5082,7 +5083,7 @@ extension DynamoDB {
         public let tableName: String?
         /// The total size of the specified table, in bytes. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.
         public let tableSizeBytes: Int64?
-        /// The current state of the table:    CREATING - The table is being created.    UPDATING - The table is being updated.    DELETING - The table is being deleted.    ACTIVE - The table is ready for use.    INACCESSIBLE_ENCRYPTION_CREDENTIALS - The KMS key used to encrypt the table in inaccessible. Table operations may fail due to failure to use the KMS key. DynamoDB will initiate the table archival process when a table's KMS key remains inaccessible for more than seven days.     ARCHIVING - The table is being archived. Operations are not allowed until archival is complete.     ARCHIVED - The table has been archived. See the ArchivalReason for more information.
+        /// The current state of the table:    CREATING - The table is being created.    UPDATING - The table/index configuration is being updated. The table/index remains available for data operations when UPDATING.    DELETING - The table is being deleted.    ACTIVE - The table is ready for use.    INACCESSIBLE_ENCRYPTION_CREDENTIALS - The KMS key used to encrypt the table in inaccessible. Table operations may fail due to failure to use the KMS key. DynamoDB will initiate the table archival process when a table's KMS key remains inaccessible for more than seven days.     ARCHIVING - The table is being archived. Operations are not allowed until archival is complete.     ARCHIVED - The table has been archived. See the ArchivalReason for more information.
         public let tableStatus: TableStatus?
 
         public init(archivalSummary: ArchivalSummary? = nil, attributeDefinitions: [AttributeDefinition]? = nil, billingModeSummary: BillingModeSummary? = nil, creationDateTime: Date? = nil, globalSecondaryIndexes: [GlobalSecondaryIndexDescription]? = nil, globalTableVersion: String? = nil, itemCount: Int64? = nil, keySchema: [KeySchemaElement]? = nil, latestStreamArn: String? = nil, latestStreamLabel: String? = nil, localSecondaryIndexes: [LocalSecondaryIndexDescription]? = nil, provisionedThroughput: ProvisionedThroughputDescription? = nil, replicas: [ReplicaDescription]? = nil, restoreSummary: RestoreSummary? = nil, sseDescription: SSEDescription? = nil, streamSpecification: StreamSpecification? = nil, tableArn: String? = nil, tableClassSummary: TableClassSummary? = nil, tableId: String? = nil, tableName: String? = nil, tableSizeBytes: Int64? = nil, tableStatus: TableStatus? = nil) {

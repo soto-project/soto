@@ -444,6 +444,59 @@ extension LexModelsV2 {
         )
     }
 
+    ///  List custom vocabulary items for the specified locale in the  specified bot.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listCustomVocabularyItemsPaginator<Result>(
+        _ input: ListCustomVocabularyItemsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListCustomVocabularyItemsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listCustomVocabularyItems,
+            inputKey: \ListCustomVocabularyItemsRequest.nextToken,
+            outputKey: \ListCustomVocabularyItemsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listCustomVocabularyItemsPaginator(
+        _ input: ListCustomVocabularyItemsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListCustomVocabularyItemsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listCustomVocabularyItems,
+            inputKey: \ListCustomVocabularyItemsRequest.nextToken,
+            outputKey: \ListCustomVocabularyItemsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Lists the exports for a bot, bot locale, or custom vocabulary. Exports are kept in the list for 7 days.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -603,7 +656,7 @@ extension LexModelsV2 {
         )
     }
 
-    ///  Gets a list of recommended intents provided by the bot recommendation that you can use in your bot.
+    ///  Gets a list of recommended intents provided by the bot recommendation that you can use in your bot. Intents in the  response are ordered by relevance.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -854,6 +907,18 @@ extension LexModelsV2.ListBuiltInSlotTypesRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             sortBy: self.sortBy
+        )
+    }
+}
+
+extension LexModelsV2.ListCustomVocabularyItemsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> LexModelsV2.ListCustomVocabularyItemsRequest {
+        return .init(
+            botId: self.botId,
+            botVersion: self.botVersion,
+            localeId: self.localeId,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

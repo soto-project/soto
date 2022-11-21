@@ -181,7 +181,7 @@ extension ACM {
         public func validate(name: String) throws {
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, max: 2048)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, min: 20)
-            try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*$")
+            try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:acm:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*$")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -413,7 +413,7 @@ extension ACM {
         public func validate(name: String) throws {
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, max: 2048)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, min: 20)
-            try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*$")
+            try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:acm:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -432,7 +432,7 @@ extension ACM {
         public func validate(name: String) throws {
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, max: 2048)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, min: 20)
-            try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*$")
+            try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:acm:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -543,7 +543,7 @@ extension ACM {
         public func validate(name: String) throws {
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, max: 2048)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, min: 20)
-            try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*$")
+            try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:acm:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*$")
             try self.validate(self.passphrase, name: "passphrase", parent: name, max: 128)
             try self.validate(self.passphrase, name: "passphrase", parent: name, min: 4)
         }
@@ -637,7 +637,7 @@ extension ACM {
         public func validate(name: String) throws {
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, max: 2048)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, min: 20)
-            try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*$")
+            try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:acm:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -687,7 +687,7 @@ extension ACM {
             try self.validate(self.certificate, name: "certificate", parent: name, min: 1)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, max: 2048)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, min: 20)
-            try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*$")
+            try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:acm:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*$")
             try self.validate(self.certificateChain, name: "certificateChain", parent: name, max: 2_097_152)
             try self.validate(self.certificateChain, name: "certificateChain", parent: name, min: 1)
             try self.validate(self.privateKey, name: "privateKey", parent: name, max: 5120)
@@ -803,7 +803,7 @@ extension ACM {
         public func validate(name: String) throws {
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, max: 2048)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, min: 20)
-            try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*$")
+            try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:acm:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -862,7 +862,7 @@ extension ACM {
         public func validate(name: String) throws {
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, max: 2048)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, min: 20)
-            try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*$")
+            try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:acm:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*$")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -887,7 +887,7 @@ extension ACM {
         public func validate(name: String) throws {
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, max: 2048)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, min: 20)
-            try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*$")
+            try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:acm:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -921,7 +921,7 @@ extension ACM {
     }
 
     public struct RequestCertificateRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the private certificate authority (CA) that will be used to issue the certificate. If you do not provide an ARN and you are trying to request a private certificate, ACM will attempt to issue a public certificate. For more information about private CAs, see the Certificate Manager Private Certificate Authority user guide. The ARN must have the following form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
+        /// The Amazon Resource Name (ARN) of the private certificate authority (CA) that will be used to issue the certificate. If you do not provide an ARN and you are trying to request a private certificate, ACM will attempt to issue a public certificate. For more information about private CAs, see the Amazon Web Services Private Certificate Authority user guide. The ARN must have the following form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
         public let certificateAuthorityArn: String?
         /// Fully qualified domain name (FQDN), such as www.example.com, that you want to secure with an ACM certificate. Use an asterisk (*) to create a wildcard certificate that protects several sites in the same domain. For example, *.example.com protects www.example.com, site.example.com, and images.example.com.  In compliance with RFC 5280, the length of the domain name (technically, the Common Name) that you provide cannot exceed 64 octets (characters), including periods. To add a longer domain name, specify it in the Subject Alternative Name field, which supports names up to 253 octets in length.
         public let domainName: String
@@ -929,6 +929,8 @@ extension ACM {
         public let domainValidationOptions: [DomainValidationOption]?
         /// Customer chosen string that can be used to distinguish between calls to RequestCertificate. Idempotency tokens time out after one hour. Therefore, if you call RequestCertificate multiple times with the same idempotency token within one hour, ACM recognizes that you are requesting only one certificate and will issue only one. If you change the idempotency token for each call, ACM recognizes that you are requesting multiple certificates.
         public let idempotencyToken: String?
+        /// Specifies the algorithm of the public and private key pair that your certificate uses to encrypt data. RSA is the default key algorithm for ACM certificates. Elliptic Curve Digital Signature Algorithm (ECDSA) keys are smaller, offering security comparable to RSA keys but with greater computing efficiency. However, ECDSA is not supported by all network clients. Some AWS services may require RSA keys, or only support ECDSA keys of a particular size, while others allow the use of either RSA and ECDSA keys to ensure that compatibility is not broken. Check the requirements for the AWS service where you plan to deploy your certificate. Default: RSA_2048
+        public let keyAlgorithm: KeyAlgorithm?
         /// Currently, you can use this parameter to specify whether to add the certificate to a certificate transparency log. Certificate transparency makes it possible to detect SSL/TLS certificates that have been mistakenly or maliciously issued. Certificates that have not been logged typically produce an error message in a browser. For more information, see Opting Out of Certificate Transparency Logging.
         public let options: CertificateOptions?
         /// Additional FQDNs to be included in the Subject Alternative Name extension of the ACM certificate. For example, add the name www.example.net to a certificate for which the DomainName field is www.example.com if users can reach your site by using either name. The maximum number of domain names that you can add to an ACM certificate is 100. However, the initial quota is 10 domain names. If you need more than 10 names, you must request a quota increase. For more information, see Quotas. The maximum length of a SAN DNS name is 253 octets. The name is made up of multiple labels separated by periods. No label can be longer than 63 octets. Consider the following examples:     (63 octets).(63 octets).(63 octets).(61 octets) is legal because the total length is 253 octets (63+1+63+1+63+1+61) and no label exceeds 63 octets.    (64 octets).(63 octets).(63 octets).(61 octets) is not legal because the total length exceeds 253 octets (64+1+63+1+63+1+61) and the first label exceeds 63 octets.    (63 octets).(63 octets).(63 octets).(62 octets) is not legal because the total length of the DNS name (63+1+63+1+63+1+62) exceeds 253 octets.
@@ -938,11 +940,12 @@ extension ACM {
         /// The method you want to use if you are requesting a public certificate to validate that you own or control domain. You can validate with DNS or validate with email. We recommend that you use DNS validation.
         public let validationMethod: ValidationMethod?
 
-        public init(certificateAuthorityArn: String? = nil, domainName: String, domainValidationOptions: [DomainValidationOption]? = nil, idempotencyToken: String? = nil, options: CertificateOptions? = nil, subjectAlternativeNames: [String]? = nil, tags: [Tag]? = nil, validationMethod: ValidationMethod? = nil) {
+        public init(certificateAuthorityArn: String? = nil, domainName: String, domainValidationOptions: [DomainValidationOption]? = nil, idempotencyToken: String? = nil, keyAlgorithm: KeyAlgorithm? = nil, options: CertificateOptions? = nil, subjectAlternativeNames: [String]? = nil, tags: [Tag]? = nil, validationMethod: ValidationMethod? = nil) {
             self.certificateAuthorityArn = certificateAuthorityArn
             self.domainName = domainName
             self.domainValidationOptions = domainValidationOptions
             self.idempotencyToken = idempotencyToken
+            self.keyAlgorithm = keyAlgorithm
             self.options = options
             self.subjectAlternativeNames = subjectAlternativeNames
             self.tags = tags
@@ -952,7 +955,7 @@ extension ACM {
         public func validate(name: String) throws {
             try self.validate(self.certificateAuthorityArn, name: "certificateAuthorityArn", parent: name, max: 2048)
             try self.validate(self.certificateAuthorityArn, name: "certificateAuthorityArn", parent: name, min: 20)
-            try self.validate(self.certificateAuthorityArn, name: "certificateAuthorityArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*$")
+            try self.validate(self.certificateAuthorityArn, name: "certificateAuthorityArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:acm-pca:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*$")
             try self.validate(self.domainName, name: "domainName", parent: name, max: 253)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^(\\*\\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$")
@@ -983,6 +986,7 @@ extension ACM {
             case domainName = "DomainName"
             case domainValidationOptions = "DomainValidationOptions"
             case idempotencyToken = "IdempotencyToken"
+            case keyAlgorithm = "KeyAlgorithm"
             case options = "Options"
             case subjectAlternativeNames = "SubjectAlternativeNames"
             case tags = "Tags"
@@ -1020,7 +1024,7 @@ extension ACM {
         public func validate(name: String) throws {
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, max: 2048)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, min: 20)
-            try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*$")
+            try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:acm:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*$")
             try self.validate(self.domain, name: "domain", parent: name, max: 253)
             try self.validate(self.domain, name: "domain", parent: name, min: 1)
             try self.validate(self.domain, name: "domain", parent: name, pattern: "^(\\*\\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$")
@@ -1096,7 +1100,7 @@ extension ACM {
         public func validate(name: String) throws {
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, max: 2048)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, min: 20)
-            try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*$")
+            try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:acm:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*$")
         }
 
         private enum CodingKeys: String, CodingKey {

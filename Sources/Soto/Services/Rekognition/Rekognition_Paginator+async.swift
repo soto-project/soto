@@ -319,7 +319,7 @@ extension Rekognition {
         )
     }
 
-    ///  Returns metadata for faces in the specified collection. This metadata includes information such as the bounding box coordinates, the confidence (that the bounding box contains a face), and face ID. For an example, see Listing Faces in a Collection in the Amazon Rekognition Developer Guide.   This operation requires permissions to perform the rekognition:ListFaces action.
+    ///  Returns metadata for faces in the specified collection. This metadata includes information such as the bounding box coordinates, the confidence (that the bounding box contains a face), and face ID. For an example, see Listing Faces in a Collection in the Amazon Rekognition Developer Guide. This operation requires permissions to perform the rekognition:ListFaces action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

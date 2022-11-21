@@ -23,6 +23,50 @@ import SotoCore
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension IoTTwinMaker {
+    ///  Run queries to access information from your knowledge graph of entities within individual workspaces.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func executeQueryPaginator(
+        _ input: ExecuteQueryRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ExecuteQueryRequest, ExecuteQueryResponse> {
+        return .init(
+            input: input,
+            command: executeQuery,
+            inputKey: \ExecuteQueryRequest.nextToken,
+            outputKey: \ExecuteQueryResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Gets the property values for a component, component type, entity, or workspace. You must specify a value for either componentName, componentTypeId, entityId, or workspaceId.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func getPropertyValuePaginator(
+        _ input: GetPropertyValueRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<GetPropertyValueRequest, GetPropertyValueResponse> {
+        return .init(
+            input: input,
+            command: getPropertyValue,
+            inputKey: \GetPropertyValueRequest.nextToken,
+            outputKey: \GetPropertyValueResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Retrieves information about the history of a time series property value for a component, component type, entity, or workspace. You must specify a value for workspaceId. For entity-specific queries, specify values for componentName and  entityId. For cross-entity quries, specify a value for componentTypeId.
     /// Return PaginatorSequence for operation.
     ///

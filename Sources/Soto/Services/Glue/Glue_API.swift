@@ -489,7 +489,7 @@ public struct Glue: AWSService {
         return self.client.execute(operation: "GetDevEndpoint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves all the development endpoints in this AWS account.  When you create a development endpoint in a virtual private cloud (VPC), Glue returns only a private IP address and the public IP address field is not populated. When you create a non-VPC development endpoint, Glue returns only a public IP address.
+    /// Retrieves all the development endpoints in this Amazon Web Services account.  When you create a development endpoint in a virtual private cloud (VPC), Glue returns only a private IP address and the public IP address field is not populated. When you create a non-VPC development endpoint, Glue returns only a public IP address.
     public func getDevEndpoints(_ input: GetDevEndpointsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDevEndpointsResponse> {
         return self.client.execute(operation: "GetDevEndpoints", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -500,6 +500,10 @@ public struct Glue: AWSService {
     }
 
     /// Returns information on a job bookmark entry.
+    ///
+    /// 	        For more information about enabling and using job bookmarks, see:
+    ///
+    /// 	           Tracking processed data using job bookmarks     Job parameters used by Glue     Job structure
     public func getJobBookmark(_ input: GetJobBookmarkRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetJobBookmarkResponse> {
         return self.client.execute(operation: "GetJobBookmark", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -818,6 +822,10 @@ public struct Glue: AWSService {
     }
 
     /// Resets a bookmark entry.
+    ///
+    /// 	        For more information about enabling and using job bookmarks, see:
+    ///
+    /// 	           Tracking processed data using job bookmarks     Job parameters used by Glue     Job structure
     public func resetJobBookmark(_ input: ResetJobBookmarkRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ResetJobBookmarkResponse> {
         return self.client.execute(operation: "ResetJobBookmark", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

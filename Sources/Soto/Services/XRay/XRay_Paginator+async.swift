@@ -242,6 +242,50 @@ extension XRay {
             on: eventLoop
         )
     }
+
+    ///  Returns the list of resource policies in the target Amazon Web Services account.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listResourcePoliciesPaginator(
+        _ input: ListResourcePoliciesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListResourcePoliciesRequest, ListResourcePoliciesResult> {
+        return .init(
+            input: input,
+            command: listResourcePolicies,
+            inputKey: \ListResourcePoliciesRequest.nextToken,
+            outputKey: \ListResourcePoliciesResult.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Returns a list of tags that are applied to the specified Amazon Web Services X-Ray group or sampling rule.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listTagsForResourcePaginator(
+        _ input: ListTagsForResourceRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListTagsForResourceRequest, ListTagsForResourceResponse> {
+        return .init(
+            input: input,
+            command: listTagsForResource,
+            inputKey: \ListTagsForResourceRequest.nextToken,
+            outputKey: \ListTagsForResourceResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
 }
 
 #endif // compiler(>=5.5.2) && canImport(_Concurrency)

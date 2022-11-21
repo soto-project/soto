@@ -30,23 +30,26 @@ extension PersonalizeEvents {
         public let eventType: String
         /// The event value that corresponds to the EVENT_VALUE field of the Interactions schema.
         public let eventValue: Float?
-        /// A list of item IDs that represents the sequence of items you have shown the user. For example, ["itemId1", "itemId2", "itemId3"].
+        /// A list of item IDs that represents the sequence of items you have shown the user. For example, ["itemId1", "itemId2", "itemId3"]. Provide a list of  items to manually record impressions data for an event. For more information on recording impressions data,  see Recording impressions data.
         public let impression: [String]?
         /// The item ID key that corresponds to the ITEM_ID field of the Interactions schema.
         public let itemId: String?
+        /// Contains information about the metric attribution associated with an event. For more information about metric attributions, see Measuring impact of recommendations.
+        public let metricAttribution: MetricAttribution?
         /// A string map of event-specific data that you might choose to record. For example, if a user rates a movie on your site, other than movie ID (itemId) and rating (eventValue) , you might also send the number of movie ratings made by the user. Each item in the map consists of a key-value pair. For example,   {"numberOfRatings": "12"}  The keys use camel case names that match the fields in the Interactions schema. In the above example, the numberOfRatings would match the 'NUMBER_OF_RATINGS' field defined in the Interactions schema.
         public let properties: String?
-        /// The ID of the recommendation.
+        /// The ID of the list of recommendations that contains the item the user interacted with. Provide a recommendationId to have Amazon Personalize implicitly record the recommendations you show your user as impressions data. Or provide a recommendationId if you use a metric attribution to measure the impact of recommendations.    For more information on recording impressions data, see Recording impressions data.  For more information on creating a metric attribution see Measuring impact of recommendations.
         public let recommendationId: String?
         /// The timestamp (in Unix time) on the client side when the event occurred.
         public let sentAt: Date
 
-        public init(eventId: String? = nil, eventType: String, eventValue: Float? = nil, impression: [String]? = nil, itemId: String? = nil, properties: String? = nil, recommendationId: String? = nil, sentAt: Date) {
+        public init(eventId: String? = nil, eventType: String, eventValue: Float? = nil, impression: [String]? = nil, itemId: String? = nil, metricAttribution: MetricAttribution? = nil, properties: String? = nil, recommendationId: String? = nil, sentAt: Date) {
             self.eventId = eventId
             self.eventType = eventType
             self.eventValue = eventValue
             self.impression = impression
             self.itemId = itemId
+            self.metricAttribution = metricAttribution
             self.properties = properties
             self.recommendationId = recommendationId
             self.sentAt = sentAt
@@ -65,6 +68,7 @@ extension PersonalizeEvents {
             try self.validate(self.impression, name: "impression", parent: name, min: 1)
             try self.validate(self.itemId, name: "itemId", parent: name, max: 256)
             try self.validate(self.itemId, name: "itemId", parent: name, min: 1)
+            try self.metricAttribution?.validate(name: "\(name).metricAttribution")
             try self.validate(self.properties, name: "properties", parent: name, max: 1024)
             try self.validate(self.properties, name: "properties", parent: name, min: 1)
             try self.validate(self.recommendationId, name: "recommendationId", parent: name, max: 40)
@@ -77,6 +81,7 @@ extension PersonalizeEvents {
             case eventValue
             case impression
             case itemId
+            case metricAttribution
             case properties
             case recommendationId
             case sentAt
@@ -104,6 +109,24 @@ extension PersonalizeEvents {
         private enum CodingKeys: String, CodingKey {
             case itemId
             case properties
+        }
+    }
+
+    public struct MetricAttribution: AWSEncodableShape {
+        /// The source of the event, such as a third party.
+        public let eventAttributionSource: String
+
+        public init(eventAttributionSource: String) {
+            self.eventAttributionSource = eventAttributionSource
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.eventAttributionSource, name: "eventAttributionSource", parent: name, max: 1024)
+            try self.validate(self.eventAttributionSource, name: "eventAttributionSource", parent: name, pattern: "^[\\x20-\\x7E]*[\\x21-\\x7E]+[\\x20-\\x7E]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventAttributionSource
         }
     }
 

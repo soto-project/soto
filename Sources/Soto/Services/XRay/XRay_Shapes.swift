@@ -218,7 +218,7 @@ extension XRay {
         public let filterExpression: String?
         /// The case-sensitive name of the new group. Default is a reserved name and names must be unique.
         public let groupName: String
-        /// The structure containing configurations related to insights.   The InsightsEnabled boolean can be set to true to enable insights for the new group or false to disable insights for the new group.   The NotifcationsEnabled boolean can be set to true to enable insights notifications for the new group. Notifications may only be enabled on a group with InsightsEnabled set to true.
+        /// The structure containing configurations related to insights.   The InsightsEnabled boolean can be set to true to enable insights for the new group or false to disable insights for the new group.   The NotificationsEnabled boolean can be set to true to enable insights notifications for the new group. Notifications may only be enabled on a group with InsightsEnabled set to true.
         public let insightsConfiguration: InsightsConfiguration?
         /// A map that contains one or more tag keys and tag values to attach to an X-Ray group. For more information about ways to use tags, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference. The following restrictions apply to tags:   Maximum number of user-applied tags per resource: 50   Maximum tag key length: 128 Unicode characters   Maximum tag value length: 256 Unicode characters   Valid values for key and value: a-z, A-Z, 0-9, space, and the following characters: _ . : / = + - and @   Tag keys and values are case sensitive.   Don't use aws: as a prefix for keys; it's reserved for Amazon Web Services use.
         public let tags: [Tag]?
@@ -326,6 +326,33 @@ extension XRay {
         public init() {}
     }
 
+    public struct DeleteResourcePolicyRequest: AWSEncodableShape {
+        /// The name of the resource policy to delete.
+        public let policyName: String
+        /// Specifies a specific policy revision to delete. Provide a PolicyRevisionId to ensure an atomic delete operation. If the provided revision id does  not match the latest policy revision id, an InvalidPolicyRevisionIdException exception is returned.
+        public let policyRevisionId: String?
+
+        public init(policyName: String, policyRevisionId: String? = nil) {
+            self.policyName = policyName
+            self.policyRevisionId = policyRevisionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.policyName, name: "policyName", parent: name, max: 128)
+            try self.validate(self.policyName, name: "policyName", parent: name, min: 1)
+            try self.validate(self.policyName, name: "policyName", parent: name, pattern: "^[\\w+=,.@-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyName = "PolicyName"
+            case policyRevisionId = "PolicyRevisionId"
+        }
+    }
+
+    public struct DeleteResourcePolicyResult: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteSamplingRuleRequest: AWSEncodableShape {
         /// The ARN of the sampling rule. Specify a rule by either name or ARN, but not both.
         public let ruleARN: String?
@@ -359,20 +386,26 @@ extension XRay {
     public struct Edge: AWSDecodableShape {
         /// Aliases for the edge.
         public let aliases: [Alias]?
+        /// Describes an asynchronous connection, with a value of link.
+        public let edgeType: String?
         /// The end time of the last segment on the edge.
         public let endTime: Date?
+        /// A histogram that maps the spread of event age when received by consumers.  Age is calculated each time an event is received. Only populated when EdgeType is  link.
+        public let receivedEventAgeHistogram: [HistogramEntry]?
         /// Identifier of the edge. Unique within a service map.
         public let referenceId: Int?
-        /// A histogram that maps the spread of client response times on an edge.
+        /// A histogram that maps the spread of client response times on an edge. Only populated for synchronous edges.
         public let responseTimeHistogram: [HistogramEntry]?
         /// The start time of the first segment on the edge.
         public let startTime: Date?
         /// Response statistics for segments on the edge.
         public let summaryStatistics: EdgeStatistics?
 
-        public init(aliases: [Alias]? = nil, endTime: Date? = nil, referenceId: Int? = nil, responseTimeHistogram: [HistogramEntry]? = nil, startTime: Date? = nil, summaryStatistics: EdgeStatistics? = nil) {
+        public init(aliases: [Alias]? = nil, edgeType: String? = nil, endTime: Date? = nil, receivedEventAgeHistogram: [HistogramEntry]? = nil, referenceId: Int? = nil, responseTimeHistogram: [HistogramEntry]? = nil, startTime: Date? = nil, summaryStatistics: EdgeStatistics? = nil) {
             self.aliases = aliases
+            self.edgeType = edgeType
             self.endTime = endTime
+            self.receivedEventAgeHistogram = receivedEventAgeHistogram
             self.referenceId = referenceId
             self.responseTimeHistogram = responseTimeHistogram
             self.startTime = startTime
@@ -381,7 +414,9 @@ extension XRay {
 
         private enum CodingKeys: String, CodingKey {
             case aliases = "Aliases"
+            case edgeType = "EdgeType"
             case endTime = "EndTime"
+            case receivedEventAgeHistogram = "ReceivedEventAgeHistogram"
             case referenceId = "ReferenceId"
             case responseTimeHistogram = "ResponseTimeHistogram"
             case startTime = "StartTime"
@@ -1592,6 +1627,41 @@ extension XRay {
         }
     }
 
+    public struct ListResourcePoliciesRequest: AWSEncodableShape {
+        /// Not currently supported.
+        public let nextToken: String?
+
+        public init(nextToken: String? = nil) {
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 100)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListResourcePoliciesResult: AWSDecodableShape {
+        /// Pagination token. Not currently supported.
+        public let nextToken: String?
+        /// The list of resource policies in the target Amazon Web Services account.
+        public let resourcePolicies: [ResourcePolicy]?
+
+        public init(nextToken: String? = nil, resourcePolicies: [ResourcePolicy]? = nil) {
+            self.nextToken = nextToken
+            self.resourcePolicies = resourcePolicies
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case resourcePolicies = "ResourcePolicies"
+        }
+    }
+
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         /// A pagination token. If multiple pages of results are returned, use the NextToken value returned with  the current page of results as the value of this parameter to get the next page of results.
         public let nextToken: String?
@@ -1663,6 +1733,50 @@ extension XRay {
 
         private enum CodingKeys: String, CodingKey {
             case encryptionConfig = "EncryptionConfig"
+        }
+    }
+
+    public struct PutResourcePolicyRequest: AWSEncodableShape {
+        /// A flag to indicate whether to bypass the resource policy lockout safety check.   Setting this value to true increases the risk that the policy becomes unmanageable. Do not set this value to true indiscriminately.   Use this parameter only when you include a policy in the request and you intend to prevent the principal that is making the request from making a subsequent PutResourcePolicy request.  The default value is false.
+        public let bypassPolicyLockoutCheck: Bool?
+        /// The resource policy document, which can be up to 5kb in size.
+        public let policyDocument: String
+        /// The name of the resource policy. Must be unique within a specific Amazon Web Services account.
+        public let policyName: String
+        /// Specifies a specific policy revision, to ensure an atomic create operation. By default the resource policy is created if it does not exist, or updated with an incremented revision id.  The revision id is unique to each policy in the account. If the policy revision id does not match the latest revision id, the operation will fail with an InvalidPolicyRevisionIdException exception. You can also provide a  PolicyRevisionId of 0. In this case, the operation will fail with an InvalidPolicyRevisionIdException exception if a resource policy with the same name already exists.
+        public let policyRevisionId: String?
+
+        public init(bypassPolicyLockoutCheck: Bool? = nil, policyDocument: String, policyName: String, policyRevisionId: String? = nil) {
+            self.bypassPolicyLockoutCheck = bypassPolicyLockoutCheck
+            self.policyDocument = policyDocument
+            self.policyName = policyName
+            self.policyRevisionId = policyRevisionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.policyName, name: "policyName", parent: name, max: 128)
+            try self.validate(self.policyName, name: "policyName", parent: name, min: 1)
+            try self.validate(self.policyName, name: "policyName", parent: name, pattern: "^[\\w+=,.@-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bypassPolicyLockoutCheck = "BypassPolicyLockoutCheck"
+            case policyDocument = "PolicyDocument"
+            case policyName = "PolicyName"
+            case policyRevisionId = "PolicyRevisionId"
+        }
+    }
+
+    public struct PutResourcePolicyResult: AWSDecodableShape {
+        /// The resource policy document, as provided in the PutResourcePolicyRequest.
+        public let resourcePolicy: ResourcePolicy?
+
+        public init(resourcePolicy: ResourcePolicy? = nil) {
+            self.resourcePolicy = resourcePolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourcePolicy = "ResourcePolicy"
         }
     }
 
@@ -1754,6 +1868,31 @@ extension XRay {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "ARN"
+        }
+    }
+
+    public struct ResourcePolicy: AWSDecodableShape {
+        /// When the policy was last updated, in Unix time seconds.
+        public let lastUpdatedTime: Date?
+        /// The resource policy document, which can be up to 5kb in size.
+        public let policyDocument: String?
+        /// The name of the resource policy. Must be unique within a specific Amazon Web Services account.
+        public let policyName: String?
+        /// Returns the current policy revision id for this policy name.
+        public let policyRevisionId: String?
+
+        public init(lastUpdatedTime: Date? = nil, policyDocument: String? = nil, policyName: String? = nil, policyRevisionId: String? = nil) {
+            self.lastUpdatedTime = lastUpdatedTime
+            self.policyDocument = policyDocument
+            self.policyName = policyName
+            self.policyRevisionId = policyRevisionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastUpdatedTime = "LastUpdatedTime"
+            case policyDocument = "PolicyDocument"
+            case policyName = "PolicyName"
+            case policyRevisionId = "PolicyRevisionId"
         }
     }
 
@@ -2069,7 +2208,7 @@ extension XRay {
         /// The current time.
         public let timestamp: Date
 
-        public init(borrowCount: Int? = nil, clientID: String, requestCount: Int, ruleName: String, sampledCount: Int, timestamp: Date) {
+        public init(borrowCount: Int? = nil, clientID: String, requestCount: Int = 0, ruleName: String, sampledCount: Int = 0, timestamp: Date) {
             self.borrowCount = borrowCount
             self.clientID = clientID
             self.requestCount = requestCount
@@ -2384,7 +2523,7 @@ extension XRay {
         public let duration: Double?
         /// The unique identifier for the request that generated the trace's segments and subsegments.
         public let id: String?
-        /// LimitExceeded is set to true when the trace has exceeded one of the defined quotas. For more information about quotas, see Amazon Web Services X-Ray endpoints and quotas.
+        /// LimitExceeded is set to true when the trace has exceeded the Trace document size limit. For more information about this limit and other X-Ray limits and quotas, see Amazon Web Services X-Ray endpoints and quotas.
         public let limitExceeded: Bool?
         /// Segment documents for the segments and subsegments that comprise the trace.
         public let segments: [Segment]?
@@ -2590,7 +2729,7 @@ extension XRay {
         public let groupARN: String?
         /// The case-sensitive name of the group.
         public let groupName: String?
-        /// The structure containing configurations related to insights.   The InsightsEnabled boolean can be set to true to enable insights for the group or false to disable insights for the group.   The NotifcationsEnabled boolean can be set to true to enable insights notifications for the group. Notifications can only be enabled on a group with InsightsEnabled set to true.
+        /// The structure containing configurations related to insights.   The InsightsEnabled boolean can be set to true to enable insights for the group or false to disable insights for the group.   The NotificationsEnabled boolean can be set to true to enable insights notifications for the group. Notifications can only be enabled on a group with InsightsEnabled set to true.
         public let insightsConfiguration: InsightsConfiguration?
 
         public init(filterExpression: String? = nil, groupARN: String? = nil, groupName: String? = nil, insightsConfiguration: InsightsConfiguration? = nil) {

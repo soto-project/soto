@@ -403,7 +403,7 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "DisassociateSecurityKey", path: "/instance/{InstanceId}/security-key/{AssociationId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Dismisses contacts from an agent’s CCP and returns the agent to an available state, which  allows the agent to receive a new routed contact. Contacts can only be dismissed if they are in a  MISSED, ERROR, ENDED, or REJECTED state in the  Agent Event Stream.
+    /// Dismisses contacts from an agent’s CCP and returns the agent to an available state, which allows the agent to receive a new routed contact. Contacts can only be dismissed if they are in a MISSED, ERROR, ENDED, or REJECTED state in the Agent Event Stream.
     public func dismissUserContact(_ input: DismissUserContactRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DismissUserContactResponse> {
         return self.client.execute(operation: "DismissUserContact", path: "/users/{InstanceId}/{UserId}/contact", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -599,6 +599,11 @@ public struct Connect: AWSService {
     /// Provides summary information about the users for the specified Amazon Connect instance.
     public func listUsers(_ input: ListUsersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListUsersResponse> {
         return self.client.execute(operation: "ListUsers", path: "/users-summary/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Initiates silent monitoring of a contact. The Contact Control Panel (CCP) of the user specified by  userId will be set to silent monitoring mode on the contact.
+    public func monitorContact(_ input: MonitorContactRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<MonitorContactResponse> {
+        return self.client.execute(operation: "MonitorContact", path: "/contact/monitor", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Changes the current status of a user or agent in Amazon Connect. If the agent is currently handling a contact, this sets the agent's next status. For more information, see Agent status and Set your next status in the Amazon Connect Administrator Guide.

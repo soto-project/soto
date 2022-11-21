@@ -210,11 +210,65 @@ extension SSMIncidents {
         }
     }
 
+    public enum EventReference: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+        /// The ID of a RelatedItem referenced in a TimelineEvent.
+        case relatedItemId(String)
+        /// The Amazon Resource Name (ARN) of an Amazon Web Services resource referenced in a TimelineEvent.
+        case resource(String)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .relatedItemId:
+                let value = try container.decode(String.self, forKey: .relatedItemId)
+                self = .relatedItemId(value)
+            case .resource:
+                let value = try container.decode(String.self, forKey: .resource)
+                self = .resource(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .relatedItemId(let value):
+                try container.encode(value, forKey: .relatedItemId)
+            case .resource(let value):
+                try container.encode(value, forKey: .resource)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .relatedItemId(let value):
+                try self.validate(value, name: "relatedItemId", parent: name, max: 200)
+                try self.validate(value, name: "relatedItemId", parent: name, pattern: "^related-item/(ANALYSIS|INCIDENT|METRIC|PARENT|ATTACHMENT|OTHER|AUTOMATION|INVOLVED_RESOURCE|TASK)/([0-9]|[A-F]){32}$")
+            case .resource(let value):
+                try self.validate(value, name: "resource", parent: name, max: 1000)
+                try self.validate(value, name: "resource", parent: name, pattern: "^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case relatedItemId
+            case resource
+        }
+    }
+
     public enum ItemValue: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
         /// The Amazon Resource Name (ARN) of the related item, if the related item is an Amazon resource.
         case arn(String)
         /// The metric definition, if the related item is a metric in Amazon CloudWatch.
         case metricDefinition(String)
+        /// Details about an incident that is associated with a PagerDuty incident.
+        case pagerDutyIncidentDetail(PagerDutyIncidentDetail)
         /// The URL, if the related item is a non-Amazon Web Services resource.
         case url(String)
 
@@ -234,6 +288,9 @@ extension SSMIncidents {
             case .metricDefinition:
                 let value = try container.decode(String.self, forKey: .metricDefinition)
                 self = .metricDefinition(value)
+            case .pagerDutyIncidentDetail:
+                let value = try container.decode(PagerDutyIncidentDetail.self, forKey: .pagerDutyIncidentDetail)
+                self = .pagerDutyIncidentDetail(value)
             case .url:
                 let value = try container.decode(String.self, forKey: .url)
                 self = .url(value)
@@ -247,6 +304,8 @@ extension SSMIncidents {
                 try container.encode(value, forKey: .arn)
             case .metricDefinition(let value):
                 try container.encode(value, forKey: .metricDefinition)
+            case .pagerDutyIncidentDetail(let value):
+                try container.encode(value, forKey: .pagerDutyIncidentDetail)
             case .url(let value):
                 try container.encode(value, forKey: .url)
             }
@@ -261,12 +320,15 @@ extension SSMIncidents {
                 try self.validate(value, name: "metricDefinition", parent: name, max: 4000)
             case .url(let value):
                 try self.validate(value, name: "url", parent: name, max: 1000)
+            default:
+                break
             }
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn
             case metricDefinition
+            case pagerDutyIncidentDetail
             case url
         }
     }
@@ -423,18 +485,21 @@ extension SSMIncidents {
         public let engagements: [String]?
         /// Details used to create an incident when using this response plan.
         public let incidentTemplate: IncidentTemplate
+        /// Information about third-party services integrated into the response plan.
+        public let integrations: [Integration]?
         /// The short format name of the response plan. Can't include spaces.
         public let name: String
         /// A list of tags that you are adding to the response plan.
         public let tags: [String: String]?
 
-        public init(actions: [Action]? = nil, chatChannel: ChatChannel? = nil, clientToken: String? = CreateResponsePlanInput.idempotencyToken(), displayName: String? = nil, engagements: [String]? = nil, incidentTemplate: IncidentTemplate, name: String, tags: [String: String]? = nil) {
+        public init(actions: [Action]? = nil, chatChannel: ChatChannel? = nil, clientToken: String? = CreateResponsePlanInput.idempotencyToken(), displayName: String? = nil, engagements: [String]? = nil, incidentTemplate: IncidentTemplate, integrations: [Integration]? = nil, name: String, tags: [String: String]? = nil) {
             self.actions = actions
             self.chatChannel = chatChannel
             self.clientToken = clientToken
             self.displayName = displayName
             self.engagements = engagements
             self.incidentTemplate = incidentTemplate
+            self.integrations = integrations
             self.name = name
             self.tags = tags
         }
@@ -453,6 +518,7 @@ extension SSMIncidents {
             }
             try self.validate(self.engagements, name: "engagements", parent: name, max: 5)
             try self.incidentTemplate.validate(name: "\(name).incidentTemplate")
+            try self.validate(self.integrations, name: "integrations", parent: name, max: 1)
             try self.validate(self.name, name: "name", parent: name, max: 200)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-_]*$")
@@ -474,6 +540,7 @@ extension SSMIncidents {
             case displayName
             case engagements
             case incidentTemplate
+            case integrations
             case name
             case tags
         }
@@ -497,6 +564,8 @@ extension SSMIncidents {
         public let clientToken: String?
         /// A short description of the event.
         public let eventData: String
+        /// Adds one or more references to the TimelineEvent. A reference can be an Amazon Web Services resource involved in the incident or in some way associated with it. When you specify a reference, you enter the Amazon Resource Name (ARN) of the resource. You can also specify a related item. As an example, you could specify the ARN of an Amazon DynamoDB (DynamoDB) table. The table for this example is the resource. You could also specify a Amazon CloudWatch metric for that table. The metric is the related item.
+        public let eventReferences: [EventReference]?
         /// The time that the event occurred.
         public let eventTime: Date
         /// The type of the event. You can create timeline events of type Custom Event.
@@ -504,9 +573,10 @@ extension SSMIncidents {
         /// The Amazon Resource Name (ARN) of the incident record to which the event will be added.
         public let incidentRecordArn: String
 
-        public init(clientToken: String? = CreateTimelineEventInput.idempotencyToken(), eventData: String, eventTime: Date, eventType: String, incidentRecordArn: String) {
+        public init(clientToken: String? = CreateTimelineEventInput.idempotencyToken(), eventData: String, eventReferences: [EventReference]? = nil, eventTime: Date, eventType: String, incidentRecordArn: String) {
             self.clientToken = clientToken
             self.eventData = eventData
+            self.eventReferences = eventReferences
             self.eventTime = eventTime
             self.eventType = eventType
             self.incidentRecordArn = incidentRecordArn
@@ -514,7 +584,11 @@ extension SSMIncidents {
 
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
-            try self.validate(self.eventData, name: "eventData", parent: name, max: 6000)
+            try self.validate(self.eventData, name: "eventData", parent: name, max: 12000)
+            try self.eventReferences?.forEach {
+                try $0.validate(name: "\(name).eventReferences[]")
+            }
+            try self.validate(self.eventReferences, name: "eventReferences", parent: name, max: 10)
             try self.validate(self.eventType, name: "eventType", parent: name, max: 100)
             try self.validate(self.incidentRecordArn, name: "incidentRecordArn", parent: name, max: 1000)
             try self.validate(self.incidentRecordArn, name: "incidentRecordArn", parent: name, pattern: "^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$")
@@ -523,6 +597,7 @@ extension SSMIncidents {
         private enum CodingKeys: String, CodingKey {
             case clientToken
             case eventData
+            case eventReferences
             case eventTime
             case eventType
             case incidentRecordArn
@@ -692,6 +767,8 @@ extension SSMIncidents {
     public struct EventSummary: AWSDecodableShape {
         /// The timeline event ID.
         public let eventId: String
+        /// A list of references in a TimelineEvent.
+        public let eventReferences: [EventReference]?
         /// The time that the event occurred.
         public let eventTime: Date
         /// The type of event. The timeline event must be Custom Event.
@@ -701,8 +778,9 @@ extension SSMIncidents {
         /// The Amazon Resource Name (ARN) of the incident that the event happened during.
         public let incidentRecordArn: String
 
-        public init(eventId: String, eventTime: Date, eventType: String, eventUpdatedTime: Date, incidentRecordArn: String) {
+        public init(eventId: String, eventReferences: [EventReference]? = nil, eventTime: Date, eventType: String, eventUpdatedTime: Date, incidentRecordArn: String) {
             self.eventId = eventId
+            self.eventReferences = eventReferences
             self.eventTime = eventTime
             self.eventType = eventType
             self.eventUpdatedTime = eventUpdatedTime
@@ -711,6 +789,7 @@ extension SSMIncidents {
 
         private enum CodingKeys: String, CodingKey {
             case eventId
+            case eventReferences
             case eventTime
             case eventType
             case eventUpdatedTime
@@ -887,16 +966,19 @@ extension SSMIncidents {
         public let engagements: [String]?
         /// Details used to create the incident when using this response plan.
         public let incidentTemplate: IncidentTemplate
+        /// Information about third-party services integrated into the Incident Manager response plan.
+        public let integrations: [Integration]?
         /// The short format name of the response plan. The name can't contain spaces.
         public let name: String
 
-        public init(actions: [Action]? = nil, arn: String, chatChannel: ChatChannel? = nil, displayName: String? = nil, engagements: [String]? = nil, incidentTemplate: IncidentTemplate, name: String) {
+        public init(actions: [Action]? = nil, arn: String, chatChannel: ChatChannel? = nil, displayName: String? = nil, engagements: [String]? = nil, incidentTemplate: IncidentTemplate, integrations: [Integration]? = nil, name: String) {
             self.actions = actions
             self.arn = arn
             self.chatChannel = chatChannel
             self.displayName = displayName
             self.engagements = engagements
             self.incidentTemplate = incidentTemplate
+            self.integrations = integrations
             self.name = name
         }
 
@@ -907,6 +989,7 @@ extension SSMIncidents {
             case displayName
             case engagements
             case incidentTemplate
+            case integrations
             case name
         }
     }
@@ -1415,6 +1498,61 @@ extension SSMIncidents {
         }
     }
 
+    public struct PagerDutyConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the PagerDuty configuration.
+        public let name: String
+        /// Details about the PagerDuty service associated with the configuration.
+        public let pagerDutyIncidentConfiguration: PagerDutyIncidentConfiguration
+        /// The ID of the Amazon Web Services Secrets Manager secret that stores your PagerDuty key, either a General Access REST API Key or User Token REST API Key, and other user credentials.
+        public let secretId: String
+
+        public init(name: String, pagerDutyIncidentConfiguration: PagerDutyIncidentConfiguration, secretId: String) {
+            self.name = name
+            self.pagerDutyIncidentConfiguration = pagerDutyIncidentConfiguration
+            self.secretId = secretId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name
+            case pagerDutyIncidentConfiguration
+            case secretId
+        }
+    }
+
+    public struct PagerDutyIncidentConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The ID of the PagerDuty service that the response plan associates with an incident when it launches.
+        public let serviceId: String
+
+        public init(serviceId: String) {
+            self.serviceId = serviceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceId
+        }
+    }
+
+    public struct PagerDutyIncidentDetail: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates whether to resolve the PagerDuty incident when you resolve the associated Incident Manager incident.
+        public let autoResolve: Bool?
+        /// The ID of the incident associated with the PagerDuty service for the response plan.
+        public let id: String
+        /// The ID of the Amazon Web Services Secrets Manager secret that stores your PagerDuty key, either a General Access REST API Key or User Token REST API Key, and other user credentials.
+        public let secretId: String?
+
+        public init(autoResolve: Bool? = nil, id: String, secretId: String? = nil) {
+            self.autoResolve = autoResolve
+            self.id = id
+            self.secretId = secretId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoResolve
+            case id
+            case secretId
+        }
+    }
+
     public struct PutResourcePolicyInput: AWSEncodableShape {
         /// Details of the resource policy.
         public let policy: String
@@ -1494,21 +1632,27 @@ extension SSMIncidents {
     }
 
     public struct RelatedItem: AWSEncodableShape & AWSDecodableShape {
+        /// A unique ID for a RelatedItem.  Don't specify this parameter when you add a RelatedItem by using the UpdateRelatedItems API action.
+        public let generatedId: String?
         /// Details about the related item.
         public let identifier: ItemIdentifier
         /// The title of the related item.
         public let title: String?
 
-        public init(identifier: ItemIdentifier, title: String? = nil) {
+        public init(generatedId: String? = nil, identifier: ItemIdentifier, title: String? = nil) {
+            self.generatedId = generatedId
             self.identifier = identifier
             self.title = title
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.generatedId, name: "generatedId", parent: name, max: 200)
+            try self.validate(self.generatedId, name: "generatedId", parent: name, pattern: "^related-item/(ANALYSIS|INCIDENT|METRIC|PARENT|ATTACHMENT|OTHER|AUTOMATION|INVOLVED_RESOURCE|TASK)/([0-9]|[A-F]){32}$")
             try self.identifier.validate(name: "\(name).identifier")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case generatedId
             case identifier
             case title
         }
@@ -1743,6 +1887,8 @@ extension SSMIncidents {
         public let eventData: String
         /// The ID of the timeline event.
         public let eventId: String
+        /// A list of references in a TimelineEvent.
+        public let eventReferences: [EventReference]?
         /// The time that the event occurred.
         public let eventTime: Date
         /// The type of event that occurred. Currently Incident Manager supports only the Custom Event type.
@@ -1752,9 +1898,10 @@ extension SSMIncidents {
         /// The Amazon Resource Name (ARN) of the incident that the event occurred during.
         public let incidentRecordArn: String
 
-        public init(eventData: String, eventId: String, eventTime: Date, eventType: String, eventUpdatedTime: Date, incidentRecordArn: String) {
+        public init(eventData: String, eventId: String, eventReferences: [EventReference]? = nil, eventTime: Date, eventType: String, eventUpdatedTime: Date, incidentRecordArn: String) {
             self.eventData = eventData
             self.eventId = eventId
+            self.eventReferences = eventReferences
             self.eventTime = eventTime
             self.eventType = eventType
             self.eventUpdatedTime = eventUpdatedTime
@@ -1764,6 +1911,7 @@ extension SSMIncidents {
         private enum CodingKeys: String, CodingKey {
             case eventData
             case eventId
+            case eventReferences
             case eventTime
             case eventType
             case eventUpdatedTime
@@ -2018,8 +2166,10 @@ extension SSMIncidents {
         public let incidentTemplateTags: [String: String]?
         /// The short format name of the incident. The title can't contain spaces.
         public let incidentTemplateTitle: String?
+        /// Information about third-party services integrated into the response plan.
+        public let integrations: [Integration]?
 
-        public init(actions: [Action]? = nil, arn: String, chatChannel: ChatChannel? = nil, clientToken: String? = UpdateResponsePlanInput.idempotencyToken(), displayName: String? = nil, engagements: [String]? = nil, incidentTemplateDedupeString: String? = nil, incidentTemplateImpact: Int? = nil, incidentTemplateNotificationTargets: [NotificationTargetItem]? = nil, incidentTemplateSummary: String? = nil, incidentTemplateTags: [String: String]? = nil, incidentTemplateTitle: String? = nil) {
+        public init(actions: [Action]? = nil, arn: String, chatChannel: ChatChannel? = nil, clientToken: String? = UpdateResponsePlanInput.idempotencyToken(), displayName: String? = nil, engagements: [String]? = nil, incidentTemplateDedupeString: String? = nil, incidentTemplateImpact: Int? = nil, incidentTemplateNotificationTargets: [NotificationTargetItem]? = nil, incidentTemplateSummary: String? = nil, incidentTemplateTags: [String: String]? = nil, incidentTemplateTitle: String? = nil, integrations: [Integration]? = nil) {
             self.actions = actions
             self.arn = arn
             self.chatChannel = chatChannel
@@ -2032,6 +2182,7 @@ extension SSMIncidents {
             self.incidentTemplateSummary = incidentTemplateSummary
             self.incidentTemplateTags = incidentTemplateTags
             self.incidentTemplateTitle = incidentTemplateTitle
+            self.integrations = integrations
         }
 
         public func validate(name: String) throws {
@@ -2066,6 +2217,7 @@ extension SSMIncidents {
             }
             try self.validate(self.incidentTemplateTags, name: "incidentTemplateTags", parent: name, max: 50)
             try self.validate(self.incidentTemplateTitle, name: "incidentTemplateTitle", parent: name, max: 200)
+            try self.validate(self.integrations, name: "integrations", parent: name, max: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2081,6 +2233,7 @@ extension SSMIncidents {
             case incidentTemplateSummary
             case incidentTemplateTags
             case incidentTemplateTitle
+            case integrations
         }
     }
 
@@ -2095,6 +2248,8 @@ extension SSMIncidents {
         public let eventData: String?
         /// The ID of the event you are updating. You can find this by using ListTimelineEvents.
         public let eventId: String
+        /// Updates all existing references in a TimelineEvent. A reference can be an Amazon Web Services resource involved in the incident or in some way associated with it. When you specify a reference, you enter the Amazon Resource Name (ARN) of the resource. You can also specify a related item. As an example, you could specify the ARN of an Amazon DynamoDB (DynamoDB) table. The table for this example is the resource. You could also specify a Amazon CloudWatch metric for that table. The metric is the related item.  This update action overrides all existing references. If you want to keep existing references, you must specify them in the call. If you don't, this action removes them and enters only new references.
+        public let eventReferences: [EventReference]?
         /// The time that the event occurred.
         public let eventTime: Date?
         /// The type of the event. You can update events of type Custom Event.
@@ -2102,10 +2257,11 @@ extension SSMIncidents {
         /// The Amazon Resource Name (ARN) of the incident that includes the timeline event.
         public let incidentRecordArn: String
 
-        public init(clientToken: String? = UpdateTimelineEventInput.idempotencyToken(), eventData: String? = nil, eventId: String, eventTime: Date? = nil, eventType: String? = nil, incidentRecordArn: String) {
+        public init(clientToken: String? = UpdateTimelineEventInput.idempotencyToken(), eventData: String? = nil, eventId: String, eventReferences: [EventReference]? = nil, eventTime: Date? = nil, eventType: String? = nil, incidentRecordArn: String) {
             self.clientToken = clientToken
             self.eventData = eventData
             self.eventId = eventId
+            self.eventReferences = eventReferences
             self.eventTime = eventTime
             self.eventType = eventType
             self.incidentRecordArn = incidentRecordArn
@@ -2113,8 +2269,12 @@ extension SSMIncidents {
 
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
-            try self.validate(self.eventData, name: "eventData", parent: name, max: 6000)
+            try self.validate(self.eventData, name: "eventData", parent: name, max: 12000)
             try self.validate(self.eventId, name: "eventId", parent: name, max: 50)
+            try self.eventReferences?.forEach {
+                try $0.validate(name: "\(name).eventReferences[]")
+            }
+            try self.validate(self.eventReferences, name: "eventReferences", parent: name, max: 10)
             try self.validate(self.eventType, name: "eventType", parent: name, max: 100)
             try self.validate(self.incidentRecordArn, name: "incidentRecordArn", parent: name, max: 1000)
             try self.validate(self.incidentRecordArn, name: "incidentRecordArn", parent: name, pattern: "^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$")
@@ -2124,6 +2284,7 @@ extension SSMIncidents {
             case clientToken
             case eventData
             case eventId
+            case eventReferences
             case eventTime
             case eventType
             case incidentRecordArn
@@ -2174,6 +2335,19 @@ extension SSMIncidents {
 
         private enum CodingKeys: String, CodingKey {
             case variable
+        }
+    }
+
+    public struct Integration: AWSEncodableShape & AWSDecodableShape {
+        /// Information about the PagerDuty service where the response plan creates an incident.
+        public let pagerDutyConfiguration: PagerDutyConfiguration?
+
+        public init(pagerDutyConfiguration: PagerDutyConfiguration? = nil) {
+            self.pagerDutyConfiguration = pagerDutyConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pagerDutyConfiguration
         }
     }
 

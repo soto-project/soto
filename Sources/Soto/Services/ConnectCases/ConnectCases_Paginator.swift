@@ -566,7 +566,8 @@ extension ConnectCases.ListTemplatesRequest: AWSPaginateToken {
         return .init(
             domainId: self.domainId,
             maxResults: self.maxResults,
-            nextToken: token
+            nextToken: token,
+            status: self.status
         )
     }
 }

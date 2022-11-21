@@ -140,8 +140,8 @@ extension SecurityHub {
     }
 
     public enum SortOrder: String, CustomStringConvertible, Codable, _SotoSendable {
-        case asc
-        case desc
+        case ascending = "asc"
+        case descending = "desc"
         public var description: String { return self.rawValue }
     }
 
@@ -1636,7 +1636,7 @@ extension SecurityHub {
     public struct AwsBackupBackupPlanRuleDetails: AWSEncodableShape & AWSDecodableShape {
         /// A value in minutes after a backup job is successfully started before it must be completed, or it is canceled by Backup.
         public let completionWindowMinutes: Int64?
-        /// An array of CopyAction objects, which contains the details of the copy operation.
+        /// An array of CopyAction objects, each of which contains details of the copy operation.
         public let copyActions: [AwsBackupBackupPlanRuleCopyActionsDetails]?
         /// Specifies whether Backup creates continuous backups capable of point-in-time restore (PITR).
         public let enableContinuousBackup: Bool?
@@ -1650,7 +1650,7 @@ extension SecurityHub {
         public let scheduleExpression: String?
         /// A value in minutes after a backup is scheduled before a job will be canceled if it doesn't start successfully.
         public let startWindowMinutes: Int64?
-        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the Amazon Web Services account used to create them and the Amazon Web Services Region where they are created. They consist of letters, numbers, and hyphens.
+        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the Amazon Web Services account used to create them and the Amazon Web Services Region  where they are created. They consist of letters, numbers, and hyphens.
         public let targetBackupVault: String?
 
         public init(completionWindowMinutes: Int64? = nil, copyActions: [AwsBackupBackupPlanRuleCopyActionsDetails]? = nil, enableContinuousBackup: Bool? = nil, lifecycle: AwsBackupBackupPlanLifecycleDetails? = nil, ruleId: String? = nil, ruleName: String? = nil, scheduleExpression: String? = nil, startWindowMinutes: Int64? = nil, targetBackupVault: String? = nil) {
@@ -9253,6 +9253,9 @@ extension SecurityHub {
     }
 
     public struct AwsLambdaFunctionDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The instruction set architecture that the function uses. Valid values are x86_64 or
+        /// arm64.
+        public let architectures: [String]?
         /// An AwsLambdaFunctionCode object.
         public let code: AwsLambdaFunctionCode?
         /// The SHA256 hash of the function's deployment package.
@@ -9275,6 +9278,8 @@ extension SecurityHub {
         public let masterArn: String?
         /// The memory that is allocated to the function.
         public let memorySize: Int?
+        /// The type of deployment package that's used to deploy the function code to Lambda. Set to Image for a container image and Zip  for a .zip file archive.
+        public let packageType: String?
         /// The latest updated revision of the function or alias.
         public let revisionId: String?
         /// The function's execution role.
@@ -9290,7 +9295,8 @@ extension SecurityHub {
         /// The function's networking configuration.
         public let vpcConfig: AwsLambdaFunctionVpcConfig?
 
-        public init(code: AwsLambdaFunctionCode? = nil, codeSha256: String? = nil, deadLetterConfig: AwsLambdaFunctionDeadLetterConfig? = nil, environment: AwsLambdaFunctionEnvironment? = nil, functionName: String? = nil, handler: String? = nil, kmsKeyArn: String? = nil, lastModified: String? = nil, layers: [AwsLambdaFunctionLayer]? = nil, masterArn: String? = nil, memorySize: Int? = nil, revisionId: String? = nil, role: String? = nil, runtime: String? = nil, timeout: Int? = nil, tracingConfig: AwsLambdaFunctionTracingConfig? = nil, version: String? = nil, vpcConfig: AwsLambdaFunctionVpcConfig? = nil) {
+        public init(architectures: [String]? = nil, code: AwsLambdaFunctionCode? = nil, codeSha256: String? = nil, deadLetterConfig: AwsLambdaFunctionDeadLetterConfig? = nil, environment: AwsLambdaFunctionEnvironment? = nil, functionName: String? = nil, handler: String? = nil, kmsKeyArn: String? = nil, lastModified: String? = nil, layers: [AwsLambdaFunctionLayer]? = nil, masterArn: String? = nil, memorySize: Int? = nil, packageType: String? = nil, revisionId: String? = nil, role: String? = nil, runtime: String? = nil, timeout: Int? = nil, tracingConfig: AwsLambdaFunctionTracingConfig? = nil, version: String? = nil, vpcConfig: AwsLambdaFunctionVpcConfig? = nil) {
+            self.architectures = architectures
             self.code = code
             self.codeSha256 = codeSha256
             self.deadLetterConfig = deadLetterConfig
@@ -9302,6 +9308,7 @@ extension SecurityHub {
             self.layers = layers
             self.masterArn = masterArn
             self.memorySize = memorySize
+            self.packageType = packageType
             self.revisionId = revisionId
             self.role = role
             self.runtime = runtime
@@ -9312,6 +9319,9 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
+            try self.architectures?.forEach {
+                try validate($0, name: "architectures[]", parent: name, pattern: "\\S")
+            }
             try self.code?.validate(name: "\(name).code")
             try self.validate(self.codeSha256, name: "codeSha256", parent: name, pattern: "\\S")
             try self.deadLetterConfig?.validate(name: "\(name).deadLetterConfig")
@@ -9324,6 +9334,7 @@ extension SecurityHub {
                 try $0.validate(name: "\(name).layers[]")
             }
             try self.validate(self.masterArn, name: "masterArn", parent: name, pattern: "\\S")
+            try self.validate(self.packageType, name: "packageType", parent: name, pattern: "\\S")
             try self.validate(self.revisionId, name: "revisionId", parent: name, pattern: "\\S")
             try self.validate(self.role, name: "role", parent: name, pattern: "\\S")
             try self.validate(self.runtime, name: "runtime", parent: name, pattern: "\\S")
@@ -9333,6 +9344,7 @@ extension SecurityHub {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case architectures = "Architectures"
             case code = "Code"
             case codeSha256 = "CodeSha256"
             case deadLetterConfig = "DeadLetterConfig"
@@ -9344,6 +9356,7 @@ extension SecurityHub {
             case layers = "Layers"
             case masterArn = "MasterArn"
             case memorySize = "MemorySize"
+            case packageType = "PackageType"
             case revisionId = "RevisionId"
             case role = "Role"
             case runtime = "Runtime"
@@ -15371,7 +15384,7 @@ extension SecurityHub {
     public struct CreateFindingAggregatorRequest: AWSEncodableShape {
         /// Indicates whether to aggregate findings from all of the available Regions in the current partition. Also determines whether to automatically aggregate findings from new Regions as Security Hub supports them and you opt into them. The selected option also determines how to use the Regions provided in the Regions list. The options are as follows:    ALL_REGIONS - Indicates to aggregate findings from all of the Regions where Security Hub is enabled. When you choose this option, Security Hub also automatically aggregates findings from new Regions as Security Hub supports them and you opt into them.     ALL_REGIONS_EXCEPT_SPECIFIED - Indicates to aggregate findings from all of the Regions where Security Hub is enabled, except for the Regions listed in the Regions parameter. When you choose this option, Security Hub also automatically aggregates findings from new Regions as Security Hub supports them and you opt into them.     SPECIFIED_REGIONS - Indicates to aggregate findings only from the Regions listed in the Regions parameter. Security Hub does not automatically aggregate findings from new Regions.
         public let regionLinkingMode: String
-        /// If RegionLinkingMode is ALL_REGIONS_EXCEPT_SPECIFIED, then this is a comma-separated list of Regions that do not aggregate findings to the aggregation Region. If RegionLinkingMode is SPECIFIED_REGIONS, then this is a comma-separated list of Regions that do aggregate findings to the aggregation Region.
+        /// If RegionLinkingMode is ALL_REGIONS_EXCEPT_SPECIFIED, then this is a space-separated list of Regions that do not aggregate findings to the aggregation Region. If RegionLinkingMode is SPECIFIED_REGIONS, then this is a space-separated list of Regions that do aggregate findings to the aggregation Region.
         public let regions: [String]?
 
         public init(regionLinkingMode: String, regions: [String]? = nil) {
@@ -19172,10 +19185,14 @@ extension SecurityHub {
         public let release: String?
         /// Describes the actions a customer can take to resolve the vulnerability in the software package.
         public let remediation: String?
+        /// The Amazon Resource Name (ARN) of the source layer.
+        public let sourceLayerArn: String?
+        /// The source layer hash of the vulnerable package.
+        public let sourceLayerHash: String?
         /// The version of the software package.
         public let version: String?
 
-        public init(architecture: String? = nil, epoch: String? = nil, filePath: String? = nil, fixedInVersion: String? = nil, name: String? = nil, packageManager: String? = nil, release: String? = nil, remediation: String? = nil, version: String? = nil) {
+        public init(architecture: String? = nil, epoch: String? = nil, filePath: String? = nil, fixedInVersion: String? = nil, name: String? = nil, packageManager: String? = nil, release: String? = nil, remediation: String? = nil, sourceLayerArn: String? = nil, sourceLayerHash: String? = nil, version: String? = nil) {
             self.architecture = architecture
             self.epoch = epoch
             self.filePath = filePath
@@ -19184,6 +19201,8 @@ extension SecurityHub {
             self.packageManager = packageManager
             self.release = release
             self.remediation = remediation
+            self.sourceLayerArn = sourceLayerArn
+            self.sourceLayerHash = sourceLayerHash
             self.version = version
         }
 
@@ -19196,6 +19215,8 @@ extension SecurityHub {
             try self.validate(self.packageManager, name: "packageManager", parent: name, pattern: "\\S")
             try self.validate(self.release, name: "release", parent: name, pattern: "\\S")
             try self.validate(self.remediation, name: "remediation", parent: name, pattern: "\\S")
+            try self.validate(self.sourceLayerArn, name: "sourceLayerArn", parent: name, pattern: "\\S")
+            try self.validate(self.sourceLayerHash, name: "sourceLayerHash", parent: name, pattern: "\\S")
             try self.validate(self.version, name: "version", parent: name, pattern: "\\S")
         }
 
@@ -19208,6 +19229,8 @@ extension SecurityHub {
             case packageManager = "PackageManager"
             case release = "Release"
             case remediation = "Remediation"
+            case sourceLayerArn = "SourceLayerArn"
+            case sourceLayerHash = "SourceLayerHash"
             case version = "Version"
         }
     }
@@ -19657,7 +19680,7 @@ extension SecurityHub {
         public let findingAggregatorArn: String
         /// Indicates whether to aggregate findings from all of the available Regions in the current partition. Also determines whether to automatically aggregate findings from new Regions as Security Hub supports them and you opt into them. The selected option also determines how to use the Regions provided in the Regions list. The options are as follows:    ALL_REGIONS - Indicates to aggregate findings from all of the Regions where Security Hub is enabled. When you choose this option, Security Hub also automatically aggregates findings from new Regions as Security Hub supports them and you opt into them.     ALL_REGIONS_EXCEPT_SPECIFIED - Indicates to aggregate findings from all of the Regions where Security Hub is enabled, except for the Regions listed in the Regions parameter. When you choose this option, Security Hub also automatically aggregates findings from new Regions as Security Hub supports them and you opt into them.     SPECIFIED_REGIONS - Indicates to aggregate findings only from the Regions listed in the Regions parameter. Security Hub does not automatically aggregate findings from new Regions.
         public let regionLinkingMode: String
-        /// If RegionLinkingMode is ALL_REGIONS_EXCEPT_SPECIFIED, then this is a comma-separated list of Regions that do not aggregate findings to the aggregation Region. If RegionLinkingMode is SPECIFIED_REGIONS, then this is a comma-separated list of Regions that do aggregate findings to the aggregation Region.
+        /// If RegionLinkingMode is ALL_REGIONS_EXCEPT_SPECIFIED, then this is a space-separated list of Regions that do not aggregate findings to the aggregation Region. If RegionLinkingMode is SPECIFIED_REGIONS, then this is a space-separated list of Regions that do aggregate findings to the aggregation Region.
         public let regions: [String]?
 
         public init(findingAggregatorArn: String, regionLinkingMode: String, regions: [String]? = nil) {
@@ -19781,7 +19804,7 @@ extension SecurityHub {
         /// Whether to automatically enable Security Hub default standards  for new member accounts in the organization. By default, this parameter is equal to DEFAULT, and new member accounts are automatically enabled with default Security Hub standards. To opt out of enabling default standards for new member accounts, set this parameter equal to NONE.
         public let autoEnableStandards: AutoEnableStandards?
 
-        public init(autoEnable: Bool, autoEnableStandards: AutoEnableStandards? = nil) {
+        public init(autoEnable: Bool = false, autoEnableStandards: AutoEnableStandards? = nil) {
             self.autoEnable = autoEnable
             self.autoEnableStandards = autoEnableStandards
         }

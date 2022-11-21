@@ -93,7 +93,7 @@ public struct WorkDocsErrorType: AWSErrorType {
     public static var invalidOperationException: Self { .init(.invalidOperationException) }
     /// The password is invalid.
     public static var invalidPasswordException: Self { .init(.invalidPasswordException) }
-    /// The maximum of 100,000 folders under the parent folder has been exceeded.
+    /// The maximum of 100,000 files and folders under the parent folder has been exceeded.
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// The specified document version is not in the INITIALIZED state.
     public static var prohibitedStateException: Self { .init(.prohibitedStateException) }

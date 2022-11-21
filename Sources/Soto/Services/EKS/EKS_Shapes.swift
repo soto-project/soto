@@ -681,6 +681,32 @@ extension EKS {
         }
     }
 
+    public struct ControlPlanePlacementRequest: AWSEncodableShape {
+        /// The name of the placement group for the Kubernetes control plane instances. This setting can't be changed after cluster creation.
+        public let groupName: String?
+
+        public init(groupName: String? = nil) {
+            self.groupName = groupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupName
+        }
+    }
+
+    public struct ControlPlanePlacementResponse: AWSDecodableShape {
+        /// The name of the placement group for the Kubernetes control plane instances.
+        public let groupName: String?
+
+        public init(groupName: String? = nil) {
+            self.groupName = groupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupName
+        }
+    }
+
     public struct CreateAddonRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "clusterName", location: .uri("clusterName"))
@@ -759,7 +785,7 @@ extension EKS {
         public let logging: Logging?
         /// The unique name to give to your cluster.
         public let name: String
-        /// An object representing the configuration of your local Amazon EKS cluster on an Amazon Web Services Outpost. Before creating a local cluster on an Outpost, review Creating an Amazon EKS cluster on an Amazon Web Services Outpost in the Amazon EKS User Guide. This object isn't available for creating Amazon EKS clusters on the Amazon Web Services cloud.
+        /// An object representing the configuration of your local Amazon EKS cluster on an Amazon Web Services Outpost. Before creating a local cluster on an Outpost, review Local clusters for Amazon EKS on Amazon Web Services Outposts in the Amazon EKS User Guide. This object isn't available for creating Amazon EKS clusters on the Amazon Web Services cloud.
         public let outpostConfig: OutpostConfigRequest?
         /// The VPC configuration that's used by the cluster control plane. Amazon EKS VPC resources have specific requirements to work properly with Kubernetes. For more information, see Cluster VPC Considerations and Cluster Security Group Considerations in the Amazon EKS User Guide. You must specify at least two subnets. You can specify up to five security groups. However, we recommend that you use a dedicated security group for your cluster control plane.
         public let resourcesVpcConfig: VpcConfigRequest
@@ -1659,7 +1685,7 @@ extension EKS {
         public let id: String?
         /// The name of the launch template. You must specify either the launch template name or the launch template ID in the request, but not both.
         public let name: String?
-        /// The launch template version number, $Latest, or $Default. If the value is $Latest, Amazon EKS uses the latest version of the launch template. If the value is $Default, Amazon EKS uses the default version of the launch template. Default: The default version of the launch template.
+        /// The version number of the launch template to use. If no version is specified, then the template's default version is used.
         public let version: String?
 
         public init(id: String? = nil, name: String? = nil, version: String? = nil) {
@@ -2316,19 +2342,22 @@ extension EKS {
     }
 
     public struct OutpostConfigRequest: AWSEncodableShape {
-        /// The Amazon EC2 instance type that you want to use for your local Amazon EKS cluster on Outposts. The instance type that you specify is used for all
-        /// Kubernetes            control plane instances. The instance type can't be changed after cluster creation. Choose an instance type based on the number of nodes that your cluster will have. If your cluster will have:   1–20 nodes, then we recommend specifying a large instance type.   21–100 nodes, then we recommend specifying an xlarge instance type.   101–250 nodes, then we recommend specifying a 2xlarge instance type.   For a list of the available Amazon EC2 instance types, see Compute and storage in Outposts rack features. The control plane is not automatically scaled by Amazon EKS.
+        /// The Amazon EC2 instance type that you want to use for your local Amazon EKS cluster on Outposts. Choose an instance type based on the number of nodes that your cluster will have. For more information, see Capacity considerations in the Amazon EKS User Guide. The instance type that you specify is used for all Kubernetes control plane instances. The instance type can't be changed after cluster creation. The control plane is not automatically scaled by Amazon EKS.
         public let controlPlaneInstanceType: String
+        /// An object representing the placement configuration for all the control plane instance of your local Amazon EKS cluster on an Amazon Web Services Outpost.  For more information, see Capacity considerations in the Amazon EKS User Guide.
+        public let controlPlanePlacement: ControlPlanePlacementRequest?
         /// The ARN of the Outpost that you want to use for your local Amazon EKS cluster on Outposts. Only a single Outpost ARN is supported.
         public let outpostArns: [String]
 
-        public init(controlPlaneInstanceType: String, outpostArns: [String]) {
+        public init(controlPlaneInstanceType: String, controlPlanePlacement: ControlPlanePlacementRequest? = nil, outpostArns: [String]) {
             self.controlPlaneInstanceType = controlPlaneInstanceType
+            self.controlPlanePlacement = controlPlanePlacement
             self.outpostArns = outpostArns
         }
 
         private enum CodingKeys: String, CodingKey {
             case controlPlaneInstanceType
+            case controlPlanePlacement
             case outpostArns
         }
     }
@@ -2336,16 +2365,20 @@ extension EKS {
     public struct OutpostConfigResponse: AWSDecodableShape {
         /// The Amazon EC2 instance type used for the control plane. The instance type is the same for all control plane instances.
         public let controlPlaneInstanceType: String
+        /// An object representing the placement configuration for all the control plane instance of your local Amazon EKS cluster on an Amazon Web Services Outpost. For more information, see Capacity considerations in the Amazon EKS User Guide.
+        public let controlPlanePlacement: ControlPlanePlacementResponse?
         /// The ARN of the Outpost that you specified for use with your local Amazon EKS cluster on Outposts.
         public let outpostArns: [String]
 
-        public init(controlPlaneInstanceType: String, outpostArns: [String]) {
+        public init(controlPlaneInstanceType: String, controlPlanePlacement: ControlPlanePlacementResponse? = nil, outpostArns: [String]) {
             self.controlPlaneInstanceType = controlPlaneInstanceType
+            self.controlPlanePlacement = controlPlanePlacement
             self.outpostArns = outpostArns
         }
 
         private enum CodingKeys: String, CodingKey {
             case controlPlaneInstanceType
+            case controlPlanePlacement
             case outpostArns
         }
     }
@@ -2875,7 +2908,7 @@ extension EKS {
         public let endpointPublicAccess: Bool?
         /// The CIDR blocks that are allowed access to your cluster's public Kubernetes API server endpoint. Communication to the endpoint from addresses outside of the CIDR blocks that you specify is denied. The default value is 0.0.0.0/0. If you've disabled private endpoint access and you have nodes or Fargate pods in the cluster, then ensure that you specify the necessary CIDR blocks. For more information, see Amazon EKS cluster endpoint access control in the  Amazon EKS User Guide .
         public let publicAccessCidrs: [String]?
-        /// Specify one or more security groups for the cross-account elastic network interfaces that Amazon EKS creates to use that allow communication between your nodes and the Kubernetes control plane. If you don't specify any security groups, then familiarize yourself with the difference between Amazon EKS defaults for clusters deployed with Kubernetes:   1.14 Amazon EKS platform version eks.2 and earlier   1.14 Amazon EKS platform version eks.3 and later    For more information, see Amazon EKS security group considerations in the  Amazon EKS User Guide .
+        /// Specify one or more security groups for the cross-account elastic network interfaces that Amazon EKS creates to use that allow communication between your nodes and the Kubernetes control plane. If you don't specify any security groups, then familiarize yourself with the difference between Amazon EKS defaults for clusters deployed with Kubernetes. For more information, see Amazon EKS security group considerations in the  Amazon EKS User Guide .
         public let securityGroupIds: [String]?
         /// Specify subnets for your Amazon EKS nodes. Amazon EKS creates cross-account elastic network interfaces in these subnets to allow communication between your nodes and the Kubernetes control plane.
         public let subnetIds: [String]?

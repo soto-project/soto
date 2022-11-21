@@ -38,18 +38,20 @@ extension TranscribeStreaming {
     }
 
     public enum LanguageCode: String, CustomStringConvertible, Codable, _SotoSendable {
-        case deDE = "de-DE"
-        case enAU = "en-AU"
-        case enGB = "en-GB"
-        case enUS = "en-US"
-        case esUS = "es-US"
-        case frCA = "fr-CA"
-        case frFR = "fr-FR"
-        case itIT = "it-IT"
-        case jaJP = "ja-JP"
-        case koKR = "ko-KR"
-        case ptBR = "pt-BR"
-        case zhCN = "zh-CN"
+        case deDe = "de-DE"
+        case enAu = "en-AU"
+        case enGb = "en-GB"
+        case enUs = "en-US"
+        case esUs = "es-US"
+        case frCa = "fr-CA"
+        case frFr = "fr-FR"
+        case hiIn = "hi-IN"
+        case itIt = "it-IT"
+        case jaJp = "ja-JP"
+        case koKr = "ko-KR"
+        case ptBr = "pt-BR"
+        case thTh = "th-TH"
+        case zhCn = "zh-CN"
         public var description: String { return self.rawValue }
     }
 
@@ -101,7 +103,7 @@ extension TranscribeStreaming {
         case internalFailureException(InternalFailureException)
         case limitExceededException(LimitExceededException)
         case serviceUnavailableException(ServiceUnavailableException)
-        /// A portion of the transcription of the audio stream. Events are sent periodically from Amazon Transcribe Medical to your application. The event can be a partial transcription of a section of the audio stream, or it can be the entire transcription of that portion of the audio stream.
+        /// The MedicalTranscriptEvent associated with a  MedicalTranscriptResultStream. Contains a set of transcription results from one or more audio segments, along with  additional information per your request parameters. This can include information relating to alternative transcriptions, channel identification, partial result stabilization, language  identification, and other transcription-related data.
         case transcriptEvent(MedicalTranscriptEvent)
 
         public init(from decoder: Decoder) throws {
@@ -150,13 +152,13 @@ extension TranscribeStreaming {
         case badRequestException(BadRequestException)
         /// A new stream started with the same session ID. The current stream has been terminated.
         case conflictException(ConflictException)
-        /// A problem occurred while processing the audio. Amazon Transcribe terminated processing.
+        /// A problem occurred while processing the audio. Amazon Transcribe terminated  processing.
         case internalFailureException(InternalFailureException)
-        /// Your client has exceeded one of the Amazon Transcribe limits, typically the limit on audio length. Break your audio stream into smaller chunks and try your request again.
+        /// Your client has exceeded one of the Amazon Transcribe limits. This is typically the audio length limit. Break your audio stream into smaller chunks and try your request again.
         case limitExceededException(LimitExceededException)
-        /// Service is currently unavailable. Try your request later.
+        /// The service is currently unavailable. Try your request later.
         case serviceUnavailableException(ServiceUnavailableException)
-        /// A portion of the transcription of the audio stream. Events are sent periodically from Amazon Transcribe to your application. The event can be a partial transcription of a section of the audio stream, or it can be the entire transcription of that portion of the audio stream.
+        /// Contains Transcript, which contains Results. The  object contains a set of transcription  results from one or more audio segments, along with additional information per your request  parameters.
         case transcriptEvent(TranscriptEvent)
 
         public init(from decoder: Decoder) throws {
@@ -203,11 +205,11 @@ extension TranscribeStreaming {
     // MARK: Shapes
 
     public struct Alternative: AWSDecodableShape {
-        /// Contains the entities identified as personally identifiable information (PII) in the transcription output.
+        /// Contains entities identified as personally identifiable information (PII) in your transcription  output.
         public let entities: [Entity]?
-        /// One or more alternative interpretations of the input audio.
+        /// Contains words, phrases, or punctuation marks in your transcription output.
         public let items: [Item]?
-        /// The text that was transcribed from the audio.
+        /// Contains transcribed text.
         public let transcript: String?
 
         public init(entities: [Entity]? = nil, items: [Item]? = nil, transcript: String? = nil) {
@@ -261,17 +263,17 @@ extension TranscribeStreaming {
     }
 
     public struct Entity: AWSDecodableShape {
-        /// The category of information identified in this entity; for example, PII.
+        /// The category of information identified. The only category is PII.
         public let category: String?
-        /// A value between zero and one that Amazon Transcribe assigns to PII identified in the source audio. Larger values indicate a higher confidence in PII identification.
+        /// The confidence score associated with the identified PII entity in your audio. Confidence scores are values between 0 and 1. A larger value indicates a higher probability that the identified entity correctly matches the entity spoken in your media.
         public let confidence: Double?
-        /// The words in the transcription output that have been identified as a PII entity.
+        /// The word or words identified as PII.
         public let content: String?
-        /// The end time of speech that was identified as PII.
+        /// The end time, in milliseconds, of the utterance that was identified as PII.
         public let endTime: Double?
-        /// The start time of speech that was identified as PII.
+        /// The start time, in milliseconds, of the utterance that was identified as PII.
         public let startTime: Double?
-        /// The type of PII identified in this entity; for example, name or credit card number.
+        /// The type of PII identified. For example, NAME or  CREDIT_DEBIT_NUMBER.
         public let type: String?
 
         public init(category: String? = nil, confidence: Double? = nil, content: String? = nil, endTime: Double? = nil, startTime: Double? = nil, type: String? = nil) {
@@ -306,21 +308,21 @@ extension TranscribeStreaming {
     }
 
     public struct Item: AWSDecodableShape {
-        /// A value between zero and one for an item that is a confidence score that Amazon Transcribe assigns to each word or phrase that it transcribes.
+        /// The confidence score associated with a word or phrase in your transcript. Confidence scores are values between 0 and 1. A larger value indicates a higher probability that the identified item correctly matches the item spoken in your media.
         public let confidence: Double?
-        /// The word or punctuation that was recognized in the input audio.
+        /// The word or punctuation that was transcribed.
         public let content: String?
-        /// The offset from the beginning of the audio stream to the end of the audio that resulted in the item.
+        /// The end time, in milliseconds, of the transcribed item.
         public let endTime: Double?
-        /// If speaker identification is enabled, shows the speakers identified in the media stream.
+        /// If speaker partitioning is enabled, Speaker labels the speaker of the specified item.
         public let speaker: String?
-        /// If partial result stabilization has been enabled, indicates whether the word or phrase in the item is stable. If Stable is true, the result is stable.
+        /// If partial result stabilization is enabled, Stable indicates whether the specified  item is stable (true) or if it may change when the segment is complete  (false).
         public let stable: Bool?
-        /// The offset from the beginning of the audio stream to the beginning of the audio that resulted in the item.
+        /// The start time, in milliseconds, of the transcribed item.
         public let startTime: Double?
-        /// The type of the item. PRONUNCIATION indicates that the item is a word that was recognized in the input audio. PUNCTUATION indicates that the item was interpreted as a pause in the input audio.
+        /// The type of item identified. Options are: PRONUNCIATION (spoken words) and PUNCTUATION.
         public let type: ItemType?
-        /// Indicates whether a word in the item matches a word in the vocabulary filter you've chosen for your media stream. If true then a word in the item matches your vocabulary filter.
+        /// Indicates whether the specified item matches a word in the vocabulary filter included in your request. If true, there is a vocabulary filter match.
         public let vocabularyFilterMatch: Bool?
 
         public init(confidence: Double? = nil, content: String? = nil, endTime: Double? = nil, speaker: String? = nil, stable: Bool? = nil, startTime: Double? = nil, type: ItemType? = nil, vocabularyFilterMatch: Bool? = nil) {
@@ -347,9 +349,9 @@ extension TranscribeStreaming {
     }
 
     public struct LanguageWithScore: AWSDecodableShape {
-        /// The language code of the language identified by Amazon Transcribe.
+        /// The language code of the identified language.
         public let languageCode: LanguageCode?
-        /// The confidence score for the associated language code. Confidence scores are values between zero and one; larger values indicate a higher confidence in the identified language.
+        /// The confidence score associated with the identified language code. Confidence scores are values between zero and one; larger values indicate a higher confidence in the identified language.
         public let score: Double?
 
         public init(languageCode: LanguageCode? = nil, score: Double? = nil) {
@@ -376,11 +378,11 @@ extension TranscribeStreaming {
     }
 
     public struct MedicalAlternative: AWSDecodableShape {
-        /// Contains the medical entities identified as personal health information in the transcription output.
+        /// Contains entities identified as personal health information (PHI) in your transcription  output.
         public let entities: [MedicalEntity]?
-        /// A list of objects that contains words and punctuation marks that represents one or more interpretations of the input audio.
+        /// Contains words, phrases, or punctuation marks in your transcription output.
         public let items: [MedicalItem]?
-        /// The text that was transcribed from the audio.
+        /// Contains transcribed text.
         public let transcript: String?
 
         public init(entities: [MedicalEntity]? = nil, items: [MedicalItem]? = nil, transcript: String? = nil) {
@@ -397,15 +399,15 @@ extension TranscribeStreaming {
     }
 
     public struct MedicalEntity: AWSDecodableShape {
-        /// The type of personal health information of the medical entity.
+        /// The category of information identified. The only category is PHI.
         public let category: String?
-        /// A value between zero and one that Amazon Transcribe Medical assigned to the personal health information that it identified in the source audio. Larger values indicate that Amazon Transcribe Medical has higher confidence in the personal health information that it identified.
+        /// The confidence score associated with the identified PHI entity in your audio. Confidence scores are values between 0 and 1. A larger value indicates a higher probability that the identified entity correctly matches the entity spoken in your media.
         public let confidence: Double?
-        /// The word or words in the transcription output that have been identified as a medical entity.
+        /// The word or words identified as PHI.
         public let content: String?
-        /// The end time of the speech that was identified as a medical entity.
+        /// The end time, in milliseconds, of the utterance that was identified as PHI.
         public let endTime: Double?
-        /// The start time of the speech that was identified as a medical entity.
+        /// The start time, in milliseconds, of the utterance that was identified as PHI.
         public let startTime: Double?
 
         public init(category: String? = nil, confidence: Double? = nil, content: String? = nil, endTime: Double? = nil, startTime: Double? = nil) {
@@ -426,17 +428,17 @@ extension TranscribeStreaming {
     }
 
     public struct MedicalItem: AWSDecodableShape {
-        /// A value between 0 and 1 for an item that is a confidence score that Amazon Transcribe Medical assigns to each word that it transcribes.
+        /// The confidence score associated with a word or phrase in your transcript. Confidence scores are values between 0 and 1. A larger value indicates a higher probability that the identified item correctly matches the item spoken in your media.
         public let confidence: Double?
-        /// The word or punctuation mark that was recognized in the input audio.
+        /// The word or punctuation that was transcribed.
         public let content: String?
-        /// The number of seconds into an audio stream that indicates the creation time of an item.
+        /// The end time, in milliseconds, of the transcribed item.
         public let endTime: Double?
-        /// If speaker identification is enabled, shows the integer values that correspond to the different speakers identified in the stream. For example, if the value of Speaker in the stream is either a 0 or a 1, that indicates that Amazon Transcribe Medical has identified two speakers in the stream. The value of 0 corresponds to one speaker and the value of 1 corresponds to the other speaker.
+        /// If speaker partitioning is enabled, Speaker labels the speaker of the specified item.
         public let speaker: String?
-        /// The number of seconds into an audio stream that indicates the creation time of an item.
+        /// The start time, in milliseconds, of the transcribed item.
         public let startTime: Double?
-        /// The type of the item. PRONUNCIATION indicates that the item is a word that was recognized in the input audio. PUNCTUATION indicates that the item was interpreted as a pause in the input audio, such as a period to indicate the end of a sentence.
+        /// The type of item identified. Options are: PRONUNCIATION (spoken  words) and PUNCTUATION.
         public let type: ItemType?
 
         public init(confidence: Double? = nil, content: String? = nil, endTime: Double? = nil, speaker: String? = nil, startTime: Double? = nil, type: ItemType? = nil) {
@@ -459,17 +461,17 @@ extension TranscribeStreaming {
     }
 
     public struct MedicalResult: AWSDecodableShape {
-        /// A list of possible transcriptions of the audio. Each alternative typically contains one Item that contains the result of the transcription.
+        /// A list of possible alternative transcriptions for the input audio. Each alternative may  contain one or more of Items, Entities, or Transcript.
         public let alternatives: [MedicalAlternative]?
-        /// When channel identification is enabled, Amazon Transcribe Medical transcribes the speech from each audio channel separately. You can use ChannelId to retrieve the transcription results for a single channel in your audio stream.
+        /// Indicates the channel identified for the Result.
         public let channelId: String?
-        /// The time, in seconds, from the beginning of the audio stream to the end of the result.
+        /// The end time, in milliseconds, of the Result.
         public let endTime: Double?
-        /// Amazon Transcribe Medical divides the incoming audio stream into segments at natural points in the audio. Transcription results are returned based on these segments. The IsPartial field is true to indicate that Amazon Transcribe Medical has additional transcription data to send. The IsPartial field is false to indicate that this is the last transcription result for the segment.
+        /// Indicates if the segment is complete. If IsPartial is true, the segment is not complete. If IsPartial is false, the segment is complete.
         public let isPartial: Bool?
-        /// A unique identifier for the result.
+        /// Provides a unique identifier for the Result.
         public let resultId: String?
-        /// The time, in seconds, from the beginning of the audio stream to the beginning of the result.
+        /// The start time, in milliseconds, of the Result.
         public let startTime: Double?
 
         public init(alternatives: [MedicalAlternative]? = nil, channelId: String? = nil, endTime: Double? = nil, isPartial: Bool? = nil, resultId: String? = nil, startTime: Double? = nil) {
@@ -492,7 +494,7 @@ extension TranscribeStreaming {
     }
 
     public struct MedicalTranscript: AWSDecodableShape {
-        ///  MedicalResult objects that contain the results of transcribing a portion of the input audio stream. The array can be empty.
+        /// Contains a set of transcription results from one or more audio segments, along with  additional information per your request parameters. This can include information relating to  alternative transcriptions, channel identification, partial result stabilization, language  identification, and other transcription-related data.
         public let results: [MedicalResult]?
 
         public init(results: [MedicalResult]? = nil) {
@@ -505,7 +507,7 @@ extension TranscribeStreaming {
     }
 
     public struct MedicalTranscriptEvent: AWSDecodableShape {
-        /// The transcription of the audio stream. The transcription is composed of all of the items in the results list.
+        /// Contains Results, which contains a set of transcription results from one or  more audio segments, along with additional information per your request parameters. This can include information relating to alternative transcriptions, channel identification, partial result  stabilization, language identification, and other transcription-related data.
         public let transcript: MedicalTranscript?
 
         public init(transcript: MedicalTranscript? = nil) {
@@ -518,21 +520,21 @@ extension TranscribeStreaming {
     }
 
     public struct Result: AWSDecodableShape {
-        /// A list of possible transcriptions for the audio. Each alternative typically contains one item that contains the result of the transcription.
+        /// A list of possible alternative transcriptions for the input audio. Each alternative may contain one or more of Items, Entities, or Transcript.
         public let alternatives: [Alternative]?
-        /// When channel identification is enabled, Amazon Transcribe transcribes the speech from each audio channel separately. You can use ChannelId to retrieve the transcription results for a single channel in your audio stream.
+        /// Indicates the channel identified for the Result.
         public let channelId: String?
-        /// The offset in seconds from the beginning of the audio stream to the end of the result.
+        /// The end time, in milliseconds, of the Result.
         public let endTime: Double?
-        /// Amazon Transcribe divides the incoming audio stream into segments at natural points in the audio. Transcription results are returned based on these segments.  The IsPartial field is true to indicate that Amazon Transcribe has additional transcription data to send, false to indicate that this is the last transcription result for the segment.
+        /// Indicates if the segment is complete. If IsPartial is true, the segment is not complete. If IsPartial is false, the segment is complete.
         public let isPartial: Bool?
-        /// The language code of the identified language in your media stream.
+        /// The language code that represents the language spoken in your audio stream.
         public let languageCode: LanguageCode?
-        /// The language code of the dominant language identified in your media.
+        /// The language code of the dominant language identified in your stream. If you enabled channel identification and each channel of your audio contains a different language, you may have more than one result.
         public let languageIdentification: [LanguageWithScore]?
-        /// A unique identifier for the result.
+        /// Provides a unique identifier for the Result.
         public let resultId: String?
-        /// The offset in seconds from the beginning of the audio stream to the beginning of the result.
+        /// The start time, in milliseconds, of the Result.
         public let startTime: Double?
 
         public init(alternatives: [Alternative]? = nil, channelId: String? = nil, endTime: Double? = nil, isPartial: Bool? = nil, languageCode: LanguageCode? = nil, languageIdentification: [LanguageWithScore]? = nil, resultId: String? = nil, startTime: Double? = nil) {
@@ -589,27 +591,27 @@ extension TranscribeStreaming {
         ]
 
         public let audioStream: AudioStream
-        /// Set this field to PHI to identify personal health information in the transcription output.
+        /// Labels all personal health information (PHI) identified in your transcript.      Content identification is performed at the segment level; PHI is flagged upon complete transcription of an audio segment.  For more information, see Identifying personal health information (PHI) in a transcription.
         public let contentIdentificationType: MedicalContentIdentificationType?
-        /// When true, instructs Amazon Transcribe Medical to process each audio channel separately and then merge the transcription output of each channel into a single transcription. Amazon Transcribe Medical also produces a transcription of each item. An item includes the start time, end time, and any alternative transcriptions. You can't set both ShowSpeakerLabel and EnableChannelIdentification in the same request. If you set both, your request returns a BadRequestException.
+        /// Enables channel identification in multi-channel audio. Channel identification transcribes the audio on each channel independently, then appends the output for each channel into one transcript. If you have multi-channel audio and do not enable channel identification, your audio is  transcribed in a continuous manner and your transcript is not separated by channel. For more information, see Transcribing multi-channel audio.
         public let enableChannelIdentification: Bool?
-        ///  Indicates the source language used in the input audio stream. For Amazon Transcribe Medical, this is US English (en-US).
+        /// Specify the language code that represents the language spoken in your audio.  Amazon Transcribe Medical only supports US English (en-US).
         public let languageCode: LanguageCode
-        /// The encoding used for the input audio.
+        /// Specify the encoding used for the input audio. Supported formats are:   FLAC   OPUS-encoded audio in an Ogg container   PCM (only signed 16-bit little-endian audio formats, which does not include WAV)   For more information, see Media formats.
         public let mediaEncoding: MediaEncoding
-        /// The sample rate of the input audio (in Hertz). Amazon Transcribe medical supports a range from  16,000 Hz to 48,000 Hz. Note that the sample rate you specify must match that of your audio.
+        /// The sample rate of the input audio (in hertz). Amazon Transcribe Medical supports a range from 16,000 Hz to 48,000 Hz. Note that the sample rate you specify must match that of your audio.
         public let mediaSampleRateHertz: Int
-        /// The number of channels that are in your audio stream.
+        /// Specify the number of channels in your audio stream. Up to two channels are supported.
         public let numberOfChannels: Int?
-        ///  Optional. An identifier for the transcription session. If you don't provide a session ID, Amazon Transcribe generates one for you and returns it in the response.
+        /// Specify a name for your transcription session. If you don't include this parameter in  your request, Amazon Transcribe Medical generates an ID and returns it in the response. You can use a session ID to retry a streaming session.
         public let sessionId: String?
-        /// When true, enables speaker identification in your real-time stream.
+        /// Enables speaker partitioning (diarization) in your transcription output. Speaker partitioning labels the speech from individual speakers in your media file.  For more information, see Partitioning speakers (diarization).
         public let showSpeakerLabel: Bool?
-        /// The medical specialty of the clinician or provider.
+        /// Specify the medical specialty contained in your audio.
         public let specialty: Specialty
-        /// The type of input audio. Choose DICTATION for a provider dictating patient notes. Choose CONVERSATION for a dialogue between a patient and one or more medical professionanls.
+        /// Specify the type of input audio. For example, choose DICTATION for a  provider dictating patient notes and CONVERSATION for a dialogue between a patient and a medical professional.
         public let type: `Type`
-        /// The name of the medical custom vocabulary to use when processing the real-time stream.
+        /// Specify the name of the custom vocabulary that you want to use when processing your transcription. Note that vocabulary names are case sensitive.
         public let vocabularyName: String?
 
         public init(audioStream: AudioStream, contentIdentificationType: MedicalContentIdentificationType? = nil, enableChannelIdentification: Bool? = nil, languageCode: LanguageCode, mediaEncoding: MediaEncoding, mediaSampleRateHertz: Int, numberOfChannels: Int? = nil, sessionId: String? = nil, showSpeakerLabel: Bool? = nil, specialty: Specialty, type: `Type`, vocabularyName: String? = nil) {
@@ -663,31 +665,31 @@ extension TranscribeStreaming {
             AWSMemberEncoding(label: "vocabularyName", location: .header("x-amzn-transcribe-vocabulary-name"))
         ]
 
-        /// If the value is PHI, indicates that you've configured your stream to identify personal health information.
+        /// Shows whether content identification was enabled for your transcription.
         public let contentIdentificationType: MedicalContentIdentificationType?
-        /// Shows whether channel identification has been enabled in the stream.
+        /// Shows whether channel identification was enabled for your transcription.
         public let enableChannelIdentification: Bool?
-        /// The language code for the response transcript. For Amazon Transcribe Medical, this is US English (en-US).
+        /// Provides the language code that you specified in your request. This must be en-US.
         public let languageCode: LanguageCode?
-        /// The encoding used for the input audio stream.
+        /// Provides the media encoding you specified in your request.
         public let mediaEncoding: MediaEncoding?
-        /// The sample rate of the input audio, in Hertz (Hz).
+        /// Provides the sample rate that you specified in your request.
         public let mediaSampleRateHertz: Int?
-        /// The number of channels identified in the stream.
+        /// Provides the number of channels that you specified in your request.
         public let numberOfChannels: Int?
-        /// An identifier for the streaming transcription.
+        /// Provides the identifier for your streaming request.
         public let requestId: String?
-        /// Optional. An identifier for the transcription session. If you don't provide a session ID, Amazon Transcribe generates one for you and returns it in the response.
+        /// Provides the identifier for your transcription session.
         public let sessionId: String?
-        /// Shows whether speaker identification was enabled in the stream.
+        /// Shows whether speaker partitioning was enabled for your transcription.
         public let showSpeakerLabel: Bool?
-        /// The specialty in the medical domain.
+        /// Provides the medical specialty that you specified in your request.
         public let specialty: Specialty?
-        /// Represents the stream of transcription events from Amazon Transcribe Medical to your application.
+        /// Provides detailed information about your streaming session.
         public let transcriptResultStream: MedicalTranscriptResultStream?
-        /// The type of audio that was transcribed.
+        /// Provides the type of audio you specified in your request.
         public let type: `Type`?
-        /// The name of the vocabulary used when processing the stream.
+        /// Provides the name of the custom vocabulary that you specified in your request.
         public let vocabularyName: String?
 
         public init(contentIdentificationType: MedicalContentIdentificationType? = nil, enableChannelIdentification: Bool? = nil, languageCode: LanguageCode? = nil, mediaEncoding: MediaEncoding? = nil, mediaSampleRateHertz: Int? = nil, numberOfChannels: Int? = nil, requestId: String? = nil, sessionId: String? = nil, showSpeakerLabel: Bool? = nil, specialty: Specialty? = nil, transcriptResultStream: MedicalTranscriptResultStream? = nil, type: `Type`? = nil, vocabularyName: String? = nil) {
@@ -751,49 +753,49 @@ extension TranscribeStreaming {
             AWSMemberEncoding(label: "vocabularyNames", location: .header("x-amzn-transcribe-vocabulary-names"))
         ]
 
-        /// PCM-encoded stream of audio blobs. The audio stream is encoded as an HTTP/2 data frame.
+        /// An encoded stream of audio blobs. Audio streams are encoded as either HTTP/2 or WebSocket  data frames.  For more information, see Transcribing streaming audio.
         public let audioStream: AudioStream
-        /// Set this field to PII to identify personally identifiable information (PII) in the transcription output. Content identification is performed only upon complete transcription of the audio segments.  You can’t set both ContentIdentificationType and ContentRedactionType in the same request. If you set both, your request  returns a BadRequestException.
+        /// Labels all personally identifiable information (PII) identified in your transcript.      Content identification is performed at the segment level; PII specified in  PiiEntityTypes is flagged upon complete transcription of an audio segment.  You can’t set ContentIdentificationType and ContentRedactionType in the same request. If you set both, your request returns a BadRequestException. For more information, see Redacting or identifying personally identifiable information.
         public let contentIdentificationType: ContentIdentificationType?
-        /// Set this field to PII to redact personally identifiable information (PII) in the transcription output. Content redaction is performed only upon complete transcription of the audio segments.  You can’t set both ContentRedactionType and ContentIdentificationType in the same request. If you set both, your request returns a BadRequestException.
+        /// Redacts all personally identifiable information (PII) identified in your transcript.      Content redaction is performed at the segment level; PII specified in  PiiEntityTypes is redacted upon complete transcription of an audio segment.  You can’t set ContentRedactionType and ContentIdentificationType in the same request. If you set both, your request returns a BadRequestException. For more information, see Redacting or identifying personally identifiable information.
         public let contentRedactionType: ContentRedactionType?
-        /// When true, instructs Amazon Transcribe to process each audio channel separately, then merges the transcription output of each channel into a single transcription. Amazon Transcribe also produces a transcription of each item. An item includes the start time, end time, and any alternative transcriptions.
+        /// Enables channel identification in multi-channel audio. Channel identification transcribes the audio on each channel independently, then appends the  output for each channel into one transcript. If you have multi-channel audio and do not enable channel identification, your audio is  transcribed in a continuous manner and your transcript is not separated by channel.         For more information, see Transcribing multi-channel audio.
         public let enableChannelIdentification: Bool?
-        /// When true, instructs Amazon Transcribe to present transcription results that have the partial results stabilized. Normally, any word or phrase from one partial result can change in a subsequent partial result. With partial results stabilization enabled, only the last few words of one partial result can change in another partial result.
+        /// Enables partial result stabilization for your transcription. Partial result stabilization can reduce latency in your output, but may impact accuracy. For more information, see  Partial-result  stabilization.
         public let enablePartialResultsStabilization: Bool?
-        /// Optional. Set this value to true to enable language identification for  your media stream.
+        /// Enables automatic language identification for your transcription. If you include IdentifyLanguage, you can optionally include a list of  language codes, using LanguageOptions, that you think may be present in  your audio stream. Including language options can improve transcription accuracy.   You can also include a preferred language using PreferredLanguage. Adding a  preferred language can help Amazon Transcribe identify the language faster than if you omit this  parameter. If you have multi-channel audio that contains different languages on each channel, and you've  enabled channel identification, automatic language identification identifies the dominant language on  each audio channel. Note that you must include either LanguageCode or  IdentifyLanguage in your request. If you include both parameters, your request fails. Streaming language identification can't be combined with custom language models or  redaction.
         public let identifyLanguage: Bool?
-        /// The language code of the input audio stream.
+        /// Specify the language code that represents the language spoken in your audio. If you're unsure of the language spoken in your audio, consider using  IdentifyLanguage to enable automatic language identification. For a list of languages supported with Amazon Transcribe streaming, refer to the  Supported  languages table.
         public let languageCode: LanguageCode?
-        /// The name of the language model you want to use.
+        /// Specify the name of the custom language model that you want to use when processing your transcription. Note that language model names are case sensitive. The language of the specified language model must match the language code you specify in your transcription request. If the languages don't match, the language model isn't applied. There  are no errors or warnings associated with a language mismatch.  For more information, see Custom language  models.
         public let languageModelName: String?
-        /// An object containing a list of languages that might be present in your audio. You must provide two or more language codes to help Amazon Transcribe identify the correct  language of your media stream with the highest possible accuracy. You can only select one variant per language; for example, you can't include both en-US and en-UK in the same request. You can only use this parameter if you've set IdentifyLanguage to truein your request.
+        /// Specify two or more language codes that represent the languages you think may be present  in your media; including more than five is not recommended. If you're unsure what languages are present, do not include this parameter. Including language options can improve the accuracy of language identification. If you include LanguageOptions in your request, you must also include  IdentifyLanguage. For a list of languages supported with Amazon Transcribe streaming, refer to the  Supported  languages table.  You can only include one language dialect per language per stream. For example, you cannot include en-US and en-AU in the same request.
         public let languageOptions: String?
-        /// The encoding used for the input audio.
+        /// Specify the encoding used for the input audio. Supported formats are:   FLAC   OPUS-encoded audio in an Ogg container   PCM (only signed 16-bit little-endian audio formats, which does not include WAV)   For more information, see Media formats.
         public let mediaEncoding: MediaEncoding
-        /// The sample rate of the input audio (in Hertz). Low-quality audio, such as telephone  audio, is typically around 8,000 Hz. High-quality audio typically ranges from 16,000 Hz to  48,000 Hz. Note that the sample rate you specify must match that of your audio.
+        /// The sample rate of the input audio (in hertz). Low-quality audio, such as telephone audio, is typically around 8,000 Hz. High-quality audio typically ranges from 16,000 Hz to 48,000 Hz. Note that the sample rate you specify must match that of your audio.
         public let mediaSampleRateHertz: Int
-        /// The number of channels that are in your audio stream.
+        /// Specify the number of channels in your audio stream. Up to two channels are supported.
         public let numberOfChannels: Int?
-        /// You can use this field to set the stability level of the transcription results. A higher stability level means that the transcription results are less likely to change. Higher stability levels can come with lower overall transcription accuracy.
+        /// Specify the level of stability to use when you enable partial results stabilization  (EnablePartialResultsStabilization).  Low stability provides the highest accuracy. High stability transcribes faster, but with slightly lower accuracy. For more information, see Partial-result  stabilization.
         public let partialResultsStability: PartialResultsStability?
-        /// List the PII entity types you want to identify or redact. In order to specify entity types, you must have either ContentIdentificationType or ContentRedactionType enabled.  PIIEntityTypes must be comma-separated; the available values are: BANK_ACCOUNT_NUMBER, BANK_ROUTING, CREDIT_DEBIT_NUMBER, CREDIT_DEBIT_CVV,  CREDIT_DEBIT_EXPIRY, PIN, EMAIL,  ADDRESS, NAME, PHONE,  SSN, and ALL.  PiiEntityTypes is an optional parameter with a default value of ALL.
+        /// Specify which types of personally identifiable information (PII) you want to redact in your  transcript. You can include as many types as you'd like, or you can select  ALL. To include PiiEntityTypes in your request, you must also include either  ContentIdentificationType or ContentRedactionType. Values must be comma-separated and can include: BANK_ACCOUNT_NUMBER, BANK_ROUTING, CREDIT_DEBIT_NUMBER, CREDIT_DEBIT_CVV,  CREDIT_DEBIT_EXPIRY, PIN, EMAIL,  ADDRESS, NAME, PHONE,  SSN, or ALL.
         public let piiEntityTypes: String?
-        /// Optional. From the subset of languages codes you provided for  LanguageOptions, you can select one preferred language for your  transcription. You can only use this parameter if you've set IdentifyLanguage to truein your request.
+        /// Specify a preferred language from the subset of languages codes you specified in  LanguageOptions. You can only use this parameter if you've included IdentifyLanguage and LanguageOptions in your request.
         public let preferredLanguage: LanguageCode?
-        /// A identifier for the transcription session. Use this parameter when you want to retry a session. If you don't provide a session ID, Amazon Transcribe will generate one for you and return it in the response.
+        /// Specify a name for your transcription session. If you don't include this parameter in your request,  Amazon Transcribe generates an ID and returns it in the response. You can use a session ID to retry a streaming session.
         public let sessionId: String?
-        /// When true, enables speaker identification in your media stream.
+        /// Enables speaker partitioning (diarization) in your transcription output. Speaker partitioning  labels the speech from individual speakers in your media file.  For more information, see Partitioning speakers (diarization).
         public let showSpeakerLabel: Bool?
-        /// The manner in which you use your vocabulary filter to filter words in your transcript. Remove removes filtered words from your transcription results. Mask masks filtered words with a *** in your transcription results. Tag keeps the filtered words in your transcription results and tags  them. The tag appears as VocabularyFilterMatch equal to  True.
+        /// Specify how you want your vocabulary filter applied to your transcript. To replace words with ***, choose mask. To delete words, choose remove. To flag words without changing them, choose tag.
         public let vocabularyFilterMethod: VocabularyFilterMethod?
-        /// The name of the vocabulary filter you want to use with your transcription. This operation is not intended for use in conjunction with the  IdentifyLanguage operation. If you're using IdentifyLanguage in your request and want to use one or more vocabulary filters with your transcription, use the  VocabularyFilterNames operation instead.
+        /// Specify the name of the custom vocabulary filter that you want to use when processing your transcription. Note that vocabulary filter names are case sensitive. If the language of the specified custom vocabulary filter doesn't match the language identified in your media, your job fails.      This parameter is not intended for use with the IdentifyLanguage parameter. If you're including IdentifyLanguage in your request and want to use one or more vocabulary filters with your transcription, use the VocabularyFilterNames parameter instead.  For more information, see Using vocabulary filtering with unwanted  words.
         public let vocabularyFilterName: String?
-        /// The names of the vocabulary filters you want to use with your transcription. Note that if the vocabulary filters you specify are in languages that don't match the  language identified in your media, your job fails. This operation is only intended for use in conjunction with the  IdentifyLanguage operation. If you're not using IdentifyLanguage in your request and want to use a vocabulary filter with your transcription, use the  VocabularyFilterName operation instead.
+        /// Specify the names of the custom vocabulary filters that you want to use when processing your transcription. Note that vocabulary filter names are case sensitive.     If none of the languages of the specified custom vocabulary filters match the language identified in your media, your job fails.  This parameter is only intended for use with  the IdentifyLanguage parameter. If you're not  including IdentifyLanguage in your request and want to use a custom vocabulary filter  with your transcription, use the VocabularyFilterName parameter instead.  For more information, see Using vocabulary filtering with unwanted  words.
         public let vocabularyFilterNames: String?
-        /// The name of the custom vocabulary you want to use with your transcription. This operation is not intended for use in conjunction with the  IdentifyLanguage operation. If you're using IdentifyLanguage in your request and want to use one or more custom vocabularies with your transcription, use the  VocabularyNames operation instead.
+        /// Specify the name of the custom vocabulary that you want to use when processing your transcription. Note that vocabulary names are case sensitive. If the language of the specified custom vocabulary doesn't match the language identified in your media, your job fails.  This parameter is not intended for use with the IdentifyLanguage parameter. If you're including IdentifyLanguage in your request and want to use one or more custom vocabularies with your transcription, use the VocabularyNames parameter instead.  For more information, see Custom vocabularies.
         public let vocabularyName: String?
-        /// The names of the custom vocabularies you want to use with your transcription. Note that if the custom vocabularies you specify are in languages that don't match the  language identified in your media, your job fails. This operation is only intended for use in conjunction with the  IdentifyLanguage operation. If you're not using IdentifyLanguage in your request and want to use a custom vocabulary with your transcription, use the  VocabularyName operation instead.
+        /// Specify the names of the custom vocabularies that you want to use when processing your transcription. Note that vocabulary names are case sensitive.     If none of the languages of the specified custom vocabularies match the language identified in  your media, your job fails.  This parameter is only intended for use with the IdentifyLanguage parameter. If you're not including IdentifyLanguage in your request and want to use a custom vocabulary with your transcription, use the VocabularyName parameter instead.  For more information, see Custom vocabularies.
         public let vocabularyNames: String?
 
         public init(audioStream: AudioStream, contentIdentificationType: ContentIdentificationType? = nil, contentRedactionType: ContentRedactionType? = nil, enableChannelIdentification: Bool? = nil, enablePartialResultsStabilization: Bool? = nil, identifyLanguage: Bool? = nil, languageCode: LanguageCode? = nil, languageModelName: String? = nil, languageOptions: String? = nil, mediaEncoding: MediaEncoding, mediaSampleRateHertz: Int, numberOfChannels: Int? = nil, partialResultsStability: PartialResultsStability? = nil, piiEntityTypes: String? = nil, preferredLanguage: LanguageCode? = nil, sessionId: String? = nil, showSpeakerLabel: Bool? = nil, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyFilterNames: String? = nil, vocabularyName: String? = nil, vocabularyNames: String? = nil) {
@@ -885,51 +887,51 @@ extension TranscribeStreaming {
             AWSMemberEncoding(label: "vocabularyNames", location: .header("x-amzn-transcribe-vocabulary-names"))
         ]
 
-        /// Shows whether content identification was enabled in this stream.
+        /// Shows whether content identification was enabled for your transcription.
         public let contentIdentificationType: ContentIdentificationType?
-        /// Shows whether content redaction was enabled in this stream.
+        /// Shows whether content redaction was enabled for your transcription.
         public let contentRedactionType: ContentRedactionType?
-        /// Shows whether channel identification was enabled in the stream.
+        /// Shows whether  channel identification was enabled for your transcription.
         public let enableChannelIdentification: Bool?
-        /// Shows whether partial results stabilization was enabled in the transcription.
+        /// Shows whether partial results stabilization was enabled for your transcription.
         public let enablePartialResultsStabilization: Bool?
-        /// The language code of the language identified in your media stream.
+        /// Shows whether automatic language identification was enabled for your  transcription.
         public let identifyLanguage: Bool?
-        /// The language code of the input audio stream.
+        /// Provides the language code that you specified in your request.
         public let languageCode: LanguageCode?
-        /// The name of the custom language model used in the transcription.
+        /// Provides the name of the custom language model that you specified in your request.
         public let languageModelName: String?
-        /// The language codes used in the identification of your media stream's predominant  language.
+        /// Provides the language codes that you specified in your request.
         public let languageOptions: String?
-        /// The encoding used for the input audio stream.
+        /// Provides the media encoding you specified in your request.
         public let mediaEncoding: MediaEncoding?
-        /// The sample rate, in Hertz (Hz), for the input audio stream.
+        /// Provides the sample rate that you specified in your request.
         public let mediaSampleRateHertz: Int?
-        /// The number of channels identified in the stream.
+        /// Provides the number of channels that you specified in your request.
         public let numberOfChannels: Int?
-        /// If partial results stabilization has been enabled in the stream, shows the stability level.
+        /// Provides the stabilization level used for your transcription.
         public let partialResultsStability: PartialResultsStability?
         /// Lists the PII entity types you specified in your request.
         public let piiEntityTypes: String?
-        /// The preferred language you specified in your request.
+        /// Provides the preferred language that you specified in your request.
         public let preferredLanguage: LanguageCode?
-        /// An identifier for the transcription.
+        /// Provides the identifier for your streaming request.
         public let requestId: String?
-        /// An identifier for a specific transcription session.
+        /// Provides the identifier for your transcription session.
         public let sessionId: String?
-        /// Shows whether speaker identification was enabled in the transcription.
+        /// Shows whether speaker partitioning was enabled for your transcription.
         public let showSpeakerLabel: Bool?
-        /// Represents the stream of transcription events from Amazon Transcribe to your application.
+        /// Provides detailed information about your streaming session.
         public let transcriptResultStream: TranscriptResultStream?
-        /// The vocabulary filtering method used when processing the stream.
+        /// Provides the vocabulary filtering method used in your transcription.
         public let vocabularyFilterMethod: VocabularyFilterMethod?
-        /// The name of the vocabulary filter used when processing the stream.
+        /// Provides the name of the custom vocabulary filter that you specified in your request.
         public let vocabularyFilterName: String?
-        /// The name of the vocabulary filter used when processing the stream.
+        /// Provides the names of the custom vocabulary filters that you specified in your request.
         public let vocabularyFilterNames: String?
-        /// The name of the custom vocabulary used when processing the stream.
+        /// Provides the name of the custom vocabulary that you specified in your request.
         public let vocabularyName: String?
-        /// The name of the custom vocabulary used when processing the stream.
+        /// Provides the names of the custom vocabularies that you specified in your request.
         public let vocabularyNames: String?
 
         public init(contentIdentificationType: ContentIdentificationType? = nil, contentRedactionType: ContentRedactionType? = nil, enableChannelIdentification: Bool? = nil, enablePartialResultsStabilization: Bool? = nil, identifyLanguage: Bool? = nil, languageCode: LanguageCode? = nil, languageModelName: String? = nil, languageOptions: String? = nil, mediaEncoding: MediaEncoding? = nil, mediaSampleRateHertz: Int? = nil, numberOfChannels: Int? = nil, partialResultsStability: PartialResultsStability? = nil, piiEntityTypes: String? = nil, preferredLanguage: LanguageCode? = nil, requestId: String? = nil, sessionId: String? = nil, showSpeakerLabel: Bool? = nil, transcriptResultStream: TranscriptResultStream? = nil, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyFilterNames: String? = nil, vocabularyName: String? = nil, vocabularyNames: String? = nil) {
@@ -986,7 +988,7 @@ extension TranscribeStreaming {
     }
 
     public struct Transcript: AWSDecodableShape {
-        ///  Result objects that contain the results of transcribing a portion of the input audio stream. The array can be empty.
+        /// Contains a set of transcription results from one or more audio segments, along with additional  information per your request parameters. This can include information relating to alternative transcriptions, channel identification, partial result stabilization, language identification, and other transcription-related data.
         public let results: [Result]?
 
         public init(results: [Result]? = nil) {
@@ -999,7 +1001,7 @@ extension TranscribeStreaming {
     }
 
     public struct TranscriptEvent: AWSDecodableShape {
-        /// The transcription of the audio stream. The transcription is composed of all of the items in the results list.
+        /// Contains Results, which contains a set of transcription results from one or more audio segments, along with additional information per your request parameters. This can include information relating to alternative transcriptions, channel identification, partial result stabilization, language identification, and other transcription-related data.
         public let transcript: Transcript?
 
         public init(transcript: Transcript? = nil) {
@@ -1012,7 +1014,7 @@ extension TranscribeStreaming {
     }
 
     public struct AudioStream: AWSEncodableShape {
-        /// A blob of audio from your application. You audio stream consists of one or more audio events. For information on audio encoding formats in Amazon Transcribe, see Speech input. For information on audio encoding formats in Amazon Transcribe Medical, see Speech input. For more information on stream encoding in Amazon Transcribe, see Event stream encoding. For information on stream encoding in Amazon Transcribe Medical, see Event stream encoding.
+        /// A blob of audio from your application. Your audio stream consists of one or more audio events. For more information, see Event stream encoding.
         public let audioEvent: AudioEvent?
 
         public init(audioEvent: AudioEvent? = nil) {

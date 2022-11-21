@@ -73,6 +73,112 @@ extension WellArchitected {
         )
     }
 
+    ///  List of Trusted Advisor check details by account related to the workload.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listCheckDetailsPaginator<Result>(
+        _ input: ListCheckDetailsInput,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListCheckDetailsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listCheckDetails,
+            inputKey: \ListCheckDetailsInput.nextToken,
+            outputKey: \ListCheckDetailsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listCheckDetailsPaginator(
+        _ input: ListCheckDetailsInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListCheckDetailsOutput, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listCheckDetails,
+            inputKey: \ListCheckDetailsInput.nextToken,
+            outputKey: \ListCheckDetailsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  List of Trusted Advisor checks summarized for all accounts related to the workload.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listCheckSummariesPaginator<Result>(
+        _ input: ListCheckSummariesInput,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListCheckSummariesOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listCheckSummaries,
+            inputKey: \ListCheckSummariesInput.nextToken,
+            outputKey: \ListCheckSummariesOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listCheckSummariesPaginator(
+        _ input: ListCheckSummariesInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListCheckSummariesOutput, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listCheckSummaries,
+            inputKey: \ListCheckSummariesInput.nextToken,
+            outputKey: \ListCheckSummariesOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  List lens review improvements.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -559,6 +665,34 @@ extension WellArchitected.ListAnswersInput: AWSPaginateToken {
             milestoneNumber: self.milestoneNumber,
             nextToken: token,
             pillarId: self.pillarId,
+            workloadId: self.workloadId
+        )
+    }
+}
+
+extension WellArchitected.ListCheckDetailsInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> WellArchitected.ListCheckDetailsInput {
+        return .init(
+            choiceId: self.choiceId,
+            lensArn: self.lensArn,
+            maxResults: self.maxResults,
+            nextToken: token,
+            pillarId: self.pillarId,
+            questionId: self.questionId,
+            workloadId: self.workloadId
+        )
+    }
+}
+
+extension WellArchitected.ListCheckSummariesInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> WellArchitected.ListCheckSummariesInput {
+        return .init(
+            choiceId: self.choiceId,
+            lensArn: self.lensArn,
+            maxResults: self.maxResults,
+            nextToken: token,
+            pillarId: self.pillarId,
+            questionId: self.questionId,
             workloadId: self.workloadId
         )
     }

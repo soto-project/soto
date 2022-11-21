@@ -63,8 +63,10 @@ extension Route53 {
         case cnNorth1 = "cn-north-1"
         case cnNorthwest1 = "cn-northwest-1"
         case euCentral1 = "eu-central-1"
+        case euCentral2 = "eu-central-2"
         case euNorth1 = "eu-north-1"
         case euSouth1 = "eu-south-1"
+        case euSouth2 = "eu-south-2"
         case euWest1 = "eu-west-1"
         case euWest2 = "eu-west-2"
         case euWest3 = "eu-west-3"
@@ -107,9 +109,9 @@ extension Route53 {
         case calculated = "CALCULATED"
         case cloudwatchMetric = "CLOUDWATCH_METRIC"
         case http = "HTTP"
+        case httpStrMatch = "HTTP_STR_MATCH"
         case https = "HTTPS"
         case httpsStrMatch = "HTTPS_STR_MATCH"
-        case httpStrMatch = "HTTP_STR_MATCH"
         case recoveryControl = "RECOVERY_CONTROL"
         case tcp = "TCP"
         public var description: String { return self.rawValue }
@@ -173,11 +175,14 @@ extension Route53 {
         case cnNorth1 = "cn-north-1"
         case cnNorthwest1 = "cn-northwest-1"
         case euCentral1 = "eu-central-1"
+        case euCentral2 = "eu-central-2"
         case euNorth1 = "eu-north-1"
         case euSouth1 = "eu-south-1"
+        case euSouth2 = "eu-south-2"
         case euWest1 = "eu-west-1"
         case euWest2 = "eu-west-2"
         case euWest3 = "eu-west-3"
+        case meCentral1 = "me-central-1"
         case meSouth1 = "me-south-1"
         case saEast1 = "sa-east-1"
         case usEast1 = "us-east-1"
@@ -220,8 +225,10 @@ extension Route53 {
         case caCentral1 = "ca-central-1"
         case cnNorth1 = "cn-north-1"
         case euCentral1 = "eu-central-1"
+        case euCentral2 = "eu-central-2"
         case euNorth1 = "eu-north-1"
         case euSouth1 = "eu-south-1"
+        case euSouth2 = "eu-south-2"
         case euWest1 = "eu-west-1"
         case euWest2 = "eu-west-2"
         case euWest3 = "eu-west-3"
@@ -3901,8 +3908,8 @@ extension Route53 {
         /// A complex type that contains information about the list of CIDR locations.
         @OptionalCustomCoding<StandardArrayCoder>
         public var cidrLocations: [LocationSummary]?
-        /// An opaque
-        /// 			pagination token to indicate where the service is to begin enumerating results.
+        /// An opaque pagination token to indicate where the service is to begin enumerating
+        /// 			results.
         /// 		       If no value is provided, the listing of results starts from the beginning.
         public let nextToken: String?
 
@@ -5622,9 +5629,6 @@ extension Route53 {
         /// 			typically is an Amazon Web Services resource, such as an EC2 instance or an ELB load
         /// 			balancer, and is referred to by an IP address or a DNS domain name, depending on the
         /// 			record type.
-        ///
-        /// 			         Although creating latency and latency alias resource record sets in a private
-        /// 				hosted zone is allowed, it's not supported.
         ///
         /// 		       When Amazon Route 53 receives a DNS query for a domain name and type for which you
         /// 			have created latency resource record sets, Route 53 selects the latency resource record

@@ -28,13 +28,113 @@ extension Ivschat {
         public var description: String { return self.rawValue }
     }
 
+    public enum CreateLoggingConfigurationState: String, CustomStringConvertible, Codable, _SotoSendable {
+        case active = "ACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FallbackResult: String, CustomStringConvertible, Codable, _SotoSendable {
         case allow = "ALLOW"
         case deny = "DENY"
         public var description: String { return self.rawValue }
     }
 
+    public enum LoggingConfigurationState: String, CustomStringConvertible, Codable, _SotoSendable {
+        case active = "ACTIVE"
+        case createFailed = "CREATE_FAILED"
+        case creating = "CREATING"
+        case deleteFailed = "DELETE_FAILED"
+        case deleting = "DELETING"
+        case updateFailed = "UPDATE_FAILED"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UpdateLoggingConfigurationState: String, CustomStringConvertible, Codable, _SotoSendable {
+        case active = "ACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DestinationConfiguration: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+        /// Name of the Amazon CloudWatch Logs destination where chat activity will be logged.
+        case cloudWatchLogs(CloudWatchLogsDestinationConfiguration)
+        /// Name of the Amazon Kinesis Data Firehose destination where chat activity will be logged
+        case firehose(FirehoseDestinationConfiguration)
+        /// Name of the Amazon S3 bucket where chat activity will be logged.
+        case s3(S3DestinationConfiguration)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .cloudWatchLogs:
+                let value = try container.decode(CloudWatchLogsDestinationConfiguration.self, forKey: .cloudWatchLogs)
+                self = .cloudWatchLogs(value)
+            case .firehose:
+                let value = try container.decode(FirehoseDestinationConfiguration.self, forKey: .firehose)
+                self = .firehose(value)
+            case .s3:
+                let value = try container.decode(S3DestinationConfiguration.self, forKey: .s3)
+                self = .s3(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .cloudWatchLogs(let value):
+                try container.encode(value, forKey: .cloudWatchLogs)
+            case .firehose(let value):
+                try container.encode(value, forKey: .firehose)
+            case .s3(let value):
+                try container.encode(value, forKey: .s3)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .cloudWatchLogs(let value):
+                try value.validate(name: "\(name).cloudWatchLogs")
+            case .firehose(let value):
+                try value.validate(name: "\(name).firehose")
+            case .s3(let value):
+                try value.validate(name: "\(name).s3")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudWatchLogs
+            case firehose
+            case s3
+        }
+    }
+
     // MARK: Shapes
+
+    public struct CloudWatchLogsDestinationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Name of the Amazon Cloudwatch Logs destination where chat activity will be logged.
+        public let logGroupName: String
+
+        public init(logGroupName: String) {
+            self.logGroupName = logGroupName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.logGroupName, name: "logGroupName", parent: name, max: 512)
+            try self.validate(self.logGroupName, name: "logGroupName", parent: name, min: 1)
+            try self.validate(self.logGroupName, name: "logGroupName", parent: name, pattern: "^[\\.\\-_/#A-Za-z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logGroupName
+        }
+    }
 
     public struct CreateChatTokenRequest: AWSEncodableShape {
         /// Application-provided attributes to encode into the token and attach to a chat session. Map keys and values can contain UTF-8 encoded text. The maximum length of this field is 1 KB total.
@@ -98,7 +198,85 @@ extension Ivschat {
         }
     }
 
+    public struct CreateLoggingConfigurationRequest: AWSEncodableShape {
+        /// A complex type that contains a destination configuration for where chat content will be logged. There can be only one type of destination (cloudWatchLogs, firehose, or s3) in a destinationConfiguration.
+        public let destinationConfiguration: DestinationConfiguration
+        /// Logging-configuration name. The value does not need to be unique.
+        public let name: String?
+        /// Tags to attach to the resource. Array of maps, each of the form string:string (key:value). See Tagging AWS Resources for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS Chat has no constraints on tags beyond what is documented there.
+        public let tags: [String: String]?
+
+        public init(destinationConfiguration: DestinationConfiguration, name: String? = nil, tags: [String: String]? = nil) {
+            self.destinationConfiguration = destinationConfiguration
+            self.name = name
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.destinationConfiguration.validate(name: "\(name).destinationConfiguration")
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-_]*$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationConfiguration
+            case name
+            case tags
+        }
+    }
+
+    public struct CreateLoggingConfigurationResponse: AWSDecodableShape {
+        /// Logging-configuration ARN, assigned by the system.
+        public let arn: String?
+        /// Time when the logging configuration was created. This is an ISO 8601 timestamp; note that this is returned as a string.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createTime: Date?
+        /// A complex type that contains a destination configuration for where chat content will be logged, from the request. There is only one type of destination (cloudWatchLogs, firehose, or s3) in a destinationConfiguration.
+        public let destinationConfiguration: DestinationConfiguration?
+        /// Logging-configuration ID, generated by the system. This is a relative identifier, the part of the ARN that uniquely identifies the logging configuration.
+        public let id: String?
+        /// Logging-configuration name, from the request (if specified).
+        public let name: String?
+        /// The state of the logging configuration. When the state is ACTIVE, the configuration is ready to log chat content.
+        public let state: CreateLoggingConfigurationState?
+        /// Tags attached to the resource, from the request (if specified). Array of maps, each of the form string:string (key:value).
+        public let tags: [String: String]?
+        /// Time of the logging configuration’s last update. This is an ISO 8601 timestamp; note that this is returned as a string.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updateTime: Date?
+
+        public init(arn: String? = nil, createTime: Date? = nil, destinationConfiguration: DestinationConfiguration? = nil, id: String? = nil, name: String? = nil, state: CreateLoggingConfigurationState? = nil, tags: [String: String]? = nil, updateTime: Date? = nil) {
+            self.arn = arn
+            self.createTime = createTime
+            self.destinationConfiguration = destinationConfiguration
+            self.id = id
+            self.name = name
+            self.state = state
+            self.tags = tags
+            self.updateTime = updateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn
+            case createTime
+            case destinationConfiguration
+            case id
+            case name
+            case state
+            case tags
+            case updateTime
+        }
+    }
+
     public struct CreateRoomRequest: AWSEncodableShape {
+        /// Array of logging-configuration identifiers attached to the room.
+        public let loggingConfigurationIdentifiers: [String]?
         /// Maximum number of characters in a single message. Messages are expected to be UTF-8 encoded and this limit applies specifically to rune/code-point count, not number of bytes. Default: 500.
         public let maximumMessageLength: Int?
         /// Maximum number of messages per second that can be sent to the room (by all clients). Default: 10.
@@ -110,7 +288,8 @@ extension Ivschat {
         /// Tags to attach to the resource. Array of maps, each of the form string:string (key:value). See Tagging AWS Resources for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS Chat has no constraints beyond what is documented there.
         public let tags: [String: String]?
 
-        public init(maximumMessageLength: Int? = nil, maximumMessageRatePerSecond: Int? = nil, messageReviewHandler: MessageReviewHandler? = nil, name: String? = nil, tags: [String: String]? = nil) {
+        public init(loggingConfigurationIdentifiers: [String]? = nil, maximumMessageLength: Int? = nil, maximumMessageRatePerSecond: Int? = nil, messageReviewHandler: MessageReviewHandler? = nil, name: String? = nil, tags: [String: String]? = nil) {
+            self.loggingConfigurationIdentifiers = loggingConfigurationIdentifiers
             self.maximumMessageLength = maximumMessageLength
             self.maximumMessageRatePerSecond = maximumMessageRatePerSecond
             self.messageReviewHandler = messageReviewHandler
@@ -119,6 +298,12 @@ extension Ivschat {
         }
 
         public func validate(name: String) throws {
+            try self.loggingConfigurationIdentifiers?.forEach {
+                try validate($0, name: "loggingConfigurationIdentifiers[]", parent: name, max: 128)
+                try validate($0, name: "loggingConfigurationIdentifiers[]", parent: name, min: 1)
+                try validate($0, name: "loggingConfigurationIdentifiers[]", parent: name, pattern: "^arn:aws:ivschat:[a-z0-9-]+:[0-9]+:logging-configuration/[a-zA-Z0-9-]+$")
+            }
+            try self.validate(self.loggingConfigurationIdentifiers, name: "loggingConfigurationIdentifiers", parent: name, max: 3)
             try self.validate(self.maximumMessageLength, name: "maximumMessageLength", parent: name, max: 500)
             try self.validate(self.maximumMessageLength, name: "maximumMessageLength", parent: name, min: 1)
             try self.validate(self.maximumMessageRatePerSecond, name: "maximumMessageRatePerSecond", parent: name, max: 10)
@@ -135,6 +320,7 @@ extension Ivschat {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case loggingConfigurationIdentifiers
             case maximumMessageLength
             case maximumMessageRatePerSecond
             case messageReviewHandler
@@ -151,24 +337,27 @@ extension Ivschat {
         public var createTime: Date?
         /// Room ID, generated by the system. This is a relative identifier, the part of the ARN that uniquely identifies the room.
         public let id: String?
-        /// Maximum number of characters in a single message, from the request.
+        /// Array of logging configurations attached to the room, from the request (if specified).
+        public let loggingConfigurationIdentifiers: [String]?
+        /// Maximum number of characters in a single message, from the request (if specified).
         public let maximumMessageLength: Int?
-        /// Maximum number of messages per second that can be sent to the room (by all clients), from the request.
+        /// Maximum number of messages per second that can be sent to the room (by all clients), from the request (if specified).
         public let maximumMessageRatePerSecond: Int?
         /// Configuration information for optional review of messages.
         public let messageReviewHandler: MessageReviewHandler?
         /// Room name, from the request (if specified).
         public let name: String?
-        /// Tags attached to the resource, from the request.
+        /// Tags attached to the resource, from the request (if specified).
         public let tags: [String: String]?
         /// Time of the room’s last update. This is an ISO 8601 timestamp; note that this is returned as a string.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updateTime: Date?
 
-        public init(arn: String? = nil, createTime: Date? = nil, id: String? = nil, maximumMessageLength: Int? = nil, maximumMessageRatePerSecond: Int? = nil, messageReviewHandler: MessageReviewHandler? = nil, name: String? = nil, tags: [String: String]? = nil, updateTime: Date? = nil) {
+        public init(arn: String? = nil, createTime: Date? = nil, id: String? = nil, loggingConfigurationIdentifiers: [String]? = nil, maximumMessageLength: Int? = nil, maximumMessageRatePerSecond: Int? = nil, messageReviewHandler: MessageReviewHandler? = nil, name: String? = nil, tags: [String: String]? = nil, updateTime: Date? = nil) {
             self.arn = arn
             self.createTime = createTime
             self.id = id
+            self.loggingConfigurationIdentifiers = loggingConfigurationIdentifiers
             self.maximumMessageLength = maximumMessageLength
             self.maximumMessageRatePerSecond = maximumMessageRatePerSecond
             self.messageReviewHandler = messageReviewHandler
@@ -181,12 +370,32 @@ extension Ivschat {
             case arn
             case createTime
             case id
+            case loggingConfigurationIdentifiers
             case maximumMessageLength
             case maximumMessageRatePerSecond
             case messageReviewHandler
             case name
             case tags
             case updateTime
+        }
+    }
+
+    public struct DeleteLoggingConfigurationRequest: AWSEncodableShape {
+        /// Identifier of the logging configuration to be deleted.
+        public let identifier: String
+
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 128)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^arn:aws:ivschat:[a-z0-9-]+:[0-9]+:logging-configuration/[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identifier
         }
     }
 
@@ -289,6 +498,87 @@ extension Ivschat {
         public init() {}
     }
 
+    public struct FirehoseDestinationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Name of the Amazon Kinesis Firehose delivery stream where chat activity will be logged.
+        public let deliveryStreamName: String
+
+        public init(deliveryStreamName: String) {
+            self.deliveryStreamName = deliveryStreamName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.deliveryStreamName, name: "deliveryStreamName", parent: name, max: 64)
+            try self.validate(self.deliveryStreamName, name: "deliveryStreamName", parent: name, min: 1)
+            try self.validate(self.deliveryStreamName, name: "deliveryStreamName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deliveryStreamName
+        }
+    }
+
+    public struct GetLoggingConfigurationRequest: AWSEncodableShape {
+        /// Identifier of the logging configuration to be retrieved.
+        public let identifier: String
+
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 128)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^arn:aws:ivschat:[a-z0-9-]+:[0-9]+:logging-configuration/[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identifier
+        }
+    }
+
+    public struct GetLoggingConfigurationResponse: AWSDecodableShape {
+        /// Logging-configuration ARN, from the request (if identifier was an ARN).
+        public let arn: String?
+        /// Time when the logging configuration was created. This is an ISO 8601 timestamp; note that this is returned as a string.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createTime: Date?
+        /// A complex type that contains a destination configuration for where chat content will be logged. There is only one type of destination (cloudWatchLogs, firehose, or s3) in a destinationConfiguration.
+        public let destinationConfiguration: DestinationConfiguration?
+        /// Logging-configuration ID, generated by the system. This is a relative identifier, the part of the ARN that uniquely identifies the logging configuration.
+        public let id: String?
+        /// Logging-configuration name. This value does not need to be unique.
+        public let name: String?
+        /// The state of the logging configuration. When the state is ACTIVE, the configuration is ready to log chat content.
+        public let state: LoggingConfigurationState?
+        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value).
+        public let tags: [String: String]?
+        /// Time of the logging configuration’s last update. This is an ISO 8601 timestamp; note that this is returned as a string.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updateTime: Date?
+
+        public init(arn: String? = nil, createTime: Date? = nil, destinationConfiguration: DestinationConfiguration? = nil, id: String? = nil, name: String? = nil, state: LoggingConfigurationState? = nil, tags: [String: String]? = nil, updateTime: Date? = nil) {
+            self.arn = arn
+            self.createTime = createTime
+            self.destinationConfiguration = destinationConfiguration
+            self.id = id
+            self.name = name
+            self.state = state
+            self.tags = tags
+            self.updateTime = updateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn
+            case createTime
+            case destinationConfiguration
+            case id
+            case name
+            case state
+            case tags
+            case updateTime
+        }
+    }
+
     public struct GetRoomRequest: AWSEncodableShape {
         /// Identifier of the room for which the configuration is to be retrieved. Currently this must be an ARN.
         public let identifier: String
@@ -316,6 +606,8 @@ extension Ivschat {
         public var createTime: Date?
         /// Room ID, generated by the system. This is a relative identifier, the part of the ARN that uniquely identifies the room.
         public let id: String?
+        /// Array of logging configurations attached to the room.
+        public let loggingConfigurationIdentifiers: [String]?
         /// Maximum number of characters in a single message. Messages are expected to be UTF-8 encoded and this limit applies specifically to rune/code-point count, not number of bytes. Default: 500.
         public let maximumMessageLength: Int?
         /// Maximum number of messages per second that can be sent to the room (by all clients). Default: 10.
@@ -330,10 +622,11 @@ extension Ivschat {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updateTime: Date?
 
-        public init(arn: String? = nil, createTime: Date? = nil, id: String? = nil, maximumMessageLength: Int? = nil, maximumMessageRatePerSecond: Int? = nil, messageReviewHandler: MessageReviewHandler? = nil, name: String? = nil, tags: [String: String]? = nil, updateTime: Date? = nil) {
+        public init(arn: String? = nil, createTime: Date? = nil, id: String? = nil, loggingConfigurationIdentifiers: [String]? = nil, maximumMessageLength: Int? = nil, maximumMessageRatePerSecond: Int? = nil, messageReviewHandler: MessageReviewHandler? = nil, name: String? = nil, tags: [String: String]? = nil, updateTime: Date? = nil) {
             self.arn = arn
             self.createTime = createTime
             self.id = id
+            self.loggingConfigurationIdentifiers = loggingConfigurationIdentifiers
             self.maximumMessageLength = maximumMessageLength
             self.maximumMessageRatePerSecond = maximumMessageRatePerSecond
             self.messageReviewHandler = messageReviewHandler
@@ -346,6 +639,7 @@ extension Ivschat {
             case arn
             case createTime
             case id
+            case loggingConfigurationIdentifiers
             case maximumMessageLength
             case maximumMessageRatePerSecond
             case messageReviewHandler
@@ -355,7 +649,49 @@ extension Ivschat {
         }
     }
 
+    public struct ListLoggingConfigurationsRequest: AWSEncodableShape {
+        /// Maximum number of logging configurations to return. Default: 50.
+        public let maxResults: Int?
+        /// The first logging configurations to retrieve. This is used for pagination; see the nextToken response field.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults
+            case nextToken
+        }
+    }
+
+    public struct ListLoggingConfigurationsResponse: AWSDecodableShape {
+        /// List of the matching logging configurations (summary information only). There is only one type of destination (cloudWatchLogs, firehose, or s3) in a destinationConfiguration.
+        public let loggingConfigurations: [LoggingConfigurationSummary]
+        /// If there are more logging configurations than maxResults, use nextToken in the request to get the next set.
+        public let nextToken: String?
+
+        public init(loggingConfigurations: [LoggingConfigurationSummary], nextToken: String? = nil) {
+            self.loggingConfigurations = loggingConfigurations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loggingConfigurations
+            case nextToken
+        }
+    }
+
     public struct ListRoomsRequest: AWSEncodableShape {
+        /// Logging-configuration identifier.
+        public let loggingConfigurationIdentifier: String?
         /// Maximum number of rooms to return. Default: 50.
         public let maxResults: Int?
         /// Filters the list to match the specified message review handler URI.
@@ -365,7 +701,8 @@ extension Ivschat {
         /// The first room to retrieve. This is used for pagination; see the nextToken response field.
         public let nextToken: String?
 
-        public init(maxResults: Int? = nil, messageReviewHandlerUri: String? = nil, name: String? = nil, nextToken: String? = nil) {
+        public init(loggingConfigurationIdentifier: String? = nil, maxResults: Int? = nil, messageReviewHandlerUri: String? = nil, name: String? = nil, nextToken: String? = nil) {
+            self.loggingConfigurationIdentifier = loggingConfigurationIdentifier
             self.maxResults = maxResults
             self.messageReviewHandlerUri = messageReviewHandlerUri
             self.name = name
@@ -373,6 +710,9 @@ extension Ivschat {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.loggingConfigurationIdentifier, name: "loggingConfigurationIdentifier", parent: name, max: 128)
+            try self.validate(self.loggingConfigurationIdentifier, name: "loggingConfigurationIdentifier", parent: name, min: 1)
+            try self.validate(self.loggingConfigurationIdentifier, name: "loggingConfigurationIdentifier", parent: name, pattern: "^arn:aws:ivschat:[a-z0-9-]+:[0-9]+:logging-configuration/[a-zA-Z0-9-]+$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.messageReviewHandlerUri, name: "messageReviewHandlerUri", parent: name, max: 170)
@@ -383,6 +723,7 @@ extension Ivschat {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case loggingConfigurationIdentifier
             case maxResults
             case messageReviewHandlerUri
             case name
@@ -429,7 +770,7 @@ extension Ivschat {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
-        /// Tags attached to the resource, from the request.
+        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value).
         public let tags: [String: String]
 
         public init(tags: [String: String]) {
@@ -438,6 +779,49 @@ extension Ivschat {
 
         private enum CodingKeys: String, CodingKey {
             case tags
+        }
+    }
+
+    public struct LoggingConfigurationSummary: AWSDecodableShape {
+        /// Logging-configuration ARN.
+        public let arn: String?
+        /// Time when the logging configuration was created. This is an ISO 8601 timestamp; note that this is returned as a string.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createTime: Date?
+        /// A complex type that contains a destination configuration for where chat content will be logged.
+        public let destinationConfiguration: DestinationConfiguration?
+        /// Logging-configuration ID, generated by the system. This is a relative identifier, the part of the ARN that uniquely identifies the room.
+        public let id: String?
+        /// Logging-configuration name. The value does not need to be unique.
+        public let name: String?
+        /// The state of the logging configuration. When this is ACTIVE, the configuration is ready for logging chat content.
+        public let state: LoggingConfigurationState?
+        /// Tags to attach to the resource. Array of maps, each of the form string:string (key:value). See Tagging AWS Resources for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS Chat has no constraints on tags beyond what is documented there.
+        public let tags: [String: String]?
+        /// Time of the logging configuration’s last update. This is an ISO 8601 timestamp; note that this is returned as a string.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updateTime: Date?
+
+        public init(arn: String? = nil, createTime: Date? = nil, destinationConfiguration: DestinationConfiguration? = nil, id: String? = nil, name: String? = nil, state: LoggingConfigurationState? = nil, tags: [String: String]? = nil, updateTime: Date? = nil) {
+            self.arn = arn
+            self.createTime = createTime
+            self.destinationConfiguration = destinationConfiguration
+            self.id = id
+            self.name = name
+            self.state = state
+            self.tags = tags
+            self.updateTime = updateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn
+            case createTime
+            case destinationConfiguration
+            case id
+            case name
+            case state
+            case tags
+            case updateTime
         }
     }
 
@@ -471,20 +855,23 @@ extension Ivschat {
         public var createTime: Date?
         /// Room ID, generated by the system. This is a relative identifier, the part of the ARN that uniquely identifies the room.
         public let id: String?
+        /// List of logging-configuration identifiers attached to the room.
+        public let loggingConfigurationIdentifiers: [String]?
         /// Configuration information for optional review of messages.
         public let messageReviewHandler: MessageReviewHandler?
         /// Room name. The value does not need to be unique.
         public let name: String?
-        /// Tags attached to the resource. See Tagging AWS Resources for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS Chat has no constraints beyond what is documented there.
+        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Tagging AWS Resources for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS Chat has no constraints beyond what is documented there.
         public let tags: [String: String]?
         /// Time of the room’s last update. This is an ISO 8601 timestamp; note that this is returned as a string.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updateTime: Date?
 
-        public init(arn: String? = nil, createTime: Date? = nil, id: String? = nil, messageReviewHandler: MessageReviewHandler? = nil, name: String? = nil, tags: [String: String]? = nil, updateTime: Date? = nil) {
+        public init(arn: String? = nil, createTime: Date? = nil, id: String? = nil, loggingConfigurationIdentifiers: [String]? = nil, messageReviewHandler: MessageReviewHandler? = nil, name: String? = nil, tags: [String: String]? = nil, updateTime: Date? = nil) {
             self.arn = arn
             self.createTime = createTime
             self.id = id
+            self.loggingConfigurationIdentifiers = loggingConfigurationIdentifiers
             self.messageReviewHandler = messageReviewHandler
             self.name = name
             self.tags = tags
@@ -495,10 +882,30 @@ extension Ivschat {
             case arn
             case createTime
             case id
+            case loggingConfigurationIdentifiers
             case messageReviewHandler
             case name
             case tags
             case updateTime
+        }
+    }
+
+    public struct S3DestinationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Name of the Amazon S3 bucket where chat activity will be logged.
+        public let bucketName: String
+
+        public init(bucketName: String) {
+            self.bucketName = bucketName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucketName, name: "bucketName", parent: name, max: 63)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, min: 3)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, pattern: "^[a-z0-9-.]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketName
         }
     }
 
@@ -551,7 +958,7 @@ extension Ivschat {
 
         /// The ARN of the resource to be tagged. The ARN must be URL-encoded.
         public let resourceArn: String
-        /// Array of tags to be added or updated. See Tagging AWS Resources for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS Chat has no constraints beyond what is documented there.
+        /// Array of tags to be added or updated. Array of maps, each of the form string:string (key:value). See Tagging AWS Resources for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS Chat has no constraints beyond what is documented there.
         public let tags: [String: String]
 
         public init(resourceArn: String, tags: [String: String]) {
@@ -588,7 +995,7 @@ extension Ivschat {
 
         /// The ARN of the resource to be untagged. The ARN must be URL-encoded.
         public let resourceArn: String
-        /// Array of tags to be removed. See Tagging AWS Resources for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS Chat has no constraints beyond what is documented there.
+        /// Array of tags to be removed. Array of maps, each of the form string:string (key:value). See Tagging AWS Resources for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS Chat has no constraints beyond what is documented there.
         public let tagKeys: [String]
 
         public init(resourceArn: String, tagKeys: [String]) {
@@ -614,9 +1021,84 @@ extension Ivschat {
         public init() {}
     }
 
+    public struct UpdateLoggingConfigurationRequest: AWSEncodableShape {
+        /// A complex type that contains a destination configuration for where chat content will be logged. There can be only one type of destination (cloudWatchLogs, firehose, or s3) in a destinationConfiguration.
+        public let destinationConfiguration: DestinationConfiguration?
+        /// Identifier of the logging configuration to be updated.
+        public let identifier: String
+        /// Logging-configuration name. The value does not need to be unique.
+        public let name: String?
+
+        public init(destinationConfiguration: DestinationConfiguration? = nil, identifier: String, name: String? = nil) {
+            self.destinationConfiguration = destinationConfiguration
+            self.identifier = identifier
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.destinationConfiguration?.validate(name: "\(name).destinationConfiguration")
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 128)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^arn:aws:ivschat:[a-z0-9-]+:[0-9]+:logging-configuration/[a-zA-Z0-9-]+$")
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-_]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationConfiguration
+            case identifier
+            case name
+        }
+    }
+
+    public struct UpdateLoggingConfigurationResponse: AWSDecodableShape {
+        /// Logging-configuration ARN, from the request (if identifier was an ARN).
+        public let arn: String?
+        /// Time when the logging configuration was created. This is an ISO 8601 timestamp; note that this is returned as a string.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createTime: Date?
+        /// A complex type that contains a destination configuration for where chat content will be logged, from the request. There is only one type of destination (cloudWatchLogs, firehose, or s3) in a destinationConfiguration.
+        public let destinationConfiguration: DestinationConfiguration?
+        /// Logging-configuration ID, generated by the system. This is a relative identifier, the part of the ARN that uniquely identifies the room.
+        public let id: String?
+        /// Logging-configuration name, from the request (if specified).
+        public let name: String?
+        /// The state of the logging configuration. When the state is ACTIVE, the configuration is ready to log chat content.
+        public let state: UpdateLoggingConfigurationState?
+        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value).
+        public let tags: [String: String]?
+        /// Time of the logging configuration’s last update. This is an ISO 8601 timestamp; note that this is returned as a string.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updateTime: Date?
+
+        public init(arn: String? = nil, createTime: Date? = nil, destinationConfiguration: DestinationConfiguration? = nil, id: String? = nil, name: String? = nil, state: UpdateLoggingConfigurationState? = nil, tags: [String: String]? = nil, updateTime: Date? = nil) {
+            self.arn = arn
+            self.createTime = createTime
+            self.destinationConfiguration = destinationConfiguration
+            self.id = id
+            self.name = name
+            self.state = state
+            self.tags = tags
+            self.updateTime = updateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn
+            case createTime
+            case destinationConfiguration
+            case id
+            case name
+            case state
+            case tags
+            case updateTime
+        }
+    }
+
     public struct UpdateRoomRequest: AWSEncodableShape {
         /// Identifier of the room to be updated. Currently this must be an ARN.
         public let identifier: String
+        /// Array of logging-configuration identifiers attached to the room.
+        public let loggingConfigurationIdentifiers: [String]?
         /// The maximum number of characters in a single message. Messages are expected to be UTF-8 encoded and this limit applies specifically to rune/code-point count, not number of bytes. Default: 500.
         public let maximumMessageLength: Int?
         /// Maximum number of messages per second that can be sent to the room (by all clients). Default: 10.
@@ -626,8 +1108,9 @@ extension Ivschat {
         /// Room name. The value does not need to be unique.
         public let name: String?
 
-        public init(identifier: String, maximumMessageLength: Int? = nil, maximumMessageRatePerSecond: Int? = nil, messageReviewHandler: MessageReviewHandler? = nil, name: String? = nil) {
+        public init(identifier: String, loggingConfigurationIdentifiers: [String]? = nil, maximumMessageLength: Int? = nil, maximumMessageRatePerSecond: Int? = nil, messageReviewHandler: MessageReviewHandler? = nil, name: String? = nil) {
             self.identifier = identifier
+            self.loggingConfigurationIdentifiers = loggingConfigurationIdentifiers
             self.maximumMessageLength = maximumMessageLength
             self.maximumMessageRatePerSecond = maximumMessageRatePerSecond
             self.messageReviewHandler = messageReviewHandler
@@ -638,6 +1121,12 @@ extension Ivschat {
             try self.validate(self.identifier, name: "identifier", parent: name, max: 128)
             try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
             try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^arn:aws:ivschat:[a-z0-9-]+:[0-9]+:room/[a-zA-Z0-9-]+$")
+            try self.loggingConfigurationIdentifiers?.forEach {
+                try validate($0, name: "loggingConfigurationIdentifiers[]", parent: name, max: 128)
+                try validate($0, name: "loggingConfigurationIdentifiers[]", parent: name, min: 1)
+                try validate($0, name: "loggingConfigurationIdentifiers[]", parent: name, pattern: "^arn:aws:ivschat:[a-z0-9-]+:[0-9]+:logging-configuration/[a-zA-Z0-9-]+$")
+            }
+            try self.validate(self.loggingConfigurationIdentifiers, name: "loggingConfigurationIdentifiers", parent: name, max: 3)
             try self.validate(self.maximumMessageLength, name: "maximumMessageLength", parent: name, max: 500)
             try self.validate(self.maximumMessageLength, name: "maximumMessageLength", parent: name, min: 1)
             try self.validate(self.maximumMessageRatePerSecond, name: "maximumMessageRatePerSecond", parent: name, max: 10)
@@ -649,6 +1138,7 @@ extension Ivschat {
 
         private enum CodingKeys: String, CodingKey {
             case identifier
+            case loggingConfigurationIdentifiers
             case maximumMessageLength
             case maximumMessageRatePerSecond
             case messageReviewHandler
@@ -664,24 +1154,27 @@ extension Ivschat {
         public var createTime: Date?
         /// Room ID, generated by the system. This is a relative identifier, the part of the ARN that uniquely identifies the room.
         public let id: String?
-        /// Maximum number of characters in a single message, from the request.
+        /// Array of logging configurations attached to the room, from the request (if specified).
+        public let loggingConfigurationIdentifiers: [String]?
+        /// Maximum number of characters in a single message, from the request (if specified).
         public let maximumMessageLength: Int?
-        /// Maximum number of messages per second that can be sent to the room (by all clients), from the request.
+        /// Maximum number of messages per second that can be sent to the room (by all clients), from the request (if specified).
         public let maximumMessageRatePerSecond: Int?
         /// Configuration information for optional review of messages.
         public let messageReviewHandler: MessageReviewHandler?
-        /// Room name, from the request.
+        /// Room name, from the request (if specified).
         public let name: String?
-        /// Tags attached to the resource.
+        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value).
         public let tags: [String: String]?
         /// Time of the room’s last update. This is an ISO 8601 timestamp; note that this is returned as a string.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updateTime: Date?
 
-        public init(arn: String? = nil, createTime: Date? = nil, id: String? = nil, maximumMessageLength: Int? = nil, maximumMessageRatePerSecond: Int? = nil, messageReviewHandler: MessageReviewHandler? = nil, name: String? = nil, tags: [String: String]? = nil, updateTime: Date? = nil) {
+        public init(arn: String? = nil, createTime: Date? = nil, id: String? = nil, loggingConfigurationIdentifiers: [String]? = nil, maximumMessageLength: Int? = nil, maximumMessageRatePerSecond: Int? = nil, messageReviewHandler: MessageReviewHandler? = nil, name: String? = nil, tags: [String: String]? = nil, updateTime: Date? = nil) {
             self.arn = arn
             self.createTime = createTime
             self.id = id
+            self.loggingConfigurationIdentifiers = loggingConfigurationIdentifiers
             self.maximumMessageLength = maximumMessageLength
             self.maximumMessageRatePerSecond = maximumMessageRatePerSecond
             self.messageReviewHandler = messageReviewHandler
@@ -694,6 +1187,7 @@ extension Ivschat {
             case arn
             case createTime
             case id
+            case loggingConfigurationIdentifiers
             case maximumMessageLength
             case maximumMessageRatePerSecond
             case messageReviewHandler

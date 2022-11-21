@@ -36,6 +36,28 @@ extension WellArchitected {
         public var description: String { return self.rawValue }
     }
 
+    public enum CheckFailureReason: String, CustomStringConvertible, Codable, _SotoSendable {
+        case accessDenied = "ACCESS_DENIED"
+        case assumeRoleError = "ASSUME_ROLE_ERROR"
+        case premiumSupportRequired = "PREMIUM_SUPPORT_REQUIRED"
+        case unknownError = "UNKNOWN_ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CheckProvider: String, CustomStringConvertible, Codable, _SotoSendable {
+        case trustedAdvisor = "TRUSTED_ADVISOR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CheckStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case error = "ERROR"
+        case fetchFailed = "FETCH_FAILED"
+        case notAvailable = "NOT_AVAILABLE"
+        case okay = "OKAY"
+        case warning = "WARNING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ChoiceReason: String, CustomStringConvertible, Codable, _SotoSendable {
         case architectureConstraints = "ARCHITECTURE_CONSTRAINTS"
         case businessPriorities = "BUSINESS_PRIORITIES"
@@ -137,6 +159,12 @@ extension WellArchitected {
         case pending = "PENDING"
         case rejected = "REJECTED"
         case revoked = "REVOKED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TrustedAdvisorIntegrationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
@@ -290,6 +318,111 @@ extension WellArchitected {
 
         private enum CodingKeys: String, CodingKey {
             case lensAliases = "LensAliases"
+        }
+    }
+
+    public struct CheckDetail: AWSDecodableShape {
+        public let accountId: String?
+        public let choiceId: String?
+        /// Trusted Advisor check description.
+        public let description: String?
+        /// Count of flagged resources associated to the check.
+        public let flaggedResources: Int?
+        /// Trusted Advisor check ID.
+        public let id: String?
+        /// Well-Architected Lens ARN associated to the check.
+        public let lensArn: String?
+        /// Trusted Advisor check name.
+        public let name: String?
+        public let pillarId: String?
+        /// Provider of the check related to the best practice.
+        public let provider: CheckProvider?
+        public let questionId: String?
+        /// Reason associated to the check.
+        public let reason: CheckFailureReason?
+        /// Status associated to the check.
+        public let status: CheckStatus?
+        public let updatedAt: Date?
+
+        public init(accountId: String? = nil, choiceId: String? = nil, description: String? = nil, flaggedResources: Int? = nil, id: String? = nil, lensArn: String? = nil, name: String? = nil, pillarId: String? = nil, provider: CheckProvider? = nil, questionId: String? = nil, reason: CheckFailureReason? = nil, status: CheckStatus? = nil, updatedAt: Date? = nil) {
+            self.accountId = accountId
+            self.choiceId = choiceId
+            self.description = description
+            self.flaggedResources = flaggedResources
+            self.id = id
+            self.lensArn = lensArn
+            self.name = name
+            self.pillarId = pillarId
+            self.provider = provider
+            self.questionId = questionId
+            self.reason = reason
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case choiceId = "ChoiceId"
+            case description = "Description"
+            case flaggedResources = "FlaggedResources"
+            case id = "Id"
+            case lensArn = "LensArn"
+            case name = "Name"
+            case pillarId = "PillarId"
+            case provider = "Provider"
+            case questionId = "QuestionId"
+            case reason = "Reason"
+            case status = "Status"
+            case updatedAt = "UpdatedAt"
+        }
+    }
+
+    public struct CheckSummary: AWSDecodableShape {
+        /// Account summary associated to the check.
+        public let accountSummary: [CheckStatus: Int]?
+        public let choiceId: String?
+        /// Trusted Advisor check description.
+        public let description: String?
+        /// Trusted Advisor check ID.
+        public let id: String?
+        /// Well-Architected Lens ARN associated to the check.
+        public let lensArn: String?
+        /// Trusted Advisor check name.
+        public let name: String?
+        public let pillarId: String?
+        /// Provider of the check related to the best practice.
+        public let provider: CheckProvider?
+        public let questionId: String?
+        /// Status associated to the check.
+        public let status: CheckStatus?
+        public let updatedAt: Date?
+
+        public init(accountSummary: [CheckStatus: Int]? = nil, choiceId: String? = nil, description: String? = nil, id: String? = nil, lensArn: String? = nil, name: String? = nil, pillarId: String? = nil, provider: CheckProvider? = nil, questionId: String? = nil, status: CheckStatus? = nil, updatedAt: Date? = nil) {
+            self.accountSummary = accountSummary
+            self.choiceId = choiceId
+            self.description = description
+            self.id = id
+            self.lensArn = lensArn
+            self.name = name
+            self.pillarId = pillarId
+            self.provider = provider
+            self.questionId = questionId
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountSummary = "AccountSummary"
+            case choiceId = "ChoiceId"
+            case description = "Description"
+            case id = "Id"
+            case lensArn = "LensArn"
+            case name = "Name"
+            case pillarId = "PillarId"
+            case provider = "Provider"
+            case questionId = "QuestionId"
+            case status = "Status"
+            case updatedAt = "UpdatedAt"
         }
     }
 
@@ -562,10 +695,14 @@ extension WellArchitected {
 
     public struct CreateWorkloadInput: AWSEncodableShape {
         public let accountIds: [String]?
+        /// List of AppRegistry application ARNs associated to the workload.
+        public let applications: [String]?
         public let architecturalDesign: String?
         public let awsRegions: [String]?
         public let clientRequestToken: String
         public let description: String
+        /// Well-Architected discovery configuration settings associated to the workload.
+        public let discoveryConfig: WorkloadDiscoveryConfig?
         public let environment: WorkloadEnvironment
         public let industry: String?
         public let industryType: String?
@@ -578,12 +715,14 @@ extension WellArchitected {
         public let tags: [String: String]?
         public let workloadName: String
 
-        public init(accountIds: [String]? = nil, architecturalDesign: String? = nil, awsRegions: [String]? = nil, clientRequestToken: String = CreateWorkloadInput.idempotencyToken(), description: String, environment: WorkloadEnvironment, industry: String? = nil, industryType: String? = nil, lenses: [String], nonAwsRegions: [String]? = nil, notes: String? = nil, pillarPriorities: [String]? = nil, reviewOwner: String? = nil, tags: [String: String]? = nil, workloadName: String) {
+        public init(accountIds: [String]? = nil, applications: [String]? = nil, architecturalDesign: String? = nil, awsRegions: [String]? = nil, clientRequestToken: String = CreateWorkloadInput.idempotencyToken(), description: String, discoveryConfig: WorkloadDiscoveryConfig? = nil, environment: WorkloadEnvironment, industry: String? = nil, industryType: String? = nil, lenses: [String], nonAwsRegions: [String]? = nil, notes: String? = nil, pillarPriorities: [String]? = nil, reviewOwner: String? = nil, tags: [String: String]? = nil, workloadName: String) {
             self.accountIds = accountIds
+            self.applications = applications
             self.architecturalDesign = architecturalDesign
             self.awsRegions = awsRegions
             self.clientRequestToken = clientRequestToken
             self.description = description
+            self.discoveryConfig = discoveryConfig
             self.environment = environment
             self.industry = industry
             self.industryType = industryType
@@ -601,7 +740,13 @@ extension WellArchitected {
                 try validate($0, name: "accountIds[]", parent: name, pattern: "^[0-9]{12}$")
             }
             try self.validate(self.accountIds, name: "accountIds", parent: name, max: 100)
+            try self.applications?.forEach {
+                try validate($0, name: "applications[]", parent: name, max: 2084)
+                try validate($0, name: "applications[]", parent: name, pattern: "^arn:aws[-a-z]*:servicecatalog:[a-z]{2}(-gov)?-[a-z]+-\\d:\\d{12}:/applications/[a-z0-9]+$")
+            }
+            try self.validate(self.applications, name: "applications", parent: name, max: 1)
             try self.validate(self.architecturalDesign, name: "architecturalDesign", parent: name, max: 2048)
+            try self.validate(self.architecturalDesign, name: "architecturalDesign", parent: name, pattern: "^(|(https?|ftp):\\/\\/[^\\s/$.?#].[^\\s]*)$")
             try self.awsRegions?.forEach {
                 try validate($0, name: "awsRegions[]", parent: name, max: 100)
             }
@@ -639,10 +784,12 @@ extension WellArchitected {
 
         private enum CodingKeys: String, CodingKey {
             case accountIds = "AccountIds"
+            case applications = "Applications"
             case architecturalDesign = "ArchitecturalDesign"
             case awsRegions = "AwsRegions"
             case clientRequestToken = "ClientRequestToken"
             case description = "Description"
+            case discoveryConfig = "DiscoveryConfig"
             case environment = "Environment"
             case industry = "Industry"
             case industryType = "IndustryType"
@@ -1138,7 +1285,7 @@ extension WellArchitected {
         public let milestoneNumber: Int
         public let workloadId: String
 
-        public init(milestoneNumber: Int, workloadId: String) {
+        public init(milestoneNumber: Int = 0, workloadId: String) {
             self.milestoneNumber = milestoneNumber
             self.workloadId = workloadId
         }
@@ -1573,6 +1720,130 @@ extension WellArchitected {
         }
     }
 
+    public struct ListCheckDetailsInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "workloadId", location: .uri("WorkloadId"))
+        ]
+
+        public let choiceId: String
+        /// Well-Architected Lens ARN.
+        public let lensArn: String
+        public let maxResults: Int?
+        public let nextToken: String?
+        public let pillarId: String
+        public let questionId: String
+        public let workloadId: String
+
+        public init(choiceId: String, lensArn: String, maxResults: Int? = nil, nextToken: String? = nil, pillarId: String, questionId: String, workloadId: String) {
+            self.choiceId = choiceId
+            self.lensArn = lensArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.pillarId = pillarId
+            self.questionId = questionId
+            self.workloadId = workloadId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.choiceId, name: "choiceId", parent: name, max: 64)
+            try self.validate(self.choiceId, name: "choiceId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.pillarId, name: "pillarId", parent: name, max: 64)
+            try self.validate(self.pillarId, name: "pillarId", parent: name, min: 1)
+            try self.validate(self.questionId, name: "questionId", parent: name, max: 128)
+            try self.validate(self.questionId, name: "questionId", parent: name, min: 1)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case choiceId = "ChoiceId"
+            case lensArn = "LensArn"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case pillarId = "PillarId"
+            case questionId = "QuestionId"
+        }
+    }
+
+    public struct ListCheckDetailsOutput: AWSDecodableShape {
+        /// The details about the Trusted Advisor checks related to the Well-Architected best practice.
+        public let checkDetails: [CheckDetail]?
+        public let nextToken: String?
+
+        public init(checkDetails: [CheckDetail]? = nil, nextToken: String? = nil) {
+            self.checkDetails = checkDetails
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case checkDetails = "CheckDetails"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListCheckSummariesInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "workloadId", location: .uri("WorkloadId"))
+        ]
+
+        public let choiceId: String
+        /// Well-Architected Lens ARN.
+        public let lensArn: String
+        public let maxResults: Int?
+        public let nextToken: String?
+        public let pillarId: String
+        public let questionId: String
+        public let workloadId: String
+
+        public init(choiceId: String, lensArn: String, maxResults: Int? = nil, nextToken: String? = nil, pillarId: String, questionId: String, workloadId: String) {
+            self.choiceId = choiceId
+            self.lensArn = lensArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.pillarId = pillarId
+            self.questionId = questionId
+            self.workloadId = workloadId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.choiceId, name: "choiceId", parent: name, max: 64)
+            try self.validate(self.choiceId, name: "choiceId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.pillarId, name: "pillarId", parent: name, max: 64)
+            try self.validate(self.pillarId, name: "pillarId", parent: name, min: 1)
+            try self.validate(self.questionId, name: "questionId", parent: name, max: 128)
+            try self.validate(self.questionId, name: "questionId", parent: name, min: 1)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case choiceId = "ChoiceId"
+            case lensArn = "LensArn"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case pillarId = "PillarId"
+            case questionId = "QuestionId"
+        }
+    }
+
+    public struct ListCheckSummariesOutput: AWSDecodableShape {
+        /// List of Trusted Advisor summaries related to the Well-Architected best practice.
+        public let checkSummaries: [CheckSummary]?
+        public let nextToken: String?
+
+        public init(checkSummaries: [CheckSummary]? = nil, nextToken: String? = nil) {
+            self.checkSummaries = checkSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case checkSummaries = "CheckSummaries"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListLensReviewImprovementsInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "lensAlias", location: .uri("LensAlias")),
@@ -1708,7 +1979,7 @@ extension WellArchitected {
         /// The maximum number of results to return for this request.
         public let maxResults: Int?
         public let nextToken: String?
-        /// The Amazon Web Services account ID or IAM role with which the lens is shared.
+        /// The Amazon Web Services account ID, IAM role, organization ID, or organizational unit (OU) ID with which the lens is shared.
         public let sharedWithPrefix: String?
         public let status: ShareStatus?
 
@@ -1974,7 +2245,7 @@ extension WellArchitected {
         /// The maximum number of results to return for this request.
         public let maxResults: Int?
         public let nextToken: String?
-        /// The Amazon Web Services account ID or IAM role with which the workload is shared.
+        /// The Amazon Web Services account ID, IAM role, organization ID, or organizational unit (OU) ID with which the workload is shared.
         public let sharedWithPrefix: String?
         public let status: ShareStatus?
         public let workloadId: String
@@ -2473,7 +2744,7 @@ extension WellArchitected {
     }
 
     public struct UpdateShareInvitationOutput: AWSDecodableShape {
-        /// The updated workload share invitation.
+        /// The updated workload or custom lens share invitation.
         public let shareInvitation: ShareInvitation?
 
         public init(shareInvitation: ShareInvitation? = nil) {
@@ -2491,9 +2762,13 @@ extension WellArchitected {
         ]
 
         public let accountIds: [String]?
+        /// List of AppRegistry application ARNs to associate to the workload.
+        public let applications: [String]?
         public let architecturalDesign: String?
         public let awsRegions: [String]?
         public let description: String?
+        /// Well-Architected discovery configuration settings to associate to the workload.
+        public let discoveryConfig: WorkloadDiscoveryConfig?
         public let environment: WorkloadEnvironment?
         public let improvementStatus: WorkloadImprovementStatus?
         public let industry: String?
@@ -2507,11 +2782,13 @@ extension WellArchitected {
         public let workloadId: String
         public let workloadName: String?
 
-        public init(accountIds: [String]? = nil, architecturalDesign: String? = nil, awsRegions: [String]? = nil, description: String? = nil, environment: WorkloadEnvironment? = nil, improvementStatus: WorkloadImprovementStatus? = nil, industry: String? = nil, industryType: String? = nil, isReviewOwnerUpdateAcknowledged: Bool? = nil, nonAwsRegions: [String]? = nil, notes: String? = nil, pillarPriorities: [String]? = nil, reviewOwner: String? = nil, workloadId: String, workloadName: String? = nil) {
+        public init(accountIds: [String]? = nil, applications: [String]? = nil, architecturalDesign: String? = nil, awsRegions: [String]? = nil, description: String? = nil, discoveryConfig: WorkloadDiscoveryConfig? = nil, environment: WorkloadEnvironment? = nil, improvementStatus: WorkloadImprovementStatus? = nil, industry: String? = nil, industryType: String? = nil, isReviewOwnerUpdateAcknowledged: Bool? = nil, nonAwsRegions: [String]? = nil, notes: String? = nil, pillarPriorities: [String]? = nil, reviewOwner: String? = nil, workloadId: String, workloadName: String? = nil) {
             self.accountIds = accountIds
+            self.applications = applications
             self.architecturalDesign = architecturalDesign
             self.awsRegions = awsRegions
             self.description = description
+            self.discoveryConfig = discoveryConfig
             self.environment = environment
             self.improvementStatus = improvementStatus
             self.industry = industry
@@ -2530,7 +2807,13 @@ extension WellArchitected {
                 try validate($0, name: "accountIds[]", parent: name, pattern: "^[0-9]{12}$")
             }
             try self.validate(self.accountIds, name: "accountIds", parent: name, max: 100)
+            try self.applications?.forEach {
+                try validate($0, name: "applications[]", parent: name, max: 2084)
+                try validate($0, name: "applications[]", parent: name, pattern: "^arn:aws[-a-z]*:servicecatalog:[a-z]{2}(-gov)?-[a-z]+-\\d:\\d{12}:/applications/[a-z0-9]+$")
+            }
+            try self.validate(self.applications, name: "applications", parent: name, max: 1)
             try self.validate(self.architecturalDesign, name: "architecturalDesign", parent: name, max: 2048)
+            try self.validate(self.architecturalDesign, name: "architecturalDesign", parent: name, pattern: "^(|(https?|ftp):\\/\\/[^\\s/$.?#].[^\\s]*)$")
             try self.awsRegions?.forEach {
                 try validate($0, name: "awsRegions[]", parent: name, max: 100)
             }
@@ -2558,9 +2841,11 @@ extension WellArchitected {
 
         private enum CodingKeys: String, CodingKey {
             case accountIds = "AccountIds"
+            case applications = "Applications"
             case architecturalDesign = "ArchitecturalDesign"
             case awsRegions = "AwsRegions"
             case description = "Description"
+            case discoveryConfig = "DiscoveryConfig"
             case environment = "Environment"
             case improvementStatus = "ImprovementStatus"
             case industry = "Industry"
@@ -2674,9 +2959,13 @@ extension WellArchitected {
 
     public struct Workload: AWSDecodableShape {
         public let accountIds: [String]?
+        /// List of AppRegistry application ARNs associated to the workload.
+        public let applications: [String]?
         public let architecturalDesign: String?
         public let awsRegions: [String]?
         public let description: String?
+        /// Discovery configuration associated to the workload.
+        public let discoveryConfig: WorkloadDiscoveryConfig?
         public let environment: WorkloadEnvironment?
         public let improvementStatus: WorkloadImprovementStatus?
         public let industry: String?
@@ -2700,11 +2989,13 @@ extension WellArchitected {
         public let workloadId: String?
         public let workloadName: String?
 
-        public init(accountIds: [String]? = nil, architecturalDesign: String? = nil, awsRegions: [String]? = nil, description: String? = nil, environment: WorkloadEnvironment? = nil, improvementStatus: WorkloadImprovementStatus? = nil, industry: String? = nil, industryType: String? = nil, isReviewOwnerUpdateAcknowledged: Bool? = nil, lenses: [String]? = nil, nonAwsRegions: [String]? = nil, notes: String? = nil, owner: String? = nil, pillarPriorities: [String]? = nil, reviewOwner: String? = nil, reviewRestrictionDate: Date? = nil, riskCounts: [Risk: Int]? = nil, shareInvitationId: String? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil, workloadArn: String? = nil, workloadId: String? = nil, workloadName: String? = nil) {
+        public init(accountIds: [String]? = nil, applications: [String]? = nil, architecturalDesign: String? = nil, awsRegions: [String]? = nil, description: String? = nil, discoveryConfig: WorkloadDiscoveryConfig? = nil, environment: WorkloadEnvironment? = nil, improvementStatus: WorkloadImprovementStatus? = nil, industry: String? = nil, industryType: String? = nil, isReviewOwnerUpdateAcknowledged: Bool? = nil, lenses: [String]? = nil, nonAwsRegions: [String]? = nil, notes: String? = nil, owner: String? = nil, pillarPriorities: [String]? = nil, reviewOwner: String? = nil, reviewRestrictionDate: Date? = nil, riskCounts: [Risk: Int]? = nil, shareInvitationId: String? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil, workloadArn: String? = nil, workloadId: String? = nil, workloadName: String? = nil) {
             self.accountIds = accountIds
+            self.applications = applications
             self.architecturalDesign = architecturalDesign
             self.awsRegions = awsRegions
             self.description = description
+            self.discoveryConfig = discoveryConfig
             self.environment = environment
             self.improvementStatus = improvementStatus
             self.industry = industry
@@ -2728,9 +3019,11 @@ extension WellArchitected {
 
         private enum CodingKeys: String, CodingKey {
             case accountIds = "AccountIds"
+            case applications = "Applications"
             case architecturalDesign = "ArchitecturalDesign"
             case awsRegions = "AwsRegions"
             case description = "Description"
+            case discoveryConfig = "DiscoveryConfig"
             case environment = "Environment"
             case improvementStatus = "ImprovementStatus"
             case industry = "Industry"
@@ -2750,6 +3043,19 @@ extension WellArchitected {
             case workloadArn = "WorkloadArn"
             case workloadId = "WorkloadId"
             case workloadName = "WorkloadName"
+        }
+    }
+
+    public struct WorkloadDiscoveryConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Discovery integration status in respect to Trusted Advisor for the workload.
+        public let trustedAdvisorIntegrationStatus: TrustedAdvisorIntegrationStatus?
+
+        public init(trustedAdvisorIntegrationStatus: TrustedAdvisorIntegrationStatus? = nil) {
+            self.trustedAdvisorIntegrationStatus = trustedAdvisorIntegrationStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trustedAdvisorIntegrationStatus = "TrustedAdvisorIntegrationStatus"
         }
     }
 

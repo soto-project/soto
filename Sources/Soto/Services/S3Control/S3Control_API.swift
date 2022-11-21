@@ -302,7 +302,7 @@ public struct S3Control: AWSService {
         return self.client.execute(operation: "GetPublicAccessBlock", path: "/v20180820/configuration/publicAccessBlock", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "{AccountId}.", logger: logger, on: eventLoop)
     }
 
-    /// Gets the Amazon S3 Storage Lens configuration. For more information, see Assessing your storage activity and usage with Amazon S3 Storage Lens  in the Amazon S3 User Guide.  To use this action, you must have permission to perform the s3:GetStorageLensConfiguration action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon S3 User Guide.
+    /// Gets the Amazon S3 Storage Lens configuration. For more information, see Assessing your storage activity and usage with Amazon S3 Storage Lens  in the Amazon S3 User Guide. For a complete list of S3 Storage Lens metrics, see S3 Storage Lens metrics glossary in the Amazon S3 User Guide.  To use this action, you must have permission to perform the s3:GetStorageLensConfiguration action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon S3 User Guide.
     public func getStorageLensConfiguration(_ input: GetStorageLensConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetStorageLensConfigurationResult> {
         return self.client.execute(operation: "GetStorageLensConfiguration", path: "/v20180820/storagelens/{ConfigId}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "{AccountId}.", logger: logger, on: eventLoop)
     }
@@ -400,7 +400,7 @@ public struct S3Control: AWSService {
         return self.client.execute(operation: "PutPublicAccessBlock", path: "/v20180820/configuration/publicAccessBlock", httpMethod: .PUT, serviceConfig: self.config, input: input, hostPrefix: "{AccountId}.", logger: logger, on: eventLoop)
     }
 
-    /// Puts an Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see Working with Amazon S3 Storage Lens in the Amazon S3 User Guide.  To use this action, you must have permission to perform the s3:PutStorageLensConfiguration action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon S3 User Guide.
+    /// Puts an Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see Working with Amazon S3 Storage Lens in the Amazon S3 User Guide. For a complete list of S3 Storage Lens metrics, see S3 Storage Lens metrics glossary in the Amazon S3 User Guide.  To use this action, you must have permission to perform the s3:PutStorageLensConfiguration action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon S3 User Guide.
     @discardableResult public func putStorageLensConfiguration(_ input: PutStorageLensConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "PutStorageLensConfiguration", path: "/v20180820/storagelens/{ConfigId}", httpMethod: .PUT, serviceConfig: self.config, input: input, hostPrefix: "{AccountId}.", logger: logger, on: eventLoop)
     }

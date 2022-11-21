@@ -25,6 +25,7 @@ public struct IoTTwinMakerErrorType: AWSErrorType {
         case connectorFailureException = "ConnectorFailureException"
         case connectorTimeoutException = "ConnectorTimeoutException"
         case internalServerException = "InternalServerException"
+        case queryTimeoutException = "QueryTimeoutException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case throttlingException = "ThrottlingException"
@@ -60,6 +61,8 @@ public struct IoTTwinMakerErrorType: AWSErrorType {
     public static var connectorTimeoutException: Self { .init(.connectorTimeoutException) }
     /// An unexpected error has occurred.
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// The query timeout exception.
+    public static var queryTimeoutException: Self { .init(.queryTimeoutException) }
     /// The resource wasn't found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The service quota was exceeded.

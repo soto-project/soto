@@ -28,14 +28,14 @@ extension OpenSearch {
     }
 
     public enum AutoTuneState: String, CustomStringConvertible, Codable, _SotoSendable {
+        case disableInProgress = "DISABLE_IN_PROGRESS"
         case disabled = "DISABLED"
         case disabledAndRollbackComplete = "DISABLED_AND_ROLLBACK_COMPLETE"
         case disabledAndRollbackError = "DISABLED_AND_ROLLBACK_ERROR"
         case disabledAndRollbackInProgress = "DISABLED_AND_ROLLBACK_IN_PROGRESS"
         case disabledAndRollbackScheduled = "DISABLED_AND_ROLLBACK_SCHEDULED"
-        case disableInProgress = "DISABLE_IN_PROGRESS"
-        case enabled = "ENABLED"
         case enableInProgress = "ENABLE_IN_PROGRESS"
+        case enabled = "ENABLED"
         case error = "ERROR"
         public var description: String { return self.rawValue }
     }
@@ -233,10 +233,10 @@ extension OpenSearch {
 
     public enum PackageStatus: String, CustomStringConvertible, Codable, _SotoSendable {
         case available = "AVAILABLE"
-        case copying = "COPYING"
         case copyFailed = "COPY_FAILED"
-        case deleted = "DELETED"
+        case copying = "COPYING"
         case deleteFailed = "DELETE_FAILED"
+        case deleted = "DELETED"
         case deleting = "DELETING"
         case validating = "VALIDATING"
         case validationFailed = "VALIDATION_FAILED"
@@ -245,6 +245,12 @@ extension OpenSearch {
 
     public enum PackageType: String, CustomStringConvertible, Codable, _SotoSendable {
         case txtDictionary = "TXT-DICTIONARY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PrincipalType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case awsAccount = "AWS_ACCOUNT"
+        case awsService = "AWS_SERVICE"
         public var description: String { return self.rawValue }
     }
 
@@ -275,8 +281,8 @@ extension OpenSearch {
     }
 
     public enum TLSSecurityPolicy: String, CustomStringConvertible, Codable, _SotoSendable {
-        case policyMinTLS10201907 = "Policy-Min-TLS-1-0-2019-07"
-        case policyMinTLS12201907 = "Policy-Min-TLS-1-2-2019-07"
+        case policyMinTls10201907 = "Policy-Min-TLS-1-0-2019-07"
+        case policyMinTls12201907 = "Policy-Min-TLS-1-2-2019-07"
         public var description: String { return self.rawValue }
     }
 
@@ -308,11 +314,31 @@ extension OpenSearch {
         public var description: String { return self.rawValue }
     }
 
+    public enum VpcEndpointErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
+        case endpointNotFound = "ENDPOINT_NOT_FOUND"
+        case serverError = "SERVER_ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VpcEndpointStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case active = "ACTIVE"
+        case createFailed = "CREATE_FAILED"
+        case creating = "CREATING"
+        case deleteFailed = "DELETE_FAILED"
+        case deleting = "DELETING"
+        case updateFailed = "UPDATE_FAILED"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct AWSDomainInformation: AWSEncodableShape & AWSDecodableShape {
+        /// Name of the domain.
         public let domainName: String
+        /// The Amazon Web Services account ID of the domain owner.
         public let ownerId: String?
+        /// The Amazon Web Services Region in which the domain is located.
         public let region: String?
 
         public init(domainName: String, ownerId: String? = nil, region: String? = nil) {
@@ -345,7 +371,7 @@ extension OpenSearch {
             AWSMemberEncoding(label: "connectionId", location: .uri("ConnectionId"))
         ]
 
-        /// The ID of the inbound connection you want to accept.
+        /// The ID of the inbound connection to accept.
         public let connectionId: String
 
         public init(connectionId: String) {
@@ -362,7 +388,7 @@ extension OpenSearch {
     }
 
     public struct AcceptInboundConnectionResponse: AWSDecodableShape {
-        /// The  InboundConnection  of the accepted inbound connection.
+        /// Information about the accepted inbound connection.
         public let connection: InboundConnection?
 
         public init(connection: InboundConnection? = nil) {
@@ -375,9 +401,9 @@ extension OpenSearch {
     }
 
     public struct AccessPoliciesStatus: AWSDecodableShape {
-        /// The access policy configured for the domain. Access policies can be resource-based, IP-based, or IAM-based. See  Configuring access policiesfor more information.
+        /// The access policy configured for the domain. Access policies can be resource-based, IP-based, or IAM-based. For more information, see Configuring access policies.
         public let options: String
-        /// The status of the access policy for the domain. See OptionStatus for the status information that's included.
+        /// The status of the access policy for the domain.
         public let status: OptionStatus
 
         public init(options: String, status: OptionStatus) {
@@ -392,9 +418,9 @@ extension OpenSearch {
     }
 
     public struct AddTagsRequest: AWSEncodableShape {
-        /// Specify the ARN of the domain you want to add tags to.
+        /// Amazon Resource Name (ARN) for the OpenSearch Service domain to which you want to attach resource tags.
         public let arn: String
-        /// List of Tag to add to the domain.
+        /// List of resource tags.
         public let tagList: [Tag]
 
         public init(arn: String, tagList: [Tag]) {
@@ -418,9 +444,9 @@ extension OpenSearch {
     }
 
     public struct AdditionalLimit: AWSDecodableShape {
-        ///  Additional limit is specific to a given InstanceType and for each of its  InstanceRole  etc.  Attributes and their details:   MaximumNumberOfDataNodesSupported This attribute is present on the master node only to specify how much data nodes up to which given  ESPartitionInstanceType  can support as master node. MaximumNumberOfDataNodesWithoutMasterNode This attribute is present on data node only to specify how much data nodes of given  ESPartitionInstanceType  up to which you don't need any master nodes to govern them.
+        ///    MaximumNumberOfDataNodesSupported - This attribute only applies to master nodes and specifies the maximum number of data nodes of a given instance type a master node can support.    MaximumNumberOfDataNodesWithoutMasterNode - This attribute only applies to data nodes and specifies the maximum number of data nodes of a given instance type can exist without a master node governing them.
         public let limitName: String?
-        ///  Value for a given  AdditionalLimit$LimitName  .
+        ///  The values of the additional instance type limits.
         public let limitValues: [String]?
 
         public init(limitName: String? = nil, limitValues: [String]? = nil) {
@@ -437,7 +463,7 @@ extension OpenSearch {
     public struct AdvancedOptionsStatus: AWSDecodableShape {
         /// The status of advanced options for the specified domain.
         public let options: [String: String]
-        /// The OptionStatus for advanced options for the specified domain.
+        /// The status of advanced options for the specified domain.
         public let status: OptionStatus
 
         public init(options: [String: String], status: OptionStatus) {
@@ -452,15 +478,15 @@ extension OpenSearch {
     }
 
     public struct AdvancedSecurityOptions: AWSDecodableShape {
-        /// Specifies the Anonymous Auth Disable Date when Anonymous Auth is enabled.
+        /// Date and time when the migration period will be disabled. Only necessary when enabling fine-grained access control on an existing domain.
         public let anonymousAuthDisableDate: Date?
-        /// True if Anonymous auth is enabled. Anonymous auth can be enabled only when AdvancedSecurity is enabled on existing domains.
+        /// True if a 30-day migration period is enabled, during which administrators can create role mappings. Only necessary when enabling fine-grained access control on an existing domain.
         public let anonymousAuthEnabled: Bool?
-        /// True if advanced security is enabled.
+        /// True if fine-grained access control is enabled.
         public let enabled: Bool?
         /// True if the internal user database is enabled.
         public let internalUserDatabaseEnabled: Bool?
-        /// Describes the SAML application configured for a domain.
+        /// Container for information about the SAML configuration for OpenSearch Dashboards.
         public let samlOptions: SAMLOptionsOutput?
 
         public init(anonymousAuthDisableDate: Date? = nil, anonymousAuthEnabled: Bool? = nil, enabled: Bool? = nil, internalUserDatabaseEnabled: Bool? = nil, samlOptions: SAMLOptionsOutput? = nil) {
@@ -481,15 +507,15 @@ extension OpenSearch {
     }
 
     public struct AdvancedSecurityOptionsInput: AWSEncodableShape {
-        /// True if Anonymous auth is enabled. Anonymous auth can be enabled only when AdvancedSecurity is enabled on existing domains.
+        /// True to enable a 30-day migration period during which administrators can create role mappings. Only necessary when enabling fine-grained access control on an existing domain.
         public let anonymousAuthEnabled: Bool?
-        /// True if advanced security is enabled.
+        /// True to enable fine-grained access control.
         public let enabled: Bool?
-        /// True if the internal user database is enabled.
+        /// True to enable the internal user database.
         public let internalUserDatabaseEnabled: Bool?
-        /// Credentials for the master user: username and password, ARN, or both.
+        /// Container for information about the master user.
         public let masterUserOptions: MasterUserOptions?
-        /// The SAML application configuration for the domain.
+        /// Container for information about the SAML configuration for OpenSearch Dashboards.
         public let samlOptions: SAMLOptionsInput?
 
         public init(anonymousAuthEnabled: Bool? = nil, enabled: Bool? = nil, internalUserDatabaseEnabled: Bool? = nil, masterUserOptions: MasterUserOptions? = nil, samlOptions: SAMLOptionsInput? = nil) {
@@ -515,9 +541,9 @@ extension OpenSearch {
     }
 
     public struct AdvancedSecurityOptionsStatus: AWSDecodableShape {
-        /// Advanced security options for the specified domain.
+        /// Container for fine-grained access control settings.
         public let options: AdvancedSecurityOptions
-        /// Status of the advanced security options for the specified domain.
+        /// Status of the fine-grained access control settings for a domain.
         public let status: OptionStatus
 
         public init(options: AdvancedSecurityOptions, status: OptionStatus) {
@@ -537,7 +563,7 @@ extension OpenSearch {
             AWSMemberEncoding(label: "packageID", location: .uri("PackageID"))
         ]
 
-        /// The name of the domain to associate the package with.
+        /// Name of the domain to associate the package with.
         public let domainName: String
         /// Internal ID of the package to associate with a domain. Use DescribePackages to find this value.
         public let packageID: String
@@ -557,7 +583,7 @@ extension OpenSearch {
     }
 
     public struct AssociatePackageResponse: AWSDecodableShape {
-        ///  DomainPackageDetails
+        /// Information about a package that is associated with a domain.
         public let domainPackageDetails: DomainPackageDetails?
 
         public init(domainPackageDetails: DomainPackageDetails? = nil) {
@@ -569,10 +595,67 @@ extension OpenSearch {
         }
     }
 
+    public struct AuthorizeVpcEndpointAccessRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
+        ]
+
+        /// The Amazon Web Services account ID to grant access to.
+        public let account: String
+        /// The name of the OpenSearch Service domain to provide access to.
+        public let domainName: String
+
+        public init(account: String, domainName: String) {
+            self.account = account
+            self.domainName = domainName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.account, name: "account", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-z][a-z0-9\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case account = "Account"
+        }
+    }
+
+    public struct AuthorizeVpcEndpointAccessResponse: AWSDecodableShape {
+        /// Information about the Amazon Web Services account or service that was provided access to the domain.
+        public let authorizedPrincipal: AuthorizedPrincipal
+
+        public init(authorizedPrincipal: AuthorizedPrincipal) {
+            self.authorizedPrincipal = authorizedPrincipal
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizedPrincipal = "AuthorizedPrincipal"
+        }
+    }
+
+    public struct AuthorizedPrincipal: AWSDecodableShape {
+        /// The IAM principal that is allowed access to the domain.
+        public let principal: String?
+        /// The type of principal.
+        public let principalType: PrincipalType?
+
+        public init(principal: String? = nil, principalType: PrincipalType? = nil) {
+            self.principal = principal
+            self.principalType = principalType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case principal = "Principal"
+            case principalType = "PrincipalType"
+        }
+    }
+
     public struct AutoTune: AWSDecodableShape {
-        /// Specifies details about the Auto-Tune action. See  Auto-Tune for Amazon OpenSearch Service for more information.
+        /// Details about an Auto-Tune action.
         public let autoTuneDetails: AutoTuneDetails?
-        /// Specifies the Auto-Tune type. Valid value is SCHEDULED_ACTION.
+        /// The type of Auto-Tune action.
         public let autoTuneType: AutoTuneType?
 
         public init(autoTuneDetails: AutoTuneDetails? = nil, autoTuneType: AutoTuneType? = nil) {
@@ -587,6 +670,7 @@ extension OpenSearch {
     }
 
     public struct AutoTuneDetails: AWSDecodableShape {
+        /// Container for details about a scheduled Auto-Tune action.
         public let scheduledAutoTuneDetails: ScheduledAutoTuneDetails?
 
         public init(scheduledAutoTuneDetails: ScheduledAutoTuneDetails? = nil) {
@@ -599,11 +683,11 @@ extension OpenSearch {
     }
 
     public struct AutoTuneMaintenanceSchedule: AWSEncodableShape & AWSDecodableShape {
-        /// A cron expression for a recurring maintenance schedule. See  Auto-Tune for Amazon OpenSearch Service for more information.
+        /// A cron expression for a recurring maintenance schedule during which Auto-Tune can deploy changes.
         public let cronExpressionForRecurrence: String?
-        /// Specifies maintenance schedule duration: duration value and duration unit. See  Auto-Tune for Amazon OpenSearch Service for more information.
+        /// The duration of the maintenance schedule. For example, "Duration": {"Value": 2, "Unit": "HOURS"}.
         public let duration: Duration?
-        /// The timestamp at which the Auto-Tune maintenance schedule starts.
+        /// The Epoch timestamp at which the Auto-Tune maintenance schedule starts.
         public let startAt: Date?
 
         public init(cronExpressionForRecurrence: String? = nil, duration: Duration? = nil, startAt: Date? = nil) {
@@ -624,11 +708,11 @@ extension OpenSearch {
     }
 
     public struct AutoTuneOptions: AWSEncodableShape & AWSDecodableShape {
-        /// The Auto-Tune desired state. Valid values are ENABLED and DISABLED.
+        /// Whether Auto-Tune is enabled or disabled.
         public let desiredState: AutoTuneDesiredState?
-        /// A list of maintenance schedules. See  Auto-Tune for Amazon OpenSearch Service for more information.
+        /// A list of maintenance schedules during which Auto-Tune can deploy changes.
         public let maintenanceSchedules: [AutoTuneMaintenanceSchedule]?
-        /// The rollback state while disabling Auto-Tune for the domain. Valid values are NO_ROLLBACK and DEFAULT_ROLLBACK.
+        /// When disabling Auto-Tune, specify NO_ROLLBACK to retain all prior Auto-Tune settings or DEFAULT_ROLLBACK to revert to the OpenSearch Service defaults. If you specify DEFAULT_ROLLBACK, you must include a MaintenanceSchedule in the request. Otherwise, OpenSearch Service is unable to perform the rollback.
         public let rollbackOnDisable: RollbackOnDisable?
 
         public init(desiredState: AutoTuneDesiredState? = nil, maintenanceSchedules: [AutoTuneMaintenanceSchedule]? = nil, rollbackOnDisable: RollbackOnDisable? = nil) {
@@ -652,9 +736,9 @@ extension OpenSearch {
     }
 
     public struct AutoTuneOptionsInput: AWSEncodableShape {
-        /// The Auto-Tune desired state. Valid values are ENABLED and DISABLED.
+        /// Whether Auto-Tune is enabled or disabled.
         public let desiredState: AutoTuneDesiredState?
-        /// A list of maintenance schedules. See  Auto-Tune for Amazon OpenSearch Service for more information.
+        /// A list of maintenance schedules during which Auto-Tune can deploy changes. Maintenance schedules are overwrite, not append. If your request includes no schedules, the request deletes all existing schedules. To preserve existing schedules, make a call to DescribeDomainConfig first and use the MaintenanceSchedules portion of the response as the basis for this section.
         public let maintenanceSchedules: [AutoTuneMaintenanceSchedule]?
 
         public init(desiredState: AutoTuneDesiredState? = nil, maintenanceSchedules: [AutoTuneMaintenanceSchedule]? = nil) {
@@ -676,9 +760,9 @@ extension OpenSearch {
     }
 
     public struct AutoTuneOptionsOutput: AWSDecodableShape {
-        /// The error message while enabling or disabling Auto-Tune.
+        /// Any errors that occurred while enabling or disabling Auto-Tune.
         public let errorMessage: String?
-        /// The AutoTuneState for the domain.
+        /// The current state of Auto-Tune on the domain.
         public let state: AutoTuneState?
 
         public init(errorMessage: String? = nil, state: AutoTuneState? = nil) {
@@ -693,9 +777,9 @@ extension OpenSearch {
     }
 
     public struct AutoTuneOptionsStatus: AWSDecodableShape {
-        /// Specifies Auto-Tune options for the domain.
+        /// Auto-Tune settings for updating a domain.
         public let options: AutoTuneOptions?
-        /// The status of the Auto-Tune options for the domain.
+        /// The current status of Auto-Tune for a domain.
         public let status: AutoTuneStatus?
 
         public init(options: AutoTuneOptions? = nil, status: AutoTuneStatus? = nil) {
@@ -710,15 +794,15 @@ extension OpenSearch {
     }
 
     public struct AutoTuneStatus: AWSDecodableShape {
-        /// The timestamp of the Auto-Tune options creation date.
+        /// Date and time when Auto-Tune was enabled for the domain.
         public let creationDate: Date
-        /// The error message while enabling or disabling Auto-Tune.
+        /// Any errors that occurred while enabling or disabling Auto-Tune.
         public let errorMessage: String?
         /// Indicates whether the domain is being deleted.
         public let pendingDeletion: Bool?
-        /// The AutoTuneState for the domain.
+        /// The current state of Auto-Tune on the domain.
         public let state: AutoTuneState
-        /// The timestamp of when the Auto-Tune options were last updated.
+        /// Date and time when the Auto-Tune options were last updated for the domain.
         public let updateDate: Date
         /// The latest version of the Auto-Tune options.
         public let updateVersion: Int?
@@ -743,7 +827,7 @@ extension OpenSearch {
     }
 
     public struct CancelServiceSoftwareUpdateRequest: AWSEncodableShape {
-        /// The name of the domain that you want to stop the latest service software update on.
+        /// Name of the OpenSearch Service domain that you want to cancel the service software update on.
         public let domainName: String
 
         public init(domainName: String) {
@@ -762,7 +846,7 @@ extension OpenSearch {
     }
 
     public struct CancelServiceSoftwareUpdateResponse: AWSDecodableShape {
-        /// The current status of the OpenSearch service software update.
+        /// Container for the state of your domain relative to the latest service software.
         public let serviceSoftwareOptions: ServiceSoftwareOptions?
 
         public init(serviceSoftwareOptions: ServiceSoftwareOptions? = nil) {
@@ -775,9 +859,9 @@ extension OpenSearch {
     }
 
     public struct ChangeProgressDetails: AWSDecodableShape {
-        /// The unique change identifier associated with a specific domain configuration change.
+        /// The ID of the configuration change.
         public let changeId: String?
-        /// Contains an optional message associated with the domain configuration change.
+        /// A message corresponding to the status of the configuration change.
         public let message: String?
 
         public init(changeId: String? = nil, message: String? = nil) {
@@ -792,13 +876,13 @@ extension OpenSearch {
     }
 
     public struct ChangeProgressStage: AWSDecodableShape {
-        /// The description of the progress stage.
+        /// The description of the stage.
         public let description: String?
-        /// The last updated timestamp of the progress stage.
+        /// The most recent updated timestamp of the stage.
         public let lastUpdated: Date?
-        /// The name of the specific progress stage.
+        /// The name of the stage.
         public let name: String?
-        /// The overall status of a specific progress stage.
+        /// The status of the stage.
         public let status: String?
 
         public init(description: String? = nil, lastUpdated: Date? = nil, name: String? = nil, status: String? = nil) {
@@ -821,13 +905,13 @@ extension OpenSearch {
         public let changeId: String?
         /// The specific stages that the domain is going through to perform the configuration change.
         public let changeProgressStages: [ChangeProgressStage]?
-        /// The list of properties involved in the domain configuration change that are completed.
+        /// The list of properties in the domain configuration change that have completed.
         public let completedProperties: [String]?
-        /// The list of properties involved in the domain configuration change that are still in pending.
+        /// The list of properties in the domain configuration change that are still pending.
         public let pendingProperties: [String]?
         /// The time at which the configuration change is made on the domain.
         public let startTime: Date?
-        /// The overall status of the domain configuration change. This field can take the following values: PENDING, PROCESSING, COMPLETED and FAILED
+        /// The overall status of the domain configuration change.
         public let status: OverallChangeStatus?
         /// The total number of stages required for the configuration change.
         public let totalNumberOfStages: Int?
@@ -854,27 +938,27 @@ extension OpenSearch {
     }
 
     public struct ClusterConfig: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies the ColdStorageOptions config for a Domain
+        /// Container for cold storage configuration options.
         public let coldStorageOptions: ColdStorageOptions?
-        /// Total number of dedicated master nodes, active and on standby, for the cluster.
+        /// Number of dedicated master nodes in the cluster. This number must be greater than 1, otherwise you receive a validation exception.
         public let dedicatedMasterCount: Int?
-        /// A boolean value to indicate whether a dedicated master node is enabled. See Dedicated master nodes in Amazon OpenSearch Service  for more information.
+        /// Indicates whether dedicated master nodes are enabled for the cluster.True if the cluster will use a dedicated master node.False if the cluster will not.
         public let dedicatedMasterEnabled: Bool?
-        /// The instance type for a dedicated master node.
+        /// OpenSearch Service instance type of the dedicated master nodes in the cluster.
         public let dedicatedMasterType: OpenSearchPartitionInstanceType?
-        /// The number of instances in the specified domain cluster.
+        /// Number of dedicated master nodes in the cluster. This number must be greater than 1, otherwise you receive a validation exception.
         public let instanceCount: Int?
-        /// The instance type for an OpenSearch cluster. UltraWarm instance types are not supported for data instances.
+        /// Instance type of data nodes in the cluster.
         public let instanceType: OpenSearchPartitionInstanceType?
-        /// The number of UltraWarm nodes in the cluster.
+        /// The number of warm nodes in the cluster.
         public let warmCount: Int?
-        /// True to enable UltraWarm storage.
+        /// Whether to enable warm storage for the cluster.
         public let warmEnabled: Bool?
-        /// The instance type for the OpenSearch cluster's warm nodes.
+        /// The instance type for the cluster's warm nodes.
         public let warmType: OpenSearchWarmPartitionInstanceType?
-        /// The zone awareness configuration for a domain when zone awareness is enabled.
+        /// Container for zone awareness configuration options. Only required if ZoneAwarenessEnabled is true.
         public let zoneAwarenessConfig: ZoneAwarenessConfig?
-        /// A boolean value to indicate whether zone awareness is enabled. See Configuring a multi-AZ domain in Amazon OpenSearch Service for more information.
+        /// Indicates whether multiple Availability Zones are enabled. For more information, see Configuring a multi-AZ domain in Amazon OpenSearch Service.
         public let zoneAwarenessEnabled: Bool?
 
         public init(coldStorageOptions: ColdStorageOptions? = nil, dedicatedMasterCount: Int? = nil, dedicatedMasterEnabled: Bool? = nil, dedicatedMasterType: OpenSearchPartitionInstanceType? = nil, instanceCount: Int? = nil, instanceType: OpenSearchPartitionInstanceType? = nil, warmCount: Int? = nil, warmEnabled: Bool? = nil, warmType: OpenSearchWarmPartitionInstanceType? = nil, zoneAwarenessConfig: ZoneAwarenessConfig? = nil, zoneAwarenessEnabled: Bool? = nil) {
@@ -907,9 +991,9 @@ extension OpenSearch {
     }
 
     public struct ClusterConfigStatus: AWSDecodableShape {
-        /// The cluster configuration for the specified domain.
+        /// Cluster configuration options for the specified domain.
         public let options: ClusterConfig
-        /// The cluster configuration status for the specified domain.
+        /// The status of cluster configuration options for the specified domain.
         public let status: OptionStatus
 
         public init(options: ClusterConfig, status: OptionStatus) {
@@ -924,13 +1008,13 @@ extension OpenSearch {
     }
 
     public struct CognitoOptions: AWSEncodableShape & AWSDecodableShape {
-        /// The option to enable Cognito for OpenSearch Dashboards authentication.
+        /// Whether to enable or disable Amazon Cognito authentication for OpenSearch Dashboards.
         public let enabled: Bool?
-        /// The Cognito identity pool ID for OpenSearch Dashboards authentication.
+        /// The Amazon Cognito identity pool ID that you want OpenSearch Service to use for OpenSearch Dashboards authentication.
         public let identityPoolId: String?
-        /// The role ARN that provides OpenSearch permissions for accessing Cognito resources.
+        /// The AmazonOpenSearchServiceCognitoAccess role that allows OpenSearch Service to configure your user pool and identity pool.
         public let roleArn: String?
-        /// The Cognito user pool ID for OpenSearch Dashboards authentication.
+        /// The Amazon Cognito user pool ID that you want OpenSearch Service to use for OpenSearch Dashboards authentication.
         public let userPoolId: String?
 
         public init(enabled: Bool? = nil, identityPoolId: String? = nil, roleArn: String? = nil, userPoolId: String? = nil) {
@@ -978,7 +1062,7 @@ extension OpenSearch {
     }
 
     public struct ColdStorageOptions: AWSEncodableShape & AWSDecodableShape {
-        /// Enable cold storage option. Accepted values true or false
+        /// Whether to enable or disable cold storage on the domain.
         public let enabled: Bool
 
         public init(enabled: Bool) {
@@ -991,8 +1075,9 @@ extension OpenSearch {
     }
 
     public struct CompatibleVersionsMap: AWSDecodableShape {
-        /// The current version of OpenSearch a domain is on.
+        /// The current version that the OpenSearch Service domain is running.
         public let sourceVersion: String?
+        /// The possible versions that you can upgrade the domain to.
         public let targetVersions: [String]?
 
         public init(sourceVersion: String? = nil, targetVersions: [String]? = nil) {
@@ -1007,37 +1092,37 @@ extension OpenSearch {
     }
 
     public struct CreateDomainRequest: AWSEncodableShape {
-        /// IAM access policy as a JSON-formatted string.
+        /// Identity and Access Management (IAM) policy document specifying the access policies for the new domain.
         public let accessPolicies: String?
-        /// Option to allow references to indices in an HTTP request body. Must be false when configuring access to individual sub-resources. By default, the value is true. See Advanced cluster parameters for more information.
+        /// Key-value pairs to specify advanced configuration options. The following key-value pairs are supported:    "rest.action.multi.allow_explicit_index": "true" | "false" - Note the use of a string rather than a boolean. Specifies whether explicit references to indexes are allowed inside the body of HTTP requests. If you want to configure access policies for domain sub-resources, such as specific indexes and domain APIs, you must disable this property. Default is true.    "indices.fielddata.cache.size": "80"  - Note the use of a string rather than a boolean. Specifies the percentage of heap space allocated to field data. Default is unbounded.    "indices.query.bool.max_clause_count": "1024" - Note the use of a string rather than a boolean. Specifies the maximum number of clauses allowed in a Lucene boolean query. Default is 1,024. Queries with more than the permitted number of clauses result in a TooManyClauses error.    "override_main_response_version": "true" | "false" - Note the use of a string rather than a boolean. Specifies whether the domain reports its version as 7.10 to allow Elasticsearch OSS clients and plugins to continue working with it. Default is false when creating a domain and true when upgrading a domain.   For more information, see Advanced cluster parameters.
         public let advancedOptions: [String: String]?
-        /// Specifies advanced security options.
+        /// Options for fine-grained access control.
         public let advancedSecurityOptions: AdvancedSecurityOptionsInput?
-        /// Specifies Auto-Tune options.
+        /// Options for Auto-Tune.
         public let autoTuneOptions: AutoTuneOptionsInput?
-        /// Configuration options for a domain. Specifies the instance type and number of instances in the domain.
+        /// Container for the cluster configuration of a domain.
         public let clusterConfig: ClusterConfig?
-        /// Options to specify the Cognito user and identity pools for OpenSearch Dashboards authentication. For more information, see Configuring Amazon Cognito authentication for OpenSearch Dashboards.
+        /// Key-value pairs to configure Amazon Cognito authentication. For more information, see Configuring Amazon Cognito authentication for OpenSearch Dashboards.
         public let cognitoOptions: CognitoOptions?
-        /// Options to specify configurations that will be applied to the domain endpoint.
+        /// Additional options for the domain endpoint, such as whether to require HTTPS for all traffic.
         public let domainEndpointOptions: DomainEndpointOptions?
-        /// The name of the Amazon OpenSearch Service domain you're creating. Domain names are unique across the domains owned by an account within an AWS region. Domain names must start with a lowercase letter and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen).
+        /// Name of the OpenSearch Service domain to create. Domain names are unique across the domains owned by an account within an Amazon Web Services Region.
         public let domainName: String
-        /// Options to enable, disable, and specify the type and size of EBS storage volumes.
+        /// Container for the parameters required to enable EBS-based storage for an OpenSearch Service domain.
         public let ebsOptions: EBSOptions?
-        /// Options for encryption of data at rest.
+        /// Key-value pairs to enable encryption at rest.
         public let encryptionAtRestOptions: EncryptionAtRestOptions?
-        /// String of format Elasticsearch_X.Y or OpenSearch_X.Y to specify the engine version for the Amazon OpenSearch Service domain. For example, "OpenSearch_1.0" or "Elasticsearch_7.9". For more information, see Creating and managing Amazon OpenSearch Service domains .
+        /// String of format Elasticsearch_X.Y or OpenSearch_X.Y to specify the engine version for the OpenSearch Service domain. For example, OpenSearch_1.0 or Elasticsearch_7.9. For more information, see Creating and managing Amazon OpenSearch Service domains.
         public let engineVersion: String?
-        /// Map of LogType and LogPublishingOption, each containing options to publish a given type of OpenSearch log.
+        /// Key-value pairs to configure slow log publishing.
         public let logPublishingOptions: [LogType: LogPublishingOption]?
-        /// Node-to-node encryption options.
+        /// Enables node-to-node encryption.
         public let nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions?
-        /// Option to set time, in UTC format, of the daily automated snapshot. Default value is 0 hours.
+        /// DEPRECATED. Container for the parameters required to configure automated snapshots of domain indexes.
         public let snapshotOptions: SnapshotOptions?
-        /// A list of Tag added during domain creation.
+        /// List of tags to add to the domain upon creation.
         public let tagList: [Tag]?
-        /// Options to specify the subnets and security groups for a VPC endpoint. For more information, see Launching your Amazon OpenSearch Service domains using a VPC .
+        /// Container for the values required to configure VPC access domains. If you don't specify these values, OpenSearch Service creates the domain with a public endpoint. For more information, see Launching your Amazon OpenSearch Service domains using a VPC.
         public let vpcOptions: VPCOptions?
 
         public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, autoTuneOptions: AutoTuneOptionsInput? = nil, clusterConfig: ClusterConfig? = nil, cognitoOptions: CognitoOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, ebsOptions: EBSOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, engineVersion: String? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, snapshotOptions: SnapshotOptions? = nil, tagList: [Tag]? = nil, vpcOptions: VPCOptions? = nil) {
@@ -1115,11 +1200,11 @@ extension OpenSearch {
     }
 
     public struct CreateOutboundConnectionRequest: AWSEncodableShape {
-        /// The connection alias used used by the customer for this cross-cluster connection.
+        /// Name of the connection.
         public let connectionAlias: String
-        /// The  AWSDomainInformation  for the local OpenSearch domain.
+        /// Name and Region of the source (local) domain.
         public let localDomainInfo: DomainInformationContainer
-        /// The  AWSDomainInformation  for the remote OpenSearch domain.
+        /// Name and Region of the destination (remote) domain.
         public let remoteDomainInfo: DomainInformationContainer
 
         public init(connectionAlias: String, localDomainInfo: DomainInformationContainer, remoteDomainInfo: DomainInformationContainer) {
@@ -1144,15 +1229,15 @@ extension OpenSearch {
     }
 
     public struct CreateOutboundConnectionResponse: AWSDecodableShape {
-        /// The connection alias provided during the create connection request.
+        /// Name of the connection.
         public let connectionAlias: String?
-        /// The unique ID for the created outbound connection, which is used for subsequent operations on the connection.
+        /// The unique identifier for the created outbound connection, which is used for subsequent operations on the connection.
         public let connectionId: String?
-        /// The  OutboundConnectionStatus  for the newly created connection.
+        /// The status of the connection.
         public let connectionStatus: OutboundConnectionStatus?
-        /// The  AWSDomainInformation  for the local OpenSearch domain.
+        /// Information about the source (local) domain.
         public let localDomainInfo: DomainInformationContainer?
-        /// The  AWSDomainInformation  for the remote OpenSearch domain.
+        /// Information about the destination (remote) domain.
         public let remoteDomainInfo: DomainInformationContainer?
 
         public init(connectionAlias: String? = nil, connectionId: String? = nil, connectionStatus: OutboundConnectionStatus? = nil, localDomainInfo: DomainInformationContainer? = nil, remoteDomainInfo: DomainInformationContainer? = nil) {
@@ -1175,11 +1260,11 @@ extension OpenSearch {
     public struct CreatePackageRequest: AWSEncodableShape {
         /// Description of the package.
         public let packageDescription: String?
-        /// Unique identifier for the package.
+        /// Unique name for the package.
         public let packageName: String
         /// The Amazon S3 location from which to import the package.
         public let packageSource: PackageSource
-        /// Type of package. Currently supports only TXT-DICTIONARY.
+        /// Type of package.
         public let packageType: PackageType
 
         public init(packageDescription: String? = nil, packageName: String, packageSource: PackageSource, packageType: PackageType) {
@@ -1206,7 +1291,7 @@ extension OpenSearch {
     }
 
     public struct CreatePackageResponse: AWSDecodableShape {
-        /// Information about the package.
+        /// Basic information about an OpenSearch Service package.
         public let packageDetails: PackageDetails?
 
         public init(packageDetails: PackageDetails? = nil) {
@@ -1215,6 +1300,48 @@ extension OpenSearch {
 
         private enum CodingKeys: String, CodingKey {
             case packageDetails = "PackageDetails"
+        }
+    }
+
+    public struct CreateVpcEndpointRequest: AWSEncodableShape {
+        /// Unique, case-sensitive identifier to ensure idempotency of the request.
+        public let clientToken: String?
+        /// The Amazon Resource Name (ARN) of the domain to grant access to.
+        public let domainArn: String
+        /// Options to specify the subnets and security groups for the endpoint.
+        public let vpcOptions: VPCOptions
+
+        public init(clientToken: String? = nil, domainArn: String, vpcOptions: VPCOptions) {
+            self.clientToken = clientToken
+            self.domainArn = domainArn
+            self.vpcOptions = vpcOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.domainArn, name: "domainArn", parent: name, max: 512)
+            try self.validate(self.domainArn, name: "domainArn", parent: name, min: 1)
+            try self.validate(self.domainArn, name: "domainArn", parent: name, pattern: "^arn:aws[a-z\\-]*:[a-z]+:[a-z0-9\\-]+:[0-9]+:domain\\/[a-z0-9\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case domainArn = "DomainArn"
+            case vpcOptions = "VpcOptions"
+        }
+    }
+
+    public struct CreateVpcEndpointResponse: AWSDecodableShape {
+        /// Information about the newly created VPC endpoint.
+        public let vpcEndpoint: VpcEndpoint
+
+        public init(vpcEndpoint: VpcEndpoint) {
+            self.vpcEndpoint = vpcEndpoint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcEndpoint = "VpcEndpoint"
         }
     }
 
@@ -1274,7 +1401,7 @@ extension OpenSearch {
     }
 
     public struct DeleteInboundConnectionResponse: AWSDecodableShape {
-        /// The  InboundConnection  of the deleted inbound connection.
+        /// The deleted inbound connection.
         public let connection: InboundConnection?
 
         public init(connection: InboundConnection? = nil) {
@@ -1308,7 +1435,7 @@ extension OpenSearch {
     }
 
     public struct DeleteOutboundConnectionResponse: AWSDecodableShape {
-        /// The  OutboundConnection  of the deleted outbound connection.
+        /// The deleted inbound connection.
         public let connection: OutboundConnection?
 
         public init(connection: OutboundConnection? = nil) {
@@ -1336,7 +1463,7 @@ extension OpenSearch {
     }
 
     public struct DeletePackageResponse: AWSDecodableShape {
-        ///  PackageDetails
+        ///  Information about the deleted package.
         public let packageDetails: PackageDetails?
 
         public init(packageDetails: PackageDetails? = nil) {
@@ -1348,16 +1475,50 @@ extension OpenSearch {
         }
     }
 
+    public struct DeleteVpcEndpointRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "vpcEndpointId", location: .uri("VpcEndpointId"))
+        ]
+
+        /// The unique identifier of the endpoint.
+        public let vpcEndpointId: String
+
+        public init(vpcEndpointId: String) {
+            self.vpcEndpointId = vpcEndpointId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.vpcEndpointId, name: "vpcEndpointId", parent: name, max: 256)
+            try self.validate(self.vpcEndpointId, name: "vpcEndpointId", parent: name, min: 5)
+            try self.validate(self.vpcEndpointId, name: "vpcEndpointId", parent: name, pattern: "^aos-[a-zA-Z0-9]*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteVpcEndpointResponse: AWSDecodableShape {
+        /// Information about the deleted endpoint, including its current status (DELETING or DELETE_FAILED).
+        public let vpcEndpointSummary: VpcEndpointSummary
+
+        public init(vpcEndpointSummary: VpcEndpointSummary) {
+            self.vpcEndpointSummary = vpcEndpointSummary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcEndpointSummary = "VpcEndpointSummary"
+        }
+    }
+
     public struct DescribeDomainAutoTunesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
         ]
 
-        /// The domain name for which you want Auto-Tune action details.
+        /// Name of the domain that you want Auto-Tune details about.
         public let domainName: String
-        /// Set this value to limit the number of results returned. If not specified, defaults to 100.
+        /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
         public let maxResults: Int?
-        /// NextToken is sent in case the earlier API call results contain the NextToken. Used for pagination.
+        /// If your initial DescribeDomainAutoTunes operation returns a nextToken, you can include the returned nextToken in subsequent DescribeDomainAutoTunes operations, which returns results in the next page.
         public let nextToken: String?
 
         public init(domainName: String, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -1380,9 +1541,9 @@ extension OpenSearch {
     }
 
     public struct DescribeDomainAutoTunesResponse: AWSDecodableShape {
-        /// The list of setting adjustments that Auto-Tune has made to the domain. See  Auto-Tune for Amazon OpenSearch Service for more information.
+        /// The list of setting adjustments that Auto-Tune has made to the domain.
         public let autoTunes: [AutoTune]?
-        /// An identifier to allow retrieval of paginated results.
+        /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
         public let nextToken: String?
 
         public init(autoTunes: [AutoTune]? = nil, nextToken: String? = nil) {
@@ -1402,9 +1563,9 @@ extension OpenSearch {
             AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
         ]
 
-        /// The specific change ID for which you want to get progress information. This is an optional parameter. If omitted, the service returns information about the most recent configuration change.
+        /// The specific change ID for which you want to get progress information. If omitted, the request returns information about the most recent configuration change.
         public let changeId: String?
-        /// The domain you want to get the progress information about.
+        /// The name of the domain to get progress information for.
         public let domainName: String
 
         public init(changeId: String? = nil, domainName: String) {
@@ -1425,7 +1586,7 @@ extension OpenSearch {
     }
 
     public struct DescribeDomainChangeProgressResponse: AWSDecodableShape {
-        /// Progress information for the configuration change that is requested in the DescribeDomainChangeProgress request.
+        /// Container for information about the stages of a configuration change happening on a domain.
         public let changeProgressStatus: ChangeProgressStatusDetails?
 
         public init(changeProgressStatus: ChangeProgressStatusDetails? = nil) {
@@ -1442,7 +1603,7 @@ extension OpenSearch {
             AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
         ]
 
-        /// The domain you want to get information about.
+        /// Name of the OpenSearch Service domain configuration that you want to describe.
         public let domainName: String
 
         public init(domainName: String) {
@@ -1459,7 +1620,7 @@ extension OpenSearch {
     }
 
     public struct DescribeDomainConfigResponse: AWSDecodableShape {
-        /// The configuration information of the domain requested in the DescribeDomainConfig request.
+        /// Container for the configuration of the OpenSearch Service domain.
         public let domainConfig: DomainConfig
 
         public init(domainConfig: DomainConfig) {
@@ -1476,7 +1637,7 @@ extension OpenSearch {
             AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
         ]
 
-        /// The name of the domain for which you want information.
+        /// The name of the domain that you want information about.
         public let domainName: String
 
         public init(domainName: String) {
@@ -1493,7 +1654,7 @@ extension OpenSearch {
     }
 
     public struct DescribeDomainResponse: AWSDecodableShape {
-        /// The current status of the domain.
+        /// List that contains the status of each specified OpenSearch Service domain.
         public let domainStatus: DomainStatus
 
         public init(domainStatus: DomainStatus) {
@@ -1506,7 +1667,7 @@ extension OpenSearch {
     }
 
     public struct DescribeDomainsRequest: AWSEncodableShape {
-        /// The domains for which you want information.
+        /// Array of OpenSearch Service domain names that you want information about. If you don't specify any domains, OpenSearch Service returns information about all domains owned by the account.
         public let domainNames: [String]
 
         public init(domainNames: [String]) {
@@ -1527,7 +1688,7 @@ extension OpenSearch {
     }
 
     public struct DescribeDomainsResponse: AWSDecodableShape {
-        /// The status of the domains requested in the DescribeDomains request.
+        /// The status of the requested domains.
         public let domainStatusList: [DomainStatus]
 
         public init(domainStatusList: [DomainStatus]) {
@@ -1540,11 +1701,11 @@ extension OpenSearch {
     }
 
     public struct DescribeInboundConnectionsRequest: AWSEncodableShape {
-        ///  A list of filters used to match properties for inbound cross-cluster connections. Available  Filter  values are:  connection-id local-domain-info.domain-name local-domain-info.owner-id local-domain-info.region remote-domain-info.domain-name
+        ///  A list of filters used to match properties for inbound cross-cluster connections.
         public let filters: [Filter]?
-        /// Set this value to limit the number of results returned. If not specified, defaults to 100.
+        /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
         public let maxResults: Int?
-        /// If more results are available and NextToken is present, make the next request to the same API with the received NextToken to paginate the remaining results.
+        /// If your initial DescribeInboundConnections operation returns a nextToken, you can include the returned nextToken in subsequent DescribeInboundConnections operations, which returns results in the next page.
         public let nextToken: String?
 
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -1568,9 +1729,9 @@ extension OpenSearch {
     }
 
     public struct DescribeInboundConnectionsResponse: AWSDecodableShape {
-        /// A list of  InboundConnection  matching the specified filter criteria.
+        /// List of inbound connections.
         public let connections: [InboundConnection]?
-        /// If more results are available and NextToken is present, make the next request to the same API with the received NextToken to paginate the remaining results.
+        /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
         public let nextToken: String?
 
         public init(connections: [InboundConnection]? = nil, nextToken: String? = nil) {
@@ -1591,11 +1752,11 @@ extension OpenSearch {
             AWSMemberEncoding(label: "instanceType", location: .uri("InstanceType"))
         ]
 
-        ///  The name of the domain you want to modify. Only include this value if you're querying OpenSearch  Limits  for an existing domain.
+        /// The name of the domain. Only specify if you need the limits for an existing domain.
         public let domainName: String?
-        ///  Version of OpenSearch for which  Limits  are needed.
+        /// Version of OpenSearch or Elasticsearch, in the format Elasticsearch_X.Y or OpenSearch_X.Y. Defaults to the latest version of OpenSearch.
         public let engineVersion: String
-        ///  The instance type for an OpenSearch cluster for which OpenSearch  Limits  are needed.
+        /// The OpenSearch Service instance type for which you need limit information.
         public let instanceType: OpenSearchPartitionInstanceType
 
         public init(domainName: String? = nil, engineVersion: String, instanceType: OpenSearchPartitionInstanceType) {
@@ -1617,6 +1778,7 @@ extension OpenSearch {
     }
 
     public struct DescribeInstanceTypeLimitsResponse: AWSDecodableShape {
+        /// Map that contains all applicable instance type limits.data refers to data nodes.master refers to dedicated master nodes.
         public let limitsByRole: [String: Limits]?
 
         public init(limitsByRole: [String: Limits]? = nil) {
@@ -1629,11 +1791,11 @@ extension OpenSearch {
     }
 
     public struct DescribeOutboundConnectionsRequest: AWSEncodableShape {
-        ///  A list of filters used to match properties for outbound cross-cluster connections. Available  Filter  names for this operation are:  connection-id remote-domain-info.domain-name remote-domain-info.owner-id remote-domain-info.region local-domain-info.domain-name
+        /// List of filter names and values that you can use for requests.
         public let filters: [Filter]?
-        /// Set this value to limit the number of results returned. If not specified, defaults to 100.
+        /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
         public let maxResults: Int?
-        /// NextToken is sent in case the earlier API call results contain the NextToken parameter. Used for pagination.
+        /// If your initial DescribeOutboundConnections operation returns a nextToken, you can include the returned nextToken in subsequent DescribeOutboundConnections operations, which returns results in the next page.
         public let nextToken: String?
 
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -1657,9 +1819,9 @@ extension OpenSearch {
     }
 
     public struct DescribeOutboundConnectionsResponse: AWSDecodableShape {
-        /// A list of  OutboundConnection  matching the specified filter criteria.
+        /// List of outbound connections that match the filter criteria.
         public let connections: [OutboundConnection]?
-        /// If more results are available and NextToken is present, make the next request to the same API with the received NextToken to paginate the remaining results.
+        /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
         public let nextToken: String?
 
         public init(connections: [OutboundConnection]? = nil, nextToken: String? = nil) {
@@ -1676,7 +1838,7 @@ extension OpenSearch {
     public struct DescribePackagesFilter: AWSEncodableShape {
         /// Any field from PackageDetails.
         public let name: DescribePackagesFilterName?
-        /// A list of values for the specified field.
+        /// A list of values for the specified filter field.
         public let value: [String]?
 
         public init(name: DescribePackagesFilterName? = nil, value: [String]? = nil) {
@@ -1699,9 +1861,9 @@ extension OpenSearch {
     public struct DescribePackagesRequest: AWSEncodableShape {
         /// Only returns packages that match the DescribePackagesFilterList values.
         public let filters: [DescribePackagesFilter]?
-        /// Limits results to a maximum number of packages.
+        /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
         public let maxResults: Int?
-        /// Used for pagination. Only necessary if a previous API call includes a non-null NextToken value. If provided, returns results for the next page.
+        /// If your initial DescribePackageFilters operation returns a nextToken, you can include the returned nextToken in subsequent DescribePackageFilters operations, which returns results in the next page.
         public let nextToken: String?
 
         public init(filters: [DescribePackagesFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -1725,8 +1887,9 @@ extension OpenSearch {
     }
 
     public struct DescribePackagesResponse: AWSDecodableShape {
+        /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
         public let nextToken: String?
-        /// List of PackageDetails objects.
+        /// Basic information about a package.
         public let packageDetailsList: [PackageDetails]?
 
         public init(nextToken: String? = nil, packageDetailsList: [PackageDetails]? = nil) {
@@ -1747,11 +1910,11 @@ extension OpenSearch {
             AWSMemberEncoding(label: "reservedInstanceOfferingId", location: .querystring("offeringId"))
         ]
 
-        /// Set this value to limit the number of results returned. If not specified, defaults to 100.
+        /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
         public let maxResults: Int?
-        /// Provides an identifier to allow retrieval of paginated results.
+        /// If your initial DescribeReservedInstanceOfferings operation returns a nextToken, you can include the returned nextToken in subsequent DescribeReservedInstanceOfferings operations, which returns results in the next page.
         public let nextToken: String?
-        /// The offering identifier filter value. Use this parameter to show only the available offering that matches the specified reservation identifier.
+        /// The Reserved Instance identifier filter value. Use this parameter to show only the available instance types that match the specified reservation identifier.
         public let reservedInstanceOfferingId: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, reservedInstanceOfferingId: String? = nil) {
@@ -1771,9 +1934,9 @@ extension OpenSearch {
     }
 
     public struct DescribeReservedInstanceOfferingsResponse: AWSDecodableShape {
-        /// Provides an identifier to allow retrieval of paginated results.
+        /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
         public let nextToken: String?
-        /// List of reserved OpenSearch instance offerings
+        /// List of Reserved Instance offerings.
         public let reservedInstanceOfferings: [ReservedInstanceOffering]?
 
         public init(nextToken: String? = nil, reservedInstanceOfferings: [ReservedInstanceOffering]? = nil) {
@@ -1794,9 +1957,9 @@ extension OpenSearch {
             AWSMemberEncoding(label: "reservedInstanceId", location: .querystring("reservationId"))
         ]
 
-        /// Set this value to limit the number of results returned. If not specified, defaults to 100.
+        /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
         public let maxResults: Int?
-        /// Provides an identifier to allow retrieval of paginated results.
+        /// If your initial DescribeReservedInstances operation returns a nextToken, you can include the returned nextToken in subsequent DescribeReservedInstances operations, which returns results in the next page.
         public let nextToken: String?
         /// The reserved instance identifier filter value. Use this parameter to show only the reservation that matches the specified reserved OpenSearch instance ID.
         public let reservedInstanceId: String?
@@ -1818,9 +1981,9 @@ extension OpenSearch {
     }
 
     public struct DescribeReservedInstancesResponse: AWSDecodableShape {
-        /// Provides an identifier to allow retrieval of paginated results.
+        /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
         public let nextToken: String?
-        /// List of reserved OpenSearch instances.
+        /// List of Reserved Instances in the current Region.
         public let reservedInstances: [ReservedInstance]?
 
         public init(nextToken: String? = nil, reservedInstances: [ReservedInstance]? = nil) {
@@ -1834,15 +1997,53 @@ extension OpenSearch {
         }
     }
 
+    public struct DescribeVpcEndpointsRequest: AWSEncodableShape {
+        /// The unique identifiers of the endpoints to get information about.
+        public let vpcEndpointIds: [String]
+
+        public init(vpcEndpointIds: [String]) {
+            self.vpcEndpointIds = vpcEndpointIds
+        }
+
+        public func validate(name: String) throws {
+            try self.vpcEndpointIds.forEach {
+                try validate($0, name: "vpcEndpointIds[]", parent: name, max: 256)
+                try validate($0, name: "vpcEndpointIds[]", parent: name, min: 5)
+                try validate($0, name: "vpcEndpointIds[]", parent: name, pattern: "^aos-[a-zA-Z0-9]*$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcEndpointIds = "VpcEndpointIds"
+        }
+    }
+
+    public struct DescribeVpcEndpointsResponse: AWSDecodableShape {
+        /// Any errors associated with the request.
+        public let vpcEndpointErrors: [VpcEndpointError]
+        /// Information about each requested VPC endpoint.
+        public let vpcEndpoints: [VpcEndpoint]
+
+        public init(vpcEndpointErrors: [VpcEndpointError], vpcEndpoints: [VpcEndpoint]) {
+            self.vpcEndpointErrors = vpcEndpointErrors
+            self.vpcEndpoints = vpcEndpoints
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcEndpointErrors = "VpcEndpointErrors"
+            case vpcEndpoints = "VpcEndpoints"
+        }
+    }
+
     public struct DissociatePackageRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
             AWSMemberEncoding(label: "packageID", location: .uri("PackageID"))
         ]
 
-        /// The name of the domain to associate the package with.
+        /// Name of the domain to dissociate the package from.
         public let domainName: String
-        /// The internal ID of the package to associate with a domain. Use DescribePackages to find this value.
+        /// Internal ID of the package to dissociate from the domain. Use ListPackagesForDomain to find this value.
         public let packageID: String
 
         public init(domainName: String, packageID: String) {
@@ -1860,7 +2061,7 @@ extension OpenSearch {
     }
 
     public struct DissociatePackageResponse: AWSDecodableShape {
-        ///  DomainPackageDetails
+        ///  Information about a package that has been dissociated from the domain.
         public let domainPackageDetails: DomainPackageDetails?
 
         public init(domainPackageDetails: DomainPackageDetails? = nil) {
@@ -1873,35 +2074,35 @@ extension OpenSearch {
     }
 
     public struct DomainConfig: AWSDecodableShape {
-        /// IAM access policy as a JSON-formatted string.
+        /// Specifies the access policies for the domain.
         public let accessPolicies: AccessPoliciesStatus?
-        /// The AdvancedOptions for the domain. See Advanced options for more information.
+        /// Key-value pairs to specify advanced configuration options. For more information, see Advanced options.
         public let advancedOptions: AdvancedOptionsStatus?
-        /// Specifies AdvancedSecurityOptions for the domain.
+        /// Container for fine-grained access control settings for the domain.
         public let advancedSecurityOptions: AdvancedSecurityOptionsStatus?
-        /// Specifies AutoTuneOptions for the domain.
+        /// Container for Auto-Tune settings for the domain.
         public let autoTuneOptions: AutoTuneOptionsStatus?
-        /// Specifies change details of the domain configuration change.
+        /// Container for information about the progress of an existing configuration change.
         public let changeProgressDetails: ChangeProgressDetails?
-        /// The ClusterConfig for the domain.
+        /// Container for the cluster configuration of a the domain.
         public let clusterConfig: ClusterConfigStatus?
-        /// The CognitoOptions for the specified domain. For more information, see Configuring Amazon Cognito authentication for OpenSearch Dashboards.
+        /// Container for Amazon Cognito options for the domain.
         public let cognitoOptions: CognitoOptionsStatus?
-        /// The DomainEndpointOptions for the domain.
+        /// Additional options for the domain endpoint, such as whether to require HTTPS for all traffic.
         public let domainEndpointOptions: DomainEndpointOptionsStatus?
-        /// The EBSOptions for the domain.
+        /// Container for EBS options configured for an OpenSearch Service domain.
         public let ebsOptions: EBSOptionsStatus?
-        /// The EncryptionAtRestOptions for the domain.
+        /// Key-value pairs to enable encryption at rest.
         public let encryptionAtRestOptions: EncryptionAtRestOptionsStatus?
-        /// String of format Elasticsearch_X.Y or OpenSearch_X.Y to specify the engine version for the OpenSearch or Elasticsearch domain.
+        /// The OpenSearch or Elasticsearch version that the domain is running.
         public let engineVersion: VersionStatus?
-        /// Log publishing options for the given domain.
+        /// Key-value pairs to configure slow log publishing.
         public let logPublishingOptions: LogPublishingOptionsStatus?
-        /// The NodeToNodeEncryptionOptions for the domain.
+        /// Whether node-to-node encryption is enabled or disabled.
         public let nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptionsStatus?
-        /// The SnapshotOptions for the domain.
+        /// DEPRECATED. Container for parameters required to configure automated snapshots of domain indexes.
         public let snapshotOptions: SnapshotOptionsStatus?
-        /// The VPCOptions for the specified domain. For more information, see  Launching your Amazon OpenSearch Service domains using a VPC.
+        /// The current VPC options for the domain and the status of any updates to their configuration.
         public let vpcOptions: VPCDerivedInfoStatus?
 
         public init(accessPolicies: AccessPoliciesStatus? = nil, advancedOptions: AdvancedOptionsStatus? = nil, advancedSecurityOptions: AdvancedSecurityOptionsStatus? = nil, autoTuneOptions: AutoTuneOptionsStatus? = nil, changeProgressDetails: ChangeProgressDetails? = nil, clusterConfig: ClusterConfigStatus? = nil, cognitoOptions: CognitoOptionsStatus? = nil, domainEndpointOptions: DomainEndpointOptionsStatus? = nil, ebsOptions: EBSOptionsStatus? = nil, encryptionAtRestOptions: EncryptionAtRestOptionsStatus? = nil, engineVersion: VersionStatus? = nil, logPublishingOptions: LogPublishingOptionsStatus? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptionsStatus? = nil, snapshotOptions: SnapshotOptionsStatus? = nil, vpcOptions: VPCDerivedInfoStatus? = nil) {
@@ -1942,15 +2143,15 @@ extension OpenSearch {
     }
 
     public struct DomainEndpointOptions: AWSEncodableShape & AWSDecodableShape {
-        /// The fully qualified domain for your custom endpoint.
+        /// The fully qualified URL for the custom endpoint.
         public let customEndpoint: String?
-        /// The ACM certificate ARN for your custom endpoint.
+        /// The ARN for your security certificate, managed in Amazon Web Services Certificate Manager (ACM).
         public let customEndpointCertificateArn: String?
         /// Whether to enable a custom endpoint for the domain.
         public let customEndpointEnabled: Bool?
-        /// Whether only HTTPS endpoint should be enabled for the domain.
+        /// True to require that all traffic to the domain arrive over HTTPS.
         public let enforceHTTPS: Bool?
-        /// Specify the TLS security policy to apply to the HTTPS endpoint of the domain.  Can be one of the following values:   Policy-Min-TLS-1-0-2019-07: TLS security policy which supports TLSv1.0 and higher.   Policy-Min-TLS-1-2-2019-07: TLS security policy which supports only TLSv1.2
+        /// Specify the TLS security policy to apply to the HTTPS endpoint of the domain. Can be one of the following values:    Policy-Min-TLS-1-0-2019-07: TLS security policy which supports TLS version 1.0 and higher.    Policy-Min-TLS-1-2-2019-07: TLS security policy which supports only TLS version 1.2
         public let tlsSecurityPolicy: TLSSecurityPolicy?
 
         public init(customEndpoint: String? = nil, customEndpointCertificateArn: String? = nil, customEndpointEnabled: Bool? = nil, enforceHTTPS: Bool? = nil, tlsSecurityPolicy: TLSSecurityPolicy? = nil) {
@@ -1980,9 +2181,9 @@ extension OpenSearch {
     }
 
     public struct DomainEndpointOptionsStatus: AWSDecodableShape {
-        /// Options to configure the endpoint for the domain.
+        /// Options to configure the endpoint for a domain.
         public let options: DomainEndpointOptions
-        /// The status of the endpoint options for the domain. See OptionStatus for the status information that's included.
+        /// The status of the endpoint options for a domain.
         public let status: OptionStatus
 
         public init(options: DomainEndpointOptions, status: OptionStatus) {
@@ -1997,9 +2198,9 @@ extension OpenSearch {
     }
 
     public struct DomainInfo: AWSDecodableShape {
-        /// The DomainName.
+        /// Name of the domain.
         public let domainName: String?
-        ///  Specifies the EngineType of the domain.
+        /// The type of search engine that the domain is running.OpenSearch for an OpenSearch engine, or Elasticsearch for a legacy Elasticsearch OSS engine.
         public let engineType: EngineType?
 
         public init(domainName: String? = nil, engineType: EngineType? = nil) {
@@ -2014,6 +2215,7 @@ extension OpenSearch {
     }
 
     public struct DomainInformationContainer: AWSEncodableShape & AWSDecodableShape {
+        /// Information about an Amazon OpenSearch Service domain.
         public let awsDomainInformation: AWSDomainInformation?
 
         public init(awsDomainInformation: AWSDomainInformation? = nil) {
@@ -2030,22 +2232,23 @@ extension OpenSearch {
     }
 
     public struct DomainPackageDetails: AWSDecodableShape {
-        /// The name of the domain you've associated a package with.
+        /// Name of the domain that the package is associated with.
         public let domainName: String?
-        /// State of the association. Values are ASSOCIATING, ASSOCIATION_FAILED, ACTIVE, DISSOCIATING, and DISSOCIATION_FAILED.
+        /// State of the association.
         public let domainPackageStatus: DomainPackageStatus?
         /// Additional information if the package is in an error state. Null otherwise.
         public let errorDetails: ErrorDetails?
-        /// The timestamp of the most recent update to the package association status.
+        /// Timestamp of the most recent update to the package association status.
         public let lastUpdated: Date?
-        /// The internal ID of the package.
+        /// Internal ID of the package.
         public let packageID: String?
         /// User-specified name of the package.
         public let packageName: String?
-        /// Currently supports only TXT-DICTIONARY.
+        /// The type of package.
         public let packageType: PackageType?
+        /// The current version of the package.
         public let packageVersion: String?
-        /// The relative path on Amazon OpenSearch Service nodes, which can be used as synonym_path when the package is a synonym file.
+        /// Denotes the location of the package on the OpenSearch Service cluster nodes. It's the same as synonym_path for dictionary files.
         public let referencePath: String?
 
         public init(domainName: String? = nil, domainPackageStatus: DomainPackageStatus? = nil, errorDetails: ErrorDetails? = nil, lastUpdated: Date? = nil, packageID: String? = nil, packageName: String? = nil, packageType: PackageType? = nil, packageVersion: String? = nil, referencePath: String? = nil) {
@@ -2074,54 +2277,55 @@ extension OpenSearch {
     }
 
     public struct DomainStatus: AWSDecodableShape {
-        /// IAM access policy as a JSON-formatted string.
+        /// Identity and Access Management (IAM) policy document specifying the access policies for the domain.
         public let accessPolicies: String?
-        /// The status of the AdvancedOptions.
+        /// Key-value pairs that specify advanced configuration options.
         public let advancedOptions: [String: String]?
-        /// The current status of the domain's advanced security options.
+        /// Settings for fine-grained access control.
         public let advancedSecurityOptions: AdvancedSecurityOptions?
-        /// The Amazon Resource Name (ARN) of a domain. See IAM identifiers in the AWS Identity and Access Management User Guide for more information.
+        /// The Amazon Resource Name (ARN) of the domain. For more information, see IAM identifiers in the AWS Identity and Access Management User Guide.
         public let arn: String
-        /// The current status of the domain's Auto-Tune options.
+        /// Auto-Tune settings for the domain.
         public let autoTuneOptions: AutoTuneOptionsOutput?
-        /// Specifies change details of the domain configuration change.
+        /// Information about a configuration change happening on the domain.
         public let changeProgressDetails: ChangeProgressDetails?
-        /// The type and number of instances in the domain.
+        /// Container for the cluster configuration of the domain.
         public let clusterConfig: ClusterConfig
-        /// The CognitoOptions for the specified domain. For more information, see Configuring Amazon Cognito authentication for OpenSearch Dashboards.
+        /// Key-value pairs to configure Amazon Cognito authentication for OpenSearch Dashboards.
         public let cognitoOptions: CognitoOptions?
-        /// The domain creation status. True if the creation of a domain is complete.  False if domain creation is still in progress.
+        /// Creation status of an OpenSearch Service domain. True if domain creation is complete. False if domain creation is still in progress.
         public let created: Bool?
-        /// The domain deletion status. True if a delete request has been received for the domain but resource cleanup is still in progress. False if the domain has not been deleted. Once domain deletion is complete, the status of the domain is no longer returned.
+        /// Deletion status of an OpenSearch Service domain. True if domain deletion is complete. False if domain deletion is still in progress. Once deletion is complete, the status of the domain is no longer returned.
         public let deleted: Bool?
-        /// The current status of the domain's endpoint options.
+        /// Additional options for the domain endpoint, such as whether to require HTTPS for all traffic.
         public let domainEndpointOptions: DomainEndpointOptions?
-        /// The unique identifier for the specified domain.
+        /// Unique identifier for the domain.
         public let domainId: String
-        /// The name of a domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen).
+        /// Name of the domain. Domain names are unique across all domains owned by the same account within an Amazon Web Services Region.
         public let domainName: String
-        /// The EBSOptions for the specified domain.
+        /// Container for EBS-based storage settings for the domain.
         public let ebsOptions: EBSOptions?
-        /// The status of the EncryptionAtRestOptions.
+        /// Encryption at rest settings for the domain.
         public let encryptionAtRestOptions: EncryptionAtRestOptions?
-        /// The domain endpoint that you use to submit index and search requests.
+        /// Domain-specific endpoint used to submit index, search, and data upload requests to the domain.
         public let endpoint: String?
-        /// Map containing the domain endpoints used to submit index and search requests. Example key, value: 'vpc','vpc-endpoint-h2dsd34efgyghrtguk5gt6j2foh4.us-east-1.es.amazonaws.com'.
+        /// The key-value pair that exists if the OpenSearch Service domain uses VPC endpoints.. Example key, value: 'vpc','vpc-endpoint-h2dsd34efgyghrtguk5gt6j2foh4.us-east-1.es.amazonaws.com'.
         public let endpoints: [String: String]?
+        /// Version of OpenSearch or Elasticsearch that the domain is running, in the format Elasticsearch_X.Y or OpenSearch_X.Y.
         public let engineVersion: String?
-        /// Log publishing options for the given domain.
+        /// Log publishing options for the domain.
         public let logPublishingOptions: [LogType: LogPublishingOption]?
-        /// The status of the NodeToNodeEncryptionOptions.
+        /// Whether node-to-node encryption is enabled or disabled.
         public let nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions?
-        /// The status of the domain configuration. True if Amazon OpenSearch Service is processing configuration changes. False if the configuration is active.
+        /// The status of the domain configuration. True if OpenSearch Service is processing configuration changes. False if the configuration is active.
         public let processing: Bool?
         /// The current status of the domain's service software.
         public let serviceSoftwareOptions: ServiceSoftwareOptions?
-        /// The status of the SnapshotOptions.
+        /// DEPRECATED. Container for parameters required to configure automated snapshots of domain indexes.
         public let snapshotOptions: SnapshotOptions?
-        /// The status of a domain version upgrade. True if Amazon OpenSearch Service is undergoing a version upgrade. False if the configuration is active.
+        /// The status of a domain version upgrade to a new version of OpenSearch or Elasticsearch. True if OpenSearch Service is in the process of a version upgrade. False if the configuration is active.
         public let upgradeProcessing: Bool?
-        /// The VPCOptions for the specified domain. For more information, see  Launching your Amazon OpenSearch Service domains using a VPC.
+        /// The VPC configuration for the domain.
         public let vpcOptions: VPCDerivedInfo?
 
         public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptions? = nil, arn: String, autoTuneOptions: AutoTuneOptionsOutput? = nil, changeProgressDetails: ChangeProgressDetails? = nil, clusterConfig: ClusterConfig, cognitoOptions: CognitoOptions? = nil, created: Bool? = nil, deleted: Bool? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainId: String, domainName: String, ebsOptions: EBSOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, endpoint: String? = nil, endpoints: [String: String]? = nil, engineVersion: String? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, processing: Bool? = nil, serviceSoftwareOptions: ServiceSoftwareOptions? = nil, snapshotOptions: SnapshotOptions? = nil, upgradeProcessing: Bool? = nil, vpcOptions: VPCDerivedInfo? = nil) {
@@ -2182,9 +2386,9 @@ extension OpenSearch {
     }
 
     public struct DryRunResults: AWSDecodableShape {
-        ///  Specifies the way in which Amazon OpenSearch Service applies the update. Possible responses are Blue/Green (the update requires a blue/green deployment), DynamicUpdate (no blue/green required), Undetermined (the domain is undergoing an update and can't predict the deployment type; try again after the update is complete), and None (the request doesn't include any configuration changes).
+        ///  Specifies the way in which OpenSearch Service will apply an update. Possible values are:    Blue/Green - The update requires a blue/green deployment.    DynamicUpdate - No blue/green deployment required    Undetermined - The domain is in the middle of an update and can't predict the deployment type. Try again after the update is complete.    None - The request doesn't include any configuration changes.
         public let deploymentType: String?
-        /// Contains an optional message associated with the DryRunResults.
+        /// A message corresponding to the deployment type.
         public let message: String?
 
         public init(deploymentType: String? = nil, message: String? = nil) {
@@ -2199,9 +2403,9 @@ extension OpenSearch {
     }
 
     public struct Duration: AWSEncodableShape & AWSDecodableShape {
-        /// The unit of a maintenance schedule duration. Valid value is HOURS. See  Auto-Tune for Amazon OpenSearch Service for more information.
+        /// The unit of measurement for the duration of a maintenance schedule.
         public let unit: TimeUnit?
-        /// Integer to specify the value of a maintenance schedule duration. See  Auto-Tune for Amazon OpenSearch Service for more information.
+        /// Integer to specify the value of a maintenance schedule duration.
         public let value: Int64?
 
         public init(unit: TimeUnit? = nil, value: Int64? = nil) {
@@ -2221,15 +2425,15 @@ extension OpenSearch {
     }
 
     public struct EBSOptions: AWSEncodableShape & AWSDecodableShape {
-        /// Whether EBS-based storage is enabled.
+        /// Indicates whether EBS volumes are attached to data nodes in an OpenSearch Service domain.
         public let ebsEnabled: Bool?
-        /// The IOPS for Provisioned IOPS And GP3 EBS volume (SSD).
+        /// Specifies the baseline input/output (I/O) performance of EBS volumes attached to data nodes. Applicable only for the gp3 and provisioned IOPS EBS volume types.
         public let iops: Int?
-        /// The Throughput for GP3 EBS volume (SSD).
+        /// Specifies the throughput (in MiB/s) of the EBS volumes attached to data nodes. Applicable only for the gp3 volume type.
         public let throughput: Int?
-        /// Integer to specify the size of an EBS volume.
+        /// Specifies the size (in GiB) of EBS volumes attached to data nodes.
         public let volumeSize: Int?
-        /// The volume type for EBS-based storage.
+        /// Specifies the type of EBS volumes attached to data nodes.
         public let volumeType: VolumeType?
 
         public init(ebsEnabled: Bool? = nil, iops: Int? = nil, throughput: Int? = nil, volumeSize: Int? = nil, volumeType: VolumeType? = nil) {
@@ -2250,7 +2454,7 @@ extension OpenSearch {
     }
 
     public struct EBSOptionsStatus: AWSDecodableShape {
-        /// The EBS options for the specified domain.
+        /// The configured EBS options for the specified domain.
         public let options: EBSOptions
         /// The status of the EBS options for the specified domain.
         public let status: OptionStatus
@@ -2267,9 +2471,9 @@ extension OpenSearch {
     }
 
     public struct EncryptionAtRestOptions: AWSEncodableShape & AWSDecodableShape {
-        /// The option to enable encryption at rest.
+        /// True to enable encryption at rest.
         public let enabled: Bool?
-        /// The KMS key ID for encryption at rest options.
+        /// The KMS key ID. Takes the form 1a2a3a4-1a2a-3a4a-5a6a-1a2a3a4a5a6a.
         public let kmsKeyId: String?
 
         public init(enabled: Bool? = nil, kmsKeyId: String? = nil) {
@@ -2290,9 +2494,9 @@ extension OpenSearch {
     }
 
     public struct EncryptionAtRestOptionsStatus: AWSDecodableShape {
-        /// The Encryption At Rest options for the specified domain.
+        /// Encryption at rest options for the specified domain.
         public let options: EncryptionAtRestOptions
-        /// The status of the Encryption At Rest options for the specified domain.
+        /// The status of the encryption at rest options for the specified domain.
         public let status: OptionStatus
 
         public init(options: EncryptionAtRestOptions, status: OptionStatus) {
@@ -2307,7 +2511,9 @@ extension OpenSearch {
     }
 
     public struct ErrorDetails: AWSDecodableShape {
+        /// A message describing the error.
         public let errorMessage: String?
+        /// The type of error that occurred.
         public let errorType: String?
 
         public init(errorMessage: String? = nil, errorType: String? = nil) {
@@ -2322,9 +2528,9 @@ extension OpenSearch {
     }
 
     public struct Filter: AWSEncodableShape {
-        ///  The name of the filter.
+        /// The name of the filter.
         public let name: String?
-        ///  Contains one or more values for the filter.
+        /// One or more values for the filter.
         public let values: [String]?
 
         public init(name: String? = nil, values: [String]? = nil) {
@@ -2355,6 +2561,7 @@ extension OpenSearch {
             AWSMemberEncoding(label: "domainName", location: .querystring("domainName"))
         ]
 
+        /// The name of an existing domain. Provide this parameter to limit the results to a single domain.
         public let domainName: String?
 
         public init(domainName: String? = nil) {
@@ -2371,7 +2578,7 @@ extension OpenSearch {
     }
 
     public struct GetCompatibleVersionsResponse: AWSDecodableShape {
-        ///  A map of compatible OpenSearch versions returned as part of the  GetCompatibleVersions  operation.
+        /// A map of OpenSearch or Elasticsearch versions and the versions you can upgrade them to.
         public let compatibleVersions: [CompatibleVersionsMap]?
 
         public init(compatibleVersions: [CompatibleVersionsMap]? = nil) {
@@ -2390,11 +2597,11 @@ extension OpenSearch {
             AWSMemberEncoding(label: "packageID", location: .uri("PackageID"))
         ]
 
-        /// Limits results to a maximum number of package versions.
+        /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
         public let maxResults: Int?
-        /// Used for pagination. Only necessary if a previous API call includes a non-null NextToken value. If provided, returns results for the next page.
+        /// If your initial GetPackageVersionHistory operation returns a nextToken, you can include the returned nextToken in subsequent GetPackageVersionHistory operations, which returns results in the next page.
         public let nextToken: String?
-        /// Returns an audit history of package versions.
+        /// The unique identifier of the package.
         public let packageID: String
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, packageID: String) {
@@ -2411,9 +2618,11 @@ extension OpenSearch {
     }
 
     public struct GetPackageVersionHistoryResponse: AWSDecodableShape {
+        /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
         public let nextToken: String?
+        /// The unique identifier of the package.
         public let packageID: String?
-        /// List of PackageVersionHistory objects.
+        /// A list of package versions, along with their creation time and commit message.
         public let packageVersionHistoryList: [PackageVersionHistory]?
 
         public init(nextToken: String? = nil, packageID: String? = nil, packageVersionHistoryList: [PackageVersionHistory]? = nil) {
@@ -2436,8 +2645,11 @@ extension OpenSearch {
             AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
+        /// The name of an existing domain.
         public let domainName: String
+        /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
         public let maxResults: Int?
+        /// If your initial GetUpgradeHistory operation returns a nextToken, you can include the returned nextToken in subsequent GetUpgradeHistory operations, which returns results in the next page.
         public let nextToken: String?
 
         public init(domainName: String, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -2457,9 +2669,9 @@ extension OpenSearch {
     }
 
     public struct GetUpgradeHistoryResponse: AWSDecodableShape {
-        /// Pagination token that needs to be supplied to the next call to get the next page of results.
+        /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
         public let nextToken: String?
-        ///  A list of  UpgradeHistory  objects corresponding to each upgrade or upgrade eligibility check performed on a domain returned as part of the  GetUpgradeHistoryResponse  object.
+        /// A list of objects corresponding to each upgrade or upgrade eligibility check performed on a domain.
         public let upgradeHistories: [UpgradeHistory]?
 
         public init(nextToken: String? = nil, upgradeHistories: [UpgradeHistory]? = nil) {
@@ -2478,6 +2690,7 @@ extension OpenSearch {
             AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
         ]
 
+        /// The domain of the domain to get upgrade status information for.
         public let domainName: String
 
         public init(domainName: String) {
@@ -2494,11 +2707,11 @@ extension OpenSearch {
     }
 
     public struct GetUpgradeStatusResponse: AWSDecodableShape {
-        ///  One of four statuses an upgrade have, returned as part of the  GetUpgradeStatusResponse  object. The status can take one of the following values:  In Progress Succeeded Succeeded with Issues Failed
+        /// The status of the current step that an upgrade is on.
         public let stepStatus: UpgradeStatus?
-        /// A string that briefly describes the update.
+        /// A string that describes the update.
         public let upgradeName: String?
-        ///  One of three steps an upgrade or upgrade eligibility check goes through:  PreUpgradeCheck Snapshot Upgrade
+        /// One of three steps that an upgrade or upgrade eligibility check goes through.
         public let upgradeStep: UpgradeStep?
 
         public init(stepStatus: UpgradeStatus? = nil, upgradeName: String? = nil, upgradeStep: UpgradeStep? = nil) {
@@ -2515,13 +2728,13 @@ extension OpenSearch {
     }
 
     public struct InboundConnection: AWSDecodableShape {
-        /// The connection ID for the inbound cross-cluster connection.
+        /// The unique identifier of the connection.
         public let connectionId: String?
-        /// The  InboundConnectionStatus  for the outbound connection.
+        /// The current status of the connection.
         public let connectionStatus: InboundConnectionStatus?
-        /// The  AWSDomainInformation  for the local OpenSearch domain.
+        /// Information about the source (local) domain.
         public let localDomainInfo: DomainInformationContainer?
-        /// The  AWSDomainInformation  for the remote OpenSearch domain.
+        /// Information about the destination (remote) domain.
         public let remoteDomainInfo: DomainInformationContainer?
 
         public init(connectionId: String? = nil, connectionStatus: InboundConnectionStatus? = nil, localDomainInfo: DomainInformationContainer? = nil, remoteDomainInfo: DomainInformationContainer? = nil) {
@@ -2540,9 +2753,9 @@ extension OpenSearch {
     }
 
     public struct InboundConnectionStatus: AWSDecodableShape {
-        /// Verbose information for the inbound connection status.
+        /// Information about the connection.
         public let message: String?
-        /// The state code for the inbound connection. Can be one of the following:  PENDING_ACCEPTANCE: Inbound connection is not yet accepted by the remote domain owner. APPROVED: Inbound connection is pending acceptance by the remote domain owner. PROVISIONING: Inbound connection provisioning is in progress. ACTIVE: Inbound connection is active and ready to use. REJECTING: Inbound connection rejection is in process. REJECTED: Inbound connection is rejected. DELETING: Inbound connection deletion is in progress. DELETED: Inbound connection is deleted and can no longer be used.
+        /// The status code for the connection. Can be one of the following:    PENDING_ACCEPTANCE - Inbound connection is not yet accepted by the remote domain owner.    APPROVED: Inbound connection is pending acceptance by the remote domain owner.    PROVISIONING: Inbound connection is being provisioned.    ACTIVE: Inbound connection is active and ready to use.    REJECTING: Inbound connection rejection is in process.    REJECTED: Inbound connection is rejected.    DELETING: Inbound connection deletion is in progress.    DELETED: Inbound connection is deleted and can no longer be used.
         public let statusCode: InboundConnectionStatusCode?
 
         public init(message: String? = nil, statusCode: InboundConnectionStatusCode? = nil) {
@@ -2557,7 +2770,9 @@ extension OpenSearch {
     }
 
     public struct InstanceCountLimits: AWSDecodableShape {
+        /// The minimum allowed number of instances.
         public let maximumInstanceCount: Int?
+        /// The maximum allowed number of instances.
         public let minimumInstanceCount: Int?
 
         public init(maximumInstanceCount: Int? = nil, minimumInstanceCount: Int? = nil) {
@@ -2572,6 +2787,7 @@ extension OpenSearch {
     }
 
     public struct InstanceLimits: AWSDecodableShape {
+        /// Limits on the number of instances that can be created for a given instance type.
         public let instanceCountLimits: InstanceCountLimits?
 
         public init(instanceCountLimits: InstanceCountLimits? = nil) {
@@ -2584,12 +2800,19 @@ extension OpenSearch {
     }
 
     public struct InstanceTypeDetails: AWSDecodableShape {
+        /// Whether fine-grained access control is supported for the instance type.
         public let advancedSecurityEnabled: Bool?
+        /// Whether logging is supported for the instance type.
         public let appLogsEnabled: Bool?
+        /// Whether Amazon Cognito access is supported for the instance type.
         public let cognitoEnabled: Bool?
+        /// Whether encryption at rest and node-to-node encryption are supported for the instance type.
         public let encryptionEnabled: Bool?
+        /// Whether the instance acts as a data node, a dedicated master node, or an UltraWarm node.
         public let instanceRole: [String]?
+        /// The instance type.
         public let instanceType: OpenSearchPartitionInstanceType?
+        /// Whether UltraWarm is supported for the instance type.
         public let warmEnabled: Bool?
 
         public init(advancedSecurityEnabled: Bool? = nil, appLogsEnabled: Bool? = nil, cognitoEnabled: Bool? = nil, encryptionEnabled: Bool? = nil, instanceRole: [String]? = nil, instanceType: OpenSearchPartitionInstanceType? = nil, warmEnabled: Bool? = nil) {
@@ -2614,10 +2837,11 @@ extension OpenSearch {
     }
 
     public struct Limits: AWSDecodableShape {
-        ///  List of additional limits that are specific to a given InstanceType and for each of its  InstanceRole  .
+        /// List of additional limits that are specific to a given instance type for each of its instance roles.
         public let additionalLimits: [AdditionalLimit]?
+        /// The limits for a given instance type.
         public let instanceLimits: InstanceLimits?
-        /// Storage-related types and attributes that are available for a given InstanceType.
+        /// Storage-related attributes that are available for a given instance type.
         public let storageTypes: [StorageType]?
 
         public init(additionalLimits: [AdditionalLimit]? = nil, instanceLimits: InstanceLimits? = nil, storageTypes: [StorageType]? = nil) {
@@ -2638,7 +2862,7 @@ extension OpenSearch {
             AWSMemberEncoding(label: "engineType", location: .querystring("engineType"))
         ]
 
-        ///  Optional parameter to filter the output by domain engine type. Acceptable values are 'Elasticsearch' and 'OpenSearch'.
+        /// Filters the output by domain engine type.
         public let engineType: EngineType?
 
         public init(engineType: EngineType? = nil) {
@@ -2649,7 +2873,7 @@ extension OpenSearch {
     }
 
     public struct ListDomainNamesResponse: AWSDecodableShape {
-        /// List of domain names and respective engine types.
+        /// The names of all OpenSearch Service domains owned by the current user and their respective engine types.
         public let domainNames: [DomainInfo]?
 
         public init(domainNames: [DomainInfo]? = nil) {
@@ -2668,11 +2892,11 @@ extension OpenSearch {
             AWSMemberEncoding(label: "packageID", location: .uri("PackageID"))
         ]
 
-        /// Limits the results to a maximum number of domains.
+        /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
         public let maxResults: Int?
-        /// Used for pagination. Only necessary if a previous API call includes a non-null NextToken value. If provided, returns results for the next page.
+        /// If your initial ListDomainsForPackage operation returns a nextToken, you can include the returned nextToken in subsequent ListDomainsForPackage operations, which returns results in the next page.
         public let nextToken: String?
-        /// The package for which to list associated domains.
+        /// The unique identifier of the package for which to list associated domains.
         public let packageID: String
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, packageID: String) {
@@ -2689,8 +2913,9 @@ extension OpenSearch {
     }
 
     public struct ListDomainsForPackageResponse: AWSDecodableShape {
-        /// List of DomainPackageDetails objects.
+        /// Information about all domains associated with a package.
         public let domainPackageDetailsList: [DomainPackageDetails]?
+        /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
         public let nextToken: String?
 
         public init(domainPackageDetailsList: [DomainPackageDetails]? = nil, nextToken: String? = nil) {
@@ -2712,9 +2937,13 @@ extension OpenSearch {
             AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
+        /// Name of the domain to list instance type details for.
         public let domainName: String?
+        /// Version of OpenSearch or Elasticsearch, in the format Elasticsearch_X.Y or OpenSearch_X.Y. Defaults to the latest version of OpenSearch.
         public let engineVersion: String
+        /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
         public let maxResults: Int?
+        /// If your initial ListInstanceTypeDetails operation returns a nextToken, you can include the returned nextToken in subsequent ListInstanceTypeDetails operations, which returns results in the next page.
         public let nextToken: String?
 
         public init(domainName: String? = nil, engineVersion: String, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -2738,7 +2967,9 @@ extension OpenSearch {
     }
 
     public struct ListInstanceTypeDetailsResponse: AWSDecodableShape {
+        /// Lists all supported instance types and features for the given OpenSearch or Elasticsearch version.
         public let instanceTypeDetails: [InstanceTypeDetails]?
+        /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
         public let nextToken: String?
 
         public init(instanceTypeDetails: [InstanceTypeDetails]? = nil, nextToken: String? = nil) {
@@ -2761,9 +2992,9 @@ extension OpenSearch {
 
         /// The name of the domain for which you want to list associated packages.
         public let domainName: String
-        /// Limits results to a maximum number of packages.
+        /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
         public let maxResults: Int?
-        /// Used for pagination. Only necessary if a previous API call includes a non-null NextToken value. If provided, returns results for the next page.
+        /// If your initial ListPackagesForDomain operation returns a nextToken, you can include the returned nextToken in subsequent ListPackagesForDomain operations, which returns results in the next page.
         public let nextToken: String?
 
         public init(domainName: String, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -2783,9 +3014,9 @@ extension OpenSearch {
     }
 
     public struct ListPackagesForDomainResponse: AWSDecodableShape {
-        /// List of DomainPackageDetails objects.
+        /// List of all packages associated with a domain.
         public let domainPackageDetailsList: [DomainPackageDetails]?
-        /// Pagination token to supply to the next call to get the next page of results.
+        /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
         public let nextToken: String?
 
         public init(domainPackageDetailsList: [DomainPackageDetails]? = nil, nextToken: String? = nil) {
@@ -2804,7 +3035,7 @@ extension OpenSearch {
             AWSMemberEncoding(label: "arn", location: .querystring("arn"))
         ]
 
-        /// Specify the ARN of the domain that the tags you want to view are attached to.
+        /// Amazon Resource Name (ARN) for the domain to view tags for.
         public let arn: String
 
         public init(arn: String) {
@@ -2821,7 +3052,7 @@ extension OpenSearch {
     }
 
     public struct ListTagsResponse: AWSDecodableShape {
-        /// List of Tag for the requested domain.
+        /// List of resource tags associated with the specified domain.
         public let tagList: [Tag]?
 
         public init(tagList: [Tag]? = nil) {
@@ -2839,8 +3070,9 @@ extension OpenSearch {
             AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
-        ///  Set this value to limit the number of results returned. Value must be greater than 10 or it won't be honored.
+        /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
         public let maxResults: Int?
+        /// If your initial ListVersions operation returns a nextToken, you can include the returned nextToken in subsequent ListVersions operations, which returns results in the next page.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -2856,7 +3088,9 @@ extension OpenSearch {
     }
 
     public struct ListVersionsResponse: AWSDecodableShape {
+        /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
         public let nextToken: String?
+        /// A list of all versions of OpenSearch and Elasticsearch that Amazon OpenSearch Service supports.
         public let versions: [String]?
 
         public init(nextToken: String? = nil, versions: [String]? = nil) {
@@ -2870,9 +3104,126 @@ extension OpenSearch {
         }
     }
 
+    public struct ListVpcEndpointAccessRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
+        ]
+
+        /// The name of the OpenSearch Service domain to retrieve access information for.
+        public let domainName: String
+        /// If your initial ListVpcEndpointAccess operation returns a nextToken, you can include the returned nextToken in subsequent ListVpcEndpointAccess operations, which returns results in the next page.
+        public let nextToken: String?
+
+        public init(domainName: String, nextToken: String? = nil) {
+            self.domainName = domainName
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-z][a-z0-9\\-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListVpcEndpointAccessResponse: AWSDecodableShape {
+        /// A list of IAM principals that can currently access the domain.
+        public let authorizedPrincipalList: [AuthorizedPrincipal]
+        /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
+        public let nextToken: String
+
+        public init(authorizedPrincipalList: [AuthorizedPrincipal], nextToken: String) {
+            self.authorizedPrincipalList = authorizedPrincipalList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizedPrincipalList = "AuthorizedPrincipalList"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListVpcEndpointsForDomainRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
+        ]
+
+        /// The name of the domain to list associated VPC endpoints for.
+        public let domainName: String
+        /// If your initial ListEndpointsForDomain operation returns a nextToken, you can include the returned nextToken in subsequent ListEndpointsForDomain operations, which returns results in the next page.
+        public let nextToken: String?
+
+        public init(domainName: String, nextToken: String? = nil) {
+            self.domainName = domainName
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-z][a-z0-9\\-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListVpcEndpointsForDomainResponse: AWSDecodableShape {
+        /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
+        public let nextToken: String
+        /// Information about each endpoint associated with the domain.
+        public let vpcEndpointSummaryList: [VpcEndpointSummary]
+
+        public init(nextToken: String, vpcEndpointSummaryList: [VpcEndpointSummary]) {
+            self.nextToken = nextToken
+            self.vpcEndpointSummaryList = vpcEndpointSummaryList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case vpcEndpointSummaryList = "VpcEndpointSummaryList"
+        }
+    }
+
+    public struct ListVpcEndpointsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
+        ]
+
+        /// If your initial ListVpcEndpoints operation returns a nextToken, you can include the returned nextToken in subsequent ListVpcEndpoints operations, which returns results in the next page.
+        public let nextToken: String?
+
+        public init(nextToken: String? = nil) {
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListVpcEndpointsResponse: AWSDecodableShape {
+        /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
+        public let nextToken: String
+        /// Information about each endpoint.
+        public let vpcEndpointSummaryList: [VpcEndpointSummary]
+
+        public init(nextToken: String, vpcEndpointSummaryList: [VpcEndpointSummary]) {
+            self.nextToken = nextToken
+            self.vpcEndpointSummaryList = vpcEndpointSummaryList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case vpcEndpointSummaryList = "VpcEndpointSummaryList"
+        }
+    }
+
     public struct LogPublishingOption: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the CloudWatch Logs group to publish logs to.
         public let cloudWatchLogsLogGroupArn: String?
-        /// Whether the given log publishing option is enabled or not.
+        /// Whether the log should be published.
         public let enabled: Bool?
 
         public init(cloudWatchLogsLogGroupArn: String? = nil, enabled: Bool? = nil) {
@@ -2895,7 +3246,7 @@ extension OpenSearch {
     public struct LogPublishingOptionsStatus: AWSDecodableShape {
         /// The log publishing options configured for the domain.
         public let options: [LogType: LogPublishingOption]?
-        /// The status of the log publishing options for the domain. See OptionStatus for the status information that's included.
+        /// The status of the log publishing options for the domain.
         public let status: OptionStatus?
 
         public init(options: [LogType: LogPublishingOption]? = nil, status: OptionStatus? = nil) {
@@ -2910,11 +3261,11 @@ extension OpenSearch {
     }
 
     public struct MasterUserOptions: AWSEncodableShape {
-        /// ARN for the master user (if IAM is enabled).
+        /// Amazon Resource Name (ARN) for the master user. Only specify if InternalUserDatabaseEnabled is false.
         public let masterUserARN: String?
-        /// The master user's username, which is stored in the Amazon OpenSearch Service domain's internal database.
+        /// User name for the master user. Only specify if InternalUserDatabaseEnabled is true.
         public let masterUserName: String?
-        /// The master user's password, which is stored in the Amazon OpenSearch Service domain's internal database.
+        /// Password for the master user. Only specify if InternalUserDatabaseEnabled is true.
         public let masterUserPassword: String?
 
         public init(masterUserARN: String? = nil, masterUserName: String? = nil, masterUserPassword: String? = nil) {
@@ -2973,11 +3324,11 @@ extension OpenSearch {
     }
 
     public struct OptionStatus: AWSDecodableShape {
-        /// The timestamp of when the entity was created.
+        /// The timestamp when the entity was created.
         public let creationDate: Date
-        /// Indicates whether the domain is being deleted.
+        /// Indicates whether the entity is being deleted.
         public let pendingDeletion: Bool?
-        /// Provides the OptionState for the domain.
+        /// The state of the entity.
         public let state: OptionState
         /// The timestamp of the last time the entity was updated.
         public let updateDate: Date
@@ -3002,15 +3353,15 @@ extension OpenSearch {
     }
 
     public struct OutboundConnection: AWSDecodableShape {
-        /// The connection alias for the outbound cross-cluster connection.
+        /// Name of the connection.
         public let connectionAlias: String?
-        /// The connection ID for the outbound cross-cluster connection.
+        /// Unique identifier of the connection.
         public let connectionId: String?
-        /// The  OutboundConnectionStatus  for the outbound connection.
+        /// Status of the connection.
         public let connectionStatus: OutboundConnectionStatus?
-        /// The  DomainInformation  for the local OpenSearch domain.
+        /// Information about the source (local) domain.
         public let localDomainInfo: DomainInformationContainer?
-        /// The  DomainInformation  for the remote OpenSearch domain.
+        /// Information about the destination (remote) domain.
         public let remoteDomainInfo: DomainInformationContainer?
 
         public init(connectionAlias: String? = nil, connectionId: String? = nil, connectionStatus: OutboundConnectionStatus? = nil, localDomainInfo: DomainInformationContainer? = nil, remoteDomainInfo: DomainInformationContainer? = nil) {
@@ -3031,9 +3382,9 @@ extension OpenSearch {
     }
 
     public struct OutboundConnectionStatus: AWSDecodableShape {
-        /// Verbose information for the outbound connection status.
+        /// Verbose information for the outbound connection.
         public let message: String?
-        /// The state code for the outbound connection. Can be one of the following:  VALIDATING: The outbound connection request is being validated. VALIDATION_FAILED: Validation failed for the connection request. PENDING_ACCEPTANCE: Outbound connection request is validated and is not yet accepted by the remote domain owner.  APPROVED: Outbound connection has been approved by the remote domain owner for getting provisioned. PROVISIONING: Outbound connection request is in process. ACTIVE: Outbound connection is active and ready to use. REJECTING: Outbound connection rejection by remote domain owner is in progress. REJECTED: Outbound connection request is rejected by remote domain owner. DELETING: Outbound connection deletion is in progress. DELETED: Outbound connection is deleted and can no longer be used.
+        /// The status code for the outbound connection. Can be one of the following:    VALIDATING - The outbound connection request is being validated.    VALIDATION_FAILED - Validation failed for the connection request.    PENDING_ACCEPTANCE: Outbound connection request is validated and is not yet accepted by the remote domain owner.    APPROVED - Outbound connection has been approved by the remote domain owner for getting provisioned.    PROVISIONING - Outbound connection request is in process.    ACTIVE - Outbound connection is active and ready to use.    REJECTING - Outbound connection rejection by remote domain owner is in progress.    REJECTED - Outbound connection request is rejected by remote domain owner.    DELETING - Outbound connection deletion is in progress.    DELETED - Outbound connection is deleted and can no longer be used.
         public let statusCode: OutboundConnectionStatusCode?
 
         public init(message: String? = nil, statusCode: OutboundConnectionStatusCode? = nil) {
@@ -3048,21 +3399,23 @@ extension OpenSearch {
     }
 
     public struct PackageDetails: AWSDecodableShape {
+        /// The package version.
         public let availablePackageVersion: String?
-        /// The timestamp of when the package was created.
+        /// The timestamp when the package was created.
         public let createdAt: Date?
         /// Additional information if the package is in an error state. Null otherwise.
         public let errorDetails: ErrorDetails?
+        /// Date and time when the package was last updated.
         public let lastUpdatedAt: Date?
         /// User-specified description of the package.
         public let packageDescription: String?
-        /// Internal ID of the package.
+        /// The unique identifier of the package.
         public let packageID: String?
         /// User-specified name of the package.
         public let packageName: String?
-        /// Current state of the package. Values are COPYING, COPY_FAILED, AVAILABLE, DELETING, and DELETE_FAILED.
+        /// Current status of the package.
         public let packageStatus: PackageStatus?
-        /// Currently supports only TXT-DICTIONARY.
+        /// The type of package.
         public let packageType: PackageType?
 
         public init(availablePackageVersion: String? = nil, createdAt: Date? = nil, errorDetails: ErrorDetails? = nil, lastUpdatedAt: Date? = nil, packageDescription: String? = nil, packageID: String? = nil, packageName: String? = nil, packageStatus: PackageStatus? = nil, packageType: PackageType? = nil) {
@@ -3115,9 +3468,9 @@ extension OpenSearch {
     }
 
     public struct PackageVersionHistory: AWSDecodableShape {
-        /// A message associated with the package version.
+        /// A message associated with the package version when it was uploaded.
         public let commitMessage: String?
-        /// The timestamp of when the package was created.
+        /// The date and time when the package was created.
         public let createdAt: Date?
         /// The package version.
         public let packageVersion: String?
@@ -3140,7 +3493,7 @@ extension OpenSearch {
         public let instanceCount: Int?
         /// A customer-specified identifier to track this reservation.
         public let reservationName: String
-        /// The ID of the reserved OpenSearch instance offering to purchase.
+        /// The ID of the Reserved Instance offering to purchase.
         public let reservedInstanceOfferingId: String
 
         public init(instanceCount: Int? = nil, reservationName: String, reservedInstanceOfferingId: String) {
@@ -3169,7 +3522,7 @@ extension OpenSearch {
     public struct PurchaseReservedInstanceOfferingResponse: AWSDecodableShape {
         /// The customer-specified identifier used to track this reservation.
         public let reservationName: String?
-        /// Details of the reserved OpenSearch instance which was purchased.
+        /// The ID of the Reserved Instance offering that was purchased.
         public let reservedInstanceId: String?
 
         public init(reservationName: String? = nil, reservedInstanceId: String? = nil) {
@@ -3205,7 +3558,7 @@ extension OpenSearch {
             AWSMemberEncoding(label: "connectionId", location: .uri("ConnectionId"))
         ]
 
-        /// The ID of the inbound connection to reject.
+        /// The unique identifier of the inbound connection to reject.
         public let connectionId: String
 
         public init(connectionId: String) {
@@ -3222,7 +3575,7 @@ extension OpenSearch {
     }
 
     public struct RejectInboundConnectionResponse: AWSDecodableShape {
-        /// The  InboundConnection  of the rejected inbound connection.
+        /// Contains details about the rejected inbound connection.
         public let connection: InboundConnection?
 
         public init(connection: InboundConnection? = nil) {
@@ -3235,9 +3588,9 @@ extension OpenSearch {
     }
 
     public struct RemoveTagsRequest: AWSEncodableShape {
-        /// The ARN of the domain from which you want to delete the specified tags.
+        /// The Amazon Resource Name (ARN) of the domain from which you want to delete the specified tags.
         public let arn: String
-        /// The TagKey list you want to remove from the domain.
+        /// The list of tag keys to remove from the domain.
         public let tagKeys: [String]
 
         public init(arn: String, tagKeys: [String]) {
@@ -3258,32 +3611,33 @@ extension OpenSearch {
     }
 
     public struct ReservedInstance: AWSDecodableShape {
+        /// The unique identifier of the billing subscription.
         public let billingSubscriptionId: Int64?
-        /// The currency code for the reserved OpenSearch instance offering.
+        /// The currency code for the offering.
         public let currencyCode: String?
         /// The duration, in seconds, for which the OpenSearch instance is reserved.
         public let duration: Int?
-        /// The upfront fixed charge you will paid to purchase the specific reserved OpenSearch instance offering.
+        /// The upfront fixed charge you will paid to purchase the specific Reserved Instance offering.
         public let fixedPrice: Double?
         /// The number of OpenSearch instances that have been reserved.
         public let instanceCount: Int?
-        /// The OpenSearch instance type offered by the reserved instance offering.
+        /// The OpenSearch instance type offered by theReserved Instance offering.
         public let instanceType: OpenSearchPartitionInstanceType?
-        /// The payment option as defined in the reserved OpenSearch instance offering.
+        /// The payment option as defined in the Reserved Instance offering.
         public let paymentOption: ReservedInstancePaymentOption?
-        /// The charge to your account regardless of whether you are creating any domains using the instance offering.
+        /// The recurring charge to your account, regardless of whether you create any domains using the Reserved Instance offering.
         public let recurringCharges: [RecurringCharge]?
         /// The customer-specified identifier to track this reservation.
         public let reservationName: String?
         /// The unique identifier for the reservation.
         public let reservedInstanceId: String?
-        /// The offering identifier.
+        /// The unique identifier of the Reserved Instance offering.
         public let reservedInstanceOfferingId: String?
-        /// The time the reservation started.
+        /// The date and time when the reservation was purchased.
         public let startTime: Date?
-        /// The state of the reserved OpenSearch instance.
+        /// The state of the Reserved Instance.
         public let state: String?
-        /// The rate you are charged for each hour for the domain that is using this reserved instance.
+        /// The hourly rate at which you're charged for the domain using this Reserved Instance.
         public let usagePrice: Double?
 
         public init(billingSubscriptionId: Int64? = nil, currencyCode: String? = nil, duration: Int? = nil, fixedPrice: Double? = nil, instanceCount: Int? = nil, instanceType: OpenSearchPartitionInstanceType? = nil, paymentOption: ReservedInstancePaymentOption? = nil, recurringCharges: [RecurringCharge]? = nil, reservationName: String? = nil, reservedInstanceId: String? = nil, reservedInstanceOfferingId: String? = nil, startTime: Date? = nil, state: String? = nil, usagePrice: Double? = nil) {
@@ -3322,21 +3676,21 @@ extension OpenSearch {
     }
 
     public struct ReservedInstanceOffering: AWSDecodableShape {
-        /// The currency code for the reserved OpenSearch instance offering.
+        /// The currency code for the Reserved Instance offering.
         public let currencyCode: String?
         /// The duration, in seconds, for which the offering will reserve the OpenSearch instance.
         public let duration: Int?
-        /// The upfront fixed charge you will pay to purchase the specific reserved OpenSearch instance offering.
+        /// The upfront fixed charge you will pay to purchase the specific Reserved Instance offering.
         public let fixedPrice: Double?
-        /// The OpenSearch instance type offered by the reserved instance offering.
+        /// The OpenSearch instance type offered by the Reserved Instance offering.
         public let instanceType: OpenSearchPartitionInstanceType?
-        /// Payment option for the reserved OpenSearch instance offering
+        /// Payment option for the Reserved Instance offering
         public let paymentOption: ReservedInstancePaymentOption?
-        /// The charge to your account regardless of whether you are creating any domains using the instance offering.
+        /// The recurring charge to your account, regardless of whether you creates any domains using the offering.
         public let recurringCharges: [RecurringCharge]?
-        /// The OpenSearch reserved instance offering identifier.
+        /// The unique identifier of the Reserved Instance offering.
         public let reservedInstanceOfferingId: String?
-        /// The rate you are charged for each hour the domain that is using the offering is running.
+        /// The hourly rate at which you're charged for the domain using this Reserved Instance.
         public let usagePrice: Double?
 
         public init(currencyCode: String? = nil, duration: Int? = nil, fixedPrice: Double? = nil, instanceType: OpenSearchPartitionInstanceType? = nil, paymentOption: ReservedInstancePaymentOption? = nil, recurringCharges: [RecurringCharge]? = nil, reservedInstanceOfferingId: String? = nil, usagePrice: Double? = nil) {
@@ -3362,10 +3716,41 @@ extension OpenSearch {
         }
     }
 
+    public struct RevokeVpcEndpointAccessRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
+        ]
+
+        /// The account ID to revoke access from.
+        public let account: String
+        /// The name of the OpenSearch Service domain.
+        public let domainName: String
+
+        public init(account: String, domainName: String) {
+            self.account = account
+            self.domainName = domainName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.account, name: "account", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-z][a-z0-9\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case account = "Account"
+        }
+    }
+
+    public struct RevokeVpcEndpointAccessResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct SAMLIdp: AWSEncodableShape & AWSDecodableShape {
-        /// The unique entity ID of the application in SAML identity provider.
+        /// The unique entity ID of the application in the SAML identity provider.
         public let entityId: String
-        /// The metadata of the SAML application in XML format.
+        /// The metadata of the SAML application, in XML format.
         public let metadataContent: String
 
         public init(entityId: String, metadataContent: String) {
@@ -3387,19 +3772,19 @@ extension OpenSearch {
     }
 
     public struct SAMLOptionsInput: AWSEncodableShape {
-        /// True if SAML is enabled.
+        /// True to enable SAML authentication for a domain.
         public let enabled: Bool?
         /// The SAML Identity Provider's information.
         public let idp: SAMLIdp?
         /// The backend role that the SAML master user is mapped to.
         public let masterBackendRole: String?
-        /// The SAML master username, which is stored in the Amazon OpenSearch Service domain's internal database.
+        /// The SAML master user name, which is stored in the domain's internal user database.
         public let masterUserName: String?
         /// Element of the SAML assertion to use for backend roles. Default is roles.
         public let rolesKey: String?
         /// The duration, in minutes, after which a user session becomes inactive. Acceptable values are between 1 and 1440, and the default value is 60.
         public let sessionTimeoutMinutes: Int?
-        /// Element of the SAML assertion to use for username. Default is NameID.
+        /// Element of the SAML assertion to use for the user name. Default is NameID.
         public let subjectKey: String?
 
         public init(enabled: Bool? = nil, idp: SAMLIdp? = nil, masterBackendRole: String? = nil, masterUserName: String? = nil, rolesKey: String? = nil, sessionTimeoutMinutes: Int? = nil, subjectKey: String? = nil) {
@@ -3462,13 +3847,13 @@ extension OpenSearch {
     }
 
     public struct ScheduledAutoTuneDetails: AWSDecodableShape {
-        /// The Auto-Tune action description.
+        /// A description of the Auto-Tune action.
         public let action: String?
-        /// The Auto-Tune action type. Valid values are JVM_HEAP_SIZE_TUNING and JVM_YOUNG_GEN_TUNING.
+        /// The type of Auto-Tune action.
         public let actionType: ScheduledAutoTuneActionType?
-        /// The timestamp of the Auto-Tune action scheduled for the domain.
+        /// The date and time when the Auto-Tune action is scheduled for the domain.
         public let date: Date?
-        /// The Auto-Tune action severity. Valid values are LOW, MEDIUM, and HIGH.
+        /// The severity of the Auto-Tune action. Valid values are LOW, MEDIUM, and HIGH.
         public let severity: ScheduledAutoTuneSeverityType?
 
         public init(action: String? = nil, actionType: ScheduledAutoTuneActionType? = nil, date: Date? = nil, severity: ScheduledAutoTuneSeverityType? = nil) {
@@ -3493,15 +3878,15 @@ extension OpenSearch {
         public let cancellable: Bool?
         /// The current service software version present on the domain.
         public let currentVersion: String?
-        /// The description of the UpdateStatus.
+        /// A description of the service software update status.
         public let description: String?
-        /// The new service software version if one is available.
+        /// The new service software version, if one is available.
         public let newVersion: String?
-        ///  True if a service software is never automatically updated. False if a service software is automatically updated after AutomatedUpdateDate.
+        /// True if a service software is never automatically updated. False if a service software is automatically updated after the automated update date.
         public let optionalDeployment: Bool?
-        ///  True if you're able to update your service software version. False if you can't update your service software version.
+        /// True if you're able to update your service software version. False if you can't update your service software version.
         public let updateAvailable: Bool?
-        /// The status of your service software update. This field can take the following values:  ELIGIBLE, PENDING_UPDATE, IN_PROGRESS, COMPLETED, and  NOT_ELIGIBLE.
+        /// The status of your service software update.
         public let updateStatus: DeploymentStatus?
 
         public init(automatedUpdateDate: Date? = nil, cancellable: Bool? = nil, currentVersion: String? = nil, description: String? = nil, newVersion: String? = nil, optionalDeployment: Bool? = nil, updateAvailable: Bool? = nil, updateStatus: DeploymentStatus? = nil) {
@@ -3528,7 +3913,7 @@ extension OpenSearch {
     }
 
     public struct SnapshotOptions: AWSEncodableShape & AWSDecodableShape {
-        /// The time, in UTC format, when the service takes a daily automated snapshot of the specified domain. Default is 0 hours.
+        /// The time, in UTC format, when OpenSearch Service takes a daily automated snapshot of the specified domain. Default is 0 hours.
         public let automatedSnapshotStartHour: Int?
 
         public init(automatedSnapshotStartHour: Int? = nil) {
@@ -3577,7 +3962,7 @@ extension OpenSearch {
     }
 
     public struct StartServiceSoftwareUpdateResponse: AWSDecodableShape {
-        /// The current status of the OpenSearch service software update.
+        /// The current status of the OpenSearch Service software update.
         public let serviceSoftwareOptions: ServiceSoftwareOptions?
 
         public init(serviceSoftwareOptions: ServiceSoftwareOptions? = nil) {
@@ -3590,9 +3975,11 @@ extension OpenSearch {
     }
 
     public struct StorageType: AWSDecodableShape {
+        /// The storage sub-type, such as gp3 or io1.
         public let storageSubTypeName: String?
         /// Limits that are applicable for the given storage type.
         public let storageTypeLimits: [StorageTypeLimit]?
+        /// The name of the storage type.
         public let storageTypeName: String?
 
         public init(storageSubTypeName: String? = nil, storageTypeLimits: [StorageTypeLimit]? = nil, storageTypeName: String? = nil) {
@@ -3609,9 +3996,9 @@ extension OpenSearch {
     }
 
     public struct StorageTypeLimit: AWSDecodableShape {
-        ///  Name of storage limits that are applicable for the given storage type. If  StorageType  is "ebs", the following storage options are applicable:  MinimumVolumeSize Minimum amount of volume size that is applicable for the given storage type. Can be empty if not applicable. MaximumVolumeSize Maximum amount of volume size that is applicable for the given storage type. Can be empty if not applicable. MaximumIops Maximum amount of Iops that is applicable for given the storage type. Can be empty if not applicable. MinimumIops Minimum amount of Iops that is applicable for given the storage type. Can be empty if not applicable. MaximumThroughput Maximum amount of Throughput that is applicable for given the storage type. Can be empty if not applicable. MinimumThroughput Minimum amount of Throughput that is applicable for given the storage type. Can be empty if not applicable.
+        ///  Name of storage limits that are applicable for the given storage type. If StorageType is ebs, the following options are available:    MinimumVolumeSize - Minimum volume size that is available for the given storage type. Can be empty if not applicable.    MaximumVolumeSize - Maximum volume size that is available for the given storage type. Can be empty if not applicable.    MaximumIops - Maximum amount of IOPS that is available for the given the storage type. Can be empty if not applicable.    MinimumIops - Minimum amount of IOPS that is available for the given the storage type. Can be empty if not applicable.    MaximumThroughput - Maximum amount of throughput that is available for the given the storage type. Can be empty if not applicable.    MinimumThroughput - Minimum amount of throughput that is available for the given the storage type. Can be empty if not applicable.
         public let limitName: String?
-        ///  Values for the  StorageTypeLimit$LimitName  .
+        /// The limit values.
         public let limitValues: [String]?
 
         public init(limitName: String? = nil, limitValues: [String]? = nil) {
@@ -3626,9 +4013,9 @@ extension OpenSearch {
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
-        /// The TagKey, the name of the tag. Tag keys must be unique for the domain to which they are attached.
+        /// The tag key. Tag keys must be unique for the domain to which they are attached.
         public let key: String
-        /// The TagValue, the value assigned to the corresponding tag key. Tag values can be null and don't have to be unique in a tag set. For example, you can have a key value pair in a tag set of project : Trinity and cost-center : Trinity
+        /// The value assigned to the corresponding tag key. Tag values can be null and don't have to be unique in a tag set. For example, you can have a key value pair in a tag set of project : Trinity and cost-center : Trinity
         public let value: String
 
         public init(key: String, value: String) {
@@ -3655,35 +4042,35 @@ extension OpenSearch {
             AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
         ]
 
-        /// IAM access policy as a JSON-formatted string.
+        /// Identity and Access Management (IAM) access policy as a JSON-formatted string.
         public let accessPolicies: String?
-        /// Modifies the advanced option to allow references to indices in an HTTP request body. Must be false when configuring access to individual sub-resources. By default, the value is true. See Advanced options for more information.
+        /// Key-value pairs to specify advanced configuration options. The following key-value pairs are supported:    "rest.action.multi.allow_explicit_index": "true" | "false" - Note the use of a string rather than a boolean. Specifies whether explicit references to indexes are allowed inside the body of HTTP requests. If you want to configure access policies for domain sub-resources, such as specific indexes and domain APIs, you must disable this property. Default is true.    "indices.fielddata.cache.size": "80"  - Note the use of a string rather than a boolean. Specifies the percentage of heap space allocated to field data. Default is unbounded.    "indices.query.bool.max_clause_count": "1024" - Note the use of a string rather than a boolean. Specifies the maximum number of clauses allowed in a Lucene boolean query. Default is 1,024. Queries with more than the permitted number of clauses result in a TooManyClauses error.    "override_main_response_version": "true" | "false" - Note the use of a string rather than a boolean. Specifies whether the domain reports its version as 7.10 to allow Elasticsearch OSS clients and plugins to continue working with it. Default is false when creating a domain and true when upgrading a domain.   For more information, see Advanced cluster parameters.
         public let advancedOptions: [String: String]?
-        /// Specifies advanced security options.
+        /// Options for fine-grained access control.
         public let advancedSecurityOptions: AdvancedSecurityOptionsInput?
-        /// Specifies Auto-Tune options.
+        /// Options for Auto-Tune.
         public let autoTuneOptions: AutoTuneOptions?
-        /// The type and number of instances to instantiate for the domain cluster.
+        /// Changes that you want to make to the cluster configuration, such as the instance type and number of EC2 instances.
         public let clusterConfig: ClusterConfig?
-        /// Options to specify the Cognito user and identity pools for OpenSearch Dashboards authentication. For more information, see Configuring Amazon Cognito authentication for OpenSearch Dashboards.
+        /// Key-value pairs to configure Amazon Cognito authentication for OpenSearch Dashboards.
         public let cognitoOptions: CognitoOptions?
-        /// Options to specify configuration that will be applied to the domain endpoint.
+        /// Additional options for the domain endpoint, such as whether to require HTTPS for all traffic.
         public let domainEndpointOptions: DomainEndpointOptions?
-        /// The name of the domain you're updating.
+        /// The name of the domain that you're updating.
         public let domainName: String
-        /// This flag, when set to True, specifies whether the UpdateDomain request should return the results of validation checks (DryRunResults) without actually applying the change.
+        /// This flag, when set to True, specifies whether the UpdateDomain request should return the results of validation check without actually applying the change.
         public let dryRun: Bool?
-        /// Specify the type and size of the EBS volume to use.
+        /// The type and size of the EBS volume to attach to instances in the domain.
         public let ebsOptions: EBSOptions?
-        /// Specifies encryption of data at rest options.
+        /// Encryption at rest options for the domain.
         public let encryptionAtRestOptions: EncryptionAtRestOptions?
-        /// Map of LogType and LogPublishingOption, each containing options to publish a given type of OpenSearch log.
+        /// Options to publish OpenSearch lots to Amazon CloudWatch Logs.
         public let logPublishingOptions: [LogType: LogPublishingOption]?
-        /// Specifies node-to-node encryption options.
+        /// Node-To-Node Encryption options for the domain.
         public let nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions?
         /// Option to set the time, in UTC format, for the daily automated snapshot. Default value is 0 hours.
         public let snapshotOptions: SnapshotOptions?
-        /// Options to specify the subnets and security groups for the VPC endpoint. For more information, see Launching your Amazon OpenSearch Service domains using a VPC .
+        /// Options to specify the subnets and security groups for a VPC endpoint. For more information, see Launching your Amazon OpenSearch Service domains using a VPC.
         public let vpcOptions: VPCOptions?
 
         public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, autoTuneOptions: AutoTuneOptions? = nil, clusterConfig: ClusterConfig? = nil, cognitoOptions: CognitoOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, dryRun: Bool? = nil, ebsOptions: EBSOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, snapshotOptions: SnapshotOptions? = nil, vpcOptions: VPCOptions? = nil) {
@@ -3741,7 +4128,7 @@ extension OpenSearch {
     public struct UpdateDomainConfigResponse: AWSDecodableShape {
         /// The status of the updated domain.
         public let domainConfig: DomainConfig
-        /// Contains result of DryRun.
+        /// Results of a dry run performed in an update domain request.
         public let dryRunResults: DryRunResults?
 
         public init(domainConfig: DomainConfig, dryRunResults: DryRunResults? = nil) {
@@ -3756,12 +4143,13 @@ extension OpenSearch {
     }
 
     public struct UpdatePackageRequest: AWSEncodableShape {
-        /// A commit message for the new version which is shown as part of GetPackageVersionHistoryResponse.
+        /// Commit message for the updated file, which is shown as part of GetPackageVersionHistoryResponse.
         public let commitMessage: String?
         /// A new description of the package.
         public let packageDescription: String?
         /// The unique identifier for the package.
         public let packageID: String
+        /// Amazon S3 bucket and key for the package.
         public let packageSource: PackageSource
 
         public init(commitMessage: String? = nil, packageDescription: String? = nil, packageID: String, packageSource: PackageSource) {
@@ -3786,7 +4174,7 @@ extension OpenSearch {
     }
 
     public struct UpdatePackageResponse: AWSDecodableShape {
-        /// Information about the package.
+        /// Information about a package.
         public let packageDetails: PackageDetails?
 
         public init(packageDetails: PackageDetails? = nil) {
@@ -3798,12 +4186,50 @@ extension OpenSearch {
         }
     }
 
+    public struct UpdateVpcEndpointRequest: AWSEncodableShape {
+        /// The unique identifier of the endpoint.
+        public let vpcEndpointId: String
+        /// The security groups and/or subnets to add, remove, or modify.
+        public let vpcOptions: VPCOptions
+
+        public init(vpcEndpointId: String, vpcOptions: VPCOptions) {
+            self.vpcEndpointId = vpcEndpointId
+            self.vpcOptions = vpcOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.vpcEndpointId, name: "vpcEndpointId", parent: name, max: 256)
+            try self.validate(self.vpcEndpointId, name: "vpcEndpointId", parent: name, min: 5)
+            try self.validate(self.vpcEndpointId, name: "vpcEndpointId", parent: name, pattern: "^aos-[a-zA-Z0-9]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcEndpointId = "VpcEndpointId"
+            case vpcOptions = "VpcOptions"
+        }
+    }
+
+    public struct UpdateVpcEndpointResponse: AWSDecodableShape {
+        /// The endpoint to be updated.
+        public let vpcEndpoint: VpcEndpoint
+
+        public init(vpcEndpoint: VpcEndpoint) {
+            self.vpcEndpoint = vpcEndpoint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcEndpoint = "VpcEndpoint"
+        }
+    }
+
     public struct UpgradeDomainRequest: AWSEncodableShape {
+        /// Only supports the override_main_response_version parameter and not other advanced options. You can only include this option when upgrading to an OpenSearch version. Specifies whether the domain reports its version as 7.10 so that it continues to work with Elasticsearch OSS clients and plugins.
         public let advancedOptions: [String: String]?
+        /// Name of the OpenSearch Service domain that you want to upgrade.
         public let domainName: String
-        ///  When true, indicates that an upgrade eligibility check needs to be performed. Does not actually perform the upgrade.
+        /// When true, indicates that an upgrade eligibility check needs to be performed. Does not actually perform the upgrade.
         public let performCheckOnly: Bool?
-        /// The version of OpenSearch you intend to upgrade the domain to.
+        /// OpenSearch or Elasticsearch version to which you want to upgrade, in the format Opensearch_X.Y or Elasticsearch_X.Y.
         public let targetVersion: String
 
         public init(advancedOptions: [String: String]? = nil, domainName: String, performCheckOnly: Bool? = nil, targetVersion: String) {
@@ -3831,13 +4257,17 @@ extension OpenSearch {
     }
 
     public struct UpgradeDomainResponse: AWSDecodableShape {
+        /// The advanced options configuration for the domain.
         public let advancedOptions: [String: String]?
+        /// Container for information about a configuration change happening on a domain.
         public let changeProgressDetails: ChangeProgressDetails?
+        /// The name of the domain that was upgraded.
         public let domainName: String?
-        ///  When true, indicates that an upgrade eligibility check needs to be performed. Does not actually perform the upgrade.
+        /// When true, indicates that an upgrade eligibility check was performed.
         public let performCheckOnly: Bool?
-        /// The version of OpenSearch that you intend to upgrade the domain to.
+        /// OpenSearch or Elasticsearch version that the domain was upgraded to.
         public let targetVersion: String?
+        /// The unique identifier of the domain upgrade.
         public let upgradeId: String?
 
         public init(advancedOptions: [String: String]? = nil, changeProgressDetails: ChangeProgressDetails? = nil, domainName: String? = nil, performCheckOnly: Bool? = nil, targetVersion: String? = nil, upgradeId: String? = nil) {
@@ -3860,13 +4290,13 @@ extension OpenSearch {
     }
 
     public struct UpgradeHistory: AWSDecodableShape {
-        /// UTC timestamp at which the upgrade API call was made in "yyyy-MM-ddTHH:mm:ssZ" format.
+        /// UTC timestamp at which the upgrade API call was made, in the format yyyy-MM-ddTHH:mm:ssZ.
         public let startTimestamp: Date?
-        ///  A list of  UpgradeStepItem  s representing information about each step performed as part of a specific upgrade or upgrade eligibility check.
+        /// A list of each step performed as part of a specific upgrade or upgrade eligibility check.
         public let stepsList: [UpgradeStepItem]?
-        /// A string that briefly describes the upgrade.
+        /// A string that describes the upgrade.
         public let upgradeName: String?
-        ///  The current status of the upgrade. The status can take one of the following values:  In Progress Succeeded Succeeded with Issues Failed
+        ///  The current status of the upgrade. The status can take one of the following values:    In Progress   Succeeded   Succeeded with Issues   Failed
         public let upgradeStatus: UpgradeStatus?
 
         public init(startTimestamp: Date? = nil, stepsList: [UpgradeStepItem]? = nil, upgradeName: String? = nil, upgradeStatus: UpgradeStatus? = nil) {
@@ -3889,9 +4319,9 @@ extension OpenSearch {
         public let issues: [String]?
         /// The floating point value representing the progress percentage of a particular step.
         public let progressPercent: Double?
-        ///  One of three steps an upgrade or upgrade eligibility check goes through:  PreUpgradeCheck Snapshot Upgrade
+        ///  One of three steps that an upgrade or upgrade eligibility check goes through:    PreUpgradeCheck   Snapshot   Upgrade
         public let upgradeStep: UpgradeStep?
-        ///  The current status of the upgrade. The status can take one of the following values:  In Progress Succeeded Succeeded with Issues Failed
+        ///  The current status of the upgrade. The status can take one of the following values:    In Progress   Succeeded   Succeeded with Issues   Failed
         public let upgradeStepStatus: UpgradeStatus?
 
         public init(issues: [String]? = nil, progressPercent: Double? = nil, upgradeStep: UpgradeStep? = nil, upgradeStepStatus: UpgradeStatus? = nil) {
@@ -3910,13 +4340,13 @@ extension OpenSearch {
     }
 
     public struct VPCDerivedInfo: AWSDecodableShape {
-        /// The Availability Zones for the domain. Exists only if the domain was created with VPCOptions.
+        /// The list of Availability Zones associated with the VPC subnets.
         public let availabilityZones: [String]?
-        /// The security groups for the VPC endpoint.
+        /// The list of security group IDs associated with the VPC endpoints for the domain.
         public let securityGroupIds: [String]?
-        /// The subnets for the VPC endpoint.
+        /// A list of subnet IDs associated with the VPC endpoints for the domain.
         public let subnetIds: [String]?
-        /// The VPC ID for the domain. Exists only if the domain was created with VPCOptions.
+        /// The ID for your VPC. Amazon VPC generates this value when you create a VPC.
         public let vpcId: String?
 
         public init(availabilityZones: [String]? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
@@ -3952,9 +4382,9 @@ extension OpenSearch {
     }
 
     public struct VPCOptions: AWSEncodableShape {
-        /// The security groups for the VPC endpoint.
+        /// The list of security group IDs associated with the VPC endpoints for the domain. If you do not provide a security group ID, OpenSearch Service uses the default security group for the VPC.
         public let securityGroupIds: [String]?
-        /// The subnets for the VPC endpoint.
+        /// A list of subnet IDs associated with the VPC endpoints for the domain. If your domain uses multiple Availability Zones, you need to provide two subnet IDs, one per zone. Otherwise, provide only one.
         public let subnetIds: [String]?
 
         public init(securityGroupIds: [String]? = nil, subnetIds: [String]? = nil) {
@@ -3969,9 +4399,9 @@ extension OpenSearch {
     }
 
     public struct VersionStatus: AWSDecodableShape {
-        /// The OpenSearch version for the specified OpenSearch domain.
+        /// The OpenSearch or Elasticsearch version for the specified domain.
         public let options: String
-        /// The status of the OpenSearch version options for the specified OpenSearch domain.
+        /// The status of the version options for the specified domain.
         public let status: OptionStatus
 
         public init(options: String, status: OptionStatus) {
@@ -3985,8 +4415,87 @@ extension OpenSearch {
         }
     }
 
+    public struct VpcEndpoint: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the domain associated with the endpoint.
+        public let domainArn: String?
+        /// The connection endpoint ID for connecting to the domain.
+        public let endpoint: String?
+        /// The current status of the endpoint.
+        public let status: VpcEndpointStatus?
+        /// The unique identifier of the endpoint.
+        public let vpcEndpointId: String?
+        /// The creator of the endpoint.
+        public let vpcEndpointOwner: String?
+        /// Options to specify the subnets and security groups for an Amazon OpenSearch Service VPC endpoint.
+        public let vpcOptions: VPCDerivedInfo?
+
+        public init(domainArn: String? = nil, endpoint: String? = nil, status: VpcEndpointStatus? = nil, vpcEndpointId: String? = nil, vpcEndpointOwner: String? = nil, vpcOptions: VPCDerivedInfo? = nil) {
+            self.domainArn = domainArn
+            self.endpoint = endpoint
+            self.status = status
+            self.vpcEndpointId = vpcEndpointId
+            self.vpcEndpointOwner = vpcEndpointOwner
+            self.vpcOptions = vpcOptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainArn = "DomainArn"
+            case endpoint = "Endpoint"
+            case status = "Status"
+            case vpcEndpointId = "VpcEndpointId"
+            case vpcEndpointOwner = "VpcEndpointOwner"
+            case vpcOptions = "VpcOptions"
+        }
+    }
+
+    public struct VpcEndpointError: AWSDecodableShape {
+        /// The code associated with the error.
+        public let errorCode: VpcEndpointErrorCode?
+        /// A message describing the error.
+        public let errorMessage: String?
+        /// The unique identifier of the endpoint.
+        public let vpcEndpointId: String?
+
+        public init(errorCode: VpcEndpointErrorCode? = nil, errorMessage: String? = nil, vpcEndpointId: String? = nil) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.vpcEndpointId = vpcEndpointId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
+            case vpcEndpointId = "VpcEndpointId"
+        }
+    }
+
+    public struct VpcEndpointSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the domain associated with the endpoint.
+        public let domainArn: String?
+        /// The current status of the endpoint.
+        public let status: VpcEndpointStatus?
+        /// The unique identifier of the endpoint.
+        public let vpcEndpointId: String?
+        /// The creator of the endpoint.
+        public let vpcEndpointOwner: String?
+
+        public init(domainArn: String? = nil, status: VpcEndpointStatus? = nil, vpcEndpointId: String? = nil, vpcEndpointOwner: String? = nil) {
+            self.domainArn = domainArn
+            self.status = status
+            self.vpcEndpointId = vpcEndpointId
+            self.vpcEndpointOwner = vpcEndpointOwner
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainArn = "DomainArn"
+            case status = "Status"
+            case vpcEndpointId = "VpcEndpointId"
+            case vpcEndpointOwner = "VpcEndpointOwner"
+        }
+    }
+
     public struct ZoneAwarenessConfig: AWSEncodableShape & AWSDecodableShape {
-        /// An integer value to indicate the number of availability zones for a domain when zone awareness is enabled. This should be equal to number of subnets if VPC endpoints is enabled.
+        /// If you enabled multiple Availability Zones, this value is the number of zones that you want the domain to use. Valid values are 2 and 3. If your domain is provisioned within a VPC, this value be equal to number of subnets.
         public let availabilityZoneCount: Int?
 
         public init(availabilityZoneCount: Int? = nil) {

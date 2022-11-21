@@ -298,9 +298,9 @@ extension SFN {
     }
 
     public struct CreateActivityInput: AWSEncodableShape {
-        /// The name of the activity to create. This name must be unique for your AWS account and region for 90 days. For more information, see  Limits Related to State Machine Executions in the AWS Step Functions Developer Guide.  A name must not contain:   white space   brackets  { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ & , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain  0-9, A-Z, a-z, - and _.
+        /// The name of the activity to create. This name must be unique for your Amazon Web Services account and region for 90 days. For more information, see  Limits Related to State Machine Executions in the Step Functions Developer Guide.  A name must not contain:   white space   brackets  { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ & , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain  0-9, A-Z, a-z, - and _.
         public let name: String
-        /// The list of tags to add to a resource.  An array of key-value pairs. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide, and Controlling Access Using IAM Tags.  Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @.
+        /// The list of tags to add to a resource.  An array of key-value pairs. For more information, see Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide, and Controlling Access Using IAM Tags.  Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @.
         public let tags: [Tag]?
 
         public init(name: String, tags: [Tag]? = nil) {
@@ -342,15 +342,15 @@ extension SFN {
     public struct CreateStateMachineInput: AWSEncodableShape {
         /// The Amazon States Language definition of the state machine. See Amazon States Language.
         public let definition: String
-        /// Defines what execution history events are logged and where they are logged.  By default, the level is set to OFF. For more information see Log Levels in the AWS Step Functions User Guide.
+        /// Defines what execution history events are logged and where they are logged.  By default, the level is set to OFF. For more information see Log Levels in the Step Functions User Guide.
         public let loggingConfiguration: LoggingConfiguration?
         /// The name of the state machine.   A name must not contain:   white space   brackets  { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ & , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain  0-9, A-Z, a-z, - and _.
         public let name: String
         /// The Amazon Resource Name (ARN) of the IAM role to use for this state machine.
         public let roleArn: String
-        /// Tags to be added when creating a state machine.  An array of key-value pairs. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide, and Controlling Access Using IAM Tags.  Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @.
+        /// Tags to be added when creating a state machine.  An array of key-value pairs. For more information, see Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide, and Controlling Access Using IAM Tags.  Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @.
         public let tags: [Tag]?
-        /// Selects whether AWS X-Ray tracing is enabled.
+        /// Selects whether X-Ray tracing is enabled.
         public let tracingConfiguration: TracingConfiguration?
         /// Determines whether a Standard or Express state machine is created. The default is STANDARD. You cannot update the type of a state machine once it has been created.
         public let type: StateMachineType?
@@ -526,7 +526,7 @@ extension SFN {
         public let status: ExecutionStatus
         /// If the execution has already ended, the date the execution stopped.
         public let stopDate: Date?
-        /// The AWS X-Ray trace header that was passed to the execution.
+        /// The X-Ray trace header that was passed to the execution.
         public let traceHeader: String?
 
         public init(executionArn: String, input: String? = nil, inputDetails: CloudWatchEventsExecutionDataDetails? = nil, name: String? = nil, output: String? = nil, outputDetails: CloudWatchEventsExecutionDataDetails? = nil, startDate: Date, stateMachineArn: String, status: ExecutionStatus, stopDate: Date? = nil, traceHeader: String? = nil) {
@@ -586,7 +586,7 @@ extension SFN {
         public let roleArn: String
         /// The Amazon Resource Name (ARN) of the state machine associated with the execution.
         public let stateMachineArn: String
-        /// Selects whether AWS X-Ray tracing is enabled.
+        /// Selects whether X-Ray tracing is enabled.
         public let tracingConfiguration: TracingConfiguration?
         /// The date and time the state machine associated with an execution was updated. For a newly created state machine, this is the creation date.
         public let updateDate: Date
@@ -638,13 +638,13 @@ extension SFN {
         public let loggingConfiguration: LoggingConfiguration?
         /// The name of the state machine.  A name must not contain:   white space   brackets  { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ & , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain  0-9, A-Z, a-z, - and _.
         public let name: String
-        /// The Amazon Resource Name (ARN) of the IAM role used when creating this state machine. (The IAM role maintains security by granting Step Functions access to AWS resources.)
+        /// The Amazon Resource Name (ARN) of the IAM role used when creating this state machine. (The IAM role maintains security by granting Step Functions access to Amazon Web Services resources.)
         public let roleArn: String
         /// The Amazon Resource Name (ARN) that identifies the state machine.
         public let stateMachineArn: String
         /// The current status of the state machine.
         public let status: StateMachineStatus?
-        /// Selects whether AWS X-Ray tracing is enabled.
+        /// Selects whether X-Ray tracing is enabled.
         public let tracingConfiguration: TracingConfiguration?
         /// The type of the state machine (STANDARD or EXPRESS).
         public let type: StateMachineType
@@ -746,7 +746,7 @@ extension SFN {
         public let input: String?
         /// Contains details about the input for an execution history event.
         public let inputDetails: HistoryEventExecutionDataDetails?
-        /// The Amazon Resource Name (ARN) of the IAM role used for executing AWS Lambda tasks.
+        /// The Amazon Resource Name (ARN) of the IAM role used for executing Lambda tasks.
         public let roleArn: String?
 
         public init(input: String? = nil, inputDetails: HistoryEventExecutionDataDetails? = nil, roleArn: String? = nil) {
@@ -912,7 +912,7 @@ extension SFN {
         public let lambdaFunctionScheduleFailedEventDetails: LambdaFunctionScheduleFailedEventDetails?
         /// Contains details about a lambda function that failed to start during an execution.
         public let lambdaFunctionStartFailedEventDetails: LambdaFunctionStartFailedEventDetails?
-        /// Contains details about a lambda function that terminated successfully during an execution.
+        /// Contains details about a Lambda function that terminated successfully during an execution.
         public let lambdaFunctionSucceededEventDetails: LambdaFunctionSucceededEventDetails?
         public let lambdaFunctionTimedOutEventDetails: LambdaFunctionTimedOutEventDetails?
         /// Contains details about an iteration of a Map state that was aborted.
@@ -1077,19 +1077,22 @@ extension SFN {
     }
 
     public struct LambdaFunctionScheduledEventDetails: AWSDecodableShape {
-        /// The JSON data input to the lambda function. Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
+        /// The JSON data input to the Lambda function. Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
         public let input: String?
         /// Contains details about input for an execution history event.
         public let inputDetails: HistoryEventExecutionDataDetails?
-        /// The Amazon Resource Name (ARN) of the scheduled lambda function.
+        /// The Amazon Resource Name (ARN) of the scheduled Lambda function.
         public let resource: String
-        /// The maximum allowed duration of the lambda function.
+        /// The credentials that Step Functions uses for the task.
+        public let taskCredentials: TaskCredentials?
+        /// The maximum allowed duration of the Lambda function.
         public let timeoutInSeconds: Int64?
 
-        public init(input: String? = nil, inputDetails: HistoryEventExecutionDataDetails? = nil, resource: String, timeoutInSeconds: Int64? = nil) {
+        public init(input: String? = nil, inputDetails: HistoryEventExecutionDataDetails? = nil, resource: String, taskCredentials: TaskCredentials? = nil, timeoutInSeconds: Int64? = nil) {
             self.input = input
             self.inputDetails = inputDetails
             self.resource = resource
+            self.taskCredentials = taskCredentials
             self.timeoutInSeconds = timeoutInSeconds
         }
 
@@ -1097,6 +1100,7 @@ extension SFN {
             case input
             case inputDetails
             case resource
+            case taskCredentials
             case timeoutInSeconds
         }
     }
@@ -1119,7 +1123,7 @@ extension SFN {
     }
 
     public struct LambdaFunctionSucceededEventDetails: AWSDecodableShape {
-        /// The JSON data output by the lambda function. Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
+        /// The JSON data output by the Lambda function. Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
         public let output: String?
         /// Contains details about the output of an execution history event.
         public let outputDetails: HistoryEventExecutionDataDetails?
@@ -1316,7 +1320,7 @@ extension SFN {
     }
 
     public struct LogDestination: AWSEncodableShape & AWSDecodableShape {
-        /// An object describing a CloudWatch log group. For more information, see AWS::Logs::LogGroup in the AWS CloudFormation User Guide.
+        /// An object describing a CloudWatch log group. For more information, see AWS::Logs::LogGroup in the CloudFormation User Guide.
         public let cloudWatchLogsLogGroup: CloudWatchLogsLogGroup?
 
         public init(cloudWatchLogsLogGroup: CloudWatchLogsLogGroup? = nil) {
@@ -1473,11 +1477,11 @@ extension SFN {
     public struct StartExecutionInput: AWSEncodableShape {
         /// The string that contains the JSON input data for the execution, for example:  "input": "{\"first_name\" : \"test\"}"   If you don't include any JSON input data, you still must include the two braces, for example: "input": "{}"   Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
         public let input: String?
-        /// The name of the execution. This name must be unique for your AWS account, region, and state machine for 90 days. For more information, see  Limits Related to State Machine Executions in the AWS Step Functions Developer Guide.  A name must not contain:   white space   brackets  { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ & , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain  0-9, A-Z, a-z, - and _.
+        /// The name of the execution. This name must be unique for your Amazon Web Services account, region, and state machine for 90 days. For more information, see  Limits Related to State Machine Executions in the Step Functions Developer Guide.  A name must not contain:   white space   brackets  { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ & , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain  0-9, A-Z, a-z, - and _.
         public let name: String?
         /// The Amazon Resource Name (ARN) of the state machine to execute.
         public let stateMachineArn: String
-        /// Passes the AWS X-Ray trace header. The trace header can also be passed in the request payload.
+        /// Passes the X-Ray trace header. The trace header can also be passed in the request payload.
         public let traceHeader: String?
 
         public init(input: String? = nil, name: String? = nil, stateMachineArn: String, traceHeader: String? = nil) {
@@ -1494,7 +1498,7 @@ extension SFN {
             try self.validate(self.stateMachineArn, name: "stateMachineArn", parent: name, max: 256)
             try self.validate(self.stateMachineArn, name: "stateMachineArn", parent: name, min: 1)
             try self.validate(self.traceHeader, name: "traceHeader", parent: name, max: 256)
-            try self.validate(self.traceHeader, name: "traceHeader", parent: name, pattern: "\\p{ASCII}*")
+            try self.validate(self.traceHeader, name: "traceHeader", parent: name, pattern: "^\\p{ASCII}*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1529,7 +1533,7 @@ extension SFN {
         public let name: String?
         /// The Amazon Resource Name (ARN) of the state machine to execute.
         public let stateMachineArn: String
-        /// Passes the AWS X-Ray trace header. The trace header can also be passed in the request payload.
+        /// Passes the X-Ray trace header. The trace header can also be passed in the request payload.
         public let traceHeader: String?
 
         public init(input: String? = nil, name: String? = nil, stateMachineArn: String, traceHeader: String? = nil) {
@@ -1546,7 +1550,7 @@ extension SFN {
             try self.validate(self.stateMachineArn, name: "stateMachineArn", parent: name, max: 256)
             try self.validate(self.stateMachineArn, name: "stateMachineArn", parent: name, min: 1)
             try self.validate(self.traceHeader, name: "traceHeader", parent: name, max: 256)
-            try self.validate(self.traceHeader, name: "traceHeader", parent: name, pattern: "\\p{ASCII}*")
+            try self.validate(self.traceHeader, name: "traceHeader", parent: name, pattern: "^\\p{ASCII}*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1582,7 +1586,7 @@ extension SFN {
         public let status: SyncExecutionStatus
         /// If the execution has already ended, the date the execution stopped.
         public let stopDate: Date
-        /// The AWS X-Ray trace header that was passed to the execution.
+        /// The X-Ray trace header that was passed to the execution.
         public let traceHeader: String?
 
         public init(billingDetails: BillingDetails? = nil, cause: String? = nil, error: String? = nil, executionArn: String, input: String? = nil, inputDetails: CloudWatchEventsExecutionDataDetails? = nil, name: String? = nil, output: String? = nil, outputDetails: CloudWatchEventsExecutionDataDetails? = nil, startDate: Date, stateMachineArn: String? = nil, status: SyncExecutionStatus, stopDate: Date, traceHeader: String? = nil) {
@@ -1779,14 +1783,27 @@ extension SFN {
         public init() {}
     }
 
+    public struct TaskCredentials: AWSDecodableShape {
+        /// The ARN of an IAM role that Step Functions assumes for the task. The role can allow cross-account access to resources.
+        public let roleArn: String?
+
+        public init(roleArn: String? = nil) {
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roleArn
+        }
+    }
+
     public struct TaskFailedEventDetails: AWSDecodableShape {
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
         /// The error code of the failure.
         public let error: String?
-        /// The service name of the resource in a task state.
-        public let resource: String
         /// The action of the resource called by a task state.
+        public let resource: String
+        /// The service name of the resource in a task state.
         public let resourceType: String
 
         public init(cause: String? = nil, error: String? = nil, resource: String, resourceType: String) {
@@ -1811,19 +1828,22 @@ extension SFN {
         public let parameters: String
         /// The region of the scheduled task
         public let region: String
-        /// The service name of the resource in a task state.
-        public let resource: String
         /// The action of the resource called by a task state.
+        public let resource: String
+        /// The service name of the resource in a task state.
         public let resourceType: String
+        /// The credentials that Step Functions uses for the task.
+        public let taskCredentials: TaskCredentials?
         /// The maximum allowed duration of the task.
         public let timeoutInSeconds: Int64?
 
-        public init(heartbeatInSeconds: Int64? = nil, parameters: String, region: String, resource: String, resourceType: String, timeoutInSeconds: Int64? = nil) {
+        public init(heartbeatInSeconds: Int64? = nil, parameters: String, region: String, resource: String, resourceType: String, taskCredentials: TaskCredentials? = nil, timeoutInSeconds: Int64? = nil) {
             self.heartbeatInSeconds = heartbeatInSeconds
             self.parameters = parameters
             self.region = region
             self.resource = resource
             self.resourceType = resourceType
+            self.taskCredentials = taskCredentials
             self.timeoutInSeconds = timeoutInSeconds
         }
 
@@ -1833,6 +1853,7 @@ extension SFN {
             case region
             case resource
             case resourceType
+            case taskCredentials
             case timeoutInSeconds
         }
     }
@@ -1842,9 +1863,9 @@ extension SFN {
         public let cause: String?
         /// The error code of the failure.
         public let error: String?
-        /// The service name of the resource in a task state.
-        public let resource: String
         /// The action of the resource called by a task state.
+        public let resource: String
+        /// The service name of the resource in a task state.
         public let resourceType: String
 
         public init(cause: String? = nil, error: String? = nil, resource: String, resourceType: String) {
@@ -1863,9 +1884,9 @@ extension SFN {
     }
 
     public struct TaskStartedEventDetails: AWSDecodableShape {
-        /// The service name of the resource in a task state.
-        public let resource: String
         /// The action of the resource called by a task state.
+        public let resource: String
+        /// The service name of the resource in a task state.
         public let resourceType: String
 
         public init(resource: String, resourceType: String) {
@@ -1884,9 +1905,9 @@ extension SFN {
         public let cause: String?
         /// The error code of the failure.
         public let error: String?
-        /// The service name of the resource in a task state.
-        public let resource: String
         /// The action of the resource called by a task state.
+        public let resource: String
+        /// The service name of the resource in a task state.
         public let resourceType: String
 
         public init(cause: String? = nil, error: String? = nil, resource: String, resourceType: String) {
@@ -1909,9 +1930,9 @@ extension SFN {
         public let output: String?
         /// Contains details about the output of an execution history event.
         public let outputDetails: HistoryEventExecutionDataDetails?
-        /// The service name of the resource in a task state.
-        public let resource: String
         /// The action of the resource called by a task state.
+        public let resource: String
+        /// The service name of the resource in a task state.
         public let resourceType: String
 
         public init(output: String? = nil, outputDetails: HistoryEventExecutionDataDetails? = nil, resource: String, resourceType: String) {
@@ -1934,9 +1955,9 @@ extension SFN {
         public let output: String?
         /// Contains details about the output of an execution history event.
         public let outputDetails: HistoryEventExecutionDataDetails?
-        /// The service name of the resource in a task state.
-        public let resource: String
         /// The action of the resource called by a task state.
+        public let resource: String
+        /// The service name of the resource in a task state.
         public let resourceType: String
 
         public init(output: String? = nil, outputDetails: HistoryEventExecutionDataDetails? = nil, resource: String, resourceType: String) {
@@ -1959,9 +1980,9 @@ extension SFN {
         public let cause: String?
         /// The error code of the failure.
         public let error: String?
-        /// The service name of the resource in a task state.
-        public let resource: String
         /// The action of the resource called by a task state.
+        public let resource: String
+        /// The service name of the resource in a task state.
         public let resourceType: String
 
         public init(cause: String? = nil, error: String? = nil, resource: String, resourceType: String) {
@@ -1980,7 +2001,7 @@ extension SFN {
     }
 
     public struct TracingConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// When set to true, AWS X-Ray tracing is enabled.
+        /// When set to true, X-Ray tracing is enabled.
         public let enabled: Bool?
 
         public init(enabled: Bool? = nil) {
@@ -2031,7 +2052,7 @@ extension SFN {
         public let roleArn: String?
         /// The Amazon Resource Name (ARN) of the state machine.
         public let stateMachineArn: String
-        /// Selects whether AWS X-Ray tracing is enabled.
+        /// Selects whether X-Ray tracing is enabled.
         public let tracingConfiguration: TracingConfiguration?
 
         public init(definition: String? = nil, loggingConfiguration: LoggingConfiguration? = nil, roleArn: String? = nil, stateMachineArn: String, tracingConfiguration: TracingConfiguration? = nil) {

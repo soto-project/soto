@@ -87,6 +87,13 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
+    public enum CertificateDomainValidationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case failed = "FAILED"
+        case pendingValidation = "PENDING_VALIDATION"
+        case success = "SUCCESS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CertificateStatus: String, CustomStringConvertible, Codable, _SotoSendable {
         case expired = "EXPIRED"
         case failed = "FAILED"
@@ -209,6 +216,13 @@ extension Lightsail {
         case http5xxErrorRate = "Http5xxErrorRate"
         case requests = "Requests"
         case totalErrorRate = "TotalErrorRate"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DnsRecordCreationStateCode: String, CustomStringConvertible, Codable, _SotoSendable {
+        case failed = "FAILED"
+        case started = "STARTED"
+        case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
@@ -371,6 +385,13 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
+    public enum LoadBalancerTlsCertificateDnsRecordCreationStateCode: String, CustomStringConvertible, Codable, _SotoSendable {
+        case failed = "FAILED"
+        case started = "STARTED"
+        case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum LoadBalancerTlsCertificateDomainStatus: String, CustomStringConvertible, Codable, _SotoSendable {
         case failed = "FAILED"
         case pendingValidation = "PENDING_VALIDATION"
@@ -487,6 +508,14 @@ extension Lightsail {
         case terabitsSecond = "Terabits/Second"
         case terabytes = "Terabytes"
         case terabytesSecond = "Terabytes/Second"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NameServersUpdateStateCode: String, CustomStringConvertible, Codable, _SotoSendable {
+        case failed = "FAILED"
+        case pending = "PENDING"
+        case started = "STARTED"
+        case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
@@ -614,6 +643,14 @@ extension Lightsail {
     public enum PortState: String, CustomStringConvertible, Codable, _SotoSendable {
         case closed
         case open
+        public var description: String { return self.rawValue }
+    }
+
+    public enum R53HostedZoneDeletionStateCode: String, CustomStringConvertible, Codable, _SotoSendable {
+        case failed = "FAILED"
+        case pending = "PENDING"
+        case started = "STARTED"
+        case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
@@ -754,9 +791,9 @@ extension Lightsail {
     public struct AccessKeyLastUsed: AWSDecodableShape {
         /// The date and time when the access key was most recently used. This value is null if the access key has not been used.
         public let lastUsedDate: Date?
-        /// The AWS Region where this access key was most recently used. This value is N/A if the access key has not been used.
+        /// The Amazon Web Services Region where this access key was most recently used. This value is N/A if the access key has not been used.
         public let region: String?
-        /// The name of the AWS service with which this access key was most recently used. This value is N/A if the access key has not been used.
+        /// The name of the Amazon Web Services service with which this access key was most recently used. This value is N/A if the access key has not been used.
         public let serviceName: String?
 
         public init(lastUsedDate: Date? = nil, region: String? = nil, serviceName: String? = nil) {
@@ -1618,7 +1655,7 @@ extension Lightsail {
         public let notBefore: Date?
         /// An object that describes the status of the certificate renewal managed by Lightsail.
         public let renewalSummary: RenewalSummary?
-        /// The validation failure reason, if any, of the certificate. The following failure reasons are possible:     NO_AVAILABLE_CONTACTS - This failure applies to email validation, which is not available for Lightsail certificates.     ADDITIONAL_VERIFICATION_REQUIRED - Lightsail requires additional information to process this certificate request. This can happen as a fraud-protection measure, such as when the domain ranks within the Alexa top 1000 websites. To provide the required information, use the AWS Support Center to contact AWS Support.  You cannot request a certificate for Amazon-owned domain names such as those ending in amazonaws.com, cloudfront.net, or elasticbeanstalk.com.      DOMAIN_NOT_ALLOWED - One or more of the domain names in the certificate request was reported as an unsafe domain by VirusTotal. To correct the problem, search for your domain name on the VirusTotal website. If your domain is reported as suspicious, see Google Help for Hacked Websites to learn what you can do. If you believe that the result is a false positive, notify the organization that is reporting the domain. VirusTotal is an aggregate of several antivirus and URL scanners and cannot remove your domain from a block list itself. After you correct the problem and the VirusTotal registry has been updated, request a new certificate. If you see this error and your domain is not included in the VirusTotal list, visit the AWS Support Center and create a case.     INVALID_PUBLIC_DOMAIN - One or more of the domain names in the certificate request is not valid. Typically, this is because a domain name in the request is not a valid top-level domain. Try to request a certificate again, correcting any spelling errors or typos that were in the failed request, and ensure that all domain names in the request are for valid top-level domains. For example, you cannot request a certificate for example.invalidpublicdomain because invalidpublicdomain is not a valid top-level domain.     OTHER - Typically, this failure occurs when there is a typographical error in one or more of the domain names in the certificate request. Try to request a certificate again, correcting any spelling errors or typos that were in the failed request.
+        /// The validation failure reason, if any, of the certificate. The following failure reasons are possible:     NO_AVAILABLE_CONTACTS - This failure applies to email validation, which is not available for Lightsail certificates.     ADDITIONAL_VERIFICATION_REQUIRED - Lightsail requires additional information to process this certificate request. This can happen as a fraud-protection measure, such as when the domain ranks within the Alexa top 1000 websites. To provide the required information, use the Amazon Web Services Support Center to contact Amazon Web Services Support.  You cannot request a certificate for Amazon-owned domain names such as those ending in amazonaws.com, cloudfront.net, or elasticbeanstalk.com.      DOMAIN_NOT_ALLOWED - One or more of the domain names in the certificate request was reported as an unsafe domain by VirusTotal. To correct the problem, search for your domain name on the VirusTotal website. If your domain is reported as suspicious, see Google Help for Hacked Websites to learn what you can do. If you believe that the result is a false positive, notify the organization that is reporting the domain. VirusTotal is an aggregate of several antivirus and URL scanners and cannot remove your domain from a block list itself. After you correct the problem and the VirusTotal registry has been updated, request a new certificate. If you see this error and your domain is not included in the VirusTotal list, visit the Amazon Web Services Support Center and create a case.     INVALID_PUBLIC_DOMAIN - One or more of the domain names in the certificate request is not valid. Typically, this is because a domain name in the request is not a valid top-level domain. Try to request a certificate again, correcting any spelling errors or typos that were in the failed request, and ensure that all domain names in the request are for valid top-level domains. For example, you cannot request a certificate for example.invalidpublicdomain because invalidpublicdomain is not a valid top-level domain.     OTHER - Typically, this failure occurs when there is a typographical error in one or more of the domain names in the certificate request. Try to request a certificate again, correcting any spelling errors or typos that were in the failed request.
         public let requestFailureReason: String?
         /// The reason the certificate was revoked. This value is present only when the certificate status is REVOKED.
         public let revocationReason: String?
@@ -2598,7 +2635,7 @@ extension Lightsail {
         ///  The scale specifies the allocated compute nodes of the container service. The power and scale of a container service makes up its configured capacity. To determine the monthly price of your container service, multiply the base price of the power with the scale (the number of nodes) of the service.
         public let scale: Int
         /// The name for the container service.
-        ///  The name that you specify for your container service will make up part of its default domain. The default domain of a container service is typically https://...cs.amazonlightsail.com. If the name of your container service is container-service-1, and it's located in the US East (Ohio) AWS region (us-east-2), then the domain for your container service will be like the following example: https://container-service-1.ur4EXAMPLE2uq.us-east-2.cs.amazonlightsail.com
+        ///  The name that you specify for your container service will make up part of its default domain. The default domain of a container service is typically https://...cs.amazonlightsail.com. If the name of your container service is container-service-1, and it's located in the US East (Ohio) Amazon Web Services Region (us-east-2), then the domain for your container service will be like the following example: https://container-service-1.ur4EXAMPLE2uq.us-east-2.cs.amazonlightsail.com
         ///  The following are the requirements for container service names:
         ///    Must be unique within each Amazon Web Services Region in your Lightsail account.   Must contain 1 to 63 characters.   Must contain only alphanumeric characters and hyphens.   A hyphen (-) can separate words but cannot be at the start or end of the name.
         public let serviceName: String
@@ -3389,7 +3426,7 @@ extension Lightsail {
         public let masterUsername: String
         /// The password for the master user. The password can include any printable ASCII character except "/", """, or "@". It cannot contain spaces.  MySQL  Constraints: Must contain from 8 to 41 characters.  PostgreSQL  Constraints: Must contain from 8 to 128 characters.
         public let masterUserPassword: String?
-        /// The daily time range during which automated backups are created for your new database if automated backups are enabled. The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region. For more information about the preferred backup window time blocks for each region, see the Working With Backups guide in the Amazon Relational Database Service (Amazon RDS) documentation. Constraints:   Must be in the hh24:mi-hh24:mi format. Example: 16:00-16:30    Specified in Coordinated Universal Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.
+        /// The daily time range during which automated backups are created for your new database if automated backups are enabled. The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region. For more information about the preferred backup window time blocks for each region, see the Working With Backups guide in the Amazon Relational Database Service documentation. Constraints:   Must be in the hh24:mi-hh24:mi format. Example: 16:00-16:30    Specified in Coordinated Universal Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.
         public let preferredBackupWindow: String?
         /// The weekly time range during which system maintenance can occur on your new database. The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region, occurring on a random day of the week. Constraints:   Must be in the ddd:hh24:mi-ddd:hh24:mi format.   Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun.   Must be at least 30 minutes.   Specified in Coordinated Universal Time (UTC).   Example: Tue:17:00-Tue:17:30
         public let preferredMaintenanceWindow: String?
@@ -4593,6 +4630,24 @@ extension Lightsail {
         }
     }
 
+    public struct DnsRecordCreationState: AWSDecodableShape {
+        /// The status code for the automated DNS record creation.
+        ///  Following are the possible values:    SUCCEEDED - The validation records were successfully added to the domain.    STARTED - The automatic DNS record creation has started.    FAILED - The validation records failed to be added to the domain.
+        public let code: DnsRecordCreationStateCode?
+        /// The message that describes the reason for the status code.
+        public let message: String?
+
+        public init(code: DnsRecordCreationStateCode? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code
+            case message
+        }
+    }
+
     public struct Domain: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the domain recordset (e.g., arn:aws:lightsail:global:123456789101:Domain/824cede0-abc7-4f84-8dbc-12345EXAMPLE).
         public let arn: String?
@@ -4604,6 +4659,8 @@ extension Lightsail {
         public let location: ResourceLocation?
         /// The name of the domain.
         public let name: String?
+        /// An object that describes the state of the Route 53 domain delegation to a Lightsail DNS zone.
+        public let registeredDomainDelegationInfo: RegisteredDomainDelegationInfo?
         /// The resource type.
         public let resourceType: ResourceType?
         /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
@@ -4611,12 +4668,13 @@ extension Lightsail {
         /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Amazon Lightsail Developer Guide.
         public let tags: [Tag]?
 
-        public init(arn: String? = nil, createdAt: Date? = nil, domainEntries: [DomainEntry]? = nil, location: ResourceLocation? = nil, name: String? = nil, resourceType: ResourceType? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, domainEntries: [DomainEntry]? = nil, location: ResourceLocation? = nil, name: String? = nil, registeredDomainDelegationInfo: RegisteredDomainDelegationInfo? = nil, resourceType: ResourceType? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.domainEntries = domainEntries
             self.location = location
             self.name = name
+            self.registeredDomainDelegationInfo = registeredDomainDelegationInfo
             self.resourceType = resourceType
             self.supportCode = supportCode
             self.tags = tags
@@ -4628,6 +4686,7 @@ extension Lightsail {
             case domainEntries
             case location
             case name
+            case registeredDomainDelegationInfo
             case resourceType
             case supportCode
             case tags
@@ -4682,19 +4741,27 @@ extension Lightsail {
     }
 
     public struct DomainValidationRecord: AWSDecodableShape {
+        /// An object that describes the state of the canonical name (CNAME) records that are automatically added by Lightsail to the DNS of the domain to validate domain ownership.
+        public let dnsRecordCreationState: DnsRecordCreationState?
         /// The domain name of the certificate validation record. For example, example.com or www.example.com.
         public let domainName: String?
         /// An object that describes the DNS records to add to your domain's DNS to validate it for the certificate.
         public let resourceRecord: ResourceRecord?
+        /// The validation status of the record.
+        public let validationStatus: CertificateDomainValidationStatus?
 
-        public init(domainName: String? = nil, resourceRecord: ResourceRecord? = nil) {
+        public init(dnsRecordCreationState: DnsRecordCreationState? = nil, domainName: String? = nil, resourceRecord: ResourceRecord? = nil, validationStatus: CertificateDomainValidationStatus? = nil) {
+            self.dnsRecordCreationState = dnsRecordCreationState
             self.domainName = domainName
             self.resourceRecord = resourceRecord
+            self.validationStatus = validationStatus
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dnsRecordCreationState
             case domainName
             case resourceRecord
+            case validationStatus
         }
     }
 
@@ -7961,7 +8028,7 @@ extension Lightsail {
         public let keyAlgorithm: String?
         /// The load balancer name where your SSL/TLS certificate is attached.
         public let loadBalancerName: String?
-        /// The AWS Region and Availability Zone where you created your certificate.
+        /// The Amazon Web Services Region and Availability Zone where you created your certificate.
         public let location: ResourceLocation?
         /// The name of the SSL/TLS certificate (e.g., my-certificate).
         public let name: String?
@@ -8049,6 +8116,24 @@ extension Lightsail {
         }
     }
 
+    public struct LoadBalancerTlsCertificateDnsRecordCreationState: AWSDecodableShape {
+        /// The status code for the automated DNS record creation.
+        ///  Following are the possible values:    SUCCEEDED - The validation records were successfully added.    STARTED - The automatic DNS record creation has started.    FAILED - The validation record addition failed.
+        public let code: LoadBalancerTlsCertificateDnsRecordCreationStateCode?
+        /// The message that describes the reason for the status code.
+        public let message: String?
+
+        public init(code: LoadBalancerTlsCertificateDnsRecordCreationStateCode? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code
+            case message
+        }
+    }
+
     public struct LoadBalancerTlsCertificateDomainValidationOption: AWSDecodableShape {
         /// The fully qualified domain name in the certificate request.
         public let domainName: String?
@@ -8067,6 +8152,8 @@ extension Lightsail {
     }
 
     public struct LoadBalancerTlsCertificateDomainValidationRecord: AWSDecodableShape {
+        /// An object that describes the state of the canonical name (CNAME) records that are automatically added by Lightsail to the DNS of a domain to validate domain ownership.
+        public let dnsRecordCreationState: LoadBalancerTlsCertificateDnsRecordCreationState?
         /// The domain name against which your SSL/TLS certificate was validated.
         public let domainName: String?
         /// A fully qualified domain name in the certificate. For example, example.com.
@@ -8078,7 +8165,8 @@ extension Lightsail {
         /// The value for that type.
         public let value: String?
 
-        public init(domainName: String? = nil, name: String? = nil, type: String? = nil, validationStatus: LoadBalancerTlsCertificateDomainStatus? = nil, value: String? = nil) {
+        public init(dnsRecordCreationState: LoadBalancerTlsCertificateDnsRecordCreationState? = nil, domainName: String? = nil, name: String? = nil, type: String? = nil, validationStatus: LoadBalancerTlsCertificateDomainStatus? = nil, value: String? = nil) {
+            self.dnsRecordCreationState = dnsRecordCreationState
             self.domainName = domainName
             self.name = name
             self.type = type
@@ -8087,6 +8175,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dnsRecordCreationState
             case domainName
             case name
             case type
@@ -8243,6 +8332,24 @@ extension Lightsail {
 
         private enum CodingKeys: String, CodingKey {
             case gbPerMonthAllocated
+        }
+    }
+
+    public struct NameServersUpdateState: AWSDecodableShape {
+        /// The status code for the name servers update.
+        ///  Following are the possible values:    SUCCEEDED - The name server records were successfully updated.    PENDING - The name server record update is in progress.    FAILED - The name server record update failed.    STARTED - The automatic name server record update started.
+        public let code: NameServersUpdateStateCode?
+        /// The message that describes the reason for the status code.
+        public let message: String?
+
+        public init(code: NameServersUpdateStateCode? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code
+            case message
         }
     }
 
@@ -8630,6 +8737,24 @@ extension Lightsail {
         }
     }
 
+    public struct R53HostedZoneDeletionState: AWSDecodableShape {
+        /// The status code for the deletion state.
+        ///  Following are the possible values:    SUCCEEDED - The hosted zone was successfully deleted.    PENDING - The hosted zone deletion is in progress.    FAILED - The hosted zone deletion failed.    STARTED - The hosted zone deletion started.
+        public let code: R53HostedZoneDeletionStateCode?
+        /// The message that describes the reason for the status code.
+        public let message: String?
+
+        public init(code: R53HostedZoneDeletionStateCode? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code
+            case message
+        }
+    }
+
     public struct RebootInstanceRequest: AWSEncodableShape {
         /// The name of the instance to reboot.
         public let instanceName: String
@@ -8695,7 +8820,7 @@ extension Lightsail {
         public let availabilityZones: [AvailabilityZone]?
         /// The continent code (e.g., NA, meaning North America).
         public let continentCode: String?
-        /// The description of the AWS Region (e.g., This region is recommended to serve users in the eastern United States and eastern Canada).
+        /// The description of the Amazon Web Services Region (e.g., This region is recommended to serve users in the eastern United States and eastern Canada).
         public let description: String?
         /// The display name (e.g., Ohio).
         public let displayName: String?
@@ -8770,6 +8895,22 @@ extension Lightsail {
 
         private enum CodingKeys: String, CodingKey {
             case containerImage
+        }
+    }
+
+    public struct RegisteredDomainDelegationInfo: AWSDecodableShape {
+        /// An object that describes the state of the name server records that are automatically added to the Route 53 domain by Lightsail.
+        public let nameServersUpdateState: NameServersUpdateState?
+        public let r53HostedZoneDeletionState: R53HostedZoneDeletionState?
+
+        public init(nameServersUpdateState: NameServersUpdateState? = nil, r53HostedZoneDeletionState: R53HostedZoneDeletionState? = nil) {
+            self.nameServersUpdateState = nameServersUpdateState
+            self.r53HostedZoneDeletionState = r53HostedZoneDeletionState
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nameServersUpdateState
+            case r53HostedZoneDeletionState
         }
     }
 
@@ -9233,7 +9374,7 @@ extension Lightsail {
     public struct ResourceLocation: AWSDecodableShape {
         /// The Availability Zone. Follows the format us-east-2a (case-sensitive).
         public let availabilityZone: String?
-        /// The AWS Region name.
+        /// The Amazon Web Services Region name.
         public let regionName: RegionName?
 
         public init(availabilityZone: String? = nil, regionName: RegionName? = nil) {
@@ -10132,7 +10273,7 @@ extension Lightsail {
         public let masterUserPassword: String?
         /// The daily time range during which automated backups are created for your database if automated backups are enabled. Constraints:   Must be in the hh24:mi-hh24:mi format. Example: 16:00-16:30    Specified in Coordinated Universal Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.
         public let preferredBackupWindow: String?
-        /// The weekly time range during which system maintenance can occur on your database. The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region, occurring on a random day of the week. Constraints:   Must be in the ddd:hh24:mi-ddd:hh24:mi format.   Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun.   Must be at least 30 minutes.   Specified in Coordinated Universal Time (UTC).   Example: Tue:17:00-Tue:17:30
+        /// The weekly time range during which system maintenance can occur on your database. The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Web Services Region, occurring on a random day of the week. Constraints:   Must be in the ddd:hh24:mi-ddd:hh24:mi format.   Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun.   Must be at least 30 minutes.   Specified in Coordinated Universal Time (UTC).   Example: Tue:17:00-Tue:17:30
         public let preferredMaintenanceWindow: String?
         /// Specifies the accessibility options for your database. A value of true specifies a database that is available to resources outside of your Lightsail account. A value of false specifies a database that is available only to your Lightsail resources in the same region as your database.
         public let publiclyAccessible: Bool?

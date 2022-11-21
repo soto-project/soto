@@ -102,6 +102,7 @@ extension EC2 {
         case capacityOptimizedPrioritized
         case diversified
         case lowestPrice
+        case priceCapacityOptimized
         public var description: String { return self.rawValue }
     }
 
@@ -137,6 +138,7 @@ extension EC2 {
         }
 
         public static var arm64: Self { .init(rawValue: "arm64") }
+        public static var arm64Mac: Self { .init(rawValue: "arm64_mac") }
         public static var i386: Self { .init(rawValue: "i386") }
         public static var x8664: Self { .init(rawValue: "x86_64") }
         public static var x8664Mac: Self { .init(rawValue: "x86_64_mac") }
@@ -144,6 +146,7 @@ extension EC2 {
 
     public enum ArchitectureValues: String, CustomStringConvertible, Codable, _SotoSendable {
         case arm64
+        case arm64Mac = "arm64_mac"
         case i386
         case x8664 = "x86_64"
         case x8664Mac = "x86_64_mac"
@@ -1485,9 +1488,13 @@ extension EC2 {
         public static var t4gNano: Self { .init(rawValue: "t4g.nano") }
         public static var t4gSmall: Self { .init(rawValue: "t4g.small") }
         public static var t4gXlarge: Self { .init(rawValue: "t4g.xlarge") }
+        public static var trn12Xlarge: Self { .init(rawValue: "trn1.2xlarge") }
+        public static var trn132Xlarge: Self { .init(rawValue: "trn1.32xlarge") }
         public static var u12Tb1112Xlarge: Self { .init(rawValue: "u-12tb1.112xlarge") }
         public static var u12Tb1Metal: Self { .init(rawValue: "u-12tb1.metal") }
+        public static var u18Tb1112Xlarge: Self { .init(rawValue: "u-18tb1.112xlarge") }
         public static var u18Tb1Metal: Self { .init(rawValue: "u-18tb1.metal") }
+        public static var u24Tb1112Xlarge: Self { .init(rawValue: "u-24tb1.112xlarge") }
         public static var u24Tb1Metal: Self { .init(rawValue: "u-24tb1.metal") }
         public static var u3Tb156Xlarge: Self { .init(rawValue: "u-3tb1.56xlarge") }
         public static var u6Tb1112Xlarge: Self { .init(rawValue: "u-6tb1.112xlarge") }
@@ -2286,6 +2293,7 @@ extension EC2 {
         case capacityOptimizedPrioritized = "capacity-optimized-prioritized"
         case diversified
         case lowestPrice = "lowest-price"
+        case priceCapacityOptimized = "price-capacity-optimized"
         public var description: String { return self.rawValue }
     }
 
@@ -3566,31 +3574,20 @@ extension EC2 {
     public struct AllocateHostsRequest: AWSEncodableShape {
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// Indicates whether the host accepts any untargeted instance launches that  		match its instance type configuration, or if it only accepts Host tenancy  		instance launches that specify its unique host ID. For more information,  		see  	Understanding auto-placement and affinity in the Amazon EC2 User Guide.
+        /// Indicates whether the host accepts any untargeted instance launches that match its instance type configuration, or if it only accepts Host tenancy instance launches that specify its unique host ID. For more information, see  Understanding auto-placement and affinity in the Amazon EC2 User Guide.
         ///  Default: on
         public let autoPlacement: AutoPlacement?
         /// The Availability Zone in which to allocate the Dedicated Host.
         public let availabilityZone: String?
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see Ensuring Idempotency.
         public let clientToken: String?
-        /// Indicates whether to enable or disable host recovery for the Dedicated Host.
-        /// 			Host recovery is disabled by default. For more information, see
-        ///
-        /// 			Host recovery in the Amazon EC2 User Guide.
-        /// 		       Default: off
+        /// Indicates whether to enable or disable host recovery for the Dedicated Host. Host recovery is disabled by default. For more information, see  Host recovery in the Amazon EC2 User Guide. Default: off
         public let hostRecovery: HostRecovery?
-        /// Specifies the instance family to be supported by the Dedicated Hosts. If you specify
-        /// 			an instance family, the Dedicated Hosts support multiple instance types within that
-        /// 			instance family.
-        ///
-        /// 		       If you want the Dedicated Hosts to support a specific instance type only, omit this
-        /// 			parameter and specify InstanceType
-        /// 			instead. You cannot specify InstanceFamily and
-        /// 			InstanceType in the same request.
+        /// Specifies the instance family to be supported by the Dedicated Hosts. If you specify an instance family, the Dedicated Hosts support multiple instance types within that instance family.
+        ///  If you want the Dedicated Hosts to support a specific instance type only, omit this parameter and specify InstanceType instead. You cannot specify InstanceFamily and InstanceType in the same request.
         public let instanceFamily: String?
-        /// Specifies the instance type to be supported by the Dedicated Hosts. If you
-        /// 		specify an instance type, the Dedicated Hosts support instances of the
-        /// 		specified instance type only. 	 	    If you want the Dedicated Hosts to support multiple instance types in a specific  		instance family, omit this parameter and specify InstanceFamily  		instead. You cannot specify InstanceType and  		InstanceFamily in the same request.
+        /// Specifies the instance type to be supported by the Dedicated Hosts. If you specify an instance type, the Dedicated Hosts support instances of the specified instance type only.
+        ///  If you want the Dedicated Hosts to support multiple instance types in a specific instance family, omit this parameter and specify InstanceFamily instead. You cannot specify InstanceType and InstanceFamily in the same request.
         public let instanceType: String?
         /// The Amazon Resource Name (ARN) of the Amazon Web Services Outpost on which to allocate the Dedicated Host.
         public let outpostArn: String?
@@ -3628,8 +3625,7 @@ extension EC2 {
     public struct AllocateHostsResult: AWSDecodableShape {
         public struct _HostIdsEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// The ID of the allocated Dedicated Host. This is used to launch an instance onto a
-        /// 			specific host.
+        /// The ID of the allocated Dedicated Host. This is used to launch an instance onto a specific host.
         @OptionalCustomCoding<ArrayCoder<_HostIdsEncoding, String>>
         public var hostIds: [String]?
 
@@ -5276,7 +5272,7 @@ extension EC2 {
     public struct AvailableCapacity: AWSDecodableShape {
         public struct _AvailableInstanceCapacityEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// The number of instances that can be launched onto the Dedicated Host depending on  		the host's available capacity. For Dedicated Hosts that support multiple instance types,  		this parameter represents the number of instances for each instance size that is  		supported on the host.
+        /// The number of instances that can be launched onto the Dedicated Host depending on the host's available capacity. For Dedicated Hosts that support multiple instance types, this parameter represents the number of instances for each instance size that is supported on the host.
         @OptionalCustomCoding<ArrayCoder<_AvailableInstanceCapacityEncoding, InstanceCapacity>>
         public var availableInstanceCapacity: [InstanceCapacity]?
         /// The number of vCPUs available for launching instances onto the Dedicated Host.
@@ -7319,15 +7315,17 @@ extension EC2 {
     public struct CopyImageRequest: AWSEncodableShape {
         /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
         public let clientToken: String?
+        /// Indicates whether to include your user-defined AMI tags when copying the AMI. The following tags will not be copied:   System tags (prefixed with aws:)   For public and shared AMIs, user-defined tags that are attached by other Amazon Web Services  accounts   Default: Your user-defined AMI tags are not copied.
+        public let copyImageTags: Bool?
         /// A description for the new AMI in the destination Region.
         public let description: String?
-        /// The Amazon Resource Name (ARN) of the Outpost to which to copy the AMI. Only  		specify this parameter when copying an AMI from an Amazon Web Services Region to an Outpost.  		The AMI must be in the Region of the destination Outpost. You cannot copy an  		AMI from an Outpost to a Region, from one Outpost to another, or within the same  		Outpost. 	 	      For more information, see  		Copying AMIs from an Amazon Web Services Region to an Outpost in the  		Amazon Elastic Compute Cloud User Guide.
+        /// The Amazon Resource Name (ARN) of the Outpost to which to copy the AMI. Only  		specify this parameter when copying an AMI from an Amazon Web Services Region to an Outpost.  		The AMI must be in the Region of the destination Outpost. You cannot copy an  		AMI from an Outpost to a Region, from one Outpost to another, or within the same  		Outpost. 	      For more information, see  Copy AMIs from an Amazon Web Services Region to an Outpost in the Amazon Elastic Compute Cloud User Guide.
         public let destinationOutpostArn: String?
         /// Checks whether you have the required permissions for the action, without actually making the request,
         /// 			and provides an error response. If you have the required permissions, the error response is
         /// 			DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// Specifies whether the destination snapshots of the copied image should be encrypted. You can encrypt a copy of an unencrypted snapshot, but you cannot create an unencrypted copy of an encrypted snapshot. The default KMS key for Amazon EBS is used unless you specify a non-default  Key Management Service (KMS) KMS key using KmsKeyId. For more information, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide.
+        /// Specifies whether the destination snapshots of the copied image should be encrypted. You can encrypt a copy of an unencrypted snapshot, but you cannot create an unencrypted copy of an encrypted snapshot. The default KMS key for Amazon EBS is used unless you specify a non-default Key Management Service (KMS) KMS key using KmsKeyId. For more information, see Amazon EBS encryption in the Amazon Elastic Compute Cloud User Guide.
         public let encrypted: Bool?
         /// The identifier of the symmetric Key Management Service (KMS) KMS key to use when creating 		encrypted volumes. If this parameter is not specified, your Amazon Web Services managed KMS key for Amazon EBS is used.  		If you specify a KMS key, you must also set the encrypted state to true. 	     You can specify a KMS key using any of the following: 	       			         Key ID. For example, 1234abcd-12ab-34cd-56ef-1234567890ab. 		         	           Key alias. For example, alias/ExampleAlias. 	          	           Key ARN. For example, arn:aws:kms:us-east-1:012345678910:key/1234abcd-12ab-34cd-56ef-1234567890ab. 		         		          Alias ARN. For example, arn:aws:kms:us-east-1:012345678910:alias/ExampleAlias. 		         	     Amazon Web Services authenticates the KMS key asynchronously. Therefore, if you specify an identifier that is not valid, the action can appear to complete, but eventually fails. 	     The specified KMS key must exist in the destination Region. 	     Amazon EBS does not support asymmetric KMS keys.
         public let kmsKeyId: String?
@@ -7338,8 +7336,9 @@ extension EC2 {
         /// The name of the Region that contains the AMI to copy.
         public let sourceRegion: String?
 
-        public init(clientToken: String? = nil, description: String? = nil, destinationOutpostArn: String? = nil, dryRun: Bool? = nil, encrypted: Bool? = nil, kmsKeyId: String? = nil, name: String? = nil, sourceImageId: String? = nil, sourceRegion: String? = nil) {
+        public init(clientToken: String? = nil, copyImageTags: Bool? = nil, description: String? = nil, destinationOutpostArn: String? = nil, dryRun: Bool? = nil, encrypted: Bool? = nil, kmsKeyId: String? = nil, name: String? = nil, sourceImageId: String? = nil, sourceRegion: String? = nil) {
             self.clientToken = clientToken
+            self.copyImageTags = copyImageTags
             self.description = description
             self.destinationOutpostArn = destinationOutpostArn
             self.dryRun = dryRun
@@ -7352,6 +7351,7 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "ClientToken"
+            case copyImageTags = "CopyImageTags"
             case description = "Description"
             case destinationOutpostArn = "DestinationOutpostArn"
             case dryRun
@@ -8421,13 +8421,13 @@ extension EC2 {
         public let logDestination: String?
         /// The type of destination for the flow log data. Default: cloud-watch-logs
         public let logDestinationType: LogDestinationType?
-        /// The fields to include in the flow log record. List the fields in the order in which they should appear. For more information about the available fields, see Flow log records. If you omit this parameter, the flow log is created using the default format. If you specify this parameter, you must include at least one field. Specify the fields using the ${field-id} format, separated by spaces. For the CLI, surround this parameter value with single quotes on Linux or double quotes on Windows.
+        /// The fields to include in the flow log record. List the fields in the order in which they should appear. If you omit this parameter, the flow log is created using the default format. If you specify this parameter, you must include at least one field. For more information about the available fields, see Flow log records in the Amazon VPC User Guide or Transit Gateway Flow Log records in the Amazon Web Services Transit Gateway Guide. Specify the fields using the ${field-id} format, separated by spaces. For the CLI, surround this parameter value with single quotes on Linux or double quotes on Windows.
         public let logFormat: String?
         /// The name of a new or existing CloudWatch Logs log group where Amazon EC2 publishes your flow logs. This parameter is valid only if the destination type is cloud-watch-logs.
         public let logGroupName: String?
-        /// The maximum interval of time during which a flow of packets is captured and aggregated into a flow log record. You can specify 60 seconds (1 minute) or 600 seconds (10 minutes). When a network interface is attached to a Nitro-based instance, the aggregation interval is always 60 seconds or less, regardless of the value that you specify. Default: 600
+        /// The maximum interval of time during which a flow of packets is captured and aggregated into a flow log record.  The possible values are 60 seconds (1 minute) or 600 seconds (10 minutes). This parameter must be 60 seconds for transit gateway resource types. When a network interface is attached to a Nitro-based instance, the aggregation interval is always 60 seconds or less, regardless of the value that you specify. Default: 600
         public let maxAggregationInterval: Int?
-        /// The IDs of the resources to monitor. For example, if the resource type is VPC, specify the IDs of the VPCs. Constraints: Maximum of 1000 resources
+        /// The IDs of the resources to monitor. For example, if the resource type is VPC, specify the IDs of the VPCs. Constraints: Maximum of 25 for transit gateway resource types. Maximum of 1000 for the other resource types.
         @OptionalCustomCoding<ArrayCoder<_ResourceIdsEncoding, String>>
         public var resourceIds: [String]?
         /// The type of resource to monitor.
@@ -8435,7 +8435,7 @@ extension EC2 {
         /// The tags to apply to the flow logs.
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
-        /// The type of traffic to monitor (accepted traffic, rejected traffic, or all traffic).
+        /// The type of traffic to monitor (accepted traffic, rejected traffic, or all traffic). This parameter is not supported for transit gateway resource types. It is required for the other resource types.
         public let trafficType: TrafficType?
 
         public init(clientToken: String? = nil, deliverCrossAccountRole: String? = nil, deliverLogsPermissionArn: String? = nil, destinationOptions: DestinationOptionsRequest? = nil, dryRun: Bool? = nil, logDestination: String? = nil, logDestinationType: LogDestinationType? = nil, logFormat: String? = nil, logGroupName: String? = nil, maxAggregationInterval: Int? = nil, resourceIds: [String]? = nil, resourceType: FlowLogsResourceType? = nil, tagSpecifications: [TagSpecification]? = nil, trafficType: TrafficType? = nil) {
@@ -8986,7 +8986,7 @@ extension EC2 {
         public let launchTemplateData: RequestLaunchTemplateData?
         /// A name for the launch template.
         public let launchTemplateName: String?
-        /// The tags to apply to the launch template on creation. To tag the launch template, the resource type must be launch-template.  To specify the tags for the resources that are created when an instance is launched, you must use the TagSpecifications parameter in the  launch template data structure.
+        /// The tags to apply to the launch template on creation. To tag the launch template, the resource type must be launch-template.  To specify the tags for the resources that are created when an instance is launched, you must use the TagSpecifications parameter in the launch template data structure.
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
         /// A description for the first version of the launch template.
@@ -9332,17 +9332,20 @@ extension EC2 {
         public let connectivityType: ConnectivityType?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
+        /// The private IPv4 address to assign to the NAT gateway. If you don't provide an address, a private IPv4 address will be automatically assigned.
+        public let privateIpAddress: String?
         /// The subnet in which to create the NAT gateway.
         public let subnetId: String?
         /// The tags to assign to the NAT gateway.
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
-        public init(allocationId: String? = nil, clientToken: String? = CreateNatGatewayRequest.idempotencyToken(), connectivityType: ConnectivityType? = nil, dryRun: Bool? = nil, subnetId: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
+        public init(allocationId: String? = nil, clientToken: String? = CreateNatGatewayRequest.idempotencyToken(), connectivityType: ConnectivityType? = nil, dryRun: Bool? = nil, privateIpAddress: String? = nil, subnetId: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.allocationId = allocationId
             self.clientToken = clientToken
             self.connectivityType = connectivityType
             self.dryRun = dryRun
+            self.privateIpAddress = privateIpAddress
             self.subnetId = subnetId
             self.tagSpecifications = tagSpecifications
         }
@@ -9352,6 +9355,7 @@ extension EC2 {
             case clientToken = "ClientToken"
             case connectivityType = "ConnectivityType"
             case dryRun = "DryRun"
+            case privateIpAddress = "PrivateIpAddress"
             case subnetId = "SubnetId"
             case tagSpecifications = "TagSpecification"
         }
@@ -9774,6 +9778,7 @@ extension EC2 {
     }
 
     public struct CreatePlacementGroupResult: AWSDecodableShape {
+        /// Information about the placement group.
         public let placementGroup: PlacementGroup?
 
         public init(placementGroup: PlacementGroup? = nil) {
@@ -16233,7 +16238,7 @@ extension EC2 {
         public struct _FilterEncoding: ArrayCoderProperties { public static let member = "Filter" }
         public struct _HostReservationIdSetEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// The filters.    instance-family - The instance family (for example, m4).    payment-option - The payment option (NoUpfront | PartialUpfront | AllUpfront).    state - The state of the reservation (payment-pending | payment-failed | active | retired).   		      tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value. 	     		      tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.
+        /// The filters.    instance-family - The instance family (for example, m4).    payment-option - The payment option (NoUpfront | PartialUpfront | AllUpfront).    state - The state of the reservation (payment-pending | payment-failed | active | retired).    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.     tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.
         @OptionalCustomCoding<ArrayCoder<_FilterEncoding, Filter>>
         public var filter: [Filter]?
         /// The host reservation IDs.
@@ -16283,13 +16288,13 @@ extension EC2 {
         public struct _FilterEncoding: ArrayCoderProperties { public static let member = "Filter" }
         public struct _HostIdsEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// The filters.    auto-placement - Whether auto-placement is enabled or disabled (on | off).    availability-zone - The Availability Zone of the host.    client-token - The idempotency token that you provided when you allocated the host.    host-reservation-id - The ID of the reservation assigned to this host.    instance-type - The instance type size that the Dedicated Host is configured to support.    state - The allocation state of the Dedicated Host (available | under-assessment | permanent-failure | released | released-permanent-failure).   		      tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.
+        /// The filters.    auto-placement - Whether auto-placement is enabled or disabled (on | off).    availability-zone - The Availability Zone of the host.    client-token - The idempotency token that you provided when you allocated the host.    host-reservation-id - The ID of the reservation assigned to this host.    instance-type - The instance type size that the Dedicated Host is configured to support.    state - The allocation state of the Dedicated Host (available | under-assessment | permanent-failure | released | released-permanent-failure).    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.
         @OptionalCustomCoding<ArrayCoder<_FilterEncoding, Filter>>
         public var filter: [Filter]?
         /// The IDs of the Dedicated Hosts. The IDs are used for targeted instance launches.
         @OptionalCustomCoding<ArrayCoder<_HostIdsEncoding, String>>
         public var hostIds: [String]?
-        /// The maximum number of results to return for the request in a single page. The remaining results can be seen by sending another request with the returned nextToken value. This value can be between 5 and 500. If maxResults is given a larger value than 500, you receive an error.  You cannot specify this parameter and the host IDs parameter in the same request.
+        /// The maximum number of results to return for the request in a single page. The remaining results can be seen by sending another request with the returned nextToken value. This value can be between 5 and 500. If maxResults is given a larger value than 500, you receive an error. You cannot specify this parameter and the host IDs parameter in the same request.
         public let maxResults: Int?
         /// The token to use to retrieve the next page of results.
         public let nextToken: String?
@@ -16483,7 +16488,7 @@ extension EC2 {
         /// 				or all (public AMIs).   If you specify an Amazon Web Services account ID that is not your own, only AMIs shared with that specific Amazon Web Services account ID are returned. However, AMIs that are shared with the account’s organization or organizational unit (OU) are not returned.   If you specify self or your own Amazon Web Services account ID, AMIs shared with your account are returned. In addition, AMIs that are shared with the organization or OU of which you are member are also returned.    If you specify all, all public AMIs are returned.
         @OptionalCustomCoding<ArrayCoder<_ExecutableUsersEncoding, String>>
         public var executableUsers: [String]?
-        /// The filters.    architecture - The image architecture (i386 | x86_64 | arm64).    block-device-mapping.delete-on-termination - A Boolean value that indicates 	whether the Amazon EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    	         block-device-mapping.snapshot-id - The ID of the snapshot used for the Amazon EBS volume.    	         block-device-mapping.volume-size - The volume size of the Amazon EBS volume, in GiB.    block-device-mapping.volume-type - The volume type of the Amazon EBS volume (io1 | io2 | gp2 | gp3 | sc1 | st1 | standard).   		          			           block-device-mapping.encrypted - A Boolean that indicates whether the Amazon EBS volume is encrypted. 	          creation-date - The time when the image was created, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2021-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    description - The description of the image (provided during image creation).    ena-support - A Boolean that indicates whether enhanced networking with ENA is enabled.    hypervisor - The hypervisor type (ovm | xen).    image-id - The ID of the image.    image-type - The image type (machine | kernel | ramdisk).    is-public - A Boolean that indicates whether the image is public.    kernel-id - The kernel ID.    manifest-location - The location of the image manifest.    name - The name of the AMI (provided during image creation).    owner-alias - The owner alias (amazon | aws-marketplace).  The valid aliases are defined in an Amazon-maintained list. This is not the Amazon Web Services account alias that can be  	set using the IAM console. We recommend that you use the Owner  	request parameter instead of this filter.    owner-id - The Amazon Web Services account ID of the owner. We recommend that you use the  		Owner request parameter instead of this filter.    platform - The platform. To only list Windows-based AMIs, use windows.    product-code - The product code.    product-code.type - The type of the product code (marketplace).    ramdisk-id - The RAM disk ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    state - The state of the image (available | pending | failed).    state-reason-code - The reason code for the state change.    state-reason-message - The message for the state change.    sriov-net-support - A value of simple indicates that enhanced networking with the Intel 82599 VF interface is enabled.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    virtualization-type - The virtualization type (paravirtual | hvm).
+        /// The filters.    architecture - The image architecture (i386 | x86_64 | arm64).    block-device-mapping.delete-on-termination - A Boolean value that indicates 	whether the Amazon EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    	         block-device-mapping.snapshot-id - The ID of the snapshot used for the Amazon EBS volume.    	         block-device-mapping.volume-size - The volume size of the Amazon EBS volume, in GiB.    block-device-mapping.volume-type - The volume type of the Amazon EBS volume (io1 | io2 | gp2 | gp3 | sc1 | st1 | standard).   		          			           block-device-mapping.encrypted - A Boolean that indicates whether the Amazon EBS volume is encrypted. 	          creation-date - The time when the image was created, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2021-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    description - The description of the image (provided during image creation).    ena-support - A Boolean that indicates whether enhanced networking with ENA is enabled.    hypervisor - The hypervisor type (ovm | xen).    image-id - The ID of the image.    image-type - The image type (machine | kernel | ramdisk).    is-public - A Boolean that indicates whether the image is public.    kernel-id - The kernel ID.    manifest-location - The location of the image manifest.    name - The name of the AMI (provided during image creation).    owner-alias - The owner alias (amazon | aws-marketplace).  The valid aliases are defined in an Amazon-maintained list. This is not the Amazon Web Services account alias that can be  	set using the IAM console. We recommend that you use the Owner  	request parameter instead of this filter.    owner-id - The Amazon Web Services account ID of the owner. We recommend that you use the  		Owner request parameter instead of this filter.    platform - The platform. The only supported value is windows.    product-code - The product code.    product-code.type - The type of the product code (marketplace).    ramdisk-id - The RAM disk ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    state - The state of the image (available | pending | failed).    state-reason-code - The reason code for the state change.    state-reason-message - The message for the state change.    sriov-net-support - A value of simple indicates that enhanced networking with the Intel 82599 VF interface is enabled.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    virtualization-type - The virtualization type (paravirtual | hvm).
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The image IDs. Default: Describes all images available to you.
@@ -23386,7 +23391,7 @@ extension EC2 {
         public let iops: Int?
         /// Identifier (key ID, key alias, ID ARN, or alias ARN) for a customer managed CMK under which the EBS volume is encrypted. This parameter is only supported on BlockDeviceMapping objects called by RunInstances, RequestSpotFleet, and RequestSpotInstances.
         public let kmsKeyId: String?
-        /// The ARN of the Outpost on which the snapshot is stored. This parameter is only supported on BlockDeviceMapping objects called  by  CreateImage.
+        /// The ARN of the Outpost on which the snapshot is stored. This parameter is only supported on BlockDeviceMapping objects called by  CreateImage.
         public let outpostArn: String?
         /// The ID of the snapshot.
         public let snapshotId: String?
@@ -27747,9 +27752,7 @@ extension EC2 {
 
         /// The time that the Dedicated Host was allocated.
         public let allocationTime: Date?
-        /// Indicates whether the Dedicated Host supports multiple instance types of the same instance family.
-        /// 			If the value is on, the Dedicated Host supports multiple instance types in the instance family.
-        /// 		    If the value is off, the Dedicated Host supports a single instance type only.
+        /// Indicates whether the Dedicated Host supports multiple instance types of the same instance family. If the value is on, the Dedicated Host supports multiple instance types in the instance family. If the value is off, the Dedicated Host supports a single instance type only.
         public let allowsMultipleInstanceTypes: AllowsMultipleInstanceTypes?
         /// Whether auto-placement is on or off.
         public let autoPlacement: AutoPlacement?
@@ -27772,9 +27775,7 @@ extension EC2 {
         /// The IDs and instance type that are currently running on the Dedicated Host.
         @OptionalCustomCoding<ArrayCoder<_InstancesEncoding, HostInstance>>
         public var instances: [HostInstance]?
-        /// Indicates whether the Dedicated Host is in a host resource group. If
-        /// 			memberOfServiceLinkedResourceGroup is
-        /// 			true, the host is in a host resource group; otherwise, it is not.
+        /// Indicates whether the Dedicated Host is in a host resource group. If memberOfServiceLinkedResourceGroup is true, the host is in a host resource group; otherwise, it is not.
         public let memberOfServiceLinkedResourceGroup: Bool?
         /// The Amazon Resource Name (ARN) of the Amazon Web Services Outpost on which the Dedicated Host is allocated.
         public let outpostArn: String?
@@ -27894,7 +27895,7 @@ extension EC2 {
         public let cores: Int?
         /// The instance family supported by the Dedicated Host. For example, m5.
         public let instanceFamily: String?
-        /// The instance type supported by the Dedicated Host. For example, m5.large.  	If the host supports multiple instance types, no instanceType 	is returned.
+        /// The instance type supported by the Dedicated Host. For example, m5.large. If the host supports multiple instance types, no instanceType is returned.
         public let instanceType: String?
         /// The number of sockets on the Dedicated Host.
         public let sockets: Int?
@@ -28155,7 +28156,7 @@ extension EC2 {
         public let ownerId: String?
         /// This value is set to windows for Windows AMIs; otherwise, it is blank.
         public let platform: PlatformValues?
-        /// The platform details associated with the billing code of the AMI. For more information, see Understanding  AMI billing in the Amazon Elastic Compute Cloud User Guide.
+        /// The platform details associated with the billing code of the AMI. For more information, see Understand AMI billing information in the Amazon Elastic Compute Cloud User Guide.
         public let platformDetails: String?
         /// Any product codes associated with the AMI.
         @OptionalCustomCoding<ArrayCoder<_ProductCodesEncoding, ProductCode>>
@@ -29497,11 +29498,11 @@ extension EC2 {
     }
 
     public struct InstanceCapacity: AWSDecodableShape {
-        /// The number of instances that can be launched onto the Dedicated Host based on the  		host's available capacity.
+        /// The number of instances that can be launched onto the Dedicated Host based on the host's available capacity.
         public let availableCapacity: Int?
         /// The instance type supported by the Dedicated Host.
         public let instanceType: String?
-        /// The total number of instances that can be launched onto the Dedicated Host if there  		are no instances running on it.
+        /// The total number of instances that can be launched onto the Dedicated Host if there are no instances running on it.
         public let totalCapacity: Int?
 
         public init(availableCapacity: Int? = nil, instanceType: String? = nil, totalCapacity: Int? = nil) {
@@ -30257,6 +30258,7 @@ extension EC2 {
         public struct _AcceleratorManufacturersEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _AcceleratorNamesEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _AcceleratorTypesEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _AllowedInstanceTypesEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _CpuManufacturersEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _ExcludedInstanceTypesEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _InstanceGenerationsEncoding: ArrayCoderProperties { public static let member = "item" }
@@ -30275,6 +30277,9 @@ extension EC2 {
         /// The accelerator types that must be on the instance type.   For instance types with GPU accelerators, specify gpu.   For instance types with FPGA accelerators, specify fpga.   For instance types with inference accelerators, specify inference.   Default: Any accelerator type
         @OptionalCustomCoding<ArrayCoder<_AcceleratorTypesEncoding, AcceleratorType>>
         public var acceleratorTypes: [AcceleratorType]?
+        /// The instance types to apply your specified attributes against. All other instance types  are ignored, even if they match your specified attributes.  You can use strings with one or more wild cards, represented by an asterisk (*), to allow an instance type, size, or generation. The following are examples: m5.8xlarge, c5*.*, m5a.*, r*, *3*. For example, if you specify c5*,Amazon EC2 will allow the entire C5 instance family, which includes all C5a and C5n instance types. If you specify m5a.*, Amazon EC2 will allow all the M5a instance types, but not the M5n instance types.  If you specify AllowedInstanceTypes, you can't specify ExcludedInstanceTypes.  Default: All instance types
+        @OptionalCustomCoding<ArrayCoder<_AllowedInstanceTypesEncoding, String>>
+        public var allowedInstanceTypes: [String]?
         /// Indicates whether bare metal instance types must be included, excluded, or required.   To include bare metal instance types, specify included.   To require only bare metal instance types, specify required.   To exclude bare metal instance types, specify excluded.   Default: excluded
         public let bareMetal: BareMetal?
         /// The minimum and maximum baseline bandwidth to Amazon EBS, in Mbps. For more information, see Amazon EBS–optimized instances in the Amazon EC2 User Guide. Default: No minimum or maximum limits
@@ -30284,7 +30289,7 @@ extension EC2 {
         /// The CPU manufacturers to include.   For instance types with Intel CPUs, specify intel.   For instance types with AMD CPUs, specify amd.   For instance types with Amazon Web Services CPUs, specify amazon-web-services.    Don't confuse the CPU manufacturer with the CPU architecture. Instances will  be launched with a compatible CPU architecture based on the Amazon Machine Image (AMI) that you  specify in your launch template.  Default: Any manufacturer
         @OptionalCustomCoding<ArrayCoder<_CpuManufacturersEncoding, CpuManufacturer>>
         public var cpuManufacturers: [CpuManufacturer]?
-        /// The instance types to exclude. You can use strings with one or more wild cards, represented by an asterisk (*), to exclude an instance type, size, or generation. The following are examples: m5.8xlarge, c5*.*, m5a.*, r*, *3*. For example, if you specify c5*,Amazon EC2 will exclude the entire C5 instance family, which includes all C5a and C5n instance types. If you specify m5a.*, Amazon EC2 will exclude all the M5a instance types, but not the M5n instance types. Default: No excluded instance types
+        /// The instance types to exclude. You can use strings with one or more wild cards, represented by an asterisk (*), to exclude an instance type, size, or generation. The following are examples: m5.8xlarge, c5*.*, m5a.*, r*, *3*. For example, if you specify c5*,Amazon EC2 will exclude the entire C5 instance family, which includes all C5a and C5n instance types. If you specify m5a.*, Amazon EC2 will exclude all the M5a instance types, but not the M5n instance types.  If you specify ExcludedInstanceTypes, you can't specify AllowedInstanceTypes.  Default: No excluded instance types
         @OptionalCustomCoding<ArrayCoder<_ExcludedInstanceTypesEncoding, String>>
         public var excludedInstanceTypes: [String]?
         /// Indicates whether current or previous generation instance types are included. The current generation instance types are recommended for use. Current generation instance types are typically the latest two to three generations in each instance family. For more information, see Instance types in the Amazon EC2 User Guide. For current generation instance types, specify current. For previous generation instance types, specify previous. Default: Current and previous generation instance types
@@ -30299,6 +30304,8 @@ extension EC2 {
         public let memoryGiBPerVCpu: MemoryGiBPerVCpu?
         /// The minimum and maximum amount of memory, in MiB.
         public let memoryMiB: MemoryMiB?
+        /// The minimum and maximum amount of network bandwidth, in gigabits per second (Gbps). Default: No minimum or maximum limits
+        public let networkBandwidthGbps: NetworkBandwidthGbps?
         /// The minimum and maximum number of network interfaces. Default: No minimum or maximum limits
         public let networkInterfaceCount: NetworkInterfaceCount?
         /// The price protection threshold for On-Demand Instances. This is the maximum you’ll pay for an On-Demand Instance, expressed as a percentage above the least expensive current generation M, C, or R instance type with your specified attributes. When Amazon EC2 selects instance types with your attributes, it excludes instance types priced above your threshold. The parameter accepts an integer, which Amazon EC2 interprets as a percentage. To turn off price protection, specify a high value, such as 999999. This parameter is not supported for GetSpotPlacementScores and GetInstanceTypesFromInstanceRequirements.  If you set TargetCapacityUnitType to vcpu or memory-mib, the price protection threshold is applied based on the per-vCPU or per-memory price instead of the per-instance price.  Default: 20
@@ -30312,12 +30319,13 @@ extension EC2 {
         /// The minimum and maximum number of vCPUs.
         public let vCpuCount: VCpuCountRange?
 
-        public init(acceleratorCount: AcceleratorCount? = nil, acceleratorManufacturers: [AcceleratorManufacturer]? = nil, acceleratorNames: [AcceleratorName]? = nil, acceleratorTotalMemoryMiB: AcceleratorTotalMemoryMiB? = nil, acceleratorTypes: [AcceleratorType]? = nil, bareMetal: BareMetal? = nil, baselineEbsBandwidthMbps: BaselineEbsBandwidthMbps? = nil, burstablePerformance: BurstablePerformance? = nil, cpuManufacturers: [CpuManufacturer]? = nil, excludedInstanceTypes: [String]? = nil, instanceGenerations: [InstanceGeneration]? = nil, localStorage: LocalStorage? = nil, localStorageTypes: [LocalStorageType]? = nil, memoryGiBPerVCpu: MemoryGiBPerVCpu? = nil, memoryMiB: MemoryMiB? = nil, networkInterfaceCount: NetworkInterfaceCount? = nil, onDemandMaxPricePercentageOverLowestPrice: Int? = nil, requireHibernateSupport: Bool? = nil, spotMaxPricePercentageOverLowestPrice: Int? = nil, totalLocalStorageGB: TotalLocalStorageGB? = nil, vCpuCount: VCpuCountRange? = nil) {
+        public init(acceleratorCount: AcceleratorCount? = nil, acceleratorManufacturers: [AcceleratorManufacturer]? = nil, acceleratorNames: [AcceleratorName]? = nil, acceleratorTotalMemoryMiB: AcceleratorTotalMemoryMiB? = nil, acceleratorTypes: [AcceleratorType]? = nil, allowedInstanceTypes: [String]? = nil, bareMetal: BareMetal? = nil, baselineEbsBandwidthMbps: BaselineEbsBandwidthMbps? = nil, burstablePerformance: BurstablePerformance? = nil, cpuManufacturers: [CpuManufacturer]? = nil, excludedInstanceTypes: [String]? = nil, instanceGenerations: [InstanceGeneration]? = nil, localStorage: LocalStorage? = nil, localStorageTypes: [LocalStorageType]? = nil, memoryGiBPerVCpu: MemoryGiBPerVCpu? = nil, memoryMiB: MemoryMiB? = nil, networkBandwidthGbps: NetworkBandwidthGbps? = nil, networkInterfaceCount: NetworkInterfaceCount? = nil, onDemandMaxPricePercentageOverLowestPrice: Int? = nil, requireHibernateSupport: Bool? = nil, spotMaxPricePercentageOverLowestPrice: Int? = nil, totalLocalStorageGB: TotalLocalStorageGB? = nil, vCpuCount: VCpuCountRange? = nil) {
             self.acceleratorCount = acceleratorCount
             self.acceleratorManufacturers = acceleratorManufacturers
             self.acceleratorNames = acceleratorNames
             self.acceleratorTotalMemoryMiB = acceleratorTotalMemoryMiB
             self.acceleratorTypes = acceleratorTypes
+            self.allowedInstanceTypes = allowedInstanceTypes
             self.bareMetal = bareMetal
             self.baselineEbsBandwidthMbps = baselineEbsBandwidthMbps
             self.burstablePerformance = burstablePerformance
@@ -30328,6 +30336,7 @@ extension EC2 {
             self.localStorageTypes = localStorageTypes
             self.memoryGiBPerVCpu = memoryGiBPerVCpu
             self.memoryMiB = memoryMiB
+            self.networkBandwidthGbps = networkBandwidthGbps
             self.networkInterfaceCount = networkInterfaceCount
             self.onDemandMaxPricePercentageOverLowestPrice = onDemandMaxPricePercentageOverLowestPrice
             self.requireHibernateSupport = requireHibernateSupport
@@ -30337,6 +30346,12 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
+            try self.allowedInstanceTypes?.forEach {
+                try validate($0, name: "allowedInstanceTypes[]", parent: name, max: 30)
+                try validate($0, name: "allowedInstanceTypes[]", parent: name, min: 1)
+                try validate($0, name: "allowedInstanceTypes[]", parent: name, pattern: "^[a-zA-Z0-9\\.\\*]+$")
+            }
+            try self.validate(self.allowedInstanceTypes, name: "allowedInstanceTypes", parent: name, max: 400)
             try self.excludedInstanceTypes?.forEach {
                 try validate($0, name: "excludedInstanceTypes[]", parent: name, max: 30)
                 try validate($0, name: "excludedInstanceTypes[]", parent: name, min: 1)
@@ -30351,6 +30366,7 @@ extension EC2 {
             case acceleratorNames = "acceleratorNameSet"
             case acceleratorTotalMemoryMiB
             case acceleratorTypes = "acceleratorTypeSet"
+            case allowedInstanceTypes = "allowedInstanceTypeSet"
             case bareMetal
             case baselineEbsBandwidthMbps
             case burstablePerformance
@@ -30361,6 +30377,7 @@ extension EC2 {
             case localStorageTypes = "localStorageTypeSet"
             case memoryGiBPerVCpu
             case memoryMiB
+            case networkBandwidthGbps
             case networkInterfaceCount
             case onDemandMaxPricePercentageOverLowestPrice
             case requireHibernateSupport
@@ -30374,6 +30391,7 @@ extension EC2 {
         public struct _AcceleratorManufacturersEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _AcceleratorNamesEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _AcceleratorTypesEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _AllowedInstanceTypesEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _CpuManufacturersEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _ExcludedInstanceTypesEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _InstanceGenerationsEncoding: ArrayCoderProperties { public static let member = "item" }
@@ -30392,6 +30410,9 @@ extension EC2 {
         /// The accelerator types that must be on the instance type.   To include instance types with GPU hardware, specify gpu.   To include instance types with FPGA hardware, specify fpga.   To include instance types with inference hardware, specify inference.   Default: Any accelerator type
         @OptionalCustomCoding<ArrayCoder<_AcceleratorTypesEncoding, AcceleratorType>>
         public var acceleratorTypes: [AcceleratorType]?
+        /// The instance types to apply your specified attributes against. All other instance types  are ignored, even if they match your specified attributes. You can use strings with one or more wild cards, represented by an asterisk (*), to allow an instance type, size, or generation. The following are examples: m5.8xlarge, c5*.*, m5a.*, r*, *3*. For example, if you specify c5*,Amazon EC2 will allow the entire C5 instance family, which includes all C5a and C5n instance types. If you specify m5a.*, Amazon EC2 will allow all the M5a instance types, but not the M5n instance types.  If you specify AllowedInstanceTypes, you can't specify ExcludedInstanceTypes.  Default: All instance types
+        @OptionalCustomCoding<ArrayCoder<_AllowedInstanceTypesEncoding, String>>
+        public var allowedInstanceTypes: [String]?
         /// Indicates whether bare metal instance types must be included, excluded, or required.   To include bare metal instance types, specify included.   To require only bare metal instance types, specify required.   To exclude bare metal instance types, specify excluded.   Default: excluded
         public let bareMetal: BareMetal?
         /// The minimum and maximum baseline bandwidth to Amazon EBS, in Mbps. For more information, see Amazon EBS–optimized instances in the Amazon EC2 User Guide. Default: No minimum or maximum limits
@@ -30401,7 +30422,7 @@ extension EC2 {
         /// The CPU manufacturers to include.   For instance types with Intel CPUs, specify intel.   For instance types with AMD CPUs, specify amd.   For instance types with Amazon Web Services CPUs, specify amazon-web-services.    Don't confuse the CPU manufacturer with the CPU architecture. Instances will  be launched with a compatible CPU architecture based on the Amazon Machine Image (AMI) that you  specify in your launch template.  Default: Any manufacturer
         @OptionalCustomCoding<ArrayCoder<_CpuManufacturersEncoding, CpuManufacturer>>
         public var cpuManufacturers: [CpuManufacturer]?
-        /// The instance types to exclude. You can use strings with one or more wild cards, represented by an asterisk (*), to exclude an instance family, type, size, or generation. The following are examples: m5.8xlarge, c5*.*, m5a.*, r*, *3*. For example, if you specify c5*,Amazon EC2 will exclude the entire C5 instance family, which includes all C5a and C5n instance types. If you specify m5a.*, Amazon EC2 will exclude all the M5a instance types, but not the M5n instance types. Default: No excluded instance types
+        /// The instance types to exclude. You can use strings with one or more wild cards, represented by an asterisk (*), to exclude an instance family, type, size, or generation. The following are examples: m5.8xlarge, c5*.*, m5a.*, r*, *3*. For example, if you specify c5*,Amazon EC2 will exclude the entire C5 instance family, which includes all C5a and C5n instance types. If you specify m5a.*, Amazon EC2 will exclude all the M5a instance types, but not the M5n instance types.  If you specify ExcludedInstanceTypes, you can't specify AllowedInstanceTypes.  Default: No excluded instance types
         @OptionalCustomCoding<ArrayCoder<_ExcludedInstanceTypesEncoding, String>>
         public var excludedInstanceTypes: [String]?
         /// Indicates whether current or previous generation instance types are included. The current generation instance types are recommended for use. Current generation instance types are typically the latest two to three generations in each instance family. For more information, see Instance types in the Amazon EC2 User Guide. For current generation instance types, specify current. For previous generation instance types, specify previous. Default: Current and previous generation instance types
@@ -30416,6 +30437,8 @@ extension EC2 {
         public let memoryGiBPerVCpu: MemoryGiBPerVCpuRequest?
         /// The minimum and maximum amount of memory, in MiB.
         public let memoryMiB: MemoryMiBRequest?
+        /// The minimum and maximum amount of network bandwidth, in gigabits per second (Gbps). Default: No minimum or maximum limits
+        public let networkBandwidthGbps: NetworkBandwidthGbpsRequest?
         /// The minimum and maximum number of network interfaces. Default: No minimum or maximum limits
         public let networkInterfaceCount: NetworkInterfaceCountRequest?
         /// The price protection threshold for On-Demand Instances. This is the maximum you’ll pay for an On-Demand Instance, expressed as a percentage above the least expensive current generation M, C, or R instance type with your specified attributes. When Amazon EC2 selects instance types with your attributes, it excludes instance types priced above your threshold. The parameter accepts an integer, which Amazon EC2 interprets as a percentage. To turn off price protection, specify a high value, such as 999999. This parameter is not supported for GetSpotPlacementScores and GetInstanceTypesFromInstanceRequirements.  If you set TargetCapacityUnitType to vcpu or memory-mib, the price protection threshold is applied based on the per-vCPU or per-memory price instead of the per-instance price.  Default: 20
@@ -30429,12 +30452,13 @@ extension EC2 {
         /// The minimum and maximum number of vCPUs.
         public let vCpuCount: VCpuCountRangeRequest?
 
-        public init(acceleratorCount: AcceleratorCountRequest? = nil, acceleratorManufacturers: [AcceleratorManufacturer]? = nil, acceleratorNames: [AcceleratorName]? = nil, acceleratorTotalMemoryMiB: AcceleratorTotalMemoryMiBRequest? = nil, acceleratorTypes: [AcceleratorType]? = nil, bareMetal: BareMetal? = nil, baselineEbsBandwidthMbps: BaselineEbsBandwidthMbpsRequest? = nil, burstablePerformance: BurstablePerformance? = nil, cpuManufacturers: [CpuManufacturer]? = nil, excludedInstanceTypes: [String]? = nil, instanceGenerations: [InstanceGeneration]? = nil, localStorage: LocalStorage? = nil, localStorageTypes: [LocalStorageType]? = nil, memoryGiBPerVCpu: MemoryGiBPerVCpuRequest? = nil, memoryMiB: MemoryMiBRequest? = nil, networkInterfaceCount: NetworkInterfaceCountRequest? = nil, onDemandMaxPricePercentageOverLowestPrice: Int? = nil, requireHibernateSupport: Bool? = nil, spotMaxPricePercentageOverLowestPrice: Int? = nil, totalLocalStorageGB: TotalLocalStorageGBRequest? = nil, vCpuCount: VCpuCountRangeRequest? = nil) {
+        public init(acceleratorCount: AcceleratorCountRequest? = nil, acceleratorManufacturers: [AcceleratorManufacturer]? = nil, acceleratorNames: [AcceleratorName]? = nil, acceleratorTotalMemoryMiB: AcceleratorTotalMemoryMiBRequest? = nil, acceleratorTypes: [AcceleratorType]? = nil, allowedInstanceTypes: [String]? = nil, bareMetal: BareMetal? = nil, baselineEbsBandwidthMbps: BaselineEbsBandwidthMbpsRequest? = nil, burstablePerformance: BurstablePerformance? = nil, cpuManufacturers: [CpuManufacturer]? = nil, excludedInstanceTypes: [String]? = nil, instanceGenerations: [InstanceGeneration]? = nil, localStorage: LocalStorage? = nil, localStorageTypes: [LocalStorageType]? = nil, memoryGiBPerVCpu: MemoryGiBPerVCpuRequest? = nil, memoryMiB: MemoryMiBRequest? = nil, networkBandwidthGbps: NetworkBandwidthGbpsRequest? = nil, networkInterfaceCount: NetworkInterfaceCountRequest? = nil, onDemandMaxPricePercentageOverLowestPrice: Int? = nil, requireHibernateSupport: Bool? = nil, spotMaxPricePercentageOverLowestPrice: Int? = nil, totalLocalStorageGB: TotalLocalStorageGBRequest? = nil, vCpuCount: VCpuCountRangeRequest? = nil) {
             self.acceleratorCount = acceleratorCount
             self.acceleratorManufacturers = acceleratorManufacturers
             self.acceleratorNames = acceleratorNames
             self.acceleratorTotalMemoryMiB = acceleratorTotalMemoryMiB
             self.acceleratorTypes = acceleratorTypes
+            self.allowedInstanceTypes = allowedInstanceTypes
             self.bareMetal = bareMetal
             self.baselineEbsBandwidthMbps = baselineEbsBandwidthMbps
             self.burstablePerformance = burstablePerformance
@@ -30445,6 +30469,7 @@ extension EC2 {
             self.localStorageTypes = localStorageTypes
             self.memoryGiBPerVCpu = memoryGiBPerVCpu
             self.memoryMiB = memoryMiB
+            self.networkBandwidthGbps = networkBandwidthGbps
             self.networkInterfaceCount = networkInterfaceCount
             self.onDemandMaxPricePercentageOverLowestPrice = onDemandMaxPricePercentageOverLowestPrice
             self.requireHibernateSupport = requireHibernateSupport
@@ -30454,6 +30479,12 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
+            try self.allowedInstanceTypes?.forEach {
+                try validate($0, name: "allowedInstanceTypes[]", parent: name, max: 30)
+                try validate($0, name: "allowedInstanceTypes[]", parent: name, min: 1)
+                try validate($0, name: "allowedInstanceTypes[]", parent: name, pattern: "^[a-zA-Z0-9\\.\\*]+$")
+            }
+            try self.validate(self.allowedInstanceTypes, name: "allowedInstanceTypes", parent: name, max: 400)
             try self.excludedInstanceTypes?.forEach {
                 try validate($0, name: "excludedInstanceTypes[]", parent: name, max: 30)
                 try validate($0, name: "excludedInstanceTypes[]", parent: name, min: 1)
@@ -30468,6 +30499,7 @@ extension EC2 {
             case acceleratorNames = "AcceleratorName"
             case acceleratorTotalMemoryMiB = "AcceleratorTotalMemoryMiB"
             case acceleratorTypes = "AcceleratorType"
+            case allowedInstanceTypes = "AllowedInstanceType"
             case bareMetal = "BareMetal"
             case baselineEbsBandwidthMbps = "BaselineEbsBandwidthMbps"
             case burstablePerformance = "BurstablePerformance"
@@ -30478,6 +30510,7 @@ extension EC2 {
             case localStorageTypes = "LocalStorageType"
             case memoryGiBPerVCpu = "MemoryGiBPerVCpu"
             case memoryMiB = "MemoryMiB"
+            case networkBandwidthGbps = "NetworkBandwidthGbps"
             case networkInterfaceCount = "NetworkInterfaceCount"
             case onDemandMaxPricePercentageOverLowestPrice = "OnDemandMaxPricePercentageOverLowestPrice"
             case requireHibernateSupport = "RequireHibernateSupport"
@@ -32666,6 +32699,8 @@ extension EC2 {
         public let affinity: String?
         /// The Availability Zone of the instance.
         public let availabilityZone: String?
+        /// The Group ID of the placement group. You must specify the Placement Group Group ID to launch an instance in a shared placement group.
+        public let groupId: String?
         /// The name of the placement group for the instance.
         public let groupName: String?
         /// The ID of the Dedicated Host for the instance.
@@ -32679,9 +32714,10 @@ extension EC2 {
         /// The tenancy of the instance (if the instance is running in a VPC). An instance with a tenancy of dedicated runs on single-tenant hardware.
         public let tenancy: Tenancy?
 
-        public init(affinity: String? = nil, availabilityZone: String? = nil, groupName: String? = nil, hostId: String? = nil, hostResourceGroupArn: String? = nil, partitionNumber: Int? = nil, spreadDomain: String? = nil, tenancy: Tenancy? = nil) {
+        public init(affinity: String? = nil, availabilityZone: String? = nil, groupId: String? = nil, groupName: String? = nil, hostId: String? = nil, hostResourceGroupArn: String? = nil, partitionNumber: Int? = nil, spreadDomain: String? = nil, tenancy: Tenancy? = nil) {
             self.affinity = affinity
             self.availabilityZone = availabilityZone
+            self.groupId = groupId
             self.groupName = groupName
             self.hostId = hostId
             self.hostResourceGroupArn = hostResourceGroupArn
@@ -32693,6 +32729,7 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case affinity
             case availabilityZone
+            case groupId
             case groupName
             case hostId
             case hostResourceGroupArn
@@ -32707,6 +32744,8 @@ extension EC2 {
         public let affinity: String?
         /// The Availability Zone for the instance.
         public let availabilityZone: String?
+        /// The Group Id of a placement group. You must specify the Placement Group Group Id to launch an instance in a shared placement group.
+        public let groupId: String?
         /// The name of the placement group for the instance.
         public let groupName: String?
         /// The ID of the Dedicated Host for the instance.
@@ -32720,9 +32759,10 @@ extension EC2 {
         /// The tenancy of the instance (if the instance is running in a VPC). An instance with a tenancy of dedicated runs on single-tenant hardware.
         public let tenancy: Tenancy?
 
-        public init(affinity: String? = nil, availabilityZone: String? = nil, groupName: String? = nil, hostId: String? = nil, hostResourceGroupArn: String? = nil, partitionNumber: Int? = nil, spreadDomain: String? = nil, tenancy: Tenancy? = nil) {
+        public init(affinity: String? = nil, availabilityZone: String? = nil, groupId: String? = nil, groupName: String? = nil, hostId: String? = nil, hostResourceGroupArn: String? = nil, partitionNumber: Int? = nil, spreadDomain: String? = nil, tenancy: Tenancy? = nil) {
             self.affinity = affinity
             self.availabilityZone = availabilityZone
+            self.groupId = groupId
             self.groupName = groupName
             self.hostId = hostId
             self.hostResourceGroupArn = hostResourceGroupArn
@@ -32734,6 +32774,7 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case affinity = "Affinity"
             case availabilityZone = "AvailabilityZone"
+            case groupId = "GroupId"
             case groupName = "GroupName"
             case hostId = "HostId"
             case hostResourceGroupArn = "HostResourceGroupArn"
@@ -32811,7 +32852,7 @@ extension EC2 {
         public let blockDurationMinutes: Int?
         /// The behavior when a Spot Instance is interrupted.
         public let instanceInterruptionBehavior: InstanceInterruptionBehavior?
-        /// The maximum hourly price you're willing to pay for the Spot Instances. We do not recommend  using this parameter because it can lead to increased interruptions. If you do not specify this parameter, you will pay the current Spot price.  If you specify a maximum price, your Spot Instances will be interrupted more frequently than if you do not specify this parameter.
+        /// The maximum hourly price you're willing to pay for the Spot Instances. We do not recommend using this parameter because it can lead to increased interruptions. If you do not specify this parameter, you will pay the current Spot price.  If you specify a maximum price, your Spot Instances will be interrupted more frequently than if you do not specify this parameter.
         public let maxPrice: String?
         /// The Spot Instance request type.
         public let spotInstanceType: SpotInstanceType?
@@ -32840,11 +32881,11 @@ extension EC2 {
         public let blockDurationMinutes: Int?
         /// The behavior when a Spot Instance is interrupted. The default is terminate.
         public let instanceInterruptionBehavior: InstanceInterruptionBehavior?
-        /// The maximum hourly price you're willing to pay for the Spot Instances. We do not recommend  using this parameter because it can lead to increased interruptions. If you do not specify this parameter, you will pay the current Spot price.  If you specify a maximum price, your Spot Instances will be interrupted more frequently than if you do not specify this parameter.
+        /// The maximum hourly price you're willing to pay for the Spot Instances. We do not recommend using this parameter because it can lead to increased interruptions. If you do not specify this parameter, you will pay the current Spot price.  If you specify a maximum price, your Spot Instances will be interrupted more frequently than if you do not specify this parameter.
         public let maxPrice: String?
         /// The Spot Instance request type.
         public let spotInstanceType: SpotInstanceType?
-        /// The end date of the request, in UTC format (YYYY-MM-DDTHH:MM:SSZ). Supported only for persistent requests.   For a persistent request, the request remains active until the ValidUntil  date and time is reached. Otherwise, the request remains active until you cancel it.   For a one-time request, ValidUntil is not supported. The request remains active until  all instances launch or you cancel the request.   Default: 7 days from the current date
+        /// The end date of the request, in UTC format (YYYY-MM-DDTHH:MM:SSZ). Supported only for persistent requests.   For a persistent request, the request remains active until the ValidUntil date and time is reached. Otherwise, the request remains active until you cancel it.   For a one-time request, ValidUntil is not supported. The request remains active until all instances launch or you cancel the request.   Default: 7 days from the current date
         public let validUntil: Date?
 
         public init(blockDurationMinutes: Int? = nil, instanceInterruptionBehavior: InstanceInterruptionBehavior? = nil, maxPrice: String? = nil, spotInstanceType: SpotInstanceType? = nil, validUntil: Date? = nil) {
@@ -32887,7 +32928,7 @@ extension EC2 {
     public struct LaunchTemplateTagSpecificationRequest: AWSEncodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// The type of resource to tag.  The Valid Values are all the resource types that can be tagged. However, when creating  a launch template, you can specify tags for the following resource types only: instance | volume | elastic-gpu | network-interface | spot-instances-request  To tag a resource after it has been created, see CreateTags.
+        /// The type of resource to tag. The Valid Values are all the resource types that can be tagged. However, when creating a launch template, you can specify tags for the following resource types only: instance | volume | elastic-gpu | network-interface | spot-instances-request  To tag a resource after it has been created, see CreateTags.
         public let resourceType: ResourceType?
         /// The tags to apply to the resource.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
@@ -34094,26 +34135,13 @@ extension EC2 {
         /// The IDs of the Dedicated Hosts to modify.
         @OptionalCustomCoding<ArrayCoder<_HostIdsEncoding, String>>
         public var hostIds: [String]?
-        /// Indicates whether to enable or disable host recovery for the Dedicated Host. For more information,
-        /// 			see
-        /// 				Host recovery in the Amazon EC2 User Guide.
+        /// Indicates whether to enable or disable host recovery for the Dedicated Host. For more information, see  Host recovery in the Amazon EC2 User Guide.
         public let hostRecovery: HostRecovery?
-        /// Specifies the instance family to be supported by the Dedicated Host. Specify this parameter
-        /// 			to modify a Dedicated Host to support multiple instance types within its current
-        /// 			instance family.
-        ///
-        /// 		       If you want to modify a Dedicated Host to support a specific instance type only, omit this parameter
-        /// 			and specify InstanceType instead. You cannot specify
-        /// 			InstanceFamily and InstanceType
-        /// 			in the same request.
+        /// Specifies the instance family to be supported by the Dedicated Host. Specify this parameter to modify a Dedicated Host to support multiple instance types within its current instance family.
+        ///  If you want to modify a Dedicated Host to support a specific instance type only, omit this parameter and specify InstanceType instead. You cannot specify InstanceFamily and InstanceType in the same request.
         public let instanceFamily: String?
-        /// Specifies the instance type to be supported by the Dedicated Host. Specify this parameter to
-        /// 			modify a Dedicated Host to support only a specific instance type.
-        ///
-        /// 		       If you want to modify a Dedicated Host to support multiple instance types in its current instance
-        /// 			family, omit this parameter and specify InstanceFamily
-        /// 			instead. You cannot specify InstanceType and
-        /// 			InstanceFamily in the same request.
+        /// Specifies the instance type to be supported by the Dedicated Host. Specify this parameter to modify a Dedicated Host to support only a specific instance type.
+        ///  If you want to modify a Dedicated Host to support multiple instance types in its current instance family, omit this parameter and specify InstanceFamily instead. You cannot specify InstanceType and InstanceFamily in the same request.
         public let instanceType: String?
 
         public init(autoPlacement: AutoPlacement? = nil, hostIds: [String]? = nil, hostRecovery: HostRecovery? = nil, instanceFamily: String? = nil, instanceType: String? = nil) {
@@ -34267,12 +34295,12 @@ extension EC2 {
         public struct _BlockDeviceMappingsEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _GroupsEncoding: ArrayCoderProperties { public static let member = "groupId" }
 
-        /// The name of the attribute to modify.  You can modify the following attributes only: disableApiTermination | instanceType |  kernel | ramdisk | instanceInitiatedShutdownBehavior | blockDeviceMapping |  userData | sourceDestCheck | groupSet | ebsOptimized | sriovNetSupport |  enaSupport | nvmeSupport | disableApiStop | enclaveOptions
+        /// The name of the attribute to modify.  You can modify the following attributes only: disableApiTermination | instanceType | kernel | ramdisk | instanceInitiatedShutdownBehavior | blockDeviceMapping | userData | sourceDestCheck | groupSet | ebsOptimized | sriovNetSupport | enaSupport | nvmeSupport | disableApiStop | enclaveOptions
         public let attribute: InstanceAttributeName?
         /// Modifies the DeleteOnTermination attribute for volumes that are currently attached. The volume must be owned by the caller. If no value is specified for DeleteOnTermination, the default is true and the volume is deleted when the instance is terminated. To add instance store volumes to an Amazon EBS-backed instance, you must add them when you launch the instance. For more information, see Update the block device mapping when launching an instance in the Amazon EC2 User Guide.
         @OptionalCustomCoding<ArrayCoder<_BlockDeviceMappingsEncoding, InstanceBlockDeviceMappingSpecification>>
         public var blockDeviceMappings: [InstanceBlockDeviceMappingSpecification]?
-        /// Indicates whether an instance is enabled for stop protection.  For more information, see Stop Protection.
+        /// Indicates whether an instance is enabled for stop protection. For more information, see Stop Protection.
         public let disableApiStop: AttributeBooleanValue?
         /// If the value is true, you can't terminate the instance using the Amazon EC2 console, CLI, or API; otherwise, you can. You cannot use this parameter for Spot Instances.
         public let disableApiTermination: AttributeBooleanValue?
@@ -34451,6 +34479,7 @@ extension EC2 {
     }
 
     public struct ModifyInstanceEventStartTimeResult: AWSDecodableShape {
+        /// Information about the event.
         public let event: InstanceStatusEvent?
 
         public init(event: InstanceStatusEvent? = nil) {
@@ -34606,6 +34635,8 @@ extension EC2 {
     public struct ModifyInstancePlacementRequest: AWSEncodableShape {
         /// The affinity setting for the instance.
         public let affinity: Affinity?
+        /// The Group Id of a placement group. You must specify the Placement Group Group Id to launch an instance in a shared placement group.
+        public let groupId: String?
         /// The name of the placement group in which to place the instance. For spread placement groups, the instance must have a tenancy of default. For cluster and partition placement groups, the instance must have a tenancy of default or dedicated. To remove an instance from a placement group, specify an empty string ("").
         public let groupName: String?
         /// The ID of the Dedicated Host with which to associate the instance.
@@ -34616,11 +34647,13 @@ extension EC2 {
         public let instanceId: String?
         /// The number of the partition in which to place the instance. Valid only if the placement group strategy is set to partition.
         public let partitionNumber: Int?
-        /// The tenancy for the instance.   For T3 instances, you can't change the tenancy from dedicated  to host, or from host to dedicated.  Attempting to make one of these unsupported tenancy changes results in the  InvalidTenancy error code.
+        /// The tenancy for the instance.
+        ///   For T3 instances, you can't change the tenancy from dedicated to host, or from host to dedicated. Attempting to make one of these unsupported tenancy changes results in the InvalidTenancy error code.
         public let tenancy: HostTenancy?
 
-        public init(affinity: Affinity? = nil, groupName: String? = nil, hostId: String? = nil, hostResourceGroupArn: String? = nil, instanceId: String? = nil, partitionNumber: Int? = nil, tenancy: HostTenancy? = nil) {
+        public init(affinity: Affinity? = nil, groupId: String? = nil, groupName: String? = nil, hostId: String? = nil, hostResourceGroupArn: String? = nil, instanceId: String? = nil, partitionNumber: Int? = nil, tenancy: HostTenancy? = nil) {
             self.affinity = affinity
+            self.groupId = groupId
             self.groupName = groupName
             self.hostId = hostId
             self.hostResourceGroupArn = hostResourceGroupArn
@@ -34631,6 +34664,7 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case affinity
+            case groupId = "GroupId"
             case groupName = "GroupName"
             case hostId
             case hostResourceGroupArn = "HostResourceGroupArn"
@@ -36786,6 +36820,40 @@ extension EC2 {
         }
     }
 
+    public struct NetworkBandwidthGbps: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum amount of network bandwidth, in Gbps. If this parameter is not specified, there is no maximum limit.
+        public let max: Double?
+        /// The minimum amount of network bandwidth, in Gbps. If this parameter is not specified, there is no minimum limit.
+        public let min: Double?
+
+        public init(max: Double? = nil, min: Double? = nil) {
+            self.max = max
+            self.min = min
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case max
+            case min
+        }
+    }
+
+    public struct NetworkBandwidthGbpsRequest: AWSEncodableShape {
+        /// The maximum amount of network bandwidth, in Gbps. To specify no maximum limit, omit this parameter.
+        public let max: Double?
+        /// The minimum amount of network bandwidth, in Gbps. To specify no minimum limit, omit this parameter.
+        public let min: Double?
+
+        public init(max: Double? = nil, min: Double? = nil) {
+            self.max = max
+            self.min = min
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case max = "Max"
+            case min = "Min"
+        }
+    }
+
     public struct NetworkCardInfo: AWSDecodableShape {
         /// The maximum number of network interfaces for the network card.
         public let maximumNetworkInterfaces: Int?
@@ -38030,6 +38098,8 @@ extension EC2 {
         public let affinity: String?
         /// The Availability Zone of the instance. If not specified, an Availability Zone will be automatically chosen for you based on the load balancing criteria for the Region. This parameter is not supported by CreateFleet.
         public let availabilityZone: String?
+        /// The Group Id of the placement group.
+        public let groupId: String?
         /// The name of the placement group the instance is in.
         public let groupName: String?
         /// The ID of the Dedicated Host on which the instance resides. This parameter is not supported for the ImportInstance command. This parameter is not supported by CreateFleet.
@@ -38043,9 +38113,10 @@ extension EC2 {
         /// The tenancy of the instance (if the instance is running in a VPC). An instance with a tenancy of dedicated runs on single-tenant hardware. The host tenancy is not supported for the ImportInstance command. This parameter is not supported by CreateFleet. T3 instances that use the unlimited CPU credit option do not support host tenancy.
         public let tenancy: Tenancy?
 
-        public init(affinity: String? = nil, availabilityZone: String? = nil, groupName: String? = nil, hostId: String? = nil, hostResourceGroupArn: String? = nil, partitionNumber: Int? = nil, spreadDomain: String? = nil, tenancy: Tenancy? = nil) {
+        public init(affinity: String? = nil, availabilityZone: String? = nil, groupId: String? = nil, groupName: String? = nil, hostId: String? = nil, hostResourceGroupArn: String? = nil, partitionNumber: Int? = nil, spreadDomain: String? = nil, tenancy: Tenancy? = nil) {
             self.affinity = affinity
             self.availabilityZone = availabilityZone
+            self.groupId = groupId
             self.groupName = groupName
             self.hostId = hostId
             self.hostResourceGroupArn = hostResourceGroupArn
@@ -38057,6 +38128,7 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case affinity
             case availabilityZone
+            case groupId
             case groupName
             case hostId
             case hostResourceGroupArn
@@ -40038,7 +40110,7 @@ extension EC2 {
         /// One or more security group names. For a nondefault VPC, you must use security group IDs instead. You cannot specify both a security group ID and security name in the same request.
         @OptionalCustomCoding<ArrayCoder<_SecurityGroupsEncoding, String>>
         public var securityGroups: [String]?
-        /// The tags to apply to the resources that are created during instance launch. You can specify tags for the following resources only:   Instances   Volumes   Elastic graphics   Spot Instance requests   Network interfaces   To tag a resource after it has been created, see CreateTags.  To tag the launch template itself, you must use the  TagSpecification parameter.
+        /// The tags to apply to the resources that are created during instance launch. You can specify tags for the following resources only:   Instances   Volumes   Elastic graphics   Spot Instance requests   Network interfaces   To tag a resource after it has been created, see CreateTags.  To tag the launch template itself, you must use the TagSpecification parameter.
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, LaunchTemplateTagSpecificationRequest>>
         public var tagSpecifications: [LaunchTemplateTagSpecificationRequest]?
         /// The user data to make available to the instance. You must provide base64-encoded text. User data is limited to 16 KB. For more information, see Run commands on your Linux instance at launch (Linux) or Work with instance user data (Windows) in the Amazon Elastic Compute Cloud User Guide.
@@ -41055,7 +41127,7 @@ extension EC2 {
         public let cpuOptions: LaunchTemplateCpuOptions?
         /// The credit option for CPU usage of the instance.
         public let creditSpecification: CreditSpecification?
-        /// Indicates whether the instance is enabled for stop protection.  For more information, see Stop Protection.
+        /// Indicates whether the instance is enabled for stop protection. For more information, see Stop Protection.
         public let disableApiStop: Bool?
         /// If set to true, indicates that the instance cannot be terminated using the Amazon EC2 console, command line tool, or API.
         public let disableApiTermination: Bool?
@@ -42042,7 +42114,7 @@ extension EC2 {
     }
 
     public struct S3Storage: AWSEncodableShape & AWSDecodableShape {
-        /// The access key ID of the owner of the bucket. Before you specify a value for your access key ID, review and follow the guidance   in Best Practices for Managing Amazon Web Services Access Keys.
+        /// The access key ID of the owner of the bucket. Before you specify a value for your access key ID, review and follow the guidance in Best practices for managing Amazon Web Services access keys.
         public let awsAccessKeyId: String?
         /// The bucket in which to store the AMI. You can specify a bucket that you already own or a new bucket that Amazon EC2 creates on your behalf. If you specify a bucket that belongs to someone else, Amazon EC2 returns an error.
         public let bucket: String?
@@ -43704,7 +43776,7 @@ extension EC2 {
         public struct _LaunchTemplateConfigsEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// The strategy that determines how to allocate the target Spot Instance capacity across the Spot Instance pools specified by the Spot Fleet launch configuration. For more information, see Allocation strategies for Spot Instances in the Amazon EC2 User Guide for Linux Instances.  lowestPrice - Spot Fleet launches instances from the lowest-price Spot Instance pool that has available capacity. If the cheapest pool doesn't have available capacity, the Spot Instances come from the next cheapest pool that has available capacity. If a pool runs out of capacity before fulfilling your desired capacity, Spot Fleet will continue to fulfill your request by drawing from the next cheapest pool. To ensure that your desired capacity is met, you might receive Spot Instances from several pools.  diversified - Spot Fleet launches instances from all of the Spot Instance pools that you specify.  capacityOptimized (recommended) - Spot Fleet launches instances from Spot Instance pools with optimal capacity for the number of instances that are launching. To give certain instance types a higher chance of launching first, use capacityOptimizedPrioritized. Set a priority for each instance type by using the Priority parameter for LaunchTemplateOverrides. You can assign the same priority to different LaunchTemplateOverrides. EC2 implements the priorities on a best-effort basis, but optimizes for capacity first. capacityOptimizedPrioritized is supported only if your Spot Fleet uses a launch template. Note that if the OnDemandAllocationStrategy is set to prioritized, the same priority is applied when fulfilling On-Demand capacity. Default: lowestPrice
+        /// The strategy that determines how to allocate the target Spot Instance capacity across the Spot Instance pools specified by the Spot Fleet launch configuration. For more information, see Allocation strategies for Spot Instances in the Amazon EC2 User Guide.  lowestPrice - Spot Fleet launches instances from the lowest-price Spot Instance pool that has available capacity. If the cheapest pool doesn't have available capacity, the Spot Instances come from the next cheapest pool that has available capacity. If a pool runs out of capacity before fulfilling your desired capacity, Spot Fleet will continue to fulfill your request by drawing from the next cheapest pool. To ensure that your desired capacity is met, you might receive Spot Instances from several pools.  diversified - Spot Fleet launches instances from all of the Spot Instance pools that you specify.  capacityOptimized (recommended) - Spot Fleet launches instances from Spot Instance pools with optimal capacity for the number of instances that are launching. To give certain instance types a higher chance of launching first, use capacityOptimizedPrioritized. Set a priority for each instance type by using the Priority parameter for LaunchTemplateOverrides. You can assign the same priority to different LaunchTemplateOverrides. EC2 implements the priorities on a best-effort basis, but optimizes for capacity first. capacityOptimizedPrioritized is supported only if your Spot Fleet uses a launch template. Note that if the OnDemandAllocationStrategy is set to prioritized, the same priority is applied when fulfilling On-Demand capacity. Default: lowestPrice
         public let allocationStrategy: AllocationStrategy?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of your listings. This helps to avoid duplicate listings. For more information, see Ensuring Idempotency.
         public let clientToken: String?
@@ -43714,7 +43786,7 @@ extension EC2 {
         public let excessCapacityTerminationPolicy: ExcessCapacityTerminationPolicy?
         /// The number of units fulfilled by this request compared to the set target capacity. You cannot set this value.
         public let fulfilledCapacity: Double?
-        /// The Amazon Resource Name (ARN) of an Identity and Access Management (IAM) role that grants the Spot Fleet the permission to request, launch, terminate, and tag instances on your behalf. For more information, see Spot Fleet prerequisites in the Amazon EC2 User Guide for Linux Instances. Spot Fleet can terminate Spot Instances on your behalf when you cancel its Spot Fleet request using CancelSpotFleetRequests or when the Spot Fleet request expires, if you set TerminateInstancesWithExpiration.
+        /// The Amazon Resource Name (ARN) of an Identity and Access Management (IAM) role that grants the Spot Fleet the permission to request, launch, terminate, and tag instances on your behalf. For more information, see Spot Fleet prerequisites in the Amazon EC2 User Guide. Spot Fleet can terminate Spot Instances on your behalf when you cancel its Spot Fleet request using CancelSpotFleetRequests or when the Spot Fleet request expires, if you set TerminateInstancesWithExpiration.
         public let iamFleetRole: String?
         /// The behavior when a Spot Instance is interrupted. The default is terminate.
         public let instanceInterruptionBehavior: InstanceInterruptionBehavior?
@@ -43993,7 +44065,7 @@ extension EC2 {
         public let blockDurationMinutes: Int?
         /// The behavior when a Spot Instance is interrupted. The default is terminate.
         public let instanceInterruptionBehavior: InstanceInterruptionBehavior?
-        /// The maximum hourly price that you're willing to pay for a Spot Instance. We do not recommend  using this parameter because it can lead to increased interruptions. If you do not specify this parameter, you will pay the current Spot price.  If you specify a maximum price, your Spot Instances will be interrupted more frequently than if you do not specify this parameter.
+        /// The maximum hourly price that you're willing to pay for a Spot Instance. We do not recommend using this parameter because it can lead to increased interruptions. If you do not specify this parameter, you will pay the current Spot price.  If you specify a maximum price, your Spot Instances will be interrupted more frequently than if you do not specify this parameter.
         public let maxPrice: String?
         /// The Spot Instance request type. For RunInstances, persistent Spot Instance requests are only supported when the instance interruption behavior is either hibernate or stop.
         public let spotInstanceType: SpotInstanceType?

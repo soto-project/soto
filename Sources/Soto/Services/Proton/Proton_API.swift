@@ -324,7 +324,7 @@ public struct Proton: AWSService {
         return self.client.execute(operation: "ListServiceInstanceProvisionedResources", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// List service instances with summary data.
+    /// List service instances with summary data. This action lists service instances of all services in the Amazon Web Services account.
     public func listServiceInstances(_ input: ListServiceInstancesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListServiceInstancesOutput> {
         return self.client.execute(operation: "ListServiceInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

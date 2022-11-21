@@ -57,14 +57,20 @@ extension ServiceCatalog {
     public enum DescribePortfolioShareType: String, CustomStringConvertible, Codable, _SotoSendable {
         case account = "ACCOUNT"
         case organization = "ORGANIZATION"
-        case organizationalUnit = "ORGANIZATIONAL_UNIT"
         case organizationMemberAccount = "ORGANIZATION_MEMBER_ACCOUNT"
+        case organizationalUnit = "ORGANIZATIONAL_UNIT"
         public var description: String { return self.rawValue }
     }
 
     public enum EvaluationType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case dynamic = "DYNAMIC"
         case `static` = "STATIC"
+        case dynamic = "DYNAMIC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LastSyncStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case failed = "FAILED"
+        case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
@@ -84,6 +90,7 @@ extension ServiceCatalog {
 
     public enum PrincipalType: String, CustomStringConvertible, Codable, _SotoSendable {
         case iam = "IAM"
+        case iamPattern = "IAM_PATTERN"
         public var description: String { return self.rawValue }
     }
 
@@ -176,9 +183,9 @@ extension ServiceCatalog {
     }
 
     public enum Replacement: String, CustomStringConvertible, Codable, _SotoSendable {
-        case conditional = "CONDITIONAL"
         case `false` = "FALSE"
         case `true` = "TRUE"
+        case conditional = "CONDITIONAL"
         public var description: String { return self.rawValue }
     }
 
@@ -200,11 +207,11 @@ extension ServiceCatalog {
     }
 
     public enum ServiceActionAssociationErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
-        case duplicateResource = "DUPLICATE_RESOURCE"
+        case duplicateResourceException = "DUPLICATE_RESOURCE"
         case internalFailure = "INTERNAL_FAILURE"
-        case limitExceeded = "LIMIT_EXCEEDED"
-        case resourceNotFound = "RESOURCE_NOT_FOUND"
-        case throttling = "THROTTLING"
+        case limitExceededException = "LIMIT_EXCEEDED"
+        case resourceNotFoundException = "RESOURCE_NOT_FOUND"
+        case throttlingException = "THROTTLING"
         public var description: String { return self.rawValue }
     }
 
@@ -233,6 +240,11 @@ extension ServiceCatalog {
     public enum SortOrder: String, CustomStringConvertible, Codable, _SotoSendable {
         case ascending = "ASCENDING"
         case descending = "DESCENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case codestar = "CODESTAR"
         public var description: String { return self.rawValue }
     }
 
@@ -342,9 +354,9 @@ extension ServiceCatalog {
         public let acceptLanguage: String?
         /// The portfolio identifier.
         public let portfolioId: String
-        /// The ARN of the principal (IAM user, role, or group).
+        /// The ARN of the principal (IAM user, role, or group). This field allows an ARN with no accountID if  PrincipalType is IAM_PATTERN.  You can associate multiple IAM patterns even if the account has no principal with that name. This is useful in Principal Name Sharing if you want to share a principal without creating it in the  account that owns the portfolio.
         public let principalARN: String
-        /// The principal type. The supported value is IAM.
+        /// The principal type. The supported value is IAM if you use a fully defined ARN,  or IAM_PATTERN if you use an ARN with no accountID.
         public let principalType: PrincipalType
 
         public init(acceptLanguage: String? = nil, portfolioId: String, principalARN: String, principalType: PrincipalType) {
@@ -586,6 +598,43 @@ extension ServiceCatalog {
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
+        }
+    }
+
+    public struct CodeStarParameters: AWSEncodableShape & AWSDecodableShape {
+        /// The absolute path wehre the artifact resides within the repo and branch, formatted as  "folder/file.json."
+        public let artifactPath: String
+        /// The specific branch where the artifact resides.
+        public let branch: String
+        /// The CodeStar ARN, which is the connection between Service Catalog and the external repository.
+        public let connectionArn: String
+        /// The specific repository where the product’s artifact-to-be-synced resides, formatted as  "Account/Repo."
+        public let repository: String
+
+        public init(artifactPath: String, branch: String, connectionArn: String, repository: String) {
+            self.artifactPath = artifactPath
+            self.branch = branch
+            self.connectionArn = connectionArn
+            self.repository = repository
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.artifactPath, name: "artifactPath", parent: name, max: 4096)
+            try self.validate(self.artifactPath, name: "artifactPath", parent: name, min: 1)
+            try self.validate(self.branch, name: "branch", parent: name, max: 250)
+            try self.validate(self.branch, name: "branch", parent: name, min: 1)
+            try self.validate(self.connectionArn, name: "connectionArn", parent: name, max: 1224)
+            try self.validate(self.connectionArn, name: "connectionArn", parent: name, min: 1)
+            try self.validate(self.connectionArn, name: "connectionArn", parent: name, pattern: "^arn:[a-z0-9][-.a-z0-9]{0,62}:codestar-connections:([a-z0-9][-.a-z0-9]{0,62})?:([a-z0-9][-.a-z0-9]{0,62})?:[^/].{0,1023}$")
+            try self.validate(self.repository, name: "repository", parent: name, max: 100)
+            try self.validate(self.repository, name: "repository", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case artifactPath = "ArtifactPath"
+            case branch = "Branch"
+            case connectionArn = "ConnectionArn"
+            case repository = "Repository"
         }
     }
 
@@ -852,14 +901,17 @@ extension ServiceCatalog {
         public let organizationNode: OrganizationNode?
         /// The portfolio identifier.
         public let portfolioId: String
-        /// Enables or disables TagOptions  sharing when creating the portfolio share. If this flag is not provided, TagOptions sharing is disabled.
+        /// Enables or disables Principal sharing when creating the portfolio share. If this flag is not provided, principal sharing is disabled.  When you enable Principal Name Sharing for a portfolio share, the share recipient account end users with a principal that matches any of the associated IAM patterns can provision products from the portfolio. Once shared, the share recipient can view associations of PrincipalType:  IAM_PATTERN on their portfolio. You can create the principals in the recipient account before or  after creating the share.
+        public let sharePrincipals: Bool?
+        /// Enables or disables TagOptions  sharing when creating the portfolio share. If this flag is not  provided, TagOptions sharing is disabled.
         public let shareTagOptions: Bool?
 
-        public init(acceptLanguage: String? = nil, accountId: String? = nil, organizationNode: OrganizationNode? = nil, portfolioId: String, shareTagOptions: Bool? = nil) {
+        public init(acceptLanguage: String? = nil, accountId: String? = nil, organizationNode: OrganizationNode? = nil, portfolioId: String, sharePrincipals: Bool? = nil, shareTagOptions: Bool? = nil) {
             self.acceptLanguage = acceptLanguage
             self.accountId = accountId
             self.organizationNode = organizationNode
             self.portfolioId = portfolioId
+            self.sharePrincipals = sharePrincipals
             self.shareTagOptions = shareTagOptions
         }
 
@@ -877,6 +929,7 @@ extension ServiceCatalog {
             case accountId = "AccountId"
             case organizationNode = "OrganizationNode"
             case portfolioId = "PortfolioId"
+            case sharePrincipals = "SharePrincipals"
             case shareTagOptions = "ShareTagOptions"
         }
     }
@@ -910,7 +963,9 @@ extension ServiceCatalog {
         /// The type of product.
         public let productType: ProductType
         /// The configuration of the provisioning artifact.
-        public let provisioningArtifactParameters: ProvisioningArtifactProperties
+        public let provisioningArtifactParameters: ProvisioningArtifactProperties?
+        /// Specifies connection details for the created product and syncs the product to the connection source artifact. This automatically manages the product's artifacts based on changes to the source. The SourceConnection parameter consists of the following sub-fields.    Type     ConnectionParamters
+        public let sourceConnection: SourceConnection?
         /// The support information about the product.
         public let supportDescription: String?
         /// The contact email for product support.
@@ -920,7 +975,7 @@ extension ServiceCatalog {
         /// One or more tags.
         public let tags: [Tag]?
 
-        public init(acceptLanguage: String? = nil, description: String? = nil, distributor: String? = nil, idempotencyToken: String = CreateProductInput.idempotencyToken(), name: String, owner: String, productType: ProductType, provisioningArtifactParameters: ProvisioningArtifactProperties, supportDescription: String? = nil, supportEmail: String? = nil, supportUrl: String? = nil, tags: [Tag]? = nil) {
+        public init(acceptLanguage: String? = nil, description: String? = nil, distributor: String? = nil, idempotencyToken: String = CreateProductInput.idempotencyToken(), name: String, owner: String, productType: ProductType, provisioningArtifactParameters: ProvisioningArtifactProperties? = nil, sourceConnection: SourceConnection? = nil, supportDescription: String? = nil, supportEmail: String? = nil, supportUrl: String? = nil, tags: [Tag]? = nil) {
             self.acceptLanguage = acceptLanguage
             self.description = description
             self.distributor = distributor
@@ -929,6 +984,7 @@ extension ServiceCatalog {
             self.owner = owner
             self.productType = productType
             self.provisioningArtifactParameters = provisioningArtifactParameters
+            self.sourceConnection = sourceConnection
             self.supportDescription = supportDescription
             self.supportEmail = supportEmail
             self.supportUrl = supportUrl
@@ -944,7 +1000,8 @@ extension ServiceCatalog {
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_-]*$")
             try self.validate(self.name, name: "name", parent: name, max: 8191)
             try self.validate(self.owner, name: "owner", parent: name, max: 8191)
-            try self.provisioningArtifactParameters.validate(name: "\(name).provisioningArtifactParameters")
+            try self.provisioningArtifactParameters?.validate(name: "\(name).provisioningArtifactParameters")
+            try self.sourceConnection?.validate(name: "\(name).sourceConnection")
             try self.validate(self.supportDescription, name: "supportDescription", parent: name, max: 8191)
             try self.validate(self.supportEmail, name: "supportEmail", parent: name, max: 254)
             try self.validate(self.supportUrl, name: "supportUrl", parent: name, max: 2083)
@@ -963,6 +1020,7 @@ extension ServiceCatalog {
             case owner = "Owner"
             case productType = "ProductType"
             case provisioningArtifactParameters = "ProvisioningArtifactParameters"
+            case sourceConnection = "SourceConnection"
             case supportDescription = "SupportDescription"
             case supportEmail = "SupportEmail"
             case supportUrl = "SupportUrl"
@@ -1142,7 +1200,7 @@ extension ServiceCatalog {
     }
 
     public struct CreateProvisioningArtifactOutput: AWSDecodableShape {
-        /// Specify the template source with one of the following options, but not both. Keys accepted: [ LoadTemplateFromURL, ImportFromPhysicalId ]. The URL of the CloudFormation template in Amazon S3, Amazon Web Services CodeCommit, or GitHub in JSON format.   LoadTemplateFromURL  Use the URL of the CloudFormation template in Amazon S3, Amazon Web Services CodeCommit, or GitHub in JSON format.  ImportFromPhysicalId  Use the physical id of the resource that contains the template; currently supports CloudFormation stack ARN.
+        /// Specify the template source with one of the following options, but not both. Keys accepted: [ LoadTemplateFromURL, ImportFromPhysicalId ]. Use the URL of the CloudFormation template in Amazon S3 or GitHub in JSON format.   LoadTemplateFromURL  Use the URL of the CloudFormation template in Amazon S3 or GitHub in JSON format.  ImportFromPhysicalId  Use the physical id of the resource that contains the template; currently supports CloudFormation stack ARN.
         public let info: [String: String]?
         /// Information about the provisioning artifact.
         public let provisioningArtifactDetail: ProvisioningArtifactDetail?
@@ -2064,7 +2122,7 @@ extension ServiceCatalog {
     }
 
     public struct DescribeProvisioningArtifactOutput: AWSDecodableShape {
-        /// The URL of the CloudFormation template in Amazon S3, Amazon Web Services CodeCommit, or GitHub in JSON format.
+        /// The URL of the CloudFormation template in Amazon S3 or GitHub in JSON format.
         public let info: [String: String]?
         /// Information about the provisioning artifact.
         public let provisioningArtifactDetail: ProvisioningArtifactDetail?
@@ -2399,13 +2457,16 @@ extension ServiceCatalog {
         public let acceptLanguage: String?
         /// The portfolio identifier.
         public let portfolioId: String
-        /// The ARN of the principal (IAM user, role, or group).
+        /// The ARN of the principal (IAM user, role, or group). This field allows an ARN with no accountID if  PrincipalType is IAM_PATTERN.
         public let principalARN: String
+        /// The supported value is IAM if you use a fully defined ARN, or IAM_PATTERN if you use no accountID.
+        public let principalType: PrincipalType?
 
-        public init(acceptLanguage: String? = nil, portfolioId: String, principalARN: String) {
+        public init(acceptLanguage: String? = nil, portfolioId: String, principalARN: String, principalType: PrincipalType? = nil) {
             self.acceptLanguage = acceptLanguage
             self.portfolioId = portfolioId
             self.principalARN = principalARN
+            self.principalType = principalType
         }
 
         public func validate(name: String) throws {
@@ -2421,6 +2482,7 @@ extension ServiceCatalog {
             case acceptLanguage = "AcceptLanguage"
             case portfolioId = "PortfolioId"
             case principalARN = "PrincipalARN"
+            case principalType = "PrincipalType"
         }
     }
 
@@ -2837,6 +2899,35 @@ extension ServiceCatalog {
 
         private enum CodingKeys: String, CodingKey {
             case recordDetail = "RecordDetail"
+        }
+    }
+
+    public struct LastSync: AWSDecodableShape {
+        /// The ProvisioningArtifactID of the ProvisioningArtifact created from the latest successful sync.
+        public let lastSuccessfulSyncProvisioningArtifactId: String?
+        /// The time of the latest successful sync from the source repo artifact to the Service Catalog product.
+        public let lastSuccessfulSyncTime: Date?
+        /// The current status of the sync. Responses include SUCCEEDED or FAILED.
+        public let lastSyncStatus: LastSyncStatus?
+        /// The sync's status message.
+        public let lastSyncStatusMessage: String?
+        /// The time of the last attempted sync from the repository to the Service Catalog product.
+        public let lastSyncTime: Date?
+
+        public init(lastSuccessfulSyncProvisioningArtifactId: String? = nil, lastSuccessfulSyncTime: Date? = nil, lastSyncStatus: LastSyncStatus? = nil, lastSyncStatusMessage: String? = nil, lastSyncTime: Date? = nil) {
+            self.lastSuccessfulSyncProvisioningArtifactId = lastSuccessfulSyncProvisioningArtifactId
+            self.lastSuccessfulSyncTime = lastSuccessfulSyncTime
+            self.lastSyncStatus = lastSyncStatus
+            self.lastSyncStatusMessage = lastSyncStatusMessage
+            self.lastSyncTime = lastSyncTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastSuccessfulSyncProvisioningArtifactId = "LastSuccessfulSyncProvisioningArtifactId"
+            case lastSuccessfulSyncTime = "LastSuccessfulSyncTime"
+            case lastSyncStatus = "LastSyncStatus"
+            case lastSyncStatusMessage = "LastSyncStatusMessage"
+            case lastSyncTime = "LastSyncTime"
         }
     }
 
@@ -3353,7 +3444,7 @@ extension ServiceCatalog {
     public struct ListPrincipalsForPortfolioOutput: AWSDecodableShape {
         /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
-        /// The IAM principals (users or roles) associated with the portfolio.
+        /// The PrincipalARNs and corresponding PrincipalTypes associated with the portfolio.
         public let principals: [Principal]?
 
         public init(nextPageToken: String? = nil, principals: [Principal]? = nil) {
@@ -3971,16 +4062,19 @@ extension ServiceCatalog {
     public struct PortfolioShareDetail: AWSDecodableShape {
         /// Indicates whether the shared portfolio is imported by the recipient account. If the recipient is in an organization node, the share is automatically imported, and the field is always set to true.
         public let accepted: Bool?
-        /// The identifier of the recipient entity that received the portfolio share.  The recipient entities can be one of the following:  1. An external account. 2. An organziation member account. 3. An organzational unit (OU). 4. The organization itself. (This shares with every account in the organization).
+        /// The identifier of the recipient entity that received the portfolio share.  The recipient entity can be one of the following: 1. An external account. 2. An organziation member account. 3. An organzational unit (OU). 4. The organization itself. (This shares with every account in the organization).
         public let principalId: String?
+        /// Indicates if Principal sharing is enabled or disabled for the portfolio share.
+        public let sharePrincipals: Bool?
         /// Indicates whether TagOptions sharing is enabled or disabled for the portfolio share.
         public let shareTagOptions: Bool?
         /// The type of the portfolio share.
         public let type: DescribePortfolioShareType?
 
-        public init(accepted: Bool? = nil, principalId: String? = nil, shareTagOptions: Bool? = nil, type: DescribePortfolioShareType? = nil) {
+        public init(accepted: Bool? = nil, principalId: String? = nil, sharePrincipals: Bool? = nil, shareTagOptions: Bool? = nil, type: DescribePortfolioShareType? = nil) {
             self.accepted = accepted
             self.principalId = principalId
+            self.sharePrincipals = sharePrincipals
             self.shareTagOptions = shareTagOptions
             self.type = type
         }
@@ -3988,15 +4082,16 @@ extension ServiceCatalog {
         private enum CodingKeys: String, CodingKey {
             case accepted = "Accepted"
             case principalId = "PrincipalId"
+            case sharePrincipals = "SharePrincipals"
             case shareTagOptions = "ShareTagOptions"
             case type = "Type"
         }
     }
 
     public struct Principal: AWSDecodableShape {
-        /// The ARN of the principal (IAM user, role, or group).
+        /// The ARN of the principal (IAM user, role, or group). This field allows for an ARN with no accountID if the PrincipalType is an IAM_PATTERN.
         public let principalARN: String?
-        /// The principal type. The supported value is IAM.
+        /// The principal type. The supported value is IAM if you use a fully defined ARN, or IAM_PATTERN if you use an ARN with no accountID.
         public let principalType: PrincipalType?
 
         public init(principalARN: String? = nil, principalType: PrincipalType? = nil) {
@@ -4034,13 +4129,16 @@ extension ServiceCatalog {
         public let productARN: String?
         /// Summary information about the product view.
         public let productViewSummary: ProductViewSummary?
+        /// A top level ProductViewDetail response containing details about the product’s connection. Service Catalog returns this field for the CreateProduct, UpdateProduct,  DescribeProductAsAdmin, and SearchProductAsAdmin APIs.  This response contains the same fields as the ConnectionParameters request, with the  addition of the LastSync response.
+        public let sourceConnection: SourceConnectionDetail?
         /// The status of the product.    AVAILABLE - The product is ready for use.    CREATING - Product creation has started; the product is not ready for use.    FAILED - An action failed.
         public let status: Status?
 
-        public init(createdTime: Date? = nil, productARN: String? = nil, productViewSummary: ProductViewSummary? = nil, status: Status? = nil) {
+        public init(createdTime: Date? = nil, productARN: String? = nil, productViewSummary: ProductViewSummary? = nil, sourceConnection: SourceConnectionDetail? = nil, status: Status? = nil) {
             self.createdTime = createdTime
             self.productARN = productARN
             self.productViewSummary = productViewSummary
+            self.sourceConnection = sourceConnection
             self.status = status
         }
 
@@ -4048,6 +4146,7 @@ extension ServiceCatalog {
             case createdTime = "CreatedTime"
             case productARN = "ProductARN"
             case productViewSummary = "ProductViewSummary"
+            case sourceConnection = "SourceConnection"
             case status = "Status"
         }
     }
@@ -4395,7 +4494,7 @@ extension ServiceCatalog {
         public let statusMessage: String?
         /// One or more tags.
         public let tags: [Tag]?
-        /// The time when the plan was last updated.
+        /// The UTC time stamp when the plan was last updated.
         public let updatedTime: Date?
 
         public init(createdTime: Date? = nil, notificationArns: [String]? = nil, pathId: String? = nil, planId: String? = nil, planName: String? = nil, planType: ProvisionedProductPlanType? = nil, productId: String? = nil, provisioningArtifactId: String? = nil, provisioningParameters: [UpdateProvisioningParameter]? = nil, provisionProductId: String? = nil, provisionProductName: String? = nil, status: ProvisionedProductPlanStatus? = nil, statusMessage: String? = nil, tags: [Tag]? = nil, updatedTime: Date? = nil) {
@@ -4510,16 +4609,19 @@ extension ServiceCatalog {
         public let id: String?
         /// The name of the provisioning artifact.
         public let name: String?
+        /// Specifies the revision of the external artifact that was used to automatically sync the Service Catalog product  and create the provisioning artifact. Service Catalog includes this response parameter as a high level  field to the existing ProvisioningArtifactDetail type, which is returned as part of the response for CreateProduct, UpdateProduct, DescribeProductAsAdmin,  DescribeProvisioningArtifact, ListProvisioningArtifact,  and UpdateProvisioningArticat APIs.  This field only exists for Repo-Synced products.
+        public let sourceRevision: String?
         /// The type of provisioning artifact.    CLOUD_FORMATION_TEMPLATE - CloudFormation template    MARKETPLACE_AMI - Amazon Web Services Marketplace AMI    MARKETPLACE_CAR - Amazon Web Services Marketplace Clusters and Amazon Web Services Resources
         public let type: ProvisioningArtifactType?
 
-        public init(active: Bool? = nil, createdTime: Date? = nil, description: String? = nil, guidance: ProvisioningArtifactGuidance? = nil, id: String? = nil, name: String? = nil, type: ProvisioningArtifactType? = nil) {
+        public init(active: Bool? = nil, createdTime: Date? = nil, description: String? = nil, guidance: ProvisioningArtifactGuidance? = nil, id: String? = nil, name: String? = nil, sourceRevision: String? = nil, type: ProvisioningArtifactType? = nil) {
             self.active = active
             self.createdTime = createdTime
             self.description = description
             self.guidance = guidance
             self.id = id
             self.name = name
+            self.sourceRevision = sourceRevision
             self.type = type
         }
 
@@ -4530,6 +4632,7 @@ extension ServiceCatalog {
             case guidance = "Guidance"
             case id = "Id"
             case name = "Name"
+            case sourceRevision = "SourceRevision"
             case type = "Type"
         }
     }
@@ -4604,16 +4707,16 @@ extension ServiceCatalog {
     public struct ProvisioningArtifactProperties: AWSEncodableShape {
         /// The description of the provisioning artifact, including how it differs from the previous provisioning artifact.
         public let description: String?
-        /// If set to true, Amazon Web Services Service Catalog stops validating the specified provisioning artifact even if it is invalid.
+        /// If set to true, Service Catalog stops validating the specified provisioning artifact even if it is invalid.
         public let disableTemplateValidation: Bool?
-        /// Specify the template source with one of the following options, but not both. Keys accepted: [ LoadTemplateFromURL, ImportFromPhysicalId ] The URL of the CloudFormation template in Amazon S3, Amazon Web Services CodeCommit, or GitHub in JSON format. Specify the URL in JSON format as follows:  "LoadTemplateFromURL": "https://s3.amazonaws.com/cf-templates-ozkq9d3hgiq2-us-east-1/..."   ImportFromPhysicalId: The physical id of the resource that contains the template. Currently only supports CloudFormation stack arn. Specify the physical id in JSON format as follows: ImportFromPhysicalId: “arn:aws:cloudformation:[us-east-1]:[accountId]:stack/[StackName]/[resourceId]
-        public let info: [String: String]
+        /// Specify the template source with one of the following options, but not both. Keys accepted: [ LoadTemplateFromURL, ImportFromPhysicalId ] The URL of the CloudFormation template in Amazon S3 or GitHub in JSON format. Specify the URL in JSON format as follows:  "LoadTemplateFromURL": "https://s3.amazonaws.com/cf-templates-ozkq9d3hgiq2-us-east-1/..."   ImportFromPhysicalId: The physical id of the resource that contains the template. Currently only supports CloudFormation stack arn. Specify the physical id in JSON format as follows: ImportFromPhysicalId: “arn:aws:cloudformation:[us-east-1]:[accountId]:stack/[StackName]/[resourceId]
+        public let info: [String: String]?
         /// The name of the provisioning artifact (for example, v1 v2beta). No spaces are allowed.
         public let name: String?
         /// The type of provisioning artifact.    CLOUD_FORMATION_TEMPLATE - CloudFormation template    MARKETPLACE_AMI - Amazon Web Services Marketplace AMI    MARKETPLACE_CAR - Amazon Web Services Marketplace Clusters and Amazon Web Services Resources
         public let type: ProvisioningArtifactType?
 
-        public init(description: String? = nil, disableTemplateValidation: Bool? = nil, info: [String: String], name: String? = nil, type: ProvisioningArtifactType? = nil) {
+        public init(description: String? = nil, disableTemplateValidation: Bool? = nil, info: [String: String]? = nil, name: String? = nil, type: ProvisioningArtifactType? = nil) {
             self.description = description
             self.disableTemplateValidation = disableTemplateValidation
             self.info = info
@@ -5371,6 +5474,65 @@ extension ServiceCatalog {
         }
     }
 
+    public struct SourceConnection: AWSEncodableShape {
+        /// The connection details based on the connection Type.
+        public let connectionParameters: SourceConnectionParameters
+        /// The only supported SourceConnection type is Codestar.
+        public let type: SourceType?
+
+        public init(connectionParameters: SourceConnectionParameters, type: SourceType? = nil) {
+            self.connectionParameters = connectionParameters
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.connectionParameters.validate(name: "\(name).connectionParameters")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionParameters = "ConnectionParameters"
+            case type = "Type"
+        }
+    }
+
+    public struct SourceConnectionDetail: AWSDecodableShape {
+        /// The connection details based on the connection Type.
+        public let connectionParameters: SourceConnectionParameters?
+        /// Provides details about the product's connection sync and contains the following sub-fields.     LastSyncTime     LastSyncStatus     LastSyncStatusMessage     LastSuccessfulSyncTime     LastSuccessfulSyncProvisioningArtifactID
+        public let lastSync: LastSync?
+        /// The only supported SourceConnection type is Codestar.
+        public let type: SourceType?
+
+        public init(connectionParameters: SourceConnectionParameters? = nil, lastSync: LastSync? = nil, type: SourceType? = nil) {
+            self.connectionParameters = connectionParameters
+            self.lastSync = lastSync
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionParameters = "ConnectionParameters"
+            case lastSync = "LastSync"
+            case type = "Type"
+        }
+    }
+
+    public struct SourceConnectionParameters: AWSEncodableShape & AWSDecodableShape {
+        /// Provides ConnectionType details.
+        public let codeStar: CodeStarParameters?
+
+        public init(codeStar: CodeStarParameters? = nil) {
+            self.codeStar = codeStar
+        }
+
+        public func validate(name: String) throws {
+            try self.codeStar?.validate(name: "\(name).codeStar")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case codeStar = "CodeStar"
+        }
+    }
+
     public struct StackInstance: AWSDecodableShape {
         /// The name of the Amazon Web Services account that the stack instance is associated with.
         public let account: String?
@@ -5660,14 +5822,17 @@ extension ServiceCatalog {
         public let organizationNode: OrganizationNode?
         /// The unique identifier of the portfolio for which the share will be updated.
         public let portfolioId: String
-        /// A flag to enable or disable TagOptions sharing for the portfolio share. If this field is not provided, the current state of TagOptions sharing on the portfolio share will not be modified.
+        /// A flag to enables or disables Principals sharing in the portfolio. If this field is not provided, the current state of the Principals sharing on the portfolio share will not be modified.
+        public let sharePrincipals: Bool?
+        /// Enables or disables TagOptions sharing for the portfolio share. If this field is not provided, the current state of  TagOptions sharing on the portfolio share will not be modified.
         public let shareTagOptions: Bool?
 
-        public init(acceptLanguage: String? = nil, accountId: String? = nil, organizationNode: OrganizationNode? = nil, portfolioId: String, shareTagOptions: Bool? = nil) {
+        public init(acceptLanguage: String? = nil, accountId: String? = nil, organizationNode: OrganizationNode? = nil, portfolioId: String, sharePrincipals: Bool? = nil, shareTagOptions: Bool? = nil) {
             self.acceptLanguage = acceptLanguage
             self.accountId = accountId
             self.organizationNode = organizationNode
             self.portfolioId = portfolioId
+            self.sharePrincipals = sharePrincipals
             self.shareTagOptions = shareTagOptions
         }
 
@@ -5685,6 +5850,7 @@ extension ServiceCatalog {
             case accountId = "AccountId"
             case organizationNode = "OrganizationNode"
             case portfolioId = "PortfolioId"
+            case sharePrincipals = "SharePrincipals"
             case shareTagOptions = "ShareTagOptions"
         }
     }
@@ -5723,6 +5889,8 @@ extension ServiceCatalog {
         public let owner: String?
         /// The tags to remove from the product.
         public let removeTags: [String]?
+        /// Specifies connection details for the updated product and syncs the product to the connection source artifact. This automatically manages the product's artifacts based on changes to the source. The SourceConnection parameter consists of the following sub-fields.    Type     ConnectionParamters
+        public let sourceConnection: SourceConnection?
         /// The updated support description for the product.
         public let supportDescription: String?
         /// The updated support email for the product.
@@ -5730,7 +5898,7 @@ extension ServiceCatalog {
         /// The updated support URL for the product.
         public let supportUrl: String?
 
-        public init(acceptLanguage: String? = nil, addTags: [Tag]? = nil, description: String? = nil, distributor: String? = nil, id: String, name: String? = nil, owner: String? = nil, removeTags: [String]? = nil, supportDescription: String? = nil, supportEmail: String? = nil, supportUrl: String? = nil) {
+        public init(acceptLanguage: String? = nil, addTags: [Tag]? = nil, description: String? = nil, distributor: String? = nil, id: String, name: String? = nil, owner: String? = nil, removeTags: [String]? = nil, sourceConnection: SourceConnection? = nil, supportDescription: String? = nil, supportEmail: String? = nil, supportUrl: String? = nil) {
             self.acceptLanguage = acceptLanguage
             self.addTags = addTags
             self.description = description
@@ -5739,6 +5907,7 @@ extension ServiceCatalog {
             self.name = name
             self.owner = owner
             self.removeTags = removeTags
+            self.sourceConnection = sourceConnection
             self.supportDescription = supportDescription
             self.supportEmail = supportEmail
             self.supportUrl = supportUrl
@@ -5762,6 +5931,7 @@ extension ServiceCatalog {
                 try validate($0, name: "removeTags[]", parent: name, min: 1)
                 try validate($0, name: "removeTags[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
+            try self.sourceConnection?.validate(name: "\(name).sourceConnection")
             try self.validate(self.supportDescription, name: "supportDescription", parent: name, max: 8191)
             try self.validate(self.supportEmail, name: "supportEmail", parent: name, max: 254)
             try self.validate(self.supportUrl, name: "supportUrl", parent: name, max: 2083)
@@ -5776,6 +5946,7 @@ extension ServiceCatalog {
             case name = "Name"
             case owner = "Owner"
             case removeTags = "RemoveTags"
+            case sourceConnection = "SourceConnection"
             case supportDescription = "SupportDescription"
             case supportEmail = "SupportEmail"
             case supportUrl = "SupportUrl"
@@ -6023,7 +6194,7 @@ extension ServiceCatalog {
     }
 
     public struct UpdateProvisioningArtifactOutput: AWSDecodableShape {
-        /// The URL of the CloudFormation template in Amazon S3, Amazon Web Services CodeCommit, or GitHub in JSON format.
+        /// The URL of the CloudFormation template in Amazon S3 or GitHub in JSON format.
         public let info: [String: String]?
         /// Information about the provisioning artifact.
         public let provisioningArtifactDetail: ProvisioningArtifactDetail?

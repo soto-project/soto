@@ -33,6 +33,7 @@ extension ServiceCatalogAppRegistry {
 
     public enum ResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
         case cfnStack = "CFN_STACK"
+        case resourceTagValue = "RESOURCE_TAG_VALUE"
         public var description: String { return self.rawValue }
     }
 
@@ -43,6 +44,23 @@ extension ServiceCatalogAppRegistry {
     }
 
     // MARK: Shapes
+
+    public struct AppRegistryConfiguration: AWSEncodableShape & AWSDecodableShape {
+        ///  Includes the definition  of a tagQuery.
+        public let tagQueryConfiguration: TagQueryConfiguration?
+
+        public init(tagQueryConfiguration: TagQueryConfiguration? = nil) {
+            self.tagQueryConfiguration = tagQueryConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.tagQueryConfiguration?.validate(name: "\(name).tagQueryConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tagQueryConfiguration
+        }
+    }
 
     public struct Application: AWSDecodableShape {
         /// The Amazon resource name (ARN) that specifies the application across services.
@@ -256,9 +274,16 @@ extension ServiceCatalogAppRegistry {
         public let arn: String?
         /// The unique identifier of the attribute group.
         public let id: String?
-        /// The name of the attribute group.
+        ///   This field is no longer supported. We recommend you don't use the field when using ListAttributeGroupsForApplication.    The name of the attribute group.
         public let name: String?
 
+        public init(arn: String? = nil, id: String? = nil) {
+            self.arn = arn
+            self.id = id
+            self.name = nil
+        }
+
+        @available(*, deprecated, message: "Members name have been deprecated")
         public init(arn: String? = nil, id: String? = nil, name: String? = nil) {
             self.arn = arn
             self.id = id
@@ -335,7 +360,7 @@ extension ServiceCatalogAppRegistry {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^[a-zA-Z+-=._:/]+$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
             }
@@ -397,7 +422,7 @@ extension ServiceCatalogAppRegistry {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^[a-zA-Z+-=._:/]+$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
             }
@@ -621,7 +646,7 @@ extension ServiceCatalogAppRegistry {
         public let description: String?
         /// The identifier of the application.
         public let id: String?
-        /// The information about the integration of the application with other services, such as Resource Groups.
+        ///  The information  about the integration  of the application  with other services,  such as Resource Groups.
         public let integrations: Integrations?
         /// The ISO-8601 formatted timestamp of the moment when the application was last updated.
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -765,6 +790,19 @@ extension ServiceCatalogAppRegistry {
         }
     }
 
+    public struct GetConfigurationResponse: AWSDecodableShape {
+        ///  Retrieves TagKey configuration  from an account.
+        public let configuration: AppRegistryConfiguration?
+
+        public init(configuration: AppRegistryConfiguration? = nil) {
+            self.configuration = configuration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration
+        }
+    }
+
     public struct Integrations: AWSDecodableShape {
         ///  The information about the resource group integration.
         public let resourceGroup: ResourceGroup?
@@ -795,7 +833,7 @@ extension ServiceCatalogAppRegistry {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
@@ -846,7 +884,7 @@ extension ServiceCatalogAppRegistry {
             try self.validate(self.application, name: "application", parent: name, max: 256)
             try self.validate(self.application, name: "application", parent: name, min: 1)
             try self.validate(self.application, name: "application", parent: name, pattern: "^[-.\\w]+$")
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
@@ -897,7 +935,7 @@ extension ServiceCatalogAppRegistry {
             try self.validate(self.application, name: "application", parent: name, max: 256)
             try self.validate(self.application, name: "application", parent: name, min: 1)
             try self.validate(self.application, name: "application", parent: name, pattern: "^[-.\\w]+$")
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
@@ -948,7 +986,7 @@ extension ServiceCatalogAppRegistry {
             try self.validate(self.application, name: "application", parent: name, max: 256)
             try self.validate(self.application, name: "application", parent: name, min: 1)
             try self.validate(self.application, name: "application", parent: name, pattern: "^[-.\\w]+$")
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
@@ -959,7 +997,7 @@ extension ServiceCatalogAppRegistry {
     }
 
     public struct ListAttributeGroupsForApplicationResponse: AWSDecodableShape {
-        ///  The details related to a specific AttributeGroup.
+        ///  The details related to a specific attribute group.
         public let attributeGroupsDetails: [AttributeGroupDetails]?
         /// The token to use to get the next page of results after a previous API call.
         public let nextToken: String?
@@ -992,7 +1030,7 @@ extension ServiceCatalogAppRegistry {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
@@ -1053,6 +1091,23 @@ extension ServiceCatalogAppRegistry {
         }
     }
 
+    public struct PutConfigurationRequest: AWSEncodableShape {
+        ///  Associates a TagKey configuration  to an account.
+        public let configuration: AppRegistryConfiguration
+
+        public init(configuration: AppRegistryConfiguration) {
+            self.configuration = configuration
+        }
+
+        public func validate(name: String) throws {
+            try self.configuration.validate(name: "\(name).configuration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration
+        }
+    }
+
     public struct Resource: AWSDecodableShape {
         /// The Amazon resource name (ARN) of the resource.
         public let arn: String?
@@ -1076,6 +1131,19 @@ extension ServiceCatalogAppRegistry {
             case associationTime
             case integrations
             case name
+        }
+    }
+
+    public struct ResourceDetails: AWSDecodableShape {
+        /// The value of the tag.
+        public let tagValue: String?
+
+        public init(tagValue: String? = nil) {
+            self.tagValue = tagValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tagValue
         }
     }
 
@@ -1105,15 +1173,23 @@ extension ServiceCatalogAppRegistry {
         public let arn: String?
         /// The name of the resource.
         public let name: String?
+        ///  The details related to the resource.
+        public let resourceDetails: ResourceDetails?
+        ///  Provides information  about the Service Catalog App Registry resource type.
+        public let resourceType: ResourceType?
 
-        public init(arn: String? = nil, name: String? = nil) {
+        public init(arn: String? = nil, name: String? = nil, resourceDetails: ResourceDetails? = nil, resourceType: ResourceType? = nil) {
             self.arn = arn
             self.name = name
+            self.resourceDetails = resourceDetails
+            self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn
             case name
+            case resourceDetails
+            case resourceType
         }
     }
 
@@ -1176,6 +1252,24 @@ extension ServiceCatalogAppRegistry {
         }
     }
 
+    public struct TagQueryConfiguration: AWSEncodableShape & AWSDecodableShape {
+        ///  Condition  in the IAM policy  that associates resources  to an application.
+        public let tagKey: String?
+
+        public init(tagKey: String? = nil) {
+            self.tagKey = tagKey
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.tagKey, name: "tagKey", parent: name, max: 128)
+            try self.validate(self.tagKey, name: "tagKey", parent: name, pattern: "^(?!\\s+$)[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tagKey
+        }
+    }
+
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
@@ -1198,7 +1292,7 @@ extension ServiceCatalogAppRegistry {
             try self.tags.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^[a-zA-Z+-=._:/]+$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
             }
@@ -1237,7 +1331,7 @@ extension ServiceCatalogAppRegistry {
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
-                try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^[a-zA-Z+-=._:/]+$")
             }
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
         }

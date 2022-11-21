@@ -58,7 +58,7 @@ extension WorkDocs {
         return try await self.client.execute(operation: "CreateLabels", path: "/api/v1/resources/{ResourceId}/labels", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Configure Amazon WorkDocs to use Amazon SNS notifications. The endpoint receives a confirmation message, and must confirm the subscription. For more information, see Subscribe to Notifications in the Amazon WorkDocs Developer Guide.
+    /// Configure Amazon WorkDocs to use Amazon SNS notifications. The endpoint receives a confirmation message, and must confirm the subscription. For more information, see Setting up notifications for an IAM user or role in the Amazon WorkDocs Developer Guide.
     public func createNotificationSubscription(_ input: CreateNotificationSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateNotificationSubscriptionResponse {
         return try await self.client.execute(operation: "CreateNotificationSubscription", path: "/api/v1/organizations/{OrganizationId}/subscriptions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -86,6 +86,11 @@ extension WorkDocs {
     /// Permanently deletes the specified document and its associated metadata.
     public func deleteDocument(_ input: DeleteDocumentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "DeleteDocument", path: "/api/v1/documents/{DocumentId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes a version of an Amazon WorkDocs document. Use the DeletePriorVersions parameter to delete prior versions.
+    public func deleteDocumentVersion(_ input: DeleteDocumentVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
+        return try await self.client.execute(operation: "DeleteDocumentVersion", path: "/api/v1/documentVersions/{DocumentId}/versions/{VersionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Permanently deletes the specified folder and its contents.
@@ -206,6 +211,11 @@ extension WorkDocs {
     /// Removes the permission for the specified principal from the specified resource.
     public func removeResourcePermission(_ input: RemoveResourcePermissionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "RemoveResourcePermission", path: "/api/v1/resources/{ResourceId}/permissions/{PrincipalId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Recovers a deleted version of an Amazon WorkDocs document.
+    public func restoreDocumentVersions(_ input: RestoreDocumentVersionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
+        return try await self.client.execute(operation: "RestoreDocumentVersions", path: "/api/v1/documentVersions/restore/{DocumentId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates the specified attributes of a document. The user must have access to both the document and its parent folder, if applicable.

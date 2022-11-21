@@ -20,7 +20,7 @@ import SotoCore
 // MARK: Paginators
 
 extension Billingconductor {
-    ///    Amazon Web Services Billing Conductor is in beta release and is subject to change. Your use of Amazon Web Services Billing Conductor is subject to the Beta Service Participation terms of the Amazon Web Services Service Terms (Section 1.10).   This is a paginated call to list linked accounts that are linked to the payer account for the specified time period. If no information is provided, the current billing period is used. The response will optionally include the billing group associated with the linked account.
+    ///   This is a paginated call to list linked accounts that are linked to the payer account for the specified time period. If no information is provided, the current billing period is used. The response will optionally include the billing group that's associated with the linked account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -179,6 +179,59 @@ extension Billingconductor {
         )
     }
 
+    ///  A paginated call to get a list of all custom line item versions.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listCustomLineItemVersionsPaginator<Result>(
+        _ input: ListCustomLineItemVersionsInput,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListCustomLineItemVersionsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listCustomLineItemVersions,
+            inputKey: \ListCustomLineItemVersionsInput.nextToken,
+            outputKey: \ListCustomLineItemVersionsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listCustomLineItemVersionsPaginator(
+        _ input: ListCustomLineItemVersionsInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListCustomLineItemVersionsOutput, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listCustomLineItemVersions,
+            inputKey: \ListCustomLineItemVersionsInput.nextToken,
+            outputKey: \ListCustomLineItemVersionsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///   A paginated call to get a list of all custom line items (FFLIs) for the given billing period. If you don't provide a billing period, the current billing period is used.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -285,7 +338,7 @@ extension Billingconductor {
         )
     }
 
-    ///   A list of the pricing plans associated with a pricing rule.
+    ///   A list of the pricing plans that are associated with a pricing rule.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -391,7 +444,7 @@ extension Billingconductor {
         )
     }
 
-    ///   Lists the pricing rules associated with a pricing plan.
+    ///   Lists the pricing rules that are associated with a pricing plan.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -444,7 +497,7 @@ extension Billingconductor {
         )
     }
 
-    ///   List the resources associated to a custom line item.
+    ///   List the resources that are associated to a custom line item.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -523,6 +576,17 @@ extension Billingconductor.ListBillingGroupsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Billingconductor.ListBillingGroupsInput {
         return .init(
             billingPeriod: self.billingPeriod,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Billingconductor.ListCustomLineItemVersionsInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Billingconductor.ListCustomLineItemVersionsInput {
+        return .init(
+            arn: self.arn,
             filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token

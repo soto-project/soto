@@ -749,6 +749,28 @@ extension SSM {
         )
     }
 
+    ///  Returns an array of the Policy object.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func getResourcePoliciesPaginator(
+        _ input: GetResourcePoliciesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<GetResourcePoliciesRequest, GetResourcePoliciesResponse> {
+        return .init(
+            input: input,
+            command: getResourcePolicies,
+            inputKey: \GetResourcePoliciesRequest.nextToken,
+            outputKey: \GetResourcePoliciesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Retrieves all versions of an association for a specific association ID.
     /// Return PaginatorSequence for operation.
     ///

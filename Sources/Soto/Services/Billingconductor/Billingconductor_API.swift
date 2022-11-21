@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS Billingconductor service.
 ///
-/// Amazon Web Services Billing Conductor is a fully managed service that you can use to customize a pro forma version of your billing data each month, to accurately show or chargeback your end customers. Amazon Web Services Billing Conductor doesn't change the way you're billed by Amazon Web Services each month by design. Instead, it provides you with a mechanism to configure, generate, and display rates to certain customers over a given billing period. You can also analyze the difference between the rates you apply to your accounting groupings relative to your actual rates from Amazon Web Services. As a result of your Amazon Web Services Billing Conductor configuration, the payer account can also see the custom rate applied on the billing details page of the Amazon Web Services Billing console, or configure a cost and usage report per billing group. This documentation shows how you can configure Amazon Web Services Billing Conductor using its API. For more information about using the Amazon Web Services Billing Conductor user interface, see the  Amazon Web Services Enterprise Billing Console User Guide.
+/// Amazon Web Services Billing Conductor is a fully managed service that you can use to customize a pro forma version of your billing data each month, to accurately show or chargeback your end customers. Amazon Web Services Billing Conductor doesn't change the way you're billed by Amazon Web Services each month by design. Instead, it provides you with a mechanism to configure, generate, and display rates to certain customers over a given billing period. You can also analyze the difference between the rates you apply to your accounting groupings relative to your actual rates from Amazon Web Services. As a result of your Amazon Web Services Billing Conductor configuration, the payer account can also see the custom rate applied on the billing details page of the Amazon Web Services Billing console, or configure a cost and usage report per billing group. This documentation shows how you can configure Amazon Web Services Billing Conductor using its API. For more information about using the Amazon Web Services Billing Conductor user interface, see the  Amazon Web Services Billing Conductor User Guide.
 public struct Billingconductor: AWSService {
     // MARK: Member variables
 
@@ -122,7 +122,7 @@ public struct Billingconductor: AWSService {
         return self.client.execute(operation: "DeletePricingPlan", path: "/delete-pricing-plan", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Deletes the pricing rule identified by the input Amazon Resource Name (ARN).
+    ///  Deletes the pricing rule that's identified by the input Amazon Resource Name (ARN).
     public func deletePricingRule(_ input: DeletePricingRuleInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeletePricingRuleOutput> {
         return self.client.execute(operation: "DeletePricingRule", path: "/delete-pricing-rule", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -137,7 +137,7 @@ public struct Billingconductor: AWSService {
         return self.client.execute(operation: "DisassociatePricingRules", path: "/disassociate-pricing-rules", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///   Amazon Web Services Billing Conductor is in beta release and is subject to change. Your use of Amazon Web Services Billing Conductor is subject to the Beta Service Participation terms of the Amazon Web Services Service Terms (Section 1.10).   This is a paginated call to list linked accounts that are linked to the payer account for the specified time period. If no information is provided, the current billing period is used. The response will optionally include the billing group associated with the linked account.
+    ///  This is a paginated call to list linked accounts that are linked to the payer account for the specified time period. If no information is provided, the current billing period is used. The response will optionally include the billing group that's associated with the linked account.
     public func listAccountAssociations(_ input: ListAccountAssociationsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAccountAssociationsOutput> {
         return self.client.execute(operation: "ListAccountAssociations", path: "/list-account-associations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -152,6 +152,11 @@ public struct Billingconductor: AWSService {
         return self.client.execute(operation: "ListBillingGroups", path: "/list-billing-groups", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// A paginated call to get a list of all custom line item versions.
+    public func listCustomLineItemVersions(_ input: ListCustomLineItemVersionsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListCustomLineItemVersionsOutput> {
+        return self.client.execute(operation: "ListCustomLineItemVersions", path: "/list-custom-line-item-versions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     ///  A paginated call to get a list of all custom line items (FFLIs) for the given billing period. If you don't provide a billing period, the current billing period is used.
     public func listCustomLineItems(_ input: ListCustomLineItemsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListCustomLineItemsOutput> {
         return self.client.execute(operation: "ListCustomLineItems", path: "/list-custom-line-items", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -162,7 +167,7 @@ public struct Billingconductor: AWSService {
         return self.client.execute(operation: "ListPricingPlans", path: "/list-pricing-plans", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  A list of the pricing plans associated with a pricing rule.
+    ///  A list of the pricing plans that are associated with a pricing rule.
     public func listPricingPlansAssociatedWithPricingRule(_ input: ListPricingPlansAssociatedWithPricingRuleInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPricingPlansAssociatedWithPricingRuleOutput> {
         return self.client.execute(operation: "ListPricingPlansAssociatedWithPricingRule", path: "/list-pricing-plans-associated-with-pricing-rule", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -172,12 +177,12 @@ public struct Billingconductor: AWSService {
         return self.client.execute(operation: "ListPricingRules", path: "/list-pricing-rules", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Lists the pricing rules associated with a pricing plan.
+    ///  Lists the pricing rules that are associated with a pricing plan.
     public func listPricingRulesAssociatedToPricingPlan(_ input: ListPricingRulesAssociatedToPricingPlanInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPricingRulesAssociatedToPricingPlanOutput> {
         return self.client.execute(operation: "ListPricingRulesAssociatedToPricingPlan", path: "/list-pricing-rules-associated-to-pricing-plan", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  List the resources associated to a custom line item.
+    ///  List the resources that are associated to a custom line item.
     public func listResourcesAssociatedToCustomLineItem(_ input: ListResourcesAssociatedToCustomLineItemInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListResourcesAssociatedToCustomLineItemOutput> {
         return self.client.execute(operation: "ListResourcesAssociatedToCustomLineItem", path: "/list-resources-associated-to-custom-line-item", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

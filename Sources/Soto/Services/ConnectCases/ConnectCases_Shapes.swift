@@ -60,6 +60,12 @@ extension ConnectCases {
         public var description: String { return self.rawValue }
     }
 
+    public enum TemplateStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case active = "Active"
+        case inactive = "Inactive"
+        public var description: String { return self.rawValue }
+    }
+
     public indirect enum CaseFilter: AWSEncodableShape, _SotoSendable {
         /// Provides "and all" filtering.
         case andAll([CaseFilter])
@@ -551,7 +557,7 @@ extension ConnectCases {
             AWSMemberEncoding(label: "domainId", location: .uri("domainId"))
         ]
 
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
         /// The unique identifier of the Cases domain.
         public let domainId: String
@@ -813,13 +819,16 @@ extension ConnectCases {
         public let name: String
         /// A list of fields that must contain a value for a case to be successfully created with this template.
         public let requiredFields: [RequiredField]?
+        /// The status of the template.
+        public let status: TemplateStatus?
 
-        public init(description: String? = nil, domainId: String, layoutConfiguration: LayoutConfiguration? = nil, name: String, requiredFields: [RequiredField]? = nil) {
+        public init(description: String? = nil, domainId: String, layoutConfiguration: LayoutConfiguration? = nil, name: String, requiredFields: [RequiredField]? = nil, status: TemplateStatus? = nil) {
             self.description = description
             self.domainId = domainId
             self.layoutConfiguration = layoutConfiguration
             self.name = name
             self.requiredFields = requiredFields
+            self.status = status
         }
 
         public func validate(name: String) throws {
@@ -841,6 +850,7 @@ extension ConnectCases {
             case layoutConfiguration
             case name
             case requiredFields
+            case status
         }
     }
 
@@ -1385,6 +1395,8 @@ extension ConnectCases {
         public let name: String
         /// A list of fields that must contain a value for a case to be successfully created with this template.
         public let requiredFields: [RequiredField]?
+        /// The status of the template.
+        public let status: TemplateStatus
         /// A map of of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
         public let tags: [String: String]?
         /// The Amazon Resource Name (ARN) of the template.
@@ -1392,11 +1404,12 @@ extension ConnectCases {
         /// A unique identifier of a template.
         public let templateId: String
 
-        public init(description: String? = nil, layoutConfiguration: LayoutConfiguration? = nil, name: String, requiredFields: [RequiredField]? = nil, tags: [String: String]? = nil, templateArn: String, templateId: String) {
+        public init(description: String? = nil, layoutConfiguration: LayoutConfiguration? = nil, name: String, requiredFields: [RequiredField]? = nil, status: TemplateStatus, tags: [String: String]? = nil, templateArn: String, templateId: String) {
             self.description = description
             self.layoutConfiguration = layoutConfiguration
             self.name = name
             self.requiredFields = requiredFields
+            self.status = status
             self.tags = tags
             self.templateArn = templateArn
             self.templateId = templateId
@@ -1407,6 +1420,7 @@ extension ConnectCases {
             case layoutConfiguration
             case name
             case requiredFields
+            case status
             case tags
             case templateArn
             case templateId
@@ -1766,7 +1780,8 @@ extension ConnectCases {
         public static var _encoding = [
             AWSMemberEncoding(label: "domainId", location: .uri("domainId")),
             AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "status", location: .querystring("status"))
         ]
 
         /// The unique identifier of the Cases domain.
@@ -1776,11 +1791,14 @@ extension ConnectCases {
         /// The token for the next set of results. Use the value returned in the previous
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
+        /// A list of status values to filter on.
+        public let status: [TemplateStatus]?
 
-        public init(domainId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(domainId: String, maxResults: Int? = nil, nextToken: String? = nil, status: [TemplateStatus]? = nil) {
             self.domainId = domainId
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.status = status
         }
 
         public func validate(name: String) throws {
@@ -1789,6 +1807,8 @@ extension ConnectCases {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 9000)
+            try self.validate(self.status, name: "status", parent: name, max: 2)
+            try self.validate(self.status, name: "status", parent: name, min: 1)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2109,19 +2129,23 @@ extension ConnectCases {
     public struct TemplateSummary: AWSDecodableShape {
         /// The template name.
         public let name: String
-        /// The Amazon Resource Name (ARN)  of the template.
+        /// The status of the template.
+        public let status: TemplateStatus
+        /// The Amazon Resource Name (ARN) of the template.
         public let templateArn: String
         /// The unique identifier for the template.
         public let templateId: String
 
-        public init(name: String, templateArn: String, templateId: String) {
+        public init(name: String, status: TemplateStatus, templateArn: String, templateId: String) {
             self.name = name
+            self.status = status
             self.templateArn = templateArn
             self.templateId = templateId
         }
 
         private enum CodingKeys: String, CodingKey {
             case name
+            case status
             case templateArn
             case templateId
         }
@@ -2297,15 +2321,18 @@ extension ConnectCases {
         public let name: String?
         /// A list of fields that must contain a value for a case to be successfully created with this template.
         public let requiredFields: [RequiredField]?
+        /// The status of the template.
+        public let status: TemplateStatus?
         /// A unique identifier for the template.
         public let templateId: String
 
-        public init(description: String? = nil, domainId: String, layoutConfiguration: LayoutConfiguration? = nil, name: String? = nil, requiredFields: [RequiredField]? = nil, templateId: String) {
+        public init(description: String? = nil, domainId: String, layoutConfiguration: LayoutConfiguration? = nil, name: String? = nil, requiredFields: [RequiredField]? = nil, status: TemplateStatus? = nil, templateId: String) {
             self.description = description
             self.domainId = domainId
             self.layoutConfiguration = layoutConfiguration
             self.name = name
             self.requiredFields = requiredFields
+            self.status = status
             self.templateId = templateId
         }
 
@@ -2330,6 +2357,7 @@ extension ConnectCases {
             case layoutConfiguration
             case name
             case requiredFields
+            case status
         }
     }
 

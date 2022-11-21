@@ -38,6 +38,17 @@ extension CloudFront {
         return try await self.client.execute(operation: "AssociateAlias", path: "/2020-05-31/distribution/{TargetDistributionId}/associate-alias", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates a staging distribution using the configuration of the provided primary distribution.
+    /// 			A staging distribution is a copy of an existing distribution (called the primary
+    /// 			distribution) that you can use in a continuous deployment workflow.
+    /// 		       After you create a staging distribution, you can use UpdateDistribution to
+    /// 			modify the staging distribution’s configuration. Then you can use
+    /// 				CreateContinuousDeploymentPolicy to incrementally move traffic to the
+    /// 			staging distribution.
+    public func copyDistribution(_ input: CopyDistributionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CopyDistributionResult {
+        return try await self.client.execute(operation: "CopyDistribution", path: "/2020-05-31/distribution/{PrimaryDistributionId}/copy", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates a cache policy.
     /// 		       After you create a cache policy, you can attach it to one or more cache behaviors. When it’s
     /// 			attached to a cache behavior, the cache policy determines the following:
@@ -68,17 +79,21 @@ extension CloudFront {
         return try await self.client.execute(operation: "CreateCloudFrontOriginAccessIdentity", path: "/2020-05-31/origin-access-identity/cloudfront", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a new web distribution. You create a CloudFront distribution to tell CloudFront where you
-    /// 			want content to be delivered from, and the details about how to track and manage content delivery. Send a POST request to the
-    /// 			/CloudFront API version/distribution/distribution ID resource.
-    /// 		        When you update a distribution, there are more required fields than when you create a distribution.
-    /// 			When you update your distribution by using
-    /// 			UpdateDistribution,
-    /// 			follow the steps included
-    /// 			in the documentation to get the current configuration
-    /// 			and then make your updates. This helps to make sure that you include all of the required fields. To view a summary,
-    /// 			see Required
-    /// 				Fields for Create Distribution and Update Distribution in the Amazon CloudFront Developer Guide.
+    /// Creates a continuous deployment policy that distributes traffic for a custom domain name to
+    /// 			two different CloudFront distributions.
+    /// 		       To use a continuous deployment policy, first use
+    /// 			CopyDistribution to create a staging distribution, then use
+    /// 			UpdateDistribution to modify the staging distribution’s
+    /// 			configuration.
+    /// 		       After you create and update a staging distribution, you can use a continuous deployment
+    /// 			policy to incrementally move traffic to the staging distribution. This workflow enables
+    /// 			you to test changes to a distribution’s configuration before moving all of your domain’s
+    /// 			production traffic to the new configuration.
+    public func createContinuousDeploymentPolicy(_ input: CreateContinuousDeploymentPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateContinuousDeploymentPolicyResult {
+        return try await self.client.execute(operation: "CreateContinuousDeploymentPolicy", path: "/2020-05-31/continuous-deployment-policy", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a CloudFront distribution.
     public func createDistribution(_ input: CreateDistributionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateDistributionResult {
         return try await self.client.execute(operation: "CreateDistribution", path: "/2020-05-31/distribution", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -223,6 +238,14 @@ extension CloudFront {
     /// Delete an origin access identity.
     public func deleteCloudFrontOriginAccessIdentity(_ input: DeleteCloudFrontOriginAccessIdentityRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "DeleteCloudFrontOriginAccessIdentity", path: "/2020-05-31/origin-access-identity/cloudfront/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes a continuous deployment policy.
+    /// 		       You cannot delete a continuous deployment policy that’s attached to a primary
+    /// 			distribution. First update your distribution to remove the continuous deployment policy,
+    /// 			then you can delete the policy.
+    public func deleteContinuousDeploymentPolicy(_ input: DeleteContinuousDeploymentPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
+        return try await self.client.execute(operation: "DeleteContinuousDeploymentPolicy", path: "/2020-05-31/continuous-deployment-policy/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Delete a distribution.
@@ -396,6 +419,17 @@ extension CloudFront {
     /// Get the configuration information about an origin access identity.
     public func getCloudFrontOriginAccessIdentityConfig(_ input: GetCloudFrontOriginAccessIdentityConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetCloudFrontOriginAccessIdentityConfigResult {
         return try await self.client.execute(operation: "GetCloudFrontOriginAccessIdentityConfig", path: "/2020-05-31/origin-access-identity/cloudfront/{Id}/config", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets a continuous deployment policy, including metadata (the policy’s identifier and
+    /// 			the date and time when the policy was last modified).
+    public func getContinuousDeploymentPolicy(_ input: GetContinuousDeploymentPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetContinuousDeploymentPolicyResult {
+        return try await self.client.execute(operation: "GetContinuousDeploymentPolicy", path: "/2020-05-31/continuous-deployment-policy/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets configuration information about a continuous deployment policy.
+    public func getContinuousDeploymentPolicyConfig(_ input: GetContinuousDeploymentPolicyConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetContinuousDeploymentPolicyConfigResult {
+        return try await self.client.execute(operation: "GetContinuousDeploymentPolicyConfig", path: "/2020-05-31/continuous-deployment-policy/{Id}/config", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Get the information about a distribution.
@@ -596,6 +630,16 @@ extension CloudFront {
     /// 			response as the Marker value in the subsequent request.
     public func listConflictingAliases(_ input: ListConflictingAliasesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListConflictingAliasesResult {
         return try await self.client.execute(operation: "ListConflictingAliases", path: "/2020-05-31/conflicting-alias", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets a list of the continuous deployment policies in your Amazon Web Services account.
+    /// 		       You can optionally specify the maximum number of items to receive in the response. If
+    /// 			the total number of items in the list exceeds the maximum that you specify, or the
+    /// 			default maximum, the response is paginated. To get the next page of items, send a
+    /// 			subsequent request that specifies the NextMarker value from the current
+    /// 			response as the Marker value in the subsequent request.
+    public func listContinuousDeploymentPolicies(_ input: ListContinuousDeploymentPoliciesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListContinuousDeploymentPoliciesResult {
+        return try await self.client.execute(operation: "ListContinuousDeploymentPolicies", path: "/2020-05-31/continuous-deployment-policy", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// List CloudFront distributions.
@@ -822,45 +866,50 @@ extension CloudFront {
         return try await self.client.execute(operation: "UpdateCloudFrontOriginAccessIdentity", path: "/2020-05-31/origin-access-identity/cloudfront/{Id}/config", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates the configuration for a web distribution.
-    /// 		        When you update a distribution, there are more required fields than when you create a distribution.
-    /// 			When you update your distribution by using this API action, follow the steps here to get the current configuration
-    /// 			and then make your updates, to make sure that you include all of the required fields. To view a summary,
-    /// 			see Required
-    /// 				Fields for Create Distribution and Update Distribution in the Amazon CloudFront Developer Guide.
-    /// 		       The update process includes getting the current distribution configuration, updating the XML document that is
-    /// 			returned to make your changes, and then submitting an UpdateDistribution request to make the updates.
-    /// 		       For information about updating a distribution using the CloudFront console instead, see
-    /// 			Creating a
-    /// 				Distribution in the Amazon CloudFront Developer Guide.
+    /// Updates a continuous deployment policy. You can update a continuous deployment policy to
+    /// 			enable or disable it, to change the percentage of traffic that it sends to the staging
+    /// 			distribution, or to change the staging distribution that it sends traffic to.
+    /// 		       When you update a continuous deployment policy configuration, all the fields are
+    /// 			updated with the values that are provided in the request. You cannot update some fields
+    /// 			independent of others. To update a continuous deployment policy configuration:
+    ///
+    /// 				           Use GetContinuousDeploymentPolicyConfig to get the current
+    /// 					configuration.
+    ///
+    /// 				           Locally modify the fields in the continuous deployment policy configuration
+    /// 					that you want to update.
+    ///
+    /// 				           Use UpdateContinuousDeploymentPolicy, providing the entire
+    /// 					continuous deployment policy configuration, including the fields that you
+    /// 					modified and those that you didn’t.
+    ///
+    public func updateContinuousDeploymentPolicy(_ input: UpdateContinuousDeploymentPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateContinuousDeploymentPolicyResult {
+        return try await self.client.execute(operation: "UpdateContinuousDeploymentPolicy", path: "/2020-05-31/continuous-deployment-policy/{Id}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates the configuration for a CloudFront distribution.
+    /// 		       The update process includes getting the current distribution configuration, updating it to
+    /// 			make your changes, and then submitting an UpdateDistribution request to
+    /// 			make the updates.
     ///
     /// 		        To update a web distribution using the CloudFront API
-    /// 		         Submit a
-    /// 				GetDistributionConfig
-    /// 				request to get the current configuration and an Etag header
-    /// 				for the distribution.
-    /// 				            If you update the distribution again, you must get a new Etag header.
-    /// 			           Update the XML document that was returned in the response to your GetDistributionConfig request to include
-    /// 				your changes.
+    /// 		         Use GetDistributionConfig to get the current configuration, including the version
+    /// 					identifier (ETag).
+    /// 			           Update the distribution configuration that was returned in the response. Note the following
+    /// 					important requirements and restrictions:
     ///
-    /// 					             When you edit the XML file, be aware of the following:
-    /// 					               You must strip out the ETag parameter that is returned.   Additional fields are required when you update a distribution. There may be fields included in the
-    /// 							XML file for features that you haven't configured for your distribution. This is expected and required to
-    /// 							successfully update the distribution.   You can't change the value of CallerReference. If you try to change this value, CloudFront returns an
-    /// 							IllegalUpdate error.    The new configuration replaces the existing configuration; the values that you specify in an
-    /// 							UpdateDistribution request are not merged into your existing configuration. When you add, delete, or
-    /// 							replace values in an element that allows multiple values (for example, CNAME), you must specify all of the
-    /// 							values that you want to appear in the updated distribution. In addition,
-    /// 							you must update the corresponding Quantity element.
-    /// 			           Submit an UpdateDistribution request to update the configuration for your distribution:
-    /// 				             In the request body, include the XML document that you updated in Step 2. The request body must include an
-    /// 						XML document with a DistributionConfig element.   Set the value of the HTTP If-Match header to the value of the ETag header that CloudFront returned
-    /// 						when you submitted the GetDistributionConfig request in Step 1.
-    /// 			           Review the response to the UpdateDistribution request to confirm that the configuration was
-    /// 				successfully updated.   Optional: Submit a
-    /// 				GetDistribution
-    /// 				request to confirm that your changes have propagated.
-    /// 				When propagation is complete, the value of Status is Deployed.
+    /// 						               You must rename the ETag field to IfMatch,
+    /// 							leaving the value unchanged. (Set the value of IfMatch to
+    /// 							the value of ETag, then remove the ETag
+    /// 							field.)
+    ///
+    /// 						               You can’t change the value of CallerReference.
+    ///
+    /// 			           Submit an UpdateDistribution request, providing the distribution configuration.
+    /// 					The new configuration replaces the existing configuration. The values that you
+    /// 					specify in an UpdateDistribution request are not merged into your
+    /// 					existing configuration. Make sure to include all fields: the ones that you
+    /// 					modified and also the ones that you didn’t.
     ///
     public func updateDistribution(_ input: UpdateDistributionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateDistributionResult {
         return try await self.client.execute(operation: "UpdateDistribution", path: "/2020-05-31/distribution/{Id}/config", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

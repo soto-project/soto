@@ -20,6 +20,112 @@ import SotoCore
 // MARK: Paginators
 
 extension IoTTwinMaker {
+    ///  Run queries to access information from your knowledge graph of entities within individual workspaces.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func executeQueryPaginator<Result>(
+        _ input: ExecuteQueryRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ExecuteQueryResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: executeQuery,
+            inputKey: \ExecuteQueryRequest.nextToken,
+            outputKey: \ExecuteQueryResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func executeQueryPaginator(
+        _ input: ExecuteQueryRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ExecuteQueryResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: executeQuery,
+            inputKey: \ExecuteQueryRequest.nextToken,
+            outputKey: \ExecuteQueryResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Gets the property values for a component, component type, entity, or workspace. You must specify a value for either componentName, componentTypeId, entityId, or workspaceId.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func getPropertyValuePaginator<Result>(
+        _ input: GetPropertyValueRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, GetPropertyValueResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: getPropertyValue,
+            inputKey: \GetPropertyValueRequest.nextToken,
+            outputKey: \GetPropertyValueResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func getPropertyValuePaginator(
+        _ input: GetPropertyValueRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (GetPropertyValueResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: getPropertyValue,
+            inputKey: \GetPropertyValueRequest.nextToken,
+            outputKey: \GetPropertyValueResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Retrieves information about the history of a time series property value for a component, component type, entity, or workspace. You must specify a value for workspaceId. For entity-specific queries, specify values for componentName and  entityId. For cross-entity quries, specify a value for componentTypeId.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -286,6 +392,17 @@ extension IoTTwinMaker {
     }
 }
 
+extension IoTTwinMaker.ExecuteQueryRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IoTTwinMaker.ExecuteQueryRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            queryStatement: self.queryStatement,
+            workspaceId: self.workspaceId
+        )
+    }
+}
+
 extension IoTTwinMaker.GetPropertyValueHistoryRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IoTTwinMaker.GetPropertyValueHistoryRequest {
         return .init(
@@ -300,6 +417,22 @@ extension IoTTwinMaker.GetPropertyValueHistoryRequest: AWSPaginateToken {
             propertyFilters: self.propertyFilters,
             selectedProperties: self.selectedProperties,
             startTime: self.startTime,
+            workspaceId: self.workspaceId
+        )
+    }
+}
+
+extension IoTTwinMaker.GetPropertyValueRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IoTTwinMaker.GetPropertyValueRequest {
+        return .init(
+            componentName: self.componentName,
+            componentTypeId: self.componentTypeId,
+            entityId: self.entityId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            propertyGroupName: self.propertyGroupName,
+            selectedProperties: self.selectedProperties,
+            tabularConditions: self.tabularConditions,
             workspaceId: self.workspaceId
         )
     }

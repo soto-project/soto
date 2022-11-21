@@ -993,8 +993,8 @@ extension ECS {
         /// 				0, which Windows interprets as 1% of one CPU.
         public let cpu: Int?
         /// The dependencies defined for container startup and shutdown. A container can contain
-        /// 			multiple dependencies on other containers in a task definition. When a dependency is defined for container startup, for container
-        /// 			shutdown it is reversed.
+        /// 			multiple dependencies on other containers in a task definition. When a dependency is
+        /// 			defined for container startup, for container shutdown it is reversed.
         /// 		       For tasks using the EC2 launch type, the container instances require at
         /// 			least version 1.26.0 of the container agent to turn on container dependencies. However,
         /// 			we recommend using the latest container agent version. For information about checking
@@ -3634,6 +3634,51 @@ extension ECS {
         }
     }
 
+    public struct GetTaskProtectionRequest: AWSEncodableShape {
+        /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the service that the task
+        /// 			sets exist in.
+        public let cluster: String
+        /// A list of up to 100 task IDs or full ARN entries.
+        public let tasks: [String]?
+
+        public init(cluster: String, tasks: [String]? = nil) {
+            self.cluster = cluster
+            self.tasks = tasks
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cluster
+            case tasks
+        }
+    }
+
+    public struct GetTaskProtectionResponse: AWSDecodableShape {
+        /// Any failures associated with the call.
+        public let failures: [Failure]?
+        /// A list of tasks with the following information.
+        ///
+        /// 				            taskArn: The task ARN.
+        ///
+        /// 				            protectionEnabled: The protection status of the task. If scale-in
+        /// 					protection is enabled for a task, the value is true. Otherwise, it
+        /// 					is false.
+        ///
+        /// 				            expirationDate: The epoch time when protection for the task will
+        /// 					expire.
+        ///
+        public let protectedTasks: [ProtectedTask]?
+
+        public init(failures: [Failure]? = nil, protectedTasks: [ProtectedTask]? = nil) {
+            self.failures = failures
+            self.protectedTasks = protectedTasks
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failures
+            case protectedTasks
+        }
+    }
+
     public struct HealthCheck: AWSEncodableShape & AWSDecodableShape {
         /// A string array representing the command that the container runs to determine if it is
         /// 			healthy. The string array must start with CMD to run the command arguments
@@ -4946,6 +4991,28 @@ extension ECS {
         }
     }
 
+    public struct ProtectedTask: AWSDecodableShape {
+        /// The epoch time when protection for the task will expire.
+        public let expirationDate: Date?
+        /// The protection status of the task. If scale-in protection is enabled for a task, the
+        /// 			value is true. Otherwise, it is false.
+        public let protectionEnabled: Bool?
+        /// The task ARN.
+        public let taskArn: String?
+
+        public init(expirationDate: Date? = nil, protectionEnabled: Bool? = nil, taskArn: String? = nil) {
+            self.expirationDate = expirationDate
+            self.protectionEnabled = protectionEnabled
+            self.taskArn = taskArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expirationDate
+            case protectionEnabled
+            case taskArn
+        }
+    }
+
     public struct ProxyConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The name of the container that will serve as the App Mesh proxy.
         public let containerName: String
@@ -5006,9 +5073,9 @@ extension ECS {
         /// 				awsvpcTrunking is specified, the ENI limit for your Amazon ECS container
         /// 			instances is affected. If containerInsights is specified, the default
         /// 			setting for CloudWatch Container Insights for your clusters is affected.
-        /// 		       Fargate is transitioning from task count-based quotas to vCPU-based quotas. You can set
-        /// 			the name to fargateVCPULimit to opt in or opt out of the vCPU-based quotas.
-        /// 			For information about the opt in timeline, see Fargate vCPU-based quotas timeline in the
+        /// 		       Fargate is transitioning from task count-based quotas to vCPU-based quotas. You can
+        /// 			set the name to fargateVCPULimit to opt in or opt out of the vCPU-based
+        /// 			quotas. For information about the opt in timeline, see Fargate vCPU-based quotas timeline in the
         /// 				Amazon ECS Developer Guide.
         public let name: SettingName
         /// The account setting value for the specified principal ARN. Accepted values are
@@ -5273,10 +5340,10 @@ extension ECS {
         /// 			         Task-level CPU and memory parameters are ignored for Windows containers. We
         /// 				recommend specifying container-level resources for Windows containers.
         ///
-        /// 		       If you're using the EC2 launch type, this field is optional. Supported values
-        /// 			are between 128 CPU units (0.125 vCPUs) and 10240
-        /// 			CPU units (10 vCPUs). If you do not specify a value, the parameter is
-        /// 			ignored.
+        /// 		       If you're using the EC2 launch type, this field is optional. Supported
+        /// 			values are between 128 CPU units (0.125 vCPUs) and
+        /// 				10240 CPU units (10 vCPUs). If you do not specify a value,
+        /// 			the parameter is ignored.
         /// 		       If you're using the Fargate launch type, this field is required and you
         /// 			must use one of the following values, which determines your range of supported values
         /// 			for the memory parameter:
@@ -7533,6 +7600,66 @@ extension ECS {
 
         private enum CodingKeys: String, CodingKey {
             case service
+        }
+    }
+
+    public struct UpdateTaskProtectionRequest: AWSEncodableShape {
+        /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the service that the task
+        /// 			sets exist in.
+        public let cluster: String
+        /// If you set protectionEnabled to true, you can specify the
+        /// 			duration for task protection in minutes. You can specify a value from 1 minute to up to
+        /// 			2,880 minutes (48 hours). During this time, your task will not be terminated by scale-in
+        /// 			events from Service Auto Scaling or deployments. After this time period lapses,
+        /// 				protectionEnabled will be reset to false.
+        /// 		       If you don’t specify the time, then the task is automatically protected for 120
+        /// 			minutes (2 hours).
+        public let expiresInMinutes: Int?
+        /// Specify true to mark a task for protection and false to
+        /// 			unset protection, making it eligible for termination.
+        public let protectionEnabled: Bool
+        /// A list of up to 10 task IDs or full ARN entries.
+        public let tasks: [String]
+
+        public init(cluster: String, expiresInMinutes: Int? = nil, protectionEnabled: Bool = false, tasks: [String]) {
+            self.cluster = cluster
+            self.expiresInMinutes = expiresInMinutes
+            self.protectionEnabled = protectionEnabled
+            self.tasks = tasks
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cluster
+            case expiresInMinutes
+            case protectionEnabled
+            case tasks
+        }
+    }
+
+    public struct UpdateTaskProtectionResponse: AWSDecodableShape {
+        /// Any failures associated with the call.
+        public let failures: [Failure]?
+        /// A list of tasks with the following information.
+        ///
+        /// 				            taskArn: The task ARN.
+        ///
+        /// 				            protectionEnabled: The protection status of the task. If scale-in
+        /// 					protection is enabled for a task, the value is true. Otherwise, it
+        /// 					is false.
+        ///
+        /// 				            expirationDate: The epoch time when protection for the task will
+        /// 					expire.
+        ///
+        public let protectedTasks: [ProtectedTask]?
+
+        public init(failures: [Failure]? = nil, protectedTasks: [ProtectedTask]? = nil) {
+            self.failures = failures
+            self.protectedTasks = protectedTasks
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failures
+            case protectedTasks
         }
     }
 

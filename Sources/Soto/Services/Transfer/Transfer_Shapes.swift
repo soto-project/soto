@@ -73,6 +73,7 @@ extension Transfer {
         case aes128Cbc = "AES128_CBC"
         case aes192Cbc = "AES192_CBC"
         case aes256Cbc = "AES256_CBC"
+        case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
@@ -198,13 +199,13 @@ extension Transfer {
     public struct As2ConnectorConfig: AWSEncodableShape & AWSDecodableShape {
         /// Specifies whether the AS2 file is compressed.
         public let compression: CompressionEnum?
-        /// The algorithm that is used to encrypt the file.
+        /// The algorithm that is used to encrypt the file.  You can only specify NONE if the URL for your connector uses HTTPS. This ensures that no traffic is sent in clear text.
         public let encryptionAlgorithm: EncryptionAlg?
         /// A unique identifier for the AS2 local profile.
         public let localProfileId: String?
         /// Used  for outbound requests (from an Transfer Family server to a partner AS2 server) to determine whether the partner response for transfers is synchronous or asynchronous. Specify either of the following values:    SYNC: The system expects a synchronous MDN response, confirming that the file was transferred successfully (or not).    NONE: Specifies that no MDN response is required.
         public let mdnResponse: MdnResponse?
-        /// The signing algorithm for the MDN response.  If set to DEFAULT (or not set at all), the value for SigningAlogorithm is used.
+        /// The signing algorithm for the MDN response.  If set to DEFAULT (or not set at all), the value for SigningAlgorithm is used.
         public let mdnSigningAlgorithm: MdnSigningAlg?
         /// Used as the Subject HTTP header attribute in AS2 messages that are being sent with the connector.
         public let messageSubject: String?
@@ -592,7 +593,7 @@ extension Transfer {
         public let securityPolicyName: String?
         /// Key-value pairs that can be used to group and search for servers.
         public let tags: [Tag]?
-        /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. In additon to a workflow to execute when a file is uploaded completely, WorkflowDeatails can also contain a workflow ID (and execution role) for a workflow to execute on partial upload. A partial upload occurs when a file is open when the session disconnects.
+        /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. In addition to a workflow to execute when a file is uploaded completely, WorkflowDetails can also contain a workflow ID (and execution role) for a workflow to execute on partial upload. A partial upload occurs when a file is open when the session disconnects.
         public let workflowDetails: WorkflowDetails?
 
         public init(certificate: String? = nil, domain: Domain? = nil, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKey: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, identityProviderType: IdentityProviderType? = nil, loggingRole: String? = nil, postAuthenticationLoginBanner: String? = nil, preAuthenticationLoginBanner: String? = nil, protocolDetails: ProtocolDetails? = nil, protocols: [`Protocol`]? = nil, securityPolicyName: String? = nil, tags: [Tag]? = nil, workflowDetails: WorkflowDetails? = nil) {
@@ -693,7 +694,7 @@ extension Transfer {
         public let role: String
         /// A system-assigned unique identifier for a server instance. This is the specific server that you added your user to.
         public let serverId: String
-        /// The public portion of the Secure Shell (SSH) key used to authenticate the user to the server. Transfer Family accepts RSA, ECDSA, and ED25519 keys.
+        /// The public portion of the Secure Shell (SSH) key used to authenticate the user to the server. The three standard SSH public key format elements are , , and  an optional , with spaces between each element. Transfer Family accepts RSA, ECDSA, and ED25519 keys.   For RSA keys, the key type  is ssh-rsa.   For ED25519 keys, the key type is ssh-ed25519.   For ECDSA keys, the key type is either ecdsa-sha2-nistp256, ecdsa-sha2-nistp384, or ecdsa-sha2-nistp521, depending on the size of the key you generated.
         public let sshPublicKeyBody: String?
         /// Key-value pairs that can be used to group and search for users. Tags are metadata attached to users for any purpose.
         public let tags: [Tag]?
@@ -1892,7 +1893,7 @@ extension Transfer {
         public let tags: [Tag]?
         /// Specifies the number of users that are assigned to a server you specified with the ServerId.
         public let userCount: Int?
-        /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. In additon to a workflow to execute when a file is uploaded completely, WorkflowDeatails can also contain a workflow ID (and execution role) for a workflow to execute on partial upload. A partial upload occurs when a file is open when the session disconnects.
+        /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. In addition to a workflow to execute when a file is uploaded completely, WorkflowDetails can also contain a workflow ID (and execution role) for a workflow to execute on partial upload. A partial upload occurs when a file is open when the session disconnects.
         public let workflowDetails: WorkflowDetails?
 
         public init(arn: String, certificate: String? = nil, domain: Domain? = nil, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKeyFingerprint: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, identityProviderType: IdentityProviderType? = nil, loggingRole: String? = nil, postAuthenticationLoginBanner: String? = nil, preAuthenticationLoginBanner: String? = nil, protocolDetails: ProtocolDetails? = nil, protocols: [`Protocol`]? = nil, securityPolicyName: String? = nil, serverId: String? = nil, state: State? = nil, tags: [Tag]? = nil, userCount: Int? = nil, workflowDetails: WorkflowDetails? = nil) {
@@ -4174,7 +4175,7 @@ extension Transfer {
         public let securityPolicyName: String?
         /// A system-assigned unique identifier for a server instance that the user account is assigned to.
         public let serverId: String
-        /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. In additon to a workflow to execute when a file is uploaded completely, WorkflowDeatails can also contain a workflow ID (and execution role) for a workflow to execute on partial upload. A partial upload occurs when a file is open when the session disconnects. To remove an associated workflow from a server, you can provide an empty OnUpload object, as in the following example.  aws transfer update-server --server-id s-01234567890abcdef --workflow-details '{"OnUpload":[]}'
+        /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. In addition to a workflow to execute when a file is uploaded completely, WorkflowDetails can also contain a workflow ID (and execution role) for a workflow to execute on partial upload. A partial upload occurs when a file is open when the session disconnects. To remove an associated workflow from a server, you can provide an empty OnUpload object, as in the following example.  aws transfer update-server --server-id s-01234567890abcdef --workflow-details '{"OnUpload":[]}'
         public let workflowDetails: WorkflowDetails?
 
         public init(certificate: String? = nil, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKey: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, loggingRole: String? = nil, postAuthenticationLoginBanner: String? = nil, preAuthenticationLoginBanner: String? = nil, protocolDetails: ProtocolDetails? = nil, protocols: [`Protocol`]? = nil, securityPolicyName: String? = nil, serverId: String, workflowDetails: WorkflowDetails? = nil) {

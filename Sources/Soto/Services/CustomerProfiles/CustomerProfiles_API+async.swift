@@ -196,7 +196,7 @@ extension CustomerProfiles {
         return try await self.client.execute(operation: "PutProfileObjectType", path: "/domains/{DomainName}/object-types/{ObjectTypeName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Searches for profiles within a specific domain name using name, phone number, email address, account number, or a custom defined index.
+    /// Searches for profiles within a specific domain using one or more predefined search keys (e.g., _fullName, _phone, _email, _account, etc.) and/or custom-defined search keys. A search key is a data type pair that consists of a KeyName and Values list. This operation supports searching for profiles with a minimum of 1 key-value(s) pair and up to 5 key-value(s) pairs using either AND or OR logic.
     public func searchProfiles(_ input: SearchProfilesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> SearchProfilesResponse {
         return try await self.client.execute(operation: "SearchProfiles", path: "/domains/{DomainName}/profiles/search", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

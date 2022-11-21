@@ -184,8 +184,9 @@ public struct ECS: AWSService {
     /// 		       When creating a service that uses the EXTERNAL deployment controller, you
     /// 			can specify only parameters that aren't controlled at the task set level. The only
     /// 			required parameter is the service name. You control your services using the CreateTaskSet operation. For more information, see Amazon ECS deployment types in the Amazon Elastic Container Service Developer Guide.
-    /// 		       When the service scheduler launches new tasks, it determines task placement. For information
-    /// 			about task placement and task placement strategies, see Amazon ECS task placement in the Amazon Elastic Container Service Developer Guide.
+    /// 		       When the service scheduler launches new tasks, it determines task placement. For
+    /// 			information about task placement and task placement strategies, see Amazon ECS
+    /// 				task placement in the Amazon Elastic Container Service Developer Guide.
     public func createService(_ input: CreateServiceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateServiceResponse> {
         return self.client.execute(operation: "CreateService", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -366,6 +367,11 @@ public struct ECS: AWSService {
     /// 			key value and the corresponding parameter value.
     public func executeCommand(_ input: ExecuteCommandRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ExecuteCommandResponse> {
         return self.client.execute(operation: "ExecuteCommand", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves the protection status of tasks in an Amazon ECS service.
+    public func getTaskProtection(_ input: GetTaskProtectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetTaskProtectionResponse> {
+        return self.client.execute(operation: "GetTaskProtection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists the account settings for a specified principal.
@@ -814,6 +820,36 @@ public struct ECS: AWSService {
     /// 				Types in the Amazon Elastic Container Service Developer Guide.
     public func updateServicePrimaryTaskSet(_ input: UpdateServicePrimaryTaskSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateServicePrimaryTaskSetResponse> {
         return self.client.execute(operation: "UpdateServicePrimaryTaskSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates the protection status of a task. You can set protectionEnabled to
+    /// 				true to protect your task from termination during scale-in events from
+    /// 				Service
+    /// 				Autoscaling or deployments.
+    /// 		       Task-protection, by default, expires after 2 hours at which point Amazon ECS unsets the
+    /// 				protectionEnabled property making the task eligible for termination by
+    /// 			a subsequent scale-in event.
+    /// 		       You can specify a custom expiration period for task protection from 1 minute to up to
+    /// 			2,880 minutes (48 hours). To specify the custom expiration period, set the
+    /// 				expiresInMinutes property. The expiresInMinutes property
+    /// 			is always reset when you invoke this operation for a task that already has
+    /// 				protectionEnabled set to true. You can keep extending the
+    /// 			protection expiration period of a task by invoking this operation repeatedly.
+    /// 		       To learn more about Amazon ECS task protection, see Task scale-in
+    /// 				protection in the Amazon Elastic Container Service Developer Guide.
+    ///
+    /// 			         This operation is only supported for tasks belonging to an Amazon ECS service. Invoking
+    /// 				this operation for a standalone task will result in an TASK_NOT_VALID
+    /// 				failure. For more information, see API
+    /// 					failure reasons.
+    ///
+    ///
+    /// 			         If you prefer to set task protection from within the container, we recommend using
+    /// 				the Amazon ECS container
+    /// 					agent endpoint.
+    ///
+    public func updateTaskProtection(_ input: UpdateTaskProtectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateTaskProtectionResponse> {
+        return self.client.execute(operation: "UpdateTaskProtection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Modifies a task set. This is used when a service uses the EXTERNAL
