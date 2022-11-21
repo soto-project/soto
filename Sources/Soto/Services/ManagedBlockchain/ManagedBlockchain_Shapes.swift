@@ -388,7 +388,7 @@ extension ManagedBlockchain {
         public let clientRequestToken: String
         /// The unique identifier of the member that owns this node. Applies only to Hyperledger Fabric.
         public let memberId: String?
-        /// The unique identifier of the network for the node. Ethereum public networks have the following NetworkIds:    n-ethereum-mainnet     n-ethereum-rinkeby     n-ethereum-ropsten
+        /// The unique identifier of the network for the node. Ethereum public networks have the following NetworkIds:    n-ethereum-mainnet     n-ethereum-goerli     n-ethereum-rinkeby     n-ethereum-ropsten
         public let networkId: String
         /// The properties of a node configuration.
         public let nodeConfiguration: NodeConfiguration
@@ -568,7 +568,7 @@ extension ManagedBlockchain {
 
         /// The unique identifier of the member that owns this node. Applies only to Hyperledger Fabric and is required for Hyperledger Fabric.
         public let memberId: String?
-        /// The unique identifier of the network that the node is on. Ethereum public networks have the following NetworkIds:    n-ethereum-mainnet     n-ethereum-rinkeby     n-ethereum-ropsten
+        /// The unique identifier of the network that the node is on. Ethereum public networks have the following NetworkIds:    n-ethereum-mainnet     n-ethereum-goerli     n-ethereum-rinkeby     n-ethereum-ropsten
         public let networkId: String
         /// The unique identifier of the node.
         public let nodeId: String
@@ -1549,7 +1549,7 @@ extension ManagedBlockchain {
     }
 
     public struct NetworkEthereumAttributes: AWSDecodableShape {
-        /// The Ethereum CHAIN_ID associated with the Ethereum network. Chain IDs are as follows:   mainnet = 1    rinkeby = 4    ropsten = 3
+        /// The Ethereum CHAIN_ID associated with the Ethereum network. Chain IDs are as follows:   mainnet = 1    goerli = 5    rinkeby = 4    ropsten = 3
         public let chainId: String?
 
         public init(chainId: String? = nil) {
@@ -1753,7 +1753,7 @@ extension ManagedBlockchain {
     public struct NodeEthereumAttributes: AWSDecodableShape {
         /// The endpoint on which the Ethereum node listens to run Ethereum API methods over HTTP connections from a client. Use this endpoint in client code for smart contracts when using an HTTP connection. Connections to this endpoint are authenticated using Signature Version 4.
         public let httpEndpoint: String?
-        /// The endpoint on which the Ethereum node listens to run Ethereum JSON-RPC methods over WebSockets connections from a client. Use this endpoint in client code for smart contracts when using a WebSockets connection. Connections to this endpoint are authenticated using Signature Version 4.
+        /// The endpoint on which the Ethereum node listens to run Ethereum JSON-RPC methods over WebSocket connections from a client. Use this endpoint in client code for smart contracts when using a WebSocket connection. Connections to this endpoint are authenticated using Signature Version 4.
         public let webSocketEndpoint: String?
 
         public init(httpEndpoint: String? = nil, webSocketEndpoint: String? = nil) {

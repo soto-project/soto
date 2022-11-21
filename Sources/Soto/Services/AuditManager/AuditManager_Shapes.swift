@@ -59,8 +59,8 @@ extension AuditManager {
     }
 
     public enum ControlResponse: String, CustomStringConvertible, Codable, _SotoSendable {
-        case automate = "AUTOMATE"
         case `defer` = "DEFER"
+        case automate = "AUTOMATE"
         case ignore = "IGNORE"
         case manual = "MANUAL"
         public var description: String { return self.rawValue }
@@ -90,6 +90,21 @@ extension AuditManager {
         case complete = "COMPLETE"
         case inProgress = "IN_PROGRESS"
         case underReview = "UNDER_REVIEW"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EvidenceFinderBackfillStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case completed = "COMPLETED"
+        case inProgress = "IN_PROGRESS"
+        case notStarted = "NOT_STARTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EvidenceFinderEnablementStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case disableInProgress = "DISABLE_IN_PROGRESS"
+        case disabled = "DISABLED"
+        case enableInProgress = "ENABLE_IN_PROGRESS"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
@@ -123,6 +138,7 @@ extension AuditManager {
         case all = "ALL"
         case defaultAssessmentReportsDestination = "DEFAULT_ASSESSMENT_REPORTS_DESTINATION"
         case defaultProcessOwners = "DEFAULT_PROCESS_OWNERS"
+        case evidenceFinderEnablement = "EVIDENCE_FINDER_ENABLEMENT"
         case isAwsOrgEnabled = "IS_AWS_ORG_ENABLED"
         case snsTopic = "SNS_TOPIC"
         public var description: String { return self.rawValue }
@@ -167,7 +183,7 @@ extension AuditManager {
     }
 
     public enum SourceType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case awsAPICall = "AWS_API_Call"
+        case awsApiCall = "AWS_API_Call"
         case awsCloudtrail = "AWS_Cloudtrail"
         case awsConfig = "AWS_Config"
         case awsSecurityHub = "AWS_Security_Hub"
@@ -711,9 +727,9 @@ extension AuditManager {
     }
 
     public struct AssessmentReportEvidenceError: AWSDecodableShape {
-        ///  The error code that the AssessmentReportEvidence API returned.
+        ///  The error code that was returned.
         public let errorCode: String?
-        ///  The error message that the AssessmentReportEvidence API returned.
+        ///  The error message that was returned.
         public let errorMessage: String?
         ///  The identifier for the evidence.
         public let evidenceId: String?
@@ -1193,7 +1209,7 @@ extension AuditManager {
         public let arn: String?
         ///  The data mapping sources for the control.
         public let controlMappingSources: [ControlMappingSource]?
-        ///  The data source that determines where Audit Manager collects evidence from for the control.
+        ///  The data source types that determine where Audit Manager collects evidence from for the control.
         public let controlSources: String?
         ///  Specifies when the control was created.
         public let createdAt: Date?
@@ -1590,11 +1606,14 @@ extension AuditManager {
         public let description: String?
         ///  The name of the new assessment report.
         public let name: String
+        /// A SQL statement that represents an evidence finder query. Provide this parameter when you want to generate an assessment report from the results of an evidence finder search query. When you use this parameter, Audit Manager generates a one-time report using only the evidence from the query output. This report does not include any assessment evidence that was manually added to a report using the console, or associated with a report using the API.  To use this parameter, the enablementStatus of evidence finder must be ENABLED.  For examples and help resolving queryStatement validation exceptions, see Troubleshooting evidence finder issues in the AWS Audit Manager User Guide.
+        public let queryStatement: String?
 
-        public init(assessmentId: String, description: String? = nil, name: String) {
+        public init(assessmentId: String, description: String? = nil, name: String, queryStatement: String? = nil) {
             self.assessmentId = assessmentId
             self.description = description
             self.name = name
+            self.queryStatement = queryStatement
         }
 
         public func validate(name: String) throws {
@@ -1606,11 +1625,15 @@ extension AuditManager {
             try self.validate(self.name, name: "name", parent: name, max: 300)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-_\\.]+$")
+            try self.validate(self.queryStatement, name: "queryStatement", parent: name, max: 10000)
+            try self.validate(self.queryStatement, name: "queryStatement", parent: name, min: 1)
+            try self.validate(self.queryStatement, name: "queryStatement", parent: name, pattern: "^(?s)")
         }
 
         private enum CodingKeys: String, CodingKey {
             case description
             case name
+            case queryStatement
         }
     }
 
@@ -2165,7 +2188,7 @@ extension AuditManager {
         public let awsAccountId: String?
         ///  The Amazon Web Services account that the evidence is collected from, and its organization path.
         public let awsOrganization: String?
-        ///  The evaluation status for evidence that falls under the compliance check category. For evidence collected from Security Hub, a Pass or Fail result is shown. For evidence collected from Config, a Compliant or Noncompliant result is shown.
+        /// The evaluation status for automated evidence that falls under the compliance check category.   Audit Manager classes evidence as non-compliant if Security Hub reports a Fail result, or if Config reports a Non-compliant result.   Audit Manager classes evidence as compliant if Security Hub reports a Pass result, or if Config reports a Compliant result.   If a compliance check isn't available or applicable, then no compliance evaluation can be made for that evidence. This is the case if the evidence uses Config or Security Hub as the underlying data source type, but those services aren't enabled. This is also the case if the evidence uses an underlying data source type that doesn't support compliance checks (such as manual evidence, Amazon Web Services API calls, or CloudTrail).
         public let complianceCheck: String?
         ///  The data source where the evidence was collected from.
         public let dataSource: String?
@@ -2222,6 +2245,31 @@ extension AuditManager {
             case id
             case resourcesIncluded
             case time
+        }
+    }
+
+    public struct EvidenceFinderEnablement: AWSDecodableShape {
+        /// The current status of the evidence data backfill process.  The backfill starts after you enable evidence finder. During this task, Audit Manager populates an event data store with your past evidence data so that your evidence can be queried.    NOT_STARTED means that the backfill hasn’t started yet.     IN_PROGRESS means that the backfill is in progress. This can take up to 24 hours to complete, depending on the amount of evidence data.     COMPLETED means that the backfill is complete. All of your past evidence is now queryable.
+        public let backfillStatus: EvidenceFinderBackfillStatus?
+        /// The current status of the evidence finder feature and the related event data store.     ENABLE_IN_PROGRESS means that you requested to enable evidence finder. An event data store is currently being created to support evidence finder queries.    ENABLED means that an event data store was successfully created and evidence finder is enabled. We recommend that you wait 24 hours until the event data store is backfilled with your past evidence data. You can use evidence finder in the meantime, but not all data might be available until the backfill is complete.    DISABLE_IN_PROGRESS means that you requested to disable evidence finder, and your request is pending the deletion of the event data store.    DISABLED means that you have permanently disabled evidence finder and the event data store has been deleted. You can't re-enable evidence finder after this point.
+        public let enablementStatus: EvidenceFinderEnablementStatus?
+        /// Represents any errors that occurred when enabling or disabling evidence finder.
+        public let error: String?
+        /// The Amazon Resource Name (ARN) of the CloudTrail Lake event data store that’s used by evidence finder. The event data store is the lake of evidence data that evidence finder runs queries against.
+        public let eventDataStoreArn: String?
+
+        public init(backfillStatus: EvidenceFinderBackfillStatus? = nil, enablementStatus: EvidenceFinderEnablementStatus? = nil, error: String? = nil, eventDataStoreArn: String? = nil) {
+            self.backfillStatus = backfillStatus
+            self.enablementStatus = enablementStatus
+            self.error = error
+            self.eventDataStoreArn = eventDataStoreArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backfillStatus
+            case enablementStatus
+            case error
+            case eventDataStoreArn
         }
     }
 
@@ -3781,16 +3829,20 @@ extension AuditManager {
     public struct Resource: AWSDecodableShape {
         ///  The Amazon Resource Name (ARN) for the resource.
         public let arn: String?
+        ///  The evaluation status for a resource that was assessed when collecting compliance check evidence.    Audit Manager classes the resource as non-compliant if Security Hub reports a Fail result, or if Config reports a Non-compliant result.   Audit Manager classes the resource as compliant if Security Hub reports a Pass result, or if Config reports a Compliant result.   If a compliance check isn't available or applicable, then no compliance evaluation can be made for that resource. This is the case if a resource assessment uses Config or Security Hub as the underlying data source type, but those services aren't enabled. This is also the case if the resource assessment uses an underlying data source type that doesn't support compliance checks (such as manual evidence, Amazon Web Services API calls, or CloudTrail).
+        public let complianceCheck: String?
         ///  The value of the resource.
         public let value: String?
 
-        public init(arn: String? = nil, value: String? = nil) {
+        public init(arn: String? = nil, complianceCheck: String? = nil, value: String? = nil) {
             self.arn = arn
+            self.complianceCheck = complianceCheck
             self.value = value
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn
+            case complianceCheck
             case value
         }
     }
@@ -3874,6 +3926,8 @@ extension AuditManager {
         public let defaultAssessmentReportsDestination: AssessmentReportsDestination?
         ///  The designated default audit owners.
         public let defaultProcessOwners: [Role]?
+        /// The current evidence finder status and event data store details.
+        public let evidenceFinderEnablement: EvidenceFinderEnablement?
         ///  Specifies whether Organizations is enabled.
         public let isAwsOrgEnabled: Bool?
         ///  The KMS key details.
@@ -3881,9 +3935,10 @@ extension AuditManager {
         ///  The designated Amazon Simple Notification Service (Amazon SNS) topic.
         public let snsTopic: String?
 
-        public init(defaultAssessmentReportsDestination: AssessmentReportsDestination? = nil, defaultProcessOwners: [Role]? = nil, isAwsOrgEnabled: Bool? = nil, kmsKey: String? = nil, snsTopic: String? = nil) {
+        public init(defaultAssessmentReportsDestination: AssessmentReportsDestination? = nil, defaultProcessOwners: [Role]? = nil, evidenceFinderEnablement: EvidenceFinderEnablement? = nil, isAwsOrgEnabled: Bool? = nil, kmsKey: String? = nil, snsTopic: String? = nil) {
             self.defaultAssessmentReportsDestination = defaultAssessmentReportsDestination
             self.defaultProcessOwners = defaultProcessOwners
+            self.evidenceFinderEnablement = evidenceFinderEnablement
             self.isAwsOrgEnabled = isAwsOrgEnabled
             self.kmsKey = kmsKey
             self.snsTopic = snsTopic
@@ -3892,6 +3947,7 @@ extension AuditManager {
         private enum CodingKeys: String, CodingKey {
             case defaultAssessmentReportsDestination
             case defaultProcessOwners
+            case evidenceFinderEnablement
             case isAwsOrgEnabled
             case kmsKey
             case snsTopic
@@ -3901,7 +3957,7 @@ extension AuditManager {
     public struct SourceKeyword: AWSEncodableShape & AWSDecodableShape {
         ///  The input method for the keyword.
         public let keywordInputType: KeywordInputType?
-        ///  The value of the keyword that's used when mapping a control data source. For example, this can be a CloudTrail event name, a rule name for Config, a Security Hub control, or the name of an Amazon Web Services API call.  If you’re mapping a data source to a rule in Config, the keywordValue that you specify depends on the type of rule:   For managed rules, you can use the rule identifier as the keywordValue. You can find the rule identifier from the list of Config managed rules.   Managed rule name: s3-bucket-acl-prohibited   keywordValue: S3_BUCKET_ACL_PROHIBITED      For custom rules, you form the keywordValue by adding the Custom_ prefix to the rule name. This prefix distinguishes the rule from a managed rule.   Custom rule name: my-custom-config-rule  keywordValue: Custom_my-custom-config-rule      For service-linked rules, you form the keywordValue by adding the Custom_ prefix to the rule name. In addition, you remove the suffix ID that appears at the end of the rule name.   Service-linked rule name: CustomRuleForAccount-conformance-pack-szsm1uv0w  keywordValue: Custom_CustomRuleForAccount-conformance-pack    Service-linked rule name: securityhub-api-gw-cache-encrypted-101104e1  keywordValue: Custom_securityhub-api-gw-cache-encrypted    Service-linked rule name: OrgConfigRule-s3-bucket-versioning-enabled-dbgzf8ba  keywordValue: Custom_OrgConfigRule-s3-bucket-versioning-enabled
+        ///  The value of the keyword that's used when mapping a control data source. For example, this can be a CloudTrail event name, a rule name for Config, a Security Hub control, or the name of an Amazon Web Services API call.  If you’re mapping a data source to a rule in Config, the keywordValue that you specify depends on the type of rule:   For managed rules, you can use the rule identifier as the keywordValue. You can find the rule identifier from the list of Config managed rules.   Managed rule name: s3-bucket-acl-prohibited   keywordValue: S3_BUCKET_ACL_PROHIBITED      For custom rules, you form the keywordValue by adding the Custom_ prefix to the rule name. This prefix distinguishes the rule from a managed rule.   Custom rule name: my-custom-config-rule  keywordValue: Custom_my-custom-config-rule      For service-linked rules, you form the keywordValue by adding the Custom_ prefix to the rule name. In addition, you remove the suffix ID that appears at the end of the rule name.   Service-linked rule name: CustomRuleForAccount-conformance-pack-szsm1uv0w  keywordValue: Custom_CustomRuleForAccount-conformance-pack    Service-linked rule name: OrgConfigRule-s3-bucket-versioning-enabled-dbgzf8ba  keywordValue: Custom_OrgConfigRule-s3-bucket-versioning-enabled
         public let keywordValue: String?
 
         public init(keywordInputType: KeywordInputType? = nil, keywordValue: String? = nil) {
@@ -4498,14 +4554,17 @@ extension AuditManager {
         public let defaultAssessmentReportsDestination: AssessmentReportsDestination?
         ///  A list of the default audit owners.
         public let defaultProcessOwners: [Role]?
+        /// Specifies whether the evidence finder feature is enabled. Change this attribute to enable or disable evidence finder.  When you use this attribute to disable evidence finder, Audit Manager deletes the event data store that’s used to query your evidence data. As a result, you can’t re-enable evidence finder and use the feature again. Your only alternative is to deregister and then re-register Audit Manager.  Disabling evidence finder is permanent, so consider this decision carefully before you proceed. If you’re using Audit Manager as a delegated administrator, keep in mind that this action applies to all member accounts in your organization.
+        public let evidenceFinderEnabled: Bool?
         ///  The KMS key details.
         public let kmsKey: String?
         ///  The Amazon Simple Notification Service (Amazon SNS) topic that Audit Manager sends notifications to.
         public let snsTopic: String?
 
-        public init(defaultAssessmentReportsDestination: AssessmentReportsDestination? = nil, defaultProcessOwners: [Role]? = nil, kmsKey: String? = nil, snsTopic: String? = nil) {
+        public init(defaultAssessmentReportsDestination: AssessmentReportsDestination? = nil, defaultProcessOwners: [Role]? = nil, evidenceFinderEnabled: Bool? = nil, kmsKey: String? = nil, snsTopic: String? = nil) {
             self.defaultAssessmentReportsDestination = defaultAssessmentReportsDestination
             self.defaultProcessOwners = defaultProcessOwners
+            self.evidenceFinderEnabled = evidenceFinderEnabled
             self.kmsKey = kmsKey
             self.snsTopic = snsTopic
         }
@@ -4526,6 +4585,7 @@ extension AuditManager {
         private enum CodingKeys: String, CodingKey {
             case defaultAssessmentReportsDestination
             case defaultProcessOwners
+            case evidenceFinderEnabled
             case kmsKey
             case snsTopic
         }

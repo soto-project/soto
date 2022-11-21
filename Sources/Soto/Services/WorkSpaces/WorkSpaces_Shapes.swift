@@ -42,6 +42,18 @@ extension WorkSpaces {
         public var description: String { return self.rawValue }
     }
 
+    public enum BundleType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case regular = "REGULAR"
+        case standby = "STANDBY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CertificateBasedAuthStatusEnum: String, CustomStringConvertible, Codable, _SotoSendable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ClientDeviceType: String, CustomStringConvertible, Codable, _SotoSendable {
         case deviceTypeAndroid = "DeviceTypeAndroid"
         case deviceTypeIos = "DeviceTypeIos"
@@ -94,6 +106,11 @@ extension WorkSpaces {
     public enum DedicatedTenancySupportResultEnum: String, CustomStringConvertible, Codable, _SotoSendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeletableCertificateBasedAuthProperty: String, CustomStringConvertible, Codable, _SotoSendable {
+        case certificateBasedAuthPropertiesCertificateAuthorityArn = "CERTIFICATE_BASED_AUTH_PROPERTIES_CERTIFICATE_AUTHORITY_ARN"
         public var description: String { return self.rawValue }
     }
 
@@ -154,6 +171,12 @@ extension WorkSpaces {
         public var description: String { return self.rawValue }
     }
 
+    public enum StandbyWorkspaceRelationshipType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case primary = "PRIMARY"
+        case standby = "STANDBY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TargetWorkspaceState: String, CustomStringConvertible, Codable, _SotoSendable {
         case adminMaintenance = "ADMIN_MAINTENANCE"
         case available = "AVAILABLE"
@@ -163,6 +186,13 @@ extension WorkSpaces {
     public enum Tenancy: String, CustomStringConvertible, Codable, _SotoSendable {
         case dedicated = "DEDICATED"
         case shared = "SHARED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WorkspaceBundleState: String, CustomStringConvertible, Codable, _SotoSendable {
+        case available = "AVAILABLE"
+        case error = "ERROR"
+        case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
@@ -223,6 +253,12 @@ extension WorkSpaces {
         case terminating = "TERMINATING"
         case unhealthy = "UNHEALTHY"
         case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum `Protocol`: String, CustomStringConvertible, Codable, _SotoSendable {
+        case pcoip = "PCOIP"
+        case wsp = "WSP"
         public var description: String { return self.rawValue }
     }
 
@@ -351,6 +387,29 @@ extension WorkSpaces {
 
     public struct AuthorizeIpRulesResult: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct CertificateBasedAuthProperties: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Certificate Manager Private CA resource.
+        public let certificateAuthorityArn: String?
+        /// The status of the certificate-based authentication properties.
+        public let status: CertificateBasedAuthStatusEnum?
+
+        public init(certificateAuthorityArn: String? = nil, status: CertificateBasedAuthStatusEnum? = nil) {
+            self.certificateAuthorityArn = certificateAuthorityArn
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.certificateAuthorityArn, name: "certificateAuthorityArn", parent: name, max: 200)
+            try self.validate(self.certificateAuthorityArn, name: "certificateAuthorityArn", parent: name, min: 5)
+            try self.validate(self.certificateAuthorityArn, name: "certificateAuthorityArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]*:[\\w+=,.@-]+(/[\\w+=,.@-]+)*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateAuthorityArn = "CertificateAuthorityArn"
+            case status = "Status"
+        }
     }
 
     public struct ClientProperties: AWSEncodableShape & AWSDecodableShape {
@@ -684,6 +743,49 @@ extension WorkSpaces {
 
         private enum CodingKeys: String, CodingKey {
             case groupId = "GroupId"
+        }
+    }
+
+    public struct CreateStandbyWorkspacesRequest: AWSEncodableShape {
+        /// The Region of the primary WorkSpace.
+        public let primaryRegion: String
+        /// Information about the Standby WorkSpace to be created.
+        public let standbyWorkspaces: [StandbyWorkspace]
+
+        public init(primaryRegion: String, standbyWorkspaces: [StandbyWorkspace]) {
+            self.primaryRegion = primaryRegion
+            self.standbyWorkspaces = standbyWorkspaces
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.primaryRegion, name: "primaryRegion", parent: name, max: 31)
+            try self.validate(self.primaryRegion, name: "primaryRegion", parent: name, min: 1)
+            try self.validate(self.primaryRegion, name: "primaryRegion", parent: name, pattern: "^[-0-9a-z]{1,31}$")
+            try self.standbyWorkspaces.forEach {
+                try $0.validate(name: "\(name).standbyWorkspaces[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case primaryRegion = "PrimaryRegion"
+            case standbyWorkspaces = "StandbyWorkspaces"
+        }
+    }
+
+    public struct CreateStandbyWorkspacesResult: AWSDecodableShape {
+        /// Information about the Standby WorkSpace that could not be created.
+        public let failedStandbyRequests: [FailedCreateStandbyWorkspacesRequest]?
+        /// Information about the Standby WorkSpace that was created.
+        public let pendingStandbyRequests: [PendingCreateStandbyWorkspacesRequest]?
+
+        public init(failedStandbyRequests: [FailedCreateStandbyWorkspacesRequest]? = nil, pendingStandbyRequests: [PendingCreateStandbyWorkspacesRequest]? = nil) {
+            self.failedStandbyRequests = failedStandbyRequests
+            self.pendingStandbyRequests = pendingStandbyRequests
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedStandbyRequests = "FailedStandbyRequests"
+            case pendingStandbyRequests = "PendingStandbyRequests"
         }
     }
 
@@ -2032,6 +2134,27 @@ extension WorkSpaces {
         public init() {}
     }
 
+    public struct FailedCreateStandbyWorkspacesRequest: AWSDecodableShape {
+        /// The error code that is returned if the Standby WorkSpace could not be created.
+        public let errorCode: String?
+        /// The text of the error message that is returned if the Standby WorkSpace could not be created.
+        public let errorMessage: String?
+        /// Information about the Standby WorkSpace that could not be created.
+        public let standbyWorkspaceRequest: StandbyWorkspace?
+
+        public init(errorCode: String? = nil, errorMessage: String? = nil, standbyWorkspaceRequest: StandbyWorkspace? = nil) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.standbyWorkspaceRequest = standbyWorkspaceRequest
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
+            case standbyWorkspaceRequest = "StandbyWorkspaceRequest"
+        }
+    }
+
     public struct FailedCreateWorkspaceRequest: AWSDecodableShape {
         /// The error code that is returned if the WorkSpace cannot be created.
         public let errorCode: String?
@@ -2473,6 +2596,38 @@ extension WorkSpaces {
         public init() {}
     }
 
+    public struct ModifyCertificateBasedAuthPropertiesRequest: AWSEncodableShape {
+        /// The properties of the certificate-based authentication.
+        public let certificateBasedAuthProperties: CertificateBasedAuthProperties?
+        /// The properties of the certificate-based authentication you want to delete.
+        public let propertiesToDelete: [DeletableCertificateBasedAuthProperty]?
+        /// The resource identifiers, in the form of directory IDs.
+        public let resourceId: String
+
+        public init(certificateBasedAuthProperties: CertificateBasedAuthProperties? = nil, propertiesToDelete: [DeletableCertificateBasedAuthProperty]? = nil, resourceId: String) {
+            self.certificateBasedAuthProperties = certificateBasedAuthProperties
+            self.propertiesToDelete = propertiesToDelete
+            self.resourceId = resourceId
+        }
+
+        public func validate(name: String) throws {
+            try self.certificateBasedAuthProperties?.validate(name: "\(name).certificateBasedAuthProperties")
+            try self.validate(self.resourceId, name: "resourceId", parent: name, max: 65)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, min: 10)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateBasedAuthProperties = "CertificateBasedAuthProperties"
+            case propertiesToDelete = "PropertiesToDelete"
+            case resourceId = "ResourceId"
+        }
+    }
+
+    public struct ModifyCertificateBasedAuthPropertiesResult: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct ModifyClientPropertiesRequest: AWSEncodableShape {
         /// Information about the Amazon WorkSpaces client.
         public let clientProperties: ClientProperties
@@ -2675,6 +2830,31 @@ extension WorkSpaces {
         }
     }
 
+    public struct PendingCreateStandbyWorkspacesRequest: AWSDecodableShape {
+        /// The identifier of the directory for the Standby WorkSpace.
+        public let directoryId: String?
+        /// The operational state of the Standby WorkSpace.
+        public let state: WorkspaceState?
+        /// Describes the Standby WorkSpace that was created. Because this operation is asynchronous, the identifier returned is not immediately  available for use with other operations. For example, if you call   DescribeWorkspaces  before the WorkSpace is created, the information returned can be incomplete.
+        public let userName: String?
+        /// The identifier of the Standby WorkSpace.
+        public let workspaceId: String?
+
+        public init(directoryId: String? = nil, state: WorkspaceState? = nil, userName: String? = nil, workspaceId: String? = nil) {
+            self.directoryId = directoryId
+            self.state = state
+            self.userName = userName
+            self.workspaceId = workspaceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+            case state = "State"
+            case userName = "UserName"
+            case workspaceId = "WorkspaceId"
+        }
+    }
+
     public struct RebootRequest: AWSEncodableShape {
         /// The identifier of the WorkSpace.
         public let workspaceId: String
@@ -2829,6 +3009,31 @@ extension WorkSpaces {
         public init() {}
     }
 
+    public struct RelatedWorkspaceProperties: AWSDecodableShape {
+        /// The Region of the related WorkSpace.
+        public let region: String?
+        /// Indicates the state of the WorkSpace.
+        public let state: WorkspaceState?
+        /// Indicates the type of WorkSpace.
+        public let type: StandbyWorkspaceRelationshipType?
+        /// The identifier of the related WorkSpace.
+        public let workspaceId: String?
+
+        public init(region: String? = nil, state: WorkspaceState? = nil, type: StandbyWorkspaceRelationshipType? = nil, workspaceId: String? = nil) {
+            self.region = region
+            self.state = state
+            self.type = type
+            self.workspaceId = workspaceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case region = "Region"
+            case state = "State"
+            case type = "Type"
+            case workspaceId = "WorkspaceId"
+        }
+    }
+
     public struct RestoreWorkspaceRequest: AWSEncodableShape {
         /// The identifier of the WorkSpace.
         public let workspaceId: String
@@ -2959,6 +3164,41 @@ extension WorkSpaces {
 
         private enum CodingKeys: String, CodingKey {
             case snapshotTime = "SnapshotTime"
+        }
+    }
+
+    public struct StandbyWorkspace: AWSEncodableShape & AWSDecodableShape {
+        /// The identifier of the directory for the Standby WorkSpace.
+        public let directoryId: String
+        /// The identifier of the Standby WorkSpace.
+        public let primaryWorkspaceId: String
+        /// The tags associated with the Standby WorkSpace.
+        public let tags: [Tag]?
+        /// The volume encryption key of the Standby WorkSpace.
+        public let volumeEncryptionKey: String?
+
+        public init(directoryId: String, primaryWorkspaceId: String, tags: [Tag]? = nil, volumeEncryptionKey: String? = nil) {
+            self.directoryId = directoryId
+            self.primaryWorkspaceId = primaryWorkspaceId
+            self.tags = tags
+            self.volumeEncryptionKey = volumeEncryptionKey
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.directoryId, name: "directoryId", parent: name, max: 65)
+            try self.validate(self.directoryId, name: "directoryId", parent: name, min: 10)
+            try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
+            try self.validate(self.primaryWorkspaceId, name: "primaryWorkspaceId", parent: name, pattern: "^ws-[0-9a-z]{8,63}$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+            case primaryWorkspaceId = "PrimaryWorkspaceId"
+            case tags = "Tags"
+            case volumeEncryptionKey = "VolumeEncryptionKey"
         }
     }
 
@@ -3340,6 +3580,8 @@ extension WorkSpaces {
         public let ipAddress: String?
         /// The modification states of the WorkSpace.
         public let modificationStates: [ModificationState]?
+        /// The Standby WorkSpace or Primary WorkSpace related to the specified WorkSpace.
+        public let relatedWorkspaces: [RelatedWorkspaceProperties]?
         /// Indicates whether the data stored on the root volume is encrypted.
         public let rootVolumeEncryptionEnabled: Bool?
         /// The operational state of the WorkSpace.  After a WorkSpace is terminated, the TERMINATED state is returned only briefly before the WorkSpace directory metadata is cleaned up, so this state is rarely returned. To confirm that a WorkSpace is terminated, check for the WorkSpace ID by using  DescribeWorkSpaces. If the WorkSpace ID isn't returned, then the WorkSpace has been successfully terminated.
@@ -3357,7 +3599,7 @@ extension WorkSpaces {
         /// The properties of the WorkSpace.
         public let workspaceProperties: WorkspaceProperties?
 
-        public init(bundleId: String? = nil, computerName: String? = nil, directoryId: String? = nil, errorCode: String? = nil, errorMessage: String? = nil, ipAddress: String? = nil, modificationStates: [ModificationState]? = nil, rootVolumeEncryptionEnabled: Bool? = nil, state: WorkspaceState? = nil, subnetId: String? = nil, userName: String? = nil, userVolumeEncryptionEnabled: Bool? = nil, volumeEncryptionKey: String? = nil, workspaceId: String? = nil, workspaceProperties: WorkspaceProperties? = nil) {
+        public init(bundleId: String? = nil, computerName: String? = nil, directoryId: String? = nil, errorCode: String? = nil, errorMessage: String? = nil, ipAddress: String? = nil, modificationStates: [ModificationState]? = nil, relatedWorkspaces: [RelatedWorkspaceProperties]? = nil, rootVolumeEncryptionEnabled: Bool? = nil, state: WorkspaceState? = nil, subnetId: String? = nil, userName: String? = nil, userVolumeEncryptionEnabled: Bool? = nil, volumeEncryptionKey: String? = nil, workspaceId: String? = nil, workspaceProperties: WorkspaceProperties? = nil) {
             self.bundleId = bundleId
             self.computerName = computerName
             self.directoryId = directoryId
@@ -3365,6 +3607,7 @@ extension WorkSpaces {
             self.errorMessage = errorMessage
             self.ipAddress = ipAddress
             self.modificationStates = modificationStates
+            self.relatedWorkspaces = relatedWorkspaces
             self.rootVolumeEncryptionEnabled = rootVolumeEncryptionEnabled
             self.state = state
             self.subnetId = subnetId
@@ -3383,6 +3626,7 @@ extension WorkSpaces {
             case errorMessage = "ErrorMessage"
             case ipAddress = "IpAddress"
             case modificationStates = "ModificationStates"
+            case relatedWorkspaces = "RelatedWorkspaces"
             case rootVolumeEncryptionEnabled = "RootVolumeEncryptionEnabled"
             case state = "State"
             case subnetId = "SubnetId"
@@ -3438,6 +3682,8 @@ extension WorkSpaces {
     public struct WorkspaceBundle: AWSDecodableShape {
         /// The identifier of the bundle.
         public let bundleId: String?
+        /// The type of WorkSpace bundle.
+        public let bundleType: BundleType?
         /// The compute type of the bundle. For more information, see  Amazon WorkSpaces Bundles.
         public let computeType: ComputeType?
         /// The time when the bundle was created.
@@ -3454,11 +3700,14 @@ extension WorkSpaces {
         public let owner: String?
         /// The size of the root volume.
         public let rootStorage: RootStorage?
+        /// The state of the WorkSpace bundle.
+        public let state: WorkspaceBundleState?
         /// The size of the user volume.
         public let userStorage: UserStorage?
 
-        public init(bundleId: String? = nil, computeType: ComputeType? = nil, creationTime: Date? = nil, description: String? = nil, imageId: String? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, owner: String? = nil, rootStorage: RootStorage? = nil, userStorage: UserStorage? = nil) {
+        public init(bundleId: String? = nil, bundleType: BundleType? = nil, computeType: ComputeType? = nil, creationTime: Date? = nil, description: String? = nil, imageId: String? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, owner: String? = nil, rootStorage: RootStorage? = nil, state: WorkspaceBundleState? = nil, userStorage: UserStorage? = nil) {
             self.bundleId = bundleId
+            self.bundleType = bundleType
             self.computeType = computeType
             self.creationTime = creationTime
             self.description = description
@@ -3467,11 +3716,13 @@ extension WorkSpaces {
             self.name = name
             self.owner = owner
             self.rootStorage = rootStorage
+            self.state = state
             self.userStorage = userStorage
         }
 
         private enum CodingKeys: String, CodingKey {
             case bundleId = "BundleId"
+            case bundleType = "BundleType"
             case computeType = "ComputeType"
             case creationTime = "CreationTime"
             case description = "Description"
@@ -3480,6 +3731,7 @@ extension WorkSpaces {
             case name = "Name"
             case owner = "Owner"
             case rootStorage = "RootStorage"
+            case state = "State"
             case userStorage = "UserStorage"
         }
     }
@@ -3551,6 +3803,8 @@ extension WorkSpaces {
     public struct WorkspaceDirectory: AWSDecodableShape {
         /// The directory alias.
         public let alias: String?
+        /// The certificate-based authentication properties used to authenticate SAML 2.0 Identity Provider (IdP) user identities to Active Directory for WorkSpaces login.
+        public let certificateBasedAuthProperties: CertificateBasedAuthProperties?
         /// The user name for the service account.
         public let customerUserName: String?
         /// The directory identifier.
@@ -3584,8 +3838,9 @@ extension WorkSpaces {
         /// The identifier of the security group that is assigned to new WorkSpaces.
         public let workspaceSecurityGroupId: String?
 
-        public init(alias: String? = nil, customerUserName: String? = nil, directoryId: String? = nil, directoryName: String? = nil, directoryType: WorkspaceDirectoryType? = nil, dnsIpAddresses: [String]? = nil, iamRoleId: String? = nil, ipGroupIds: [String]? = nil, registrationCode: String? = nil, samlProperties: SamlProperties? = nil, selfservicePermissions: SelfservicePermissions? = nil, state: WorkspaceDirectoryState? = nil, subnetIds: [String]? = nil, tenancy: Tenancy? = nil, workspaceAccessProperties: WorkspaceAccessProperties? = nil, workspaceCreationProperties: DefaultWorkspaceCreationProperties? = nil, workspaceSecurityGroupId: String? = nil) {
+        public init(alias: String? = nil, certificateBasedAuthProperties: CertificateBasedAuthProperties? = nil, customerUserName: String? = nil, directoryId: String? = nil, directoryName: String? = nil, directoryType: WorkspaceDirectoryType? = nil, dnsIpAddresses: [String]? = nil, iamRoleId: String? = nil, ipGroupIds: [String]? = nil, registrationCode: String? = nil, samlProperties: SamlProperties? = nil, selfservicePermissions: SelfservicePermissions? = nil, state: WorkspaceDirectoryState? = nil, subnetIds: [String]? = nil, tenancy: Tenancy? = nil, workspaceAccessProperties: WorkspaceAccessProperties? = nil, workspaceCreationProperties: DefaultWorkspaceCreationProperties? = nil, workspaceSecurityGroupId: String? = nil) {
             self.alias = alias
+            self.certificateBasedAuthProperties = certificateBasedAuthProperties
             self.customerUserName = customerUserName
             self.directoryId = directoryId
             self.directoryName = directoryName
@@ -3606,6 +3861,7 @@ extension WorkSpaces {
 
         private enum CodingKeys: String, CodingKey {
             case alias = "Alias"
+            case certificateBasedAuthProperties = "CertificateBasedAuthProperties"
             case customerUserName = "CustomerUserName"
             case directoryId = "DirectoryId"
             case directoryName = "DirectoryName"
@@ -3681,6 +3937,8 @@ extension WorkSpaces {
     public struct WorkspaceProperties: AWSEncodableShape & AWSDecodableShape {
         /// The compute type. For more information, see Amazon WorkSpaces Bundles.
         public let computeTypeName: Compute?
+        /// The protocol. For more information, see   Protocols for Amazon WorkSpaces.    Only available for WorkSpaces created with PCoIP bundles.   The Protocols property is case sensitive. Ensure you use PCOIP or WSP.   Unavailable for Windows 7 WorkSpaces and WorkSpaces using GPU-based bundles  (Graphics, GraphicsPro, Graphics.g4dn, and GraphicsPro.g4dn).
+        public let protocols: [`Protocol`]?
         /// The size of the root volume. For important information about how to modify the size of the root and user volumes, see Modify a WorkSpace.
         public let rootVolumeSizeGib: Int?
         /// The running mode. For more information, see Manage the WorkSpace Running Mode.  The MANUAL value is only supported by Amazon WorkSpaces Core. Contact your account team to be allow-listed to use this value. For more information, see Amazon WorkSpaces Core.
@@ -3690,8 +3948,9 @@ extension WorkSpaces {
         /// The size of the user storage. For important information about how to modify the size of the root and user volumes, see Modify a WorkSpace.
         public let userVolumeSizeGib: Int?
 
-        public init(computeTypeName: Compute? = nil, rootVolumeSizeGib: Int? = nil, runningMode: RunningMode? = nil, runningModeAutoStopTimeoutInMinutes: Int? = nil, userVolumeSizeGib: Int? = nil) {
+        public init(computeTypeName: Compute? = nil, protocols: [`Protocol`]? = nil, rootVolumeSizeGib: Int? = nil, runningMode: RunningMode? = nil, runningModeAutoStopTimeoutInMinutes: Int? = nil, userVolumeSizeGib: Int? = nil) {
             self.computeTypeName = computeTypeName
+            self.protocols = protocols
             self.rootVolumeSizeGib = rootVolumeSizeGib
             self.runningMode = runningMode
             self.runningModeAutoStopTimeoutInMinutes = runningModeAutoStopTimeoutInMinutes
@@ -3700,6 +3959,7 @@ extension WorkSpaces {
 
         private enum CodingKeys: String, CodingKey {
             case computeTypeName = "ComputeTypeName"
+            case protocols = "Protocols"
             case rootVolumeSizeGib = "RootVolumeSizeGib"
             case runningMode = "RunningMode"
             case runningModeAutoStopTimeoutInMinutes = "RunningModeAutoStopTimeoutInMinutes"

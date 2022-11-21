@@ -221,6 +221,50 @@ extension Personalize {
         )
     }
 
+    ///  Lists the metrics for the metric attribution.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listMetricAttributionMetricsPaginator(
+        _ input: ListMetricAttributionMetricsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListMetricAttributionMetricsRequest, ListMetricAttributionMetricsResponse> {
+        return .init(
+            input: input,
+            command: listMetricAttributionMetrics,
+            inputKey: \ListMetricAttributionMetricsRequest.nextToken,
+            outputKey: \ListMetricAttributionMetricsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Lists metric attributions.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listMetricAttributionsPaginator(
+        _ input: ListMetricAttributionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListMetricAttributionsRequest, ListMetricAttributionsResponse> {
+        return .init(
+            input: input,
+            command: listMetricAttributions,
+            inputKey: \ListMetricAttributionsRequest.nextToken,
+            outputKey: \ListMetricAttributionsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Returns a list of available recipes. The response provides the properties for each recipe, including the recipe's Amazon Resource Name (ARN).
     /// Return PaginatorSequence for operation.
     ///

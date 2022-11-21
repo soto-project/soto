@@ -45,63 +45,63 @@ extension LicenseManager {
 
     public enum EntitlementDataUnit: String, CustomStringConvertible, Codable, _SotoSendable {
         case bits = "Bits"
-        case bitsSecond = "Bits/Second"
+        case bitsPerSecond = "Bits/Second"
         case bytes = "Bytes"
-        case bytesSecond = "Bytes/Second"
+        case bytesPerSecond = "Bytes/Second"
         case count = "Count"
-        case countSecond = "Count/Second"
+        case countPerSecond = "Count/Second"
         case gigabits = "Gigabits"
-        case gigabitsSecond = "Gigabits/Second"
+        case gigabitsPerSecond = "Gigabits/Second"
         case gigabytes = "Gigabytes"
-        case gigabytesSecond = "Gigabytes/Second"
+        case gigabytesPerSecond = "Gigabytes/Second"
         case kilobits = "Kilobits"
-        case kilobitsSecond = "Kilobits/Second"
+        case kilobitsPerSecond = "Kilobits/Second"
         case kilobytes = "Kilobytes"
-        case kilobytesSecond = "Kilobytes/Second"
+        case kilobytesPerSecond = "Kilobytes/Second"
         case megabits = "Megabits"
-        case megabitsSecond = "Megabits/Second"
+        case megabitsPerSecond = "Megabits/Second"
         case megabytes = "Megabytes"
-        case megabytesSecond = "Megabytes/Second"
+        case megabytesPerSecond = "Megabytes/Second"
         case microseconds = "Microseconds"
         case milliseconds = "Milliseconds"
         case none = "None"
         case percent = "Percent"
         case seconds = "Seconds"
         case terabits = "Terabits"
-        case terabitsSecond = "Terabits/Second"
+        case terabitsPerSecond = "Terabits/Second"
         case terabytes = "Terabytes"
-        case terabytesSecond = "Terabytes/Second"
+        case terabytesPerSecond = "Terabytes/Second"
         public var description: String { return self.rawValue }
     }
 
     public enum EntitlementUnit: String, CustomStringConvertible, Codable, _SotoSendable {
         case bits = "Bits"
-        case bitsSecond = "Bits/Second"
+        case bitsPerSecond = "Bits/Second"
         case bytes = "Bytes"
-        case bytesSecond = "Bytes/Second"
+        case bytesPerSecond = "Bytes/Second"
         case count = "Count"
-        case countSecond = "Count/Second"
+        case countPerSecond = "Count/Second"
         case gigabits = "Gigabits"
-        case gigabitsSecond = "Gigabits/Second"
+        case gigabitsPerSecond = "Gigabits/Second"
         case gigabytes = "Gigabytes"
-        case gigabytesSecond = "Gigabytes/Second"
+        case gigabytesPerSecond = "Gigabytes/Second"
         case kilobits = "Kilobits"
-        case kilobitsSecond = "Kilobits/Second"
+        case kilobitsPerSecond = "Kilobits/Second"
         case kilobytes = "Kilobytes"
-        case kilobytesSecond = "Kilobytes/Second"
+        case kilobytesPerSecond = "Kilobytes/Second"
         case megabits = "Megabits"
-        case megabitsSecond = "Megabits/Second"
+        case megabitsPerSecond = "Megabits/Second"
         case megabytes = "Megabytes"
-        case megabytesSecond = "Megabytes/Second"
+        case megabytesPerSecond = "Megabytes/Second"
         case microseconds = "Microseconds"
         case milliseconds = "Milliseconds"
         case none = "None"
         case percent = "Percent"
         case seconds = "Seconds"
         case terabits = "Terabits"
-        case terabitsSecond = "Terabits/Second"
+        case terabitsPerSecond = "Terabits/Second"
         case terabytes = "Terabytes"
-        case terabytesSecond = "Terabytes/Second"
+        case terabytesPerSecond = "Terabytes/Second"
         public var description: String { return self.rawValue }
     }
 
@@ -143,7 +143,7 @@ extension LicenseManager {
         case core = "Core"
         case instance = "Instance"
         case socket = "Socket"
-        case vCPU
+        case vcpu = "vCPU"
         public var description: String { return self.rawValue }
     }
 
@@ -515,7 +515,7 @@ extension LicenseManager {
         public let homeRegion: String
         /// Amazon Resource Name (ARN) of the license.
         public let licenseArn: String
-        /// The grant principals.
+        /// The grant principals. This value should be specified as an Amazon Resource Name (ARN).
         public let principals: [String]
 
         public init(allowedOperations: [AllowedOperation], clientToken: String, grantName: String, homeRegion: String, licenseArn: String, principals: [String]) {
@@ -701,11 +701,12 @@ extension LicenseManager {
     }
 
     public struct CreateLicenseConversionTaskForResourceRequest: AWSEncodableShape {
-        /// Information that identifies the license type you are converting to. For the structure of the destination license, see Convert a license type using the AWS CLI in the License Manager User Guide.
+        /// Information that identifies the license type you are converting to. For the structure of the destination license, see Convert a license type using the Amazon Web Services CLI in the License Manager User Guide.
         public let destinationLicenseContext: LicenseConversionContext
         /// Amazon Resource Name (ARN) of the resource you are converting the license type for.
         public let resourceArn: String
-        /// Information that identifies the license type you are converting from.  For the structure of the source license, see Convert a license type using the AWS CLI in the License Manager User Guide.
+        /// Information that identifies the license type you are converting from.
+        ///  For the structure of the source license, see Convert a license type using the Amazon Web Services CLI in the License Manager User Guide.
         public let sourceLicenseContext: LicenseConversionContext
 
         public init(destinationLicenseContext: LicenseConversionContext, resourceArn: String, sourceLicenseContext: LicenseConversionContext) {
@@ -2563,6 +2564,55 @@ extension LicenseManager {
         }
     }
 
+    public struct ListReceivedGrantsForOrganizationRequest: AWSEncodableShape {
+        /// Filters to scope the results. The following filters are supported:    ParentArn     GranteePrincipalArn
+        public let filters: [Filter]?
+        /// The Amazon Resource Name (ARN) of the received license.
+        public let licenseArn: String
+        /// Maximum number of results to return in a single call.
+        public let maxResults: Int?
+        /// Token for the next set of results.
+        public let nextToken: String?
+
+        public init(filters: [Filter]? = nil, licenseArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.licenseArn = licenseArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.licenseArn, name: "licenseArn", parent: name, max: 2048)
+            try self.validate(self.licenseArn, name: "licenseArn", parent: name, pattern: "^arn:aws(-(cn|us-gov|iso-b|iso-c|iso-d))?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case licenseArn = "LicenseArn"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListReceivedGrantsForOrganizationResponse: AWSDecodableShape {
+        /// Lists the grants the organization has received.
+        public let grants: [Grant]?
+        /// Token for the next set of results.
+        public let nextToken: String?
+
+        public init(grants: [Grant]? = nil, nextToken: String? = nil) {
+            self.grants = grants
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case grants = "Grants"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListReceivedGrantsRequest: AWSEncodableShape {
         /// Filters to scope the results. The following filters are supported:    ProductSKU     LicenseIssuerName     LicenseArn     GrantStatus     GranterAccountId
         public let filters: [Filter]?
@@ -2610,6 +2660,49 @@ extension LicenseManager {
 
         private enum CodingKeys: String, CodingKey {
             case grants = "Grants"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListReceivedLicensesForOrganizationRequest: AWSEncodableShape {
+        /// Filters to scope the results. The following filters are supported:    Beneficiary     ProductSKU
+        public let filters: [Filter]?
+        /// Maximum number of results to return in a single call.
+        public let maxResults: Int?
+        /// Token for the next set of results.
+        public let nextToken: String?
+
+        public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListReceivedLicensesForOrganizationResponse: AWSDecodableShape {
+        /// Lists the licenses the organization has received.
+        public let licenses: [GrantedLicense]?
+        /// Token for the next set of results.
+        public let nextToken: String?
+
+        public init(licenses: [GrantedLicense]? = nil, nextToken: String? = nil) {
+            self.licenses = licenses
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case licenses = "Licenses"
             case nextToken = "NextToken"
         }
     }

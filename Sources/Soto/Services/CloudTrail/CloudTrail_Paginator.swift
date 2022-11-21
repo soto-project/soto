@@ -554,7 +554,6 @@ extension CloudTrail {
 extension CloudTrail.GetQueryResultsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudTrail.GetQueryResultsRequest {
         return .init(
-            eventDataStore: self.eventDataStore,
             maxQueryResults: self.maxQueryResults,
             nextToken: token,
             queryId: self.queryId

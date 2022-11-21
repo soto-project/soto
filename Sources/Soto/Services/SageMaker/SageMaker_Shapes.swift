@@ -24412,14 +24412,17 @@ extension SageMaker {
     }
 
     public struct ProfilerConfig: AWSEncodableShape & AWSDecodableShape {
+        /// To disable system monitoring and profiling, set to True.
+        public let disableProfiler: Bool?
         /// A time interval for capturing system metrics in milliseconds. Available values are 100, 200, 500, 1000 (1 second), 5000 (5 seconds), and 60000 (1 minute) milliseconds. The default value is 500 milliseconds.
         public let profilingIntervalInMilliseconds: Int64?
         /// Configuration information for capturing framework metrics. Available key strings for different profiling options are DetailedProfilingConfig, PythonProfilingConfig, and DataLoaderProfilingConfig. The following codes are configuration structures for the ProfilingParameters parameter. To learn more about how to configure the ProfilingParameters parameter,  see Use the SageMaker and Debugger Configuration API Operations to Create, Update, and Debug Your Training Job.
         public let profilingParameters: [String: String]?
         /// Path to Amazon S3 storage location for system and framework metrics.
-        public let s3OutputPath: String
+        public let s3OutputPath: String?
 
-        public init(profilingIntervalInMilliseconds: Int64? = nil, profilingParameters: [String: String]? = nil, s3OutputPath: String) {
+        public init(disableProfiler: Bool? = nil, profilingIntervalInMilliseconds: Int64? = nil, profilingParameters: [String: String]? = nil, s3OutputPath: String? = nil) {
+            self.disableProfiler = disableProfiler
             self.profilingIntervalInMilliseconds = profilingIntervalInMilliseconds
             self.profilingParameters = profilingParameters
             self.s3OutputPath = s3OutputPath
@@ -24439,6 +24442,7 @@ extension SageMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case disableProfiler = "DisableProfiler"
             case profilingIntervalInMilliseconds = "ProfilingIntervalInMilliseconds"
             case profilingParameters = "ProfilingParameters"
             case s3OutputPath = "S3OutputPath"

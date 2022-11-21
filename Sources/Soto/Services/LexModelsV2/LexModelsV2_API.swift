@@ -62,6 +62,21 @@ public struct LexModelsV2: AWSService {
 
     // MARK: API Calls
 
+    /// Batch create custom vocabulary item for the specified locale in the  specified bot.
+    public func batchCreateCustomVocabularyItem(_ input: BatchCreateCustomVocabularyItemRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchCreateCustomVocabularyItemResponse> {
+        return self.client.execute(operation: "BatchCreateCustomVocabularyItem", path: "/bots/{botId}/botversions/{botVersion}/botlocales/{localeId}/customvocabulary/DEFAULT/batchcreate", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Batch delete custom vocabulary item for the specified locale in the  specified bot.
+    public func batchDeleteCustomVocabularyItem(_ input: BatchDeleteCustomVocabularyItemRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchDeleteCustomVocabularyItemResponse> {
+        return self.client.execute(operation: "BatchDeleteCustomVocabularyItem", path: "/bots/{botId}/botversions/{botVersion}/botlocales/{localeId}/customvocabulary/DEFAULT/batchdelete", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Batch update custom vocabulary item for the specified locale in the  specified bot.
+    public func batchUpdateCustomVocabularyItem(_ input: BatchUpdateCustomVocabularyItemRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchUpdateCustomVocabularyItemResponse> {
+        return self.client.execute(operation: "BatchUpdateCustomVocabularyItem", path: "/bots/{botId}/botversions/{botVersion}/botlocales/{localeId}/customvocabulary/DEFAULT/batchupdate", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Builds a bot, its intents, and its slot types into a specific locale. A bot can be built into multiple locales. At runtime the locale is used to choose a specific build of the bot.
     public func buildBotLocale(_ input: BuildBotLocaleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BuildBotLocaleResponse> {
         return self.client.execute(operation: "BuildBotLocale", path: "/bots/{botId}/botversions/{botVersion}/botlocales/{localeId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -287,6 +302,11 @@ public struct LexModelsV2: AWSService {
         return self.client.execute(operation: "ListBuiltInSlotTypes", path: "/builtins/locales/{localeId}/slottypes", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// List custom vocabulary items for the specified locale in the  specified bot.
+    public func listCustomVocabularyItems(_ input: ListCustomVocabularyItemsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListCustomVocabularyItemsResponse> {
+        return self.client.execute(operation: "ListCustomVocabularyItems", path: "/bots/{botId}/botversions/{botVersion}/botlocales/{localeId}/customvocabulary/DEFAULT/list", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Lists the exports for a bot, bot locale, or custom vocabulary. Exports are kept in the list for 7 days.
     public func listExports(_ input: ListExportsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListExportsResponse> {
         return self.client.execute(operation: "ListExports", path: "/exports", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -302,7 +322,7 @@ public struct LexModelsV2: AWSService {
         return self.client.execute(operation: "ListIntents", path: "/bots/{botId}/botversions/{botVersion}/botlocales/{localeId}/intents", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets a list of recommended intents provided by the bot recommendation that you can use in your bot.
+    /// Gets a list of recommended intents provided by the bot recommendation that you can use in your bot. Intents in the  response are ordered by relevance.
     public func listRecommendedIntents(_ input: ListRecommendedIntentsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRecommendedIntentsResponse> {
         return self.client.execute(operation: "ListRecommendedIntents", path: "/bots/{botId}/botversions/{botVersion}/botlocales/{localeId}/botrecommendations/{botRecommendationId}/intents", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

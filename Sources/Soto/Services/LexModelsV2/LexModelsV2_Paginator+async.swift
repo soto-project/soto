@@ -199,6 +199,28 @@ extension LexModelsV2 {
         )
     }
 
+    ///  List custom vocabulary items for the specified locale in the  specified bot.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listCustomVocabularyItemsPaginator(
+        _ input: ListCustomVocabularyItemsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListCustomVocabularyItemsRequest, ListCustomVocabularyItemsResponse> {
+        return .init(
+            input: input,
+            command: listCustomVocabularyItems,
+            inputKey: \ListCustomVocabularyItemsRequest.nextToken,
+            outputKey: \ListCustomVocabularyItemsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Lists the exports for a bot, bot locale, or custom vocabulary. Exports are kept in the list for 7 days.
     /// Return PaginatorSequence for operation.
     ///
@@ -265,7 +287,7 @@ extension LexModelsV2 {
         )
     }
 
-    ///  Gets a list of recommended intents provided by the bot recommendation that you can use in your bot.
+    ///  Gets a list of recommended intents provided by the bot recommendation that you can use in your bot. Intents in the  response are ordered by relevance.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

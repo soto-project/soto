@@ -102,6 +102,7 @@ public struct SSMErrorType: AWSErrorType {
         case itemContentMismatchException = "ItemContentMismatchException"
         case itemSizeLimitExceededException = "ItemSizeLimitExceededException"
         case maxDocumentSizeExceeded = "MaxDocumentSizeExceeded"
+        case opsItemAccessDeniedException = "OpsItemAccessDeniedException"
         case opsItemAlreadyExistsException = "OpsItemAlreadyExistsException"
         case opsItemInvalidParameterException = "OpsItemInvalidParameterException"
         case opsItemLimitExceededException = "OpsItemLimitExceededException"
@@ -129,6 +130,9 @@ public struct SSMErrorType: AWSErrorType {
         case resourceDataSyncNotFoundException = "ResourceDataSyncNotFoundException"
         case resourceInUseException = "ResourceInUseException"
         case resourceLimitExceededException = "ResourceLimitExceededException"
+        case resourcePolicyConflictException = "ResourcePolicyConflictException"
+        case resourcePolicyInvalidParameterException = "ResourcePolicyInvalidParameterException"
+        case resourcePolicyLimitExceededException = "ResourcePolicyLimitExceededException"
         case serviceSettingNotFound = "ServiceSettingNotFound"
         case statusUnchanged = "StatusUnchanged"
         case subTypeCountLimitExceededException = "SubTypeCountLimitExceededException"
@@ -329,6 +333,8 @@ public struct SSMErrorType: AWSErrorType {
     public static var itemSizeLimitExceededException: Self { .init(.itemSizeLimitExceededException) }
     /// The size limit of a document is 64 KB.
     public static var maxDocumentSizeExceeded: Self { .init(.maxDocumentSizeExceeded) }
+    /// You don't have permission to view OpsItems in the specified account. Verify that your account is configured either as a Systems Manager delegated administrator or that you are logged into the Organizations management account.
+    public static var opsItemAccessDeniedException: Self { .init(.opsItemAccessDeniedException) }
     /// The OpsItem already exists.
     public static var opsItemAlreadyExistsException: Self { .init(.opsItemAlreadyExistsException) }
     /// A specified parameter argument isn't valid. Verify the available arguments and try again.
@@ -383,6 +389,12 @@ public struct SSMErrorType: AWSErrorType {
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
     /// Error returned when the caller has exceeded the default resource quotas. For example, too many maintenance windows or patch baselines have been created. For information about resource quotas in Systems Manager, see Systems Manager service quotas in the Amazon Web Services General Reference.
     public static var resourceLimitExceededException: Self { .init(.resourceLimitExceededException) }
+    /// The hash provided in the call doesn't match the stored hash. This exception is thrown when trying to update an obsolete policy version or when multiple requests to update a policy are sent.
+    public static var resourcePolicyConflictException: Self { .init(.resourcePolicyConflictException) }
+    /// One or more parameters specified for the call aren't valid. Verify the parameters and their values and try again.
+    public static var resourcePolicyInvalidParameterException: Self { .init(.resourcePolicyInvalidParameterException) }
+    /// The PutResourcePolicy API action enforces two limits. A policy can't be greater than 1024 bytes in size. And only one policy can be attached to OpsItemGroup. Verify these limits and try again.
+    public static var resourcePolicyLimitExceededException: Self { .init(.resourcePolicyLimitExceededException) }
     /// The specified service setting wasn't found. Either the service name or the setting hasn't been provisioned by the Amazon Web Services service team.
     public static var serviceSettingNotFound: Self { .init(.serviceSettingNotFound) }
     /// The updated status is the same as the current status.

@@ -762,6 +762,112 @@ extension QuickSight {
             onPage: onPage
         )
     }
+
+    ///  Use the SearchDataSets operation to search for datasets that belong to an account.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func searchDataSetsPaginator<Result>(
+        _ input: SearchDataSetsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, SearchDataSetsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: searchDataSets,
+            inputKey: \SearchDataSetsRequest.nextToken,
+            outputKey: \SearchDataSetsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func searchDataSetsPaginator(
+        _ input: SearchDataSetsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (SearchDataSetsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: searchDataSets,
+            inputKey: \SearchDataSetsRequest.nextToken,
+            outputKey: \SearchDataSetsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Use the SearchDataSources operation to search for data sources that belong to an account.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func searchDataSourcesPaginator<Result>(
+        _ input: SearchDataSourcesRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, SearchDataSourcesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: searchDataSources,
+            inputKey: \SearchDataSourcesRequest.nextToken,
+            outputKey: \SearchDataSourcesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func searchDataSourcesPaginator(
+        _ input: SearchDataSourcesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (SearchDataSourcesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: searchDataSources,
+            inputKey: \SearchDataSourcesRequest.nextToken,
+            outputKey: \SearchDataSourcesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
 }
 
 extension QuickSight.ListAnalysesRequest: AWSPaginateToken {
@@ -903,6 +1009,28 @@ extension QuickSight.SearchAnalysesRequest: AWSPaginateToken {
 
 extension QuickSight.SearchDashboardsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> QuickSight.SearchDashboardsRequest {
+        return .init(
+            awsAccountId: self.awsAccountId,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension QuickSight.SearchDataSetsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> QuickSight.SearchDataSetsRequest {
+        return .init(
+            awsAccountId: self.awsAccountId,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension QuickSight.SearchDataSourcesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> QuickSight.SearchDataSourcesRequest {
         return .init(
             awsAccountId: self.awsAccountId,
             filters: self.filters,

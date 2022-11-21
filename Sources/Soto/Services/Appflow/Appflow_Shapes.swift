@@ -40,6 +40,11 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
+    public enum CatalogType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case glue = "GLUE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ConnectionMode: String, CustomStringConvertible, Codable, _SotoSendable {
         case `private` = "Private"
         case `public` = "Public"
@@ -238,6 +243,7 @@ extension Appflow {
         case maskLength = "MASK_LENGTH"
         case maskValue = "MASK_VALUE"
         case mathOperationFieldsOrder = "MATH_OPERATION_FIELDS_ORDER"
+        case orderedPartitionKeysList = "ORDERED_PARTITION_KEYS_LIST"
         case sourceDataType = "SOURCE_DATA_TYPE"
         case subfieldCategoryMap = "SUBFIELD_CATEGORY_MAP"
         case truncateLength = "TRUNCATE_LENGTH"
@@ -270,6 +276,12 @@ extension Appflow {
         case validateNonNull = "VALIDATE_NON_NULL"
         case validateNonZero = "VALIDATE_NON_ZERO"
         case validateNumeric = "VALIDATE_NUMERIC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PathPrefix: String, CustomStringConvertible, Codable, _SotoSendable {
+        case executionId = "EXECUTION_ID"
+        case schemaVersion = "SCHEMA_VERSION"
         public var description: String { return self.rawValue }
     }
 
@@ -475,6 +487,7 @@ extension Appflow {
         case mapAll = "Map_all"
         case mask = "Mask"
         case merge = "Merge"
+        case partition = "Partition"
         case passthrough = "Passthrough"
         case truncate = "Truncate"
         case validate = "Validate"
@@ -562,13 +575,17 @@ extension Appflow {
     public struct AggregationConfig: AWSEncodableShape & AWSDecodableShape {
         ///  Specifies whether Amazon AppFlow aggregates the flow records into a single file, or leave them unaggregated.
         public let aggregationType: AggregationType?
+        /// The desired file size, in MB, for each output file that Amazon AppFlow writes to the flow destination. For each file, Amazon AppFlow attempts to achieve the size that you specify. The actual file sizes might differ from this target based on the number and size of the records that each file contains.
+        public let targetFileSize: Int64?
 
-        public init(aggregationType: AggregationType? = nil) {
+        public init(aggregationType: AggregationType? = nil, targetFileSize: Int64? = nil) {
             self.aggregationType = aggregationType
+            self.targetFileSize = targetFileSize
         }
 
         private enum CodingKeys: String, CodingKey {
             case aggregationType
+            case targetFileSize
         }
     }
 
@@ -1552,6 +1569,8 @@ extension Appflow {
         public let flowName: String
         ///  The ARN (Amazon Resource Name) of the Key Management Service (KMS) key you provide for encryption. This is required if you do not want to use the Amazon AppFlow-managed KMS key. If you don't provide anything here, Amazon AppFlow uses the Amazon AppFlow-managed KMS key.
         public let kmsArn: String?
+        /// Specifies the configuration that Amazon AppFlow uses when it catalogs the data that's transferred by the associated flow. When Amazon AppFlow catalogs the data from a flow, it stores metadata in a data catalog.
+        public let metadataCatalogConfig: MetadataCatalogConfig?
         ///  The configuration that controls how Amazon AppFlow retrieves data from the source connector.
         public let sourceFlowConfig: SourceFlowConfig
         ///  The tags used to organize, track, or control access for your flow.
@@ -1561,11 +1580,12 @@ extension Appflow {
         ///  The trigger settings that determine how and when the flow runs.
         public let triggerConfig: TriggerConfig
 
-        public init(description: String? = nil, destinationFlowConfigList: [DestinationFlowConfig], flowName: String, kmsArn: String? = nil, sourceFlowConfig: SourceFlowConfig, tags: [String: String]? = nil, tasks: [Task], triggerConfig: TriggerConfig) {
+        public init(description: String? = nil, destinationFlowConfigList: [DestinationFlowConfig], flowName: String, kmsArn: String? = nil, metadataCatalogConfig: MetadataCatalogConfig? = nil, sourceFlowConfig: SourceFlowConfig, tags: [String: String]? = nil, tasks: [Task], triggerConfig: TriggerConfig) {
             self.description = description
             self.destinationFlowConfigList = destinationFlowConfigList
             self.flowName = flowName
             self.kmsArn = kmsArn
+            self.metadataCatalogConfig = metadataCatalogConfig
             self.sourceFlowConfig = sourceFlowConfig
             self.tags = tags
             self.tasks = tasks
@@ -1583,6 +1603,7 @@ extension Appflow {
             try self.validate(self.kmsArn, name: "kmsArn", parent: name, max: 2048)
             try self.validate(self.kmsArn, name: "kmsArn", parent: name, min: 20)
             try self.validate(self.kmsArn, name: "kmsArn", parent: name, pattern: "^arn:aws:kms:.*:[0-9]+:")
+            try self.metadataCatalogConfig?.validate(name: "\(name).metadataCatalogConfig")
             try self.sourceFlowConfig.validate(name: "\(name).sourceFlowConfig")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
@@ -1603,6 +1624,7 @@ extension Appflow {
             case destinationFlowConfigList
             case flowName
             case kmsArn
+            case metadataCatalogConfig
             case sourceFlowConfig
             case tags
             case tasks
@@ -2237,10 +2259,16 @@ extension Appflow {
         public let kmsArn: String?
         ///  Describes the details of the most recent flow run.
         public let lastRunExecutionDetails: ExecutionDetails?
+        /// Describes the metadata catalog, metadata table, and data partitions that Amazon AppFlow used for the associated flow run.
+        public let lastRunMetadataCatalogDetails: [MetadataCatalogDetail]?
         ///  Specifies when the flow was last updated.
         public let lastUpdatedAt: Date?
         ///  Specifies the user name of the account that performed the most recent update.
         public let lastUpdatedBy: String?
+        /// Specifies the configuration that Amazon AppFlow uses when it catalogs the data that's transferred by the associated flow. When Amazon AppFlow catalogs the data from a flow, it stores metadata in a data catalog.
+        public let metadataCatalogConfig: MetadataCatalogConfig?
+        /// The version number of your data schema. Amazon AppFlow assigns this version number. The version number increases by one when you change any of the following settings in your flow configuration:   Source-to-destination field mappings   Field data types   Partition keys
+        public let schemaVersion: Int64?
         ///  The configuration that controls how Amazon AppFlow retrieves data from the source connector.
         public let sourceFlowConfig: SourceFlowConfig?
         ///  The tags used to organize, track, or control access for your flow.
@@ -2250,7 +2278,7 @@ extension Appflow {
         ///  The trigger settings that determine how and when the flow runs.
         public let triggerConfig: TriggerConfig?
 
-        public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, destinationFlowConfigList: [DestinationFlowConfig]? = nil, flowArn: String? = nil, flowName: String? = nil, flowStatus: FlowStatus? = nil, flowStatusMessage: String? = nil, kmsArn: String? = nil, lastRunExecutionDetails: ExecutionDetails? = nil, lastUpdatedAt: Date? = nil, lastUpdatedBy: String? = nil, sourceFlowConfig: SourceFlowConfig? = nil, tags: [String: String]? = nil, tasks: [Task]? = nil, triggerConfig: TriggerConfig? = nil) {
+        public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, destinationFlowConfigList: [DestinationFlowConfig]? = nil, flowArn: String? = nil, flowName: String? = nil, flowStatus: FlowStatus? = nil, flowStatusMessage: String? = nil, kmsArn: String? = nil, lastRunExecutionDetails: ExecutionDetails? = nil, lastRunMetadataCatalogDetails: [MetadataCatalogDetail]? = nil, lastUpdatedAt: Date? = nil, lastUpdatedBy: String? = nil, metadataCatalogConfig: MetadataCatalogConfig? = nil, schemaVersion: Int64? = nil, sourceFlowConfig: SourceFlowConfig? = nil, tags: [String: String]? = nil, tasks: [Task]? = nil, triggerConfig: TriggerConfig? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.description = description
@@ -2261,8 +2289,11 @@ extension Appflow {
             self.flowStatusMessage = flowStatusMessage
             self.kmsArn = kmsArn
             self.lastRunExecutionDetails = lastRunExecutionDetails
+            self.lastRunMetadataCatalogDetails = lastRunMetadataCatalogDetails
             self.lastUpdatedAt = lastUpdatedAt
             self.lastUpdatedBy = lastUpdatedBy
+            self.metadataCatalogConfig = metadataCatalogConfig
+            self.schemaVersion = schemaVersion
             self.sourceFlowConfig = sourceFlowConfig
             self.tags = tags
             self.tasks = tasks
@@ -2280,8 +2311,11 @@ extension Appflow {
             case flowStatusMessage
             case kmsArn
             case lastRunExecutionDetails
+            case lastRunMetadataCatalogDetails
             case lastUpdatedAt
             case lastUpdatedBy
+            case metadataCatalogConfig
+            case schemaVersion
             case sourceFlowConfig
             case tags
             case tasks
@@ -2595,16 +2629,19 @@ extension Appflow {
         public let executionStatus: ExecutionStatus?
         ///  Specifies the time of the most recent update.
         public let lastUpdatedAt: Date?
+        /// Describes the metadata catalog, metadata table, and data partitions that Amazon AppFlow used for the associated flow run.
+        public let metadataCatalogDetails: [MetadataCatalogDetail]?
         ///  Specifies the start time of the flow run.
         public let startedAt: Date?
 
-        public init(dataPullEndTime: Date? = nil, dataPullStartTime: Date? = nil, executionId: String? = nil, executionResult: ExecutionResult? = nil, executionStatus: ExecutionStatus? = nil, lastUpdatedAt: Date? = nil, startedAt: Date? = nil) {
+        public init(dataPullEndTime: Date? = nil, dataPullStartTime: Date? = nil, executionId: String? = nil, executionResult: ExecutionResult? = nil, executionStatus: ExecutionStatus? = nil, lastUpdatedAt: Date? = nil, metadataCatalogDetails: [MetadataCatalogDetail]? = nil, startedAt: Date? = nil) {
             self.dataPullEndTime = dataPullEndTime
             self.dataPullStartTime = dataPullStartTime
             self.executionId = executionId
             self.executionResult = executionResult
             self.executionStatus = executionStatus
             self.lastUpdatedAt = lastUpdatedAt
+            self.metadataCatalogDetails = metadataCatalogDetails
             self.startedAt = startedAt
         }
 
@@ -2615,6 +2652,7 @@ extension Appflow {
             case executionResult
             case executionStatus
             case lastUpdatedAt
+            case metadataCatalogDetails
             case startedAt
         }
     }
@@ -2747,6 +2785,36 @@ extension Appflow {
             case sourceConnectorType
             case tags
             case triggerType
+        }
+    }
+
+    public struct GlueDataCatalogConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the Data Catalog database that stores the metadata tables that Amazon AppFlow creates in your Amazon Web Services account. These tables contain metadata for the data that's transferred by the flow that you configure with this parameter.  When you configure a new flow with this parameter, you must specify an existing database.
+        public let databaseName: String
+        /// The Amazon Resource Name (ARN) of an IAM role that grants Amazon AppFlow the permissions it needs to create Data Catalog tables, databases, and partitions. For an example IAM policy that has the required permissions, see Identity-based policy examples for Amazon AppFlow.
+        public let roleArn: String
+        /// A naming prefix for each Data Catalog table that Amazon AppFlow creates for the flow that you configure with this setting. Amazon AppFlow adds the prefix to the beginning of the each table name.
+        public let tablePrefix: String
+
+        public init(databaseName: String, roleArn: String, tablePrefix: String) {
+            self.databaseName = databaseName
+            self.roleArn = roleArn
+            self.tablePrefix = tablePrefix
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 512)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws:iam:.*:[0-9]+:")
+            try self.validate(self.tablePrefix, name: "tablePrefix", parent: name, max: 128)
+            try self.validate(self.tablePrefix, name: "tablePrefix", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case databaseName
+            case roleArn
+            case tablePrefix
         }
     }
 
@@ -3268,6 +3336,48 @@ extension Appflow {
         }
     }
 
+    public struct MetadataCatalogConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the configuration that Amazon AppFlow uses when it catalogs your data with the Glue Data Catalog.
+        public let glueDataCatalog: GlueDataCatalogConfig?
+
+        public init(glueDataCatalog: GlueDataCatalogConfig? = nil) {
+            self.glueDataCatalog = glueDataCatalog
+        }
+
+        public func validate(name: String) throws {
+            try self.glueDataCatalog?.validate(name: "\(name).glueDataCatalog")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case glueDataCatalog
+        }
+    }
+
+    public struct MetadataCatalogDetail: AWSDecodableShape {
+        /// The type of metadata catalog that Amazon AppFlow used for the associated flow run. This parameter returns the following value:  GLUE  The metadata catalog is provided by the Glue Data Catalog. Glue includes the Glue Data Catalog as a component.
+        public let catalogType: CatalogType?
+        /// Describes the status of the attempt from Amazon AppFlow to register the data partitions with the metadata catalog. The data partitions organize the flow output into a hierarchical path, such as a folder path in an  S3 bucket. Amazon AppFlow creates the partitions (if they don't already exist) based on your flow configuration.
+        public let partitionRegistrationOutput: RegistrationOutput?
+        /// The name of the table that stores the metadata for the associated flow run. The table stores metadata that represents the data that the flow transferred. Amazon AppFlow stores the table in the metadata catalog.
+        public let tableName: String?
+        /// Describes the status of the attempt from Amazon AppFlow to register the metadata table with the metadata catalog. Amazon AppFlow creates or updates this table for the associated flow run.
+        public let tableRegistrationOutput: RegistrationOutput?
+
+        public init(catalogType: CatalogType? = nil, partitionRegistrationOutput: RegistrationOutput? = nil, tableName: String? = nil, tableRegistrationOutput: RegistrationOutput? = nil) {
+            self.catalogType = catalogType
+            self.partitionRegistrationOutput = partitionRegistrationOutput
+            self.tableName = tableName
+            self.tableRegistrationOutput = tableRegistrationOutput
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogType
+            case partitionRegistrationOutput
+            case tableName
+            case tableRegistrationOutput
+        }
+    }
+
     public struct OAuth2Credentials: AWSEncodableShape {
         /// The access token used to access the connector on your behalf.
         public let accessToken: String?
@@ -3482,17 +3592,21 @@ extension Appflow {
     }
 
     public struct PrefixConfig: AWSEncodableShape & AWSDecodableShape {
-        ///  Determines the level of granularity that's included in the prefix.
+        /// Specifies whether the destination file path includes either or both of the following elements:  EXECUTION_ID  The ID that Amazon AppFlow assigns to the flow run.  SCHEMA_VERSION  The version number of your data schema. Amazon AppFlow assigns this version number. The version number increases by one when you change any of the following settings in your flow configuration:   Source-to-destination field mappings   Field data types   Partition keys
+        public let pathPrefixHierarchy: [PathPrefix]?
+        /// Determines the level of granularity for the date and time that's included in the prefix.
         public let prefixFormat: PrefixFormat?
-        ///  Determines the format of the prefix, and whether it applies to the file name, file path, or both.
+        /// Determines the format of the prefix, and whether it applies to the file name, file path, or both.
         public let prefixType: PrefixType?
 
-        public init(prefixFormat: PrefixFormat? = nil, prefixType: PrefixType? = nil) {
+        public init(pathPrefixHierarchy: [PathPrefix]? = nil, prefixFormat: PrefixFormat? = nil, prefixType: PrefixType? = nil) {
+            self.pathPrefixHierarchy = pathPrefixHierarchy
             self.prefixFormat = prefixFormat
             self.prefixType = prefixType
         }
 
         private enum CodingKeys: String, CodingKey {
+            case pathPrefixHierarchy
             case prefixFormat
             case prefixType
         }
@@ -3680,6 +3794,27 @@ extension Appflow {
 
         private enum CodingKeys: String, CodingKey {
             case connectorArn
+        }
+    }
+
+    public struct RegistrationOutput: AWSDecodableShape {
+        /// Explains the status of the registration attempt from Amazon AppFlow. If the attempt fails, the message explains why.
+        public let message: String?
+        /// Indicates the number of resources that Amazon AppFlow created or updated. Possible resources include metadata tables and data partitions.
+        public let result: String?
+        /// Indicates the status of the registration attempt from Amazon AppFlow.
+        public let status: ExecutionStatus?
+
+        public init(message: String? = nil, result: String? = nil, status: ExecutionStatus? = nil) {
+            self.message = message
+            self.result = result
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message
+            case result
+            case status
         }
     }
 
@@ -4030,7 +4165,7 @@ extension Appflow {
     }
 
     public struct SalesforceSourceProperties: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies which Salesforce API is used by Amazon AppFlow when your flow transfers data from Salesforce.  AUTOMATIC  The default. Amazon AppFlow selects which API to use based on the number of records that your flow transfers from Salesforce. If your flow transfers fewer than 1,000,000 records, Amazon AppFlow uses Salesforce REST API. If your flow transfers 1,000,000 records or more, Amazon AppFlow uses Salesforce Bulk API 2.0. Each of these Salesforce APIs structures data differently. If Amazon AppFlow selects the API automatically, be aware that, for recurring flows, the data output might vary from one flow run to the next. For example, if a flow runs daily, it might use REST API on one day to transfer 900,000 records, and it might use Bulk API 2.0 on the next day to transfer 1,100,000 records. For each of these flow runs, the respective Salesforce API formats the data differently. Some of the differences include how dates are formatted and null values are represented. Also, Bulk API 2.0 doesn't transfer Salesforce compound fields. By choosing this option, you optimize flow performance for both small and large data transfers, but the tradeoff is inconsistent formatting in the output.  BULKV2  Amazon AppFlow uses only Salesforce Bulk API 2.0. This API runs asynchronous data transfers, and it's optimal for large sets of data. By choosing this option, you ensure that your flow writes consistent output, but you optimize performance only for large data transfers. Note that Bulk API 2.0 does not transfer Salesforce compound fields.  REST_SYNC  Amazon AppFlow uses only Salesforce REST API. By choosing this option, you ensure that your flow writes consistent output, but you decrease performance for large data transfers that are better suited for Bulk API 2.0. In some cases, if your flow attempts to transfer a vary large set of data, it might fail with a timed out error.
+        /// Specifies which Salesforce API is used by Amazon AppFlow when your flow transfers data from Salesforce.  AUTOMATIC  The default. Amazon AppFlow selects which API to use based on the number of records that your flow transfers from Salesforce. If your flow transfers fewer than 1,000,000 records, Amazon AppFlow uses Salesforce REST API. If your flow transfers 1,000,000 records or more, Amazon AppFlow uses Salesforce Bulk API 2.0. Each of these Salesforce APIs structures data differently. If Amazon AppFlow selects the API automatically, be aware that, for recurring flows, the data output might vary from one flow run to the next. For example, if a flow runs daily, it might use REST API on one day to transfer 900,000 records, and it might use Bulk API 2.0 on the next day to transfer 1,100,000 records. For each of these flow runs, the respective Salesforce API formats the data differently. Some of the differences include how dates are formatted and null values are represented. Also, Bulk API 2.0 doesn't transfer Salesforce compound fields. By choosing this option, you optimize flow performance for both small and large data transfers, but the tradeoff is inconsistent formatting in the output.  BULKV2  Amazon AppFlow uses only Salesforce Bulk API 2.0. This API runs asynchronous data transfers, and it's optimal for large sets of data. By choosing this option, you ensure that your flow writes consistent output, but you optimize performance only for large data transfers. Note that Bulk API 2.0 does not transfer Salesforce compound fields.  REST_SYNC  Amazon AppFlow uses only Salesforce REST API. By choosing this option, you ensure that your flow writes consistent output, but you decrease performance for large data transfers that are better suited for Bulk API 2.0. In some cases, if your flow attempts to transfer a vary large set of data, it might fail wituh a timed out error.
         public let dataTransferApi: SalesforceDataTransferApi?
         ///  The flag that enables dynamic fetching of new (recently added) fields in the Salesforce objects while running a flow.
         public let enableDynamicFieldUpdate: Bool?
@@ -4953,6 +5088,47 @@ extension Appflow {
         }
     }
 
+    public struct UpdateConnectorRegistrationRequest: AWSEncodableShape {
+        /// The name of the connector. The name is unique for each connector registration in your AWS account.
+        public let connectorLabel: String
+        public let connectorProvisioningConfig: ConnectorProvisioningConfig?
+        /// A description about the update that you're applying to the connector.
+        public let description: String?
+
+        public init(connectorLabel: String, connectorProvisioningConfig: ConnectorProvisioningConfig? = nil, description: String? = nil) {
+            self.connectorLabel = connectorLabel
+            self.connectorProvisioningConfig = connectorProvisioningConfig
+            self.description = description
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.connectorLabel, name: "connectorLabel", parent: name, max: 256)
+            try self.validate(self.connectorLabel, name: "connectorLabel", parent: name, pattern: "^[a-zA-Z0-9][\\w!@#.-]+$")
+            try self.connectorProvisioningConfig?.validate(name: "\(name).connectorProvisioningConfig")
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\s\\w/!@#+=.-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorLabel
+            case connectorProvisioningConfig
+            case description
+        }
+    }
+
+    public struct UpdateConnectorRegistrationResponse: AWSDecodableShape {
+        /// The ARN of the connector being updated.
+        public let connectorArn: String?
+
+        public init(connectorArn: String? = nil) {
+            self.connectorArn = connectorArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorArn
+        }
+    }
+
     public struct UpdateFlowRequest: AWSEncodableShape {
         ///  A description of the flow.
         public let description: String?
@@ -4960,16 +5136,19 @@ extension Appflow {
         public let destinationFlowConfigList: [DestinationFlowConfig]
         ///  The specified name of the flow. Spaces are not allowed. Use underscores (_) or hyphens (-) only.
         public let flowName: String
+        /// Specifies the configuration that Amazon AppFlow uses when it catalogs the data that's transferred by the associated flow. When Amazon AppFlow catalogs the data from a flow, it stores metadata in a data catalog.
+        public let metadataCatalogConfig: MetadataCatalogConfig?
         public let sourceFlowConfig: SourceFlowConfig
         ///  A list of tasks that Amazon AppFlow performs while transferring the data in the flow run.
         public let tasks: [Task]
         ///  The trigger settings that determine how and when the flow runs.
         public let triggerConfig: TriggerConfig
 
-        public init(description: String? = nil, destinationFlowConfigList: [DestinationFlowConfig], flowName: String, sourceFlowConfig: SourceFlowConfig, tasks: [Task], triggerConfig: TriggerConfig) {
+        public init(description: String? = nil, destinationFlowConfigList: [DestinationFlowConfig], flowName: String, metadataCatalogConfig: MetadataCatalogConfig? = nil, sourceFlowConfig: SourceFlowConfig, tasks: [Task], triggerConfig: TriggerConfig) {
             self.description = description
             self.destinationFlowConfigList = destinationFlowConfigList
             self.flowName = flowName
+            self.metadataCatalogConfig = metadataCatalogConfig
             self.sourceFlowConfig = sourceFlowConfig
             self.tasks = tasks
             self.triggerConfig = triggerConfig
@@ -4983,6 +5162,7 @@ extension Appflow {
             }
             try self.validate(self.flowName, name: "flowName", parent: name, max: 256)
             try self.validate(self.flowName, name: "flowName", parent: name, pattern: "^[a-zA-Z0-9][\\w!@#.-]+$")
+            try self.metadataCatalogConfig?.validate(name: "\(name).metadataCatalogConfig")
             try self.sourceFlowConfig.validate(name: "\(name).sourceFlowConfig")
             try self.tasks.forEach {
                 try $0.validate(name: "\(name).tasks[]")
@@ -4994,6 +5174,7 @@ extension Appflow {
             case description
             case destinationFlowConfigList
             case flowName
+            case metadataCatalogConfig
             case sourceFlowConfig
             case tasks
             case triggerConfig

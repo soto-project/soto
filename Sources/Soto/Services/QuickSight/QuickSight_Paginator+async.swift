@@ -331,6 +331,50 @@ extension QuickSight {
             on: eventLoop
         )
     }
+
+    ///  Use the SearchDataSets operation to search for datasets that belong to an account.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func searchDataSetsPaginator(
+        _ input: SearchDataSetsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<SearchDataSetsRequest, SearchDataSetsResponse> {
+        return .init(
+            input: input,
+            command: searchDataSets,
+            inputKey: \SearchDataSetsRequest.nextToken,
+            outputKey: \SearchDataSetsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Use the SearchDataSources operation to search for data sources that belong to an account.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func searchDataSourcesPaginator(
+        _ input: SearchDataSourcesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<SearchDataSourcesRequest, SearchDataSourcesResponse> {
+        return .init(
+            input: input,
+            command: searchDataSources,
+            inputKey: \SearchDataSourcesRequest.nextToken,
+            outputKey: \SearchDataSourcesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
 }
 
 #endif // compiler(>=5.5.2) && canImport(_Concurrency)

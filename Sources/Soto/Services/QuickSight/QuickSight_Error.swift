@@ -28,6 +28,7 @@ public struct QuickSightErrorType: AWSErrorType {
         case internalFailureException = "InternalFailureException"
         case invalidNextTokenException = "InvalidNextTokenException"
         case invalidParameterValueException = "InvalidParameterValueException"
+        case invalidRequestException = "InvalidRequestException"
         case limitExceededException = "LimitExceededException"
         case preconditionNotMetException = "PreconditionNotMetException"
         case quickSightUserNotFoundException = "QuickSightUserNotFoundException"
@@ -80,6 +81,8 @@ public struct QuickSightErrorType: AWSErrorType {
     public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
     /// One or more parameters has a value that isn't valid.
     public static var invalidParameterValueException: Self { .init(.invalidParameterValueException) }
+    /// You don't have this feature activated for your account. To fix this issue, contact Amazon Web Services support.
+    public static var invalidRequestException: Self { .init(.invalidRequestException) }
     /// A limit is exceeded.
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// One or more preconditions aren't met.

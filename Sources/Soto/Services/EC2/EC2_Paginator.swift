@@ -1144,11 +1144,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the Dedicated Host reservations that are available to purchase. The results describe all of the Dedicated Host reservation offerings, including
-    ///  			offerings that might not match the instance family and Region of your Dedicated Hosts.
-    ///  			When purchasing an offering, ensure that the instance family and Region of the offering
-    ///  			matches that of the Dedicated Hosts with which it is to be associated. For more
-    ///  			information about supported instance types, see Dedicated Hosts  in the Amazon EC2 User Guide.
+    ///  Describes the Dedicated Host reservations that are available to purchase. The results describe all of the Dedicated Host reservation offerings, including offerings that might not match the instance family and Region of your Dedicated Hosts. When purchasing an offering, ensure that the instance family and Region of the offering matches that of the Dedicated Hosts with which it is to be associated. For more information about supported instance types, see Dedicated Hosts in the Amazon EC2 User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

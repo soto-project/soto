@@ -23,6 +23,28 @@ import SotoCore
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Ivschat {
+    ///  Gets summary information about all your logging configurations in the AWS region where the API request is processed.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listLoggingConfigurationsPaginator(
+        _ input: ListLoggingConfigurationsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListLoggingConfigurationsRequest, ListLoggingConfigurationsResponse> {
+        return .init(
+            input: input,
+            command: listLoggingConfigurations,
+            inputKey: \ListLoggingConfigurationsRequest.nextToken,
+            outputKey: \ListLoggingConfigurationsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Gets summary information about all your rooms in the AWS region where the API request is processed. Results are sorted in descending order of updateTime.
     /// Return PaginatorSequence for operation.
     ///

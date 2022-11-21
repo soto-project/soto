@@ -550,7 +550,7 @@ extension ServiceCatalog {
         )
     }
 
-    ///  Lists all principal ARNs associated with the specified portfolio.
+    ///  Lists all PrincipalARNs and corresponding PrincipalTypes associated with the specified portfolio.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

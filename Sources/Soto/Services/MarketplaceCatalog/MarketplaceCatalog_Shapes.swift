@@ -98,12 +98,15 @@ extension MarketplaceCatalog {
         public let details: String
         /// The entity to be changed.
         public let entity: Entity
+        /// The tags associated with the change.
+        public let entityTags: [Tag]?
 
-        public init(changeName: String? = nil, changeType: String, details: String, entity: Entity) {
+        public init(changeName: String? = nil, changeType: String, details: String, entity: Entity, entityTags: [Tag]? = nil) {
             self.changeName = changeName
             self.changeType = changeType
             self.details = details
             self.entity = entity
+            self.entityTags = entityTags
         }
 
         public func validate(name: String) throws {
@@ -117,6 +120,11 @@ extension MarketplaceCatalog {
             try self.validate(self.details, name: "details", parent: name, min: 2)
             try self.validate(self.details, name: "details", parent: name, pattern: "^[\\s]*\\{[\\s\\S]*\\}[\\s]*$")
             try self.entity.validate(name: "\(name).entity")
+            try self.entityTags?.forEach {
+                try $0.validate(name: "\(name).entityTags[]")
+            }
+            try self.validate(self.entityTags, name: "entityTags", parent: name, max: 50)
+            try self.validate(self.entityTags, name: "entityTags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -124,6 +132,7 @@ extension MarketplaceCatalog {
             case changeType = "ChangeType"
             case details = "Details"
             case entity = "Entity"
+            case entityTags = "EntityTags"
         }
     }
 
@@ -138,7 +147,7 @@ extension MarketplaceCatalog {
         public let endTime: String?
         /// This object is a list of entity IDs (string) that are a part of a change set. The entity ID list is a maximum of 20 entities. It must contain at least one entity.
         public let entityIdList: [String]?
-        /// Returned if the change set is in FAILED status. Can be either  CLIENT_ERROR, which means that there are issues with the request (see the  ErrorDetailList of DescribeChangeSet), or SERVER_FAULT, which means that there is a problem in the system, and you should retry your request.
+        /// Returned if the change set is in FAILED status. Can be either CLIENT_ERROR, which means that there are issues with the request (see the ErrorDetailList of DescribeChangeSet), or SERVER_FAULT, which means that there is a problem in the system, and you should retry your request.
         public let failureCode: FailureCode?
         /// The time, in ISO 8601 format (2018-02-27T13:45:22Z), when the change set was started.
         public let startTime: String?
@@ -236,7 +245,7 @@ extension MarketplaceCatalog {
         public let changeSetName: String?
         /// The date and time, in ISO 8601 format (2018-02-27T13:45:22Z), the request transitioned to a terminal state. The change cannot transition to a different state. Null if the request is not in a terminal state.
         public let endTime: String?
-        /// Returned if the change set is in FAILED status. Can be either  CLIENT_ERROR, which means that there are issues with the request (see the  ErrorDetailList), or SERVER_FAULT, which means that there is a  problem in the system, and you should retry your request.
+        /// Returned if the change set is in FAILED status. Can be either CLIENT_ERROR, which means that there are issues with the request (see the ErrorDetailList), or SERVER_FAULT, which means that there is a problem in the system, and you should retry your request.
         public let failureCode: FailureCode?
         /// Returned if there is a failure on the change set, but that failure is not related to any of the changes in the request.
         public let failureDescription: String?
@@ -406,8 +415,7 @@ extension MarketplaceCatalog {
     public struct Filter: AWSEncodableShape {
         /// For ListEntities, the supported value for this is an EntityId. For ListChangeSets, the supported values are as follows:
         public let name: String?
-        ///  ListEntities - This is a list of unique EntityIds.
-        ///   ListChangeSets - The supported filter names and associated ValueLists is as follows:    ChangeSetName - The supported ValueList is a list of non-unique ChangeSetNames. These are defined when you call the StartChangeSet action.    Status - The supported ValueList is a list of statuses for all change set requests.    EntityId - The supported ValueList is a list of unique EntityIds.    BeforeStartTime - The supported ValueList is a list of all change sets that started before the filter value.    AfterStartTime - The supported ValueList is a list of all change sets that started after the filter value.    BeforeEndTime - The supported ValueList is a list of all change sets that ended before the filter value.    AfterEndTime - The supported ValueList is a list of all change sets that ended after the filter value.
+        ///  ListEntities - This is a list of unique EntityIds.  ListChangeSets - The supported filter names and associated ValueLists is as follows:    ChangeSetName - The supported ValueList is a list of non-unique ChangeSetNames. These are defined when you call the StartChangeSet action.    Status - The supported ValueList is a list of statuses for all change set requests.    EntityId - The supported ValueList is a list of unique EntityIds.    BeforeStartTime - The supported ValueList is a list of all change sets that started before the filter value.    AfterStartTime - The supported ValueList is a list of all change sets that started after the filter value.    BeforeEndTime - The supported ValueList is a list of all change sets that ended before the filter value.    AfterEndTime - The supported ValueList is a list of all change sets that ended after the filter value.
         public let valueList: [String]?
 
         public init(name: String? = nil, valueList: [String]? = nil) {
@@ -567,9 +575,44 @@ extension MarketplaceCatalog {
         }
     }
 
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
+        /// Required. The Amazon Resource Name (ARN) associated with the resource you want to list tags on.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 255)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:aws-marketplace:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
+        /// Required. The ARN associated with the resource you want to list tags on.
+        public let resourceArn: String?
+        /// Required. A list of objects specifying each key name and value. Number of objects allowed: 1-50.
+        public let tags: [Tag]?
+
+        public init(resourceArn: String? = nil, tags: [Tag]? = nil) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tags = "Tags"
+        }
+    }
+
     public struct Sort: AWSEncodableShape {
-        /// For ListEntities, supported attributes include LastModifiedDate (default), Visibility, EntityId, and Name.
-        ///  For ListChangeSets, supported attributes include StartTime and EndTime.
+        /// For ListEntities, supported attributes include LastModifiedDate (default), Visibility, EntityId, and Name. For ListChangeSets, supported attributes include StartTime and EndTime.
         public let sortBy: String?
         /// The sorting order. Can be ASCENDING or DESCENDING. The default value is DESCENDING.
         public let sortOrder: SortOrder?
@@ -598,13 +641,16 @@ extension MarketplaceCatalog {
         public let changeSet: [Change]
         /// Optional case sensitive string of up to 100 ASCII characters. The change set name can be used to filter the list of change sets.
         public let changeSetName: String?
+        /// A list of objects specifying each key name and value for the ChangeSetTags property.
+        public let changeSetTags: [Tag]?
         /// A unique token to identify the request to ensure idempotency.
         public let clientRequestToken: String?
 
-        public init(catalog: String, changeSet: [Change], changeSetName: String? = nil, clientRequestToken: String? = StartChangeSetRequest.idempotencyToken()) {
+        public init(catalog: String, changeSet: [Change], changeSetName: String? = nil, changeSetTags: [Tag]? = nil, clientRequestToken: String? = StartChangeSetRequest.idempotencyToken()) {
             self.catalog = catalog
             self.changeSet = changeSet
             self.changeSetName = changeSetName
+            self.changeSetTags = changeSetTags
             self.clientRequestToken = clientRequestToken
         }
 
@@ -620,15 +666,21 @@ extension MarketplaceCatalog {
             try self.validate(self.changeSetName, name: "changeSetName", parent: name, max: 100)
             try self.validate(self.changeSetName, name: "changeSetName", parent: name, min: 1)
             try self.validate(self.changeSetName, name: "changeSetName", parent: name, pattern: "^[\\w\\s+=.:@-]+$")
-            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 36)
+            try self.changeSetTags?.forEach {
+                try $0.validate(name: "\(name).changeSetTags[]")
+            }
+            try self.validate(self.changeSetTags, name: "changeSetTags", parent: name, max: 50)
+            try self.validate(self.changeSetTags, name: "changeSetTags", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
-            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[\\w\\-]+$")
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[!-~]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case catalog = "Catalog"
             case changeSet = "ChangeSet"
             case changeSetName = "ChangeSetName"
+            case changeSetTags = "ChangeSetTags"
             case clientRequestToken = "ClientRequestToken"
         }
     }
@@ -648,5 +700,96 @@ extension MarketplaceCatalog {
             case changeSetArn = "ChangeSetArn"
             case changeSetId = "ChangeSetId"
         }
+    }
+
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
+        /// The key associated with the tag.
+        public let key: String
+        /// The value associated with the tag.
+        public let value: String
+
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 128)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.key, name: "key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try self.validate(self.value, name: "value", parent: name, max: 256)
+            try self.validate(self.value, name: "value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct TagResourceRequest: AWSEncodableShape {
+        /// Required. The Amazon Resource Name (ARN) associated with the resource you want to tag.
+        public let resourceArn: String
+        /// Required. A list of objects specifying each key name and value. Number of objects allowed: 1-50.
+        public let tags: [Tag]
+
+        public init(resourceArn: String, tags: [Tag]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 255)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:aws-marketplace:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*$")
+            try self.tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tags = "Tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UntagResourceRequest: AWSEncodableShape {
+        /// Required. The Amazon Resource Name (ARN) associated with the resource you want to remove the tag from.
+        public let resourceArn: String
+        /// Required. A list of key names of tags to be removed. Number of strings allowed: 0-256.
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 255)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:aws-marketplace:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*$")
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSDecodableShape {
+        public init() {}
     }
 }

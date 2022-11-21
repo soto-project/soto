@@ -23,7 +23,7 @@ import SotoCore
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Billingconductor {
-    ///    Amazon Web Services Billing Conductor is in beta release and is subject to change. Your use of Amazon Web Services Billing Conductor is subject to the Beta Service Participation terms of the Amazon Web Services Service Terms (Section 1.10).   This is a paginated call to list linked accounts that are linked to the payer account for the specified time period. If no information is provided, the current billing period is used. The response will optionally include the billing group associated with the linked account.
+    ///   This is a paginated call to list linked accounts that are linked to the payer account for the specified time period. If no information is provided, the current billing period is used. The response will optionally include the billing group that's associated with the linked account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -89,6 +89,28 @@ extension Billingconductor {
         )
     }
 
+    ///  A paginated call to get a list of all custom line item versions.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listCustomLineItemVersionsPaginator(
+        _ input: ListCustomLineItemVersionsInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListCustomLineItemVersionsInput, ListCustomLineItemVersionsOutput> {
+        return .init(
+            input: input,
+            command: listCustomLineItemVersions,
+            inputKey: \ListCustomLineItemVersionsInput.nextToken,
+            outputKey: \ListCustomLineItemVersionsOutput.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///   A paginated call to get a list of all custom line items (FFLIs) for the given billing period. If you don't provide a billing period, the current billing period is used.
     /// Return PaginatorSequence for operation.
     ///
@@ -133,7 +155,7 @@ extension Billingconductor {
         )
     }
 
-    ///   A list of the pricing plans associated with a pricing rule.
+    ///   A list of the pricing plans that are associated with a pricing rule.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -177,7 +199,7 @@ extension Billingconductor {
         )
     }
 
-    ///   Lists the pricing rules associated with a pricing plan.
+    ///   Lists the pricing rules that are associated with a pricing plan.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -199,7 +221,7 @@ extension Billingconductor {
         )
     }
 
-    ///   List the resources associated to a custom line item.
+    ///   List the resources that are associated to a custom line item.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

@@ -169,6 +169,14 @@ extension LexModelsV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum ErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
+        case duplicateInput = "DUPLICATE_INPUT"
+        case internalServerFailure = "INTERNAL_SERVER_FAILURE"
+        case resourceAlreadyExists = "RESOURCE_ALREADY_EXISTS"
+        case resourceDoesNotExist = "RESOURCE_DOES_NOT_EXIST"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ExportFilterName: String, CustomStringConvertible, Codable, _SotoSendable {
         case exportResourceType = "ExportResourceType"
         public var description: String { return self.rawValue }
@@ -604,6 +612,219 @@ extension LexModelsV2 {
         private enum CodingKeys: String, CodingKey {
             case endTimeoutMs
             case maxLengthMs
+        }
+    }
+
+    public struct BatchCreateCustomVocabularyItemRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "botId", location: .uri("botId")),
+            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
+            AWSMemberEncoding(label: "localeId", location: .uri("localeId"))
+        ]
+
+        /// The unique identifier of the bot to batch create the custom vocabulary item for.
+        public let botId: String
+        /// The bot version of the bot to batch create the custom vocabulary item for.
+        public let botVersion: String
+        /// The custom vocabulary item list of the bot to batch create the custom vocabulary item for.
+        public let customVocabularyItemList: [NewCustomVocabularyItem]
+        /// The unique locale identifier of the bot to batch create the custom vocabulary item for.
+        public let localeId: String
+
+        public init(botId: String, botVersion: String, customVocabularyItemList: [NewCustomVocabularyItem], localeId: String) {
+            self.botId = botId
+            self.botVersion = botVersion
+            self.customVocabularyItemList = customVocabularyItemList
+            self.localeId = localeId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.botId, name: "botId", parent: name, max: 10)
+            try self.validate(self.botId, name: "botId", parent: name, min: 10)
+            try self.validate(self.botId, name: "botId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.validate(self.botVersion, name: "botVersion", parent: name, max: 5)
+            try self.validate(self.botVersion, name: "botVersion", parent: name, min: 1)
+            try self.validate(self.botVersion, name: "botVersion", parent: name, pattern: "^(DRAFT|[0-9]+)$")
+            try self.customVocabularyItemList.forEach {
+                try $0.validate(name: "\(name).customVocabularyItemList[]")
+            }
+            try self.validate(self.customVocabularyItemList, name: "customVocabularyItemList", parent: name, max: 10)
+            try self.validate(self.customVocabularyItemList, name: "customVocabularyItemList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customVocabularyItemList
+        }
+    }
+
+    public struct BatchCreateCustomVocabularyItemResponse: AWSDecodableShape {
+        /// The unique identifier of the bot to batch create response for the custom vocabulary item.
+        public let botId: String?
+        /// The bot version of the bot to batch create the custom vocabulary item response for.
+        public let botVersion: String?
+        /// The errors of the action to batch create the custom vocabulary item response for a bot.
+        public let errors: [FailedCustomVocabularyItem]?
+        /// The unique locale identifier of the bot to batch create the custom vocabulary item response for.
+        public let localeId: String?
+        /// The resources of the action to batch create the custom vocabulary item response for a bot.
+        public let resources: [CustomVocabularyItem]?
+
+        public init(botId: String? = nil, botVersion: String? = nil, errors: [FailedCustomVocabularyItem]? = nil, localeId: String? = nil, resources: [CustomVocabularyItem]? = nil) {
+            self.botId = botId
+            self.botVersion = botVersion
+            self.errors = errors
+            self.localeId = localeId
+            self.resources = resources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botId
+            case botVersion
+            case errors
+            case localeId
+            case resources
+        }
+    }
+
+    public struct BatchDeleteCustomVocabularyItemRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "botId", location: .uri("botId")),
+            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
+            AWSMemberEncoding(label: "localeId", location: .uri("localeId"))
+        ]
+
+        /// The unique identifier of the bot to batch delete request for the custom vocabulary item.
+        public let botId: String
+        /// The version of the bot to batch delete request for the custom vocabulary item.
+        public let botVersion: String
+        /// The custom vocabulary list to batch delete request for the custom vocabulary item.
+        public let customVocabularyItemList: [CustomVocabularyEntryId]
+        /// The locale identifier of the bot to batch delete request for the custom vocabulary item.
+        public let localeId: String
+
+        public init(botId: String, botVersion: String, customVocabularyItemList: [CustomVocabularyEntryId], localeId: String) {
+            self.botId = botId
+            self.botVersion = botVersion
+            self.customVocabularyItemList = customVocabularyItemList
+            self.localeId = localeId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.botId, name: "botId", parent: name, max: 10)
+            try self.validate(self.botId, name: "botId", parent: name, min: 10)
+            try self.validate(self.botId, name: "botId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.validate(self.botVersion, name: "botVersion", parent: name, max: 5)
+            try self.validate(self.botVersion, name: "botVersion", parent: name, min: 1)
+            try self.validate(self.botVersion, name: "botVersion", parent: name, pattern: "^(DRAFT|[0-9]+)$")
+            try self.customVocabularyItemList.forEach {
+                try $0.validate(name: "\(name).customVocabularyItemList[]")
+            }
+            try self.validate(self.customVocabularyItemList, name: "customVocabularyItemList", parent: name, max: 10)
+            try self.validate(self.customVocabularyItemList, name: "customVocabularyItemList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customVocabularyItemList
+        }
+    }
+
+    public struct BatchDeleteCustomVocabularyItemResponse: AWSDecodableShape {
+        /// The unique identifier of the bot to batch delete response for the custom vocabulary item.
+        public let botId: String?
+        /// The version of the bot to batch delete response for the custom vocabulary item.
+        public let botVersion: String?
+        /// The errors of the action to batch delete response for the custom vocabulary item.
+        public let errors: [FailedCustomVocabularyItem]?
+        /// The locale identifier of the bot to batch delete response for the custom vocabulary item.
+        public let localeId: String?
+        /// The resources of the action to batch delete response for the custom vocabulary item.
+        public let resources: [CustomVocabularyItem]?
+
+        public init(botId: String? = nil, botVersion: String? = nil, errors: [FailedCustomVocabularyItem]? = nil, localeId: String? = nil, resources: [CustomVocabularyItem]? = nil) {
+            self.botId = botId
+            self.botVersion = botVersion
+            self.errors = errors
+            self.localeId = localeId
+            self.resources = resources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botId
+            case botVersion
+            case errors
+            case localeId
+            case resources
+        }
+    }
+
+    public struct BatchUpdateCustomVocabularyItemRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "botId", location: .uri("botId")),
+            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
+            AWSMemberEncoding(label: "localeId", location: .uri("localeId"))
+        ]
+
+        /// The unique identifier of the bot to the batch update request for the custom vocabulary item.
+        public let botId: String
+        /// The bot version of the bot to the batch update request for the custom vocabulary item.
+        public let botVersion: String
+        /// The custom vocabulary item list of the bot to the batch update request for the custom vocabulary item.
+        public let customVocabularyItemList: [CustomVocabularyItem]
+        /// The locale identifier of the bot to the batch update request for the custom vocabulary item.
+        public let localeId: String
+
+        public init(botId: String, botVersion: String, customVocabularyItemList: [CustomVocabularyItem], localeId: String) {
+            self.botId = botId
+            self.botVersion = botVersion
+            self.customVocabularyItemList = customVocabularyItemList
+            self.localeId = localeId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.botId, name: "botId", parent: name, max: 10)
+            try self.validate(self.botId, name: "botId", parent: name, min: 10)
+            try self.validate(self.botId, name: "botId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.validate(self.botVersion, name: "botVersion", parent: name, max: 5)
+            try self.validate(self.botVersion, name: "botVersion", parent: name, min: 1)
+            try self.validate(self.botVersion, name: "botVersion", parent: name, pattern: "^(DRAFT|[0-9]+)$")
+            try self.customVocabularyItemList.forEach {
+                try $0.validate(name: "\(name).customVocabularyItemList[]")
+            }
+            try self.validate(self.customVocabularyItemList, name: "customVocabularyItemList", parent: name, max: 10)
+            try self.validate(self.customVocabularyItemList, name: "customVocabularyItemList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customVocabularyItemList
+        }
+    }
+
+    public struct BatchUpdateCustomVocabularyItemResponse: AWSDecodableShape {
+        /// The unique identifier of the bot to the batch update response for the custom vocabulary item.
+        public let botId: String?
+        /// The bot version of the bot to the batch update response for the custom vocabulary item.
+        public let botVersion: String?
+        /// The errors of the action to batch update response for the custom vocabulary item.
+        public let errors: [FailedCustomVocabularyItem]?
+        /// The locale identifier of the bot to the batch update response for the custom vocabulary item.
+        public let localeId: String?
+        /// The resources of the action to batch update response for the custom vocabulary item.
+        public let resources: [CustomVocabularyItem]?
+
+        public init(botId: String? = nil, botVersion: String? = nil, errors: [FailedCustomVocabularyItem]? = nil, localeId: String? = nil, resources: [CustomVocabularyItem]? = nil) {
+            self.botId = botId
+            self.botVersion = botVersion
+            self.errors = errors
+            self.localeId = localeId
+            self.resources = resources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botId
+            case botVersion
+            case errors
+            case localeId
+            case resources
         }
     }
 
@@ -2519,6 +2740,24 @@ extension LexModelsV2 {
         }
     }
 
+    public struct CustomVocabularyEntryId: AWSEncodableShape {
+        /// The unique item identifier for the custom vocabulary items.
+        public let itemId: String
+
+        public init(itemId: String) {
+            self.itemId = itemId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.itemId, name: "itemId", parent: name, max: 32)
+            try self.validate(self.itemId, name: "itemId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case itemId
+        }
+    }
+
     public struct CustomVocabularyExportSpecification: AWSEncodableShape & AWSDecodableShape {
         /// The identifier of the bot that contains the custom vocabulary to export.
         public let botId: String
@@ -2576,6 +2815,42 @@ extension LexModelsV2 {
             case botId
             case botVersion
             case localeId
+        }
+    }
+
+    public struct CustomVocabularyItem: AWSEncodableShape & AWSDecodableShape {
+        /// The display as value for the custom vocabulary item  from the custom vocabulary list.
+        public let displayAs: String?
+        /// The unique item identifer for the custom vocabulary item  from the custom vocabulary list.
+        public let itemId: String
+        /// The unique phrase for the custom vocabulary item  from the custom vocabulary list.
+        public let phrase: String
+        /// The weight assigned for the custom vocabulary item  from the custom vocabulary list.
+        public let weight: Int?
+
+        public init(displayAs: String? = nil, itemId: String, phrase: String, weight: Int? = nil) {
+            self.displayAs = displayAs
+            self.itemId = itemId
+            self.phrase = phrase
+            self.weight = weight
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.displayAs, name: "displayAs", parent: name, max: 100)
+            try self.validate(self.displayAs, name: "displayAs", parent: name, min: 1)
+            try self.validate(self.itemId, name: "itemId", parent: name, max: 32)
+            try self.validate(self.itemId, name: "itemId", parent: name, min: 1)
+            try self.validate(self.phrase, name: "phrase", parent: name, max: 100)
+            try self.validate(self.phrase, name: "phrase", parent: name, min: 1)
+            try self.validate(self.weight, name: "weight", parent: name, max: 3)
+            try self.validate(self.weight, name: "weight", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayAs
+            case itemId
+            case phrase
+            case weight
         }
     }
 
@@ -4527,6 +4802,27 @@ extension LexModelsV2 {
         }
     }
 
+    public struct FailedCustomVocabularyItem: AWSDecodableShape {
+        /// The unique error code for the failed custom vocabulary item  from the custom vocabulary list.
+        public let errorCode: ErrorCode?
+        /// The error message for the failed custom vocabulary item  from the custom vocabulary list.
+        public let errorMessage: String?
+        /// The unique item identifer for the failed custom vocabulary item  from the custom vocabulary list.
+        public let itemId: String?
+
+        public init(errorCode: ErrorCode? = nil, errorMessage: String? = nil, itemId: String? = nil) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.itemId = itemId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode
+            case errorMessage
+            case itemId
+        }
+    }
+
     public struct FulfillmentCodeHookSettings: AWSEncodableShape & AWSDecodableShape {
         /// Determines whether the fulfillment code hook is used. When active is false, the code hook doesn't run.
         public let active: Bool?
@@ -5736,6 +6032,78 @@ extension LexModelsV2 {
         }
     }
 
+    public struct ListCustomVocabularyItemsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "botId", location: .uri("botId")),
+            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
+            AWSMemberEncoding(label: "localeId", location: .uri("localeId"))
+        ]
+
+        /// The unique identifier of the bot to the list custom vocabulary  request.
+        public let botId: String
+        /// The bot version of the bot to the list custom vocabulary  request.
+        public let botVersion: String
+        /// The locale identifier of the bot to the list custom vocabulary  request.
+        public let localeId: String
+        /// The maximum results to the list custom vocabulary  request.
+        public let maxResults: Int?
+        /// The nextToken identifier to the list custom vocabulary  request.
+        public let nextToken: String?
+
+        public init(botId: String, botVersion: String, localeId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.botId = botId
+            self.botVersion = botVersion
+            self.localeId = localeId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.botId, name: "botId", parent: name, max: 10)
+            try self.validate(self.botId, name: "botId", parent: name, min: 10)
+            try self.validate(self.botId, name: "botId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.validate(self.botVersion, name: "botVersion", parent: name, max: 5)
+            try self.validate(self.botVersion, name: "botVersion", parent: name, min: 1)
+            try self.validate(self.botVersion, name: "botVersion", parent: name, pattern: "^(DRAFT|[0-9]+)$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults
+            case nextToken
+        }
+    }
+
+    public struct ListCustomVocabularyItemsResponse: AWSDecodableShape {
+        /// The unique identifier of the bot to the list custom vocabulary  response.
+        public let botId: String?
+        /// The bot version of the bot to the list custom vocabulary  response.
+        public let botVersion: String?
+        /// The custom vocabulary items from the list custom vocabulary  response.
+        public let customVocabularyItems: [CustomVocabularyItem]?
+        /// The locale identifier of the bot to the list custom vocabulary  response.
+        public let localeId: String?
+        /// The nextToken identifier to the list custom vocabulary  response.
+        public let nextToken: String?
+
+        public init(botId: String? = nil, botVersion: String? = nil, customVocabularyItems: [CustomVocabularyItem]? = nil, localeId: String? = nil, nextToken: String? = nil) {
+            self.botId = botId
+            self.botVersion = botVersion
+            self.customVocabularyItems = customVocabularyItems
+            self.localeId = localeId
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botId
+            case botVersion
+            case customVocabularyItems
+            case localeId
+            case nextToken
+        }
+    }
+
     public struct ListExportsRequest: AWSEncodableShape {
         /// The unique identifier that Amazon Lex assigned to the bot.
         public let botId: String?
@@ -6349,6 +6717,36 @@ extension LexModelsV2 {
 
         private enum CodingKeys: String, CodingKey {
             case allowMultipleValues
+        }
+    }
+
+    public struct NewCustomVocabularyItem: AWSEncodableShape {
+        /// The display as value assigned to the new custom vocabulary item from the custom  vocabulary list.
+        public let displayAs: String?
+        /// The unique phrase for the new custom vocabulary item from the custom  vocabulary list.
+        public let phrase: String
+        /// The weight assigned to the new custom vocabulary item from the custom  vocabulary list.
+        public let weight: Int?
+
+        public init(displayAs: String? = nil, phrase: String, weight: Int? = nil) {
+            self.displayAs = displayAs
+            self.phrase = phrase
+            self.weight = weight
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.displayAs, name: "displayAs", parent: name, max: 100)
+            try self.validate(self.displayAs, name: "displayAs", parent: name, min: 1)
+            try self.validate(self.phrase, name: "phrase", parent: name, max: 100)
+            try self.validate(self.phrase, name: "phrase", parent: name, min: 1)
+            try self.validate(self.weight, name: "weight", parent: name, max: 3)
+            try self.validate(self.weight, name: "weight", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayAs
+            case phrase
+            case weight
         }
     }
 

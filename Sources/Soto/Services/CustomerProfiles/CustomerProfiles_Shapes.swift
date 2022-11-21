@@ -71,6 +71,12 @@ extension CustomerProfiles {
         public var description: String { return self.rawValue }
     }
 
+    public enum LogicalOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+        case and = "AND"
+        case or = "OR"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MarketoConnectorOperator: String, CustomStringConvertible, Codable, _SotoSendable {
         case addition = "ADDITION"
         case between = "BETWEEN"
@@ -129,8 +135,8 @@ extension CustomerProfiles {
         case maskFirstN = "MASK_FIRST_N"
         case maskLastN = "MASK_LAST_N"
         case multiplication = "MULTIPLICATION"
-        case notEqualTo = "NOT_EQUAL_TO"
         case noOp = "NO_OP"
+        case notEqualTo = "NOT_EQUAL_TO"
         case projection = "PROJECTION"
         case subtraction = "SUBTRACTION"
         case validateNonNegative = "VALIDATE_NON_NEGATIVE"
@@ -154,8 +160,8 @@ extension CustomerProfiles {
         case maskFirstN = "MASK_FIRST_N"
         case maskLastN = "MASK_LAST_N"
         case multiplication = "MULTIPLICATION"
-        case notEqualTo = "NOT_EQUAL_TO"
         case noOp = "NO_OP"
+        case notEqualTo = "NOT_EQUAL_TO"
         case projection = "PROJECTION"
         case subtraction = "SUBTRACTION"
         case validateNonNegative = "VALIDATE_NON_NEGATIVE"
@@ -179,8 +185,8 @@ extension CustomerProfiles {
         case maskFirstN = "MASK_FIRST_N"
         case maskLastN = "MASK_LAST_N"
         case multiplication = "MULTIPLICATION"
-        case notEqualTo = "NOT_EQUAL_TO"
         case noOp = "NO_OP"
+        case notEqualTo = "NOT_EQUAL_TO"
         case projection = "PROJECTION"
         case subtraction = "SUBTRACTION"
         case validateNonNegative = "VALIDATE_NON_NEGATIVE"
@@ -200,8 +206,8 @@ extension CustomerProfiles {
     }
 
     public enum StandardIdentifier: String, CustomStringConvertible, Codable, _SotoSendable {
-        case asset = "ASSET"
         case `case` = "CASE"
+        case asset = "ASSET"
         case lookupOnly = "LOOKUP_ONLY"
         case newOnly = "NEW_ONLY"
         case order = "ORDER"
@@ -235,7 +241,7 @@ extension CustomerProfiles {
 
     public enum TriggerType: String, CustomStringConvertible, Codable, _SotoSendable {
         case event = "Event"
-        case onDemand = "OnDemand"
+        case ondemand = "OnDemand"
         case scheduled = "Scheduled"
         public var description: String { return self.rawValue }
     }
@@ -316,6 +322,33 @@ extension CustomerProfiles {
         public init(keyName: String? = nil, values: [String]? = nil) {
             self.keyName = keyName
             self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyName = "KeyName"
+            case values = "Values"
+        }
+    }
+
+    public struct AdditionalSearchKey: AWSEncodableShape {
+        /// A searchable identifier of a customer profile.
+        public let keyName: String
+        /// A list of key values.
+        public let values: [String]
+
+        public init(keyName: String, values: [String]) {
+            self.keyName = keyName
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.keyName, name: "keyName", parent: name, max: 64)
+            try self.validate(self.keyName, name: "keyName", parent: name, min: 1)
+            try self.validate(self.keyName, name: "keyName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, max: 255)
+                try validate($0, name: "values[]", parent: name, min: 1)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1473,6 +1506,23 @@ extension CustomerProfiles {
             case sourceFlowConfig = "SourceFlowConfig"
             case tasks = "Tasks"
             case triggerConfig = "TriggerConfig"
+        }
+    }
+
+    public struct FoundByKeyValue: AWSDecodableShape {
+        /// A searchable identifier of a customer profile.
+        public let keyName: String?
+        /// A list of key values.
+        public let values: [String]?
+
+        public init(keyName: String? = nil, values: [String]? = nil) {
+            self.keyName = keyName
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyName = "KeyName"
+            case values = "Values"
         }
     }
 
@@ -3109,6 +3159,8 @@ extension CustomerProfiles {
         public let emailAddress: String?
         /// The customer’s first name.
         public let firstName: String?
+        /// A list of items used to find a profile returned in a SearchProfiles response. An item is a key-value(s) pair that matches an attribute in the profile. If the optional AdditionalSearchKeys parameter was included in the SearchProfiles request, the FoundByItems list should be interpreted based on the LogicalOperator used in the request:    AND - The profile included in the response matched all of the search keys specified in the request. The FoundByItems will include all of the key-value(s) pairs that were specified in the request (as this is a requirement of AND search logic).    OR - The profile included in the response matched at least one of the search keys specified in the request. The FoundByItems will include each of the key-value(s) pairs that the profile was found by.   The OR relationship is the default behavior if the LogicalOperator parameter is not included in the SearchProfiles request.
+        public let foundByItems: [FoundByKeyValue]?
         /// The gender with which the customer identifies.
         public let gender: Gender?
         /// The customer’s home phone number.
@@ -3132,7 +3184,7 @@ extension CustomerProfiles {
         /// The customer’s shipping address.
         public let shippingAddress: Address?
 
-        public init(accountNumber: String? = nil, additionalInformation: String? = nil, address: Address? = nil, attributes: [String: String]? = nil, billingAddress: Address? = nil, birthDate: String? = nil, businessEmailAddress: String? = nil, businessName: String? = nil, businessPhoneNumber: String? = nil, emailAddress: String? = nil, firstName: String? = nil, gender: Gender? = nil, homePhoneNumber: String? = nil, lastName: String? = nil, mailingAddress: Address? = nil, middleName: String? = nil, mobilePhoneNumber: String? = nil, partyType: PartyType? = nil, personalEmailAddress: String? = nil, phoneNumber: String? = nil, profileId: String? = nil, shippingAddress: Address? = nil) {
+        public init(accountNumber: String? = nil, additionalInformation: String? = nil, address: Address? = nil, attributes: [String: String]? = nil, billingAddress: Address? = nil, birthDate: String? = nil, businessEmailAddress: String? = nil, businessName: String? = nil, businessPhoneNumber: String? = nil, emailAddress: String? = nil, firstName: String? = nil, foundByItems: [FoundByKeyValue]? = nil, gender: Gender? = nil, homePhoneNumber: String? = nil, lastName: String? = nil, mailingAddress: Address? = nil, middleName: String? = nil, mobilePhoneNumber: String? = nil, partyType: PartyType? = nil, personalEmailAddress: String? = nil, phoneNumber: String? = nil, profileId: String? = nil, shippingAddress: Address? = nil) {
             self.accountNumber = accountNumber
             self.additionalInformation = additionalInformation
             self.address = address
@@ -3144,6 +3196,7 @@ extension CustomerProfiles {
             self.businessPhoneNumber = businessPhoneNumber
             self.emailAddress = emailAddress
             self.firstName = firstName
+            self.foundByItems = foundByItems
             self.gender = gender
             self.homePhoneNumber = homePhoneNumber
             self.lastName = lastName
@@ -3169,6 +3222,7 @@ extension CustomerProfiles {
             case businessPhoneNumber = "BusinessPhoneNumber"
             case emailAddress = "EmailAddress"
             case firstName = "FirstName"
+            case foundByItems = "FoundByItems"
             case gender = "Gender"
             case homePhoneNumber = "HomePhoneNumber"
             case lastName = "LastName"
@@ -3641,26 +3695,37 @@ extension CustomerProfiles {
             AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
         ]
 
+        /// A list of AdditionalSearchKey objects that are each searchable identifiers of a profile. Each AdditionalSearchKey object contains a KeyName and a list of Values associated with that specific key (i.e., a key-value(s) pair). These additional search keys will be used in conjunction with the LogicalOperator and the required KeyName and Values parameters to search for profiles that satisfy the search criteria.
+        public let additionalSearchKeys: [AdditionalSearchKey]?
         /// The unique name of the domain.
         public let domainName: String
         /// A searchable identifier of a customer profile. The predefined keys you can use to search include: _account, _profileId, _assetId, _caseId, _orderId, _fullName, _phone, _email, _ctrContactId, _marketoLeadId, _salesforceAccountId, _salesforceContactId, _salesforceAssetId, _zendeskUserId, _zendeskExternalId, _zendeskTicketId, _serviceNowSystemId, _serviceNowIncidentId, _segmentUserId, _shopifyCustomerId, _shopifyOrderId.
         public let keyName: String
-        /// The maximum number of objects returned per page.
+        /// Relationship between all specified search keys that will be used to search for profiles. This includes the required KeyName and Values parameters as well as any key-value(s) pairs specified in the AdditionalSearchKeys list. This parameter influences which profiles will be returned in the response in the following manner:    AND - The response only includes profiles that match all of the search keys.    OR - The response includes profiles that match at least one of the search keys.   The OR relationship is the default behavior if this parameter is not included in the request.
+        public let logicalOperator: LogicalOperator?
+        /// The maximum number of objects returned per page. The default is 20 if this parameter is not included in the request.
         public let maxResults: Int?
         /// The pagination token from the previous SearchProfiles API call.
         public let nextToken: String?
         /// A list of key values.
         public let values: [String]
 
-        public init(domainName: String, keyName: String, maxResults: Int? = nil, nextToken: String? = nil, values: [String]) {
+        public init(additionalSearchKeys: [AdditionalSearchKey]? = nil, domainName: String, keyName: String, logicalOperator: LogicalOperator? = nil, maxResults: Int? = nil, nextToken: String? = nil, values: [String]) {
+            self.additionalSearchKeys = additionalSearchKeys
             self.domainName = domainName
             self.keyName = keyName
+            self.logicalOperator = logicalOperator
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.values = values
         }
 
         public func validate(name: String) throws {
+            try self.additionalSearchKeys?.forEach {
+                try $0.validate(name: "\(name).additionalSearchKeys[]")
+            }
+            try self.validate(self.additionalSearchKeys, name: "additionalSearchKeys", parent: name, max: 4)
+            try self.validate(self.additionalSearchKeys, name: "additionalSearchKeys", parent: name, min: 1)
             try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
@@ -3678,13 +3743,15 @@ extension CustomerProfiles {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case additionalSearchKeys = "AdditionalSearchKeys"
             case keyName = "KeyName"
+            case logicalOperator = "LogicalOperator"
             case values = "Values"
         }
     }
 
     public struct SearchProfilesResponse: AWSDecodableShape {
-        /// The list of SearchProfiles instances.
+        /// The list of Profiles matching the search criteria.
         public let items: [Profile]?
         /// The pagination token from the previous SearchProfiles API call.
         public let nextToken: String?

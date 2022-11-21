@@ -33,6 +33,16 @@ extension FMS {
         return try await self.client.execute(operation: "AssociateThirdPartyFirewall", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Associate resources to a Firewall Manager resource set.
+    public func batchAssociateResource(_ input: BatchAssociateResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> BatchAssociateResourceResponse {
+        return try await self.client.execute(operation: "BatchAssociateResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Disassociates resources from a Firewall Manager resource set.
+    public func batchDisassociateResource(_ input: BatchDisassociateResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> BatchDisassociateResourceResponse {
+        return try await self.client.execute(operation: "BatchDisassociateResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Permanently deletes an Firewall Manager applications list.
     public func deleteAppsList(_ input: DeleteAppsListRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "DeleteAppsList", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -51,6 +61,11 @@ extension FMS {
     /// Permanently deletes an Firewall Manager protocols list.
     public func deleteProtocolsList(_ input: DeleteProtocolsListRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "DeleteProtocolsList", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes the specified ResourceSet.
+    public func deleteResourceSet(_ input: DeleteResourceSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
+        return try await self.client.execute(operation: "DeleteResourceSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Disassociates the account that has been set as the Firewall Manager administrator account. To set a different account as the administrator account, you must submit an AssociateAdminAccount request.
@@ -98,6 +113,11 @@ extension FMS {
         return try await self.client.execute(operation: "GetProtocolsList", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Gets information about a specific resource set.
+    public func getResourceSet(_ input: GetResourceSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetResourceSetResponse {
+        return try await self.client.execute(operation: "GetResourceSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// The onboarding status of a Firewall Manager admin account to third-party firewall vendor tenant.
     public func getThirdPartyFirewallAssociationStatus(_ input: GetThirdPartyFirewallAssociationStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetThirdPartyFirewallAssociationStatusResponse {
         return try await self.client.execute(operation: "GetThirdPartyFirewallAssociationStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -118,6 +138,11 @@ extension FMS {
         return try await self.client.execute(operation: "ListComplianceStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Returns an array of resources in the organization's accounts that are available to be associated with a resource set.
+    public func listDiscoveredResources(_ input: ListDiscoveredResourcesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListDiscoveredResourcesResponse {
+        return try await self.client.execute(operation: "ListDiscoveredResources", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns a MemberAccounts object that lists the member accounts in the administrator's Amazon Web Services organization. The ListMemberAccounts must be submitted by the account that is set as the Firewall Manager administrator.
     public func listMemberAccounts(_ input: ListMemberAccountsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListMemberAccountsResponse {
         return try await self.client.execute(operation: "ListMemberAccounts", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -131,6 +156,16 @@ extension FMS {
     /// Returns an array of ProtocolsListDataSummary objects.
     public func listProtocolsLists(_ input: ListProtocolsListsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListProtocolsListsResponse {
         return try await self.client.execute(operation: "ListProtocolsLists", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns an array of resources that are currently associated to a resource set.
+    public func listResourceSetResources(_ input: ListResourceSetResourcesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListResourceSetResourcesResponse {
+        return try await self.client.execute(operation: "ListResourceSetResources", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns an array of ResourceSetSummary objects.
+    public func listResourceSets(_ input: ListResourceSetsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListResourceSetsResponse {
+        return try await self.client.execute(operation: "ListResourceSets", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Retrieves the list of tags for the specified Amazon Web Services resource.
@@ -161,6 +196,11 @@ extension FMS {
     /// Creates an Firewall Manager protocols list.
     public func putProtocolsList(_ input: PutProtocolsListRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PutProtocolsListResponse {
         return try await self.client.execute(operation: "PutProtocolsList", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates the resource set. An Firewall Manager resource set defines the resources to import into an Firewall Manager policy from another Amazon Web Services service.
+    public func putResourceSet(_ input: PutResourceSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PutResourceSetResponse {
+        return try await self.client.execute(operation: "PutResourceSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Adds one or more tags to an Amazon Web Services resource.

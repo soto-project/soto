@@ -36,7 +36,13 @@ extension QuickSight {
     }
 
     public enum AnalysisFilterAttribute: String, CustomStringConvertible, Codable, _SotoSendable {
+        case analysisName = "ANALYSIS_NAME"
+        case directQuicksightOwner = "DIRECT_QUICKSIGHT_OWNER"
+        case directQuicksightSoleOwner = "DIRECT_QUICKSIGHT_SOLE_OWNER"
+        case directQuicksightViewerOrOwner = "DIRECT_QUICKSIGHT_VIEWER_OR_OWNER"
+        case quicksightOwner = "QUICKSIGHT_OWNER"
         case quicksightUser = "QUICKSIGHT_USER"
+        case quicksightViewerOrOwner = "QUICKSIGHT_VIEWER_OR_OWNER"
         public var description: String { return self.rawValue }
     }
 
@@ -89,13 +95,29 @@ extension QuickSight {
     }
 
     public enum DashboardFilterAttribute: String, CustomStringConvertible, Codable, _SotoSendable {
+        case dashboardName = "DASHBOARD_NAME"
+        case directQuicksightOwner = "DIRECT_QUICKSIGHT_OWNER"
+        case directQuicksightSoleOwner = "DIRECT_QUICKSIGHT_SOLE_OWNER"
+        case directQuicksightViewerOrOwner = "DIRECT_QUICKSIGHT_VIEWER_OR_OWNER"
+        case quicksightOwner = "QUICKSIGHT_OWNER"
         case quicksightUser = "QUICKSIGHT_USER"
+        case quicksightViewerOrOwner = "QUICKSIGHT_VIEWER_OR_OWNER"
         public var description: String { return self.rawValue }
     }
 
     public enum DashboardUIState: String, CustomStringConvertible, Codable, _SotoSendable {
         case collapsed = "COLLAPSED"
         case expanded = "EXPANDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataSetFilterAttribute: String, CustomStringConvertible, Codable, _SotoSendable {
+        case datasetName = "DATASET_NAME"
+        case directQuicksightOwner = "DIRECT_QUICKSIGHT_OWNER"
+        case directQuicksightSoleOwner = "DIRECT_QUICKSIGHT_SOLE_OWNER"
+        case directQuicksightViewerOrOwner = "DIRECT_QUICKSIGHT_VIEWER_OR_OWNER"
+        case quicksightOwner = "QUICKSIGHT_OWNER"
+        case quicksightViewerOrOwner = "QUICKSIGHT_VIEWER_OR_OWNER"
         public var description: String { return self.rawValue }
     }
 
@@ -117,6 +139,14 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
+    public enum DataSourceFilterAttribute: String, CustomStringConvertible, Codable, _SotoSendable {
+        case datasourceName = "DATASOURCE_NAME"
+        case directQuicksightOwner = "DIRECT_QUICKSIGHT_OWNER"
+        case directQuicksightSoleOwner = "DIRECT_QUICKSIGHT_SOLE_OWNER"
+        case directQuicksightViewerOrOwner = "DIRECT_QUICKSIGHT_VIEWER_OR_OWNER"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DataSourceType: String, CustomStringConvertible, Codable, _SotoSendable {
         case adobeAnalytics = "ADOBE_ANALYTICS"
         case amazonElasticsearch = "AMAZON_ELASTICSEARCH"
@@ -125,6 +155,7 @@ extension QuickSight {
         case aurora = "AURORA"
         case auroraPostgresql = "AURORA_POSTGRESQL"
         case awsIotAnalytics = "AWS_IOT_ANALYTICS"
+        case databricks = "DATABRICKS"
         case exasol = "EXASOL"
         case github = "GITHUB"
         case jira = "JIRA"
@@ -172,11 +203,18 @@ extension QuickSight {
 
     public enum FilterOperator: String, CustomStringConvertible, Codable, _SotoSendable {
         case stringEquals = "StringEquals"
+        case stringLike = "StringLike"
         public var description: String { return self.rawValue }
     }
 
     public enum FolderFilterAttribute: String, CustomStringConvertible, Codable, _SotoSendable {
+        case directQuicksightOwner = "DIRECT_QUICKSIGHT_OWNER"
+        case directQuicksightSoleOwner = "DIRECT_QUICKSIGHT_SOLE_OWNER"
+        case directQuicksightViewerOrOwner = "DIRECT_QUICKSIGHT_VIEWER_OR_OWNER"
+        case folderName = "FOLDER_NAME"
         case parentFolderArn = "PARENT_FOLDER_ARN"
+        case quicksightOwner = "QUICKSIGHT_OWNER"
+        case quicksightViewerOrOwner = "QUICKSIGHT_VIEWER_OR_OWNER"
         public var description: String { return self.rawValue }
     }
 
@@ -418,6 +456,8 @@ extension QuickSight {
         case auroraPostgreSqlParameters(AuroraPostgreSqlParameters)
         /// The parameters for IoT Analytics.
         case awsIotAnalyticsParameters(AwsIotAnalyticsParameters)
+        /// The required parameters that are needed to connect to a Databricks data source.
+        case databricksParameters(DatabricksParameters)
         /// The parameters for Exasol.
         case exasolParameters(ExasolParameters)
         /// The parameters for Jira.
@@ -479,6 +519,9 @@ extension QuickSight {
             case .awsIotAnalyticsParameters:
                 let value = try container.decode(AwsIotAnalyticsParameters.self, forKey: .awsIotAnalyticsParameters)
                 self = .awsIotAnalyticsParameters(value)
+            case .databricksParameters:
+                let value = try container.decode(DatabricksParameters.self, forKey: .databricksParameters)
+                self = .databricksParameters(value)
             case .exasolParameters:
                 let value = try container.decode(ExasolParameters.self, forKey: .exasolParameters)
                 self = .exasolParameters(value)
@@ -545,6 +588,8 @@ extension QuickSight {
                 try container.encode(value, forKey: .auroraPostgreSqlParameters)
             case .awsIotAnalyticsParameters(let value):
                 try container.encode(value, forKey: .awsIotAnalyticsParameters)
+            case .databricksParameters(let value):
+                try container.encode(value, forKey: .databricksParameters)
             case .exasolParameters(let value):
                 try container.encode(value, forKey: .exasolParameters)
             case .jiraParameters(let value):
@@ -594,6 +639,8 @@ extension QuickSight {
                 try value.validate(name: "\(name).auroraPostgreSqlParameters")
             case .awsIotAnalyticsParameters(let value):
                 try value.validate(name: "\(name).awsIotAnalyticsParameters")
+            case .databricksParameters(let value):
+                try value.validate(name: "\(name).databricksParameters")
             case .exasolParameters(let value):
                 try value.validate(name: "\(name).exasolParameters")
             case .jiraParameters(let value):
@@ -636,6 +683,7 @@ extension QuickSight {
             case auroraParameters = "AuroraParameters"
             case auroraPostgreSqlParameters = "AuroraPostgreSqlParameters"
             case awsIotAnalyticsParameters = "AwsIotAnalyticsParameters"
+            case databricksParameters = "DatabricksParameters"
             case exasolParameters = "ExasolParameters"
             case jiraParameters = "JiraParameters"
             case mariaDbParameters = "MariaDbParameters"
@@ -873,13 +921,16 @@ extension QuickSight {
         public let notificationEmail: String?
         /// A Boolean value that indicates whether public sharing is turned on for an Amazon QuickSight account. For more information about turning on public sharing, see UpdatePublicSharingSettings.
         public let publicSharingEnabled: Bool?
+        /// A boolean value that determines whether or not an Amazon QuickSight account can be deleted. A True value doesn't allow the account to be deleted and results in an error message if a user tries to make a DeleteAccountSubsctiption request. A False value will allow the ccount to be deleted.
+        public let terminationProtectionEnabled: Bool?
 
-        public init(accountName: String? = nil, defaultNamespace: String? = nil, edition: Edition? = nil, notificationEmail: String? = nil, publicSharingEnabled: Bool? = nil) {
+        public init(accountName: String? = nil, defaultNamespace: String? = nil, edition: Edition? = nil, notificationEmail: String? = nil, publicSharingEnabled: Bool? = nil, terminationProtectionEnabled: Bool? = nil) {
             self.accountName = accountName
             self.defaultNamespace = defaultNamespace
             self.edition = edition
             self.notificationEmail = notificationEmail
             self.publicSharingEnabled = publicSharingEnabled
+            self.terminationProtectionEnabled = terminationProtectionEnabled
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -888,6 +939,7 @@ extension QuickSight {
             case edition = "Edition"
             case notificationEmail = "NotificationEmail"
             case publicSharingEnabled = "PublicSharingEnabled"
+            case terminationProtectionEnabled = "TerminationProtectionEnabled"
         }
     }
 
@@ -1024,9 +1076,9 @@ extension QuickSight {
     }
 
     public struct AnalysisSearchFilter: AWSEncodableShape {
-        /// The name of the value that you want to use as a filter, for example "Name": "QUICKSIGHT_USER".
+        /// The name of the value that you want to use as a filter, for example "Name": "QUICKSIGHT_OWNER". Valid values are defined as follows:    QUICKSIGHT_VIEWER_OR_OWNER: Provide an ARN of a user or group, and any analyses with that ARN listed as one of the analysis' owners or viewers are returned. Implicit permissions from folders or groups are considered.     QUICKSIGHT_OWNER: Provide an ARN of a user or group, and any analyses with that ARN listed as one of the owners of the analyses are returned. Implicit permissions from folders or groups are considered.    DIRECT_QUICKSIGHT_SOLE_OWNER: Provide an ARN of a user or group, and any analyses with that ARN listed as the only owner of the analysis are returned. Implicit permissions from folders or groups are not considered.    DIRECT_QUICKSIGHT_OWNER: Provide an ARN of a user or group, and any analyses with that ARN listed as one of the owners of the analyses are returned. Implicit permissions from folders or groups are not considered.    DIRECT_QUICKSIGHT_VIEWER_OR_OWNER: Provide an ARN of a user or group, and any analyses with that ARN listed as one of the owners or viewers of the analyses are returned. Implicit permissions from folders or groups are not considered.     ANALYSIS_NAME: Any analyses whose names have a substring match to this value will be returned.
         public let name: AnalysisFilterAttribute?
-        /// The comparison operator that you want to use as a filter, for example "Operator": "StringEquals".
+        /// The comparison operator that you want to use as a filter, for example  "Operator": "StringEquals". Valid values are  "StringEquals"  and  "StringLike". If you set the operator value to "StringEquals", you need to provide an ownership related filter in the "NAME" field and the arn of the user or group whose folders you want to search in the "Value" field. For example,  "Name":"DIRECT_QUICKSIGHT_OWNER", "Operator": "StringEquals", "Value": "arn:aws:quicksight:us-east-1:1:user/default/UserName1". If you set the value to "StringLike", you need to provide the name of the folders you are searching for. For example, "Name":"ANALYSIS_NAME", "Operator": "StringLike", "Value": "Test". The "StringLike" operator only supports the NAME value ANALYSIS_NAME.
         public let `operator`: FilterOperator?
         /// The value of the named item, in this case QUICKSIGHT_USER, that you want to use as a filter, for example "Value". An example is "arn:aws:quicksight:us-east-1:1:user/default/UserName1".
         public let value: String?
@@ -1159,37 +1211,67 @@ extension QuickSight {
         public let dashboard: AnonymousUserDashboardEmbeddingConfiguration?
         /// The type of embedding experience. In this case, Amazon QuickSight visuals.
         public let dashboardVisual: AnonymousUserDashboardVisualEmbeddingConfiguration?
+        /// The Q search bar that you want to use for anonymous user embedding.
+        public let qSearchBar: AnonymousUserQSearchBarEmbeddingConfiguration?
 
-        public init(dashboard: AnonymousUserDashboardEmbeddingConfiguration? = nil, dashboardVisual: AnonymousUserDashboardVisualEmbeddingConfiguration? = nil) {
+        public init(dashboard: AnonymousUserDashboardEmbeddingConfiguration? = nil, dashboardVisual: AnonymousUserDashboardVisualEmbeddingConfiguration? = nil, qSearchBar: AnonymousUserQSearchBarEmbeddingConfiguration? = nil) {
             self.dashboard = dashboard
             self.dashboardVisual = dashboardVisual
+            self.qSearchBar = qSearchBar
         }
 
         public func validate(name: String) throws {
             try self.dashboard?.validate(name: "\(name).dashboard")
             try self.dashboardVisual?.validate(name: "\(name).dashboardVisual")
+            try self.qSearchBar?.validate(name: "\(name).qSearchBar")
         }
 
         private enum CodingKeys: String, CodingKey {
             case dashboard = "Dashboard"
             case dashboardVisual = "DashboardVisual"
+            case qSearchBar = "QSearchBar"
+        }
+    }
+
+    public struct AnonymousUserQSearchBarEmbeddingConfiguration: AWSEncodableShape {
+        /// The QuickSight Q topic ID of the topic that you want the anonymous user to see first. This ID is included in the output URL. When the URL in response is accessed, Amazon QuickSight renders the Q search bar with this topic pre-selected. The Amazon Resource Name (ARN) of this Q topic must be included in the AuthorizedResourceArns parameter. Otherwise, the request will fail with InvalidParameterValueException.
+        public let initialTopicId: String
+
+        public init(initialTopicId: String) {
+            self.initialTopicId = initialTopicId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.initialTopicId, name: "initialTopicId", parent: name, max: 2048)
+            try self.validate(self.initialTopicId, name: "initialTopicId", parent: name, min: 1)
+            try self.validate(self.initialTopicId, name: "initialTopicId", parent: name, pattern: "^[\\w\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case initialTopicId = "InitialTopicId"
         }
     }
 
     public struct AthenaParameters: AWSEncodableShape & AWSDecodableShape {
+        /// Use the RoleArn structure to override an account-wide role for a specific Athena data source. For example, say an account administrator has turned off all Athena access with an account-wide role. The administrator can then use RoleArn to bypass the account-wide role and allow Athena access for the single Athena data source that is specified in the structure, even if the account-wide role forbidding Athena access is still active.
+        public let roleArn: String?
         /// The workgroup that Amazon Athena uses.
         public let workGroup: String?
 
-        public init(workGroup: String? = nil) {
+        public init(roleArn: String? = nil, workGroup: String? = nil) {
+            self.roleArn = roleArn
             self.workGroup = workGroup
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
             try self.validate(self.workGroup, name: "workGroup", parent: name, max: 128)
             try self.validate(self.workGroup, name: "workGroup", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case roleArn = "RoleArn"
             case workGroup = "WorkGroup"
         }
     }
@@ -3256,9 +3338,9 @@ extension QuickSight {
     }
 
     public struct DashboardSearchFilter: AWSEncodableShape {
-        /// The name of the value that you want to use as a filter, for example, "Name": "QUICKSIGHT_USER".
+        /// The name of the value that you want to use as a filter, for example, "Name": "QUICKSIGHT_OWNER". Valid values are defined as follows:    QUICKSIGHT_VIEWER_OR_OWNER: Provide an ARN of a user or group, and any dashboards with that ARN listed as one of the dashboards's owners or viewers are returned. Implicit permissions from folders or groups are considered.    QUICKSIGHT_OWNER: Provide an ARN of a user or group, and any dashboards with that ARN listed as one of the owners of the dashboards are returned. Implicit permissions from folders or groups are considered.    DIRECT_QUICKSIGHT_SOLE_OWNER: Provide an ARN of a user or group, and any dashboards with that ARN listed as the only owner of the dashboard are returned. Implicit permissions from folders or groups are not considered.    DIRECT_QUICKSIGHT_OWNER: Provide an ARN of a user or group, and any dashboards with that ARN listed as one of the owners of the dashboards are returned. Implicit permissions from folders or groups are not considered.    DIRECT_QUICKSIGHT_VIEWER_OR_OWNER: Provide an ARN of a user or group, and any dashboards with that ARN listed as one of the owners or viewers of the dashboards are returned. Implicit permissions from folders or groups are not considered.    DASHBOARD_NAME: Any dashboards whose names have a substring match to this value will be returned.
         public let name: DashboardFilterAttribute?
-        /// The comparison operator that you want to use as a filter, for example, "Operator": "StringEquals".
+        /// The comparison operator that you want to use as a filter, for example  "Operator": "StringEquals". Valid values are "StringEquals" and  "StringLike". If you set the operator value to "StringEquals", you need to provide an ownership related filter in the "NAME" field and the arn of the user or group whose folders you want to search in the "Value" field. For example,  "Name":"DIRECT_QUICKSIGHT_OWNER", "Operator": "StringEquals", "Value": "arn:aws:quicksight:us-east-1:1:user/default/UserName1". If you set the value to "StringLike", you need to provide the name of the folders you are searching for. For example, "Name":"DASHBOARD_NAME", "Operator": "StringLike", "Value": "Test". The "StringLike" operator only supports the NAME value DASHBOARD_NAME.
         public let `operator`: FilterOperator
         /// The value of the named item, in this case QUICKSIGHT_USER, that you want to use as a filter, for example, "Value": "arn:aws:quicksight:us-east-1:1:user/default/UserName1".
         public let value: String?
@@ -3630,6 +3712,27 @@ extension QuickSight {
         }
     }
 
+    public struct DataSetSearchFilter: AWSEncodableShape {
+        /// The name of the value that you want to use as a filter, for example, "Name": "QUICKSIGHT_OWNER". Valid values are defined as follows:    QUICKSIGHT_VIEWER_OR_OWNER: Provide an ARN of a user or group, and any datasets with that ARN listed as one of the dataset owners or viewers are returned. Implicit permissions from folders or groups are considered.    QUICKSIGHT_OWNER: Provide an ARN of a user or group, and any datasets with that ARN listed as one of the owners of the dataset are returned. Implicit permissions from folders or groups are considered.    DIRECT_QUICKSIGHT_SOLE_OWNER: Provide an ARN of a user or group, and any datasets with that ARN listed as the only owner of the dataset are returned. Implicit permissions from folders or groups are not considered.    DIRECT_QUICKSIGHT_OWNER: Provide an ARN of a user or group, and any datasets with that ARN listed as one of the owners if the dataset are returned. Implicit permissions from folders or groups are not considered.    DIRECT_QUICKSIGHT_VIEWER_OR_OWNER: Provide an ARN of a user or group, and any datasets with that ARN listed as one of the owners or viewers of the dataset are returned. Implicit permissions from folders or groups are not considered.    DATASET_NAME: Any datasets whose names have a substring match to this value will be returned.
+        public let name: DataSetFilterAttribute
+        /// The comparison operator that you want to use as a filter, for example "Operator": "StringEquals". Valid values are "StringEquals" and "StringLike". If you set the operator value to "StringEquals", you need to provide an ownership related filter in the "NAME" field and the arn of the user or group whose datasets you want to search in the "Value" field. For example, "Name":"QUICKSIGHT_OWNER", "Operator": "StringEquals", "Value": "arn:aws:quicksight:us-east- 1:1:user/default/UserName1". If you set the value to "StringLike", you need to provide the name of the datasets you are searching for. For example, "Name":"DATASET_NAME", "Operator": "StringLike", "Value": "Test". The "StringLike" operator only supports the NAME value DATASET_NAME.
+        public let `operator`: FilterOperator
+        /// The value of the named item, in this case QUICKSIGHT_OWNER, that you want to use as a filter, for example, "Value": "arn:aws:quicksight:us-east-1:1:user/default/UserName1".
+        public let value: String
+
+        public init(name: DataSetFilterAttribute, operator: FilterOperator, value: String) {
+            self.name = name
+            self.`operator` = `operator`
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case `operator` = "Operator"
+            case value = "Value"
+        }
+    }
+
     public struct DataSetSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the dataset.
         public let arn: String?
@@ -3799,6 +3902,90 @@ extension QuickSight {
         }
     }
 
+    public struct DataSourceSearchFilter: AWSEncodableShape {
+        /// The name of the value that you want to use as a filter, for example, "Name": "DIRECT_QUICKSIGHT_OWNER". Valid values are defined as follows:    DIRECT_QUICKSIGHT_VIEWER_OR_OWNER: Provide an ARN of a user or group, and any data sources with that ARN listed as one of the owners or viewers of the data sources are returned. Implicit permissions from folders or groups are not considered.    DIRECT_QUICKSIGHT_OWNER: Provide an ARN of a user or group, and any data sources with that ARN listed as one of the owners if the data source are returned. Implicit permissions from folders or groups are not considered.    DIRECT_QUICKSIGHT_SOLE_OWNER: Provide an ARN of a user or group, and any data sources with that ARN listed as the only owner of the data source are returned. Implicit permissions from folders or groups are not considered.    DATASOURCE_NAME: Any data sources whose names have a substring match to the provided value are returned.
+        public let name: DataSourceFilterAttribute
+        /// The comparison operator that you want to use as a filter, for example "Operator": "StringEquals". Valid values are "StringEquals" and "StringLike". If you set the operator value to "StringEquals", you need to provide an ownership related filter in the "NAME" field and the arn of the user or group whose data sources you want to search in the "Value" field. For example, "Name":"DIRECT_QUICKSIGHT_OWNER", "Operator": "StringEquals", "Value": "arn:aws:quicksight:us-east-1:1:user/default/UserName1". If you set the value to "StringLike", you need to provide the name of the data sources you are searching for. For example, "Name":"DATASOURCE_NAME", "Operator": "StringLike", "Value": "Test". The "StringLike" operator only supports the NAME value DATASOURCE_NAME.
+        public let `operator`: FilterOperator
+        /// The value of the named item, for example DIRECT_QUICKSIGHT_OWNER, that you want to use as a filter, for example, "Value": "arn:aws:quicksight:us-east-1:1:user/default/UserName1".
+        public let value: String
+
+        public init(name: DataSourceFilterAttribute, operator: FilterOperator, value: String) {
+            self.name = name
+            self.`operator` = `operator`
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case `operator` = "Operator"
+            case value = "Value"
+        }
+    }
+
+    public struct DataSourceSummary: AWSDecodableShape {
+        /// The arn of the datasource.
+        public let arn: String?
+        /// The date and time that the data source was created. This value is expressed in MM-DD-YYYY HH:MM:SS format.
+        public let createdTime: Date?
+        /// The unique ID of the data source.
+        public let dataSourceId: String?
+        /// The date and time the data source was last updated. This value is expressed in MM-DD-YYYY HH:MM:SS format.
+        public let lastUpdatedTime: Date?
+        /// The name of the data source.
+        public let name: String?
+        /// The type of the data source.
+        public let type: DataSourceType?
+
+        public init(arn: String? = nil, createdTime: Date? = nil, dataSourceId: String? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, type: DataSourceType? = nil) {
+            self.arn = arn
+            self.createdTime = createdTime
+            self.dataSourceId = dataSourceId
+            self.lastUpdatedTime = lastUpdatedTime
+            self.name = name
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case createdTime = "CreatedTime"
+            case dataSourceId = "DataSourceId"
+            case lastUpdatedTime = "LastUpdatedTime"
+            case name = "Name"
+            case type = "Type"
+        }
+    }
+
+    public struct DatabricksParameters: AWSEncodableShape & AWSDecodableShape {
+        /// The host name of the Databricks data source.
+        public let host: String
+        /// The port for the Databricks data source.
+        public let port: Int
+        /// The HTTP path of the Databricks data source.
+        public let sqlEndpointPath: String
+
+        public init(host: String, port: Int, sqlEndpointPath: String) {
+            self.host = host
+            self.port = port
+            self.sqlEndpointPath = sqlEndpointPath
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.host, name: "host", parent: name, max: 256)
+            try self.validate(self.host, name: "host", parent: name, min: 1)
+            try self.validate(self.port, name: "port", parent: name, max: 65535)
+            try self.validate(self.port, name: "port", parent: name, min: 1)
+            try self.validate(self.sqlEndpointPath, name: "sqlEndpointPath", parent: name, max: 4096)
+            try self.validate(self.sqlEndpointPath, name: "sqlEndpointPath", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case host = "Host"
+            case port = "Port"
+            case sqlEndpointPath = "SqlEndpointPath"
+        }
+    }
+
     public struct DateTimeParameter: AWSEncodableShape {
         /// A display name for the date-time parameter.
         public let name: String
@@ -3869,6 +4056,48 @@ extension QuickSight {
     }
 
     public struct DeleteAccountCustomizationResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(requestId: String? = nil, status: Int? = nil) {
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct DeleteAccountSubscriptionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId"))
+        ]
+
+        /// The Amazon Web Services account ID of the account that you want to delete.
+        public let awsAccountId: String
+
+        public init(awsAccountId: String) {
+            self.awsAccountId = awsAccountId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteAccountSubscriptionResponse: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "status", location: .statusCode)
         ]
@@ -6571,9 +6800,9 @@ extension QuickSight {
     }
 
     public struct FolderSearchFilter: AWSEncodableShape {
-        /// The name of a value that you want to use in the filter. For example, "Name": "PARENT_FOLDER_ARN".
+        /// The name of a value that you want to use in the filter. For example, "Name": "QUICKSIGHT_OWNER". Valid values are defined as follows:    QUICKSIGHT_VIEWER_OR_OWNER: Provide an ARN of a user or group, and any folders with that ARN listed as one of the folder's owners or viewers are returned. Implicit permissions from folders or groups are considered.    QUICKSIGHT_OWNER: Provide an ARN of a user or group, and any folders with that ARN listed as one of the owners of the folders are returned. Implicit permissions from folders or groups are considered.    DIRECT_QUICKSIGHT_SOLE_OWNER: Provide an ARN of a user or group, and any folders with that ARN listed as the only owner of the folder are returned. Implicit permissions from folders or groups are not considered.    DIRECT_QUICKSIGHT_OWNER: Provide an ARN of a user or group, and any folders with that ARN listed as one of the owners of the folders are returned. Implicit permissions from folders or groups are not considered.    DIRECT_QUICKSIGHT_VIEWER_OR_OWNER: Provide an ARN of a user or group, and any folders with that ARN listed as one of the owners or viewers of the folders are returned. Implicit permissions from folders or groups are not considered.     FOLDER_NAME: Any folders whose names have a substring match to this value will be returned.    PARENT_FOLDER_ARN: Provide an ARN of a folder, and any folders that are directly under that parent folder are returned. If you choose to use this option and leave the value blank, all root-level folders in the account are returned.
         public let name: FolderFilterAttribute?
-        /// The comparison operator that you want to use in the filter. For example, "Operator": "StringEquals".
+        /// The comparison operator that you want to use as a filter, for example  "Operator": "StringEquals". Valid values are  "StringEquals"  and  "StringLike". If you set the operator value to "StringEquals", you need to provide an ownership related filter in the "NAME" field and the arn of the user or group whose folders you want to search in the "Value" field. For example,  "Name":"DIRECT_QUICKSIGHT_OWNER", "Operator": "StringEquals", "Value": "arn:aws:quicksight:us-east-1:1:user/default/UserName1". If you set the value to "StringLike", you need to provide the name of the folders you are searching for. For example, "Name":"FOLDER_NAME", "Operator": "StringLike", "Value": "Test". The "StringLike" operator only supports the NAME value FOLDER_NAME.
         public let `operator`: FilterOperator?
         /// The value of the named item (in this example, PARENT_FOLDER_ARN), that you want to use as a filter. For example, "Value": "arn:aws:quicksight:us-east-1:1:folder/folderId".
         public let value: String?
@@ -6685,6 +6914,8 @@ extension QuickSight {
             AWSMemberEncoding(label: "status", location: .statusCode)
         ]
 
+        /// The Amazon Resource Name (ARN) to use for the anonymous Amazon QuickSight user.
+        public let anonymousUserArn: String
         /// The embed URL for the dashboard.
         public let embedUrl: String
         /// The Amazon Web Services request ID for this operation.
@@ -6692,13 +6923,15 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int
 
-        public init(embedUrl: String, requestId: String, status: Int) {
+        public init(anonymousUserArn: String, embedUrl: String, requestId: String, status: Int) {
+            self.anonymousUserArn = anonymousUserArn
             self.embedUrl = embedUrl
             self.requestId = requestId
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
+            case anonymousUserArn = "AnonymousUserArn"
             case embedUrl = "EmbedUrl"
             case requestId = "RequestId"
             case status = "Status"
@@ -9864,6 +10097,140 @@ extension QuickSight {
         }
     }
 
+    public struct SearchDataSetsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId"))
+        ]
+
+        /// The Amazon Web Services account ID.
+        public let awsAccountId: String
+        /// The filters to apply to the search.
+        public let filters: [DataSetSearchFilter]
+        /// The maximum number of results to be returned per request.
+        public let maxResults: Int?
+        /// A pagination token that can be used in a subsequent request.
+        public let nextToken: String?
+
+        public init(awsAccountId: String, filters: [DataSetSearchFilter], maxResults: Int? = nil, nextToken: String? = nil) {
+            self.awsAccountId = awsAccountId
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.filters, name: "filters", parent: name, max: 1)
+            try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct SearchDataSetsResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// A DataSetSummaries object that returns a summary of a dataset.
+        public let dataSetSummaries: [DataSetSummary]?
+        /// A pagination token that can be used in a subsequent request.
+        public let nextToken: String?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(dataSetSummaries: [DataSetSummary]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.dataSetSummaries = dataSetSummaries
+            self.nextToken = nextToken
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSetSummaries = "DataSetSummaries"
+            case nextToken = "NextToken"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct SearchDataSourcesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId"))
+        ]
+
+        /// The Amazon Web Services account ID.
+        public let awsAccountId: String
+        /// The filters to apply to the search.
+        public let filters: [DataSourceSearchFilter]
+        /// The maximum number of results to be returned per request.
+        public let maxResults: Int?
+        /// A pagination token that can be used in a subsequent request.
+        public let nextToken: String?
+
+        public init(awsAccountId: String, filters: [DataSourceSearchFilter], maxResults: Int? = nil, nextToken: String? = nil) {
+            self.awsAccountId = awsAccountId
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.filters, name: "filters", parent: name, max: 1)
+            try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct SearchDataSourcesResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// A DataSourceSummaries object that returns a summary of a data source.
+        public let dataSourceSummaries: [DataSourceSummary]?
+        /// A pagination token that can be used in a subsequent request.
+        public let nextToken: String?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(dataSourceSummaries: [DataSourceSummary]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.dataSourceSummaries = dataSourceSummaries
+            self.nextToken = nextToken
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceSummaries = "DataSourceSummaries"
+            case nextToken = "NextToken"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
     public struct SearchFoldersRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId"))
@@ -11099,11 +11466,14 @@ extension QuickSight {
         public let defaultNamespace: String
         /// The email address that you want Amazon QuickSight to send notifications to regarding your Amazon Web Services account or Amazon QuickSight subscription.
         public let notificationEmail: String?
+        /// A boolean value that determines whether or not an Amazon QuickSight account can be deleted. A True value doesn't allow the account to be deleted and results in an error message if a user tries to make a DeleteAccountSubscription request. A False value will allow the account to be deleted.
+        public let terminationProtectionEnabled: Bool?
 
-        public init(awsAccountId: String, defaultNamespace: String, notificationEmail: String? = nil) {
+        public init(awsAccountId: String, defaultNamespace: String, notificationEmail: String? = nil, terminationProtectionEnabled: Bool? = nil) {
             self.awsAccountId = awsAccountId
             self.defaultNamespace = defaultNamespace
             self.notificationEmail = notificationEmail
+            self.terminationProtectionEnabled = terminationProtectionEnabled
         }
 
         public func validate(name: String) throws {
@@ -11117,6 +11487,7 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case defaultNamespace = "DefaultNamespace"
             case notificationEmail = "NotificationEmail"
+            case terminationProtectionEnabled = "TerminationProtectionEnabled"
         }
     }
 

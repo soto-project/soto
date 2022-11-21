@@ -102,6 +102,7 @@ public struct CloudFrontErrorType: AWSErrorType {
         case resourceInUse = "ResourceInUse"
         case responseHeadersPolicyAlreadyExists = "ResponseHeadersPolicyAlreadyExists"
         case responseHeadersPolicyInUse = "ResponseHeadersPolicyInUse"
+        case stagingDistributionInUse = "StagingDistributionInUse"
         case streamingDistributionAlreadyExists = "StreamingDistributionAlreadyExists"
         case streamingDistributionNotDisabled = "StreamingDistributionNotDisabled"
         case testFunctionFailed = "TestFunctionFailed"
@@ -372,6 +373,8 @@ public struct CloudFrontErrorType: AWSErrorType {
     /// Cannot delete the response headers policy because it is attached to one or more cache
     /// 			behaviors in a CloudFront distribution.
     public static var responseHeadersPolicyInUse: Self { .init(.responseHeadersPolicyInUse) }
+    /// A continuous deployment policy for this staging distribution already exists.
+    public static var stagingDistributionInUse: Self { .init(.stagingDistributionInUse) }
     /// The caller reference you attempted to create the streaming distribution with
     /// 			is associated with another distribution
     public static var streamingDistributionAlreadyExists: Self { .init(.streamingDistributionAlreadyExists) }

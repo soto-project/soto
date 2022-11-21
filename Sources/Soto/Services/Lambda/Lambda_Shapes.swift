@@ -114,21 +114,22 @@ extension Lambda {
         case dotnetcore20 = "dotnetcore2.0"
         case dotnetcore21 = "dotnetcore2.1"
         case dotnetcore31 = "dotnetcore3.1"
-        case go1X = "go1.x"
+        case go1x = "go1.x"
         case java11
         case java8
-        case java8Al2 = "java8.al2"
+        case java8al2 = "java8.al2"
         case nodejs
-        case nodejs10X = "nodejs10.x"
-        case nodejs12X = "nodejs12.x"
-        case nodejs14X = "nodejs14.x"
-        case nodejs16X = "nodejs16.x"
+        case nodejs10x = "nodejs10.x"
+        case nodejs12x = "nodejs12.x"
+        case nodejs14x = "nodejs14.x"
+        case nodejs16x = "nodejs16.x"
+        case nodejs18x = "nodejs18.x"
         case nodejs43 = "nodejs4.3"
-        case nodejs43Edge = "nodejs4.3-edge"
+        case nodejs43edge = "nodejs4.3-edge"
         case nodejs610 = "nodejs6.10"
         case nodejs810 = "nodejs8.10"
         case provided
-        case providedAl2 = "provided.al2"
+        case providedal2 = "provided.al2"
         case python27 = "python2.7"
         case python36 = "python3.6"
         case python37 = "python3.7"
@@ -252,7 +253,7 @@ extension Lambda {
         /// The version number.
         public let versionNumber: Int64
 
-        public init(action: String, layerName: String, organizationId: String? = nil, principal: String, revisionId: String? = nil, statementId: String, versionNumber: Int64) {
+        public init(action: String, layerName: String, organizationId: String? = nil, principal: String, revisionId: String? = nil, statementId: String, versionNumber: Int64 = 0) {
             self.action = action
             self.layerName = layerName
             self.organizationId = organizationId
@@ -470,7 +471,7 @@ extension Lambda {
     }
 
     public struct AmazonManagedKafkaEventSourceConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The identifier for the Kafka consumer group to join. The consumer group ID must be unique among all your Kafka event sources. After creating a Kafka event source mapping with the consumer group ID specified, you cannot update this value. For more information, see services-msk-consumer-group-id.
+        /// The identifier for the Kafka consumer group to join. The consumer group ID must be unique among all your Kafka event sources. After creating a Kafka event source mapping with the consumer group ID specified, you cannot update this value. For more information, see Customizable consumer group ID.
         public let consumerGroupId: String?
 
         public init(consumerGroupId: String? = nil) {
@@ -710,7 +711,7 @@ extension Lambda {
         public let functionName: String
         /// (Streams and Amazon SQS) A list of current response type enums applied to the event source mapping.
         public let functionResponseTypes: [FunctionResponseType]?
-        /// (Streams and Amazon SQS standard queues) The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. Default: 0 Related setting: When you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
+        /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, and Amazon MQ event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
         public let maximumBatchingWindowInSeconds: Int?
         /// (Streams only) Discard records older than the specified age. The default value is infinite (-1).
         public let maximumRecordAgeInSeconds: Int?
@@ -1248,7 +1249,7 @@ extension Lambda {
         /// The version number.
         public let versionNumber: Int64
 
-        public init(layerName: String, versionNumber: Int64) {
+        public init(layerName: String, versionNumber: Int64 = 0) {
             self.layerName = layerName
             self.versionNumber = versionNumber
         }
@@ -1351,7 +1352,7 @@ extension Lambda {
     public struct EnvironmentResponse: AWSDecodableShape {
         /// Error messages for environment variables that couldn't be applied.
         public let error: EnvironmentError?
-        /// Environment variable key-value pairs.
+        /// Environment variable key-value pairs. Omitted from CloudTrail logs.
         public let variables: [String: String]?
 
         public init(error: EnvironmentError? = nil, variables: [String: String]? = nil) {
@@ -1404,7 +1405,7 @@ extension Lambda {
         public let lastModified: Date?
         /// The result of the last Lambda invocation of your function.
         public let lastProcessingResult: String?
-        /// (Streams and Amazon SQS standard queues) The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. Default: 0 Related setting: When you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
+        /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, and Amazon MQ event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
         public let maximumBatchingWindowInSeconds: Int?
         /// (Streams only) Discard records older than the specified age. The default value is -1,
         /// which sets the maximum age to infinite. When the value is set to infinite, Lambda never discards old records.
@@ -1630,7 +1631,7 @@ extension Lambda {
         public let deadLetterConfig: DeadLetterConfig?
         /// The function's description.
         public let description: String?
-        /// The function's environment variables.
+        /// The function's environment variables. Omitted from CloudTrail logs.
         public let environment: EnvironmentResponse?
         /// The size of the function’s /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10240 MB.
         public let ephemeralStorage: EphemeralStorage?
@@ -2193,7 +2194,7 @@ extension Lambda {
         /// The version number.
         public let versionNumber: Int64
 
-        public init(layerName: String, versionNumber: Int64) {
+        public init(layerName: String, versionNumber: Int64 = 0) {
             self.layerName = layerName
             self.versionNumber = versionNumber
         }
@@ -2235,7 +2236,7 @@ extension Lambda {
         /// The version number.
         public let versionNumber: Int64
 
-        public init(layerName: String, versionNumber: Int64) {
+        public init(layerName: String, versionNumber: Int64 = 0) {
             self.layerName = layerName
             self.versionNumber = versionNumber
         }
@@ -2369,7 +2370,7 @@ extension Lambda {
     }
 
     public struct GetProvisionedConcurrencyConfigResponse: AWSDecodableShape {
-        /// The amount of provisioned concurrency allocated.
+        /// The amount of provisioned concurrency allocated. When a weighted alias is used during linear and canary deployments, this value fluctuates depending on the amount of concurrency that is provisioned for the function versions.
         public let allocatedProvisionedConcurrentExecutions: Int?
         /// The amount of provisioned concurrency available.
         public let availableProvisionedConcurrentExecutions: Int?
@@ -3352,7 +3353,7 @@ extension Lambda {
     }
 
     public struct ProvisionedConcurrencyConfigListItem: AWSDecodableShape {
-        /// The amount of provisioned concurrency allocated.
+        /// The amount of provisioned concurrency allocated. When a weighted alias is used during linear and canary deployments, this value fluctuates depending on the amount of concurrency that is provisioned for the function versions.
         public let allocatedProvisionedConcurrentExecutions: Int?
         /// The amount of provisioned concurrency available.
         public let availableProvisionedConcurrentExecutions: Int?
@@ -3670,7 +3671,7 @@ extension Lambda {
     }
 
     public struct PutProvisionedConcurrencyConfigResponse: AWSDecodableShape {
-        /// The amount of provisioned concurrency allocated.
+        /// The amount of provisioned concurrency allocated. When a weighted alias is used during linear and canary deployments, this value fluctuates depending on the amount of concurrency that is provisioned for the function versions.
         public let allocatedProvisionedConcurrentExecutions: Int?
         /// The amount of provisioned concurrency available.
         public let availableProvisionedConcurrentExecutions: Int?
@@ -3719,7 +3720,7 @@ extension Lambda {
         /// The version number.
         public let versionNumber: Int64
 
-        public init(layerName: String, revisionId: String? = nil, statementId: String, versionNumber: Int64) {
+        public init(layerName: String, revisionId: String? = nil, statementId: String, versionNumber: Int64 = 0) {
             self.layerName = layerName
             self.revisionId = revisionId
             self.statementId = statementId
@@ -3800,7 +3801,7 @@ extension Lambda {
     }
 
     public struct SelfManagedKafkaEventSourceConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The identifier for the Kafka consumer group to join. The consumer group ID must be unique among all your Kafka event sources. After creating a Kafka event source mapping with the consumer group ID specified, you cannot update this value. For more information, see services-msk-consumer-group-id.
+        /// The identifier for the Kafka consumer group to join. The consumer group ID must be unique among all your Kafka event sources. After creating a Kafka event source mapping with the consumer group ID specified, you cannot update this value. For more information, see Customizable consumer group ID.
         public let consumerGroupId: String?
 
         public init(consumerGroupId: String? = nil) {
@@ -3819,7 +3820,7 @@ extension Lambda {
     }
 
     public struct SourceAccessConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The type of authentication protocol, VPC components, or virtual host for your event source. For example: "Type":"SASL_SCRAM_512_AUTH".    BASIC_AUTH - (Amazon MQ) The Secrets Manager secret that stores your broker credentials.    BASIC_AUTH - (Self-managed Apache Kafka) The Secrets Manager ARN of your secret key used for SASL/PLAIN authentication of your Apache Kafka brokers.    VPC_SUBNET - The subnets associated with your VPC. Lambda connects to these subnets to fetch data from your self-managed Apache Kafka cluster.    VPC_SECURITY_GROUP - The VPC security group used to manage access to your self-managed Apache Kafka brokers.    SASL_SCRAM_256_AUTH - The Secrets Manager ARN of your secret key used for SASL SCRAM-256 authentication of your self-managed Apache Kafka brokers.    SASL_SCRAM_512_AUTH - The Secrets Manager ARN of your secret key used for SASL SCRAM-512 authentication of your self-managed Apache Kafka brokers.    VIRTUAL_HOST - (Amazon MQ) The name of the virtual host in your RabbitMQ broker. Lambda uses this RabbitMQ host as the event source.  This property cannot be specified in an UpdateEventSourceMapping API call.    CLIENT_CERTIFICATE_TLS_AUTH - (Amazon MSK, self-managed Apache Kafka) The Secrets Manager ARN of your secret key containing the certificate chain (X.509 PEM),  private key (PKCS#8 PEM), and private key password (optional) used for mutual TLS authentication of your MSK/Apache Kafka brokers.    SERVER_ROOT_CA_CERTIFICATE - (Self-managed Apache Kafka) The Secrets Manager ARN of your secret key containing the root CA certificate (X.509 PEM) used for TLS encryption of your Apache Kafka brokers.
+        /// The type of authentication protocol, VPC components, or virtual host for your event source. For example: "Type":"SASL_SCRAM_512_AUTH".    BASIC_AUTH - (Amazon MQ) The Secrets Manager secret that stores your broker credentials.    BASIC_AUTH - (Self-managed Apache Kafka) The Secrets Manager ARN of your secret key used for SASL/PLAIN authentication of your Apache Kafka brokers.    VPC_SUBNET - (Self-managed Apache Kafka) The subnets associated with your VPC. Lambda connects to these subnets to fetch data from your self-managed Apache Kafka cluster.    VPC_SECURITY_GROUP - (Self-managed Apache Kafka) The VPC security group used to manage access to your self-managed Apache Kafka brokers.    SASL_SCRAM_256_AUTH - (Self-managed Apache Kafka) The Secrets Manager ARN of your secret key used for SASL SCRAM-256 authentication of your self-managed Apache Kafka brokers.    SASL_SCRAM_512_AUTH - (Amazon MSK, Self-managed Apache Kafka) The Secrets Manager ARN of your secret key used for SASL SCRAM-512 authentication of your self-managed Apache Kafka brokers.    VIRTUAL_HOST - (RabbitMQ) The name of the virtual host in your RabbitMQ broker. Lambda uses this RabbitMQ host as the event source.  This property cannot be specified in an UpdateEventSourceMapping API call.    CLIENT_CERTIFICATE_TLS_AUTH - (Amazon MSK, self-managed Apache Kafka) The Secrets Manager ARN of your secret key containing the certificate chain (X.509 PEM),  private key (PKCS#8 PEM), and private key password (optional) used for mutual TLS authentication of your MSK/Apache Kafka brokers.    SERVER_ROOT_CA_CERTIFICATE - (Self-managed Apache Kafka) The Secrets Manager ARN of your secret key containing the root CA certificate (X.509 PEM) used for TLS encryption of your Apache Kafka brokers.
         public let type: SourceAccessType?
         /// The value for your chosen configuration in Type. For example: "URI": "arn:aws:secretsmanager:us-east-1:01234567890:secret:MyBrokerSecretName".
         public let uri: String?
@@ -4031,7 +4032,7 @@ extension Lambda {
         public let functionName: String?
         /// (Streams and Amazon SQS) A list of current response type enums applied to the event source mapping.
         public let functionResponseTypes: [FunctionResponseType]?
-        /// (Streams and Amazon SQS standard queues) The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. Default: 0 Related setting: When you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
+        /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, and Amazon MQ event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
         public let maximumBatchingWindowInSeconds: Int?
         /// (Streams only) Discard records older than the specified age. The default value is infinite (-1).
         public let maximumRecordAgeInSeconds: Int?

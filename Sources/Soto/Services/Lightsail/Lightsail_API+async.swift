@@ -417,7 +417,7 @@ extension Lightsail {
 
     /// Returns the log events of a container of your Amazon Lightsail container service.
     ///  If your container service has more than one node (i.e., a scale greater than 1), then the log events that are returned for the specified container are merged from all nodes on your container service.
-    ///   Container logs are retained for a certain amount of time. For more information, see Amazon Lightsail endpoints and quotas in the AWS General Reference.
+    ///   Container logs are retained for a certain amount of time. For more information, see Amazon Lightsail endpoints and quotas in the Amazon Web Services General Reference.
     public func getContainerLog(_ input: GetContainerLogRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetContainerLogResult {
         return try await self.client.execute(operation: "GetContainerLog", path: "/ls/api/2016-11-28/container-services/{serviceName}/containers/{containerName}/log", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -425,7 +425,7 @@ extension Lightsail {
     /// Returns the deployments for your Amazon Lightsail container service
     ///  A deployment specifies the settings, such as the ports and launch command, of containers that are deployed to your container service.
     ///  The deployments are ordered by version in ascending order. The newest version is listed at the top of the response.
-    ///   A set number of deployments are kept before the oldest one is replaced with the newest one. For more information, see Amazon Lightsail endpoints and quotas in the AWS General Reference.
+    ///   A set number of deployments are kept before the oldest one is replaced with the newest one. For more information, see Amazon Lightsail endpoints and quotas in the Amazon Web Services General Reference.
     public func getContainerServiceDeployments(_ input: GetContainerServiceDeploymentsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetContainerServiceDeploymentsResult {
         return try await self.client.execute(operation: "GetContainerServiceDeployments", path: "/ls/api/2016-11-28/container-services/{serviceName}/deployments", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -788,7 +788,7 @@ extension Lightsail {
     }
 
     /// Updates the bundle, or storage plan, of an existing Amazon Lightsail bucket.
-    ///  A bucket bundle specifies the monthly cost, storage space, and data transfer quota for a bucket. You can update a bucket's bundle only one time within a monthly AWS billing cycle. To determine if you can update a bucket's bundle, use the GetBuckets action. The ableToUpdateBundle parameter in the response will indicate whether you can currently update a bucket's bundle.
+    ///  A bucket bundle specifies the monthly cost, storage space, and data transfer quota for a bucket. You can update a bucket's bundle only one time within a monthly Amazon Web Services billing cycle. To determine if you can update a bucket's bundle, use the GetBuckets action. The ableToUpdateBundle parameter in the response will indicate whether you can currently update a bucket's bundle.
     ///  Update a bucket's bundle if it's consistently going over its storage space or data transfer quota, or if a bucket's usage is consistently in the lower range of its storage space or data transfer quota. Due to the unpredictable usage fluctuations that a bucket might experience, we strongly recommend that you update a bucket's bundle only as a long-term strategy, instead of as a short-term, monthly cost-cutting measure. Choose a bucket bundle that will provide the bucket with ample storage space and data transfer for a long time to come.
     public func updateBucketBundle(_ input: UpdateBucketBundleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateBucketBundleResult {
         return try await self.client.execute(operation: "UpdateBucketBundle", path: "/ls/api/2016-11-28/UpdateBucketBundle", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -804,7 +804,7 @@ extension Lightsail {
         return try await self.client.execute(operation: "UpdateDistribution", path: "/ls/api/2016-11-28/UpdateDistribution", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates the bundle of your Amazon Lightsail content delivery network (CDN) distribution. A distribution bundle specifies the monthly network transfer quota and monthly cost of your distribution. Update your distribution's bundle if your distribution is going over its monthly network transfer quota and is incurring an overage fee. You can update your distribution's bundle only one time within your monthly AWS billing cycle. To determine if you can update your distribution's bundle, use the GetDistributions action. The ableToUpdateBundle parameter in the result will indicate whether you can currently update your distribution's bundle.
+    /// Updates the bundle of your Amazon Lightsail content delivery network (CDN) distribution. A distribution bundle specifies the monthly network transfer quota and monthly cost of your distribution. Update your distribution's bundle if your distribution is going over its monthly network transfer quota and is incurring an overage fee. You can update your distribution's bundle only one time within your monthly Amazon Web Services billing cycle. To determine if you can update your distribution's bundle, use the GetDistributions action. The ableToUpdateBundle parameter in the result will indicate whether you can currently update your distribution's bundle.
     public func updateDistributionBundle(_ input: UpdateDistributionBundleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateDistributionBundleResult {
         return try await self.client.execute(operation: "UpdateDistributionBundle", path: "/ls/api/2016-11-28/UpdateDistributionBundle", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

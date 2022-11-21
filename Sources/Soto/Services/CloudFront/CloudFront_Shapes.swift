@@ -56,6 +56,12 @@ extension CloudFront {
         public var description: String { return self.rawValue }
     }
 
+    public enum ContinuousDeploymentPolicyType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case singleHeader = "SingleHeader"
+        case singleWeight = "SingleWeight"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EventType: String, CustomStringConvertible, Codable, _SotoSendable {
         case originRequest = "origin-request"
         case originResponse = "origin-response"
@@ -130,10 +136,10 @@ extension CloudFront {
         case ssLv3 = "SSLv3"
         case tlSv1 = "TLSv1"
         case tlSv112016 = "TLSv1.1_2016"
+        case tlSv12016 = "TLSv1_2016"
         case tlSv122018 = "TLSv1.2_2018"
         case tlSv122019 = "TLSv1.2_2019"
         case tlSv122021 = "TLSv1.2_2021"
-        case tlSv12016 = "TLSv1_2016"
         public var description: String { return self.rawValue }
     }
 
@@ -1135,6 +1141,126 @@ extension CloudFront {
         }
     }
 
+    public struct ContinuousDeploymentPolicy: AWSDecodableShape {
+        public let continuousDeploymentPolicyConfig: ContinuousDeploymentPolicyConfig
+        /// The identifier of the continuous deployment policy.
+        public let id: String
+        /// The date and time the continuous deployment policy was last modified.
+        public let lastModifiedTime: Date
+
+        public init(continuousDeploymentPolicyConfig: ContinuousDeploymentPolicyConfig, id: String, lastModifiedTime: Date) {
+            self.continuousDeploymentPolicyConfig = continuousDeploymentPolicyConfig
+            self.id = id
+            self.lastModifiedTime = lastModifiedTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case continuousDeploymentPolicyConfig = "ContinuousDeploymentPolicyConfig"
+            case id = "Id"
+            case lastModifiedTime = "LastModifiedTime"
+        }
+    }
+
+    public struct ContinuousDeploymentPolicyConfig: AWSEncodableShape & AWSDecodableShape {
+        /// A Boolean that indicates whether this continuous deployment policy is enabled (in effect).
+        /// 			When this value is true, this policy is enabled and in effect. When this
+        /// 			value is false, this policy is not enabled and has no effect.
+        public let enabled: Bool
+        /// The CloudFront domain name of the staging distribution. For example:
+        /// 			d111111abcdef8.cloudfront.net.
+        public let stagingDistributionDnsNames: StagingDistributionDnsNames
+        /// Contains the parameters for routing production traffic from your primary to staging distributions.
+        public let trafficConfig: TrafficConfig?
+
+        public init(enabled: Bool, stagingDistributionDnsNames: StagingDistributionDnsNames, trafficConfig: TrafficConfig? = nil) {
+            self.enabled = enabled
+            self.stagingDistributionDnsNames = stagingDistributionDnsNames
+            self.trafficConfig = trafficConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case stagingDistributionDnsNames = "StagingDistributionDnsNames"
+            case trafficConfig = "TrafficConfig"
+        }
+    }
+
+    public struct ContinuousDeploymentPolicyList: AWSDecodableShape {
+        public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "ContinuousDeploymentPolicySummary" }
+
+        /// A list of continuous deployment policy items.
+        @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, ContinuousDeploymentPolicySummary>>
+        public var items: [ContinuousDeploymentPolicySummary]?
+        /// The maximum number of continuous deployment policies that were specified in your request.
+        public let maxItems: Int
+        /// Indicates the next page of continuous deployment policies. To get the next page of the list,
+        /// 			use this value in the Marker field of your request.
+        public let nextMarker: String?
+        /// The total number of continuous deployment policies in your Amazon Web Services account, regardless of the MaxItems value.
+        public let quantity: Int
+
+        public init(items: [ContinuousDeploymentPolicySummary]? = nil, maxItems: Int, nextMarker: String? = nil, quantity: Int) {
+            self.items = items
+            self.maxItems = maxItems
+            self.nextMarker = nextMarker
+            self.quantity = quantity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case maxItems = "MaxItems"
+            case nextMarker = "NextMarker"
+            case quantity = "Quantity"
+        }
+    }
+
+    public struct ContinuousDeploymentPolicySummary: AWSDecodableShape {
+        /// The continuous deployment policy.
+        public let continuousDeploymentPolicy: ContinuousDeploymentPolicy
+
+        public init(continuousDeploymentPolicy: ContinuousDeploymentPolicy) {
+            self.continuousDeploymentPolicy = continuousDeploymentPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case continuousDeploymentPolicy = "ContinuousDeploymentPolicy"
+        }
+    }
+
+    public struct ContinuousDeploymentSingleHeaderConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The request header name that you want CloudFront to send to your staging distribution.
+        public let header: String
+        /// The request header value.
+        public let value: String
+
+        public init(header: String, value: String) {
+            self.header = header
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case header = "Header"
+            case value = "Value"
+        }
+    }
+
+    public struct ContinuousDeploymentSingleWeightConfig: AWSEncodableShape & AWSDecodableShape {
+        public let sessionStickinessConfig: SessionStickinessConfig?
+        /// The percentage of traffic to send to the staging distribution, expressed as a decimal number
+        /// 			between 0 and 1.
+        public let weight: Float
+
+        public init(sessionStickinessConfig: SessionStickinessConfig? = nil, weight: Float) {
+            self.sessionStickinessConfig = sessionStickinessConfig
+            self.weight = weight
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sessionStickinessConfig = "SessionStickinessConfig"
+            case weight = "Weight"
+        }
+    }
+
     public struct CookieNames: AWSEncodableShape & AWSDecodableShape {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "Name" }
 
@@ -1196,6 +1322,68 @@ extension CloudFront {
         private enum CodingKeys: String, CodingKey {
             case forward = "Forward"
             case whitelistedNames = "WhitelistedNames"
+        }
+    }
+
+    public struct CopyDistributionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ifMatch", location: .header("If-Match")),
+            AWSMemberEncoding(label: "primaryDistributionId", location: .uri("PrimaryDistributionId")),
+            AWSMemberEncoding(label: "staging", location: .header("Staging"))
+        ]
+
+        /// A value that uniquely identifies a request to create a resource. This helps to prevent CloudFront
+        /// 			from creating a duplicate resource if you accidentally resubmit an identical
+        /// 			request.
+        public let callerReference: String
+        /// The version identifier of the primary distribution whose configuration you are copying. This
+        /// 			is the ETag value returned in the response to GetDistribution
+        /// 			and GetDistributionConfig.
+        public let ifMatch: String?
+        /// The identifier of the primary distribution whose configuration you are copying. To get a
+        /// 			distribution ID, use ListDistributions.
+        public let primaryDistributionId: String
+        /// The type of distribution that your primary distribution will be copied to. The only valid
+        /// 			value is True, indicating that you are copying to a staging distribution.
+        public let staging: Bool?
+
+        public init(callerReference: String, ifMatch: String? = nil, primaryDistributionId: String, staging: Bool? = nil) {
+            self.callerReference = callerReference
+            self.ifMatch = ifMatch
+            self.primaryDistributionId = primaryDistributionId
+            self.staging = staging
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case callerReference = "CallerReference"
+        }
+    }
+
+    public struct CopyDistributionResult: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "distribution"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "distribution", location: .body("Distribution")),
+            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
+            AWSMemberEncoding(label: "location", location: .header("Location"))
+        ]
+
+        public let distribution: Distribution?
+        /// The version identifier for the current version of the staging distribution.
+        public let eTag: String?
+        /// The URL of the staging distribution.
+        public let location: String?
+
+        public init(distribution: Distribution? = nil, eTag: String? = nil, location: String? = nil) {
+            self.distribution = distribution
+            self.eTag = eTag
+            self.location = location
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case distribution = "Distribution"
+            case eTag = "ETag"
+            case location = "Location"
         }
     }
 
@@ -1290,6 +1478,54 @@ extension CloudFront {
 
         private enum CodingKeys: String, CodingKey {
             case cloudFrontOriginAccessIdentity = "CloudFrontOriginAccessIdentity"
+            case eTag = "ETag"
+            case location = "Location"
+        }
+    }
+
+    public struct CreateContinuousDeploymentPolicyRequest: AWSEncodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "continuousDeploymentPolicyConfig"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "continuousDeploymentPolicyConfig", location: .body("ContinuousDeploymentPolicyConfig"))
+        ]
+
+        /// Contains the configuration for a continuous deployment policy.
+        public let continuousDeploymentPolicyConfig: ContinuousDeploymentPolicyConfig
+
+        public init(continuousDeploymentPolicyConfig: ContinuousDeploymentPolicyConfig) {
+            self.continuousDeploymentPolicyConfig = continuousDeploymentPolicyConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case continuousDeploymentPolicyConfig = "ContinuousDeploymentPolicyConfig"
+        }
+    }
+
+    public struct CreateContinuousDeploymentPolicyResult: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "continuousDeploymentPolicy"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "continuousDeploymentPolicy", location: .body("ContinuousDeploymentPolicy")),
+            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
+            AWSMemberEncoding(label: "location", location: .header("Location"))
+        ]
+
+        /// A continuous deployment policy.
+        public let continuousDeploymentPolicy: ContinuousDeploymentPolicy?
+        /// The version identifier for the current version of the continuous deployment policy.
+        public let eTag: String?
+        /// The location of the continuous deployment policy.
+        public let location: String?
+
+        public init(continuousDeploymentPolicy: ContinuousDeploymentPolicy? = nil, eTag: String? = nil, location: String? = nil) {
+            self.continuousDeploymentPolicy = continuousDeploymentPolicy
+            self.eTag = eTag
+            self.location = location
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case continuousDeploymentPolicy = "ContinuousDeploymentPolicy"
             case eTag = "ETag"
             case location = "Location"
         }
@@ -2447,6 +2683,26 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DeleteContinuousDeploymentPolicyRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri("Id")),
+            AWSMemberEncoding(label: "ifMatch", location: .header("If-Match"))
+        ]
+
+        /// The identifier of the continuous deployment policy that you are deleting.
+        public let id: String
+        /// The current version (ETag value) of the continuous deployment policy that
+        /// 			you are deleting.
+        public let ifMatch: String?
+
+        public init(id: String, ifMatch: String? = nil) {
+            self.id = id
+            self.ifMatch = ifMatch
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct DeleteDistributionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri("Id")),
@@ -2758,26 +3014,20 @@ extension CloudFront {
         /// 			Signup, Accounts, and Credentials in Getting Started with Amazon Web Services services in China.
         @OptionalCustomCoding<ArrayCoder<_AliasICPRecordalsEncoding, AliasICPRecordal>>
         public var aliasICPRecordals: [AliasICPRecordal]?
-        /// The ARN (Amazon Resource Name) for the distribution. For example:
-        /// 				arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5, where
-        /// 				123456789012 is your Amazon Web Services account ID.
+        /// The distribution’s Amazon Resource Name (ARN).
         public let arn: String
-        /// The current configuration information for the distribution. Send a GET
-        /// 			request to the /CloudFront API version/distribution ID/config
-        /// 			resource.
+        /// The distribution’s configuration.
         public let distributionConfig: DistributionConfig
-        /// The domain name corresponding to the distribution, for example, d111111abcdef8.cloudfront.net.
+        /// The distribution’s CloudFront domain name. For example: d111111abcdef8.cloudfront.net.
         public let domainName: String
-        /// The identifier for the distribution. For example: EDFDVBD632BHDS5.
-        ///
+        /// The distribution’s identifier. For example: E1U5RQF7T870K0.
         public let id: String
         /// The number of invalidation batches currently in progress.
         public let inProgressInvalidationBatches: Int
-        /// The date and time the distribution was last modified.
+        /// The date and time when the distribution was last modified.
         public let lastModifiedTime: Date
-        /// This response element indicates the current status of the distribution. When the status
-        /// 			is Deployed, the distribution's information is fully propagated to all CloudFront edge
-        /// 			locations.
+        /// The distribution’s status. When the status is Deployed, the distribution’s
+        /// 			information is fully propagated to all CloudFront edge locations.
         public let status: String
 
         public init(activeTrustedKeyGroups: ActiveTrustedKeyGroups? = nil, activeTrustedSigners: ActiveTrustedSigners? = nil, aliasICPRecordals: [AliasICPRecordal]? = nil, arn: String, distributionConfig: DistributionConfig, domainName: String, id: String, inProgressInvalidationBatches: Int, lastModifiedTime: Date, status: String) {
@@ -2840,10 +3090,10 @@ extension CloudFront {
         /// 			default cache behavior.
         public let defaultCacheBehavior: DefaultCacheBehavior
         /// The object that you want CloudFront to request from your origin (for example,
-        /// 				index.html) when a viewer requests the root URL for your distribution
-        /// 				(http://www.example.com) instead of an object in your distribution
-        /// 				(http://www.example.com/product-description.html). Specifying a default root
-        /// 			object avoids exposing the contents of your distribution.
+        /// 			index.html) when a viewer requests the root URL for your distribution
+        /// 			(https://www.example.com) instead of an object in your distribution
+        /// 			(https://www.example.com/product-description.html). Specifying a default
+        /// 			root object avoids exposing the contents of your distribution.
         /// 		       Specify only the object name, for example, index.html. Don't add a
         /// 				/ before the object name.
         /// 		       If you don't want to specify a default root object when you create a distribution,
@@ -3951,6 +4201,84 @@ extension CloudFront {
 
         private enum CodingKeys: String, CodingKey {
             case cloudFrontOriginAccessIdentity = "CloudFrontOriginAccessIdentity"
+            case eTag = "ETag"
+        }
+    }
+
+    public struct GetContinuousDeploymentPolicyConfigRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
+        ]
+
+        /// The identifier of the continuous deployment policy whose configuration you are
+        /// 			getting.
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetContinuousDeploymentPolicyConfigResult: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "continuousDeploymentPolicyConfig"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "continuousDeploymentPolicyConfig", location: .body("ContinuousDeploymentPolicyConfig")),
+            AWSMemberEncoding(label: "eTag", location: .header("ETag"))
+        ]
+
+        public let continuousDeploymentPolicyConfig: ContinuousDeploymentPolicyConfig?
+        /// The version identifier for the current version of the continuous deployment policy.
+        public let eTag: String?
+
+        public init(continuousDeploymentPolicyConfig: ContinuousDeploymentPolicyConfig? = nil, eTag: String? = nil) {
+            self.continuousDeploymentPolicyConfig = continuousDeploymentPolicyConfig
+            self.eTag = eTag
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case continuousDeploymentPolicyConfig = "ContinuousDeploymentPolicyConfig"
+            case eTag = "ETag"
+        }
+    }
+
+    public struct GetContinuousDeploymentPolicyRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
+        ]
+
+        /// The identifier of the continuous deployment policy that you are getting.
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetContinuousDeploymentPolicyResult: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "continuousDeploymentPolicy"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "continuousDeploymentPolicy", location: .body("ContinuousDeploymentPolicy")),
+            AWSMemberEncoding(label: "eTag", location: .header("ETag"))
+        ]
+
+        /// A continuous deployment policy.
+        public let continuousDeploymentPolicy: ContinuousDeploymentPolicy?
+        /// The version identifier for the current version of the continuous deployment policy.
+        public let eTag: String?
+
+        public init(continuousDeploymentPolicy: ContinuousDeploymentPolicy? = nil, eTag: String? = nil) {
+            self.continuousDeploymentPolicy = continuousDeploymentPolicy
+            self.eTag = eTag
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case continuousDeploymentPolicy = "ContinuousDeploymentPolicy"
             case eTag = "ETag"
         }
     }
@@ -5326,6 +5654,48 @@ extension CloudFront {
         }
     }
 
+    public struct ListContinuousDeploymentPoliciesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "marker", location: .querystring("Marker")),
+            AWSMemberEncoding(label: "maxItems", location: .querystring("MaxItems"))
+        ]
+
+        /// Use this field when paginating results to indicate where to begin in your list of
+        /// 			continuous deployment policies. The response includes policies in the list that occur
+        /// 			after the marker. To get the next page of the list, set this field’s value to the value
+        /// 			of NextMarker from the current page’s response.
+        public let marker: String?
+        /// The maximum number of continuous deployment policies that you want returned in the
+        /// 			response.
+        public let maxItems: Int?
+
+        public init(marker: String? = nil, maxItems: Int? = nil) {
+            self.marker = marker
+            self.maxItems = maxItems
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListContinuousDeploymentPoliciesResult: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "continuousDeploymentPolicyList"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "continuousDeploymentPolicyList", location: .body("ContinuousDeploymentPolicyList"))
+        ]
+
+        /// A list of continuous deployment policies.
+        public let continuousDeploymentPolicyList: ContinuousDeploymentPolicyList?
+
+        public init(continuousDeploymentPolicyList: ContinuousDeploymentPolicyList? = nil) {
+            self.continuousDeploymentPolicyList = continuousDeploymentPolicyList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case continuousDeploymentPolicyList = "ContinuousDeploymentPolicyList"
+        }
+    }
+
     public struct ListDistributionsByCachePolicyIdRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "cachePolicyId", location: .uri("CachePolicyId")),
@@ -6306,7 +6676,7 @@ extension CloudFront {
 
     public struct OriginAccessControlConfig: AWSEncodableShape & AWSDecodableShape {
         /// A description of the origin access control.
-        public let description: String
+        public let description: String?
         /// A name to identify the origin access control.
         public let name: String
         /// The type of origin that this origin access control is for. The only valid value is
@@ -6338,7 +6708,7 @@ extension CloudFront {
         /// 			(authenticates) requests. The only valid value is sigv4.
         public let signingProtocol: OriginAccessControlSigningProtocols
 
-        public init(description: String, name: String, originAccessControlOriginType: OriginAccessControlOriginTypes, signingBehavior: OriginAccessControlSigningBehaviors, signingProtocol: OriginAccessControlSigningProtocols) {
+        public init(description: String? = nil, name: String, originAccessControlOriginType: OriginAccessControlOriginTypes, signingBehavior: OriginAccessControlSigningBehaviors, signingProtocol: OriginAccessControlSigningProtocols) {
             self.description = description
             self.name = name
             self.originAccessControlOriginType = originAccessControlOriginType
@@ -7899,6 +8269,27 @@ extension CloudFront {
         }
     }
 
+    public struct SessionStickinessConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The amount of time after which you want sessions to cease if no requests are
+        /// 			received. Allowed values are 300–3600 seconds (5–60 minutes).
+        /// 		       The value must be less than or equal to MaximumTTL.
+        public let idleTTL: Int
+        /// The maximum amount of time to consider requests from the viewer as being part of the same
+        /// 			session. Allowed values are 300–3600 seconds (5–60 minutes).
+        /// 		       The value must be less than or equal to IdleTTL.
+        public let maximumTTL: Int
+
+        public init(idleTTL: Int, maximumTTL: Int) {
+            self.idleTTL = idleTTL
+            self.maximumTTL = maximumTTL
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case idleTTL = "IdleTTL"
+            case maximumTTL = "MaximumTTL"
+        }
+    }
+
     public struct Signer: AWSDecodableShape {
         /// An Amazon Web Services account number that contains active CloudFront key pairs that CloudFront can use to verify the
         /// 			signatures of signed URLs and signed cookies. If the Amazon Web Services account that owns the key pairs
@@ -7916,6 +8307,26 @@ extension CloudFront {
         private enum CodingKeys: String, CodingKey {
             case awsAccountNumber = "AwsAccountNumber"
             case keyPairIds = "KeyPairIds"
+        }
+    }
+
+    public struct StagingDistributionDnsNames: AWSEncodableShape & AWSDecodableShape {
+        public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "DnsName" }
+
+        /// The CloudFront domain name of the staging distribution.
+        @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, String>>
+        public var items: [String]?
+        /// The number of CloudFront domain names in your staging distribution.
+        public let quantity: Int
+
+        public init(items: [String]? = nil, quantity: Int) {
+            self.items = items
+            self.quantity = quantity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case quantity = "Quantity"
         }
     }
 
@@ -8408,6 +8819,27 @@ extension CloudFront {
         }
     }
 
+    public struct TrafficConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Determines which HTTP requests are sent to the staging distribution.
+        public let singleHeaderConfig: ContinuousDeploymentSingleHeaderConfig?
+        /// Contains the percentage of traffic to send to the staging distribution.
+        public let singleWeightConfig: ContinuousDeploymentSingleWeightConfig?
+        /// The type of traffic configuration.
+        public let type: ContinuousDeploymentPolicyType
+
+        public init(singleHeaderConfig: ContinuousDeploymentSingleHeaderConfig? = nil, singleWeightConfig: ContinuousDeploymentSingleWeightConfig? = nil, type: ContinuousDeploymentPolicyType) {
+            self.singleHeaderConfig = singleHeaderConfig
+            self.singleWeightConfig = singleWeightConfig
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case singleHeaderConfig = "SingleHeaderConfig"
+            case singleWeightConfig = "SingleWeightConfig"
+            case type = "Type"
+        }
+    }
+
     public struct TrustedKeyGroups: AWSEncodableShape & AWSDecodableShape {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "KeyGroup" }
 
@@ -8592,6 +9024,58 @@ extension CloudFront {
 
         private enum CodingKeys: String, CodingKey {
             case cloudFrontOriginAccessIdentity = "CloudFrontOriginAccessIdentity"
+            case eTag = "ETag"
+        }
+    }
+
+    public struct UpdateContinuousDeploymentPolicyRequest: AWSEncodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "continuousDeploymentPolicyConfig"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "continuousDeploymentPolicyConfig", location: .body("ContinuousDeploymentPolicyConfig")),
+            AWSMemberEncoding(label: "id", location: .uri("Id")),
+            AWSMemberEncoding(label: "ifMatch", location: .header("If-Match"))
+        ]
+
+        /// The continuous deployment policy configuration.
+        public let continuousDeploymentPolicyConfig: ContinuousDeploymentPolicyConfig
+        /// The identifier of the continuous deployment policy that you are updating.
+        public let id: String
+        /// The current version (ETag value) of the continuous deployment policy that you
+        /// 			are updating.
+        public let ifMatch: String?
+
+        public init(continuousDeploymentPolicyConfig: ContinuousDeploymentPolicyConfig, id: String, ifMatch: String? = nil) {
+            self.continuousDeploymentPolicyConfig = continuousDeploymentPolicyConfig
+            self.id = id
+            self.ifMatch = ifMatch
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case continuousDeploymentPolicyConfig = "ContinuousDeploymentPolicyConfig"
+        }
+    }
+
+    public struct UpdateContinuousDeploymentPolicyResult: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "continuousDeploymentPolicy"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "continuousDeploymentPolicy", location: .body("ContinuousDeploymentPolicy")),
+            AWSMemberEncoding(label: "eTag", location: .header("ETag"))
+        ]
+
+        /// A continuous deployment policy.
+        public let continuousDeploymentPolicy: ContinuousDeploymentPolicy?
+        /// The version identifier for the current version of the continuous deployment policy.
+        public let eTag: String?
+
+        public init(continuousDeploymentPolicy: ContinuousDeploymentPolicy? = nil, eTag: String? = nil) {
+            self.continuousDeploymentPolicy = continuousDeploymentPolicy
+            self.eTag = eTag
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case continuousDeploymentPolicy = "ContinuousDeploymentPolicy"
             case eTag = "ETag"
         }
     }

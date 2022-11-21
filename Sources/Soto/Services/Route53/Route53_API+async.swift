@@ -66,9 +66,8 @@ extension Route53 {
     /// 			helpful if you want to move one or more CIDR blocks from one location to another in one
     /// 			transaction, without downtime.
     /// 		        Limits
-    /// 		       The max number of CIDR blocks included in the request is
-    /// 			1000.
-    /// 			As a result, big updates require multiple API calls.
+    /// 		       The max number of CIDR blocks included in the request is 1000. As a result, big updates
+    /// 			require multiple API calls.
     /// 		        PUT and DELETE_IF_EXISTS
     /// 		       Use ChangeCidrCollection to perform the following actions:
     ///
@@ -163,9 +162,7 @@ extension Route53 {
         return try await self.client.execute(operation: "ChangeTagsForResource", path: "/2013-04-01/tags/{ResourceType}/{ResourceId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a CIDR collection in the
-    /// 			current
-    /// 				Amazon Web Services account.
+    /// Creates a CIDR collection in the current Amazon Web Services account.
     public func createCidrCollection(_ input: CreateCidrCollectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateCidrCollectionResponse {
         return try await self.client.execute(operation: "CreateCidrCollection", path: "/2013-04-01/cidrcollection", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

@@ -22,8 +22,8 @@ extension Rekognition {
     // MARK: Enums
 
     public enum Attribute: String, CustomStringConvertible, Codable, _SotoSendable {
-        case all = "ALL"
         case `default` = "DEFAULT"
+        case all = "ALL"
         public var description: String { return self.rawValue }
     }
 
@@ -77,6 +77,12 @@ extension Rekognition {
         public var description: String { return self.rawValue }
     }
 
+    public enum DetectLabelsFeatureName: String, CustomStringConvertible, Codable, _SotoSendable {
+        case generalLabels = "GENERAL_LABELS"
+        case imageProperties = "IMAGE_PROPERTIES"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EmotionName: String, CustomStringConvertible, Codable, _SotoSendable {
         case angry = "ANGRY"
         case calm = "CALM"
@@ -91,8 +97,8 @@ extension Rekognition {
     }
 
     public enum FaceAttributes: String, CustomStringConvertible, Codable, _SotoSendable {
-        case all = "ALL"
         case `default` = "DEFAULT"
+        case all = "ALL"
         public var description: String { return self.rawValue }
     }
 
@@ -470,7 +476,7 @@ extension Rekognition {
     public struct CelebrityRecognition: AWSDecodableShape {
         /// Information about a recognized celebrity.
         public let celebrity: CelebrityDetail?
-        /// The time, in milliseconds from the start of the video, that the celebrity was recognized.
+        /// The time, in milliseconds from the start of the video, that the celebrity was recognized. Note that Timestamp is not guaranteed to be accurate to the individual frame where the celebrity first appears.
         public let timestamp: Int64?
 
         public init(celebrity: CelebrityDetail? = nil, timestamp: Int64? = nil) {
@@ -502,13 +508,13 @@ extension Rekognition {
     }
 
     public struct CompareFacesRequest: AWSEncodableShape {
-        /// A filter that specifies a quality bar for how much filtering is done to identify faces. Filtered faces aren't compared. If you specify AUTO, Amazon Rekognition chooses the quality bar. If you specify LOW,  MEDIUM, or HIGH, filtering removes all faces that don’t meet the chosen quality bar.  The quality bar is based on a variety of common use cases. Low-quality detections can occur for a number of reasons. Some examples are an object that's misidentified as a face, a face that's too blurry, or a face with a pose that's too extreme to use. If you specify NONE, no filtering is performed. The default value is NONE.  To use quality filtering, the collection you are using must be associated with version 3 of the face model or higher.
+        /// A filter that specifies a quality bar for how much filtering is done to identify faces. Filtered faces aren't compared. If you specify AUTO, Amazon Rekognition chooses the quality bar. If you specify LOW, MEDIUM, or HIGH, filtering removes all faces that don’t meet the chosen quality bar. The quality bar is based on a variety of common use cases. Low-quality detections can occur for a number of reasons. Some examples are an object that's misidentified as a face, a face that's too blurry, or a face with a pose that's too extreme to use. If you specify NONE, no filtering is performed. The default value is NONE.  To use quality filtering, the collection you are using must be associated with version 3 of the face model or higher.
         public let qualityFilter: QualityFilter?
         /// The minimum level of confidence in the face matches that a match must meet to be included in the FaceMatches array.
         public let similarityThreshold: Float?
-        /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not supported.  If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field.  For more information, see Images in the Amazon Rekognition developer guide.
+        /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not supported.  If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field. For more information, see Images in the Amazon Rekognition developer guide.
         public let sourceImage: Image
-        /// The target image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not supported.  If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field.  For more information, see Images in the Amazon Rekognition developer guide.
+        /// The target image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not supported.  If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field. For more information, see Images in the Amazon Rekognition developer guide.
         public let targetImage: Image
 
         public init(qualityFilter: QualityFilter? = nil, similarityThreshold: Float? = nil, sourceImage: Image, targetImage: Image) {
@@ -538,9 +544,9 @@ extension Rekognition {
         public let faceMatches: [CompareFacesMatch]?
         /// The face in the source image that was used for comparison.
         public let sourceImageFace: ComparedSourceImageFace?
-        /// The value of SourceImageOrientationCorrection is always null. If the input image is in .jpeg format, it might contain exchangeable image file format (Exif) metadata that includes the image's orientation. Amazon Rekognition uses this orientation information to perform  image correction. The bounding box coordinates are translated to represent object locations after the orientation information in the Exif metadata is used to correct the image orientation.  Images in .png format don't contain Exif metadata. Amazon Rekognition doesn’t perform image correction for images in .png format and .jpeg images without orientation information in the image Exif metadata. The bounding box coordinates aren't translated and represent the object locations before the image is rotated.
+        /// The value of SourceImageOrientationCorrection is always null. If the input image is in .jpeg format, it might contain exchangeable image file format (Exif) metadata that includes the image's orientation. Amazon Rekognition uses this orientation information to perform image correction. The bounding box coordinates are translated to represent object locations after the orientation information in the Exif metadata is used to correct the image orientation. Images in .png format don't contain Exif metadata. Amazon Rekognition doesn’t perform image correction for images in .png format and .jpeg images without orientation information in the image Exif metadata. The bounding box coordinates aren't translated and represent the object locations before the image is rotated.
         public let sourceImageOrientationCorrection: OrientationCorrection?
-        /// The value of TargetImageOrientationCorrection is always null. If the input image is in .jpeg format, it might contain exchangeable image file format (Exif) metadata that includes the image's orientation. Amazon Rekognition uses this orientation information to perform  image correction. The bounding box coordinates are translated to represent object locations after the orientation information in the Exif metadata is used to correct the image orientation.  Images in .png format don't contain Exif metadata. Amazon Rekognition doesn’t perform image correction for images in .png format and .jpeg images without orientation information in the image Exif metadata. The bounding box coordinates aren't translated and represent the object locations before the image is rotated.
+        /// The value of TargetImageOrientationCorrection is always null. If the input image is in .jpeg format, it might contain exchangeable image file format (Exif) metadata that includes the image's orientation. Amazon Rekognition uses this orientation information to perform image correction. The bounding box coordinates are translated to represent object locations after the orientation information in the Exif metadata is used to correct the image orientation. Images in .png format don't contain Exif metadata. Amazon Rekognition doesn’t perform image correction for images in .png format and .jpeg images without orientation information in the image Exif metadata. The bounding box coordinates aren't translated and represent the object locations before the image is rotated.
         public let targetImageOrientationCorrection: OrientationCorrection?
         /// An array of faces in the target image that did not match the source image face.
         public let unmatchedFaces: [ComparedFace]?
@@ -567,7 +573,7 @@ extension Rekognition {
         public let boundingBox: BoundingBox?
         /// Level of confidence that what the bounding box contains is a face.
         public let confidence: Float?
-        ///  The emotions that appear to be expressed on the face,  and the confidence level in the determination. Valid values include "Happy", "Sad",  "Angry", "Confused", "Disgusted", "Surprised", "Calm", "Unknown", and "Fear".
+        ///  The emotions that appear to be expressed on the face, and the confidence level in the determination. Valid values include "Happy", "Sad", "Angry", "Confused", "Disgusted", "Surprised", "Calm", "Unknown", and "Fear".
         public let emotions: [Emotion]?
         /// An array of facial landmarks.
         public let landmarks: [Landmark]?
@@ -667,7 +673,7 @@ extension Rekognition {
     public struct ContentModerationDetection: AWSDecodableShape {
         /// The content moderation label detected by in the stored video.
         public let moderationLabel: ModerationLabel?
-        /// Time, in milliseconds from the beginning of the video, that the content moderation label was detected.
+        /// Time, in milliseconds from the beginning of the video, that the content moderation label was detected. Note that Timestamp is not guaranteed to be accurate to the individual frame where the moderated content first appears.
         public let timestamp: Int64?
 
         public init(moderationLabel: ModerationLabel? = nil, timestamp: Int64? = nil) {
@@ -1783,7 +1789,7 @@ extension Rekognition {
     public struct DetectFacesRequest: AWSEncodableShape {
         /// An array of facial attributes you want to be returned. This can be the default list of attributes or all attributes. If you don't specify a value for Attributes or if you specify ["DEFAULT"], the API returns the following subset of facial attributes: BoundingBox, Confidence, Pose, Quality, and Landmarks. If you provide ["ALL"], all facial attributes are returned, but the operation takes longer to complete. If you provide both, ["ALL", "DEFAULT"], the service uses a logical AND operator to determine which attributes to return (in this case, all attributes).
         public let attributes: [Attribute]?
-        /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not supported.  If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field.  For more information, see Images in the Amazon Rekognition developer guide.
+        /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not supported.  If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field. For more information, see Images in the Amazon Rekognition developer guide.
         public let image: Image
 
         public init(attributes: [Attribute]? = nil, image: Image) {
@@ -1804,7 +1810,7 @@ extension Rekognition {
     public struct DetectFacesResponse: AWSDecodableShape {
         /// Details of each face found in the image.
         public let faceDetails: [FaceDetail]?
-        /// The value of OrientationCorrection is always null. If the input image is in .jpeg format, it might contain exchangeable image file format (Exif) metadata that includes the image's orientation. Amazon Rekognition uses this orientation information to perform  image correction. The bounding box coordinates are translated to represent object locations after the orientation information in the Exif metadata is used to correct the image orientation.  Images in .png format don't contain Exif metadata. Amazon Rekognition doesn’t perform image correction for images in .png format and .jpeg images without orientation information in the image Exif metadata. The bounding box coordinates aren't translated and represent the object locations before the image is rotated.
+        /// The value of OrientationCorrection is always null. If the input image is in .jpeg format, it might contain exchangeable image file format (Exif) metadata that includes the image's orientation. Amazon Rekognition uses this orientation information to perform image correction. The bounding box coordinates are translated to represent object locations after the orientation information in the Exif metadata is used to correct the image orientation. Images in .png format don't contain Exif metadata. Amazon Rekognition doesn’t perform image correction for images in .png format and .jpeg images without orientation information in the image Exif metadata. The bounding box coordinates aren't translated and represent the object locations before the image is rotated.
         public let orientationCorrection: OrientationCorrection?
 
         public init(faceDetails: [FaceDetail]? = nil, orientationCorrection: OrientationCorrection? = nil) {
@@ -1818,59 +1824,193 @@ extension Rekognition {
         }
     }
 
+    public struct DetectLabelsImageBackground: AWSDecodableShape {
+        /// The dominant colors found in the background of an image, defined with RGB values,  CSS color name, simplified color name, and PixelPercentage (the percentage of  image pixels that have a particular color).
+        public let dominantColors: [DominantColor]?
+        /// The quality of the image background as defined by brightness and sharpness.
+        public let quality: DetectLabelsImageQuality?
+
+        public init(dominantColors: [DominantColor]? = nil, quality: DetectLabelsImageQuality? = nil) {
+            self.dominantColors = dominantColors
+            self.quality = quality
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dominantColors = "DominantColors"
+            case quality = "Quality"
+        }
+    }
+
+    public struct DetectLabelsImageForeground: AWSDecodableShape {
+        /// The dominant colors found in the foreground of an image, defined with RGB values,  CSS color name, simplified color name, and PixelPercentage (the percentage of image  pixels that have a particular color).
+        public let dominantColors: [DominantColor]?
+        /// The quality of the image foreground as defined by brightness and sharpness.
+        public let quality: DetectLabelsImageQuality?
+
+        public init(dominantColors: [DominantColor]? = nil, quality: DetectLabelsImageQuality? = nil) {
+            self.dominantColors = dominantColors
+            self.quality = quality
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dominantColors = "DominantColors"
+            case quality = "Quality"
+        }
+    }
+
+    public struct DetectLabelsImageProperties: AWSDecodableShape {
+        /// Information about the properties of an image’s background, including  the background’s quality and dominant colors, including the quality  and dominant colors of the image.
+        public let background: DetectLabelsImageBackground?
+        /// Information about the dominant colors found in an image, described with RGB values,  CSS color name, simplified color name, and PixelPercentage (the percentage of image pixels  that have a particular color).
+        public let dominantColors: [DominantColor]?
+        /// Information about the properties of an image’s foreground, including the  foreground’s quality and dominant colors, including the quality and dominant colors of the image.
+        public let foreground: DetectLabelsImageForeground?
+        /// Information about the quality of the image foreground as defined by brightness,  sharpness, and contrast. The higher the value the greater the brightness,  sharpness, and contrast respectively.
+        public let quality: DetectLabelsImageQuality?
+
+        public init(background: DetectLabelsImageBackground? = nil, dominantColors: [DominantColor]? = nil, foreground: DetectLabelsImageForeground? = nil, quality: DetectLabelsImageQuality? = nil) {
+            self.background = background
+            self.dominantColors = dominantColors
+            self.foreground = foreground
+            self.quality = quality
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case background = "Background"
+            case dominantColors = "DominantColors"
+            case foreground = "Foreground"
+            case quality = "Quality"
+        }
+    }
+
+    public struct DetectLabelsImagePropertiesSettings: AWSEncodableShape {
+        /// The maximum number of dominant colors to return when detecting labels in an image. The default value is 10.
+        public let maxDominantColors: Int?
+
+        public init(maxDominantColors: Int? = nil) {
+            self.maxDominantColors = maxDominantColors
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxDominantColors, name: "maxDominantColors", parent: name, max: 20)
+            try self.validate(self.maxDominantColors, name: "maxDominantColors", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxDominantColors = "MaxDominantColors"
+        }
+    }
+
+    public struct DetectLabelsImageQuality: AWSDecodableShape {
+        /// The brightness of an image provided for label detection.
+        public let brightness: Float?
+        /// The contrast of an image provided for label detection.
+        public let contrast: Float?
+        /// The sharpness of an image provided for label detection.
+        public let sharpness: Float?
+
+        public init(brightness: Float? = nil, contrast: Float? = nil, sharpness: Float? = nil) {
+            self.brightness = brightness
+            self.contrast = contrast
+            self.sharpness = sharpness
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case brightness = "Brightness"
+            case contrast = "Contrast"
+            case sharpness = "Sharpness"
+        }
+    }
+
     public struct DetectLabelsRequest: AWSEncodableShape {
-        /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing image bytes is not supported. Images stored in an S3 Bucket do not need to be base64-encoded. If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field.  For more information, see Images in the Amazon Rekognition developer guide.
+        /// A list of the types of analysis to perform. Specifying GENERAL_LABELS uses the label detection  feature, while specifying IMAGE_PROPERTIES returns information regarding image color and quality.  If no option is specified GENERAL_LABELS is used by default.
+        public let features: [DetectLabelsFeatureName]?
+        /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing image bytes is not supported. Images stored in an S3 Bucket do not need to be base64-encoded. If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field. For more information, see Images in the Amazon Rekognition developer guide.
         public let image: Image
         /// Maximum number of labels you want the service to return in the response. The service returns the specified number of highest confidence labels.
         public let maxLabels: Int?
         /// Specifies the minimum confidence level for the labels to return. Amazon Rekognition doesn't return any labels with confidence lower than this specified value. If MinConfidence is not specified, the operation returns labels with a confidence values greater than or equal to 55 percent.
         public let minConfidence: Float?
+        /// A list of the filters to be applied to returned detected labels and image properties. Specified  filters can be inclusive, exclusive, or a combination of both. Filters can be used for individual  labels or label categories. The exact label names or label categories must be supplied. For  a full list of labels and label categories, see LINK HERE.
+        public let settings: DetectLabelsSettings?
 
-        public init(image: Image, maxLabels: Int? = nil, minConfidence: Float? = nil) {
+        public init(features: [DetectLabelsFeatureName]? = nil, image: Image, maxLabels: Int? = nil, minConfidence: Float? = nil, settings: DetectLabelsSettings? = nil) {
+            self.features = features
             self.image = image
             self.maxLabels = maxLabels
             self.minConfidence = minConfidence
+            self.settings = settings
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.features, name: "features", parent: name, max: 2)
             try self.image.validate(name: "\(name).image")
             try self.validate(self.maxLabels, name: "maxLabels", parent: name, min: 0)
             try self.validate(self.minConfidence, name: "minConfidence", parent: name, max: 100.0)
             try self.validate(self.minConfidence, name: "minConfidence", parent: name, min: 0.0)
+            try self.settings?.validate(name: "\(name).settings")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case features = "Features"
             case image = "Image"
             case maxLabels = "MaxLabels"
             case minConfidence = "MinConfidence"
+            case settings = "Settings"
         }
     }
 
     public struct DetectLabelsResponse: AWSDecodableShape {
+        /// Information about the properties of the input image, such as brightness, sharpness, contrast, and dominant colors.
+        public let imageProperties: DetectLabelsImageProperties?
         /// Version number of the label detection model that was used to detect labels.
         public let labelModelVersion: String?
         /// An array of labels for the real-world objects detected.
         public let labels: [Label]?
-        /// The value of OrientationCorrection is always null. If the input image is in .jpeg format, it might contain exchangeable image file format (Exif) metadata that includes the image's orientation. Amazon Rekognition uses this orientation information to perform  image correction. The bounding box coordinates are translated to represent object locations after the orientation information in the Exif metadata is used to correct the image orientation.  Images in .png format don't contain Exif metadata. Amazon Rekognition doesn’t perform image correction for images in .png format and .jpeg images without orientation information in the image Exif metadata. The bounding box coordinates aren't translated and represent the object locations before the image is rotated.
+        /// The value of OrientationCorrection is always null. If the input image is in .jpeg format, it might contain exchangeable image file format (Exif) metadata that includes the image's orientation. Amazon Rekognition uses this orientation information to perform image correction. The bounding box coordinates are translated to represent object locations after the orientation information in the Exif metadata is used to correct the image orientation. Images in .png format don't contain Exif metadata. Amazon Rekognition doesn’t perform image correction for images in .png format and .jpeg images without orientation information in the image Exif metadata. The bounding box coordinates aren't translated and represent the object locations before the image is rotated.
         public let orientationCorrection: OrientationCorrection?
 
-        public init(labelModelVersion: String? = nil, labels: [Label]? = nil, orientationCorrection: OrientationCorrection? = nil) {
+        public init(imageProperties: DetectLabelsImageProperties? = nil, labelModelVersion: String? = nil, labels: [Label]? = nil, orientationCorrection: OrientationCorrection? = nil) {
+            self.imageProperties = imageProperties
             self.labelModelVersion = labelModelVersion
             self.labels = labels
             self.orientationCorrection = orientationCorrection
         }
 
         private enum CodingKeys: String, CodingKey {
+            case imageProperties = "ImageProperties"
             case labelModelVersion = "LabelModelVersion"
             case labels = "Labels"
             case orientationCorrection = "OrientationCorrection"
         }
     }
 
+    public struct DetectLabelsSettings: AWSEncodableShape {
+        /// Contains the specified filters for GENERAL_LABELS.
+        public let generalLabels: GeneralLabelsSettings?
+        /// Contains the chosen number of maximum dominant colors in an image.
+        public let imageProperties: DetectLabelsImagePropertiesSettings?
+
+        public init(generalLabels: GeneralLabelsSettings? = nil, imageProperties: DetectLabelsImagePropertiesSettings? = nil) {
+            self.generalLabels = generalLabels
+            self.imageProperties = imageProperties
+        }
+
+        public func validate(name: String) throws {
+            try self.generalLabels?.validate(name: "\(name).generalLabels")
+            try self.imageProperties?.validate(name: "\(name).imageProperties")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case generalLabels = "GeneralLabels"
+            case imageProperties = "ImageProperties"
+        }
+    }
+
     public struct DetectModerationLabelsRequest: AWSEncodableShape {
         /// Sets up the configuration for human evaluation, including the FlowDefinition the image will be sent to.
         public let humanLoopConfig: HumanLoopConfig?
-        /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not supported.  If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field.  For more information, see Images in the Amazon Rekognition developer guide.
+        /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not supported.  If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field. For more information, see Images in the Amazon Rekognition developer guide.
         public let image: Image
         /// Specifies the minimum confidence level for the labels to return. Amazon Rekognition doesn't return any labels with a confidence level lower than this specified value. If you don't specify MinConfidence, the operation returns labels with confidence values greater than or equal to 50 percent.
         public let minConfidence: Float?
@@ -1983,7 +2123,7 @@ extension Rekognition {
     public struct DetectTextRequest: AWSEncodableShape {
         /// Optional parameters that let you set the criteria that the text must meet to be included in your response.
         public let filters: DetectTextFilters?
-        /// The input image as base64-encoded bytes or an Amazon S3 object. If you use the AWS CLI to call Amazon Rekognition operations, you can't pass image bytes.  If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field.  For more information, see Images in the Amazon Rekognition developer guide.
+        /// The input image as base64-encoded bytes or an Amazon S3 object. If you use the AWS CLI to call Amazon Rekognition operations, you can't pass image bytes.  If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field. For more information, see Images in the Amazon Rekognition developer guide.
         public let image: Image
 
         public init(filters: DetectTextFilters? = nil, image: Image) {
@@ -2091,6 +2231,43 @@ extension Rekognition {
 
     public struct DistributeDatasetEntriesResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct DominantColor: AWSDecodableShape {
+        /// The Blue RGB value for a dominant color.
+        public let blue: Int?
+        /// The CSS color name of a dominant color.
+        public let cssColor: String?
+        /// The Green RGB value for a dominant color.
+        public let green: Int?
+        /// The Hex code equivalent of the RGB values for a dominant color.
+        public let hexCode: String?
+        /// The percentage of image pixels that have a given dominant color.
+        public let pixelPercent: Float?
+        /// The Red RGB value for a dominant color.
+        public let red: Int?
+        /// One of 12 simplified color names applied to a dominant color.
+        public let simplifiedColor: String?
+
+        public init(blue: Int? = nil, cssColor: String? = nil, green: Int? = nil, hexCode: String? = nil, pixelPercent: Float? = nil, red: Int? = nil, simplifiedColor: String? = nil) {
+            self.blue = blue
+            self.cssColor = cssColor
+            self.green = green
+            self.hexCode = hexCode
+            self.pixelPercent = pixelPercent
+            self.red = red
+            self.simplifiedColor = simplifiedColor
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blue = "Blue"
+            case cssColor = "CSSColor"
+            case green = "Green"
+            case hexCode = "HexCode"
+            case pixelPercent = "PixelPercent"
+            case red = "Red"
+            case simplifiedColor = "SimplifiedColor"
+        }
     }
 
     public struct Emotion: AWSDecodableShape {
@@ -2228,7 +2405,7 @@ extension Rekognition {
         public let boundingBox: BoundingBox?
         /// Confidence level that the bounding box contains a face (and not a different object such as a tree). Default attribute.
         public let confidence: Float?
-        /// The emotions that appear to be expressed on the face, and the confidence level in the determination.  The API is only making a determination of the physical appearance of a person's face. It is not a determination of the person’s internal emotional state and should not be used in such a way. For example, a person pretending to have a sad face might not be sad emotionally.
+        /// The emotions that appear to be expressed on the face, and the confidence level in the determination. The API is only making a determination of the physical appearance of a person's face. It is not a determination of the person’s internal emotional state and should not be used in such a way. For example, a person pretending to have a sad face might not be sad emotionally.
         public let emotions: [Emotion]?
         /// Indicates whether or not the face is wearing eye glasses, and the confidence level in the determination.
         public let eyeglasses: Eyeglasses?
@@ -2291,7 +2468,7 @@ extension Rekognition {
     public struct FaceDetection: AWSDecodableShape {
         /// The face properties for the detected face.
         public let face: FaceDetail?
-        /// Time, in milliseconds from the start of the video, that the face was detected.
+        /// Time, in milliseconds from the start of the video, that the face was detected. Note that Timestamp is not guaranteed to be accurate to the individual frame where the face first appears.
         public let timestamp: Int64?
 
         public init(face: FaceDetail? = nil, timestamp: Int64? = nil) {
@@ -2378,6 +2555,54 @@ extension Rekognition {
         private enum CodingKeys: String, CodingKey {
             case confidence = "Confidence"
             case value = "Value"
+        }
+    }
+
+    public struct GeneralLabelsSettings: AWSEncodableShape {
+        /// The label categories that should be excluded from the return from DetectLabels.
+        public let labelCategoryExclusionFilters: [String]?
+        /// The label categories that should be included in the return from DetectLabels.
+        public let labelCategoryInclusionFilters: [String]?
+        /// The labels that should be excluded from the return from DetectLabels.
+        public let labelExclusionFilters: [String]?
+        /// The labels that should be included in the return from DetectLabels.
+        public let labelInclusionFilters: [String]?
+
+        public init(labelCategoryExclusionFilters: [String]? = nil, labelCategoryInclusionFilters: [String]? = nil, labelExclusionFilters: [String]? = nil, labelInclusionFilters: [String]? = nil) {
+            self.labelCategoryExclusionFilters = labelCategoryExclusionFilters
+            self.labelCategoryInclusionFilters = labelCategoryInclusionFilters
+            self.labelExclusionFilters = labelExclusionFilters
+            self.labelInclusionFilters = labelInclusionFilters
+        }
+
+        public func validate(name: String) throws {
+            try self.labelCategoryExclusionFilters?.forEach {
+                try validate($0, name: "labelCategoryExclusionFilters[]", parent: name, max: 50)
+                try validate($0, name: "labelCategoryExclusionFilters[]", parent: name, pattern: "^[A-Za-z0-9àâèçñó'-_(). ]*$")
+            }
+            try self.validate(self.labelCategoryExclusionFilters, name: "labelCategoryExclusionFilters", parent: name, max: 100)
+            try self.labelCategoryInclusionFilters?.forEach {
+                try validate($0, name: "labelCategoryInclusionFilters[]", parent: name, max: 50)
+                try validate($0, name: "labelCategoryInclusionFilters[]", parent: name, pattern: "^[A-Za-z0-9àâèçñó'-_(). ]*$")
+            }
+            try self.validate(self.labelCategoryInclusionFilters, name: "labelCategoryInclusionFilters", parent: name, max: 100)
+            try self.labelExclusionFilters?.forEach {
+                try validate($0, name: "labelExclusionFilters[]", parent: name, max: 50)
+                try validate($0, name: "labelExclusionFilters[]", parent: name, pattern: "^[A-Za-z0-9àâèçñó'-_(). ]*$")
+            }
+            try self.validate(self.labelExclusionFilters, name: "labelExclusionFilters", parent: name, max: 100)
+            try self.labelInclusionFilters?.forEach {
+                try validate($0, name: "labelInclusionFilters[]", parent: name, max: 50)
+                try validate($0, name: "labelInclusionFilters[]", parent: name, pattern: "^[A-Za-z0-9àâèçñó'-_(). ]*$")
+            }
+            try self.validate(self.labelInclusionFilters, name: "labelInclusionFilters", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case labelCategoryExclusionFilters = "LabelCategoryExclusionFilters"
+            case labelCategoryInclusionFilters = "LabelCategoryInclusionFilters"
+            case labelExclusionFilters = "LabelExclusionFilters"
+            case labelInclusionFilters = "LabelInclusionFilters"
         }
     }
 
@@ -2956,7 +3181,7 @@ extension Rekognition {
     }
 
     public struct HumanLoopActivationOutput: AWSDecodableShape {
-        /// Shows the result of condition evaluations, including those conditions which activated a  human review.
+        /// Shows the result of condition evaluations, including those conditions which activated a human review.
         public let humanLoopActivationConditionsEvaluationResults: String?
         /// Shows if and why human review was needed.
         public let humanLoopActivationReasons: [String]?
@@ -3069,11 +3294,11 @@ extension Rekognition {
         public let detectionAttributes: [Attribute]?
         /// The ID you want to assign to all the faces detected in the image.
         public let externalImageId: String?
-        /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes isn't supported.  If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field.  For more information, see Images in the Amazon Rekognition developer guide.
+        /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes isn't supported.  If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field. For more information, see Images in the Amazon Rekognition developer guide.
         public let image: Image
-        /// The maximum number of faces to index. The value of MaxFaces must be greater than or equal to 1. IndexFaces returns no more than 100 detected faces in an image, even if you specify a larger value for MaxFaces. If IndexFaces detects more faces than the value of MaxFaces, the faces with the lowest quality are filtered out first. If there are still more faces than the value of MaxFaces, the faces with the smallest bounding boxes are filtered out (up to the number that's needed to satisfy the value of MaxFaces). Information about the unindexed faces is available in the UnindexedFaces array.  The faces that are returned by IndexFaces are sorted by the largest face bounding box size to the smallest size, in descending order.  MaxFaces can be used with a collection associated with any version of  the face model.
+        /// The maximum number of faces to index. The value of MaxFaces must be greater than or equal to 1. IndexFaces returns no more than 100 detected faces in an image, even if you specify a larger value for MaxFaces. If IndexFaces detects more faces than the value of MaxFaces, the faces with the lowest quality are filtered out first. If there are still more faces than the value of MaxFaces, the faces with the smallest bounding boxes are filtered out (up to the number that's needed to satisfy the value of MaxFaces). Information about the unindexed faces is available in the UnindexedFaces array.  The faces that are returned by IndexFaces are sorted by the largest face bounding box size to the smallest size, in descending order.  MaxFaces can be used with a collection associated with any version of the face model.
         public let maxFaces: Int?
-        /// A filter that specifies a quality bar for how much filtering is done to identify faces. Filtered faces aren't indexed. If you specify AUTO, Amazon Rekognition chooses the quality bar. If you specify LOW,  MEDIUM, or HIGH, filtering removes all faces that don’t meet the chosen quality bar.  The default value is AUTO.  The quality bar is based on a variety of common use cases. Low-quality detections can occur for a number of reasons. Some examples are an object that's misidentified as a face, a face that's too blurry, or a face with a pose that's too extreme to use. If you specify NONE, no filtering is performed.  To use quality filtering, the collection you are using must be associated with version 3 of the face model or higher.
+        /// A filter that specifies a quality bar for how much filtering is done to identify faces. Filtered faces aren't indexed. If you specify AUTO, Amazon Rekognition chooses the quality bar. If you specify LOW, MEDIUM, or HIGH, filtering removes all faces that don’t meet the chosen quality bar. The default value is AUTO.  The quality bar is based on a variety of common use cases. Low-quality detections can occur for a number of reasons. Some examples are an object that's misidentified as a face, a face that's too blurry, or a face with a pose that's too extreme to use. If you specify NONE, no filtering is performed.  To use quality filtering, the collection you are using must be associated with version 3 of the face model or higher.
         public let qualityFilter: QualityFilter?
 
         public init(collectionId: String, detectionAttributes: [Attribute]? = nil, externalImageId: String? = nil, image: Image, maxFaces: Int? = nil, qualityFilter: QualityFilter? = nil) {
@@ -3111,7 +3336,7 @@ extension Rekognition {
         public let faceModelVersion: String?
         /// An array of faces detected and added to the collection. For more information, see Searching Faces in a Collection in the Amazon Rekognition Developer Guide.
         public let faceRecords: [FaceRecord]?
-        /// If your collection is associated with a face detection model that's later  than version 3.0, the value of OrientationCorrection is always null and no orientation information is returned.  If your collection is associated with a face detection model that's version 3.0 or earlier, the following applies:   If the input image is in .jpeg format, it might contain exchangeable image file format (Exif) metadata that includes the image's orientation. Amazon Rekognition uses this orientation information to perform  image correction - the bounding box coordinates are translated to represent object locations after the orientation information in the Exif metadata is used to correct the image orientation.  Images in .png format don't contain Exif metadata. The value of OrientationCorrection is null.   If the image doesn't contain orientation information in its Exif metadata, Amazon Rekognition returns an estimated orientation (ROTATE_0, ROTATE_90, ROTATE_180, ROTATE_270). Amazon Rekognition doesn’t perform  image correction for images. The bounding box coordinates aren't translated and represent the  object locations before the image is rotated.      Bounding box information is returned in the FaceRecords array. You can get the  version of the face detection model by calling DescribeCollection.
+        /// If your collection is associated with a face detection model that's later than version 3.0, the value of OrientationCorrection is always null and no orientation information is returned. If your collection is associated with a face detection model that's version 3.0 or earlier, the following applies:   If the input image is in .jpeg format, it might contain exchangeable image file format (Exif) metadata that includes the image's orientation. Amazon Rekognition uses this orientation information to perform image correction - the bounding box coordinates are translated to represent object locations after the orientation information in the Exif metadata is used to correct the image orientation. Images in .png format don't contain Exif metadata. The value of OrientationCorrection is null.   If the image doesn't contain orientation information in its Exif metadata, Amazon Rekognition returns an estimated orientation (ROTATE_0, ROTATE_90, ROTATE_180, ROTATE_270). Amazon Rekognition doesn’t perform image correction for images. The bounding box coordinates aren't translated and represent the object locations before the image is rotated.   Bounding box information is returned in the FaceRecords array. You can get the version of the face detection model by calling DescribeCollection.
         public let orientationCorrection: OrientationCorrection?
         /// An array of faces that were detected in the image but weren't indexed. They weren't indexed because the quality filter identified them as low quality, or the MaxFaces request parameter filtered them out. To use the quality filter, you specify the QualityFilter request parameter.
         public let unindexedFaces: [UnindexedFace]?
@@ -3136,15 +3361,19 @@ extension Rekognition {
         public let boundingBox: BoundingBox?
         /// The confidence that Amazon Rekognition has in the accuracy of the bounding box.
         public let confidence: Float?
+        /// The dominant colors found in an individual instance of a label.
+        public let dominantColors: [DominantColor]?
 
-        public init(boundingBox: BoundingBox? = nil, confidence: Float? = nil) {
+        public init(boundingBox: BoundingBox? = nil, confidence: Float? = nil, dominantColors: [DominantColor]? = nil) {
             self.boundingBox = boundingBox
             self.confidence = confidence
+            self.dominantColors = dominantColors
         }
 
         private enum CodingKeys: String, CodingKey {
             case boundingBox = "BoundingBox"
             case confidence = "Confidence"
+            case dominantColors = "DominantColors"
         }
     }
 
@@ -3185,7 +3414,7 @@ extension Rekognition {
     public struct KinesisVideoStreamStartSelector: AWSEncodableShape {
         ///  The unique identifier of the fragment. This value monotonically increases based on the ingestion order.
         public let fragmentNumber: String?
-        ///  The timestamp from the producer corresponding to the fragment.
+        ///  The timestamp from the producer corresponding to the fragment, in milliseconds, expressed in unix time format.
         public let producerTimestamp: Int64?
 
         public init(fragmentNumber: String? = nil, producerTimestamp: Int64? = nil) {
@@ -3220,6 +3449,10 @@ extension Rekognition {
     }
 
     public struct Label: AWSDecodableShape {
+        /// A list of potential aliases for a given label.
+        public let aliases: [LabelAlias]?
+        /// A list of the categories associated with a given label.
+        public let categories: [LabelCategory]?
         /// Level of confidence.
         public let confidence: Float?
         /// If Label represents an object, Instances contains the bounding boxes for each instance of the detected object. Bounding boxes are returned for common object labels such as people, cars, furniture, apparel or pets.
@@ -3229,7 +3462,9 @@ extension Rekognition {
         /// The parent labels for a label. The response includes all ancestor labels.
         public let parents: [Parent]?
 
-        public init(confidence: Float? = nil, instances: [Instance]? = nil, name: String? = nil, parents: [Parent]? = nil) {
+        public init(aliases: [LabelAlias]? = nil, categories: [LabelCategory]? = nil, confidence: Float? = nil, instances: [Instance]? = nil, name: String? = nil, parents: [Parent]? = nil) {
+            self.aliases = aliases
+            self.categories = categories
             self.confidence = confidence
             self.instances = instances
             self.name = name
@@ -3237,6 +3472,8 @@ extension Rekognition {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case aliases = "Aliases"
+            case categories = "Categories"
             case confidence = "Confidence"
             case instances = "Instances"
             case name = "Name"
@@ -3244,10 +3481,36 @@ extension Rekognition {
         }
     }
 
+    public struct LabelAlias: AWSDecodableShape {
+        /// The name of an alias for a given label.
+        public let name: String?
+
+        public init(name: String? = nil) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct LabelCategory: AWSDecodableShape {
+        /// The name of a category that applies to a given label.
+        public let name: String?
+
+        public init(name: String? = nil) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
     public struct LabelDetection: AWSDecodableShape {
         /// Details about the detected label.
         public let label: Label?
-        /// Time, in milliseconds from the start of the video, that the label was detected.
+        /// Time, in milliseconds from the start of the video, that the label was detected. Note that Timestamp is not guaranteed to be accurate to the individual frame where the label first appears.
         public let timestamp: Int64?
 
         public init(label: Label? = nil, timestamp: Int64? = nil) {
@@ -3264,9 +3527,9 @@ extension Rekognition {
     public struct Landmark: AWSDecodableShape {
         /// Type of landmark.
         public let type: LandmarkType?
-        /// The x-coordinate of the landmark expressed as a ratio of the width of the image.  The x-coordinate is measured from the left-side of the image.  For example, if the image is 700 pixels wide and the x-coordinate of the landmark is at 350 pixels, this value is 0.5.
+        /// The x-coordinate of the landmark expressed as a ratio of the width of the image. The x-coordinate is measured from the left-side of the image. For example, if the image is 700 pixels wide and the x-coordinate of the landmark is at 350 pixels, this value is 0.5.
         public let x: Float?
-        /// The y-coordinate of the landmark expressed as a ratio of the height of the image.  The y-coordinate is measured from the top of the image.   For example, if the image height is 200 pixels and the y-coordinate of the landmark is at 50 pixels, this value is 0.25.
+        /// The y-coordinate of the landmark expressed as a ratio of the height of the image. The y-coordinate is measured from the top of the image. For example, if the image height is 200 pixels and the y-coordinate of the landmark is at 50 pixels, this value is 0.25.
         public let y: Float?
 
         public init(type: LandmarkType? = nil, x: Float? = nil, y: Float? = nil) {
@@ -3752,7 +4015,7 @@ extension Rekognition {
     public struct PersonDetection: AWSDecodableShape {
         /// Details about a person whose path was tracked in a video.
         public let person: PersonDetail?
-        /// The time, in milliseconds from the start of the video, that the person's path was tracked.
+        /// The time, in milliseconds from the start of the video, that the person's path was tracked. Note that Timestamp is not guaranteed to be accurate to the individual frame where the person's path first appears.
         public let timestamp: Int64?
 
         public init(person: PersonDetail? = nil, timestamp: Int64? = nil) {
@@ -4113,7 +4376,7 @@ extension Rekognition {
     public struct RecognizeCelebritiesResponse: AWSDecodableShape {
         /// Details about each celebrity found in the image. Amazon Rekognition can detect a maximum of 64 celebrities in an image. Each celebrity object includes the following attributes: Face, Confidence, Emotions, Landmarks, Pose, Quality, Smile, Id, KnownGender, MatchConfidence, Name, Urls.
         public let celebrityFaces: [Celebrity]?
-        ///  Support for estimating image orientation using the the OrientationCorrection field has ceased as of August 2021.  Any returned values for this field included in an API response will always be NULL.  The orientation of the input image (counterclockwise direction). If your application displays the image, you can use this value to correct the orientation. The bounding box coordinates returned in CelebrityFaces and UnrecognizedFaces represent face locations before the image orientation is corrected.   If the input image is in .jpeg format, it might contain exchangeable image (Exif) metadata that includes the image's orientation. If so, and the Exif metadata for the input image populates the orientation field, the value of OrientationCorrection is null. The CelebrityFaces and UnrecognizedFaces bounding box coordinates represent face locations after Exif metadata is used to correct the image orientation. Images in .png format don't contain Exif metadata.
+        ///  Support for estimating image orientation using the the OrientationCorrection field has ceased as of August 2021. Any returned values for this field included in an API response will always be NULL.  The orientation of the input image (counterclockwise direction). If your application displays the image, you can use this value to correct the orientation. The bounding box coordinates returned in CelebrityFaces and UnrecognizedFaces represent face locations before the image orientation is corrected.   If the input image is in .jpeg format, it might contain exchangeable image (Exif) metadata that includes the image's orientation. If so, and the Exif metadata for the input image populates the orientation field, the value of OrientationCorrection is null. The CelebrityFaces and UnrecognizedFaces bounding box coordinates represent face locations after Exif metadata is used to correct the image orientation. Images in .png format don't contain Exif metadata.
         public let orientationCorrection: OrientationCorrection?
         /// Details about each unrecognized face in the image.
         public let unrecognizedFaces: [ComparedFace]?
@@ -4208,11 +4471,11 @@ extension Rekognition {
         public let collectionId: String
         /// (Optional) Specifies the minimum confidence in the face match to return. For example, don't return any matches where confidence in matches is less than 70%. The default value is 80%.
         public let faceMatchThreshold: Float?
-        /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not supported.  If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field.  For more information, see Images in the Amazon Rekognition developer guide.
+        /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not supported.  If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field. For more information, see Images in the Amazon Rekognition developer guide.
         public let image: Image
         /// Maximum number of faces to return. The operation returns the maximum number of faces with the highest confidence in the match.
         public let maxFaces: Int?
-        /// A filter that specifies a quality bar for how much filtering is done to identify faces. Filtered faces aren't searched for in the collection. If you specify AUTO, Amazon Rekognition  chooses the quality bar.  If you specify LOW,  MEDIUM, or HIGH, filtering removes all faces that don’t meet the chosen quality bar.    The quality bar is based on a variety of common use cases. Low-quality detections can occur for a number of reasons. Some examples are an object that's misidentified as a face, a face that's too blurry, or a face with a pose that's too extreme to use. If you specify NONE, no filtering is performed.  The default value is NONE.  To use quality filtering, the collection you are using must be associated with version 3 of the face model or higher.
+        /// A filter that specifies a quality bar for how much filtering is done to identify faces. Filtered faces aren't searched for in the collection. If you specify AUTO, Amazon Rekognition chooses the quality bar. If you specify LOW, MEDIUM, or HIGH, filtering removes all faces that don’t meet the chosen quality bar. The quality bar is based on a variety of common use cases. Low-quality detections can occur for a number of reasons. Some examples are an object that's misidentified as a face, a face that's too blurry, or a face with a pose that's too extreme to use. If you specify NONE, no filtering is performed. The default value is NONE.  To use quality filtering, the collection you are using must be associated with version 3 of the face model or higher.
         public let qualityFilter: QualityFilter?
 
         public init(collectionId: String, faceMatchThreshold: Float? = nil, image: Image, maxFaces: Int? = nil, qualityFilter: QualityFilter? = nil) {
@@ -4273,7 +4536,7 @@ extension Rekognition {
         public let collectionId: String
         /// ID of a face to find matches for in the collection.
         public let faceId: String
-        /// Optional value specifying the minimum confidence in the face match to return. For example, don't return any matches where confidence in matches is less than 70%.  The default value is 80%.
+        /// Optional value specifying the minimum confidence in the face match to return. For example, don't return any matches where confidence in matches is less than 70%. The default value is 80%.
         public let faceMatchThreshold: Float?
         /// Maximum number of faces to return. The operation returns the maximum number of faces with the highest confidence in the match.
         public let maxFaces: Int?
@@ -4899,7 +5162,7 @@ extension Rekognition {
     public struct StartStreamProcessorRequest: AWSEncodableShape {
         /// The name of the stream processor to start processing.
         public let name: String
-        ///  Specifies the starting point in the Kinesis stream to start processing.  You can use the producer timestamp or the fragment number.  For more information, see Fragment.   This is a required parameter for label detection stream processors and should not be used to start a face search stream processor.
+        ///  Specifies the starting point in the Kinesis stream to start processing.  You can use the producer timestamp or the fragment number. If you use the producer timestamp, you must put the time in milliseconds. For more information about fragment numbers, see Fragment.   This is a required parameter for label detection stream processors and should not be used to start a face search stream processor.
         public let startSelector: StreamProcessingStartSelector?
         ///  Specifies when to stop processing the stream. You can specify a  maximum amount of time to process the video.   This is a required parameter for label detection stream processors and should not be used to start a face search stream processor.
         public let stopSelector: StreamProcessingStopSelector?
@@ -5091,7 +5354,7 @@ extension Rekognition {
     }
 
     public struct StreamProcessingStartSelector: AWSEncodableShape {
-        ///  Specifies the starting point in the stream to start processing. This can be done with a timestamp or a fragment number in a Kinesis stream.
+        ///  Specifies the starting point in the stream to start processing. This can be done with a producer timestamp or a fragment number in a Kinesis stream.
         public let kvsStreamStartSelector: KinesisVideoStreamStartSelector?
 
         public init(kvsStreamStartSelector: KinesisVideoStreamStartSelector? = nil) {
@@ -5409,7 +5672,7 @@ extension Rekognition {
     public struct TextDetectionResult: AWSDecodableShape {
         /// Details about text detected in a video.
         public let textDetection: TextDetection?
-        /// The time, in milliseconds from the start of the video, that the text was detected.
+        /// The time, in milliseconds from the start of the video, that the text was detected. Note that Timestamp is not guaranteed to be accurate to the individual frame where the text first appears.
         public let timestamp: Int64?
 
         public init(textDetection: TextDetection? = nil, timestamp: Int64? = nil) {
@@ -5466,7 +5729,7 @@ extension Rekognition {
     public struct UnindexedFace: AWSDecodableShape {
         /// The structure that contains attributes of a face that IndexFacesdetected, but didn't index.
         public let faceDetail: FaceDetail?
-        /// An array of reasons that specify why a face wasn't indexed.    EXTREME_POSE - The face is at a pose that can't be detected. For example, the head is turned too far away from the camera.   EXCEEDS_MAX_FACES - The number of faces detected is already higher than that specified by the  MaxFaces input parameter for IndexFaces.   LOW_BRIGHTNESS - The image is too dark.   LOW_SHARPNESS - The image is too blurry.   LOW_CONFIDENCE - The face was detected with a low confidence.   SMALL_BOUNDING_BOX - The bounding box around the face is too small.
+        /// An array of reasons that specify why a face wasn't indexed.    EXTREME_POSE - The face is at a pose that can't be detected. For example, the head is turned too far away from the camera.   EXCEEDS_MAX_FACES - The number of faces detected is already higher than that specified by the MaxFaces input parameter for IndexFaces.   LOW_BRIGHTNESS - The image is too dark.   LOW_SHARPNESS - The image is too blurry.   LOW_CONFIDENCE - The face was detected with a low confidence.   SMALL_BOUNDING_BOX - The bounding box around the face is too small.
         public let reasons: [Reason]?
 
         public init(faceDetail: FaceDetail? = nil, reasons: [Reason]? = nil) {

@@ -106,7 +106,7 @@ public struct SFNErrorType: AWSErrorType {
     public static var stateMachineTypeNotSupported: Self { .init(.stateMachineTypeNotSupported) }
     public static var taskDoesNotExist: Self { .init(.taskDoesNotExist) }
     public static var taskTimedOut: Self { .init(.taskTimedOut) }
-    /// You've exceeded the number of tags allowed for a resource. See the  Limits Topic in the AWS Step Functions Developer Guide.
+    /// You've exceeded the number of tags allowed for a resource. See the  Limits Topic in the Step Functions Developer Guide.
     public static var tooManyTags: Self { .init(.tooManyTags) }
 }
 

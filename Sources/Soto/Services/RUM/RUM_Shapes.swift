@@ -21,6 +21,12 @@ import SotoCore
 extension RUM {
     // MARK: Enums
 
+    public enum CustomEventsStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MetricDestination: String, CustomStringConvertible, Codable, _SotoSendable {
         case cloudWatch = "CloudWatch"
         case evidently = "Evidently"
@@ -51,6 +57,8 @@ extension RUM {
         public let appMonitorConfiguration: AppMonitorConfiguration?
         /// The date and time that this app monitor was created.
         public let created: String?
+        /// Specifies whether this app monitor allows the web client to define and send custom events. For more information about custom events, see  Send custom events.
+        public let customEvents: CustomEvents?
         /// A structure that contains information about whether this app monitor stores a copy of the telemetry data that RUM collects using CloudWatch Logs.
         public let dataStorage: DataStorage?
         /// The top-level internet domain name for which your application has administrative authority.
@@ -66,9 +74,10 @@ extension RUM {
         /// The list of tag keys and values associated with this app monitor.
         public let tags: [String: String]?
 
-        public init(appMonitorConfiguration: AppMonitorConfiguration? = nil, created: String? = nil, dataStorage: DataStorage? = nil, domain: String? = nil, id: String? = nil, lastModified: String? = nil, name: String? = nil, state: StateEnum? = nil, tags: [String: String]? = nil) {
+        public init(appMonitorConfiguration: AppMonitorConfiguration? = nil, created: String? = nil, customEvents: CustomEvents? = nil, dataStorage: DataStorage? = nil, domain: String? = nil, id: String? = nil, lastModified: String? = nil, name: String? = nil, state: StateEnum? = nil, tags: [String: String]? = nil) {
             self.appMonitorConfiguration = appMonitorConfiguration
             self.created = created
+            self.customEvents = customEvents
             self.dataStorage = dataStorage
             self.domain = domain
             self.id = id
@@ -81,6 +90,7 @@ extension RUM {
         private enum CodingKeys: String, CodingKey {
             case appMonitorConfiguration = "AppMonitorConfiguration"
             case created = "Created"
+            case customEvents = "CustomEvents"
             case dataStorage = "DataStorage"
             case domain = "Domain"
             case id = "Id"
@@ -104,7 +114,7 @@ extension RUM {
         public let guestRoleArn: String?
         /// The ID of the Amazon Cognito identity pool  that is used to authorize the sending of data to RUM.
         public let identityPoolId: String?
-        /// If this app monitor is to collect data from only certain pages in your application, this structure lists those pages.   You can't include both ExcludedPages and IncludedPages in the same operation.
+        /// If this app monitor is to collect data from only certain pages in your application, this structure lists those pages.  You can't include both ExcludedPages and IncludedPages in the same operation.
         public let includedPages: [String]?
         /// Specifies the portion of user sessions to use for RUM data collection. Choosing a higher portion gives you more data but also incurs more costs. The range for this value is 0 to 1 inclusive. Setting this to 1 means that 100% of user sessions are sampled, and setting it to 0.1 means that 10% of user sessions are sampled. If you omit this parameter, the default of 0.1 is used, and 10% of sessions will be sampled.
         public let sessionSampleRate: Double?
@@ -423,17 +433,20 @@ extension RUM {
     public struct CreateAppMonitorRequest: AWSEncodableShape {
         /// A structure that contains much of the configuration data for the app monitor. If you are using  Amazon Cognito for authorization, you must include this structure in your request, and it must include the ID of the  Amazon Cognito identity pool to use for authorization. If you don't include AppMonitorConfiguration, you must set up your own  authorization method. For more information, see  Authorize your application to send data to Amazon Web Services. If you omit this argument, the sample rate used for RUM is set to 10% of the user sessions.
         public let appMonitorConfiguration: AppMonitorConfiguration?
+        /// Specifies whether this app monitor allows the web client to define and send custom events. If you omit this parameter, custom events are DISABLED. For more information about custom events, see  Send custom events.
+        public let customEvents: CustomEvents?
         /// Data collected by RUM is kept by RUM for 30 days and then deleted. This parameter specifies whether RUM  sends a copy of this telemetry data to Amazon CloudWatch Logs in your account. This enables you to keep the telemetry data for more than 30 days, but it does incur Amazon CloudWatch Logs charges. If you omit this parameter, the default is false.
         public let cwLogEnabled: Bool?
         /// The top-level internet domain name for which your application has administrative authority.
         public let domain: String
         /// A name for the app monitor.
         public let name: String
-        /// Assigns one or more tags (key-value pairs) to the app monitor. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters.  You can associate as many as 50 tags with an app monitor. For more information, see Tagging Amazon Web Services resources.
+        /// Assigns one or more tags (key-value pairs) to the app monitor. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can associate as many as 50 tags with an app monitor. For more information, see Tagging Amazon Web Services resources.
         public let tags: [String: String]?
 
-        public init(appMonitorConfiguration: AppMonitorConfiguration? = nil, cwLogEnabled: Bool? = nil, domain: String, name: String, tags: [String: String]? = nil) {
+        public init(appMonitorConfiguration: AppMonitorConfiguration? = nil, customEvents: CustomEvents? = nil, cwLogEnabled: Bool? = nil, domain: String, name: String, tags: [String: String]? = nil) {
             self.appMonitorConfiguration = appMonitorConfiguration
+            self.customEvents = customEvents
             self.cwLogEnabled = cwLogEnabled
             self.domain = domain
             self.name = name
@@ -458,6 +471,7 @@ extension RUM {
 
         private enum CodingKeys: String, CodingKey {
             case appMonitorConfiguration = "AppMonitorConfiguration"
+            case customEvents = "CustomEvents"
             case cwLogEnabled = "CwLogEnabled"
             case domain = "Domain"
             case name = "Name"
@@ -475,6 +489,19 @@ extension RUM {
 
         private enum CodingKeys: String, CodingKey {
             case id = "Id"
+        }
+    }
+
+    public struct CustomEvents: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether this app monitor allows the web client to define and send custom events. The default is for custom events to be DISABLED.
+        public let status: CustomEventsStatus?
+
+        public init(status: CustomEventsStatus? = nil) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
         }
     }
 
@@ -818,7 +845,7 @@ extension RUM {
     }
 
     public struct MetricDefinitionRequest: AWSEncodableShape & AWSDecodableShape {
-        /// Use this field only if you are sending the metric to CloudWatch. This field is a map of field paths to dimension names. It defines the dimensions to associate with this metric in CloudWatch. Valid values for the entries in this field are the following:    "metadata.pageId": "PageId"     "metadata.browserName": "BrowserName"     "metadata.deviceType": "DeviceType"     "metadata.osName": "OSName"     "metadata.countryCode": "CountryCode"     "event_details.fileType": "FileType"     All dimensions listed in this field must also be included in EventPattern.
+        /// Use this field only if you are sending the metric to CloudWatch. This field is a map of field paths to dimension names. It defines the dimensions to associate with this metric in CloudWatch. Valid values for the entries in this field are the following:    "metadata.pageId": "PageId"     "metadata.browserName": "BrowserName"     "metadata.deviceType": "DeviceType"     "metadata.osName": "OSName"     "metadata.countryCode": "CountryCode"     "event_details.fileType": "FileType"    All dimensions listed in this field must also be included in EventPattern.
         public let dimensionKeys: [String: String]?
         /// The pattern that defines the metric, specified as a JSON object. RUM checks events that happen in a user's session against the pattern, and events that match the pattern are sent to the metric destination. When you define extended metrics, the metric definition is not valid if EventPattern is omitted. Example event patterns:    '{ "event_type": ["com.amazon.rum.js_error_event"], "metadata": { "browserName": [ "Chrome", "Safari" ], } }'     '{ "event_type": ["com.amazon.rum.performance_navigation_event"], "metadata": { "browserName": [ "Chrome", "Firefox" ] }, "event_details": { "duration": [{ "numeric": [ "&lt;", 2000 ] }] } }'     '{ "event_type": ["com.amazon.rum.performance_navigation_event"], "metadata": { "browserName": [ "Chrome", "Safari" ], "countryCode": [ "US" ] }, "event_details": { "duration": [{ "numeric": [ "&gt;=", 2000, "&lt;", 8000 ] }] } }'    If the metrics destination' is CloudWatch and the event also matches a value in DimensionKeys, then the metric is published with the specified dimensions.
         public let eventPattern: String?
@@ -1104,6 +1131,8 @@ extension RUM {
 
         /// A structure that contains much of the configuration data for the app monitor. If you are using  Amazon Cognito for authorization, you must include this structure in your request, and it must include the ID of the  Amazon Cognito identity pool to use for authorization. If you don't include AppMonitorConfiguration, you must set up your own  authorization method. For more information, see  Authorize your application to send data to Amazon Web Services.
         public let appMonitorConfiguration: AppMonitorConfiguration?
+        /// Specifies whether this app monitor allows the web client to define and send custom events. The default is for custom events to be DISABLED. For more information about custom events, see  Send custom events.
+        public let customEvents: CustomEvents?
         /// Data collected by RUM is kept by RUM for 30 days and then deleted. This parameter specifies whether RUM  sends a copy of this telemetry data to Amazon CloudWatch Logs in your account. This enables you to keep the telemetry data for more than 30 days, but it does incur Amazon CloudWatch Logs charges.
         public let cwLogEnabled: Bool?
         /// The top-level internet domain name for which your application has administrative authority.
@@ -1111,8 +1140,9 @@ extension RUM {
         /// The name of the app monitor to update.
         public let name: String
 
-        public init(appMonitorConfiguration: AppMonitorConfiguration? = nil, cwLogEnabled: Bool? = nil, domain: String? = nil, name: String) {
+        public init(appMonitorConfiguration: AppMonitorConfiguration? = nil, customEvents: CustomEvents? = nil, cwLogEnabled: Bool? = nil, domain: String? = nil, name: String) {
             self.appMonitorConfiguration = appMonitorConfiguration
+            self.customEvents = customEvents
             self.cwLogEnabled = cwLogEnabled
             self.domain = domain
             self.name = name
@@ -1130,6 +1160,7 @@ extension RUM {
 
         private enum CodingKeys: String, CodingKey {
             case appMonitorConfiguration = "AppMonitorConfiguration"
+            case customEvents = "CustomEvents"
             case cwLogEnabled = "CwLogEnabled"
             case domain = "Domain"
         }

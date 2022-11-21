@@ -23,7 +23,12 @@ extension ComprehendMedical {
 
     public enum AttributeName: String, CustomStringConvertible, Codable, _SotoSendable {
         case diagnosis = "DIAGNOSIS"
+        case future = "FUTURE"
+        case hypothetical = "HYPOTHETICAL"
+        case lowConfidence = "LOW_CONFIDENCE"
         case negation = "NEGATION"
+        case pastHistory = "PAST_HISTORY"
+        case pertainsToFamily = "PERTAINS_TO_FAMILY"
         case sign = "SIGN"
         case symptom = "SYMPTOM"
         public var description: String { return self.rawValue }
@@ -33,6 +38,9 @@ extension ComprehendMedical {
         case acuity = "ACUITY"
         case address = "ADDRESS"
         case age = "AGE"
+        case alcoholConsumption = "ALCOHOL_CONSUMPTION"
+        case allergies = "ALLERGIES"
+        case amount = "AMOUNT"
         case brandName = "BRAND_NAME"
         case contactPoint = "CONTACT_POINT"
         case date = "DATE"
@@ -43,6 +51,7 @@ extension ComprehendMedical {
         case email = "EMAIL"
         case form = "FORM"
         case frequency = "FREQUENCY"
+        case gender = "GENDER"
         case genericName = "GENERIC_NAME"
         case id = "ID"
         case identifier = "IDENTIFIER"
@@ -52,7 +61,9 @@ extension ComprehendMedical {
         case profession = "PROFESSION"
         case quality = "QUALITY"
         case quantity = "QUANTITY"
+        case raceEthnicity = "RACE_ETHNICITY"
         case rate = "RATE"
+        case recDrugUse = "REC_DRUG_USE"
         case routeOrMode = "ROUTE_OR_MODE"
         case strength = "STRENGTH"
         case systemOrganSite = "SYSTEM_ORGAN_SITE"
@@ -66,6 +77,7 @@ extension ComprehendMedical {
         case timeToProcedureName = "TIME_TO_PROCEDURE_NAME"
         case timeToTestName = "TIME_TO_TEST_NAME"
         case timeToTreatmentName = "TIME_TO_TREATMENT_NAME"
+        case tobaccoUse = "TOBACCO_USE"
         case treatmentName = "TREATMENT_NAME"
         case url = "URL"
         public var description: String { return self.rawValue }
@@ -73,6 +85,7 @@ extension ComprehendMedical {
 
     public enum EntityType: String, CustomStringConvertible, Codable, _SotoSendable {
         case anatomy = "ANATOMY"
+        case behavioralEnvironmentalSocial = "BEHAVIORAL_ENVIRONMENTAL_SOCIAL"
         case medicalCondition = "MEDICAL_CONDITION"
         case medication = "MEDICATION"
         case protectedHealthInformation = "PROTECTED_HEALTH_INFORMATION"
@@ -111,7 +124,10 @@ extension ComprehendMedical {
 
     public enum ICD10CMTraitName: String, CustomStringConvertible, Codable, _SotoSendable {
         case diagnosis = "DIAGNOSIS"
+        case hypothetical = "HYPOTHETICAL"
+        case lowConfidence = "LOW_CONFIDENCE"
         case negation = "NEGATION"
+        case pertainsToFamily = "PERTAINS_TO_FAMILY"
         case sign = "SIGN"
         case symptom = "SYMPTOM"
         public var description: String { return self.rawValue }
@@ -122,8 +138,8 @@ extension ComprehendMedical {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case partialSuccess = "PARTIAL_SUCCESS"
-        case stopped = "STOPPED"
         case stopRequested = "STOP_REQUESTED"
+        case stopped = "STOPPED"
         case submitted = "SUBMITTED"
         public var description: String { return self.rawValue }
     }
@@ -134,13 +150,14 @@ extension ComprehendMedical {
     }
 
     public enum RelationshipType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case `for` = "FOR"
         case acuity = "ACUITY"
         case administeredVia = "ADMINISTERED_VIA"
+        case amount = "AMOUNT"
         case direction = "DIRECTION"
         case dosage = "DOSAGE"
         case duration = "DURATION"
         case every = "EVERY"
-        case `for` = "FOR"
         case form = "FORM"
         case frequency = "FREQUENCY"
         case negative = "NEGATIVE"
@@ -220,7 +237,12 @@ extension ComprehendMedical {
 
     public enum SNOMEDCTTraitName: String, CustomStringConvertible, Codable, _SotoSendable {
         case diagnosis = "DIAGNOSIS"
+        case future = "FUTURE"
+        case hypothetical = "HYPOTHETICAL"
+        case lowConfidence = "LOW_CONFIDENCE"
         case negation = "NEGATION"
+        case pastHistory = "PAST_HISTORY"
+        case pertainsToFamily = "PERTAINS_TO_FAMILY"
         case sign = "SIGN"
         case symptom = "SYMPTOM"
         public var description: String { return self.rawValue }

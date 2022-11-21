@@ -88,7 +88,7 @@ public struct LicenseManager: AWSService {
         return self.client.execute(operation: "CheckoutBorrowLicense", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Checks out the specified license.
+    /// Checks out the specified license.  If the account that created the license is the same that is performing the check out, you must specify the account as the beneficiary.
     public func checkoutLicense(_ input: CheckoutLicenseRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CheckoutLicenseResponse> {
         return self.client.execute(operation: "CheckoutLicense", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -253,9 +253,19 @@ public struct LicenseManager: AWSService {
         return self.client.execute(operation: "ListReceivedGrants", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Lists the grants received for all accounts in the organization.
+    public func listReceivedGrantsForOrganization(_ input: ListReceivedGrantsForOrganizationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListReceivedGrantsForOrganizationResponse> {
+        return self.client.execute(operation: "ListReceivedGrantsForOrganization", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Lists received licenses.
     public func listReceivedLicenses(_ input: ListReceivedLicensesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListReceivedLicensesResponse> {
         return self.client.execute(operation: "ListReceivedLicenses", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists the licenses received for all accounts in the organization.
+    public func listReceivedLicensesForOrganization(_ input: ListReceivedLicensesForOrganizationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListReceivedLicensesForOrganizationResponse> {
+        return self.client.execute(operation: "ListReceivedLicensesForOrganization", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists resources managed using Systems Manager inventory.

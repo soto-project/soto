@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS OpenSearch service.
 ///
-/// Amazon OpenSearch Configuration Service Use the Amazon OpenSearch configuration API to create, configure, and manage Amazon OpenSearch Service domains. For sample code that uses the configuration API, see the  Amazon OpenSearch Service Developer Guide. The guide also contains  sample code for sending signed HTTP requests to the OpenSearch APIs.  The endpoint for configuration service requests is region-specific: es.region.amazonaws.com. For example, es.us-east-1.amazonaws.com. For a current list of supported regions and endpoints, see Regions and Endpoints.
+/// Use the Amazon OpenSearch Service configuration API to create, configure, and manage OpenSearch Service domains. For sample code that uses the configuration API, see the  Amazon OpenSearch Service Developer Guide . The guide also contains sample code for sending signed HTTP requests to the OpenSearch APIs. The endpoint for configuration service requests is Region specific: es.region.amazonaws.com. For example, es.us-east-1.amazonaws.com. For a current list of supported Regions and endpoints, see Amazon Web Services service endpoints.
 public struct OpenSearch: AWSService {
     // MARK: Member variables
 
@@ -74,201 +74,247 @@ public struct OpenSearch: AWSService {
 
     // MARK: API Calls
 
-    /// Allows the remote domain owner to accept an inbound cross-cluster connection request.
+    /// Allows the destination Amazon OpenSearch Service domain owner to accept an inbound cross-cluster search connection request. For more information, see Cross-cluster search for Amazon OpenSearch Service.
     public func acceptInboundConnection(_ input: AcceptInboundConnectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AcceptInboundConnectionResponse> {
         return self.client.execute(operation: "AcceptInboundConnection", path: "/2021-01-01/opensearch/cc/inboundConnection/{ConnectionId}/accept", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Attaches tags to an existing domain. Tags are a set of case-sensitive key value pairs. An domain can have up to 10 tags. See  Tagging Amazon OpenSearch Service domains for more information.
+    /// Attaches tags to an existing Amazon OpenSearch Service domain. Tags are a set of case-sensitive key-value pairs. An domain can have up to 10 tags. For more information, see Tagging Amazon OpenSearch Service domains.
     @discardableResult public func addTags(_ input: AddTagsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "AddTags", path: "/2021-01-01/tags", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Associates a package with an Amazon OpenSearch Service domain.
+    /// Associates a package with an Amazon OpenSearch Service domain. For more information, see Custom packages for Amazon OpenSearch Service.
     public func associatePackage(_ input: AssociatePackageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociatePackageResponse> {
         return self.client.execute(operation: "AssociatePackage", path: "/2021-01-01/packages/associate/{PackageID}/{DomainName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Cancels a scheduled service software update for an Amazon OpenSearch Service domain. You can only perform this operation before the AutomatedUpdateDate and when the UpdateStatus is in the PENDING_UPDATE state.
+    /// Provides access to an Amazon OpenSearch Service domain through the use of an interface VPC endpoint.
+    public func authorizeVpcEndpointAccess(_ input: AuthorizeVpcEndpointAccessRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AuthorizeVpcEndpointAccessResponse> {
+        return self.client.execute(operation: "AuthorizeVpcEndpointAccess", path: "/2021-01-01/opensearch/domain/{DomainName}/authorizeVpcEndpointAccess", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Cancels a scheduled service software update for an Amazon OpenSearch Service domain. You can only perform this operation before the AutomatedUpdateDate and when the domain's UpdateStatus is PENDING_UPDATE. For more information, see Service software updates in Amazon OpenSearch Service.
     public func cancelServiceSoftwareUpdate(_ input: CancelServiceSoftwareUpdateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CancelServiceSoftwareUpdateResponse> {
         return self.client.execute(operation: "CancelServiceSoftwareUpdate", path: "/2021-01-01/opensearch/serviceSoftwareUpdate/cancel", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a new Amazon OpenSearch Service domain. For more information, see Creating and managing Amazon OpenSearch Service domains in the Amazon OpenSearch Service Developer Guide.
+    /// Creates an Amazon OpenSearch Service domain. For more information, see Creating and managing Amazon OpenSearch Service domains.
     public func createDomain(_ input: CreateDomainRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDomainResponse> {
         return self.client.execute(operation: "CreateDomain", path: "/2021-01-01/opensearch/domain", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a new cross-cluster connection from a local OpenSearch domain to a remote OpenSearch domain.
+    /// Creates a new cross-cluster search connection from a source Amazon OpenSearch Service domain to a destination domain. For more information, see Cross-cluster search for Amazon OpenSearch Service.
     public func createOutboundConnection(_ input: CreateOutboundConnectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateOutboundConnectionResponse> {
         return self.client.execute(operation: "CreateOutboundConnection", path: "/2021-01-01/opensearch/cc/outboundConnection", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Create a package for use with Amazon OpenSearch Service domains.
+    /// Creates a package for use with Amazon OpenSearch Service domains. For more information, see Custom packages for Amazon OpenSearch Service.
     public func createPackage(_ input: CreatePackageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreatePackageResponse> {
         return self.client.execute(operation: "CreatePackage", path: "/2021-01-01/packages", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Permanently deletes the specified domain and all of its data. Once a domain is deleted, it cannot be recovered.
+    /// Creates an Amazon OpenSearch Service-managed VPC endpoint.
+    public func createVpcEndpoint(_ input: CreateVpcEndpointRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateVpcEndpointResponse> {
+        return self.client.execute(operation: "CreateVpcEndpoint", path: "/2021-01-01/opensearch/vpcEndpoints", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes an Amazon OpenSearch Service domain and all of its data. You can't recover a domain after you delete it.
     public func deleteDomain(_ input: DeleteDomainRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDomainResponse> {
         return self.client.execute(operation: "DeleteDomain", path: "/2021-01-01/opensearch/domain/{DomainName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Allows the remote domain owner to delete an existing inbound cross-cluster connection.
+    /// Allows the destination Amazon OpenSearch Service domain owner to delete an existing inbound cross-cluster search connection. For more information, see Cross-cluster search for Amazon OpenSearch Service.
     public func deleteInboundConnection(_ input: DeleteInboundConnectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteInboundConnectionResponse> {
         return self.client.execute(operation: "DeleteInboundConnection", path: "/2021-01-01/opensearch/cc/inboundConnection/{ConnectionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Allows the local domain owner to delete an existing outbound cross-cluster connection.
+    /// Allows the source Amazon OpenSearch Service domain owner to delete an existing outbound cross-cluster search connection. For more information, see Cross-cluster search for Amazon OpenSearch Service.
     public func deleteOutboundConnection(_ input: DeleteOutboundConnectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteOutboundConnectionResponse> {
         return self.client.execute(operation: "DeleteOutboundConnection", path: "/2021-01-01/opensearch/cc/outboundConnection/{ConnectionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes the package.
+    /// Deletes an Amazon OpenSearch Service package. For more information, see Custom packages for Amazon OpenSearch Service.
     public func deletePackage(_ input: DeletePackageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeletePackageResponse> {
         return self.client.execute(operation: "DeletePackage", path: "/2021-01-01/packages/{PackageID}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns domain configuration information about the specified domain, including the domain ID, domain endpoint, and domain ARN.
+    /// Deletes an Amazon OpenSearch Service-managed interface VPC endpoint.
+    public func deleteVpcEndpoint(_ input: DeleteVpcEndpointRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteVpcEndpointResponse> {
+        return self.client.execute(operation: "DeleteVpcEndpoint", path: "/2021-01-01/opensearch/vpcEndpoints/{VpcEndpointId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Describes the domain configuration for the specified Amazon OpenSearch Service domain, including the domain ID, domain service endpoint, and domain ARN.
     public func describeDomain(_ input: DescribeDomainRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDomainResponse> {
         return self.client.execute(operation: "DescribeDomain", path: "/2021-01-01/opensearch/domain/{DomainName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Provides scheduled Auto-Tune action details for the domain, such as Auto-Tune action type, description, severity, and scheduled date.
+    /// Returns the list of optimizations that Auto-Tune has made to an Amazon OpenSearch Service domain. For more information, see Auto-Tune for Amazon OpenSearch Service.
     public func describeDomainAutoTunes(_ input: DescribeDomainAutoTunesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDomainAutoTunesResponse> {
         return self.client.execute(operation: "DescribeDomainAutoTunes", path: "/2021-01-01/opensearch/domain/{DomainName}/autoTunes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns information about the current blue/green deployment happening on a domain, including a change ID, status, and progress stages.
+    /// Returns information about the current blue/green deployment happening on an Amazon OpenSearch Service domain. For more information, see Making configuration changes in Amazon OpenSearch Service.
     public func describeDomainChangeProgress(_ input: DescribeDomainChangeProgressRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDomainChangeProgressResponse> {
         return self.client.execute(operation: "DescribeDomainChangeProgress", path: "/2021-01-01/opensearch/domain/{DomainName}/progress", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Provides cluster configuration information about the specified domain, such as the state, creation date, update version, and update date for cluster options.
+    /// Returns the configuration of an Amazon OpenSearch Service domain.
     public func describeDomainConfig(_ input: DescribeDomainConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDomainConfigResponse> {
         return self.client.execute(operation: "DescribeDomainConfig", path: "/2021-01-01/opensearch/domain/{DomainName}/config", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns domain configuration information about the specified domains, including the domain ID, domain endpoint, and domain ARN.
+    /// Returns domain configuration information about the specified Amazon OpenSearch Service domains.
     public func describeDomains(_ input: DescribeDomainsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDomainsResponse> {
         return self.client.execute(operation: "DescribeDomains", path: "/2021-01-01/opensearch/domain-info", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists all the inbound cross-cluster connections for a remote domain.
+    /// Lists all the inbound cross-cluster search connections for a destination (remote) Amazon OpenSearch Service domain. For more information, see Cross-cluster search for Amazon OpenSearch Service.
     public func describeInboundConnections(_ input: DescribeInboundConnectionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeInboundConnectionsResponse> {
         return self.client.execute(operation: "DescribeInboundConnections", path: "/2021-01-01/opensearch/cc/inboundConnection/search", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Describe the limits for a given instance type and OpenSearch or Elasticsearch version. When modifying an existing domain, specify the  DomainName  to see which limits you can modify.
+    /// Describes the instance count, storage, and master node limits for a given OpenSearch or Elasticsearch version and instance type.
     public func describeInstanceTypeLimits(_ input: DescribeInstanceTypeLimitsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeInstanceTypeLimitsResponse> {
         return self.client.execute(operation: "DescribeInstanceTypeLimits", path: "/2021-01-01/opensearch/instanceTypeLimits/{EngineVersion}/{InstanceType}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists all the outbound cross-cluster connections for a local domain.
+    /// Lists all the outbound cross-cluster connections for a local (source) Amazon OpenSearch Service domain. For more information, see Cross-cluster search for Amazon OpenSearch Service.
     public func describeOutboundConnections(_ input: DescribeOutboundConnectionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeOutboundConnectionsResponse> {
         return self.client.execute(operation: "DescribeOutboundConnections", path: "/2021-01-01/opensearch/cc/outboundConnection/search", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes all packages available to Amazon OpenSearch Service domains. Includes options for filtering, limiting the number of results, and pagination.
+    /// Describes all packages available to OpenSearch Service. For more information, see Custom packages for Amazon OpenSearch Service.
     public func describePackages(_ input: DescribePackagesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribePackagesResponse> {
         return self.client.execute(operation: "DescribePackages", path: "/2021-01-01/packages/describe", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists available reserved OpenSearch instance offerings.
+    /// Describes the available Amazon OpenSearch Service Reserved Instance offerings for a given Region. For more information, see Reserved Instances in Amazon OpenSearch Service.
     public func describeReservedInstanceOfferings(_ input: DescribeReservedInstanceOfferingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeReservedInstanceOfferingsResponse> {
         return self.client.execute(operation: "DescribeReservedInstanceOfferings", path: "/2021-01-01/opensearch/reservedInstanceOfferings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns information about reserved OpenSearch instances for this account.
+    /// Describes the Amazon OpenSearch Service instances that you have reserved in a given Region. For more information, see Reserved Instances in Amazon OpenSearch Service.
     public func describeReservedInstances(_ input: DescribeReservedInstancesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeReservedInstancesResponse> {
         return self.client.execute(operation: "DescribeReservedInstances", path: "/2021-01-01/opensearch/reservedInstances", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Dissociates a package from the Amazon OpenSearch Service domain.
+    /// Describes one or more Amazon OpenSearch Service-managed VPC endpoints.
+    public func describeVpcEndpoints(_ input: DescribeVpcEndpointsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeVpcEndpointsResponse> {
+        return self.client.execute(operation: "DescribeVpcEndpoints", path: "/2021-01-01/opensearch/vpcEndpoints/describe", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Removes a package from the specified Amazon OpenSearch Service domain. The package can't be in use with any OpenSearch index for the dissociation to succeed. The package is still available in OpenSearch Service for association later. For more information, see Custom packages for Amazon OpenSearch Service.
     public func dissociatePackage(_ input: DissociatePackageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DissociatePackageResponse> {
         return self.client.execute(operation: "DissociatePackage", path: "/2021-01-01/packages/dissociate/{PackageID}/{DomainName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Returns a list of upgrade-compatible versions of OpenSearch/Elasticsearch. You can optionally pass a  DomainName  to get all upgrade-compatible versions of OpenSearch/Elasticsearch for that specific domain.
+    /// Returns a map of OpenSearch or Elasticsearch versions and the versions you can upgrade them to.
     public func getCompatibleVersions(_ input: GetCompatibleVersionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCompatibleVersionsResponse> {
         return self.client.execute(operation: "GetCompatibleVersions", path: "/2021-01-01/opensearch/compatibleVersions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns a list of package versions, along with their creation time and commit message.
+    /// Returns a list of Amazon OpenSearch Service package versions, along with their creation time and commit message. For more information, see Custom packages for Amazon OpenSearch Service.
     public func getPackageVersionHistory(_ input: GetPackageVersionHistoryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPackageVersionHistoryResponse> {
         return self.client.execute(operation: "GetPackageVersionHistory", path: "/2021-01-01/packages/{PackageID}/history", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves the complete history of the last 10 upgrades performed on the domain.
+    /// Retrieves the complete history of the last 10 upgrades performed on an Amazon OpenSearch Service domain.
     public func getUpgradeHistory(_ input: GetUpgradeHistoryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetUpgradeHistoryResponse> {
         return self.client.execute(operation: "GetUpgradeHistory", path: "/2021-01-01/opensearch/upgradeDomain/{DomainName}/history", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves the latest status of the last upgrade or upgrade eligibility check performed on the domain.
+    /// Returns the most recent status of the last upgrade or upgrade eligibility check performed on an Amazon OpenSearch Service domain.
     public func getUpgradeStatus(_ input: GetUpgradeStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetUpgradeStatusResponse> {
         return self.client.execute(operation: "GetUpgradeStatus", path: "/2021-01-01/opensearch/upgradeDomain/{DomainName}/status", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns the names of all domains owned by the current user's account.
+    /// Returns the names of all Amazon OpenSearch Service domains owned by the current user in the active Region.
     public func listDomainNames(_ input: ListDomainNamesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDomainNamesResponse> {
         return self.client.execute(operation: "ListDomainNames", path: "/2021-01-01/domain", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists all Amazon OpenSearch Service domains associated with the package.
+    /// Lists all Amazon OpenSearch Service domains associated with a given package. For more information, see Custom packages for Amazon OpenSearch Service.
     public func listDomainsForPackage(_ input: ListDomainsForPackageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDomainsForPackageResponse> {
         return self.client.execute(operation: "ListDomainsForPackage", path: "/2021-01-01/packages/{PackageID}/domains", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Lists all instance types and available features for a given OpenSearch or Elasticsearch version.
     public func listInstanceTypeDetails(_ input: ListInstanceTypeDetailsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListInstanceTypeDetailsResponse> {
         return self.client.execute(operation: "ListInstanceTypeDetails", path: "/2021-01-01/opensearch/instanceTypeDetails/{EngineVersion}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists all packages associated with the Amazon OpenSearch Service domain.
+    /// Lists all packages associated with an Amazon OpenSearch Service domain. For more information, see Custom packages for Amazon OpenSearch Service.
     public func listPackagesForDomain(_ input: ListPackagesForDomainRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPackagesForDomainResponse> {
         return self.client.execute(operation: "ListPackagesForDomain", path: "/2021-01-01/domain/{DomainName}/packages", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns all tags for the given domain.
+    /// Returns all resource tags for an Amazon OpenSearch Service domain. For more information, see Tagging Amazon OpenSearch Service domains.
     public func listTags(_ input: ListTagsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsResponse> {
         return self.client.execute(operation: "ListTags", path: "/2021-01-01/tags", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// List all supported versions of OpenSearch and Elasticsearch.
+    /// Lists all versions of OpenSearch and Elasticsearch that Amazon OpenSearch Service supports.
     public func listVersions(_ input: ListVersionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListVersionsResponse> {
         return self.client.execute(operation: "ListVersions", path: "/2021-01-01/opensearch/versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Allows you to purchase reserved OpenSearch instances.
+    /// Retrieves information about each Amazon Web Services principal that is allowed to access a given Amazon OpenSearch Service domain through the use of an interface VPC endpoint.
+    public func listVpcEndpointAccess(_ input: ListVpcEndpointAccessRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListVpcEndpointAccessResponse> {
+        return self.client.execute(operation: "ListVpcEndpointAccess", path: "/2021-01-01/opensearch/domain/{DomainName}/listVpcEndpointAccess", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves all Amazon OpenSearch Service-managed VPC endpoints in the current Amazon Web Services account and Region.
+    public func listVpcEndpoints(_ input: ListVpcEndpointsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListVpcEndpointsResponse> {
+        return self.client.execute(operation: "ListVpcEndpoints", path: "/2021-01-01/opensearch/vpcEndpoints", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves all Amazon OpenSearch Service-managed VPC endpoints associated with a particular domain.
+    public func listVpcEndpointsForDomain(_ input: ListVpcEndpointsForDomainRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListVpcEndpointsForDomainResponse> {
+        return self.client.execute(operation: "ListVpcEndpointsForDomain", path: "/2021-01-01/opensearch/domain/{DomainName}/vpcEndpoints", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Allows you to purchase Amazon OpenSearch Service Reserved Instances.
     public func purchaseReservedInstanceOffering(_ input: PurchaseReservedInstanceOfferingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PurchaseReservedInstanceOfferingResponse> {
         return self.client.execute(operation: "PurchaseReservedInstanceOffering", path: "/2021-01-01/opensearch/purchaseReservedInstanceOffering", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Allows the remote domain owner to reject an inbound cross-cluster connection request.
+    /// Allows the remote Amazon OpenSearch Service domain owner to reject an inbound cross-cluster connection request.
     public func rejectInboundConnection(_ input: RejectInboundConnectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RejectInboundConnectionResponse> {
         return self.client.execute(operation: "RejectInboundConnection", path: "/2021-01-01/opensearch/cc/inboundConnection/{ConnectionId}/reject", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Removes the specified set of tags from the given domain.
+    /// Removes the specified set of tags from an Amazon OpenSearch Service domain. For more information, see  Tagging Amazon OpenSearch Service domains.
     @discardableResult public func removeTags(_ input: RemoveTagsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "RemoveTags", path: "/2021-01-01/tags-removal", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Schedules a service software update for an Amazon OpenSearch Service domain.
+    /// Revokes access to an Amazon OpenSearch Service domain that was provided through an interface VPC endpoint.
+    public func revokeVpcEndpointAccess(_ input: RevokeVpcEndpointAccessRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RevokeVpcEndpointAccessResponse> {
+        return self.client.execute(operation: "RevokeVpcEndpointAccess", path: "/2021-01-01/opensearch/domain/{DomainName}/revokeVpcEndpointAccess", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Schedules a service software update for an Amazon OpenSearch Service domain. For more information, see Service software updates in Amazon OpenSearch Service.
     public func startServiceSoftwareUpdate(_ input: StartServiceSoftwareUpdateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartServiceSoftwareUpdateResponse> {
         return self.client.execute(operation: "StartServiceSoftwareUpdate", path: "/2021-01-01/opensearch/serviceSoftwareUpdate/start", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Modifies the cluster configuration of the specified domain, such as setting the instance type and the number of instances.
+    /// Modifies the cluster configuration of the specified Amazon OpenSearch Service domain.
     public func updateDomainConfig(_ input: UpdateDomainConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDomainConfigResponse> {
         return self.client.execute(operation: "UpdateDomainConfig", path: "/2021-01-01/opensearch/domain/{DomainName}/config", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates a package for use with Amazon OpenSearch Service domains.
+    /// Updates a package for use with Amazon OpenSearch Service domains. For more information, see Custom packages for Amazon OpenSearch Service.
     public func updatePackage(_ input: UpdatePackageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdatePackageResponse> {
         return self.client.execute(operation: "UpdatePackage", path: "/2021-01-01/packages/update", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Allows you to either upgrade your domain or perform an upgrade eligibility check to a compatible version of OpenSearch or Elasticsearch.
+    /// Modifies an Amazon OpenSearch Service-managed interface VPC endpoint.
+    public func updateVpcEndpoint(_ input: UpdateVpcEndpointRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateVpcEndpointResponse> {
+        return self.client.execute(operation: "UpdateVpcEndpoint", path: "/2021-01-01/opensearch/vpcEndpoints/update", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Allows you to either upgrade your Amazon OpenSearch Service domain or perform an upgrade eligibility check to a compatible version of OpenSearch or Elasticsearch.
     public func upgradeDomain(_ input: UpgradeDomainRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpgradeDomainResponse> {
         return self.client.execute(operation: "UpgradeDomain", path: "/2021-01-01/opensearch/upgradeDomain", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

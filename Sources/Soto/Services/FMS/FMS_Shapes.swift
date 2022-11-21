@@ -51,6 +51,16 @@ extension FMS {
         public var description: String { return self.rawValue }
     }
 
+    public enum FailedItemReason: String, CustomStringConvertible, Codable, _SotoSendable {
+        case notValidAccountId = "NOT_VALID_ACCOUNT_ID"
+        case notValidArn = "NOT_VALID_ARN"
+        case notValidPartition = "NOT_VALID_PARTITION"
+        case notValidRegion = "NOT_VALID_REGION"
+        case notValidResourceType = "NOT_VALID_RESOURCE_TYPE"
+        case notValidService = "NOT_VALID_SERVICE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FirewallDeploymentModel: String, CustomStringConvertible, Codable, _SotoSendable {
         case centralized = "CENTRALIZED"
         case distributed = "DISTRIBUTED"
@@ -89,6 +99,7 @@ extension FMS {
 
     public enum SecurityServiceType: String, CustomStringConvertible, Codable, _SotoSendable {
         case dnsFirewall = "DNS_FIREWALL"
+        case importNetworkFirewall = "IMPORT_NETWORK_FIREWALL"
         case networkFirewall = "NETWORK_FIREWALL"
         case securityGroupsCommon = "SECURITY_GROUPS_COMMON"
         case securityGroupsContentAudit = "SECURITY_GROUPS_CONTENT_AUDIT"
@@ -397,6 +408,96 @@ extension FMS {
         }
     }
 
+    public struct BatchAssociateResourceRequest: AWSEncodableShape {
+        /// The uniform resource identifiers (URIs) of resources that should be associated to the resource set. The URIs must be Amazon Resource Names (ARNs).
+        public let items: [String]
+        /// A unique identifier for the resource set, used in a TODO to refer to the resource set.
+        public let resourceSetIdentifier: String
+
+        public init(items: [String], resourceSetIdentifier: String) {
+            self.items = items
+            self.resourceSetIdentifier = resourceSetIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.items.forEach {
+                try validate($0, name: "items[]", parent: name, max: 2048)
+                try validate($0, name: "items[]", parent: name, min: 1)
+                try validate($0, name: "items[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+            try self.validate(self.resourceSetIdentifier, name: "resourceSetIdentifier", parent: name, max: 2048)
+            try self.validate(self.resourceSetIdentifier, name: "resourceSetIdentifier", parent: name, min: 1)
+            try self.validate(self.resourceSetIdentifier, name: "resourceSetIdentifier", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case resourceSetIdentifier = "ResourceSetIdentifier"
+        }
+    }
+
+    public struct BatchAssociateResourceResponse: AWSDecodableShape {
+        /// The resources that failed to associate to the resource set.
+        public let failedItems: [FailedItem]
+        /// A unique identifier for the resource set, used in a TODO to refer to the resource set.
+        public let resourceSetIdentifier: String
+
+        public init(failedItems: [FailedItem], resourceSetIdentifier: String) {
+            self.failedItems = failedItems
+            self.resourceSetIdentifier = resourceSetIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedItems = "FailedItems"
+            case resourceSetIdentifier = "ResourceSetIdentifier"
+        }
+    }
+
+    public struct BatchDisassociateResourceRequest: AWSEncodableShape {
+        /// The uniform resource identifiers (URI) of resources that should be disassociated from the resource set. The URIs must be Amazon Resource Names (ARNs).
+        public let items: [String]
+        /// A unique identifier for the resource set, used in a TODO to refer to the resource set.
+        public let resourceSetIdentifier: String
+
+        public init(items: [String], resourceSetIdentifier: String) {
+            self.items = items
+            self.resourceSetIdentifier = resourceSetIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.items.forEach {
+                try validate($0, name: "items[]", parent: name, max: 2048)
+                try validate($0, name: "items[]", parent: name, min: 1)
+                try validate($0, name: "items[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+            try self.validate(self.resourceSetIdentifier, name: "resourceSetIdentifier", parent: name, max: 2048)
+            try self.validate(self.resourceSetIdentifier, name: "resourceSetIdentifier", parent: name, min: 1)
+            try self.validate(self.resourceSetIdentifier, name: "resourceSetIdentifier", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case resourceSetIdentifier = "ResourceSetIdentifier"
+        }
+    }
+
+    public struct BatchDisassociateResourceResponse: AWSDecodableShape {
+        /// The resources that failed to disassociate from the resource set.
+        public let failedItems: [FailedItem]
+        /// A unique identifier for the resource set, used in a TODO to refer to the resource set.
+        public let resourceSetIdentifier: String
+
+        public init(failedItems: [FailedItem], resourceSetIdentifier: String) {
+            self.failedItems = failedItems
+            self.resourceSetIdentifier = resourceSetIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedItems = "FailedItems"
+            case resourceSetIdentifier = "ResourceSetIdentifier"
+        }
+    }
+
     public struct ComplianceViolator: AWSDecodableShape {
         /// Metadata about the resource that doesn't comply with the policy scope.
         public let metadata: [String: String]?
@@ -487,6 +588,25 @@ extension FMS {
         }
     }
 
+    public struct DeleteResourceSetRequest: AWSEncodableShape {
+        /// A unique identifier for the resource set, used in a TODO to refer to the resource set.
+        public let identifier: String
+
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 22)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 22)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-z0-9A-Z]{22}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identifier = "Identifier"
+        }
+    }
+
     public struct DisassociateAdminAccountRequest: AWSEncodableShape {
         public init() {}
     }
@@ -514,6 +634,31 @@ extension FMS {
 
         private enum CodingKeys: String, CodingKey {
             case thirdPartyFirewallStatus = "ThirdPartyFirewallStatus"
+        }
+    }
+
+    public struct DiscoveredResource: AWSDecodableShape {
+        /// The Amazon Web Services account ID associated with the discovered resource.
+        public let accountId: String?
+        /// The name of the discovered resource.
+        public let name: String?
+        /// The type of the discovered resource.
+        public let type: String?
+        /// The universal resource identifier (URI) of the discovered resource.
+        public let uri: String?
+
+        public init(accountId: String? = nil, name: String? = nil, type: String? = nil, uri: String? = nil) {
+            self.accountId = accountId
+            self.name = name
+            self.type = type
+            self.uri = uri
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case name = "Name"
+            case type = "Type"
+            case uri = "URI"
         }
     }
 
@@ -835,6 +980,23 @@ extension FMS {
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case firewallCreationConfig = "FirewallCreationConfig"
+        }
+    }
+
+    public struct FailedItem: AWSDecodableShape {
+        /// The reason the resource's association could not be updated.
+        public let reason: FailedItemReason?
+        /// The univeral resource indicator (URI) of the resource that failed.
+        public let uri: String?
+
+        public init(reason: FailedItemReason? = nil, uri: String? = nil) {
+            self.reason = reason
+            self.uri = uri
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reason = "Reason"
+            case uri = "URI"
         }
     }
 
@@ -1161,6 +1323,42 @@ extension FMS {
         }
     }
 
+    public struct GetResourceSetRequest: AWSEncodableShape {
+        /// A unique identifier for the resource set, used in a TODO to refer to the resource set.
+        public let identifier: String
+
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 22)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 22)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-z0-9A-Z]{22}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identifier = "Identifier"
+        }
+    }
+
+    public struct GetResourceSetResponse: AWSDecodableShape {
+        /// Information about the specified resource set.
+        public let resourceSet: ResourceSet
+        /// The Amazon Resource Name (ARN) of the resource set.
+        public let resourceSetArn: String
+
+        public init(resourceSet: ResourceSet, resourceSetArn: String) {
+            self.resourceSet = resourceSet
+            self.resourceSetArn = resourceSetArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceSet = "ResourceSet"
+            case resourceSetArn = "ResourceSetArn"
+        }
+    }
+
     public struct GetThirdPartyFirewallAssociationStatusRequest: AWSEncodableShape {
         /// The name of the third-party firewall vendor.
         public let thirdPartyFirewall: ThirdPartyFirewall
@@ -1339,6 +1537,64 @@ extension FMS {
         }
     }
 
+    public struct ListDiscoveredResourcesRequest: AWSEncodableShape {
+        /// The maximum number of objects that you want Firewall Manager to return for this request. If more objects are available, in the response, Firewall Manager provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
+        public let maxResults: Int?
+        /// The Amazon Web Services account IDs to discover resources in. Only one account is supported per request. The account must be a member of your organization.
+        public let memberAccountIds: [String]
+        /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Firewall Manager returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+        public let nextToken: String?
+        /// The type of resources to discover.
+        public let resourceType: String
+
+        public init(maxResults: Int? = nil, memberAccountIds: [String], nextToken: String? = nil, resourceType: String) {
+            self.maxResults = maxResults
+            self.memberAccountIds = memberAccountIds
+            self.nextToken = nextToken
+            self.resourceType = resourceType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.memberAccountIds.forEach {
+                try validate($0, name: "memberAccountIds[]", parent: name, max: 1024)
+                try validate($0, name: "memberAccountIds[]", parent: name, min: 1)
+                try validate($0, name: "memberAccountIds[]", parent: name, pattern: "^[0-9]+$")
+            }
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try self.validate(self.resourceType, name: "resourceType", parent: name, max: 128)
+            try self.validate(self.resourceType, name: "resourceType", parent: name, min: 1)
+            try self.validate(self.resourceType, name: "resourceType", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case memberAccountIds = "MemberAccountIds"
+            case nextToken = "NextToken"
+            case resourceType = "ResourceType"
+        }
+    }
+
+    public struct ListDiscoveredResourcesResponse: AWSDecodableShape {
+        /// Details of the resources that were discovered.
+        public let items: [DiscoveredResource]?
+        /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Firewall Manager returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+        public let nextToken: String?
+
+        public init(items: [DiscoveredResource]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListMemberAccountsRequest: AWSEncodableShape {
         /// Specifies the number of member account IDs that you want Firewall Manager to return for this request. If you have more IDs than the number that you specify for MaxResults, the response includes a NextToken value that you can use to get another batch of member account IDs.
         public let maxResults: Int?
@@ -1466,6 +1722,97 @@ extension FMS {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case protocolsLists = "ProtocolsLists"
+        }
+    }
+
+    public struct ListResourceSetResourcesRequest: AWSEncodableShape {
+        /// A unique identifier for the resource set, used in a TODO to refer to the resource set.
+        public let identifier: String
+        /// The maximum number of objects that you want Firewall Manager to return for this request. If more objects are available, in the response, Firewall Manager provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
+        public let maxResults: Int?
+        /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Firewall Manager returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+        public let nextToken: String?
+
+        public init(identifier: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.identifier = identifier
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 1024)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identifier = "Identifier"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListResourceSetResourcesResponse: AWSDecodableShape {
+        /// An array of the associated resources' uniform resource identifiers (URI).
+        public let items: [Resource]
+        /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Firewall Manager returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+        public let nextToken: String?
+
+        public init(items: [Resource], nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListResourceSetsRequest: AWSEncodableShape {
+        /// The maximum number of objects that you want Firewall Manager to return for this request. If more objects are available, in the response, Firewall Manager provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
+        public let maxResults: Int?
+        /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Firewall Manager returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListResourceSetsResponse: AWSDecodableShape {
+        /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Firewall Manager returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+        public let nextToken: String?
+        /// An array of ResourceSetSummary objects.
+        public let resourceSets: [ResourceSetSummary]?
+
+        public init(nextToken: String? = nil, resourceSets: [ResourceSetSummary]? = nil) {
+            self.nextToken = nextToken
+            self.resourceSets = resourceSets
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case resourceSets = "ResourceSets"
         }
     }
 
@@ -1987,6 +2334,8 @@ extension FMS {
         public let excludeResourceTags: Bool
         /// Specifies the Amazon Web Services account IDs and Organizations organizational units (OUs) to include in the policy. Specifying an OU is the equivalent of specifying all accounts in the OU and in any of its child OUs, including any child OUs and accounts that are added at a later time. You can specify inclusions or exclusions, but not both. If you specify an IncludeMap, Firewall Manager applies the policy to all accounts specified by the IncludeMap, and does not evaluate any ExcludeMap specifications. If you do not specify an IncludeMap, then Firewall Manager applies the policy to all accounts except for those specified by the ExcludeMap. You can specify account IDs, OUs, or a combination:    Specify account IDs by setting the key to ACCOUNT. For example, the following is a valid map: {“ACCOUNT” : [“accountID1”, “accountID2”]}.   Specify OUs by setting the key to ORG_UNIT. For example, the following is a valid map: {“ORG_UNIT” : [“ouid111”, “ouid112”]}.   Specify accounts and OUs together in a single map, separated with a comma. For example, the following is a valid map: {“ACCOUNT” : [“accountID1”, “accountID2”], “ORG_UNIT” : [“ouid111”, “ouid112”]}.
         public let includeMap: [CustomerPolicyScopeIdType: [String]]?
+        /// The definition of the Network Firewall firewall policy.
+        public let policyDescription: String?
         /// The ID of the Firewall Manager policy.
         public let policyId: String?
         /// The name of the Firewall Manager policy.
@@ -1995,6 +2344,8 @@ extension FMS {
         public let policyUpdateToken: String?
         /// Indicates if the policy should be automatically applied to new resources.
         public let remediationEnabled: Bool
+        /// The unique identifiers of the resource sets used by the policy.
+        public let resourceSetIds: [String]?
         /// An array of ResourceTag objects.
         public let resourceTags: [ResourceTag]?
         /// The type of resource protected by or in scope of the policy. This is in the format shown in the Amazon Web Services Resource Types Reference. To apply this policy to multiple resource types, specify a resource type of ResourceTypeList and then specify the resource types in a ResourceTypeList. For WAF and Shield Advanced, resource types include AWS::ElasticLoadBalancingV2::LoadBalancer, AWS::ElasticLoadBalancing::LoadBalancer, AWS::EC2::EIP, and AWS::CloudFront::Distribution. For a security group common policy, valid values are AWS::EC2::NetworkInterface and AWS::EC2::Instance. For a security group content audit policy, valid values are AWS::EC2::SecurityGroup, AWS::EC2::NetworkInterface, and AWS::EC2::Instance. For a security group usage audit policy, the value is AWS::EC2::SecurityGroup. For an Network Firewall policy or DNS Firewall policy, the value is AWS::EC2::VPC.
@@ -2004,15 +2355,17 @@ extension FMS {
         /// Details about the security service that is being used to protect the resources.
         public let securityServicePolicyData: SecurityServicePolicyData
 
-        public init(deleteUnusedFMManagedResources: Bool? = nil, excludeMap: [CustomerPolicyScopeIdType: [String]]? = nil, excludeResourceTags: Bool, includeMap: [CustomerPolicyScopeIdType: [String]]? = nil, policyId: String? = nil, policyName: String, policyUpdateToken: String? = nil, remediationEnabled: Bool, resourceTags: [ResourceTag]? = nil, resourceType: String, resourceTypeList: [String]? = nil, securityServicePolicyData: SecurityServicePolicyData) {
+        public init(deleteUnusedFMManagedResources: Bool? = nil, excludeMap: [CustomerPolicyScopeIdType: [String]]? = nil, excludeResourceTags: Bool, includeMap: [CustomerPolicyScopeIdType: [String]]? = nil, policyDescription: String? = nil, policyId: String? = nil, policyName: String, policyUpdateToken: String? = nil, remediationEnabled: Bool, resourceSetIds: [String]? = nil, resourceTags: [ResourceTag]? = nil, resourceType: String, resourceTypeList: [String]? = nil, securityServicePolicyData: SecurityServicePolicyData) {
             self.deleteUnusedFMManagedResources = deleteUnusedFMManagedResources
             self.excludeMap = excludeMap
             self.excludeResourceTags = excludeResourceTags
             self.includeMap = includeMap
+            self.policyDescription = policyDescription
             self.policyId = policyId
             self.policyName = policyName
             self.policyUpdateToken = policyUpdateToken
             self.remediationEnabled = remediationEnabled
+            self.resourceSetIds = resourceSetIds
             self.resourceTags = resourceTags
             self.resourceType = resourceType
             self.resourceTypeList = resourceTypeList
@@ -2020,6 +2373,8 @@ extension FMS {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.policyDescription, name: "policyDescription", parent: name, max: 256)
+            try self.validate(self.policyDescription, name: "policyDescription", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             try self.validate(self.policyId, name: "policyId", parent: name, max: 36)
             try self.validate(self.policyId, name: "policyId", parent: name, min: 36)
             try self.validate(self.policyId, name: "policyId", parent: name, pattern: "^[a-z0-9A-Z-]{36}$")
@@ -2029,6 +2384,11 @@ extension FMS {
             try self.validate(self.policyUpdateToken, name: "policyUpdateToken", parent: name, max: 1024)
             try self.validate(self.policyUpdateToken, name: "policyUpdateToken", parent: name, min: 1)
             try self.validate(self.policyUpdateToken, name: "policyUpdateToken", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try self.resourceSetIds?.forEach {
+                try validate($0, name: "resourceSetIds[]", parent: name, max: 22)
+                try validate($0, name: "resourceSetIds[]", parent: name, min: 22)
+                try validate($0, name: "resourceSetIds[]", parent: name, pattern: "^[a-z0-9A-Z]{22}$")
+            }
             try self.resourceTags?.forEach {
                 try $0.validate(name: "\(name).resourceTags[]")
             }
@@ -2049,10 +2409,12 @@ extension FMS {
             case excludeMap = "ExcludeMap"
             case excludeResourceTags = "ExcludeResourceTags"
             case includeMap = "IncludeMap"
+            case policyDescription = "PolicyDescription"
             case policyId = "PolicyId"
             case policyName = "PolicyName"
             case policyUpdateToken = "PolicyUpdateToken"
             case remediationEnabled = "RemediationEnabled"
+            case resourceSetIds = "ResourceSetIds"
             case resourceTags = "ResourceTags"
             case resourceType = "ResourceType"
             case resourceTypeList = "ResourceTypeList"
@@ -2462,6 +2824,48 @@ extension FMS {
         }
     }
 
+    public struct PutResourceSetRequest: AWSEncodableShape {
+        /// Details about the resource set to be created or updated.>
+        public let resourceSet: ResourceSet
+        /// Retrieves the tags associated with the specified resource set. Tags are key:value pairs that you can use to categorize and manage your resources, for purposes like billing. For example, you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a resource.
+        public let tagList: [Tag]?
+
+        public init(resourceSet: ResourceSet, tagList: [Tag]? = nil) {
+            self.resourceSet = resourceSet
+            self.tagList = tagList
+        }
+
+        public func validate(name: String) throws {
+            try self.resourceSet.validate(name: "\(name).resourceSet")
+            try self.tagList?.forEach {
+                try $0.validate(name: "\(name).tagList[]")
+            }
+            try self.validate(self.tagList, name: "tagList", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceSet = "ResourceSet"
+            case tagList = "TagList"
+        }
+    }
+
+    public struct PutResourceSetResponse: AWSDecodableShape {
+        /// Details about the resource set.
+        public let resourceSet: ResourceSet
+        /// The Amazon Resource Name (ARN) of the resource set.
+        public let resourceSetArn: String
+
+        public init(resourceSet: ResourceSet, resourceSetArn: String) {
+            self.resourceSet = resourceSet
+            self.resourceSetArn = resourceSetArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceSet = "ResourceSet"
+            case resourceSetArn = "ResourceSetArn"
+        }
+    }
+
     public struct RemediationAction: AWSDecodableShape {
         /// A description of a remediation action.
         public let description: String?
@@ -2521,6 +2925,101 @@ extension FMS {
         private enum CodingKeys: String, CodingKey {
             case order = "Order"
             case remediationAction = "RemediationAction"
+        }
+    }
+
+    public struct Resource: AWSDecodableShape {
+        /// The Amazon Web Services account ID that the associated resource belongs to.
+        public let accountId: String?
+        /// The resource's universal resource indicator (URI).
+        public let uri: String
+
+        public init(accountId: String? = nil, uri: String) {
+            self.accountId = accountId
+            self.uri = uri
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case uri = "URI"
+        }
+    }
+
+    public struct ResourceSet: AWSEncodableShape & AWSDecodableShape {
+        /// A description of the resource set.
+        public let description: String?
+        /// A unique identifier for the resource set. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete.
+        public let id: String?
+        /// The last time that the resource set was changed.
+        public let lastUpdateTime: Date?
+        /// The descriptive name of the resource set. You can't change the name of a resource set after you create it.
+        public let name: String
+        /// Determines the resources that can be associated to the resource set. Depending on your setting for max results and the number of resource sets, a single call might not return the full list.
+        public let resourceTypeList: [String]
+        /// An optional token that you can use for optimistic locking. Firewall Manager returns a token to your requests that access the resource set. The token marks the state of the resource set resource at the time of the request. Update tokens are not allowed when creating a resource set. After creation, each subsequent update call to the resource set requires the update token.
+        ///  To make an unconditional change to the resource set, omit the token in your update request. Without the token, Firewall Manager performs your updates regardless of whether the resource set has changed since you last retrieved it. To make a conditional change to the resource set, provide the token in your update request. Firewall Manager uses the token to ensure that the resource set hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the resource set again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
+        public let updateToken: String?
+
+        public init(description: String? = nil, id: String? = nil, lastUpdateTime: Date? = nil, name: String, resourceTypeList: [String], updateToken: String? = nil) {
+            self.description = description
+            self.id = id
+            self.lastUpdateTime = lastUpdateTime
+            self.name = name
+            self.resourceTypeList = resourceTypeList
+            self.updateToken = updateToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try self.validate(self.id, name: "id", parent: name, max: 22)
+            try self.validate(self.id, name: "id", parent: name, min: 22)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-z0-9A-Z]{22}$")
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try self.resourceTypeList.forEach {
+                try validate($0, name: "resourceTypeList[]", parent: name, max: 128)
+                try validate($0, name: "resourceTypeList[]", parent: name, min: 1)
+                try validate($0, name: "resourceTypeList[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+            try self.validate(self.updateToken, name: "updateToken", parent: name, max: 1024)
+            try self.validate(self.updateToken, name: "updateToken", parent: name, min: 1)
+            try self.validate(self.updateToken, name: "updateToken", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case id = "Id"
+            case lastUpdateTime = "LastUpdateTime"
+            case name = "Name"
+            case resourceTypeList = "ResourceTypeList"
+            case updateToken = "UpdateToken"
+        }
+    }
+
+    public struct ResourceSetSummary: AWSDecodableShape {
+        /// A description of the resource set.
+        public let description: String?
+        /// A unique identifier for the resource set. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete.
+        public let id: String?
+        /// The last time that the resource set was changed.
+        public let lastUpdateTime: Date?
+        /// The descriptive name of the resource set. You can't change the name of a resource set after you create it.
+        public let name: String?
+
+        public init(description: String? = nil, id: String? = nil, lastUpdateTime: Date? = nil, name: String? = nil) {
+            self.description = description
+            self.id = id
+            self.lastUpdateTime = lastUpdateTime
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case id = "Id"
+            case lastUpdateTime = "LastUpdateTime"
+            case name = "Name"
         }
     }
 

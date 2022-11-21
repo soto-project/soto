@@ -89,6 +89,28 @@ extension GroundStation {
         )
     }
 
+    ///  List existing ephemerides.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listEphemeridesPaginator(
+        _ input: ListEphemeridesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListEphemeridesRequest, ListEphemeridesResponse> {
+        return .init(
+            input: input,
+            command: listEphemerides,
+            inputKey: \ListEphemeridesRequest.nextToken,
+            outputKey: \ListEphemeridesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Returns a list of ground stations.
     /// Return PaginatorSequence for operation.
     ///

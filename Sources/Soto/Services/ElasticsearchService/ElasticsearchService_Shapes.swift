@@ -28,14 +28,14 @@ extension ElasticsearchService {
     }
 
     public enum AutoTuneState: String, CustomStringConvertible, Codable, _SotoSendable {
+        case disableInProgress = "DISABLE_IN_PROGRESS"
         case disabled = "DISABLED"
         case disabledAndRollbackComplete = "DISABLED_AND_ROLLBACK_COMPLETE"
         case disabledAndRollbackError = "DISABLED_AND_ROLLBACK_ERROR"
         case disabledAndRollbackInProgress = "DISABLED_AND_ROLLBACK_IN_PROGRESS"
         case disabledAndRollbackScheduled = "DISABLED_AND_ROLLBACK_SCHEDULED"
-        case disableInProgress = "DISABLE_IN_PROGRESS"
-        case enabled = "ENABLED"
         case enableInProgress = "ENABLE_IN_PROGRESS"
+        case enabled = "ENABLED"
         case error = "ERROR"
         public var description: String { return self.rawValue }
     }
@@ -191,10 +191,10 @@ extension ElasticsearchService {
 
     public enum PackageStatus: String, CustomStringConvertible, Codable, _SotoSendable {
         case available = "AVAILABLE"
-        case copying = "COPYING"
         case copyFailed = "COPY_FAILED"
-        case deleted = "DELETED"
+        case copying = "COPYING"
         case deleteFailed = "DELETE_FAILED"
+        case deleted = "DELETED"
         case deleting = "DELETING"
         case validating = "VALIDATING"
         case validationFailed = "VALIDATION_FAILED"
@@ -203,6 +203,12 @@ extension ElasticsearchService {
 
     public enum PackageType: String, CustomStringConvertible, Codable, _SotoSendable {
         case txtDictionary = "TXT-DICTIONARY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PrincipalType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case awsAccount = "AWS_ACCOUNT"
+        case awsService = "AWS_SERVICE"
         public var description: String { return self.rawValue }
     }
 
@@ -233,8 +239,8 @@ extension ElasticsearchService {
     }
 
     public enum TLSSecurityPolicy: String, CustomStringConvertible, Codable, _SotoSendable {
-        case policyMinTLS10201907 = "Policy-Min-TLS-1-0-2019-07"
-        case policyMinTLS12201907 = "Policy-Min-TLS-1-2-2019-07"
+        case policyMinTls10201907 = "Policy-Min-TLS-1-0-2019-07"
+        case policyMinTls12201907 = "Policy-Min-TLS-1-2-2019-07"
         public var description: String { return self.rawValue }
     }
 
@@ -263,6 +269,23 @@ extension ElasticsearchService {
         case gp3
         case io1
         case standard
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VpcEndpointErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
+        case endpointNotFound = "ENDPOINT_NOT_FOUND"
+        case serverError = "SERVER_ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VpcEndpointStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case active = "ACTIVE"
+        case createFailed = "CREATE_FAILED"
+        case creating = "CREATING"
+        case deleteFailed = "DELETE_FAILED"
+        case deleting = "DELETING"
+        case updateFailed = "UPDATE_FAILED"
+        case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
@@ -485,6 +508,63 @@ extension ElasticsearchService {
 
         private enum CodingKeys: String, CodingKey {
             case domainPackageDetails = "DomainPackageDetails"
+        }
+    }
+
+    public struct AuthorizeVpcEndpointAccessRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
+        ]
+
+        /// The account ID to grant access to.
+        public let account: String
+        /// The name of the OpenSearch Service domain to provide access to.
+        public let domainName: String
+
+        public init(account: String, domainName: String) {
+            self.account = account
+            self.domainName = domainName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.account, name: "account", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-z][a-z0-9\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case account = "Account"
+        }
+    }
+
+    public struct AuthorizeVpcEndpointAccessResponse: AWSDecodableShape {
+        /// Information about the account or service that was provided access to the domain.
+        public let authorizedPrincipal: AuthorizedPrincipal
+
+        public init(authorizedPrincipal: AuthorizedPrincipal) {
+            self.authorizedPrincipal = authorizedPrincipal
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizedPrincipal = "AuthorizedPrincipal"
+        }
+    }
+
+    public struct AuthorizedPrincipal: AWSDecodableShape {
+        /// The IAM principal that is allowed access to the domain.
+        public let principal: String?
+        /// The type of principal.
+        public let principalType: PrincipalType?
+
+        public init(principal: String? = nil, principalType: PrincipalType? = nil) {
+            self.principal = principal
+            self.principalType = principalType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case principal = "Principal"
+            case principalType = "PrincipalType"
         }
     }
 
@@ -1057,6 +1137,48 @@ extension ElasticsearchService {
         }
     }
 
+    public struct CreateVpcEndpointRequest: AWSEncodableShape {
+        /// Unique, case-sensitive identifier to ensure idempotency of the request.
+        public let clientToken: String?
+        /// The Amazon Resource Name (ARN) of the domain to grant access to.
+        public let domainArn: String
+        /// Options to specify the subnets and security groups for the endpoint.
+        public let vpcOptions: VPCOptions
+
+        public init(clientToken: String? = nil, domainArn: String, vpcOptions: VPCOptions) {
+            self.clientToken = clientToken
+            self.domainArn = domainArn
+            self.vpcOptions = vpcOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.domainArn, name: "domainArn", parent: name, max: 512)
+            try self.validate(self.domainArn, name: "domainArn", parent: name, min: 1)
+            try self.validate(self.domainArn, name: "domainArn", parent: name, pattern: "^arn:aws[a-z\\-]*:[a-z]+:[a-z0-9\\-]+:[0-9]+:domain\\/[a-z0-9\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case domainArn = "DomainArn"
+            case vpcOptions = "VpcOptions"
+        }
+    }
+
+    public struct CreateVpcEndpointResponse: AWSDecodableShape {
+        /// Information about the newly created VPC endpoint.
+        public let vpcEndpoint: VpcEndpoint
+
+        public init(vpcEndpoint: VpcEndpoint) {
+            self.vpcEndpoint = vpcEndpoint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcEndpoint = "VpcEndpoint"
+        }
+    }
+
     public struct DeleteElasticsearchDomainRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
@@ -1172,6 +1294,40 @@ extension ElasticsearchService {
 
         private enum CodingKeys: String, CodingKey {
             case packageDetails = "PackageDetails"
+        }
+    }
+
+    public struct DeleteVpcEndpointRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "vpcEndpointId", location: .uri("VpcEndpointId"))
+        ]
+
+        /// The unique identifier of the endpoint to be deleted.
+        public let vpcEndpointId: String
+
+        public init(vpcEndpointId: String) {
+            self.vpcEndpointId = vpcEndpointId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.vpcEndpointId, name: "vpcEndpointId", parent: name, max: 256)
+            try self.validate(self.vpcEndpointId, name: "vpcEndpointId", parent: name, min: 5)
+            try self.validate(self.vpcEndpointId, name: "vpcEndpointId", parent: name, pattern: "^aos-[a-zA-Z0-9]*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteVpcEndpointResponse: AWSDecodableShape {
+        /// Information about the deleted endpoint, including its current status (DELETING or DELETE_FAILED).
+        public let vpcEndpointSummary: VpcEndpointSummary
+
+        public init(vpcEndpointSummary: VpcEndpointSummary) {
+            self.vpcEndpointSummary = vpcEndpointSummary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcEndpointSummary = "VpcEndpointSummary"
         }
     }
 
@@ -1652,6 +1808,44 @@ extension ElasticsearchService {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case reservedElasticsearchInstances = "ReservedElasticsearchInstances"
+        }
+    }
+
+    public struct DescribeVpcEndpointsRequest: AWSEncodableShape {
+        /// The unique identifiers of the endpoints to get information about.
+        public let vpcEndpointIds: [String]
+
+        public init(vpcEndpointIds: [String]) {
+            self.vpcEndpointIds = vpcEndpointIds
+        }
+
+        public func validate(name: String) throws {
+            try self.vpcEndpointIds.forEach {
+                try validate($0, name: "vpcEndpointIds[]", parent: name, max: 256)
+                try validate($0, name: "vpcEndpointIds[]", parent: name, min: 5)
+                try validate($0, name: "vpcEndpointIds[]", parent: name, pattern: "^aos-[a-zA-Z0-9]*$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcEndpointIds = "VpcEndpointIds"
+        }
+    }
+
+    public struct DescribeVpcEndpointsResponse: AWSDecodableShape {
+        /// Any errors associated with the request.
+        public let vpcEndpointErrors: [VpcEndpointError]
+        /// Information about each requested VPC endpoint.
+        public let vpcEndpoints: [VpcEndpoint]
+
+        public init(vpcEndpointErrors: [VpcEndpointError], vpcEndpoints: [VpcEndpoint]) {
+            self.vpcEndpointErrors = vpcEndpointErrors
+            self.vpcEndpoints = vpcEndpoints
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcEndpointErrors = "VpcEndpointErrors"
+            case vpcEndpoints = "VpcEndpoints"
         }
     }
 
@@ -2748,6 +2942,122 @@ extension ElasticsearchService {
         }
     }
 
+    public struct ListVpcEndpointAccessRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
+        ]
+
+        /// The name of the OpenSearch Service domain to retrieve access information for.
+        public let domainName: String
+        /// Provides an identifier to allow retrieval of paginated results.
+        public let nextToken: String?
+
+        public init(domainName: String, nextToken: String? = nil) {
+            self.domainName = domainName
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-z][a-z0-9\\-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListVpcEndpointAccessResponse: AWSDecodableShape {
+        /// List of AuthorizedPrincipal describing the details of the permissions to manage VPC endpoints against the specified domain.
+        public let authorizedPrincipalList: [AuthorizedPrincipal]
+        /// Provides an identifier to allow retrieval of paginated results.
+        public let nextToken: String
+
+        public init(authorizedPrincipalList: [AuthorizedPrincipal], nextToken: String) {
+            self.authorizedPrincipalList = authorizedPrincipalList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizedPrincipalList = "AuthorizedPrincipalList"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListVpcEndpointsForDomainRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
+        ]
+
+        /// Name of the ElasticSearch domain whose VPC endpoints are to be listed.
+        public let domainName: String
+        /// Provides an identifier to allow retrieval of paginated results.
+        public let nextToken: String?
+
+        public init(domainName: String, nextToken: String? = nil) {
+            self.domainName = domainName
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-z][a-z0-9\\-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListVpcEndpointsForDomainResponse: AWSDecodableShape {
+        /// Information about each endpoint associated with the domain.
+        public let nextToken: String
+        /// Provides list of VpcEndpointSummary summarizing details of the VPC endpoints.
+        public let vpcEndpointSummaryList: [VpcEndpointSummary]
+
+        public init(nextToken: String, vpcEndpointSummaryList: [VpcEndpointSummary]) {
+            self.nextToken = nextToken
+            self.vpcEndpointSummaryList = vpcEndpointSummaryList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case vpcEndpointSummaryList = "VpcEndpointSummaryList"
+        }
+    }
+
+    public struct ListVpcEndpointsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
+        ]
+
+        /// Identifier to allow retrieval of paginated results.
+        public let nextToken: String?
+
+        public init(nextToken: String? = nil) {
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListVpcEndpointsResponse: AWSDecodableShape {
+        /// Provides an identifier to allow retrieval of paginated results.
+        public let nextToken: String
+        /// Information about each endpoint.
+        public let vpcEndpointSummaryList: [VpcEndpointSummary]
+
+        public init(nextToken: String, vpcEndpointSummaryList: [VpcEndpointSummary]) {
+            self.nextToken = nextToken
+            self.vpcEndpointSummaryList = vpcEndpointSummaryList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case vpcEndpointSummaryList = "VpcEndpointSummaryList"
+        }
+    }
+
     public struct LogPublishingOption: AWSEncodableShape & AWSDecodableShape {
         public let cloudWatchLogsLogGroupArn: String?
         ///  Specifies whether given log publishing option is enabled or not.
@@ -3207,6 +3517,37 @@ extension ElasticsearchService {
         }
     }
 
+    public struct RevokeVpcEndpointAccessRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
+        ]
+
+        /// The account ID to revoke access from.
+        public let account: String
+        /// The name of the OpenSearch Service domain.
+        public let domainName: String
+
+        public init(account: String, domainName: String) {
+            self.account = account
+            self.domainName = domainName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.account, name: "account", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-z][a-z0-9\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case account = "Account"
+        }
+    }
+
+    public struct RevokeVpcEndpointAccessResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct SAMLIdp: AWSEncodableShape & AWSDecodableShape {
         /// The unique Entity ID of the application in SAML Identity Provider.
         public let entityId: String
@@ -3634,6 +3975,42 @@ extension ElasticsearchService {
         }
     }
 
+    public struct UpdateVpcEndpointRequest: AWSEncodableShape {
+        /// Unique identifier of the VPC endpoint to be updated.
+        public let vpcEndpointId: String
+        /// The security groups and/or subnets to add, remove, or modify.
+        public let vpcOptions: VPCOptions
+
+        public init(vpcEndpointId: String, vpcOptions: VPCOptions) {
+            self.vpcEndpointId = vpcEndpointId
+            self.vpcOptions = vpcOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.vpcEndpointId, name: "vpcEndpointId", parent: name, max: 256)
+            try self.validate(self.vpcEndpointId, name: "vpcEndpointId", parent: name, min: 5)
+            try self.validate(self.vpcEndpointId, name: "vpcEndpointId", parent: name, pattern: "^aos-[a-zA-Z0-9]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcEndpointId = "VpcEndpointId"
+            case vpcOptions = "VpcOptions"
+        }
+    }
+
+    public struct UpdateVpcEndpointResponse: AWSDecodableShape {
+        /// The endpoint to be updated.
+        public let vpcEndpoint: VpcEndpoint
+
+        public init(vpcEndpoint: VpcEndpoint) {
+            self.vpcEndpoint = vpcEndpoint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcEndpoint = "VpcEndpoint"
+        }
+    }
+
     public struct UpgradeElasticsearchDomainRequest: AWSEncodableShape {
         public let domainName: String
         ///  This flag, when set to True, indicates that an Upgrade Eligibility Check needs to be performed. This will not actually perform the Upgrade.
@@ -3790,6 +4167,85 @@ extension ElasticsearchService {
         private enum CodingKeys: String, CodingKey {
             case securityGroupIds = "SecurityGroupIds"
             case subnetIds = "SubnetIds"
+        }
+    }
+
+    public struct VpcEndpoint: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the domain associated with the endpoint.
+        public let domainArn: String?
+        /// The connection endpoint ID for connecting to the domain.
+        public let endpoint: String?
+        /// The current status of the endpoint.
+        public let status: VpcEndpointStatus?
+        /// The unique identifier of the endpoint.
+        public let vpcEndpointId: String?
+        /// The creator of the endpoint.
+        public let vpcEndpointOwner: String?
+        /// Options to specify the subnets and security groups for an Amazon OpenSearch Service VPC endpoint.
+        public let vpcOptions: VPCDerivedInfo?
+
+        public init(domainArn: String? = nil, endpoint: String? = nil, status: VpcEndpointStatus? = nil, vpcEndpointId: String? = nil, vpcEndpointOwner: String? = nil, vpcOptions: VPCDerivedInfo? = nil) {
+            self.domainArn = domainArn
+            self.endpoint = endpoint
+            self.status = status
+            self.vpcEndpointId = vpcEndpointId
+            self.vpcEndpointOwner = vpcEndpointOwner
+            self.vpcOptions = vpcOptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainArn = "DomainArn"
+            case endpoint = "Endpoint"
+            case status = "Status"
+            case vpcEndpointId = "VpcEndpointId"
+            case vpcEndpointOwner = "VpcEndpointOwner"
+            case vpcOptions = "VpcOptions"
+        }
+    }
+
+    public struct VpcEndpointError: AWSDecodableShape {
+        /// The code associated with the error.
+        public let errorCode: VpcEndpointErrorCode?
+        /// A message describing the error.
+        public let errorMessage: String?
+        /// The unique identifier of the endpoint.
+        public let vpcEndpointId: String?
+
+        public init(errorCode: VpcEndpointErrorCode? = nil, errorMessage: String? = nil, vpcEndpointId: String? = nil) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.vpcEndpointId = vpcEndpointId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
+            case vpcEndpointId = "VpcEndpointId"
+        }
+    }
+
+    public struct VpcEndpointSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the domain associated with the endpoint.
+        public let domainArn: String?
+        /// The current status of the endpoint.
+        public let status: VpcEndpointStatus?
+        /// The unique identifier of the endpoint.
+        public let vpcEndpointId: String?
+        /// The creator of the endpoint.
+        public let vpcEndpointOwner: String?
+
+        public init(domainArn: String? = nil, status: VpcEndpointStatus? = nil, vpcEndpointId: String? = nil, vpcEndpointOwner: String? = nil) {
+            self.domainArn = domainArn
+            self.status = status
+            self.vpcEndpointId = vpcEndpointId
+            self.vpcEndpointOwner = vpcEndpointOwner
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainArn = "DomainArn"
+            case status = "Status"
+            case vpcEndpointId = "VpcEndpointId"
+            case vpcEndpointOwner = "VpcEndpointOwner"
         }
     }
 

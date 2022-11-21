@@ -646,6 +646,8 @@ extension MediaConvert {
         case follow = "FOLLOW"
         case hdr10 = "HDR10"
         case hlg2020 = "HLG_2020"
+        case p3d65Sdr = "P3D65_SDR"
+        case p3dci = "P3DCI"
         case rec601 = "REC_601"
         case rec709 = "REC_709"
         public var description: String { return self.rawValue }
@@ -656,6 +658,8 @@ extension MediaConvert {
         case force709 = "FORCE_709"
         case forceHdr10 = "FORCE_HDR10"
         case forceHlg2020 = "FORCE_HLG_2020"
+        case forceP3D65Sdr = "FORCE_P3D65_SDR"
+        case forceP3Dci = "FORCE_P3DCI"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
@@ -2990,7 +2994,7 @@ extension MediaConvert {
     }
 
     public struct Ac3Settings: AWSEncodableShape & AWSDecodableShape {
-        /// Specify the average bitrate in bits per second. Valid bitrates depend on the coding mode.
+        /// Specify the average bitrate in bits per second. The bitrate that you specify must be a multiple of 8000 within the allowed minimum and maximum values.  Leave blank to use the default bitrate for the coding mode you select according ETSI TS 102 366. Valid bitrates for coding mode 1/0: Default: 96000. Minimum: 64000. Maximum: 128000. Valid bitrates for coding mode 1/1: Default: 192000. Minimum: 128000. Maximum: 384000. Valid bitrates for coding mode 2/0: Default: 192000. Minimum: 128000. Maximum: 384000. Valid bitrates for coding mode 3/2 with FLE: Default: 384000. Minimum: 384000. Maximum: 640000.
         public let bitrate: Int?
         /// Specify the bitstream mode for the AC-3 stream that the encoder emits. For more information about the AC3 bitstream mode, see ATSC A/52-2012 (Annex E).
         public let bitstreamMode: Ac3BitstreamMode?
@@ -4377,7 +4381,7 @@ extension MediaConvert {
     public struct ColorCorrector: AWSEncodableShape & AWSDecodableShape {
         /// Brightness level.
         public let brightness: Int?
-        /// Specify the color space you want for this output. The service supports conversion between HDR formats, between SDR formats, from SDR to HDR, and from HDR to SDR. SDR to HDR conversion doesn't upgrade the dynamic range. The converted video has an HDR format, but visually appears the same as an unconverted output. HDR to SDR conversion uses Elemental tone mapping technology to approximate the outcome of manually regrading from HDR to SDR.
+        /// Specify the color space you want for this output. The service supports conversion between HDR formats, between SDR formats, from SDR to HDR, and from HDR to SDR. SDR to HDR conversion doesn't upgrade the dynamic range. The converted video has an HDR format, but visually appears the same as an unconverted output. HDR to SDR conversion uses Elemental tone mapping technology to approximate the outcome of manually regrading from HDR to SDR. Select Force P3D65 (SDR) to set the output color space metadata to the following: * Color primaries: Display P3 * Transfer characteristics: SMPTE 428M * Matrix coefficients: BT.709
         public let colorSpaceConversion: ColorSpaceConversion?
         /// Contrast level.
         public let contrast: Int?
@@ -4389,8 +4393,10 @@ extension MediaConvert {
         public let sampleRangeConversion: SampleRangeConversion?
         /// Saturation level.
         public let saturation: Int?
+        /// Specify the reference white level, in nits, for all of your SDR inputs. Use to correct brightness levels within HDR10 outputs. The following color metadata must be present in your SDR input: color primaries, transfer characteristics, and matrix coefficients. If your SDR input has missing color metadata, or if you want to correct input color metadata, manually specify a color space in the input video selector. For 1,000 nit peak brightness displays, we recommend that you set SDR reference white level to 203 (according to ITU-R BT.2408). Leave blank to use the default value of 100, or specify an integer from 100 to 1000.
+        public let sdrReferenceWhiteLevel: Int?
 
-        public init(brightness: Int? = nil, colorSpaceConversion: ColorSpaceConversion? = nil, contrast: Int? = nil, hdr10Metadata: Hdr10Metadata? = nil, hue: Int? = nil, sampleRangeConversion: SampleRangeConversion? = nil, saturation: Int? = nil) {
+        public init(brightness: Int? = nil, colorSpaceConversion: ColorSpaceConversion? = nil, contrast: Int? = nil, hdr10Metadata: Hdr10Metadata? = nil, hue: Int? = nil, sampleRangeConversion: SampleRangeConversion? = nil, saturation: Int? = nil, sdrReferenceWhiteLevel: Int? = nil) {
             self.brightness = brightness
             self.colorSpaceConversion = colorSpaceConversion
             self.contrast = contrast
@@ -4398,6 +4404,7 @@ extension MediaConvert {
             self.hue = hue
             self.sampleRangeConversion = sampleRangeConversion
             self.saturation = saturation
+            self.sdrReferenceWhiteLevel = sdrReferenceWhiteLevel
         }
 
         public func validate(name: String) throws {
@@ -4410,6 +4417,8 @@ extension MediaConvert {
             try self.validate(self.hue, name: "hue", parent: name, min: -180)
             try self.validate(self.saturation, name: "saturation", parent: name, max: 100)
             try self.validate(self.saturation, name: "saturation", parent: name, min: 1)
+            try self.validate(self.sdrReferenceWhiteLevel, name: "sdrReferenceWhiteLevel", parent: name, max: 1000)
+            try self.validate(self.sdrReferenceWhiteLevel, name: "sdrReferenceWhiteLevel", parent: name, min: 100)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4420,6 +4429,7 @@ extension MediaConvert {
             case hue
             case sampleRangeConversion
             case saturation
+            case sdrReferenceWhiteLevel
         }
     }
 
@@ -5462,7 +5472,7 @@ extension MediaConvert {
     public struct Eac3Settings: AWSEncodableShape & AWSDecodableShape {
         /// If set to ATTENUATE_3_DB, applies a 3 dB attenuation to the surround channels. Only used for 3/2 coding mode.
         public let attenuationControl: Eac3AttenuationControl?
-        /// Specify the average bitrate in bits per second. Valid bitrates depend on the coding mode.
+        /// Specify the average bitrate in bits per second. The bitrate that you specify must be a multiple of 8000 within the allowed minimum and maximum values.  Leave blank to use the default bitrate for the coding mode you select according ETSI TS 102 366. Valid bitrates for coding mode 1/0: Default: 96000. Minimum: 32000. Maximum: 3024000. Valid bitrates for coding mode 2/0: Default: 192000. Minimum: 96000. Maximum: 3024000. Valid bitrates for coding mode 3/2: Default: 384000. Minimum: 192000. Maximum: 3024000.
         public let bitrate: Int?
         /// Specify the bitstream mode for the E-AC-3 stream that the encoder emits. For more information about the EAC3 bitstream mode, see ATSC A/52-2012 (Annex E).
         public let bitstreamMode: Eac3BitstreamMode?
@@ -5528,8 +5538,8 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 640_000)
-            try self.validate(self.bitrate, name: "bitrate", parent: name, min: 64000)
+            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 3_024_000)
+            try self.validate(self.bitrate, name: "bitrate", parent: name, min: 32000)
             try self.validate(self.dialnorm, name: "dialnorm", parent: name, max: 31)
             try self.validate(self.dialnorm, name: "dialnorm", parent: name, min: 1)
             try self.validate(self.sampleRate, name: "sampleRate", parent: name, max: 48000)
@@ -6959,19 +6969,25 @@ extension MediaConvert {
     public struct ImageInserter: AWSEncodableShape & AWSDecodableShape {
         /// Specify the images that you want to overlay on your video. The images must be PNG or TGA files.
         public let insertableImages: [InsertableImage]?
+        /// Specify the reference white level, in nits, for all of your image inserter images. Use to correct brightness levels within HDR10 outputs. For 1,000 nit peak brightness displays, we recommend that you set SDR reference white level to 203 (according to ITU-R BT.2408). Leave blank to use the default value of 100, or specify an integer from 100 to 1000.
+        public let sdrReferenceWhiteLevel: Int?
 
-        public init(insertableImages: [InsertableImage]? = nil) {
+        public init(insertableImages: [InsertableImage]? = nil, sdrReferenceWhiteLevel: Int? = nil) {
             self.insertableImages = insertableImages
+            self.sdrReferenceWhiteLevel = sdrReferenceWhiteLevel
         }
 
         public func validate(name: String) throws {
             try self.insertableImages?.forEach {
                 try $0.validate(name: "\(name).insertableImages[]")
             }
+            try self.validate(self.sdrReferenceWhiteLevel, name: "sdrReferenceWhiteLevel", parent: name, max: 1000)
+            try self.validate(self.sdrReferenceWhiteLevel, name: "sdrReferenceWhiteLevel", parent: name, min: 100)
         }
 
         private enum CodingKeys: String, CodingKey {
             case insertableImages
+            case sdrReferenceWhiteLevel
         }
     }
 
@@ -10766,7 +10782,7 @@ extension MediaConvert {
     public struct VideoSelector: AWSEncodableShape & AWSDecodableShape {
         /// Ignore this setting unless this input is a QuickTime animation with an alpha channel. Use this setting to create separate Key and Fill outputs. In each output, specify which part of the input MediaConvert uses. Leave this setting at the default value DISCARD to delete the alpha channel and preserve the video. Set it to REMAP_TO_LUMA to delete the video and map the alpha channel to the luma channel of your outputs.
         public let alphaBehavior: AlphaBehavior?
-        /// If your input video has accurate color space metadata, or if you don't know about color space, leave this set to the default value Follow (FOLLOW). The service will automatically detect your input color space. If your input video has metadata indicating the wrong color space, specify the accurate color space here. If your input video is HDR 10 and the SMPTE ST 2086 Mastering Display Color Volume static metadata isn't present in your video stream, or if that metadata is present but not accurate, choose Force HDR 10 (FORCE_HDR10) here and specify correct values in the input HDR 10 metadata (Hdr10Metadata) settings. For more information about MediaConvert HDR jobs, see https://docs.aws.amazon.com/console/mediaconvert/hdr.
+        /// If your input video has accurate color space metadata, or if you don't know about color space, leave this set to the default value Follow. The service will automatically detect your input color space. If your input video has metadata indicating the wrong color space, specify the accurate color space here. If your input video is HDR 10 and the SMPTE ST 2086 Mastering Display Color Volume static metadata isn't present in your video stream, or if that metadata is present but not accurate, choose Force HDR 10 here and specify correct values in the input HDR 10 metadata settings. For more information about MediaConvert HDR jobs, see https://docs.aws.amazon.com/console/mediaconvert/hdr. Select P3D65 (SDR) to set the input color space metadata to the following: * Color primaries: Display P3 * Transfer characteristics: SMPTE 428M * Matrix coefficients: BT.709
         public let colorSpace: ColorSpace?
         /// There are two sources for color metadata, the input file and the job input settings Color space (ColorSpace) and HDR master display information settings(Hdr10Metadata). The Color space usage setting determines which takes precedence. Choose Force (FORCE) to use color metadata from the input job settings. If you don't specify values for those settings, the service defaults to using metadata from your input. FALLBACK - Choose Fallback (FALLBACK) to use color metadata from the source when it is present. If there's no color metadata in your input file, the service defaults to using values you specify in the input settings.
         public let colorSpaceUsage: ColorSpaceUsage?

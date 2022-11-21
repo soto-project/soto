@@ -186,6 +186,7 @@ extension Connect {
         case contactLens = "CONTACT_LENS"
         case contactflowLogs = "CONTACTFLOW_LOGS"
         case earlyMedia = "EARLY_MEDIA"
+        case enhancedContactMonitoring = "ENHANCED_CONTACT_MONITORING"
         case highVolumeOutbound = "HIGH_VOLUME_OUTBOUND"
         case inboundCalls = "INBOUND_CALLS"
         case multiPartyConference = "MULTI_PARTY_CONFERENCE"
@@ -225,6 +226,12 @@ extension Connect {
     public enum LexVersion: String, CustomStringConvertible, Codable, _SotoSendable {
         case v1 = "V1"
         case v2 = "V2"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MonitorCapability: String, CustomStringConvertible, Codable, _SotoSendable {
+        case barge = "BARGE"
+        case silentMonitor = "SILENT_MONITOR"
         public var description: String { return self.rawValue }
     }
 
@@ -1282,7 +1289,7 @@ extension Connect {
     }
 
     public struct ClaimPhoneNumberRequest: AWSEncodableShape {
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.  Pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
         public let clientToken: String?
         /// The phone number you want to claim. Phone numbers are formatted [+] [country code] [subscriber number including area code].
         public let phoneNumber: String
@@ -2284,6 +2291,8 @@ extension Connect {
             AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
         ]
 
+        /// The list of tags that a security profile uses to restrict access to resources in Amazon Connect.
+        public let allowedAccessControlTags: [String: String]?
         /// The description of the security profile.
         public let description: String?
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -2292,18 +2301,28 @@ extension Connect {
         public let permissions: [String]?
         /// The name of the security profile.
         public let securityProfileName: String
+        /// The list of resources that a security profile applies tag restrictions to in Amazon Connect.
+        public let tagRestrictedResources: [String]?
         /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
 
-        public init(description: String? = nil, instanceId: String, permissions: [String]? = nil, securityProfileName: String, tags: [String: String]? = nil) {
+        public init(allowedAccessControlTags: [String: String]? = nil, description: String? = nil, instanceId: String, permissions: [String]? = nil, securityProfileName: String, tagRestrictedResources: [String]? = nil, tags: [String: String]? = nil) {
+            self.allowedAccessControlTags = allowedAccessControlTags
             self.description = description
             self.instanceId = instanceId
             self.permissions = permissions
             self.securityProfileName = securityProfileName
+            self.tagRestrictedResources = tagRestrictedResources
             self.tags = tags
         }
 
         public func validate(name: String) throws {
+            try self.allowedAccessControlTags?.forEach {
+                try validate($0.key, name: "allowedAccessControlTags.key", parent: name, max: 128)
+                try validate($0.key, name: "allowedAccessControlTags.key", parent: name, min: 1)
+                try validate($0.value, name: "allowedAccessControlTags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.allowedAccessControlTags, name: "allowedAccessControlTags", parent: name, max: 2)
             try self.validate(self.description, name: "description", parent: name, max: 250)
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
@@ -2312,6 +2331,14 @@ extension Connect {
                 try validate($0, name: "permissions[]", parent: name, min: 1)
             }
             try self.validate(self.permissions, name: "permissions", parent: name, max: 500)
+            try self.validate(self.securityProfileName, name: "securityProfileName", parent: name, max: 127)
+            try self.validate(self.securityProfileName, name: "securityProfileName", parent: name, min: 1)
+            try self.validate(self.securityProfileName, name: "securityProfileName", parent: name, pattern: "^[ a-zA-Z0-9_@-]+$")
+            try self.tagRestrictedResources?.forEach {
+                try validate($0, name: "tagRestrictedResources[]", parent: name, max: 128)
+                try validate($0, name: "tagRestrictedResources[]", parent: name, min: 1)
+            }
+            try self.validate(self.tagRestrictedResources, name: "tagRestrictedResources", parent: name, max: 10)
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -2323,9 +2350,11 @@ extension Connect {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case allowedAccessControlTags = "AllowedAccessControlTags"
             case description = "Description"
             case permissions = "Permissions"
             case securityProfileName = "SecurityProfileName"
+            case tagRestrictedResources = "TagRestrictedResources"
             case tags = "Tags"
         }
     }
@@ -4356,7 +4385,7 @@ extension Connect {
         public let currentMetrics: [CurrentMetric]
         /// The queues, up to 100, or channels, to use to filter the metrics returned. Metric data is retrieved only for the resources associated with the queues or channels included in the filter. You can include both queue IDs and queue ARNs in the same request. VOICE, CHAT, and TASK channels are supported.
         public let filters: Filters
-        /// The grouping applied to the metrics returned. For example, when grouped by QUEUE, the metrics returned apply to each queue rather than aggregated for all queues. If you group by CHANNEL, you should include a Channels filter. VOICE, CHAT, and TASK channels are supported. If no Grouping is included in the request, a summary of metrics is returned.
+        /// The grouping applied to the metrics returned. For example, when grouped by QUEUE, the metrics returned apply to each queue rather than aggregated for all queues.    If you group by CHANNEL, you should include a Channels filter. VOICE, CHAT, and TASK channels are supported.   If you group by ROUTING_PROFILE, you must include either a queue or routing profile filter.   If no Grouping is included in the request, a summary of metrics is returned.
         public let groupings: [Grouping]?
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
@@ -4491,13 +4520,25 @@ extension Connect {
     public struct GetFederationTokenResponse: AWSDecodableShape {
         /// The credentials to use for federation.
         public let credentials: Credentials?
+        /// The URL to sign into the user's instance.
+        public let signInUrl: String?
+        /// The Amazon Resource Name (ARN) of the user.
+        public let userArn: String?
+        /// The identifier for the user.
+        public let userId: String?
 
-        public init(credentials: Credentials? = nil) {
+        public init(credentials: Credentials? = nil, signInUrl: String? = nil, userArn: String? = nil, userId: String? = nil) {
             self.credentials = credentials
+            self.signInUrl = signInUrl
+            self.userArn = userArn
+            self.userId = userId
         }
 
         private enum CodingKeys: String, CodingKey {
             case credentials = "Credentials"
+            case signInUrl = "SignInUrl"
+            case userArn = "UserArn"
+            case userId = "UserId"
         }
     }
 
@@ -7050,6 +7091,63 @@ extension Connect {
         }
     }
 
+    public struct MonitorContactRequest: AWSEncodableShape {
+        /// Specify which monitoring actions the user is allowed to take. For example, whether the user is  allowed to escalate from silent monitoring to barge.
+        public let allowedMonitorCapabilities: [MonitorCapability]?
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+        public let clientToken: String?
+        /// The identifier of the contact.
+        public let contactId: String
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+        /// The identifier of the user account.
+        public let userId: String
+
+        public init(allowedMonitorCapabilities: [MonitorCapability]? = nil, clientToken: String? = MonitorContactRequest.idempotencyToken(), contactId: String, instanceId: String, userId: String) {
+            self.allowedMonitorCapabilities = allowedMonitorCapabilities
+            self.clientToken = clientToken
+            self.contactId = contactId
+            self.instanceId = instanceId
+            self.userId = userId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.allowedMonitorCapabilities, name: "allowedMonitorCapabilities", parent: name, max: 2)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 500)
+            try self.validate(self.contactId, name: "contactId", parent: name, max: 256)
+            try self.validate(self.contactId, name: "contactId", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.userId, name: "userId", parent: name, max: 256)
+            try self.validate(self.userId, name: "userId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowedMonitorCapabilities = "AllowedMonitorCapabilities"
+            case clientToken = "ClientToken"
+            case contactId = "ContactId"
+            case instanceId = "InstanceId"
+            case userId = "UserId"
+        }
+    }
+
+    public struct MonitorContactResponse: AWSDecodableShape {
+        /// The ARN of the contact.
+        public let contactArn: String?
+        /// The identifier of the contact.
+        public let contactId: String?
+
+        public init(contactArn: String? = nil, contactId: String? = nil) {
+            self.contactArn = contactArn
+            self.contactId = contactId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactArn = "ContactArn"
+            case contactId = "ContactId"
+        }
+    }
+
     public struct NumberReference: AWSDecodableShape {
         /// Identifier of the number reference.
         public let name: String?
@@ -7547,7 +7645,7 @@ extension Connect {
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
-        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance. You can provide the InstanceId, or the entire ARN.
         public let instanceId: String
         /// The alias for the replicated instance. The ReplicaAlias must be unique.
         public let replicaAlias: String
@@ -7942,7 +8040,7 @@ extension Connect {
         /// The token for the next set of results. Use the value returned in the previous
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
-        /// The search criteria to be used to return queues.
+        /// The search criteria to be used to return queues.  The name and description fields support "contains" queries with a minimum of 2 characters and a maximum of 25 characters. Any queries with character lengths outside of this range will throw invalid results.
         public let searchCriteria: QueueSearchCriteria?
         /// Filters to be applied to search results.
         public let searchFilter: QueueSearchFilter?
@@ -8002,7 +8100,7 @@ extension Connect {
         /// The token for the next set of results. Use the value returned in the previous
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
-        /// The search criteria to be used to return routing profiles.
+        /// The search criteria to be used to return routing profiles.  The name and description fields support "contains" queries with a minimum of 2 characters and a maximum of 25 characters. Any queries with character lengths outside of this range will throw invalid results.
         public let searchCriteria: RoutingProfileSearchCriteria?
         /// Filters to be applied to search results.
         public let searchFilter: RoutingProfileSearchFilter?
@@ -8062,7 +8160,7 @@ extension Connect {
         /// The token for the next set of results. Use the value returned in the previous
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
-        /// The search criteria to be used to return security profiles.   The currently supported value for FieldName: name
+        /// The search criteria to be used to return security profiles.   The name field support "contains" queries with a minimum of 2 characters and maximum of 25 characters. Any queries with character lengths outside of this range will throw invalid results.   The currently supported value for FieldName: name
         public let searchCriteria: SecurityProfileSearchCriteria?
         /// Filters to be applied to search results.
         public let searchFilter: SecurityProfilesSearchFilter?
@@ -8263,6 +8361,8 @@ extension Connect {
     }
 
     public struct SecurityProfile: AWSDecodableShape {
+        /// The list of tags that a security profile uses to restrict access to resources in Amazon Connect.
+        public let allowedAccessControlTags: [String: String]?
         /// The Amazon Resource Name (ARN) for the secruity profile.
         public let arn: String?
         /// The description of the security profile.
@@ -8273,24 +8373,30 @@ extension Connect {
         public let organizationResourceId: String?
         /// The name for the security profile.
         public let securityProfileName: String?
+        /// The list of resources that a security profile applies tag restrictions to in Amazon Connect.
+        public let tagRestrictedResources: [String]?
         /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, description: String? = nil, id: String? = nil, organizationResourceId: String? = nil, securityProfileName: String? = nil, tags: [String: String]? = nil) {
+        public init(allowedAccessControlTags: [String: String]? = nil, arn: String? = nil, description: String? = nil, id: String? = nil, organizationResourceId: String? = nil, securityProfileName: String? = nil, tagRestrictedResources: [String]? = nil, tags: [String: String]? = nil) {
+            self.allowedAccessControlTags = allowedAccessControlTags
             self.arn = arn
             self.description = description
             self.id = id
             self.organizationResourceId = organizationResourceId
             self.securityProfileName = securityProfileName
+            self.tagRestrictedResources = tagRestrictedResources
             self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
+            case allowedAccessControlTags = "AllowedAccessControlTags"
             case arn = "Arn"
             case description = "Description"
             case id = "Id"
             case organizationResourceId = "OrganizationResourceId"
             case securityProfileName = "SecurityProfileName"
+            case tagRestrictedResources = "TagRestrictedResources"
             case tags = "Tags"
         }
     }
@@ -10169,6 +10275,8 @@ extension Connect {
             AWSMemberEncoding(label: "securityProfileId", location: .uri("SecurityProfileId"))
         ]
 
+        /// The list of tags that a security profile uses to restrict access to resources in Amazon Connect.
+        public let allowedAccessControlTags: [String: String]?
         /// The description of the security profile.
         public let description: String?
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -10177,15 +10285,25 @@ extension Connect {
         public let permissions: [String]?
         /// The identifier for the security profle.
         public let securityProfileId: String
+        /// The list of resources that a security profile applies tag restrictions to in Amazon Connect.
+        public let tagRestrictedResources: [String]?
 
-        public init(description: String? = nil, instanceId: String, permissions: [String]? = nil, securityProfileId: String) {
+        public init(allowedAccessControlTags: [String: String]? = nil, description: String? = nil, instanceId: String, permissions: [String]? = nil, securityProfileId: String, tagRestrictedResources: [String]? = nil) {
+            self.allowedAccessControlTags = allowedAccessControlTags
             self.description = description
             self.instanceId = instanceId
             self.permissions = permissions
             self.securityProfileId = securityProfileId
+            self.tagRestrictedResources = tagRestrictedResources
         }
 
         public func validate(name: String) throws {
+            try self.allowedAccessControlTags?.forEach {
+                try validate($0.key, name: "allowedAccessControlTags.key", parent: name, max: 128)
+                try validate($0.key, name: "allowedAccessControlTags.key", parent: name, min: 1)
+                try validate($0.value, name: "allowedAccessControlTags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.allowedAccessControlTags, name: "allowedAccessControlTags", parent: name, max: 2)
             try self.validate(self.description, name: "description", parent: name, max: 250)
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
@@ -10194,11 +10312,18 @@ extension Connect {
                 try validate($0, name: "permissions[]", parent: name, min: 1)
             }
             try self.validate(self.permissions, name: "permissions", parent: name, max: 500)
+            try self.tagRestrictedResources?.forEach {
+                try validate($0, name: "tagRestrictedResources[]", parent: name, max: 128)
+                try validate($0, name: "tagRestrictedResources[]", parent: name, min: 1)
+            }
+            try self.validate(self.tagRestrictedResources, name: "tagRestrictedResources", parent: name, max: 10)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case allowedAccessControlTags = "AllowedAccessControlTags"
             case description = "Description"
             case permissions = "Permissions"
+            case tagRestrictedResources = "TagRestrictedResources"
         }
     }
 

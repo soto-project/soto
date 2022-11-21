@@ -19,8 +19,13 @@
 
 /// Service object for interacting with AWS Route53 service.
 ///
-/// Amazon Route 53 is a highly available and scalable Domain Name System (DNS) web
+/// Amazon Route 53 is a highly available and scalable Domain Name System (DNS) web
 /// 			service.
+/// 		       You can use Route 53 to:
+/// 		         Register domain names.
+/// 				           For more information, see How domain registration works.   Route internet traffic to the resources for your domain
+/// 				           For more information, see How internet traffic is routed to your website or web application.   Check the health of your resources.
+/// 				           For more information, see How Route 53 checks the health of your resources.
 public struct Route53: AWSService {
     // MARK: Member variables
 
@@ -122,9 +127,8 @@ public struct Route53: AWSService {
     /// 			helpful if you want to move one or more CIDR blocks from one location to another in one
     /// 			transaction, without downtime.
     /// 		        Limits
-    /// 		       The max number of CIDR blocks included in the request is
-    /// 			1000.
-    /// 			As a result, big updates require multiple API calls.
+    /// 		       The max number of CIDR blocks included in the request is 1000. As a result, big updates
+    /// 			require multiple API calls.
     /// 		        PUT and DELETE_IF_EXISTS
     /// 		       Use ChangeCidrCollection to perform the following actions:
     ///
@@ -219,9 +223,7 @@ public struct Route53: AWSService {
         return self.client.execute(operation: "ChangeTagsForResource", path: "/2013-04-01/tags/{ResourceType}/{ResourceId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a CIDR collection in the
-    /// 			current
-    /// 				Amazon Web Services account.
+    /// Creates a CIDR collection in the current Amazon Web Services account.
     public func createCidrCollection(_ input: CreateCidrCollectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateCidrCollectionResponse> {
         return self.client.execute(operation: "CreateCidrCollection", path: "/2013-04-01/cidrcollection", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

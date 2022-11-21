@@ -905,6 +905,11 @@ extension IoT {
         return try await self.client.execute(operation: "ListProvisioningTemplates", path: "/provisioning-templates", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// The related resources of an Audit finding.  The following resources can be returned from calling this API:   DEVICE_CERTIFICATE   CA_CERTIFICATE   IOT_POLICY   COGNITO_IDENTITY_POOL   CLIENT_ID   ACCOUNT_SETTINGS   ROLE_ALIAS   IAM_ROLE   ISSUER_CERTIFICATE    This API is similar to DescribeAuditFinding's RelatedResources     but provides pagination and is not limited to 10 resources.  When calling DescribeAuditFinding for the intermediate CA revoked for  active device certificates check, RelatedResources will not be populated. You must use this API, ListRelatedResourcesForAuditFinding, to list the certificates.
+    public func listRelatedResourcesForAuditFinding(_ input: ListRelatedResourcesForAuditFindingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListRelatedResourcesForAuditFindingResponse {
+        return try await self.client.execute(operation: "ListRelatedResourcesForAuditFinding", path: "/audit/relatedResources", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Lists the role aliases registered in your account. Requires permission to access the ListRoleAliases action.
     public func listRoleAliases(_ input: ListRoleAliasesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListRoleAliasesResponse {
         return try await self.client.execute(operation: "ListRoleAliases", path: "/role-aliases", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -984,11 +989,11 @@ extension IoT {
         return try await self.client.execute(operation: "ListThingTypes", path: "/thing-types", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists your things. Use the attributeName and
-    /// 				attributeValue parameters to filter your things.
-    /// 			For example, calling ListThings with attributeName=Color and
-    /// 			attributeValue=Red retrieves all things in the registry that contain an attribute
-    /// 				Color with the value Red.
+    /// Lists your things. Use the attributeName and attributeValue parameters to filter your things. For example,
+    /// 			calling ListThings with attributeName=Color and attributeValue=Red
+    /// 			retrieves all things in the registry that contain an attribute Color with the value Red. For more
+    /// 			information, see List Things from the Amazon Web Services IoT Core Developer
+    /// 				Guide.
     /// 		       Requires permission to access the ListThings action.
     ///
     ///

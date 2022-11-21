@@ -299,7 +299,7 @@ public struct ElastiCache: AWSService {
         return self.client.execute(operation: "DisassociateGlobalReplicationGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Used to failover the primary region to a selected secondary region. The selected secondary region will become primary, and all other clusters will become secondary.
+    /// Used to failover the primary region to a secondary region. The secondary region will become primary, and all other clusters will become secondary.
     public func failoverGlobalReplicationGroup(_ input: FailoverGlobalReplicationGroupMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<FailoverGlobalReplicationGroupResult> {
         return self.client.execute(operation: "FailoverGlobalReplicationGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

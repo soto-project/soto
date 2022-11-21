@@ -35,21 +35,21 @@ extension DatabaseMigrationService {
     }
 
     public enum CannedAclForObjectsValue: String, CustomStringConvertible, Codable, _SotoSendable {
+        case `private`
         case authenticatedRead = "authenticated-read"
         case awsExecRead = "aws-exec-read"
         case bucketOwnerFullControl = "bucket-owner-full-control"
         case bucketOwnerRead = "bucket-owner-read"
         case none
-        case `private`
         case publicRead = "public-read"
         case publicReadWrite = "public-read-write"
         public var description: String { return self.rawValue }
     }
 
     public enum CharLengthSemantics: String, CustomStringConvertible, Codable, _SotoSendable {
+        case `default`
         case byte
         case char
-        case `default`
         public var description: String { return self.rawValue }
     }
 
@@ -110,8 +110,8 @@ extension DatabaseMigrationService {
     }
 
     public enum EndpointSettingTypeValue: String, CustomStringConvertible, Codable, _SotoSendable {
-        case boolean
         case `enum`
+        case boolean
         case integer
         case string
         public var description: String { return self.rawValue }
@@ -542,7 +542,7 @@ extension DatabaseMigrationService {
         public let endpointIdentifier: String
         /// The type of endpoint.  Valid values are source and target.
         public let endpointType: ReplicationEndpointTypeValue
-        /// The type of engine for the endpoint. Valid values, depending on the EndpointType value, include "mysql", "oracle", "postgres", "mariadb", "aurora",  "aurora-postgresql", "opensearch", "redshift", "s3", "db2", "azuredb", "sybase", "dynamodb", "mongodb", "kinesis", "kafka", "elasticsearch", "docdb", "sqlserver", and "neptune".
+        /// The type of engine for the endpoint. Valid values, depending on the EndpointType value, include "mysql", "oracle", "postgres", "mariadb", "aurora",  "aurora-postgresql", "opensearch", "redshift", "s3", "db2", "db2-zos", "azuredb", "sybase", "dynamodb", "mongodb", "kinesis", "kafka", "elasticsearch", "docdb", "sqlserver", "neptune", and "babelfish".
         public let engineName: String
         /// The external table definition.
         public let externalTableDefinition: String?
@@ -801,6 +801,8 @@ extension DatabaseMigrationService {
         public let kmsKeyId: String?
         ///  Specifies whether the replication instance is a Multi-AZ deployment. You can't set the AvailabilityZone parameter if the Multi-AZ parameter is set to true.
         public let multiAZ: Bool?
+        /// The type of IP address protocol used by a replication instance,  such as IPv4 only or Dual-stack that supports both IPv4 and IPv6 addressing.  IPv6 only is not yet supported.
+        public let networkType: String?
         /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi  Default: A 30-minute window selected at random from an 8-hour block of time per Amazon Web Services Region, occurring on a random day of the week. Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints: Minimum 30-minute window.
         public let preferredMaintenanceWindow: String?
         ///  Specifies the accessibility options for the replication instance. A value of true represents an instance with a public IP address. A value of false represents an instance with a private IP address. The default value is true.
@@ -818,7 +820,7 @@ extension DatabaseMigrationService {
         ///  Specifies the VPC security group to be used with the replication instance. The VPC security group must work with the VPC containing the replication instance.
         public let vpcSecurityGroupIds: [String]?
 
-        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, dnsNameServers: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, multiAZ: Bool? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, replicationInstanceClass: String, replicationInstanceIdentifier: String, replicationSubnetGroupIdentifier: String? = nil, resourceIdentifier: String? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, dnsNameServers: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, multiAZ: Bool? = nil, networkType: String? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, replicationInstanceClass: String, replicationInstanceIdentifier: String, replicationSubnetGroupIdentifier: String? = nil, resourceIdentifier: String? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
@@ -826,6 +828,7 @@ extension DatabaseMigrationService {
             self.engineVersion = engineVersion
             self.kmsKeyId = kmsKeyId
             self.multiAZ = multiAZ
+            self.networkType = networkType
             self.preferredMaintenanceWindow = preferredMaintenanceWindow
             self.publiclyAccessible = publiclyAccessible
             self.replicationInstanceClass = replicationInstanceClass
@@ -844,6 +847,7 @@ extension DatabaseMigrationService {
             case engineVersion = "EngineVersion"
             case kmsKeyId = "KmsKeyId"
             case multiAZ = "MultiAZ"
+            case networkType = "NetworkType"
             case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
             case publiclyAccessible = "PubliclyAccessible"
             case replicationInstanceClass = "ReplicationInstanceClass"
@@ -2499,9 +2503,9 @@ extension DatabaseMigrationService {
         public let endpointIdentifier: String?
         /// The type of endpoint.  Valid values are source and target.
         public let endpointType: ReplicationEndpointTypeValue?
-        /// The expanded name for the engine name. For example, if the EngineName parameter is "aurora," this value would be "Amazon Aurora MySQL."
+        /// The expanded name for the engine name. For example, if the EngineName parameter is "aurora", this value would be "Amazon Aurora MySQL".
         public let engineDisplayName: String?
-        /// The database engine name. Valid values, depending on the EndpointType, include "mysql", "oracle", "postgres", "mariadb", "aurora", "aurora-postgresql", "opensearch", "redshift", "s3", "db2", "azuredb", "sybase", "dynamodb", "mongodb", "kinesis", "kafka", "elasticsearch", "documentdb", "sqlserver", and "neptune".
+        /// The database engine name. Valid values, depending on the EndpointType, include "mysql", "oracle", "postgres", "mariadb", "aurora", "aurora-postgresql", "redshift", "s3", "db2", "db2-zos",  "azuredb", "sybase", "dynamodb",  "mongodb", "kinesis", "kafka",  "elasticsearch", "documentdb", "sqlserver",  "neptune", and "babelfish".
         public let engineName: String?
         ///  Value returned by a call to CreateEndpoint that can be used for cross-account validation. Use it on a subsequent call to CreateEndpoint to create the endpoint with a cross-account.
         public let externalId: String?
@@ -3244,7 +3248,7 @@ extension DatabaseMigrationService {
         public let endpointIdentifier: String?
         /// The type of endpoint.  Valid values are source and target.
         public let endpointType: ReplicationEndpointTypeValue?
-        /// The type of engine for the endpoint. Valid values, depending on the EndpointType, include "mysql", "oracle", "postgres", "mariadb", "aurora", "aurora-postgresql", "opensearch", "redshift", "s3", "db2", "azuredb", "sybase", "dynamodb", "mongodb", "kinesis", "kafka", "elasticsearch", "documentdb", "sqlserver", and "neptune".
+        /// The database engine name. Valid values, depending on the EndpointType, include "mysql", "oracle", "postgres", "mariadb", "aurora", "aurora-postgresql", "redshift", "s3", "db2", "db2-zos",  "azuredb", "sybase", "dynamodb",  "mongodb", "kinesis", "kafka",  "elasticsearch", "documentdb", "sqlserver",  "neptune", and "babelfish".
         public let engineName: String?
         /// If this attribute is Y, the current call to ModifyEndpoint replaces all existing endpoint settings with the exact settings that you specify in this call. If this attribute is N, the current call to ModifyEndpoint does two things:    It replaces any endpoint settings that already exist with new values, for settings with the same names.   It creates new endpoint settings that you specify in the call, for settings with different names.    For example, if you call create-endpoint ... --endpoint-settings '{"a":1}' ..., the endpoint has the following endpoint settings: '{"a":1}'. If you then call modify-endpoint ... --endpoint-settings '{"b":2}' ... for the same endpoint, the endpoint has the following settings: '{"a":1,"b":2}'.  However, suppose that you follow this with a call to modify-endpoint ... --endpoint-settings '{"b":2}' --exact-settings ... for that same endpoint again. Then the endpoint has the following settings: '{"b":2}'. All existing settings are replaced with the exact settings that you specify.
         public let exactSettings: Bool?
@@ -3433,6 +3437,8 @@ extension DatabaseMigrationService {
         public let engineVersion: String?
         ///  Specifies whether the replication instance is a Multi-AZ deployment. You can't set the AvailabilityZone parameter if the Multi-AZ parameter is set to true.
         public let multiAZ: Bool?
+        /// The type of IP address protocol used by a replication instance,  such as IPv4 only or Dual-stack that supports both IPv4 and IPv6 addressing.  IPv6 only is not yet supported.
+        public let networkType: String?
         /// The weekly time range (in UTC) during which system maintenance can occur, which might result in an outage. Changing this parameter does not result in an outage, except in the following situation, and the change is asynchronously applied as soon as possible. If moving this window to the current time, there must be at least 30 minutes between the current time and end of the window to ensure pending changes are applied. Default: Uses existing setting Format: ddd:hh24:mi-ddd:hh24:mi Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Must be at least 30 minutes
         public let preferredMaintenanceWindow: String?
         /// The Amazon Resource Name (ARN) of the replication instance.
@@ -3444,13 +3450,14 @@ extension DatabaseMigrationService {
         ///  Specifies the VPC security group to be used with the replication instance. The VPC security group must work with the VPC containing the replication instance.
         public let vpcSecurityGroupIds: [String]?
 
-        public init(allocatedStorage: Int? = nil, allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, engineVersion: String? = nil, multiAZ: Bool? = nil, preferredMaintenanceWindow: String? = nil, replicationInstanceArn: String, replicationInstanceClass: String? = nil, replicationInstanceIdentifier: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(allocatedStorage: Int? = nil, allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, engineVersion: String? = nil, multiAZ: Bool? = nil, networkType: String? = nil, preferredMaintenanceWindow: String? = nil, replicationInstanceArn: String, replicationInstanceClass: String? = nil, replicationInstanceIdentifier: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.allowMajorVersionUpgrade = allowMajorVersionUpgrade
             self.applyImmediately = applyImmediately
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.engineVersion = engineVersion
             self.multiAZ = multiAZ
+            self.networkType = networkType
             self.preferredMaintenanceWindow = preferredMaintenanceWindow
             self.replicationInstanceArn = replicationInstanceArn
             self.replicationInstanceClass = replicationInstanceClass
@@ -3465,6 +3472,7 @@ extension DatabaseMigrationService {
             case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
             case engineVersion = "EngineVersion"
             case multiAZ = "MultiAZ"
+            case networkType = "NetworkType"
             case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
             case replicationInstanceArn = "ReplicationInstanceArn"
             case replicationInstanceClass = "ReplicationInstanceClass"
@@ -3786,7 +3794,7 @@ extension DatabaseMigrationService {
         public let allowSelectNestedTables: Bool?
         /// Specifies the ID of the destination for the archived redo logs. This value should be the same as a number in the dest_id column of the v$archived_log view. If you work with an additional redo log destination, use the AdditionalArchivedLogDestId option to specify the additional destination ID. Doing this improves performance by ensuring that the correct logs are accessed from the outset.
         public let archivedLogDestId: Int?
-        /// When this field is set to Y, DMS only accesses the archived redo logs. If the archived redo logs are stored on Oracle ASM only, the DMS user account needs to be granted ASM privileges.
+        /// When this field is set to Y, DMS only accesses the archived redo logs. If the archived redo logs are stored on Automatic Storage Management (ASM) only, the DMS user account needs to be granted ASM privileges.
         public let archivedLogsOnly: Bool?
         /// For an Oracle source endpoint, your Oracle Automatic Storage Management (ASM) password. You can set this value from the  asm_user_password value. You set this value as part of the comma-separated value that you set to the Password request parameter when you create the endpoint to access transaction logs using Binary Reader. For more information, see Configuration for change data capture (CDC) on an Oracle source database.
         public let asmPassword: String?
@@ -3828,9 +3836,9 @@ extension DatabaseMigrationService {
         public let retryInterval: Int?
         /// The full Amazon Resource Name (ARN) of the IAM role that specifies DMS as the trusted entity and grants the required permissions to access the value in SecretsManagerSecret. The role must allow the iam:PassRole action. SecretsManagerSecret has the value of the Amazon Web Services Secrets Manager secret that allows access to the Oracle endpoint.  You can specify one of two sets of values for these permissions. You can specify the values for this setting and SecretsManagerSecretId. Or you can specify clear-text values for UserName, Password, ServerName, and Port. You can't specify both. For more information on creating this SecretsManagerSecret and the SecretsManagerAccessRoleArn and SecretsManagerSecretId required to access it, see Using secrets to access Database Migration Service resources in the Database Migration Service User Guide.
         public let secretsManagerAccessRoleArn: String?
-        /// Required only if your Oracle endpoint uses Advanced Storage Manager (ASM). The full ARN of the IAM role that specifies DMS as the trusted entity and grants the required permissions to access the SecretsManagerOracleAsmSecret. This SecretsManagerOracleAsmSecret has the secret value that allows access to the Oracle ASM of the endpoint.  You can specify one of two sets of values for these permissions. You can specify the values for this setting and SecretsManagerOracleAsmSecretId. Or you can specify clear-text values for AsmUserName, AsmPassword, and AsmServerName. You can't specify both. For more information on creating this SecretsManagerOracleAsmSecret and the SecretsManagerOracleAsmAccessRoleArn and SecretsManagerOracleAsmSecretId required to access it, see Using secrets to access Database Migration Service resources in the Database Migration Service User Guide.
+        /// Required only if your Oracle endpoint uses Automatic Storage Management (ASM). The full ARN of the IAM role that specifies DMS as the trusted entity and grants the required permissions to access the SecretsManagerOracleAsmSecret. This SecretsManagerOracleAsmSecret has the secret value that allows access to the Oracle ASM of the endpoint.  You can specify one of two sets of values for these permissions. You can specify the values for this setting and SecretsManagerOracleAsmSecretId. Or you can specify clear-text values for AsmUserName, AsmPassword, and AsmServerName. You can't specify both. For more information on creating this SecretsManagerOracleAsmSecret and the SecretsManagerOracleAsmAccessRoleArn and SecretsManagerOracleAsmSecretId required to access it, see Using secrets to access Database Migration Service resources in the Database Migration Service User Guide.
         public let secretsManagerOracleAsmAccessRoleArn: String?
-        /// Required only if your Oracle endpoint uses Advanced Storage Manager (ASM). The full ARN, partial ARN, or friendly name of the SecretsManagerOracleAsmSecret  that contains the Oracle ASM connection details for the Oracle endpoint.
+        /// Required only if your Oracle endpoint uses Automatic Storage Management (ASM). The full ARN, partial ARN, or friendly name of the SecretsManagerOracleAsmSecret  that contains the Oracle ASM connection details for the Oracle endpoint.
         public let secretsManagerOracleAsmSecretId: String?
         /// The full ARN, partial ARN, or friendly name of the SecretsManagerSecret that contains the Oracle endpoint connection details.
         public let secretsManagerSecretId: String?
@@ -4444,6 +4452,8 @@ extension DatabaseMigrationService {
         public let kmsKeyId: String?
         ///  Specifies whether the replication instance is a Multi-AZ deployment. You can't set the AvailabilityZone parameter if the Multi-AZ parameter is set to true.
         public let multiAZ: Bool?
+        /// The type of IP address protocol used by a replication instance,  such as IPv4 only or Dual-stack that supports both IPv4 and IPv6 addressing.  IPv6 only is not yet supported.
+        public let networkType: String?
         /// The pending modification values.
         public let pendingModifiedValues: ReplicationPendingModifiedValues?
         /// The maintenance window times for the replication instance. Any pending upgrades to the replication instance are performed during this time.
@@ -4456,6 +4466,8 @@ extension DatabaseMigrationService {
         public let replicationInstanceClass: String?
         /// The replication instance identifier is a required parameter. This parameter is stored as a lowercase string. Constraints:   Must contain 1-63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: myrepinstance
         public let replicationInstanceIdentifier: String?
+        /// One or more IPv6 addresses for the replication instance.
+        public let replicationInstanceIpv6Addresses: [String]?
         /// The private IP address of the replication instance.
         public let replicationInstancePrivateIpAddress: String?
         /// One or more private IP addresses for the replication instance.
@@ -4473,7 +4485,7 @@ extension DatabaseMigrationService {
         /// The VPC security group for the instance.
         public let vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
-        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, dnsNameServers: String? = nil, engineVersion: String? = nil, freeUntil: Date? = nil, instanceCreateTime: Date? = nil, kmsKeyId: String? = nil, multiAZ: Bool? = nil, pendingModifiedValues: ReplicationPendingModifiedValues? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, replicationInstanceArn: String? = nil, replicationInstanceClass: String? = nil, replicationInstanceIdentifier: String? = nil, replicationInstancePrivateIpAddresses: [String]? = nil, replicationInstancePublicIpAddresses: [String]? = nil, replicationInstanceStatus: String? = nil, replicationSubnetGroup: ReplicationSubnetGroup? = nil, secondaryAvailabilityZone: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, dnsNameServers: String? = nil, engineVersion: String? = nil, freeUntil: Date? = nil, instanceCreateTime: Date? = nil, kmsKeyId: String? = nil, multiAZ: Bool? = nil, networkType: String? = nil, pendingModifiedValues: ReplicationPendingModifiedValues? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, replicationInstanceArn: String? = nil, replicationInstanceClass: String? = nil, replicationInstanceIdentifier: String? = nil, replicationInstanceIpv6Addresses: [String]? = nil, replicationInstancePrivateIpAddresses: [String]? = nil, replicationInstancePublicIpAddresses: [String]? = nil, replicationInstanceStatus: String? = nil, replicationSubnetGroup: ReplicationSubnetGroup? = nil, secondaryAvailabilityZone: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
@@ -4483,12 +4495,14 @@ extension DatabaseMigrationService {
             self.instanceCreateTime = instanceCreateTime
             self.kmsKeyId = kmsKeyId
             self.multiAZ = multiAZ
+            self.networkType = networkType
             self.pendingModifiedValues = pendingModifiedValues
             self.preferredMaintenanceWindow = preferredMaintenanceWindow
             self.publiclyAccessible = publiclyAccessible
             self.replicationInstanceArn = replicationInstanceArn
             self.replicationInstanceClass = replicationInstanceClass
             self.replicationInstanceIdentifier = replicationInstanceIdentifier
+            self.replicationInstanceIpv6Addresses = replicationInstanceIpv6Addresses
             self.replicationInstancePrivateIpAddress = nil
             self.replicationInstancePrivateIpAddresses = replicationInstancePrivateIpAddresses
             self.replicationInstancePublicIpAddress = nil
@@ -4500,7 +4514,7 @@ extension DatabaseMigrationService {
         }
 
         @available(*, deprecated, message: "Members replicationInstancePrivateIpAddress, replicationInstancePublicIpAddress have been deprecated")
-        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, dnsNameServers: String? = nil, engineVersion: String? = nil, freeUntil: Date? = nil, instanceCreateTime: Date? = nil, kmsKeyId: String? = nil, multiAZ: Bool? = nil, pendingModifiedValues: ReplicationPendingModifiedValues? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, replicationInstanceArn: String? = nil, replicationInstanceClass: String? = nil, replicationInstanceIdentifier: String? = nil, replicationInstancePrivateIpAddress: String? = nil, replicationInstancePrivateIpAddresses: [String]? = nil, replicationInstancePublicIpAddress: String? = nil, replicationInstancePublicIpAddresses: [String]? = nil, replicationInstanceStatus: String? = nil, replicationSubnetGroup: ReplicationSubnetGroup? = nil, secondaryAvailabilityZone: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, dnsNameServers: String? = nil, engineVersion: String? = nil, freeUntil: Date? = nil, instanceCreateTime: Date? = nil, kmsKeyId: String? = nil, multiAZ: Bool? = nil, networkType: String? = nil, pendingModifiedValues: ReplicationPendingModifiedValues? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, replicationInstanceArn: String? = nil, replicationInstanceClass: String? = nil, replicationInstanceIdentifier: String? = nil, replicationInstanceIpv6Addresses: [String]? = nil, replicationInstancePrivateIpAddress: String? = nil, replicationInstancePrivateIpAddresses: [String]? = nil, replicationInstancePublicIpAddress: String? = nil, replicationInstancePublicIpAddresses: [String]? = nil, replicationInstanceStatus: String? = nil, replicationSubnetGroup: ReplicationSubnetGroup? = nil, secondaryAvailabilityZone: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
@@ -4510,12 +4524,14 @@ extension DatabaseMigrationService {
             self.instanceCreateTime = instanceCreateTime
             self.kmsKeyId = kmsKeyId
             self.multiAZ = multiAZ
+            self.networkType = networkType
             self.pendingModifiedValues = pendingModifiedValues
             self.preferredMaintenanceWindow = preferredMaintenanceWindow
             self.publiclyAccessible = publiclyAccessible
             self.replicationInstanceArn = replicationInstanceArn
             self.replicationInstanceClass = replicationInstanceClass
             self.replicationInstanceIdentifier = replicationInstanceIdentifier
+            self.replicationInstanceIpv6Addresses = replicationInstanceIpv6Addresses
             self.replicationInstancePrivateIpAddress = replicationInstancePrivateIpAddress
             self.replicationInstancePrivateIpAddresses = replicationInstancePrivateIpAddresses
             self.replicationInstancePublicIpAddress = replicationInstancePublicIpAddress
@@ -4536,12 +4552,14 @@ extension DatabaseMigrationService {
             case instanceCreateTime = "InstanceCreateTime"
             case kmsKeyId = "KmsKeyId"
             case multiAZ = "MultiAZ"
+            case networkType = "NetworkType"
             case pendingModifiedValues = "PendingModifiedValues"
             case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
             case publiclyAccessible = "PubliclyAccessible"
             case replicationInstanceArn = "ReplicationInstanceArn"
             case replicationInstanceClass = "ReplicationInstanceClass"
             case replicationInstanceIdentifier = "ReplicationInstanceIdentifier"
+            case replicationInstanceIpv6Addresses = "ReplicationInstanceIpv6Addresses"
             case replicationInstancePrivateIpAddress = "ReplicationInstancePrivateIpAddress"
             case replicationInstancePrivateIpAddresses = "ReplicationInstancePrivateIpAddresses"
             case replicationInstancePublicIpAddress = "ReplicationInstancePublicIpAddress"
@@ -4581,13 +4599,16 @@ extension DatabaseMigrationService {
         public let engineVersion: String?
         ///  Specifies whether the replication instance is a Multi-AZ deployment. You can't set the AvailabilityZone parameter if the Multi-AZ parameter is set to true.
         public let multiAZ: Bool?
+        /// The type of IP address protocol used by a replication instance,  such as IPv4 only or Dual-stack that supports both IPv4 and IPv6 addressing.  IPv6 only is not yet supported.
+        public let networkType: String?
         /// The compute and memory capacity of the replication instance as defined for the specified replication instance class. For more information on the settings and capacities for the available replication instance classes, see   Selecting the right DMS replication instance for your migration.
         public let replicationInstanceClass: String?
 
-        public init(allocatedStorage: Int? = nil, engineVersion: String? = nil, multiAZ: Bool? = nil, replicationInstanceClass: String? = nil) {
+        public init(allocatedStorage: Int? = nil, engineVersion: String? = nil, multiAZ: Bool? = nil, networkType: String? = nil, replicationInstanceClass: String? = nil) {
             self.allocatedStorage = allocatedStorage
             self.engineVersion = engineVersion
             self.multiAZ = multiAZ
+            self.networkType = networkType
             self.replicationInstanceClass = replicationInstanceClass
         }
 
@@ -4595,6 +4616,7 @@ extension DatabaseMigrationService {
             case allocatedStorage = "AllocatedStorage"
             case engineVersion = "EngineVersion"
             case multiAZ = "MultiAZ"
+            case networkType = "NetworkType"
             case replicationInstanceClass = "ReplicationInstanceClass"
         }
     }
@@ -4608,14 +4630,17 @@ extension DatabaseMigrationService {
         public let subnetGroupStatus: String?
         /// The subnets that are in the subnet group.
         public let subnets: [Subnet]?
+        /// The IP addressing protocol supported by the subnet group. This is used by a  replication instance with values such as IPv4 only or Dual-stack that supports  both IPv4 and IPv6 addressing. IPv6 only is not yet supported.
+        public let supportedNetworkTypes: [String]?
         /// The ID of the VPC.
         public let vpcId: String?
 
-        public init(replicationSubnetGroupDescription: String? = nil, replicationSubnetGroupIdentifier: String? = nil, subnetGroupStatus: String? = nil, subnets: [Subnet]? = nil, vpcId: String? = nil) {
+        public init(replicationSubnetGroupDescription: String? = nil, replicationSubnetGroupIdentifier: String? = nil, subnetGroupStatus: String? = nil, subnets: [Subnet]? = nil, supportedNetworkTypes: [String]? = nil, vpcId: String? = nil) {
             self.replicationSubnetGroupDescription = replicationSubnetGroupDescription
             self.replicationSubnetGroupIdentifier = replicationSubnetGroupIdentifier
             self.subnetGroupStatus = subnetGroupStatus
             self.subnets = subnets
+            self.supportedNetworkTypes = supportedNetworkTypes
             self.vpcId = vpcId
         }
 
@@ -4624,6 +4649,7 @@ extension DatabaseMigrationService {
             case replicationSubnetGroupIdentifier = "ReplicationSubnetGroupIdentifier"
             case subnetGroupStatus = "SubnetGroupStatus"
             case subnets = "Subnets"
+            case supportedNetworkTypes = "SupportedNetworkTypes"
             case vpcId = "VpcId"
         }
     }
@@ -4964,7 +4990,7 @@ extension DatabaseMigrationService {
         public let cdcInsertsOnly: Bool?
         /// Maximum length of the interval, defined in seconds, after which to output a file to Amazon S3. When CdcMaxBatchInterval and CdcMinFileSize are both specified, the file write is triggered by whichever parameter condition is met first within an DMS CloudFormation template. The default value is 60 seconds.
         public let cdcMaxBatchInterval: Int?
-        /// Minimum file size, defined in megabytes, to reach for a file output to Amazon S3. When CdcMinFileSize and CdcMaxBatchInterval are both specified, the file  write is triggered by whichever parameter condition is met first within an DMS  CloudFormation template. The default value is 32 MB.
+        /// Minimum file size, defined in kilobytes, to reach for a file output to Amazon S3. When CdcMinFileSize and CdcMaxBatchInterval are both specified, the file  write is triggered by whichever parameter condition is met first within an DMS  CloudFormation template. The default value is 32 MB.
         public let cdcMinFileSize: Int?
         /// Specifies the folder path of CDC files. For an S3 source, this setting is required if a task captures change data; otherwise, it's optional. If CdcPath is set, DMS reads CDC files from this path and replicates the data changes to the target endpoint. For an S3 target if you set  PreserveTransactions to true, DMS verifies that you have set this parameter to a folder path on your S3 target where DMS can save the transaction order for the CDC load. DMS creates this CDC folder path in either your S3 target working directory or the S3 target location specified by  BucketFolder and  BucketName . For example, if you specify CdcPath as MyChangedData, and you specify BucketName as MyTargetBucket but do not specify BucketFolder, DMS creates the CDC folder path following: MyTargetBucket/MyChangedData. If you specify the same CdcPath, and you specify BucketName as MyTargetBucket and BucketFolder as MyTargetData, DMS creates the CDC folder path following: MyTargetBucket/MyTargetData/MyChangedData. For more information on CDC including transaction order on an S3 target, see Capturing data changes (CDC) including transaction order on the S3 target.  This setting is supported in DMS versions 3.4.2 and later.
         public let cdcPath: String?
@@ -5387,9 +5413,9 @@ extension DatabaseMigrationService {
     public struct SupportedEndpointType: AWSDecodableShape {
         /// The type of endpoint.  Valid values are source and target.
         public let endpointType: ReplicationEndpointTypeValue?
-        /// The expanded name for the engine name. For example, if the EngineName parameter is "aurora," this value would be "Amazon Aurora MySQL."
+        /// The expanded name for the engine name. For example, if the EngineName parameter is "aurora", this value would be "Amazon Aurora MySQL".
         public let engineDisplayName: String?
-        /// The database engine name. Valid values, depending on the EndpointType,  include "mysql", "oracle", "postgres", "mariadb", "aurora", "aurora-postgresql", "redshift", "s3", "db2", "azuredb", "sybase", "dynamodb", "mongodb", "kinesis", "kafka", "elasticsearch", "documentdb", "sqlserver", and "neptune".
+        /// The database engine name. Valid values, depending on the EndpointType, include "mysql", "oracle", "postgres", "mariadb", "aurora", "aurora-postgresql", "redshift", "s3", "db2", "db2-zos",  "azuredb", "sybase", "dynamodb",  "mongodb", "kinesis", "kafka",  "elasticsearch", "documentdb", "sqlserver",  "neptune", and "babelfish".
         public let engineName: String?
         /// The earliest DMS engine version that supports this endpoint engine. Note that endpoint engines released with DMS versions earlier than 3.1.1 do not return a value for this parameter.
         public let replicationInstanceEngineMinimumVersion: String?
@@ -5451,6 +5477,14 @@ extension DatabaseMigrationService {
     }
 
     public struct TableStatistics: AWSDecodableShape {
+        /// The number of data definition language (DDL) statements used to build and modify the structure of your tables applied on the target.
+        public let appliedDdls: Int64?
+        /// The number of delete actions applied on a target table.
+        public let appliedDeletes: Int64?
+        /// The number of insert actions applied on a target table.
+        public let appliedInserts: Int64?
+        /// The number of update actions applied on a target table.
+        public let appliedUpdates: Int64?
         /// The data definition language (DDL) used to build and modify the structure of your tables.
         public let ddls: Int64?
         /// The number of delete actions performed on a table.
@@ -5490,7 +5524,11 @@ extension DatabaseMigrationService {
         /// The number of records that couldn't be validated.
         public let validationSuspendedRecords: Int64?
 
-        public init(ddls: Int64? = nil, deletes: Int64? = nil, fullLoadCondtnlChkFailedRows: Int64? = nil, fullLoadEndTime: Date? = nil, fullLoadErrorRows: Int64? = nil, fullLoadReloaded: Bool? = nil, fullLoadRows: Int64? = nil, fullLoadStartTime: Date? = nil, inserts: Int64? = nil, lastUpdateTime: Date? = nil, schemaName: String? = nil, tableName: String? = nil, tableState: String? = nil, updates: Int64? = nil, validationFailedRecords: Int64? = nil, validationPendingRecords: Int64? = nil, validationState: String? = nil, validationStateDetails: String? = nil, validationSuspendedRecords: Int64? = nil) {
+        public init(appliedDdls: Int64? = nil, appliedDeletes: Int64? = nil, appliedInserts: Int64? = nil, appliedUpdates: Int64? = nil, ddls: Int64? = nil, deletes: Int64? = nil, fullLoadCondtnlChkFailedRows: Int64? = nil, fullLoadEndTime: Date? = nil, fullLoadErrorRows: Int64? = nil, fullLoadReloaded: Bool? = nil, fullLoadRows: Int64? = nil, fullLoadStartTime: Date? = nil, inserts: Int64? = nil, lastUpdateTime: Date? = nil, schemaName: String? = nil, tableName: String? = nil, tableState: String? = nil, updates: Int64? = nil, validationFailedRecords: Int64? = nil, validationPendingRecords: Int64? = nil, validationState: String? = nil, validationStateDetails: String? = nil, validationSuspendedRecords: Int64? = nil) {
+            self.appliedDdls = appliedDdls
+            self.appliedDeletes = appliedDeletes
+            self.appliedInserts = appliedInserts
+            self.appliedUpdates = appliedUpdates
             self.ddls = ddls
             self.deletes = deletes
             self.fullLoadCondtnlChkFailedRows = fullLoadCondtnlChkFailedRows
@@ -5513,6 +5551,10 @@ extension DatabaseMigrationService {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case appliedDdls = "AppliedDdls"
+            case appliedDeletes = "AppliedDeletes"
+            case appliedInserts = "AppliedInserts"
+            case appliedUpdates = "AppliedUpdates"
             case ddls = "Ddls"
             case deletes = "Deletes"
             case fullLoadCondtnlChkFailedRows = "FullLoadCondtnlChkFailedRows"

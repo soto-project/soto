@@ -330,6 +330,12 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
+    public enum JdbcMetadataEntry: String, CustomStringConvertible, Codable, _SotoSendable {
+        case comments = "COMMENTS"
+        case rawtypes = "RAWTYPES"
+        public var description: String { return self.rawValue }
+    }
+
     public enum JobBookmarksEncryptionMode: String, CustomStringConvertible, Codable, _SotoSendable {
         case csekms = "CSE-KMS"
         case disabled = "DISABLED"
@@ -3085,7 +3091,7 @@ extension Glue {
     public struct Crawler: AWSDecodableShape {
         /// A list of UTF-8 strings that specify the custom classifiers that are associated  with the crawler.
         public let classifiers: [String]?
-        /// Crawler configuration information. This versioned JSON string allows users to specify aspects of a crawler's behavior. For more information, see Include and Exclude Patterns.
+        /// Crawler configuration information. This versioned JSON string allows users to specify aspects of a crawler's behavior. For more information, see Setting crawler configuration options.
         public let configuration: String?
         /// If the crawler is running, contains the total time elapsed since the last crawl began.
         public let crawlElapsedTime: Int64?
@@ -3468,7 +3474,7 @@ extension Glue {
     public struct CreateCrawlerRequest: AWSEncodableShape {
         /// A list of custom classifiers that the user has registered. By default, all built-in classifiers are included in a crawl, but these custom classifiers always override the default classifiers for a given classification.
         public let classifiers: [String]?
-        /// Crawler configuration information. This versioned JSON string allows users to specify aspects of a crawler's behavior. For more information, see Configuring a Crawler.
+        /// Crawler configuration information. This versioned JSON string allows users to specify aspects of a crawler's behavior. For more information, see Setting crawler configuration options.
         public let configuration: String?
         /// The name of the SecurityConfiguration structure to be used by this crawler.
         public let crawlerSecurityConfiguration: String?
@@ -3820,7 +3826,7 @@ extension Glue {
         /// 	           "--enable-glue-datacatalog": ""
         /// 	 You can specify a version of Python support for development endpoints by using the Arguments parameter in the CreateDevEndpoint or UpdateDevEndpoint APIs. If no arguments are provided, the version defaults to Python 2.
         public let arguments: [String: String]?
-        /// The AWS Availability Zone where this DevEndpoint is located.
+        /// The Amazon Web Services Availability Zone where this DevEndpoint is located.
         public let availabilityZone: String?
         /// The point in time at which this DevEndpoint was created.
         public let createdTimestamp: Date?
@@ -6209,7 +6215,7 @@ extension Glue {
         /// 	           "--enable-glue-datacatalog": ""
         /// 	 You can specify a version of Python support for development endpoints by using the Arguments parameter in the CreateDevEndpoint or UpdateDevEndpoint APIs. If no arguments are provided, the version defaults to Python 2.
         public let arguments: [String: String]?
-        /// The AWS Availability Zone where this DevEndpoint is located.
+        /// The Amazon Web Services Availability Zone where this DevEndpoint is located.
         public let availabilityZone: String?
         /// The point in time at which this DevEndpoint was created.
         public let createdTimestamp: Date?
@@ -10434,19 +10440,25 @@ extension Glue {
     public struct JdbcTarget: AWSEncodableShape & AWSDecodableShape {
         /// The name of the connection to use to connect to the JDBC target.
         public let connectionName: String?
+        /// Specify a value of RAWTYPES or COMMENTS to enable additional metadata in table responses. RAWTYPES provides the native-level datatype. COMMENTS provides comments associated with a column or table in the database.
+        ///
+        /// 	        If you do not need additional metadata, keep the field empty.
+        public let enableAdditionalMetadata: [JdbcMetadataEntry]?
         /// A list of glob patterns used to exclude from the crawl. For more information, see Catalog Tables with a Crawler.
         public let exclusions: [String]?
         /// The path of the JDBC target.
         public let path: String?
 
-        public init(connectionName: String? = nil, exclusions: [String]? = nil, path: String? = nil) {
+        public init(connectionName: String? = nil, enableAdditionalMetadata: [JdbcMetadataEntry]? = nil, exclusions: [String]? = nil, path: String? = nil) {
             self.connectionName = connectionName
+            self.enableAdditionalMetadata = enableAdditionalMetadata
             self.exclusions = exclusions
             self.path = path
         }
 
         private enum CodingKeys: String, CodingKey {
             case connectionName = "ConnectionName"
+            case enableAdditionalMetadata = "EnableAdditionalMetadata"
             case exclusions = "Exclusions"
             case path = "Path"
         }
@@ -17111,7 +17123,7 @@ extension Glue {
     public struct UpdateCrawlerRequest: AWSEncodableShape {
         /// A list of custom classifiers that the user has registered. By default, all built-in classifiers are included in a crawl, but these custom classifiers always override the default classifiers for a given classification.
         public let classifiers: [String]?
-        /// Crawler configuration information. This versioned JSON string allows users to specify aspects of a crawler's behavior. For more information, see Configuring a Crawler.
+        /// Crawler configuration information. This versioned JSON string allows users to specify aspects of a crawler's behavior. For more information, see Setting crawler configuration options.
         public let configuration: String?
         /// The name of the SecurityConfiguration structure to be used by this crawler.
         public let crawlerSecurityConfiguration: String?

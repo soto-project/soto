@@ -243,7 +243,7 @@ extension ServiceCatalog {
         )
     }
 
-    ///  Lists all principal ARNs associated with the specified portfolio.
+    ///  Lists all PrincipalARNs and corresponding PrincipalTypes associated with the specified portfolio.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

@@ -748,17 +748,20 @@ extension GreengrassV2 {
         public let deploymentPolicies: DeploymentPolicies?
         /// The job configuration for the deployment configuration. The job configuration specifies the rollout, timeout, and stop configurations for the deployment configuration.
         public let iotJobConfiguration: DeploymentIoTJobConfiguration?
+        /// The parent deployment's target ARN within a subdeployment.
+        public let parentTargetArn: String?
         /// A list of key-value pairs that contain metadata for the resource. For more information, see Tag your resources in the IoT Greengrass V2 Developer Guide.
         public let tags: [String: String]?
-        /// The ARN of the target IoT thing or thing group.
+        /// The ARN of the target IoT thing or thing group. When creating a subdeployment, the targetARN can only be a thing group.
         public let targetArn: String
 
-        public init(clientToken: String? = CreateDeploymentRequest.idempotencyToken(), components: [String: ComponentDeploymentSpecification]? = nil, deploymentName: String? = nil, deploymentPolicies: DeploymentPolicies? = nil, iotJobConfiguration: DeploymentIoTJobConfiguration? = nil, tags: [String: String]? = nil, targetArn: String) {
+        public init(clientToken: String? = CreateDeploymentRequest.idempotencyToken(), components: [String: ComponentDeploymentSpecification]? = nil, deploymentName: String? = nil, deploymentPolicies: DeploymentPolicies? = nil, iotJobConfiguration: DeploymentIoTJobConfiguration? = nil, parentTargetArn: String? = nil, tags: [String: String]? = nil, targetArn: String) {
             self.clientToken = clientToken
             self.components = components
             self.deploymentName = deploymentName
             self.deploymentPolicies = deploymentPolicies
             self.iotJobConfiguration = iotJobConfiguration
+            self.parentTargetArn = parentTargetArn
             self.tags = tags
             self.targetArn = targetArn
         }
@@ -774,6 +777,7 @@ extension GreengrassV2 {
             try self.validate(self.deploymentName, name: "deploymentName", parent: name, max: 256)
             try self.validate(self.deploymentName, name: "deploymentName", parent: name, min: 1)
             try self.iotJobConfiguration?.validate(name: "\(name).iotJobConfiguration")
+            try self.validate(self.parentTargetArn, name: "parentTargetArn", parent: name, pattern: "^arn:[^:]*:iot:[^:]*:[0-9]+:thinggroup/.+$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -790,6 +794,7 @@ extension GreengrassV2 {
             case deploymentName
             case deploymentPolicies
             case iotJobConfiguration
+            case parentTargetArn
             case tags
             case targetArn
         }
@@ -885,17 +890,20 @@ extension GreengrassV2 {
         public let deploymentStatus: DeploymentStatus?
         /// Whether or not the deployment is the latest revision for its target.
         public let isLatestForTarget: Bool?
+        /// The parent deployment's target ARN within a subdeployment.
+        public let parentTargetArn: String?
         /// The revision number of the deployment.
         public let revisionId: String?
-        /// The ARN of the target IoT thing or thing group.
+        /// The ARN of the target IoT thing or thing group. When creating a subdeployment, the targetARN can only be a thing group.
         public let targetArn: String?
 
-        public init(creationTimestamp: Date? = nil, deploymentId: String? = nil, deploymentName: String? = nil, deploymentStatus: DeploymentStatus? = nil, isLatestForTarget: Bool? = nil, revisionId: String? = nil, targetArn: String? = nil) {
+        public init(creationTimestamp: Date? = nil, deploymentId: String? = nil, deploymentName: String? = nil, deploymentStatus: DeploymentStatus? = nil, isLatestForTarget: Bool? = nil, parentTargetArn: String? = nil, revisionId: String? = nil, targetArn: String? = nil) {
             self.creationTimestamp = creationTimestamp
             self.deploymentId = deploymentId
             self.deploymentName = deploymentName
             self.deploymentStatus = deploymentStatus
             self.isLatestForTarget = isLatestForTarget
+            self.parentTargetArn = parentTargetArn
             self.revisionId = revisionId
             self.targetArn = targetArn
         }
@@ -906,6 +914,7 @@ extension GreengrassV2 {
             case deploymentName
             case deploymentStatus
             case isLatestForTarget
+            case parentTargetArn
             case revisionId
             case targetArn
         }
@@ -1393,6 +1402,8 @@ extension GreengrassV2 {
         public let iotJobId: String?
         /// Whether or not the deployment is the latest revision for its target.
         public let isLatestForTarget: Bool?
+        /// The parent deployment's target ARN within a subdeployment.
+        public let parentTargetArn: String?
         /// The revision number of the deployment.
         public let revisionId: String?
         /// A list of key-value pairs that contain metadata for the resource. For more information, see Tag your resources in the IoT Greengrass V2 Developer Guide.
@@ -1400,7 +1411,7 @@ extension GreengrassV2 {
         /// The ARN of the target IoT thing or thing group.
         public let targetArn: String?
 
-        public init(components: [String: ComponentDeploymentSpecification]? = nil, creationTimestamp: Date? = nil, deploymentId: String? = nil, deploymentName: String? = nil, deploymentPolicies: DeploymentPolicies? = nil, deploymentStatus: DeploymentStatus? = nil, iotJobArn: String? = nil, iotJobConfiguration: DeploymentIoTJobConfiguration? = nil, iotJobId: String? = nil, isLatestForTarget: Bool? = nil, revisionId: String? = nil, tags: [String: String]? = nil, targetArn: String? = nil) {
+        public init(components: [String: ComponentDeploymentSpecification]? = nil, creationTimestamp: Date? = nil, deploymentId: String? = nil, deploymentName: String? = nil, deploymentPolicies: DeploymentPolicies? = nil, deploymentStatus: DeploymentStatus? = nil, iotJobArn: String? = nil, iotJobConfiguration: DeploymentIoTJobConfiguration? = nil, iotJobId: String? = nil, isLatestForTarget: Bool? = nil, parentTargetArn: String? = nil, revisionId: String? = nil, tags: [String: String]? = nil, targetArn: String? = nil) {
             self.components = components
             self.creationTimestamp = creationTimestamp
             self.deploymentId = deploymentId
@@ -1411,6 +1422,7 @@ extension GreengrassV2 {
             self.iotJobConfiguration = iotJobConfiguration
             self.iotJobId = iotJobId
             self.isLatestForTarget = isLatestForTarget
+            self.parentTargetArn = parentTargetArn
             self.revisionId = revisionId
             self.tags = tags
             self.targetArn = targetArn
@@ -1427,6 +1439,7 @@ extension GreengrassV2 {
             case iotJobConfiguration
             case iotJobId
             case isLatestForTarget
+            case parentTargetArn
             case revisionId
             case tags
             case targetArn
@@ -2042,6 +2055,7 @@ extension GreengrassV2 {
             AWSMemberEncoding(label: "historyFilter", location: .querystring("historyFilter")),
             AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
             AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "parentTargetArn", location: .querystring("parentTargetArn")),
             AWSMemberEncoding(label: "targetArn", location: .querystring("targetArn"))
         ]
 
@@ -2051,19 +2065,23 @@ extension GreengrassV2 {
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
+        /// The parent deployment's target ARN within a subdeployment.
+        public let parentTargetArn: String?
         /// The ARN of the target IoT thing or thing group.
         public let targetArn: String?
 
-        public init(historyFilter: DeploymentHistoryFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil, targetArn: String? = nil) {
+        public init(historyFilter: DeploymentHistoryFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil, parentTargetArn: String? = nil, targetArn: String? = nil) {
             self.historyFilter = historyFilter
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.parentTargetArn = parentTargetArn
             self.targetArn = targetArn
         }
 
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.parentTargetArn, name: "parentTargetArn", parent: name, pattern: "^arn:[^:]*:iot:[^:]*:[0-9]+:thinggroup/.+$")
             try self.validate(self.targetArn, name: "targetArn", parent: name, pattern: "^arn:[^:]*:iot:[^:]*:[0-9]+:(thing|thinggroup)/.+$")
         }
 

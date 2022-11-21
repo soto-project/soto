@@ -1541,6 +1541,8 @@ extension Athena {
         public let queryExecutionId: String?
         /// The location in Amazon S3 where query results were stored and the encryption option, if any, used for query results. These are known as "client-side settings". If workgroup settings override client-side settings, then the query uses the location for the query results and the encryption configuration that are specified for the workgroup.
         public let resultConfiguration: ResultConfiguration?
+        /// Specifies the query result reuse behavior that was used for the query.
+        public let resultReuseConfiguration: ResultReuseConfiguration?
         /// The type of query statement that was run. DDL indicates DDL query statements. DML indicates DML (Data Manipulation Language) query statements, such as CREATE TABLE AS SELECT. UTILITY indicates query statements other than DDL and DML, such as SHOW CREATE TABLE, or DESCRIBE TABLE.
         public let statementType: StatementType?
         /// Query execution statistics, such as the amount of data scanned, the amount of time that the query took to process, and the type of statement that was run.
@@ -1550,13 +1552,14 @@ extension Athena {
         /// The name of the workgroup in which the query ran.
         public let workGroup: String?
 
-        public init(engineVersion: EngineVersion? = nil, executionParameters: [String]? = nil, query: String? = nil, queryExecutionContext: QueryExecutionContext? = nil, queryExecutionId: String? = nil, resultConfiguration: ResultConfiguration? = nil, statementType: StatementType? = nil, statistics: QueryExecutionStatistics? = nil, status: QueryExecutionStatus? = nil, workGroup: String? = nil) {
+        public init(engineVersion: EngineVersion? = nil, executionParameters: [String]? = nil, query: String? = nil, queryExecutionContext: QueryExecutionContext? = nil, queryExecutionId: String? = nil, resultConfiguration: ResultConfiguration? = nil, resultReuseConfiguration: ResultReuseConfiguration? = nil, statementType: StatementType? = nil, statistics: QueryExecutionStatistics? = nil, status: QueryExecutionStatus? = nil, workGroup: String? = nil) {
             self.engineVersion = engineVersion
             self.executionParameters = executionParameters
             self.query = query
             self.queryExecutionContext = queryExecutionContext
             self.queryExecutionId = queryExecutionId
             self.resultConfiguration = resultConfiguration
+            self.resultReuseConfiguration = resultReuseConfiguration
             self.statementType = statementType
             self.statistics = statistics
             self.status = status
@@ -1570,6 +1573,7 @@ extension Athena {
             case queryExecutionContext = "QueryExecutionContext"
             case queryExecutionId = "QueryExecutionId"
             case resultConfiguration = "ResultConfiguration"
+            case resultReuseConfiguration = "ResultReuseConfiguration"
             case statementType = "StatementType"
             case statistics = "Statistics"
             case status = "Status"
@@ -1613,17 +1617,20 @@ extension Athena {
         public let queryPlanningTimeInMillis: Int64?
         /// The number of milliseconds that the query was in your query queue waiting for resources. Note that if transient errors occur, Athena might automatically add the query back to the queue.
         public let queryQueueTimeInMillis: Int64?
+        /// Contains information about whether previous query results were reused for the query.
+        public let resultReuseInformation: ResultReuseInformation?
         /// The number of milliseconds that Athena took to finalize and publish the query results after the query engine finished running the query.
         public let serviceProcessingTimeInMillis: Int64?
         /// The number of milliseconds that Athena took to run the query.
         public let totalExecutionTimeInMillis: Int64?
 
-        public init(dataManifestLocation: String? = nil, dataScannedInBytes: Int64? = nil, engineExecutionTimeInMillis: Int64? = nil, queryPlanningTimeInMillis: Int64? = nil, queryQueueTimeInMillis: Int64? = nil, serviceProcessingTimeInMillis: Int64? = nil, totalExecutionTimeInMillis: Int64? = nil) {
+        public init(dataManifestLocation: String? = nil, dataScannedInBytes: Int64? = nil, engineExecutionTimeInMillis: Int64? = nil, queryPlanningTimeInMillis: Int64? = nil, queryQueueTimeInMillis: Int64? = nil, resultReuseInformation: ResultReuseInformation? = nil, serviceProcessingTimeInMillis: Int64? = nil, totalExecutionTimeInMillis: Int64? = nil) {
             self.dataManifestLocation = dataManifestLocation
             self.dataScannedInBytes = dataScannedInBytes
             self.engineExecutionTimeInMillis = engineExecutionTimeInMillis
             self.queryPlanningTimeInMillis = queryPlanningTimeInMillis
             self.queryQueueTimeInMillis = queryQueueTimeInMillis
+            self.resultReuseInformation = resultReuseInformation
             self.serviceProcessingTimeInMillis = serviceProcessingTimeInMillis
             self.totalExecutionTimeInMillis = totalExecutionTimeInMillis
         }
@@ -1634,6 +1641,7 @@ extension Athena {
             case engineExecutionTimeInMillis = "EngineExecutionTimeInMillis"
             case queryPlanningTimeInMillis = "QueryPlanningTimeInMillis"
             case queryQueueTimeInMillis = "QueryQueueTimeInMillis"
+            case resultReuseInformation = "ResultReuseInformation"
             case serviceProcessingTimeInMillis = "ServiceProcessingTimeInMillis"
             case totalExecutionTimeInMillis = "TotalExecutionTimeInMillis"
         }
@@ -1890,6 +1898,58 @@ extension Athena {
         }
     }
 
+    public struct ResultReuseByAgeConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// True if previous query results can be reused when the query is run; otherwise, false. The default is false.
+        public let enabled: Bool
+        /// Specifies, in minutes, the maximum age of a previous query result that Athena should consider for reuse. The default is 60.
+        public let maxAgeInMinutes: Int?
+
+        public init(enabled: Bool, maxAgeInMinutes: Int? = nil) {
+            self.enabled = enabled
+            self.maxAgeInMinutes = maxAgeInMinutes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxAgeInMinutes, name: "maxAgeInMinutes", parent: name, max: 10080)
+            try self.validate(self.maxAgeInMinutes, name: "maxAgeInMinutes", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case maxAgeInMinutes = "MaxAgeInMinutes"
+        }
+    }
+
+    public struct ResultReuseConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether previous query results are reused, and if so, their maximum age.
+        public let resultReuseByAgeConfiguration: ResultReuseByAgeConfiguration?
+
+        public init(resultReuseByAgeConfiguration: ResultReuseByAgeConfiguration? = nil) {
+            self.resultReuseByAgeConfiguration = resultReuseByAgeConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.resultReuseByAgeConfiguration?.validate(name: "\(name).resultReuseByAgeConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resultReuseByAgeConfiguration = "ResultReuseByAgeConfiguration"
+        }
+    }
+
+    public struct ResultReuseInformation: AWSDecodableShape {
+        /// True if a previous query result was reused; false if the result was generated from a new run of the query.
+        public let reusedPreviousResult: Bool
+
+        public init(reusedPreviousResult: Bool) {
+            self.reusedPreviousResult = reusedPreviousResult
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reusedPreviousResult = "ReusedPreviousResult"
+        }
+    }
+
     public struct ResultSet: AWSDecodableShape {
         /// The metadata that describes the column structure and data types of a table of query results.
         public let resultSetMetadata: ResultSetMetadata?
@@ -1944,15 +2004,18 @@ extension Athena {
         public let queryString: String
         /// Specifies information about where and how to save the results of the query execution. If the query runs in a workgroup, then workgroup's settings may override query settings. This affects the query results location. The workgroup settings override is specified in EnforceWorkGroupConfiguration (true/false) in the WorkGroupConfiguration. See WorkGroupConfiguration$EnforceWorkGroupConfiguration.
         public let resultConfiguration: ResultConfiguration?
+        /// Specifies the query result reuse behavior for the query.
+        public let resultReuseConfiguration: ResultReuseConfiguration?
         /// The name of the workgroup in which the query is being started.
         public let workGroup: String?
 
-        public init(clientRequestToken: String? = StartQueryExecutionInput.idempotencyToken(), executionParameters: [String]? = nil, queryExecutionContext: QueryExecutionContext? = nil, queryString: String, resultConfiguration: ResultConfiguration? = nil, workGroup: String? = nil) {
+        public init(clientRequestToken: String? = StartQueryExecutionInput.idempotencyToken(), executionParameters: [String]? = nil, queryExecutionContext: QueryExecutionContext? = nil, queryString: String, resultConfiguration: ResultConfiguration? = nil, resultReuseConfiguration: ResultReuseConfiguration? = nil, workGroup: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.executionParameters = executionParameters
             self.queryExecutionContext = queryExecutionContext
             self.queryString = queryString
             self.resultConfiguration = resultConfiguration
+            self.resultReuseConfiguration = resultReuseConfiguration
             self.workGroup = workGroup
         }
 
@@ -1968,6 +2031,7 @@ extension Athena {
             try self.validate(self.queryString, name: "queryString", parent: name, max: 262_144)
             try self.validate(self.queryString, name: "queryString", parent: name, min: 1)
             try self.resultConfiguration?.validate(name: "\(name).resultConfiguration")
+            try self.resultReuseConfiguration?.validate(name: "\(name).resultReuseConfiguration")
             try self.validate(self.workGroup, name: "workGroup", parent: name, pattern: "^[a-zA-Z0-9._-]{1,128}$")
         }
 
@@ -1977,6 +2041,7 @@ extension Athena {
             case queryExecutionContext = "QueryExecutionContext"
             case queryString = "QueryString"
             case resultConfiguration = "ResultConfiguration"
+            case resultReuseConfiguration = "ResultReuseConfiguration"
             case workGroup = "WorkGroup"
         }
     }

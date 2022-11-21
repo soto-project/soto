@@ -970,16 +970,19 @@ extension Personalize {
         public let importMode: ImportMode?
         /// The name for the dataset import job.
         public let jobName: String
+        /// If you created a metric attribution, specify whether to publish metrics for this import job to Amazon S3
+        public let publishAttributionMetricsToS3: Bool?
         /// The ARN of the IAM role that has permissions to read from the Amazon S3 data source.
         public let roleArn: String
         /// A list of tags to apply to the dataset import job.
         public let tags: [Tag]?
 
-        public init(datasetArn: String, dataSource: DataSource, importMode: ImportMode? = nil, jobName: String, roleArn: String, tags: [Tag]? = nil) {
+        public init(datasetArn: String, dataSource: DataSource, importMode: ImportMode? = nil, jobName: String, publishAttributionMetricsToS3: Bool? = nil, roleArn: String, tags: [Tag]? = nil) {
             self.datasetArn = datasetArn
             self.dataSource = dataSource
             self.importMode = importMode
             self.jobName = jobName
+            self.publishAttributionMetricsToS3 = publishAttributionMetricsToS3
             self.roleArn = roleArn
             self.tags = tags
         }
@@ -1004,6 +1007,7 @@ extension Personalize {
             case dataSource
             case importMode
             case jobName
+            case publishAttributionMetricsToS3
             case roleArn
             case tags
         }
@@ -1181,6 +1185,57 @@ extension Personalize {
         }
     }
 
+    public struct CreateMetricAttributionRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the destination dataset group for the metric attribution.
+        public let datasetGroupArn: String
+        /// A list of metric attributes for the metric attribution. Each metric attribute specifies an event type to track and a function. Available functions are SUM() or SAMPLECOUNT(). For SUM() functions, provide the  dataset type (either Interactions or Items) and column to sum as a parameter. For example SUM(Items.PRICE).
+        public let metrics: [MetricAttribute]
+        /// The output configuration details for the metric attribution.
+        public let metricsOutputConfig: MetricAttributionOutput
+        /// A name for the metric attribution.
+        public let name: String
+
+        public init(datasetGroupArn: String, metrics: [MetricAttribute], metricsOutputConfig: MetricAttributionOutput, name: String) {
+            self.datasetGroupArn = datasetGroupArn
+            self.metrics = metrics
+            self.metricsOutputConfig = metricsOutputConfig
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, max: 256)
+            try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, pattern: "^arn:([a-z\\d-]+):personalize:.*:.*:.+$")
+            try self.metrics.forEach {
+                try $0.validate(name: "\(name).metrics[]")
+            }
+            try self.validate(self.metrics, name: "metrics", parent: name, max: 10)
+            try self.metricsOutputConfig.validate(name: "\(name).metricsOutputConfig")
+            try self.validate(self.name, name: "name", parent: name, max: 63)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetGroupArn
+            case metrics
+            case metricsOutputConfig
+            case name
+        }
+    }
+
+    public struct CreateMetricAttributionResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) for the new metric attribution.
+        public let metricAttributionArn: String?
+
+        public init(metricAttributionArn: String? = nil) {
+            self.metricAttributionArn = metricAttributionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricAttributionArn
+        }
+    }
+
     public struct CreateRecommenderRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the destination domain dataset group for the recommender.
         public let datasetGroupArn: String
@@ -1350,6 +1405,8 @@ extension Personalize {
     }
 
     public struct CreateSolutionVersionRequest: AWSEncodableShape {
+        /// The name of the solution version.
+        public let name: String?
         /// The Amazon Resource Name (ARN) of the solution containing the training configuration information.
         public let solutionArn: String
         /// A list of tags to apply to the solution version.
@@ -1357,13 +1414,17 @@ extension Personalize {
         /// The scope of training to be performed when creating the solution version. The FULL option trains the solution version based on the entirety of the input solution's training data, while the UPDATE option processes only the data that has changed in comparison to the input solution. Choose UPDATE when you want to incrementally update your solution version instead of creating an entirely new one.  The UPDATE option can only be used when you already have an active solution version created from the input solution using the FULL option and the input solution was trained with the  User-Personalization recipe or the  HRNN-Coldstart recipe.
         public let trainingMode: TrainingMode?
 
-        public init(solutionArn: String, tags: [Tag]? = nil, trainingMode: TrainingMode? = nil) {
+        public init(name: String? = nil, solutionArn: String, tags: [Tag]? = nil, trainingMode: TrainingMode? = nil) {
+            self.name = name
             self.solutionArn = solutionArn
             self.tags = tags
             self.trainingMode = trainingMode
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 63)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*$")
             try self.validate(self.solutionArn, name: "solutionArn", parent: name, max: 256)
             try self.validate(self.solutionArn, name: "solutionArn", parent: name, pattern: "^arn:([a-z\\d-]+):personalize:.*:.*:.+$")
             try self.tags?.forEach {
@@ -1373,6 +1434,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case name
             case solutionArn
             case tags
             case trainingMode
@@ -1648,12 +1710,14 @@ extension Personalize {
         public let jobName: String?
         /// The date and time (in Unix time) the dataset was last updated.
         public let lastUpdatedDateTime: Date?
+        /// Whether the job publishes metrics to Amazon S3 for a metric attribution.
+        public let publishAttributionMetricsToS3: Bool?
         /// The ARN of the IAM role that has permissions to read from the Amazon S3 data source.
         public let roleArn: String?
         /// The status of the dataset import job. A dataset import job can be in one of the following states:   CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
         public let status: String?
 
-        public init(creationDateTime: Date? = nil, datasetArn: String? = nil, datasetImportJobArn: String? = nil, dataSource: DataSource? = nil, failureReason: String? = nil, importMode: ImportMode? = nil, jobName: String? = nil, lastUpdatedDateTime: Date? = nil, roleArn: String? = nil, status: String? = nil) {
+        public init(creationDateTime: Date? = nil, datasetArn: String? = nil, datasetImportJobArn: String? = nil, dataSource: DataSource? = nil, failureReason: String? = nil, importMode: ImportMode? = nil, jobName: String? = nil, lastUpdatedDateTime: Date? = nil, publishAttributionMetricsToS3: Bool? = nil, roleArn: String? = nil, status: String? = nil) {
             self.creationDateTime = creationDateTime
             self.datasetArn = datasetArn
             self.datasetImportJobArn = datasetImportJobArn
@@ -1662,6 +1726,7 @@ extension Personalize {
             self.importMode = importMode
             self.jobName = jobName
             self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.publishAttributionMetricsToS3 = publishAttributionMetricsToS3
             self.roleArn = roleArn
             self.status = status
         }
@@ -1675,6 +1740,7 @@ extension Personalize {
             case importMode
             case jobName
             case lastUpdatedDateTime
+            case publishAttributionMetricsToS3
             case roleArn
             case status
         }
@@ -1991,6 +2057,24 @@ extension Personalize {
 
         private enum CodingKeys: String, CodingKey {
             case filterArn
+        }
+    }
+
+    public struct DeleteMetricAttributionRequest: AWSEncodableShape {
+        /// The metric attribution's Amazon Resource Name (ARN).
+        public let metricAttributionArn: String
+
+        public init(metricAttributionArn: String) {
+            self.metricAttributionArn = metricAttributionArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.metricAttributionArn, name: "metricAttributionArn", parent: name, max: 256)
+            try self.validate(self.metricAttributionArn, name: "metricAttributionArn", parent: name, pattern: "^arn:([a-z\\d-]+):personalize:.*:.*:.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricAttributionArn
         }
     }
 
@@ -2386,6 +2470,37 @@ extension Personalize {
 
         private enum CodingKeys: String, CodingKey {
             case filter
+        }
+    }
+
+    public struct DescribeMetricAttributionRequest: AWSEncodableShape {
+        /// The metric attribution's Amazon Resource Name (ARN).
+        public let metricAttributionArn: String
+
+        public init(metricAttributionArn: String) {
+            self.metricAttributionArn = metricAttributionArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.metricAttributionArn, name: "metricAttributionArn", parent: name, max: 256)
+            try self.validate(self.metricAttributionArn, name: "metricAttributionArn", parent: name, pattern: "^arn:([a-z\\d-]+):personalize:.*:.*:.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricAttributionArn
+        }
+    }
+
+    public struct DescribeMetricAttributionResponse: AWSDecodableShape {
+        /// The details of the metric attribution.
+        public let metricAttribution: MetricAttribution?
+
+        public init(metricAttribution: MetricAttribution? = nil) {
+            self.metricAttribution = metricAttribution
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricAttribution
         }
     }
 
@@ -3307,6 +3422,98 @@ extension Personalize {
         }
     }
 
+    public struct ListMetricAttributionMetricsRequest: AWSEncodableShape {
+        /// The maximum number of metrics to return in one page of results.
+        public let maxResults: Int?
+        /// The Amazon Resource Name (ARN) of the metric attribution to retrieve attributes for.
+        public let metricAttributionArn: String?
+        /// Specify the pagination token from a previous request to retrieve the next page of results.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, metricAttributionArn: String? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.metricAttributionArn = metricAttributionArn
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.metricAttributionArn, name: "metricAttributionArn", parent: name, max: 256)
+            try self.validate(self.metricAttributionArn, name: "metricAttributionArn", parent: name, pattern: "^arn:([a-z\\d-]+):personalize:.*:.*:.+$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1500)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults
+            case metricAttributionArn
+            case nextToken
+        }
+    }
+
+    public struct ListMetricAttributionMetricsResponse: AWSDecodableShape {
+        /// The metrics for the specified metric attribution.
+        public let metrics: [MetricAttribute]?
+        /// Specify the pagination token from a previous ListMetricAttributionMetricsResponse request to retrieve the next page of results.
+        public let nextToken: String?
+
+        public init(metrics: [MetricAttribute]? = nil, nextToken: String? = nil) {
+            self.metrics = metrics
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metrics
+            case nextToken
+        }
+    }
+
+    public struct ListMetricAttributionsRequest: AWSEncodableShape {
+        /// The metric attributions' dataset group Amazon Resource Name (ARN).
+        public let datasetGroupArn: String?
+        /// The maximum number of metric attributions to return in one page of results.
+        public let maxResults: Int?
+        /// Specify the pagination token from a previous request to retrieve the next page of results.
+        public let nextToken: String?
+
+        public init(datasetGroupArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.datasetGroupArn = datasetGroupArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, max: 256)
+            try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, pattern: "^arn:([a-z\\d-]+):personalize:.*:.*:.+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1500)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetGroupArn
+            case maxResults
+            case nextToken
+        }
+    }
+
+    public struct ListMetricAttributionsResponse: AWSDecodableShape {
+        /// The list of metric attributions.
+        public let metricAttributions: [MetricAttributionSummary]?
+        /// Specify the pagination token from a previous request to retrieve the next page of results.
+        public let nextToken: String?
+
+        public init(metricAttributions: [MetricAttributionSummary]? = nil, nextToken: String? = nil) {
+            self.metricAttributions = metricAttributions
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricAttributions
+            case nextToken
+        }
+    }
+
     public struct ListRecipesRequest: AWSEncodableShape {
         ///  Filters returned recipes by domain for a Domain dataset group. Only recipes (Domain dataset group use cases) for this domain are included in the response. If you don't specify a domain, all recipes are returned.
         public let domain: Domain?
@@ -3561,6 +3768,129 @@ extension Personalize {
 
         private enum CodingKeys: String, CodingKey {
             case tags
+        }
+    }
+
+    public struct MetricAttribute: AWSEncodableShape & AWSDecodableShape {
+        /// The metric's event type.
+        public let eventType: String
+        /// The attribute's expression. Available functions are SUM() or SAMPLECOUNT(). For SUM() functions, provide the  dataset type (either Interactions or Items) and column to sum as a parameter. For example SUM(Items.PRICE).
+        public let expression: String
+        /// The metric's name. The name helps you identify the metric in Amazon CloudWatch or Amazon S3.
+        public let metricName: String
+
+        public init(eventType: String, expression: String, metricName: String) {
+            self.eventType = eventType
+            self.expression = expression
+            self.metricName = metricName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.eventType, name: "eventType", parent: name, max: 256)
+            try self.validate(self.expression, name: "expression", parent: name, max: 256)
+            try self.validate(self.metricName, name: "metricName", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventType
+            case expression
+            case metricName
+        }
+    }
+
+    public struct MetricAttribution: AWSDecodableShape {
+        /// The metric attribution's creation date time.
+        public let creationDateTime: Date?
+        /// The metric attribution's dataset group Amazon Resource Name (ARN).
+        public let datasetGroupArn: String?
+        /// The metric attribution's failure reason.
+        public let failureReason: String?
+        /// The metric attribution's last updated date time.
+        public let lastUpdatedDateTime: Date?
+        /// The metric attribution's Amazon Resource Name (ARN).
+        public let metricAttributionArn: String?
+        /// The metric attribution's output configuration.
+        public let metricsOutputConfig: MetricAttributionOutput?
+        /// The metric attribution's name.
+        public let name: String?
+        /// The metric attribution's status.
+        public let status: String?
+
+        public init(creationDateTime: Date? = nil, datasetGroupArn: String? = nil, failureReason: String? = nil, lastUpdatedDateTime: Date? = nil, metricAttributionArn: String? = nil, metricsOutputConfig: MetricAttributionOutput? = nil, name: String? = nil, status: String? = nil) {
+            self.creationDateTime = creationDateTime
+            self.datasetGroupArn = datasetGroupArn
+            self.failureReason = failureReason
+            self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.metricAttributionArn = metricAttributionArn
+            self.metricsOutputConfig = metricsOutputConfig
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDateTime
+            case datasetGroupArn
+            case failureReason
+            case lastUpdatedDateTime
+            case metricAttributionArn
+            case metricsOutputConfig
+            case name
+            case status
+        }
+    }
+
+    public struct MetricAttributionOutput: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the IAM service role that has permissions to add data to your output Amazon S3 bucket and add metrics to Amazon CloudWatch. For more information, see Measuring impact of recommendations.
+        public let roleArn: String
+        public let s3DataDestination: S3DataConfig?
+
+        public init(roleArn: String, s3DataDestination: S3DataConfig? = nil) {
+            self.roleArn = roleArn
+            self.s3DataDestination = s3DataDestination
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 256)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:([a-z\\d-]+):iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try self.s3DataDestination?.validate(name: "\(name).s3DataDestination")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roleArn
+            case s3DataDestination
+        }
+    }
+
+    public struct MetricAttributionSummary: AWSDecodableShape {
+        /// The metric attribution's creation date time.
+        public let creationDateTime: Date?
+        /// The metric attribution's failure reason.
+        public let failureReason: String?
+        /// The metric attribution's last updated date time.
+        public let lastUpdatedDateTime: Date?
+        /// The metric attribution's Amazon Resource Name (ARN).
+        public let metricAttributionArn: String?
+        /// The name of the metric attribution.
+        public let name: String?
+        /// The metric attribution's status.
+        public let status: String?
+
+        public init(creationDateTime: Date? = nil, failureReason: String? = nil, lastUpdatedDateTime: Date? = nil, metricAttributionArn: String? = nil, name: String? = nil, status: String? = nil) {
+            self.creationDateTime = creationDateTime
+            self.failureReason = failureReason
+            self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.metricAttributionArn = metricAttributionArn
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDateTime
+            case failureReason
+            case lastUpdatedDateTime
+            case metricAttributionArn
+            case name
+            case status
         }
     }
 
@@ -3955,15 +4285,18 @@ extension Personalize {
         public let lastUpdatedDateTime: Date?
         /// The name of the solution.
         public let name: String?
+        /// The Amazon Resource Name (ARN) of the recipe used by the solution.
+        public let recipeArn: String?
         /// The Amazon Resource Name (ARN) of the solution.
         public let solutionArn: String?
         /// The status of the solution. A solution can be in one of the following states:   CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED   DELETE PENDING > DELETE IN_PROGRESS
         public let status: String?
 
-        public init(creationDateTime: Date? = nil, lastUpdatedDateTime: Date? = nil, name: String? = nil, solutionArn: String? = nil, status: String? = nil) {
+        public init(creationDateTime: Date? = nil, lastUpdatedDateTime: Date? = nil, name: String? = nil, recipeArn: String? = nil, solutionArn: String? = nil, status: String? = nil) {
             self.creationDateTime = creationDateTime
             self.lastUpdatedDateTime = lastUpdatedDateTime
             self.name = name
+            self.recipeArn = recipeArn
             self.solutionArn = solutionArn
             self.status = status
         }
@@ -3972,6 +4305,7 @@ extension Personalize {
             case creationDateTime
             case lastUpdatedDateTime
             case name
+            case recipeArn
             case solutionArn
             case status
         }
@@ -3988,6 +4322,8 @@ extension Personalize {
         public let failureReason: String?
         /// The date and time (in Unix time) that the solution was last updated.
         public let lastUpdatedDateTime: Date?
+        /// The name of the solution version.
+        public let name: String?
         /// When true, Amazon Personalize searches for the most optimal recipe according to the solution configuration. When false (the default), Amazon Personalize uses recipeArn.
         public let performAutoML: Bool?
         /// Whether to perform hyperparameter optimization (HPO) on the chosen recipe. The default is false.
@@ -4009,12 +4345,13 @@ extension Personalize {
         /// If hyperparameter optimization was performed, contains the hyperparameter values of the best performing model.
         public let tunedHPOParams: TunedHPOParams?
 
-        public init(creationDateTime: Date? = nil, datasetGroupArn: String? = nil, eventType: String? = nil, failureReason: String? = nil, lastUpdatedDateTime: Date? = nil, performAutoML: Bool? = nil, performHPO: Bool? = nil, recipeArn: String? = nil, solutionArn: String? = nil, solutionConfig: SolutionConfig? = nil, solutionVersionArn: String? = nil, status: String? = nil, trainingHours: Double? = nil, trainingMode: TrainingMode? = nil, tunedHPOParams: TunedHPOParams? = nil) {
+        public init(creationDateTime: Date? = nil, datasetGroupArn: String? = nil, eventType: String? = nil, failureReason: String? = nil, lastUpdatedDateTime: Date? = nil, name: String? = nil, performAutoML: Bool? = nil, performHPO: Bool? = nil, recipeArn: String? = nil, solutionArn: String? = nil, solutionConfig: SolutionConfig? = nil, solutionVersionArn: String? = nil, status: String? = nil, trainingHours: Double? = nil, trainingMode: TrainingMode? = nil, tunedHPOParams: TunedHPOParams? = nil) {
             self.creationDateTime = creationDateTime
             self.datasetGroupArn = datasetGroupArn
             self.eventType = eventType
             self.failureReason = failureReason
             self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.name = name
             self.performAutoML = performAutoML
             self.performHPO = performHPO
             self.recipeArn = recipeArn
@@ -4033,6 +4370,7 @@ extension Personalize {
             case eventType
             case failureReason
             case lastUpdatedDateTime
+            case name
             case performAutoML
             case performHPO
             case recipeArn
@@ -4299,6 +4637,58 @@ extension Personalize {
 
         private enum CodingKeys: String, CodingKey {
             case campaignArn
+        }
+    }
+
+    public struct UpdateMetricAttributionRequest: AWSEncodableShape {
+        /// Add new metric attributes to the metric attribution.
+        public let addMetrics: [MetricAttribute]?
+        /// The Amazon Resource Name (ARN) for the metric attribution to update.
+        public let metricAttributionArn: String?
+        /// An output config for the metric attribution.
+        public let metricsOutputConfig: MetricAttributionOutput?
+        /// Remove metric attributes from the metric attribution.
+        public let removeMetrics: [String]?
+
+        public init(addMetrics: [MetricAttribute]? = nil, metricAttributionArn: String? = nil, metricsOutputConfig: MetricAttributionOutput? = nil, removeMetrics: [String]? = nil) {
+            self.addMetrics = addMetrics
+            self.metricAttributionArn = metricAttributionArn
+            self.metricsOutputConfig = metricsOutputConfig
+            self.removeMetrics = removeMetrics
+        }
+
+        public func validate(name: String) throws {
+            try self.addMetrics?.forEach {
+                try $0.validate(name: "\(name).addMetrics[]")
+            }
+            try self.validate(self.addMetrics, name: "addMetrics", parent: name, max: 10)
+            try self.validate(self.metricAttributionArn, name: "metricAttributionArn", parent: name, max: 256)
+            try self.validate(self.metricAttributionArn, name: "metricAttributionArn", parent: name, pattern: "^arn:([a-z\\d-]+):personalize:.*:.*:.+$")
+            try self.metricsOutputConfig?.validate(name: "\(name).metricsOutputConfig")
+            try self.removeMetrics?.forEach {
+                try validate($0, name: "removeMetrics[]", parent: name, max: 256)
+            }
+            try self.validate(self.removeMetrics, name: "removeMetrics", parent: name, max: 10)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addMetrics
+            case metricAttributionArn
+            case metricsOutputConfig
+            case removeMetrics
+        }
+    }
+
+    public struct UpdateMetricAttributionResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) for the metric attribution that you updated.
+        public let metricAttributionArn: String?
+
+        public init(metricAttributionArn: String? = nil) {
+            self.metricAttributionArn = metricAttributionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricAttributionArn
         }
     }
 

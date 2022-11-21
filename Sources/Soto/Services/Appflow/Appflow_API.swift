@@ -133,7 +133,7 @@ public struct Appflow: AWSService {
         return self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Registers a new connector with your Amazon Web Services account. Before you can register the connector, you must deploy lambda in your account.
+    /// Registers a new custom connector with your Amazon Web Services account. Before you can register the connector, you must deploy the associated AWS lambda function in your account.
     public func registerConnector(_ input: RegisterConnectorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RegisterConnectorResponse> {
         return self.client.execute(operation: "RegisterConnector", path: "/register-connector", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -153,7 +153,7 @@ public struct Appflow: AWSService {
         return self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Unregisters the custom connector registered in your account that matches the connectorLabel provided in the request.
+    /// Unregisters the custom connector registered in your account that matches the connector label provided in the request.
     public func unregisterConnector(_ input: UnregisterConnectorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UnregisterConnectorResponse> {
         return self.client.execute(operation: "UnregisterConnector", path: "/unregister-connector", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -166,6 +166,11 @@ public struct Appflow: AWSService {
     ///  Updates a given connector profile associated with your account.
     public func updateConnectorProfile(_ input: UpdateConnectorProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateConnectorProfileResponse> {
         return self.client.execute(operation: "UpdateConnectorProfile", path: "/update-connector-profile", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates a custom connector that you've previously registered. This operation updates the connector with one of the following:   The latest version of the AWS Lambda function that's assigned to the connector   A new AWS Lambda function that you specify
+    public func updateConnectorRegistration(_ input: UpdateConnectorRegistrationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateConnectorRegistrationResponse> {
+        return self.client.execute(operation: "UpdateConnectorRegistration", path: "/update-connector-registration", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Updates an existing flow.

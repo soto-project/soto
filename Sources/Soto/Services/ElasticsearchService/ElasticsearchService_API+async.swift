@@ -38,6 +38,11 @@ extension ElasticsearchService {
         return try await self.client.execute(operation: "AssociatePackage", path: "/2015-01-01/packages/associate/{PackageID}/{DomainName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Provides access to an Amazon OpenSearch Service domain through the use of an interface VPC endpoint.
+    public func authorizeVpcEndpointAccess(_ input: AuthorizeVpcEndpointAccessRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AuthorizeVpcEndpointAccessResponse {
+        return try await self.client.execute(operation: "AuthorizeVpcEndpointAccess", path: "/2015-01-01/es/domain/{DomainName}/authorizeVpcEndpointAccess", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Cancels a scheduled service software update for an Amazon ES domain. You can only perform this operation before the AutomatedUpdateDate and when the UpdateStatus is in the PENDING_UPDATE state.
     public func cancelElasticsearchServiceSoftwareUpdate(_ input: CancelElasticsearchServiceSoftwareUpdateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CancelElasticsearchServiceSoftwareUpdateResponse {
         return try await self.client.execute(operation: "CancelElasticsearchServiceSoftwareUpdate", path: "/2015-01-01/es/serviceSoftwareUpdate/cancel", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -56,6 +61,11 @@ extension ElasticsearchService {
     /// Create a package for use with Amazon ES domains.
     public func createPackage(_ input: CreatePackageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreatePackageResponse {
         return try await self.client.execute(operation: "CreatePackage", path: "/2015-01-01/packages", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates an Amazon OpenSearch Service-managed VPC endpoint.
+    public func createVpcEndpoint(_ input: CreateVpcEndpointRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateVpcEndpointResponse {
+        return try await self.client.execute(operation: "CreateVpcEndpoint", path: "/2015-01-01/es/vpcEndpoints", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Permanently deletes the specified Elasticsearch domain and all of its data. Once a domain is deleted, it cannot be recovered.
@@ -81,6 +91,11 @@ extension ElasticsearchService {
     /// Delete the package.
     public func deletePackage(_ input: DeletePackageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeletePackageResponse {
         return try await self.client.execute(operation: "DeletePackage", path: "/2015-01-01/packages/{PackageID}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes an Amazon OpenSearch Service-managed interface VPC endpoint.
+    public func deleteVpcEndpoint(_ input: DeleteVpcEndpointRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteVpcEndpointResponse {
+        return try await self.client.execute(operation: "DeleteVpcEndpoint", path: "/2015-01-01/es/vpcEndpoints/{VpcEndpointId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Provides scheduled Auto-Tune action details for the Elasticsearch domain, such as Auto-Tune action type, description, severity, and scheduled date.
@@ -138,6 +153,11 @@ extension ElasticsearchService {
         return try await self.client.execute(operation: "DescribeReservedElasticsearchInstances", path: "/2015-01-01/es/reservedInstances", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Describes one or more Amazon OpenSearch Service-managed VPC endpoints.
+    public func describeVpcEndpoints(_ input: DescribeVpcEndpointsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeVpcEndpointsResponse {
+        return try await self.client.execute(operation: "DescribeVpcEndpoints", path: "/2015-01-01/es/vpcEndpoints/describe", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Dissociates a package from the Amazon ES domain.
     public func dissociatePackage(_ input: DissociatePackageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DissociatePackageResponse {
         return try await self.client.execute(operation: "DissociatePackage", path: "/2015-01-01/packages/dissociate/{PackageID}/{DomainName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -193,6 +213,21 @@ extension ElasticsearchService {
         return try await self.client.execute(operation: "ListTags", path: "/2015-01-01/tags", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Retrieves information about each  principal that is allowed to access a given Amazon OpenSearch Service domain through the use of an interface VPC endpoint.
+    public func listVpcEndpointAccess(_ input: ListVpcEndpointAccessRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListVpcEndpointAccessResponse {
+        return try await self.client.execute(operation: "ListVpcEndpointAccess", path: "/2015-01-01/es/domain/{DomainName}/listVpcEndpointAccess", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves all Amazon OpenSearch Service-managed VPC endpoints in the current account and Region.
+    public func listVpcEndpoints(_ input: ListVpcEndpointsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListVpcEndpointsResponse {
+        return try await self.client.execute(operation: "ListVpcEndpoints", path: "/2015-01-01/es/vpcEndpoints", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves all Amazon OpenSearch Service-managed VPC endpoints associated with a particular domain.
+    public func listVpcEndpointsForDomain(_ input: ListVpcEndpointsForDomainRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListVpcEndpointsForDomainResponse {
+        return try await self.client.execute(operation: "ListVpcEndpointsForDomain", path: "/2015-01-01/es/domain/{DomainName}/vpcEndpoints", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Allows you to purchase reserved Elasticsearch instances.
     public func purchaseReservedElasticsearchInstanceOffering(_ input: PurchaseReservedElasticsearchInstanceOfferingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PurchaseReservedElasticsearchInstanceOfferingResponse {
         return try await self.client.execute(operation: "PurchaseReservedElasticsearchInstanceOffering", path: "/2015-01-01/es/purchaseReservedInstanceOffering", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -208,6 +243,11 @@ extension ElasticsearchService {
         return try await self.client.execute(operation: "RemoveTags", path: "/2015-01-01/tags-removal", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Revokes access to an Amazon OpenSearch Service domain that was provided through an interface VPC endpoint.
+    public func revokeVpcEndpointAccess(_ input: RevokeVpcEndpointAccessRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> RevokeVpcEndpointAccessResponse {
+        return try await self.client.execute(operation: "RevokeVpcEndpointAccess", path: "/2015-01-01/es/domain/{DomainName}/revokeVpcEndpointAccess", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Schedules a service software update for an Amazon ES domain.
     public func startElasticsearchServiceSoftwareUpdate(_ input: StartElasticsearchServiceSoftwareUpdateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StartElasticsearchServiceSoftwareUpdateResponse {
         return try await self.client.execute(operation: "StartElasticsearchServiceSoftwareUpdate", path: "/2015-01-01/es/serviceSoftwareUpdate/start", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -221,6 +261,11 @@ extension ElasticsearchService {
     /// Updates a package for use with Amazon ES domains.
     public func updatePackage(_ input: UpdatePackageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdatePackageResponse {
         return try await self.client.execute(operation: "UpdatePackage", path: "/2015-01-01/packages/update", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Modifies an Amazon OpenSearch Service-managed interface VPC endpoint.
+    public func updateVpcEndpoint(_ input: UpdateVpcEndpointRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateVpcEndpointResponse {
+        return try await self.client.execute(operation: "UpdateVpcEndpoint", path: "/2015-01-01/es/vpcEndpoints/update", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Allows you to either upgrade your domain or perform an Upgrade eligibility check to a compatible Elasticsearch version.

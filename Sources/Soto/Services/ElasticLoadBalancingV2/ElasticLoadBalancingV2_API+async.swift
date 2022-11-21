@@ -155,7 +155,7 @@ extension ElasticLoadBalancingV2 {
         return try await self.client.execute(operation: "ModifyRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Modifies the health checks used when evaluating the health state of the targets in the specified target group. If the protocol of the target group is TCP, TLS, UDP, or TCP_UDP, you can't modify the  health check protocol, interval, timeout, or success codes.
+    /// Modifies the health checks used when evaluating the health state of the targets in the specified target group.
     public func modifyTargetGroup(_ input: ModifyTargetGroupInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ModifyTargetGroupOutput {
         return try await self.client.execute(operation: "ModifyTargetGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

@@ -45,6 +45,50 @@ extension WellArchitected {
         )
     }
 
+    ///  List of Trusted Advisor check details by account related to the workload.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listCheckDetailsPaginator(
+        _ input: ListCheckDetailsInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListCheckDetailsInput, ListCheckDetailsOutput> {
+        return .init(
+            input: input,
+            command: listCheckDetails,
+            inputKey: \ListCheckDetailsInput.nextToken,
+            outputKey: \ListCheckDetailsOutput.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  List of Trusted Advisor checks summarized for all accounts related to the workload.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listCheckSummariesPaginator(
+        _ input: ListCheckSummariesInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListCheckSummariesInput, ListCheckSummariesOutput> {
+        return .init(
+            input: input,
+            command: listCheckSummaries,
+            inputKey: \ListCheckSummariesInput.nextToken,
+            outputKey: \ListCheckSummariesOutput.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  List lens review improvements.
     /// Return PaginatorSequence for operation.
     ///

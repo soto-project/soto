@@ -709,7 +709,7 @@ extension Proton {
         )
     }
 
-    ///  List service instances with summary data.
+    ///  List service instances with summary data. This action lists service instances of all services in the Amazon Web Services account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1214,9 +1214,12 @@ extension Proton.ListServiceInstanceProvisionedResourcesInput: AWSPaginateToken 
 extension Proton.ListServiceInstancesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Proton.ListServiceInstancesInput {
         return .init(
+            filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token,
-            serviceName: self.serviceName
+            serviceName: self.serviceName,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder
         )
     }
 }

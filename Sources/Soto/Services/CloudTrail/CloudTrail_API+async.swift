@@ -53,6 +53,11 @@ extension CloudTrail {
         return try await self.client.execute(operation: "DeleteTrail", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Removes CloudTrail delegated administrator permissions from a member account in an organization.
+    public func deregisterOrganizationDelegatedAdmin(_ input: DeregisterOrganizationDelegatedAdminRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeregisterOrganizationDelegatedAdminResponse {
+        return try await self.client.execute(operation: "DeregisterOrganizationDelegatedAdmin", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns metadata about a query, including query run time in milliseconds, number of events scanned and matched, and query  status. You must specify an ARN for EventDataStore, and a value for QueryID.
     public func describeQuery(_ input: DescribeQueryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeQueryResponse {
         return try await self.client.execute(operation: "DescribeQuery", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -63,7 +68,7 @@ extension CloudTrail {
         return try await self.client.execute(operation: "DescribeTrails", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Returns information about a specific channel. Amazon Web Services services create service-linked channels to get information about CloudTrail events on your behalf. For more information about  service-linked channels, see Viewing service-linked channels for CloudTrail by using the CLI..
+    ///  Returns information about a specific channel. Amazon Web Services services create service-linked channels to get information about CloudTrail events on your behalf. For more information about  service-linked channels, see Viewing service-linked channels for CloudTrail by using the CLI.
     public func getChannel(_ input: GetChannelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetChannelResponse {
         return try await self.client.execute(operation: "GetChannel", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -156,6 +161,11 @@ extension CloudTrail {
     /// Lets you enable Insights event logging by specifying the Insights selectors that you want to enable on an existing trail. You also use PutInsightSelectors to turn off Insights event logging, by passing an empty list of insight types.  The valid Insights event types in this release are ApiErrorRateInsight and ApiCallRateInsight.
     public func putInsightSelectors(_ input: PutInsightSelectorsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PutInsightSelectorsResponse {
         return try await self.client.execute(operation: "PutInsightSelectors", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Registers an organization’s member account as the CloudTrail delegated administrator.
+    public func registerOrganizationDelegatedAdmin(_ input: RegisterOrganizationDelegatedAdminRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> RegisterOrganizationDelegatedAdminResponse {
+        return try await self.client.execute(operation: "RegisterOrganizationDelegatedAdmin", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Removes the specified tags from a trail or event data store.

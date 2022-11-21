@@ -21,6 +21,13 @@ import SotoCore
 extension IoTTwinMaker {
     // MARK: Enums
 
+    public enum ColumnType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case edge = "EDGE"
+        case node = "NODE"
+        case value = "VALUE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ComponentUpdateType: String, CustomStringConvertible, Codable, _SotoSendable {
         case create = "CREATE"
         case delete = "DELETE"
@@ -34,8 +41,19 @@ extension IoTTwinMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum GroupType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case tabular = "TABULAR"
+        public var description: String { return self.rawValue }
+    }
+
     public enum InterpolationType: String, CustomStringConvertible, Codable, _SotoSendable {
         case linear = "LINEAR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Order: String, CustomStringConvertible, Codable, _SotoSendable {
+        case ascending = "ASCENDING"
+        case descending = "DESCENDING"
         public var description: String { return self.rawValue }
     }
 
@@ -46,6 +64,28 @@ extension IoTTwinMaker {
     }
 
     public enum ParentEntityUpdateType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case delete = "DELETE"
+        case update = "UPDATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PricingMode: String, CustomStringConvertible, Codable, _SotoSendable {
+        case basic = "BASIC"
+        case standard = "STANDARD"
+        case tieredBundle = "TIERED_BUNDLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PricingTier: String, CustomStringConvertible, Codable, _SotoSendable {
+        case tier1 = "TIER_1"
+        case tier2 = "TIER_2"
+        case tier3 = "TIER_3"
+        case tier4 = "TIER_4"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PropertyGroupUpdateType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case create = "CREATE"
         case delete = "DELETE"
         case update = "UPDATE"
         public var description: String { return self.rawValue }
@@ -70,6 +110,15 @@ extension IoTTwinMaker {
         case deleting = "DELETING"
         case error = "ERROR"
         case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UpdateReason: String, CustomStringConvertible, Codable, _SotoSendable {
+        case `default` = "DEFAULT"
+        case entityCountUpdate = "ENTITY_COUNT_UPDATE"
+        case overwritten = "OVERWRITTEN"
+        case pricingModeUpdate = "PRICING_MODE_UPDATE"
+        case pricingTierUpdate = "PRICING_TIER_UPDATE"
         public var description: String { return self.rawValue }
     }
 
@@ -251,6 +300,90 @@ extension IoTTwinMaker {
         }
     }
 
+    public struct BundleInformation: AWSDecodableShape {
+        /// The bundle names.
+        public let bundleNames: [String]
+        /// The pricing tier.
+        public let pricingTier: PricingTier?
+
+        public init(bundleNames: [String], pricingTier: PricingTier? = nil) {
+            self.bundleNames = bundleNames
+            self.pricingTier = pricingTier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bundleNames
+            case pricingTier
+        }
+    }
+
+    public struct ColumnDescription: AWSDecodableShape {
+        /// The name of the column description.
+        public let name: String?
+        /// The type of the column description.
+        public let type: ColumnType?
+
+        public init(name: String? = nil, type: ColumnType? = nil) {
+            self.name = name
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name
+            case type
+        }
+    }
+
+    public struct ComponentPropertyGroupRequest: AWSEncodableShape {
+        /// The group type.
+        public let groupType: GroupType?
+        /// The property names.
+        public let propertyNames: [String]?
+        /// The update type.
+        public let updateType: PropertyGroupUpdateType?
+
+        public init(groupType: GroupType? = nil, propertyNames: [String]? = nil, updateType: PropertyGroupUpdateType? = nil) {
+            self.groupType = groupType
+            self.propertyNames = propertyNames
+            self.updateType = updateType
+        }
+
+        public func validate(name: String) throws {
+            try self.propertyNames?.forEach {
+                try validate($0, name: "propertyNames[]", parent: name, max: 256)
+                try validate($0, name: "propertyNames[]", parent: name, min: 1)
+                try validate($0, name: "propertyNames[]", parent: name, pattern: "^[a-zA-Z_\\-0-9]+$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupType
+            case propertyNames
+            case updateType
+        }
+    }
+
+    public struct ComponentPropertyGroupResponse: AWSDecodableShape {
+        /// The group type.
+        public let groupType: GroupType
+        /// A Boolean value that specifies whether the property group is inherited from a parent entity
+        public let isInherited: Bool
+        /// The names of properties
+        public let propertyNames: [String]
+
+        public init(groupType: GroupType, isInherited: Bool, propertyNames: [String]) {
+            self.groupType = groupType
+            self.isInherited = isInherited
+            self.propertyNames = propertyNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupType
+            case isInherited
+            case propertyNames
+        }
+    }
+
     public struct ComponentRequest: AWSEncodableShape {
         /// The ID of the component type.
         public let componentTypeId: String?
@@ -258,11 +391,14 @@ extension IoTTwinMaker {
         public let description: String?
         /// An object that maps strings to the properties to set in the component type. Each string  in the mapping must be unique to this object.
         public let properties: [String: PropertyRequest]?
+        /// The property groups.
+        public let propertyGroups: [String: ComponentPropertyGroupRequest]?
 
-        public init(componentTypeId: String? = nil, description: String? = nil, properties: [String: PropertyRequest]? = nil) {
+        public init(componentTypeId: String? = nil, description: String? = nil, properties: [String: PropertyRequest]? = nil, propertyGroups: [String: ComponentPropertyGroupRequest]? = nil) {
             self.componentTypeId = componentTypeId
             self.description = description
             self.properties = properties
+            self.propertyGroups = propertyGroups
         }
 
         public func validate(name: String) throws {
@@ -277,12 +413,19 @@ extension IoTTwinMaker {
                 try validate($0.key, name: "properties.key", parent: name, pattern: "^[a-zA-Z_\\-0-9]+$")
                 try $0.value.validate(name: "\(name).properties[\"\($0.key)\"]")
             }
+            try self.propertyGroups?.forEach {
+                try validate($0.key, name: "propertyGroups.key", parent: name, max: 256)
+                try validate($0.key, name: "propertyGroups.key", parent: name, min: 1)
+                try validate($0.key, name: "propertyGroups.key", parent: name, pattern: "^[a-zA-Z_\\-0-9]+$")
+                try $0.value.validate(name: "\(name).propertyGroups[\"\($0.key)\"]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case componentTypeId
             case description
             case properties
+            case propertyGroups
         }
     }
 
@@ -297,15 +440,18 @@ extension IoTTwinMaker {
         public let description: String?
         /// An object that maps strings to the properties to set in the component type. Each string  in the mapping must be unique to this object.
         public let properties: [String: PropertyResponse]?
+        /// The property groups.
+        public let propertyGroups: [String: ComponentPropertyGroupResponse]?
         /// The status of the component type.
         public let status: Status?
 
-        public init(componentName: String? = nil, componentTypeId: String? = nil, definedIn: String? = nil, description: String? = nil, properties: [String: PropertyResponse]? = nil, status: Status? = nil) {
+        public init(componentName: String? = nil, componentTypeId: String? = nil, definedIn: String? = nil, description: String? = nil, properties: [String: PropertyResponse]? = nil, propertyGroups: [String: ComponentPropertyGroupResponse]? = nil, status: Status? = nil) {
             self.componentName = componentName
             self.componentTypeId = componentTypeId
             self.definedIn = definedIn
             self.description = description
             self.properties = properties
+            self.propertyGroups = propertyGroups
             self.status = status
         }
 
@@ -315,6 +461,7 @@ extension IoTTwinMaker {
             case definedIn
             case description
             case properties
+            case propertyGroups
             case status
         }
     }
@@ -357,14 +504,17 @@ extension IoTTwinMaker {
         public let componentTypeId: String?
         /// The description of the component type.
         public let description: String?
+        /// The property group updates.
+        public let propertyGroupUpdates: [String: ComponentPropertyGroupRequest]?
         /// An object that maps strings to the properties to set in the component type update. Each string  in the mapping must be unique to this object.
         public let propertyUpdates: [String: PropertyRequest]?
         /// The update type of the component update request.
         public let updateType: ComponentUpdateType?
 
-        public init(componentTypeId: String? = nil, description: String? = nil, propertyUpdates: [String: PropertyRequest]? = nil, updateType: ComponentUpdateType? = nil) {
+        public init(componentTypeId: String? = nil, description: String? = nil, propertyGroupUpdates: [String: ComponentPropertyGroupRequest]? = nil, propertyUpdates: [String: PropertyRequest]? = nil, updateType: ComponentUpdateType? = nil) {
             self.componentTypeId = componentTypeId
             self.description = description
+            self.propertyGroupUpdates = propertyGroupUpdates
             self.propertyUpdates = propertyUpdates
             self.updateType = updateType
         }
@@ -375,6 +525,12 @@ extension IoTTwinMaker {
             try self.validate(self.componentTypeId, name: "componentTypeId", parent: name, pattern: "^[a-zA-Z_\\.\\-0-9:]+$")
             try self.validate(self.description, name: "description", parent: name, max: 512)
             try self.validate(self.description, name: "description", parent: name, pattern: ".*")
+            try self.propertyGroupUpdates?.forEach {
+                try validate($0.key, name: "propertyGroupUpdates.key", parent: name, max: 256)
+                try validate($0.key, name: "propertyGroupUpdates.key", parent: name, min: 1)
+                try validate($0.key, name: "propertyGroupUpdates.key", parent: name, pattern: "^[a-zA-Z_\\-0-9]+$")
+                try $0.value.validate(name: "\(name).propertyGroupUpdates[\"\($0.key)\"]")
+            }
             try self.propertyUpdates?.forEach {
                 try validate($0.key, name: "propertyUpdates.key", parent: name, max: 256)
                 try validate($0.key, name: "propertyUpdates.key", parent: name, min: 1)
@@ -386,6 +542,7 @@ extension IoTTwinMaker {
         private enum CodingKeys: String, CodingKey {
             case componentTypeId
             case description
+            case propertyGroupUpdates
             case propertyUpdates
             case updateType
         }
@@ -409,18 +566,20 @@ extension IoTTwinMaker {
         public let isSingleton: Bool?
         /// An object that maps strings to the property definitions in the component type. Each string  in the mapping must be unique to this object.
         public let propertyDefinitions: [String: PropertyDefinitionRequest]?
+        public let propertyGroups: [String: PropertyGroupRequest]?
         /// Metadata that you can use to manage the component type.
         public let tags: [String: String]?
         /// The ID of the workspace that contains the component type.
         public let workspaceId: String
 
-        public init(componentTypeId: String, description: String? = nil, extendsFrom: [String]? = nil, functions: [String: FunctionRequest]? = nil, isSingleton: Bool? = nil, propertyDefinitions: [String: PropertyDefinitionRequest]? = nil, tags: [String: String]? = nil, workspaceId: String) {
+        public init(componentTypeId: String, description: String? = nil, extendsFrom: [String]? = nil, functions: [String: FunctionRequest]? = nil, isSingleton: Bool? = nil, propertyDefinitions: [String: PropertyDefinitionRequest]? = nil, propertyGroups: [String: PropertyGroupRequest]? = nil, tags: [String: String]? = nil, workspaceId: String) {
             self.componentTypeId = componentTypeId
             self.description = description
             self.extendsFrom = extendsFrom
             self.functions = functions
             self.isSingleton = isSingleton
             self.propertyDefinitions = propertyDefinitions
+            self.propertyGroups = propertyGroups
             self.tags = tags
             self.workspaceId = workspaceId
         }
@@ -448,6 +607,12 @@ extension IoTTwinMaker {
                 try validate($0.key, name: "propertyDefinitions.key", parent: name, pattern: "^[a-zA-Z_\\-0-9]+$")
                 try $0.value.validate(name: "\(name).propertyDefinitions[\"\($0.key)\"]")
             }
+            try self.propertyGroups?.forEach {
+                try validate($0.key, name: "propertyGroups.key", parent: name, max: 256)
+                try validate($0.key, name: "propertyGroups.key", parent: name, min: 1)
+                try validate($0.key, name: "propertyGroups.key", parent: name, pattern: "^[a-zA-Z_\\-0-9]+$")
+                try $0.value.validate(name: "\(name).propertyGroups[\"\($0.key)\"]")
+            }
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -468,6 +633,7 @@ extension IoTTwinMaker {
             case functions
             case isSingleton
             case propertyDefinitions
+            case propertyGroups
             case tags
         }
     }
@@ -1119,6 +1285,65 @@ extension IoTTwinMaker {
         }
     }
 
+    public struct ExecuteQueryRequest: AWSEncodableShape {
+        /// The maximum number of results to return at one time. The default is 25.  Valid Range: Minimum value of 1. Maximum value of 250.
+        public let maxResults: Int?
+        /// The string that specifies the next page of results.
+        public let nextToken: String?
+        /// The query statement.
+        public let queryStatement: String
+        /// The ID of the workspace.
+        public let workspaceId: String
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, queryStatement: String, workspaceId: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.queryStatement = queryStatement
+            self.workspaceId = workspaceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 17880)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+            try self.validate(self.queryStatement, name: "queryStatement", parent: name, max: 1000)
+            try self.validate(self.queryStatement, name: "queryStatement", parent: name, min: 1)
+            try self.validate(self.queryStatement, name: "queryStatement", parent: name, pattern: "^[\\s\\S]+$")
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 128)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "^[a-zA-Z_0-9][a-zA-Z_\\-0-9]*[a-zA-Z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults
+            case nextToken
+            case queryStatement
+            case workspaceId
+        }
+    }
+
+    public struct ExecuteQueryResponse: AWSDecodableShape {
+        /// A list of ColumnDescription objects.
+        public let columnDescriptions: [ColumnDescription]?
+        /// The string that specifies the next page of results.
+        public let nextToken: String?
+        /// Represents a single row in the query results.
+        public let rows: [Row]?
+
+        public init(columnDescriptions: [ColumnDescription]? = nil, nextToken: String? = nil, rows: [Row]? = nil) {
+            self.columnDescriptions = columnDescriptions
+            self.nextToken = nextToken
+            self.rows = rows
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnDescriptions
+            case nextToken
+            case rows
+        }
+    }
+
     public struct FunctionRequest: AWSEncodableShape {
         /// The data connector.
         public let implementedBy: DataConnector?
@@ -1223,6 +1448,8 @@ extension IoTTwinMaker {
         public let isSingleton: Bool?
         /// An object that maps strings to the property definitions in the component type. Each string  in the mapping must be unique to this object.
         public let propertyDefinitions: [String: PropertyDefinitionResponse]?
+        /// The maximum number of results to return at one time. The default is 25. Valid Range: Minimum value of 1. Maximum value of 250.
+        public let propertyGroups: [String: PropertyGroupResponse]?
         /// The current status of the component type.
         public let status: Status?
         /// The date and time when the component was last updated.
@@ -1230,7 +1457,7 @@ extension IoTTwinMaker {
         /// The ID of the workspace that contains the component type.
         public let workspaceId: String
 
-        public init(arn: String, componentTypeId: String, creationDateTime: Date, description: String? = nil, extendsFrom: [String]? = nil, functions: [String: FunctionResponse]? = nil, isAbstract: Bool? = nil, isSchemaInitialized: Bool? = nil, isSingleton: Bool? = nil, propertyDefinitions: [String: PropertyDefinitionResponse]? = nil, status: Status? = nil, updateDateTime: Date, workspaceId: String) {
+        public init(arn: String, componentTypeId: String, creationDateTime: Date, description: String? = nil, extendsFrom: [String]? = nil, functions: [String: FunctionResponse]? = nil, isAbstract: Bool? = nil, isSchemaInitialized: Bool? = nil, isSingleton: Bool? = nil, propertyDefinitions: [String: PropertyDefinitionResponse]? = nil, propertyGroups: [String: PropertyGroupResponse]? = nil, status: Status? = nil, updateDateTime: Date, workspaceId: String) {
             self.arn = arn
             self.componentTypeId = componentTypeId
             self.creationDateTime = creationDateTime
@@ -1241,6 +1468,7 @@ extension IoTTwinMaker {
             self.isSchemaInitialized = isSchemaInitialized
             self.isSingleton = isSingleton
             self.propertyDefinitions = propertyDefinitions
+            self.propertyGroups = propertyGroups
             self.status = status
             self.updateDateTime = updateDateTime
             self.workspaceId = workspaceId
@@ -1257,6 +1485,7 @@ extension IoTTwinMaker {
             case isSchemaInitialized
             case isSingleton
             case propertyDefinitions
+            case propertyGroups
             case status
             case updateDateTime
             case workspaceId
@@ -1344,6 +1573,27 @@ extension IoTTwinMaker {
         }
     }
 
+    public struct GetPricingPlanRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct GetPricingPlanResponse: AWSDecodableShape {
+        /// The chosen pricing plan for the current billing cycle.
+        public let currentPricingPlan: PricingPlan
+        /// The pending pricing plan.
+        public let pendingPricingPlan: PricingPlan?
+
+        public init(currentPricingPlan: PricingPlan, pendingPricingPlan: PricingPlan? = nil) {
+            self.currentPricingPlan = currentPricingPlan
+            self.pendingPricingPlan = pendingPricingPlan
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currentPricingPlan
+            case pendingPricingPlan
+        }
+    }
+
     public struct GetPropertyValueHistoryRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
@@ -1361,7 +1611,7 @@ extension IoTTwinMaker {
         public let entityId: String?
         /// An object that specifies the interpolation type and the interval over which to interpolate data.
         public let interpolation: InterpolationParameters?
-        /// The maximum number of results to return.
+        /// The maximum number of results to return at one time. The default is 25.  Valid Range: Minimum value of 1. Maximum value of 250.
         public let maxResults: Int?
         /// The string that specifies the next page of results.
         public let nextToken: String?
@@ -1493,16 +1743,28 @@ extension IoTTwinMaker {
         public let componentTypeId: String?
         /// The ID of the entity whose property values the operation returns.
         public let entityId: String?
+        /// The maximum number of results to return at one time. The default is 25. Valid Range: Minimum value of 1. Maximum value of 250.
+        public let maxResults: Int?
+        /// The string that specifies the next page of results.
+        public let nextToken: String?
+        /// The property group name.
+        public let propertyGroupName: String?
         /// The properties whose values the operation returns.
         public let selectedProperties: [String]
+        /// The tabular conditions.
+        public let tabularConditions: TabularConditions?
         /// The ID of the workspace whose values the operation returns.
         public let workspaceId: String
 
-        public init(componentName: String? = nil, componentTypeId: String? = nil, entityId: String? = nil, selectedProperties: [String], workspaceId: String) {
+        public init(componentName: String? = nil, componentTypeId: String? = nil, entityId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, propertyGroupName: String? = nil, selectedProperties: [String], tabularConditions: TabularConditions? = nil, workspaceId: String) {
             self.componentName = componentName
             self.componentTypeId = componentTypeId
             self.entityId = entityId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.propertyGroupName = propertyGroupName
             self.selectedProperties = selectedProperties
+            self.tabularConditions = tabularConditions
             self.workspaceId = workspaceId
         }
 
@@ -1516,6 +1778,13 @@ extension IoTTwinMaker {
             try self.validate(self.entityId, name: "entityId", parent: name, max: 128)
             try self.validate(self.entityId, name: "entityId", parent: name, min: 1)
             try self.validate(self.entityId, name: "entityId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|^[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 200)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 17880)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+            try self.validate(self.propertyGroupName, name: "propertyGroupName", parent: name, max: 256)
+            try self.validate(self.propertyGroupName, name: "propertyGroupName", parent: name, min: 1)
+            try self.validate(self.propertyGroupName, name: "propertyGroupName", parent: name, pattern: "^[a-zA-Z_\\-0-9]+$")
             try self.selectedProperties.forEach {
                 try validate($0, name: "selectedProperties[]", parent: name, max: 256)
                 try validate($0, name: "selectedProperties[]", parent: name, min: 1)
@@ -1523,6 +1792,7 @@ extension IoTTwinMaker {
             }
             try self.validate(self.selectedProperties, name: "selectedProperties", parent: name, max: 10)
             try self.validate(self.selectedProperties, name: "selectedProperties", parent: name, min: 1)
+            try self.tabularConditions?.validate(name: "\(name).tabularConditions")
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 128)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "^[a-zA-Z_0-9][a-zA-Z_\\-0-9]*[a-zA-Z0-9]+$")
@@ -1532,20 +1802,32 @@ extension IoTTwinMaker {
             case componentName
             case componentTypeId
             case entityId
+            case maxResults
+            case nextToken
+            case propertyGroupName
             case selectedProperties
+            case tabularConditions
         }
     }
 
     public struct GetPropertyValueResponse: AWSDecodableShape {
+        /// The string that specifies the next page of results.
+        public let nextToken: String?
         /// An object that maps strings to the properties and latest property values in the response. Each string  in the mapping must be unique to this object.
-        public let propertyValues: [String: PropertyLatestValue]
+        public let propertyValues: [String: PropertyLatestValue]?
+        /// A table of property values.
+        public let tabularPropertyValues: [[[String: DataValue]]]?
 
-        public init(propertyValues: [String: PropertyLatestValue]) {
+        public init(nextToken: String? = nil, propertyValues: [String: PropertyLatestValue]? = nil, tabularPropertyValues: [[[String: DataValue]]]? = nil) {
+            self.nextToken = nextToken
             self.propertyValues = propertyValues
+            self.tabularPropertyValues = tabularPropertyValues
         }
 
         private enum CodingKeys: String, CodingKey {
+            case nextToken
             case propertyValues
+            case tabularPropertyValues
         }
     }
 
@@ -1719,7 +2001,7 @@ extension IoTTwinMaker {
 
         /// A list of objects that filter the request.
         public let filters: [ListComponentTypesFilter]?
-        /// The maximum number of results to display.
+        /// The maximum number of results to return at one time. The default is 25.  Valid Range: Minimum value of 1. Maximum value of 250.
         public let maxResults: Int?
         /// The string that specifies the next page of results.
         public let nextToken: String?
@@ -1785,7 +2067,7 @@ extension IoTTwinMaker {
 
         /// A list of objects that filter the request.  Only one object is accepted as a valid input.
         public let filters: [ListEntitiesFilter]?
-        /// The maximum number of results to display.
+        /// The maximum number of results to return at one time. The default is 25.  Valid Range: Minimum value of 1. Maximum value of 250.
         public let maxResults: Int?
         /// The string that specifies the next page of results.
         public let nextToken: String?
@@ -1888,7 +2170,7 @@ extension IoTTwinMaker {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        /// The maximum number of results to display.
+        /// The maximum number of results to return at one time. The default is 25.  Valid Range: Minimum value of 1. Maximum value of 250.
         public let maxResults: Int?
         /// The string that specifies the next page of results.
         public let nextToken: String?
@@ -1936,7 +2218,7 @@ extension IoTTwinMaker {
     }
 
     public struct ListWorkspacesRequest: AWSEncodableShape {
-        /// The maximum number of results to display.
+        /// The maximum number of results to return at one time. The default is 25.  Valid Range: Minimum value of 1. Maximum value of 250.
         public let maxResults: Int?
         /// The string that specifies the next page of results.
         public let nextToken: String?
@@ -1976,6 +2258,29 @@ extension IoTTwinMaker {
         }
     }
 
+    public struct OrderBy: AWSEncodableShape {
+        /// The set order that filters results.
+        public let order: Order?
+        /// The property name.
+        public let propertyName: String
+
+        public init(order: Order? = nil, propertyName: String) {
+            self.order = order
+            self.propertyName = propertyName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.propertyName, name: "propertyName", parent: name, max: 256)
+            try self.validate(self.propertyName, name: "propertyName", parent: name, min: 1)
+            try self.validate(self.propertyName, name: "propertyName", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case order
+            case propertyName
+        }
+    }
+
     public struct ParentEntityUpdateRequest: AWSEncodableShape {
         /// The ID of the parent entity.
         public let parentEntityId: String?
@@ -1996,6 +2301,39 @@ extension IoTTwinMaker {
         private enum CodingKeys: String, CodingKey {
             case parentEntityId
             case updateType
+        }
+    }
+
+    public struct PricingPlan: AWSDecodableShape {
+        /// The billable entity count.
+        public let billableEntityCount: Int64?
+        /// The pricing plan's bundle information.
+        public let bundleInformation: BundleInformation?
+        /// The effective date and time of the pricing plan.
+        public let effectiveDateTime: Date
+        /// The pricing mode.
+        public let pricingMode: PricingMode
+        /// The set date and time for updating a pricing plan.
+        public let updateDateTime: Date
+        /// The update reason, for changing a pricing plan.
+        public let updateReason: UpdateReason
+
+        public init(billableEntityCount: Int64? = nil, bundleInformation: BundleInformation? = nil, effectiveDateTime: Date, pricingMode: PricingMode, updateDateTime: Date, updateReason: UpdateReason) {
+            self.billableEntityCount = billableEntityCount
+            self.bundleInformation = bundleInformation
+            self.effectiveDateTime = effectiveDateTime
+            self.pricingMode = pricingMode
+            self.updateDateTime = updateDateTime
+            self.updateReason = updateReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case billableEntityCount
+            case bundleInformation
+            case effectiveDateTime
+            case pricingMode
+            case updateDateTime
+            case updateReason
         }
     }
 
@@ -2124,6 +2462,52 @@ extension IoTTwinMaker {
             case `operator`
             case propertyName
             case value
+        }
+    }
+
+    public struct PropertyGroupRequest: AWSEncodableShape {
+        /// The group type.
+        public let groupType: GroupType?
+        /// The names of properties.
+        public let propertyNames: [String]?
+
+        public init(groupType: GroupType? = nil, propertyNames: [String]? = nil) {
+            self.groupType = groupType
+            self.propertyNames = propertyNames
+        }
+
+        public func validate(name: String) throws {
+            try self.propertyNames?.forEach {
+                try validate($0, name: "propertyNames[]", parent: name, max: 256)
+                try validate($0, name: "propertyNames[]", parent: name, min: 1)
+                try validate($0, name: "propertyNames[]", parent: name, pattern: "^[a-zA-Z_\\-0-9]+$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupType
+            case propertyNames
+        }
+    }
+
+    public struct PropertyGroupResponse: AWSDecodableShape {
+        /// The group types.
+        public let groupType: GroupType
+        /// A Boolean value that specifies whether the property group is inherited from a parent entity
+        public let isInherited: Bool
+        /// The names of properties.
+        public let propertyNames: [String]
+
+        public init(groupType: GroupType, isInherited: Bool, propertyNames: [String]) {
+            self.groupType = groupType
+            self.isInherited = isInherited
+            self.propertyNames = propertyNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupType
+            case isInherited
+            case propertyNames
         }
     }
 
@@ -2316,6 +2700,19 @@ extension IoTTwinMaker {
         }
     }
 
+    public struct Row: AWSDecodableShape {
+        /// The data in a row of query results.
+        public let rowData: [String]?
+
+        public init(rowData: [String]? = nil) {
+            self.rowData = rowData
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rowData
+        }
+    }
+
     public struct SceneSummary: AWSDecodableShape {
         /// The ARN of the scene.
         public let arn: String
@@ -2363,6 +2760,36 @@ extension IoTTwinMaker {
         private enum CodingKeys: String, CodingKey {
             case error
             case state
+        }
+    }
+
+    public struct TabularConditions: AWSEncodableShape {
+        /// Filter criteria that orders the output. It can be sorted in ascending or descending order.
+        public let orderBy: [OrderBy]?
+        /// You can filter the request using various logical operators and a key-value format. For example:     {"key": "serverType", "value": "webServer"}
+        public let propertyFilters: [PropertyFilter]?
+
+        public init(orderBy: [OrderBy]? = nil, propertyFilters: [PropertyFilter]? = nil) {
+            self.orderBy = orderBy
+            self.propertyFilters = propertyFilters
+        }
+
+        public func validate(name: String) throws {
+            try self.orderBy?.forEach {
+                try $0.validate(name: "\(name).orderBy[]")
+            }
+            try self.validate(self.orderBy, name: "orderBy", parent: name, max: 10)
+            try self.validate(self.orderBy, name: "orderBy", parent: name, min: 1)
+            try self.propertyFilters?.forEach {
+                try $0.validate(name: "\(name).propertyFilters[]")
+            }
+            try self.validate(self.propertyFilters, name: "propertyFilters", parent: name, max: 10)
+            try self.validate(self.propertyFilters, name: "propertyFilters", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case orderBy
+            case propertyFilters
         }
     }
 
@@ -2455,16 +2882,19 @@ extension IoTTwinMaker {
         public let isSingleton: Bool?
         /// An object that maps strings to the property definitions in the component type. Each string  in the mapping must be unique to this object.
         public let propertyDefinitions: [String: PropertyDefinitionRequest]?
+        /// The property groups
+        public let propertyGroups: [String: PropertyGroupRequest]?
         /// The ID of the workspace that contains the component type.
         public let workspaceId: String
 
-        public init(componentTypeId: String, description: String? = nil, extendsFrom: [String]? = nil, functions: [String: FunctionRequest]? = nil, isSingleton: Bool? = nil, propertyDefinitions: [String: PropertyDefinitionRequest]? = nil, workspaceId: String) {
+        public init(componentTypeId: String, description: String? = nil, extendsFrom: [String]? = nil, functions: [String: FunctionRequest]? = nil, isSingleton: Bool? = nil, propertyDefinitions: [String: PropertyDefinitionRequest]? = nil, propertyGroups: [String: PropertyGroupRequest]? = nil, workspaceId: String) {
             self.componentTypeId = componentTypeId
             self.description = description
             self.extendsFrom = extendsFrom
             self.functions = functions
             self.isSingleton = isSingleton
             self.propertyDefinitions = propertyDefinitions
+            self.propertyGroups = propertyGroups
             self.workspaceId = workspaceId
         }
 
@@ -2491,6 +2921,12 @@ extension IoTTwinMaker {
                 try validate($0.key, name: "propertyDefinitions.key", parent: name, pattern: "^[a-zA-Z_\\-0-9]+$")
                 try $0.value.validate(name: "\(name).propertyDefinitions[\"\($0.key)\"]")
             }
+            try self.propertyGroups?.forEach {
+                try validate($0.key, name: "propertyGroups.key", parent: name, max: 256)
+                try validate($0.key, name: "propertyGroups.key", parent: name, min: 1)
+                try validate($0.key, name: "propertyGroups.key", parent: name, pattern: "^[a-zA-Z_\\-0-9]+$")
+                try $0.value.validate(name: "\(name).propertyGroups[\"\($0.key)\"]")
+            }
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 128)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "^[a-zA-Z_0-9][a-zA-Z_\\-0-9]*[a-zA-Z0-9]+$")
@@ -2502,6 +2938,7 @@ extension IoTTwinMaker {
             case functions
             case isSingleton
             case propertyDefinitions
+            case propertyGroups
         }
     }
 
@@ -2601,6 +3038,50 @@ extension IoTTwinMaker {
         private enum CodingKeys: String, CodingKey {
             case state
             case updateDateTime
+        }
+    }
+
+    public struct UpdatePricingPlanRequest: AWSEncodableShape {
+        /// The bundle names.
+        public let bundleNames: [String]?
+        /// The pricing mode.
+        public let pricingMode: PricingMode
+
+        public init(bundleNames: [String]? = nil, pricingMode: PricingMode) {
+            self.bundleNames = bundleNames
+            self.pricingMode = pricingMode
+        }
+
+        public func validate(name: String) throws {
+            try self.bundleNames?.forEach {
+                try validate($0, name: "bundleNames[]", parent: name, max: 256)
+                try validate($0, name: "bundleNames[]", parent: name, min: 1)
+                try validate($0, name: "bundleNames[]", parent: name, pattern: ".*")
+            }
+            try self.validate(self.bundleNames, name: "bundleNames", parent: name, max: 10)
+            try self.validate(self.bundleNames, name: "bundleNames", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bundleNames
+            case pricingMode
+        }
+    }
+
+    public struct UpdatePricingPlanResponse: AWSDecodableShape {
+        /// Update the current pricing plan.
+        public let currentPricingPlan: PricingPlan
+        /// Update the pending pricing plan.
+        public let pendingPricingPlan: PricingPlan?
+
+        public init(currentPricingPlan: PricingPlan, pendingPricingPlan: PricingPlan? = nil) {
+            self.currentPricingPlan = currentPricingPlan
+            self.pendingPricingPlan = pendingPricingPlan
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currentPricingPlan
+            case pendingPricingPlan
         }
     }
 

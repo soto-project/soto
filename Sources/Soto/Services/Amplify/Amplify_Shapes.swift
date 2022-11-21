@@ -54,6 +54,7 @@ extension Amplify {
 
     public enum Platform: String, CustomStringConvertible, Codable, _SotoSendable {
         case web = "WEB"
+        case webCompute = "WEB_COMPUTE"
         case webDynamic = "WEB_DYNAMIC"
         public var description: String { return self.rawValue }
     }
@@ -113,7 +114,7 @@ extension Amplify {
         public let iamServiceRoleArn: String?
         ///  The name for the Amplify app.
         public let name: String
-        ///  The platform for the Amplify app.
+        ///  The platform for the Amplify app. For a static app, set the platform type to WEB. For a dynamic server-side rendered (SSR) app, set the platform type to WEB_COMPUTE. For an app requiring Amplify Hosting's original SSR support only, set the platform type to WEB_DYNAMIC.
         public let platform: Platform
         ///  Describes the information about a production branch of the Amplify app.
         public let productionBranch: ProductionBranch?
@@ -448,7 +449,7 @@ extension Amplify {
         public let name: String
         /// The OAuth token for a third-party source control system for an Amplify app. The OAuth token is used to create a webhook and a read-only deploy key using SSH cloning. The OAuth token is not stored. Use oauthToken for repository providers other than GitHub, such as Bitbucket or CodeCommit. To authorize access to GitHub as your repository provider, use accessToken. You must specify either oauthToken or accessToken when you create a new app. Existing Amplify apps deployed from a GitHub repository using OAuth continue to work with CI/CD. However, we strongly recommend that you migrate these apps to use the GitHub App. For more information, see Migrating an existing OAuth app to the Amplify GitHub App in the Amplify User Guide .
         public let oauthToken: String?
-        ///  The platform or framework for an Amplify app.
+        ///  The platform for the Amplify app. For a static app, set the platform type to WEB. For a dynamic server-side rendered (SSR) app, set the platform type to WEB_COMPUTE. For an app requiring Amplify Hosting's original SSR support only, set the platform type to WEB_DYNAMIC.
         public let platform: Platform?
         ///  The repository for an Amplify app.
         public let repository: String?
@@ -855,7 +856,7 @@ extension Amplify {
             try self.subDomainSettings.forEach {
                 try $0.validate(name: "\(name).subDomainSettings[]")
             }
-            try self.validate(self.subDomainSettings, name: "subDomainSettings", parent: name, max: 255)
+            try self.validate(self.subDomainSettings, name: "subDomainSettings", parent: name, max: 500)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2440,7 +2441,7 @@ extension Amplify {
         public let name: String?
         /// The OAuth token for a third-party source control system for an Amplify app. The OAuth token is used to create a webhook and a read-only deploy key using SSH cloning. The OAuth token is not stored. Use oauthToken for repository providers other than GitHub, such as Bitbucket or CodeCommit. To authorize access to GitHub as your repository provider, use accessToken. You must specify either oauthToken or accessToken when you update an app. Existing Amplify apps deployed from a GitHub repository using OAuth continue to work with CI/CD. However, we strongly recommend that you migrate these apps to use the GitHub App. For more information, see Migrating an existing OAuth app to the Amplify GitHub App in the Amplify User Guide .
         public let oauthToken: String?
-        ///  The platform for an Amplify app.
+        ///  The platform for the Amplify app. For a static app, set the platform type to WEB. For a dynamic server-side rendered (SSR) app, set the platform type to WEB_COMPUTE. For an app requiring Amplify Hosting's original SSR support only, set the platform type to WEB_DYNAMIC.
         public let platform: Platform?
         ///  The name of the repository for an Amplify app
         public let repository: String?
@@ -2713,7 +2714,7 @@ extension Amplify {
             try self.subDomainSettings?.forEach {
                 try $0.validate(name: "\(name).subDomainSettings[]")
             }
-            try self.validate(self.subDomainSettings, name: "subDomainSettings", parent: name, max: 255)
+            try self.validate(self.subDomainSettings, name: "subDomainSettings", parent: name, max: 500)
         }
 
         private enum CodingKeys: String, CodingKey {

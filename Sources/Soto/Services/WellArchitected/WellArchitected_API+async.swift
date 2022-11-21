@@ -28,7 +28,7 @@ extension WellArchitected {
         return try await self.client.execute(operation: "AssociateLenses", path: "/workloads/{WorkloadId}/associateLenses", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Create a lens share. The owner of a lens can share it with other Amazon Web Services accounts and IAM users in the same Amazon Web Services Region.  Shared access to a lens is not removed until the lens invitation is deleted.   Disclaimer  By sharing your custom lenses with other Amazon Web Services accounts,  you acknowledge that Amazon Web Services will make your custom lenses available to those  other accounts. Those other accounts may continue to access and use your  shared custom lenses even if you delete the custom lenses  from your own Amazon Web Services account or terminate  your Amazon Web Services account.
+    /// Create a lens share. The owner of a lens can share it with other Amazon Web Services accounts, IAM users, an organization, and organizational units (OUs) in the same Amazon Web Services Region.  Shared access to a lens is not removed until the lens invitation is deleted.   Disclaimer  By sharing your custom lenses with other Amazon Web Services accounts,  you acknowledge that Amazon Web Services will make your custom lenses available to those  other accounts. Those other accounts may continue to access and use your  shared custom lenses even if you delete the custom lenses  from your own Amazon Web Services account or terminate  your Amazon Web Services account.
     public func createLensShare(_ input: CreateLensShareInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateLensShareOutput {
         return try await self.client.execute(operation: "CreateLensShare", path: "/lenses/{LensAlias}/shares", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -43,7 +43,7 @@ extension WellArchitected {
         return try await self.client.execute(operation: "CreateMilestone", path: "/workloads/{WorkloadId}/milestones", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Create a new workload. The owner of a workload can share the workload with other Amazon Web Services accounts and IAM users in the same Amazon Web Services Region. Only the owner of a workload can delete it. For more information, see Defining a Workload in the Well-Architected Tool User Guide.
+    /// Create a new workload. The owner of a workload can share the workload with other Amazon Web Services accounts, IAM users, an organization, and organizational units (OUs)  in the same Amazon Web Services Region. Only the owner of a workload can delete it. For more information, see Defining a Workload in the Well-Architected Tool User Guide.
     public func createWorkload(_ input: CreateWorkloadInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateWorkloadOutput {
         return try await self.client.execute(operation: "CreateWorkload", path: "/workloads", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -58,7 +58,7 @@ extension WellArchitected {
         return try await self.client.execute(operation: "DeleteLens", path: "/lenses/{LensAlias}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Delete a lens share. After the lens share is deleted,  Amazon Web Services accounts and IAM users  that you shared the lens with can continue to use it, but they will no longer be able to apply it to new workloads.   Disclaimer  By sharing your custom lenses with other Amazon Web Services accounts,  you acknowledge that Amazon Web Services will make your custom lenses available to those  other accounts. Those other accounts may continue to access and use your  shared custom lenses even if you delete the custom lenses  from your own Amazon Web Services account or terminate  your Amazon Web Services account.
+    /// Delete a lens share. After the lens share is deleted,  Amazon Web Services accounts, IAM users, organizations, and organizational units (OUs)  that you shared the lens with can continue to use it, but they will no longer be able to apply it to new workloads.   Disclaimer  By sharing your custom lenses with other Amazon Web Services accounts,  you acknowledge that Amazon Web Services will make your custom lenses available to those  other accounts. Those other accounts may continue to access and use your  shared custom lenses even if you delete the custom lenses  from your own Amazon Web Services account or terminate  your Amazon Web Services account.
     public func deleteLensShare(_ input: DeleteLensShareInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "DeleteLensShare", path: "/lenses/{LensAlias}/shares/{ShareId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -126,6 +126,16 @@ extension WellArchitected {
     /// List of answers.
     public func listAnswers(_ input: ListAnswersInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListAnswersOutput {
         return try await self.client.execute(operation: "ListAnswers", path: "/workloads/{WorkloadId}/lensReviews/{LensAlias}/answers", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// List of Trusted Advisor check details by account related to the workload.
+    public func listCheckDetails(_ input: ListCheckDetailsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListCheckDetailsOutput {
+        return try await self.client.execute(operation: "ListCheckDetails", path: "/workloads/{WorkloadId}/checks", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// List of Trusted Advisor checks summarized for all accounts related to the workload.
+    public func listCheckSummaries(_ input: ListCheckSummariesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListCheckSummariesOutput {
+        return try await self.client.execute(operation: "ListCheckSummaries", path: "/workloads/{WorkloadId}/checkSummaries", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// List lens review improvements.
@@ -203,7 +213,7 @@ extension WellArchitected {
         return try await self.client.execute(operation: "UpdateLensReview", path: "/workloads/{WorkloadId}/lensReviews/{LensAlias}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Update a workload invitation.
+    /// Update a workload or custom lens share invitation.  This API operation can be called independently of any resource. Previous documentation implied that a workload ARN must be specified.
     public func updateShareInvitation(_ input: UpdateShareInvitationInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateShareInvitationOutput {
         return try await self.client.execute(operation: "UpdateShareInvitation", path: "/shareInvitations/{ShareInvitationId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
