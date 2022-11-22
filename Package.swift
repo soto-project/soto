@@ -473,7 +473,7 @@ let package = Package(
         .target(name: "SotoFraudDetector", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/FraudDetector"),
         .target(name: "SotoGameLift", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/GameLift"),
         .target(name: "SotoGameSparks", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/GameSparks"),
-        .target(name: "SotoGlacier", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/", sources: ["Services/Glacier", "Extensions/Glacier"]),
+        .target(name: "SotoGlacier", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/Glacier"),
         .target(name: "SotoGlobalAccelerator", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/GlobalAccelerator"),
         .target(name: "SotoGlue", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/Glue"),
         .target(name: "SotoGrafana", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/Grafana"),
