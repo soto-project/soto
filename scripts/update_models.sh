@@ -126,7 +126,7 @@ TEMP_DIR=$(mktemp -d)
 echo "Using temp folder $TEMP_DIR"
 
 echo "Install code generator"
-mint install https://github.com/soto-project/soto-codegenerator
+mint install https://github.com/soto-project/soto-codegenerator@main
 
 echo "Get aws-sdk-go models"
 AWS_SDK_GO=$TEMP_DIR/aws-sdk-go-v2/
