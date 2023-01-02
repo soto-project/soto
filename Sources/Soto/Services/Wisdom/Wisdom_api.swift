@@ -54,6 +54,12 @@ public struct Wisdom: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2020-10-19",
             endpoint: endpoint,
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "us-east-1": "wisdom-fips.us-east-1.amazonaws.com",
+                    "us-west-2": "wisdom-fips.us-west-2.amazonaws.com"
+                ])
+            ],
             errorType: WisdomErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

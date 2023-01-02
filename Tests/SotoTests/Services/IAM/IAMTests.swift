@@ -40,9 +40,10 @@ class IAMTests: XCTestCase {
         XCTAssertNoThrow(try Self.client.syncShutdown())
     }
 
-    func createUser(userName: String, tags: [String: String] = [:]) -> EventLoopFuture<Void> {
+    func createUser(userName: String, tags: [String: String] = [:], iam: IAM? = nil) -> EventLoopFuture<Void> {
+        let iam: IAM = iam ?? Self.iam
         let request = IAM.CreateUserRequest(tags: tags.map { return IAM.Tag(key: $0.key, value: $0.value) }, userName: userName)
-        return Self.iam.createUser(request, logger: TestEnvironment.logger)
+        return iam.createUser(request, logger: TestEnvironment.logger)
             .map { response in
                 XCTAssertEqual(response.user?.userName, userName)
             }
@@ -56,20 +57,21 @@ class IAMTests: XCTestCase {
                 }
             }
             .flatMap { _ in
-                Self.iam.waitUntilUserExists(.init(userName: userName))
+                iam.waitUntilUserExists(.init(userName: userName))
             }
     }
 
-    func deleteUser(userName: String) -> EventLoopFuture<Void> {
+    func deleteUser(userName: String, iam: IAM? = nil) -> EventLoopFuture<Void> {
+        let iam: IAM = iam ?? Self.iam
         let eventLoop = Self.iam.client.eventLoopGroup.next()
         let request = IAM.ListUserPoliciesRequest(userName: userName)
-        return Self.iam.listUserPolicies(request, logger: TestEnvironment.logger)
+        return iam.listUserPolicies(request, logger: TestEnvironment.logger)
             .flatMap { response -> EventLoopFuture<Void> in
                 let futures = response.policyNames.map { policyName -> EventLoopFuture<Void> in
                     let deletePolicy = IAM.DeleteUserPolicyRequest(policyName: policyName, userName: userName)
                     // add stall to avoid throttling errors.
                     return eventLoop.flatScheduleTask(deadline: .now() + .seconds(2)) {
-                        return Self.iam.deleteUserPolicy(deletePolicy, logger: TestEnvironment.logger)
+                        return iam.deleteUserPolicy(deletePolicy, logger: TestEnvironment.logger)
                     }.futureResult
                 }
                 return EventLoopFuture.andAllComplete(futures, on: Self.iam.client.eventLoopGroup.next())
@@ -80,7 +82,7 @@ class IAMTests: XCTestCase {
                 return scheduled.futureResult
             }
             .flatMap { _ in
-                return Self.iam.deleteUser(.init(userName: userName), logger: TestEnvironment.logger).map { _ in }
+                return iam.deleteUser(.init(userName: userName), logger: TestEnvironment.logger).map { _ in }
             }
     }
 
@@ -90,6 +92,14 @@ class IAMTests: XCTestCase {
         let username = TestEnvironment.generateResourceName()
         let response = self.createUser(userName: username)
             .flatMap { _ in self.deleteUser(userName: username) }
+        XCTAssertNoThrow(try response.wait())
+    }
+
+    func testFIPSEndpoint() {
+        let iam = Self.iam.with(options: .useFipsEndpoint)
+        let username = TestEnvironment.generateResourceName()
+        let response = self.createUser(userName: username, iam: iam)
+            .flatMap { _ in self.deleteUser(userName: username, iam: iam) }
         XCTAssertNoThrow(try response.wait())
     }
 
@@ -154,7 +164,7 @@ class IAMTests: XCTestCase {
                 let request = IAM.SimulateCustomPolicyRequest(actionNames: ["sns:*", "sqs:*", "dynamodb:*"], callerArn: user.user.arn, policyInputList: [policyDocument])
                 return Self.iam.simulateCustomPolicy(request, logger: TestEnvironment.logger)
             }
-            .map { response -> Void in
+            .map { response in
                 XCTAssertEqual(response.evaluationResults?[0].evalDecision, .allowed)
                 XCTAssertEqual(response.evaluationResults?[1].evalDecision, .allowed)
                 XCTAssertEqual(response.evaluationResults?[2].evalDecision, .implicitDeny)

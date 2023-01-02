@@ -58,9 +58,13 @@ public struct DynamoDBStreams: AWSService {
             apiVersion: "2012-08-10",
             endpoint: endpoint,
             serviceEndpoints: [
-                "local": "localhost:8000",
-                "us-gov-east-1-fips": "streams.dynamodb.us-gov-east-1.amazonaws.com",
-                "us-gov-west-1-fips": "streams.dynamodb.us-gov-west-1.amazonaws.com"
+                "local": "localhost:8000"
+            ],
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "us-gov-east-1": "streams.dynamodb.us-gov-east-1.amazonaws.com",
+                    "us-gov-west-1": "streams.dynamodb.us-gov-west-1.amazonaws.com"
+                ])
             ],
             errorType: DynamoDBStreamsErrorType.self,
             xmlNamespace: "http://dynamodb.amazonaws.com/doc/2012-08-10/",

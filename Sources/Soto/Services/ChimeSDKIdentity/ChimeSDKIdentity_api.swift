@@ -55,8 +55,10 @@ public struct ChimeSDKIdentity: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2021-04-20",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "us-east-1-fips": "identity-chime-fips.us-east-1.amazonaws.com"
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "us-east-1": "identity-chime-fips.us-east-1.amazonaws.com"
+                ])
             ],
             errorType: ChimeSDKIdentityErrorType.self,
             timeout: timeout,

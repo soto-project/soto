@@ -55,11 +55,13 @@ public struct CognitoIdentity: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2014-06-30",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "fips-us-east-1": "cognito-identity-fips.us-east-1.amazonaws.com",
-                "fips-us-east-2": "cognito-identity-fips.us-east-2.amazonaws.com",
-                "fips-us-gov-west-1": "cognito-identity-fips.us-gov-west-1.amazonaws.com",
-                "fips-us-west-2": "cognito-identity-fips.us-west-2.amazonaws.com"
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "us-east-1": "cognito-identity-fips.us-east-1.amazonaws.com",
+                    "us-east-2": "cognito-identity-fips.us-east-2.amazonaws.com",
+                    "us-gov-west-1": "cognito-identity-fips.us-gov-west-1.amazonaws.com",
+                    "us-west-2": "cognito-identity-fips.us-west-2.amazonaws.com"
+                ])
             ],
             errorType: CognitoIdentityErrorType.self,
             xmlNamespace: "http://cognito-identity.amazonaws.com/doc/2014-06-30/",

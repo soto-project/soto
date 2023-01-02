@@ -55,13 +55,15 @@ public struct ServiceCatalog: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2015-12-10",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "us-east-1-fips": "servicecatalog-fips.us-east-1.amazonaws.com",
-                "us-east-2-fips": "servicecatalog-fips.us-east-2.amazonaws.com",
-                "us-gov-east-1-fips": "servicecatalog-fips.us-gov-east-1.amazonaws.com",
-                "us-gov-west-1-fips": "servicecatalog-fips.us-gov-west-1.amazonaws.com",
-                "us-west-1-fips": "servicecatalog-fips.us-west-1.amazonaws.com",
-                "us-west-2-fips": "servicecatalog-fips.us-west-2.amazonaws.com"
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "us-east-1": "servicecatalog-fips.us-east-1.amazonaws.com",
+                    "us-east-2": "servicecatalog-fips.us-east-2.amazonaws.com",
+                    "us-gov-east-1": "servicecatalog-fips.us-gov-east-1.amazonaws.com",
+                    "us-gov-west-1": "servicecatalog-fips.us-gov-west-1.amazonaws.com",
+                    "us-west-1": "servicecatalog-fips.us-west-1.amazonaws.com",
+                    "us-west-2": "servicecatalog-fips.us-west-2.amazonaws.com"
+                ])
             ],
             errorType: ServiceCatalogErrorType.self,
             timeout: timeout,

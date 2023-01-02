@@ -59,16 +59,16 @@ public struct CodeCommit: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2015-04-13",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "ca-central-1-fips": "codecommit-fips.ca-central-1.amazonaws.com",
-                "fips": "codecommit-fips.ca-central-1.amazonaws.com",
-                "fips": "codecommit-fips.us-gov-west-1.amazonaws.com",
-                "us-east-1-fips": "codecommit-fips.us-east-1.amazonaws.com",
-                "us-east-2-fips": "codecommit-fips.us-east-2.amazonaws.com",
-                "us-gov-east-1-fips": "codecommit-fips.us-gov-east-1.amazonaws.com",
-                "us-gov-west-1-fips": "codecommit-fips.us-gov-west-1.amazonaws.com",
-                "us-west-1-fips": "codecommit-fips.us-west-1.amazonaws.com",
-                "us-west-2-fips": "codecommit-fips.us-west-2.amazonaws.com"
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "ca-central-1": "codecommit-fips.ca-central-1.amazonaws.com",
+                    "us-east-1": "codecommit-fips.us-east-1.amazonaws.com",
+                    "us-east-2": "codecommit-fips.us-east-2.amazonaws.com",
+                    "us-gov-east-1": "codecommit-fips.us-gov-east-1.amazonaws.com",
+                    "us-gov-west-1": "codecommit-fips.us-gov-west-1.amazonaws.com",
+                    "us-west-1": "codecommit-fips.us-west-1.amazonaws.com",
+                    "us-west-2": "codecommit-fips.us-west-2.amazonaws.com"
+                ])
             ],
             errorType: CodeCommitErrorType.self,
             xmlNamespace: "http://codecommit.amazonaws.com/doc/2015-04-13",

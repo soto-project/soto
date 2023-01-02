@@ -55,13 +55,15 @@ public struct Glue: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-03-31",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "fips-us-east-1": "glue-fips.us-east-1.amazonaws.com",
-                "fips-us-east-2": "glue-fips.us-east-2.amazonaws.com",
-                "fips-us-gov-east-1": "glue-fips.us-gov-east-1.amazonaws.com",
-                "fips-us-gov-west-1": "glue-fips.us-gov-west-1.amazonaws.com",
-                "fips-us-west-1": "glue-fips.us-west-1.amazonaws.com",
-                "fips-us-west-2": "glue-fips.us-west-2.amazonaws.com"
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "us-east-1": "glue-fips.us-east-1.amazonaws.com",
+                    "us-east-2": "glue-fips.us-east-2.amazonaws.com",
+                    "us-gov-east-1": "glue-fips.us-gov-east-1.amazonaws.com",
+                    "us-gov-west-1": "glue-fips.us-gov-west-1.amazonaws.com",
+                    "us-west-1": "glue-fips.us-west-1.amazonaws.com",
+                    "us-west-2": "glue-fips.us-west-2.amazonaws.com"
+                ])
             ],
             errorType: GlueErrorType.self,
             timeout: timeout,

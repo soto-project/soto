@@ -55,11 +55,13 @@ public struct Comprehend: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-11-27",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "fips-us-east-1": "comprehend-fips.us-east-1.amazonaws.com",
-                "fips-us-east-2": "comprehend-fips.us-east-2.amazonaws.com",
-                "fips-us-gov-west-1": "comprehend-fips.us-gov-west-1.amazonaws.com",
-                "fips-us-west-2": "comprehend-fips.us-west-2.amazonaws.com"
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "us-east-1": "comprehend-fips.us-east-1.amazonaws.com",
+                    "us-east-2": "comprehend-fips.us-east-2.amazonaws.com",
+                    "us-gov-west-1": "comprehend-fips.us-gov-west-1.amazonaws.com",
+                    "us-west-2": "comprehend-fips.us-west-2.amazonaws.com"
+                ])
             ],
             errorType: ComprehendErrorType.self,
             timeout: timeout,

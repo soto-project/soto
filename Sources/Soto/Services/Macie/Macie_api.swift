@@ -55,9 +55,11 @@ public struct Macie: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-12-19",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "fips-us-east-1": "macie-fips.us-east-1.amazonaws.com",
-                "fips-us-west-2": "macie-fips.us-west-2.amazonaws.com"
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "us-east-1": "macie-fips.us-east-1.amazonaws.com",
+                    "us-west-2": "macie-fips.us-west-2.amazonaws.com"
+                ])
             ],
             errorType: MacieErrorType.self,
             timeout: timeout,

@@ -54,11 +54,13 @@ public struct QLDB: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2019-01-02",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "fips-ca-central-1": "qldb-fips.ca-central-1.amazonaws.com",
-                "fips-us-east-1": "qldb-fips.us-east-1.amazonaws.com",
-                "fips-us-east-2": "qldb-fips.us-east-2.amazonaws.com",
-                "fips-us-west-2": "qldb-fips.us-west-2.amazonaws.com"
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "ca-central-1": "qldb-fips.ca-central-1.amazonaws.com",
+                    "us-east-1": "qldb-fips.us-east-1.amazonaws.com",
+                    "us-east-2": "qldb-fips.us-east-2.amazonaws.com",
+                    "us-west-2": "qldb-fips.us-west-2.amazonaws.com"
+                ])
             ],
             errorType: QLDBErrorType.self,
             xmlNamespace: "http://ledger.amazonaws.com/doc/2019-01-02/",

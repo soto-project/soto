@@ -55,14 +55,16 @@ public struct SecretsManager: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-10-17",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "ca-central-1-fips": "secretsmanager-fips.ca-central-1.amazonaws.com",
-                "us-east-1-fips": "secretsmanager-fips.us-east-1.amazonaws.com",
-                "us-east-2-fips": "secretsmanager-fips.us-east-2.amazonaws.com",
-                "us-gov-east-1-fips": "secretsmanager-fips.us-gov-east-1.amazonaws.com",
-                "us-gov-west-1-fips": "secretsmanager-fips.us-gov-west-1.amazonaws.com",
-                "us-west-1-fips": "secretsmanager-fips.us-west-1.amazonaws.com",
-                "us-west-2-fips": "secretsmanager-fips.us-west-2.amazonaws.com"
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "ca-central-1": "secretsmanager-fips.ca-central-1.amazonaws.com",
+                    "us-east-1": "secretsmanager-fips.us-east-1.amazonaws.com",
+                    "us-east-2": "secretsmanager-fips.us-east-2.amazonaws.com",
+                    "us-gov-east-1": "secretsmanager-fips.us-gov-east-1.amazonaws.com",
+                    "us-gov-west-1": "secretsmanager-fips.us-gov-west-1.amazonaws.com",
+                    "us-west-1": "secretsmanager-fips.us-west-1.amazonaws.com",
+                    "us-west-2": "secretsmanager-fips.us-west-2.amazonaws.com"
+                ])
             ],
             errorType: SecretsManagerErrorType.self,
             timeout: timeout,

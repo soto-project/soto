@@ -57,13 +57,15 @@ public struct WAF: AWSService {
             apiVersion: "2015-08-24",
             endpoint: endpoint,
             serviceEndpoints: [
-                "aws": "waf.aws.amazonaws.com",
-                "aws-fips": "waf-fips.amazonaws.com",
-                "aws-global": "waf.amazonaws.com",
-                "aws-global-fips": "waf-fips.amazonaws.com"
+                "aws-global": "waf.amazonaws.com"
             ],
             partitionEndpoints: [
                 .aws: (endpoint: "aws-global", region: .useast1)
+            ],
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "aws-global": "waf-fips.amazonaws.com"
+                ])
             ],
             errorType: WAFErrorType.self,
             xmlNamespace: "http://waf.amazonaws.com/doc/2015-08-24/",

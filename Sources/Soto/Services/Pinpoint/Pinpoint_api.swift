@@ -57,15 +57,19 @@ public struct Pinpoint: AWSService {
             endpoint: endpoint,
             serviceEndpoints: [
                 "ca-central-1": "pinpoint.ca-central-1.amazonaws.com",
-                "fips-ca-central-1": "pinpoint-fips.ca-central-1.amazonaws.com",
-                "fips-us-east-1": "pinpoint-fips.us-east-1.amazonaws.com",
-                "fips-us-east-2": "pinpoint-fips.us-east-2.amazonaws.com",
-                "fips-us-gov-west-1": "pinpoint-fips.us-gov-west-1.amazonaws.com",
-                "fips-us-west-2": "pinpoint-fips.us-west-2.amazonaws.com",
                 "us-east-1": "pinpoint.us-east-1.amazonaws.com",
                 "us-east-2": "pinpoint.us-east-2.amazonaws.com",
                 "us-gov-west-1": "pinpoint.us-gov-west-1.amazonaws.com",
                 "us-west-2": "pinpoint.us-west-2.amazonaws.com"
+            ],
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "ca-central-1": "pinpoint-fips.ca-central-1.amazonaws.com",
+                    "us-east-1": "pinpoint-fips.us-east-1.amazonaws.com",
+                    "us-east-2": "pinpoint-fips.us-east-2.amazonaws.com",
+                    "us-gov-west-1": "pinpoint-fips.us-gov-west-1.amazonaws.com",
+                    "us-west-2": "pinpoint-fips.us-west-2.amazonaws.com"
+                ])
             ],
             errorType: PinpointErrorType.self,
             timeout: timeout,

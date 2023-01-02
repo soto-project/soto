@@ -54,12 +54,14 @@ public struct EMRContainers: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2020-10-01",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "fips-ca-central-1": "emr-containers-fips.ca-central-1.amazonaws.com",
-                "fips-us-east-1": "emr-containers-fips.us-east-1.amazonaws.com",
-                "fips-us-east-2": "emr-containers-fips.us-east-2.amazonaws.com",
-                "fips-us-west-1": "emr-containers-fips.us-west-1.amazonaws.com",
-                "fips-us-west-2": "emr-containers-fips.us-west-2.amazonaws.com"
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "ca-central-1": "emr-containers-fips.ca-central-1.amazonaws.com",
+                    "us-east-1": "emr-containers-fips.us-east-1.amazonaws.com",
+                    "us-east-2": "emr-containers-fips.us-east-2.amazonaws.com",
+                    "us-west-1": "emr-containers-fips.us-west-1.amazonaws.com",
+                    "us-west-2": "emr-containers-fips.us-west-2.amazonaws.com"
+                ])
             ],
             errorType: EMRContainersErrorType.self,
             timeout: timeout,

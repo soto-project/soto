@@ -54,10 +54,12 @@ public struct GroundStation: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2019-05-23",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "fips-us-east-1": "groundstation-fips.us-east-1.amazonaws.com",
-                "fips-us-east-2": "groundstation-fips.us-east-2.amazonaws.com",
-                "fips-us-west-2": "groundstation-fips.us-west-2.amazonaws.com"
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "us-east-1": "groundstation-fips.us-east-1.amazonaws.com",
+                    "us-east-2": "groundstation-fips.us-east-2.amazonaws.com",
+                    "us-west-2": "groundstation-fips.us-west-2.amazonaws.com"
+                ])
             ],
             errorType: GroundStationErrorType.self,
             timeout: timeout,

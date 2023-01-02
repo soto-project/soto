@@ -54,11 +54,13 @@ public struct RDSData: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2018-08-01",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "fips-us-east-1": "rds-data-fips.us-east-1.amazonaws.com",
-                "fips-us-east-2": "rds-data-fips.us-east-2.amazonaws.com",
-                "fips-us-west-1": "rds-data-fips.us-west-1.amazonaws.com",
-                "fips-us-west-2": "rds-data-fips.us-west-2.amazonaws.com"
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "us-east-1": "rds-data-fips.us-east-1.amazonaws.com",
+                    "us-east-2": "rds-data-fips.us-east-2.amazonaws.com",
+                    "us-west-1": "rds-data-fips.us-west-1.amazonaws.com",
+                    "us-west-2": "rds-data-fips.us-west-2.amazonaws.com"
+                ])
             ],
             errorType: RDSDataErrorType.self,
             timeout: timeout,

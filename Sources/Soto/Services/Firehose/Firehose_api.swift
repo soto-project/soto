@@ -55,13 +55,19 @@ public struct Firehose: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2015-08-04",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "fips-us-east-1": "firehose-fips.us-east-1.amazonaws.com",
-                "fips-us-east-2": "firehose-fips.us-east-2.amazonaws.com",
-                "fips-us-gov-east-1": "firehose-fips.us-gov-east-1.amazonaws.com",
-                "fips-us-gov-west-1": "firehose-fips.us-gov-west-1.amazonaws.com",
-                "fips-us-west-1": "firehose-fips.us-west-1.amazonaws.com",
-                "fips-us-west-2": "firehose-fips.us-west-2.amazonaws.com"
+            variantEndpoints: [
+                [.dualstack]: .init(endpoints: [
+                    "cn-north-1": "firehose.cn-north-1.api.amazonwebservices.com.cn",
+                    "cn-northwest-1": "firehose.cn-northwest-1.api.amazonwebservices.com.cn"
+                ]),
+                [.fips]: .init(endpoints: [
+                    "us-east-1": "firehose-fips.us-east-1.amazonaws.com",
+                    "us-east-2": "firehose-fips.us-east-2.amazonaws.com",
+                    "us-gov-east-1": "firehose-fips.us-gov-east-1.amazonaws.com",
+                    "us-gov-west-1": "firehose-fips.us-gov-west-1.amazonaws.com",
+                    "us-west-1": "firehose-fips.us-west-1.amazonaws.com",
+                    "us-west-2": "firehose-fips.us-west-2.amazonaws.com"
+                ])
             ],
             errorType: FirehoseErrorType.self,
             xmlNamespace: "http://firehose.amazonaws.com/doc/2015-08-04",

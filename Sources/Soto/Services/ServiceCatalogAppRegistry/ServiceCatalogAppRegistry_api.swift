@@ -55,12 +55,16 @@ public struct ServiceCatalogAppRegistry: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2020-06-24",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "fips-ca-central-1": "servicecatalog-appregistry-fips.ca-central-1.amazonaws.com",
-                "fips-us-east-1": "servicecatalog-appregistry-fips.us-east-1.amazonaws.com",
-                "fips-us-east-2": "servicecatalog-appregistry-fips.us-east-2.amazonaws.com",
-                "fips-us-west-1": "servicecatalog-appregistry-fips.us-west-1.amazonaws.com",
-                "fips-us-west-2": "servicecatalog-appregistry-fips.us-west-2.amazonaws.com"
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "ca-central-1": "servicecatalog-appregistry-fips.ca-central-1.amazonaws.com",
+                    "us-east-1": "servicecatalog-appregistry-fips.us-east-1.amazonaws.com",
+                    "us-east-2": "servicecatalog-appregistry-fips.us-east-2.amazonaws.com",
+                    "us-gov-east-1": "servicecatalog-appregistry.us-gov-east-1.amazonaws.com",
+                    "us-gov-west-1": "servicecatalog-appregistry.us-gov-west-1.amazonaws.com",
+                    "us-west-1": "servicecatalog-appregistry-fips.us-west-1.amazonaws.com",
+                    "us-west-2": "servicecatalog-appregistry-fips.us-west-2.amazonaws.com"
+                ])
             ],
             errorType: ServiceCatalogAppRegistryErrorType.self,
             timeout: timeout,

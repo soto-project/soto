@@ -56,12 +56,16 @@ public struct Kinesis: AWSService {
             apiVersion: "2013-12-02",
             endpoint: endpoint,
             serviceEndpoints: [
-                "fips-us-east-1": "kinesis-fips.us-east-1.amazonaws.com",
-                "fips-us-east-2": "kinesis-fips.us-east-2.amazonaws.com",
-                "fips-us-west-1": "kinesis-fips.us-west-1.amazonaws.com",
-                "fips-us-west-2": "kinesis-fips.us-west-2.amazonaws.com",
                 "us-gov-east-1": "kinesis.us-gov-east-1.amazonaws.com",
                 "us-gov-west-1": "kinesis.us-gov-west-1.amazonaws.com"
+            ],
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "us-east-1": "kinesis-fips.us-east-1.amazonaws.com",
+                    "us-east-2": "kinesis-fips.us-east-2.amazonaws.com",
+                    "us-west-1": "kinesis-fips.us-west-1.amazonaws.com",
+                    "us-west-2": "kinesis-fips.us-west-2.amazonaws.com"
+                ])
             ],
             errorType: KinesisErrorType.self,
             xmlNamespace: "http://kinesis.amazonaws.com/doc/2013-12-02",

@@ -55,13 +55,27 @@ public struct EC2: AWSService {
             apiVersion: "2016-11-15",
             endpoint: endpoint,
             serviceEndpoints: [
-                "fips-ca-central-1": "ec2-fips.ca-central-1.amazonaws.com",
-                "fips-us-east-1": "ec2-fips.us-east-1.amazonaws.com",
-                "fips-us-east-2": "ec2-fips.us-east-2.amazonaws.com",
-                "fips-us-west-1": "ec2-fips.us-west-1.amazonaws.com",
-                "fips-us-west-2": "ec2-fips.us-west-2.amazonaws.com",
                 "us-gov-east-1": "ec2.us-gov-east-1.amazonaws.com",
                 "us-gov-west-1": "ec2.us-gov-west-1.amazonaws.com"
+            ],
+            variantEndpoints: [
+                [.dualstack]: .init(endpoints: [
+                    "ap-south-1": "ec2.ap-south-1.api.aws",
+                    "eu-west-1": "ec2.eu-west-1.api.aws",
+                    "sa-east-1": "ec2.sa-east-1.api.aws",
+                    "us-east-1": "ec2.us-east-1.api.aws",
+                    "us-east-2": "ec2.us-east-2.api.aws",
+                    "us-gov-east-1": "ec2.us-gov-east-1.api.aws",
+                    "us-gov-west-1": "ec2.us-gov-west-1.api.aws",
+                    "us-west-2": "ec2.us-west-2.api.aws"
+                ]),
+                [.fips]: .init(endpoints: [
+                    "ca-central-1": "ec2-fips.ca-central-1.amazonaws.com",
+                    "us-east-1": "ec2-fips.us-east-1.amazonaws.com",
+                    "us-east-2": "ec2-fips.us-east-2.amazonaws.com",
+                    "us-west-1": "ec2-fips.us-west-1.amazonaws.com",
+                    "us-west-2": "ec2-fips.us-west-2.amazonaws.com"
+                ])
             ],
             xmlNamespace: "http://ec2.amazonaws.com/doc/2016-11-15",
             timeout: timeout,

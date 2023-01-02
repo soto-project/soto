@@ -55,14 +55,16 @@ public struct Textract: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-06-27",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "fips-ca-central-1": "textract-fips.ca-central-1.amazonaws.com",
-                "fips-us-east-1": "textract-fips.us-east-1.amazonaws.com",
-                "fips-us-east-2": "textract-fips.us-east-2.amazonaws.com",
-                "fips-us-gov-east-1": "textract-fips.us-gov-east-1.amazonaws.com",
-                "fips-us-gov-west-1": "textract-fips.us-gov-west-1.amazonaws.com",
-                "fips-us-west-1": "textract-fips.us-west-1.amazonaws.com",
-                "fips-us-west-2": "textract-fips.us-west-2.amazonaws.com"
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "ca-central-1": "textract-fips.ca-central-1.amazonaws.com",
+                    "us-east-1": "textract-fips.us-east-1.amazonaws.com",
+                    "us-east-2": "textract-fips.us-east-2.amazonaws.com",
+                    "us-gov-east-1": "textract-fips.us-gov-east-1.amazonaws.com",
+                    "us-gov-west-1": "textract-fips.us-gov-west-1.amazonaws.com",
+                    "us-west-1": "textract-fips.us-west-1.amazonaws.com",
+                    "us-west-2": "textract-fips.us-west-2.amazonaws.com"
+                ])
             ],
             errorType: TextractErrorType.self,
             timeout: timeout,

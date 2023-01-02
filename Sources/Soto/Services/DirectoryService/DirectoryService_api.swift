@@ -55,14 +55,16 @@ public struct DirectoryService: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2015-04-16",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "fips-ca-central-1": "ds-fips.ca-central-1.amazonaws.com",
-                "fips-us-east-1": "ds-fips.us-east-1.amazonaws.com",
-                "fips-us-east-2": "ds-fips.us-east-2.amazonaws.com",
-                "fips-us-gov-east-1": "ds-fips.us-gov-east-1.amazonaws.com",
-                "fips-us-gov-west-1": "ds-fips.us-gov-west-1.amazonaws.com",
-                "fips-us-west-1": "ds-fips.us-west-1.amazonaws.com",
-                "fips-us-west-2": "ds-fips.us-west-2.amazonaws.com"
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "ca-central-1": "ds-fips.ca-central-1.amazonaws.com",
+                    "us-east-1": "ds-fips.us-east-1.amazonaws.com",
+                    "us-east-2": "ds-fips.us-east-2.amazonaws.com",
+                    "us-gov-east-1": "ds-fips.us-gov-east-1.amazonaws.com",
+                    "us-gov-west-1": "ds-fips.us-gov-west-1.amazonaws.com",
+                    "us-west-1": "ds-fips.us-west-1.amazonaws.com",
+                    "us-west-2": "ds-fips.us-west-2.amazonaws.com"
+                ])
             ],
             errorType: DirectoryServiceErrorType.self,
             xmlNamespace: "http://directoryservice.amazonaws.com/doc/2015-04-16/",

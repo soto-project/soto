@@ -54,11 +54,13 @@ public struct DataBrew: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2017-07-25",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "fips-us-east-1": "databrew-fips.us-east-1.amazonaws.com",
-                "fips-us-east-2": "databrew-fips.us-east-2.amazonaws.com",
-                "fips-us-west-1": "databrew-fips.us-west-1.amazonaws.com",
-                "fips-us-west-2": "databrew-fips.us-west-2.amazonaws.com"
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "us-east-1": "databrew-fips.us-east-1.amazonaws.com",
+                    "us-east-2": "databrew-fips.us-east-2.amazonaws.com",
+                    "us-west-1": "databrew-fips.us-west-1.amazonaws.com",
+                    "us-west-2": "databrew-fips.us-west-2.amazonaws.com"
+                ])
             ],
             errorType: DataBrewErrorType.self,
             timeout: timeout,

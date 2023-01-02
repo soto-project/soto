@@ -78,18 +78,22 @@ public struct STS: AWSService {
                 "me-south-1": "sts.me-south-1.amazonaws.com",
                 "sa-east-1": "sts.sa-east-1.amazonaws.com",
                 "us-east-1": "sts.us-east-1.amazonaws.com",
-                "us-east-1-fips": "sts-fips.us-east-1.amazonaws.com",
                 "us-east-2": "sts.us-east-2.amazonaws.com",
-                "us-east-2-fips": "sts-fips.us-east-2.amazonaws.com",
-                "us-gov-east-1-fips": "sts.us-gov-east-1.amazonaws.com",
-                "us-gov-west-1-fips": "sts.us-gov-west-1.amazonaws.com",
                 "us-west-1": "sts.us-west-1.amazonaws.com",
-                "us-west-1-fips": "sts-fips.us-west-1.amazonaws.com",
-                "us-west-2": "sts.us-west-2.amazonaws.com",
-                "us-west-2-fips": "sts-fips.us-west-2.amazonaws.com"
+                "us-west-2": "sts.us-west-2.amazonaws.com"
             ],
             partitionEndpoints: [
                 .aws: (endpoint: "aws-global", region: .useast1)
+            ],
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "us-east-1": "sts-fips.us-east-1.amazonaws.com",
+                    "us-east-2": "sts-fips.us-east-2.amazonaws.com",
+                    "us-gov-east-1": "sts.us-gov-east-1.amazonaws.com",
+                    "us-gov-west-1": "sts.us-gov-west-1.amazonaws.com",
+                    "us-west-1": "sts-fips.us-west-1.amazonaws.com",
+                    "us-west-2": "sts-fips.us-west-2.amazonaws.com"
+                ])
             ],
             errorType: STSErrorType.self,
             xmlNamespace: "https://sts.amazonaws.com/doc/2011-06-15/",

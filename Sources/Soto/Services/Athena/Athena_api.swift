@@ -55,13 +55,39 @@ public struct Athena: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-05-18",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "fips-us-east-1": "athena-fips.us-east-1.amazonaws.com",
-                "fips-us-east-2": "athena-fips.us-east-2.amazonaws.com",
-                "fips-us-gov-east-1": "athena-fips.us-gov-east-1.amazonaws.com",
-                "fips-us-gov-west-1": "athena-fips.us-gov-west-1.amazonaws.com",
-                "fips-us-west-1": "athena-fips.us-west-1.amazonaws.com",
-                "fips-us-west-2": "athena-fips.us-west-2.amazonaws.com"
+            variantEndpoints: [
+                [.dualstack]: .init(endpoints: [
+                    "af-south-1": "athena.af-south-1.api.aws",
+                    "ap-east-1": "athena.ap-east-1.api.aws",
+                    "ap-northeast-1": "athena.ap-northeast-1.api.aws",
+                    "ap-northeast-2": "athena.ap-northeast-2.api.aws",
+                    "ap-northeast-3": "athena.ap-northeast-3.api.aws",
+                    "ap-south-1": "athena.ap-south-1.api.aws",
+                    "ap-southeast-1": "athena.ap-southeast-1.api.aws",
+                    "ap-southeast-2": "athena.ap-southeast-2.api.aws",
+                    "ap-southeast-3": "athena.ap-southeast-3.api.aws",
+                    "ca-central-1": "athena.ca-central-1.api.aws",
+                    "eu-central-1": "athena.eu-central-1.api.aws",
+                    "eu-north-1": "athena.eu-north-1.api.aws",
+                    "eu-south-1": "athena.eu-south-1.api.aws",
+                    "eu-west-1": "athena.eu-west-1.api.aws",
+                    "eu-west-2": "athena.eu-west-2.api.aws",
+                    "eu-west-3": "athena.eu-west-3.api.aws",
+                    "me-south-1": "athena.me-south-1.api.aws",
+                    "sa-east-1": "athena.sa-east-1.api.aws",
+                    "us-east-1": "athena.us-east-1.api.aws",
+                    "us-east-2": "athena.us-east-2.api.aws",
+                    "us-west-1": "athena.us-west-1.api.aws",
+                    "us-west-2": "athena.us-west-2.api.aws"
+                ]),
+                [.fips]: .init(endpoints: [
+                    "us-east-1": "athena-fips.us-east-1.amazonaws.com",
+                    "us-east-2": "athena-fips.us-east-2.amazonaws.com",
+                    "us-gov-east-1": "athena-fips.us-gov-east-1.amazonaws.com",
+                    "us-gov-west-1": "athena-fips.us-gov-west-1.amazonaws.com",
+                    "us-west-1": "athena-fips.us-west-1.amazonaws.com",
+                    "us-west-2": "athena-fips.us-west-2.amazonaws.com"
+                ])
             ],
             errorType: AthenaErrorType.self,
             timeout: timeout,

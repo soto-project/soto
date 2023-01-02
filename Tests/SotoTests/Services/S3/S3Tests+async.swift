@@ -435,7 +435,7 @@ class S3AsyncTests: XCTestCase {
         // doesnt work with LocalStack
         try XCTSkipIf(TestEnvironment.isUsingLocalstack)
 
-        let s3 = Self.s3.with(options: .s3UseDualStackEndpoint)
+        let s3 = Self.s3.with(options: .useDualStackEndpoint)
         let name = TestEnvironment.generateResourceName()
         let filename = "testfile.txt"
         let contents = "testing S3.PutObject and S3.GetObject"

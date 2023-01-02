@@ -61,14 +61,18 @@ public struct DynamoDB: AWSService {
             apiVersion: "2012-08-10",
             endpoint: endpoint,
             serviceEndpoints: [
-                "ca-central-1-fips": "dynamodb-fips.ca-central-1.amazonaws.com",
-                "local": "localhost:8000",
-                "us-east-1-fips": "dynamodb-fips.us-east-1.amazonaws.com",
-                "us-east-2-fips": "dynamodb-fips.us-east-2.amazonaws.com",
-                "us-gov-east-1-fips": "dynamodb.us-gov-east-1.amazonaws.com",
-                "us-gov-west-1-fips": "dynamodb.us-gov-west-1.amazonaws.com",
-                "us-west-1-fips": "dynamodb-fips.us-west-1.amazonaws.com",
-                "us-west-2-fips": "dynamodb-fips.us-west-2.amazonaws.com"
+                "local": "localhost:8000"
+            ],
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "ca-central-1": "dynamodb-fips.ca-central-1.amazonaws.com",
+                    "us-east-1": "dynamodb-fips.us-east-1.amazonaws.com",
+                    "us-east-2": "dynamodb-fips.us-east-2.amazonaws.com",
+                    "us-gov-east-1": "dynamodb.us-gov-east-1.amazonaws.com",
+                    "us-gov-west-1": "dynamodb.us-gov-west-1.amazonaws.com",
+                    "us-west-1": "dynamodb-fips.us-west-1.amazonaws.com",
+                    "us-west-2": "dynamodb-fips.us-west-2.amazonaws.com"
+                ])
             ],
             errorType: DynamoDBErrorType.self,
             xmlNamespace: "http://dynamodb.amazonaws.com/doc/2012-08-10/",
