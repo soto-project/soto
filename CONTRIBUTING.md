@@ -26,6 +26,15 @@ Please keep you PRs to a minimal number of changes. If a PR is large try to spli
 
 The main development branch of the repository is  `main`. Each major version release has it's own branch named "version number".x.x eg `4.x.x` . If you are submitting code for an older version then you should use the version branch as the base for your code changes.
 
+### Testing
+
+By default the Soto tests are setup to use [Localstack](https://github.com/localstack/localstack) for testing. This avoids hitting AWS services while testing. You need to run a localstack server locally to get this to work. As long as you have Docker this can be done by running the script `./scripts/localstack`. If you would like to test against real AWS services set the environment variable `AWS_DISABLE_LOCALSTACK` to `true`. Not all services are supported by Localstack and there are some discrepancies in error messages returned by Localstack and real AWS services. 
+
+Other environment variables that affect testing include
+- `AWS_LOG_LEVEL`: Sets log level of tests
+- `AWS_ENABLE_LOGGING`: Log requests and responses sent and received by Soto.
+- `AWS_TEST_RESOURCE_PREFIX`: Prefix all resources created by your tests with this string. This means you can run tests hitting AWS services without worrying about clashing with someone else running tests.
+
 ### Formatting
 
 We use Nick Lockwood's SwiftFormat for formatting code. PRs will not be accepted if they haven't be formatted. The current version of SwiftFormat we are using is v0.48.17.
