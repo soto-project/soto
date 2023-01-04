@@ -116,6 +116,10 @@ func createBucketPutGetObject() -> EventLoopFuture<S3.GetObjectOutput> {
 }
 ```
 
+## Build Plugin
+
+Soto is a vary large package. If you would rather not include it in your package dependencies you can instead use the SotoCodeGenerator Swift Package Manager build plugin to generate the Swift source code for only the services/operations you actually need. Find out more [here](https://github.com/soto-project/soto-codegenerator/blob/main/README.md).
+
 ## Documentation
 
 ### API Reference
