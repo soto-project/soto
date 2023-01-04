@@ -55,13 +55,15 @@ public struct Inspector: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-02-16",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "fips-us-east-1": "inspector-fips.us-east-1.amazonaws.com",
-                "fips-us-east-2": "inspector-fips.us-east-2.amazonaws.com",
-                "fips-us-gov-east-1": "inspector-fips.us-gov-east-1.amazonaws.com",
-                "fips-us-gov-west-1": "inspector-fips.us-gov-west-1.amazonaws.com",
-                "fips-us-west-1": "inspector-fips.us-west-1.amazonaws.com",
-                "fips-us-west-2": "inspector-fips.us-west-2.amazonaws.com"
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "us-east-1": "inspector-fips.us-east-1.amazonaws.com",
+                    "us-east-2": "inspector-fips.us-east-2.amazonaws.com",
+                    "us-gov-east-1": "inspector-fips.us-gov-east-1.amazonaws.com",
+                    "us-gov-west-1": "inspector-fips.us-gov-west-1.amazonaws.com",
+                    "us-west-1": "inspector-fips.us-west-1.amazonaws.com",
+                    "us-west-2": "inspector-fips.us-west-2.amazonaws.com"
+                ])
             ],
             errorType: InspectorErrorType.self,
             timeout: timeout,

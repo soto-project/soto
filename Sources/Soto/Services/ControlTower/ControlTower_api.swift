@@ -55,11 +55,13 @@ public struct ControlTower: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2018-05-10",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "ca-central-1-fips": "controltower-fips.ca-central-1.amazonaws.com",
-                "us-east-1-fips": "controltower-fips.us-east-1.amazonaws.com",
-                "us-east-2-fips": "controltower-fips.us-east-2.amazonaws.com",
-                "us-west-2-fips": "controltower-fips.us-west-2.amazonaws.com"
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "ca-central-1": "controltower-fips.ca-central-1.amazonaws.com",
+                    "us-east-1": "controltower-fips.us-east-1.amazonaws.com",
+                    "us-east-2": "controltower-fips.us-east-2.amazonaws.com",
+                    "us-west-2": "controltower-fips.us-west-2.amazonaws.com"
+                ])
             ],
             errorType: ControlTowerErrorType.self,
             timeout: timeout,

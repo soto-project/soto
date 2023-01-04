@@ -54,9 +54,11 @@ public struct ConnectCampaigns: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2021-01-30",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "fips-us-east-1": "connect-campaigns-fips.us-east-1.amazonaws.com",
-                "fips-us-west-2": "connect-campaigns-fips.us-west-2.amazonaws.com"
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "us-east-1": "connect-campaigns-fips.us-east-1.amazonaws.com",
+                    "us-west-2": "connect-campaigns-fips.us-west-2.amazonaws.com"
+                ])
             ],
             errorType: ConnectCampaignsErrorType.self,
             timeout: timeout,

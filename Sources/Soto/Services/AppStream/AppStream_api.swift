@@ -56,12 +56,12 @@ public struct AppStream: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-12-01",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "fips": "appstream2-fips.us-west-2.amazonaws.com",
-                "fips": "appstream2-fips.us-gov-west-1.amazonaws.com",
-                "us-east-1-fips": "appstream2-fips.us-east-1.amazonaws.com",
-                "us-gov-west-1-fips": "appstream2-fips.us-gov-west-1.amazonaws.com",
-                "us-west-2-fips": "appstream2-fips.us-west-2.amazonaws.com"
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "us-east-1": "appstream2-fips.us-east-1.amazonaws.com",
+                    "us-gov-west-1": "appstream2-fips.us-gov-west-1.amazonaws.com",
+                    "us-west-2": "appstream2-fips.us-west-2.amazonaws.com"
+                ])
             ],
             errorType: AppStreamErrorType.self,
             timeout: timeout,

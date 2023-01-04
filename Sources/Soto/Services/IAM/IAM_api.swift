@@ -55,15 +55,9 @@ public struct IAM: AWSService {
             serviceEndpoints: [
                 "aws-cn-global": "iam.cn-north-1.amazonaws.com.cn",
                 "aws-global": "iam.amazonaws.com",
-                "aws-global-fips": "iam-fips.amazonaws.com",
                 "aws-iso-b-global": "iam.us-isob-east-1.sc2s.sgov.gov",
                 "aws-iso-global": "iam.us-iso-east-1.c2s.ic.gov",
-                "aws-us-gov-global": "iam.us-gov.amazonaws.com",
-                "aws-us-gov-global-fips": "iam.us-gov.amazonaws.com",
-                "iam": "iam.iam.amazonaws.com",
-                "iam-fips": "iam-fips.amazonaws.com",
-                "iam-govcloud": "iam.iam-govcloud.amazonaws.com",
-                "iam-govcloud-fips": "iam.us-gov.amazonaws.com"
+                "aws-us-gov-global": "iam.us-gov.amazonaws.com"
             ],
             partitionEndpoints: [
                 .aws: (endpoint: "aws-global", region: .useast1),
@@ -71,6 +65,12 @@ public struct IAM: AWSService {
                 .awsiso: (endpoint: "aws-iso-global", region: .usisoeast1),
                 .awsisob: (endpoint: "aws-iso-b-global", region: .usisobeast1),
                 .awsusgov: (endpoint: "aws-us-gov-global", region: .usgovwest1)
+            ],
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "aws-global": "iam-fips.amazonaws.com",
+                    "aws-us-gov-global": "iam.us-gov.amazonaws.com"
+                ])
             ],
             errorType: IAMErrorType.self,
             xmlNamespace: "https://iam.amazonaws.com/doc/2010-05-08/",

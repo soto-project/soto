@@ -55,13 +55,15 @@ public struct SFN: AWSService {
             serviceProtocol: .json(version: "1.0"),
             apiVersion: "2016-11-23",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "fips-us-east-1": "states-fips.us-east-1.amazonaws.com",
-                "fips-us-east-2": "states-fips.us-east-2.amazonaws.com",
-                "fips-us-gov-east-1": "states-fips.us-gov-east-1.amazonaws.com",
-                "fips-us-gov-west-1": "states.us-gov-west-1.amazonaws.com",
-                "fips-us-west-1": "states-fips.us-west-1.amazonaws.com",
-                "fips-us-west-2": "states-fips.us-west-2.amazonaws.com"
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "us-east-1": "states-fips.us-east-1.amazonaws.com",
+                    "us-east-2": "states-fips.us-east-2.amazonaws.com",
+                    "us-gov-east-1": "states-fips.us-gov-east-1.amazonaws.com",
+                    "us-gov-west-1": "states.us-gov-west-1.amazonaws.com",
+                    "us-west-1": "states-fips.us-west-1.amazonaws.com",
+                    "us-west-2": "states-fips.us-west-2.amazonaws.com"
+                ])
             ],
             errorType: SFNErrorType.self,
             xmlNamespace: "http://swf.amazonaws.com/doc/2015-07-20/",

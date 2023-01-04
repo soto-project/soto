@@ -54,12 +54,14 @@ public struct IoTSiteWise: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2019-12-02",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "fips-ca-central-1": "iotsitewise-fips.ca-central-1.amazonaws.com",
-                "fips-us-east-1": "iotsitewise-fips.us-east-1.amazonaws.com",
-                "fips-us-east-2": "iotsitewise-fips.us-east-2.amazonaws.com",
-                "fips-us-gov-west-1": "iotsitewise-fips.us-gov-west-1.amazonaws.com",
-                "fips-us-west-2": "iotsitewise-fips.us-west-2.amazonaws.com"
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "ca-central-1": "iotsitewise-fips.ca-central-1.amazonaws.com",
+                    "us-east-1": "iotsitewise-fips.us-east-1.amazonaws.com",
+                    "us-east-2": "iotsitewise-fips.us-east-2.amazonaws.com",
+                    "us-gov-west-1": "iotsitewise-fips.us-gov-west-1.amazonaws.com",
+                    "us-west-2": "iotsitewise-fips.us-west-2.amazonaws.com"
+                ])
             ],
             errorType: IoTSiteWiseErrorType.self,
             timeout: timeout,

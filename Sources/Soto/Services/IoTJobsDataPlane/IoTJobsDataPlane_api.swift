@@ -55,14 +55,16 @@ public struct IoTJobsDataPlane: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2017-09-29",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "fips-ca-central-1": "data.jobs.iot-fips.ca-central-1.amazonaws.com",
-                "fips-us-east-1": "data.jobs.iot-fips.us-east-1.amazonaws.com",
-                "fips-us-east-2": "data.jobs.iot-fips.us-east-2.amazonaws.com",
-                "fips-us-gov-east-1": "data.jobs.iot-fips.us-gov-east-1.amazonaws.com",
-                "fips-us-gov-west-1": "data.jobs.iot-fips.us-gov-west-1.amazonaws.com",
-                "fips-us-west-1": "data.jobs.iot-fips.us-west-1.amazonaws.com",
-                "fips-us-west-2": "data.jobs.iot-fips.us-west-2.amazonaws.com"
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "ca-central-1": "data.jobs.iot-fips.ca-central-1.amazonaws.com",
+                    "us-east-1": "data.jobs.iot-fips.us-east-1.amazonaws.com",
+                    "us-east-2": "data.jobs.iot-fips.us-east-2.amazonaws.com",
+                    "us-gov-east-1": "data.jobs.iot-fips.us-gov-east-1.amazonaws.com",
+                    "us-gov-west-1": "data.jobs.iot-fips.us-gov-west-1.amazonaws.com",
+                    "us-west-1": "data.jobs.iot-fips.us-west-1.amazonaws.com",
+                    "us-west-2": "data.jobs.iot-fips.us-west-2.amazonaws.com"
+                ])
             ],
             errorType: IoTJobsDataPlaneErrorType.self,
             timeout: timeout,

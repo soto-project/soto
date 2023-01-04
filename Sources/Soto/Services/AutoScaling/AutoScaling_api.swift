@@ -56,6 +56,12 @@ public struct AutoScaling: AWSService {
             serviceProtocol: .query,
             apiVersion: "2011-01-01",
             endpoint: endpoint,
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "us-gov-east-1": "autoscaling.us-gov-east-1.amazonaws.com",
+                    "us-gov-west-1": "autoscaling.us-gov-west-1.amazonaws.com"
+                ])
+            ],
             errorType: AutoScalingErrorType.self,
             xmlNamespace: "http://autoscaling.amazonaws.com/doc/2011-01-01/",
             timeout: timeout,

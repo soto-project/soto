@@ -60,13 +60,15 @@ public struct ElasticLoadBalancingV2: AWSService {
             serviceProtocol: .query,
             apiVersion: "2015-12-01",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "fips-us-east-1": "elasticloadbalancing-fips.us-east-1.amazonaws.com",
-                "fips-us-east-2": "elasticloadbalancing-fips.us-east-2.amazonaws.com",
-                "fips-us-gov-east-1": "elasticloadbalancing.us-gov-east-1.amazonaws.com",
-                "fips-us-gov-west-1": "elasticloadbalancing.us-gov-west-1.amazonaws.com",
-                "fips-us-west-1": "elasticloadbalancing-fips.us-west-1.amazonaws.com",
-                "fips-us-west-2": "elasticloadbalancing-fips.us-west-2.amazonaws.com"
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "us-east-1": "elasticloadbalancing-fips.us-east-1.amazonaws.com",
+                    "us-east-2": "elasticloadbalancing-fips.us-east-2.amazonaws.com",
+                    "us-gov-east-1": "elasticloadbalancing.us-gov-east-1.amazonaws.com",
+                    "us-gov-west-1": "elasticloadbalancing.us-gov-west-1.amazonaws.com",
+                    "us-west-1": "elasticloadbalancing-fips.us-west-1.amazonaws.com",
+                    "us-west-2": "elasticloadbalancing-fips.us-west-2.amazonaws.com"
+                ])
             ],
             errorType: ElasticLoadBalancingV2ErrorType.self,
             xmlNamespace: "http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/",

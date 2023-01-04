@@ -55,9 +55,11 @@ public struct ChimeSDKMediaPipelines: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2021-07-15",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "us-east-1-fips": "media-pipelines-chime-fips.us-east-1.amazonaws.com",
-                "us-west-2-fips": "media-pipelines-chime-fips.us-west-2.amazonaws.com"
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "us-east-1": "media-pipelines-chime-fips.us-east-1.amazonaws.com",
+                    "us-west-2": "media-pipelines-chime-fips.us-west-2.amazonaws.com"
+                ])
             ],
             errorType: ChimeSDKMediaPipelinesErrorType.self,
             timeout: timeout,

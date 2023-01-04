@@ -55,9 +55,11 @@ public struct VoiceID: AWSService {
             serviceProtocol: .json(version: "1.0"),
             apiVersion: "2021-09-27",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "fips-us-east-1": "voiceid-fips.us-east-1.amazonaws.com",
-                "fips-us-west-2": "voiceid-fips.us-west-2.amazonaws.com"
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "us-east-1": "voiceid-fips.us-east-1.amazonaws.com",
+                    "us-west-2": "voiceid-fips.us-west-2.amazonaws.com"
+                ])
             ],
             errorType: VoiceIDErrorType.self,
             timeout: timeout,

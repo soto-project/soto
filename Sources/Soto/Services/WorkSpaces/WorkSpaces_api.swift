@@ -55,10 +55,12 @@ public struct WorkSpaces: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2015-04-08",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "fips-us-east-1": "workspaces-fips.us-east-1.amazonaws.com",
-                "fips-us-gov-west-1": "workspaces-fips.us-gov-west-1.amazonaws.com",
-                "fips-us-west-2": "workspaces-fips.us-west-2.amazonaws.com"
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "us-east-1": "workspaces-fips.us-east-1.amazonaws.com",
+                    "us-gov-west-1": "workspaces-fips.us-gov-west-1.amazonaws.com",
+                    "us-west-2": "workspaces-fips.us-west-2.amazonaws.com"
+                ])
             ],
             errorType: WorkSpacesErrorType.self,
             xmlNamespace: "http://workspaces.amazonaws.com/api/v1",

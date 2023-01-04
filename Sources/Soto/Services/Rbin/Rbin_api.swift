@@ -54,14 +54,16 @@ public struct Rbin: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2021-06-15",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "fips-ca-central-1": "rbin-fips.ca-central-1.amazonaws.com",
-                "fips-us-east-1": "rbin-fips.us-east-1.amazonaws.com",
-                "fips-us-east-2": "rbin-fips.us-east-2.amazonaws.com",
-                "fips-us-gov-east-1": "rbin-fips.us-gov-east-1.amazonaws.com",
-                "fips-us-gov-west-1": "rbin-fips.us-gov-west-1.amazonaws.com",
-                "fips-us-west-1": "rbin-fips.us-west-1.amazonaws.com",
-                "fips-us-west-2": "rbin-fips.us-west-2.amazonaws.com"
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "ca-central-1": "rbin-fips.ca-central-1.amazonaws.com",
+                    "us-east-1": "rbin-fips.us-east-1.amazonaws.com",
+                    "us-east-2": "rbin-fips.us-east-2.amazonaws.com",
+                    "us-gov-east-1": "rbin-fips.us-gov-east-1.amazonaws.com",
+                    "us-gov-west-1": "rbin-fips.us-gov-west-1.amazonaws.com",
+                    "us-west-1": "rbin-fips.us-west-1.amazonaws.com",
+                    "us-west-2": "rbin-fips.us-west-2.amazonaws.com"
+                ])
             ],
             errorType: RbinErrorType.self,
             timeout: timeout,

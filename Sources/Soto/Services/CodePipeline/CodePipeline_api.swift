@@ -55,13 +55,15 @@ public struct CodePipeline: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2015-07-09",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "fips-ca-central-1": "codepipeline-fips.ca-central-1.amazonaws.com",
-                "fips-us-east-1": "codepipeline-fips.us-east-1.amazonaws.com",
-                "fips-us-east-2": "codepipeline-fips.us-east-2.amazonaws.com",
-                "fips-us-gov-west-1": "codepipeline-fips.us-gov-west-1.amazonaws.com",
-                "fips-us-west-1": "codepipeline-fips.us-west-1.amazonaws.com",
-                "fips-us-west-2": "codepipeline-fips.us-west-2.amazonaws.com"
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "ca-central-1": "codepipeline-fips.ca-central-1.amazonaws.com",
+                    "us-east-1": "codepipeline-fips.us-east-1.amazonaws.com",
+                    "us-east-2": "codepipeline-fips.us-east-2.amazonaws.com",
+                    "us-gov-west-1": "codepipeline-fips.us-gov-west-1.amazonaws.com",
+                    "us-west-1": "codepipeline-fips.us-west-1.amazonaws.com",
+                    "us-west-2": "codepipeline-fips.us-west-2.amazonaws.com"
+                ])
             ],
             errorType: CodePipelineErrorType.self,
             xmlNamespace: "http://codepipeline.amazonaws.com/doc/2015-07-09/",

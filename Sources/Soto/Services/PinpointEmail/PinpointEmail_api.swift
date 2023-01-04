@@ -55,10 +55,12 @@ public struct PinpointEmail: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2018-07-26",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "fips-us-east-1": "email-fips.us-east-1.amazonaws.com",
-                "fips-us-gov-west-1": "email-fips.us-gov-west-1.amazonaws.com",
-                "fips-us-west-2": "email-fips.us-west-2.amazonaws.com"
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "us-east-1": "email-fips.us-east-1.amazonaws.com",
+                    "us-gov-west-1": "email-fips.us-gov-west-1.amazonaws.com",
+                    "us-west-2": "email-fips.us-west-2.amazonaws.com"
+                ])
             ],
             errorType: PinpointEmailErrorType.self,
             timeout: timeout,

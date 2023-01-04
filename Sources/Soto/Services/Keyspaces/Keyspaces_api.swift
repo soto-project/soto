@@ -56,10 +56,14 @@ public struct Keyspaces: AWSService {
             apiVersion: "2022-02-10",
             endpoint: endpoint,
             serviceEndpoints: [
-                "fips-us-east-1": "cassandra-fips.us-east-1.amazonaws.com",
-                "fips-us-west-2": "cassandra-fips.us-west-2.amazonaws.com",
                 "us-gov-east-1": "cassandra.us-gov-east-1.amazonaws.com",
                 "us-gov-west-1": "cassandra.us-gov-west-1.amazonaws.com"
+            ],
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "us-east-1": "cassandra-fips.us-east-1.amazonaws.com",
+                    "us-west-2": "cassandra-fips.us-west-2.amazonaws.com"
+                ])
             ],
             errorType: KeyspacesErrorType.self,
             timeout: timeout,

@@ -124,13 +124,13 @@ class S3Tests: XCTestCase {
                 )
                 return Self.s3.putObject(putRequest)
             }
-            .map { response -> Void in
+            .map { response in
                 XCTAssertNotNil(response.eTag)
             }
             .flatMap { _ -> EventLoopFuture<S3.GetObjectOutput> in
                 return Self.s3.getObject(.init(bucket: name, key: filename, responseExpires: Date()))
             }
-            .map { response -> Void in
+            .map { response in
                 XCTAssertEqual(response.body?.asString(), contents)
                 XCTAssertNotNil(response.lastModified)
             }
@@ -157,13 +157,13 @@ class S3Tests: XCTestCase {
                 )
                 return Self.s3.putObject(putRequest)
             }
-            .map { response -> Void in
+            .map { response in
                 XCTAssertNotNil(response.eTag)
             }
             .flatMap { _ -> EventLoopFuture<S3.GetObjectOutput> in
                 return Self.s3.getObject(.init(bucket: name, key: filename))
             }
-            .map { response -> Void in
+            .map { response in
                 XCTAssertEqual(response.body?.asString(), contents)
                 XCTAssertNotNil(response.lastModified)
             }
@@ -197,7 +197,7 @@ class S3Tests: XCTestCase {
             .flatMap { _ -> EventLoopFuture<S3.GetObjectOutput> in
                 return Self.s3.getObject(.init(bucket: name, key: newKeyName))
             }
-            .map { response -> Void in
+            .map { response in
                 XCTAssertEqual(response.body?.asString(), contents)
             }
             .flatAlways { _ in
@@ -289,7 +289,7 @@ class S3Tests: XCTestCase {
             .flatMap { eTag -> EventLoopFuture<(S3.ListObjectsV2Output, String)> in
                 return Self.s3.listObjectsV2(.init(bucket: name)).map { ($0, eTag) }
             }
-            .map { response, eTag -> Void in
+            .map { response, eTag in
                 XCTAssertEqual(response.contents?.first?.key, name)
                 XCTAssertEqual(response.contents?.first?.size, Int64(contents.utf8.count))
                 XCTAssertEqual(response.contents?.first?.eTag, eTag)
@@ -432,7 +432,7 @@ class S3Tests: XCTestCase {
             .flatMap { _ in
                 return Self.s3.getBucketLifecycleConfiguration(.init(bucket: name))
             }
-            .map { response -> Void in
+            .map { response in
                 XCTAssertEqual(response.rules?[0].transitions?[0].storageClass, .glacier)
                 XCTAssertEqual(response.rules?[0].transitions?[0].days, 14)
                 XCTAssertEqual(response.rules?[0].abortIncompleteMultipartUpload?.daysAfterInitiation, 7)
@@ -704,7 +704,7 @@ class S3Tests: XCTestCase {
             .flatMap { url -> EventLoopFuture<HTTPClient.Response> in
                 httpClient.get(url: url.absoluteString)
             }
-            .flatMapThrowing { response -> Void in
+            .flatMapThrowing { response in
                 XCTAssertEqual(response.status, .ok)
                 var buffer = try XCTUnwrap(response.body)
                 let bufferString = buffer.readString(length: buffer.readableBytes)
@@ -720,7 +720,7 @@ class S3Tests: XCTestCase {
         // doesnt work with LocalStack
         try XCTSkipIf(TestEnvironment.isUsingLocalstack)
 
-        let s3 = Self.s3.with(options: .s3UseDualStackEndpoint)
+        let s3 = Self.s3.with(options: .useDualStackEndpoint)
         let name = TestEnvironment.generateResourceName()
         let filename = "testfile.txt"
         let contents = "testing S3.PutObject and S3.GetObject"
@@ -735,7 +735,37 @@ class S3Tests: XCTestCase {
                 )
                 return s3.putObject(putRequest)
             }
-            .map { response -> Void in
+            .map { response in
+                XCTAssertNotNil(response.eTag)
+            }
+            .flatMap { _ -> EventLoopFuture<S3.GetObjectOutput> in
+                return s3.getObject(.init(bucket: name, key: filename))
+            }.flatAlways { _ in
+                return Self.deleteBucket(name: name, s3: s3)
+            }
+        XCTAssertNoThrow(try response.wait())
+    }
+
+    func testFIPSEndpoints() throws {
+        // doesnt work with LocalStack
+        try XCTSkipIf(TestEnvironment.isUsingLocalstack)
+
+        let s3 = Self.s3.with(options: .useFipsEndpoint)
+        let name = TestEnvironment.generateResourceName()
+        let filename = "testfile.txt"
+        let contents = "testing S3.PutObject and S3.GetObject"
+        let response = Self.createBucket(name: name, s3: s3)
+            .flatMap { _ -> EventLoopFuture<S3.PutObjectOutput> in
+                let putRequest = S3.PutObjectRequest(
+                    acl: .publicRead,
+                    body: .string(contents),
+                    bucket: name,
+                    contentLength: Int64(contents.utf8.count),
+                    key: filename
+                )
+                return s3.putObject(putRequest)
+            }
+            .map { response in
                 XCTAssertNotNil(response.eTag)
             }
             .flatMap { _ -> EventLoopFuture<S3.GetObjectOutput> in
@@ -769,7 +799,7 @@ class S3Tests: XCTestCase {
                 )
                 return s3Accelerated.putObject(putRequest)
             }
-            .map { response -> Void in
+            .map { response in
                 XCTAssertNotNil(response.eTag)
             }
             .flatMap { _ -> EventLoopFuture<S3.GetObjectOutput> in

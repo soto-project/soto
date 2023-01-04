@@ -54,21 +54,16 @@ public struct RDS: AWSService {
             serviceProtocol: .query,
             apiVersion: "2014-10-31",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "ca-central-1-fips": "rds-fips.ca-central-1.amazonaws.com",
-                "rds-fips.ca-central-1": "rds-fips.ca-central-1.amazonaws.com",
-                "rds-fips.us-east-1": "rds-fips.us-east-1.amazonaws.com",
-                "rds-fips.us-east-2": "rds-fips.us-east-2.amazonaws.com",
-                "rds-fips.us-west-1": "rds-fips.us-west-1.amazonaws.com",
-                "rds-fips.us-west-2": "rds-fips.us-west-2.amazonaws.com",
-                "rds.us-gov-east-1": "rds.us-gov-east-1.amazonaws.com",
-                "rds.us-gov-west-1": "rds.us-gov-west-1.amazonaws.com",
-                "us-east-1-fips": "rds-fips.us-east-1.amazonaws.com",
-                "us-east-2-fips": "rds-fips.us-east-2.amazonaws.com",
-                "us-gov-east-1-fips": "rds.us-gov-east-1.amazonaws.com",
-                "us-gov-west-1-fips": "rds.us-gov-west-1.amazonaws.com",
-                "us-west-1-fips": "rds-fips.us-west-1.amazonaws.com",
-                "us-west-2-fips": "rds-fips.us-west-2.amazonaws.com"
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "ca-central-1": "rds-fips.ca-central-1.amazonaws.com",
+                    "us-east-1": "rds-fips.us-east-1.amazonaws.com",
+                    "us-east-2": "rds-fips.us-east-2.amazonaws.com",
+                    "us-gov-east-1": "rds.us-gov-east-1.amazonaws.com",
+                    "us-gov-west-1": "rds.us-gov-west-1.amazonaws.com",
+                    "us-west-1": "rds-fips.us-west-1.amazonaws.com",
+                    "us-west-2": "rds-fips.us-west-2.amazonaws.com"
+                ])
             ],
             errorType: RDSErrorType.self,
             xmlNamespace: "http://rds.amazonaws.com/doc/2014-10-31/",

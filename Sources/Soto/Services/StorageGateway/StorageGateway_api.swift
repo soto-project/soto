@@ -64,16 +64,16 @@ public struct StorageGateway: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2013-06-30",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "ca-central-1-fips": "storagegateway-fips.ca-central-1.amazonaws.com",
-                "fips": "storagegateway-fips.ca-central-1.amazonaws.com",
-                "fips": "storagegateway-fips.us-gov-west-1.amazonaws.com",
-                "us-east-1-fips": "storagegateway-fips.us-east-1.amazonaws.com",
-                "us-east-2-fips": "storagegateway-fips.us-east-2.amazonaws.com",
-                "us-gov-east-1-fips": "storagegateway-fips.us-gov-east-1.amazonaws.com",
-                "us-gov-west-1-fips": "storagegateway-fips.us-gov-west-1.amazonaws.com",
-                "us-west-1-fips": "storagegateway-fips.us-west-1.amazonaws.com",
-                "us-west-2-fips": "storagegateway-fips.us-west-2.amazonaws.com"
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "ca-central-1": "storagegateway-fips.ca-central-1.amazonaws.com",
+                    "us-east-1": "storagegateway-fips.us-east-1.amazonaws.com",
+                    "us-east-2": "storagegateway-fips.us-east-2.amazonaws.com",
+                    "us-gov-east-1": "storagegateway-fips.us-gov-east-1.amazonaws.com",
+                    "us-gov-west-1": "storagegateway-fips.us-gov-west-1.amazonaws.com",
+                    "us-west-1": "storagegateway-fips.us-west-1.amazonaws.com",
+                    "us-west-2": "storagegateway-fips.us-west-2.amazonaws.com"
+                ])
             ],
             errorType: StorageGatewayErrorType.self,
             xmlNamespace: "http://storagegateway.amazonaws.com/doc/2013-06-30",

@@ -57,14 +57,32 @@ public struct Transcribe: AWSService {
             endpoint: endpoint,
             serviceEndpoints: [
                 "cn-north-1": "cn.transcribe.cn-north-1.amazonaws.com.cn",
-                "cn-northwest-1": "cn.transcribe.cn-northwest-1.amazonaws.com.cn",
-                "fips-ca-central-1": "fips.transcribe.ca-central-1.amazonaws.com",
-                "fips-us-east-1": "fips.transcribe.us-east-1.amazonaws.com",
-                "fips-us-east-2": "fips.transcribe.us-east-2.amazonaws.com",
-                "fips-us-gov-east-1": "fips.transcribe.us-gov-east-1.amazonaws.com",
-                "fips-us-gov-west-1": "fips.transcribe.us-gov-west-1.amazonaws.com",
-                "fips-us-west-1": "fips.transcribe.us-west-1.amazonaws.com",
-                "fips-us-west-2": "fips.transcribe.us-west-2.amazonaws.com"
+                "cn-northwest-1": "cn.transcribe.cn-northwest-1.amazonaws.com.cn"
+            ],
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "af-south-1": "fips.transcribe.af-south-1.amazonaws.com",
+                    "ap-east-1": "fips.transcribe.ap-east-1.amazonaws.com",
+                    "ap-northeast-1": "fips.transcribe.ap-northeast-1.amazonaws.com",
+                    "ap-northeast-2": "fips.transcribe.ap-northeast-2.amazonaws.com",
+                    "ap-south-1": "fips.transcribe.ap-south-1.amazonaws.com",
+                    "ap-southeast-1": "fips.transcribe.ap-southeast-1.amazonaws.com",
+                    "ap-southeast-2": "fips.transcribe.ap-southeast-2.amazonaws.com",
+                    "ca-central-1": "fips.transcribe.ca-central-1.amazonaws.com",
+                    "eu-central-1": "fips.transcribe.eu-central-1.amazonaws.com",
+                    "eu-north-1": "fips.transcribe.eu-north-1.amazonaws.com",
+                    "eu-west-1": "fips.transcribe.eu-west-1.amazonaws.com",
+                    "eu-west-2": "fips.transcribe.eu-west-2.amazonaws.com",
+                    "eu-west-3": "fips.transcribe.eu-west-3.amazonaws.com",
+                    "me-south-1": "fips.transcribe.me-south-1.amazonaws.com",
+                    "sa-east-1": "fips.transcribe.sa-east-1.amazonaws.com",
+                    "us-east-1": "fips.transcribe.us-east-1.amazonaws.com",
+                    "us-east-2": "fips.transcribe.us-east-2.amazonaws.com",
+                    "us-gov-east-1": "fips.transcribe.us-gov-east-1.amazonaws.com",
+                    "us-gov-west-1": "fips.transcribe.us-gov-west-1.amazonaws.com",
+                    "us-west-1": "fips.transcribe.us-west-1.amazonaws.com",
+                    "us-west-2": "fips.transcribe.us-west-2.amazonaws.com"
+                ])
             ],
             errorType: TranscribeErrorType.self,
             timeout: timeout,

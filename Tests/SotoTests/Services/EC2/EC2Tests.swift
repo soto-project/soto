@@ -43,7 +43,12 @@ class EC2Tests: XCTestCase {
     }
 
     func testDescribeImages() {
-        let imageRequest = EC2.DescribeImagesRequest(filters: .init([EC2.Filter(name: "name", values: ["*ubuntu-18.04-v1.15*"]), EC2.Filter(name: "state", values: ["available"])]))
+        let imageRequest = EC2.DescribeImagesRequest(
+            filters: .init([
+                EC2.Filter(name: "name", values: ["*ubuntu-18.04-v1.15*"]),
+                EC2.Filter(name: "state", values: ["available"])
+            ])
+        )
         let response = Self.ec2.with(timeout: .minutes(2)).describeImages(imageRequest)
         XCTAssertNoThrow(try response.wait())
     }
@@ -53,6 +58,18 @@ class EC2Tests: XCTestCase {
             let newResult = result + (response.instanceTypes ?? [])
             return eventLoop.makeSucceededFuture((true, newResult))
         }
+        XCTAssertNoThrow(try response.wait())
+    }
+
+    func testDualStack() {
+        let ec2 = Self.ec2.with(region: .euwest1, options: .useDualStackEndpoint)
+        let imageRequest = EC2.DescribeImagesRequest(
+            filters: .init([
+                EC2.Filter(name: "name", values: ["*ubuntu-18.04-v1.15*"]),
+                EC2.Filter(name: "state", values: ["available"])
+            ])
+        )
+        let response = ec2.with(timeout: .minutes(2)).describeImages(imageRequest)
         XCTAssertNoThrow(try response.wait())
     }
 

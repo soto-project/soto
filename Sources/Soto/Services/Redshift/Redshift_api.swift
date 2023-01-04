@@ -56,13 +56,17 @@ public struct Redshift: AWSService {
             apiVersion: "2012-12-01",
             endpoint: endpoint,
             serviceEndpoints: [
-                "fips-ca-central-1": "redshift-fips.ca-central-1.amazonaws.com",
-                "fips-us-east-1": "redshift-fips.us-east-1.amazonaws.com",
-                "fips-us-east-2": "redshift-fips.us-east-2.amazonaws.com",
-                "fips-us-west-1": "redshift-fips.us-west-1.amazonaws.com",
-                "fips-us-west-2": "redshift-fips.us-west-2.amazonaws.com",
                 "us-gov-east-1": "redshift.us-gov-east-1.amazonaws.com",
                 "us-gov-west-1": "redshift.us-gov-west-1.amazonaws.com"
+            ],
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "ca-central-1": "redshift-fips.ca-central-1.amazonaws.com",
+                    "us-east-1": "redshift-fips.us-east-1.amazonaws.com",
+                    "us-east-2": "redshift-fips.us-east-2.amazonaws.com",
+                    "us-west-1": "redshift-fips.us-west-1.amazonaws.com",
+                    "us-west-2": "redshift-fips.us-west-2.amazonaws.com"
+                ])
             ],
             errorType: RedshiftErrorType.self,
             xmlNamespace: "http://redshift.amazonaws.com/doc/2012-12-01/",

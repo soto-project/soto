@@ -54,6 +54,17 @@ public struct S3Outposts: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2017-07-25",
             endpoint: endpoint,
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "ca-central-1": "s3-outposts-fips.ca-central-1.amazonaws.com",
+                    "us-east-1": "s3-outposts-fips.us-east-1.amazonaws.com",
+                    "us-east-2": "s3-outposts-fips.us-east-2.amazonaws.com",
+                    "us-gov-east-1": "s3-outposts-fips.us-gov-east-1.amazonaws.com",
+                    "us-gov-west-1": "s3-outposts-fips.us-gov-west-1.amazonaws.com",
+                    "us-west-1": "s3-outposts-fips.us-west-1.amazonaws.com",
+                    "us-west-2": "s3-outposts-fips.us-west-2.amazonaws.com"
+                ])
+            ],
             errorType: S3OutpostsErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

@@ -55,14 +55,16 @@ public struct CloudControl: AWSService {
             serviceProtocol: .json(version: "1.0"),
             apiVersion: "2021-09-30",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "fips-ca-central-1": "cloudcontrolapi-fips.ca-central-1.amazonaws.com",
-                "fips-us-east-1": "cloudcontrolapi-fips.us-east-1.amazonaws.com",
-                "fips-us-east-2": "cloudcontrolapi-fips.us-east-2.amazonaws.com",
-                "fips-us-gov-east-1": "cloudcontrolapi-fips.us-gov-east-1.amazonaws.com",
-                "fips-us-gov-west-1": "cloudcontrolapi-fips.us-gov-west-1.amazonaws.com",
-                "fips-us-west-1": "cloudcontrolapi-fips.us-west-1.amazonaws.com",
-                "fips-us-west-2": "cloudcontrolapi-fips.us-west-2.amazonaws.com"
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "ca-central-1": "cloudcontrolapi-fips.ca-central-1.amazonaws.com",
+                    "us-east-1": "cloudcontrolapi-fips.us-east-1.amazonaws.com",
+                    "us-east-2": "cloudcontrolapi-fips.us-east-2.amazonaws.com",
+                    "us-gov-east-1": "cloudcontrolapi-fips.us-gov-east-1.amazonaws.com",
+                    "us-gov-west-1": "cloudcontrolapi-fips.us-gov-west-1.amazonaws.com",
+                    "us-west-1": "cloudcontrolapi-fips.us-west-1.amazonaws.com",
+                    "us-west-2": "cloudcontrolapi-fips.us-west-2.amazonaws.com"
+                ])
             ],
             errorType: CloudControlErrorType.self,
             timeout: timeout,

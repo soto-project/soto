@@ -72,7 +72,7 @@ extension SESTests {
         let testMiddleware = TestRequestMiddleware { request in
             XCTAssertEqual(request.url, URL(string: "https://email-fips.us-east-1.amazonaws.com/")!)
         }
-        let ses = SES(client: Self.client, region: .other("fips-us-east-1")).with(middlewares: [testMiddleware])
+        let ses = SES(client: Self.client, region: .useast1, options: .useFipsEndpoint).with(middlewares: [testMiddleware])
         do {
             _ = try await ses.createConfigurationSet(.init(configurationSet: .init(name: "test")))
         } catch is TestError {}

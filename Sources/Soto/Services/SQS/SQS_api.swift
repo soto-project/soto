@@ -55,12 +55,18 @@ public struct SQS: AWSService {
             apiVersion: "2012-11-05",
             endpoint: endpoint,
             serviceEndpoints: [
-                "fips-us-east-1": "sqs-fips.us-east-1.amazonaws.com",
-                "fips-us-east-2": "sqs-fips.us-east-2.amazonaws.com",
-                "fips-us-west-1": "sqs-fips.us-west-1.amazonaws.com",
-                "fips-us-west-2": "sqs-fips.us-west-2.amazonaws.com",
                 "us-gov-east-1": "sqs.us-gov-east-1.amazonaws.com",
                 "us-gov-west-1": "sqs.us-gov-west-1.amazonaws.com"
+            ],
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "us-east-1": "sqs-fips.us-east-1.amazonaws.com",
+                    "us-east-2": "sqs-fips.us-east-2.amazonaws.com",
+                    "us-gov-east-1": "sqs.us-gov-east-1.amazonaws.com",
+                    "us-gov-west-1": "sqs.us-gov-west-1.amazonaws.com",
+                    "us-west-1": "sqs-fips.us-west-1.amazonaws.com",
+                    "us-west-2": "sqs-fips.us-west-2.amazonaws.com"
+                ])
             ],
             errorType: SQSErrorType.self,
             xmlNamespace: "http://queue.amazonaws.com/doc/2012-11-05/",

@@ -55,13 +55,17 @@ public struct RAM: AWSService {
             apiVersion: "2018-01-04",
             endpoint: endpoint,
             serviceEndpoints: [
-                "fips-ca-central-1": "ram-fips.ca-central-1.amazonaws.com",
-                "fips-us-east-1": "ram-fips.us-east-1.amazonaws.com",
-                "fips-us-east-2": "ram-fips.us-east-2.amazonaws.com",
-                "fips-us-west-1": "ram-fips.us-west-1.amazonaws.com",
-                "fips-us-west-2": "ram-fips.us-west-2.amazonaws.com",
                 "us-gov-east-1": "ram.us-gov-east-1.amazonaws.com",
                 "us-gov-west-1": "ram.us-gov-west-1.amazonaws.com"
+            ],
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "ca-central-1": "ram-fips.ca-central-1.amazonaws.com",
+                    "us-east-1": "ram-fips.us-east-1.amazonaws.com",
+                    "us-east-2": "ram-fips.us-east-2.amazonaws.com",
+                    "us-west-1": "ram-fips.us-west-1.amazonaws.com",
+                    "us-west-2": "ram-fips.us-west-2.amazonaws.com"
+                ])
             ],
             errorType: RAMErrorType.self,
             timeout: timeout,

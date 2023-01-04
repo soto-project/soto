@@ -55,13 +55,15 @@ public struct CloudTrail: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2013-11-01",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "fips-us-east-1": "cloudtrail-fips.us-east-1.amazonaws.com",
-                "fips-us-east-2": "cloudtrail-fips.us-east-2.amazonaws.com",
-                "fips-us-gov-east-1": "cloudtrail.us-gov-east-1.amazonaws.com",
-                "fips-us-gov-west-1": "cloudtrail.us-gov-west-1.amazonaws.com",
-                "fips-us-west-1": "cloudtrail-fips.us-west-1.amazonaws.com",
-                "fips-us-west-2": "cloudtrail-fips.us-west-2.amazonaws.com"
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "us-east-1": "cloudtrail-fips.us-east-1.amazonaws.com",
+                    "us-east-2": "cloudtrail-fips.us-east-2.amazonaws.com",
+                    "us-gov-east-1": "cloudtrail.us-gov-east-1.amazonaws.com",
+                    "us-gov-west-1": "cloudtrail.us-gov-west-1.amazonaws.com",
+                    "us-west-1": "cloudtrail-fips.us-west-1.amazonaws.com",
+                    "us-west-2": "cloudtrail-fips.us-west-2.amazonaws.com"
+                ])
             ],
             errorType: CloudTrailErrorType.self,
             xmlNamespace: "http://cloudtrail.amazonaws.com/doc/2013-11-01/",
